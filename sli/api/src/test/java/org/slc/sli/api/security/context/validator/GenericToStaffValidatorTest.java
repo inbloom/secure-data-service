@@ -4,9 +4,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,7 +46,7 @@ public class GenericToStaffValidatorTest {
     Entity staff2 = null;  
     
     Entity edOrg = null;
-    
+        
     private void setupTeacher() {
         String user = "fake teacher";
         String fullName = "Fake Teacher";
@@ -76,16 +78,6 @@ public class GenericToStaffValidatorTest {
         
         setupStaff();
         assertTrue(validator.canValidate(EntityNames.STAFF, false));
-    }
-    
-    @Test
-    public void testCannotValidate() {
-        setupTeacher();
-        assertFalse(validator.canValidate(EntityNames.STAFF, true));
-        
-        setupStaff();
-        assertFalse(validator.canValidate(EntityNames.STAFF, true));
-
     }
     
     @Test
@@ -121,5 +113,25 @@ public class GenericToStaffValidatorTest {
     public void testValidateEmpty() {
         assertFalse(validator.validate(EntityNames.STAFF, 
                 new HashSet<String>()));
+    }
+    
+    @Test
+    public void testSuccess() {
+        setupTeacher();
+        Assert.assertTrue(validator.validate(EntityNames.TEACHER, Collections.singleton(teacher1.getEntityId())));
+    }
+
+    @Test
+    public void testWrongId() {
+        setupTeacher();
+        Assert.assertFalse(validator.validate(EntityNames.TEACHER, Collections.singleton("Hammerhands")));
+        Assert.assertFalse(validator.validate(EntityNames.TEACHER, Collections.singleton("Nagas")));
+        Assert.assertFalse(validator.validate(EntityNames.TEACHER, Collections.singleton("Phantom Warriors")));
+    }
+
+    @Test
+    public void testMultipleIds() {
+        setupTeacher();
+        Assert.assertFalse(validator.validate(EntityNames.TEACHER, new HashSet<String>(Arrays.asList(teacher1.getEntityId(), "Pikemen", "Pegasi"))));
     }
 }

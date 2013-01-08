@@ -23,6 +23,7 @@ import java.util.Set;
 import javax.annotation.Resource;
 
 import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -56,13 +57,13 @@ public class TransitiveTeacherToCourseOfferingValidator extends AbstractContextV
         }
         
         List<String> students = helpme.getStudentIds();
-        NeutralQuery nq = new NeutralQuery(new NeutralCriteria("courseOfferingId", "in", ids));
-        nq.addCriteria(new NeutralCriteria("studentSectionAssociation.body.studentId", "in", students,false));
+        NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.COURSE_OFFERING_ID, NeutralCriteria.CRITERIA_IN, ids));
+        nq.addCriteria(new NeutralCriteria("studentSectionAssociation.body.studentId", NeutralCriteria.CRITERIA_IN, students,false));
         Iterable<Entity> results = repo.findAll(EntityNames.SECTION, nq);
         
         Set<String> fin = new HashSet<String>(ids);
         for(Entity e : results) {
-        	fin.remove(e.getBody().get("courseOfferingId"));
+            fin.remove(e.getBody().get(ParameterConstants.COURSE_OFFERING_ID));
         }
         
         return fin.isEmpty();

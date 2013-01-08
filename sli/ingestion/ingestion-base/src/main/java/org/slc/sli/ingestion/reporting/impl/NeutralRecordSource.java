@@ -68,25 +68,17 @@ public class NeutralRecordSource extends JobSource {
     @Override
     public String getUserFriendlyMessage() {
         Object[] arguments = {
-            neutralRecordType,
             new Integer(visitBeforeLineNumber),
             new Integer(visitBeforeColumnNumber),
             new Integer(visitAfterLineNumber),
             new Integer(visitAfterColumnNumber)
         };
-
-        if (visitAfterLineNumber >0 && visitAfterColumnNumber > 0) {
-            return MessageFormat.format(
-                    "Element: {0} located between " +
-                    "Line {1,number,integer}, Column {2,number,integer} and " +
-                    "Line {3,number,integer}, Column {4,number,integer}.",
-                    arguments);
-        } else {
-            return MessageFormat.format(
-                    "Element: {0} located at " +
-                    "Line {1,number,integer}, Column {2,number,integer}.",
-                    arguments);
-        }
+        return (visitBeforeLineNumber==0 && visitBeforeColumnNumber==0) ? "" :
+            MessageFormat.format(
+                "Element:" +
+                "line-{0,number,integer}," +
+                "column-{1,number,integer}",
+                arguments);
     }
 
 

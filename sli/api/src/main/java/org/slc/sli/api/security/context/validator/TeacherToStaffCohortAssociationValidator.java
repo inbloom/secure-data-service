@@ -19,6 +19,7 @@ package org.slc.sli.api.security.context.validator;
 import java.util.Set;
 
 import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -44,8 +45,9 @@ public class TeacherToStaffCohortAssociationValidator extends AbstractContextVal
             return false;
         }
 		
-		NeutralQuery nq = new NeutralQuery(new NeutralCriteria("staffId","=",SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
-		nq.addCriteria(new NeutralCriteria("_id", "in", ids));
+        NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_ID,
+                NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
+        nq.addCriteria(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
 		long result = getRepo().count(EntityNames.STAFF_COHORT_ASSOCIATION, nq);
 		return result==ids.size();
 	}

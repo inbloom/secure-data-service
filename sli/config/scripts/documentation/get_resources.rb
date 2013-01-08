@@ -57,16 +57,16 @@ $known_ids = {
 $template_header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
 
 <!DOCTYPE chapter [
-<!ENTITY % slc_entities SYSTEM \"../../common/docbook_entities-slc.ent\">
-%slc_entities;
+<!ENTITY % entities SYSTEM \"../../common/entities.ent\">
+%entities;
 ]>
 
-<chapter xml:id=\"doc-5c19acd4-a267-4d0d-96b5-2e4fcf804a63\"
+<chapter xml:id=\"%%XMLID%%\"
     xmlns=\"http://docbook.org/ns/docbook\"
     xmlns:xi=\"http://www.w3.org/2001/XInclude\"
     xmlns:xlink=\"http://www.w3.org/1999/xlink\" version=\"5.0\">
 
-    <title>&RESTAPI; Example Requests &amp; Responses</title>
+    <title>Example Requests &amp; Responses for &RESTAPI; %%NAMESPACE%%</title>
 
     <para>
         This contents of this chapter are the sample requests and responses generated
@@ -109,14 +109,19 @@ def wait_for_api
 
   # wait up to 180s for the API to come up
   while retry_count < 60 and api_status != 200
+    retry_count += 1
     begin
       headers = {:content_type => "application/json", :accept => "application/json", :Authorization => "bearer " + $token}
-      response = RestClient.get(url, headers){|response, request, result| response }
-      api_status = response.code
+      res = RestClient.get(url, headers){|response, request, result| response }
+      api_status = res.code
     rescue Exception => e
       # ignore exception
     end
     sleep(3)
+  end
+  if api_status != 200
+    $stderr.puts("Can't connect to API.")
+    exit(1)
   end
 end
 
@@ -135,7 +140,7 @@ def get_namespace_file(namespace)
     ns_file = File.new(ns_filename, "w")
     $namespace_files[namespace] = ns_file
 
-    ns_file.puts($template_header)
+    ns_file.puts($template_header.gsub("%%XMLID%%", ns_filename.gsub(".xml", "")).gsub("%%NAMESPACE%%", namespace))
   end
 
   ns_file
@@ -174,7 +179,6 @@ end
 
 
 def final_entity(s)
-# TODO map childLearningObjectives, parentLearningObjectives to learningObjectives
   mapped_url = map_entity(s)
 
   last_slash = s.rindex("/")
@@ -193,8 +197,6 @@ def get_response(url)
   if response.code == 200
     entity_json = JSON.parse response.gsub($base_url, $base_url_replace)
 
-    # to account for DE2172
-    # this should always be an array
     if entity_json.is_a?(Array)
       entity_json = entity_json[0]
     end
