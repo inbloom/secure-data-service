@@ -98,7 +98,7 @@ def whichTestsToRun(hash)
       end
     end
   end
-  testsToRun.uniq
+  testsToRun.flatten.uniq
 end
 
 # given a test id to run, it will make the relevant api posts to jenkins to spart the appropriate test jobs
