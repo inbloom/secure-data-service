@@ -19,11 +19,13 @@ package org.slc.sli.ingestion.util;
 import java.util.Set;
 
 /**
+ * Parse interface for different kinds of index format
+ *
+ *@param <T> : input index format
  *
  * @author npandey
  *
  */
-
 public interface IndexParser<T> {
 
     public Set<MongoIndex> parse(T index);
