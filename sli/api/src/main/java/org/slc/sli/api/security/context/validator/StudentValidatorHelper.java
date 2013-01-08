@@ -25,9 +25,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.AssociativeContextHelper;
@@ -36,6 +33,8 @@ import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Component
 public class StudentValidatorHelper {
@@ -163,7 +162,8 @@ public class StudentValidatorHelper {
 
         List<String> cohortIds = new ArrayList<String>();
         for (Entity assoc : staffCohortAssociations) {
-            if ((Boolean) assoc.getBody().get(STUDENT_RECORD_ACCESS)) {
+            Object studentRecordAccess = assoc.getBody().get(STUDENT_RECORD_ACCESS);
+            if (studentRecordAccess != null && (Boolean) assoc.getBody().get(STUDENT_RECORD_ACCESS)) {
                 if (!dateHelper.isFieldExpired(assoc.getBody(), ParameterConstants.END_DATE, false)) {
                     cohortIds.add((String) assoc.getBody().get(ParameterConstants.COHORT_ID));
                 }

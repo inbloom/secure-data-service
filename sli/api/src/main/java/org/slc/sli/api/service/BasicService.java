@@ -26,7 +26,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
@@ -160,7 +159,7 @@ public class BasicService implements EntityService {
         checkReferences(content);
 
         String entityId = "";
-        Entity entity = getRepo().create(defn.getType(), sanitizeEntityBody(entityId, content), createMetadata(),
+        Entity entity = getRepo().create(defn.getType(), sanitizeEntityBody(content), createMetadata(),
                 collectionName);
         if (entity != null) {
             entityId = entity.getEntityId();
@@ -204,7 +203,7 @@ public class BasicService implements EntityService {
             throw new EntityNotFoundException(id);
         }
 
-        EntityBody sanitized = sanitizeEntityBody(id, content);
+        EntityBody sanitized = sanitizeEntityBody(content);
         if (entity.getBody().equals(sanitized)) {
             info("No change detected to {}", id);
             return false;
@@ -236,7 +235,7 @@ public class BasicService implements EntityService {
             throw new EntityNotFoundException(id);
         }
 
-        EntityBody sanitized = sanitizeEntityBody(id, content);
+        EntityBody sanitized = sanitizeEntityBody(content);
 
         info("patch value(s): ", sanitized);
 
@@ -437,10 +436,9 @@ public class BasicService implements EntityService {
         }
 
         // Verify field names contain no blacklisted components.
-        List<ValidationError> errorList = customEntityValidator.validate(id, PathConstants.CUSTOM_ENTITIES, customEntity);
+        List<ValidationError> errorList = customEntityValidator.validate(customEntity);
         if (!errorList.isEmpty()) {
-            // TODO: Not sure if this error call belongs....
-            error("Blacklist validation failed for custom entity {}\nErrors:\n{}", id, StringUtils.join(errorList, "\n"));
+            debug("Blacklist validation failed for custom entity {}", id);
             throw new EntityValidationException(id, PathConstants.CUSTOM_ENTITIES, errorList);
         }
 
@@ -556,7 +554,7 @@ public class BasicService implements EntityService {
      * @param content
      * @return
      */
-    private EntityBody sanitizeEntityBody(String id, EntityBody content) {
+    private EntityBody sanitizeEntityBody(EntityBody content) {
         EntityBody sanitized = new EntityBody(content);
         for (Treatment treatment : treatments) {
             sanitized = treatment.toStored(sanitized, defn);

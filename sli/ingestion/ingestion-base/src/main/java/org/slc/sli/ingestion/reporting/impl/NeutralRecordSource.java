@@ -73,7 +73,8 @@ public class NeutralRecordSource extends JobSource {
             new Integer(visitAfterLineNumber),
             new Integer(visitAfterColumnNumber)
         };
-        return MessageFormat.format(
+        return (visitBeforeLineNumber==0 && visitBeforeColumnNumber==0) ? "" :
+            MessageFormat.format(
                 "Element:" +
                 "line-{0,number,integer}," +
                 "column-{1,number,integer}",
