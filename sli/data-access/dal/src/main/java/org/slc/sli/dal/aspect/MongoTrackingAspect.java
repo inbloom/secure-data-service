@@ -99,7 +99,7 @@ public class MongoTrackingAspect {
         }
         if (Boolean.valueOf(dbCallTracking)) {
             dbCallTracker.incrementHitCount();
-            dbCallTracker.addMetric(pjp.getSignature().toShortString(), end-start);
+//            dbCallTracker.addMetric(pjp.getSignature().toShortString(), end-start);
         }
 
         return result;
@@ -118,7 +118,7 @@ public class MongoTrackingAspect {
         }
         if (Boolean.valueOf(dbCallTracking)) {
             dbCallTracker.incrementHitCount();
-            dbCallTracker.addMetric(pjp.getSignature().toShortString(), end-start);
+//            dbCallTracker.addMetric(pjp.getSignature().toShortString(), end-start);
         }
         return result;
     }
@@ -131,11 +131,14 @@ public class MongoTrackingAspect {
     public Object trackDALCalls(ProceedingJoinPoint pjp) throws Throwable {
 
         if (Boolean.valueOf(dbCallTracking)) {
-            dbCallTracker.addEvent("start:" + pjp.getSignature().getName(), System.currentTimeMillis());
+            StackTraceElement st = Thread.currentThread().getStackTrace()[2];  
+            String calling = st.getClassName()+":"+st.getMethodName(); 
+            dbCallTracker.addEvent("start:" + pjp.getSignature() + ":" + calling, System.currentTimeMillis());
         }
         Object result = pjp.proceed();
         if (Boolean.valueOf(dbCallTracking)) {
-            dbCallTracker.addEvent("end:" + pjp.getSignature().getName(), System.currentTimeMillis());
+            
+            dbCallTracker.addEvent("end:" + pjp.getSignature(), System.currentTimeMillis());
         }
 
         return result;

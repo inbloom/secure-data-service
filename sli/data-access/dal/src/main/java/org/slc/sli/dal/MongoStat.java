@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
 /**
@@ -31,7 +32,7 @@ import org.springframework.stereotype.Component;
  * To change this template use File | Settings | File Templates.
  */
 @Component
-@Scope(value = "thread")
+@Scope(value = "thread", proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class MongoStat {
 
 
@@ -68,11 +69,11 @@ public class MongoStat {
     }
     
     public void addEvent(String eventId, Long timeStamp) {
-        stats.add(Arrays.asList((Object) "e", Thread.currentThread().getId() +  eventId, timeStamp)); 
+        stats.add(Arrays.asList((Object) "e", Thread.currentThread().getId() + ": " +  eventId, timeStamp)); 
     }
     
     public void addMetric(String metricId, Long metric) {
-        stats.add(Arrays.asList((Object) "m", Thread.currentThread().getId() +  metricId, metric)); 
+        stats.add(Arrays.asList((Object) "m", Thread.currentThread().getId() + ": " +  metricId, metric)); 
     }
     
     public List<List<Object > > getStats() {
