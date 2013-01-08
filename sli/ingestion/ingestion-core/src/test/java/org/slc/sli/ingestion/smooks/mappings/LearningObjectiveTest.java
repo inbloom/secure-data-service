@@ -118,14 +118,14 @@ public class LearningObjectiveTest {
         String targetSelector = "InterchangeStudentGrade/LearningObjective";
 
         NeutralRecord nr = EntityTestUtils.smooksGetSingleNeutralRecord(smooksConfig, targetSelector,
-        		validXmlTestData_SG, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
+                validXmlTestData_SG, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
 
         checkValidLO(nr);
     }
 
     @SuppressWarnings("unchecked")
-	private void checkValidLO(NeutralRecord nr) {
-    	Map<String, Object> m = nr.getAttributes();
+    private void checkValidLO(NeutralRecord nr) {
+        Map<String, Object> m = nr.getAttributes();
         Assert.assertEquals("objective text", m.get("objective"));
         Assert.assertEquals("description", m.get("description"));
         Assert.assertEquals("ELA", m.get("academicSubject"));

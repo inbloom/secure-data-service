@@ -27,6 +27,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -77,7 +78,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     private static final String ES_SEARCH_LIMIT = "250";
 
     private static final Logger LOG = LoggerFactory.getLogger(PopulationManagerImpl.class);
-    
+
     private static final String NICKNAME = "nickName";
 
     @Autowired
@@ -202,10 +203,10 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         }
 
     }
-    
+
     /**
      * Create an attribute for the full student name (first name + last name)
-     *
+     * 
      * @param student
      */
     public void addFullName(GenericEntity student) {
@@ -219,11 +220,12 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     }
 
     /**
-     * Create an attribute for the full student name (first name + last name)
+     * Create an attribute for the full student name (first name + middle name + last name) and
+     * nickname
      * 
      * @param student
      */
-    public void addFullNameWithMiddleName(GenericEntity student) {
+    public void addFullNameForSearch(GenericEntity student) {
 
         StringBuilder fullName = new StringBuilder();
         Map name = (Map) student.get(Constants.ATTR_NAME);
@@ -919,6 +921,15 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         return list;
     }
 
+    private List<GenericEntity> getStudentAttendanceForSchool(String token, String studentId, String schoolId,
+            String startDate, String endDate) {
+        List<GenericEntity> list = entityManager.getAttendanceForSchool(token, studentId, schoolId, startDate, endDate);
+        if (list == null) {
+            return Collections.emptyList();
+        }
+        return list;
+    }
+
     /*
      * (non-Javadoc)
      * 
@@ -1082,12 +1093,38 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                         }
                     }
 
+                    // get target school year enrollment
+                    LinkedHashMap<String, Object> enrollment = enrollmentsIndex.get(schoolYear);
+                    GenericEntity currentTermAttendance = new GenericEntity();
+
+                    // set school term
+                    currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_TERM, schoolYear);
+
+                    String nameOfInstitution = "";
+                    boolean enrollmentExistsForAttendance = false;
+
+                    // get school name from enrollment
+                    if (enrollment != null) {
+                        Map<String, Object> school = (Map<String, Object>) enrollment.get(Constants.ATTR_SCHOOL);
+                        if (school != null) {
+                            nameOfInstitution = (String) school.get(Constants.ATTR_NAME_OF_INST);
+                        }
+                        String enrollmentSchoolId = (String) enrollment.get(Constants.ATTR_SCHOOL_ID);
+                        String attendanceSchoolId = (String) targetAttendance.get(Constants.ATTR_SCHOOL_ID);
+                        if (enrollmentSchoolId.equals(attendanceSchoolId) == true) {
+                            // only show attendances that are for the school in the
+                            // target enrollment
+                            enrollmentExistsForAttendance = true;
+                        }
+
+                    }
+
                     // get attendanceEvent
                     List<LinkedHashMap<String, Object>> attendanceEvents = (List<LinkedHashMap<String, Object>>) schoolYearAttendance
                             .get(Constants.ATTR_ATTENDANCE_ATTENDANCE_EVENT);
 
                     // count each attendance event
-                    if (attendanceEvents != null) {
+                    if (attendanceEvents != null && enrollmentExistsForAttendance) {
                         for (Map<String, Object> attendanceEvent : attendanceEvents) {
                             String event = (String) attendanceEvent.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
                             if (event != null) {
@@ -1108,21 +1145,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                             }
                         }
                     }
-                    // get target school year enrollment
-                    LinkedHashMap<String, Object> enrollment = enrollmentsIndex.get(schoolYear);
-                    GenericEntity currentTermAttendance = new GenericEntity();
 
-                    // set school term
-                    currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_TERM, schoolYear);
-
-                    String nameOfInstitution = "";
-                    // get school name from enrollment
-                    if (enrollment != null) {
-                        Map<String, Object> school = (Map<String, Object>) enrollment.get(Constants.ATTR_SCHOOL);
-                        if (school != null) {
-                            nameOfInstitution = (String) school.get(Constants.ATTR_NAME_OF_INST);
-                        }
-                    }
                     // set school name
                     currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_SCHOOL, nameOfInstitution);
 
@@ -1252,29 +1275,6 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                 }
             }
 
-            // post-process
-            // get detail information for each student
-            List<GenericEntity> enhancedStudents = new LinkedList<GenericEntity>();
-            HashMap<String, GenericEntity> retrievedSchools = new HashMap<String, GenericEntity>();
-            GenericEntity school;
-            for (GenericEntity student : students) {
-                student = entityManager.getStudent(token, student.getId());
-                addFullNameWithMiddleName(student);
-                String schoolId = student.getString(Constants.ATTR_SCHOOL_ID);
-                if (schoolId != null && !schoolId.equals("")) {
-                    if (retrievedSchools.containsKey(schoolId)) {
-                        school = retrievedSchools.get(schoolId);
-                        student.put("currentSchoolName", school.get(Constants.ATTR_NAME_OF_INST));
-                    } else {
-                        school = entityManager.getEntity(token, Constants.ATTR_SCHOOLS, schoolId, new HashMap());
-                        retrievedSchools.put(school.getString(Constants.ATTR_ID), school);
-                        student.put("currentSchoolName", school.get(Constants.ATTR_NAME_OF_INST));
-                    }
-                }
-                GenericEntityEnhancer.enhanceStudent(student);
-                enhancedStudents.add(student);
-            }
-
             // This is a temporary solution until we decide how to integrate the
             // search with the API
             // pagination calls. Currently, when API is used, the total number of
@@ -1282,7 +1282,7 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             // stored in the header which is not accessible. Also, code above
             // performs two searches and
             // combines results - this is a problem if API pagination is used.
-            int numResults = enhancedStudents.size();
+            int numResults = students.size();
             // verify sensible page number was requested (negatives not allowed)
             if (pageNum < 1) {
                 pageNum = 1;
@@ -1309,7 +1309,46 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                 if (endIndex > numResults) {
                     endIndex = numResults;
                 }
-                enhancedStudents = enhancedStudents.subList(beginIndex, endIndex);
+                students = students.subList(beginIndex, endIndex);
+            }
+
+            // post-process
+            // get detail information for each student
+            List<GenericEntity> enhancedStudents = new LinkedList<GenericEntity>();
+            HashMap<String, GenericEntity> retrievedSchools = new HashMap<String, GenericEntity>();
+
+            // get students
+            List<String> studentIdsList = new LinkedList<String>();
+            for (GenericEntity student : students) {
+                studentIdsList.add(student.getId());
+            }
+            Map<String, String> studentParams = new HashMap<String, String>();
+            studentParams.put(Constants.LIMIT, "0");
+            studentParams.put(Constants.ATTR_OPTIONAL_FIELDS, Constants.ATTR_GRADE_LEVEL);
+            List<GenericEntity> retrievedStudents = entityManager.getApiClient().getStudents(token, studentIdsList,
+                    studentParams);
+
+            //iterate retrieved student records
+            //add full name (first, middle, and last with other name(nick name) if it is available)
+            //add school name
+            GenericEntity school;
+            for (GenericEntity student : retrievedStudents) {
+                addFullNameForSearch(student);
+
+                String schoolId = student.getString(Constants.ATTR_SCHOOL_ID);
+                if (schoolId != null && !schoolId.isEmpty()) {
+                    if (retrievedSchools.containsKey(schoolId)) {
+                        school = retrievedSchools.get(schoolId);
+                        student.put("currentSchoolName", school.get(Constants.ATTR_NAME_OF_INST));
+                    } else {
+                        school = entityManager.getEntity(token, Constants.ATTR_SCHOOLS, schoolId, null);
+                        retrievedSchools.put(school.getString(Constants.ATTR_ID), school);
+                        student.put("currentSchoolName", school.get(Constants.ATTR_NAME_OF_INST));
+                    }
+                }
+
+                GenericEntityEnhancer.enhanceStudent(student);
+                enhancedStudents.add(student);
             }
             setStudentSearchEntity(studentSearch, enhancedStudents, name, numResults, pageNum, pageSize, maxPageNum);
         } else {
@@ -1421,15 +1460,42 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     @Override
     public GenericEntity getStudentAttendanceForCalendar(String token, Object studentId, Data config) {
 
+        String schoolId = null;
         GenericEntity ge = new GenericEntity();
 
-        List<GenericEntity> attendanceList = getStudentAttendance(token, (String) studentId, null, null);
+        List<GenericEntity> enrollments = getApiClient().getEnrollmentForStudent(token, (String) studentId);
+        if (enrollments == null || enrollments.size() < 1) {
+            return ge;
+        }
+        GenericEntity firstEnrollment = enrollments.get(0);
+        Map<String, Object> school = (Map<String, Object>) firstEnrollment.get(Constants.ATTR_SCHOOL);
+        if (school != null) {
+            schoolId = (String) school.get(Constants.ATTR_ID);
+        } else {
+            return ge;
+        }
+
+        List<String> currentYearDates = null;
+
+        try {
+            // get begin/end dates for the current school year
+            currentYearDates = getCurrentYearDates(token, schoolId);
+        } catch (ParseException e) {
+            LOG.error(e.getMessage(), e);
+        }
+
+        LinkedList<Map> absentList = new LinkedList<Map>();
+        ge.put(Constants.ATTR_ATTENDANCE_LIST, absentList);
+        ge.put(Constants.ATTR_START_DATE, currentYearDates.get(0));
+        ge.put(Constants.ATTR_END_DATE, currentYearDates.get(1));
+
+        List<GenericEntity> attendanceList = getStudentAttendanceForSchool(token, (String) studentId, schoolId, null,
+                null);
         if (attendanceList == null || attendanceList.size() < 1) {
             return ge;
         }
 
         GenericEntity firstWrapper = attendanceList.get(0);
-        String schoolId = (String) firstWrapper.get("schoolId");
         List<Map<String, Object>> schoolYearAttendance = (List<Map<String, Object>>) firstWrapper
                 .get(Constants.ATTR_ATTENDANCE_SCHOOLYEAR_ATTENDANCE);
         if (schoolYearAttendance == null || schoolYearAttendance.size() < 1) {
@@ -1458,30 +1524,18 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             return ge;
         }
 
-        LinkedList<Map> absentList = new LinkedList<Map>();
-        List<String> currentYearDates = null;
-
-        try {
-            // get begin/end dates for the current school year
-            currentYearDates = getCurrentYearDates(token, schoolId);
-
-            // filter out 'In Attendance' events, remove whitespace
-            for (Map attEvent : attList) {
-                String event = (String) attEvent.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
-                if (!event.equals(Constants.ATTR_ATTENDANCE_IN_ATTENDANCE)) {
-                    String strippedWhiteSpaceEvent = ((String) attEvent.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY))
-                            .replace(" ", "");
-                    attEvent.put(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY, strippedWhiteSpaceEvent);
-                    absentList.addLast(attEvent);
-                }
+        // filter out 'In Attendance' events, remove whitespace
+        // LinkedList<Map> absentList = new LinkedList<Map>();
+        for (Map attEvent : attList) {
+            String event = (String) attEvent.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
+            if (!event.equals(Constants.ATTR_ATTENDANCE_IN_ATTENDANCE)) {
+                String strippedWhiteSpaceEvent = ((String) attEvent.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY))
+                        .replace(" ", "");
+                attEvent.put(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY, strippedWhiteSpaceEvent);
+                absentList.addLast(attEvent);
             }
-        } catch (ParseException e) {
-            LOG.error(e.getMessage(), e);
         }
 
-        ge.put(Constants.ATTR_ATTENDANCE_LIST, absentList);
-        ge.put(Constants.ATTR_START_DATE, currentYearDates.get(0));
-        ge.put(Constants.ATTR_END_DATE, currentYearDates.get(1));
         return ge;
     }
 

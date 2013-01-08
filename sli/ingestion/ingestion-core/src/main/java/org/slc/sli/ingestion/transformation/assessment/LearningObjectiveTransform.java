@@ -99,10 +99,9 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
             if (objective != null && academicSubject != null && objectiveGradeLevel != null) {
                 if (learningObjectiveIdMap.containsKey(new LearningObjectiveId(objective, academicSubject,
                         objectiveGradeLevel))) {
-                    NeutralRecordSource source = new NeutralRecordSource(getBatchJobId(), lo.getSourceFile(),
-                            BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
-                            lo.getRecordType(),
-                            lo.getVisitBeforeLineNumber(), lo.getVisitBeforeColumnNumber(),
+                    NeutralRecordSource source = new NeutralRecordSource(lo.getSourceFile(), BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
+                            lo.getVisitBeforeLineNumber(),
+                            lo.getVisitBeforeColumnNumber(),
                             lo.getVisitAfterLineNumber(), lo.getVisitAfterColumnNumber());
                     reportError(lo.getSourceFile(), source, CoreMessageCode.CORE_0037, objective, academicSubject,
                             objectiveGradeLevel);
@@ -164,10 +163,9 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
                     // add this entity to our NR working set
                     transformedLearningObjectives.add(childEntityNR);
                 } else {
-                    NeutralRecordSource source = new NeutralRecordSource(getBatchJobId(), parentLO.getSourceFile(),
-                            BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
-                            parentLO.getRecordType(),
-                            parentLO.getVisitBeforeLineNumber(), parentLO.getVisitBeforeColumnNumber(),
+                    NeutralRecordSource source = new NeutralRecordSource(parentLO.getSourceFile(), BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
+                            parentLO.getVisitBeforeLineNumber(),
+                            parentLO.getVisitBeforeColumnNumber(),
                             parentLO.getVisitAfterLineNumber(), parentLO.getVisitAfterColumnNumber());
                     reportError(parentLO.getSourceFile(), source, CoreMessageCode.CORE_0034, objective, academicSubject,
                             objectiveGradeLevel);
@@ -185,10 +183,9 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
         if (!childLo.getAttributes().containsKey(PARENT_LEARNING_OBJ_REF)) {
             childLo.getAttributes().put(PARENT_LEARNING_OBJ_REF, childLearningObjRefs);
         } else {
-            NeutralRecordSource source = new NeutralRecordSource(getBatchJobId(), childLo.getSourceFile(),
-                    BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
-                    childLo.getRecordType(),
-                    childLo.getVisitBeforeLineNumber(), childLo.getVisitBeforeColumnNumber(),
+            NeutralRecordSource source = new NeutralRecordSource(childLo.getSourceFile(), BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
+                    childLo.getVisitBeforeLineNumber(),
+                    childLo.getVisitBeforeColumnNumber(),
                     childLo.getVisitAfterLineNumber(), childLo.getVisitAfterColumnNumber());
             reportError(childLo.getSourceFile(), source, CoreMessageCode.CORE_0030, childLearningObjRefs.toString());
         }
@@ -206,10 +203,9 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
         if (childLearningStdRefs != null) {
             for (Map<String, Object> learnStdRef : childLearningStdRefs) {
                 if (learnStdRef == null) {
-                    NeutralRecordSource source = new NeutralRecordSource(getBatchJobId(), parentLO.getSourceFile(),
-                            BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
-                            parentLO.getRecordType(),
-                            parentLO.getVisitBeforeLineNumber(), parentLO.getVisitBeforeColumnNumber(),
+                    NeutralRecordSource source = new NeutralRecordSource(parentLO.getSourceFile(), BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
+                            parentLO.getVisitBeforeLineNumber(),
+                            parentLO.getVisitBeforeColumnNumber(),
                             parentLO.getVisitAfterLineNumber(), parentLO.getVisitAfterColumnNumber());
                     reportError(parentLO.getSourceFile(), source, CoreMessageCode.CORE_0031,
                             getByPath(LO_ID_CODE_PATH, parentLO.getAttributes()));

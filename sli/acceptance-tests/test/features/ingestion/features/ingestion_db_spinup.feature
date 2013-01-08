@@ -27,6 +27,7 @@ Then I should see following map of indexes in the corresponding collections:
      | section                                    | body.schoolId               |
      | student                                    | body.studentUniqueStateId   |
      | teacherSchoolAssociation                   | body.schoolId               |
+     | recordHash                                 | _id                         |
     And the database is sharded for the following collections
      | collectionName	                      |
      | attendance                             |
@@ -59,3 +60,4 @@ Then I should see following map of indexes in the corresponding collections:
      | courseTranscript                       |
      | teacherSchoolAssociation               |
      | teacherSectionAssociation              |
+	 | recordHash                             |

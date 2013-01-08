@@ -25,9 +25,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.index.Indexed;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * A RecordHash is calculated per entity, based on its fields in "neutral record" form,
  * early in the ingestion process -- prior to transformation -- to allow skipping of
@@ -55,10 +52,10 @@ public class RecordHash {
                              // store is moved to tenant Db
 
     // Mode values for config property "duplicate-detection".  See AttributeType.java
-    public static final String RECORD_HASH_MODE_RESET			= "reset";
-    public static final String RECORD_HASH_MODE_DISABLE			= "disable";
-    public static final String RECORD_HASH_MODE_DEBUG_DROP		= "debugdrop";
-    
+    public static final String RECORD_HASH_MODE_RESET = "reset";
+    public static final String RECORD_HASH_MODE_DISABLE = "disable";
+    public static final String RECORD_HASH_MODE_DEBUG_DROP = "debugdrop";
+
     public RecordHash() {
         this.id = "";
         this.hash = "";

@@ -29,3 +29,19 @@ And the following are the total attendance number shown in the calendar
 |Tardy              |7     	|
 |Unexcused Absence  |2      |
 |Excused Absence    |3      |
+
+
+@integration @RALLY_DE2346
+Scenario: View Matt Sollars
+ And I was redirected to the "Simple" IDP Login page
+ When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
+ When I select <edOrg> "Daybreak School District 4529"
+ And I select <school> "East Daybreak Junior High"
+ And I select <course> "6th Grade English"
+ And I select <section> "6th Grade English - Sec 4"
+ And I click on student "Matt Sollars"
+ And I view its student profile
+ When I click on "Attendance and Discipline" Tab
+ And I see the Attendance Calendar
+ And calendar month number "1" is "September" of "2011" 
+ And calendar month number "6" is "February" of "2012" 

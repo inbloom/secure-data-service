@@ -51,7 +51,7 @@ public class ZipFileHandlerTest {
         FileResource zip = new FileResource("src/test/resources/zip/ValidZip.zip");
 
         AbstractMessageReport report = new DummyMessageReport();
-        ReportStats reportStats = new SimpleReportStats(null, null, null);
+        ReportStats reportStats = new SimpleReportStats();
 
         File ctlFile = zipHandler.handle(zip, report, reportStats);
 
@@ -65,7 +65,7 @@ public class ZipFileHandlerTest {
         FileResource zip = new FileResource("src/test/resources/zip/NoControlFile.zip");
 
         AbstractMessageReport report = new DummyMessageReport();
-        ReportStats reportStats = new SimpleReportStats("", "", "");
+        ReportStats reportStats = new SimpleReportStats();
 
         File ctlFile = zipHandler.handle(zip, report, reportStats);
 
@@ -78,8 +78,8 @@ public class ZipFileHandlerTest {
         FileResource zip = new FileResource("src/test/resources/zip/NoControlFile2.zip");
 
         AbstractMessageReport report = new DummyMessageReport();
-        ReportStats reportStats = new SimpleReportStats(null, null, null);
-        Source source = new JobSource(null, null, null);
+        ReportStats reportStats = new SimpleReportStats();
+        Source source = new JobSource(null, null);
 
         File ctlFile = zipHandler.handle(zip, report, reportStats);
 
