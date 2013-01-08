@@ -17,22 +17,14 @@ limitations under the License.
 =end
 
 
-When /^I enter "([^"]*)" into the "([^"]*)" search box$/ do |query, textboxName|
+When /^I enter "([^"]*)" into the student search box$/ do |query|
   @explicitWait.until{@driver.find_element(:class,"student-search-form")}
-  if (textboxName == "firstName")
-    textboxName = "dbrd_inp_search_firstName"
-  elsif (textboxName == "lastName")
-    textboxName = "dbrd_inp_search_lastName"
-  else
-    puts "Invalid textbox name " + textboxName
-  end
-   @driver.find_element(:id, textboxName).click
-   @driver.execute_script("document.getElementById('" + textboxName + "').value = \"#{query}\";")
+  @driver.find_element(:id, "dbrd_inp_search_studentName").click
+  @driver.execute_script("document.getElementById('" + "dbrd_inp_search_studentName" + "').value = \"#{query}\";")
 end
 
 When /^I click the search button$/ do
-  searchSection = @driver.find_element(:class, "student-search-form")
-  searchSection.find_element(:class,"btn").click
+  @driver.find_element(:id, "dbrd_btn_name_search").click
 end
 
 Then /^"([^"]*)" results are returned in the page$/ do |numResults|
@@ -45,13 +37,12 @@ Then /^"([^"]*)" results are returned in the page$/ do |numResults|
 end
 
 When /^I enter nothing into either field of student search$/ do
-  putTextToField("", "dbrd_inp_search_firstName", "id")
-  putTextToField("", "dbrd_inp_search_lastName", "id")
+  putTextToField("", "dbrd_inp_search_studentName", "id")
 end
 
 Then /^the search results has the following entries:$/ do |table|
   mapping = {
-    "Student" => "fullName",
+    "Student" => ["fullName", "title"],
     "Grade" => "gradeLevel",
     "School" => "currentSchoolName"
   }
@@ -60,7 +51,7 @@ end
 
 Then /^the search results include:$/ do |table|
   mapping = {
-    "Student" => "fullName",
+    "Student" => ["fullName", "title"],
     "Grade" => "gradeLevel",
     "School" => "currentSchoolName"
   }
@@ -69,7 +60,7 @@ end
 
 When /^I send the enter key$/ do
   # This only sends the enter key to the last name text box
-  @driver.find_element(:id, "dbrd_inp_search_lastName").send_keys(:enter)
+  @driver.find_element(:id, "dbrd_inp_search_studentName").send_keys(:enter)
 end
 
 Then /^I should be informed that "([^"]*)" results are returned$/ do |numResults|
