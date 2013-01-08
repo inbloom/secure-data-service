@@ -66,7 +66,7 @@ SLC.namespace('SLC.attendanceCalendar', (function () {
 			return false;
 		}
 
-		if(panelData.attendanceList === null || panelData.attendanceList === undefined || panelData.attendanceList.length === 0 || !panelData.startDate || !panelData.endDate) {
+		if(panelData.attendanceList === null || panelData.attendanceList === undefined || !panelData.startDate || !panelData.endDate) {
 			return false;
 		}
 

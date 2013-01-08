@@ -387,6 +387,10 @@ public class BatchJobMongoDATest {
     @Test
     public void testUpsertRecordHash() {
         // Capture mongoTemplate.save()!
+        /**
+         * DBAnswer implementation.
+         *
+         */
         class DBAnswer implements Answer<Object> {
             RecordHash savedRecordHash = null;
 
@@ -403,11 +407,11 @@ public class BatchJobMongoDATest {
                     }
                     return new BasicDBObject(savedRecordHash.toKVMap());
                 } else if (method.equals("insert")) {
-                	savedRecordHash = new RecordHash((Map<String, Object>) args[0]);
-                	return null;
+                    savedRecordHash = new RecordHash((Map<String, Object>) args[0]);
+                    return null;
                 } else if (method.equals("update")) {
-                	savedRecordHash = new RecordHash((Map<String, Object>) args[1]);
-                	return null;
+                    savedRecordHash = new RecordHash((Map<String, Object>) args[1]);
+                    return null;
                 }
                 else {
                     return null;
@@ -431,7 +435,7 @@ public class BatchJobMongoDATest {
         RecordHash rh = mockBatchJobMongoDA.findRecordHash(testTenantId, testRecordHashId);
         Assert.assertNull(rh);
 
-        mockBatchJobMongoDA.insertRecordHash(testTenantId, testRecordHashId, "fedcba9876543210fedcba9876543210fedcba98");
+        mockBatchJobMongoDA.insertRecordHash(testRecordHashId, "fedcba9876543210fedcba9876543210fedcba98");
         long savedTimestamp =  dbAnswer.savedRecordHash.getUpdated();
         String savedId        =  dbAnswer.savedRecordHash.getId();
         String savedHash      =  dbAnswer.savedRecordHash.getHash();
@@ -443,7 +447,7 @@ public class BatchJobMongoDATest {
         rh = mockBatchJobMongoDA.findRecordHash(testTenantId, testRecordHashId);
         Assert.assertNotNull(rh);
 
-        mockBatchJobMongoDA.updateRecordHash(testTenantId, rh, "aaacba9876543210fedcba9876543210fedcba98");
+        mockBatchJobMongoDA.updateRecordHash(rh, "aaacba9876543210fedcba9876543210fedcba98");
         long updatedTimestamp = dbAnswer.savedRecordHash.getUpdated();
         String updatedId        = dbAnswer.savedRecordHash.getId();
         String updatedHash      = dbAnswer.savedRecordHash.getHash();

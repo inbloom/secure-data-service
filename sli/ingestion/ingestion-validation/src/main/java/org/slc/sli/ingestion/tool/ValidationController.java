@@ -60,8 +60,8 @@ public class ValidationController {
      */
     public void doValidation(File path) {
         if (path.isFile()) {
-            source = new JobSource(null, path.getName(), null);
-            reportStats = new SimpleReportStats(null, path.getName(), null);
+            source = new JobSource(path.getName(), null);
+            reportStats = new SimpleReportStats();
 
             if (path.getName().endsWith(".ctl")) {
                 processControlFile(path);

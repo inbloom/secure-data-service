@@ -67,6 +67,7 @@ Scenario: Post a zip file where the second record has a bad attribute should fai
   And the following collections are empty in datastore:
         | collectionName              |
         | student                     |
+        | recordHash                  |
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job for file "secondRecordHasIncorrectAttribute.zip" is completed in database
@@ -107,6 +108,7 @@ Scenario: Post a zip file where the first record has a missing attribute should 
   And the following collections are empty in datastore:
         | collectionName              |
         | student                     |
+        | recordHash                  |
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job for file "firstRecordMissingAttribute.zip" is completed in database
@@ -340,6 +342,7 @@ Scenario: Post a zip file and then post it again and make sure the updated date 
   And the following collections are empty in datastore:
         | collectionName              |
         | student                     |
+        | recordHash                  |
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job for file "stringOrEnumContainsWhitespace.zip" is completed in database
@@ -347,7 +350,7 @@ Scenario: Post a zip file and then post it again and make sure the updated date 
   And verify that "metaData.created" is equal to "metaData.updated"
   Given I am using preconfigured Ingestion Landing Zone
   And I post "stringOrEnumContainsWhitespace.zip" file as the payload of the ingestion job
-  And the following collections are empty in batch job datastore:
+  And the following collections are empty in datastore:
         | collectionName              |
         | recordHash                  |
   When zip file is scp to ingestion landing zone

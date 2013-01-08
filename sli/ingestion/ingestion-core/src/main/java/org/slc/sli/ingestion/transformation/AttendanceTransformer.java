@@ -501,7 +501,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
      * @return Map of Sessions for student-school pair.
      */
     private Map<Object, NeutralRecord> getSessions(String edOrgId, Set<String> edOrgsSoFar) {
-    	edOrgsSoFar.add(edOrgId);
+        edOrgsSoFar.add(edOrgId);
         Map<Object, NeutralRecord> sessions = new HashMap<Object, NeutralRecord>();
         Query query = new Query().limit(0);
         query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
@@ -669,10 +669,9 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         AggregatedSource source = new AggregatedSource(getBatchJobId(), sourceFile,
                 BatchJobStageType.TRANSFORMATION_PROCESSOR.getName());
         for (NeutralRecord nr : attendances.values()) {
-            NeutralRecordSource nrSource = new NeutralRecordSource(getBatchJobId(), sourceFile,
-                    BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
-                    nr.getRecordType(),
-                    nr.getVisitBeforeLineNumber(), nr.getVisitBeforeColumnNumber(),
+            NeutralRecordSource nrSource = new NeutralRecordSource(sourceFile, BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
+                    nr.getVisitBeforeLineNumber(),
+                    nr.getVisitBeforeColumnNumber(),
                     nr.getVisitAfterLineNumber(), nr.getVisitAfterColumnNumber());
             source.addSource(nrSource);
         }

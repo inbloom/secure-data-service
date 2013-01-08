@@ -89,8 +89,8 @@ public class ControlFileValidatorTest {
     @Test
     public void noFileEntriesTest() {
         AbstractMessageReport report = new DummyMessageReport();
-        ReportStats reportStats = new SimpleReportStats(null, null, null);
-        Source source = new JobSource(null, null, null);
+        ReportStats reportStats = new SimpleReportStats();
+        Source source = new JobSource(null, null);
 
         boolean isValid = controlFileValidator.isValid(item, report, reportStats, source);
 
@@ -101,8 +101,8 @@ public class ControlFileValidatorTest {
     @Test
     public void fileNotPresentTest() {
         AbstractMessageReport report = new DummyMessageReport();
-        ReportStats reportStats = new SimpleReportStats(null, null, null);
-        Source source = new JobSource(null, null, null);
+        ReportStats reportStats = new SimpleReportStats();
+        Source source = new JobSource(null, null);
 
         Mockito.when(lz.getFile(fileName)).thenReturn(null);
         fileEntries.add(entry);
@@ -116,7 +116,7 @@ public class ControlFileValidatorTest {
     @Test
     public void fileValidTest() {
         AbstractMessageReport report = new DummyMessageReport();
-        ReportStats reportStats = new SimpleReportStats(null, null, null);
+        ReportStats reportStats = new SimpleReportStats();
 
         fileEntries.add(entry);
         Mockito.doReturn(true)
@@ -133,8 +133,8 @@ public class ControlFileValidatorTest {
     @Test
     public void fileNotValidTest() {
         AbstractMessageReport report = new DummyMessageReport();
-        ReportStats reportStats = new SimpleReportStats(null, null, null);
-        Source source = new JobSource(null, null, null);
+        ReportStats reportStats = new SimpleReportStats();
+        Source source = new JobSource(null, null);
 
         fileEntries.add(entry);
         Mockito.doReturn(false)
@@ -151,8 +151,8 @@ public class ControlFileValidatorTest {
     @Test
     public void controlFileHasPath() {
         AbstractMessageReport report = new DummyMessageReport();
-        ReportStats reportStats = new SimpleReportStats(null, null, null);
-        Source source = new JobSource(null, null, null);
+        ReportStats reportStats = new SimpleReportStats();
+        Source source = new JobSource(null, null);
 
         Mockito.when(entry.getFileName()).thenReturn(path + fileName);
         fileEntries.add(entry);

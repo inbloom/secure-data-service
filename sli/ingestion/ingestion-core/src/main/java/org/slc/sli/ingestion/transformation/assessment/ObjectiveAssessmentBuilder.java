@@ -158,10 +158,9 @@ public class ObjectiveAssessmentBuilder {
             Map<String, Object> record = objectiveAssessment.getValue().getAttributes();
             Map<String, Object> objectiveAssessmentToReturn = new HashMap<String, Object>();
             NeutralRecord neutralRecord = objectiveAssessment.getValue();
-            NeutralRecordSource source = new NeutralRecordSource(batchJobId, neutralRecord.getSourceFile(),
-                    BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
-                    neutralRecord.getRecordType(),
-                    neutralRecord.getVisitBeforeLineNumber(), neutralRecord.getVisitBeforeColumnNumber(),
+            NeutralRecordSource source = new NeutralRecordSource(neutralRecord.getSourceFile(), BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
+                    neutralRecord.getVisitBeforeLineNumber(),
+                    neutralRecord.getVisitBeforeColumnNumber(),
                     neutralRecord.getVisitAfterLineNumber(), neutralRecord.getVisitAfterColumnNumber());
 
             if (record.get(by).equals(objectiveAssessmentRef)) {
@@ -290,10 +289,9 @@ public class ObjectiveAssessmentBuilder {
                     BatchJobStageType.TRANSFORMATION_PROCESSOR.getName());
 
             for (NeutralRecord nr : objectiveAssessments.values()) {
-                NeutralRecordSource nrSource = new NeutralRecordSource(batchJobId, sourceFile,
-                        BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
-                        nr.getRecordType(),
-                        nr.getVisitBeforeLineNumber(), nr.getVisitBeforeColumnNumber(),
+                NeutralRecordSource nrSource = new NeutralRecordSource(sourceFile, BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
+                        nr.getVisitBeforeLineNumber(),
+                        nr.getVisitBeforeColumnNumber(),
                         nr.getVisitAfterLineNumber(), nr.getVisitAfterColumnNumber());
                 source.addSource(nrSource);
             }
