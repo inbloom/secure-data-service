@@ -30,6 +30,7 @@ import org.slc.sli.validation.schema.NaturalKeyExtractor;
 import org.slc.sli.validation.schema.NeutralSchema;
 
 /**
+ * Extract from Xsd which fields are marked as self referencing
  * @author ablum
  */
 
@@ -50,7 +51,7 @@ public class SelfReferenceExtractor {
             AppInfo appInfo = schema.getAppInfo();
             if (appInfo != null) {
 
-                	selfReferenceField = getSelfReferenceFields(schema, "");
+                selfReferenceField = getSelfReferenceFields(schema, "");
 
             }
         }
@@ -60,7 +61,7 @@ public class SelfReferenceExtractor {
 
     /**
      * Recursive method to traverse down to the leaf nodes of a neutral schema and extract annotated
-     * key fields
+     * self referencing entities
      */
     private String getSelfReferenceFields(NeutralSchema schema, String baseXPath) {
         Map<String, NeutralSchema> fields = getSchemaFields(schema);
@@ -75,26 +76,26 @@ public class SelfReferenceExtractor {
                 boolean isSelfReference = fieldsAppInfo.isSelfReference();
                 if (isSelfReference) {
                     if (fieldSchema instanceof ComplexSchema) {
-                    	getSelfReferenceFields(fieldSchema, fieldXPath + ".");
+                        getSelfReferenceFields(fieldSchema, fieldXPath + ".");
                     } else {
-                    	return fieldXPath;
+                        return fieldXPath;
                     }
                 } else {
                     String schemaClass = fieldSchema.getValidatorClass();
                     if (schemaClass.equals ("org.slc.sli.validation.schema.ChoiceSchema")) {
-                    	getSelfReferenceFields(fieldSchema, fieldXPath + ".");
+                        getSelfReferenceFields(fieldSchema, fieldXPath + ".");
                     }
                 }
             }
 
         }
-		return null;
+        return null;
     }
 
     /*
      * Created to allow for easier unit testing
      */
-	public Map<String, NeutralSchema> getSchemaFields(NeutralSchema schema) {
-		return schema.getFields();
-	}
+    public Map<String, NeutralSchema> getSchemaFields(NeutralSchema schema) {
+        return schema.getFields();
+    }
 }

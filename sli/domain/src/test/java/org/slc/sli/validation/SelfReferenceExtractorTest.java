@@ -32,11 +32,15 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.schema.AppInfo;
 import org.slc.sli.validation.schema.NeutralSchema;
 
+/**
+ * Test SelfReferenceExtractor
+ * @author ablum
+ */
 public class SelfReferenceExtractorTest {
-	private static final String SELF_REFERENCE_COLLECTION = "school";
-	private static final String NON_SELF_REFERENCE_COLLECTION = "student";
+    private static final String SELF_REFERENCE_COLLECTION = "school";
+    private static final String NON_SELF_REFERENCE_COLLECTION = "student";
 
-	@Spy
+    @Spy
     @InjectMocks
     SelfReferenceExtractor selfReferenceExtractor = new SelfReferenceExtractor();
 
@@ -85,18 +89,18 @@ public class SelfReferenceExtractorTest {
 
     @Test
     public void testGetSelfReferenceFields() {
-    	Entity srEntity = Mockito.mock(Entity.class);
-    	Mockito.when(srEntity.getType()).thenReturn(SELF_REFERENCE_COLLECTION);
+        Entity srEntity = Mockito.mock(Entity.class);
+        Mockito.when(srEntity.getType()).thenReturn(SELF_REFERENCE_COLLECTION);
 
-    	Entity nonSrEntity = Mockito.mock(Entity.class);
-    	Mockito.when(nonSrEntity.getType()).thenReturn(NON_SELF_REFERENCE_COLLECTION);
+        Entity nonSrEntity = Mockito.mock(Entity.class);
+        Mockito.when(nonSrEntity.getType()).thenReturn(NON_SELF_REFERENCE_COLLECTION);
 
-    	String selfReferenceField = selfReferenceExtractor.getSelfReferenceFields(srEntity);
+        String selfReferenceField = selfReferenceExtractor.getSelfReferenceFields(srEntity);
 
-    	Assert.assertEquals("field2", selfReferenceField);
+        Assert.assertEquals("field2", selfReferenceField);
 
-    	selfReferenceField = selfReferenceExtractor.getSelfReferenceFields(nonSrEntity);
+        selfReferenceField = selfReferenceExtractor.getSelfReferenceFields(nonSrEntity);
 
-    	Assert.assertEquals(null, selfReferenceField);
+        Assert.assertEquals(null, selfReferenceField);
     }
 }
