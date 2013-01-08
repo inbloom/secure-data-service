@@ -36,7 +36,7 @@ When I selected the realm "Daybreak Test Realm"
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page    
 Then I should be on Portal home page
-Then I should not see "SLC Dashboards"
+Then I should not see "inBloom Dashboards"
 And I click on Admin
 And I should be on the admin page
 And I should not see "SLC Data Browser"
@@ -135,7 +135,7 @@ And under System Tools, I click on "Authorize Applications"
 And I switch to the iframe
 Then I am redirected to the Admin Application Authorization Tool
 #Authorize the Dashboard
-And I see an application "SLC Dashboards" in the table
+And I see an application "inBloom Dashboards" in the table
 And in Status it says "Not Approved"
 And I click on the "Approve" button next to it
 And I am asked 'Do you really want this application to access the district's data'
@@ -232,7 +232,7 @@ When I selected the realm "Daybreak Test Realm"
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page    
 Then I should be on Portal home page
-And under My Applications, I see the following apps: "SLC Dashboards;Schlemiel"
+And under My Applications, I see the following apps: "inBloom Dashboards;Schlemiel"
 And under My Applications, I click on "Schlemiel"
 Then my current url is "http://www.google.com/"	
 

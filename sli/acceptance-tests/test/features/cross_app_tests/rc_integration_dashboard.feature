@@ -14,7 +14,7 @@ Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
 Then I should be on the admin page
-And under Application Configuration, I click on "SLC Dashboards"
+And under Application Configuration, I click on "inBloom Dashboards"
 Then I am authorized to the Configuration Area
 And I paste Valid json config into the text box
 And click Save
@@ -41,8 +41,8 @@ When I select "Daybreak Test Realm" and click go
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page    
 Then I should be on Portal home page
-And under My Applications, I see the following apps: "SLC Dashboards"
-And under My Applications, I click on "SLC Dashboards" 
+And under My Applications, I see the following apps: "inBloom Dashboards"
+And under My Applications, I click on "inBloom Dashboards" 
 Then I should be redirected to the Dashboard landing page
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
@@ -99,7 +99,7 @@ And the class for id "attendances.attendanceRate" for student "Dominic Brisendin
 And I click on student "Matt Sollars"
 And I see a header on the page
 And I see a footer on the page
-And the title of the page is "SLC - Student Profile"
+And the title of the page is "inBloom - Student Profile"
 And I view its student profile
 And their name shown in profile is "Matt Joseph Sollars Jr"
 And their id shown in proflie is "800000025"
@@ -146,7 +146,7 @@ Then I should be on Portal home page
 Then I should see Admin link
 And I click on Admin
 Then I should be on the admin page
-And under Application Configuration, I click on "SLC Dashboards"
+And under Application Configuration, I click on "inBloom Dashboards"
 Then I am authorized to the Configuration Area
 And I paste Valid json config into the text box
 And click Save

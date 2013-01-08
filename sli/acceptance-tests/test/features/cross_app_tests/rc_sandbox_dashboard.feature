@@ -19,13 +19,13 @@ Scenario: All-in-one scenario
 	Then I should see Admin link
 	And I click on Admin
 	Then I should be on the admin page
-	And under Application Configuration, I click on "SLC Dashboards"
+	And under Application Configuration, I click on "inBloom Dashboards"
 	Then I am authorized to the Configuration Area
 	And I paste Valid json config into the text box
 	And click Save
 	Then I should be shown a success message
    When I navigate to the Portal home page
-   And under My Applications, I click on "SLC Dashboards"
+   And under My Applications, I click on "inBloom Dashboards"
 	When I select ed org "Daybreak School District 4529"
 	When I select school "East Daybreak Junior High"
 	When I select course "8th Grade English"
@@ -47,8 +47,8 @@ Scenario: All-in-one scenario
 	#Title: Educator Logs into dashboard from portal 
     And I want to select "linda.kim" from the "SmallDatasetUsers" in automatic mode
     Then I should be on Portal home page  
-	And under My Applications, I see the following apps: "SLC Dashboards"
-	And under My Applications, I click on "SLC Dashboards" 
+	And under My Applications, I see the following apps: "inBloom Dashboards"
+	And under My Applications, I click on "inBloom Dashboards" 
 	Then I should be redirected to the Dashboard landing page
 	When I select ed org "Daybreak School District 4529"
 	When I select school "East Daybreak Junior High"
@@ -105,7 +105,7 @@ Scenario: All-in-one scenario
 	And I click on student "Matt Sollars"
 	And I see a header on the page
 	And I see a footer on the page
-	And the title of the page is "SLC - Student Profile"
+	And the title of the page is "inBloom - Student Profile"
 	And I view its student profile
 	And their name shown in profile is "Matt Joseph Sollars Jr"
 	And their id shown in proflie is "800000025"
@@ -151,7 +151,7 @@ Scenario: All-in-one scenario
 	Then I should see Admin link
 	And I click on Admin
 	Then I should be on the admin page
-	And under Application Configuration, I click on "SLC Dashboards"
+	And under Application Configuration, I click on "inBloom Dashboards"
 	Then I am authorized to the Configuration Area
 	And I paste Valid json config into the text box
 	And click Save
