@@ -582,7 +582,57 @@
       "path": "/search",
       "doc": "Provides search functionality for students, sections, and other entities.",
       "resourceClass": "org.slc.sli.api.search.resource.SearchResource",
-      "queryable": true
+      "queryable": true,
+      "availableSince" : "v1.1"
+    },
+    {
+      "path": "/educationOrganizations",
+      "queryable": true,
+      "doc": "Represents any public or private institution, organization, or agency that provides instructional or support services to students or staff at any level. Caution: The educationOrganizations entity is public in the SLI API. Any metadata associated with an educationOrganization can be viewed by anyone within the tenant to which the educationOrganization belongs. For more information, see the schema for $$EducationOrganization$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /teachers/{ID}/teacherSchoolAssociations/schools  and for staff, this is /staff/{ID}/staffEducationOrgAssignmentAssociations/educationOrganizations. {ID} is the unique ID of the teacher or staff.",
+      "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicDefaultResource",
+      "availableSince" : "v1.1",
+      "subResources": [
+        { "path": "/{id}/studentSchoolAssociations" },
+        { "path": "/{id}/studentSchoolAssociations/students" },
+        { "path": "/{id}/teacherSchoolAssociations" },
+        { "path": "/{id}/teacherSchoolAssociations/teachers" }
+      ]
+    },
+    {
+      "path": "/schools",
+      "queryable": true,
+      "doc": "This entity represents an educational organization that includes staff and students who participate in classes and educational activity groups. Caution: The schools entity is public in the SLI API. Any metadata associated with a school can be viewed by anyone within the tenant to which the school belongs. For more information, see the schema for $$School$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers or staff, this is /schools/{IDs}. {IDs} represents a list of the school IDs to which the teacher or staff is currently associated.",
+      "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicDefaultResource",
+      "availableSince" : "v1.1",
+      "subResources": [
+        { "path": "/{id}/staffEducationOrgAssignmentAssociations" },
+        { "path": "/{id}/staffEducationOrgAssignmentAssociations/staff" }
+      ]
+    },
+    {
+      "path": "/staff",
+      "queryable": true,
+      "doc": "Represents the definition of a staff resource. A staff is a person that is employed by an LEA or other educational unit engaged in student instruction. These persons are instructional-type staff members. A teacher is a staff member with additional properties. See the $$Teacher$$ resource for details. A staff is associated with a school, cohort and program through $$StaffEducationOrganizationAssociation$$, $$StaffCohortAssociation$$, and $$StaffProgramAssociation$$. For more details about the resources, see $$School$$, $$Cohort$$ and $$Program$$ resources. For detailed information, see the schema for $$Section$$ resources.  For this open ended URI, only current and directly associated entities are returned. For teachers and staff, this is /educationOrganizations/{IDs}/staffEducationOrgAssignmentAssociations/staff. {IDs} represents a list of Education Organization IDs to which the staff or teacher is currently associated.",
+      "availableSince" : "v1.1",
+      "subResources": [
+        { "path": "/{id}/teacherSchoolAssociations" },
+        { "path": "/{id}/teacherSchoolAssociations/schools" },
+        { "path": "/{id}/teacherSectionAssociations" },
+        { "path": "/{id}/teacherSectionAssociations/sections" }
+      ]
+    },
+    {
+      "path": "/teachers",
+      "queryable": true,
+      "doc": "Represents a person that is employed by an LEA or other educational unit engaged in student instruction. These persons are instructional-type staff members. In the data model, a teacher entity is a staff member with additional properties. For more information, see the schema for $$Teacher$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers and staff, this is /schools/{IDs}/teacherSchoolAssociations/teachers. {IDs} represents a list of school or education organization IDs to which the teacher or staff is currently associated.",
+      "availableSince" : "v1.1",
+      "subResources": [
+        { "path": "/{id}/staffEducationOrgAssignmentAssociations" },
+        { "path": "/{id}/staffEducationOrgAssignmentAssociations/educationOrganizations" },
+        { "path": "/{id}/staffProgramAssociations" },
+        { "path": "/{id}/staffProgramAssociations/programs" }
+      ]
     }
+
   ]
 }]

@@ -18,7 +18,6 @@ package org.slc.sli.ingestion.reporting.impl;
 
 import org.slc.sli.ingestion.reporting.Source;
 
-
 /**
  *
  * @author npandey
@@ -26,19 +25,12 @@ import org.slc.sli.ingestion.reporting.Source;
  */
 public class JobSource implements Source {
 
-    private String batchJobId;
     private String resourceId;
     private String stageName;
 
-    public JobSource(String batchJobId, String resourceId, String stageName) {
-        this.batchJobId = batchJobId;
+    public JobSource(String resourceId, String stageName) {
         this.resourceId = resourceId;
         this.stageName = stageName;
-    }
-
-    @Override
-    public String getBatchJobId() {
-        return batchJobId;
     }
 
     @Override

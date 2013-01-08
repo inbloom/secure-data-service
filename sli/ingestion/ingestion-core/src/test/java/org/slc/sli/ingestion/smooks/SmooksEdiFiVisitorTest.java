@@ -76,7 +76,7 @@ public class SmooksEdiFiVisitorTest {
         // set up objects
         final String recordType = "otherType";
         final DummyMessageReport errorReport = new DummyMessageReport();
-        final ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
+        final ReportStats reportStats = new SimpleReportStats();
         final IngestionFileEntry mockFileEntry = Mockito.mock(IngestionFileEntry.class);
         final String beanId = "ABeanId";
         final DeterministicUUIDGeneratorStrategy mockUUIDStrategy = Mockito

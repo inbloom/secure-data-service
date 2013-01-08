@@ -75,28 +75,40 @@ public class CustomEntityValidator {
      */
     @SuppressWarnings("unchecked")
     private void validate(Object value, List<ValidationError> errorList) {
-        if (value instanceof Map<?, ?>) {  // Map.
+        if (value instanceof Map<?, ?>) {  // Map.  Validate keys.
             for (String fieldName : ((Map<? extends String, ? extends Object>) value).keySet()) {
-                // Remove valid characters before checking.
-                String fieldNameToCheck = fieldName.replace("<", "").replace(">", "");
-                for (AbstractBlacklistStrategy abstractBlacklistStrategy : validationStrategyList) {
-                    if (!abstractBlacklistStrategy.isValid("", fieldNameToCheck)) {
-                        errorList.add(new ValidationError(ValidationError.ErrorType.INVALID_FIELD_NAME, fieldName,
-                                fieldName, null));
-                    }
-                }
+                validate(fieldName, errorList);
 
-                // If field contains sub-fields, check them, also.
+                // Validate sub-fields.
                 validate(((Map<? extends String, ? extends Object>) value).get(fieldName), errorList);
             }
-        } else if (value instanceof Object[]) {  // Array of Something.
+        } else if (value instanceof Object[]) {  // Array of Something.  Validate elements.
             for (Object elem : (Object[]) value) {
                 validate(elem, errorList);
             }
-        } else if (value instanceof Collection<?>) {  // Collection of Something.
+        } else if (value instanceof Collection<?>) {  // Collection of Something.  Validate elements.
             for (Object elem : (Collection<Object>) value) {
                 validate(elem, errorList);
             }
-        }  // String or special type.  Search no more!
+        }  // else value is String, primitive or special type.  Validate no more!
+    }
+
+
+    /**
+     * Validate a field name against the blacklists.
+     *
+     * @param fieldName
+     *            Field name to be validated
+     * @param errorList
+     *            List of errors encountered during validation
+     *
+     */
+    private void validate(String fieldName, List<ValidationError> errorList) {
+        for (AbstractBlacklistStrategy abstractBlacklistStrategy : validationStrategyList) {
+            if (!abstractBlacklistStrategy.isValid("", fieldName)) {
+                errorList.add(new ValidationError(ValidationError.ErrorType.INVALID_FIELD_NAME, fieldName,
+                        fieldName, null));
+            }
+        }
     }
 }

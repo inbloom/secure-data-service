@@ -108,8 +108,8 @@ public class PurgeProcessor implements Processor {
         String batchJobId = getBatchJobId(exchange);
         if (batchJobId != null) {
 
-            source = new JobSource(batchJobId, null, BATCH_JOB_STAGE.getName());
-            reportStats = new SimpleReportStats(batchJobId, null, BATCH_JOB_STAGE.getName());
+            source = new JobSource(null, BATCH_JOB_STAGE.getName());
+            reportStats = new SimpleReportStats();
 
             NewBatchJob newJob = null;
             try {

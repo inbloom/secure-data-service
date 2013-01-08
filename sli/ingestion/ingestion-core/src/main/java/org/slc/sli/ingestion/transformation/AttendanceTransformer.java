@@ -669,10 +669,9 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         AggregatedSource source = new AggregatedSource(getBatchJobId(), sourceFile,
                 BatchJobStageType.TRANSFORMATION_PROCESSOR.getName());
         for (NeutralRecord nr : attendances.values()) {
-            NeutralRecordSource nrSource = new NeutralRecordSource(getBatchJobId(), sourceFile,
-                    BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
-                    nr.getRecordType(),
-                    nr.getVisitBeforeLineNumber(), nr.getVisitBeforeColumnNumber(),
+            NeutralRecordSource nrSource = new NeutralRecordSource(sourceFile, BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
+                    nr.getVisitBeforeLineNumber(),
+                    nr.getVisitBeforeColumnNumber(),
                     nr.getVisitAfterLineNumber(), nr.getVisitAfterColumnNumber());
             source.addSource(nrSource);
         }

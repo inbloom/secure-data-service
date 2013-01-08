@@ -235,9 +235,8 @@ public class DeterministicIdResolver implements BatchJobStage {
     private void handleException(NeutralRecordEntity entity, String sourceRefPath, String entityType,
             String referenceType, Exception e, AbstractMessageReport report, ReportStats reportStats) {
         LOG.error("Error accessing indexed bean property " + sourceRefPath + " for bean " + entityType, e);
-        NeutralRecordSource source = new NeutralRecordSource(reportStats.getBatchJobId(), entity.getResourceId(),
-                getStageName(), entity.getType(), entity.getVisitBeforeLineNumber(),
-                entity.getVisitBeforeColumnNumber(), entity.getVisitAfterLineNumber(),
+        NeutralRecordSource source = new NeutralRecordSource(entity.getResourceId(), getStageName(),
+                entity.getVisitBeforeLineNumber(), entity.getVisitBeforeColumnNumber(), entity.getVisitAfterLineNumber(),
                 entity.getVisitAfterColumnNumber());
         report.error(reportStats, source, CoreMessageCode.CORE_0009, entityType, referenceType, sourceRefPath);
     }

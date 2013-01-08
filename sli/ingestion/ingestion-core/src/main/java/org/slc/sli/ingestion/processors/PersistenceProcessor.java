@@ -245,9 +245,8 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
             try {
                 records = queryBatchFromDb(collectionToPersistFrom, job.getId(), workNote);
                 for (NeutralRecord nr : records) {
-                    NeutralRecordSource nrSource = new NeutralRecordSource(job.getId(), collectionNameAsStaged,
-                            stage.getStageName(), nr.getRecordType(), nr.getVisitBeforeLineNumber(),
-                            nr.getVisitBeforeColumnNumber(), nr.getVisitAfterLineNumber(),
+                    NeutralRecordSource nrSource = new NeutralRecordSource(collectionNameAsStaged, stage.getStageName(),
+                            nr.getVisitBeforeLineNumber(), nr.getVisitBeforeColumnNumber(), nr.getVisitAfterLineNumber(),
                             nr.getVisitAfterColumnNumber());
                     source.addSource(nrSource);
                 }
@@ -338,7 +337,7 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
                 }
             }
         } catch (Exception e) {
-            Source source = new JobSource(job.getId(), collectionNameAsStaged, stage.getStageName());
+            Source source = new JobSource(collectionNameAsStaged, stage.getStageName());
             databaseMessageReport.error(reportStatsForCollection, source, CoreMessageCode.CORE_0005,
                     collectionNameAsStaged);
             LogUtil.error(LOG, "Exception when attempting to ingest NeutralRecords in: " + collectionNameAsStaged, e);
@@ -494,9 +493,8 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
         List<SimpleEntity> transformed = transformer.handle(record, databaseMessageReport, reportStats);
 
         if (transformed == null || transformed.isEmpty()) {
-            NeutralRecordSource source = new NeutralRecordSource(reportStats.getBatchJobId(), record.getResourceId(),
-                    getStageName(), record.getRecordType(), record.getVisitBeforeLineNumber(),
-                    record.getVisitBeforeColumnNumber(), record.getVisitAfterLineNumber(),
+            NeutralRecordSource source = new NeutralRecordSource(record.getResourceId(), getStageName(),
+                    record.getVisitBeforeLineNumber(), record.getVisitBeforeColumnNumber(), record.getVisitAfterLineNumber(),
                     record.getVisitAfterColumnNumber());
             databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0004, record.getRecordType());
             return null;
@@ -542,7 +540,7 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
      * @return database logging error report.
      */
     private ReportStats createReportStats(String batchJobId, String resourceId, String stageName) {
-        return new SimpleReportStats(batchJobId, resourceId, stageName);
+        return new SimpleReportStats();
     }
 
     /**
