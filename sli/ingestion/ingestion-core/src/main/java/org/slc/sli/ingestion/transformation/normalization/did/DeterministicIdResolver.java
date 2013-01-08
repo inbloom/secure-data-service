@@ -32,6 +32,7 @@ import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.ingestion.BatchJobStage;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
@@ -46,7 +47,7 @@ import org.slc.sli.ingestion.transformation.normalization.IdResolutionException;
  * @author vmcglaughlin
  *
  */
-public class DeterministicIdResolver {
+public class DeterministicIdResolver implements BatchJobStage {
 
     @Autowired
     @Qualifier("deterministicUUIDGeneratorStrategy")
@@ -61,6 +62,8 @@ public class DeterministicIdResolver {
 
     private static final String BODY_PATH = "body.";
     private static final String PATH_SEPARATOR = "\\.";
+
+    private static final String STAGE_NAME = "Deterministic Id Resolution";
 
     public void resolveInternalIds(NeutralRecordEntity entity, String tenantId, AbstractMessageReport report,
             ReportStats reportStats) {
@@ -229,13 +232,12 @@ public class DeterministicIdResolver {
         return referenceObject;
     }
 
-    private void handleException(NeutralRecordEntity entity, String sourceRefPath, String entityType, String referenceType, Exception e,
-            AbstractMessageReport report, ReportStats reportStats) {
+    private void handleException(NeutralRecordEntity entity, String sourceRefPath, String entityType,
+            String referenceType, Exception e, AbstractMessageReport report, ReportStats reportStats) {
         LOG.error("Error accessing indexed bean property " + sourceRefPath + " for bean " + entityType, e);
-        NeutralRecordSource source = new NeutralRecordSource(reportStats.getBatchJobId(), reportStats.getResourceId(),
-                reportStats.getStageName(), entity.getType(),
-                entity.getVisitBeforeLineNumber(), entity.getVisitBeforeColumnNumber(),
-                entity.getVisitAfterLineNumber(), entity.getVisitAfterColumnNumber());
+        NeutralRecordSource source = new NeutralRecordSource(entity.getResourceId(), getStageName(),
+                entity.getVisitBeforeLineNumber(), entity.getVisitBeforeColumnNumber(), entity.getVisitAfterLineNumber(),
+                entity.getVisitAfterColumnNumber());
         report.error(reportStats, source, CoreMessageCode.CORE_0009, entityType, referenceType, sourceRefPath);
     }
 
@@ -313,6 +315,11 @@ public class DeterministicIdResolver {
 
     public void setDidSchemaParser(DidSchemaParser didSchemaParser) {
         this.didSchemaParser = didSchemaParser;
+    }
+
+    @Override
+    public String getStageName() {
+        return STAGE_NAME;
     }
 
 }

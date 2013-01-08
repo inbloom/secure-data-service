@@ -75,6 +75,7 @@ public class SDKConstants {
     public static final String PARAM_SECTION_ID = "sectionId";
     //public static final String PARAM_OPTIONAL_FIELDS = "optionalFields";
     public static final String PARAM_OPTIONAL_FIELDS = "views";
+    public static final String PARAM_SCHOOL_ID = "schoolId";
 
 
     // SDK link names

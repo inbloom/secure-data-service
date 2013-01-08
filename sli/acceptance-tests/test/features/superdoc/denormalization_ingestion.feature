@@ -11,6 +11,7 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
     And the following collections are empty in datastore:
       | collectionName                        |
       | assessment                            |
+      | recordHash                            |
       | attendance                            |
       | calendarDate                          |
       | cohort                                |

@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
+import org.slc.sli.ingestion.BatchJobStage;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.ResourceWriter;
@@ -44,7 +45,9 @@ import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdRes
  * @author dduran
  *
  */
-public class SliSmooksFactory {
+public class SliSmooksFactory implements BatchJobStage {
+
+    private static final String STAGE_NAME = "Smooks Configuration";
 
     private Map<FileType, SliSmooksConfig> sliSmooksConfigMap;
     private String beanId;
@@ -58,24 +61,25 @@ public class SliSmooksFactory {
 
     private Set<String> recordLevelDeltaEnabledEntities;
 
-    public SliSmooks createInstance(IngestionFileEntry ingestionFileEntry, AbstractMessageReport errorReport, ReportStats reportStats) throws IOException, SAXException {
+    public SliSmooks createInstance(IngestionFileEntry ingestionFileEntry, AbstractMessageReport errorReport,
+            ReportStats reportStats) throws IOException, SAXException {
 
         FileType fileType = ingestionFileEntry.getFileType();
         SliSmooksConfig sliSmooksConfig = sliSmooksConfigMap.get(fileType);
         if (sliSmooksConfig != null) {
 
-            return createSmooksFromConfig(sliSmooksConfig, errorReport, reportStats, ingestionFileEntry.getBatchJobId(),
-                    ingestionFileEntry);
+            return createSmooksFromConfig(sliSmooksConfig, errorReport, reportStats,
+                    ingestionFileEntry.getBatchJobId(), ingestionFileEntry);
 
         } else {
-            Source source = new JobSource(reportStats.getBatchJobId(), reportStats.getResourceId(), reportStats.getStageName());
+            Source source = new JobSource(ingestionFileEntry.getResourceId(), getStageName());
             errorReport.error(reportStats, source, CoreMessageCode.CORE_0013, fileType);
             throw new IllegalArgumentException("File type not supported : " + fileType);
         }
     }
 
-    private SliSmooks createSmooksFromConfig(SliSmooksConfig sliSmooksConfig, AbstractMessageReport errorReport, ReportStats reportStats, String batchJobId,
-            IngestionFileEntry fe) throws IOException, SAXException {
+    private SliSmooks createSmooksFromConfig(SliSmooksConfig sliSmooksConfig, AbstractMessageReport errorReport,
+            ReportStats reportStats, String batchJobId, IngestionFileEntry fe) throws IOException, SAXException {
 
         SliSmooks smooks = new SliSmooks(sliSmooksConfig.getConfigFileName());
 
@@ -84,7 +88,8 @@ public class SliSmooksFactory {
         if (targetSelectorList != null) {
 
             // just one visitor instance that can be added with multiple target selectors
-            SmooksEdFiVisitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance(beanId, batchJobId, errorReport, reportStats, fe);
+            SmooksEdFiVisitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance(beanId, batchJobId, errorReport,
+                    reportStats, fe);
 
             smooksEdFiVisitor.setNrMongoStagingWriter(nrMongoStagingWriter);
             smooksEdFiVisitor.setBatchJobDAO(batchJobDAO);
@@ -126,6 +131,11 @@ public class SliSmooksFactory {
 
     public void setdIdResolver(DeterministicIdResolver dIdResolver) {
         this.dIdResolver = dIdResolver;
+    }
+
+    @Override
+    public String getStageName() {
+        return STAGE_NAME;
     }
 
 }

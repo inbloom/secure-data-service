@@ -11,6 +11,7 @@ Scenario: Post a zip file containing all configured interchanges as a payload of
 Given I post "DailyAttendance.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
      | collectionName              |
+     | recordHash                  |
      | student                     |
      | studentSchoolAssociation    |
      | educationOrganization       |
@@ -94,10 +95,12 @@ Scenario: Post a zip file where an attendanceEvent occurs in a school's parent L
 Given I post "DailyAttendanceInheritedSession.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
      | collectionName              |
+     | recordHash                  |
      | student                     |
      | educationOrganization       |
      | session                     |
      | attendance                  |
+	| recordHash                  |
 When zip file is scp to ingestion landing zone
   And a batch job for file "DailyAttendanceInheritedSession.zip" is completed in database
 Then I should see following map of entry counts in the corresponding collections:

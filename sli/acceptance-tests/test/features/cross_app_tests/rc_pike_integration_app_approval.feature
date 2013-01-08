@@ -300,7 +300,7 @@ And I see the following search results at index 0:
  And I see the following search results at index 0:
  |Field              |Value                                           |
  |name.lastSurname   |Tran                                            |
-  
+
  Scenario: School Level searching for student not in school
   Given the testing device app key has been created
 When I navigate to the API authorization endpoint with my client ID

@@ -23,11 +23,11 @@ Then I should be redirected to the Dashboard landing page
 When I access "/simon"
 And I am informed that "the page that you were looking for could not be found"
 
-@integration @wip
+@wip @integration
 Scenario: Invalid user login
 
 When I navigate to the Dashboard home page
-When I select "New York Realm" and click go
+When I select "Illinois Daybreak School District 4529" and click go
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "InvalidJohnDoe" "demo1234" for the "Simple" login page
 Then I am informed that "Invalid User Name or password"
@@ -62,13 +62,16 @@ And the count for id "attendances.absenceCount" for student "Mi-Ha Tran" is "1"
 And the class for id "attendances.absenceCount" for student "Mi-Ha Tran" is "color-widget-green"
 And the count for id "attendances.tardyCount" for student "Mi-Ha Tran" is "0"
 And the class for id "attendances.tardyCount" for student "Mi-Ha Tran" is "color-widget-darkgreen"
+When I select filter "Section 504"
+Then I should see a student named "Archie Forker"
+When I select filter "Food Services Eligibility"
+Then I should see a student named "Brandon Suzuki"
 And I copy my current URL
 And I click on student "Mi-Ha Tran"
 And I view its student profile
 And their name shown in profile is "Mi-Ha Tran"
 And their id shown in proflie is "100000017"
 And their grade is "1"
-#And the teacher is "Ms Rebecca Braverman"
 And the class is "Mrs. Braverman's Homeroom #38"
 And I paste my copied URL
 When I select school "East Daybreak Junior High"
@@ -132,38 +135,46 @@ And the class for id "attendances.tardyCount" for student "Carmen Ortiz" is "col
 And the count for id "attendances.tardyRate" for student "Carmen Ortiz" is "0"
 And the class for id "attendances.tardyRate" for student "Carmen Ortiz" is "color-widget-darkgreen"
 And I click on student "Carmen Ortiz"
-When I enter "rudolph" into the "firstName" search box
+When I enter "rudolph" into the student search box
 And I click the search button
-When I look in the school drop-down
-Then I see these values in the drop-down: "Daybreak Central High;East Daybreak Junior High;South Daybreak Elementary"
-And I select school "Daybreak Central High"
-And I search by clicking on the go button
+Then "2" results are returned in the page
+And the search results include:
+ |Student          			|Grade    |School                     |
+ |Rudolph Sennett  			|1        |South Daybreak Elementary  |
+ |Rudolph Theodore Krinsky  |12       |Daybreak Central High      |
+
+#Search by middle name
+When I enter "joseph" into the student search box
+And I click the search button
 Then "1" results are returned in the page
 And the search results include:
- |Student          |Grade    |School                     |
- |Rudolph Krinsky  |12       |Daybreak Central High      |
-And I select school "East Daybreak Junior High" 
-And I search by clicking on the go button
-Then "0" results are returned in the page
-And I select school "South Daybreak Elementary"
-And I search by clicking on the go button
-Then "1" results are returned in the page
- And the search results include:
- |Student          |Grade    |School                     |
- |Rudolph Sennett  |1        |South Daybreak Elementary  |
-When I enter "matt" into the "firstName" search box
+ |Student          			|Grade    |School                     |
+ |Matt Joseph Sollars  		|8        |East Daybreak Junior High  |
+ 
+#Test partial string search - for firstname
+When I enter "rudol" into the student search box
 And I click the search button
-# Test the text displayed when user clicks the 'Go' button without selecting the school
-And I search by clicking on the go button
-And I should see "Please select a school from the dropdown." prompt
-When I look in the school drop-down
-Then I see these values in the drop-down: "Daybreak Central High;East Daybreak Junior High;South Daybreak Elementary"
-And I select school "East Daybreak Junior High"
-And I search by clicking on the go button
+Then "2" results are returned in the page
+And the search results include:
+ |Student          			|Grade    |School                     |
+ |Rudolph Sennett  			|1        |South Daybreak Elementary  |
+ |Rudolph Theodore Krinsky  |12       |Daybreak Central High      |
+  
+#Test partial string search - for lastname   
+When I enter "krinsk" into the student search box
+And I click the search button
 Then "1" results are returned in the page
 And the search results include:
- |Student          |Grade    |School                     |
- |Matt Sollars     |8        |East Daybreak Junior High  |
+ |Student          			|Grade    |School                     |
+ |Rudolph Theodore Krinsky  |12       |Daybreak Central High      |
+ 
+#Search by partial string search - for middle name
+When I enter "jos" into the student search box
+And I click the search button
+Then "1" results are returned in the page
+And the search results include:
+ |Student          			|Grade    |School                     |
+ |Matt Joseph Sollars  		|8        |East Daybreak Junior High  |
 
 @integration @RALLY_US197 @RALLY_US200 @RALLY_US198 @RALLY_US147  @RALLY_US4437
  Scenario: Login with State Level IT Admin
@@ -176,7 +187,6 @@ When I look in the ed org drop-down
 Then I see these values in the drop-down: "Daybreak School District 4529;Sunset School District 4526"
 When I select ed org "Daybreak School District 4529"
 When I look in the school drop-down
-#Then I see these values in the drop-down: "South Daybreak Elementary;East Daybreak Junior High;Daybreak Central High"
 Then I see these values in the drop-down: "Daybreak Central High;East Daybreak Junior High;South Daybreak Elementary"
 When I select ed org "Sunset School District 4526"
 And I select school "Sunset Central High School"
@@ -188,23 +198,17 @@ When I select school "Daybreak Central High"
 And I select course "American Literature"
 And I select section "Sec 145"
 Then I see a list of 25 students
-When I enter "Matt" into the "firstName" search box
+When I enter "Matt" into the student search box
 And I click the search button
-When I look in the school drop-down
-Then I see these values in the drop-down: "Daybreak Central High;East Daybreak Junior High;South Daybreak Elementary;Sunset Central High School"
-And I select school "Daybreak Central High"
-And I search by clicking on the go button
-Then "0" results are returned in the page
-And I select school "South Daybreak Elementary"
-And I search by clicking on the go button
-Then "0" results are returned in the page
-And I select school "East Daybreak Junior High" 
-And I search by clicking on the go button
-Then "1" results are returned in the page
+Then "50" results are returned in the page
+And I select page size of "100"
+And "56" results are returned in the page
 And the search results include:
- |Student          |Grade    |School                     |
- |Matt Sollars     |8        |East Daybreak Junior High  |
-And I click on student "Matt Sollars"
+ |Student          		  |Grade    |School                     |
+ |Matt Joseph Sollars     |8        |East Daybreak Junior High  |
+ |Matt Forker      		  |11       |Sunset Central High School |
+ |Matt Zebra        	  |11       |Sunset Central High School |   
+And I click on student "Matt Joseph Sollars"
 And I view its student profile
 And Student Enrollment History has the following entries:
 |Year   |School                     |Gr|Entry Date |Entry Type                                                                 |Transfer |Withdraw Date|Withdraw Type      |
@@ -215,22 +219,19 @@ And Student Enrollment History has the following entries:
 |<empty>|South Daybreak Elementary  |4 |2007-09-12 |Next year school                                                           |<empty>  |2008-05-10   |End of school year |
 |<empty>|South Daybreak Elementary  |3 |2006-09-11 |Transfer from a private, religiously-affiliated school in a different state|<empty>  |2007-05-09   |Student is in a different public school in the same local education agency|
 
-When I enter "Matt" into the "firstName" search box
+#Search by nickname
+When I enter "robbie" into the student search box
 And I click the search button
-# Test the text displayed when user clicks the 'Go' button without selecting the school
-And I search by clicking on the go button
-And I should see "Please select a school from the dropdown." prompt
-And I select school "Sunset Central High School"
-And I search by clicking on the go button
-Then "50" results are returned in the page
-And I select page size of "100"
-And "53" results are returned in the page
+And "1" results are returned in the page
 And the search results include:
- |Student          |Grade    |School                     |
- |Matt Abraham     |11       |Sunset Central High School |
- |Matt Forker      |11       |Sunset Central High School |
- |Matt Randy       |11       |Sunset Central High School |
- |Matt Zebra       |11       |Sunset Central High School |  
+ |Student          	              |Grade     |School                      |
+ |Roberta Jones(Robbie Jones)    	|11        |Sunset Central High School  |
+And I click on student "Roberta Jones"
+And I view its student profile
+And their name shown in profile is "Roberta Jones (Robbie Jones)"
+And their id shown in proflie is "1000000000"
+And their grade is "11"
+And the class is "A.P. Calculus Sec 201"
  
 @integration @RALLY_US197 @RALLY_US200 @RALLY_US198 @RALLY_US147  @RALLY_US4437
 Scenario: Login with District Leader
@@ -269,14 +270,12 @@ And I select school "Daybreak Central High"
 And I select course "American Literature"
 And I select section "Sec 145"
 And I see a list of 25 students
-When I enter "Matt" into the "firstName" search box
+When I enter "Matt" into the student search box
 And I click the search button
-And I select school "East Daybreak Junior High" 
-And I search by clicking on the go button
 Then "1" results are returned in the page
 And the search results include:
- |Student          |Grade    |School                     |
- |Matt Sollars     |8        |East Daybreak Junior High  |
+ |Student          		  |Grade    |School                     |
+ |Matt Joseph Sollars     |8        |East Daybreak Junior High  |
 
  @integration @RALLY_US200 @wip
  Scenario: Login with District level Agg. Viewer
@@ -339,25 +338,22 @@ When I select school "Daybreak Central High"
 And I select course "American Literature"
 And I select section "Sec 145"
 Then I see a list of 25 students
-When I enter "Matt" into the "firstName" search box
+When I enter "Matt" into the student search box
 And I click the search button
-And I select school "Sunset Central High School"
-And I search by clicking on the go button
 Then "50" results are returned in the page
 And I select page size of "100"
-And "53" results are returned in the page
+And "56" results are returned in the page
 And the search results include:
- |Student          |Grade    |School                     |
- |Matt Abraham     |11       |Sunset Central High School |
- |Matt Forker      |11       |Sunset Central High School |
- |Matt Zebra       |11       |Sunset Central High School |
+ |Student             	  |Grade    |School                     |
+ |Matt Joseph Sollars     |8        |East Daybreak Junior High  | 
+ |Matt Abraham     		  |11       |Sunset Central High School |
+ |Matt Forker      		  |11       |Sunset Central High School |
+ |Matt Water       		  |11       |Sunset Central High School |
 And I click on student "Matt Forker"
 And I view its student profile
 And their name shown in profile is "Matt Forker"
 And their id shown in proflie is "1000000002"
 And their grade is "11"
-#TODO bug in csi
-#And the teacher is "Mr Mark Anthony"
 And the class is "A.P. Calculus Sec 201"
 
 @integration @RALLY_US197 @RALLY_US200   @RALLY_US4437
@@ -376,13 +372,9 @@ And I select school "South Daybreak Elementary"
 And I select course "1st Grade Homeroom"
 And I select section "Mrs. Braverman's Homeroom #38"
 Then I see a list of 25 students
-When I enter "Alton" into the "firstName" search box
+When I enter "Alton" into the student search box
 And I click the search button
-And I select school "South Daybreak Elementary"
-And I search by clicking on the go button
 Then "0" results are returned in the page
-# Click the back button twice
-And I click on the browser back button
 And I click on the browser back button
 Then I see a list of 25 students
 

@@ -39,6 +39,7 @@ import org.slc.sli.ingestion.validation.Validator;
 public class ChecksumValidator implements Validator<FileEntryDescriptor> {
 
     private static final Logger LOG = LoggerFactory.getLogger(ChecksumValidator.class);
+    private static final String STAGE_NAME = "File Checksum Validation";
 
     @Override
     public boolean isValid(FileEntryDescriptor item, AbstractMessageReport report, ReportStats reportStats,
@@ -75,6 +76,11 @@ public class ChecksumValidator implements Validator<FileEntryDescriptor> {
 
     protected boolean checksumsMatch(String actualMd5Hex, String recordedMd5Hex) {
         return !StringUtils.isBlank(actualMd5Hex) && actualMd5Hex.equalsIgnoreCase(recordedMd5Hex);
+    }
+
+    @Override
+    public String getStageName() {
+        return STAGE_NAME;
     }
 
 }

@@ -22,7 +22,6 @@ import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 
-
 /**
  * Checks if the indexes are present for all the dbs before processing this job.
  * This validator fails if index files are not defined, it is only to add an
@@ -32,18 +31,22 @@ import org.slc.sli.ingestion.reporting.Source;
  *
  */
 public class IndexValidator extends ComplexValidator<DB> {
+    private static final String STAGE_NAME = "Index Validation";
 
     @Override
-
-    public boolean isValid(DB db, AbstractMessageReport report, ReportStats reportStats,Source source) {
+    public boolean isValid(DB db, AbstractMessageReport report, ReportStats reportStats, Source source) {
         boolean isValid = true;
-
 
         for (Validator<DB> validator : this.getValidators()) {
             isValid &= validator.isValid(db, report, reportStats, source);
         }
 
         return isValid;
+    }
+
+    @Override
+    public String getStageName() {
+        return STAGE_NAME;
     }
 
 }

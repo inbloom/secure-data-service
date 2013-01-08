@@ -26,8 +26,18 @@ import java.util.Set;
 
 import javax.ws.rs.core.PathSegment;
 
+import com.sun.jersey.spi.container.ContainerRequest;
+
+import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.validator.IContextValidator;
@@ -36,14 +46,6 @@ import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.springframework.beans.BeansException;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Component;
-
-import com.sun.jersey.spi.container.ContainerRequest;
 
 /**
  * ContextValidator
@@ -74,7 +76,7 @@ public class ContextValidator implements ApplicationContextAware {
     private void validateUserHasContextToRequestedEntities(ContainerRequest request, SLIPrincipal principal) {
 
         List<PathSegment> segs = request.getPathSegments();
-        for (Iterator<PathSegment> i = segs.iterator(); i.hasNext(); ) {
+        for (Iterator<PathSegment> i = segs.iterator(); i.hasNext();) {
             if (i.next().getPath().isEmpty()) {
                 i.remove();
             }
@@ -92,10 +94,10 @@ public class ContextValidator implements ApplicationContextAware {
         }
 
         /*
-           * e.g.
-           * !isTransitive - /v1/staff/<ID>/disciplineActions
-           * isTransitive - /v1/staff/<ID>
-           */
+         * e.g.
+         * !isTransitive - /v1/staff/<ID>/disciplineActions
+         * isTransitive - /v1/staff/<ID>
+         */
         boolean isTransitive = segs.size() < 4;
 
         /**
@@ -111,16 +113,48 @@ public class ContextValidator implements ApplicationContextAware {
                     info("Not validating access to public entity and it's custom data");
                     return;
                 }
-
             }
         }
 
-
+        validateContextToCallUri(segs);
         String idsString = segs.get(2).getPath();
         Set<String> ids = new HashSet<String>(Arrays.asList(idsString.split(",")));
         validateContextToEntities(def, ids, isTransitive);
     }
 
+    /**
+     * Validates the principal's context to call the given URI.
+     *
+     * @param segments
+     *            List of Path Segments representing API call.
+     */
+    public void validateContextToCallUri(List<PathSegment> segments) {
+        if (SecurityUtil.getSLIPrincipal().getEntity().getType().equals(EntityNames.TEACHER)
+                && checkAccessOfStudentsThroughDisciplineIncidents(segments)) {
+            throw new AccessDeniedException("Cannot access endpoint.");
+        }
+    }
+
+    /**
+     * Check for the path segments to match the following patterns:
+     * /disciplineIncidents/{ids}/studentDisciplineIncidentAssociations,
+     * /disciplineIncidents/{ids}/studentDisciplineIncidentAssociations/students
+     *
+     * @param segments
+     *            List of Path Segments representing API call.
+     * @return true if the URI exactly matches one of the enumerated patterns, false otherwise.
+     */
+    public boolean checkAccessOfStudentsThroughDisciplineIncidents(List<PathSegment> segments) {
+        if (segments.size() == 4) {
+            return segments.get(1).getPath().equals(ResourceNames.DISCIPLINE_INCIDENTS)
+                    && segments.get(3).getPath().equals(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS);
+        } else if (segments.size() == 5) {
+            return segments.get(1).getPath().equals(ResourceNames.DISCIPLINE_INCIDENTS)
+                    && segments.get(3).getPath().equals(ResourceNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATIONS)
+                    && segments.get(4).getPath().equals(ResourceNames.STUDENTS);
+        }
+        return false;
+    }
 
     public void validateContextToEntities(EntityDefinition def, Collection<String> ids, boolean isTransitive) {
 
@@ -134,10 +168,10 @@ public class ContextValidator implements ApplicationContextAware {
                 if (SecurityUtil.principalId().equals(ent.getMetaData().get("createdBy"))
                         && "true".equals(ent.getMetaData().get("isOrphaned"))) {
                     debug("Entity is orphaned: id {} of type {}", ent.getEntityId(), ent.getType());
-                } else if (SecurityUtil.getSLIPrincipal().getEntity() != null 
+                } else if (SecurityUtil.getSLIPrincipal().getEntity() != null
                         && SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(ent.getEntityId())) {
                     debug("Entity is themselves: id {} of type {}", ent.getEntityId(), ent.getType());
-                } else {                
+                } else {
                     idsToValidate.add(ent.getEntityId());
                 }
             }
@@ -170,7 +204,7 @@ public class ContextValidator implements ApplicationContextAware {
         IContextValidator found = null;
         for (IContextValidator validator : this.validators) {
             if (validator.canValidate(toType, isTransitive)) {
-                info("Using {} to validate {}", new Object[]{validator.getClass().toString(), toType});
+                info("Using {} to validate {}", new Object[] { validator.getClass().toString(), toType });
                 found = validator;
                 break;
             }

@@ -142,10 +142,16 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
                         "StudentReference.StudentIdentity.StudentUniqueStateId");
             } catch (IllegalAccessException e) {
                 LOG.error("Failed to extract StudentUniqueStateId from attendance entity", e);
+                super.reportError(attendances.values().iterator().next().getSourceFile(),
+                        getAggregatedSource(), CoreMessageCode.CORE_0048, e.toString());
             } catch (InvocationTargetException e) {
                 LOG.error("Failed to extract StudentUniqueStateId from attendance entity", e);
+                super.reportError(attendances.values().iterator().next().getSourceFile(),
+                        getAggregatedSource(), CoreMessageCode.CORE_0048, e.toString());
             } catch (NoSuchMethodException e) {
                 LOG.error("Failed to extract StudentUniqueStateId from attendance entity", e);
+                super.reportError(attendances.values().iterator().next().getSourceFile(),
+                        getAggregatedSource(), CoreMessageCode.CORE_0048, e.toString());
             }
 
             if (attributes.containsKey(SCHOOL_ID)) {
@@ -215,8 +221,12 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
                 List<NeutralRecord> schools = getSchoolsForStudent(studentId);
                 if (schools.size() == 0) {
                     LOG.error("Student with id: {} is not associated to any schools.", studentId);
+                    super.reportWarnings(attendances.values().iterator().next().getSourceFile(),
+                            getAggregatedSource(), CoreMessageCode.CORE_0049, studentId);
                 } else if (schools.size() > 1) {
                     LOG.error("Student with id: {} is associated to more than one school.", studentId);
+                    super.reportWarnings(attendances.values().iterator().next().getSourceFile(),
+                            getAggregatedSource(), CoreMessageCode.CORE_0050, studentId);
                 } else {
                     NeutralRecord school = schools.get(0);
                     String schoolId = (String) school.getAttributes().get("stateOrganizationId");
@@ -249,7 +259,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
      */
     private void transformAndPersistAttendanceEvents(String studentId, String schoolId,
             List<Map<String, Object>> attendance) {
-        Map<Object, NeutralRecord> sessions = getSessions(schoolId);
+        Map<Object, NeutralRecord> sessions = getSessions(schoolId, new HashSet<String>());
 
         LOG.debug("For student with id: {} in school: {}", studentId, schoolId);
         LOG.debug("  Found {} associated sessions.", sessions.size());
@@ -486,22 +496,22 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
      *
      * @param studentId
      *            StudentUniqueStateId for student.
-     * @param schoolId
+     * @param edOrgId
      *            StateOrganizationId for school.
      * @return Map of Sessions for student-school pair.
      */
-    private Map<Object, NeutralRecord> getSessions(String schoolId) {
+    private Map<Object, NeutralRecord> getSessions(String edOrgId, Set<String> edOrgsSoFar) {
+        edOrgsSoFar.add(edOrgId);
         Map<Object, NeutralRecord> sessions = new HashMap<Object, NeutralRecord>();
-
         Query query = new Query().limit(0);
         query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
-        query.addCriteria(Criteria.where("body.schoolId").is(schoolId));
+        query.addCriteria(Criteria.where("body.schoolId").is(edOrgId));
 
         Iterable<NeutralRecord> queriedSessions = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(
                 SESSION, query);
 
         //get sessions of the school from SLI db
-        Iterable<NeutralRecord> sliSessions = getSliSessions(schoolId);
+        Iterable<NeutralRecord> sliSessions = getSliSessions(edOrgId);
 
         queriedSessions = concat((List<NeutralRecord>) queriedSessions, (List<NeutralRecord>) sliSessions);
 
@@ -515,9 +525,9 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
 
         }
 
-        String parentEducationAgency = getParentEdOrg(schoolId);
-        if (parentEducationAgency != null) {
-            sessions.putAll(getSessions(parentEducationAgency));
+        String parentEdOrg = getParentEdOrg(edOrgId);
+        if (parentEdOrg != null && !edOrgsSoFar.contains(parentEdOrg)) {
+            sessions.putAll(getSessions(parentEdOrg, edOrgsSoFar));
         }
 
         return sessions;
@@ -526,15 +536,15 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
     /**
      * Gets the Parent Education Organization associated with a specific school
      *
-     * @param schoolId
+     * @param edOrgId
      *            The StateOrganizationid for the school
      * @return The Id of the Parent Education Organization
      */
     @SuppressWarnings("unchecked")
-    private String getParentEdOrg(String schoolId) {
+    private String getParentEdOrg(String edOrgId) {
         Query schoolQuery = new Query().limit(1);
         schoolQuery.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
-        schoolQuery.addCriteria(Criteria.where("body.stateOrganizationId").is(schoolId));
+        schoolQuery.addCriteria(Criteria.where("body.stateOrganizationId").is(edOrgId));
 
         Iterable<NeutralRecord> queriedSchool = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(
                 SCHOOL, schoolQuery);
@@ -550,7 +560,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
                 }
             }
         } else {
-            Entity school = getSliSchool(schoolId);
+            Entity school = getSliSchool(edOrgId);
             if (school != null) {
                 String parentEducationAgencyID = (String) school.getBody().get("parentEducationAgencyReference");
                 if (parentEducationAgencyID != null) {
@@ -659,10 +669,9 @@ public class AttendanceTransformer extends AbstractTransformationStrategy implem
         AggregatedSource source = new AggregatedSource(getBatchJobId(), sourceFile,
                 BatchJobStageType.TRANSFORMATION_PROCESSOR.getName());
         for (NeutralRecord nr : attendances.values()) {
-            NeutralRecordSource nrSource = new NeutralRecordSource(getBatchJobId(), sourceFile,
-                    BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
-                    nr.getRecordType(),
-                    nr.getVisitBeforeLineNumber(), nr.getVisitBeforeColumnNumber(),
+            NeutralRecordSource nrSource = new NeutralRecordSource(sourceFile, BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
+                    nr.getVisitBeforeLineNumber(),
+                    nr.getVisitBeforeColumnNumber(),
                     nr.getVisitAfterLineNumber(), nr.getVisitAfterColumnNumber());
             source.addSource(nrSource);
         }

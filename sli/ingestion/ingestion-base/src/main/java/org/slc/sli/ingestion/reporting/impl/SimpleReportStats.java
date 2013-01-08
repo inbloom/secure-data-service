@@ -26,35 +26,11 @@ import org.slc.sli.ingestion.reporting.ReportStats;
  */
 public final class SimpleReportStats implements ReportStats {
 
-    private String batchJobId;
-    private String resourceId;
-    private String stageName;
     private long errorCount = 0L;
     private long warningCount = 0L;
 
-    public SimpleReportStats(String batchJobId, String resourceId, String stageName) {
-        this.batchJobId = batchJobId;
-        this.resourceId = resourceId;
-        this.stageName = stageName;
-    }
-
     public SimpleReportStats() {
         // used by unit test
-    }
-
-    @Override
-    public String getBatchJobId() {
-        return this.batchJobId;
-    }
-
-    @Override
-    public String getResourceId() {
-        return this.resourceId;
-    }
-
-    @Override
-    public String getStageName() {
-        return this.stageName;
     }
 
     @Override

@@ -19,6 +19,7 @@ package org.slc.sli.api.security.context.validator;
 import java.util.Set;
 
 import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -45,12 +46,9 @@ public class TeacherToTeacherSectionAssociationValidator extends AbstractContext
             return false;
         }
 
-		if (ids == null || ids.size() == 0) {
-			throw new IllegalArgumentException("Incoming list of ids cannot be null");
-		}
-
-		NeutralQuery nq = new NeutralQuery(new NeutralCriteria("teacherId","=",SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
-		nq.addCriteria(new NeutralCriteria("_id", "in", ids));
+        NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.TEACHER_ID,
+                NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
+        nq.addCriteria(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
 		
 		long count = getRepo().count(EntityNames.TEACHER_SECTION_ASSOCIATION, nq);
 		return count == ids.size();

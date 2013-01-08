@@ -16,13 +16,12 @@
 
 package org.slc.sli.api.util;
 
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.enums.Right;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+
+import javax.ws.rs.core.Response;
+
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
@@ -33,10 +32,11 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.core.Response;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * Holder for security utilities.
@@ -56,7 +56,7 @@ public class SecurityUtil {
 
     // use to detect nested tenant blocks
     private static ThreadLocal<Boolean> inTenantBlock = new ThreadLocal<Boolean>();
-    //private static String principalId;
+    // private static String principalId;
 
     static {
         SLIPrincipal system = new SLIPrincipal("SYSTEM");
@@ -177,13 +177,13 @@ public class SecurityUtil {
         }
         return null;
     }
-    
+
     public static String getVendor() {
-    	SLIPrincipal principal = getSLIPrincipal();
-    	if (principal != null) {
-    		return principal.getVendor();
-    	}
-    	return null;
+        SLIPrincipal principal = getSLIPrincipal();
+        if (principal != null) {
+            return principal.getVendor();
+        }
+        return null;
     }
 
     public static SLIPrincipal getSLIPrincipal() {
@@ -245,9 +245,9 @@ public class SecurityUtil {
         public String getUid() {
             return SecurityUtil.getUid();
         }
-        
+
         public String getVendor() {
-        	return SecurityUtil.getVendor();
+            return SecurityUtil.getVendor();
         }
     }
 }

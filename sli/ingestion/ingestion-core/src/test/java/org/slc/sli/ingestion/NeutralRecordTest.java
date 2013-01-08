@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
@@ -61,8 +60,7 @@ public class NeutralRecordTest {
         // toString() as a json structure, that reinflates to an object with
         // equal values
         ObjectMapper mapper = new ObjectMapper();
-        NeutralRecord nr2 = mapper
-                .readValue(nr.toString(), NeutralRecord.class);
+        NeutralRecord nr2 = mapper.readValue(mapper.writeValueAsString(nr), NeutralRecord.class);
         assertEquals(nr2.getSourceId(), nr.getSourceId());
         assertEquals(nr2.getBatchJobId(), nr.getBatchJobId());
         assertEquals(nr2.getLocalId(), nr.getLocalId());

@@ -63,15 +63,14 @@ public class FileProcessStatus {
         this.outputFilePath = outputFile;
     }
 
-	public Map<String, Long> getDuplicateCounts() {
-		return duplicateCounts;
-	}
+    public Map<String, Long> getDuplicateCounts() {
+        return duplicateCounts;
+    }
 
-	public void setDuplicateCounts(Map<String, Long> duplicateCounts) {
-		this.duplicateCounts = duplicateCounts;
-	}
+    public void setDuplicateCounts(Map<String, Long> duplicateCounts) {
+        this.duplicateCounts = duplicateCounts;
+    }
 
 
-    
-    
+
 }

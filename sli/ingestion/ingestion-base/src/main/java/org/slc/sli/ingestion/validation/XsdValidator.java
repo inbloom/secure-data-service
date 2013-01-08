@@ -57,17 +57,10 @@ import org.slc.sli.ingestion.reporting.impl.NeutralRecordSource;
 @Component
 public class XsdValidator implements Validator<IngestionFileEntry> {
 
-    private Map<String, Resource> xsd;
-
     private static final Logger LOG = LoggerFactory.getLogger(XsdValidator.class);
+    private static final String STAGE_NAME = "XSD Validation";
 
-    public Map<String, Resource> getXsd() {
-        return xsd;
-    }
-
-    public void setXsd(Map<String, Resource> xsd) {
-        this.xsd = xsd;
-    }
+    private Map<String, Resource> xsd;
 
     @Override
     public boolean isValid(IngestionFileEntry ingestionFileEntry, AbstractMessageReport report,
@@ -122,6 +115,19 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
         return is;
     }
 
+    @Override
+    public String getStageName() {
+        return STAGE_NAME;
+    }
+
+    public Map<String, Resource> getXsd() {
+        return xsd;
+    }
+
+    public void setXsd(Map<String, Resource> xsd) {
+        this.xsd = xsd;
+    }
+
     /**
      * Throws a runtime exception which is caught by the XsdValidatior
      * if a user attempts to pass external entities in their XML.
@@ -129,7 +135,7 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
      * @author dshaw
      *
      */
-    private static final class ExternalEntityResolver implements LSResourceResolver {
+    static final class ExternalEntityResolver implements LSResourceResolver {
         @Override
         public LSInput resolveResource(String type, String namespaceURI, String publicId, String systemId,
                 String baseURI) {
@@ -137,12 +143,16 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
         }
     }
 
-    private static final class XsdErrorHandler implements org.xml.sax.ErrorHandler {
+    /**
+     * XsdErrorHandler
+     *
+     */
+    static final class XsdErrorHandler implements org.xml.sax.ErrorHandler {
 
         private final AbstractMessageReport report;
         private final ReportStats reportStats;
 
-        private XsdErrorHandler(AbstractMessageReport report, ReportStats reportStats) {
+        public XsdErrorHandler(AbstractMessageReport report, ReportStats reportStats) {
             this.report = report;
             this.reportStats = reportStats;
         }
@@ -178,8 +188,8 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
                 File parseFile = new File(fullParsefilePathname);
                 String publicId = (ex.getPublicId() == null) ? "" : ex.getPublicId();
 
-                Source source = new NeutralRecordSource(reportStats.getBatchJobId(), reportStats.getResourceId(),
-                        reportStats.getStageName(), publicId, ex.getLineNumber(), ex.getColumnNumber());
+                Source source = new NeutralRecordSource(parseFile.getName(), STAGE_NAME, ex.getLineNumber(),
+                        ex.getColumnNumber());
 
                 report.warning(reportStats, source, BaseMessageCode.BASE_0017, parseFile.getName(), ex.getMessage());
             }

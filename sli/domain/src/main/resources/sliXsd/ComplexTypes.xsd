@@ -4606,6 +4606,7 @@
 						a hierarchy.
 					</xs:documentation>
 					<xs:appinfo>
+					    <sli:SelfReference>true</sli:SelfReference>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>

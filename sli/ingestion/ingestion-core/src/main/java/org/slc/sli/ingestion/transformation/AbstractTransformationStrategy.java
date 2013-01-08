@@ -29,14 +29,13 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 import org.slc.sli.dal.repository.MongoEntityRepository;
-import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.MessageCode;
+import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 
@@ -68,7 +67,7 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
     private MongoEntityRepository mongoEntityRepository;
 
     @Autowired
-    private AbstractMessageReport databaseMessageReport;
+    protected AbstractMessageReport databaseMessageReport;
 
     @Override
     public void perform(Job job) {
@@ -107,8 +106,7 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
     }
 
     public ReportStats getReportStats(String fileName) {
-        ReportStats reportStats = new SimpleReportStats(this.batchJobId, fileName,
-                BatchJobStageType.TRANSFORMATION_PROCESSOR.getName());
+        ReportStats reportStats = new SimpleReportStats();
         return reportStats;
     }
 
@@ -264,13 +262,6 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
 
     public void setMongoEntityRepository(MongoEntityRepository mongoEntityRepository) {
         this.mongoEntityRepository = mongoEntityRepository;
-    }
-
-    /**
-     * @return the databaseMessageReport
-     */
-    public AbstractMessageReport getDatabaseMessageReport() {
-        return databaseMessageReport;
     }
 
     /**

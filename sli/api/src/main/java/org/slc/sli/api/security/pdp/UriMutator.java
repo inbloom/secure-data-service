@@ -179,6 +179,8 @@ public class UriMutator {
                     new MutateInfo("/teachers/%s/staffCohortAssociations/cohorts", "educationOrgId", true));
             put(joinPathSegments(PathConstants.SCHOOLS, PathConstants.SECTIONS),
                     new MutateInfo("/teachers/%s/teacherSectionAssociations/sections", null, true));
+            put(joinPathSegments(PathConstants.EDUCATION_ORGANIZATIONS, PathConstants.STUDENT_SCHOOL_ASSOCIATIONS),
+                    new MutateInfo("/sections/%s/studentSectionAssociations/students/studentSchoolAssociations", null));
 
             // THREE TYPE
             put(joinPathSegments(PathConstants.SCHOOLS, PathConstants.SECTIONS, PathConstants.GRADEBOOK_ENTRIES),
@@ -186,6 +188,8 @@ public class UriMutator {
             put(joinPathSegments(PathConstants.SCHOOLS, PathConstants.SECTIONS, PathConstants.STUDENT_SECTION_ASSOCIATIONS),
                     new MutateInfo("/sections/%s/studentSectionAssociations", null));
             put(joinPathSegments(PathConstants.SCHOOLS, PathConstants.STUDENT_SCHOOL_ASSOCIATIONS, PathConstants.STUDENTS),
+                    new MutateInfo("/sections/%s/studentSectionAssociations/students", null));
+            put(joinPathSegments(PathConstants.EDUCATION_ORGANIZATIONS, PathConstants.STUDENT_SCHOOL_ASSOCIATIONS, PathConstants.STUDENTS),
                     new MutateInfo("/sections/%s/studentSectionAssociations/students", null));
 
             // FOUR TYPE

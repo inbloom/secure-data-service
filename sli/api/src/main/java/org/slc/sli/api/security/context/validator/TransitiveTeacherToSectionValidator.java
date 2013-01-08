@@ -31,7 +31,6 @@ import org.springframework.stereotype.Component;
 /**
  * Validates access to sections that you are both directly associated to and that you have
  * access THROUGH your students to.
- * 
  */
 @Component
 public class TransitiveTeacherToSectionValidator extends AbstractContextValidator {
@@ -40,67 +39,66 @@ public class TransitiveTeacherToSectionValidator extends AbstractContextValidato
 
     @Autowired
     PagingRepositoryDelegate<Entity> repo;
-    
+
     @Autowired
     private StudentValidatorHelper studentHelper;
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return !isStaff() && EntityNames.SECTION.equals(entityType) && isTransitive;
+        return isTeacher() && EntityNames.SECTION.equals(entityType) && isTransitive;
     }
-    
+
     @Override
     public boolean validate(String entityType, Set<String> ids) {
         if (!areParametersValid(EntityNames.SECTION, entityType, ids)) {
             return false;
         }
-        Set<String> validSections = new HashSet<String>();
+
+        Set<String> validSections = new HashSet<String>(sectionValidator.getValid(EntityNames.SECTION, ids));
+        Set<String> sectionsToValidate = new HashSet<String>(ids);
+        sectionsToValidate.removeAll(validSections);
+
+        if (sectionsToValidate.isEmpty()) {
+            return true;
+        }
+
         Set<String> myStudentIds = new HashSet<String>(studentHelper.getStudentIds());
-        Set<String> studentIds = new HashSet<String>();
-        for (String id : ids) {
-            NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.SECTION_ID, NeutralCriteria.OPERATOR_EQUAL, id));
-            Iterable<Entity> ssas = repo.findAll(EntityNames.STUDENT_SECTION_ASSOCIATION, basicQuery);
-            for(Entity ssa : ssas) {
-                if (isFieldExpired(ssa.getBody(), ParameterConstants.END_DATE, true)) {
-                    continue;
-                } else {
-                    studentIds.add((String) ssa.getBody().get(ParameterConstants.STUDENT_ID));
-                }
-            }
-            boolean isStudentOk = false;
-            for (String studentId : studentIds) {
-                if (myStudentIds.contains(studentId)) {
-                    isStudentOk = true;
+        for (String id : sectionsToValidate) {
+
+            Iterable<Entity> ssas = repo.findAll(EntityNames.STUDENT_SECTION_ASSOCIATION,
+                    new NeutralQuery(new NeutralCriteria(ParameterConstants.SECTION_ID, NeutralCriteria.OPERATOR_EQUAL, id)));
+
+            boolean found = false;
+            for (Entity ssa : ssas) {
+                if (myStudentIds.contains(ssa.getBody().get(ParameterConstants.STUDENT_ID))
+                        && !isFieldExpired(ssa.getBody(), ParameterConstants.END_DATE, true)) {
+                    found = true;
                     break;
                 }
             }
-            Set<String> sectionId = new HashSet<String>();
-            sectionId.add(id);
-            if (isStudentOk || sectionValidator.validate(EntityNames.SECTION, sectionId)) {
+
+            if (found) {
                 validSections.add(id);
             } else {
                 return false;
             }
-            studentIds.clear();
         }
         return validSections.size() == ids.size();
     }
-    
+
     /**
-     * @param sectionValidator
-     *            the sectionValidator to set
+     * @param sectionValidator the sectionValidator to set
      */
     public void setSectionValidator(TeacherToSectionValidator sectionValidator) {
         this.sectionValidator = sectionValidator;
     }
-    
+
     /**
-     * @param studentHelper
-     *            the studentHelper to set
+     * @param studentHelper the studentHelper to set
      */
     public void setStudentHelper(StudentValidatorHelper studentHelper) {
         this.studentHelper = studentHelper;
     }
-    
+
 
 }

@@ -60,7 +60,7 @@ public class SliDeltaManagerTest {
 
     private static final String RECORD_DID = "theRecordId";
 
-    ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
+    ReportStats reportStats = new SimpleReportStats();
 
     @Before
     public void setup() {

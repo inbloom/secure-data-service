@@ -25,27 +25,6 @@ package org.slc.sli.ingestion.reporting;
 public interface ReportStats {
 
     /**
-     *
-     * @return batchJobId
-     */
-    // FIXME: This should not be here. It belongs in Source.
-    String getBatchJobId();
-
-    /**
-     *
-     * @return resourceId
-     */
-    // FIXME: This should not be here. It belongs in Source.
-    String getResourceId();
-
-    /**
-     *
-     * @return stageName
-     */
-    // FIXME: This should not be here. It belongs in Source.
-    String getStageName();
-
-    /**
      * Increase the error count by one.
      */
     void incError();

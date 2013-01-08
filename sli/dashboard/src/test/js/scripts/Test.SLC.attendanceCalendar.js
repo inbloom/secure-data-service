@@ -26,10 +26,12 @@ module("SLC.attendanceCalendar.create", {
 	setup: function () {
 		$("body").append('<div id="calendar1" class="attendanceCalendar"></div>');
 		$("body").append('<div id="calendar2" class="attendanceCalendar"></div>');
+		$("body").append('<div id="calendar3" class="attendanceCalendar"></div>');
 	},
 	teardown: function () {
 		$("#calendar1").remove();
 		$("#calendar2").remove();
+		$("#calendar3").remove();
 	}
 });
 	
@@ -45,16 +47,7 @@ module("SLC.attendanceCalendar.create", {
 
 		calendarWithNoData = SLC.attendanceCalendar.create("calendar1", calendarData);
 		deepEqual(calendarWithNoData, false, 'Create function should return false if no data is available.');
-
-		calendarData = {
-			attendanceList: [],
-			startDate: "2011-09-06",
-			endDate: "2011-12-16"
-		};
-
-		calendarWithNoAbsentData = SLC.attendanceCalendar.create("calendar1", calendarData);
-		deepEqual(calendarWithNoAbsentData, false, 'Create function should return false if there is no absent data.');
-
+		
 		calendarData = {
 			attendanceList: [
 				{ date: "2011-09-07", event: "UnexcusedAbsence" },
@@ -68,6 +61,16 @@ module("SLC.attendanceCalendar.create", {
 		deepEqual(CalendarWithNoStartEndDate, false, 'Create function should return false if no start date and end date is available.');
 
 		calendarData = {
+			attendanceList: [],
+			startDate: "2011-09-06",
+			endDate: "2011-12-16"
+		};
+
+		calendarWithNoAbsentData = SLC.attendanceCalendar.create("calendar1", calendarData);
+		deepEqual($("#calendar1").length, 1, 'First instance of calendar should be created');
+
+
+		calendarData = {
 			attendanceList: [
 				{ date: "2011-09-07", event: "UnexcusedAbsence" },
 				{ date: "2011-10-04", event: "Tardy", reason: "Missed school bus" },
@@ -78,10 +81,10 @@ module("SLC.attendanceCalendar.create", {
 		};
 
 		SLC.attendanceCalendar.create("calendar1", calendarData);
-		deepEqual($("#calendar1").length, 1, 'First instance of calendar should be created');
+		deepEqual($("#calendar2").length, 1, 'Second instance of calendar should be created');
 
 		SLC.attendanceCalendar.create("calendar2", calendarData);
-		deepEqual($("#calendar2").length, 1, 'Second instance of calendar should be created');
+		deepEqual($("#calendar3").length, 1, 'Third instance of calendar should be created');
 
 
 	});

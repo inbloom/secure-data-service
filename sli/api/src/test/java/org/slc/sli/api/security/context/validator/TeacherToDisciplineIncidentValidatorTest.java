@@ -62,6 +62,7 @@ public class TeacherToDisciplineIncidentValidatorTest {
     Entity disciplineIncident1 = null;  //direct association via staffId
     Entity disciplineIncident2 = null;  //association via student1
     Entity disciplineIncident3 = null;  //no association - with student2
+    Entity disciplineIncident4 = null;  //associated to student1 and student2, so visible
     String student1 = null; //student teacher has access to
     String student2 = null; //student teacher does not have access to
     
@@ -79,6 +80,7 @@ public class TeacherToDisciplineIncidentValidatorTest {
         disciplineIncident1 = helper.generateDisciplineIncident(school1.getEntityId(), ValidatorTestHelper.STAFF_ID, "someOtherStaffId");
         disciplineIncident2 = helper.generateDisciplineIncident(school1.getEntityId());
         disciplineIncident3 = helper.generateDisciplineIncident(school2.getEntityId());
+        disciplineIncident4 = helper.generateDisciplineIncident(school1.getEntityId());
         
         student1 = helper.generateStudentAndStudentSchoolAssociation("student1", school1.getEntityId(), false);
         student2 = helper.generateStudentAndStudentSchoolAssociation("student2", school2.getEntityId(), false);
@@ -92,6 +94,8 @@ public class TeacherToDisciplineIncidentValidatorTest {
         
         helper.generateStudentDisciplineIncidentAssociation(student1, disciplineIncident2.getEntityId());
         helper.generateStudentDisciplineIncidentAssociation(student2, disciplineIncident3.getEntityId());
+        helper.generateStudentDisciplineIncidentAssociation(student1, disciplineIncident4.getEntityId());
+        helper.generateStudentDisciplineIncidentAssociation(student2, disciplineIncident4.getEntityId());
     }
     
     @After
@@ -111,6 +115,7 @@ public class TeacherToDisciplineIncidentValidatorTest {
         assertTrue(validator.validate(EntityNames.DISCIPLINE_INCIDENT, list(disciplineIncident1.getEntityId())));
         assertTrue(validator.validate(EntityNames.DISCIPLINE_INCIDENT, list(disciplineIncident2.getEntityId())));
         assertTrue(validator.validate(EntityNames.DISCIPLINE_INCIDENT, list(disciplineIncident1.getEntityId(), disciplineIncident2.getEntityId())));
+        assertTrue(validator.validate(EntityNames.DISCIPLINE_INCIDENT, list(disciplineIncident4.getEntityId())));
     }
     
     @Test

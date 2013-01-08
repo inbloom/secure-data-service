@@ -27,6 +27,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
 import org.slc.sli.ingestion.FileProcessStatus;
+import org.slc.sli.ingestion.landingzone.FileResource;
 import org.slc.sli.ingestion.landingzone.ZipFileUtil;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
@@ -38,8 +39,10 @@ import org.slc.sli.ingestion.reporting.impl.JobSource;
  * @author ablum
  *
  */
-public class ZipFileHandler extends AbstractIngestionHandler<File, File> {
+public class ZipFileHandler extends AbstractIngestionHandler<FileResource, File> {
     private static final Logger LOG = LoggerFactory.getLogger(ZipFileHandler.class);
+
+    private static final String STAGE_NAME = "Zip File Extraction";
 
     @Value("${sli.ingestion.file.timeout:600000}")
     private Long zipfileCompletionTimeout;
@@ -47,17 +50,17 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> {
     @Value("${sli.ingestion.file.retryinterval:30000}")
     private Long zipfileCompletionPollInterval;
 
-    File doHandling(File zipFile, AbstractMessageReport report, ReportStats reportStats) {
+    File doHandling(FileResource zipFile, AbstractMessageReport report, ReportStats reportStats) {
         return doHandling(zipFile, report, reportStats, null);
     }
 
     @Override
-    protected File doHandling(File zipFile, AbstractMessageReport report, ReportStats reportStats,
+    protected File doHandling(FileResource zipFile, AbstractMessageReport report, ReportStats reportStats,
             FileProcessStatus fileProcessStatus) {
 
         boolean done = false;
         long clockTimeout = System.currentTimeMillis() + zipfileCompletionTimeout;
-        Source source = new JobSource(reportStats.getBatchJobId(), reportStats.getResourceId(), reportStats.getStageName());
+        Source source = new JobSource(zipFile.getResourceId(), getStageName());
 
         while (!done) {
 
@@ -109,10 +112,15 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> {
     }
 
     @Override
-    protected List<File> doHandling(List<File> items, AbstractMessageReport report, ReportStats reportStats,
+    protected List<File> doHandling(List<FileResource> items, AbstractMessageReport report, ReportStats reportStats,
             FileProcessStatus fileProcessStatus) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public String getStageName() {
+        return STAGE_NAME;
     }
 
 }

@@ -485,7 +485,7 @@ public interface APIClient {
      * @return
      */
     public List<GenericEntity> getStudentsForSection(String token, String sectionId);
-    
+
     /**
      * Get a list of students assigned to the specified school for a given params
      * @param token
@@ -603,11 +603,20 @@ public interface APIClient {
     public List<GenericEntity> readEntityList(String token, String url);
 
     public GenericEntity readEntity(String token, String url);
-    
+
     public List<GenericEntity> readEntityList(String token, List<String> ids, Map<String, String> params,
             String sections);
-    
+
     public String getTeacherIdForSection(String token, String sectionId);
-    
+
     public void getTeacherIdForSections(String token, List<String> sectionId, Map<String, String> teacherIdCache);
+
+    /**
+     * Search students based on query string
+     * @param token
+     * @param query
+     * @param params
+     * @return list of matching student entities
+     */
+    public List<GenericEntity> searchStudents(String token, String query, Map<String, String> params);
 }

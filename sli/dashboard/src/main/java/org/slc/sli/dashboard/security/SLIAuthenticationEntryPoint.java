@@ -218,7 +218,11 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
                             LOG.error(e.getMessage());
                         } catch (IOException e) {
                             LOG.error(e.getMessage());
+                        } catch (NumberFormatException e) {
+                        	LOG.info("Failed to decrypt cookie with value: " + c.getValue());
+                        	return false;
                         }
+                        
                         JsonObject json = restClient.sessionCheck(decryptedCookie);
 
                         // If user is not authenticated, expire the cookie, else set OAUTH_TOKEN to
@@ -371,9 +375,12 @@ public class SLIAuthenticationEntryPoint implements AuthenticationEntryPoint {
             } else {
                 LOG.error(LOG_MESSAGE_AUTH_EXCEPTION_INVALID_ROLES);
             }
-             authList.add(new GrantedAuthorityImpl(json.get(Constants.ATTR_USER_TYPE).getAsString()));
+            if(json.get(Constants.ATTR_USER_TYPE).getAsString().equals(Constants.ROLE_TEACHER)) {
+              authList.add(new GrantedAuthorityImpl(Constants.ROLE_EDUCATOR));
+            }
+
             if(json.get(Constants.ATTR_ADMIN_USER).getAsBoolean()) {
-             authList.add(new GrantedAuthorityImpl(Constants.ROLE_ADMIN));
+             authList.add(new GrantedAuthorityImpl(Constants.ROLE_IT_ADMINISTRATOR));
             }
 
             SecurityContextHolder.getContext().setAuthentication(

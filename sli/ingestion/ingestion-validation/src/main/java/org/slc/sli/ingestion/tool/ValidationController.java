@@ -19,9 +19,11 @@ package org.slc.sli.ingestion.tool;
 import java.io.File;
 import java.io.IOException;
 
+import org.slc.sli.ingestion.Resource;
 import org.slc.sli.ingestion.handler.Handler;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
+import org.slc.sli.ingestion.landingzone.FileResource;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.landingzone.validation.SubmissionLevelException;
@@ -41,7 +43,7 @@ import org.slc.sli.ingestion.validation.Validator;
  */
 public class ValidationController {
 
-    private Handler<File, File> zipFileHandler;
+    private Handler<Resource, File> zipFileHandler;
 
     private Validator<IngestionFileEntry> complexValidator;
 
@@ -58,8 +60,8 @@ public class ValidationController {
      */
     public void doValidation(File path) {
         if (path.isFile()) {
-            source = new JobSource(null, path.getName(), null);
-            reportStats = new SimpleReportStats(null, path.getName(), null);
+            source = new JobSource(path.getName(), null);
+            reportStats = new SimpleReportStats();
 
             if (path.getName().endsWith(".ctl")) {
                 processControlFile(path);
@@ -92,7 +94,8 @@ public class ValidationController {
 
         messageReport.info(reportStats, source, ValidationMessageCode.VALIDATION_0005, zipFile.getAbsolutePath());
 
-        File ctlFile = zipFileHandler.handle(zipFile, messageReport, reportStats);
+        FileResource zipFileResource = new FileResource(zipFile.getAbsolutePath());
+        File ctlFile = zipFileHandler.handle(zipFileResource, messageReport, reportStats);
 
         if (!reportStats.hasErrors()) {
 
@@ -124,11 +127,11 @@ public class ValidationController {
         }
     }
 
-    public Handler<File, File> getZipFileHandler() {
+    public Handler<Resource, File> getZipFileHandler() {
         return zipFileHandler;
     }
 
-    public void setZipFileHandler(Handler<File, File> zipFileHandler) {
+    public void setZipFileHandler(Handler<Resource, File> zipFileHandler) {
         this.zipFileHandler = zipFileHandler;
     }
 

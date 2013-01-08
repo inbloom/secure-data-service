@@ -41,6 +41,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.ingestion.BatchJobStage;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.Job;
@@ -82,7 +83,7 @@ import org.slc.sli.ingestion.util.LogUtil;
  * @author shalka
  */
 @Component
-public class PersistenceProcessor implements Processor {
+public class PersistenceProcessor implements Processor, BatchJobStage {
 
     private static final Logger LOG = LoggerFactory.getLogger(PersistenceProcessor.class);
 
@@ -121,11 +122,11 @@ public class PersistenceProcessor implements Processor {
      *
      */
     static class SelfRefEntityConfig {
-        private String idPath;              // path to the id field
+        String idPath;              // path to the id field
         // Exactly one of the following fields can be non-null:
-        private String parentAttributePath; // if parent reference is stored in attribute, path to
+        String parentAttributePath; // if parent reference is stored in attribute, path to
                                             // the parent reference field,
-        private String localParentIdKey;    // if parent reference is stored in localParentId map, key
+        String localParentIdKey;    // if parent reference is stored in localParentId map, key
                                          // to the parent reference field
 
         SelfRefEntityConfig(String i, String p, String k) {
@@ -244,10 +245,9 @@ public class PersistenceProcessor implements Processor {
             try {
                 records = queryBatchFromDb(collectionToPersistFrom, job.getId(), workNote);
                 for (NeutralRecord nr : records) {
-                    NeutralRecordSource nrSource = new NeutralRecordSource(job.getId(), collectionNameAsStaged,
-                            stage.getStageName(), nr.getRecordType(),
-                            nr.getVisitBeforeLineNumber(), nr.getVisitBeforeColumnNumber(),
-                            nr.getVisitAfterLineNumber(), nr.getVisitAfterColumnNumber());
+                    NeutralRecordSource nrSource = new NeutralRecordSource(collectionNameAsStaged, stage.getStageName(),
+                            nr.getVisitBeforeLineNumber(), nr.getVisitBeforeColumnNumber(), nr.getVisitAfterLineNumber(),
+                            nr.getVisitAfterColumnNumber());
                     source.addSource(nrSource);
                 }
             } catch (MongoException me) {
@@ -260,8 +260,8 @@ public class PersistenceProcessor implements Processor {
                     job.addResourceEntry(resourceEntry);
                     batchJobDAO.saveBatchJob(job);
                 }
-                databaseMessageReport
-                        .error(reportStatsForCollection, source, CoreMessageCode.CORE_0015, collectionNameAsStaged);
+                databaseMessageReport.error(reportStatsForCollection, source, CoreMessageCode.CORE_0015,
+                        collectionNameAsStaged);
                 LogUtil.error(LOG, "MongoException when attempting to extract " + collectionNameAsStaged
                         + " NeutralRecords from staging db", me);
                 throw (me);
@@ -337,8 +337,9 @@ public class PersistenceProcessor implements Processor {
                 }
             }
         } catch (Exception e) {
-            Source source = new JobSource(job.getId(), collectionNameAsStaged, stage.getStageName());
-            databaseMessageReport.error(reportStatsForCollection, source, CoreMessageCode.CORE_0005, collectionNameAsStaged);
+            Source source = new JobSource(collectionNameAsStaged, stage.getStageName());
+            databaseMessageReport.error(reportStatsForCollection, source, CoreMessageCode.CORE_0005,
+                    collectionNameAsStaged);
             LogUtil.error(LOG, "Exception when attempting to ingest NeutralRecords in: " + collectionNameAsStaged, e);
         } finally {
             Iterator<Metrics> it = perFileMetrics.values().iterator();
@@ -358,9 +359,9 @@ public class PersistenceProcessor implements Processor {
      * insertion in queue.
      */
     // FIXME: remove once deterministic ids are in place.
-    private ReportStats persistSelfReferencingEntity(WorkNote workNote, Job job,
-            Map<String, Metrics> perFileMetrics, String stageName, ReportStats reportStatsForCollection,
-            ReportStats reportStatsForNrEntity, Iterable<NeutralRecord> records) {
+    private ReportStats persistSelfReferencingEntity(WorkNote workNote, Job job, Map<String, Metrics> perFileMetrics,
+            String stageName, ReportStats reportStatsForCollection, ReportStats reportStatsForNrEntity,
+            Iterable<NeutralRecord> records) {
 
         List<NeutralRecord> sortedNrList = iterableToList(records);
         String collectionNameAsStaged = workNote.getIngestionStagedEntity().getCollectionNameAsStaged();
@@ -492,10 +493,9 @@ public class PersistenceProcessor implements Processor {
         List<SimpleEntity> transformed = transformer.handle(record, databaseMessageReport, reportStats);
 
         if (transformed == null || transformed.isEmpty()) {
-            NeutralRecordSource source = new NeutralRecordSource(reportStats.getBatchJobId(), reportStats.getResourceId(),
-                    reportStats.getStageName(), record.getRecordType(),
-                    record.getVisitBeforeLineNumber(), record.getVisitBeforeColumnNumber(),
-                    record.getVisitAfterLineNumber(), record.getVisitAfterColumnNumber());
+            NeutralRecordSource source = new NeutralRecordSource(record.getResourceId(), getStageName(),
+                    record.getVisitBeforeLineNumber(), record.getVisitBeforeColumnNumber(), record.getVisitAfterLineNumber(),
+                    record.getVisitAfterColumnNumber());
             databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0004, record.getRecordType());
             return null;
         }
@@ -514,7 +514,7 @@ public class PersistenceProcessor implements Processor {
      *            work note specifying entities to be persisted.
      * @return
      */
-    private Metrics getOrCreateMetric(Map<String, Metrics> perFileMetrics, NeutralRecord neutralRecord,
+    private static Metrics getOrCreateMetric(Map<String, Metrics> perFileMetrics, NeutralRecord neutralRecord,
             WorkNote workNote) {
 
         String sourceFile = neutralRecord.getSourceFile();
@@ -539,8 +539,8 @@ public class PersistenceProcessor implements Processor {
      *            current resource id.
      * @return database logging error report.
      */
-    private ReportStats createReportStats(String batchJobId, String resourceId, String stageName) {
-        return new SimpleReportStats(batchJobId, resourceId, stageName);
+    private static ReportStats createReportStats(String batchJobId, String resourceId, String stageName) {
+        return new SimpleReportStats();
     }
 
     /**
@@ -559,7 +559,7 @@ public class PersistenceProcessor implements Processor {
         return tenantId;
     }
 
-    private String getCollectionToPersistFrom(String collectionNameAsStaged, EntityPipelineType entityPipelineType) {
+    private static String getCollectionToPersistFrom(String collectionNameAsStaged, EntityPipelineType entityPipelineType) {
         String collectionToPersistFrom = collectionNameAsStaged;
         if (entityPipelineType == EntityPipelineType.TRANSFORMED) {
             collectionToPersistFrom = collectionNameAsStaged + "_transformed";
@@ -638,6 +638,7 @@ public class PersistenceProcessor implements Processor {
 
     public Iterable<NeutralRecord> queryBatchFromDb(String collectionName, String jobId, WorkNote workNote) {
         Criteria batchJob = Criteria.where(BATCH_JOB_ID).is(jobId);
+        @SuppressWarnings("boxing")
         Criteria limiter = Criteria.where(CREATION_TIME).gte(workNote.getRangeMinimum()).lt(workNote.getRangeMaximum());
 
         Query query = new Query().limit(0);
@@ -651,6 +652,7 @@ public class PersistenceProcessor implements Processor {
         PASSTHROUGH, TRANSFORMED, NONE;
     }
 
+    @SuppressWarnings({ "unchecked" })
     void upsertRecordHash(NeutralRecord nr) throws DataAccessResourceFailureException {
 
         /*
@@ -672,15 +674,14 @@ public class PersistenceProcessor implements Processor {
             return;
         }
 
-        String tenantId = TenantContext.getTenantId();
-        @SuppressWarnings("unchecked")
         List<Map<String, Object>> rhData = (List<Map<String, Object>>) rhDataObj;
 
         for (Map<String, Object> rhDataElement : rhData) {
 
-            String newHashValue = (String)rhDataElement.get(SliDeltaManager.RECORDHASH_HASH);
-            String recordId = (String)rhDataElement.get(SliDeltaManager.RECORDHASH_ID);
-            Map<String,Object> rhCurrentHash = (Map<String,Object>)rhDataElement.get(SliDeltaManager.RECORDHASH_CURRENT);
+            String newHashValue = (String) rhDataElement.get(SliDeltaManager.RECORDHASH_HASH);
+            String recordId = (String) rhDataElement.get(SliDeltaManager.RECORDHASH_ID);
+            Map<String, Object> rhCurrentHash = (Map<String, Object>) rhDataElement
+                    .get(SliDeltaManager.RECORDHASH_CURRENT);
 
             // Make sure complete metadata is present
             if ((null == recordId || null == newHashValue) || recordId.isEmpty() || newHashValue.isEmpty()) {
@@ -688,13 +689,13 @@ public class PersistenceProcessor implements Processor {
             }
 
             // Consider DE2002, removing a query per record vs. tracking version
-            //RecordHash rh = batchJobDAO.findRecordHash(tenantId, recordId);
+            // RecordHash rh = batchJobDAO.findRecordHash(tenantId, recordId);
             if (rhCurrentHash == null) {
-                batchJobDAO.insertRecordHash(tenantId, recordId, newHashValue);
+                batchJobDAO.insertRecordHash(recordId, newHashValue);
             } else {
                 RecordHash rh = new RecordHash();
                 rh.importFromSerializableMap(rhCurrentHash);
-                batchJobDAO.updateRecordHash(tenantId, rh, newHashValue);
+                batchJobDAO.updateRecordHash(rh, newHashValue);
             }
         }
 
@@ -706,6 +707,11 @@ public class PersistenceProcessor implements Processor {
 
     public BatchJobDAO getBatchJobDAO() {
         return this.batchJobDAO;
+    }
+
+    @Override
+    public String getStageName() {
+        return BATCH_JOB_STAGE.getName();
     }
 
 }
