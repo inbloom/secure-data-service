@@ -29,10 +29,7 @@ Scenario: As an app developer I request a sandbox account and I want to verify m
   Then I should be notified that my email is verified
 # And this account is auto approved in mini-sandbox -- slcoperator must login to mini sandbox to verify the account
 
-@wip
 Scenario: As an SLC Operator I want to check that the developer account is auto approved
-# non essential tests as this should also be tested in sandbox mode, but seems mini sandbox environment has an issue with API
-# so I am wipping it for now.
   And I navigate to the mini sandbox Portal home page
   When I see the realm selector I authenticate to "Shared Learning Collaborative"      
   Then I am redirected to "Simple" login page
