@@ -135,7 +135,7 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
      * @author dshaw
      *
      */
-    private static final class ExternalEntityResolver implements LSResourceResolver {
+    static final class ExternalEntityResolver implements LSResourceResolver {
         @Override
         public LSInput resolveResource(String type, String namespaceURI, String publicId, String systemId,
                 String baseURI) {
@@ -143,12 +143,16 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
         }
     }
 
-    private static final class XsdErrorHandler implements org.xml.sax.ErrorHandler {
+    /**
+     * XsdErrorHandler
+     *
+     */
+    static final class XsdErrorHandler implements org.xml.sax.ErrorHandler {
 
         private final AbstractMessageReport report;
         private final ReportStats reportStats;
 
-        private XsdErrorHandler(AbstractMessageReport report, ReportStats reportStats) {
+        public XsdErrorHandler(AbstractMessageReport report, ReportStats reportStats) {
             this.report = report;
             this.reportStats = reportStats;
         }
