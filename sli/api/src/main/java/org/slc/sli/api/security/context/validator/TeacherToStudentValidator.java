@@ -68,65 +68,65 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
         }
 
         Set<String> idsToValidate = new HashSet<String>(ids);
-        idsToValidate.removeAll(getValidatedWithSections(idsToValidate));
 
-        if (!idsToValidate.isEmpty()) {
-            idsToValidate.removeAll(getValidatedWithPrograms(idsToValidate));
-            if (!idsToValidate.isEmpty()) {
-                idsToValidate.removeAll(getValidatedWithCohorts(idsToValidate));
-            }
+        idsToValidate.removeAll(getValidatedWithSections(idsToValidate));
+        if (idsToValidate.isEmpty()) {
+            return true;
         }
 
+        idsToValidate.removeAll(getValidatedWithPrograms(idsToValidate));
+        if (idsToValidate.isEmpty()) {
+            return true;
+        }
+
+
+        idsToValidate.removeAll(getValidatedWithCohorts(idsToValidate));
         return idsToValidate.isEmpty();
     }
     
     @Override
     public Set<String> getValid(String entityType, Set<String> ids) {
     	Set<String> originalIds = new HashSet<String>(ids);
+
     	Set<String> validated = getValidatedWithSections(originalIds);
-    	    	
     	originalIds.removeAll(validated);
+        if (originalIds.isEmpty()) {
+            return validated;
+        }
+
     	
     	validated.addAll(getValidatedWithCohorts(originalIds));
-    	
     	originalIds.removeAll(validated);
+        if (originalIds.isEmpty()) {
+            return validated;
+        }
 
     	validated.addAll(getValidatedWithPrograms(originalIds));
-    	
     	originalIds.removeAll(validated);
-    	
 		return validated;
     }
 
     private Set<String> getValidatedWithSections(Set<String> ids) {
-    	
     	Set<String> result = new HashSet<String>();
-    	
     	if (ids.size() == 0) {
     		return result;
     	}
-    	
-    	Set<String> teacherSections = getTeacherSections();
-    	
+
+
     	Map<String, List<String>> studentSectionIds = getStudentParameterIds(Lists.newArrayList(ids), ParameterConstants.SECTION_ID,
     			EntityNames.STUDENT_SECTION_ASSOCIATION);
     	
     	if (studentSectionIds.size() == 0) {
-    		// students not found by program
     		return result;
     	}
-    	
-    	Set<String> tempSet = new HashSet<String>(teacherSections);
+
+        Set<String> teacherSections = getTeacherSections();
     	for (String studentId : studentSectionIds.keySet()) {
-    		List<String> studentSections = studentSectionIds.get(studentId);
-    		
-    		tempSet.retainAll(studentSections);
+            Set<String> tempSet = new HashSet<String>(teacherSections);
+    		tempSet.retainAll(studentSectionIds.get(studentId));
     		if (!tempSet.isEmpty()) {
     			result.add(studentId);
     		}
-    		
-    		tempSet.clear();
-    		tempSet.addAll(teacherSections);
     	}
     	
     	return result;
