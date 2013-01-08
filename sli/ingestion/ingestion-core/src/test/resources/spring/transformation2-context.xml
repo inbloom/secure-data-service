@@ -4,7 +4,7 @@
   xsi:schemaLocation="
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
-
+  
   <util:map id="smooksConfigs" key-type="java.lang.String" value-type="org.milyn.Smooks">
     <entry key="directEntity">
       <bean class="org.milyn.Smooks">
@@ -34,6 +34,8 @@
 
   <bean id="neutralSchemaRepositoryProvider" class="org.slc.sli.validation.NeutralSchemaRepositoryProvider" />
   <bean id="validator" class="org.slc.sli.validation.schema.NeutralSchemaValidator" />
+  <bean id="selfReferenceValidator" class="org.slc.sli.validation.SelfReferenceValidator" />
+    <bean id="selfReferenceExtractor" class="org.slc.sli.validation.SelfReferenceExtractor" />
   <bean id="schemaFactory" class="org.slc.sli.validation.NeutralSchemaFactory" />
   <bean id="repo" class="org.slc.sli.validation.utils.XsdToNeutralSchemaRepo" />
   <bean id="entityRepository"  name="validationRepo" class="org.slc.sli.validation.DummyEntityRepository">

@@ -16,7 +16,9 @@
 package org.slc.sli.api.security.context.validator;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.slc.sli.api.constants.EntityNames;
@@ -57,21 +59,29 @@ public class GenericToParentValidator extends AbstractContextValidator {
         basicQuery.setIncludeFields(Arrays.asList("studentId", "parentId"));
         Iterable<Entity> assocs = repo.findAll(EntityNames.STUDENT_PARENT_ASSOCIATION, basicQuery);
 
-        Set<String> parentIdsFound = new HashSet<String>();
-          
-        Set<String> studentList = new HashSet<String>();
-        
+        Map<String, Set<String>> parentToStudentMap = new HashMap<String, Set<String>>();
         for (Entity assoc : assocs) {
             String studentId = (String) assoc.getBody().get("studentId");
             String parentId = (String) assoc.getBody().get("parentId");
+            Set<String> studentList = parentToStudentMap.get(parentId);
+            if (studentList == null) {
+                studentList = new HashSet<String>();
+                parentToStudentMap.put(parentId, studentList);
+            }
             studentList.add(studentId);
-            parentIdsFound.add(parentId);
         }
 
-        if (parentIdsFound.size() < parentIds.size()) {
-            return false;
+        //Make sure that for each parent we can see at least one of their students
+        IContextValidator studentValidator = validatorStore.findValidator(EntityNames.STUDENT, true);
+        int validParents = 0;
+        for (Set<String> studentList : parentToStudentMap.values()) {
+            if (studentValidator.getValid(EntityNames.STUDENT, studentList).size() > 0) {
+                validParents++;
+            } else {
+                return false;
+            }
         }
-        return validatorStore.findValidator(EntityNames.STUDENT, true).validate(EntityNames.STUDENT, studentList);
+        return validParents == parentIds.size();
     }
 
 }

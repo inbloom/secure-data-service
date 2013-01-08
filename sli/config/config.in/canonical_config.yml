@@ -50,7 +50,7 @@ default:
         bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
 
         # Used to bootstrap the developer realm for unified accounts
-        bootstrap.developer.realm.name: Shared Learning Collaborative App Developers
+        bootstrap.developer.realm.name: Application Developer Login
         bootstrap.developer.realm.uniqueId: DeveloperIDP
         bootstrap.developer.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=SLIDev&developer=true
         bootstrap.developer.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=SLIDev&developer=true
@@ -1006,7 +1006,7 @@ local-acceptance-tests:
         bootstrap.admin.realm.idpId: http://local.slidev.org:8080/simple-idp?realm=SLIAdmin
         bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8080/simple-idp?realm=SLIAdmin
 
-        bootstrap.developer.realm.name: Shared Learning Collaborative App Developer
+        bootstrap.developer.realm.name: Application Developer Login
         bootstrap.developer.realm.uniqueId: DeveloperIDP
         bootstrap.developer.realm.idpId: http://local.slidev.org:8080/simple-idp?realm=SLIDev&developer=true
         bootstrap.developer.realm.redirectEndpoint: http://local.slidev.org:8080/simple-idp?realm=SLIDev&developer=true

@@ -44,7 +44,7 @@ And I click on log out
 
 Scenario: App developer creates new Installed app and Full window web app
 When I navigate to the Portal home page
-When I see the realm selector I authenticate to "Shared Learning Collaborative App Developers"
+When I see the realm selector I authenticate to "Application Developer Login"
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "<DEVELOPER_EMAIL>" "<DEVELOPER_EMAIL_PASS>" for the "Simple" login page    
 Then I should be on Portal home page
@@ -90,7 +90,7 @@ And I click on log out
 
 Scenario: App developer enables the new Installed app and Full window web app
 When I navigate to the Portal home page
-When I see the realm selector I authenticate to "Shared Learning Collaborative App Developers"
+When I see the realm selector I authenticate to "Application Developer Login"
 And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "<DEVELOPER_EMAIL>" "<DEVELOPER_EMAIL_PASS>" for the "Simple" login page    
 Then I should be on Portal home page
@@ -300,7 +300,7 @@ And I see the following search results at index 0:
  And I see the following search results at index 0:
  |Field              |Value                                           |
  |name.lastSurname   |Tran                                            |
-  
+
  Scenario: School Level searching for student not in school
   Given the testing device app key has been created
 When I navigate to the API authorization endpoint with my client ID

@@ -16,7 +16,7 @@ Feature: Security for discipline incident CRUD
 
   Scenario: Unauthorized authenticated user tries to hit the disciplineIncident URL directly
     Given I am user "cgray" in IDP "IL"
-    When I make an API call to get the disciplineIncident "DISC-INC-2"
+    When I make an API call to get the disciplineIncident "DISC-INC-1"
     Then I get a message that I am not authorized
 
  Scenario: Unauthorized authenticated user tries to hit the disciplineIncident URL directly
