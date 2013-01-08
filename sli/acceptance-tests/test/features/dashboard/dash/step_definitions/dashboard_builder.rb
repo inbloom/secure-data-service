@@ -175,14 +175,14 @@ end
 # Click on the profile name to navigate away from the current page without clicking the Publish Layout button 
 When /^I navigate away to "(.*?)" Profile Builder without clicking the Publish Layout button$/ do |profileName|
   @currentProfile = profileName.downcase
-  name = "SLC - " + profileName + " Profile"
+  name = "inBloom - " + profileName + " Profile"
   @driver.find_element(:class, "profile_list").find_element(:link_text, name).click
 end
 
 # Validate that the profile builder loads (for publish layout button functionality)
 When /^I view the "(.*?)" profile builder$/ do |profileName|
   @currentProfile = profileName.downcase
-  name = "SLC - " + profileName + " Profile"
+  name = "inBloom - " + profileName + " Profile"
   if (@driver.find_element(:class,"profilePageWrapper").text.downcase.include? profileName.downcase)
     found = true
   end
@@ -331,7 +331,7 @@ end
 #Description: Click on the profile builder
 def clickOnBuilderMenu(index, itemName)
   @currentProfile = itemName.downcase
-  name = "SLC - " + itemName + " Profile"
+  name = "inBloom - " + itemName + " Profile"
   menuItem = @explicitWait.until{@driver.find_elements(:class, "profile_list")[index].find_element(:link_text, name)}
   menuItem.click
   
