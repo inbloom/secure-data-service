@@ -21,6 +21,10 @@ import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
+/**
+ * DidEntityConfig unit tests.
+ *
+ */
 public class DidEntityConfigTest {
     @Test
     public void shouldParseJson() throws Exception {

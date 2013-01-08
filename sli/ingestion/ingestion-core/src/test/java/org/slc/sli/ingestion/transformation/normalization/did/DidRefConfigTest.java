@@ -23,6 +23,10 @@ import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
+/**
+ * DidRefConfig unit tests.
+ *
+ */
 public class DidRefConfigTest {
     @Test
     public void shouldParseJson() throws Exception {

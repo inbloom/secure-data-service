@@ -1,18 +1,18 @@
 /*
-* Copyright 2012 Shared Learning Collaborative, LLC
-*
-* Licensed under the Apache License, Version 2.0 (the "License");
-* you may not use this file except in compliance with the License.
-* You may obtain a copy of the License at
-*
-* http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing, software
-* distributed under the License is distributed on an "AS IS" BASIS,
-* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-* See the License for the specific language governing permissions and
-* limitations under the License.
-*/
+ * Copyright 2012 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.slc.sli.ingestion.util;
 
 import java.util.ArrayList;
@@ -30,7 +30,6 @@ import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
@@ -57,7 +56,7 @@ public class MongoCommanderTest {
     private final String dbName = "commanderTest";
 
     private Set<String> shardCollections = new TreeSet<String>();
-    
+
     private Set<String> indexes = new TreeSet<String>();
 
     private Map<String, Integer> collectionOrder = new HashMap<String, Integer>();
@@ -80,7 +79,7 @@ public class MongoCommanderTest {
         collectionIns.put("assessment", assessmentCollection);
         collectionIns.put("assessmentFamily", assessmentFamilyCollection);
         collectionIns.put("assessmentItem", assessmentItem);
-        
+
         indexes.add("assessment,false,creationTime");
         indexes.add("assessmentFamily,false,creationTime");
         indexes.add("assessmentItem,false,creationTime");
@@ -129,7 +128,7 @@ public class MongoCommanderTest {
             Mockito.verify(collectionIns.get(collection), Mockito.times(1)).createIndex(asskeys, options);
         }
     }
-    
+
     @Test
     public void testEnsureSetIndexes() {
         MongoCommander.ensureIndexes(indexes, dbName, mockedMongoTemplate);

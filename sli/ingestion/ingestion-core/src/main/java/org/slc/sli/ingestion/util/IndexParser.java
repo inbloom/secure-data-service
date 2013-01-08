@@ -22,6 +22,7 @@ import java.util.Set;
  *
  * @author npandey
  *
+ * @param <T> Type of the input
  */
 
 public interface IndexParser<T> {
