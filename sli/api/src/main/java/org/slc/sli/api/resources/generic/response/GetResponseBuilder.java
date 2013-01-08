@@ -15,6 +15,7 @@
  */
 package org.slc.sli.api.resources.generic.response;
 
+import com.sun.jersey.server.impl.application.WebApplicationContext;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.representation.EntityResponse;
@@ -57,6 +58,8 @@ import java.util.Set;
 @Scope("request")
 @Component
 public class GetResponseBuilder extends ResponseBuilder {
+
+    public static final String ORIGINAL_REQUEST_KEY = "original-request";
 
     @Autowired
     @Qualifier("defaultResourceService")
@@ -159,10 +162,11 @@ public class GetResponseBuilder extends ResponseBuilder {
             int limit = neutralQuery.getLimit();
 
             int nextStart = offset + limit;
+            final String originalRequest = getOriginalRequestPath(info);
             if (nextStart < total) {
                 neutralQuery.setOffset(nextStart);
 
-                String nextLink = info.getRequestUriBuilder().replaceQuery(neutralQuery.toString()).build().toString();
+                String nextLink = info.getRequestUriBuilder().replacePath(originalRequest).replaceQuery(neutralQuery.toString()).build().toString();
                 resp.header(ParameterConstants.HEADER_LINK, "<" + nextLink + ">; rel=next");
             }
 
@@ -170,7 +174,7 @@ public class GetResponseBuilder extends ResponseBuilder {
                 int prevStart = Math.max(offset - limit, 0);
                 neutralQuery.setOffset(prevStart);
 
-                String prevLink = info.getRequestUriBuilder().replaceQuery(neutralQuery.toString()).build().toString();
+                String prevLink = info.getRequestUriBuilder().replacePath(originalRequest).replaceQuery(neutralQuery.toString()).build().toString();
                 resp.header(ParameterConstants.HEADER_LINK, "<" + prevLink + ">; rel=prev");
             }
 
@@ -178,5 +182,13 @@ public class GetResponseBuilder extends ResponseBuilder {
         }
 
         return resp;
+    }
+
+    private String getOriginalRequestPath(final UriInfo context) {
+        if (context instanceof WebApplicationContext) {
+            return ((WebApplicationContext) context).getProperties().get(ORIGINAL_REQUEST_KEY).toString();
+        } else {
+            return context.getRequestUri().toString();
+        }
     }
 }

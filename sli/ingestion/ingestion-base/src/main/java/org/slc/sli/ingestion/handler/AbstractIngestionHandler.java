@@ -53,7 +53,7 @@ public abstract class AbstractIngestionHandler<T extends Resource, O> implements
                         new JobSource(item.getResourceId(), validator.getStageName()));
             }
         }
-    };
+    }
 
     void post(T item, AbstractMessageReport report, ReportStats reportStats) {
         if (postValidators != null) {
@@ -62,7 +62,7 @@ public abstract class AbstractIngestionHandler<T extends Resource, O> implements
                         new JobSource(item.getResourceId(), validator.getStageName()));
             }
         }
-    };
+    }
 
     @Override
     public O handle(T item, AbstractMessageReport report, ReportStats reportStats) {
