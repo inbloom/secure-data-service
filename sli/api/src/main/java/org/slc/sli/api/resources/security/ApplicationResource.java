@@ -308,11 +308,6 @@ public class ApplicationResource extends UnversionedResource {
             app.put(CREATED_BY, oldApp.get(CREATED_BY));
         }
         
-        String sandboxTenant = (String) app.get(AUTHOR_SANDBOX_TENANT);
-        if (sandboxTenant == null && oldApp.get(AUTHOR_SANDBOX_TENANT) != null) {
-            app.put(AUTHOR_SANDBOX_TENANT, oldApp.get(AUTHOR_SANDBOX_TENANT));
-        }
-
         String id = (String) app.get("id");
         Map<String, Object> oldReg = (Map<String, Object>) oldApp.get(REGISTRATION);
         Map<String, Object> newReg = (Map<String, Object>) app.get(REGISTRATION);
@@ -330,13 +325,12 @@ public class ApplicationResource extends UnversionedResource {
                 || (clientId != null && !clientId.equals(oldApp.get(CLIENT_ID)))
                 || (id != null && !id.equals(oldApp.get("id")))
                 || (createdBy != null && !createdBy.equals(oldApp.get(CREATED_BY)))
-                || (sandboxTenant != null && !sandboxTenant.equals(oldApp.get(AUTHOR_SANDBOX_TENANT)))
                 || (!registrationDatesMatch(oldReg, newReg, APPROVAL_DATE))
                 || (!registrationDatesMatch(oldReg, newReg, REQUEST_DATE))) {
 
             EntityBody body = new EntityBody();
             body.put(MESSAGE,
-                    "Cannot modify attribute (id|client_secret|client_id|request_date|approval_date|created_by|author_sandbox_tenant) specified in PUT.  "
+                    "Cannot modify attribute (id|client_secret|client_id|request_date|approval_date|created_by) specified in PUT.  "
                             + "Remove attribute and try again.");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
@@ -376,6 +370,15 @@ public class ApplicationResource extends UnversionedResource {
 
         } else if (SecurityUtil.hasRight(Right.DEV_APP_CRUD)) {  // App Developer
             validateDeveloperHasAccessToApp(oldApp);
+            
+            //once we verified developer has access to the app, then either the developer 
+            //is the creator, or the developer is in the same sandbox tenant 
+            //so safe to update the app's sandbox tenant regardless
+            SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
+            if (!sandboxEnabled && principal.getSandboxTenant() != null && principal.getSandboxTenant().length() > 0) {
+            	 app.put(AUTHOR_SANDBOX_TENANT, principal.getSandboxTenant());
+            }
+            
             if (!oldRegStatus.endsWith(newRegStatus)) {
                 EntityBody body = new EntityBody();
                 body.put(MESSAGE, "You are not authorized to register applications.");
@@ -440,7 +443,7 @@ public class ApplicationResource extends UnversionedResource {
         } else {
             if (!(principal.getExternalId().equals(app.get(CREATED_BY)) || belongToSameSandboxTenant(app, principal.getSandboxTenant()))) {
                 throw new AccessDeniedException("Developer " + principal.getExternalId()
-                        + " is not the creator of this app and cannot modify it.");
+                        + " is not the creator of this app and does not share same sandbox tenant as the creator hence cannot modify it.");
             }
         }
     }

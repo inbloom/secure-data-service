@@ -430,16 +430,16 @@ public class DidReferenceResolutionTest {
         NeutralRecordEntity entity = loadEntity("didTestEntities/gradingPeriod.json");
         resolveInternalId(entity);
 
-		Map<String, String> edorgNaturalKeys = new HashMap<String, String>();
-		edorgNaturalKeys.put("stateOrganizationId", "Illinois");
-		String edOrgDID = generateExpectedDid (edorgNaturalKeys, TENANT_ID, "educationOrganization", null);
+        Map<String, String> edorgNaturalKeys = new HashMap<String, String>();
+        edorgNaturalKeys.put("stateOrganizationId", "Illinois");
+        String edOrgDID = generateExpectedDid(edorgNaturalKeys, TENANT_ID, "educationOrganization", null);
 
-		Map<String, String> naturalKeys = new HashMap<String, String>();
-		naturalKeys.put("date", "2012-01-01");
-		naturalKeys.put("educationOrganizationId", edOrgDID);
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("date", "2012-01-01");
+        naturalKeys.put("educationOrganizationId", edOrgDID);
 
-		checkId(entity, "CalendarDateReference", naturalKeys, "calendarDate");
-	}
+        checkId(entity, "CalendarDateReference", naturalKeys, "calendarDate");
+    }
 
     @Test
     public void resolvesCohortDidInStaffCohortAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
