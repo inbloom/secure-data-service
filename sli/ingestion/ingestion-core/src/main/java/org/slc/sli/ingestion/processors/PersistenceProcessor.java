@@ -694,11 +694,11 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
             // Consider DE2002, removing a query per record vs. tracking version
             // RecordHash rh = batchJobDAO.findRecordHash(tenantId, recordId);
             if (rhCurrentHash == null) {
-                batchJobDAO.insertRecordHash(tenantId, recordId, newHashValue);
+                batchJobDAO.insertRecordHash(recordId, newHashValue);
             } else {
                 RecordHash rh = new RecordHash();
                 rh.importFromSerializableMap(rhCurrentHash);
-                batchJobDAO.updateRecordHash(tenantId, rh, newHashValue);
+                batchJobDAO.updateRecordHash(rh, newHashValue);
             }
         }
 

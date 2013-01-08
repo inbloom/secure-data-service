@@ -472,16 +472,15 @@ public class BatchJobMongoDA implements BatchJobDAO {
      *         The (initial) value of the record hash, a 40-character hex string
      */
     @Override
-    public void insertRecordHash(String tenantId, String recordId, String newHashValues) throws DataAccessResourceFailureException {
+    public void insertRecordHash(String recordId, String newHashValues) throws DataAccessResourceFailureException {
 
         // record was not found
         RecordHash rh = new RecordHash();
         rh.setId(recordId);
         rh.setHash(newHashValues);
-        rh.setTenantId(tenantId);
         rh.setCreated(System.currentTimeMillis());
         rh.setUpdated(rh.getCreated());
-        this.batchJobHashCacheMongoTemplate.getCollection(RECORD_HASH).insert(new BasicDBObject(rh.toKVMap()));
+        this.sliMongo.getCollection(RECORD_HASH).insert(new BasicDBObject(rh.toKVMap()));
     }
 
     /*
@@ -493,15 +492,12 @@ public class BatchJobMongoDA implements BatchJobDAO {
      *         The (updated) value of the record hash, a 40-character hex string
      */
     @Override
-    public void updateRecordHash(String tenantId, RecordHash rh, String newHashValues) throws DataAccessResourceFailureException {
+    public void updateRecordHash(RecordHash rh, String newHashValues) throws DataAccessResourceFailureException {
         rh.setHash(newHashValues);
         rh.setUpdated(System.currentTimeMillis());
         rh.setVersion(rh.getVersion() + 1);
         // Detect tenant collision - should never occur since tenantId is in the hash
-        if ( ! rh.getTenantId().equals(tenantId) ) {
-            throw new DataAccessResourceFailureException("Tenant mismatch: recordHash cache has '" + rh.getTenantId() + "', input data has '" + tenantId + "' for entity ID '" + rh.getId() + "'");
-        }
-        this.batchJobHashCacheMongoTemplate.getCollection(RECORD_HASH).update(recordHashQuery(rh.getId()).getQueryObject(), new BasicDBObject(rh.toKVMap()));
+        this.sliMongo.getCollection(RECORD_HASH).update(recordHashQuery(rh.getId()).getQueryObject(), new BasicDBObject(rh.toKVMap()));
     }
 
     /*
@@ -513,7 +509,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
      */
     @Override
     public RecordHash findRecordHash(String tenantId, String recordId) {
-        Map<String, Object> map = this.batchJobHashCacheMongoTemplate.findOne(recordHashQuery(recordId), Map.class, RECORD_HASH);
+        Map<String, Object> map = this.sliMongo.findOne(recordHashQuery(recordId), Map.class, RECORD_HASH);
         if (null == map) {
             return null;
         }
@@ -537,8 +533,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
     @Override
     public void removeRecordHashByTenant(String tenantId) {
         Query searchTenantId = new Query();
-        searchTenantId.addCriteria(Criteria.where(RECORD_HASH_TENANT_FIELD).is(tenantId));
-        batchJobHashCacheMongoTemplate.remove(searchTenantId, RECORD_HASH);
+        sliMongo.remove(new Query(), RECORD_HASH);
     }
 
     @Override

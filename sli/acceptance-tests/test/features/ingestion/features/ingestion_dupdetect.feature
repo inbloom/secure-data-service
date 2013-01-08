@@ -10,6 +10,10 @@ Given I am using local data store
 Scenario: Ingest and reingest with default mode
 Given I am using preconfigured Ingestion Landing Zone
   And the landing zone is reinitialized
+
+  And the following collections are empty in datastore:
+    | collectionName              |
+    | recordHash                  |
   And I post "TinyDataSet.zip" file as the payload of the ingestion job
   And zip file is scp to ingestion landing zone
   And I am willing to wait upto 60 seconds for ingestion to complete
@@ -17,9 +21,9 @@ Given I am using preconfigured Ingestion Landing Zone
   And a batch job log has been created
   And I should not see a warning log file created
   And I should not see an error log file created
-Then I check to find if record is in batch job collection:
-     | collectionName           | expectedRecordCount | searchParameter             | searchValue             | searchType           |
-     | recordHash               | 1                   | t                           | Midgar                  | string               |
+  Then I should see following map of entry counts in the corresponding collections:
+    | collectionName              | count |
+    | recordHash                  | 1    |
   And I should see "InterchangeEducationOrganization.xml records ingested successfully: 1" in the resulting batch job file
 When the landing zone is reinitialized
   And I post "TinyDataSet.zip" file as the payload of the ingestion job
@@ -29,15 +33,18 @@ When the landing zone is reinitialized
   And a batch job log has been created
   And I should not see a warning log file created
   And I should not see an error log file created
-Then I check to find if record is in batch job collection:
-     | collectionName           | expectedRecordCount | searchParameter             | searchValue             | searchType           |
-     | recordHash               | 1                   | t                           | Midgar                  | string               |
+  Then I should see following map of entry counts in the corresponding collections:
+    | collectionName              | count |
+    | recordHash                  | 1     |
   And I should see "InterchangeEducationOrganization.xml records ingested successfully: 0" in the resulting batch job file
   And I should see "InterchangeEducationOrganization.xml stateEducationAgency 1 deltas" in the resulting batch job file
 
 Scenario: Ingest then use mode reset
 Given I am using preconfigured Ingestion Landing Zone
   And the landing zone is reinitialized
+  And the following collections are empty in datastore:
+    | collectionName              |
+    | recordHash                  |
   And I post "TinyDataSet.zip" file as the payload of the ingestion job
   And zip file is scp to ingestion landing zone
   And I am willing to wait upto 60 seconds for ingestion to complete
@@ -45,9 +52,9 @@ Given I am using preconfigured Ingestion Landing Zone
   And a batch job log has been created
   And I should not see a warning log file created
   And I should not see an error log file created
-Then I check to find if record is in batch job collection:
-     | collectionName           | expectedRecordCount | searchParameter             | searchValue             | searchType           |
-     | recordHash               | 1                   | t                           | Midgar                  | string               |
+  Then I should see following map of entry counts in the corresponding collections:
+    | collectionName              | count |
+    | recordHash                  | 1     |
   And I should see "InterchangeEducationOrganization.xml records ingested successfully: 1" in the resulting batch job file
 When the landing zone is reinitialized
   And I post "TinyDataSetDDreset.zip" file as the payload of the ingestion job
@@ -57,14 +64,18 @@ When the landing zone is reinitialized
   And a batch job log has been created
   And I should not see a warning log file created
   And I should not see an error log file created
-Then I check to find if record is in batch job collection:
-     | collectionName           | expectedRecordCount | searchParameter             | searchValue             | searchType           |
-     | recordHash               | 1                   | t                           | Midgar                  | string               |
+  Then I should see following map of entry counts in the corresponding collections:
+    | collectionName              | count |
+    | recordHash                  | 1     |
+
   And I should see "InterchangeEducationOrganization.xml records ingested successfully: 1" in the resulting batch job file
   And I should see "duplicate-detection: reset" in the resulting batch job file
 
 Scenario: Ingest then use mode disable
 Given I am using preconfigured Ingestion Landing Zone
+  And the following collections are empty in datastore:
+    | collectionName              |
+    | recordHash                  |
   And the landing zone is reinitialized
   And I post "TinyDataSet.zip" file as the payload of the ingestion job
   And zip file is scp to ingestion landing zone
@@ -73,9 +84,9 @@ Given I am using preconfigured Ingestion Landing Zone
   And a batch job log has been created
   And I should not see a warning log file created
   And I should not see an error log file created
-Then I check to find if record is in batch job collection:
-     | collectionName           | expectedRecordCount | searchParameter             | searchValue             | searchType           |
-     | recordHash               | 1                   | t                           | Midgar                  | string               |
+  Then I should see following map of entry counts in the corresponding collections:
+    | collectionName              | count |
+    | recordHash                  | 1     |
   And I should see "InterchangeEducationOrganization.xml records ingested successfully: 1" in the resulting batch job file
 When the landing zone is reinitialized
   And I post "TinyDataSetDDdisable.zip" file as the payload of the ingestion job
@@ -85,9 +96,9 @@ When the landing zone is reinitialized
   And a batch job log has been created
   And I should not see a warning log file created
   And I should not see an error log file created
-Then I check to find if record is in batch job collection:
-     | collectionName           | expectedRecordCount | searchParameter             | searchValue             | searchType           |
-     | recordHash               | 0                   | t                           | Midgar                  | string               |
+  Then I should see following map of entry counts in the corresponding collections:
+    | collectionName              | count |
+    | recordHash                  | 0     |
   And I should see "InterchangeEducationOrganization.xml records ingested successfully: 1" in the resulting batch job file
   And I should see "duplicate-detection: disable" in the resulting batch job file
 
@@ -101,9 +112,9 @@ Given I am using preconfigured Ingestion Landing Zone
   And a batch job log has been created
   And I should not see a warning log file created
   And I should not see an error log file created
-Then I check to find if record is in batch job collection:
-     | collectionName           | expectedRecordCount | searchParameter             | searchValue             | searchType           |
-     | recordHash               | 0                   | t                           | Midgar                  | string               |
+  Then I should see following map of entry counts in the corresponding collections:
+    | collectionName              | count |
+    | recordHash                  | 0     |
   And I should see "InterchangeEducationOrganization.xml records ingested successfully: 0" in the resulting batch job file
   And I should see "InterchangeEducationOrganization.xml stateEducationAgency 1 deltas" in the resulting batch job file
   And I should see "duplicate-detection: debugdrop" in the resulting batch job file
