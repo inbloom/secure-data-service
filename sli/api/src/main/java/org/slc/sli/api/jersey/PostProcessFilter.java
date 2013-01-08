@@ -203,7 +203,7 @@ public class PostProcessFilter implements ContainerResponseFilter {
             body.put("responseTime", String.valueOf(elapsed));
             body.put("dbHitCount", mongoStat.getDbHitCount());
             body.put("stats", mongoStat.getStats()); 
-            perfRepo.setWriteConcern(WriteConcern.SAFE.toString()); 
+            // perfRepo.setWriteConcern(WriteConcern.SAFE.toString()); 
             perfRepo.create("apiResponse", body, "apiResponse");
         }
 
