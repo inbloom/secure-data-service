@@ -67,8 +67,8 @@ class ForgotPassword
         yield(emailAddress, fullName)
         return true
       rescue InvalidPasswordException => e
-        logger.error e.message
-        logger.error e.backtrace.join("\n")
+        Rails.logger.error e.message
+        Rails.logger.error e.backtrace.join("\n")
         APP_CONFIG['password_policy'].each { |msg|  errors.add(:new_pass, msg) }
       rescue Exception => e
         Rails.logger.error e.message
