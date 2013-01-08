@@ -26,17 +26,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
@@ -44,12 +33,7 @@ import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.CallingApplicationInfoProvider;
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.context.ContextResolverStore;
 import org.slc.sli.api.security.context.ContextValidator;
-import org.slc.sli.api.security.context.resolver.AllowAllEntityContextResolver;
-import org.slc.sli.api.security.context.resolver.DenyAllContextResolver;
-import org.slc.sli.api.security.context.resolver.EntityContextResolver;
-import org.slc.sli.api.security.context.traversal.cache.impl.SessionSecurityCache;
 import org.slc.sli.api.security.schema.SchemaDataProvider;
 import org.slc.sli.api.security.service.SecurityCriteria;
 import org.slc.sli.api.util.SecurityUtil;
@@ -62,6 +46,14 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -91,14 +83,9 @@ public class BasicService implements EntityService {
     private Right writeRight; // this is possibly the worst named variable ever
 
     private Repository<Entity> repo;
-    private static final boolean ENABLE_CONTEXT_RESOLVING = false;
-
     @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity> securityRepo;
-
-    @Autowired
-    private ContextResolverStore contextResolverStore;
 
     @Autowired
     private ContextValidator contextValidator;
@@ -113,13 +100,7 @@ public class BasicService implements EntityService {
     private BasicDefinitionStore definitionStore;
 
     @Autowired
-    private SessionSecurityCache securityCachingStrategy;
-
-    @Autowired
     private CustomEntityValidator customEntityValidator;
-
-    @Value("${sli.security.in_clause_size}")
-    private String securityInClauseSize;
 
     public BasicService(String collectionName, List<Treatment> treatments, Right readRight, Right writeRight,
             Repository<Entity> repo) {
@@ -158,10 +139,6 @@ public class BasicService implements EntityService {
         checkFieldAccess(neutralQuery);
 
         NeutralQuery nq = neutralQuery;
-        if (useContextResolver()) {
-            SecurityCriteria securityCriteria = findAccessible(defn.getType());
-            nq = securityCriteria.applySecurityCriteria(nq);
-        }
         Iterable<Entity> entities = repo.findAll(collectionName, nq);
 
         List<String> results = new ArrayList<String>();
@@ -182,7 +159,7 @@ public class BasicService implements EntityService {
         checkReferences(content);
 
         String entityId = "";
-        Entity entity = getRepo().create(defn.getType(), sanitizeEntityBody(entityId, content), createMetadata(),
+        Entity entity = getRepo().create(defn.getType(), sanitizeEntityBody(content), createMetadata(),
                 collectionName);
         if (entity != null) {
             entityId = entity.getEntityId();
@@ -226,7 +203,7 @@ public class BasicService implements EntityService {
             throw new EntityNotFoundException(id);
         }
 
-        EntityBody sanitized = sanitizeEntityBody(id, content);
+        EntityBody sanitized = sanitizeEntityBody(content);
         if (entity.getBody().equals(sanitized)) {
             info("No change detected to {}", id);
             return false;
@@ -258,7 +235,7 @@ public class BasicService implements EntityService {
             throw new EntityNotFoundException(id);
         }
 
-        EntityBody sanitized = sanitizeEntityBody(id, content);
+        EntityBody sanitized = sanitizeEntityBody(content);
 
         info("patch value(s): ", sanitized);
 
@@ -341,11 +318,6 @@ public class BasicService implements EntityService {
                 nq = new NeutralQuery();
                 nq.setOffset(0);
                 nq.setLimit(MAX_RESULT_SIZE);
-            }
-
-            if (useContextResolver()) {
-                SecurityCriteria securityCriteria = findAccessible(defn.getType());
-                nq = securityCriteria.applySecurityCriteria(nq);
             }
 
             // add the ids requested
@@ -464,10 +436,9 @@ public class BasicService implements EntityService {
         }
 
         // Verify field names contain no blacklisted components.
-        List<ValidationError> errorList = customEntityValidator.validate(id, PathConstants.CUSTOM_ENTITIES, customEntity);
+        List<ValidationError> errorList = customEntityValidator.validate(customEntity);
         if (!errorList.isEmpty()) {
-            // TODO: Not sure if this error call belongs....
-            error("Blacklist validation failed for custom entity {}\nErrors:\n{}", id, StringUtils.join(errorList, "\n"));
+            debug("Blacklist validation failed for custom entity {}", id);
             throw new EntityValidationException(id, PathConstants.CUSTOM_ENTITIES, errorList);
         }
 
@@ -511,66 +482,25 @@ public class BasicService implements EntityService {
             NeutralQuery neutralQuery = new NeutralQuery();
             neutralQuery.setOffset(0);
             neutralQuery.setLimit(MAX_RESULT_SIZE);
-            if (useContextResolver()) {
-                SecurityCriteria securityCriteria = findAccessible(entityType);
-                neutralQuery = securityCriteria.applySecurityCriteria(neutralQuery);
-                neutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
 
-                Iterable<Entity> entities = repo.findAll(def.getStoredCollectionName(), neutralQuery);
-                int found = 0;
-                if (entities != null) {
-                    for (Iterator<?> it = entities.iterator(); it.hasNext(); it.next()) {
-                        found++;
-                    }
+            try {
+                boolean useTransitiveResolver = true;
+                if (PUBLIC_SPHERE.equals(provider.getDataSphere(def.getType()))) {
+                    // Transitive resolver for public resources would be too relaxed,
+                    // e.g. letting anyone create any association to any edorg
+                    useTransitiveResolver = false;
                 }
-
-                if (found != ids.size()) {
-
-                    // Here's the deal - we want to avoid having to index based on
-                    // createdBy/isOrphan
-                    // So found won't include any orphaned entities that the user created.
-                    // We do an additional query of the referenced fields without any additional
-                    // security criteria
-                    // and check the isOrphaned and createdBy on each of those
-                    neutralQuery = new NeutralQuery();
-                    neutralQuery.setOffset(0);
-                    neutralQuery.setLimit(MAX_RESULT_SIZE);
-                    neutralQuery.addCriteria(new NeutralCriteria("_id", "in", ids));
-
-                    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-                    SLIPrincipal user = (SLIPrincipal) auth.getPrincipal();
-                    String userId = user.getEntity().getEntityId();
-                    for (Entity ent : repo.findAll(def.getStoredCollectionName(), neutralQuery)) {
-
-                        if (userId.equals(ent.getMetaData().get("createdBy"))
-                                && "true".equals(ent.getMetaData().get("isOrphaned"))) {
-                            found++;
-                        }
-                    }
-                    if (found != ids.size()) {
-                        debug("{} in {} is not accessible", value, def.getStoredCollectionName());
-                        throw new AccessDeniedException("Invalid reference. No association to referenced entity.");
-                    }
-                }
-            } else {
-                try {
-                    boolean useTransitiveResolver = true;
-                    if (PUBLIC_SPHERE.equals(provider.getDataSphere(def.getType()))) {
-                        // Transitive resolver for public resources would be too relaxed,
-                        // e.g. letting anyone create any association to any edorg
-                        useTransitiveResolver = false;
-                    }
-                    contextValidator.validateContextToEntities(def, ids, useTransitiveResolver);
-                } catch (AccessDeniedException e) {
-                    debug("Invalid Reference: {} in {} is not accessible by user", value, def.getStoredCollectionName());
-                    throw (AccessDeniedException) new AccessDeniedException(
-                            "Invalid reference. No association to referenced entity.").initCause(e);
-                } catch (EntityNotFoundException e) {
-                    debug("Invalid Reference: {} in {} does not exist", value, def.getStoredCollectionName());
-                    throw (AccessDeniedException) new AccessDeniedException(
-                            "Invalid reference. No association to referenced entity.").initCause(e);
-                }
+                contextValidator.validateContextToEntities(def, ids, useTransitiveResolver);
+            } catch (AccessDeniedException e) {
+                debug("Invalid Reference: {} in {} is not accessible by user", value, def.getStoredCollectionName());
+                throw (AccessDeniedException) new AccessDeniedException(
+                        "Invalid reference. No association to referenced entity.").initCause(e);
+            } catch (EntityNotFoundException e) {
+                debug("Invalid Reference: {} in {} does not exist", value, def.getStoredCollectionName());
+                throw (AccessDeniedException) new AccessDeniedException(
+                        "Invalid reference. No association to referenced entity.").initCause(e);
             }
+
         }
     }
 
@@ -624,7 +554,7 @@ public class BasicService implements EntityService {
      * @param content
      * @return
      */
-    private EntityBody sanitizeEntityBody(String id, EntityBody content) {
+    private EntityBody sanitizeEntityBody(EntityBody content) {
         EntityBody sanitized = new EntityBody(content);
         for (Treatment treatment : treatments) {
             sanitized = treatment.toStored(sanitized, defn);
@@ -777,63 +707,6 @@ public class BasicService implements EntityService {
             SecurityUtil.ensureAuthenticated();
         }
         return auth.getAuthorities();
-    }
-
-    private SecurityCriteria findAccessible(String toType) {
-        SecurityCriteria securityCriteria = new SecurityCriteria();
-
-        if (useContextResolver()) {
-            try {
-                securityCriteria.setInClauseSize(Long.parseLong(securityInClauseSize));
-            } catch (NumberFormatException e) {
-                securityCriteria.setInClauseSize(Long.MAX_VALUE);
-            }
-            String securityField = "_id";
-
-            SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
-                    .getPrincipal();
-            securityCriteria.setCollectionName(toType);
-
-            if (principal == null) {
-                throw new AccessDeniedException("Principal cannot be found");
-            }
-
-            Entity entity = principal.getEntity();
-            String type = entity.getType();
-            // null for super admins because they don't contain mongo entries
-
-            if (isPublic()) {
-                securityCriteria.setSecurityCriteria(null);
-                return securityCriteria;
-            }
-
-            List<String> allowed = null;
-            EntityContextResolver resolver = new DenyAllContextResolver();
-            if (!securityCachingStrategy.contains(toType)) {
-                resolver = contextResolverStore.findResolver(type, toType);
-                allowed = resolver.findAccessible(principal.getEntity());
-            } else {
-                allowed = new ArrayList<String>(securityCachingStrategy.retrieve(toType));
-            }
-
-            if (resolver instanceof AllowAllEntityContextResolver) {
-                securityCriteria.setSecurityCriteria(null);
-            } else {
-                securityCriteria.setSecurityCriteria(new NeutralCriteria(securityField, NeutralCriteria.CRITERIA_IN,
-                        allowed, false));
-            }
-        }
-
-        return securityCriteria;
-    }
-
-    private boolean isPublic() {
-        return getAuths().contains(Right.FULL_ACCESS) || defn.getType().equals(EntityNames.LEARNING_OBJECTIVE)
-                || defn.getType().equals(EntityNames.LEARNING_STANDARD)
-                || defn.getType().equals(EntityNames.ASSESSMENT) || defn.getType().equals(EntityNames.SCHOOL)
-                || defn.getType().equals(EntityNames.EDUCATION_ORGANIZATION)
-                || defn.getType().equals(EntityNames.GRADUATION_PLAN);
-
     }
 
     /**
@@ -1022,18 +895,6 @@ public class BasicService implements EntityService {
         return metadata;
     }
 
-    private boolean useContextResolver() {
-
-        boolean useResolvers = true;
-
-        SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        if (principal.getEntity().getType().equals(EntityNames.STAFF)) {
-            useResolvers = ENABLE_CONTEXT_RESOLVING;
-        }
-
-        return useResolvers;
-    }
 
     /**
      * Set the entity definition for this service.

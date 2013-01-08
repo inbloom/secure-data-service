@@ -245,6 +245,13 @@ public class ModelProvider {
         List<AssociationEnd> associationEnds = getAssociationEnds(fromEntityType.getId());
         List<Generalization> generalizations = modelIndex.getGeneralizationBase(toEntityType.getId());
 
+        List<Generalization> derivedGeneralizations = modelIndex.getGeneralizationDerived(fromEntityType.getId());
+
+        for (Generalization derivedGeneralization : derivedGeneralizations) {
+            List<AssociationEnd> ends = getAssociationEnds(derivedGeneralization.getChild());
+            associationEnds.addAll(ends);
+        }
+
         for (AssociationEnd end : associationEnds) {
             if (checkType(toEntityType.getId(), generalizations, end.getType())) {
                 return end.getAssociatedAttributeName();

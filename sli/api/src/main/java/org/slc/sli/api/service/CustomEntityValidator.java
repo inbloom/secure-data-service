@@ -25,7 +25,6 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.strategy.AbstractBlacklistStrategy;
@@ -53,10 +52,10 @@ public class CustomEntityValidator {
      *            Custom Entity to be validated
      *
      */
-    public List<ValidationError> validate(String entityId, String entitytype, EntityBody entityBody) {
+    public List<ValidationError> validate(EntityBody entityBody) {
         List<ValidationError> errorList = new ArrayList<ValidationError>();
-        if ((entitytype.equals(PathConstants.CUSTOM_ENTITIES)) && !entityBody.isEmpty()) {
-            validate(entityId, entitytype, entityBody, errorList);
+        if (!entityBody.isEmpty()) {
+            validate(entityBody, errorList);
         }
         return errorList;
     }
@@ -74,48 +73,42 @@ public class CustomEntityValidator {
      *            List of errors encountered during validation
      *
      */
-    private void validate(String entityId, String entitytype, EntityBody entityBody, List<ValidationError> errorList) {
-        for (String fieldName : entityBody.keySet()) {
-            // Remove valid characters before checking.
-            String fieldNameToCheck = fieldName.replaceAll("<", "").replaceAll(">", "");
-            for (AbstractBlacklistStrategy abstractBlacklistStrategy : validationStrategyList) {
-                if (!abstractBlacklistStrategy.isValid("", fieldNameToCheck)) {
-                    errorList.add(new ValidationError(ValidationError.ErrorType.INVALID_FIELD_NAME, fieldName,
-                            fieldName, null));
-                }
-            }
+    @SuppressWarnings("unchecked")
+    private void validate(Object value, List<ValidationError> errorList) {
+        if (value instanceof Map<?, ?>) {  // Map.  Validate keys.
+            for (String fieldName : ((Map<? extends String, ? extends Object>) value).keySet()) {
+                validate(fieldName, errorList);
 
-            // If field contains sub-fields, check them, also.
-            EntityBody subEntityBody = createEntityBody(entityBody.get(fieldName));
-            validate(entityId,  entitytype, subEntityBody, errorList);
-        }
+                // Validate sub-fields.
+                validate(((Map<? extends String, ? extends Object>) value).get(fieldName), errorList);
+            }
+        } else if (value instanceof Object[]) {  // Array of Something.  Validate elements.
+            for (Object elem : (Object[]) value) {
+                validate(elem, errorList);
+            }
+        } else if (value instanceof Collection<?>) {  // Collection of Something.  Validate elements.
+            for (Object elem : (Collection<Object>) value) {
+                validate(elem, errorList);
+            }
+        }  // else value is String, primitive or special type.  Validate no more!
     }
 
+
     /**
-     * Create a custom entity containing all field names contained within some Object.
+     * Validate a field name against the blacklists.
      *
-     * @param object
-     *            Object containing possible field names.
-     *
-     * @return EntityBody
-     *         Custom entity containing all field names contained within object.
+     * @param fieldName
+     *            Field name to be validated
+     * @param errorList
+     *            List of errors encountered during validation
      *
      */
-    @SuppressWarnings("unchecked")
-    private EntityBody createEntityBody(Object object) {
-        EntityBody entityBody = new EntityBody();
-        if (object instanceof Map<?, ?>) {  // Map.
-            entityBody = new EntityBody((Map<? extends String, ? extends Object>) object);
-        } else if (object instanceof Object[]) {  // Array of Something.
-            for (Object elem : (Object[]) object) {
-                entityBody = createEntityBody(elem);
+    private void validate(String fieldName, List<ValidationError> errorList) {
+        for (AbstractBlacklistStrategy abstractBlacklistStrategy : validationStrategyList) {
+            if (!abstractBlacklistStrategy.isValid("", fieldName)) {
+                errorList.add(new ValidationError(ValidationError.ErrorType.INVALID_FIELD_NAME, fieldName,
+                        fieldName, null));
             }
-        } else if (object instanceof Collection<?>) {  // Collection of Something.
-            for (Object elem : (Collection<Object>) object) {
-                entityBody = createEntityBody(elem);
-            }
-        }  // Else, string or special type.  Search no more!
-
-        return entityBody;
+        }
     }
 }

@@ -91,6 +91,12 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
             StringSource source = new StringSource(MAPPER.writeValueAsString(item));
             smooks.filterSource(source, result);
             sliEntities = getEntityListResult(result);
+            for (SimpleEntity entity : sliEntities) {
+                entity.setVisitBeforeLineNumber(item.getVisitBeforeLineNumber());
+                entity.setVisitBeforeColumnNumber(item.getVisitBeforeColumnNumber());
+                entity.setVisitAfterLineNumber(item.getVisitAfterLineNumber());
+                entity.setVisitAfterColumnNumber(item.getVisitAfterColumnNumber());
+            }
         } catch (java.io.IOException e) {
             sliEntities = Collections.emptyList();
         }

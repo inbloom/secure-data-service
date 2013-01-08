@@ -48,6 +48,8 @@ input {
     font-size: 13px;
 }
 
+.input-large { width: 200px; }
+
 .color-column-blue {
 	color: #0064C8 !important;
 	font-weight: bold !important;
@@ -133,6 +135,8 @@ input {
     font-weight: normal;
     padding-left: 4px;
 }
+
+.gray { color: #999999; }
 
 h1, h2, h3, h4, h5, h6 {
     color: #333333;

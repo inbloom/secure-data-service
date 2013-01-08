@@ -299,6 +299,19 @@ SLC.namespace('SLC.grid.formatters', (function () {
 				return value;
 			}
 		}
+
+		function searchNameResults(value, options, rowObject) {
+
+			var studentName = restLink(value, options, rowObject);
+			
+			if (rowObject.name.nickName) {
+				return '<div>'+ studentName + '</div><div class="gray">(' + rowObject.name.nickName + ')</div>';
+			}
+			else {
+				return studentName;
+			}	
+			
+		}
 		
 		return {
 			CutPoint: CutPoint,
@@ -310,7 +323,8 @@ SLC.namespace('SLC.grid.formatters', (function () {
 			Grade: Grade,
 			TearDrop: TearDrop,
 			restLink: restLink,
-			dataColorBox: dataColorBox
+			dataColorBox: dataColorBox,
+			searchNameResults: searchNameResults
 		};
 	}())
 );

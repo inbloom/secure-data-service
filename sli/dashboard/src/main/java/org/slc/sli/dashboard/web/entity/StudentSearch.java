@@ -28,14 +28,7 @@ import javax.validation.constraints.Size;
 public class StudentSearch implements PagedEntity {
     @Size(max = 100, message = "Cannot exceed max size")
     @Pattern(regexp = "[a-zA-Z0-9-' ]*")
-    private String firstName;
-
-    @Size(max = 100, message = "Cannot exceed max size")
-    @Pattern(regexp = "[a-zA-Z0-9-' ]*")
-    private String lastName;
-
-    @Pattern(regexp = "[a-fA-F0-9\\-]*_id")
-    private String schoolId;
+    private String name;
 
     private int pageNo = PagedEntity.DEFAULT_PAGE_NO;
     private int pageSize = PagedEntity.DEFAULT_PAGE_SIZE;
@@ -44,39 +37,21 @@ public class StudentSearch implements PagedEntity {
         //Default constructor
     }
 
-    public StudentSearch(String firstName, String lastName, String schoolId) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.schoolId = schoolId;
+    public StudentSearch(String name) {
+        this.name = name;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return this.name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public String getSchoolId() {
-        return schoolId;
-    }
-
-    public void setSchoolId(String schoolId) {
-        this.schoolId = schoolId;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String[] get() {
-        return new String[] { this.firstName, this.lastName, String.valueOf(this.pageNo),
-                String.valueOf(this.pageSize), this.schoolId };
+        return new String[] { this.name, String.valueOf(this.pageNo),
+                String.valueOf(this.pageSize) };
     }
 
     @Override
