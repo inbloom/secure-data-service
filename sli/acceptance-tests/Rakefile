@@ -200,7 +200,7 @@ def cleanseRealms()
   @realmColl = @db.collection('realm')
 
   @realmColl.find.each do |row|
-    if row['body']['uniqueIdentifier'] != 'inBloom' and row['body']['uniqueIdentifier'] != 'SandboxIDP'
+    if row['body']['uniqueIdentifier'] != 'Shared Learning Collaborative' and row['body']['uniqueIdentifier'] != 'SandboxIDP'
       @realmColl.remove(row)
     end
   end
