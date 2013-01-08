@@ -919,9 +919,17 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
         return list;
     }
 
+    private List<GenericEntity> getStudentAttendanceForSchool(String token, String studentId, String schoolId, String startDate, String endDate) {
+        List<GenericEntity> list = entityManager.getAttendanceForSchool(token, studentId, schoolId, startDate, endDate);
+        if (list == null) {
+            return Collections.emptyList();
+        }
+        return list;
+    }
+
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * org.slc.sli.dashboard.manager.PopulationManagerI#setEntityManager(org
      * .slc.sli.dashboard.manager .EntityManager)
@@ -1082,12 +1090,41 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                         }
                     }
 
+
+                    // get target school year enrollment
+                    LinkedHashMap<String, Object> enrollment = enrollmentsIndex.get(schoolYear);
+                    GenericEntity currentTermAttendance = new GenericEntity();
+
+                    // set school term
+                    currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_TERM, schoolYear);
+
+                    String nameOfInstitution = "";
+                    boolean enrollmentExistsForAttendance = false;
+
+                    // get school name from enrollment
+                    if (enrollment != null) {
+                        Map<String, Object> school = (Map<String, Object>) enrollment.get(Constants.ATTR_SCHOOL);
+                        if (school != null) {
+                            nameOfInstitution = (String) school.get(Constants.ATTR_NAME_OF_INST);
+                        }
+                        String enrollmentSchoolId = (String) enrollment.get(Constants.ATTR_SCHOOL_ID);
+                        String attendanceSchoolId = (String) targetAttendance.get(Constants.ATTR_SCHOOL_ID);
+                        if (enrollmentSchoolId.equals(attendanceSchoolId) == true) {
+                            // only show attendances that are for the school in the
+                            // target enrollment
+                            enrollmentExistsForAttendance = true;
+                        }
+
+                    }
+
+
+
                     // get attendanceEvent
                     List<LinkedHashMap<String, Object>> attendanceEvents = (List<LinkedHashMap<String, Object>>) schoolYearAttendance
                             .get(Constants.ATTR_ATTENDANCE_ATTENDANCE_EVENT);
 
                     // count each attendance event
-                    if (attendanceEvents != null) {
+                    if (attendanceEvents != null && enrollmentExistsForAttendance) {
                         for (Map<String, Object> attendanceEvent : attendanceEvents) {
                             String event = (String) attendanceEvent.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
                             if (event != null) {
@@ -1108,21 +1145,8 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                             }
                         }
                     }
-                    // get target school year enrollment
-                    LinkedHashMap<String, Object> enrollment = enrollmentsIndex.get(schoolYear);
-                    GenericEntity currentTermAttendance = new GenericEntity();
 
-                    // set school term
-                    currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_TERM, schoolYear);
 
-                    String nameOfInstitution = "";
-                    // get school name from enrollment
-                    if (enrollment != null) {
-                        Map<String, Object> school = (Map<String, Object>) enrollment.get(Constants.ATTR_SCHOOL);
-                        if (school != null) {
-                            nameOfInstitution = (String) school.get(Constants.ATTR_NAME_OF_INST);
-                        }
-                    }
                     // set school name
                     currentTermAttendance.put(Constants.ATTENDANCE_HISTORY_SCHOOL, nameOfInstitution);
 
@@ -1421,15 +1445,43 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
     @Override
     public GenericEntity getStudentAttendanceForCalendar(String token, Object studentId, Data config) {
 
+        String schoolId = null;
         GenericEntity ge = new GenericEntity();
 
-        List<GenericEntity> attendanceList = getStudentAttendance(token, (String) studentId, null, null);
+        List<GenericEntity> enrollments = getApiClient().getEnrollmentForStudent(token, (String) studentId);
+        if (enrollments == null || enrollments.size() < 1) {
+            return ge;
+        }
+        GenericEntity firstEnrollment = enrollments.get(0);
+        Map<String, Object> school = (Map<String, Object>) firstEnrollment.get(Constants.ATTR_SCHOOL);
+        if (school != null) {
+            schoolId = (String) school.get(Constants.ATTR_ID);
+        }
+        else {
+            return ge;
+        }
+
+        List<String> currentYearDates = null;
+
+        try {
+            // get begin/end dates for the current school year
+            currentYearDates = getCurrentYearDates(token, schoolId);
+        } catch (ParseException e) {
+            LOG.error(e.getMessage(), e);
+        }
+
+        LinkedList<Map> absentList = new LinkedList<Map>();
+        ge.put(Constants.ATTR_ATTENDANCE_LIST, absentList);
+        ge.put(Constants.ATTR_START_DATE, currentYearDates.get(0));
+        ge.put(Constants.ATTR_END_DATE, currentYearDates.get(1));
+
+
+        List<GenericEntity> attendanceList = getStudentAttendanceForSchool(token, (String) studentId, schoolId, null, null);
         if (attendanceList == null || attendanceList.size() < 1) {
             return ge;
         }
 
         GenericEntity firstWrapper = attendanceList.get(0);
-        String schoolId = (String) firstWrapper.get("schoolId");
         List<Map<String, Object>> schoolYearAttendance = (List<Map<String, Object>>) firstWrapper
                 .get(Constants.ATTR_ATTENDANCE_SCHOOLYEAR_ATTENDANCE);
         if (schoolYearAttendance == null || schoolYearAttendance.size() < 1) {
@@ -1458,30 +1510,20 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             return ge;
         }
 
-        LinkedList<Map> absentList = new LinkedList<Map>();
-        List<String> currentYearDates = null;
 
-        try {
-            // get begin/end dates for the current school year
-            currentYearDates = getCurrentYearDates(token, schoolId);
 
-            // filter out 'In Attendance' events, remove whitespace
-            for (Map attEvent : attList) {
-                String event = (String) attEvent.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
-                if (!event.equals(Constants.ATTR_ATTENDANCE_IN_ATTENDANCE)) {
-                    String strippedWhiteSpaceEvent = ((String) attEvent.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY))
-                            .replace(" ", "");
-                    attEvent.put(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY, strippedWhiteSpaceEvent);
-                    absentList.addLast(attEvent);
-                }
+        // filter out 'In Attendance' events, remove whitespace
+        //LinkedList<Map> absentList = new LinkedList<Map>();
+        for (Map attEvent : attList) {
+            String event = (String) attEvent.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY);
+            if (!event.equals(Constants.ATTR_ATTENDANCE_IN_ATTENDANCE)) {
+                String strippedWhiteSpaceEvent = ((String) attEvent.get(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY))
+                        .replace(" ", "");
+                attEvent.put(Constants.ATTR_ATTENDANCE_EVENT_CATEGORY, strippedWhiteSpaceEvent);
+                absentList.addLast(attEvent);
             }
-        } catch (ParseException e) {
-            LOG.error(e.getMessage(), e);
         }
 
-        ge.put(Constants.ATTR_ATTENDANCE_LIST, absentList);
-        ge.put(Constants.ATTR_START_DATE, currentYearDates.get(0));
-        ge.put(Constants.ATTR_END_DATE, currentYearDates.get(1));
         return ge;
     }
 

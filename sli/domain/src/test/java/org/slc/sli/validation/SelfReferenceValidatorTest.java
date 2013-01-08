@@ -31,6 +31,10 @@ import org.mockito.MockitoAnnotations;
 
 import org.slc.sli.domain.Entity;
 
+
+/**
+ * @author ablum
+ */
 public class SelfReferenceValidatorTest {
 	private static final String REFERENCE_FIELD = "parentEducationAgency";
 	private static final String UUID = "3849403483783";
@@ -51,19 +55,19 @@ public class SelfReferenceValidatorTest {
 
     @Test
     public void testValidate() {
-    	Entity entity = Mockito.mock(Entity.class);
-    	Map<String, Object> body = new HashMap<String, Object>();
-    	body.put(REFERENCE_FIELD, UUID);
-    	Mockito.when(entity.getBody()).thenReturn(body);
-    	Mockito.when(entity.getEntityId()).thenReturn(UUID);
+        Entity entity = Mockito.mock(Entity.class);
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put(REFERENCE_FIELD, UUID);
+        Mockito.when(entity.getBody()).thenReturn(body);
+        Mockito.when(entity.getEntityId()).thenReturn(UUID);
 
-    	List<ValidationError> errors = new ArrayList<ValidationError>();
+        List<ValidationError> errors = new ArrayList<ValidationError>();
 
-    	boolean valid = selfReferenceValidator.validate(entity, errors);
+        boolean valid = selfReferenceValidator.validate(entity, errors);
 
-    	Assert.assertFalse(valid);
+        Assert.assertFalse(valid);
 
-    	Assert.assertEquals(1, errors.size());
+        Assert.assertEquals(1, errors.size());
     }
 
 

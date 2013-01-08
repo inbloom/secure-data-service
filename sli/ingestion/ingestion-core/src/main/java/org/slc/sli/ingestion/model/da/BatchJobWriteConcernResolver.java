@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
- package org.slc.sli.ingestion.model.da;
+package org.slc.sli.ingestion.model.da;
 
 import com.mongodb.WriteConcern;
 
@@ -32,7 +32,8 @@ public class BatchJobWriteConcernResolver implements WriteConcernResolver {
     @Override
     public WriteConcern resolve(MongoAction action) {
 
-        if (action.getEntityClass().getSimpleName().equals("Error")) {
+        Class<?> entityClass = action.getEntityClass();
+        if (entityClass != null && "Error".equals(entityClass.getSimpleName())) {
             return WriteConcern.NORMAL;
         }
 

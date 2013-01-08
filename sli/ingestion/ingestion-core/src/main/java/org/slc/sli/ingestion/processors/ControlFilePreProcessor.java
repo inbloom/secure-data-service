@@ -112,6 +112,8 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
 
         String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
+        TenantContext.setJobId(batchJobId);
+
         String controlFileName = "control_file";
 
         ReportStats reportStats = null;
@@ -126,7 +128,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         try {
             fileForControlFile = exchange.getIn().getBody(File.class);
             controlFileName = fileForControlFile.getName();
-            source = new JobSource(batchJobId, controlFileName, BATCH_JOB_STAGE.getName());
+            source = new JobSource(controlFileName, BATCH_JOB_STAGE.getName());
             reportStats = new SimpleReportStats();
 
             newBatchJob = getOrCreateNewBatchJob(batchJobId, fileForControlFile);
@@ -269,8 +271,8 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
      *            Exception thrown during control file parsing.
      * @param controlFileName
      */
-    private void handleExceptions(Exchange exchange, String batchJobId, Exception exception,
-            ReportStats reportStats, Source source) {
+    private void handleExceptions(Exchange exchange, String batchJobId, Exception exception, ReportStats reportStats,
+            Source source) {
         exchange.getIn().setHeader("BatchJobId", batchJobId);
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
