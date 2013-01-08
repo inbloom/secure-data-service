@@ -65,7 +65,7 @@ public class SmooksFileHandlerTest {
     @Autowired
     LocalFileSystemLandingZone lz;
 
-    ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
+    ReportStats reportStats = new SimpleReportStats();
 
     /*
      * XML TESTS
@@ -87,7 +87,7 @@ public class SmooksFileHandlerTest {
         inputFileEntry.setFile(inputFile);
 
         AbstractMessageReport errorReport = new DummyMessageReport();
-        ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
+        ReportStats reportStats = new SimpleReportStats();
 
         smooksFileHandler.handle(inputFileEntry, errorReport, reportStats);
 
@@ -107,7 +107,7 @@ public class SmooksFileHandlerTest {
         inputFileEntry.setBatchJobId("111111111-222222222-333333333-444444444-555555555-6");
 
         AbstractMessageReport errorReport = new DummyMessageReport();
-        ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
+        ReportStats reportStats = new SimpleReportStats();
 
         smooksFileHandler.handle(inputFileEntry, errorReport, reportStats);
 
@@ -130,7 +130,7 @@ public class SmooksFileHandlerTest {
         inputFileEntry.setBatchJobId("111111111-222222222-333333333-444444444-555555555-6");
 
         AbstractMessageReport errorReport = new DummyMessageReport();
-        ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
+        ReportStats reportStats = new SimpleReportStats();
 
         smooksFileHandler.handle(inputFileEntry, errorReport, reportStats);
 

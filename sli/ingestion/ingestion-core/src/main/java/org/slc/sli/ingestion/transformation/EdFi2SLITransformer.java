@@ -102,10 +102,9 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             return Collections.emptyList();
         }
 
-        Source source = new NeutralRecordSource(batchJobId, item.getSourceFile(),
-                BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(), item.getRecordType(),
-                item.getVisitBeforeLineNumber(), item.getVisitBeforeColumnNumber(), item.getVisitAfterLineNumber(),
-                item.getVisitAfterColumnNumber());
+        Source source = new NeutralRecordSource(item.getSourceFile(), BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
+                item.getVisitBeforeLineNumber(), item.getVisitBeforeColumnNumber(),
+                item.getVisitAfterLineNumber(), item.getVisitAfterColumnNumber());
 
         if (transformed != null && !transformed.isEmpty()) {
 
@@ -205,9 +204,8 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             for (String fieldName : e1.getNaturalKeys()) {
                 message.append("\n" + "       Field      " + fieldName);
             }
-            Source source = new NeutralRecordSource(reportStats.getBatchJobId(), entity.getResourceId(),
-                    getStageName(), entity.getType(), entity.getVisitBeforeLineNumber(),
-                    entity.getVisitBeforeColumnNumber(), entity.getVisitAfterLineNumber(),
+            Source source = new NeutralRecordSource(entity.getResourceId(), getStageName(),
+                    entity.getVisitBeforeLineNumber(), entity.getVisitBeforeColumnNumber(), entity.getVisitAfterLineNumber(),
                     entity.getVisitAfterColumnNumber());
             report.error(reportStats, source, CoreMessageCode.CORE_0010, entity.getType(),
                     Long.toString(entity.getRecordNumber()), message.toString());
@@ -235,9 +233,8 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     protected Query createEntityLookupQueryFromKeyFields(SimpleEntity entity, EntityConfig entityConfig,
             AbstractMessageReport report, ReportStats reportStats) {
         Query query = new Query();
-        Source source = new NeutralRecordSource(reportStats.getBatchJobId(), entity.getResourceId(), getStageName(),
-                entity.getType(), entity.getVisitBeforeLineNumber(), entity.getVisitBeforeColumnNumber(),
-                entity.getVisitAfterLineNumber(), entity.getVisitAfterColumnNumber());
+        Source source = new NeutralRecordSource(entity.getResourceId(), getStageName(), entity.getVisitBeforeLineNumber(),
+                entity.getVisitBeforeColumnNumber(), entity.getVisitAfterLineNumber(), entity.getVisitAfterColumnNumber());
 
         StringBuilder errorMessage = new StringBuilder("");
         if (entityConfig.getKeyFields() == null || entityConfig.getKeyFields().size() == 0) {

@@ -194,7 +194,7 @@ public class ConcurrentEdFiProcessor implements Processor, ApplicationContextAwa
 
                 IngestionFileEntry fe = new IngestionFileEntry(fileFormat, fileType, fileName, checksum, lzPath);
                 fe.setMessageReport(databaseMessageReport);
-                fe.setReportStats(new SimpleReportStats(batchJobId, fileName, BATCH_JOB_STAGE.getName()));
+                fe.setReportStats(new SimpleReportStats());
                 fe.setFile(new File(resource.getResourceName()));
                 fe.setBatchJobId(batchJobId);
 
@@ -210,8 +210,8 @@ public class ConcurrentEdFiProcessor implements Processor, ApplicationContextAwa
         LogUtil.error(LOG, "Error processing batch job " + batchJobId, exception);
 
         if (batchJobId != null) {
-            ReportStats reportStats = new SimpleReportStats(batchJobId, null, BATCH_JOB_STAGE.getName());
-            Source source = new JobSource(batchJobId, null, BATCH_JOB_STAGE.getName());
+            ReportStats reportStats = new SimpleReportStats();
+            Source source = new JobSource(null, BATCH_JOB_STAGE.getName());
             databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0021, batchJobId, exception.getMessage());
         }
     }

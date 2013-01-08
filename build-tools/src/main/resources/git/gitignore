@@ -6,3 +6,5 @@
 target
 .git
 .pydevproject
+.pmdruleset
+activemq-data
