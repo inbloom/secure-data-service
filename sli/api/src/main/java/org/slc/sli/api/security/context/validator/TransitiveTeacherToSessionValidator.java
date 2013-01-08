@@ -67,9 +67,16 @@ public class TransitiveTeacherToSessionValidator extends AbstractContextValidato
 
         if (!sessionsToValidate.isEmpty()) {
 
-            Iterable<Entity> sections = repo.findAll(EntityNames.STUDENT_SECTION_ASSOCIATION, new NeutralQuery(
+            Iterable<Entity> ssas = repo.findAll(EntityNames.STUDENT_SECTION_ASSOCIATION, new NeutralQuery(
                     new NeutralCriteria(ParameterConstants.STUDENT_ID, NeutralCriteria.CRITERIA_IN, studentHelper.getStudentIds())));
 
+            Set<String> sectionIds = new HashSet<String>();
+            for (Entity ssa : ssas) {
+                sectionIds.add((String) ssa.getBody().get(ParameterConstants.SECTION_ID));
+            }
+
+            Iterable<Entity> sections = repo.findAll(EntityNames.SECTION, new NeutralQuery(
+                    new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, sectionIds)));
             Set<String> studentsSessions = new HashSet<String>();
             for (Entity section : sections) {
                 String sessionId = (String) section.getBody().get(ParameterConstants.SESSION_ID);
@@ -77,6 +84,8 @@ public class TransitiveTeacherToSessionValidator extends AbstractContextValidato
                     studentsSessions.add(sessionId);
                 }
             }
+
+
 
             // any sessions to validate that are student sessions will be added to valid sessions
             sessionsToValidate.retainAll(studentsSessions);
