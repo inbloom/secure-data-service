@@ -21,6 +21,7 @@ import org.slc.sli.dal.migration.strategy.MigrationStrategy;
 import org.slc.sli.dal.migration.strategy.impl.AddStrategy;
 import org.slc.sli.dal.migration.strategy.impl.RemoveFieldStrategy;
 import org.slc.sli.dal.migration.strategy.impl.RenameFieldStrategy;
+import org.slc.sli.dal.migration.strategy.impl.CardinalityStrategy;
 
 /**
  * A list of all supported strategies and the classes that implement those strategies.
@@ -32,7 +33,8 @@ public enum Strategy {
     
     ADD(AddStrategy.class),
     REMOVE(RemoveFieldStrategy.class),
-    RENAME(RenameFieldStrategy.class);
+    RENAME(RenameFieldStrategy.class),
+    CARDINALITY(CardinalityStrategy.class);
 
     private Class<? extends MigrationStrategy> implementingClass;
 

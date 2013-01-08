@@ -52,22 +52,38 @@ public class CardinalityStrategy implements MigrationStrategy {
 
         Object valueObject = entity.getBody().get(fieldName);
         if (valueObject == null) {
-            if (minCount == "1") {
+            if (minCount.equals("1")) {
 
-                // this is the case for a field that has gone from optional to required
+                // this is the case for a field that has gone from optional to required - either 1 or many
 
-                try {
-                    PropertyUtils.setProperty(entity.getBody(), fieldName, defaultValue);
-                } catch (IllegalAccessException e) {
-                    throw new MigrationException(e);
-                } catch (InvocationTargetException e) {
-                    throw new MigrationException(e);
-                } catch (NoSuchMethodException e) {
-                    throw new MigrationException(e);
+                if (maxCount.equals("many")) {
+                    List<String> fieldValues = new ArrayList<String>();
+                    fieldValues.add (DEFAULT_VALUE);
+
+                    try {
+                        PropertyUtils.setProperty(entity.getBody(), fieldName, fieldValues);
+                    } catch (IllegalAccessException e) {
+                        throw new MigrationException(e);
+                    } catch (InvocationTargetException e) {
+                        throw new MigrationException(e);
+                    } catch (NoSuchMethodException e) {
+                        throw new MigrationException(e);
+                    }
+                }
+                else {
+                    try {
+                        PropertyUtils.setProperty(entity.getBody(), fieldName, defaultValue);
+                    } catch (IllegalAccessException e) {
+                        throw new MigrationException(e);
+                    } catch (InvocationTargetException e) {
+                        throw new MigrationException(e);
+                    } catch (NoSuchMethodException e) {
+                        throw new MigrationException(e);
+                    }
                 }
             }
         } else if (valueObject instanceof List) {
-            if (maxCount == "1") {
+            if (maxCount.equals("1")) {
 
                 // this is the case where we've gone from many to 1
 
@@ -88,7 +104,7 @@ public class CardinalityStrategy implements MigrationStrategy {
                 }
             }
         } else if (valueObject instanceof String) {
-            if (maxCount == "many") {
+            if (maxCount.equals("many")) {
 
                 // this is the case where we've gone from 1 to many
                 String valueString = (String) valueObject;
