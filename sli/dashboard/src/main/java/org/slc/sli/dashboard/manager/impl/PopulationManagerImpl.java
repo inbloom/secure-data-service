@@ -1323,8 +1323,8 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
                 studentIdsList.add(student.getId());
             }
             Map<String, String> studentParams = new HashMap<String, String>();
-            studentParams.put("limit", "0");
-            studentParams.put("views", "gradeLevel");
+            studentParams.put(Constants.LIMIT, "0");
+            studentParams.put(Constants.ATTR_OPTIONAL_FIELDS, Constants.ATTR_GRADE_LEVEL);
             List<GenericEntity> retrievedStudents = entityManager.getApiClient().getStudents(token, studentIdsList,
                     studentParams);
 
