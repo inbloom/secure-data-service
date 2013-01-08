@@ -56,16 +56,34 @@ public class TransitiveTeacherToCourseOfferingValidator extends AbstractContextV
             return false;
         }
         
+        HashSet<String> toValidate = new HashSet<String>(ids);
+        
+        Set<String> edorgs = getTeacherEdorgLineage();
+
+        // first try to validate through edorg associations
+        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
+                NeutralCriteria.CRITERIA_IN, ids));
+        Iterable<Entity> cos = repo.findAll(EntityNames.COURSE_OFFERING, basicQuery);
+        for (Entity co : cos) {
+            if (edorgs.contains((String) co.getBody().get(ParameterConstants.SCHOOL_ID))) {
+                toValidate.remove(co.getEntityId());
+            }
+        }
+        
+        if (toValidate.size() == 0) {
+            return true;
+        }
+
+        
         List<String> students = helpme.getStudentIds();
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.COURSE_OFFERING_ID, NeutralCriteria.CRITERIA_IN, ids));
         nq.addCriteria(new NeutralCriteria("studentSectionAssociation.body.studentId", NeutralCriteria.CRITERIA_IN, students,false));
         Iterable<Entity> results = repo.findAll(EntityNames.SECTION, nq);
         
-        Set<String> fin = new HashSet<String>(ids);
         for(Entity e : results) {
-            fin.remove(e.getBody().get(ParameterConstants.COURSE_OFFERING_ID));
+            toValidate.remove(e.getBody().get(ParameterConstants.COURSE_OFFERING_ID));
         }
         
-        return fin.isEmpty();
+        return toValidate.isEmpty();
     }
 }
