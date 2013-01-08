@@ -121,7 +121,7 @@ public class StudentValidatorHelper {
         List<String> programIds = new ArrayList<String>();
         for (Entity assoc : staffProgramAssociations) {
             Object studentRecordAccess = assoc.getBody().get(STUDENT_RECORD_ACCESS);
-            if (studentRecordAccess != null && (Boolean)studentRecordAccess) {
+            if (studentRecordAccess != null && (Boolean) studentRecordAccess) {
                 if (!dateHelper.isFieldExpired(assoc.getBody(), ParameterConstants.END_DATE, false)) {
                     programIds.add((String) assoc.getBody().get(ParameterConstants.PROGRAM_ID));
                 }
