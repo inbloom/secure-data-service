@@ -65,6 +65,7 @@ public class GenericContextValidator implements IContextValidator {
 
     private static final List<String> TRANSITIVE_IGNORE_LIST = Arrays.asList(EntityNames.ATTENDANCE,
             EntityNames.COURSE_TRANSCRIPT, EntityNames.COHORT, EntityNames.EDUCATION_ORGANIZATION,
+            EntityNames.SESSION,
             EntityNames.DISCIPLINE_ACTION, EntityNames.STUDENT_ACADEMIC_RECORD, EntityNames.STUDENT_SCHOOL_ASSOCIATION,
             EntityNames.STUDENT_PARENT_ASSOCIATION, EntityNames.REPORT_CARD, EntityNames.STUDENT_SECTION_ASSOCIATION,
             EntityNames.STUDENT, EntityNames.SCHOOL, EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION,

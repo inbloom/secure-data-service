@@ -43,7 +43,7 @@ class NewAccountsController < ForgotPasswordsController
       if @new_account_password.set_password {|emailAddress, fullName| ApplicationMailer.samt_welcome(@user[:emailAddress], @user[:first], APP_LDAP_CLIENT.get_user_groups(@user[:email])).deliver}
         @user[:status] = 'approved'
         APP_LDAP_CLIENT.update_status(@user)
-        format.html { redirect_to "/forgotPassword/notify", notice: 'Your password has been successfully modified.'}
+        format.html { redirect_to "/forgotPassword/success", notice: 'Your password has been successfully modified.'}
         format.json { render :json => @forgot_password, status: :created, location: @forgot_password }
       else
         format.html { render action: 'new_account' }
