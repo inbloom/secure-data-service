@@ -34,9 +34,6 @@ class ChangePasswordsController < ApplicationController
   # GET /change_passwords/new.json
   def new
     @prod_developer = is_developer? && !APP_CONFIG['is_sandbox']
-    puts is_developer?
-    puts !APP_CONFIG['is_sandbox']
-    puts @prod_developer
     @change_password = ChangePassword.new
 
     respond_to do |format|
