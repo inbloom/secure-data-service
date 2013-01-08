@@ -20,6 +20,7 @@ import static org.slc.sli.api.constants.ParameterConstants.STUDENT_RECORD_ACCESS
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -27,7 +28,6 @@ import java.util.TreeSet;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
-import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
@@ -44,11 +44,6 @@ public class StudentValidatorHelper {
 
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
-
-    @Autowired
-    private AssociativeContextHelper helper;
-
-    private static final String COHORT_REF = "cohort";
 
     public List<String> getStudentIds() {
         Entity principal = SecurityUtil.getSLIPrincipal().getEntity();
@@ -171,20 +166,15 @@ public class StudentValidatorHelper {
         }
 
         // cohort -> studentCohortAssociation
-        Iterable<Entity> studentList = helper.getEntitiesWithDenormalizedReference(EntityNames.STUDENT, COHORT_REF,
-                cohortIds);
+        query = new NeutralQuery(new NeutralCriteria(ParameterConstants.COHORT_ID, NeutralCriteria.CRITERIA_IN,
+                cohortIds));
+        Iterable<Entity> studentList = repo.findAll(EntityNames.STUDENT_COHORT_ASSOCIATION, query);
+        Set<String> studentIds = new HashSet<String>();
 
         // filter on end_date to get list of students
-        List<String> studentIds = new ArrayList<String>();
         for (Entity student : studentList) {
-            List<Map<String, Object>> cohortList = student.getDenormalizedData().get(COHORT_REF);
-            for (Map<String, Object> cohort : cohortList) {
-                String cohortRefId = (String) cohort.get("_id");
-                if ((cohortIds.contains(cohortRefId))
-                        && !dateHelper.isFieldExpired(cohort, ParameterConstants.END_DATE, false)) {
-                    studentIds.add(student.getEntityId());
-                    break;
-                }
+            if (!dateHelper.isFieldExpired(student.getBody(), ParameterConstants.END_DATE, false)) {
+                studentIds.add((String) student.getBody().get(ParameterConstants.STUDENT_ID));
             }
 
         }
