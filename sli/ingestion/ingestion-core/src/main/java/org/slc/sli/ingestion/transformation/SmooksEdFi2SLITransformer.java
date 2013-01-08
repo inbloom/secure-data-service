@@ -43,12 +43,12 @@ import org.slc.sli.ingestion.reporting.ReportStats;
 @Component
 public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
     private static final ObjectMapper MAPPER = new ObjectMapper();
+    private static final String STAGE_NAME = "Smooks EdFi To SLI Transformer";
 
     private Map<String, Smooks> smooksConfigs;
 
     @Override
-    public List<SimpleEntity> transform(NeutralRecord item, AbstractMessageReport report,
-            ReportStats reportStats) {
+    public List<SimpleEntity> transform(NeutralRecord item, AbstractMessageReport report, ReportStats reportStats) {
         JavaResult result = new JavaResult();
         Smooks smooks = smooksConfigs.get(item.getRecordType());
 
@@ -66,6 +66,7 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
             if (recordNumber != null) {
                 entity.setRecordNumber(recordNumber.longValue());
             }
+            entity.setSourceFile(item.getSourceFile());
 
             entity.setVisitBeforeLineNumber(item.getVisitBeforeLineNumber());
             entity.setVisitBeforeColumnNumber(item.getVisitBeforeColumnNumber());
@@ -90,6 +91,12 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
             StringSource source = new StringSource(MAPPER.writeValueAsString(item));
             smooks.filterSource(source, result);
             sliEntities = getEntityListResult(result);
+            for (SimpleEntity entity : sliEntities) {
+                entity.setVisitBeforeLineNumber(item.getVisitBeforeLineNumber());
+                entity.setVisitBeforeColumnNumber(item.getVisitBeforeColumnNumber());
+                entity.setVisitAfterLineNumber(item.getVisitAfterLineNumber());
+                entity.setVisitAfterColumnNumber(item.getVisitAfterColumnNumber());
+            }
         } catch (java.io.IOException e) {
             sliEntities = Collections.emptyList();
         }
@@ -135,5 +142,10 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
             ReportStats reportStats) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public String getStageName() {
+        return STAGE_NAME;
     }
 }

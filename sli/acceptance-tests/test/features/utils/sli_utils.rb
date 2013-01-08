@@ -127,6 +127,7 @@ $SESSION_MAP = {
                 "staff22_SEC" => "00000000-5555-5555-0001-500000000122",
                 "linda.kim_Zork" => "08e3cc74-4a5c-4a0e-b8ab-680ee11cc890",
                 "linda.kim_Chaos" => "160eb95e-173f-472a-8ed2-b973a4d775a3",
+                "linda.kimadmin_IL" => "4cf7a5d4-37a1-ca19-8b13-b5f95131afff",
                 "cgrayadmin_IL" => "bd8987d4-75a2-ba63-8b53-424242424242",
                 "jstevenson_SIF" => "e4e9d71c-d674-11e1-9ea4-f9fc6188709b",
                 "linda.kim_developer-email" => "d0c34964-4a5c-4a0e-b8ab-1fd1a6801888",

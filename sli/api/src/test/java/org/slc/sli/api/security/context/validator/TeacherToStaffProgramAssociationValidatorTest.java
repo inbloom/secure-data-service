@@ -59,12 +59,7 @@ public class TeacherToStaffProgramAssociationValidatorTest {
 	public void init() {
 		injector.setEducatorContext(USER_ID);
 	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void testEmptyIdList() {
-		val.validate(CORRECT_ENTITY_TYPE, new HashSet<String>());
-	}
-
+	
 	@Test(expected = IllegalArgumentException.class)
 	public void testValidateWrongType() {
 		val.validate(EntityNames.ASSESSMENT, new HashSet<String>(Arrays.asList("Jomolungma")));

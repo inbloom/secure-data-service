@@ -37,11 +37,14 @@ import org.slc.sli.ingestion.validation.Validator;
 
 /**
  * Index validator for all dbs.
+ *
  * @author npandey
  *
  */
 public class DbIndexValidator implements Validator<DB> {
     private static final Logger LOGGER = LoggerFactory.getLogger(DbIndexValidator.class);
+
+    private static final String STAGE_NAME = "Database Index Validation";
 
     /**
      * {@inheritDoc}
@@ -56,6 +59,7 @@ public class DbIndexValidator implements Validator<DB> {
 
     /**
      * Loads indexes from external source
+     *
      * @return
      */
     protected Set<MongoIndex> loadExpectedIndexes() {
@@ -106,6 +110,11 @@ public class DbIndexValidator implements Validator<DB> {
             }
         }
         return res;
+    }
+
+    @Override
+    public String getStageName() {
+        return STAGE_NAME;
     }
 
 }

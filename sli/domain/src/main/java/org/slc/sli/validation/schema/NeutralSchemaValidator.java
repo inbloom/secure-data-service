@@ -31,6 +31,7 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.SchemaRepository;
+import org.slc.sli.validation.SelfReferenceValidator;
 import org.slc.sli.validation.ValidationError;
 
 /**
@@ -59,7 +60,10 @@ public class NeutralSchemaValidator implements EntityValidator {
     @Qualifier("simpleValidationRepo")
     private Repository<Entity> simpleValidationRepo;
 
-    // Constructors
+    @Autowired
+    private SelfReferenceValidator selfReferenceValidator;
+
+	// Constructors
     public NeutralSchemaValidator() {
         // necessary for instantiation via Spring 
     }
@@ -84,6 +88,12 @@ public class NeutralSchemaValidator implements EntityValidator {
 
         List<ValidationError> errors = new LinkedList<ValidationError>();
         boolean valid = schema.validate("", entity.getBody(), errors, validationRepo);
+        if (!valid) {
+            LOG.debug("Errors detected in {}, {}", new Object[]{entity.getEntityId(), errors});
+            throw new EntityValidationException(entity.getEntityId(), entity.getType(), errors);
+        }
+
+        valid = selfReferenceValidator.validate(entity, errors);
         if (!valid) {
             LOG.debug("Errors detected in {}, {}", new Object[]{entity.getEntityId(), errors});
             throw new EntityValidationException(entity.getEntityId(), entity.getType(), errors);
@@ -133,5 +143,10 @@ public class NeutralSchemaValidator implements EntityValidator {
 
         return true;
     }
+
+    public void setSelfReferenceValidator(
+			SelfReferenceValidator selfReferenceValidator) {
+		this.selfReferenceValidator = selfReferenceValidator;
+	}
 
 }

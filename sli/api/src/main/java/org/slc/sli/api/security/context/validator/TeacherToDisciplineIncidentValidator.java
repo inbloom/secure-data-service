@@ -17,7 +17,9 @@
 package org.slc.sli.api.security.context.validator;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.slc.sli.api.constants.EntityNames;
@@ -70,15 +72,31 @@ public class TeacherToDisciplineIncidentValidator extends AbstractContextValidat
         
         //Otherwise the teacher needs to have context to the students involved with the incident
         query = new NeutralQuery(new NeutralCriteria(ParameterConstants.DISCIPLINE_INCIDENT_ID, NeutralCriteria.CRITERIA_IN, discIncidentIds));
-        query.setIncludeFields(Arrays.asList(ParameterConstants.STUDENT_ID));
+        query.setIncludeFields(Arrays.asList(ParameterConstants.STUDENT_ID, ParameterConstants.DISCIPLINE_INCIDENT_ID));
         Iterable<Entity> assocs = repo.findAll(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, query);
         
-        Set<String> studentIds = new HashSet<String>();
-        for(Entity assoc : assocs) {
-            studentIds.add((String) assoc.getBody().get(ParameterConstants.STUDENT_ID));
+        Map<String, Set<String>> discIncToStudents = new HashMap<String, Set<String>>();
+        for (Entity assoc : assocs) {
+            String studentId = (String) assoc.getBody().get(ParameterConstants.STUDENT_ID);
+            String discIncId = (String) assoc.getBody().get(ParameterConstants.DISCIPLINE_INCIDENT_ID);
+            Set<String> studentList = discIncToStudents.get(discIncId);
+            if (studentList == null) {
+                studentList = new HashSet<String>();
+                discIncToStudents.put(discIncId, studentList);
+            }
+            studentList.add(studentId);
         }
         
-        return studentValidator.validate(EntityNames.STUDENT, studentIds);
+        //Make sure that for each incident we can see at least one of their students
+        int validIncidents = 0;
+        for (Set<String> studentList : discIncToStudents.values()) {
+            if (studentValidator.getValid(EntityNames.STUDENT, studentList).size() > 0) {
+                validIncidents++;
+            } else {
+                return false;
+            }
+        }
+        return validIncidents == discIncidentIds.size();
     }
     
     

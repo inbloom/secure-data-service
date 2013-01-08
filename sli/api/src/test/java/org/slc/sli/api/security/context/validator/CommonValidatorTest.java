@@ -58,7 +58,7 @@ import org.slc.sli.domain.MongoEntity;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
-        DirtiesContextTestExecutionListener.class })
+    DirtiesContextTestExecutionListener.class })
 public class CommonValidatorTest {
 
     @Autowired
@@ -107,7 +107,7 @@ public class CommonValidatorTest {
             if (ignored.contains(entity)) {
                 continue;
             }
-            
+
             for (Boolean isTransitive : Arrays.asList(true, false)) {
 
                 int numValidators = 0;
@@ -116,10 +116,10 @@ public class CommonValidatorTest {
                         numValidators++;
                     }
                 }
-    
+
                 if (numValidators != 1) {
                     messages.add("Incorrect number of validators found for entity: " + entity + ", (expected:1, actual:"
-                        + numValidators + "). ");
+                            + numValidators + "). ");
                 }
             }
         }
@@ -142,7 +142,7 @@ public class CommonValidatorTest {
             if (ignored.contains(entity)) {
                 continue;
             }
-            
+
             for (Boolean isTransitive : Arrays.asList(true, false)) {
 
                 int numValidators = 0;
@@ -154,10 +154,10 @@ public class CommonValidatorTest {
                         }
                     }
                 }
-    
+
                 if (numValidators != 1) {
                     messages.add("Incorrect number of validators found for entity: " + entity + ", (expected:1, actual:"
-                        + numValidators + "). ");
+                            + numValidators + "). ");
                 }
             }
         }
@@ -171,6 +171,90 @@ public class CommonValidatorTest {
         }
     }
 
+    /**
+     * Validate that an {@link IllegalArgumentException} is thrown when the entity type is null
+     * @throws Exception
+     */
+    @Test
+    public void testNullParms() throws Exception {
+        List<String> entities = getEntityNames();
+        for (String entity : entities) {
+            for (String type : new String[] {"teacher", "staff"}) {
+                setupCurrentUser(new MongoEntity(type, new HashMap<String, Object>()));
+                for (Boolean isTransitive : new Boolean[] {true, false}) {
+                    for (IContextValidator validator : validators) {
+                        if (validator instanceof GenericContextValidator) {
+                            continue;
+                        }
+                        if (validator.canValidate(entity, isTransitive)) {
+                            try {
+                                validator.validate(null, new HashSet<String>(Arrays.asList("blah")));
+                                Assert.fail("Expected IllegalArgumentException for " + validator + " validating " + entity);
+                            } catch (IllegalArgumentException e) {
+                                //expected
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     * Validate that an {@link IllegalArgumentException} is thrown if the entity type
+     * is wrong.
+     * @throws Exception
+     */
+    @Test
+    public void testNonMatchingTypeParms() throws Exception {
+        List<String> entities = getEntityNames();
+        for (String entity : entities) {
+            for (String type : new String[] {"teacher", "staff"}) {
+                setupCurrentUser(new MongoEntity(type, new HashMap<String, Object>()));
+                for (Boolean isTransitive : new Boolean[] {true, false}) {
+                    for (IContextValidator validator : validators) {
+                        if (validator instanceof GenericContextValidator) {
+                            continue;
+                        }
+                        if (validator.canValidate(entity, isTransitive)) {
+                            try {
+                                validator.validate("fakeEntity", new HashSet<String>(Arrays.asList("blah")));
+                                Assert.fail("Expected IllegalArgumentException for " + validator + " validating incorrect entity type.");
+                            } catch (IllegalArgumentException e) {
+                                //expected
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     * Validate that a validator returns false if the id list is empty or null
+     * @throws Exception
+     */
+    @Test
+    public void testEmptyIdList() throws Exception {
+        List<String> entities = getEntityNames();
+        for (String entity : entities) {
+            for (String type : new String[] {"teacher", "staff"}) {
+                setupCurrentUser(new MongoEntity(type, new HashMap<String, Object>()));
+                for (Boolean isTransitive : new Boolean[] {true, false}) {
+                    for (IContextValidator validator : validators) {
+                        if (validator instanceof GenericContextValidator) {
+                            continue;
+                        }
+                        if (validator.canValidate(entity, isTransitive)) {
+                            Assert.assertFalse(validator + " must return false for null IDs", validator.validate(entity, null));
+                            Assert.assertFalse(validator + " must return false for empty IDs", validator.validate(entity, new HashSet<String>()));
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     /**
      * Set up the principal
      *

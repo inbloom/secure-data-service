@@ -198,6 +198,7 @@
         <value>onUnload\s*=</value>
         <value>onURLFlip\s*=</value>
         <value>seekSegmentTime\s*=</value>
+        <value>\\x00</value>
       </list>
     </constructor-arg>
   </bean>
@@ -358,6 +359,7 @@
         <value>onUnload\s*=</value>
         <value>onURLFlip\s*=</value>
         <value>seekSegmentTime\s*=</value>
+        <value>\\x00</value>
       </list>
     </constructor-arg>
   </bean>

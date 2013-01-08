@@ -4606,6 +4606,7 @@
 						a hierarchy.
 					</xs:documentation>
 					<xs:appinfo>
+					    <sli:SelfReference>true</sli:SelfReference>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 					</xs:appinfo>
 				</xs:annotation>
@@ -5867,8 +5868,7 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
-			<xs:element name="calendarDateReference" type="reference"
-				minOccurs="0" maxOccurs="unbounded">
+			<xs:element name="calendarDateReference" type="reference" maxOccurs="unbounded">
 				<xs:annotation>
 					<xs:documentation>Days associated with the grading period.
 					</xs:documentation>

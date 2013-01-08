@@ -29,7 +29,7 @@ import org.slc.sli.domain.Entity;
  * @author dduran
  *
  */
-public class NeutralRecordEntity implements Entity {
+public class NeutralRecordEntity implements Entity, Resource {
 
     private NeutralRecord neutralRecord;
     private long recordNumberInFile;
@@ -160,12 +160,17 @@ public class NeutralRecordEntity implements Entity {
     }
 
     @Override
-    public Map<String,List<Entity>> getEmbeddedData() {
+    public Map<String, List<Entity>> getEmbeddedData() {
         return new HashMap<String, List<Entity>>();
     }
 
     @Override
     public Map<String, List<Map<String, Object>>> getDenormalizedData() {
         return new HashMap<String, List<Map<String, Object>>>();
+    }
+
+    @Override
+    public String getResourceId() {
+        return neutralRecord.getResourceId();
     }
 }

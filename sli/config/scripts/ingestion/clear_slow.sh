@@ -4,9 +4,8 @@
 #
 #set -x
 
-if [ $# -ne 0 ];
-then
-e echo "Usage: clear_slow [SLOW_QUERY_TIME]"
+if [ $# -ne 0 ] ; then
+  echo "Usage: clear_slow [SLOW_QUERY_TIME]"
   echo "This script clears the slow query logs"
   exit 1
 fi
@@ -30,10 +29,12 @@ if [ -n "`hostname | grep slirp`" ] ; then
   # SLIRP
   PRIMARIES="slirpmongo03.slidev.org slirpmongo05.slidev.org slirpmongo09.slidev.org slirpmongo11.slidev.org"
   STAGING="slirpmongo99.slidev.org"
+  ING_SERVERS="ingest01 ingest02 ingest03"
 else
   # Local
   PRIMARIES="localhost"
   STAGING="localhost"
+  ING_SERVERS="localhost"
 fi
 
 if [ -z "$SCRIPTS" ] ; then
@@ -42,17 +43,11 @@ fi
 if [ -z "$ING_LOG_DIR" ] ; then
   ING_LOG_DIR=/opt/logs
 fi
-if [ -z "$LZ" ] ; then
-  LZ=/opt/lz
-fi
 
 echo "******************************************************************************"
 echo "**  Clearing slow query logs at `date`"
 echo "******************************************************************************"
 
-#
-# Get slow query logs
-#
 echo "Slow query logs, ingestion_batch_job..."
 mongo --quiet $STAGING/ingestion_batch_job << END
   db.setProfilingLevel(0);
@@ -88,12 +83,15 @@ END
 END
 done
 
-echo " ***** Truncating ingestion log"
-echo " " > $ING_LOG_DIR/ingestion.log
-
 if [ -n "`hostname | grep slirp`" ] ; then
-  echo " ***** Truncating GC log"
-  echo " " > /opt/logs/gc.out
+  for ING_SERVER in $ING_SERVERS ; do
+    echo " ***** Truncating ingestion log and GC log on $ING_SERVER"
+    ssh slirp$ING_SERVER "echo ' ' > $ING_LOG_DIR/ingestion.log"
+    ssh slirp$ING_SERVER "echo ' ' > /opt/logs/gc.log"
+  done
+else
+  echo " ***** Truncating ingestion log and GC log"
+  echo " " > $ING_LOG_DIR/ingestion.log
 fi
 
 echo "slirp_clear_slow.sh finished at `date`"
