@@ -735,7 +735,8 @@ end
 # Dashboard SDS tests start
 ############################################################
 desc "Run Dashboard Tests against SDS"
-task :dashboardSdsTests => [:dashboardSdsUploadConfigTests,
+task :dashboardSdsTests => [:runSearchBulkExtract,
+                         :dashboardSdsUploadConfigTests,
                          :dashboardSdsCoreStudentsTests,
                          :dashboardSdsContactInfoTests,
                          :dashboardSdsLoginTests,

@@ -172,29 +172,27 @@ public class PersistenceProcessorTest {
 
     @Test
     public void testRecordHashIngestedforSimpleEntity() {
-    	NeutralRecord originalRecord = createBaseNeutralRecord("simple");
+        NeutralRecord originalRecord = createBaseNeutralRecord("simple");
 
-    	Object rhTenantIdObj = originalRecord.getMetaDataByName("rhTenantId");
-
-    	testRecordHashIngested(originalRecord,  1);
+        testRecordHashIngested(originalRecord, 1);
     }
 
     @Test
     public void testRecordHashIngestedforTransformedEntity() {
-		NeutralRecord originalRecord = createBaseNeutralRecord("transformed");
-		List<Map<String, Object>> rhData = (List<Map<String, Object>>) originalRecord.getMetaDataByName("rhData");
-		testRecordHashIngested(originalRecord, rhData.size());
+        NeutralRecord originalRecord = createBaseNeutralRecord("transformed");
+        List<Map<String, Object>> rhData = (List<Map<String, Object>>) originalRecord.getMetaDataByName("rhData");
+        testRecordHashIngested(originalRecord, rhData.size());
     }
 
-	private void testRecordHashIngested(NeutralRecord originalRecord, int count) {
-		recordHashTestPreConfiguration();
+    private void testRecordHashIngested(NeutralRecord originalRecord, int count) {
+        recordHashTestPreConfiguration();
 
-    	processor.upsertRecordHash(originalRecord);
-    	verify(processor.getBatchJobDAO(), times(count)).insertRecordHash(any(String.class), any(String.class), any(String.class));
+        processor.upsertRecordHash(originalRecord);
+        verify(processor.getBatchJobDAO(), times(count)).insertRecordHash(any(String.class), any(String.class));
 
-    	processor.upsertRecordHash(addRecordHashMetadata(originalRecord));
-    	verify(processor.getBatchJobDAO(), times(count)).updateRecordHash(any(String.class), any(RecordHash.class), any(String.class));
-	}
+        processor.upsertRecordHash(addRecordHashMetadata(originalRecord));
+        verify(processor.getBatchJobDAO(), times(count)).updateRecordHash(any(RecordHash.class), any(String.class));
+    }
 
     private  NeutralRecord addRecordHashMetadata(NeutralRecord originalRecord) {
         List<Map<String, Object>> rhDataList = (List<Map<String, Object>>)originalRecord.getMetaDataByName("rhData");
@@ -211,14 +209,14 @@ public class PersistenceProcessorTest {
         return originalRecord;
     }
 
-	private void recordHashTestPreConfiguration() {
-		BatchJobDAO batchJobDAO = Mockito.mock(BatchJobDAO.class);
+    private void recordHashTestPreConfiguration() {
+        BatchJobDAO batchJobDAO = Mockito.mock(BatchJobDAO.class);
         processor.setBatchJobDAO(batchJobDAO);
 
-    	Set<String> recordTypes = new HashSet();
-    	recordTypes.add("recordType");
-    	processor.setRecordLvlHashNeutralRecordTypes(recordTypes);
-	}
+        Set<String> recordTypes = new HashSet();
+        recordTypes.add("recordType");
+        processor.setRecordLvlHashNeutralRecordTypes(recordTypes);
+    }
 
     private RecordHash createRecordHash(String rHash) {
         RecordHash hash = new RecordHash();
@@ -235,27 +233,27 @@ public class PersistenceProcessorTest {
 
         List<Map<String, Object>> rhData = new ArrayList<Map<String, Object>>();
 
-		if (entityType.equals("simple")) {
+        if (entityType.equals("simple")) {
             Map<String, Object> rhDataElement = new HashMap<String, Object>();
-			rhDataElement.put("rhId", "rhId1");
-			rhDataElement.put("rhHash", "rhHash1");
-			rhData.add(rhDataElement);
-		} else if (entityType.equals("transformed")) {
+            rhDataElement.put("rhId", "rhId1");
+            rhDataElement.put("rhHash", "rhHash1");
+            rhData.add(rhDataElement);
+        } else if (entityType.equals("transformed")) {
             Map<String, Object> rhDataElement = new HashMap<String, Object>();
-			rhDataElement.put("rhId", "rhId1");
-			rhDataElement.put("rhHash", "rhHash1");
-			rhData.add(rhDataElement);
+            rhDataElement.put("rhId", "rhId1");
+            rhDataElement.put("rhHash", "rhHash1");
+            rhData.add(rhDataElement);
 
             rhDataElement = new HashMap<String, Object>();
-			rhDataElement.put("rhId", "rhId2");
-			rhDataElement.put("rhHash", "rhHash2");
-			rhData.add(rhDataElement);
+            rhDataElement.put("rhId", "rhId2");
+            rhDataElement.put("rhHash", "rhHash2");
+            rhData.add(rhDataElement);
 
             rhDataElement = new HashMap<String, Object>();
-			rhDataElement.put("rhId", "rhId3");
-			rhDataElement.put("rhHash", "rhHash3");
-			rhData.add(rhDataElement);
-		}
+            rhDataElement.put("rhId", "rhId3");
+            rhDataElement.put("rhHash", "rhHash3");
+            rhData.add(rhDataElement);
+        }
 
         originalRecord.addMetaData("rhData", rhData);
         originalRecord.addMetaData("rhTenantId", "rhTenantId");

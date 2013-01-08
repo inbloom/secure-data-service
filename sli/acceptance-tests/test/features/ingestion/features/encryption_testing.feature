@@ -84,6 +84,9 @@ Scenario: Ingested Student data should be encrypted: Clean Database
 
 Scenario: Ingested Student data should be encrypted: Populated Database
 	Given I post "encryption.zip" file as the payload of the ingestion job
+	And the following collections are empty in datastore:
+         | collectionName              |
+	    | recordHash                  |
 	When zip file is scp to ingestion landing zone
 	And I am willing to wait upto 30 seconds for ingestion to complete
 	And a batch job for file "encryption.zip" is completed in database

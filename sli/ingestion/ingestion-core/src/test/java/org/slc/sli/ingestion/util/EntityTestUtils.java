@@ -83,7 +83,7 @@ public class EntityTestUtils {
 
         DummyResourceWriter dummyResourceWriter = new DummyResourceWriter();
         AbstractMessageReport errorReport = Mockito.mock(AbstractMessageReport.class);
-        ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
+        ReportStats reportStats = new SimpleReportStats();
 
         SliSmooks smooks = new SliSmooks(smooksConfig);
         SmooksEdFiVisitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance("record", null, errorReport,

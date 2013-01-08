@@ -60,7 +60,7 @@ public class ZipFileHandler extends AbstractIngestionHandler<FileResource, File>
 
         boolean done = false;
         long clockTimeout = System.currentTimeMillis() + zipfileCompletionTimeout;
-        Source source = new JobSource(reportStats.getBatchJobId(), zipFile.getResourceId(), getStageName());
+        Source source = new JobSource(zipFile.getResourceId(), getStageName());
 
         while (!done) {
 

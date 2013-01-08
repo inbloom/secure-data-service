@@ -37,25 +37,7 @@
             </div>
 			<@includePanelModel panelId="studentSearchResults"/>
 
-            <div id="schoolSelectSection">
-                <h4>Select a school to search:</h4>
 
-                <input type='hidden' value='' id ='schoolSelect' />
-                <div class="btn-toolbar menuBox">
-                    <div class="btn-group" id="schoolSelectMenu">
-                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#" >
-                            <span class='optionText'> </span>
-                            <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu">
-                        </ul>
-                    </div>
-                    <div class="btn-group">
-                       <button type="submit" class="btn" id="search_btn_go">Go</button>
-                    </div>
-                </div>
-                <div id="schoolSelectionError">Please select a school from the dropdown.</div>
-            </div>
 
             <div id="searchResultsSection">
                 Your search for "${panelData.searchString}" returned ${panelData.numResults} result<#if panelData.numResults != 1>s</#if>.

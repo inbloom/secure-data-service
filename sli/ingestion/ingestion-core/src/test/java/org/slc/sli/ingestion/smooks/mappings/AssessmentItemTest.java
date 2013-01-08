@@ -103,9 +103,9 @@ public class AssessmentItemTest {
 
         for (Map<String, Object> lsRef : refs) {
             Map<String, Object> identityType = (Map<String, Object>) lsRef.get("LearningStandardIdentity");
-        	Assert.assertNotNull(identityType);
-        	Assert.assertTrue(identityType.containsKey("IdentificationCode"));
-        	lsIdSet.add((String) identityType.get("IdentificationCode"));
+            Assert.assertNotNull(identityType);
+            Assert.assertTrue(identityType.containsKey("IdentificationCode"));
+            lsIdSet.add((String) identityType.get("IdentificationCode"));
         }
 
         Assert.assertTrue(lsIdSet.contains("id-code-1"));

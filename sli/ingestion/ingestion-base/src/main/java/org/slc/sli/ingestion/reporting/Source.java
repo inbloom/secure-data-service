@@ -26,11 +26,6 @@ package org.slc.sli.ingestion.reporting;
 public interface Source {
 
     /**
-     * @return the batch job id associated with this Source.
-     */
-    String getBatchJobId();
-
-    /**
      *
      * @return the resource id associated with this Source.
      */

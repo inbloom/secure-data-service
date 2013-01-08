@@ -36,7 +36,7 @@ import org.slc.sli.ingestion.landingzone.LandingZone;
  */
 public class MD5 {
 
-    private final static Logger LOG = LoggerFactory.getLogger( MD5.class );
+    private static final Logger LOG = LoggerFactory.getLogger(MD5.class);
 
     public static String calculate(String fileName, LandingZone lz) {
         String md5 = "";

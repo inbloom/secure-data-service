@@ -30,20 +30,21 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
-import org.slc.sli.ingestion.util.EntityTestUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.xml.sax.SAXException;
 
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
+import org.slc.sli.ingestion.util.EntityTestUtils;
+
 /**
  * Test the smooks mappings for Cohort entity.
- * 
+ *
  * @author syau
- * 
+ *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -62,73 +63,63 @@ public class GradingPeriodEntityTest {
         MockitoAnnotations.initMocks(this);
     }
 
-	/**
-	 * Test that Ed-Fi program is correctly mapped to a NeutralRecord.
-	 * 
-	 * @throws IOException
-	 * @throws SAXException
-	 */
-	@Test
-	public final void mapEdfiXmlToNeutralRecordTest() throws IOException,
-			SAXException {
+    /**
+     * Test that Ed-Fi program is correctly mapped to a NeutralRecord.
+     *
+     * @throws IOException
+     * @throws SAXException
+     */
+    @Test
+    public final void mapEdfiXmlToNeutralRecordTest() throws IOException, SAXException {
 
-		String smooksXmlConfigFilePath = "smooks_conf/smooks-all-xml.xml";
+        String smooksXmlConfigFilePath = "smooks_conf/smooks-all-xml.xml";
 
-		String targetSelector = "InterchangeEducationOrgCalendar/GradingPeriod";
+        String targetSelector = "InterchangeEducationOrgCalendar/GradingPeriod";
 
-		String edfiXml = null;
+        String edfiXml = null;
 
-		try {
-			edfiXml = EntityTestUtils
-					.readResourceAsString("smooks/unitTestData/GradingPeriodEntity.xml");
-		} catch (FileNotFoundException e) {
-			System.err.println(e);
-			Assert.fail();
-		}
+        try {
+            edfiXml = EntityTestUtils.readResourceAsString("smooks/unitTestData/GradingPeriodEntity.xml");
+        } catch (FileNotFoundException e) {
+            System.err.println(e);
+            Assert.fail();
+        }
 
-	       NeutralRecord neutralRecord = EntityTestUtils
-	                .smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
-	                        targetSelector, edfiXml, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
+        NeutralRecord neutralRecord = EntityTestUtils.smooksGetSingleNeutralRecord(smooksXmlConfigFilePath,
+                targetSelector, edfiXml, recordLevelDeltaEnabledEntityNames, mockDIdStrategy, mockDIdResolver);
 
+        checkValidNeutralRecord(neutralRecord);
+    }
 
-		checkValidNeutralRecord(neutralRecord);
-	}
+    @SuppressWarnings("unchecked")
+    private void checkValidNeutralRecord(NeutralRecord neutralRecord) {
+        assertEquals("Expecting different record type", "gradingPeriod", neutralRecord.getRecordType());
 
-	@SuppressWarnings("unchecked")
-	private void checkValidNeutralRecord(NeutralRecord neutralRecord) {
-		assertEquals("Expecting different record type", "gradingPeriod",
-				neutralRecord.getRecordType());
+        assertEquals("Expected no local parent ids", 0, neutralRecord.getLocalParentIds().size());
 
-		assertEquals("Expected no local parent ids", 0, neutralRecord
-				.getLocalParentIds().size());
+        Map<String, Object> attributes = neutralRecord.getAttributes();
 
-		Map<String, Object> attributes = neutralRecord.getAttributes();
+        System.err.println(attributes);
 
-		System.err.println(attributes);
+        assertEquals("Expected different number of attributes", 7, attributes.size());
+        assertEquals("First Six Weeks", attributes.get("GradingPeriod"));
+        assertEquals("Expected different description", "2010-2011", attributes.get("SchoolYear"));
 
-		assertEquals("Expected different number of attributes", 7,
-				attributes.size());
-		assertEquals("First Six Weeks", attributes.get("GradingPeriod"));
-		assertEquals("Expected different description", "2010-2011",
-				attributes.get("SchoolYear"));
+        List<Map<String, Object>> dateRefsList = (List<Map<String, Object>>) attributes.get("CalendarDateReference");
 
-		List<Map<String, Object>> dateRefsList = (List<Map<String, Object>>) attributes
-				.get("CalendarDateReference");
+        assertEquals("Expected different number of attributes", 3, dateRefsList.size());
 
-		assertEquals("Expected different number of attributes", 3,
-				dateRefsList.size());
+        int day = 23;
+        for (Map<String, Object> dateRefItem : dateRefsList) {
 
-		int day = 23;
-		for (Map<String, Object> dateRefItem : dateRefsList) {
+            Map<String, Object> dateIdentity = (Map<String, Object>) dateRefItem.get("CalendarDateIdentity");
 
-			Map<String, Object> dateIdentity = (Map<String, Object>) dateRefItem.get("CalendarDateIdentity");
+            assertEquals("Unexpected Date", ("2010-08-" + day++), dateIdentity.get("Date"));
+            Map<String, Object> edOrgRef = (Map<String, Object>) dateIdentity.get("EducationOrgReference");
+            Map<String, Object> edOrgId = (Map<String, Object>) edOrgRef.get("EducationalOrgIdentity");
+            assertEquals("Unexpected StateOrganizationId", "IL", edOrgId.get("StateOrganizationId"));
+        }
 
-			assertEquals("Unexpected Date", ("2010-08-"+day++), dateIdentity.get("Date"));
-			Map<String, Object> edOrgRef = (Map<String, Object>) dateIdentity.get("EducationOrgReference");
-			Map<String, Object> edOrgId = (Map<String, Object>) edOrgRef.get("EducationalOrgIdentity");
-			assertEquals("Unexpected StateOrganizationId", "IL", edOrgId.get("StateOrganizationId"));
-		}
-
-	}
+    }
 
 }

@@ -11,6 +11,7 @@ Scenario: Ingest original data, update, then revert
 Given the following collections are empty in datastore:
      | collectionName              |
      | educationOrganization       |
+     | recordHash                  |
   And I post "TinyDataSet.zip" file as the payload of the ingestion job
   And zip file is scp to ingestion landing zone
   And I am willing to wait upto 60 seconds for ingestion to complete

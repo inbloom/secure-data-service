@@ -39,6 +39,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingestion job
     And the following collections are empty in datastore:
         | collectionName                        |
+        | recordHash                            |
         | assessment                            |
         | attendance                            |
         | calendarDate                          |
@@ -662,7 +663,7 @@ Then I should see following map of entry counts in the corresponding collections
        | educationOrganization       | 1                   | body.stateOrganizationId | IL-SUNSET                  | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId | IL                         | string               |
 
-    And I should see "Processed 343 records." in the resulting batch job file
+    And I should see "Processed 342 records." in the resulting batch job file
     #TODO - this test data generates a warn file
     #And I should not see a warning log file created
     And I should not see an error log file created
@@ -672,8 +673,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeEducationOrganization.xml records considered: 3" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records ingested successfully: 3" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeEducationOrgCalendar.xml records considered: 3" in the resulting batch job file
-    And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 3" in the resulting batch job file
+    And I should see "InterchangeEducationOrgCalendar.xml records considered: 2" in the resulting batch job file
+    And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 2" in the resulting batch job file
     And I should see "InterchangeEducationOrgCalendar.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records considered: 4" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records ingested successfully: 4" in the resulting batch job file
@@ -692,6 +693,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
   And I post "StoriedDataSet_NY.zip" file as the payload of the ingestion job
       And the following collections are empty in datastore:
         | collectionName                      |
+        | recordHash                          |
         | student                             |
         | studentSchoolAssociation            |
         | course                              |
@@ -803,6 +805,9 @@ Then I should see following map of entry counts in the corresponding collections
 
 Scenario: Post an append zip file containing append data for Illinois Daybreak as a payload of the ingestion job: Append Database
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
+  And the following collections are empty in datastore:
+        | collectionName              |
+        | recordHash                  |
   And I post "StoriedDataSet_IL_Daybreak_Append.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And a batch job for file "StoriedDataSet_IL_Daybreak_Append.zip" is completed in database
@@ -1028,6 +1033,7 @@ Scenario: Concurrent job processing
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the following collections are empty in datastore:
         | collectionName              |
+        | recordHash                  |
         | student                     |
         | studentSchoolAssociation    |
         | course                      |
@@ -1069,6 +1075,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
     And the following collections are empty in datastore:
         | collectionName              |
+        | recordHash                  |
         | assessment                  |
         | attendance                  |
         | calendarDate                |
@@ -1219,4 +1226,3 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
         | staffProgramAssociation     | 8                   | body.endDate                   | 2012-02-15              | string               |
         | staffProgramAssociation     | 10                  | body.studentRecordAccess       | true                    | boolean              |
         | staffProgramAssociation     | 1                   | body.studentRecordAccess       | false                   | boolean              |
-

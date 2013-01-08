@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
@@ -67,9 +68,9 @@ public class DatabaseMessageReport extends AbstractMessageReport {
     }
 
     private void persistFault(FaultType faultType, String message, Source source) {
-        Error error = Error.createIngestionError(source.getBatchJobId(), source.getResourceId(), source.getStageName(),
-                BatchJobUtils.getHostName(), BatchJobUtils.getHostAddress(), null, faultType.getName(),
-                faultType.getName(), message);
+        Error error = Error.createIngestionError(TenantContext.getJobId(), source.getResourceId(),
+                source.getStageName(), BatchJobUtils.getHostName(), BatchJobUtils.getHostAddress(), null,
+                faultType.getName(), faultType.getName(), message);
 
         batchJobDAO.saveError(error);
     }

@@ -184,8 +184,8 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
                 File parseFile = new File(fullParsefilePathname);
                 String publicId = (ex.getPublicId() == null) ? "" : ex.getPublicId();
 
-                Source source = new NeutralRecordSource(reportStats.getBatchJobId(), parseFile.getName(), STAGE_NAME,
-                        publicId, ex.getLineNumber(), ex.getColumnNumber());
+                Source source = new NeutralRecordSource(parseFile.getName(), STAGE_NAME, ex.getLineNumber(),
+                        ex.getColumnNumber());
 
                 report.warning(reportStats, source, BaseMessageCode.BASE_0017, parseFile.getName(), ex.getMessage());
             }
