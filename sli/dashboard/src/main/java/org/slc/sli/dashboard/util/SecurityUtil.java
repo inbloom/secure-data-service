@@ -59,7 +59,7 @@ public class SecurityUtil {
             if (authentication != null) {
                 Collection<GrantedAuthority> authorities = authentication.getAuthorities();
                 for (GrantedAuthority authority : authorities) {
-                    if  (authority.getAuthority().equals(Constants.ROLE_TEACHER)) {
+                    if  (authority.getAuthority().equals(Constants.ROLE_EDUCATOR)) {
                         return false;
                     }
                 }
@@ -79,7 +79,7 @@ public class SecurityUtil {
                         if (authority != null) {
                             String authorityString = authority.getAuthority();
                             
-                            if (Constants.ROLE_ADMIN.equals(authorityString)) {
+                            if (Constants.ROLE_IT_ADMINISTRATOR.equals(authorityString)) {
                                 return true;
                             }
                         }
