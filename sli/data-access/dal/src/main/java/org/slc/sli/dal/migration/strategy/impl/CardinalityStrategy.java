@@ -18,6 +18,7 @@ package org.slc.sli.dal.migration.strategy.impl;
 
 import java.util.Map;
 import java.util.List;
+import java.util.ArrayList;
 import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -65,8 +66,7 @@ public class CardinalityStrategy implements MigrationStrategy {
                     throw new MigrationException(e);
                 }
             }
-        }
-        else if (valueObject instanceof List) {
+        } else if (valueObject instanceof List) {
             if (maxCount == "1") {
 
                 // this is the case where we've gone from many to 1
@@ -79,6 +79,24 @@ public class CardinalityStrategy implements MigrationStrategy {
 
                 try {
                     PropertyUtils.setProperty(entity.getBody(), fieldName, fieldValue);
+                } catch (IllegalAccessException e) {
+                    throw new MigrationException(e);
+                } catch (InvocationTargetException e) {
+                    throw new MigrationException(e);
+                } catch (NoSuchMethodException e) {
+                    throw new MigrationException(e);
+                }
+            }
+        } else if (valueObject instanceof String) {
+            if (maxCount == "many") {
+
+                // this is the case where we've gone from 1 to many
+                String valueString = (String) valueObject;
+                List<String> fieldValues = new ArrayList<String>();
+                fieldValues.add (valueString);
+
+                try {
+                    PropertyUtils.setProperty(entity.getBody(), fieldName, fieldValues);
                 } catch (IllegalAccessException e) {
                     throw new MigrationException(e);
                 } catch (InvocationTargetException e) {
