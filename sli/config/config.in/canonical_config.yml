@@ -276,8 +276,8 @@ default:
         bootstrap.app.admin.authorized_for_all_edorgs: true
         bootstrap.app.admin.allowed_for_all_edorgs: true
         bootstrap.app.databrowser.template: applications/databrowser.json
-        bootstrap.app.databrowser.name: inBloom Data Browser
-        bootstrap.app.databrowser.description: The inBloom Data Browser allows developers and administrators to access all available information in the inBloom datastore.
+        bootstrap.app.databrowser.name: SLC Data Browser
+        bootstrap.app.databrowser.description: The SLC Data Browser allows developers and administrators to access all available information in the inBloom datastore.
         bootstrap.app.databrowser.version: 0.0
         bootstrap.app.databrowser.authorized_for_all_edorgs: false
         bootstrap.app.databrowser.allowed_for_all_edorgs: true
