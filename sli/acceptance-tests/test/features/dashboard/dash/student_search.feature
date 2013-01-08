@@ -17,7 +17,7 @@ Then I see these values in the drop-down: "East Daybreak Junior High"
 And I select school "East Daybreak Junior High" 
 And I search by clicking on the go button
 Then "1" results are returned in the page
-And the title of the page is "SLC - Search"
+And the title of the page is "inBloom - Search"
 And the search results has the following entries:
   |Student      |Grade    |School                     |
   |Matt Sollars |8        |East Daybreak Junior High  |
