@@ -464,7 +464,10 @@ final class Uml2XsdWriter {
                 writeSimpleType(simpleType, lookup, plugin, xsw);
             }
             for (final ClassType enumType : sort(lookup.getClassTypes().values(), TypeComparator.SINGLETON)) {
-                writeComplexType(enumType, lookup, plugin, xsw);
+                // DE2424 exclude creating a ComplexType with no name
+                if ("".equals(enumType.getName()) == false) {
+                    writeComplexType(enumType, lookup, plugin, xsw);
+                }
             }
         } finally {
             xsw.writeEndElement();

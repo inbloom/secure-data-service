@@ -149,9 +149,11 @@ public class Uml2XsdWriterTest {
         attributes.add(new Attribute(Identifier.random(), "myAttribute", Identifier.random(), MULTIPLICITY, new ArrayList<TaggedValue>()));
 
         ClassType myClassType = new ClassType(myClassTypeIdentifier, "name", false, attributes, lhs, rhs, new ArrayList<TaggedValue>());
+        ClassType namelessClassType = new ClassType(myClassTypeIdentifier, "", false, attributes, lhs, rhs, new ArrayList<TaggedValue>());
 
         Map<String, ClassType> classTypes = new HashMap<String, ClassType>();
         classTypes.put("myClassType", myClassType);
+        classTypes.put("namelessClassType", namelessClassType);
 
         List<AssociationEnd> associationEnds = new ArrayList<AssociationEnd>();
         associationEnds.add(lhs);
