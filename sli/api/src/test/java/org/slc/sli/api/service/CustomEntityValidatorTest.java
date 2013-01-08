@@ -52,7 +52,7 @@ public class CustomEntityValidatorTest {
     }
 
     @Test
-    public void testValidFieldNameWithoutBrackets() {
+    public void testValidFieldName() {
         String validCustomEntityId = "validCustomEntity1";
         EntityBody validCustomEntity = new EntityBody();
         validCustomEntity.put("ID", validCustomEntityId);
@@ -62,21 +62,10 @@ public class CustomEntityValidatorTest {
         Assert.assertTrue("There should be no validation errors", validationErrors.isEmpty());
     }
 
-    @Test
-    public void testValidFieldNameWithBrackets() {
-        String validCustomEntityId = "validCustomEntity2";
-        EntityBody validCustomEntity = new EntityBody();
-        validCustomEntity.put("ID", validCustomEntityId);
-        validCustomEntity.put("<goodFieldName>", "goodFieldValue");
-
-        List<ValidationError> validationErrors = customEntityValidator.validate(validCustomEntity);
-        Assert.assertTrue("There should be no validation errors", validationErrors.isEmpty());
-    }
-
     @SuppressWarnings("serial")
     @Test
     public void testMultipleNestedValidFieldNames() {
-        final String validCustomEntityId = "validCustomEntity3";
+        final String validCustomEntityId = "validCustomEntity2";
         EntityBody validCustomEntity = new EntityBody() {
             {
                 put("ID", validCustomEntityId);
