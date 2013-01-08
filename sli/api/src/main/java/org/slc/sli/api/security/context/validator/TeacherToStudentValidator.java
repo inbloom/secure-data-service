@@ -25,14 +25,12 @@ import java.util.Set;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
-import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Lists;
@@ -48,9 +46,6 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
 
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
-
-    @Autowired
-    private AssociativeContextHelper helper;
 
     @Override
     public boolean canValidate(String entityType, boolean through) {
@@ -132,20 +127,17 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
     private Set<String> getValidatedWithCohorts(Set<String> ids) {
         Set<String> staffCohortIds = getStaffCohortIds();
 
-        Iterable<Entity> studentList =
-                helper.getEntitiesWithDenormalizedReference(EntityNames.STUDENT, "cohort", new ArrayList<String>(staffCohortIds));
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.COHORT_ID,
+                NeutralCriteria.CRITERIA_IN, staffCohortIds));
+        Iterable<Entity> studentList = repo.findAll(EntityNames.STUDENT_COHORT_ASSOCIATION, query);
         Set<String> studentIds = new HashSet<String>();
+
+        // filter on end_date to get list of students
         for (Entity student : studentList) {
-            List<Map<String, Object>> cohortList = student.getDenormalizedData().get("cohort");
-            for (Map<String, Object> cohort : cohortList) {
-                String cohortRefId = (String) cohort.get("_id");
-                if (staffCohortIds.contains(cohortRefId)) {
-                    if (!isFieldExpired(cohort, ParameterConstants.END_DATE, false)) {
-                        studentIds.add(student.getEntityId());
-                        break;
-                    }
-                }
+            if (!dateHelper.isFieldExpired(student.getBody(), ParameterConstants.END_DATE, false)) {
+                studentIds.add((String) student.getBody().get(ParameterConstants.STUDENT_ID));
             }
+
         }
         return studentIds;
     }

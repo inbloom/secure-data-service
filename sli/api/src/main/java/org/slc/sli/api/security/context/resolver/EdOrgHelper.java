@@ -27,7 +27,6 @@ import java.util.TreeSet;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
-import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.security.context.validator.DateHelper;
 import org.slc.sli.api.util.SecurityUtil;
@@ -58,9 +57,6 @@ public class EdOrgHelper {
 
     @Autowired
     protected PagingRepositoryDelegate<Entity> repo;
-
-    @Autowired
-    private AssociativeContextHelper helper;
 
     @Autowired
     protected DateHelper dateHelper;
