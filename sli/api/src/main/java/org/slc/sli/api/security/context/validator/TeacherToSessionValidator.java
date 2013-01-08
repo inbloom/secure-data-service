@@ -41,7 +41,7 @@ public class TeacherToSessionValidator extends AbstractContextValidator {
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return !isStaff() && EntityNames.SESSION.equals(entityType) && !isTransitive;
+        return isTeacher() && EntityNames.SESSION.equals(entityType) && !isTransitive;
     }
     
     @Override
