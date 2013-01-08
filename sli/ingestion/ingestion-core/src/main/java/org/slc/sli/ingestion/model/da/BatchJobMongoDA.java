@@ -525,14 +525,13 @@ public class BatchJobMongoDA implements BatchJobDAO {
      *         The SpringDadta Query object that looks the record up in the recordHash collection.
      */
     public Query recordHashQuery(String recordId) {
-    	Query query = new Query().limit(1);
+        Query query = new Query().limit(1);
         query.addCriteria(Criteria.where("_id").is(RecordHash.hex2Binary(recordId)));
         return query;
     }
 
     @Override
     public void removeRecordHashByTenant(String tenantId) {
-        Query searchTenantId = new Query();
         sliMongo.remove(new Query(), RECORD_HASH);
     }
 
