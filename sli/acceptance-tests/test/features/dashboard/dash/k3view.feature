@@ -31,7 +31,7 @@ And I select section "Mrs. Braverman's Homeroom #38"
 Then I should only see one view named "Default View"
 Then I see a list of 20 students
 And the list includes: "Mi-Ha Tran"
-And I click on student "Lauretta Sydnee Seip"
+And I click on student "Lauretta Seip"
 And I view its student profile
 #Display Elementary School Tab
 And their grade is "1"
@@ -52,7 +52,7 @@ And I select section "Mrs. Braverman's Homeroom #38"
 Then I should only see one view named "IL_K-3"
 Then I see a list of 20 students
 And the list includes: "Mi-Ha Tran"
-And I click on student "Lauretta Sydnee Seip"
+And I click on student "Lauretta Seip"
 And I view its student profile
 #Display Elementary School Tab
 And their grade is "1"

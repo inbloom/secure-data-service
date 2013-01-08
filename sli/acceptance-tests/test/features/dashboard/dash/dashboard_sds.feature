@@ -8,7 +8,7 @@ When I navigate to the Dashboard home page
 When I select "Illinois Daybreak School District 4529" and click go
 
 @integration @RALLY_US200 @RALLY_US147 @RALLY_US198 @RALLY_US2253 @RALLY_US196 @RALLY_US2254
-Scenario: View Matt Joseph Sollars
+Scenario: View Matt Sollars
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 And I see a header on the page
@@ -62,27 +62,27 @@ And I click on "StateTest Reading Performance Level" header to sort an integer c
 And I click on "StateTest Writing Performance Level" header to sort an integer column in "descending" order based on "title"
 And I click on "Unit Test 1" header to sort a "LetterGrade" column in "ascending" order
 Then I should only see one view named "Middle School ELA View"
-And the list includes: "Matt Joseph Sollars"
-And the following students have "ELL" lozenges: "Matt Joseph Sollars;Alton Maultsby;Malcolm Eric Costillo"
+And the list includes: "Matt Sollars"
+And the following students have "ELL" lozenges: "Matt Sollars;Alton Maultsby;Malcolm Costillo"
 And there is no lozenges for student "Lettie Hose"
 And the cutpoints for "StateTest Reading" is "120,180,231,278,364"
 And the cutpoints for "StateTest Writing" is "6,15,21,28,33"
-And the fuel gauge for "Matt Joseph Sollars" in "StateTest Reading" column "perfLevel" is "199"
-And the fuel gauge for "Matt Joseph Sollars" in "StateTest Writing" column "perfLevel" is "1"
-And the fuel gauge for "Oralia Zoe Merryweather" in "StateTest Reading" column "perfLevel" is "205"
-And the fuel gauge for "Oralia Zoe Merryweather" in "StateTest Writing" column "perfLevel" is "32"
+And the fuel gauge for "Matt Sollars" in "StateTest Reading" column "perfLevel" is "199"
+And the fuel gauge for "Matt Sollars" in "StateTest Writing" column "perfLevel" is "1"
+And the fuel gauge for "Oralia Merryweather" in "StateTest Reading" column "perfLevel" is "205"
+And the fuel gauge for "Oralia Merryweather" in "StateTest Writing" column "perfLevel" is "32"
 And the fuel gauge for "Gerardo Saltazor" in "StateTest Reading" column "perfLevel" is "309"
 And the fuel gauge for "Gerardo Saltazor" in "StateTest Writing" column "perfLevel" is "15"
 And the fuel gauge for "Karrie Rudesill" in "StateTest Reading" column "perfLevel" is "181"
 And the fuel gauge for "Karrie Rudesill" in "StateTest Writing" column "perfLevel" is "11"
-And the count for id "attendances.absenceCount" for student "Matt Joseph Sollars" is "4"
-And the class for id "attendances.absenceCount" for student "Matt Joseph Sollars" is "color-widget-green"
-And the count for id "attendances.attendanceRate" for student "Matt Joseph Sollars" is "95"
-And the class for id "attendances.attendanceRate" for student "Matt Joseph Sollars" is "color-widget-green"
-And the count for id "attendances.tardyCount" for student "Matt Joseph Sollars" is "0"
-And the class for id "attendances.tardyCount" for student "Matt Joseph Sollars" is "color-widget-darkgreen"
-And the count for id "attendances.tardyRate" for student "Matt Joseph Sollars" is "0"
-And the class for id "attendances.tardyRate" for student "Matt Joseph Sollars" is "color-widget-darkgreen"
+And the count for id "attendances.absenceCount" for student "Matt Sollars" is "4"
+And the class for id "attendances.absenceCount" for student "Matt Sollars" is "color-widget-green"
+And the count for id "attendances.attendanceRate" for student "Matt Sollars" is "95"
+And the class for id "attendances.attendanceRate" for student "Matt Sollars" is "color-widget-green"
+And the count for id "attendances.tardyCount" for student "Matt Sollars" is "0"
+And the class for id "attendances.tardyCount" for student "Matt Sollars" is "color-widget-darkgreen"
+And the count for id "attendances.tardyRate" for student "Matt Sollars" is "0"
+And the class for id "attendances.tardyRate" for student "Matt Sollars" is "color-widget-darkgreen"
 # AbsenceCount: 1
 And the count for id "attendances.absenceCount" for student "Dominic Brisendine" is "0"
 And the class for id "attendances.absenceCount" for student "Dominic Brisendine" is "color-widget-darkgreen"
@@ -90,8 +90,8 @@ And the class for id "attendances.absenceCount" for student "Dominic Brisendine"
 And the count for id "attendances.absenceCount" for student "Alton Maultsby" is "5"
 And the class for id "attendances.absenceCount" for student "Alton Maultsby" is "color-widget-green"
 # AbsenceCount: more than 11 absense count
-And the count for id "attendances.absenceCount" for student "Felipe Melvin Cianciolo" is "6"
-And the class for id "attendances.absenceCount" for student "Felipe Melvin Cianciolo" is "color-widget-yellow"
+And the count for id "attendances.absenceCount" for student "Felipe Cianciolo" is "6"
+And the class for id "attendances.absenceCount" for student "Felipe Cianciolo" is "color-widget-yellow"
 # AbsenceCount: less than 89% attendance rate
 And the count for id "attendances.attendanceRate" for student "Lashawn Taite" is "86"
 And the class for id "attendances.attendanceRate" for student "Lashawn Taite" is "color-widget-red"
@@ -122,7 +122,7 @@ And the grades teardrop color widgets for "previousSemester;twoSemestersAgo" are
  |F+   |teardrop-red       |
  |F-   |teardrop-red       |
  |F    |teardrop-red       |
-And I click on student "Matt Joseph Sollars"
+And I click on student "Matt Sollars"
 And I see a header on the page
 And I see a footer on the page
 And the title of the page is "SLC - Student Profile"
@@ -338,7 +338,7 @@ And I click on the browser back button
 Then I see a list of 25 students
 
 @integration @RALLY_US200 @RALLY_US147 @RALLY_US198
-Scenario: View Carmen Daniella Ortiz
+Scenario: View Carmen Ortiz
  And I was redirected to the "Simple" IDP Login page
  When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
 When I select ed org "Daybreak School District 4529"
@@ -346,19 +346,19 @@ When I select school "Daybreak Central High"
 And I select course "American Literature"
 And I select section "Sec 145"
 Then I see a list of 25 students
-And the list includes: "Carmen Daniella Ortiz"
+And the list includes: "Carmen Ortiz"
 And the following students have "ELL" lozenges: "Randolph Vanhooser;Kelvin Zahm;Johnathan Zenz"
 And I see a header on the page
 And I see a footer on the page
 Then I should only see one view named "College Ready ELA View"
-And the count for id "attendances.absenceCount" for student "Carmen Daniella Ortiz" is "1"
-And the class for id "attendances.absenceCount" for student "Carmen Daniella Ortiz" is "color-widget-green"
-And the count for id "attendances.attendanceRate" for student "Carmen Daniella Ortiz" is "99"
-And the class for id "attendances.attendanceRate" for student "Carmen Daniella Ortiz" is "color-widget-darkgreen"
-And the count for id "attendances.tardyCount" for student "Carmen Daniella Ortiz" is "0"
-And the class for id "attendances.tardyCount" for student "Carmen Daniella Ortiz" is "color-widget-darkgreen"
-And the count for id "attendances.tardyRate" for student "Carmen Daniella Ortiz" is "0"
-And the class for id "attendances.tardyRate" for student "Carmen Daniella Ortiz" is "color-widget-darkgreen"
+And the count for id "attendances.absenceCount" for student "Carmen Ortiz" is "1"
+And the class for id "attendances.absenceCount" for student "Carmen Ortiz" is "color-widget-green"
+And the count for id "attendances.attendanceRate" for student "Carmen Ortiz" is "99"
+And the class for id "attendances.attendanceRate" for student "Carmen Ortiz" is "color-widget-darkgreen"
+And the count for id "attendances.tardyCount" for student "Carmen Ortiz" is "0"
+And the class for id "attendances.tardyCount" for student "Carmen Ortiz" is "color-widget-darkgreen"
+And the count for id "attendances.tardyRate" for student "Carmen Ortiz" is "0"
+And the class for id "attendances.tardyRate" for student "Carmen Ortiz" is "color-widget-darkgreen"
 # Absence count: > 11
 And the count for id "attendances.absenceCount" for student "Geoffrey Pillard" is "10"
 And the class for id "attendances.absenceCount" for student "Geoffrey Pillard" is "color-widget-yellow"
@@ -372,8 +372,8 @@ And the class for id "attendances.attendanceRate" for student "Samatha Twining" 
 And the count for id "attendances.attendanceRate" for student "Garry Mcconnaughy" is "93"
 And the class for id "attendances.attendanceRate" for student "Garry Mcconnaughy" is "color-widget-yellow"
 # Attendance rate < 90
-And the count for id "attendances.attendanceRate" for student "Oma Leah Bevington" is "85"
-And the class for id "attendances.attendanceRate" for student "Oma Leah Bevington" is "color-widget-red"
+And the count for id "attendances.attendanceRate" for student "Oma Bevington" is "85"
+And the class for id "attendances.attendanceRate" for student "Oma Bevington" is "color-widget-red"
 And the grades teardrop color widgets for "previousSemester;twoSemestersAgo" are mapped correctly:
  |grade|teardrop           |
  |A+   |teardrop-darkgreen |
@@ -391,7 +391,7 @@ And the grades teardrop color widgets for "previousSemester;twoSemestersAgo" are
  |F+   |teardrop-red       |
  |F-   |teardrop-red       |
  |F    |teardrop-red       |
-And I click on student "Carmen Daniella Ortiz"
+And I click on student "Carmen Ortiz"
 And I view its student profile
 And their name shown in profile is "Carmen Daniella Ortiz"
 And their id shown in proflie is "900000016"

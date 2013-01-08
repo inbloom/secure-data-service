@@ -8,14 +8,14 @@ Feature: Student Transcript History Panel
     When I select "Illinois Daybreak School District 4529" and click go
 
   @integration
-  Scenario: View student's transcript history - Matt Joseph Sollars
+  Scenario: View student's transcript history - Matt Sollars
    And I was redirected to the "Simple" IDP Login page
      When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
     And I select ed org "Daybreak School District 4529"
     And I select school "East Daybreak Junior High"
     And I select course "8th Grade English"
     And I select section "8th Grade English - Sec 6"
-    And I click on student "Matt Joseph Sollars"
+    And I click on student "Matt Sollars"
     And I view its student profile
 
     Then their name shown in profile is "Matt Joseph Sollars Jr"
@@ -169,14 +169,14 @@ Feature: Student Transcript History Panel
     Then I should find 8 expanded rows
 
   @integration
-  Scenario: View student's transcript history - Carmen Daniella Ortiz
+  Scenario: View student's transcript history - Carmen Ortiz
     And I was redirected to the "Simple" IDP Login page
     When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
     And I select ed org "Daybreak School District 4529"
     And I select school "Daybreak Central High"
     And I select course "American Literature"
     And I select section "Sec 145"
-    And I click on student "Carmen Daniella Ortiz"
+    And I click on student "Carmen Ortiz"
     And I view its student profile
 
     Then their name shown in profile is "Carmen Daniella Ortiz"

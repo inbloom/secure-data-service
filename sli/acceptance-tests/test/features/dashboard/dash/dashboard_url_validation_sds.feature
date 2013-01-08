@@ -17,7 +17,7 @@ When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 When I select course "8th Grade English"
 When I select section "8th Grade English - Sec 6"
-And I click on student "Matt Joseph Sollars"
+And I click on student "Matt Sollars"
 Then I view its student profile
 
 @integration

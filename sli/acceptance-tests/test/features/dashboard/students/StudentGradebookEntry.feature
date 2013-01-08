@@ -16,13 +16,13 @@ Scenario: Displaying gradebook entry data for all students - Linda Kim
 	And I select course "8th Grade English"
 	And I select section "8th Grade English - Sec 6"
 	Then I see a list of 28 students
-    And I click on student "Matt Joseph Sollars"
+    And I click on student "Matt Sollars"
 
     # Historical data
   Then I should see a table heading "2010-2011 Fall Semester"
     And I should see a field "Course" in this table
     And I should see a field "Grade" in this table
-    And I should see the name "Matt Joseph Sollars" in student field with link
+    And I should see the name "Matt Sollars" in student field with link
     And I should see his/her "7th Grade English" course grade is "A" in this table
     # Gradebook entry
     And I look at his/her test grades
@@ -47,7 +47,7 @@ Scenario: Displaying gradebook entry data for all students - Charles Gray
     Then I should see a table heading "2010-2011 Fall Semester"
     And I should see a field "Course" in this table
     And I should see a field "Grade" in this table
-    And I should see the name "Carmen Daniella Ortiz" in student field with link
+    And I should see the name "Carmen Ortiz" in student field with link
     And I should see his/her "(none)" course grade is "(none)" in this table
 
     Then I should see a table heading "2010-2011 Spring Semester"

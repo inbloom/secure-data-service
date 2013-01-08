@@ -39,7 +39,7 @@ And I should have a dropdown selector named "filterSelect"
 And I should have multiple filters available
 When I select filter "English Language Learner"
 Then I should see a student named "Arsenio Durham"
-And I should see a student named "Kimberley Yuli Pennington"
+And I should see a student named "Kimberley Pennington"
 
 When I select ed org "Daybreak School District 4529"
 When I select school "Daybreak Central High"
