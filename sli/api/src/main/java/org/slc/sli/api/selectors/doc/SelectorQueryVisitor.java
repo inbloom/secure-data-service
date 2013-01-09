@@ -17,14 +17,6 @@
 package org.slc.sli.api.selectors.doc;
 
 
-import org.slc.sli.api.selectors.model.elem.BooleanSelectorElement;
-import org.slc.sli.api.selectors.model.elem.ComplexSelectorElement;
-import org.slc.sli.api.selectors.model.elem.EmptySelectorElement;
-import org.slc.sli.api.selectors.model.elem.IncludeAllSelectorElement;
-import org.slc.sli.api.selectors.model.SemanticSelector;
-import org.slc.sli.api.selectors.model.elem.IncludeDefaultSelectorElement;
-import org.slc.sli.api.selectors.model.elem.IncludeXSDSelectorElement;
-
 /**
  * Visitor for building queries
  *
@@ -33,17 +25,5 @@ import org.slc.sli.api.selectors.model.elem.IncludeXSDSelectorElement;
  */
 public interface SelectorQueryVisitor {
 
-    public SelectorQueryPlan visit(SemanticSelector semanticSelector);
-
-    public SelectorQueryPlan visit(BooleanSelectorElement booleanSelectorElement);
-
-    public SelectorQueryPlan visit(ComplexSelectorElement complexSelectorElement);
-
-    public SelectorQueryPlan visit(IncludeAllSelectorElement includeAllSelectorElement);
-
-    public SelectorQueryPlan visit(IncludeXSDSelectorElement includeXSDSelectorElement);
-
-    public SelectorQueryPlan visit(IncludeDefaultSelectorElement includeDefaultSelectorElement);
-
-    public SelectorQueryPlan visit(EmptySelectorElement emptySelectorElement);
+    public SelectorQueryPlan visit (SelectorQueryVisitable visitable);
 }
