@@ -2787,7 +2787,7 @@ end
 ############################################################
 
 After do
-  if (!@landing_zone_path.nil?)
+  if (!@landing_zone_path.nil? && Dir.exists?(@landing_zone_path))
     Dir.foreach(@landing_zone_path) do |entry|
       if (entry.rindex("warn.") || entry.rindex("error."))
         if File.exists?(@landing_zone_path + entry)
