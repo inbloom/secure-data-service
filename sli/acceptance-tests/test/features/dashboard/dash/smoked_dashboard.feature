@@ -12,7 +12,7 @@ And I was redirected to the "Simple" IDP Login page
 When I submit the credentials "jstevenson" "jstevenson1234" for the "Simple" login page
 When I enter the Configuration Area
 Then I am authorized to the Configuration Area
-And the title of the page is "SLC"
+And the title of the page is "inBloom"
 And I paste Valid json config into the text box
 And click Save
 Then I should be shown a success message

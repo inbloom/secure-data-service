@@ -5,13 +5,13 @@ Welcome <%= @firstName %>,
 Your request for an administrative account has been approved.
 
 Access Admin Account Management feature to create new administrative accounts for the sandbox.
-Click the Admin link in the upper right corner of SLC portal to open the Admin page and access this feature:
+Click the Admin link in the upper right corner of the inBloom portal to open the Admin page and access this feature:
             <%= @portal_link %>
 <% elsif @is_admin && @is_ingestion && !@is_app_dev %>
 Your request for an application developer account has been approved. You can use this account to develop
 applications and to administrate the sandbox environment.
 
-Access administrative features by clicking the Admin link in the upper right corner of SLC portal:
+Access administrative features by clicking the Admin link in the upper right corner of the inBloom portal:
             <%= @portal_link %>
 * Use the Admin Account Management feature to create new administrative accounts for the sandbox.
 * Use the Provision Landing Zone feature for managing landing zones, required for ingesting data for your
@@ -20,45 +20,45 @@ education organization.
 Your request for an application developer account has been approved. You can use this account to develop
 applications and to administrate the sandbox environment.
 
-Access administrative features by clicking the Admin link in the upper right corner of SLC portal:
+Access administrative features by clicking the Admin link in the upper right corner of the inBloom portal:
             <%= @portal_link %>
 * Use the Admin Account Management feature to create new administrative accounts for the sandbox.
 * Use the Provision Landing Zone feature for managing landing zones, required for ingesting data for your
 education organization.
 
-While you develop SLC-compatible applications, refer to the documentation available at:
+While you develop inBloom-compatible applications, refer to the documentation available at:
             <%= @app_dev_documentation_link %>
 
 When you are ready to register your application, use the Application Registration feature. Click the Admin
-link in the upper right corner of SLC portal to open the Admin page and access this feature:
+link in the upper right corner of the inBloom portal to open the Admin page and access this feature:
             <%= @portal_link %>
 <% elsif !@is_admin && @is_ingestion && @is_app_dev %>
 Your request for an application developer account has been approved. You can use this account to develop
 applications and to manage data ingestion for your sandbox.
 
 Use the Provision Landing Zone feature for managing landing zones, required for ingesting data for your
-education organization. Click the Admin link in the upper right corner of SLC portal to open the Admin
+education organization. Click the Admin link in the upper right corner of the inBloom portal to open the Admin
 page and access this feature:
             <%= @portal_link %>
 
-While you develop SLC-compatible applications, refer to the documentation available at:
+While you develop inBloom-compatible applications, refer to the documentation available at:
             <%= @app_dev_documentation_link %>
 
 When you are ready to register your application, use the Application Registration feature. Click the Admin
-link in the upper right corner of SLC portal to open the Admin page and access this feature:
+link in the upper right corner of the inBloom portal to open the Admin page and access this feature:
             <%= @portal_link %>
 <% elsif !@is_admin && @is_ingestion && !@is_app_dev %>
 Your request for an application developer account has been approved. You can use this account to manage data
 ingestion for your sandbox.
 
 Use the Provision Landing Zone feature for managing landing zones, required for ingesting data for your
-education organization. Click the Admin link in the upper right corner of SLC portal to open the Admin
+education organization. Click the Admin link in the upper right corner of the inBloom portal to open the Admin
 page and access this feature:
             <%= @portal_link %>
 <% elsif !@is_admin && !@is_ingestion && @is_app_dev %>
 Your request for an application developer account has been approved.
 
-While you develop SLC-compatible applications, refer to the documentation available at:
+While you develop inBloom-compatible applications, refer to the documentation available at:
             <%= @app_dev_documentation_link %>
 
 When you are ready to register your application, select Application Registration from the
@@ -69,26 +69,26 @@ Your request for an application developer account has been approved. You can use
 applications and to administrate the sandbox environment.
 
 Use the Admin Account Management feature to create new administrative accounts for the sandbox.  Click the Admin link
-in the upper right corner of SLC portal to open the Admin page and access this feature:
+in the upper right corner of the inBloom portal to open the Admin page and access this feature:
             <%= @portal_link %>
 
-While you develop SLC-compatible applications, refer to the documentation available at:
+While you develop inBloom-compatible applications, refer to the documentation available at:
             <%= @app_dev_documentation_link %>
 
 When you are ready to register your application, use the Application Registration feature. Click the Admin
-link in the upper right corner of SLC portal to open the Admin page and access this feature:
+link in the upper right corner of the inBloom portal to open the Admin page and access this feature:
             <%= @portal_link %>
 <% end %>
 <% else %>
 Your <%= @account_type %> account is ready.
 
 <% if (@is_slc_operator) %>
-You can access the Admin Account Management feature from the Admin page in the right corner of the SLC portal at:
+You can access the Admin Account Management feature from the Admin page in the right corner of the inBloom portal at:
             <%= @portal_link %>
 
 Use this feature to create new administrative accounts.
 <% elsif (@is_sea_admin || @is_lea_admin) && @is_realm_admin && @is_ingestion %>
-You can access several administrative features from the Admin page in upper right of SLC portal at:
+You can access several administrative features from the Admin page in upper right of the inBloom portal at:
             <%= @portal_link %>
 
 These features include:
@@ -96,38 +96,38 @@ These features include:
 * Realm Administration - Use this feature to create and manage realms for your education organization.
 * Provision Landing Zone - Use this feature for managing landing zones, required for ingesting data for your education organization.
 <% elsif (@is_sea_admin || @is_lea_admin) && @is_realm_admin %>
-You can access several administrative features from the Admin page in upper right of SLC portal at:
+You can access several administrative features from the Admin page in upper right of the inBloom portal at:
             <%= @portal_link %>
 
 These features include:
 * Admin Account Management - Use this feature to create new administrative accounts.
 * Realm Administration - Use this feature to create and manage realms for your education organization.
 <% elsif (@is_sea_admin || @is_lea_admin) && @is_ingestion %>
-You can access several administrative features from the Admin page in upper right of SLC portal at:
+You can access several administrative features from the Admin page in upper right of the inBloom portal at:
             <%= @portal_link %>
 
 These features include:
 * Admin Account Management - Use this feature to create new administrative accounts.
 * Provision Landing Zone - Use this feature for managing landing zones, required for ingesting data for your education organization.
 <% elsif (@is_sea_admin || @is_lea_admin) %>
-You can access the Admin Account Management feature from the Admin page in the right corner of the SLC portal at:
+You can access the Admin Account Management feature from the Admin page in the right corner of the inBloom portal at:
             <%= @portal_link %>
 
 Use this feature to create new administrative accounts.
 <% elsif (@is_realm_admin) %>
-You can access the Realm Administration feature from the Admin page in the right corner of SLC portal at:
+You can access the Realm Administration feature from the Admin page in the right corner of the inBloom portal at:
             <%= @portal_link %>
 
   Use this feature to create and manage realms for your education organization.
 <% elsif (@is_ingestion) %>
-You can access the Provision Landing Zone feature from the Admin page in the right corner of SLC portal at:
+You can access the Provision Landing Zone feature from the Admin page in the right corner of the inBloom portal at:
             <%= @portal_link %>
 
 Use this feature for managing landing zones, required for ingesting data for your education organization.
 <% end %>
 
-Contact the Shared Learning Collaborative to obtain documentation on Admin Account Management. For support questions, contact <%= @support_email %>.
+Contact inBloom to obtain documentation on Admin Account Management. For support questions, contact <%= @support_email %>.
 <% end %>
 
 Thank you,
-The Shared Learning Collaborative
+inBloom

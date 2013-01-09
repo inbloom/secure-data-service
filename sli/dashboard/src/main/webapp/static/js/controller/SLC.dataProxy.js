@@ -170,7 +170,7 @@ SLC.namespace('SLC.dataProxy', (function () {
 				}
 			}
 			
-			return "SLC";
+			return "inBloom";
 		}
 		
 		/* 

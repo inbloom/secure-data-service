@@ -1,7 +1,7 @@
 common: &common
     recaptcha_disable: true
-    terms_url: http://dev.slcedu.org/legal/terms-of-use
-    privacy_policy_url: http://dev.slcedu.org/legal/privacy
+    terms_url: http://www.inbloom.org/terms-of-use
+    privacy_policy_url: http://www.inbloom.org/privacy-policy
     # See the runbook on how to create new reCaptcha keys if needed.
     recaptcha_pub: 6LcKNNISAAAAABcaWTbWUFsmAGiIr97Gw7xOj4hs
     recaptcha_priv: 6LcKNNISAAAAANwi1R1BY6SxJrYVv8oMimQ69Hfs

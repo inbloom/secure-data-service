@@ -28,7 +28,7 @@ Given /^I am authenticated to SLI as "([^"]*)" "([^"]*)"$/ do |user, pass|
   @driver.get(url)
   @driver.manage.timeouts.implicit_wait = 5
   
-  Selenium::WebDriver::Support::Select.new(@driver.find_element(:name, "realmId")).select_by(:text, "Shared Learning Collaborative")
+  Selenium::WebDriver::Support::Select.new(@driver.find_element(:name, "realmId")).select_by(:text, "inBloom")
   @driver.find_element(:id, "go").click
   @driver.find_element(:id, "IDToken1").clear
   @driver.find_element(:id, "IDToken1").send_keys user

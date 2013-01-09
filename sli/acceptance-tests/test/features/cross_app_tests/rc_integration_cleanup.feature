@@ -7,7 +7,7 @@ Background:
 
 Scenario:  LEA deletes realm
   When I navigate to the Portal home page
-  When I selected the realm "Shared Learning Collaborative"
+  When I selected the realm "inBloom"
   And I was redirected to the "Simple" IDP Login page
   When I submit the credentials "<SECONDARY_EMAIL>" "<SECONDARY_EMAIL_PASS>" for the "Simple" login page
   Then I should be on Portal home page
@@ -27,7 +27,7 @@ Scenario:  LEA deletes realm
 
 Scenario: slcoperator deletes SEA,LEA
   When I navigate to the user account management page
-  And I see the realm selector I authenticate to "Shared Learning Collaborative"
+  And I see the realm selector I authenticate to "inBloom"
   Then I am redirected to "Simple" login page
   When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
   Then I delete the user "RCTestSeaAdminFN RCTestSeaAdminLN"
