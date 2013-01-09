@@ -1,7 +1,7 @@
 {
   id : "student",
   type: "LAYOUT",
-  name: "SLC - Student Profile",
+  name: "inBloom - Student Profile",
   data :{
     entity: "student",
     cacheKey: "student"

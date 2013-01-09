@@ -13,7 +13,7 @@ When I select "Illinois Daybreak School District 4529" and click go
 When I enter "Matt" into the student search box
 And I click the search button
 Then "1" results are returned in the page
-And the title of the page is "SLC - Search"
+And the title of the page is "inBloom - Search"
 And the search results has the following entries:
   |Student      	   |Grade    |School                     |
   |Matt Joseph Sollars |8        |East Daybreak Junior High  |

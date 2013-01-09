@@ -157,7 +157,7 @@ def verifyEmail
     found = true if content != nil
     imap.disconnect
     assert(found, "Email was not found on SMTP server")
-    assert(subject.include?("Welcome to the SLC Developer Sandbox"), "Subject in email is not correct")
+    assert(subject.include?("Welcome to the inBloom Developer Sandbox"), "Subject in email is not correct")
   else
     assert(@message_observer.messages.size == 1, "Number of messages is #{@message_observer.messages.size} but should be 1")
     email = @message_observer.messages.first
@@ -165,9 +165,9 @@ def verifyEmail
     assert(email.to[0] == @userinfo[:email], "email address was incorrect")
     expected_subject = ""
     if @prod
-      expected_subject = "Welcome to the SLC Developer Program"
+      expected_subject = "Welcome to the inBloom Developer Program"
     else
-      expected_subject = "Welcome to the SLC Developer Sandbox"
+      expected_subject = "Welcome to the inBloom Developer Sandbox"
     end
 
     assert(email.subject.include?(expected_subject), "email subject should be <#{expected_subject}> but was <#{email.subject}>")

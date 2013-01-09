@@ -45,26 +45,15 @@
 /* Styles for the login page*/
 /* a class for the top of an SLC styled container when no bottom is required*/ 
 .brandContainer{
-	padding: 30px;
-	margin-bottom: 30px;
-	background-color: #F6F3EA;
-	border-left: 3px solid #ECE7D8;
-	border-top: 3px solid #ECE7D8;
-	border-right: 3px solid #ECE7D8;
-	border-bottom: 3px solid #ECE7D8;
+	background-color: #000000;
+    margin-bottom: 30px;
+    padding: 30px;
+    margin-top: 60px;
+    color: #fff;
 	-webkit-border-radius: 6px 6px 6px 6px;
    	   -moz-border-radius: 6px 6px 6px 6px;
             border-radius: 6px 6px 6px 6px;
 }
-
-.prodBanner{
-	color: rgb(0, 112, 150);
-}
-
-.sandBanner{
-	color: rgb(81, 43, 115);
-}
-
 
 /* a class for the top of an SLC styled container*/ 
 .brandContainerTop{
@@ -73,9 +62,6 @@
 	border-left: 3px solid #ECE7D8;
 	border-top: 3px solid #ECE7D8;
 	border-right: 3px solid #ECE7D8;
-	-webkit-border-radius: 6px 6px 0px 0px;
-   	   -moz-border-radius: 6px 6px 0px 0px;
-            border-radius: 6px 6px 0px 0px;
 }
 
 /* a class for the bottom of an SLC styled container*/ 
@@ -87,6 +73,8 @@
    	   -moz-border-radius: 0px 0px 6px 6px;
             border-radius: 0px 0px 6px 6px;
 }
+
+.brandContainer h1 { font-size: 18px; }
 
 /* end login page styles */
 

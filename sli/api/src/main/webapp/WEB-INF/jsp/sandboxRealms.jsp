@@ -21,17 +21,15 @@
 .buttonDiv {
 	padding-top: 50px;
 }
-.brandContainer {
-    background-color: #F6F3EA;
-    border-color: #ECE7D8;
-    border-left: 3px solid #ECE7D8;
-    border-radius: 6px 6px 6px 6px;
-    border-style: solid;
-    border-width: 3px;
-    color: #512B73;
-    margin-top: 60px;
+.brandContainer{
+	background-color: #000000;
     margin-bottom: 30px;
     padding: 30px;
+    margin-top: 60px;
+    color: #fff;
+	-webkit-border-radius: 6px 6px 6px 6px;
+   	   -moz-border-radius: 6px 6px 6px 6px;
+            border-radius: 6px 6px 6px 6px;
 }
 .brandContainerTop {
     background-color: #F6F3EA;
@@ -54,10 +52,10 @@
 	     <div class="brandContainer">
 	    	<div class="row">
 	    	    <div class="span2">
-		            <img src="<c:url value="/resources/SLC-Logo-text.png"/>">
+		            <img src="<c:url value="/resources/inBloomSandbox.png"/>">
 		        </div>
 		        <div class="span8">
-		            <h1>Developer Sandbox</h1>
+		            <h1></h1>
 		        </div>
 		    </div>
 	    </div>

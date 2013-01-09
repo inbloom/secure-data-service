@@ -156,7 +156,7 @@ Then /^I paste Valid json config into the text box$/ do
 \"student\" :
 {
   id : \"student\",
-  name: \"SLC - Student Profile\",
+  name: \"inBloom - Student Profile\",
   type: \"LAYOUT\",
   data :{
     entity: \"student\",
@@ -285,7 +285,7 @@ Then /^I paste configuration to hide csi panel$/ do
 \"studentProfile\" :
 {
   id : \"studentProfile\",
-  name: \"SLC - Student Profile\",
+  name: \"inBloom - Student Profile\",
   type: \"LAYOUT\",
   data :{
     entity: \"student\",
