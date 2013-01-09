@@ -126,9 +126,9 @@ end
 
 whichTestsToRun(currHash).each do |test|
   sparkTest(test, currHash)
-  updateMongo(currHash)
 end
 
+updateMongo(currHash)
 
 
 

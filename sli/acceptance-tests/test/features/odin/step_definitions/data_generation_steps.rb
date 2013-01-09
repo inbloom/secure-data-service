@@ -30,14 +30,20 @@ end
 ############################################################
 When /^I generate the 10 student data set in the (.*?) directory$/ do |gen_dir|
   @gen_path = "#{@odin_working_path}#{gen_dir}/"
-  puts "Calling generate function for 10 students"
+  puts "Calling generate function for 10 students scenario"
   generate("10students")   
 end
 
 When /^I generate the 10001 student data set in the (.*?) directory$/ do |gen_dir|
   @gen_path = "#{@odin_working_path}#{gen_dir}/"
-  puts "Calling generate function for 10001 students"
+  puts "Calling generate function for 10001 students scenario"
   generate("10001students")    
+end
+
+When /^I generate the jmeter api performance data set in the (.*?) directory$/ do |gen_dir|
+  @gen_path = "#{@odin_working_path}#{gen_dir}/"
+  puts "Calling generate function for jmeter api performance scenario"
+  generate("jmeter_api_performance")   
 end
 
 When /^I zip generated data under filename (.*?) to the new (.*?) directory$/ do |zip_file, new_dir|

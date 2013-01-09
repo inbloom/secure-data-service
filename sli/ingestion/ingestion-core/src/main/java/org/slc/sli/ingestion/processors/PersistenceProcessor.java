@@ -122,11 +122,11 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
      *
      */
     static class SelfRefEntityConfig {
-        private String idPath;              // path to the id field
+        String idPath;              // path to the id field
         // Exactly one of the following fields can be non-null:
-        private String parentAttributePath; // if parent reference is stored in attribute, path to
+        String parentAttributePath; // if parent reference is stored in attribute, path to
                                             // the parent reference field,
-        private String localParentIdKey;    // if parent reference is stored in localParentId map, key
+        String localParentIdKey;    // if parent reference is stored in localParentId map, key
                                          // to the parent reference field
 
         SelfRefEntityConfig(String i, String p, String k) {
@@ -514,7 +514,7 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
      *            work note specifying entities to be persisted.
      * @return
      */
-    private Metrics getOrCreateMetric(Map<String, Metrics> perFileMetrics, NeutralRecord neutralRecord,
+    private static Metrics getOrCreateMetric(Map<String, Metrics> perFileMetrics, NeutralRecord neutralRecord,
             WorkNote workNote) {
 
         String sourceFile = neutralRecord.getSourceFile();
@@ -539,7 +539,7 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
      *            current resource id.
      * @return database logging error report.
      */
-    private ReportStats createReportStats(String batchJobId, String resourceId, String stageName) {
+    private static ReportStats createReportStats(String batchJobId, String resourceId, String stageName) {
         return new SimpleReportStats();
     }
 
@@ -559,7 +559,7 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
         return tenantId;
     }
 
-    private String getCollectionToPersistFrom(String collectionNameAsStaged, EntityPipelineType entityPipelineType) {
+    private static String getCollectionToPersistFrom(String collectionNameAsStaged, EntityPipelineType entityPipelineType) {
         String collectionToPersistFrom = collectionNameAsStaged;
         if (entityPipelineType == EntityPipelineType.TRANSFORMED) {
             collectionToPersistFrom = collectionNameAsStaged + "_transformed";
@@ -638,6 +638,7 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
 
     public Iterable<NeutralRecord> queryBatchFromDb(String collectionName, String jobId, WorkNote workNote) {
         Criteria batchJob = Criteria.where(BATCH_JOB_ID).is(jobId);
+        @SuppressWarnings("boxing")
         Criteria limiter = Criteria.where(CREATION_TIME).gte(workNote.getRangeMinimum()).lt(workNote.getRangeMaximum());
 
         Query query = new Query().limit(0);
@@ -672,8 +673,6 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
         if (null == rhDataObj) {
             return;
         }
-
-        String tenantId = TenantContext.getTenantId();
 
         List<Map<String, Object>> rhData = (List<Map<String, Object>>) rhDataObj;
 

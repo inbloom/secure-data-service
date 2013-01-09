@@ -833,6 +833,16 @@ task :odinTests => [:odinGenerateTests, :ingestOdinDataSet] do
     raise "Tests have failed"
   end
 end
+
+desc "Run Odin Jmeter generate and ingest for use with Jmeter API Performance Tests"
+task :jmeterOdinTests => [:generateOdinJmeterDataSet, :ingestOdinJmeterDataSet] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
 ############################################################
 # Odin Data Generation tests end
 ############################################################

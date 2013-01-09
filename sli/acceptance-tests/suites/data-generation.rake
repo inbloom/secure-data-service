@@ -21,6 +21,17 @@ task :ingestOdin10k1DataSet do
   runTests("test/features/ingestion/features/ingestion_Odin10k1DataSet.feature")
 end
 
+## Jmeter-Specific tasks
+desc "Run Odin Jmeter API Performance Data Generation Tests"
+task :generateOdinJmeterDataSet do
+  runTests("test/features/odin/generate_jmeter_data.feature")
+end
+
+desc "Run Odin Jmeter Data Set Ingestion Tests"
+task :ingestOdinJmeterDataSet do
+  runTests("test/features/ingestion/features/ingestion_jmeterOdinData.feature")
+end
+
 ############################################################
 # Data Generation tests end
 ############################################################

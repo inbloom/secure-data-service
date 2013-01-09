@@ -99,8 +99,6 @@ public class GradingPeriodEntityTest {
 
         Map<String, Object> attributes = neutralRecord.getAttributes();
 
-        System.err.println(attributes);
-
         assertEquals("Expected different number of attributes", 7, attributes.size());
         assertEquals("First Six Weeks", attributes.get("GradingPeriod"));
         assertEquals("Expected different description", "2010-2011", attributes.get("SchoolYear"));
