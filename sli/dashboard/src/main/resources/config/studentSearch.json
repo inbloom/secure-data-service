@@ -1,7 +1,7 @@
 {
   id : "studentSearch",
   type: "LAYOUT",
-  name: "SLC - Search",
+  name: "inBloom - Search",
   items: [
     {id: "studentSearchResults", name: "Student Search", type: "GRID"}
   ]

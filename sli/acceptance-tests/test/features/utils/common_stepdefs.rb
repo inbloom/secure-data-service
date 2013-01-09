@@ -195,7 +195,7 @@ end
 
 Given /^that dashboard has been authorized for all ed orgs$/ do
   disable_NOTABLESCAN()
-  allLeaAllowApp("SLC Dashboards")
+  allLeaAllowApp("inBloom Dashboards")
   enable_NOTABLESCAN()
 end
 

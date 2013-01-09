@@ -28,7 +28,7 @@ def dissallowDashboard(district, tenantName)
   conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'], PropLoader.getProps['DB_PORT'])
   db = conn[PropLoader.getProps['api_database_name']]
   appColl = db.collection("application")
-  dashboardId = appColl.find_one({"body.name" => "SLC Dashboards"})["_id"]
+  dashboardId = appColl.find_one({"body.name" => "inBloom Dashboards"})["_id"]
   puts("The dashboard id is #{dashboardId}") if ENV['DEBUG']
   
   dbTenant = conn[convertTenantIdToDbName(tenantName)]

@@ -51,7 +51,7 @@ When I select "Illinois Daybreak School District 4529" and click go
  Then I should be redirected to the Dashboard landing page
 When I enter the Configuration Area
 Then I am authorized to the Configuration Area
-And the title of the page is "SLC"
+And the title of the page is "inBloom"
 And I paste Valid json config into the text box
 And click Save
 Then I should be shown a success message
