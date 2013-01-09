@@ -50,13 +50,6 @@ import org.slc.sli.validation.schema.Annotation.AnnotationType;
 @Component
 public abstract class NeutralSchema {
 
-    // Constants
-    public static final String JSON = "json";
-    public static final String XML = "xml";
-
-    // Jackson Mapper
-    protected static final ObjectMapper MAPPER = new ObjectMapper();
-
     // Attributes
     private String type = "";
     private String version = "1.0";
@@ -110,19 +103,13 @@ public abstract class NeutralSchema {
     }
 
     public boolean isPii() {
-        if (this.getAppInfo() == null) {
-            return false;
-        }
+        return this.getAppInfo() != null && this.getAppInfo().isPersonallyIdentifiableInfo();
 
-        return this.getAppInfo().isPersonallyIdentifiableInfo();
     }
 
     public boolean isRestrictedForLogging() {
-        if (this.getAppInfo() == null) {
-            return false;
-        }
+        return this.getAppInfo() != null && this.getAppInfo().isRestrictedFieldForLogging();
 
-        return this.getAppInfo().isRestrictedFieldForLogging();
     }
 
     public boolean isRelaxedBlacklisted() {
@@ -267,8 +254,6 @@ public abstract class NeutralSchema {
      * Returns true if the validation was successful or a ValidationException if the validation was
      * unsuccessful.
      *
-     * @param fieldName
-     *            name of entity field being validated
      * @param entity
      *            being validated using this SLI Schema
      * @param errors
@@ -348,21 +333,6 @@ public abstract class NeutralSchema {
             errors.add(new ValidationError(errorType, fieldName, fieldValue, expectedTypes));
         }
         return isValid;
-    }
-
-    public String toJson() {
-        NeutralSchemaStringWriter t = new NeutralSchemaJSONStringWriter();
-        return t.transform(this);
-    }
-
-    public String toXml(boolean enableHierarchy) {
-        NeutralSchemaStringWriter t = new NeutralSchemaXMLStringWriter(enableHierarchy);
-        return t.transform(this);
-    }
-
-    @Override
-    public String toString() {
-        return toJson();
     }
 
     public void addAnnotation(Annotation d) {

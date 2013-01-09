@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,6 +37,8 @@ public class NeutralSchemaJSONStringWriter implements NeutralSchemaStringWriter 
     private static final Logger LOG = LoggerFactory.getLogger(NeutralSchemaJSONStringWriter.class);
     
     private NeutralSchema schema;
+
+    private static final ObjectMapper MAPPER = new ObjectMapper();
     
     /*
      * (non-Javadoc)
@@ -54,7 +57,7 @@ public class NeutralSchemaJSONStringWriter implements NeutralSchemaStringWriter 
      * @return JSON representation of this SLI schema
      */
     protected String toJson() {
-        StringBuffer buffer = new StringBuffer();
+        StringBuilder buffer = new StringBuilder();
         
         buffer.append(getJsonHeader());
         
@@ -63,7 +66,6 @@ public class NeutralSchemaJSONStringWriter implements NeutralSchemaStringWriter 
         }
         
         buffer.append(getJsonProperties("properties", schema.getProperties()));
-        
         buffer.append(getJsonFooter());
         
         return buffer.toString();
@@ -72,11 +74,9 @@ public class NeutralSchemaJSONStringWriter implements NeutralSchemaStringWriter 
     private String getJsonHeader() {
         StringBuffer buffer = new StringBuffer();
         
-        buffer.append("\n");
-        buffer.append("{");
-        buffer.append("" + "\n" + "   \"type\":\"" + schema.getType() + "\"");
-        buffer.append("," + "\n" + "   \"validatorClass\":\"" + schema.getValidatorClass() + "\"");
-        buffer.append("," + "\n" + "   \"version\":\"" + schema.getVersion() + "\"");
+        buffer.append("\n{\n   \"type\":\"").append(schema.getType()).append("\"");
+        buffer.append(  ",\n   \"validatorClass\":\"").append(schema.getValidatorClass()).append("\"");
+        buffer.append(  ",\n   \"version\":\"").append(schema.getVersion()).append("\"");
         getAnnotations(schema, buffer);
         
         return buffer.toString();
@@ -84,22 +84,20 @@ public class NeutralSchemaJSONStringWriter implements NeutralSchemaStringWriter 
     
     private void getAnnotations(NeutralSchema schema, StringBuffer buffer) {
         
-        StringBuffer annotations = new StringBuffer();
+        StringBuilder annotations = new StringBuilder();
         annotations.append(", \"annotations\": {");
         AppInfo appInfo = schema.getAppInfo();
         if (appInfo != null) {
             annotations.append(appInfo.toString());
-            buffer.append(annotations + "} ");
+            buffer.append(annotations).append("} ");
         }
     }
     
     private String getJsonFields(String label, Map<String, NeutralSchema> fields) {
         StringBuffer buffer = new StringBuffer();
         
-        buffer.append(", ");
-        buffer.append("\n    ");
-        
-        buffer.append("\"" + label + "\":{");
+        buffer.append(",\n    ");
+        buffer.append("\"").append(label).append("\":{");
         
         if ((schema.getFields() != null) && (schema.getFields().size() > 0)) {
             String separator = "";
@@ -109,7 +107,7 @@ public class NeutralSchemaJSONStringWriter implements NeutralSchemaStringWriter 
                 String name = entry.getKey();
                 NeutralSchema object = entry.getValue();
                 
-                StringBuffer description = new StringBuffer();
+                StringBuilder description = new StringBuilder();
                 
                 if (object instanceof ListSchema) {
                     List<NeutralSchema> schemaList = ((ListSchema) object).getList();
@@ -118,22 +116,19 @@ public class NeutralSchemaJSONStringWriter implements NeutralSchemaStringWriter 
                         list.add(schema.getType());
                     }
                     try {
-                        description.append(NeutralSchema.MAPPER.writeValueAsString(list));
+                        description.append(MAPPER.writeValueAsString(list));
                     } catch (Exception exception) {
                         throw new RuntimeException(exception);
                     }
                     
                 } else {
-                    description.append("\"" + object.getType() + "\"");
+                    description.append("\"").append(object.getType()).append("\"");
                 }
                 
                 buffer.append(separator);
-                
-                buffer.append("\n");
-                buffer.append("    ");
-                
-                buffer.append("{\"" + name + "\":" + description);
-                
+                buffer.append("\n    ");
+                buffer.append("{\"").append(name).append("\":").append(description);
+
                 getAnnotations(object, buffer);
                 
                 separator = "},";
@@ -146,10 +141,10 @@ public class NeutralSchemaJSONStringWriter implements NeutralSchemaStringWriter 
     }
     
     private String getJsonProperties(String label, Map<String, Object> properties) {
-        StringBuffer buffer = new StringBuffer();
-        
-        buffer.append("," + "\n" + "   \"" + label + "\":{");
-        
+        StringBuilder buffer = new StringBuilder();
+
+        buffer.append(",\n   \"").append(label).append("\":{");
+
         if ((properties != null) && (properties.size() > 0)) {
             
             String separator = "";
@@ -161,16 +156,21 @@ public class NeutralSchemaJSONStringWriter implements NeutralSchemaStringWriter 
                 String description = "";
                 if (object instanceof List) {
                     try {
-                        description = NeutralSchema.MAPPER.writeValueAsString(object);
+                        description = MAPPER.writeValueAsString(object);
                     } catch (Exception exception) {
                         LOG.error("Error wring description for " + object, exception);
                     }
-                } else if (object instanceof String) {
-                    description = "\"" + (String) object + "\"";
+                } else {
+                    if (object instanceof String) {
+                        StringBuilder builder  = new StringBuilder();
+                        builder.append("\"").append(object).append("\"");
+                        description = builder.toString();
+                    }
                 }
-                
-                buffer.append(separator + "\n" + "      \"" + name + "\":" + description);
-                
+
+                buffer.append(separator);
+                buffer.append("\n      \"").append(name).append("\":").append(description);
+
                 separator = ",";
             }
         }
@@ -181,12 +181,7 @@ public class NeutralSchemaJSONStringWriter implements NeutralSchemaStringWriter 
     }
     
     private String getJsonFooter() {
-        StringBuffer buffer = new StringBuffer();
-        
-        buffer.append("\n");
-        buffer.append("}" + "\n");
-        
-        return buffer.toString();
+        return "\n}\n";
     }
     
 }
