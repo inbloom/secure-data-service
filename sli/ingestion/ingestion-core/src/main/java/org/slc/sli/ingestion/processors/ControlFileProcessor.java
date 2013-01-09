@@ -25,8 +25,6 @@ import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.MessageSourceAware;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
@@ -55,7 +53,6 @@ import org.slc.sli.ingestion.reporting.impl.JobSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.LogUtil;
-import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 
 /**
  * Control file processor.
@@ -64,7 +61,7 @@ import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
  *
  */
 @Component
-public class ControlFileProcessor implements Processor, MessageSourceAware {
+public class ControlFileProcessor implements Processor {
 
     private static final Logger LOG = LoggerFactory.getLogger(ControlFileProcessor.class);
 
@@ -82,8 +79,6 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
 
     @Autowired
     private AbstractMessageReport databaseMessageReport;
-
-    private MessageSource messageSource;
 
     @Override
     public void process(Exchange exchange) throws Exception {
@@ -142,7 +137,6 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
                         }
                     }
                     if (!isZipFile) {
-                        LOG.info(MessageSourceHelper.getMessage(messageSource, CoreMessageCode.CORE_0002.getCode()));
                         databaseMessageReport.warning(reportStats, source, CoreMessageCode.CORE_0002);
 
                     }
@@ -250,8 +244,4 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
         return batchProperties;
     }
 
-    @Override
-    public void setMessageSource(MessageSource messageSource) {
-        this.messageSource = messageSource;
-    }
 }

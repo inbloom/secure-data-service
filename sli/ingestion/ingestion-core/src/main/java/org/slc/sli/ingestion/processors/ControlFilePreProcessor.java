@@ -34,8 +34,6 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.MessageSourceAware;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.logging.LogLevelType;
@@ -75,7 +73,7 @@ import org.slc.sli.ingestion.util.MongoCommander;
  *
  */
 @Component
-public class ControlFilePreProcessor implements Processor, MessageSourceAware {
+public class ControlFilePreProcessor implements Processor {
 
     private static final Logger LOG = LoggerFactory.getLogger(ControlFilePreProcessor.class);
 
@@ -96,8 +94,6 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
 
     @Autowired
     private AbstractMessageReport databaseMessageReport;
-
-    private MessageSource messageSource;
 
     /**
      * @see org.apache.camel.Processor#process(org.apache.camel.Exchange)
@@ -241,7 +237,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         File lzFile = new File(newBatchJob.getTopLevelSourceId());
         LandingZone topLevelLandingZone = new LocalFileSystemLandingZone(lzFile);
 
-        ControlFile controlFile = ControlFile.parse(fileForControlFile, topLevelLandingZone, messageSource);
+        ControlFile controlFile = ControlFile.parse(fileForControlFile, topLevelLandingZone, databaseMessageReport);
 
         newBatchJob.setTotalFiles(controlFile.getFileEntries().size());
 
@@ -364,11 +360,6 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         event.setLogMessage("Ingestion process started.");
 
         audit(event);
-    }
-
-    @Override
-    public void setMessageSource(MessageSource messageSource) {
-        this.messageSource = messageSource;
     }
 
     public Set<String> getShardCollections() {

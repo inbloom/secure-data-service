@@ -29,12 +29,15 @@ import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.MessageSource;
 
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.landingzone.validation.SubmissionLevelException;
-import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
+import org.slc.sli.ingestion.reporting.impl.ControlFileSource;
+import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 
 /**
  * Represents control file information.
@@ -49,11 +52,12 @@ public class ControlFile implements Serializable {
     protected List<IngestionFileEntry> fileEntries = new ArrayList<IngestionFileEntry>();
     protected Properties configProperties = new Properties();
 
-    public static ControlFile parse(File file) throws IOException, SubmissionLevelException {
-        return parse(file, null, null);
+    public static ControlFile parse(File file, AbstractMessageReport report) throws IOException,
+            SubmissionLevelException {
+        return parse(file, null, report);
     }
 
-    public static ControlFile parse(File file, LandingZone landingZone, MessageSource messageSource)
+    public static ControlFile parse(File file, LandingZone landingZone, AbstractMessageReport report)
             throws IOException, SubmissionLevelException {
 
         Scanner scanner = new Scanner(file);
@@ -104,13 +108,9 @@ public class ControlFile implements Serializable {
                 if (line.trim().length() > 0) {
                     // line was not parseable
                     lineNumber += 1;
-                    String errorMessage;
-                    if (messageSource != null) {
-                        errorMessage = MessageSourceHelper.getMessage(messageSource, "BASE_0016", lineNumber, line);
-                    } else {
-                        errorMessage = "Invalid control file entry at line number [" + lineNumber + "] Line:" + line;
-                    }
-                    throw new SubmissionLevelException(errorMessage);
+                    Source source = new ControlFileSource(file.getName(), "Control File Parsing", lineNumber, line);
+                    report.error(new SimpleReportStats(), source, BaseMessageCode.BASE_0016);
+                    throw new SubmissionLevelException("line was not parseable");
                 }
             }
 
