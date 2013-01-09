@@ -111,7 +111,7 @@ public class ValidationController {
 
         try {
             LocalFileSystemLandingZone lz = new LocalFileSystemLandingZone(ctlFile.getAbsoluteFile().getParentFile());
-            ControlFile cfile = ControlFile.parse(ctlFile);
+            ControlFile cfile = ControlFile.parse(ctlFile, messageReport);
 
             ControlFileDescriptor cfd = new ControlFileDescriptor(cfile, lz);
 
