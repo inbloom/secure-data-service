@@ -220,8 +220,7 @@ Then /^the user has to authenticate against ldap using "([^"]*)" and "([^"]*)"$/
 end
 
 Then /^the user is redirected to "([^"]*)"$/ do |link|
-  sleep(1)
-  assert( @driver.current_url.include?(link),"the user should be redirected to #{link} but the current url is #{@driver.current_url}")
+  assertWithPolling("the user should be redirected to #{link} but the current url is #{@driver.current_url}", 30) {@driver.current_url.include?(link)}
 end
 
 Then /^the user is redirected to "([^"]*)" after "([^"]*)" seconds$/ do |link, seconds|

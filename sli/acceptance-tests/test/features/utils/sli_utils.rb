@@ -608,3 +608,22 @@ end
 def deep_copy(o)
   Marshal.load(Marshal.dump(o))
 end
+
+### asserts something with a timeout
+def assertWithPolling(msg, total_wait_sec, &blk)
+  passed = false
+  total_wait_sec.times { |x|
+    begin
+      sleep(1)
+      assert(yield, msg)
+      passed = true
+      break
+    rescue MiniTest::Assertion
+      $stderr.puts "not yet statisfied after #{x} seconds"
+    rescue 
+      $stderr.puts "not yet statisfied after #{x} seconds"
+    end
+  }
+
+  assert(yield, msg) unless passed
+end
