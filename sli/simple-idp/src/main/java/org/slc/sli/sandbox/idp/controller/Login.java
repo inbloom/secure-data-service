@@ -252,6 +252,7 @@ public class Login {
                 mav.addObject("errorMsg", "Invalid User Name or password");
                 mav.addObject("isForgotPasswordVisible", sliAdminRealmName.equals(realm));
                 mav.addObject("adminUrl", adminUrl);
+                mav.addObject("developer", developer);
                 mav.addObject("realm", realm);
                 mav.addObject("SAMLRequest", encodedSamlRequest);
                 
