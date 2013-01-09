@@ -166,7 +166,7 @@ end
 
 When /^the developer click link in verification email in "([^"]*)"$/ do |environment|
   if(environment == "sandbox")
-    @email_content = check_email({:subject_substring => "Welcome to the SLC Developer Sandbox"}) do
+    @email_content = check_email({:subject_substring => "Welcome to the inBloom Developer Sandbox"}) do
       sleep(2)
       url = getVerificationLink()
       puts url
