@@ -211,6 +211,7 @@ def main(v1_resources_path, token, base_url, base_url_replace)
 
   # read in the v1 resources file
   v1_resources = JSON.parse File.read(v1_resources_path)
+  v1_resources = v1_resources[0]
 
   # hit all the 1-part (or 2-part for $known_ids)
   entities = get_v1_responses(v1_resources, token, base_url, base_url_replace)
