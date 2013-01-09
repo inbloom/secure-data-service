@@ -75,13 +75,8 @@ SLC.namespace('SLC.studentList', (function () {
 					fieldValues = filterBy.condition.value;
 
 					filteredStudents = $.grep(filteredStudents, function(n, i) {
-						if (typeof n[fieldName] == "string") {
-							var temp = n[fieldName].toString();
-						} else {
-							var temp = "";
-						}
-												
-						var y = $.inArray(temp, fieldValues);
+						filterValue = n[fieldName];
+						var y = $.inArray(filterValue, fieldValues);
 						return y !== -1;
 					});
 
