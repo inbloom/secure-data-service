@@ -225,7 +225,7 @@ public class LoginTest {
         Mockito.when(authRequestService.processRequest("SAMLRequest", "SLIAdmin", null)).thenReturn(reqInfo);
         
         ModelAndView mov = loginController.form("SAMLRequest", "SLIAdmin", null, httpSession);
-        assertEquals("Developer Sandbox", mov.getModel().get("subTitle"));
+        assertEquals("", mov.getModel().get("subTitle"));
         assertEquals("login", mov.getViewName());
         assertEquals("SAMLRequest", mov.getModel().get("SAMLRequest"));
         assertEquals("SLIAdmin", mov.getModel().get("realm"));
