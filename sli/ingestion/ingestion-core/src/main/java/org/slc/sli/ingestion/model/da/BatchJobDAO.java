@@ -95,10 +95,10 @@ public interface BatchJobDAO {
 
     void cleanUpWorkNoteLatchAndStagedEntites(String jobId);
 
-    void insertRecordHash(String tenantId, String recordId, String newHashValues)
+    void insertRecordHash(String recordId, String newHashValues)
             throws DataAccessResourceFailureException;
 
-    void updateRecordHash(String tenantId, RecordHash rh, String newHashValues)
+    void updateRecordHash(RecordHash rh, String newHashValues)
             throws DataAccessResourceFailureException;
 
     void removeRecordHashByTenant(String tenantId);

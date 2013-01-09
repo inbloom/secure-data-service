@@ -194,7 +194,27 @@ public class EntityManager extends ApiClientManager {
         }
         return getApiClient().getAttendanceForStudent(token, studentId, params);
     }
-    
+
+    /**
+     * Retrieves a list of attendance objects for a single student.
+     *
+     * @param token
+     *            - the current authentication token
+     * @param studentId
+     *            - the student that you want to get your attendance objects for
+     * @return a list of attendance objects
+     */
+    public List<GenericEntity> getAttendanceForSchool(final String token, final String studentId, String schoolId, final String start,
+            final String end) {
+        Map<String, String> params = new HashMap<String, String>();
+        if (start != null && start.length() > 0) {
+            params.put(SDKConstants.PARAM_EVENT_DATE + ">", "" + start);
+            params.put(SDKConstants.PARAM_EVENT_DATE + "<", "" + end);
+        }
+        params.put(SDKConstants.PARAM_SCHOOL_ID, schoolId);
+        return getApiClient().getAttendanceForStudent(token, studentId, params);
+    }
+
     /**
      * Returns a list of courses for a given student and params
      * 

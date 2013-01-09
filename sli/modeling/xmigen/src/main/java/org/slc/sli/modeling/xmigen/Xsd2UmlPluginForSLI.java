@@ -84,6 +84,7 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
         final List<TagDefinition> tagDefs = new LinkedList<TagDefinition>();
         tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_COLLECTION_NAME, Occurs.ZERO, Occurs.ONE, host));
         tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_NATURAL_KEY, Occurs.ZERO, Occurs.ONE, host));
+        tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_SELF_REFERENCE, Occurs.ZERO, Occurs.ONE, host));
         tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_APPLY_NATURAL_KEYS, Occurs.ZERO, Occurs.ONE, host));
         tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_PII, Occurs.ZERO, Occurs.ONE, host));
         tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_ENFORCE_READ, Occurs.ZERO, Occurs.ONE, host));
@@ -169,6 +170,9 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
                 } else if (SliMongoConstants.SLI_APPLY_NATURAL_KEYS.equals(name)) {
                     final Identifier tagDefinition = host
                             .ensureTagDefinitionId(SliUmlConstants.TAGDEF_APPLY_NATURAL_KEYS);
+                    taggedValues.add(new TaggedValue("true", tagDefinition));                
+                } else if (SliMongoConstants.SLI_SELF_REFERENCE.equals(name)) {
+                    final Identifier tagDefinition = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_SELF_REFERENCE);
                     taggedValues.add(new TaggedValue("true", tagDefinition));
                 } else if (SliMongoConstants.SLI_REFERENCE_TYPE.equals(name)) {
                     final Identifier tagDefinition = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_REFERENCE);

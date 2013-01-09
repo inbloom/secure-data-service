@@ -27,7 +27,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.validation.ValidationError;
 
@@ -46,52 +45,27 @@ public class CustomEntityValidatorTest {
 
     @Test
     public void testEmptyEntity() {
-        String emptyCustomEntityId = "emptyCustomEntity";
         EntityBody emptyCustomEntity = new EntityBody();
 
-        List<ValidationError> validationErrors = customEntityValidator.validate(emptyCustomEntityId,
-                PathConstants.CUSTOM_ENTITIES, emptyCustomEntity);
+        List<ValidationError> validationErrors = customEntityValidator.validate(emptyCustomEntity);
         Assert.assertTrue("There should be no validation errors", validationErrors.isEmpty());
     }
 
     @Test
-    public void testNonCustomEntity() {
-        String nonCustomEntityId = "nonCustomEntity";
-        EntityBody nonCustomEntity = new EntityBody();
-
-        List<ValidationError> validationErrors = customEntityValidator.validate(nonCustomEntityId,
-                PathConstants.STUDENTS, nonCustomEntity);
-        Assert.assertTrue("There should be no validation errors", validationErrors.isEmpty());
-    }
-
-    @Test
-    public void testValidFieldNameWithoutBrackets() {
+    public void testValidFieldName() {
         String validCustomEntityId = "validCustomEntity1";
         EntityBody validCustomEntity = new EntityBody();
         validCustomEntity.put("ID", validCustomEntityId);
         validCustomEntity.put("goodFieldName", "goodFieldValue");
 
-        List<ValidationError> validationErrors = customEntityValidator.validate(validCustomEntityId,
-                PathConstants.CUSTOM_ENTITIES, validCustomEntity);
-        Assert.assertTrue("There should be no validation errors", validationErrors.isEmpty());
-    }
-
-    @Test
-    public void testValidFieldNameWithBrackets() {
-        String validCustomEntityId = "validCustomEntity2";
-        EntityBody validCustomEntity = new EntityBody();
-        validCustomEntity.put("ID", validCustomEntityId);
-        validCustomEntity.put("<goodFieldName>", "goodFieldValue");
-
-        List<ValidationError> validationErrors = customEntityValidator.validate(validCustomEntityId,
-                PathConstants.CUSTOM_ENTITIES, validCustomEntity);
+        List<ValidationError> validationErrors = customEntityValidator.validate(validCustomEntity);
         Assert.assertTrue("There should be no validation errors", validationErrors.isEmpty());
     }
 
     @SuppressWarnings("serial")
     @Test
     public void testMultipleNestedValidFieldNames() {
-        final String validCustomEntityId = "validCustomEntity3";
+        final String validCustomEntityId = "validCustomEntity2";
         EntityBody validCustomEntity = new EntityBody() {
             {
                 put("ID", validCustomEntityId);
@@ -129,8 +103,7 @@ public class CustomEntityValidatorTest {
             }
         };
 
-        List<ValidationError> validationErrors = customEntityValidator.validate(validCustomEntityId,
-                PathConstants.CUSTOM_ENTITIES, validCustomEntity);
+        List<ValidationError> validationErrors = customEntityValidator.validate(validCustomEntity);
         Assert.assertTrue("There should be no validation errors", validationErrors.isEmpty());
     }
 
@@ -141,8 +114,7 @@ public class CustomEntityValidatorTest {
         invalidCustomEntity.put("ID", invalidCustomEntityId);
         invalidCustomEntity.put("\u0000", "goodFieldValue");
 
-        List<ValidationError> validationErrors = customEntityValidator.validate(invalidCustomEntityId,
-                PathConstants.CUSTOM_ENTITIES, invalidCustomEntity);
+        List<ValidationError> validationErrors = customEntityValidator.validate(invalidCustomEntity);
         Assert.assertEquals("Should be 1 validation error", 1, validationErrors.size());
         ValidationError ve = new ValidationError(ValidationError.ErrorType.INVALID_FIELD_NAME, "\u0000", "\u0000",
                 null);
@@ -156,8 +128,7 @@ public class CustomEntityValidatorTest {
         invalidCustomEntity.put("ID", invalidCustomEntityId);
         invalidCustomEntity.put("\\x00", "goodFieldValue");
 
-        List<ValidationError> validationErrors = customEntityValidator.validate(invalidCustomEntityId,
-                PathConstants.CUSTOM_ENTITIES, invalidCustomEntity);
+        List<ValidationError> validationErrors = customEntityValidator.validate(invalidCustomEntity);
         Assert.assertEquals("Should be 1 validation error", 1, validationErrors.size());
         ValidationError ve = new ValidationError(ValidationError.ErrorType.INVALID_FIELD_NAME, "\\x00", "\\x00",
                 null);
@@ -171,8 +142,7 @@ public class CustomEntityValidatorTest {
         invalidCustomEntity.put("ID", invalidCustomEntityId);
         invalidCustomEntity.put("bad\u0000FieldName", "goodFieldValue");
 
-        List<ValidationError> validationErrors = customEntityValidator.validate(invalidCustomEntityId,
-                PathConstants.CUSTOM_ENTITIES, invalidCustomEntity);
+        List<ValidationError> validationErrors = customEntityValidator.validate(invalidCustomEntity);
         Assert.assertEquals("Should be 1 validation error", 1, validationErrors.size());
         ValidationError ve = new ValidationError(ValidationError.ErrorType.INVALID_FIELD_NAME, "bad\u0000FieldName",
                 "bad\u0000FieldName", null);
@@ -186,8 +156,7 @@ public class CustomEntityValidatorTest {
         invalidCustomEntity.put("ID", invalidCustomEntityId);
         invalidCustomEntity.put("bad\\x00FieldName", "goodFieldValue");
 
-        List<ValidationError> validationErrors = customEntityValidator.validate(invalidCustomEntityId,
-                PathConstants.CUSTOM_ENTITIES, invalidCustomEntity);
+        List<ValidationError> validationErrors = customEntityValidator.validate(invalidCustomEntity);
         Assert.assertEquals("Should be 1 validation error", 1, validationErrors.size());
         ValidationError ve = new ValidationError(ValidationError.ErrorType.INVALID_FIELD_NAME, "bad\\x00FieldName",
                 "bad\\x00FieldName", null);
@@ -211,8 +180,7 @@ public class CustomEntityValidatorTest {
 
         };
 
-        List<ValidationError> validationErrors = customEntityValidator.validate(invalidCustomEntityId,
-                PathConstants.CUSTOM_ENTITIES, invalidCustomEntity);
+        List<ValidationError> validationErrors = customEntityValidator.validate(invalidCustomEntity);
         Assert.assertEquals("Should be 1 validation error", 1, validationErrors.size());
         ValidationError ve = new ValidationError(ValidationError.ErrorType.INVALID_FIELD_NAME, "bad\u0011FieldName",
                 "bad\u0011FieldName", null);
@@ -262,8 +230,7 @@ public class CustomEntityValidatorTest {
             }
         };
 
-        List<ValidationError> validationErrors = customEntityValidator.validate(invalidCustomEntityId,
-                PathConstants.CUSTOM_ENTITIES, invalidCustomEntity);
+        List<ValidationError> validationErrors = customEntityValidator.validate(invalidCustomEntity);
         Assert.assertEquals("Should be 4 validation errors", 4, validationErrors.size());
         ValidationError ve1 = new ValidationError(ValidationError.ErrorType.INVALID_FIELD_NAME, "FSCommand = DEL",
                 "FSCommand = DEL", null);

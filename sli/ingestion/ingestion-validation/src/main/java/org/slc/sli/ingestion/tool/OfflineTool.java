@@ -65,8 +65,8 @@ public class OfflineTool {
         LoggerUtil.logToConsole();
         File file = null;
 
-        source = new JobSource(null, null, null);
-        reportStats = new SimpleReportStats(null, null, null);
+        source = new JobSource(null, null);
+        reportStats = new SimpleReportStats();
 
         if ((args.length != inputArgumentCount)) {
             messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0011, appName);

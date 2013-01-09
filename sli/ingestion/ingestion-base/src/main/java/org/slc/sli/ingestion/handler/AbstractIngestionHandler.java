@@ -50,19 +50,19 @@ public abstract class AbstractIngestionHandler<T extends Resource, O> implements
         if (preValidators != null) {
             for (Validator<T> validator : preValidators) {
                 validator.isValid(item, report, reportStats,
-                        new JobSource(reportStats.getBatchJobId(), item.getResourceId(), validator.getStageName()));
+                        new JobSource(item.getResourceId(), validator.getStageName()));
             }
         }
-    };
+    }
 
     void post(T item, AbstractMessageReport report, ReportStats reportStats) {
         if (postValidators != null) {
             for (Validator<T> validator : postValidators) {
                 validator.isValid(item, report, reportStats,
-                        new JobSource(reportStats.getBatchJobId(), item.getResourceId(), validator.getStageName()));
+                        new JobSource(item.getResourceId(), validator.getStageName()));
             }
         }
-    };
+    }
 
     @Override
     public O handle(T item, AbstractMessageReport report, ReportStats reportStats) {

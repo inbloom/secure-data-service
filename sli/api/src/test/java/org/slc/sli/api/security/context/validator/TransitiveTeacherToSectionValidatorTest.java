@@ -20,6 +20,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -102,13 +103,13 @@ public class TransitiveTeacherToSectionValidatorTest {
         sectionIds.add(section.getEntityId());
         // Directly associated
         Mockito.when(mockStudentValidator.getStudentIds()).thenReturn(new ArrayList<String>(studentIds));
-        Mockito.when(mockSectionValidator.validate(EntityNames.SECTION, sectionIds)).thenReturn(true);
+        Mockito.when(mockSectionValidator.getValid(EntityNames.SECTION, sectionIds)).thenReturn(sectionIds);
         assertTrue(validator.validate(EntityNames.SECTION, sectionIds));
         // Via Student
         helper.generateSSA("BERP", section.getEntityId(), false);
         studentIds.add("BERP");
         Mockito.when(mockStudentValidator.getStudentIds()).thenReturn(new ArrayList<String>(studentIds));
-        Mockito.when(mockSectionValidator.validate(EntityNames.SECTION, sectionIds)).thenReturn(false);
+        Mockito.when(mockSectionValidator.getValid(EntityNames.SECTION, sectionIds)).thenReturn(sectionIds);
         assertTrue(validator.validate(EntityNames.SECTION, sectionIds));
     }
     
@@ -118,7 +119,7 @@ public class TransitiveTeacherToSectionValidatorTest {
         helper.generateSSA("BERP", section.getEntityId(), true);
         studentIds.add("BERP");
         Mockito.when(mockStudentValidator.getStudentIds()).thenReturn(new ArrayList<String>(studentIds));
-        Mockito.when(mockSectionValidator.validate(EntityNames.SECTION, sectionIds)).thenReturn(true);
+        Mockito.when(mockSectionValidator.getValid(EntityNames.SECTION, sectionIds)).thenReturn(sectionIds);
         assertFalse(validator.validate(EntityNames.SECTION, sectionIds));
     }
     
@@ -128,13 +129,13 @@ public class TransitiveTeacherToSectionValidatorTest {
         sectionIds.add(section.getEntityId());
         // Directly associated
         Mockito.when(mockStudentValidator.getStudentIds()).thenReturn(new ArrayList<String>(studentIds));
-        Mockito.when(mockSectionValidator.validate(EntityNames.SECTION, sectionIds)).thenReturn(false);
+        Mockito.when(mockSectionValidator.getValid(EntityNames.SECTION, sectionIds)).thenReturn(Collections.EMPTY_SET);
         assertFalse(validator.validate(EntityNames.SECTION, sectionIds));
         // Via Student
         helper.generateSSA("BERP", section.getEntityId(), false);
         studentIds.add("BERP");
         Mockito.when(mockStudentValidator.getStudentIds()).thenReturn(new ArrayList<String>());
-        Mockito.when(mockSectionValidator.validate(EntityNames.SECTION, sectionIds)).thenReturn(false);
+        Mockito.when(mockSectionValidator.getValid(EntityNames.SECTION, sectionIds)).thenReturn(Collections.EMPTY_SET);
         assertFalse(validator.validate(EntityNames.SECTION, sectionIds));
     }
 }

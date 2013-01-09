@@ -73,36 +73,42 @@ public class EntityTestUtils {
     private static final ObjectMapper MAPPER = new ObjectMapper();
     public static final Charset CHARSET_UTF8 = Charset.forName("utf-8");
 
-    public static List<NeutralRecord> getNeutralRecords(InputStream dataSource, String smooksConfig,
-            String targetSelector, Set<String> recordLevelDeltaEnabledEntityNames,
-            DeterministicUUIDGeneratorStrategy didGeneratorStrategy, DeterministicIdResolver didResolver)
-            throws IOException, SAXException, SmooksException {
+    private static SliSmooks smooks;
+    private static String testTargetSelector;
+
+    public static void init(String smooksXmlConfigFilePath, String targetSelector,
+            Set<String> recordLevelDeltaEnabledEntityNames, DeterministicUUIDGeneratorStrategy didGeneratorStrategy,
+            DeterministicIdResolver didResolver) throws IOException, SAXException {
+
+        smooks = new SliSmooks(smooksXmlConfigFilePath);
+        testTargetSelector = targetSelector;
 
         BatchJobDAO batchJobDAO = Mockito.mock(BatchJobDAO.class);
         when(batchJobDAO.findRecordHash((String) any(), (String) any())).thenReturn(null);
 
-        DummyResourceWriter dummyResourceWriter = new DummyResourceWriter();
         AbstractMessageReport errorReport = Mockito.mock(AbstractMessageReport.class);
-        ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
+        ReportStats reportStats = new SimpleReportStats();
 
-        SliSmooks smooks = new SliSmooks(smooksConfig);
         SmooksEdFiVisitor smooksEdFiVisitor = SmooksEdFiVisitor.createInstance("record", null, errorReport,
                 reportStats, null);
-        smooksEdFiVisitor.setNrMongoStagingWriter(dummyResourceWriter);
-
         smooksEdFiVisitor.setRecordLevelDeltaEnabledEntities(recordLevelDeltaEnabledEntityNames);
-
         smooksEdFiVisitor.setBatchJobDAO(batchJobDAO);
-
         smooksEdFiVisitor.setDIdGeneratorStrategy(didGeneratorStrategy);
         smooksEdFiVisitor.setDIdResolver(didResolver);
 
         smooks.addVisitor(smooksEdFiVisitor, targetSelector);
+    }
+
+    private static List<NeutralRecord> getNeutralRecords(InputStream dataSource) throws IOException, SAXException,
+            SmooksException {
+
+        DummyResourceWriter dummyResourceWriter = new DummyResourceWriter();
+        smooks.getSmooksEdFiVisitor().setNrMongoStagingWriter(dummyResourceWriter);
 
         JavaResult result = new JavaResult();
         smooks.filterSource(new StreamSource(dataSource), result);
 
-        smooksEdFiVisitor.getRecordsPerisisted();
+        smooks.getSmooksEdFiVisitor().getRecordsPerisisted();
         List<NeutralRecord> entityList = dummyResourceWriter.getNeutralRecordsList();
 
         return entityList;
@@ -153,16 +159,20 @@ public class EntityTestUtils {
      * @throws IOException
      * @throws SAXException
      */
-    public static NeutralRecord smooksGetSingleNeutralRecord(String smooksXmlConfigFilePath, String targetSelector,
+    public static NeutralRecord smooksGetSingleNeutralRecord(String smooksConfig, String targetSelector,
             String testData, Set<String> recordLevelDeltaEnabledEntityNames,
             DeterministicUUIDGeneratorStrategy didGeneratorStrategy, DeterministicIdResolver didResolver)
             throws IOException, SAXException {
+
+        if (testTargetSelector != targetSelector) {
+            init(smooksConfig, targetSelector, recordLevelDeltaEnabledEntityNames, didGeneratorStrategy, didResolver);
+        }
+
         ByteArrayInputStream testDataStream = new ByteArrayInputStream(testData.getBytes());
 
         NeutralRecord neutralRecord = null;
 
-        List<NeutralRecord> records = EntityTestUtils.getNeutralRecords(testDataStream, smooksXmlConfigFilePath,
-                targetSelector, recordLevelDeltaEnabledEntityNames, didGeneratorStrategy, didResolver);
+        List<NeutralRecord> records = getNeutralRecords(testDataStream);
         if (records != null && records.size() > 0) {
             neutralRecord = records.get(0);
         }
@@ -181,14 +191,19 @@ public class EntityTestUtils {
      * @throws IOException
      * @throws SAXException
      */
-    public static List<NeutralRecord> smooksGetNeutralRecords(String smooksXmlConfigFilePath, String targetSelector,
+    public static List<NeutralRecord> smooksGetNeutralRecords(String smooksConfig, String targetSelector,
             String testData, Set<String> recordLevelDeltaEnabledEntityNames,
             DeterministicUUIDGeneratorStrategy didGeneratorStrategy, DeterministicIdResolver didResolver)
             throws IOException, SAXException {
+
+        if (testTargetSelector != targetSelector) {
+            init(smooksConfig, targetSelector, recordLevelDeltaEnabledEntityNames, didGeneratorStrategy,
+                    didResolver);
+        }
+
         ByteArrayInputStream testDataStream = new ByteArrayInputStream(testData.getBytes());
 
-        return EntityTestUtils.getNeutralRecords(testDataStream, smooksXmlConfigFilePath, targetSelector,
-                recordLevelDeltaEnabledEntityNames, didGeneratorStrategy, didResolver);
+        return getNeutralRecords(testDataStream);
     }
 
     @SuppressWarnings("unchecked")
@@ -230,13 +245,13 @@ public class EntityTestUtils {
      *             if the resource cannot be located on the classpath
      */
     public static String readResourceAsString(String resourceName) throws FileNotFoundException {
-        InputStream stream = EntityTestUtils.getResourceAsStream(resourceName);
+        InputStream stream = getResourceAsStream(resourceName);
         if (stream == null) {
             throw new FileNotFoundException("Could not find resource " + resourceName + " in the classpath");
         }
 
         try {
-            return EntityTestUtils.convertStreamToString(stream);
+            return convertStreamToString(stream);
         } finally {
             try {
                 stream.close();

@@ -12,7 +12,7 @@ When the tenant with tenantId "Midgar" is locked
     And a batch job for file "tenant.zip" is completed in database
     And I should see "INFO  Not all records were processed completely due to errors." in the resulting batch job file
     And I should see "INFO  Processed 0 records." in the resulting batch job file
-    And I should see "ERROR  The tenant is currently being onboarded. Please try ingestion in a few minutes when it has completed." in the resulting error log file
+    And I should see "The tenant is currently being onboarded. Please try ingestion in a few minutes when it has completed." in the resulting error log file
     And the tenantIsReady flag for the tenant "Midgar" is reset
 
 Scenario: First ingestion for a new tenant
@@ -27,6 +27,7 @@ Then I should see following map of indexes in the corresponding collections:
      | section                                    | body.schoolId               |
      | student                                    | body.studentUniqueStateId   |
      | teacherSchoolAssociation                   | body.schoolId               |
+     | recordHash                                 | _id                         |
     And the database is sharded for the following collections
      | collectionName	                      |
      | attendance                             |
@@ -59,3 +60,4 @@ Then I should see following map of indexes in the corresponding collections:
      | courseTranscript                       |
      | teacherSchoolAssociation               |
      | teacherSectionAssociation              |
+	 | recordHash                             |

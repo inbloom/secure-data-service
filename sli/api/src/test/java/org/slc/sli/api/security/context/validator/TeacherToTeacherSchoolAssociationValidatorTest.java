@@ -57,6 +57,10 @@ public class TeacherToTeacherSchoolAssociationValidatorTest {
 
 	@Before
 	public void init() {
+        try {
+            vth.resetRepo();
+        } catch (Exception e) {
+        }
 		injector.setEducatorContext(USER_ID);
 	}
 
