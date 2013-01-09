@@ -9,7 +9,8 @@ require 'rest-client'
 @token = ""
 
 @pathToTestMap = {
-  "sli/api/" => ["api", "jmeter"],
+  #{}"sli/api/" => ["api", "jmeter"],
+  "sli/api/" => ["api"],
   "sli/simple-idp" => ["api", "admin"],
   "sli/acceptance-tests/test/features/api" => ["api"],
   "sli/acceptance-tests/test/features/simple_idp" => ["api"],
@@ -27,7 +28,8 @@ require 'rest-client'
   "sli/acceptance-tests/test/features/dash" => ["dashboard"],
   "sli/databrowser" => ["databrowser"],
   "sli/acceptance-tests/test/features/databrowser" => ["databrowser"],
-  "tools/odin" => "odin"
+  "tools/odin" => ["odin"],
+  "sli/search-indexer" => ["search-indexer"]
 }
 
 @testIdToUrlMap = {
@@ -97,7 +99,7 @@ def whichTestsToRun(hash)
       end
     end
   end
-  testsToRun.uniq
+  testsToRun.flatten.uniq
 end
 
 # given a test id to run, it will make the relevant api posts to jenkins to spart the appropriate test jobs
@@ -124,9 +126,9 @@ end
 
 whichTestsToRun(currHash).each do |test|
   sparkTest(test, currHash)
-  updateMongo(currHash)
 end
 
+updateMongo(currHash)
 
 
 

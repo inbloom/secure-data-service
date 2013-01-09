@@ -27,7 +27,7 @@ And in calendar month number "4" in day "19" is "Non School Day" with no events
 And the following are the total attendance number shown in the calendar
 |Attendance Category|Count  |
 |Tardy              |7     	|
-|Unexcused Absence  |0      |
+|Unexcused Absence  |2      |
 |Excused Absence    |3      |
 
 

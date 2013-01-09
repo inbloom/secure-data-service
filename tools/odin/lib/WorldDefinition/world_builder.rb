@@ -226,7 +226,7 @@ class WorldBuilder
       staff, teachers    = create_staff_and_teachers_for_school(members)
       begin_year         = @scenarioYAML["BEGIN_YEAR"]
 
-      @world[tag]       << {
+      school = {
         "id" => school_id, 
         "parent" => nil, 
         "sessions" => [], 
@@ -234,8 +234,12 @@ class WorldBuilder
         "teachers" => teachers,
         "offerings" => {},
         "students" => {begin_year => assemble_students_into_waves(tag, current_students)},
-        "programs" => create_programs_for_education_organization(tag, :SCHOOL)
+        "programs" => create_programs_for_education_organization(tag, :SCHOOL),
       }
+      if not @scenarioYAML['COURSES_ON_SEA']
+        school["courses"] = create_courses
+      end
+      @world[tag] << school
     end
     school_counter
   end
@@ -332,7 +336,7 @@ class WorldBuilder
     state_id, members = @pre_requisites[:seas].shift if @pre_requisites[:seas].size > 0
 
     @world["seas"] << {"id" => state_id, 
-      "courses" => create_courses, 
+      "courses" => (@scenarioYAML['COURSES_ON_SEA'] && create_courses),
       "staff" => create_staff_for_state_education_agency(members), 
       "programs" => create_programs_for_education_organization("seas", :STATE_EDUCATION_AGENCY)}
 
@@ -741,7 +745,7 @@ class WorldBuilder
     grades.each do |grade|
       # get the current set of courses that the state education agency has published
       # add state education agency id to courses --> makes life easier when creating course offering
-      current_courses              = state_education_agency["courses"][grade]
+      current_courses              = (state_education_agency["courses"] or school["courses"])[grade]
       current_courses.each { |element| element["ed_org_id"] = DataUtility.get_state_education_agency_id(state_education_agency["id"]) }
       courses[grade]               = current_courses
     end
@@ -775,7 +779,7 @@ class WorldBuilder
       end
       @queue.push_work_order({ :type => StateEducationAgency, :id => ed_org_id, :programs => get_program_ids(edOrg["programs"]) })
       
-      create_course_work_orders(ed_org_id, edOrg["courses"])
+      create_course_work_orders(ed_org_id, edOrg["courses"] || [])
       create_program_work_orders(edOrg["programs"])
     end
 
@@ -790,6 +794,7 @@ class WorldBuilder
       @world[classification].each { |edOrg|
         @queue.push_work_order({ :type => School, :id => edOrg["id"], :parent => edOrg["parent"], :classification => classification, :programs => get_program_ids(edOrg["programs"])})
         create_program_work_orders(edOrg["programs"])
+        create_course_work_orders(edOrg['id'], edOrg["courses"] || [])
         create_cohorts DataUtility.get_school_id(edOrg['id'], classification)
       }
     }
