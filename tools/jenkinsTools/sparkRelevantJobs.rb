@@ -16,6 +16,7 @@ require 'rest-client'
   "sli/acceptance-tests/test/features/simple_idp" => ["api"],
   "sli/SDK" => ["api"],
   "sli/data-access" => ["api", "ingestion"],
+  "sli/domain" => ["api", "ingestion"],
   "sli/acceptance-tests/test/features/ingestion" => ["ingestion"],
   "sli/ingestion/ingestion-core" => ["ingestion", "odin"],
   "sli/ingestion/ingestion-base" => ["ingestion", "odin"],
