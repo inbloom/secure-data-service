@@ -270,7 +270,7 @@
                             <maxIdleTime>60000</maxIdleTime>
                             <!-- increase header buffer size to support our
                                 aggressive linking strategy -->
-                            <headerBufferSize>16384</headerBufferSize>
+                            <headerBufferSize>32768</headerBufferSize>
                         </connector>
                     </connectors>
                 </configuration>
