@@ -21,6 +21,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import javax.ws.rs.core.HttpHeaders;
+
 import com.mongodb.BasicDBList;
 import com.mongodb.WriteConcern;
 import com.sun.jersey.api.uri.UriTemplate;
@@ -59,28 +61,6 @@ public class PostProcessFilter implements ContainerResponseFilter {
     private DateTimeFormatter dateFormatter = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd").toFormatter();
     private  DateTimeFormatter timeFormatter = new DateTimeFormatterBuilder().appendPattern("HH:mm:ss.SSSZ").toFormatter();
     
-//    private static LinkedBlockingQueue<Map<String, Object>> writeQueue =  new LinkedBlockingQueue<Map<String, Object>>();
-//    private static Thread writeThread; 
-//        
-//    static {
-//        writeThread = new Thread(new Runnable() {
-//            public void run() {
-//                while(true) {
-//                    try {
-//                        if (null != perfRepo) {
-//                          Map<String, Object> body = writeQueue.take();
-//                          perfRepo.create("apiResponse", body, "apiResponse");
-//                        }
-//                        else {
-//                            Thread.sleep(100); 
-//                        }
-//                    } catch (InterruptedException ignore) {} 
-//                }
-//            }
-//        });
-//        writeThread.start();
-//    }
-
     @Autowired
     private SecurityCachingStrategy securityCachingStrategy;
 
@@ -187,6 +167,15 @@ public class PostProcessFilter implements ContainerResponseFilter {
             if (null != reqId) {
                 body.put("reqid", reqId); 
             }
+            else { 
+                reqId = request.getHeaderValue(HttpHeaders.AUTHORIZATION); 
+                if (reqId != null) {
+                    reqId = reqId.replaceFirst("bearer ", ""); 
+                }
+                else { 
+                    reqId = "un-authenticated"; 
+                }
+            }
 
             body.put("url", requestURL.replace(serverUrl, "/"));
             body.put("method", request.getMethod());
@@ -203,7 +192,8 @@ public class PostProcessFilter implements ContainerResponseFilter {
             body.put("responseTime", String.valueOf(elapsed));
             body.put("dbHitCount", mongoStat.getDbHitCount());
             body.put("stats", mongoStat.getStats()); 
-            // perfRepo.setWriteConcern(WriteConcern.SAFE.toString()); 
+            
+            // Note: This should write the statistic asynchronously to MongoDB 
             perfRepo.create("apiResponse", body, "apiResponse");
         }
 
