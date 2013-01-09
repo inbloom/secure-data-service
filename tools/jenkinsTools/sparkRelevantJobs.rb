@@ -10,7 +10,7 @@ require 'rest-client'
 
 @pathToTestMap = {
   #{}"sli/api/" => ["api", "jmeter"],
-  "sli/api/" => ["api"],
+  "sli/api/" => ["api", "search-indexer"],
   "sli/simple-idp" => ["api", "admin"],
   "sli/acceptance-tests/test/features/api" => ["api"],
   "sli/acceptance-tests/test/features/simple_idp" => ["api"],
