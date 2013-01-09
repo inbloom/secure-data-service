@@ -77,7 +77,7 @@ def runTest(testName)
   jMeterCommand = JMETER_BIN + " -n -t " + jmxFileName + " -q " + propertiesFileName
   puts "executing: " + jMeterCommand
   system jMeterCommand
-  #parseJtlForRC(testName)
+  parseJtlForRC(testName)
 end
 
 def parseJtlForRC(testName)
