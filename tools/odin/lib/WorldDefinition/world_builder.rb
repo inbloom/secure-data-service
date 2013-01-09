@@ -237,7 +237,7 @@ class WorldBuilder
         "programs" => create_programs_for_education_organization(tag, :SCHOOL),
       }
       if not @scenarioYAML['COURSES_ON_SEA']
-        school["courses"] = create_courses
+        school["courses"] = create_courses(school_id)
       end
       @world[tag] << school
     end
@@ -336,7 +336,7 @@ class WorldBuilder
     state_id, members = @pre_requisites[:seas].shift if @pre_requisites[:seas].size > 0
 
     @world["seas"] << {"id" => state_id, 
-      "courses" => (@scenarioYAML['COURSES_ON_SEA'] && create_courses),
+      "courses" => (@scenarioYAML['COURSES_ON_SEA'] && create_courses(state_id)),
       "staff" => create_staff_for_state_education_agency(members), 
       "programs" => create_programs_for_education_organization("seas", :STATE_EDUCATION_AGENCY)}
 
@@ -746,7 +746,6 @@ class WorldBuilder
       # get the current set of courses that the state education agency has published
       # add state education agency id to courses --> makes life easier when creating course offering
       current_courses              = (state_education_agency["courses"] or school["courses"])[grade]
-      current_courses.each { |element| element["ed_org_id"] = DataUtility.get_state_education_agency_id(state_education_agency["id"]) }
       courses[grade]               = current_courses
     end
 
@@ -1067,7 +1066,7 @@ class WorldBuilder
   # initially assumes a very simple course model
   # -> each grade contains Science, Math, English, and History
   # -> no honors or multiple course paths
-  def create_courses
+  def create_courses(ed_org_id)
     courses = Hash.new
     course_counter = 0
     GradeLevelType::get_ordered_grades.each do |grade|
@@ -1075,11 +1074,11 @@ class WorldBuilder
       if !@scenarioYAML[grade.to_s + "_COURSES"].nil?
         @scenarioYAML[grade.to_s + "_COURSES"].each do |course|
           course_counter += 1
-          current_grade_courses << {"id" => course_counter, "title" => course}
+          current_grade_courses << {"id" => course_counter, "title" => course, "ed_org_id" => ed_org_id}
         end
       else
         course_counter += 1
-        current_grade_courses << {"id" => course_counter, "title" => GradeLevelType.to_string(grade)}
+        current_grade_courses << {"id" => course_counter, "title" => GradeLevelType.to_string(grade), "ed_org_id" => ed_org_id}
       end
       courses[grade] = current_grade_courses
     end
