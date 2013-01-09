@@ -186,7 +186,8 @@ public class GetResponseBuilder extends ResponseBuilder {
 
     private String getOriginalRequestPath(final UriInfo context) {
         if (context instanceof WebApplicationContext) {
-            return ((WebApplicationContext) context).getProperties().get(ORIGINAL_REQUEST_KEY).toString();
+            String originalUri = context.getBaseUri() + ((WebApplicationContext) context).getProperties().get(ORIGINAL_REQUEST_KEY).toString();
+            return originalUri;
         } else {
             return context.getRequestUri().toString();
         }
