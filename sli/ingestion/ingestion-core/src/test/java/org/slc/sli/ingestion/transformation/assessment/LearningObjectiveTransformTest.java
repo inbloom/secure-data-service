@@ -16,6 +16,10 @@
 
 package org.slc.sli.ingestion.transformation.assessment;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -23,19 +27,23 @@ import java.util.List;
 import java.util.Map;
 
 import junit.framework.Assert;
+import junitx.util.PrivateAccessor;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.dal.NeutralRecordRepository;
 
@@ -45,64 +53,74 @@ import org.slc.sli.ingestion.dal.NeutralRecordRepository;
  * @author Ryan Farris <rfarris@wgen.net>
  *
  */
-@RunWith(MockitoJUnitRunner.class)
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class LearningObjectiveTransformTest {
 
-    @InjectMocks
-    LearningObjectiveTransform transform = new LearningObjectiveTransform();
+    @Autowired
+    private LearningObjectiveTransform transform;
 
     @Mock
-    NeutralRecordMongoAccess mongoAccess;
+    private NeutralRecordMongoAccess mongoAccess = Mockito.mock(NeutralRecordMongoAccess.class);
 
     @Mock
-    Job job;
+    private NeutralRecordRepository repo = Mockito.mock(NeutralRecordRepository.class);
 
     @Mock
-    NeutralRecordRepository repo;
+    private MongoEntityRepository mongoRepository = Mockito.mock(MongoEntityRepository.class);
 
     String transformCollection = LearningObjectiveTransform.LEARNING_OBJECTIVE + "_transformed";
+    private String batchJobId = "10001";
+    private Job job = mock(Job.class);
 
     @Before
-    public void init() {
+    public void init() throws IOException, NoSuchFieldException {
+        MockitoAnnotations.initMocks(this);
 
+        WorkNote workNote = WorkNote.createSimpleWorkNote("batchJobId");
+        transform.setWorkNote(workNote);
+
+        when(mongoAccess.getRecordRepository()).thenReturn(repo);
+        mongoAccess.setNeutralRecordRepository(repo);
+        transform.setNeutralRecordMongoAccess(mongoAccess);
+
+        transform.setMongoEntityRepository(mongoRepository);
+        PrivateAccessor.setField(transform, "batchJobId", batchJobId);
+        PrivateAccessor.setField(transform, "job", job);
+        when(job.getTenantId()).thenReturn("SLI");
     }
 
-    @Ignore
+    @SuppressWarnings("unchecked")
     @Test
     public void testPerform() {
-        String jobId = "JOB_ID";
-        Mockito.when(job.getId()).thenReturn(jobId);
-        Mockito.when(mongoAccess.getRecordRepository()).thenReturn(repo);
+        NeutralRecord root = createNeutralRecord("root", "csn-0", "root objective", "academic subject", "fifth grade");
+        NeutralRecord child1 = createNeutralRecord("child1", "csn-1", "child objective 1", "academic subject",
+                "fifth grade");
+        NeutralRecord child2 = createNeutralRecord("child2", "csn-2", "child objective 2", "academic subject",
+                "fifth grade");
+        NeutralRecord grandChild1 = createNeutralRecord("grandChild1", null, "grand child objective",
+                "academic subject", "fifth grade");
+        addChild(root, child1);
+        addChild(root, child2);
+        addChild(child1, grandChild1);
 
-        NeutralRecord root = createNeutralRecord("root", "csn-0");
-        NeutralRecord child1 = createNeutralRecord("child1", "csn-1");
-        NeutralRecord child2 = createNeutralRecord("child2", "csn-2");
-        NeutralRecord grandChild1 = createNeutralRecord("grandChild1", null);
-        addChild(root, "child1", "csn-1");
-        addChild(root, "child2", "csn-2");
-        addChild(child1, "grandChild1", null);
-        // List<NeutralRecord> nrList = Arrays.asList(root, child1, child2, grandChild1);
         Iterable<NeutralRecord> nrList = Arrays.asList(root, child1, child2, grandChild1);
 
-        // Map<Object, NeutralRecord> nrMap = new HashMap<Object, NeutralRecord>();
-        // nrMap.put(root.getRecordId(), root);
-        // nrMap.put(child1.getRecordId(), child1);
-        // nrMap.put(child2.getRecordId(), child2);
-        // nrMap.put(grandChild1.getRecordId(), grandChild1);
-        Mockito.when(repo.findAllForJob(Mockito.anyString(), Mockito.any(NeutralQuery.class)))
-                .thenReturn(nrList);
+        Mockito.when(repo.findAllByQuery(Mockito.anyString(), Mockito.any(Query.class))).thenReturn(nrList);
 
         transform.perform(job);
 
-        Mockito.verify(repo).createForJob(root);
-        Mockito.verify(repo).createForJob(child1);
-        Mockito.verify(repo).createForJob(child2);
-        Mockito.verify(repo).createForJob(grandChild1);
+        Map<String, Object> child1Parent = (Map<String, Object>) child1.getAttributes().get(
+                "LearningObjectiveReference");
+        Map<String, Object> grandChildParent = (Map<String, Object>) grandChild1.getAttributes().get(
+                "LearningObjectiveReference");
 
-        Assert.assertEquals("root", child1.getLocalParentIds().get(LearningObjectiveTransform.LOCAL_ID_OBJECTIVE_ID));
-        Assert.assertEquals("root", child2.getLocalParentIds().get(LearningObjectiveTransform.LOCAL_ID_OBJECTIVE_ID));
-        Assert.assertEquals("child1",
-                grandChild1.getLocalParentIds().get(LearningObjectiveTransform.LOCAL_ID_OBJECTIVE_ID));
+        Assert.assertEquals("root objective",
+                ((Map<String, Object>) child1Parent.get("LearningObjectiveIdentity")).get("Objective"));
+        Assert.assertEquals("root objective",
+                ((Map<String, Object>) child1Parent.get("LearningObjectiveIdentity")).get("Objective"));
+        Assert.assertEquals("child objective 1",
+                ((Map<String, Object>) grandChildParent.get("LearningObjectiveIdentity")).get("Objective"));
 
         Assert.assertEquals(transformCollection, root.getRecordType());
         Assert.assertEquals(transformCollection, child1.getRecordType());
@@ -110,26 +128,33 @@ public class LearningObjectiveTransformTest {
         Assert.assertEquals(transformCollection, grandChild1.getRecordType());
     }
 
-    private static NeutralRecord createNeutralRecord(String objectiveId, String contentStandardName) {
+    private static NeutralRecord createNeutralRecord(String objectiveId, String contentStandardName, String objective,
+            String subject, String grade) {
         NeutralRecord nr = new NeutralRecord();
         nr.setRecordType(LearningObjectiveTransform.LEARNING_OBJECTIVE);
         nr.setAttributes(new HashMap<String, Object>());
         nr.setLocalParentIds(new HashMap<String, Object>());
         setAtPath(nr.getAttributes(), LearningObjectiveTransform.LO_ID_CODE_PATH, objectiveId);
         setAtPath(nr.getAttributes(), LearningObjectiveTransform.LO_CONTENT_STANDARD_NAME_PATH, contentStandardName);
+        setAtPath(nr.getAttributes(), "objective", objective);
+        setAtPath(nr.getAttributes(), "academicSubject", subject);
+        setAtPath(nr.getAttributes(), "objectiveGradeLevel", grade);
         setAtPath(nr.getAttributes(), LearningObjectiveTransform.LEARNING_OBJ_REFS,
                 new ArrayList<Map<String, Object>>());
         return nr;
     }
 
     @SuppressWarnings("unchecked")
-    private static void addChild(NeutralRecord parent, String objectiveId, String contentStandardName) {
+    private static void addChild(NeutralRecord parent, NeutralRecord child) {
         List<Map<String, Object>> childRefs = (List<Map<String, Object>>) parent.getAttributes().get(
                 LearningObjectiveTransform.LEARNING_OBJ_REFS);
         Map<String, Object> map = new HashMap<String, Object>();
-        setAtPath(map, LearningObjectiveTransform.LO_ID_CODE_PATH, objectiveId);
-        setAtPath(map, LearningObjectiveTransform.LO_CONTENT_STANDARD_NAME_PATH, contentStandardName);
-        childRefs.add(map);
+        setAtPath(map, "Objective", child.getAttributes().get("objective"));
+        setAtPath(map, "AcademicSubject", child.getAttributes().get("academicSubject"));
+        setAtPath(map, "ObjectiveGradeLevel", child.getAttributes().get("objectiveGradeLevel"));
+        Map<String, Object> identity = new HashMap<String, Object>();
+        identity.put("LearningObjectiveIdentity", map);
+        childRefs.add(identity);
     }
 
     @SuppressWarnings("unchecked")
