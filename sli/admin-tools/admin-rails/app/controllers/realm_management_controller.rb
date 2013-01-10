@@ -63,7 +63,7 @@ class RealmManagementController < ApplicationController
       end
       if success
         @realm = Realm.find(@realm.id)
-        format.html { redirect_to "/realm_management",  notice: 'Realm was successfully created.' }
+        format.html { redirect_to realm_management_index_path,  notice: 'Realm was successfully created.' }
         format.json { render json: @realm, status: :created, location: @realm }
       else
         format.html { render action: "new" }
@@ -88,7 +88,7 @@ class RealmManagementController < ApplicationController
         @realm.errors.add(:name, "must be unique") if error.response.body.include? "display"
       end
       if success
-        format.html { redirect_to "/realm_management", notice: 'Realm was successfully updated.' }
+        format.html { redirect_to realm_management_index_path, notice: 'Realm was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
@@ -102,10 +102,5 @@ class RealmManagementController < ApplicationController
   def destroy
    @realm = Realm.find(params[:id])
    @realm.destroy
-  
-   respond_to do |format|
-     format.html { redirect_to realm_managements_url }
-     format.json { head :ok }
-   end
   end
 end

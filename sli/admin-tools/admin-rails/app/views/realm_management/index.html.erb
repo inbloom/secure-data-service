@@ -19,8 +19,8 @@
       <td><%= realm.uniqueIdentifier %></td>
       <td class="rowAction">
         <%= link_to("Edit", edit_realm_management_path(realm), :class => "btn btn-primary") %>
-        <%= link_to("Custom Roles", "", :class => "btn btn-info") %> 
-        <%= link_to 'Delete Realm', delete_realm_management_path(realm), {confirm: 'WARNING: DELETING REALM WILL PREVENT ANY USER ASSOCIATED WITH THIS REALM FROM AUTHENTICATING ON inBloom AND WILL RESET ROLE MAPPING. ARE YOU SURE?', :class => 'btn btn-danger'} %>
+        <%= link_to("Custom Roles", edit_custom_role_path(realm), :class => "btn btn-info") %> 
+        <%= link_to 'Delete Realm', realm_management_path(realm), :method => :delete, :remote => true, confirm: 'WARNING: DELETING REALM WILL PREVENT ANY USER ASSOCIATED WITH THIS REALM FROM AUTHENTICATING ON inBloom AND WILL RESET ROLE MAPPING. ARE YOU SURE?', :class => 'btn btn-danger' %>
 
       </td>
     </tr>
