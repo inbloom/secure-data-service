@@ -1,0 +1,68 @@
+source 'http://rubygems.org'
+
+gem 'rails', '3.2.3'
+
+# Bundle edge Rails instead:
+# gem 'rails',     :git => 'git://github.com/rails/rails.git'
+
+#gem 'sqlite3'
+
+gem 'json'
+
+gem 'execjs'
+
+gem 'therubyracer', :platform => :ruby
+
+gem 'oauth2'
+
+gem 'eventmachine', '0.12.6'
+
+gem 'rest-client'
+gem 'mocha'
+
+# Better than the Rails Logger
+gem 'logging-rails', :require => 'logging/rails'
+
+
+# Gems used only for assets and not required
+# in production environments by default.
+group :assets do
+  gem 'sass-rails',   '~> 3.2.3'
+  gem 'coffee-rails', '~> 3.2.1'
+  gem 'uglifier', '>= 1.0.3'
+end
+
+gem 'jquery-rails'
+
+# To use ActiveModel has_secure_password
+# gem 'bcrypt-ruby', '~> 3.0.0'
+
+# Use unicorn as the web server
+# gem 'unicorn'
+
+# Deploy with Capistrano
+group :deployment, :integration do
+	gem 'capistrano'
+	gem 'capistrano-ext'
+	gem 'thin', "~> 1.3.1"
+end
+
+# To use debugger
+# gem 'ruby-debug'
+
+ # To use debugger
+ # gem 'ruby-debug'
+#gem 'ruby-debug19', :require => 'ruby-debug'
+
+## Something is wrong here - but we should figure out how to enable ruby debug.  This is what you need to use to debug on a Mac.
+#gem 'linecache19', '0.5.13', :path => "~/.rvm/gems/ruby-1.9.3-p#{RUBY_PATCHLEVEL}/gems/linecache19-0.5.13/"
+#gem 'ruby-debug-base19', '0.11.26', :path => "~/.rvm/gems/ruby-1.9.3-p#{RUBY_PATCHLEVEL}/gems/ruby-debug-base19-0.11.26/"
+#gem 'ruby-debug19', :require => 'ruby-debug'
+
+
+# Lets use SimpleCov for Ruby > 1.9
+group :development, :test do
+	gem 'simplecov', :require=>false, :group=>:test
+	gem 'simplecov-rcov', :require=>false, :group=>:test
+	# gem 'turn', "~> 0.9.4"
+end

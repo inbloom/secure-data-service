@@ -1,0 +1,1 @@
+{ "_id" : "e4de84f3-b91c-48fc-83cd-8ee360eb9419", "type" : "applicationAuthorization", "body" : { "authId" : "58da03547c4e2ab2144fcbcf53ff1579cd91db03_id", "authType" : "EDUCATION_ORGANIZATION", "appIds" : [ "206e28d3-89a9-db4a-8f80-aaece6fda52a" ] }, "metaData" : { "tenantId" : "Midgar", "updated" : { "$date" : 1332785105123 }, "created" : { "$date" : 1332785105123 } } }

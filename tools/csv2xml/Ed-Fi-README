@@ -1,0 +1,20 @@
+Ed-Fi file location for CSV2XML generation.
+
+Not included in this distribution is the core Ed-Fi.xsd and the associated
+Interchange*.xml files.  The latest versions of these files are located at the
+Ed-Fi technical documentation website (http://www.ed-fi.org/technical-documentation/)
+
+These files should be placed in the edfiXsd folder , prior to using
+the CSV2XML converter.  The key files are:
+
+ 1. The core Ed-Fi.xsd file.  Click the 'Interim Ed-Fi Core XML Schema for SLC Alpha'
+      link on the website.  Be sure to rename this file as 'Ed-Fi-Core.xsd'.  This
+      file is version 1.0.03 and is the only version of the Ed-Fi schema currently
+      supported.
+      
+ 2. The assorted Interchange*.xsd files.  Click on the 'Interchange Schema Examples with
+      Data' link on the website.  The files are located in separate folders within that
+      archive.  Each of these files has a windows-style relative path to 'Ed-Fi-Core.xsd'
+      that needs to be updated to reflect that they are in the same folder as that file.
+
+Refer to the CSV2XML documentation for more information.

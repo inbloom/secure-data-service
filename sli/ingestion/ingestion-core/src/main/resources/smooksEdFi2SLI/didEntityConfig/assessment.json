@@ -1,0 +1,20 @@
+{
+    "referenceSources" :
+    [
+        {
+            "entityType" : "learningObjective",
+            "sourceRefPath": "body.objectiveAssessment.learningObjectives",
+            "optional" : true
+        },
+        {
+            "entityType" : "learningObjective",
+            "sourceRefPath": "body.objectiveAssessment.objectiveAssessments.learningObjectives",
+            "optional" : true
+        },
+        {
+            "entityType" : "learningStandard",
+            "sourceRefPath": "body.assessmentItem.learningStandards",
+            "optional" : true
+        }
+    ]
+}

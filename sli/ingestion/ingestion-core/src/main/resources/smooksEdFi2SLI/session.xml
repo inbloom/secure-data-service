@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd"
+    xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+    xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+    xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+    <json:reader rootName="json" />
+
+    <core:filterSettings type="SAX" readerPoolSize="5" />
+
+    <jb:bean beanId="session" class="java.util.ArrayList" createOnElement="#document">
+        <jb:wiring beanIdRef="Sessions" />
+    </jb:bean>
+
+    <jb:bean beanId="Sessions" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+        <jb:expression property="type">'session'</jb:expression>
+        <jb:wiring property="body" beanIdRef="ssBody" />
+    </jb:bean>
+
+    <jb:bean beanId="ssBody" class="java.util.HashMap" createOnElement="attributes">
+        <jb:value property="sessionName" data="attributes sessionName" />
+        <jb:value property="schoolYear" data="attributes schoolYear" />
+        <jb:value property="term" data="attributes term" />
+        <jb:value property="beginDate" data="attributes beginDate" />
+        <jb:value property="endDate" data="attributes endDate" />
+        <jb:value property="totalInstructionalDays" data="attributes totalInstructionalDays" />
+        <jb:wiring property="gradingPeriodReference" beanIdRef="session_gradingPeriodReferenceArray" />
+        <jb:value property="schoolId" data="attributes EducationOrganizationReference" />
+    </jb:bean>
+
+    <jb:bean beanId="session_gradingPeriodReferenceArray" class="java.util.ArrayList" createOnElement="attributes">
+        <jb:value data="attributes GradingPeriodReference element" />
+    </jb:bean>
+
+</smooks-resource-list>

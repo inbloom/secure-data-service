@@ -1,0 +1,31 @@
+<h1>Listing user_account_registrations</h1>
+
+<table>
+  <tr>
+    <th>Email</th>
+    <th>Firstname</th>
+    <th>Lastname</th>
+    <th>Password</th>
+    <th>Vendor</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @user_account_registrations.each do |user_account_registration| %>
+  <tr>
+    <td><%= user_account_registrations.email %></td>
+    <td><%= user_account_registrations.firstName %></td>
+    <td><%= user_account_registrations.lastName %></td>
+    <td><%= user_account_registrations.password %></td>
+    <td><%= user_account_registrations.vendor %></td>
+    <td><%= link_to 'Show', user_account_registration %></td>
+    <td><%= link_to 'Edit', edit_user_account_registration_path(user_account_registrations) %></td>
+    <td><%= link_to 'Destroy', user_account_registrations, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New User account registration', new_user_account_registration_path %>

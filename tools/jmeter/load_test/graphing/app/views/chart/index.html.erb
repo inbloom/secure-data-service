@@ -1,0 +1,37 @@
+<% i = 0 %>
+<% @charts.each do |chart| %>
+    <%= high_chart("test#{i}", chart) %>
+    <% i = i + 1 %>
+    <hr/>
+<% end %>
+
+
+<% @table.each do |scenario, data| %>
+    <h3><%= scenario %></h3>
+    <table border="1">
+      <th>Threads</th>
+      <% data[:header].each do |header| %>
+          <th><%= header %></th>
+      <% end %>
+      <% data[:data].each do |element| %>
+          <tr>
+            <% element.each do |value| %>
+                <td><%= value %></td>
+            <% end %>
+          </tr>
+      <% end %>
+    </table>
+<% end %>
+
+<% if true %>
+    <% @transposed_tables.each do |scenario, data| %>
+        <h3><%= scenario %></h3>
+        <% data.each do |row| %>
+            |<% row.each do |col| %>
+                <%= col %>|
+            <% end %>
+            <br/>
+        <% end %>
+        <br/>
+    <% end %>
+<% end %>

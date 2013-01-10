@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:util="http://www.springframework.org/schema/util"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/util    http://www.springframework.org/schema/util/spring-util.xsd
+    http://www.springframework.org/schema/security
+                           http://www.springframework.org/schema/security/spring-security.xsd
+    ">
+
+     <bean id="ApplicationProperties" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+         <property name="ignoreResourceNotFound" value="true" />
+         <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+         <property name="locations">
+             <list>
+                 <value>file:${sli.conf}</value>
+
+                 <!--  override specific properties for testing -->
+                 <value>file:${sli.test.conf}</value>
+             </list>
+         </property>
+     </bean>
+
+    
+    <context:component-scan base-package="org.slc" />
+
+    <bean id="ldapTemplate" class="org.springframework.ldap.core.LdapTemplate">
+		<constructor-arg ref="contextSource" />
+	</bean>
+	<bean id="contextSource" class="org.springframework.ldap.core.support.LdapContextSource" >
+		<property name="url" value="ldap://changeit:389" />
+		<property name="base" value="ou=changeit" />
+		<property name="userDn" value="cn=changeit" />
+        <property name="password" value="changeit" />
+        <property name="pooled" value="true" />
+	</bean>
+	<bean
+		class="org.springframework.ldap.core.support.BaseLdapPathBeanPostProcessor" />
+</beans>
+

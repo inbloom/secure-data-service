@@ -1,0 +1,45 @@
+{
+    "keyFields" : ["body.studentId","body.parentId"],
+    "references" :
+    [{
+        "fieldPath" : "body.StudentReference",
+        "deprecated" : true,
+        "ref" :
+        {
+	        "entityType" : "student",
+	        "choiceOfFields" :
+	        [
+	            [
+		            {
+		           	    "path" : "body.studentUniqueStateId",
+		                "values" :
+		                [{
+			                "valueSource" : "body.StudentReference.StudentIdentity.StudentUniqueStateId"
+		                }]
+		            }
+	            ]
+	        ]
+        }
+    },
+    {
+        "fieldPath" : "body.ParentReference",
+        "deprecated" : true,
+        "ref" :
+        {
+            "entityType" : "parent",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.parentUniqueStateId",
+                        "values" :
+                        [{
+                            "valueSource" : "body.ParentReference.ParentIdentity.ParentUniqueStateId"
+                        }]
+                    }
+                ]
+            ]
+        }
+    }]
+}
+

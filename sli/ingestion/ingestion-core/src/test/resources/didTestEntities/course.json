@@ -1,0 +1,13 @@
+{
+"recordType":"course",
+"attributes":
+{
+	"EducationOrganizationReference":
+	{
+		"EducationalOrgIdentity":
+		{
+			"StateOrganizationId":"testSchoolId"
+		}
+	}
+}
+}

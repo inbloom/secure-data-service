@@ -1,0 +1,45 @@
+{
+    "keyFields" : ["body.studentId","body.disciplineIncidentId"],
+    "references" :
+    [{
+        "fieldPath" : "body.StudentReference",
+        "deprecated" : true,
+        "ref" :
+        {
+            "entityType" : "student",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.studentUniqueStateId",
+                        "values" :
+                        [{
+                            "valueSource" : "body.StudentReference.StudentIdentity.StudentUniqueStateId"
+                        }]
+                    }
+                ]
+            ]
+        }
+    },
+    {
+        "fieldPath" : "body.DisciplineIncidentReference",
+        "deprecated" : true,
+        "ref" :
+        {
+            "entityType" : "disciplineIncident",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.incidentIdentifier",
+                        "values" :
+                        [{
+                            "valueSource" : "body.DisciplineIncidentReference.DisciplineIncidentIdentity.IncidentIdentifier"
+                        }]
+                    }
+                ]
+            ]
+        }
+    }]
+}
+

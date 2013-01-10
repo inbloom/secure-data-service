@@ -1,0 +1,137 @@
+{
+    "keyFields" : ["body.studentId","body.disciplineIncidentId","body.disciplineDate","body.disciplineActionIdentifier"],
+    "references" :
+    [
+    {
+        "fieldPath" : "body.StaffReference",
+        "deprecated" : true,
+        "ref" :
+        {
+            "entityType" : "staff",
+            "isRefList" : true,
+            "refObjectPath" : "body.StaffReference",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.staffUniqueStateId",
+                        "values" :
+                        [{
+                            "valueSource" : "body.StaffReference.StaffIdentity.StaffUniqueStateId"
+                        }]
+                    }
+                ]
+            ]
+        }
+    },
+    {
+        "fieldPath" : "body.StudentReference",
+        "deprecated" : true,
+        "ref" :
+        {
+            "entityType" : "student",
+            "isRefList" : true,
+            "refObjectPath" : "body.StudentReference",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.studentUniqueStateId",
+                        "values" :
+                        [
+                            {"valueSource" : "body.StudentReference.StudentIdentity.StudentUniqueStateId"}
+                        ]
+                    }
+                ]
+            ]
+        }
+    },
+    {
+        "fieldPath" : "body.DisciplineIncidentReference",
+        "deprecated" : true,
+        "ref" :
+        {
+            "entityType" : "disciplineIncident",
+            "isRefList" : true,
+            "refObjectPath" : "body.DisciplineIncidentReference",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.incidentIdentifier",
+                        "values" :
+                        [
+                            {"valueSource" : "body.DisciplineIncidentReference.DisciplineIncidentIdentity.IncidentIdentifier"}
+                        ]
+                    },
+                    {
+                        "path" : "body.schoolId",
+                        "values" :
+                        [
+                {"ref" :
+                    {
+                                    "entityType" : "educationOrganization",
+                                    "choiceOfFields" :
+                        [
+                        [
+                            {
+                                "path" : "body.stateOrganizationId",
+                                "values":
+                                [
+                                {"valueSource": "body.DisciplineIncidentReference.DisciplineIncidentIdentity.EducationalOrgReference.EducationalOrgIdentity.StateOrganizationId"}
+                                ]
+                            }
+                        ]
+                        ]
+                }
+                }
+                        ]
+            }
+                ]
+            ]
+        }
+    },
+    {
+        "fieldPath" : "body.responsibilitySchoolId",
+        "deprecated" : true,
+        "ref" :
+        {
+            "entityType" : "educationOrganization",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.stateOrganizationId",
+                        "values" :
+                        [
+                            {"valueSource" : "body.responsibilitySchoolId.educationalOrgIdentity.stateOrganizationId"}
+                        ]
+                    }
+                ]
+            ]
+        }
+    },
+    {
+        "fieldPath" : "body.assignmentSchoolId",
+        "deprecated" : true,
+        "ref" :
+        {
+            "entityType" : "educationOrganization",
+            "optional" : "true",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.stateOrganizationId",
+                        "values" :
+                        [
+                            {"valueSource" : "body.assignmentSchoolId.educationalOrgIdentity.stateOrganizationId"}
+                        ]
+                    }
+                ]
+            ]
+        }
+    }
+    ]
+}
+

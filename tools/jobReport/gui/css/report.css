@@ -1,0 +1,14 @@
+body
+{
+	font-family: 'Arial';
+	background-color: white;
+	color: #110044;
+}
+a, h4
+{
+	color: #110044;
+}
+#progressbar
+{
+	margin:25px;
+}

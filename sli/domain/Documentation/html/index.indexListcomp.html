@@ -1,0 +1,1137 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for </title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    --></script></head>
+   <body>
+      <h2><a id="INDEX">Table of Contents</a></h2>
+      <p><a href="index.indexList.html">Components</a><span> | </span><a href="schHierarchy.html">Resource Hierarchy</a></p>
+      <hr />
+      <div class="toc">
+         <form action="none">
+            <div><span> Group by: <select id="selectTOC"
+                          onchange="selectTOCGroupBy(this.options[this.selectedIndex].value, true, 'index.indexList.html', 'index.indexListns.html', 'index.indexListcomp.html');">
+                     <option value="toc_group_by_namespace">Namespace</option>
+                     <option value="toc_group_by_location">Location</option>
+                     <option value="toc_group_by_component_type" selected="selected">Component Type</option></select></span></div>
+         </form>
+         <div class="level1" id="toc_group_by_component_type" style="display:block">
+            <div>
+               <div class="horizontalLayout">
+                  <table class="rt">
+                     <tr>
+                        <td class="rt_cornerTopLeft"></td>
+                        <td class="rt_lineTop"></td>
+                        <td class="rt_cornerTopRight"></td>
+                     </tr>
+                     <tr>
+                        <td class="rt_lineLeft"></td>
+                        <td class="rt_content">
+                           <div class="componentGroupTitle">Elements
+                              
+                           </div>
+                           <div id="Element" style="display:block">
+                              <div><b><a href="Assessments_xsd.html#assessment" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Assessments.xsd')">assessment</a></b></div>
+                              <div><b><a href="BellSchedule_xsd.html#bellSchedule" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for BellSchedule.xsd')">bellSchedule</a></b></div>
+                              <div><b><a href="Cohort_xsd.html#cohort" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Cohort.xsd')">cohort</a></b></div>
+                              <div><b><a href="StudentAcademicRecord_xsd.html#course" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for StudentAcademicRecord.xsd')">course</a></b></div>
+                              <div><b><a href="StudentAcademicRecord_xsd.html#courseSessionAssociation"
+                                       target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for StudentAcademicRecord.xsd')">courseSessionAssociation</a></b></div>
+                              <div><b><a href="Discipline_xsd.html#disciplineIncident" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Discipline.xsd')">disciplineIncident</a></b></div>
+                              <div><b><a href="EducationalOrganization_xsd.html#educationOrgAssociation"
+                                       target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for EducationalOrganization.xsd')">educationOrgAssociation</a></b></div>
+                              <div><b><a href="BellSchedule_xsd.html#eventBellScheduleAssociation" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for BellSchedule.xsd')">eventBellScheduleAssociation</a></b></div>
+                              <div><b><a href="StudentAcademicRecord_xsd.html#gradebookEntry" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for StudentAcademicRecord.xsd')">gradebookEntry</a></b></div>
+                              <div><b><a href="Parents_xsd.html#parent" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Parents.xsd')">parent</a></b></div>
+                              <div><b><a href="Program_xsd.html#program" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Program.xsd')">program</a></b></div>
+                              <div><b><a href="EducationalOrganization_xsd.html#school" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for EducationalOrganization.xsd')">school</a></b></div>
+                              <div><b><a href="Calendar_xsd.html#schoolSessionAssociation" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Calendar.xsd')">schoolSessionAssociation</a></b></div>
+                              <div><b><a href="BellSchedule_xsd.html#section" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for BellSchedule.xsd')">section</a></b></div>
+                              <div><b><a href="Assessments_xsd.html#sectionAssessmentAssociation" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Assessments.xsd')">sectionAssessmentAssociation</a></b></div>
+                              <div><b><a href="BellSchedule_xsd.html#sectionBellScheduleAssociation" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for BellSchedule.xsd')">sectionBellScheduleAssociation</a></b></div>
+                              <div><b><a href="BellSchedule_xsd.html#session" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for BellSchedule.xsd')">session</a></b></div>
+                              <div><b><a href="Cohort_xsd.html#staffCohortAssociation" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Cohort.xsd')">staffCohortAssociation</a></b></div>
+                              <div><b><a href="Program_xsd.html#staffProgramAssociation" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Program.xsd')">staffProgramAssociation</a></b></div>
+                              <div><b><a href="Enrollment_xsd.html#student" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Enrollment.xsd')">student</a></b></div>
+                              <div><b><a href="StudentAcademicRecord_xsd.html#studentAcademicRecordsAssociation"
+                                       target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for StudentAcademicRecord.xsd')">studentAcademicRecordsAssociation</a></b></div>
+                              <div><b><a href="Assessments_xsd.html#studentAssessmentAssociation" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Assessments.xsd')">studentAssessmentAssociation</a></b></div>
+                              <div><b><a href="Cohort_xsd.html#studentCohortAssociation" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Cohort.xsd')">studentCohortAssociation</a></b></div>
+                              <div><b><a href="Discipline_xsd.html#studentDisciplineIncidentAssociation"
+                                       target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Discipline.xsd')">studentDisciplineIncidentAssociation</a></b></div>
+                              <div><b><a href="Parents_xsd.html#studentParentAssociation" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Parents.xsd')">studentParentAssociation</a></b></div>
+                              <div><b><a href="Program_xsd.html#studentProgramAssociation" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Program.xsd')">studentProgramAssociation</a></b></div>
+                              <div><b><a href="Enrollment_xsd.html#studentSchoolAssociation" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Enrollment.xsd')">studentSchoolAssociation</a></b></div>
+                              <div><b><a href="StudentAcademicRecord_xsd.html#studentSectionAssociation"
+                                       target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for StudentAcademicRecord.xsd')">studentSectionAssociation</a></b></div>
+                              <div><b><a href="StudentAcademicRecord_xsd.html#studentTranscriptsAssociation"
+                                       target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for StudentAcademicRecord.xsd')">studentTranscriptsAssociation</a></b></div>
+                              <div><b><a href="Staff_xsd.html#teacher" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Staff.xsd')">teacher</a></b></div>
+                              <div><b><a href="Staff_xsd.html#teacherSchoolAssociation" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Staff.xsd')">teacherSchoolAssociation</a></b></div>
+                              <div><b><a href="TeachingAndLearning_xsd.html#teacherSectionAssociation"
+                                       target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for TeachingAndLearning.xsd')">teacherSectionAssociation</a></b></div>
+                           </div>
+                        </td>
+                        <td class="rt_lineRight"></td>
+                     </tr>
+                     <tr>
+                        <td class="rt_cornerBottomLeft"></td>
+                        <td class="rt_lineBottom"></td>
+                        <td class="rt_cornerBottomRight"></td>
+                     </tr>
+                  </table>
+               </div>
+               <div class="horizontalLayout">
+                  <table class="rt">
+                     <tr>
+                        <td class="rt_cornerTopLeft"></td>
+                        <td class="rt_lineTop"></td>
+                        <td class="rt_cornerTopRight"></td>
+                     </tr>
+                     <tr>
+                        <td class="rt_lineLeft"></td>
+                        <td class="rt_content">
+                           <div class="componentGroupTitle">Complex Types
+                              
+                           </div>
+                           <div id="Complex_Type" style="display:block">
+                              <div><b><a href="ComplexTypes_xsd.html#academicHonor" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">academicHonor</a></b></div>
+                              <div><b><a href="ComplexTypes_xsd.html#academicSubjectsType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">academicSubjectsType</a></b></div>
+                              <div><b><a href="EducationalOrganization_xsd.html#accountabilityRating" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for EducationalOrganization.xsd')">accountabilityRating</a></b></div>
+                              <div><b><a href="StudentAcademicRecord_xsd.html#additionalCredits" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for StudentAcademicRecord.xsd')">additionalCredits</a></b></div>
+                              <div><b><a href="ComplexTypes_xsd.html#address" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">address</a></b></div>
+                              <div><b><a href="Assessments_xsd.html#assessmentIdentificationCode" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Assessments.xsd')">assessmentIdentificationCode</a></b></div>
+                              <div><b><a href="Assessments_xsd.html#assessmentPerformanceLevel" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Assessments.xsd')">assessmentPerformanceLevel</a></b></div>
+                              <div><b><a href="Attendance_xsd.html#attendanceEvent" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Attendance.xsd')">attendanceEvent</a></b></div>
+                              <div><b><a href="Discipline_xsd.html#behaviorDescriptor" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Discipline.xsd')">behaviorDescriptor</a></b></div>
+                              <div><b><a href="Enrollment_xsd.html#birthData" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Enrollment.xsd')">birthData</a></b></div>
+                              <div><b><a href="EducationalOrganization_xsd.html#classPeriodIdentityType"
+                                       target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for EducationalOrganization.xsd')">classPeriodIdentityType</a></b></div>
+                              <div><b><a href="ComplexTypes_xsd.html#classRanking" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">classRanking</a></b></div>
+                              <div><b><a href="Enrollment_xsd.html#cohortYear" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Enrollment.xsd')">cohortYear</a></b></div>
+                              <div><b><a href="ComplexTypes_xsd.html#complexObjectType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">complexObjectType</a></b></div>
+                              <div><b><a href="ComplexTypes_xsd.html#courseCode" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">courseCode</a></b></div>
+                              <div><b><a href="ComplexTypes_xsd.html#courseLevelCharacteristicsType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">courseLevelCharacteristicsType</a></b></div>
+                              <div><b><a href="Staff_xsd.html#credential" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Staff.xsd')">credential</a></b></div>
+                              <div><b><a href="Staff_xsd.html#credentialFieldDescriptor" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Staff.xsd')">credentialFieldDescriptor</a></b></div>
+                              <div><b><a href="ComplexTypes_xsd.html#credits" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">credits</a></b></div>
+                              <div><b><a href="Enrollment_xsd.html#creditsByCourse" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Enrollment.xsd')">creditsByCourse</a></b></div>
+                              <div><b><a href="Enrollment_xsd.html#creditsBySubject" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Enrollment.xsd')">creditsBySubject</a></b></div>
+                              <div><b><a href="Graduation_xsd.html#diploma" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Graduation.xsd')">diploma</a></b></div>
+                              <div><b><a href="Enrollment_xsd.html#disability" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Enrollment.xsd')">disability</a></b></div>
+                              <div><b><a href="Discipline_xsd.html#disciplineAction" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Discipline.xsd')">disciplineAction</a></b></div>
+                              <div><b><a href="EducationalOrganization_xsd.html#educationOrgIdentificationCode"
+                                       target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for EducationalOrganization.xsd')">educationOrgIdentificationCode</a></b></div>
+                              <div><b><a href="EducationalOrganization_xsd.html#educationOrganization"
+                                       target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for EducationalOrganization.xsd')">educationOrganization</a></b></div>
+                              <div><b><a href="EducationalOrganization_xsd.html#educationalOrgIdentityType"
+                                       target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for EducationalOrganization.xsd')">educationalOrgIdentityType</a></b></div>
+                              <div><b><a href="ComplexTypes_xsd.html#electronicMail" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">electronicMail</a></b></div>
+                              <div><b><a href="Staff_xsd.html#employmentPeriod" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Staff.xsd')">employmentPeriod</a></b></div>
+                              <div><b><a href="EducationalOrganization_xsd.html#feederSchoolType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for EducationalOrganization.xsd')">feederSchoolType</a></b></div>
+                              <div><b><a href="Calendar_xsd.html#gradingPeriod" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Calendar.xsd')">gradingPeriod</a></b></div>
+                              <div><b><a href="Enrollment_xsd.html#graduationPlan" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Enrollment.xsd')">graduationPlan</a></b></div>
+                              <div><b><a href="EducationalOrganization_xsd.html#institutionTelephone" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for EducationalOrganization.xsd')">institutionTelephone</a></b></div>
+                              <div><b><a href="ComplexTypes_xsd.html#learningObjectiveIdentityType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">learningObjectiveIdentityType</a></b></div>
+                              <div><b><a href="ComplexTypes_xsd.html#learningStandardId" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">learningStandardId</a></b></div>
+                              <div><b><a href="ComplexTypes_xsd.html#learningStandardIdentityType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">learningStandardIdentityType</a></b></div>
+                              <div><b><a href="Enrollment_xsd.html#learningStyles" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Enrollment.xsd')">learningStyles</a></b></div>
+                              <div><b><a href="Staff_xsd.html#leaveEvent" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Staff.xsd')">leaveEvent</a></b></div>
+                              <div><b><a href="Assessments_xsd.html#linguisticAccommodationsType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Assessments.xsd')">linguisticAccommodationsType</a></b></div>
+                              <div><b><a href="BellSchedule_xsd.html#location" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for BellSchedule.xsd')">location</a></b></div>
+                              <div><b><a href="EducationalOrganization_xsd.html#locationIdentityType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for EducationalOrganization.xsd')">locationIdentityType</a></b></div>
+                              <div><b><a href="BellSchedule_xsd.html#meetingTime" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for BellSchedule.xsd')">meetingTime</a></b></div>
+                              <div><b><a href="BellSchedule_xsd.html#miscellaneousEvent" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for BellSchedule.xsd')">miscellaneousEvent</a></b></div>
+                              <div><b><a href="ComplexTypes_xsd.html#name" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">name</a></b></div>
+                              <div><b><a href="Staff_xsd.html#openStaffPosition" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Staff.xsd')">openStaffPosition</a></b></div>
+                              <div><b><a href="ComplexTypes_xsd.html#otherName" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">otherName</a></b></div>
+                              <div><b><a href="Graduation_xsd.html#postSecondaryEvent" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Graduation.xsd')">postSecondaryEvent</a></b></div>
+                              <div><b><a href="EducationalOrganization_xsd.html#programIdentityType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for EducationalOrganization.xsd')">programIdentityType</a></b></div>
+                              <div><b><a href="Enrollment_xsd.html#programParticipation" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Enrollment.xsd')">programParticipation</a></b></div>
+                              <div><b><a href="ComplexTypes_xsd.html#recognition" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">recognition</a></b></div>
+                              <div><b><a href="Assessments_xsd.html#scoreResult" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Assessments.xsd')">scoreResult</a></b></div>
+                              <div><b><a href="Discipline_xsd.html#secondaryBehavior" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Discipline.xsd')">secondaryBehavior</a></b></div>
+                              <div><b><a href="Program_xsd.html#serviceDescriptor" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Program.xsd')">serviceDescriptor</a></b></div>
+                              <div><b><a href="Assessments_xsd.html#specialAccommodationsType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Assessments.xsd')">specialAccommodationsType</a></b></div>
+                              <div><b><a href="Staff_xsd.html#staff" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Staff.xsd')">staff</a></b></div>
+                              <div><b><a href="Staff_xsd.html#staffEducationOrgAssignmentAssociation" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Staff.xsd')">staffEducationOrgAssignmentAssociation</a></b></div>
+                              <div><b><a href="Staff_xsd.html#staffEducationOrgEmploymentAssociation" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Staff.xsd')">staffEducationOrgEmploymentAssociation</a></b></div>
+                              <div><b><a href="Staff_xsd.html#staffIdentificationCode" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Staff.xsd')">staffIdentificationCode</a></b></div>
+                              <div><b><a href="Assessments_xsd.html#studentAssessmentItem" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Assessments.xsd')">studentAssessmentItem</a></b></div>
+                              <div><b><a href="Enrollment_xsd.html#studentCharacteristic" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Enrollment.xsd')">studentCharacteristic</a></b></div>
+                              <div><b><a href="StudentAcademicRecord_xsd.html#studentGradebookEntry" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for StudentAcademicRecord.xsd')">studentGradebookEntry</a></b></div>
+                              <div><b><a href="Enrollment_xsd.html#studentIdentificationCode" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Enrollment.xsd')">studentIdentificationCode</a></b></div>
+                              <div><b><a href="Enrollment_xsd.html#studentIndicator" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Enrollment.xsd')">studentIndicator</a></b></div>
+                              <div><b><a href="Assessments_xsd.html#studentObjectiveAssessment" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Assessments.xsd')">studentObjectiveAssessment</a></b></div>
+                              <div><b><a href="ComplexTypes_xsd.html#telephone" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">telephone</a></b></div>
+                              <div><b><a href="Discipline_xsd.html#weaponsType" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for Discipline.xsd')">weaponsType</a></b></div>
+                           </div>
+                        </td>
+                        <td class="rt_lineRight"></td>
+                     </tr>
+                     <tr>
+                        <td class="rt_cornerBottomLeft"></td>
+                        <td class="rt_lineBottom"></td>
+                        <td class="rt_cornerBottomRight"></td>
+                     </tr>
+                  </table>
+               </div>
+               <div class="horizontalLayout">
+                  <table class="rt">
+                     <tr>
+                        <td class="rt_cornerTopLeft"></td>
+                        <td class="rt_lineTop"></td>
+                        <td class="rt_cornerTopRight"></td>
+                     </tr>
+                     <tr>
+                        <td class="rt_lineLeft"></td>
+                        <td class="rt_content">
+                           <div class="componentGroupTitle">Simple Types
+                              
+                           </div>
+                           <div id="Simple_Type" style="display:block">
+                              <div><b><a href="SimpleTypes_xsd.html#CIPCode" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">CIPCode</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#GPAWeightedType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">GPAWeightedType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#LEACategoryType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">LEACategoryType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#academicHonorsType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">academicHonorsType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#academicSubjectType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">academicSubjectType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#accountCodeType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">accountCodeType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#accountNumber" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">accountNumber</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#additionalCreditType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">additionalCreditType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#addressType" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">addressType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#administrationEnvironmentType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">administrationEnvironmentType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#administrativeFundingControlType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">administrativeFundingControlType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#alternateDayName" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">alternateDayName</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#apartmentRoomSuiteNumber" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">apartmentRoomSuiteNumber</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#assessmentCategoryType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">assessmentCategoryType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#assessmentForm" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">assessmentForm</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#assessmentIdentificationSystemType"
+                                       target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">assessmentIdentificationSystemType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#assessmentItemResultType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">assessmentItemResultType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#assessmentReportingMethodType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">assessmentReportingMethodType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#assessmentResponse" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">assessmentResponse</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#assessmentTitle" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">assessmentTitle</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#attendanceEventCategoryType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">attendanceEventCategoryType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#attendanceEventReason" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">attendanceEventReason</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#attendanceEventType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">attendanceEventType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#behaviorCategoryType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">behaviorCategoryType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#bellScheduleName" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">bellScheduleName</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#buildingSiteNumber" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">buildingSiteNumber</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#calendarEventType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">calendarEventType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#careerPathwayType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">careerPathwayType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#caseNumber" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">caseNumber</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#charterStatusType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">charterStatusType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#city" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">city</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#classPeriodNameType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">classPeriodNameType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#classroomIdentificationCode" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">classroomIdentificationCode</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#classroomPositionType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">classroomPositionType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#codeValue" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">codeValue</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#cohortDescription" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">cohortDescription</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#cohortIdentifier" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">cohortIdentifier</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#cohortScopeType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">cohortScopeType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#cohortType" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">cohortType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#cohortYearType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">cohortYearType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#contactRestrictions" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">contactRestrictions</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#contentStandardName" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">contentStandardName</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#contentStandardType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">contentStandardType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#coordinate" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">coordinate</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#correctResponse" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">correctResponse</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#countryCodeType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">countryCodeType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#countyFIPSCode" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">countyFIPSCode</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#courseAttemptResultType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">courseAttemptResultType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#courseCodeSystemType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">courseCodeSystemType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#courseDefinedByType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">courseDefinedByType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#courseGPAApplicabilityType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">courseGPAApplicabilityType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#courseLevelCharacteristicItemType"
+                                       target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">courseLevelCharacteristicItemType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#courseLevelType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">courseLevelType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#courseRepeatCodeType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">courseRepeatCodeType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#courseTitle" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">courseTitle</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#credentialType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">credentialType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#creditType" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">creditType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#department" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">department</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#description" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">description</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#designatedBy" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">designatedBy</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#diplomaLevelType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">diplomaLevelType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#diplomaType" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">diplomaType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#disabilityDiagnosis" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">disabilityDiagnosis</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#disabilityType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">disabilityType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#disciplineActionIdentifier" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">disciplineActionIdentifier</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#disciplineActionLengthDifferenceReasonType"
+                                       target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">disciplineActionLengthDifferenceReasonType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#displacementStatusType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">displacementStatusType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#educationOrgIdentificationSystemType"
+                                       target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">educationOrgIdentificationSystemType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#educationOrganizationCategoryType"
+                                       target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">educationOrganizationCategoryType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#educationalEnvironmentType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">educationalEnvironmentType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#educationalPlanItemType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">educationalPlanItemType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#electronicMailAddress" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">electronicMailAddress</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#electronicMailAddressType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">electronicMailAddressType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#employmentStatusType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">employmentStatusType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#entryType" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">entryType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#exitWithdrawType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">exitWithdrawType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#generationCodeSuffixType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">generationCodeSuffixType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#gradeEarned" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">gradeEarned</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#gradeLevelType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">gradeLevelType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#gradeType" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">gradeType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#gradeValueQualifier" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">gradeValueQualifier</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#gradebookEntryType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">gradebookEntryType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#gradingPeriodType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">gradingPeriodType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#graduationPlanType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">graduationPlanType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#honorsDescription" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">honorsDescription</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#identificationCode" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">identificationCode</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#incidentIdentifier" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">incidentIdentifier</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#incidentLocationType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">incidentLocationType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#indicator" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">indicator</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#indicatorName" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">indicatorName</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#institutionId" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">institutionId</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#institutionTelephoneNumberType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">institutionTelephoneNumberType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#languageItemType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">languageItemType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#leaveEventCategoryType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">leaveEventCategoryType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#leaveEventReason" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">leaveEventReason</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#levelOfEducationType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">levelOfEducationType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#levelType" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">levelType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#limitedEnglishProficiencyType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">limitedEnglishProficiencyType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#linguisticAccommodationItemType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">linguisticAccommodationItemType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#localCourseCode" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">localCourseCode</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#magnetSpecialProgramEmphasisSchoolType"
+                                       target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">magnetSpecialProgramEmphasisSchoolType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#mediumOfInstructionType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">mediumOfInstructionType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#meetingDayItemType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">meetingDayItemType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#methodCreditEarnedType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">methodCreditEarnedType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#nameOfCounty" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">nameOfCounty</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#nameOfInstitution" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">nameOfInstitution</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#nomenclature" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">nomenclature</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#objective" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">objective</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#oldEthnicityType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">oldEthnicityType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#operationalStatusType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">operationalStatusType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#otherNameType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">otherNameType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#percent" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">percent</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#performanceBaseType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">performanceBaseType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#personalInformationVerificationType"
+                                       target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">personalInformationVerificationType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#personalTitlePrefixType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">personalTitlePrefixType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#populationServedType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">populationServedType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#positionTitle" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">positionTitle</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#postSecondaryEventCategoryType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">postSecondaryEventCategoryType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#postalCode" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">postalCode</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#postingResultType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">postingResultType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#profileThumbnail" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">profileThumbnail</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#programAssignmentType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">programAssignmentType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#programId" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">programId</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#programSponsorType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">programSponsorType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#programType" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">programType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#raceItemType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">raceItemType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#rating" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">rating</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#ratingOrganization" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">ratingOrganization</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#ratingProgramType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">ratingProgramType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#ratingTitleType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">ratingTitleType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#reasonExitedType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">reasonExitedType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#reasonNotTestedType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">reasonNotTestedType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#recognitionDescription" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">recognitionDescription</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#recognitionType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">recognitionType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#relationType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">relationType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#repeatIdentifierType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">repeatIdentifierType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#reporterDescriptionType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">reporterDescriptionType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#reporterName" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">reporterName</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#requisitionNumber" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">requisitionNumber</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#responseIndicatorType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">responseIndicatorType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#restraintEventIdentifier" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">restraintEventIdentifier</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#restraintEventReasonItemType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">restraintEventReasonItemType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#result" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">result</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#retestIndicatorType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">retestIndicatorType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#schoolCategoryItemType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">schoolCategoryItemType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#schoolFoodServicesEligibilityType"
+                                       target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">schoolFoodServicesEligibilityType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#schoolType" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">schoolType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#schoolYearType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">schoolYearType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#secondaryBehaviorsType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">secondaryBehaviorsType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#section504DisabilityItemType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">section504DisabilityItemType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#separationReasonType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">separationReasonType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#separationType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">separationType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#serviceCategory" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">serviceCategory</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#sexType" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">sexType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#shortDescription" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">shortDescription</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#simpleName" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">simpleName</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#specialAccommodationItemType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">specialAccommodationItemType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#staffClassificationType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">staffClassificationType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#staffId" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">staffId</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#staffIdentificationSystemType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">staffIdentificationSystemType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#stateAbbreviationType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">stateAbbreviationType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#streetNumberName" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">streetNumberName</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#studentCharacteristicType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">studentCharacteristicType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#studentIdentificationSystemType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">studentIdentificationSystemType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#studentParticipationCodeType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">studentParticipationCodeType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#teachingCredentialBasisType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">teachingCredentialBasisType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#teachingCredentialType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">teachingCredentialType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#telephoneNumber" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">telephoneNumber</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#telephoneNumberType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">telephoneNumberType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#termType" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">termType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#text" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">text</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#titleIPartAParticipantType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">titleIPartAParticipantType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#titleIPartASchoolDesignationType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">titleIPartASchoolDesignationType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#uniqueSectionCode" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">uniqueSectionCode</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#uniqueStateIdentifier" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">uniqueStateIdentifier</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#version" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">version</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#weaponItemType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">weaponItemType</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#webSite" target="mainFrame" title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">webSite</a></b></div>
+                              <div><b><a href="SimpleTypes_xsd.html#weekIdentifier" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for SimpleTypes.xsd')">weekIdentifier</a></b></div>
+                           </div>
+                        </td>
+                        <td class="rt_lineRight"></td>
+                     </tr>
+                     <tr>
+                        <td class="rt_cornerBottomLeft"></td>
+                        <td class="rt_lineBottom"></td>
+                        <td class="rt_cornerBottomRight"></td>
+                     </tr>
+                  </table>
+               </div>
+               <div style="clear:left"></div>
+            </div>
+         </div>
+      </div>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.
+         </div>
+      </div>
+   </body>
+</html>

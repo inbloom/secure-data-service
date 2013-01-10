@@ -1,0 +1,39 @@
+# Configure where logging will go. 
+logger_output: STDOUT
+
+# Log level. Levels are DEBUG, INFO, WARN, ERROR, FATAL.
+logger_level: WARN
+
+# Node-id that is prefixed to the hostname. This is valuable in determine  
+node_id: oplogagent-1-
+
+# url of ActiveMQ running STOMP protocol used as message broker
+broker_url: stomp://localhost:61613
+
+# Interval in seconds in which to send a heartbeat on the message bus.  
+heartbeat_period: 10
+
+# Combined host and port of the MongoDB installation that the oplog agent 
+# should connect to. For a replica set multiple host/port pairs should be provided as
+# a comma separated list. 
+mongo_host: localhost:10001, localhost:10002, localhost:10003
+#mongo_port: 10001
+
+# Database that the oplog agent should follow. 'local' is the default name, so this 
+# will likely not have to be change.  
+mongo_db: local
+
+# Collection that the oplog agent should follow. This is the default value and will 
+# likely not have to be changed.  
+mongo_oplog_collection: oplog.rs
+
+# Number of seconds to wait between retrying to reconnect to MongoDb (in case connecting fails).
+mongo_connection_retry: 5
+
+# Ignore existing entries in the oplog upon startup (only follow new entries as they come in).
+mongo_ignore_initial_read: true
+
+# Time frame in seconds in which to coalesce oplog messages. 
+# All messages within this timeframe will be processed together and generate 
+# a single event. 
+collect_events_interval: 5

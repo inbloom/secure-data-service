@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStaffAssociation xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../domain/src/main/resources/edfiXsd/Interchange-StaffAssociation.xsd">
+	
+  <!-- James Stevenson, IT Support (IT Administrator) IL -->
+	<Staff>
+		<StaffUniqueStateId>jstevenson</StaffUniqueStateId>
+		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
+			<ID>a</ID>
+		</StaffIdentificationCode>
+		<Name Verification="Life insurance policy">
+			<PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+			<FirstName>James</FirstName>
+			<LastSurname>Stevenson</LastSurname>
+		</Name>
+		<Sex>Male</Sex>
+		<BirthDate>1980-02-01</BirthDate>
+		<Address AddressType="Work">
+			<StreetNumberName>123 Wall Street</StreetNumberName>
+			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
+			<City>Chicago</City>
+			<StateAbbreviation>IL</StateAbbreviation>
+			<PostalCode>99999</PostalCode>
+			<BeginDate>1995-08-13</BeginDate>
+		</Address>
+		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+			<TelephoneNumber>a</TelephoneNumber>
+		</Telephone>
+		<ElectronicMail EmailAddressType="Organization">
+			<EmailAddress>junk@junk.com</EmailAddress>
+		</ElectronicMail>
+		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+		<Race>
+			<RacialCategory>Asian</RacialCategory>
+		</Race>
+		<HighestLevelOfEducationCompleted>No Degree</HighestLevelOfEducationCompleted>
+		<YearsOfPriorProfessionalExperience>20</YearsOfPriorProfessionalExperience>
+		<YearsOfPriorTeachingExperience>0</YearsOfPriorTeachingExperience>
+		<Credentials>
+			<CredentialType>Certification</CredentialType>
+			<CredentialField>
+				<CodeValue>IT Admin</CodeValue>
+			</CredentialField>
+			<Level>All Level (Grade Level PK-12)</Level>
+			<TeachingCredentialType>Standard</TeachingCredentialType>
+			<CredentialIssuanceDate>2000-01-01</CredentialIssuanceDate>
+		</Credentials>
+		<LoginId>a</LoginId>
+	</Staff>
+
+	<StaffEducationOrgAssignmentAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>jstevenson</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>IL</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<StaffClassification>LEA System Administrator</StaffClassification>
+		<PositionTitle>IT Support</PositionTitle>
+		<BeginDate>1967-08-13</BeginDate>
+		<EndDate>2013-08-13</EndDate>
+	</StaffEducationOrgAssignmentAssociation>
+
+</InterchangeStaffAssociation>

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://ed-fi.org/0100"
+	targetNamespace="http://ed-fi.org/0100" elementFormDefault="qualified"
+	attributeFormDefault="unqualified" xmlns:sli="http://slc-sli/ed-org/0.1">
+	<xs:include schemaLocation="Ed-Fi-Core.xsd" />
+
+	<xs:complexType name="SLC-EducationalOrgReferenceType">
+		<xs:annotation>
+			<xs:documentation>Provides alternative references for Educational
+				Organization (ESC, LEA, school) reference during interchange. Use
+				XML IDREF to reference an educational organization record that is
+				included in the interchange</xs:documentation>
+			<xs:appinfo>
+				<sli:applyKeyFields>true</sli:applyKeyFields>
+				<sli:refType>educationOrganization</sli:refType>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+					<xs:element name="EducationalOrgIdentity" type="SLC-EducationalOrgIdentityType"
+						minOccurs="0">
+						<xs:annotation>
+							<xs:documentation>Provide user information to lookup and link to
+								an existing educational organization record in the receiving
+								system</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="SLC-EducationalOrgIdentityType">
+		<xs:annotation>
+			<xs:documentation>Encapsulates the possible attributes that can be
+				used to lookup the identity of educational organizations, especially
+				ESCs, LEAs (districts), and schools.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="StateOrganizationId" type="IdentificationCode">
+				<xs:annotation>
+					<xs:documentation>The identifier assigned to an education agency by
+						the State Education Agency (SEA). Also known as the State LEA ID.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:keyFieldName>stateOrganizationId</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Change to use the internal SectionReferenceType -->
+	<xs:complexType name="BaseEntity">
+	    <xs:annotation>
+            <xs:appinfo>
+                <sli:recordType>baseEntity</sli:recordType>
+            </xs:appinfo>
+        </xs:annotation>
+		<xs:sequence>
+			<xs:element name="SchoolRef" type="SLC-EducationalOrgReferenceType">
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+
+	<!-- Change to use the internal SectionReferenceType -->
+	<xs:complexType name="ExtendedEntity">
+		<xs:annotation>
+            <xs:appinfo>
+                <sli:recordType>extendedEntity</sli:recordType>
+            </xs:appinfo>
+        </xs:annotation>
+	    <xs:complexContent>
+			<xs:extension base="BaseEntity">
+				<xs:sequence>
+					<xs:element name="otherField" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+</xs:schema>

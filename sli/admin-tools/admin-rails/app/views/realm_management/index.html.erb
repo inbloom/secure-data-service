@@ -1,0 +1,23 @@
+<div id="notice">
+	<%= notice %>
+</div>
+
+<h1>Edit Realms</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @realms.each do |realm| %>
+  <tr>
+    <td><%= link_to realm.name, edit_realm_management_path(realm) %></td>
+    <td><%= link_to 'Destroy', realm, confirm: 'Are you sure?', method: :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+

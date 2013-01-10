@@ -1,0 +1,38 @@
+## Long Lived Token Generator for SLI ##
+
+# Purpose #
+This is a simple command-line tool to generate a long lived session token based on
+a number of parameters. It is meant for testing and Sandbox use only!
+
+# Installation #
+Make sure you have :
+* Ruby 1.9.2 (or higher)
+* Bundler
+
+From the token-generator directory run bundle install to install the other required
+packages.
+
+Then you can simply run the script by doing `ruby generator.rb`
+
+# Options/Help #
+The script has many defaults pre-configured already, you can search the script for
+"options" to see what is already set.
+
+If it isn't set to something you like you can change that value or pass it on using
+one of the many command line options available.
+
+Currently the defaults can be described like this:
+
+* Connects to mongo on localhost:27017
+* Tries to use the realm named "Sandbox Realm"
+
+Everything else is required in order for this to work.
+
+# Notes #
+Parameters that are several words (Like the user's name) should be quoted.
+Roles, because it is a list, can be written as a comma seperated list.
+
+Example usage:
+ruby generator.rb -e 86400 -c 2zhRrEXh8r -u rbraverman -r "Educator" -t "developer@gmail.com" 
+
+Example output: Your new long-lived session token is t-12345678-abcd-1234-5678-1234567890ab

@@ -1,0 +1,9 @@
+source :rubygems
+gem 'rake'
+gem 'sinatra'
+gem 'mongo'
+
+group :development do
+    gem "warbler"
+    gem 'trinidad'
+end

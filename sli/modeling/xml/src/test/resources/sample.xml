@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<testElements>
+    <testElement>
+        <id>1234</id>
+    </testElement>
+    <testElement>
+        <id>5678</id>
+    </testElement>
+</testElements>

@@ -1,0 +1,7 @@
+http://localhost:9999/lifecycles/services/list 	 read_list 	 application/json 	
+http://localhost:9999/lifecycles/services/entity 	 create 	 application/json 	" {""type"":""ModelEntity"", ""id"":"""", ""keys"":{""id"":[""usi""]}, ""body"":{""usi"":""1""}, ""metaData"":{}}"
+http://localhost:9999/lifecycles/services/entity 	 read 	 application/json 	" {""type"":""ModelEntity"", ""id"":"""", ""keys"":{""id"":[""usi""]}, ""body"":{""usi"":""1""}, ""metaData"":{}}"
+http://localhost:9999/lifecycles/services/entity 	 update 	 application/json 	" {""type"":""ModelEntity"", ""id"":"""", ""keys"":{""id"":[""usi""]}, ""body"":{""usi"":""1"", ""hello"":""world!""}, ""metaData"":{}}"
+http://localhost:9999/lifecycles/services/entity 	 read 	 application/json 	" {""type"":""ModelEntity"", ""id"":"""", ""keys"":{""id"":[""usi""]}, ""body"":{""usi"":""1""}, ""metaData"":{}}"
+http://localhost:9999/lifecycles/services/entity 	 delete 	 application/json 	" {""type"":""ModelEntity"", ""id"":"""", ""keys"":{""id"":[""usi""]}, ""body"":{""usi"":""1""}, ""metaData"":{}}"
+http://localhost:9999/lifecycles/services/list 	 read_list 	 application/json 	

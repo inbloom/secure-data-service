@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
+<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 I../../../../../../common/domain/src/main/resources/edfiXsd/Interchange-StudentParent.xsd">
+	<!--Mark Antony's A.P. Calculus students-->
+	<Student>
+		<StudentUniqueStateId>1000000000</StudentUniqueStateId>
+		<Name>
+			<FirstName>Roberta</FirstName>
+			<LastSurname>Jones</LastSurname>
+		</Name>
+		<OtherName OtherNameType="Nickname">
+		    <FirstName>Robbie</FirstName>
+		    <LastSurname>Jones</LastSurname>
+		</OtherName>
+		<Sex>Female</Sex>
+		<BirthData>
+			<BirthDate>2001-01-23</BirthDate>
+		</BirthData>
+		<Address AddressType="Home">
+			<StreetNumberName>1313 Brighton 3rd Street</StreetNumberName>
+			<City>Chicago</City>
+			<StateAbbreviation>IL</StateAbbreviation>
+			<PostalCode>60057-1857</PostalCode>
+			<NameOfCounty>Cook</NameOfCounty>
+			<CountryCode>US</CountryCode>
+		</Address>
+		<Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
+			<TelephoneNumber>708-471-5210</TelephoneNumber>
+		</Telephone>
+		<Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
+			<TelephoneNumber>630-153-1787</TelephoneNumber>
+		</Telephone>
+		<Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="false">
+			<TelephoneNumber>262-040-1709</TelephoneNumber>
+		</Telephone>
+		<Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="true">
+			<TelephoneNumber>312-608-2213</TelephoneNumber>
+		</Telephone>
+		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+		<Race/>
+		<EconomicDisadvantaged>false</EconomicDisadvantaged>
+		<SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+		<LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+		<Section504Disabilities/>
+	</Student>
+	<Student>
+        <StudentUniqueStateId>1000000001</StudentUniqueStateId>
+        <Name>
+            <FirstName>Betty</FirstName>
+            <LastSurname>Davis</LastSurname>
+        </Name>
+        <Sex>Female</Sex>
+        <BirthData>
+            <BirthDate>1999-01-23</BirthDate>
+        </BirthData>
+        <Address AddressType="Home">
+            <StreetNumberName>1 Water Street</StreetNumberName>
+            <City>Chicago</City>
+            <StateAbbreviation>IL</StateAbbreviation>
+            <PostalCode>60053-1532</PostalCode>
+            <NameOfCounty>Cook</NameOfCounty>
+            <CountryCode>US</CountryCode>
+        </Address>
+        <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>708-234-2352</TelephoneNumber>
+        </Telephone>
+        <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+        <Race/>
+        <EconomicDisadvantaged>false</EconomicDisadvantaged>
+        <SchoolFoodServicesEligibility>Free</SchoolFoodServicesEligibility>
+        <LimitedEnglishProficiency>Limited</LimitedEnglishProficiency>
+        <Section504Disabilities/>
+    </Student>
+</InterchangeStudentParent>

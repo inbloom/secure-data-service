@@ -1,0 +1,53 @@
+<LEAInfo RefId="20120817000000000000000000000002">
+  <LocalId>100000002</LocalId>
+  <StateProvinceId>100000002</StateProvinceId>
+  <NCESId>100000002</NCESId>
+  <LEAName>School District 2</LEAName>
+  <LEAURL>http://www.example.com/2</LEAURL>
+  <EducationAgencyType>
+    <Code>3486</Code>
+  </EducationAgencyType>
+  <AddressList>
+    <Address Type="0123">
+      <Street>
+        <Line1>2 IBM Plaza</Line1>
+        <Line2>Suite 2000</Line2>
+        <Line3>Salt Lake City, IL 84102</Line3>
+        <StreetNumber>2</StreetNumber>
+        <StreetName>IBM way</StreetName>
+        <StreetType>Plaza</StreetType>
+        <ApartmentType>Suite</ApartmentType>
+        <ApartmentNumber>2000</ApartmentNumber>
+      </Street>
+      <City>Salt Lake City</City>
+      <StateProvince>IL</StateProvince>
+      <Country>US</Country>
+      <PostalCode>84102</PostalCode>
+    </Address>    
+  </AddressList>
+  <PhoneNumberList>
+    <PhoneNumber Type="0096">
+      <Number>(312) 555-0002</Number>
+    </PhoneNumber>
+  </PhoneNumberList>
+  <IdentificationInfoList>
+    <IdentificationInfo Code="9999">10002</IdentificationInfo>
+  </IdentificationInfoList>
+  <GradeLevels>
+    <GradeLevel>
+      <Code>09</Code>
+    </GradeLevel>
+    <GradeLevel>
+      <Code>10</Code>
+    </GradeLevel>
+    <GradeLevel>
+      <Code>11</Code>
+    </GradeLevel>
+    <GradeLevel>
+      <Code>12</Code>
+    </GradeLevel>
+  </GradeLevels>
+  <OperationalStatus>0820</OperationalStatus>
+  <CongressionalDistrict>2</CongressionalDistrict>
+</LEAInfo>
+

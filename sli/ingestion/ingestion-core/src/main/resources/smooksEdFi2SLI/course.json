@@ -1,0 +1,28 @@
+{
+    "keyFields": ["body.schoolId"],
+    "complexKeyField": {"listPath":"body.courseCode", "fieldPath":"ID"},
+    "references":
+    [
+        {
+            "fieldPath": "body.schoolId",
+            "deprecated" : true,
+            "ref":
+            {
+                "entityType": "educationOrganization",
+                "choiceOfFields":
+                [
+                    [
+                        {
+                            "path": "body.stateOrganizationId",
+                            "values": [
+                                {
+                                    "valueSource": "body.schoolId"
+                                }
+                            ]
+                        }
+                    ]
+                ]
+            }
+        }
+    ]
+}

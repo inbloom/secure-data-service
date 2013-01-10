@@ -1,0 +1,22 @@
+Common Core State Standards Math CSV file to Ed-Fi xml interchange file conversion:
+
+CCSMathCSV2XMLTransformer.java converts the Math Common Core State Standards Identifier files available from Common Core State Standards Initiative website to Ed-Fi compliant, SLC ingest-able XML files.
+
+1. Location: org.slc.sli.sample.transform package
+2. Input files:
+      CCSS math Identifier file in UTF-8 encoding (example: in data/CC_Standards_6.25.10-Math.csv)
+      CCSS GUID mapping file in UTF-8 encoding (example: data/E0330_ccss_identifiers.csv)
+3. Output file: 
+      interchangeAssessmentMetadata-CCS-Math.xml
+
+   
+Common Core State Standards ELA CSV file to Ed-Fi xml interchange file conversion:
+
+CCSEnglishCSV2XMLTransformer.java converts the ELA Common Core State Standards Identifier files available from Common Core State Standards Initiative website to Ed-Fi compliant, SLC ingest-able XML files.
+
+1. Location: org.slc.sli.sample.transform package
+2. Input files:
+      CCSS ELA Identifier file in UTF-8 encoding (example: data/CC_Standards_6.25.10-English.csv)
+      CCSS GUID mapping file in UTF-8 encoding (example: data/E0330_ccss_identifiers.csv)
+3. Output file: 
+      interchangeAssessmentMetadata-CCS-English.xml

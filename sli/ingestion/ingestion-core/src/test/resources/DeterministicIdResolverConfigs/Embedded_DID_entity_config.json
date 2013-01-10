@@ -1,0 +1,9 @@
+{
+    "referenceSources" :
+    [
+        {
+            "entityType" : "entity_type",
+            "sourceRefPath" : "body.embeddedList.ref_field"
+        }
+    ]
+}

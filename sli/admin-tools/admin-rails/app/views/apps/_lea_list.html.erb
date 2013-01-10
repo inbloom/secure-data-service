@@ -1,0 +1,25 @@
+<span class="district-text">Districts in <%= sea %></span>
+<div class="enable-disable">
+  
+  <a id="enable-all" href="#">Enable All</a> | <a id="disable-all" href="#">Disable All</a>
+  <a id="enable-help" data-original-title="Enables/Disables only the visible page of LEAs" rel="tooltip" data-placement="top" href="#"><i class="icon-question-sign"></i></a>
+</div>
+
+
+<table class="table-striped table" id="lea-table">
+  <thead>
+  </thead>
+  <tbody>
+    <% results.each do |lea| %>
+    <tr id="<%= lea["id"]%>">
+      <td>
+      <label class="checkbox inline">
+      <input type="checkbox"><%=lea["name"]%></input>
+      </label>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+<div id="smartpager">
+</div>

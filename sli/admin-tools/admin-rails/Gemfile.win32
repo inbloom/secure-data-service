@@ -1,0 +1,45 @@
+source 'http://rubygems.org'
+
+gem 'rails', '3.2.9'
+
+# Bundle edge Rails instead:
+# gem 'rails',     :git => 'git://github.com/rails/rails.git'
+
+gem 'execjs'
+
+gem 'therubyracer', :platform => :ruby
+
+gem 'eventmachine'
+
+gem 'oauth2'
+
+gem "net-ldap"
+
+gem 'approval', :path => '../approval'
+
+group :deployment, :integration do
+  # Deploy with Capistrano
+  gem 'capistrano'
+  # Multi-stage deployment
+  gem 'capistrano-ext'
+  gem 'thin'
+end
+
+# Gems used only for assets and not required
+# in production environments by default.
+group :assets do
+  gem 'sass-rails'
+  gem 'coffee-rails'
+  gem 'uglifier'
+  gem 'twitter-bootstrap-rails'
+  gem 'less-rails'
+end
+
+gem 'jquery-rails'
+
+# Lets use SimpleCov for Ruby > 1.9
+group :test do
+	gem 'simplecov'
+	gem 'simplecov-rcov'
+	gem "mocha"
+end

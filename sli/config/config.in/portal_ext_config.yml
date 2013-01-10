@@ -1,0 +1,220 @@
+---
+default:
+    portal: &PORTAL-DEFAULT
+
+        is_sandbox: false
+        
+        # DB Config (MySQL)
+        jdbc.default.encrypted.password: false
+        include-and-override: ${sli.encryption.properties}
+        jdbc.default.driverClassName: com.mysql.jdbc.Driver
+        jdbc.default.url: jdbc:mysql://localhost/lportal?emulateLocators=true&useUnicode=true&characterEncoding=UTF-8&useFastDateParsing=false&createDatabaseIfNotExists=true
+        jdbc.default.username: liferay
+        jdbc.default.password: liferaywgen
+        
+        # email server settings
+        mail.session.mail.smtp.auth: true
+        mail.session.mail.smtp.host: smtp.gmail.com
+        mail.session.mail.smtp.port: 465
+        mail.session.mail.smtp.credential.encryption: false
+        mail.session.mail.smtp.user: portal.wgen@gmail.com
+        mail.session.mail.smtp.password: liferaywgen
+        mail.session.mail.transport.protocol: smtp
+        
+        # cluster settings
+        cluster.link.enabled: false
+        org.quartz.jobStore.isClustered: false
+        net.sf.ehcache.configurationResourceName: /ehcache/hibernate-clustered.xml
+        ehcache.multi.vm.config.location: /ehcache/liferay-multi-vm-clustered.xml
+        dl.store.impl: com.liferay.portlet.documentlibrary.store.JCRStore
+        lucene.replicate.write: false
+        lucene.store.jdbc.auto.clean.up.enabled: true
+        lucene.store.type: jdbc
+
+        # Application Settings
+        session.timeout: 10
+        session.timeout.warning: 0
+        portal.ctx: /portal
+        sli.cookie.domain: .slidev.org
+        users.reminder.queries.enabled: false
+        users.reminder.queries.custom.question.enabled: false
+        users.reminder.queries.required: false
+        system.roles: SLI Administrator, Educator
+        setup.wizard.enabled: false
+        portlet.event.distribution: layout-set
+        portlet.public.render.parameter.distribution: ALL_PORTLETS
+        org.slc.sli.login.servlet.filter.sso.SLIFilter: true
+        users.screen.name.validator: com.liferay.portal.security.auth.LiberalScreenNameValidator
+        users.email.address.required: false
+        terms.of.use.required: true
+        sli.sso.logout.on.session.expiration: true
+        sso.login.error.page: /portal/web/guest/error
+
+        sli.role.itadmin: IT Administrator
+        sli.role.sliadmin: SLI Administrator
+        sli.role.educator: Educator
+        sli.role.admin: LEA Administrator,Realm Administrator,IT Administrator,SEA Administrator,SLC Operator,Application Developer,Ingestion User,SEA Super Administrator,LEA Super Administrator,Realm Admin,App Developer
+        sli.role.liferayadmin: SLC Operator
+        wsrp.page: /portal/web/guest/wsrp
+        iframe.page: /portal/web/guest/iframe
+        template.processing.enabled: false
+        image.menu_arrow: menu_arrow1.png
+        image.arrow: arrow.png
+        image.arrow_w: arrow_w.png
+        image.sli_logo: sli_logo_icn.png
+        layout.user.public.layouts.enabled: false
+        layout.user.public.layouts.modifiable: true
+        layout.user.public.layouts.auto.create: false
+        layout.user.private.layouts.enabled: false
+        layout.user.private.layouts.modifiable: true
+        layout.user.private.layouts.auto.create: false
+        layout.lar.file.name: layout.lar
+        auto.deploy.deploy.dir: /opt/deploy
+        layout.friendly.url.page.not.found: /web/guest/error
+        auto.deploy.copy.log4j: false
+
+local:
+    portal:
+        <<: *PORTAL-DEFAULT
+        
+        # DB Config (MySQL)
+        jdbc.default.encrypted.password: false
+        jdbc.default.url: jdbc:mysql://localhost/lportal?emulateLocators=true&useUnicode=true&characterEncoding=UTF-8&useFastDateParsing=false&createDatabaseIfNotExists=true
+        jdbc.default.username: liferay
+        jdbc.default.password: liferaywgen
+        
+        # email server settings 
+        mail.session.mail.smtp.auth: true
+        mail.session.mail.smtp.host: smtp.gmail.com
+        mail.session.mail.smtp.port: 465
+        mail.session.mail.smtp.credential.encryption: false
+        mail.session.mail.smtp.user: portal.wgen@gmail.com
+        mail.session.mail.smtp.password: liferaywgen
+
+devlycans:
+    portal:
+        <<: *PORTAL-DEFAULT
+        # DB Config (MySQL)
+        jdbc.default.encrypted.password: false
+        jdbc.default.url: jdbc:mysql://localhost/lportal?emulateLocators=true&useUnicode=true&characterEncoding=UTF-8&useFastDateParsing=false&createDatabaseIfNotExists=true
+        jdbc.default.username: liferay
+        jdbc.default.password: liferaywgen
+        
+        # email server settings 
+        mail.session.mail.smtp.auth: true
+        mail.session.mail.smtp.host: smtp.gmail.com
+        mail.session.mail.smtp.port: 465
+        mail.session.mail.smtp.credential.encryption: false
+        mail.session.mail.smtp.user: portal.wgen@gmail.com
+        mail.session.mail.smtp.password: liferaywgen
+
+testlr1:
+    portal:
+        <<: *PORTAL-DEFAULT
+        # DB Config (MySQL)
+        jdbc.default.encrypted.password: false
+        jdbc.default.url: jdbc:mysql://localhost/lportal?emulateLocators=true&useUnicode=true&characterEncoding=UTF-8&useFastDateParsing=false&createDatabaseIfNotExists=true
+        jdbc.default.username: liferay
+        jdbc.default.password: liferaywgen
+        
+        # email server settings 
+        mail.session.mail.smtp.auth: true
+        mail.session.mail.smtp.host: smtp.gmail.com
+        mail.session.mail.smtp.port: 465
+        mail.session.mail.smtp.credential.encryption: false
+        mail.session.mail.smtp.user: portal.wgen@gmail.com
+        mail.session.mail.smtp.password: liferaywgen
+        
+portal:
+    portal:
+        <<: *PORTAL-DEFAULT
+        # DB Config (MySQL)
+        jdbc.default.encrypted.password: false
+        jdbc.default.url: jdbc:mysql://localhost/lportal?emulateLocators=true&useUnicode=true&characterEncoding=UTF-8&useFastDateParsing=false&createDatabaseIfNotExists=true
+        jdbc.default.username: liferay
+        jdbc.default.password: liferaywgen
+        
+        # email server settings 
+        mail.session.mail.smtp.auth: true
+        mail.session.mail.smtp.host: email-smtp.us-east-1.amazonaws.com
+        mail.session.mail.smtp.port: 465
+        mail.session.mail.smtp.credential.encryption: true
+        mail.session.mail.smtp.user: 65E82A5B9904AC1B440189EC9B2CDFE63E5FCD1B39385EC47CF593F0AA684A4A
+        mail.session.mail.smtp.password: 36D4305BF2B501E083FFBC4F22130745271756445779ED6FBB35B1B773BDBA5F6E4BB8922DCF0125AB61C3E8981E2BBA
+        
+demo:
+    portal:
+        <<: *PORTAL-DEFAULT
+        # DB Config (MySQL)
+        jdbc.default.encrypted.password: false
+        jdbc.default.url: jdbc:mysql://localhost/lportal?emulateLocators=true&useUnicode=true&characterEncoding=UTF-8&useFastDateParsing=false&createDatabaseIfNotExists=true
+        jdbc.default.username: liferay
+        jdbc.default.password: liferaywgen
+        
+        # email server settings 
+        mail.session.mail.smtp.auth: true
+        mail.session.mail.smtp.host: email-smtp.us-east-1.amazonaws.com
+        mail.session.mail.smtp.port: 465
+        mail.session.mail.smtp.credential.encryption: true
+        mail.session.mail.smtp.user: 65E82A5B9904AC1B440189EC9B2CDFE63E5FCD1B39385EC47CF593F0AA684A4A
+        mail.session.mail.smtp.password: 36D4305BF2B501E083FFBC4F22130745271756445779ED6FBB35B1B773BDBA5F6E4BB8922DCF0125AB61C3E8981E2BBA
+
+devlr1:
+    portal:
+        <<: *PORTAL-DEFAULT
+        # DB Config (MySQL)
+        jdbc.default.encrypted.password: false
+        jdbc.default.url: jdbc:mysql://devdblr1.slidev.org/lportal?emulateLocators=true&useUnicode=true&characterEncoding=UTF-8&useFastDateParsing=false&createDatabaseIfNotExists=true
+        jdbc.default.username: liferay
+        jdbc.default.password: liferaywgen
+        
+        # cluster settings
+        cluster.link.enabled: true
+        org.quartz.jobStore.isClustered: true
+
+        # email server settings 
+        mail.session.mail.smtp.auth: true
+        mail.session.mail.smtp.host: email-smtp.us-east-1.amazonaws.com
+        mail.session.mail.smtp.port: 465
+        mail.session.mail.smtp.credential.encryption: true
+        mail.session.mail.smtp.user: 65E82A5B9904AC1B440189EC9B2CDFE63E5FCD1B39385EC47CF593F0AA684A4A
+        mail.session.mail.smtp.password: 36D4305BF2B501E083FFBC4F22130745271756445779ED6FBB35B1B773BDBA5F6E4BB8922DCF0125AB61C3E8981E2BBA
+
+devlr2:
+    portal:
+        <<: *PORTAL-DEFAULT
+        # DB Config (MySQL)
+        jdbc.default.encrypted.password: false
+        jdbc.default.url: jdbc:mysql://devdblr1.slidev.org/lportal?emulateLocators=true&useUnicode=true&characterEncoding=UTF-8&useFastDateParsing=false&createDatabaseIfNotExists=true
+        jdbc.default.username: liferay
+        jdbc.default.password: liferaywgen
+        
+        # cluster settings
+        cluster.link.enabled: true
+        org.quartz.jobStore.isClustered: true
+
+        # email server settings 
+        mail.session.mail.smtp.auth: true
+        mail.session.mail.smtp.host: email-smtp.us-east-1.amazonaws.com
+        mail.session.mail.smtp.port: 465
+        mail.session.mail.smtp.credential.encryption: true
+        mail.session.mail.smtp.user: 65E82A5B9904AC1B440189EC9B2CDFE63E5FCD1B39385EC47CF593F0AA684A4A
+        mail.session.mail.smtp.password: 36D4305BF2B501E083FFBC4F22130745271756445779ED6FBB35B1B773BDBA5F6E4BB8922DCF0125AB61C3E8981E2BBA
+
+team:
+    portal:
+        <<: *PORTAL-DEFAULT
+        # DB Config (MySQL)
+        jdbc.default.encrypted.password: false
+        jdbc.default.url: jdbc:mysql://localhost/lportal?emulateLocators=true&useUnicode=true&characterEncoding=UTF-8&useFastDateParsing=false&createDatabaseIfNotExists=true
+        jdbc.default.username: liferay
+        jdbc.default.password: liferaywgen
+
+        # email server settings 
+        mail.session.mail.smtp.auth: false
+        mail.session.mail.smtp.host: mon.slidev.org
+        mail.session.mail.smtp.port: 3000
+        mail.session.mail.smtp.credential.encryption: false
+        mail.session.mail.smtp.user:
+        mail.session.mail.smtp.password:
+

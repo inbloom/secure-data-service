@@ -1,0 +1,86 @@
+[
+  {
+    "userId": "cgray",
+    "name": "Charles Gray",
+    "role": "Educator",
+    "association": "Daybreak Central High"
+  },
+  {
+    "userId": "linda.kim",
+    "name": "Linda Kim",
+    "role": "Educator",
+    "association": "East Daybreak Junior High"
+  },
+  {
+    "userId": "rbraverman",
+    "name": "Rebecca Braverman",
+    "role": "Educator",
+    "association": "South Daybreak Elementary"
+  },
+  {
+    "userId": "demo",
+    "name": "Johnny Admin",
+    "role": "IT Administrator",
+    "association": "IL-DAYBREAK"
+  },
+  {
+    "userId": "sampleUser",
+    "name": "Billy Admin",
+    "role": "IT Administrator",
+    "association": ""
+  },
+  {
+    "userId": "mgonzales",
+    "name": "Maria Gonzales",
+    "role": "Leader",
+    "association": "South Daybreak Elementary"
+  },
+  {
+    "userId": "akopel",
+    "name": "Amy Kopel",
+    "role": "IT Administrator",
+    "association": "South Daybreak Elementary"
+  },
+  {
+    "userId": "msmith",
+    "name": "Mary Smith",
+    "role": "Aggregate Viewer",
+    "association": "South Daybreak Elementary"
+  },
+  {
+    "userId": "ckoch",
+    "name": "Christopher Koch",
+    "role": "Leader",
+    "association": "STANDARD-SEA"
+  },
+  {
+    "userId": "rrogers",
+    "name": "Rick Rogers",
+    "role": "IT Administrator",
+    "association": "STANDARD-SEA"
+  },
+  {
+    "userId": "mjohnson",
+    "name": "Michael Johnson",
+    "role": "Aggregate Viewer",
+    "association": "STANDARD-SEA"
+  },
+  {
+    "userId": "sbantu",
+    "name": "Susan Bantu",
+    "role": "Leader",
+    "association": "IL-DAYBREAK"
+  },
+  {
+    "userId": "jstevenson",
+    "name": "James Stevenson",
+    "role": "IT Administrator",
+    "association": "IL-DAYBREAK"
+  },
+  {
+    "userId": "jjackson",
+    "name": "Jack Jackson",
+    "role": "Aggregate Viewer",
+    "association": "IL-DAYBREAK"
+  }
+]

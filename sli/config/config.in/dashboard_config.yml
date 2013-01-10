@@ -1,0 +1,71 @@
+---
+default:
+    dashboard: &DASHBOARD-DEFAULT
+
+        # Used in dashboard application context
+        api.client: apiClient
+
+        # URL of the API server to be used by dashboard
+        api.server.url: http://local.slidev.org:8080/
+
+        # URL used to make authenticating requests to the backend API
+        security.server.url: http://local.slidev.org:8080/
+
+        # Only used in dashboard
+        portal.footer.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
+
+        # Only used in dashboard
+        portal.header.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
+
+        # Only used in dashboard
+        log.level: warn
+
+        # oauth security parameter (only used in dashboard)
+        oauth.client.id: 
+
+        # oauth security parameter (only used in dashboard)
+        oauth.client.secret: 
+
+        # oauth security parameter (only used in dashboard)
+        oauth.redirect: http://local.slidev.org:8888/dashboard/callback
+
+        # Config directory (only used in dashboard)
+        panel.config.driver.dir: config
+
+        # Custom configuration directory (only used in dashboard)
+        panel.config.custom.dir: custom
+
+        # (only used in dashboard)
+        panel.data.use.cache: true
+
+        dashboard.google_analytics.id: UA-31838086-1
+
+        # (only used in dashboard)
+        dashboard.WSCall.timeout: 3000
+
+        dashboard.cache.disable: false
+
+        sli.security.gracePeriod: 2000
+
+misc: &MISC-DEFAULT
+        # path to log directory (dashboard)
+        log.path: ${user.home}/logs
+
+        dashboard.encryption.keyStore: ../data-access/dal/keyStore/ciKeyStore.jks
+
+        dashboard.encryption.keyStorePass: changeit
+
+        dashboard.encryption.dalKeyAlias: dalKey
+
+        dashboard.encryption.dalKeyPass: changeit
+
+
+
+local:
+    dashboard: &DASHBOARD-LOCAL
+        <<: *DASHBOARD-DEFAULT
+
+     
+        dashboard.log.level: info 
+    misc: &MISC-LOCAL
+        <<: *MISC-DEFAULT

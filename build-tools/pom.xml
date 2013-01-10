@@ -1,0 +1,51 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.slc.sli</groupId>
+  <version>1.0-SNAPSHOT</version>
+  <artifactId>build-tools</artifactId>
+  <name>Build Tools</name>
+  <description>Configuration Files, such as eclipse, checkstyle, pmd specific</description>
+
+  <properties>
+    <java.version>1.6</java.version>
+
+    <!-- Maven Plugin Versions -->
+    <maven.compiler.version>2.3.2</maven.compiler.version>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven.compiler.version}</version>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+          <encoding>${project.build.sourceEncoding}</encoding>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <scm>
+    <connection>git@github.com:WGEN-SLI/SLI.git</connection>
+    <developerConnection>git@github.com:WGEN-SLI/SLI.git</developerConnection>
+    <url>https://github.com/WGEN-SLI/SLI</url>
+  </scm>
+
+  <distributionManagement>
+    <repository>
+      <id>sli-releases</id>
+      <name>SLI Repository</name>
+      <url>http://nexus.slidev.org:8080/nexus/content/repositories/SLI_Releases/</url>
+    </repository>
+    <snapshotRepository>
+        <id>sli-snapshots</id>
+      <name>SLI Repository</name>
+      <url>http://nexus.slidev.org:8080/nexus/content/repositories/SLI_Snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+</project>

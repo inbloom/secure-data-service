@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<application xmlns="http://wadl.dev.java.net/2009/02">
+  <doc xmlns:jersey="http://jersey.java.net/" jersey:generatedBy="Jersey: 1.9.1 09/14/2011 02:05 PM"/>
+  <grammars/>
+  <resources base="http://local.slidev.org:8080/api/rest/">
+    <resource path="v1/sections">
+      <method id="getAll" name="GET"/>
+      <method id="post" name="POST"/>
+      <resource path="{id}/gradebookEntries">
+        <method id="getAll" name="GET"/>
+        <method id="post" name="POST"/>
+      </resource>
+    </resource>
+  </resources>
+</application>
+

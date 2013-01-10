@@ -1,0 +1,1085 @@
+<html>
+  <head>
+    <title>Ingestion Job Report</title>
+
+    <link rel="stylesheet" type="text/css" href="css/report.css" />
+    <link rel="stylesheet" type="text/css" href="css/redmond/jquery-ui-1.8.23.custom.css" />
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.8.23.custom.min.js"></script>
+    <script type="text/javascript" src="js/envision.min.js"></script>
+            <style type="text/css">
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+      #container {
+        width : 1200px;
+        height: 1000px;
+        margin: 8px auto;
+      }
+    </style>
+    <link rel="stylesheet" type="text/css" href="css/envision.min.css" />
+    <script type="text/javascript">
+
+      var API_URL = 'http://localhost:8080';
+      //var API_URL = 'http://devgalactus.slidev.org:9090/';
+      var MONGO_HOST_PORT = 'localhost:27017'; // defaults and set in html input
+      var DEFAULT_JOB_ID = null;
+      
+      google.load('visualization', '1', {'packages':['corechart']});
+      google.load('visualization', '1', {packages:['table']});
+
+      google.setOnLoadCallback(onLoadCallback);
+
+      var jobCache = {};
+
+      function onLoadCallback() {
+        // parse optional mongo query parameter
+        if (window.location.getParameter('mongo') != null) {
+          MONGO_HOST_PORT = window.location.getParameter('mongo');
+        }
+        $('#mongo_host').val(MONGO_HOST_PORT); // set mongo host value on text input
+
+        // list all jobs at this mongo host
+        listJobs();
+
+        // parse optional jobid query parameter
+        if (window.location.getParameter('jobid') != null) {
+          DEFAULT_JOB_ID = window.location.getParameter('jobid');
+          jobSummary(DEFAULT_JOB_ID);
+        }
+
+        updateHotLink();
+      }
+
+      function listJobs() {
+        $('#job_chooser').empty();
+        $('#job_chooser_toggle').empty();
+        $('#tenant_job_lock').empty();
+
+        clearJobSpecificDivs();
+        
+        var jobs = getApiResource('/jobids');
+
+        if (jobs != null) {
+          $('#job_chooser_toggle')
+            .append('<h4>' + jobs.length + ' Available Jobs (<a href="#" onclick="toggleJobChooser();return false;">show/hide</a>):');
+
+          $.each(jobs, function(key, val) {
+            $('#job_chooser')
+              .append('<input type="checkbox" class="job_checkbox" name="'+val._id+'" />')
+              .append('<a href="#" onclick="jobSummary(\''+val._id+'\');return false;">'+val._id+'</a> <i>'+val.jobStartTimestamp+'</i><br/>');
+          });
+
+          $('#job_chooser')
+            .append('<input type="button" name="select" value="Select" onclick="jobCompare()">');
+
+          var tenantJobLocks = getApiResource('/tenantjoblock');
+          if (tenantJobLocks != null) {
+            $.each(tenantJobLocks, function(key, tenantJobLock) {
+              $('#tenant_job_lock')
+                .append('Tenant "' + tenantJobLock._id + '" is locked by job: <a href="#" onclick="jobSummary(\''+tenantJobLock.batchJobId+'\');return false;">' + tenantJobLock.batchJobId + '</a> <a href="#" onclick="releaseTenantJobLock(\''+tenantJobLock._id+'\');return false;">(release)</a><br/>');
+            });
+          }
+        }
+        $('#mongo_status').show('fast');
+      }
+
+      function jobSummary(jobId) {
+        DEFAULT_JOB_ID = jobId;
+        updateHotLink();
+        clearJobSpecificDivs();
+        $('#job_summary').append('<h4>Job Summary: ' + jobId + '</h4>');
+
+        var job = getApiResource('/job/' + jobId);
+
+        var recordCount = getRecordCountForJob(job);
+        job.recordCount = recordCount;
+
+        $('#job_summary')
+          .css({'color': 'black'})
+          .append('Job Status: ' + job.status + '<br/>')
+          .append('EdFi Record Count: ' +recordCount + '<br/>')
+
+        var errors = getApiResource('/job/' + jobId + '/error');
+          $('#job_summary').append('Errors: ' + errors.length + '<br/>');
+
+        if (job.status == 'Running') {
+          // running job
+          var timeInSeconds = (new Date().getTime() - new Date(job.jobStartTimestamp).getTime()) / 1000;
+          var timeRunningDisplay = getReadableTime(timeInSeconds);
+          $('#job_summary')
+            .append('Time Running: ' + timeRunningDisplay + '<br/>');
+
+          var lastStageEnd = new Date(job.stages[job.stages.length-1].stopTimestamp).getTime();
+          var timeInStage = getReadableTime((new Date().getTime() - lastStageEnd) / 1000);
+          $('#job_summary')
+            .append('Time Since Last Stage Complete: ' + timeInStage + '<br/>');
+
+          drawProgressBar(job);
+
+        } else {
+          // completed job
+          var stopTime = new Date(job.jobStopTimestamp);
+          var startTime = new Date(job.jobStartTimestamp);
+
+          var jobTimeInSeconds = (stopTime.getTime() - startTime.getTime()) / 1000;
+          
+          var jobTimeDisplay = getReadableTime(jobTimeInSeconds);
+
+          $('#job_summary')
+            .append('Total Job Time: ' + jobTimeDisplay + '<br/>')
+            .append('Total Job RPS: ' + (recordCount / jobTimeInSeconds).toFixed(2) + '<br/>')
+            .append('Start Time: ' + startTime + '<br/>Stop Time: ' + stopTime);
+        }
+     
+        drawJobNotes(job); 
+
+        drawStageBreakdownPieChart(job);
+
+        drawEntityPerformanceCharts(job);
+
+        drawStagePerfChart(job);
+
+        summarizeExecutionStats(jobId);
+
+        timeBasedSingleJob(jobId);
+      }
+
+      function drawJobNotes(job) {
+          var comments = '';
+          var errorSummary = '';
+          var env = '';
+          var codeTag = '';
+          var sharded = '';
+          var preSplit = '';
+          var balancer = '';
+          var clustered = '';
+        if(job.hasOwnProperty("notes")){
+          comments = processNoteString(job.notes.comments);
+          errorSummary = processNoteString(job.notes.errorSummary);
+          env = processNoteString(job.notes.environment);
+          codeTag = processNoteString(job.notes.codeTag);
+          sharded = processNoteCheckbox(job.notes.isSharded);
+          preSplit = processNoteCheckbox(job.notes.isPreSplit);
+          balancer = processNoteCheckbox(job.notes.isBalancerOn);
+          clustered = processNoteCheckbox(job.notes.isClustered);
+        }
+
+        $('#job_notes').append('<form id=\'job_note_form\'onsubmit=\'submitNotes(this.form);return false\'>' + 
+          'Environment: <input id=\'job_env\' type=\'text\' name=\'job_env\' required="required" value=\'' + env + '\'/>' +
+          '   Code Tag: <input id=\'job_codeTag\' type=\'text\' name=\'job_codeTag\' value=\'' + codeTag + '\'/><br/>' +
+          '<input id=\'job_isSharded\' type=\'checkbox\' name=\'job_isSharded\' ' + sharded +'/>' + 'SLI Sharded   ' +
+          '<input id=\'job_isPreSplit\' type=\'checkbox\' name=\'job_isPreSplit\' ' + preSplit +'/>' + 'Pre-Split   ' +
+          '<input id=\'job_isBalancerOn\' type=\'checkbox\' name=\'job_isBalancerOn\' ' + balancer +'/>' + 'Balancer On   ' +
+          '<input id=\'job_isClustered\' type=\'checkbox\' name=\'job_isClustered\' ' + clustered +'/>' + 'Is Clustered<br/>' +
+          'Error Summary:<br/><textarea id=\'job_errorSummary\' name= \'job_errorSummary\' cols=\'85\' rows=\'7\'>' + errorSummary + '</textarea><br/>' +
+          'Comments:<br/><textarea id=\'job_comments\' name= \'job_comments\' cols=\'85\' rows=\'7\'>' + comments + '</textarea><br/>' +
+          '<input type=\'submit\' value=\'Save\'/></form>');
+
+
+      }
+
+      function processNoteString(value) {
+        if (value == null) {
+          value= "";
+        }
+        value = value.replace(/%20/g, " ");
+        return value;
+      }
+
+      function processNoteCheckbox(isChecked) {
+        var value;
+        if (isChecked == 'true') {
+          value = 'checked';
+        } else {
+          value = '';
+        }
+        return value;
+      }
+
+      function submitNotes(form) {
+        postApiResource('/job/' + DEFAULT_JOB_ID + '/notes.comments/' + document.getElementById('job_comments').value);
+        postApiResource('/job/' + DEFAULT_JOB_ID + '/notes.errorSummary/' + document.getElementById('job_errorSummary').value);
+
+
+        postApiResource('/job/' + DEFAULT_JOB_ID + '/notes.environment/' + $('#job_env').val());
+        postApiResource('/job/' + DEFAULT_JOB_ID + '/notes.codeTag/' + $('#job_codeTag').val());
+
+        postApiResource('/job/' + DEFAULT_JOB_ID + '/notes.isSharded/' + document.getElementById('job_isSharded').checked);
+        postApiResource('/job/' + DEFAULT_JOB_ID + '/notes.isPreSplit/' + document.getElementById('job_isPreSplit').checked);
+        postApiResource('/job/' + DEFAULT_JOB_ID + '/notes.isBalancerOn/' + document.getElementById('job_isBalancerOn').checked);
+        postApiResource('/job/' + DEFAULT_JOB_ID + '/notes.isClustered/' + document.getElementById('job_isClustered').checked);
+        jobSummary(DEFAULT_JOB_ID);
+      }
+
+      function drawStageBreakdownPieChart(job) {
+        var dataTable = new google.visualization.DataTable();
+        dataTable.addColumn('string', 'Stage Name');
+        dataTable.addColumn('number', 'Elapsed Time');
+
+        $.each(job.stages, function(key, stage) {
+          var elapsedSeconds = stage.elapsedTime/1000;
+          var stageSummary = stage.stageName + ' (' + stage.stageDesc + ') '+ elapsedSeconds + 's ' + Math.ceil(job.recordCount / elapsedSeconds) + 'rps';
+          dataTable.addRow([stageSummary, stage.elapsedTime]);
+        });
+        
+        drawPieChart(dataTable);
+      }
+
+      function drawEntityPerformanceCharts(job) {
+
+        var entityStatsMap = getStageEntityPerfStruct(job);
+
+        // construct, populate, and draw google DataTables
+        $.each(entityStatsMap, function(key, entityStat) {
+          if (key == 'TransformationProcessor' || key == 'PersistenceProcessor') {
+            var dataTable = new google.visualization.DataTable();
+            dataTable.addColumn('string', 'Entity');
+            dataTable.addColumn('number', 'Record Count');
+            dataTable.addColumn('number', 'Elapsed Time');
+
+            $.each(entityStat, function(key, entity) {
+              dataTable.addRow([entity.displayLabel, entity.recordCount, entity.elapsedTime]);
+            });
+            dataTable.sort([{column: 2, desc:true}, {column:1, desc:true}]); // sort by elapsed time, descending
+            drawBarChart(key, key + '_entity_div', dataTable);
+          }
+        });
+      }
+
+      function drawStagePerfChart(job) {
+        var stageStatsMap = getStagePerfStruct(job);
+        var stages = [];
+
+        // construct, populate, and draw google DataTables
+        var dataTable = new google.visualization.DataTable();
+        //first column is the time
+        dataTable.addColumn('string', 'Time');
+
+        //for each time spot
+        $.each(stageStatsMap, function(key, time) {
+          //for each for processor within this time spot
+          $.each(time, function(proc, val){
+            if(stages.indexOf(proc) == -1 ) {
+              stages.push(proc);
+              dataTable.addColumn('number', proc);
+            }
+          });
+        });
+
+        $.each(stageStatsMap, function(key, proc){
+          var row = [key];
+          $.each(stages, function(stage, v){
+            if(typeof proc[v] == 'undefined'){
+              row.push(0);
+            } else {
+              row.push(Math.log(proc[v]));
+            }
+          });
+          dataTable.addRow(row);
+        });
+
+        //Sort by time
+        dataTable.sort([{column:0, desc:false}]);
+        drawComboChart('Job OP Distribution', '# Records', 'Time', 'job_dist_linechart_div', dataTable);
+      }
+
+      //get records distribution over the execution time
+      function getStagePerfStruct(job) {
+        var stageStatsMap = {};
+        //ex. {'hh:mm:ss':{'PersistenceProcessor':123}}
+
+        var stagesForJob = getApiResource('/job/' + job._id + '/stage');
+
+        $.each(stagesForJob, function(key, stage) {
+
+          if(typeof (stage.startTimestamp) != 'undefined') {
+            var Time = stage.startTimestamp.split('.')[0];
+            if (typeof stageStatsMap[Time] == 'undefined') {
+              stageStatsMap[Time] = {};
+            }
+
+            //for those without stageName, will be under [time]['undefined']
+            if(typeof stageStatsMap[Time][stage.stageName] == 'undefined') {
+              stageStatsMap[Time][stage.stageName] = 0;
+            }
+
+            $.each(stage.metrics, function(key, metric) {
+              stageStatsMap[Time][stage.stageName] += metric.recordCount;
+            });
+          }
+        });
+
+        return stageStatsMap;
+      }
+
+      function getStageEntityPerfStruct(job) {
+        var entityStatsMap = {};
+        // ex. [{ 'PersistenceProcessor': { 'assessment': {'recordCount': 123, 'elapsedTime': 456, 'rps': 200, 'displayLabel': 'somestring'} } }];
+
+        var stagesForJob = getApiResource('/job/' + job._id + '/stage');
+
+        $.each(stagesForJob, function(key, stage) {
+          //Need to handle those records without processingInformation
+          if(typeof (stage.processingInformation) != 'undefined') {
+            if (typeof entityStatsMap[stage.stageName] == 'undefined') {
+              entityStatsMap[stage.stageName] = {}; // init
+            }
+
+            var entity = stage.processingInformation.split(",")[0].split("=")[1];
+            if (typeof entity != 'undefined') {
+              if (entityStatsMap[stage.stageName][entity] == null) {
+                entityStatsMap[stage.stageName][entity] = {'recordCount': 0, 'elapsedTime': 0}; // init
+              }
+
+              $.each(stage.metrics, function(key, metric) {
+                entityStatsMap[stage.stageName][entity].recordCount += metric.recordCount;
+              });
+              entityStatsMap[stage.stageName][entity].elapsedTime += stage.elapsedTime;
+            }
+          }
+        });
+
+        // add rps and displayLabel
+        $.each(entityStatsMap, function(key, entityStat) {
+          $.each(entityStat, function(key, entity) {
+            if (typeof entity.recordCount == 'number' && typeof entity.elapsedTime == 'number') {
+              entity.rps = Math.ceil(entity.recordCount / (entity.elapsedTime/1000));
+              entity.displayLabel = key + ' (' + entity.recordCount + '/' + (entity.elapsedTime/1000) + ') = ' + entity.rps;
+            }
+          });
+        });
+        return entityStatsMap;
+      }
+
+      // cross-job comparison
+      function jobCompare() {
+        clearJobSpecificDivs();
+
+        drawJobCompareStageChart(['EdFiProcessor', 'TransformationProcessor', 'PersistenceProcessor']); // chart that compares the jobs' stages with one another
+
+        drawJobCompareEntityCharts(['PersistenceProcessor', 'TransformationProcessor']); // charts that compare the jobs' entities with one another
+
+        timeBasedCompareJobs();
+      }
+
+      function drawJobCompareStageChart(stagesToCompare) {
+        var stageNames = []; // ex. stage1,stage2,etc
+        var comparedJobsStageStats = []; // ex. [{ 'jobId': 123, 'stageStats': [{'EdFiProcessor':123}] }]
+
+        // prepare the data into the stageNames and comparedJobsStageStats data structures
+        $('.job_checkbox').each(function(key, jobCheckbox) {
+          if (jobCheckbox.checked) {
+            var job = getJob(jobCheckbox.name);
+
+            var recordCount = getRecordCountForJob(job);
+
+            var statsMap = {'jobId': job._id, 'stageStats': {}};
+
+            $.each(job.stages, function(key, stage) {
+              if ($.inArray(stage.stageName, stagesToCompare) != -1) {
+                if (stageNames.indexOf(stage.stageName) == -1) {
+                  stageNames.push(stage.stageName);
+                }
+                var rps = -1;
+                if (stage.elapsedTime != null && stage.elapsedTime > 0) {
+                  rps = recordCount / (stage.elapsedTime/1000);
+                }
+                statsMap.stageStats[stage.stageName] = rps;
+              }
+            });
+            comparedJobsStageStats.push(statsMap);
+          }
+        });
+
+        // construct and populate google DataTable
+        var compareJobStageDataTable = new google.visualization.DataTable();
+
+        // add columns
+        compareJobStageDataTable.addColumn('string', 'Job Id'); // 1st col is job id
+        $.each(stageNames, function(key, stageName) {
+          compareJobStageDataTable.addColumn('number', stageName); // other cols are stage names
+        });
+
+        // add rows
+        $.each(comparedJobsStageStats, function(key, jobStageStat) {
+          var row = [jobStageStat.jobId];
+          $.each(stageNames, function(key, stageName) {
+            row.push(jobStageStat.stageStats[stageName]);
+          });
+          compareJobStageDataTable.addRow(row);
+        });
+
+        drawComboChart('Cross Job Stage Breakdown', 'RPS', 'Job Id', 'stage_breakdown_linechart_div', compareJobStageDataTable);
+      }
+
+      function drawJobCompareEntityCharts(stagesToCompare) {
+        var entityNames = []; // ex. stage1,stage2,etc
+        var comparedJobsStageStats = []; // ex. [{ 'jobId': 123, 'stageStats': [{'assessment':123}] }]
+
+        $('.job_checkbox').each(function(key, jobCheckbox) {
+          if (jobCheckbox.checked) {
+            var job = getJob(jobCheckbox.name);
+
+            var entityStatsMap = getStageEntityPerfStruct(job);
+            comparedJobsStageStats.push({'jobId': job._id, 'entityStats': entityStatsMap});
+
+            $.each(entityStatsMap, function(stage, entityStat) {
+              $.each(entityStat, function(entity, stat) {
+                if (entityNames.indexOf(entity) == -1) {
+                  entityNames.push(entity);
+                }
+              });
+            });
+          }
+        });
+
+        $.each(stagesToCompare, function(key, stageToCompare) {
+          var dataTable = new google.visualization.DataTable();
+
+          // add columns
+          dataTable.addColumn('string', 'Job Id'); // 1st col is job id
+          $.each(entityNames, function(key, entityName) {
+            dataTable.addColumn('number', entityName); // other cols are entity names
+          });
+
+          // add rows
+          $.each(comparedJobsStageStats, function(key, jobStageStat) {
+            var row = [jobStageStat.jobId];
+            $.each(entityNames, function(key, entityName) {
+              var rps = 0;
+              var stat = jobStageStat.entityStats[stageToCompare][entityName];
+              if (typeof stat != 'undefined') {
+                rps = stat.rps;
+              }
+              row.push(rps);
+            });
+            dataTable.addRow(row);
+          });
+
+          drawComboChart('Cross Job Persistence Entity Performance', 'RPS', 'Job Id', stageToCompare + '_entity_jobcompare_div', dataTable);
+        });        
+      }
+
+      function drawPieChart(dataTable) {
+        var chartOptions = {
+          pieSliceText: 'percent',
+          sliceVisibilityThreshold: 0, // zero, otherwise it groups small slices into one
+          width : 1500,
+          height: 600,
+          chartArea: { left:0, top:0, width:"100%", height:"100%"},
+          legend: { textStyle: { color: 'black' }},
+          backgroundColor: 'white',
+          is3D: 'true'
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('stage_breakdown_piechart_div'));
+        chart.draw(dataTable, chartOptions);
+      }
+
+      function drawBarChart(myTitle, div, dataTable) {
+        var chartOptions = {
+          title: myTitle,
+          titleTextStyle: { color: '#110044' },
+          fontName: 'Arial Narrow',
+          series: [{color:'#e17009'},{color:'#2e6e9e'}],
+          chartArea: {left: 350, width: '90%', height: '95%'},
+          legend: {position: 'right', alignment: 'start', textStyle: { color: 'black' }},
+          hAxis: {textPosition: 'out', gridlines: { count: 0 }, textStyle: { color: 'black' } }, 
+          vAxis: {textPosition: 'out', textStyle: { color: 'black' }},
+          width : 1500,
+          height : 1200,
+          backgroundColor: 'white'
+        };
+        var persistenceChart = new google.visualization.BarChart(document.getElementById(div));
+        persistenceChart.draw(dataTable, chartOptions);
+      }
+
+      function drawComboChart(myTitle, vTitle, hTitle, div, dataTable) {
+        var chartOptions = {
+          title : myTitle,
+          titleTextStyle: { color: '#110044' },
+          vAxis: {title: vTitle, textStyle: { color: 'black' }, titleTextStyle: { color: 'black' }, baseline: 0, baselineColor: 'black' },
+          hAxis: {title: hTitle, textStyle: { color: 'black' }, titleTextStyle: { color: 'black' }, slantedText: 'true', slantedTextAngle: 45 },
+          seriesType: "lines",
+          pointSize: 3,
+          lineWidth: 1,
+          width : 1500,
+          height: 600,
+          legend: { textStyle: { color: 'black' }},
+          backgroundColor: 'white'
+        };
+
+        var chart = new google.visualization.ComboChart(document.getElementById(div));
+        chart.draw(dataTable, chartOptions);
+      }
+
+      function drawProgressBar(job) {
+        var stageWeights = {
+          'ZipFileProcessor' : 2,
+          'ControlFilePreProcessor' : 1,
+          'ControlFileProcessor' : 2,
+          'XmlFileProcessor' : 3,
+          'EdFiProcessor' : 17
+        }
+
+        var percentComplete = 0;
+        $.each(job.stages, function(key, stage) {
+          if (typeof stageWeights[stage.stageName] != 'undefined') {
+            percentComplete += stageWeights[stage.stageName];
+          }
+        });
+
+        var orchestraPercent = 100 - percentComplete;
+
+        var totalStagedEntities = 0;
+        var completedStagedEntities = 0;
+        var stagedEntities = getApiResource('/job/' + job._id + '/stagedentities');
+        if (stagedEntities.length > 0) {
+          $.each(stagedEntities[0].entities, function(entity, complete) {
+            totalStagedEntities++;
+            if (complete) {
+              completedStagedEntities++;
+            }
+          });
+          if (totalStagedEntities > 0) {
+            percentComplete += (completedStagedEntities/totalStagedEntities) * orchestraPercent;
+          }
+        }
+
+        $('#progressbar').progressbar({ value: percentComplete });
+        $('#progressbar').show();
+      }
+
+      function mongoHostChange() {
+        MONGO_HOST_PORT = $('#mongo_host').val();
+        DEFAULT_JOB_ID = null;
+        updateHotLink();
+        listJobs();
+      }
+
+      function updateHotLink() {
+        var live_url = window.location.href;
+        if (window.location.search != null) {
+          live_url = live_url.replace(window.location.search,'');
+        }
+        live_url += '?mongo=' + MONGO_HOST_PORT;
+        if (DEFAULT_JOB_ID != null) {
+          live_url += '&jobid=' + DEFAULT_JOB_ID;
+        }
+        $('#url_link').text(live_url);
+      }
+
+      function getReadableTime(rawSeconds) {
+        var hours = Math.floor(rawSeconds / 3600);
+        var min_divisor = rawSeconds % (3600);
+        var minutes = Math.floor(min_divisor / 60);
+        var seconds = Math.ceil(min_divisor % 60);
+        return ((hours < 10) ? '0' + hours : hours) + ':' + ((minutes < 10) ? '0' + minutes : minutes) + ':' + ((seconds < 10) ? '0' + seconds : seconds);
+      }
+
+      function getJob(jobId) {
+        var job = jobCache[jobId];
+        if (job == null) {
+          job = getApiResource('/job/' + jobId);
+        }
+        return job;
+      }
+
+      function getApiResource(url) {
+        var jsonData = $.ajax({
+          url: API_URL + url,
+          type: 'GET',
+          headers: { 'X-Api-Version': MONGO_HOST_PORT },
+          dataType: 'json',
+          async: false
+        }).responseText;
+        return jQuery.parseJSON(jsonData);
+      }
+
+     function postApiResource(url) {
+        var jsonData = $.ajax({
+          url: API_URL + url,
+          type: 'POST',
+          headers: { 'X-Api-Version': MONGO_HOST_PORT },
+          dataType: 'json',
+          async: false
+        }).responseText;
+      }
+
+      function releaseTenantJobLock(tenantId) {
+        var jsonData = $.ajax({
+          url: API_URL + '/tenantjoblock/' + tenantId,
+          type: 'DELETE',
+          headers: { 'X-Api-Version': MONGO_HOST_PORT },
+          dataType: 'json',
+          async: false
+        }).responseText;
+        listJobs();
+      }
+
+      function getRecordCountForJob(job) {
+        var recordCount = 0;
+        $.each(job.stages, function(key, val) {
+          if (val.stageName == 'EdFiProcessor') {
+            $.each(val.metrics, function(metricsKey, metricsVal) {
+              recordCount += metricsVal.recordCount;
+            });
+          }
+        });
+        return recordCount;
+      }
+
+      if (!window.location.getParameter ) {
+        window.location.getParameter = function(key) {
+          function parseParams() {
+              var params = {},
+                  e,
+                  a = /\+/g,  // Regex for replacing addition symbol with a space
+                  r = /([^&=]+)=?([^&]*)/g,
+                  d = function (s) { return decodeURIComponent(s.replace(a, " ")); },
+                  q = window.location.search.substring(1);
+
+              while (e = r.exec(q))
+                  params[d(e[1])] = d(e[2]);
+
+              return params;
+          }
+
+          if (!this.queryStringParams)
+              this.queryStringParams = parseParams(); 
+
+          return this.queryStringParams[key];
+        };
+      }
+
+      function summarizeExecutionStats(jobId) {
+        var job = getJob(jobId);
+        var executionStats = job.executionStats;
+        //counts = {"is" : {insert:#, count:#}, "sli" : {insert:#}}
+        var counts = {};
+        counts["is"] = {};
+        counts["sli"] = {};
+        var totalDBOpTime = 0;
+
+        $.each(executionStats, function(host, time){
+          $.each(time, function(_time, ns){
+            $.each(ns, function(_ns, rec){
+              var db = _ns.split("#")[0];
+              var op = _ns.split("#")[1];
+              if(!counts[db].hasOwnProperty(op)) {
+                counts[db][op] = {};
+                counts[db][op]['count'] = 0;
+                counts[db][op]['tTime'] = 0;
+              }
+              counts[db][op]['count'] += rec.left;
+              counts[db][op]['tTime'] += rec.right;
+              totalDBOpTime += rec.right;
+            });
+          });
+        });
+
+        //populate the data into DataTable
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Database');
+        data.addColumn('string', 'Operation');
+        data.addColumn('number', 'Count');
+        data.addColumn('number', 'Total Time(in Microseconds)');
+        data.addColumn('number', 'Average(in Microseconds)');
+
+        $.each(counts, function(db, _val){
+          $.each(_val, function(op, val){
+            row = [];
+            row.push(db);
+            row.push(op);
+            row.push(val['count']);
+            row.push(Math.round(val['tTime'] * 1000));
+            row.push(Math.round(val['tTime'] / val['count'] * 1000));
+            data.addRow(row);
+          });
+        });
+
+        drawTable(data);
+
+        //get the totla time for transformation and persistence processor
+        var totalTime = getXFandPersTime(job);
+
+
+        $('#table_div')
+          .append('Total Mongo Operation Time: ' + totalDBOpTime + 'ms <br/>')
+          .append('Total Time for TransformationProcessor and PersistenceProcessor:' + totalTime  + 'ms <br/>')
+          .append('Pecentage:' + Math.round(totalDBOpTime / totalTime * 100) + '% <br/>');
+
+      }
+
+      function drawTable(data) {
+
+        var chartOptions = {
+          width : 600,
+          height: 400,
+          backgroundColor: 'white',
+          showRowNumber: true
+        };
+        var table = new google.visualization.Table(document.getElementById('table_div'));
+        table.draw(data, chartOptions);
+      }
+
+      function convertTime(time) {
+        //May change.It is dependent on the actual format in newBatchJob collection
+        var res = time.split('-')[0];
+        return new Date(res);
+      }
+
+      function getExecutionStats (jobId) {
+        var job = getJob(jobId);
+        var executionStats = job.executionStats;
+        var isTime = [],
+            isY = [],
+            sliTime = [],
+            sliY = [];
+        //{time:count}
+        var isTimeExec = {}, sliTimeExec = {}
+
+        var count = 0;
+        $.each(executionStats, function(host, time){
+          $.each(time, function(_time, ns){
+            var cTime = convertTime(_time);
+            sliTime.push(cTime);
+            isTime.push(cTime);
+            if(!isTimeExec.hasOwnProperty(cTime)) {
+              isTimeExec[cTime] = 0;
+            }
+            if(!sliTimeExec.hasOwnProperty(cTime)) {
+              sliTimeExec[cTime] = 0;
+            }
+
+            $.each(ns, function(_ns, rec){
+              //time.push(convertTime(time));
+              //y.push(rec.left);
+
+              var db = _ns.split("#")[0];
+              if(db == "is"){
+                isTimeExec[cTime] += rec.left;
+              } else {
+                sliTimeExec[cTime] += rec.left;
+              }
+            });
+          });
+        });
+
+        isTime.sort(function(a,b){return a-b});
+        sliTime.sort(function(a,b){return a-b});
+
+        $.each(isTime, function(index, time){
+          isY.push(isTimeExec[time]);
+        });
+        $.each(sliTime, function(index, time){
+          sliY.push(sliTimeExec[time]);
+        }); 
+
+        var isKey = "[is]-"+jobId,
+            sliKey = "[sli]"+jobId;
+        var data = {};
+        data[isKey] = [isTime, isY];
+        data[sliKey] = [sliTime, sliY];
+
+        return data;
+      }
+
+      //This is call to populate time based graph for cross-job comparison 
+      function timeBasedCompareJobs() {
+
+        var jobData = {};
+        var interval = -1;
+        var ok = 1;
+        // prepare the data into the stageNames and comparedJobsStageStats data structures
+        $('.job_checkbox').each(function(key, jobCheckbox) {
+          if (jobCheckbox.checked) {
+            var data = getExecutionStats(jobCheckbox.name);
+            $.each(data, function(index, array){
+              //make sure the job compare is based on the same time interval
+              //Otherwise it does not make sense to populate the normalized graph
+              
+              if(interval == -1 ){
+                if(array[0].length >=4){
+                  interval = Math.round((array[0][3] - array[0][2])/1000);
+                }
+              } else if(interval != Math.round((array[0][3] - array[0][2])/1000) && ok == 1) {
+                  alert("Warning: We are not generating normalized graph for batch jobs with different intervals.");
+                  ok = 0;
+              }
+              
+              jobData[index] = array;
+            });
+          }
+        });
+
+        timeBased(jobData, 0, 'Obsolute Time Comparison', 'container');
+
+        var normalizedJobData = {};
+        if(ok) {
+          $.each(jobData, function(index, data){
+            var nor = [], count = 0;;
+            $.each(data[0], function(index, date){
+              nor.push(count);
+              count += interval;
+            });
+            var nData = [];
+            nData.push(nor);
+            nData.push(data[1]);
+
+            normalizedJobData[index] = nData;
+          });
+          timeBased(normalizedJobData, 1, 'Normalized Time Comparison', 'graph' );
+        }
+      }
+
+      function timeBasedSingleJob(jobId){
+        var jobData = getExecutionStats(jobId);
+        timeBased(jobData, 0, 'Obsolute Time', 'container');
+      }
+
+    //jobData is in this format: {legend:[x, y]}
+    //if nor == 1, it will populate the relative time, otherwise, absolute time
+    function timeBased(jobData, nor, graphTitle, container) {
+        var container = document.getElementById(container),
+            strTitle = "Time-based DB operations";
+
+
+        var aryYAxisTitles = ['Operations'];
+
+        var aryData = [];
+        $.each(jobData, function(legend, data){
+          aryData.push({
+              data: data,
+              label: legend,
+              lines: {
+                  show: true
+              },
+              points: {
+                  show: false
+              }
+          });
+        });
+
+        var cbXAxisTickFormatter = function(n) {
+            if(nor == 0) {
+              var objDate = new Date(Number(n)),
+                  value = objDate.getDate() + " " + Flotr.Date.monthNames[objDate.getMonth()] + " " + objDate.getFullYear() + " " + objDate.getHours() + ":" + objDate.getMinutes() + ":" + objDate.getSeconds();
+              return value;
+            } else return Number(n);
+        };
+        
+        var cbYAxisTicks = function(o) {
+            var aryTicks = [],
+                fltTick, fltInc;
+            fltInc = (o.max - o.min) / 10;
+            for (fltTick = o.min; fltTick < o.max; fltTick += fltInc) {
+                aryTicks.push(fltTick);
+            }
+            return aryTicks;
+        };
+        
+        var cbYAxisTickFormatter = function(n) {
+            return Number(n).toPrecision(4);
+        };
+        // TimeSeries Template Options
+        objChartOptions = {
+            container: container,
+            data: {
+                detail: aryData,
+                summary: aryData
+            },
+            defaults: {
+                detail: {
+                    height: 800,
+                    config: {
+                        title: graphTitle,
+                        subtitle: null,
+                        shadowSize: 4,
+                        fontColor: '#545454',
+                        fontSize: 10,
+                        legend: {
+                            position: 'nw'
+                        },
+                        HtmlText: false,
+                        parseFloat: true,
+                        'lite-lines': {lineWidth:1,show:!0,fillOpacity:.2},
+                        xaxis: {
+                            autoscale: true,
+                            base: Math.E,
+                            margin: true,
+                            min: null,
+                            minorTicks: null,
+                            max: null,
+                            mode: 'time',
+                            showLabels: true,
+                            ticks: null,
+                            tickFormatter: cbXAxisTickFormatter,
+                            tickUnit: "second",
+                            timeMode: "local",
+                            title: "Time"
+                        },
+                        yaxis: {
+                            autoscale: true,
+                            autoscaleMargin: 1.0,
+                            base: Math.E,
+                            color: '#000000',
+                            margin: true,
+                            min: null,
+                            max: null,
+                            scaling: 'linear',
+                            showLabels: true,
+                            showMinorLabels: false,
+                            title: aryYAxisTitles[0],
+                            tickFormatter: cbYAxisTickFormatter,
+                            ticks: cbYAxisTicks
+                        },
+                        y2axis: {
+                            autoscale: true,
+                            autoscaleMargin: 1.0,
+                            base: Math.E,
+                            color: '#000000',
+                            margin: true,
+                            min: null,
+                            max: null,
+                            scaling: 'linear',
+                            showLabels: true,
+                            showMinorLabels: false,
+                            title: aryYAxisTitles[1],
+                            tickFormatter: cbYAxisTickFormatter,
+                            ticks: cbYAxisTicks
+                        },
+                        grid: {
+                            show: true,
+                            circular: false,
+                            color: '#545454',
+                            horizontalLines: true,
+                            labelMargin: 12,
+                            outline: 'nsew',
+                            outlineWidth: 1,
+                            tickColor: '#545454',
+                            verticalLines: true
+                        },
+                        mouse: {
+                            track: true,
+                            trackY: true,
+                            trackAll: true,
+                            sensibility: 1,
+                            trackDecimals: 4,
+                            position: 'ne',
+                            trackFormatter: function(o) { // formats the values in the value box
+                                var objDate = new Date(Number(o.x));
+                                var strTip = "<center>" + o.series.label + "</center>" + objDate.toLocaleString() + "." + objDate.getMilliseconds() + "<br />" + aryYAxisTitles[0] + ": " + Number(o.y);
+                                return strTip;
+                            }
+                        }
+                    }
+                },
+                summary: {
+                    config: {
+                        'lite-lines': {lineWidth:1,show:!0,fillOpacity:.2},
+                        legend: {
+                            show: false
+                        },
+                        y2axis: {
+                            autoscale: true,
+                            autoscaleMargin: 1.0,
+                            color: '#000000',
+                            margin: true,
+                            min: null,
+                            max: null,
+                            scaling: 'linear',
+                            showLabels: true,
+                            showMinorLabels: false,
+                            title: aryYAxisTitles[1],
+                            tickFormatter: cbYAxisTickFormatter,
+                            ticks: cbYAxisTicks
+                        },
+                        // Enable selection in the x-axis
+                        selection: {
+                            mode: 'x'
+                        },
+                        handles: {
+                            show: true
+                        }
+                    }
+                }
+            }
+        };
+        objChart = new envision.templates.TimeSeries(objChartOptions);
+      }; 
+
+      function getXFandPersTime(job) {
+        var totalTime = 0
+
+        var stagesForJob = getApiResource('/job/' + job._id + '/stage');
+
+        $.each(stagesForJob, function(key, stage) {
+            if(stage.stageName == 'TransformationProcessor' || stage.stageName == 'PersistenceProcessor') {
+              totalTime += stage.elapsedTime;
+            }
+          });
+
+        return totalTime;
+      }
+
+      function clearJobSpecificDivs() {
+        $('#mongo_status').hide('fast'); // hide the job chooser as it can be huge
+        $('#job_summary').empty();
+        $('#progressbar').hide();
+        $('#job_notes').empty();
+        $('#stage_breakdown_piechart_div').empty();
+        $('#stage_breakdown_linechart_div').empty();
+        $('#PersistenceProcessor_entity_div').empty();
+        $('#TransformationProcessor_entity_div').empty();
+        $('#PersistenceProcessor_entity_jobcompare_div').empty();
+        $('#TransformationProcessor_entity_jobcompare_div').empty();
+        $('#job_dist_linechart_div').empty();
+        $('#container').empty();
+        $('#table_div').empty();
+        $('#graph').empty();
+      }
+
+      function toggleJobChooser() {
+        if($('#mongo_status').is(':visible')) {
+          $('#mongo_status').hide('fast');
+        } else {
+          $('#mongo_status').show('fast');
+        }
+      }
+
+    </script>
+    </head>
+    <body>
+        <p id="url_link"></p>
+        <div id="mongo_chooser">
+          <form onsubmit='mongoHostChange();return false;'>
+            (mongo_host:port) <input id="mongo_host" type="text" size="30"/>
+            <input type='submit'/>
+          </form>
+        </div>
+        <div id="job_chooser_toggle"></div>
+        <table id="mongo_status">
+          <tr>
+            <td><div id="job_chooser"></div></td>
+            <td><div id="tenant_job_lock"></div></td>
+          </tr>
+        </table>
+        <div id="stage_breakdown_linechart_div"></div>
+        <div id="job_summary"></div>
+        <div id="job_notes"></div>
+        <div id="progressbar"></div>
+        <div id="stage_breakdown_piechart_div"></div>
+        <div id="PersistenceProcessor_entity_div"></div>
+        <div id="TransformationProcessor_entity_div"></div>
+        <div id="PersistenceProcessor_entity_jobcompare_div"></div>
+        <div id="TransformationProcessor_entity_jobcompare_div"></div>
+        <div id="job_dist_linechart_div"></div>
+        <div id="table_div" style="width:1000px; margin:0 auto;"></div>
+        <div id="container" style="width:1000px; margin:0 auto;"></div>
+        <div id="graph" style="width:1000px; margin:0 auto;"></dib>
+    </body>
+</html>

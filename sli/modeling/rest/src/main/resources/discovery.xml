@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type='text/xsl' href='discovery.xsl'?>
+<discovery xmlns="http://www.slc.org/datastore/discovery"
+	xmlns:xmi="http://www.w3.org/2001/XMLSchema-instance"
+	xmi:schemaLocation="http://www.slc.org/datastore/discovery discovery.xsd">
+	<id>slc.dataStore:v1</id>
+	<name>slc.dataStore</name>
+	<version>v1</version>
+	<title>SLC Data Store API</title>
+	<description>The SLC Data Store API provides access to K-12
+		classroom
+		data.
+	</description>
+	<icons>
+		<x16>http://www.slc.org/datastore/images/icon16.png
+		</x16>
+		<x32>http://www.slc.org/datastore/images/icon32.png
+		</x32>
+	</icons>
+	<documentationLink>http://www.slc.org/datastore/index.html
+	</documentationLink>
+	<labels>
+		<label>active</label>
+	</labels>
+	<protocol>rest</protocol>
+	<basePath>/api/rest/v1</basePath>
+	<parameters>
+		<parameter>
+			<name>includeFields</name>
+			<type>string</type>
+			<description>Selector specifying which fields to include in a partial
+				response.</description>
+			<location>query</location>
+		</parameter>
+		<parameter>
+			<name>excludeFields</name>
+			<type>string</type>
+			<description>Selector specifying which fields to exclude in a partial
+				response.</description>
+			<location>query</location>
+		</parameter>
+	</parameters>
+</discovery>

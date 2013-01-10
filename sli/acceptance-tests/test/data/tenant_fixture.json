@@ -1,0 +1,1 @@
+{"_id":"57b2dac7-e337-40a1-9f9f-7fdbb6274651","type":"tenant","body":{"landingZone":[{"educationOrganization":"NYC","ingestionServer":"demoIngestionServer","path":"/home/ingestion/lz/inbound/NY-STATE-NYC","desc":"Landing zone for NY","userNames":["johndoe"]}],"tenantId":"Hyrule"},"metaData":{"updated":{"$date":1330521193111},"created":{"$date":1330521193111}}}

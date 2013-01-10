@@ -1,0 +1,14 @@
+{
+    "referenceSources" :
+    [
+        {
+            "entityType" : "optional_entity_type",
+            "sourceRefPath" : "body.optional_ref_field"
+        },
+        {
+            "entityType" : "entity_type",
+            "sourceRefPath" : "body.ref_field"
+        }
+    ]
+    
+}

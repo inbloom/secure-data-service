@@ -1,0 +1,2004 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for Graduation.xsd</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        var propertiesBoxes= new Array('properties_Graduation.xsd', 
+				'properties_postSecondaryEvent_eventDate', 
+				'properties_postSecondaryEvent_postSecondaryEventCategory', 
+				'properties_postSecondaryEvent_nameOfInstitution', 
+				'properties_postSecondaryEvent_institutionId', 
+				'properties_postSecondaryEvent_studentId', 
+				'properties_diploma_diplomaAwardDate', 
+				'properties_diploma_diplomaLevel', 
+				'properties_diploma_diplomaType', 
+				'properties_diploma_CTECompleter', 
+				'properties_diploma_academicHonors', 
+				'properties_diploma_recognitions', 
+				'properties_diploma_schoolReference');
+
+        var facetsBoxes= new Array('facets_postSecondaryEvent_postSecondaryEventCategory', 
+				'facets_postSecondaryEvent_nameOfInstitution', 
+				'facets_postSecondaryEvent_institutionId', 
+				'facets_diploma_diplomaLevel', 
+				'facets_diploma_diplomaType');
+
+        
+        
+        
+        var diagramBoxes= new Array('diagram_postSecondaryEvent_eventDate', 
+				'diagram_postSecondaryEvent_postSecondaryEventCategory', 
+				'diagram_postSecondaryEvent_nameOfInstitution', 
+				'diagram_postSecondaryEvent_institutionId', 
+				'diagram_postSecondaryEvent_studentId', 
+				'diagram_diploma_diplomaAwardDate', 
+				'diagram_diploma_diplomaLevel', 
+				'diagram_diploma_diplomaType', 
+				'diagram_diploma_CTECompleter', 
+				'diagram_diploma_academicHonors', 
+				'diagram_diploma_recognitions', 
+				'diagram_diploma_schoolReference', 
+				'diagram_postSecondaryEvent', 
+				'diagram_diploma');
+
+        var annotationBoxes= new Array('annotations_postSecondaryEvent_eventDate', 
+				'annotations_postSecondaryEvent_postSecondaryEventCategory', 
+				'annotations_postSecondaryEvent_nameOfInstitution', 
+				'annotations_postSecondaryEvent_institutionId', 
+				'annotations_postSecondaryEvent_studentId', 
+				'annotations_diploma_diplomaAwardDate', 
+				'annotations_diploma_diplomaLevel', 
+				'annotations_diploma_diplomaType', 
+				'annotations_diploma_CTECompleter', 
+				'annotations_diploma_academicHonors', 
+				'annotations_diploma_recognitions', 
+				'annotations_diploma_schoolReference', 
+				'annotations_postSecondaryEvent', 
+				'annotations_diploma');
+
+        
+        
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    --></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cornerTopLeft"></td>
+               <td class="rt_lineTop"></td>
+               <td class="rt_cornerTopRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_lineLeft"></td>
+               <td class="rt_content">
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked"
+                                     onclick="switchStateForAll(this, annotationBoxes);"
+                                     class="control" /></span><span class="globalControlName">Annotations</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked"
+                                     onclick="switchStateForAll(this, diagramBoxes);"
+                                     class="control" /></span><span class="globalControlName">Diagrams</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked"
+                                     onclick="switchStateForAll(this, facetsBoxes);"
+                                     class="control" /></span><span class="globalControlName">Facets </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked"
+                                     onclick="switchStateForAll(this, propertiesBoxes);"
+                                     class="control" /></span><span class="globalControlName">Properties </span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button"
+                               onclick="getElementObject('global_controls').style.display = 'none';"
+                               value="Close" /></span></div>
+               </td>
+               <td class="rt_lineRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_cornerBottomLeft"></td>
+               <td class="rt_lineBottom"></td>
+               <td class="rt_cornerBottomRight"></td>
+            </tr>
+         </table>
+      </div><a id="Graduation.xsd"></a><div class="componentTitle">Included schema <span class="qname">Graduation.xsd</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Graduation.xsd" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('properties_Graduation.xsd');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Graduation.xsd" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">attribute form default:
+                                       
+                                    </td>
+                                    <td><b>qualified</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">element form default:
+                                       
+                                    </td>
+                                    <td><b>qualified</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="postSecondaryEvent_eventDate"></a><div class="componentTitle">Element <span class="qname"><b><a href="Graduation_xsd.html#postSecondaryEvent" target="mainFrame"
+                  title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Graduation.xsd')">postSecondaryEvent</a></b> / eventDate</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_postSecondaryEvent_eventDate" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_postSecondaryEvent_eventDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_postSecondaryEvent_eventDate" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The date the event occurred or was recorded.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_postSecondaryEvent_eventDate" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_postSecondaryEvent_eventDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_postSecondaryEvent_eventDate" style="display:block"><img alt="Diagram" border="0" src="img/Graduation_xsd_Element_eventDate.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_postSecondaryEvent_eventDate" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_postSecondaryEvent_eventDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_postSecondaryEvent_eventDate" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="postSecondaryEvent_postSecondaryEventCategory"></a><div class="componentTitle">Element <span class="qname"><b><a href="Graduation_xsd.html#postSecondaryEvent" target="mainFrame"
+                  title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Graduation.xsd')">postSecondaryEvent</a></b> / postSecondaryEventCategory</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_postSecondaryEvent_postSecondaryEventCategory"
+                                     type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_postSecondaryEvent_postSecondaryEventCategory');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_postSecondaryEvent_postSecondaryEventCategory"
+                                style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The postsecondary event that is logged (e.g., FAFSA application, college</span><span class="tI">
+</span><span class="tT">application, college acceptance).</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_postSecondaryEvent_postSecondaryEventCategory" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_postSecondaryEvent_postSecondaryEventCategory');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_postSecondaryEvent_postSecondaryEventCategory"
+                                style="display:block"><img alt="Diagram" border="0"
+                                   src="img/Graduation_xsd_Element_postSecondaryEventCategory.png"
+                                   usemap="#Graduation_xsd_Element_postSecondaryEventCategory" /><map name="Graduation_xsd_Element_postSecondaryEventCategory"
+                                   id="Graduation_xsd_Element_postSecondaryEventCategory">
+                                 <area alt="SimpleTypes_xsd.tmp#postSecondaryEventCategoryType"
+                                       href="SimpleTypes_xsd.html#postSecondaryEventCategoryType"
+                                       coords="237,0,476,26" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_postSecondaryEvent_postSecondaryEventCategory"
+                                     type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_postSecondaryEvent_postSecondaryEventCategory');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_postSecondaryEvent_postSecondaryEventCategory"
+                                style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_postSecondaryEvent_postSecondaryEventCategory" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('facets_postSecondaryEvent_postSecondaryEventCategory');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_postSecondaryEvent_postSecondaryEventCategory" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>College Application</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>College Acceptance</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>College Enrollment</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>FAFSA Application</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Vocation Certification</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="postSecondaryEvent_nameOfInstitution"></a><div class="componentTitle">Element <span class="qname"><b><a href="Graduation_xsd.html#postSecondaryEvent" target="mainFrame"
+                  title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Graduation.xsd')">postSecondaryEvent</a></b> / nameOfInstitution</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_postSecondaryEvent_nameOfInstitution" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_postSecondaryEvent_nameOfInstitution');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_postSecondaryEvent_nameOfInstitution" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The postsecondary institution associated with the event.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_postSecondaryEvent_nameOfInstitution" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_postSecondaryEvent_nameOfInstitution');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_postSecondaryEvent_nameOfInstitution" style="display:block"><img alt="Diagram" border="0" src="img/Graduation_xsd_Element_nameOfInstitution.png"
+                                   usemap="#Graduation_xsd_Element_nameOfInstitution" /><map name="Graduation_xsd_Element_nameOfInstitution"
+                                   id="Graduation_xsd_Element_nameOfInstitution">
+                                 <area alt="SimpleTypes_xsd.tmp#nameOfInstitution"
+                                       href="SimpleTypes_xsd.html#nameOfInstitution"
+                                       coords="176,0,328,26" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_postSecondaryEvent_nameOfInstitution" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_postSecondaryEvent_nameOfInstitution');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_postSecondaryEvent_nameOfInstitution" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_postSecondaryEvent_nameOfInstitution" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('facets_postSecondaryEvent_nameOfInstitution');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_postSecondaryEvent_nameOfInstitution" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">minLength</td>
+                                    <td width="30%"><b>1</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">maxLength</td>
+                                    <td width="30%"><b>75</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="postSecondaryEvent_institutionId"></a><div class="componentTitle">Element <span class="qname"><b><a href="Graduation_xsd.html#postSecondaryEvent" target="mainFrame"
+                  title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Graduation.xsd')">postSecondaryEvent</a></b> / institutionId</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_postSecondaryEvent_institutionId" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_postSecondaryEvent_institutionId');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_postSecondaryEvent_institutionId" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The ID of the postsecondary institution.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_postSecondaryEvent_institutionId" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_postSecondaryEvent_institutionId');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_postSecondaryEvent_institutionId" style="display:block"><img alt="Diagram" border="0" src="img/Graduation_xsd_Element_institutionId.png"
+                                   usemap="#Graduation_xsd_Element_institutionId" /><map name="Graduation_xsd_Element_institutionId"
+                                   id="Graduation_xsd_Element_institutionId">
+                                 <area alt="SimpleTypes_xsd.tmp#institutionId"
+                                       href="SimpleTypes_xsd.html#institutionId"
+                                       coords="144,0,264,26" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_postSecondaryEvent_institutionId" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_postSecondaryEvent_institutionId');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_postSecondaryEvent_institutionId" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_postSecondaryEvent_institutionId" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('facets_postSecondaryEvent_institutionId');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_postSecondaryEvent_institutionId" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">minLength</td>
+                                    <td width="30%"><b>1</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">maxLength</td>
+                                    <td width="30%"><b>30</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="postSecondaryEvent_studentId"></a><div class="componentTitle">Element <span class="qname"><b><a href="Graduation_xsd.html#postSecondaryEvent" target="mainFrame"
+                  title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Graduation.xsd')">postSecondaryEvent</a></b> / studentId</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_postSecondaryEvent_studentId" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_postSecondaryEvent_studentId');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_postSecondaryEvent_studentId" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The student associated with the postsecondary event.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_postSecondaryEvent_studentId" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_postSecondaryEvent_studentId');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_postSecondaryEvent_studentId" style="display:block"><img alt="Diagram" border="0" src="img/Graduation_xsd_Element_studentId.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_postSecondaryEvent_studentId" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_postSecondaryEvent_studentId');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_postSecondaryEvent_studentId" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="diploma_diplomaAwardDate"></a><div class="componentTitle">Element <span class="qname"><b><a href="Graduation_xsd.html#diploma" target="mainFrame" title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Graduation.xsd')">diploma</a></b> / diplomaAwardDate</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_diploma_diplomaAwardDate" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_diploma_diplomaAwardDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_diploma_diplomaAwardDate" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The month, day, and year on which the student met graduation requirements and was</span><span class="tI">
+</span><span class="tT">awarded a diploma.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_diploma_diplomaAwardDate" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_diploma_diplomaAwardDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_diploma_diplomaAwardDate" style="display:block"><img alt="Diagram" border="0" src="img/Graduation_xsd_Element_diplomaAwardDate.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_diploma_diplomaAwardDate" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_diploma_diplomaAwardDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_diploma_diplomaAwardDate" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="diploma_diplomaLevel"></a><div class="componentTitle">Element <span class="qname"><b><a href="Graduation_xsd.html#diploma" target="mainFrame" title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Graduation.xsd')">diploma</a></b> / diplomaLevel</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_diploma_diplomaLevel" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_diploma_diplomaLevel');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_diploma_diplomaLevel" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The level of diploma/credential that is awarded to a student in recognition of</span><span class="tI">
+</span><span class="tT">his/her completion of the curricular requirements.</span><span class="tI">
+</span><span class="tT">	Minimum high school program</span><span class="tI">
+</span><span class="tT">	Recommended high school program</span><span class="tI">
+</span><span class="tT">	Distinguished Achievement Program</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_diploma_diplomaLevel" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_diploma_diplomaLevel');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_diploma_diplomaLevel" style="display:block"><img alt="Diagram" border="0" src="img/Graduation_xsd_Element_diplomaLevel.png"
+                                   usemap="#Graduation_xsd_Element_diplomaLevel" /><map name="Graduation_xsd_Element_diplomaLevel"
+                                   id="Graduation_xsd_Element_diplomaLevel">
+                                 <area alt="SimpleTypes_xsd.tmp#diplomaLevelType"
+                                       href="SimpleTypes_xsd.html#diplomaLevelType"
+                                       coords="149,0,300,26" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_diploma_diplomaLevel" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_diploma_diplomaLevel');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_diploma_diplomaLevel" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_diploma_diplomaLevel" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('facets_diploma_diplomaLevel');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_diploma_diplomaLevel" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Minimum</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Recommended</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Distinguished</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Cum laude</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Magna cum laude</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Summa cum laude</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="diploma_diplomaType"></a><div class="componentTitle">Element <span class="qname"><b><a href="Graduation_xsd.html#diploma" target="mainFrame" title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Graduation.xsd')">diploma</a></b> / diplomaType</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_diploma_diplomaType" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_diploma_diplomaType');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_diploma_diplomaType" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The type of diploma/credential that is awarded to a student in recognition of</span><span class="tI">
+</span><span class="tT">his/her completion of the curricular requirements.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_diploma_diplomaType" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_diploma_diplomaType');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_diploma_diplomaType" style="display:block"><img alt="Diagram" border="0" src="img/Graduation_xsd_Element_diplomaType.png"
+                                   usemap="#Graduation_xsd_Element_diplomaType" /><map name="Graduation_xsd_Element_diplomaType"
+                                   id="Graduation_xsd_Element_diplomaType">
+                                 <area alt="SimpleTypes_xsd.tmp#diplomaType" href="SimpleTypes_xsd.html#diplomaType"
+                                       coords="148,0,272,26" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_diploma_diplomaType" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_diploma_diplomaType');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_diploma_diplomaType" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_diploma_diplomaType" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('facets_diploma_diplomaType');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_diploma_diplomaType" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Regular diploma</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Endorsed/advanced diploma</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Regents diploma</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>International Baccalaureate</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Modified diploma</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Other diploma</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Alternative credential</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Certificate of attendance</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Certificate of completion</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>High school equivalency credential, other than GED</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>General Educational Development (GED) credential</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Post graduate certificate (grade 13)</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Vocational certificate</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Other</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="diploma_CTECompleter"></a><div class="componentTitle">Element <span class="qname"><b><a href="Graduation_xsd.html#diploma" target="mainFrame" title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Graduation.xsd')">diploma</a></b> / CTECompleter</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_diploma_CTECompleter" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_diploma_CTECompleter');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_diploma_CTECompleter" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Indicated a student who reached a state–defined threshold of vocational education</span><span class="tI">
+</span><span class="tT">and who attained a high school diploma or its recognized state equivalent or GED.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_diploma_CTECompleter" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_diploma_CTECompleter');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_diploma_CTECompleter" style="display:block"><img alt="Diagram" border="0" src="img/Graduation_xsd_Element_CTECompleter.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_diploma_CTECompleter" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_diploma_CTECompleter');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_diploma_CTECompleter" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="diploma_academicHonors"></a><div class="componentTitle">Element <span class="qname"><b><a href="Graduation_xsd.html#diploma" target="mainFrame" title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Graduation.xsd')">diploma</a></b> / academicHonors</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_diploma_academicHonors" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_diploma_academicHonors');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_diploma_academicHonors" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Academic distinctions earned by or awarded to the student.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_diploma_academicHonors" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_diploma_academicHonors');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_diploma_academicHonors" style="display:block"><img alt="Diagram" border="0" src="img/Graduation_xsd_Element_academicHonors.png"
+                                   usemap="#Graduation_xsd_Element_academicHonors" /><map name="Graduation_xsd_Element_academicHonors"
+                                   id="Graduation_xsd_Element_academicHonors">
+                                 <area alt="ComplexTypes_xsd.tmp#academicHonor_academicHonorsType"
+                                       href="ComplexTypes_xsd.html#academicHonor_academicHonorsType"
+                                       coords="254,40,401,64" />
+                                 <area alt="ComplexTypes_xsd.tmp#academicHonor_honorsDescription"
+                                       href="ComplexTypes_xsd.html#academicHonor_honorsDescription"
+                                       coords="254,117,386,141" />
+                                 <area alt="ComplexTypes_xsd.tmp#academicHonor_honorAwardDate"
+                                       href="ComplexTypes_xsd.html#academicHonor_honorAwardDate"
+                                       coords="254,194,376,218" />
+                                 <area alt="ComplexTypes_xsd.tmp#academicHonor"
+                                       href="ComplexTypes_xsd.html#academicHonor"
+                                       coords="172,3,307,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_diploma_academicHonors" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_diploma_academicHonors');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_diploma_academicHonors" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">maxOccurs:
+                                       
+                                    </td>
+                                    <td><b>unbounded</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="diploma_recognitions"></a><div class="componentTitle">Element <span class="qname"><b><a href="Graduation_xsd.html#diploma" target="mainFrame" title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Graduation.xsd')">diploma</a></b> / recognitions</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_diploma_recognitions" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_diploma_recognitions');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_diploma_recognitions" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Recognitions given to the student for accomplishments in a co-curricular, or</span><span class="tI">
+</span><span class="tT">extra-curricular activity.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_diploma_recognitions" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_diploma_recognitions');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_diploma_recognitions" style="display:block"><img alt="Diagram" border="0" src="img/Graduation_xsd_Element_recognitions.png"
+                                   usemap="#Graduation_xsd_Element_recognitions" /><map name="Graduation_xsd_Element_recognitions"
+                                   id="Graduation_xsd_Element_recognitions">
+                                 <area alt="ComplexTypes_xsd.tmp#recognition_recognitionType"
+                                       href="ComplexTypes_xsd.html#recognition_recognitionType"
+                                       coords="232,40,351,64" />
+                                 <area alt="ComplexTypes_xsd.tmp#recognition_recognitionDescription"
+                                       href="ComplexTypes_xsd.html#recognition_recognitionDescription"
+                                       coords="232,130,387,154" />
+                                 <area alt="ComplexTypes_xsd.tmp#recognition_recognitionAwardDate"
+                                       href="ComplexTypes_xsd.html#recognition_recognitionAwardDate"
+                                       coords="232,207,383,231" />
+                                 <area alt="ComplexTypes_xsd.tmp#recognition" href="ComplexTypes_xsd.html#recognition"
+                                       coords="150,3,263,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_diploma_recognitions" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_diploma_recognitions');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_diploma_recognitions" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">minOccurs:
+                                       
+                                    </td>
+                                    <td><b>0</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">maxOccurs:
+                                       
+                                    </td>
+                                    <td><b>unbounded</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="diploma_schoolReference"></a><div class="componentTitle">Element <span class="qname"><b><a href="Graduation_xsd.html#diploma" target="mainFrame" title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Graduation.xsd')">diploma</a></b> / schoolReference</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_diploma_schoolReference" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_diploma_schoolReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_diploma_schoolReference" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The school that offers the diploma.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_diploma_schoolReference" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_diploma_schoolReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_diploma_schoolReference" style="display:block"><img alt="Diagram" border="0" src="img/Graduation_xsd_Element_schoolReference.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_diploma_schoolReference" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_diploma_schoolReference');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_diploma_schoolReference" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="postSecondaryEvent"></a><div class="componentTitle">Complex Type <span class="qname">postSecondaryEvent</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_postSecondaryEvent" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_postSecondaryEvent');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_postSecondaryEvent" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">This entity captures significant postsecondary events during a student's high school tenure (e.g.,</span><span class="tI">
+</span><span class="tT">FASFSA application, or college application, acceptance, and enrollment).</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_postSecondaryEvent" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('diagram_postSecondaryEvent');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_postSecondaryEvent" style="display:block"><img alt="Diagram" border="0"
+                                   src="img/Graduation_xsd_Complex_Type_postSecondaryEvent.png"
+                                   usemap="#Graduation_xsd_Complex_Type_postSecondaryEvent" /><map name="Graduation_xsd_Complex_Type_postSecondaryEvent"
+                                   id="Graduation_xsd_Complex_Type_postSecondaryEvent">
+                                 <area alt="ComplexTypes_xsd.tmp#complexObjectType"
+                                       href="ComplexTypes_xsd.html#complexObjectType"
+                                       coords="215,3,454,25" />
+                                 <area alt="Graduation_xsd.tmp#postSecondaryEvent_eventDate"
+                                       href="Graduation_xsd.html#postSecondaryEvent_eventDate"
+                                       coords="283,40,367,64" />
+                                 <area alt="Graduation_xsd.tmp#postSecondaryEvent_postSecondaryEventCategory"
+                                       href="Graduation_xsd.html#postSecondaryEvent_postSecondaryEventCategory"
+                                       coords="283,104,472,128" />
+                                 <area alt="Graduation_xsd.tmp#postSecondaryEvent_nameOfInstitution"
+                                       href="Graduation_xsd.html#postSecondaryEvent_nameOfInstitution"
+                                       coords="283,181,411,205" />
+                                 <area alt="Graduation_xsd.tmp#postSecondaryEvent_institutionId"
+                                       href="Graduation_xsd.html#postSecondaryEvent_institutionId"
+                                       coords="283,245,379,269" />
+                                 <area alt="Graduation_xsd.tmp#postSecondaryEvent_studentId"
+                                       href="Graduation_xsd.html#postSecondaryEvent_studentId"
+                                       coords="283,309,365,333" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type hierarchy</b></td>
+                        <td>
+                           <ul>
+                              <li><b><a href="ComplexTypes_xsd.html#complexObjectType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">complexObjectType</a></b><ul>
+                                    <li><b><a href="Graduation_xsd.html#postSecondaryEvent" target="mainFrame"
+                                             title="No namespace"
+                                             onclick="updatePageTitle('Schema documentation for Graduation.xsd')">postSecondaryEvent</a></b></li>
+                                 </ul>
+                              </li>
+                           </ul>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="diploma"></a><div class="componentTitle">Complex Type <span class="qname">diploma</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_diploma" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('annotations_diploma');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_diploma" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">This educational entity represents the conferring or certification by an educational organization that</span><span class="tI">
+</span><span class="tT">the student has successfully completed a particular course of study.  It represents the electronic</span><span class="tI">
+</span><span class="tT">version of its physical document counterpart.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_diploma" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('diagram_diploma');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_diploma" style="display:block"><img alt="Diagram" border="0" src="img/Graduation_xsd_Complex_Type_diploma.png"
+                                   usemap="#Graduation_xsd_Complex_Type_diploma" /><map name="Graduation_xsd_Complex_Type_diploma"
+                                   id="Graduation_xsd_Complex_Type_diploma">
+                                 <area alt="ComplexTypes_xsd.tmp#complexObjectType"
+                                       href="ComplexTypes_xsd.html#complexObjectType"
+                                       coords="149,3,388,25" />
+                                 <area alt="Graduation_xsd.tmp#diploma_diplomaAwardDate"
+                                       href="Graduation_xsd.html#diploma_diplomaAwardDate"
+                                       coords="238,40,370,64" />
+                                 <area alt="Graduation_xsd.tmp#diploma_diplomaLevel"
+                                       href="Graduation_xsd.html#diploma_diplomaLevel"
+                                       coords="238,117,339,141" />
+                                 <area alt="Graduation_xsd.tmp#diploma_diplomaType"
+                                       href="Graduation_xsd.html#diploma_diplomaType"
+                                       coords="238,207,338,231" />
+                                 <area alt="Graduation_xsd.tmp#diploma_CTECompleter"
+                                       href="Graduation_xsd.html#diploma_CTECompleter"
+                                       coords="238,297,346,321" />
+                                 <area alt="Graduation_xsd.tmp#diploma_academicHonors"
+                                       href="Graduation_xsd.html#diploma_academicHonors"
+                                       coords="238,387,359,411" />
+                                 <area alt="Graduation_xsd.tmp#diploma_recognitions"
+                                       href="Graduation_xsd.html#diploma_recognitions"
+                                       coords="238,451,337,475" />
+                                 <area alt="Graduation_xsd.tmp#diploma_schoolReference"
+                                       href="Graduation_xsd.html#diploma_schoolReference"
+                                       coords="238,528,358,552" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type hierarchy</b></td>
+                        <td>
+                           <ul>
+                              <li><b><a href="ComplexTypes_xsd.html#complexObjectType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">complexObjectType</a></b><ul>
+                                    <li><b><a href="Graduation_xsd.html#diploma" target="mainFrame" title="No namespace"
+                                             onclick="updatePageTitle('Schema documentation for Graduation.xsd')">diploma</a></b></li>
+                                 </ul>
+                              </li>
+                           </ul>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Graduation_xsd.html">Graduation.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.
+         </div>
+      </div><script type="text/javascript">
+         <!--                     
+                     // The namespace is the selected option in the TOC combo.
+                    
+                     // Floats the toolbar.
+                     var globalControls = getElementObject("global_controls"); 
+                     
+                     if(globalControls != null){
+	                     var browser=navigator.appName;
+						 var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+						 
+						 var IE6 = false;
+						 if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+						 	IE6 = true;
+						 }
+	
+	                     //alert (IE6 + " |V| " + version);
+	                     
+	                     if(IE6){
+	                     	// On IE 6 the 'fixed' property is not supported. We must use javascript. 
+	                         globalControls.style.position='absolute';                         
+	                         // The global controls will do not exist in the TOC frame, when chunking.
+	                         findAndFloat("global_controls", 225, 30);    
+	                     } else {
+	                      	  globalControls.style.position='fixed';                     	
+	                     }
+	                     
+	                     globalControls.style.right='0';                       
+                     }
+                --></script></body>
+</html>

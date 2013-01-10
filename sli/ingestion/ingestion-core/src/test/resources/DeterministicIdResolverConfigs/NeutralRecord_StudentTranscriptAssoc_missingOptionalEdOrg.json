@@ -1,0 +1,42 @@
+{
+   "type":"studentTranscriptAssociation",
+   "body":{
+      "creditsEarned":{
+         "creditConversion":"0",
+         "creditType":"Semester hour credit",
+         "credit":1.0
+      },
+      "courseAttemptResult":"Pass",
+      "gradeType":"Final",
+      "additionalCreditsEarned":[
+
+      ],
+      "finalLetterGradeEarned":"B+",
+      "finalNumericGradeEarned":"88",
+      "courseId":"bdf3102f754737db4c7cb2586d01546d36530433_id",
+      "StudentAcademicRecordReference":{
+         "StudentAcademicRecordIdentity":{
+            "SessionReference":{
+               "SessionIdentity":{
+                  "SessionName":"Spring 2011 East Daybreak Junior High"
+               }
+            },
+            "StudentReference":{
+               "StudentIdentity":{
+                  "StudentUniqueStateId":"800000016"
+               }
+            }
+         }
+      },
+      "courseCode":[
+         {
+            "identificationSystem":"CSSC course code",
+            "ID":"7th Grade Composition"
+         }
+      ],
+      "gradeLevelWhenTaken":"Seventh grade"
+   },
+   "metaData":{
+
+   }
+}

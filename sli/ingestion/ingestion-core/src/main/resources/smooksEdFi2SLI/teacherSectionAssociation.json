@@ -1,0 +1,112 @@
+{
+    "keyFields" : ["body.sectionId", "body.teacherId"],
+    "references" :
+    [{
+        "fieldPath" : "body.SectionReference",
+        "deprecated" : true,
+        "ref" :
+        {
+            "entityType" : "section",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                           "path" : "body.uniqueSectionCode",
+                        "values" :
+                        [{
+                            "valueSource" : "body.SectionReference.SectionIdentity.UniqueSectionCode"
+                        }]
+                    },
+                    {
+                        "path" : "body.schoolId",
+                        "values" :
+                        [{
+                            "ref":
+                             {
+                                 "entityType" : "school",
+                                 "choiceOfFields" :
+                                  [
+                                      [
+                                          {
+                                              "path" : "body.stateOrganizationId",
+                                              "values" :
+                                               [{
+                                                    "valueSource" : "body.SectionReference.SectionIdentity.EducationalOrgReference.EducationalOrgIdentity.StateOrganizationId"
+                                               }]
+                                          }
+                                      ]
+                                  ]
+                             }
+                        }]
+                    },
+                    {
+                        "path" : "body.sessionId",
+                        "values" :
+                        [{
+                            "ref":
+                             {
+                                 "entityType" : "session",
+                                 "optional" : true,
+                                 "choiceOfFields" :
+                                  [
+                                      [
+                                          {
+                                              "path" : "body.sessionName",
+                                              "values" :
+                                               [{
+                                                    "valueSource" : "body.sessionId"
+                                               }]
+                                          }
+                                      ]
+                                  ]
+                             }
+                        }]
+                    },
+                    {
+                        "path" : "body.courseId",
+                        "values" :
+                        [{
+                            "ref":
+                             {
+                                 "entityType" : "course",
+                                 "optional" : true,
+                                 "choiceOfFields" :
+                                  [
+                                      [
+                                          {
+                                              "path" : "body.courseTitle",
+                                              "values" :
+                                               [{
+                                                    "valueSource" : "body.courseId"
+                                               }]
+                                          }
+                                      ]
+                                  ]
+                             }
+                        }]
+                    }
+                ]
+            ]
+        }
+    },
+    {
+        "fieldPath" : "body.TeacherReference",
+        "deprecated" : true,
+        "ref" :
+        {
+            "entityType" : "staff",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.staffUniqueStateId",
+                        "values" :
+                        [{
+                            "valueSource" : "body.TeacherReference.StaffIdentity.StaffUniqueStateId"
+                        }]
+                    }
+                ]
+            ]
+        }
+    }]
+}

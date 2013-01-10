@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+<!DOCTYPE import-control PUBLIC
+    "-//Puppy Crawl//DTD Import Control 1.1//EN"
+    "http://www.puppycrawl.com/dtds/import_control_1_1.dtd">
+
+<import-control pkg="org.slc.sli">
+
+  <allow pkg="java"/>
+  <allow pkg="javax"/>
+  <allow pkg="junit"/>
+  <allow pkg="junitx"/>
+  <allow pkg="org"/>
+  <allow pkg="com"/>
+  <allow pkg="ch.qos.logback"/>
+  <disallow pkg="org.slc.sli"/>
+  <allow pkg="org.slc.sli.api.client"/>
+  <allow pkg="org.slc.sli.common"/>
+  <allow pkg="org.slc.sli.aspect"/>
+  <allow pkg="org.slc.sli.validation"/>
+  <allow pkg="org.slc.sli.domain"/>
+  <allow pkg="org.slc.sli.sif"/>
+  <allow pkg="openadk.library"/>
+  <allow pkg="org.slc.sli.modeling"/>
+  <allow pkg="org.slc.sli.scaffold"/>
+  <allow pkg="org.slc.sli.search"/>
+
+  <subpackage name="dal">
+    <allow pkg="org.slc.sli.dal"/>
+  </subpackage>
+
+  <subpackage name="domain">
+    <allow pkg="org.slc.sli.dal"/>
+  </subpackage>
+
+  <subpackage name="api">
+    <disallow pkg="org.slf4j"/>
+    <disallow pkg="org.log4j"/>
+    <allow pkg="org.slc.sli.api"/>
+    <allow pkg="org.slc.sli.dal"/>
+    <allow pkg="org.slc.sli.domain"/>
+  </subpackage>
+
+  <subpackage name="ingestion">
+    <allow pkg="org.slc.sli.dal"/>
+    <allow pkg="org.slc.sli.ingestion"/>
+  </subpackage>
+
+  <subpackage name="dashboard">
+    <allow pkg="org.slc.sli.dashboard"/>
+    <allow pkg="org.slc.sli.dashboard.entity"/>
+    <allow pkg="org.slc.sli.dashboard.manager"/>
+    <allow pkg="org.slc.sli.dashboard.security"/>
+    <allow pkg="org.slc.sli.dashboard.util"/>
+    <allow pkg="org.slc.sli.dashboard.web"/>
+
+    <subpackage name="client">
+      <allow pkg="org.slc.sli.dashboard.client"/>
+      <allow pkg="org.slc.sli.dashboard.entity"/>
+      <allow pkg="org.slc.sli.dashboard.util"/>
+    </subpackage>
+
+    <subpackage name="entity">
+      <allow pkg="org.slc.sli.dashboard.entity"/>
+      <allow pkg="org.slc.sli.dashboard.util"/>
+      <allow pkg="org.slc.sli.dashboard.web"/>
+    </subpackage>
+
+    <subpackage name="manager">
+      <allow pkg="org.slc.sli.dashboard.manager"/>
+      <allow pkg="org.slc.sli.dashboard.util"/>
+      <allow pkg="org.slc.sli.dashboard.client"/>
+      <allow pkg="org.slc.sli.dashboard.entity"/>
+      <allow pkg="net.sf.ehcache"/>
+    </subpackage>
+
+    <subpackage name="security">
+      <allow pkg="org.slc.sli.dashboard.security"/>
+      <allow pkg="org.slc.sli.dashboard.client"/>
+      <allow pkg="org.slc.sli.dashboard.util"/>
+      <allow pkg="org.slc.sli.encryption.tool"/>
+    </subpackage>
+
+    <subpackage name="util">
+      <allow pkg="org.slc.sli.dashboard.util"/>
+      <allow pkg="org.slc.sli.dashboard.security"/>
+      <allow pkg="org.slc.sli.dashboard.manager"/>
+      <allow pkg="org.slc.sli.dashboard.web"/>
+      <allow pkg="org.slc.sli.dashboard.entity"/>
+    </subpackage>
+
+    <subpackage name="web">
+      <allow pkg="org.slc.sli.dashboard.web"/>
+      <allow pkg="org.slc.sli.dashboard.entity"/>
+      <allow pkg="org.slc.sli.dashboard.manager"/>
+      <allow pkg="org.slc.sli.dashboard.util"/>
+      <allow pkg="org.slc.sli.dashboard.client"/>
+      <allow pkg="org.slc.sli.dashboard.security"/>
+      <subpackage name="util">
+	<allow pkg="org.slc.sli.dashboard.web.util"/>
+        <allow pkg="freemarker"/>
+      </subpackage>
+    </subpackage>
+
+    <subpackage name="unit">
+      <allow pkg="org.slc.sli.dashboard.unit"/>
+      <allow pkg="org.slc.sli.dashboard.client"/>
+      <allow pkg="org.slc.sli.dashboard.entity"/>
+      <allow pkg="org.slc.sli.dashboard.manager"/>
+      <allow pkg="org.slc.sli.dashboard.security"/>
+      <allow pkg="org.slc.sli.dashboard.util"/>
+      <allow pkg="org.slc.sli.dashboard.web"/>
+      <allow pkg="net.sf.ehcache"/>
+    </subpackage>
+  </subpackage>
+
+  <subpackage name="aggregation">
+    <allow pkg="org.slc.sli.aggregation"/>
+  </subpackage>
+
+  <subpackage name="sandbox">
+    <allow pkg="org.slc.sli.sandbox"/>
+    <allow pkg="org.slc.sli.api.security"/>
+  </subpackage>
+
+  <subpackage name="sample">
+    <allow pkg="org.slc.sli.sample"/>
+  </subpackage>
+
+  <subpackage name="modeling">
+    <allow pkg="joptsimple"/>
+  </subpackage>
+
+  <subpackage name="scaffold">
+    <allow pkg="org.slc.sli.api"/>
+  </subpackage>
+  
+  <subpackage name="search">
+    <allow pkg="org.slc.sli.dal"/>
+  </subpackage>
+
+</import-control>

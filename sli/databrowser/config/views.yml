@@ -1,0 +1,34 @@
+#The root key is for the entity type, it needs to match the url_type that is passed through.
+#Each key below is the key to be displayed for the simple view
+
+student:
+    - id
+    - name/firstName
+    - name/lastSurname
+    - studentUniqueStateId
+
+parent:
+    - id
+    - name/firstName
+    - name/lastSurname
+    - parentUniqueStateId
+
+teacher:
+    - id
+    - staffUniqueStateId
+    - name/firstName
+    - name/lastSurname
+    
+school:
+    - id
+    - nameOfInstitution
+    - stateOrganizationId
+    #This is actually an array.
+    - address/city
+    
+section:
+    - uniqueSectionCode
+    - educationalEnvironment
+    - availableCredit
+    
+

@@ -1,0 +1,1390 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Schema documentation for Calendar.xsd</title>
+      <link rel="stylesheet" href="docHtml.css" type="text/css" /><script type="text/javascript">
+         <!--
+        var propertiesBoxes= new Array('properties_Calendar.xsd', 
+				'properties_gradingPeriod_gradingPeriod', 
+				'properties_gradingPeriod_beginDate', 
+				'properties_gradingPeriod_endDate', 
+				'properties_gradingPeriod_totalInstructionalDays', 
+				'properties_schoolSessionAssociation', 
+				'properties_schoolSessionAssociation_gradingPeriod', 
+				'properties_schoolSessionAssociation_schoolId', 
+				'properties_schoolSessionAssociation_sessionId');
+
+        var facetsBoxes= new Array('facets_gradingPeriod_gradingPeriod', 
+				'facets_gradingPeriod_totalInstructionalDays');
+
+        
+        
+        
+        var diagramBoxes= new Array('diagram_gradingPeriod_gradingPeriod', 
+				'diagram_gradingPeriod_beginDate', 
+				'diagram_gradingPeriod_endDate', 
+				'diagram_gradingPeriod_totalInstructionalDays', 
+				'diagram_schoolSessionAssociation', 
+				'diagram_schoolSessionAssociation_gradingPeriod', 
+				'diagram_schoolSessionAssociation_schoolId', 
+				'diagram_schoolSessionAssociation_sessionId', 
+				'diagram_gradingPeriod');
+
+        var annotationBoxes= new Array('annotations_gradingPeriod_gradingPeriod', 
+				'annotations_gradingPeriod_beginDate', 
+				'annotations_gradingPeriod_endDate', 
+				'annotations_gradingPeriod_totalInstructionalDays', 
+				'annotations_schoolSessionAssociation', 
+				'annotations_schoolSessionAssociation_gradingPeriod', 
+				'annotations_schoolSessionAssociation_schoolId', 
+				'annotations_schoolSessionAssociation_sessionId', 
+				'annotations_gradingPeriod');
+
+        
+        
+        var button_prefix = 'button_';
+        
+        /**
+        * Returns an element in the current HTML document.
+        *
+        * @param elementID Identifier of HTML element
+        * @return               HTML element object
+        */
+        function getElementObject(elementID) {
+            var elemObj = null;
+            if (document.getElementById) {
+                elemObj = document.getElementById(elementID);
+            }
+            return elemObj;
+        }
+        
+        /**
+        * Switches the state of a collapseable box, e.g.
+        * if it's opened, it'll be closed, and vice versa.
+        *
+        * @param boxID Identifier of box
+        */
+        function switchState(boxID) {
+            var boxObj = getElementObject(boxID);
+            var buttonObj = getElementObject(button_prefix + boxID);
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else if (boxObj.style.display == "none") {
+                // Box is closed, so open it
+                openBox(boxObj, buttonObj);
+            } else if (boxObj.style.display == "block") {
+                // Box is opened, so close it
+                closeBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+        * Opens a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function openBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "block";
+                
+                // Change text of button
+                if (boxObj.style.display == "block") {
+                    buttonObj.src = "img/btM.gif";
+                }
+            }
+        }
+        
+        /**
+        * Closes a collapseable box.
+        *
+        * @param boxObj       Collapseable box
+        * @param buttonObj Button controlling box
+        */
+        function closeBox(boxObj, buttonObj) {
+            if (boxObj == null || buttonObj == null) {
+                // Box or button not found
+            } else {
+                // Change 'display' CSS property of box
+                boxObj.style.display = "none";
+                
+                // Change text of button
+                if (boxObj.style.display == "none") {
+                    buttonObj.src = "img/btP.gif";
+                }
+            }
+        }
+    
+       function switchStateForAll(buttonObj, boxList) {
+            if (buttonObj == null) {
+                // button not found
+            } else if (buttonObj.value == "+") {
+                // Expand all
+                expandAll(boxList);
+                buttonObj.value = "-";
+            } else if (buttonObj.value == "-") {
+                // Collapse all
+                collapseAll(boxList);
+                buttonObj.value = "+";
+            }
+        }
+        
+        /**
+        * Closes all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function collapseAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                closeBox(boxObj, buttonObj);
+            }
+        }
+            
+        /**
+        * Open all boxes in a given list.
+        *
+        * @param boxList Array of box IDs
+        */
+        function expandAll(boxList) {
+            var idx;
+            for (idx = 0; idx < boxList.length; idx++) {
+                var boxObj = getElementObject(boxList[idx]);
+                var buttonObj = getElementObject(button_prefix + boxList[idx]);
+                openBox(boxObj, buttonObj);
+            }
+        }
+        
+        /**
+         * Update the message presented in the title of the html page.
+         * - If the documentation was splited by namespace we present something like: "Documentation for namespace 'ns'"
+         * - If the documentation was splited by location we present somehing like: "Documentation for 'Schema.xsd'"
+         * - If no split we always present: "Documentation for 'MainSchema.xsd'"
+         */
+        function updatePageTitle(message) {
+            top.document.title = message;
+        }
+        
+          
+                    
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function findAndFloat(id, x_displacement, y_displacement){
+
+            var element = getElementObject(id);            
+            
+            window[id + "_obj"] = element;
+            
+            if(document.layers) {
+               element.style = element;
+            }
+            
+            element.current_y = y_displacement;      
+            element.first_time = true;
+         
+            element.floatElement = function(){
+               // It may be closed by an user action.
+                
+               // Target X and Y coordinates.
+               var x, y;
+               
+               var myWidth = 0, myHeight = 0;
+               if( typeof( window.innerWidth ) == 'number' ) {
+                  //Non-IE
+                  myWidth = window.innerWidth;
+                  myHeight = window.innerHeight;
+               } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+                  //IE 6+ in 'standards compliant mode'
+                  myWidth = document.documentElement.clientWidth;
+                  myHeight = document.documentElement.clientHeight;
+               } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+                  //IE 4 compatible
+                  myWidth = document.body.clientWidth;
+                  myHeight = document.body.clientHeight;
+               }
+               
+               
+               x = myWidth - x_displacement;
+               
+               var ns = (navigator.appName.indexOf("Netscape") != -1);               
+               y = ns ? pageYOffset : document.documentElement && document.documentElement.scrollTop ? 
+                  document.documentElement.scrollTop : document.body.scrollTop;               
+               y = y + y_displacement;               
+               
+               // The current y is the current coordinate of the floating element.
+               // This should be at the limit the y target coordinate.
+               this.current_y += (y - this.current_y)/1.25;
+               
+               // Add the pixels constant after the values
+               // and move the element.
+               var px = document.layers ? "" : "px";
+               this.style.left =  x + px;
+               this.style.top =  this.current_y + px;
+                              
+               setTimeout(this.id + "_obj.floatElement()", 100);
+            }
+            
+            element.floatElement();
+            return element;
+          }
+
+         /**
+          * Finds an HTML element by its ID and makes it floatable over the normal content.
+          *
+          * @param x_displacement The difference in pixels to the right side of the window from 
+          *           the left side of the element.
+          * @param y_displacement The difference in pixels to the right side of the window from 
+          *           the top of the element.          
+          */
+         function selectTOCGroupBy(id, isChunked, indexFileLocation, indexFileNamespace, indexFileComponent){
+
+            if (!isChunked) {
+             var selectIds = new Array('toc_group_by_namespace', 'toc_group_by_location', 'toc_group_by_component_type');
+             // Make all the tabs invisible.
+               for (i = 0; i < 3; i++){
+                  var tab = getElementObject(selectIds[i]);
+                  tab.style.display = 'none';
+               }
+               var selTab = getElementObject(id);
+               selTab.style.display = 'block';
+            } else {
+             if (id == 'toc_group_by_namespace') {
+               parent.indexFrame.location = indexFileNamespace;
+             } else  if (id == 'toc_group_by_location') {
+               parent.indexFrame.location = indexFileLocation;
+             } else  if (id == 'toc_group_by_component_type') {
+              parent.indexFrame.location = indexFileComponent;
+             }
+            }
+         }
+          
+
+    --></script></head>
+   <body>
+      <div id="global_controls" class="globalControls" style="position:absolute;right:0;">
+         <table class="rt">
+            <tr>
+               <td class="rt_cornerTopLeft"></td>
+               <td class="rt_lineTop"></td>
+               <td class="rt_cornerTopRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_lineLeft"></td>
+               <td class="rt_content">
+                  <h3>Showing:</h3>
+                  <table>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked"
+                                     onclick="switchStateForAll(this, annotationBoxes);"
+                                     class="control" /></span><span class="globalControlName">Annotations</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked"
+                                     onclick="switchStateForAll(this, diagramBoxes);"
+                                     class="control" /></span><span class="globalControlName">Diagrams</span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked"
+                                     onclick="switchStateForAll(this, facetsBoxes);"
+                                     class="control" /></span><span class="globalControlName">Facets </span></td>
+                     </tr>
+                     <tr>
+                        <td><span><input type="checkbox" value="-" checked="checked"
+                                     onclick="switchStateForAll(this, propertiesBoxes);"
+                                     class="control" /></span><span class="globalControlName">Properties </span></td>
+                     </tr>
+                  </table>
+                  <div align="right"><span><input type="button"
+                               onclick="getElementObject('global_controls').style.display = 'none';"
+                               value="Close" /></span></div>
+               </td>
+               <td class="rt_lineRight"></td>
+            </tr>
+            <tr>
+               <td class="rt_cornerBottomLeft"></td>
+               <td class="rt_lineBottom"></td>
+               <td class="rt_cornerBottomRight"></td>
+            </tr>
+         </table>
+      </div><a id="Calendar.xsd"></a><div class="componentTitle">Included schema <span class="qname">Calendar.xsd</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_Calendar.xsd" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('properties_Calendar.xsd');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_Calendar.xsd" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">attribute form default:
+                                       
+                                    </td>
+                                    <td><b>qualified</b></td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">element form default:
+                                       
+                                    </td>
+                                    <td><b>qualified</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Calendar_xsd.html">Calendar.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="gradingPeriod_gradingPeriod"></a><div class="componentTitle">Element <span class="qname"><b><a href="Calendar_xsd.html#gradingPeriod" target="mainFrame" title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Calendar.xsd')">gradingPeriod</a></b> / gradingPeriod</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_gradingPeriod_gradingPeriod" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_gradingPeriod_gradingPeriod');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_gradingPeriod_gradingPeriod" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">The name of the period for which grades are reported</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_gradingPeriod_gradingPeriod" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_gradingPeriod_gradingPeriod');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_gradingPeriod_gradingPeriod" style="display:block"><img alt="Diagram" border="0" src="img/Calendar_xsd_Element_gradingPeriod_1.png"
+                                   usemap="#Calendar_xsd_Element_gradingPeriod_1" /><map name="Calendar_xsd_Element_gradingPeriod_1"
+                                   id="Calendar_xsd_Element_gradingPeriod_1">
+                                 <area alt="SimpleTypes_xsd.tmp#gradingPeriodType"
+                                       href="SimpleTypes_xsd.html#gradingPeriodType"
+                                       coords="155,0,312,26" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_gradingPeriod_gradingPeriod" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_gradingPeriod_gradingPeriod');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_gradingPeriod_gradingPeriod" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_gradingPeriod_gradingPeriod" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('facets_gradingPeriod_gradingPeriod');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_gradingPeriod_gradingPeriod" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>First Six Weeks</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Second Six Weeks</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Third Six Weeks</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Fourth Six Weeks</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Fifth Six Weeks</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Sixth Six Weeks</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>First Semester</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Second Semester</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>First Summer Session</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Second Summer Session</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Third Summer Session</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Summer Semester</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>First Nine Weeks</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Second Nine Weeks</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Third Nine Weeks</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Fourth Nine Weeks</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>First Trimester</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Second Trimester</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>Third Trimester</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                                 <tr>
+                                    <td class="firstColumn">enumeration</td>
+                                    <td width="30%"><b>End of Year</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Calendar_xsd.html">Calendar.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="gradingPeriod_beginDate"></a><div class="componentTitle">Element <span class="qname"><b><a href="Calendar_xsd.html#gradingPeriod" target="mainFrame" title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Calendar.xsd')">gradingPeriod</a></b> / beginDate</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_gradingPeriod_beginDate" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_gradingPeriod_beginDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_gradingPeriod_beginDate" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Month, day, and year of the first day of the grading period.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_gradingPeriod_beginDate" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_gradingPeriod_beginDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_gradingPeriod_beginDate" style="display:block"><img alt="Diagram" border="0" src="img/Calendar_xsd_Element_beginDate.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_gradingPeriod_beginDate" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_gradingPeriod_beginDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_gradingPeriod_beginDate" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Calendar_xsd.html">Calendar.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="gradingPeriod_endDate"></a><div class="componentTitle">Element <span class="qname"><b><a href="Calendar_xsd.html#gradingPeriod" target="mainFrame" title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Calendar.xsd')">gradingPeriod</a></b> / endDate</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_gradingPeriod_endDate" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_gradingPeriod_endDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_gradingPeriod_endDate" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Month, day, and year of the last day of the grading period.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_gradingPeriod_endDate" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_gradingPeriod_endDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_gradingPeriod_endDate" style="display:block"><img alt="Diagram" border="0" src="img/Calendar_xsd_Element_endDate.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_gradingPeriod_endDate" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_gradingPeriod_endDate');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_gradingPeriod_endDate" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Calendar_xsd.html">Calendar.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="gradingPeriod_totalInstructionalDays"></a><div class="componentTitle">Element <span class="qname"><b><a href="Calendar_xsd.html#gradingPeriod" target="mainFrame" title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Calendar.xsd')">gradingPeriod</a></b> / totalInstructionalDays</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_gradingPeriod_totalInstructionalDays" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_gradingPeriod_totalInstructionalDays');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_gradingPeriod_totalInstructionalDays" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Total days available for educational instruction during the grading period.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_gradingPeriod_totalInstructionalDays" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_gradingPeriod_totalInstructionalDays');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_gradingPeriod_totalInstructionalDays" style="display:block"><img alt="Diagram" border="0"
+                                   src="img/Calendar_xsd_Element_totalInstructionalDays.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_gradingPeriod_totalInstructionalDays" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_gradingPeriod_totalInstructionalDays');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_gradingPeriod_totalInstructionalDays" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Facets</b></div>
+                           <div class="floatRight"><input id="button_facets_gradingPeriod_totalInstructionalDays" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('facets_gradingPeriod_totalInstructionalDays');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="facets_gradingPeriod_totalInstructionalDays" style="display:block">
+                              <table class="facetsTable">
+                                 <tr>
+                                    <td class="firstColumn">minInclusive</td>
+                                    <td width="30%"><b>0</b></td>
+                                    <td>
+                                       <div class="annotation"></div>
+                                    </td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Calendar_xsd.html">Calendar.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="schoolSessionAssociation"></a><div class="componentTitle">Element <span class="qname">schoolSessionAssociation</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_schoolSessionAssociation" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_schoolSessionAssociation');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_schoolSessionAssociation" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">This entity represents the association of a school with all its sessions.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_schoolSessionAssociation" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_schoolSessionAssociation');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_schoolSessionAssociation" style="display:block"><img alt="Diagram" border="0"
+                                   src="img/Calendar_xsd_Element_schoolSessionAssociation.png"
+                                   usemap="#Calendar_xsd_Element_schoolSessionAssociation" /><map name="Calendar_xsd_Element_schoolSessionAssociation"
+                                   id="Calendar_xsd_Element_schoolSessionAssociation">
+                                 <area alt="Calendar_xsd.tmp#schoolSessionAssociation_gradingPeriod"
+                                       href="Calendar_xsd.html#schoolSessionAssociation_gradingPeriod"
+                                       coords="290,2,397,26" />
+                                 <area alt="Calendar_xsd.tmp#schoolSessionAssociation_schoolId"
+                                       href="Calendar_xsd.html#schoolSessionAssociation_schoolId"
+                                       coords="290,66,367,90" />
+                                 <area alt="Calendar_xsd.tmp#schoolSessionAssociation_sessionId"
+                                       href="Calendar_xsd.html#schoolSessionAssociation_sessionId"
+                                       coords="290,143,372,167" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_schoolSessionAssociation" type="image" src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_schoolSessionAssociation');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_schoolSessionAssociation" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Calendar_xsd.html">Calendar.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="schoolSessionAssociation_gradingPeriod"></a><div class="componentTitle">Element <span class="qname"><b><a href="Calendar_xsd.html#schoolSessionAssociation" target="mainFrame"
+                  title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Calendar.xsd')">schoolSessionAssociation</a></b> / gradingPeriod</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_schoolSessionAssociation_gradingPeriod" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_schoolSessionAssociation_gradingPeriod');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_schoolSessionAssociation_gradingPeriod" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Grading period dates and durations for the session.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_schoolSessionAssociation_gradingPeriod" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_schoolSessionAssociation_gradingPeriod');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_schoolSessionAssociation_gradingPeriod" style="display:block"><img alt="Diagram" border="0" src="img/Calendar_xsd_Element_gradingPeriod.png"
+                                   usemap="#Calendar_xsd_Element_gradingPeriod" /><map name="Calendar_xsd_Element_gradingPeriod"
+                                   id="Calendar_xsd_Element_gradingPeriod">
+                                 <area alt="ComplexTypes_xsd.tmp#complexObjectType"
+                                       href="ComplexTypes_xsd.html#complexObjectType"
+                                       coords="172,43,411,65" />
+                                 <area alt="Calendar_xsd.tmp#gradingPeriod_gradingPeriod"
+                                       href="Calendar_xsd.html#gradingPeriod_gradingPeriod"
+                                       coords="240,80,347,104" />
+                                 <area alt="Calendar_xsd.tmp#gradingPeriod_beginDate"
+                                       href="Calendar_xsd.html#gradingPeriod_beginDate"
+                                       coords="240,144,325,168" />
+                                 <area alt="Calendar_xsd.tmp#gradingPeriod_endDate"
+                                       href="Calendar_xsd.html#gradingPeriod_endDate"
+                                       coords="240,221,315,245" />
+                                 <area alt="Calendar_xsd.tmp#gradingPeriod_totalInstructionalDays"
+                                       href="Calendar_xsd.html#gradingPeriod_totalInstructionalDays"
+                                       coords="240,298,389,322" />
+                                 <area alt="Calendar_xsd.tmp#gradingPeriod" href="Calendar_xsd.html#gradingPeriod"
+                                       coords="158,3,285,25" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type hierarchy</b></td>
+                        <td>
+                           <ul>
+                              <li><b><a href="ComplexTypes_xsd.html#complexObjectType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">complexObjectType</a></b><ul>
+                                    <li><b><a href="Calendar_xsd.html#gradingPeriod" target="mainFrame" title="No namespace"
+                                             onclick="updatePageTitle('Schema documentation for Calendar.xsd')">gradingPeriod</a></b></li>
+                                 </ul>
+                              </li>
+                           </ul>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_schoolSessionAssociation_gradingPeriod" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_schoolSessionAssociation_gradingPeriod');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_schoolSessionAssociation_gradingPeriod" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>complex</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Calendar_xsd.html">Calendar.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="schoolSessionAssociation_schoolId"></a><div class="componentTitle">Element <span class="qname"><b><a href="Calendar_xsd.html#schoolSessionAssociation" target="mainFrame"
+                  title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Calendar.xsd')">schoolSessionAssociation</a></b> / schoolId</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_schoolSessionAssociation_schoolId" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_schoolSessionAssociation_schoolId');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_schoolSessionAssociation_schoolId" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Reference to the school associated with the session.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_schoolSessionAssociation_schoolId" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_schoolSessionAssociation_schoolId');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_schoolSessionAssociation_schoolId" style="display:block"><img alt="Diagram" border="0" src="img/Calendar_xsd_Element_schoolId.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_schoolSessionAssociation_schoolId" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_schoolSessionAssociation_schoolId');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_schoolSessionAssociation_schoolId" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Calendar_xsd.html">Calendar.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="schoolSessionAssociation_sessionId"></a><div class="componentTitle">Element <span class="qname"><b><a href="Calendar_xsd.html#schoolSessionAssociation" target="mainFrame"
+                  title="No namespace"
+                  onclick="updatePageTitle('Schema documentation for Calendar.xsd')">schoolSessionAssociation</a></b> / sessionId</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_schoolSessionAssociation_sessionId" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('annotations_schoolSessionAssociation_sessionId');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_schoolSessionAssociation_sessionId" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">Reference to the session offered at the school.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_schoolSessionAssociation_sessionId" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('diagram_schoolSessionAssociation_sessionId');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_schoolSessionAssociation_sessionId" style="display:block"><img alt="Diagram" border="0" src="img/Calendar_xsd_Element_sessionId.png" /></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Properties</b></div>
+                           <div class="floatRight"><input id="button_properties_schoolSessionAssociation_sessionId" type="image"
+                                     src="img/btM.gif"
+                                     value="-"
+                                     onclick="switchState('properties_schoolSessionAssociation_sessionId');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="properties_schoolSessionAssociation_sessionId" style="display:block">
+                              <table class="propertiesTable">
+                                 <tr>
+                                    <td class="firstColumn">content:
+                                       
+                                    </td>
+                                    <td><b>simple</b></td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Calendar_xsd.html">Calendar.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table><a id="gradingPeriod"></a><div class="componentTitle">Complex Type <span class="qname">gradingPeriod</span></div>
+      <table class="rt">
+         <tr>
+            <td class="rt_cornerTopLeft"></td>
+            <td class="rt_lineTop"></td>
+            <td class="rt_cornerTopRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_lineLeft"></td>
+            <td class="rt_content">
+               <table class="component">
+                  <tbody>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Annotations</b></div>
+                           <div class="floatRight"><input id="button_annotations_gradingPeriod" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('annotations_gradingPeriod');"
+                                     class="control" /></div>
+                        </td>
+                        <td>
+                           <div id="annotations_gradingPeriod" style="display:block">
+                              <div class="annotation">
+                                 <table style="table-layout:fixed;white-space:pre-wrap;white-space:-moz-pre-wrap;white-space:-pre-wrap;white-space: -o-pre-wrap;word-wrap: break-word;_white-space:pre;"
+                                        class="preWrapContainer">
+                                    <tr>
+                                       <td width="100%"><pre><span class="tT">This entity represents the time span for which grades are reported.</span></pre></td>
+                                    </tr>
+                                 </table>
+                              </div>
+                           </div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn">
+                           <div class="floatLeft"><b>Diagram</b></div>
+                           <div class="floatRight"><input id="button_diagram_gradingPeriod" type="image" src="img/btM.gif" value="-"
+                                     onclick="switchState('diagram_gradingPeriod');"
+                                     class="control" /></div>
+                        </td>
+                        <td class="diagram">
+                           <div id="diagram_gradingPeriod" style="display:block"><img alt="Diagram" border="0" src="img/Calendar_xsd_Complex_Type_gradingPeriod.png"
+                                   usemap="#Calendar_xsd_Complex_Type_gradingPeriod" /><map name="Calendar_xsd_Complex_Type_gradingPeriod"
+                                   id="Calendar_xsd_Complex_Type_gradingPeriod">
+                                 <area alt="ComplexTypes_xsd.tmp#complexObjectType"
+                                       href="ComplexTypes_xsd.html#complexObjectType"
+                                       coords="182,3,421,25" />
+                                 <area alt="Calendar_xsd.tmp#gradingPeriod_gradingPeriod"
+                                       href="Calendar_xsd.html#gradingPeriod_gradingPeriod"
+                                       coords="250,40,357,64" />
+                                 <area alt="Calendar_xsd.tmp#gradingPeriod_beginDate"
+                                       href="Calendar_xsd.html#gradingPeriod_beginDate"
+                                       coords="250,104,335,128" />
+                                 <area alt="Calendar_xsd.tmp#gradingPeriod_endDate"
+                                       href="Calendar_xsd.html#gradingPeriod_endDate"
+                                       coords="250,181,325,205" />
+                                 <area alt="Calendar_xsd.tmp#gradingPeriod_totalInstructionalDays"
+                                       href="Calendar_xsd.html#gradingPeriod_totalInstructionalDays"
+                                       coords="250,258,399,282" /></map></div>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Type hierarchy</b></td>
+                        <td>
+                           <ul>
+                              <li><b><a href="ComplexTypes_xsd.html#complexObjectType" target="mainFrame"
+                                       title="No namespace"
+                                       onclick="updatePageTitle('Schema documentation for ComplexTypes.xsd')">complexObjectType</a></b><ul>
+                                    <li><b><a href="Calendar_xsd.html#gradingPeriod" target="mainFrame" title="No namespace"
+                                             onclick="updatePageTitle('Schema documentation for Calendar.xsd')">gradingPeriod</a></b></li>
+                                 </ul>
+                              </li>
+                           </ul>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="firstColumn"><b>Schema</b></td>
+                        <td><a href="Calendar_xsd.html">Calendar.xsd</a></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </td>
+            <td class="rt_lineRight"></td>
+         </tr>
+         <tr>
+            <td class="rt_cornerBottomLeft"></td>
+            <td class="rt_lineBottom"></td>
+            <td class="rt_cornerBottomRight"></td>
+         </tr>
+      </table>
+      <div class="footer">
+         <hr />
+         <div align="center">XML Schema documentation generated by <a href="http://www.oxygenxml.com" target="_parent"><span class="oXygenLogo"><span class="redX">&lt;</span>o<span class="redX">X</span>ygen<span class="redX">/&gt;</span></span></a><sup>®</sup> XML Editor.
+         </div>
+      </div><script type="text/javascript">
+         <!--                     
+                     // The namespace is the selected option in the TOC combo.
+                    
+                     // Floats the toolbar.
+                     var globalControls = getElementObject("global_controls"); 
+                     
+                     if(globalControls != null){
+	                     var browser=navigator.appName;
+						 var version = parseFloat(navigator.appVersion.split('MSIE')[1]);
+						 
+						 var IE6 = false;
+						 if ((browser=="Microsoft Internet Explorer") && (version < 7)){
+						 	IE6 = true;
+						 }
+	
+	                     //alert (IE6 + " |V| " + version);
+	                     
+	                     if(IE6){
+	                     	// On IE 6 the 'fixed' property is not supported. We must use javascript. 
+	                         globalControls.style.position='absolute';                         
+	                         // The global controls will do not exist in the TOC frame, when chunking.
+	                         findAndFloat("global_controls", 225, 30);    
+	                     } else {
+	                      	  globalControls.style.position='fixed';                     	
+	                     }
+	                     
+	                     globalControls.style.right='0';                       
+                     }
+                --></script></body>
+</html>

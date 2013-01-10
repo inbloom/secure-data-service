@@ -1,0 +1,12 @@
+#messageContainer {
+	background-color: #faefc4;
+	width: 600px;
+	border-style: solid;
+	border-color: #f1ca7d;
+	border-width: 1px;
+	display: none;
+}
+
+.errorNotification {
+	font-weight: bold;
+}

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+
+  <!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame 
+       Remove this if you use the .htaccess -->
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+  <title>new_file</title>
+  <meta name="description" content="" />
+  <meta name="author" content="slee" />
+
+  <meta name="viewport" content="width=device-width; initial-scale=1.0" />
+
+  <!-- Replace favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
+  <link rel="shortcut icon" href="/favicon.ico" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+</head>
+
+<body>
+  <div>
+    <header>
+      <h1>Steps of Configuring Windows 7 Task Scheduler for Ingestion Upload Tool</h1>
+    </header>
+    <nav>
+      <p><h2>Step 1: Open Windows 7 Control Panel, and click on "System and Security" </h2></p>
+      <img src="img/ContolPanel.jpg" /> 
+      
+      <p><h2>Step 2: Click on "Schedule tasks" under the "Administrative Tools" group</h2></p>
+      <img src="img/SystemSecurity.jpg" /> 
+      
+      <p><h2>Step 3: Click on "Create Basic Task..." under the  "Task Scheduler Library" of the right "Actions" panel</h2></p>
+      <img src="img/TaskScheduler.jpg" /> 
+      
+      <p><h2>Step 4: Type a name for the task schedule in the "Name" field, for example, IngestionBatchSchedule. Then Click on the "Next>" button</h2></p>
+      <img src="img/CreateBasicTask.jpg" /> 
+
+      <p><h2>Step 5: Select a frequency trigger for the task schedule. Then Click on the "Next>" button</h2></p>
+      <img src="img/TaskTrigger.jpg" /> 
+
+      <p><h2>Step 6: Specify the starting date and time for the task schedule. Then Click on the "Next>" button</h2></p>
+      <img src="img/TaskTime.jpg" /> 
+
+      <p><h2>Step 7: Select "Start a progrm" as the Action for the task schedule. Then Click on the "Next>" button</h2></p>
+      <img src="img/TaskAction.jpg" /> 
+
+      <p><h2>Step 8: Click on the "Browse..." button</h2></p>
+      <img src="img/StartProgram.jpg" /> 
+
+      <p><h2>Step 9: Browse to the directory where the "ingestion-upload-tool.exe" file is located, and select the file. Then Click on the "Open" button</h2></p>
+      <img src="img/ProgramFile.jpg" /> 
+      
+      <p><h2>Step 10: In the "Add arguments (optional):" field, type in the necessary arguments to launch the "ingestion-upload-tool.exe" application. Then Click on the "Next>" button</h2></p>
+      <img src="img/ProgramParam.jpg" /> 
+      
+      <p><h2>Step 11: Click on the "Finish" button</h2></p>
+      <img src="img/Finish.jpg" /> 
+
+    </nav>
+
+    <div>
+      <h1>Appendix: program arguments for the "ingestion-upload-tool.exe" application:</h1>
+      <p><h2>-u username -pass password -d localDirectory -s sftpServer -port port</h2></p>
+      
+    </div>
+
+    <footer>
+     <p>&copy; Copyright 2012 Shared Learning Collaborative, LLC</p>
+    </footer>
+  </div>
+</body>
+</html>

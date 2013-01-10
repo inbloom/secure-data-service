@@ -1,0 +1,40 @@
+{
+    "keyFields" : ["metaData.externalId"],
+
+    "subEntities" : { "body.objectiveAssessments?" : "objectiveAssessment"},
+
+    "references" : [{
+        "fieldPath" : "body.LearningObjectiveReference",
+        "deprecated" : true,
+        "ref" : {
+            "entityType" : "learningObjective",
+            "isRefList" : true,
+            "refObjectPath" : "body.LearningObjectiveReference",
+            "optional" : true,
+            "choiceOfFields" :
+                [
+                    [{
+                        "path" : "body.objective",
+                        "values" :
+                            [{
+                                "valueSource" : "body.LearningObjectiveReference.LearningObjectiveIdentity.Objective"
+                            }]
+                    },
+                    {
+                        "path" : "body.academicSubject",
+                        "values" :
+                            [{
+                                "valueSource" : "body.LearningObjectiveReference.LearningObjectiveIdentity.AcademicSubject"
+                            }]
+                    },
+                    {
+                        "path" : "body.objectiveGradeLevel",
+                        "values" :
+                            [{
+                                "valueSource" : "body.LearningObjectiveReference.LearningObjectiveIdentity.ObjectiveGradeLevel"
+                            }]
+                    }]
+                ]
+          }
+    }]
+}

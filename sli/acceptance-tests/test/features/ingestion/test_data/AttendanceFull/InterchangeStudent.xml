@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<InterchangeStudentParent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentParent.xsd">
+  <Student>
+    <StudentUniqueStateId>530425896</StudentUniqueStateId>
+    <Name>
+      <FirstName>Rhonda</FirstName>
+      <MiddleName>Shannon</MiddleName>
+      <LastSurname>Delgado</LastSurname>
+      <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
+    </Name>
+    <Sex>Female</Sex>
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race />
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Section504Disabilities />
+    <BirthData>
+      <BirthDate>2006-07-02</BirthDate>
+    </BirthData>
+    <Address AddressType="Home">
+      <StreetNumberName>3655 Brighton 2nd Lane</StreetNumberName>
+      <ApartmentRoomSuiteNumber>APT 4221</ApartmentRoomSuiteNumber>
+      <BuildingSiteNumber>351</BuildingSiteNumber>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>60908-1028</PostalCode>
+      <NameOfCounty>Cook</NameOfCounty>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <Address AddressType="Work">
+      <StreetNumberName>9857 Kingsborough 2nd Walk</StreetNumberName>
+      <City>Seattle</City>
+      <StateAbbreviation>WA</StateAbbreviation>
+      <PostalCode>98115</PostalCode>
+      <CountryCode>US</CountryCode>
+    </Address>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>Rhonda_Delgado@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>R.Delgado@gmail.com</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Home/Personal">
+      <EmailAddress>Rhonda.Delgado@gmail.com</EmailAddress>
+    </ElectronicMail>
+  </Student>
+</InterchangeStudentParent>

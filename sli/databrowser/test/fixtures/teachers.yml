@@ -1,0 +1,115 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+# This model initially had no columns defined.  If you add columns to the
+# model remove the '{}' from the fixture names and add the columns immediately
+# below each fixture, per the syntax in the comments below
+#
+one:
+    id: 11111111-1111-1111-1111-111111111111
+    entityType: teacher
+    name:
+        personalTitlePrefix: Miss
+        firstName: Linda
+        middleName: null
+        lastSurname: Kim
+        generationCodeSuffix: null
+        maidenName: null
+    
+    otherName:
+        otherNameentityType: ALIAS
+        personalTitlePrefix: null
+        firstName: null
+        middleName: null
+        lastSurname: null
+        generationCodeSuffix: null
+    
+    sex: Female
+    birthDate: "1954-12-13"
+    address:
+        addressentityType: Physical
+        streetNumberName: null
+        apartmentRoomSuiteNumber: null
+        buildingSiteNumber: null
+        city: Durham
+        stateAbbreviation: NC
+        postalCode: null
+        nameOfCounty: null
+    
+    telephone:
+        telephoneNumberentityType: HOME
+        telephoneNumber: "555-555-5555"
+        primaryTelephoneNumberIndicator: true
+    
+    electronicMail:
+        emailAddressentityType: "HOME_PERSONAL"
+        emailAddress: "teacher@gmail.com"
+    
+    hispanicLatinoEthnicity: false
+    highestLevelOfEducationCompleted: "Bachelors"
+    yearsOfPriorProfessionalExperience: 26
+    yearsOfPriorTeachingExperience: 22
+    credentials:
+        credentialentityType: LICENSURE
+        field: "Mathematics"
+        level: ALL_LEVEL_GRADE_LEVEL_PK_12
+        teachingCredentialentityType: Professional
+        credentialIssuanceDate: "1998-01-01"
+    
+    staffUniqueStateId: 1
+
+# column:value
+#
+two:
+    id: 11111111-1111-1111-1111-111111111112
+    entityType: teacher
+    name:
+        personalTitlePrefix: MRS
+        firstName: Marcy
+        middleName: null
+        lastSurname: Walberg
+        generationCodeSuffix: null
+        maidenName: null
+    
+    otherName:
+        otherNameentityType: ALIAS
+        personalTitlePrefix: null
+        firstName: null
+        middleName: null
+        lastSurname: null
+        generationCodeSuffix: null
+    
+    sex: Female
+    birthDate: "1964-12-24"
+    address:
+        addressentityType: Physical
+        streetNumberName: null
+        apartmentRoomSuiteNumber: null
+        buildingSiteNumber: null
+        city: Raleigh
+        stateAbbreviation: NC
+        postalCode: null
+        nameOfCounty: null
+    
+    telephone:
+        telephoneNumberentityType: HOME
+        telephoneNumber: "555-555-5556"
+        primaryTelephoneNumberIndicator: true
+    
+    electronicMail:
+        emailAddressentityType: "HOME_PERSONAL"
+        emailAddress: "teacher2@gmail.com"
+    
+    hispanicLatinoEthnicity: false
+    highestLevelOfEducationCompleted: "Bachelors"
+    yearsOfPriorProfessionalExperience: 26
+    yearsOfPriorTeachingExperience: 22
+    credentials:
+        credentialentityType: LICENSURE
+        field: "Mathematics"
+        level: ALL_LEVEL_GRADE_LEVEL_PK_12
+        teachingCredentialentityType: Professional
+        credentialIssuanceDate: "1998-01-01"
+    
+    staffUniqueStateId: 1
+
+#  column:value

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<setup>
+	<import domains = "person" />
+	<import platforms = "db"/>
+
+	<comment>set default values</comment>
+	<setting name="database" default="sql_server" />
+
+	<comment>import database specific properties</comment>
+	<include uri="edfi.sql_server.properties" /> 
+
+	<comment>echo the settings to the console</comment>
+	<echo>{ftl: Database URL: ${dbUrl}}</echo>
+	<echo>{ftl: JDBC URL: ${dbUrl}}</echo>
+	<echo>{ftl: Username: ${dbUser}}</echo>
+	
+	<comment>define the database that will be referred by the id 'db' subsequently</comment>
+	<database id="db" url="{dbUrl}" driver="{dbDriver}" catalog="{dbCatalog}" schema="{dbSchema}"
+        	user="{dbUser}" password="{dbPassword}" />
+
+	<comment>Clear teacher records from Stuff table</comment>
+	<execute target="db" onError="warn">
+	DELETE FROM StaffAddress 
+	</execute>
+
+	<comment>create teacher staff addresses</comment>
+	<generate type="StaffAddress" count="100" consumer="db">
+		
+		<attribute name="StaffUSI" source="db" selector="SELECT StaffUSI FROM Staff WHERE TeacherUSI IS NOT NULL" cyclic="false"/>
+		<attribute name="AddressTypeId" values="'1','2'" />
+		<attribute name="StreetNumberName" values="'Washington Ave.'" />
+<!--		<attribute name="ApartmentRoomSuiteNumber" /> -->
+<!--		<attribute name="BuildingSiteNumber" /> -->
+		<attribute name="City" values="'New York'" />
+		<attribute name="StateAbbreviationTypeId" values="'1'" />
+		<attribute name="PostalCode" values="'12345'" />
+<!--		<attribute name="NameOfCounty" /> -->
+<!--		<attribute name="CountyFIPSCode" /> -->
+<!--		<attribute name="CountryCodeTypeId" /> -->
+<!--		<attribute name="Latitude" /> -->
+<!--		<attribute name="Longitude" /> -->
+<!--		<attribute name="BeginDate" /> -->
+<!--		<attribute name="EndDate" /> -->
+	</generate>
+
+</setup>
+

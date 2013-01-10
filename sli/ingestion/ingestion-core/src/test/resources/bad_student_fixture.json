@@ -1,0 +1,3 @@
+{"_id":{"$binary":"hkr6knM78WFIEVGcmYSrqg==", "$type" : "03" },"type":"student","body":{"studentUniqueStateId":951251506,"name":{"firstName":"Alden","middleName":"Gannon","lastSurename":"Horne"},"sex":"Male","birthData":{"birthDate":"2005-02-09"}}}
+{"_id":{"$binary":"jERpyjuTnCgh0rd5WCz9mg==", "$type" : "03" },"type":"student","body":{"studentUniqueStateId":956938770,"name":{"firstName":"Donna","middleName":"","lastSurname":"Crosby"},"sex":"Neither","birthData":{"birthDate":"1997-02-09"}}}
+{"_id":{"$binary":"gUWAH6emhnpQtrkok0o3sA==", "$type" : "03" },"type":"student","body":{"studentUniqueStateId":775598719,"name":{"firstName":5,"middleName":"","lastSurname":"Prince"},"sex":"Male","birthData":{"birthDate":"2000-01-01"}}}

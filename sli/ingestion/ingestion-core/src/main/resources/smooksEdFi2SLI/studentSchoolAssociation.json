@@ -1,0 +1,88 @@
+{
+    "keyFields" : ["body.studentId", "body.schoolId", "body.entryDate", "body.entryGradeLevel"],
+    "references" :
+    [{
+        "fieldPath" : "body.schoolId",
+        "deprecated" : true,
+        "ref" :
+        {
+
+            "entityType" : "educationOrganization",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.stateOrganizationId",
+                        "values" :
+                        [
+                            {"valueSource" : "body.SchoolReference.EducationalOrgIdentity.StateOrganizationId"}
+                        ]
+                    }
+                ]
+            ]
+        }
+    },
+    {
+        "fieldPath" : "body.StudentReference",
+        "deprecated" : true,
+        "ref" :
+        {
+            "entityType" : "student",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.studentUniqueStateId",
+                        "values" :
+                        [{
+                            "valueSource" : "body.StudentReference.StudentIdentity.StudentUniqueStateId"
+                        }]
+                    }
+                ]
+            ]
+        }
+    },
+    {
+        "fieldPath" : "body.GraduationPlanReference",
+        "deprecated" : true,
+        "ref" :
+        {
+            "entityType" : "graduationPlan",
+            "optional" : true,
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.graduationPlanType",
+                        "values" :
+                        [{
+                            "valueSource" : "body.GraduationPlanReference.GraduationPlanIdentity.GraduationPlanType"
+                        }]
+                    },
+                    {
+                        "path" : "body.educationOrganizationId",
+                        "values" :
+                        [{
+                            "ref" :
+                            {
+                                "entityType" : "school",
+                                "choiceOfFields" :
+                                [[
+                                    {
+                                        "path" : "body.stateOrganizationId",
+                                        "values" :
+                                        [
+                                            {
+                                                "valueSource" : "body.GraduationPlanReference.GraduationPlanIdentity.EducationalOrgReference.EducationalOrgIdentity.StateOrganizationId"
+                                            }
+                                        ]
+                                    }
+                                ]]
+                            }
+                        }]
+                    }
+                ]
+            ]
+        }
+    }]
+}

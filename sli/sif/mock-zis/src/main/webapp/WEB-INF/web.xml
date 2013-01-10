@@ -1,0 +1,40 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+	<display-name>MockZis Web Application</display-name>
+
+	<listener>
+		<listener-class>
+			org.springframework.web.context.ContextLoaderListener
+		</listener-class>
+	</listener>
+
+	<servlet>
+		<servlet-name>MockZisRequestHandler</servlet-name>
+		<display-name>Mock ZIS</display-name>
+		<servlet-class>
+			org.springframework.web.context.support.HttpRequestHandlerServlet
+		</servlet-class>
+	</servlet>
+
+	<servlet>
+		<servlet-name>TriggerRequestHandler</servlet-name>
+		<display-name>Mock ZIS Trigger</display-name>
+		<servlet-class>
+			org.springframework.web.context.support.HttpRequestHandlerServlet
+		</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>MockZisRequestHandler</servlet-name>
+		<url-pattern>/zis</url-pattern>
+	</servlet-mapping>
+
+	<servlet-mapping>
+		<servlet-name>TriggerRequestHandler</servlet-name>
+		<url-pattern>/trigger</url-pattern>
+	</servlet-mapping>
+
+</web-app>

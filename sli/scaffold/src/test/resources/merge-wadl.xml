@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<merges>
+
+    <!-- Add a Node  -->
+    <merge type="node" action="add"
+           xpath="//application/resources/resource[@path='{type}']/method/request">
+        <doc title="wds"><![CDATA[I have a belly button!]]></doc>
+    </merge>
+
+    <!-- Delete a Node -->
+    <merge type="node" action="delete"
+           xpath="//application/resources/resource[@path='{type}']/method/response/representation[@mediaType='application/vnd.slc+xml']"/>
+    <!--<merge type="node" action="delete" xpath="//fakens:application"/>-->
+
+    <!-- Set Content of a Node -->
+    <merge type="node" action="set" xpath="//application/resources/resource[@path='{type}']/method/response/doc">
+        Create an Entity.
+    </merge>
+
+    <!-- Add an Attribute -->
+    <merge type="attribute" action="add"
+           xpath="//application/resources/resource[@path='{type}']/method/response">
+        <attribute name="status" value="200"/>
+    </merge>
+
+    <!-- Delete an Attribute -->
+    <merge type="attribute" action="delete"
+           xpath="//application/resources/resource[@path='{type}']/method/response">
+        <attribute name="bad" value="good"/>
+    </merge>
+
+    <!-- Set an Attribute -->
+    <merge type="attribute" action="set" xpath="//application/doc">
+        <attribute name="title" value="SLI ReSTful API Documentation"/>
+    </merge>
+
+</merges>

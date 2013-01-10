@@ -1,0 +1,13 @@
+{
+    id : "subjectsCourses",
+    type : "GRID",
+    name : "Subjects and Courses",
+    data : {
+        cacheKey: 'treeView',
+        params: { assessmentFamily: "SAT Writing"}
+    },
+    root: "root",
+    items : [
+        {id : "subject", name : "Subject", type : "FIELD", field : "name", width : 300 }
+    ]
+}

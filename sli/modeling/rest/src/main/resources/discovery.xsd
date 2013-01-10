@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.slc.org/datastore/discovery" xmlns:tns="http://www.slc.org/datastore/discovery"
+	elementFormDefault="qualified">
+
+	<xs:element name="discovery" type="tns:Discovery" />
+
+	<xs:complexType name="Discovery">
+		<xs:sequence>
+			<xs:element name="id" type="xs:string" />
+			<xs:element name="name" type="tns:Name" />
+			<xs:element name="version" type="tns:Version" />
+			<xs:element name="title" type="tns:Title" />
+			<xs:element name="description" type="tns:Description" />
+			<xs:element name="icons" type="tns:Icons" />
+			<xs:element name="documentationLink" type="tns:URL">
+				<xs:annotation>
+					<xs:documentation>A link to the human readable documentation for
+						the API.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="labels" type="tns:Labels">
+				<xs:annotation>
+					<xs:documentation></xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="protocol" type="tns:Protocol">
+				<xs:annotation>
+					<xs:documentation>The protocol described by this document.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="basePath" type="xs:string" />
+			<xs:element name="parameters" type="tns:Parameters">
+				<xs:annotation>
+					<xs:documentation>The common parameters that apply across all APIs.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Labels">
+		<xs:sequence>
+			<xs:element name="label" type="tns:Status">
+				<xs:annotation>
+					<xs:documentation>Label for the status of this API.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Icons">
+		<xs:sequence>
+			<xs:element name="x16" type="tns:URL">
+				<xs:annotation>
+					<xs:documentation>The URL of the 16x16 icon.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="x32" type="tns:URL">
+				<xs:annotation>
+					<xs:documentation>The URL of the 32x32 icon.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Name">
+		<xs:annotation>
+			<xs:documentation>The name of the API.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:complexType name="Parameters">
+		<xs:sequence>
+			<xs:element name="parameter" type="tns:Parameter"
+				minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>The URL of the 16x16 icon.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Parameter">
+		<xs:sequence>
+			<xs:element name="name" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The name of the parameter.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="type" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The type of the parameter.</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="description" type="xs:string">
+				<xs:annotation>
+					<xs:documentation>The description of the parameter.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="location" type="tns:Location">
+				<xs:annotation>
+					<xs:documentation>The description of the parameter.
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="Version">
+		<xs:annotation>
+			<xs:documentation>The version of the API.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Title">
+		<xs:annotation>
+			<xs:documentation>The title of the API.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Description">
+		<xs:annotation>
+			<xs:documentation>The description of the API.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="URL">
+		<xs:annotation>
+			<xs:documentation>Uniform Resource Locator.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:minLength value="1" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Status">
+		<xs:annotation>
+			<xs:documentation>.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="deprecated" />
+			<xs:enumeration value="active" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Location">
+		<xs:annotation>
+			<xs:documentation>.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="path" />
+			<xs:enumeration value="query" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="Protocol">
+		<xs:annotation>
+			<xs:documentation>.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:token">
+			<xs:enumeration value="rest" />
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

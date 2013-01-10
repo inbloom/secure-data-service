@@ -1,0 +1,157 @@
+<?xml version="1.0" ?>
+<InterchangeStudentGrade xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentGrade.xsd">
+    <!-- academic records -->
+    <StudentAcademicRecord>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>91919001</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>Fall 2010 Daybreak Central High</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+    </StudentAcademicRecord>
+    <!-- course transcripts -->
+    <!-- Happy path A: resolving to 1 course: -->
+    <CourseTranscript>
+        <CourseAttemptResult>Pass</CourseAttemptResult>
+        <CreditsEarned>
+            <Credit>1</Credit>
+        </CreditsEarned>
+        <CourseReference>
+            <CourseIdentity>
+                <CourseCode IdentificationSystem="CSSC course code">
+                    <ID>Algebra-10</ID>
+                </CourseCode>
+            </CourseIdentity>
+        </CourseReference>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <StudentAcademicRecordReference/>
+    </CourseTranscript>
+    <!-- Happy path B: resolving to 1 course, using multiple fields: -->
+    <CourseTranscript>
+        <CourseAttemptResult>Pass</CourseAttemptResult>
+        <CreditsEarned>
+            <Credit>2</Credit>
+        </CreditsEarned>
+        <CourseReference>
+            <CourseIdentity>
+                <CourseCode AssigningOrganizationCode="IL-DAYBREAK" IdentificationSystem="LEA course code">
+                    <ID>Interm Algebra</ID>
+                </CourseCode>
+                <CourseCode AssigningOrganizationCode="Daybreak Central High" IdentificationSystem="School course code">
+                    <ID>Math 102</ID>
+                </CourseCode>
+            </CourseIdentity>
+        </CourseReference>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <StudentAcademicRecordReference/>
+    </CourseTranscript>
+    <!-- Happy path C: resolving to 1 course, using multiple fields, one of which doesn't match: -->
+    <CourseTranscript>
+        <CourseAttemptResult>Pass</CourseAttemptResult>
+        <CreditsEarned>
+            <Credit>9</Credit>
+        </CreditsEarned>
+        <CourseReference>
+            <CourseIdentity>
+                <CourseCode IdentificationSystem="CSSC course code">
+                    <ID>Algebra-60</ID>
+                </CourseCode>
+                <CourseCode IdentificationSystem="CSSC course code">
+                    <ID>ZaphodBeeblebrox</ID>
+                </CourseCode>
+            </CourseIdentity>
+        </CourseReference>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <StudentAcademicRecordReference/>
+    </CourseTranscript>
+    <!-- Sad path A: resolving to 0 course -->
+    <CourseTranscript>
+        <CourseAttemptResult>Pass</CourseAttemptResult>
+        <CreditsEarned>
+            <Credit>3</Credit>
+        </CreditsEarned>
+        <CourseReference>
+            <CourseIdentity>
+                <CourseCode IdentificationSystem="CSSC course code">
+                    <ID>BAD ID</ID>
+                </CourseCode>
+            </CourseIdentity>
+        </CourseReference>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <StudentAcademicRecordReference/>
+    </CourseTranscript>
+    <!-- Sad path B: resolving to 0 course, multiple fields, mangled field values -->
+    <CourseTranscript>
+        <CourseAttemptResult>Pass</CourseAttemptResult>
+        <CreditsEarned>
+            <Credit>4</Credit>
+        </CreditsEarned>
+        <CourseReference>
+            <CourseIdentity>
+                <CourseCode AssigningOrganizationCode="Daybreak Central High" IdentificationSystem="LEA course code">
+                    <ID>Adv Algebra</ID>
+                </CourseCode>
+                <CourseCode AssigningOrganizationCode="IL-DAYBREAK" IdentificationSystem="School course code">
+                    <ID>Math 103</ID>
+                </CourseCode>
+            </CourseIdentity>
+        </CourseReference>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <StudentAcademicRecordReference/>
+    </CourseTranscript>
+    <!-- Sad path C: resolving to 3 courses, multiple fields -->
+    <CourseTranscript>
+        <CourseAttemptResult>Pass</CourseAttemptResult>
+        <CreditsEarned>
+            <Credit>5</Credit>
+        </CreditsEarned>
+        <CourseReference>
+            <CourseIdentity>
+                <CourseCode AssigningOrganizationCode="Daybreak Central High" IdentificationSystem="CSSC course code">
+                    <ID>Algebra-50</ID>
+                </CourseCode>
+                <CourseCode AssigningOrganizationCode="Daybreak Central High" IdentificationSystem="School course code">
+                    <ID>Math 201</ID>
+                </CourseCode>
+                <CourseCode AssigningOrganizationCode="Daybreak Central High" IdentificationSystem="School course code">
+                    <ID>Math 103</ID>
+                </CourseCode>
+            </CourseIdentity>
+        </CourseReference>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <StudentAcademicRecordReference/>
+    </CourseTranscript>
+</InterchangeStudentGrade>

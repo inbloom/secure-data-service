@@ -1,0 +1,84 @@
+{
+    "keyFields" : ["body.sessionName", "body.schoolYear", "body.term", "body.schoolId"],
+    "references" :
+    [
+        {
+            "fieldPath" : "body.schoolId",
+            "deprecated" : true,
+            "ref" :
+            {
+                "entityType" : "educationOrganization",
+                "choiceOfFields" :
+                [
+                    [
+                        {
+                            "path" : "body.stateOrganizationId",
+                            "values" :
+                            [{
+                                "valueSource" : "body.schoolId"
+                            }]
+                        }
+                    ]
+                ]
+            }
+        },
+        {
+           "fieldPath" : "body.GradingPeriodReference",
+           "deprecated" : true,
+            "ref" :
+            {
+                "entityType" : "gradingPeriod",
+                "isRefList" : true,
+                "refObjectPath" : "body.GradingPeriodReference",
+                "choiceOfFields" :
+                [
+                    [
+                        {
+                            "path" : "body.gradingPeriodIdentity.gradingPeriod",
+                            "values" :
+                            [{
+                                "valueSource" : "body.GradingPeriodReference.GradingPeriodIdentity.GradingPeriod"
+                            }]
+                        },
+                        {
+                            "path" : "body.gradingPeriodIdentity.schoolYear",
+                            "values" :
+                            [{
+                                "valueSource" : "body.GradingPeriodReference.GradingPeriodIdentity.SchoolYear"
+                            }]
+                        },
+                        {
+                            "path" : "body.beginDate",
+                            "values" :
+                            [{
+                                "valueSource" : "body.GradingPeriodReference.GradingPeriodIdentity.BeginDate"
+                            }]
+                        },
+                        {
+                            "path" : "body.gradingPeriodIdentity.schoolId",
+                            "values" :
+                            [{
+                                "ref" :
+                                {
+                                   "entityType" : "educationOrganization",
+                                   "choiceOfFields" :
+                                   [
+                                       [
+                                            {
+                                                 "path" : "body.stateOrganizationId" ,
+                                                 "values" :
+                                                 [{
+                                                    "valueSource":"body.GradingPeriodReference.GradingPeriodIdentity.EducationalOrgReference.EducationalOrgIdentity.StateOrganizationId"
+                                                 }]
+                                            }
+                                       ]
+                                   ]
+                               }
+                            }]
+                        }
+                    ]
+                ]
+            }
+        }
+    ]
+}

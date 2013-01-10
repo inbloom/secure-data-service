@@ -1,0 +1,10 @@
+{
+    "entityType" : "entity_type",
+    "keyFields" :
+    [
+        {
+            "keyFieldName" : "key_field",
+            "valueSource" : ""
+        }
+    ]
+}

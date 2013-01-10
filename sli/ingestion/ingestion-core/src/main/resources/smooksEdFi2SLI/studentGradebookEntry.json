@@ -1,0 +1,150 @@
+{
+    "keyFields" : [ "body.gradebookEntryId","body.studentSectionAssociationId"], 
+    "references" :
+    [
+    {
+        "fieldPath" : "body.SectionReference",
+        "deprecated" : true,
+        "ref" :
+        {
+            "entityType" : "section",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.uniqueSectionCode",
+                        "values" :
+                        [{
+                            "valueSource" : "body.SectionReference"
+                        }]
+                    }
+                ]
+            ]
+        }
+    },
+    {
+        "fieldPath" : "body.StudentReference",
+        "deprecated" : true,
+        "ref" :
+        {
+            "entityType" : "student",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.studentUniqueStateId",
+                        "values" :
+                        [{
+                            "valueSource" : "body.StudentReference"
+                        }]
+                    }
+                ]
+            ]
+        }
+    },
+    {
+       "fieldPath" : "body.GradebookEntryReference",
+       "deprecated" : true,
+	   "ref" :
+        {
+            "entityType" : "gradebookEntry",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.gradebookEntryType",
+                        "values" :
+                        [{
+                            "valueSource" : "body.GradebookEntryReference.GradebookEntryIdentity.GradebookEntryType"
+                        }]
+                    },
+                    {
+                        "path" : "body.dateAssigned",
+                        "values" :
+                        [{
+                            "valueSource" : "body.GradebookEntryReference.GradebookEntryIdentity.DateAssigned"
+                        }]
+                    },
+                    {
+                        "path" : "body.sectionId" ,
+                        "values" :
+                        [{
+                            "ref" :
+                            {
+                                "entityType" : "section" ,
+                                "choiceOfFields" :
+                                [
+                                    [
+                                        {
+                                            "path" : "body.uniqueSectionCode" ,
+                                            "values" :
+                                            [{
+                                                "valueSource" : "body.GradebookEntryReference.GradebookEntryIdentity.SectionReference.SectionIdentity.UniqueSectionCode"
+                                            }]
+                                        }
+                                    ]
+                                ]
+                            }
+                        }]
+                    }
+                ]
+            ]
+        }
+    },
+    {
+        "fieldPath" : "body.StudentSectionAssociationReference",
+        "deprecated" : true,
+        "ref" :
+        {
+            "entityType" : "studentSectionAssociation",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.studentId",
+                        "values" :
+                        [{
+                             "ref":
+                             {
+                                 "entityType" : "student",
+                                 "choiceOfFields" :
+                                  [
+                                      [
+                                          {
+                                              "path" : "body.studentUniqueStateId",
+                                              "values" :
+                                               [{
+                                                     "valueSource" : "body.studentSectionAssociationReference.studentId"
+                                               }]
+                                          }
+                                      ]
+                                  ]
+                             }
+                        }]
+                    },
+                    {
+                        "path" : "body.sectionId",
+                        "values" :
+                         [{
+                             "ref":
+                             {
+                                 "entityType" : "section",
+                                 "choiceOfFields" :
+                                  [
+                                      [{
+                                          "path" : "body.uniqueSectionCode",
+                                          "values" :
+                                           [{
+                                               "valueSource" : "body.studentSectionAssociationReference.uniqueSectionCode"
+                                           }]
+                                      }]
+                                  ]
+                             }
+                         }]
+                    }
+                ]
+            ]
+        }
+    }]
+}
+

@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<InterchangeStudentCohort xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentCohort.xsd">
+    <Cohort>
+        <CohortIdentifier>ACC-TEST-COH-4</CohortIdentifier>
+        <CohortDescription>District-wide academic intervention cohort for Mathematics</CohortDescription>
+        <CohortType>Academic Intervention</CohortType>
+        <CohortScope>District</CohortScope>
+        <AcademicSubject>Mathematics</AcademicSubject>
+        <EducationOrgReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrgReference>
+        <ProgramReference>
+            <ProgramIdentity>
+                <ProgramId>ACC-TEST-PROG-2</ProgramId>
+            </ProgramIdentity>
+        </ProgramReference>
+    </Cohort>
+    <StudentCohortAssociation>
+    <StudentReference>
+	  <StudentIdentity>
+	    <StudentUniqueStateId>800000025</StudentUniqueStateId>
+	  </StudentIdentity>
+	</StudentReference>
+	<CohortReference>
+	  <CohortIdentity>
+	    <CohortIdentifier>ACC-TEST-COH-4</CohortIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+    		<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+	  </CohortIdentity>
+	</CohortReference>
+	<BeginDate>2011-03-01</BeginDate>
+  </StudentCohortAssociation>
+</InterchangeStudentCohort>

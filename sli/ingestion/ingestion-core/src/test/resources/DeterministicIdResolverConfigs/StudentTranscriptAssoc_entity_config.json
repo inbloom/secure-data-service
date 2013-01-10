@@ -1,0 +1,9 @@
+{
+    "referenceSources" :
+    [
+        {
+            "entityType" : "studentAcademicRecord",
+            "sourceRefPath" : "body.StudentAcademicRecordReference"
+        }
+    ]
+}

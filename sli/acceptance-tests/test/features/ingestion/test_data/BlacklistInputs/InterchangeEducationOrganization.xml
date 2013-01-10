@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><InterchangeEducationOrganization xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-EducationOrganization.xsd">
+
+  <StateEducationAgency>
+    <StateOrganizationId>IL</StateOrganizationId>
+    <NameOfInstitution>Illinois State Board of Education</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>State Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <Address>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+    </Address>
+  </StateEducationAgency>
+
+  <LocalEducationAgency>
+    <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+    <NameOfInstitution>Daybreak School District 4529</NameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>Local Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <Address>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
+    </Address>
+    <LEACategory>Independent</LEACategory>
+    <StateEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </StateEducationAgencyReference>
+  </LocalEducationAgency>
+
+  <Course>
+    <CourseTitle>Club/Team .fromCharCode</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>Club/Team</ID>
+    </CourseCode>
+    <CourseDescription>ddd</CourseDescription>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+		<EducationalOrgIdentity>
+			<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+		</EducationalOrgIdentity>
+	</EducationOrganizationReference>
+    <UniqueCourseId>Club/Team-.fromCharCode-1</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>CourseWithRelaxedBlacklist</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+    <CourseCode IdentificationSystem="CSSC course code">
+      <ID>Club/Team relaxed</ID>
+    </CourseCode>
+    <CourseDescription>onload</CourseDescription>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+    <EducationOrganizationReference>
+		<EducationalOrgIdentity>
+			<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+		</EducationalOrgIdentity>
+	</EducationOrganizationReference>
+    <UniqueCourseId>CourseWithRelaxedBlacklist-2</UniqueCourseId>
+  </Course>
+  <Course>
+    <CourseTitle>ThisSpaceIs	
+AControlCharacter</CourseTitle>
+    <NumberOfParts>1</NumberOfParts>
+   <CourseCode IdentificationSystem="CSSC course code">
+      <ID>Club/TeamSpace</ID>
+    </CourseCode>
+    <DateCourseAdopted>2000-01-01</DateCourseAdopted>
+    <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    <MinimumAvailableCredit>
+      <Credit>1</Credit>
+    </MinimumAvailableCredit>
+    <MaximumAvailableCredit>
+      <Credit>1</Credit>
+    </MaximumAvailableCredit>
+   <EducationOrganizationReference>
+		<EducationalOrgIdentity>
+			<StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+		</EducationalOrgIdentity>
+	</EducationOrganizationReference>
+    <UniqueCourseId>ThisSpaceIs	
+AControlCharacter-3</UniqueCourseId>
+  </Course>
+</InterchangeEducationOrganization>

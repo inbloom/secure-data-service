@@ -1,0 +1,16 @@
+<table id="simple-table">
+  <thead>
+    <tr>
+      <% @tableFields.each do |field| %>
+      <th><%= t(field.split('/').last) %></th>
+      <% end %>
+      <th style="display:none;"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <%= render 'entities' %>
+  </tbody>
+</table>
+
+
+

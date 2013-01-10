@@ -1,0 +1,118 @@
+09:37:33,870 INFO  (main) [CONFIG] Running file Staff_Teacher.xml
+09:37:33,872 INFO  (main) [CONFIG] Benerator 0.7.5 build 1990
+09:37:33,872 INFO  (main) [CONFIG] Java version 1.6.0_29
+09:37:33,872 INFO  (main) [CONFIG] JVM Java HotSpot(TM) 64-Bit Server VM 20.4-b02-402 (Apple Inc.)
+09:37:33,872 INFO  (main) [CONFIG] OS Mac OS X 10.7.3 (x86_64)
+09:37:33,872 INFO  (main) [CONFIG] Installed JSR 223 Script Engines:
+09:37:33,877 INFO  (main) [CONFIG] - Mozilla Rhino[js, rhino, JavaScript, javascript, ECMAScript, ecmascript]
+09:37:33,877 INFO  (main) [CONFIG] - AppleScriptEngine[AppleScriptEngine, AppleScript, OSA]
+09:37:33,877 INFO  (main) [CONFIG] Max heap size: 123 MB
+09:37:33,940 DEBUG (main) [CONFIG] Initializing Script mapping from file org/databene/script/script.properties
+09:37:34,112 DEBUG (main) [COMMENT] set default values
+09:37:34,112 DEBUG (main) [COMMENT] import database specific properties
+09:37:34,116 DEBUG (main) [COMMENT] echo the settings to the console
+ Database URL: jdbc:jtds:sqlserver://10.211.55.3:1433;databaseName=data
+ JDBC URL: jdbc:jtds:sqlserver://10.211.55.3:1433;databaseName=data
+ Username: sa
+09:37:34,217 DEBUG (main) [COMMENT] define the database that will be referred by the id 'db' subsequently
+09:37:34,227 DEBUG (main) [COMMENT] Clear teacher records from Stuff table
+09:37:34,228 INFO  (main) [EvaluateStatement] Executing inline script
+09:37:34,328 INFO  (main) [JDBC] Connected to Microsoft SQL Server 10.50.1617
+09:37:34,328 INFO  (main) [JDBC] Using driver jTDS Type 4 JDBC Driver for MS SQL Server and Sybase 1.2
+09:37:34,328 INFO  (main) [JDBC] JDBC version 3.0
+09:37:34,343 DEBUG (main) [COMMENT] define StaffUSI, TeacherUSI generators
+09:37:34,350 DEBUG (main) [COMMENT] create teacher stuffs
+09:37:34,404 DEBUG (main) [JDBCDBImporter] Product: Microsoft SQL Server 10.50
+09:37:34,407 DEBUG (main) [JDBCDBImporter] Importing catalogs
+09:37:34,409 DEBUG (main) [JDBCDBImporter] found catalog 'Dashboard'
+09:37:34,409 DEBUG (main) [JDBCDBImporter] found catalog 'data'
+09:37:34,409 DEBUG (main) [JDBCDBImporter] found catalog 'EdFi'
+09:37:34,409 DEBUG (main) [JDBCDBImporter] found catalog 'edfiTemp'
+09:37:34,409 DEBUG (main) [JDBCDBImporter] found catalog 'master'
+09:37:34,410 DEBUG (main) [JDBCDBImporter] found catalog 'msdb'
+09:37:34,410 DEBUG (main) [JDBCDBImporter] found catalog 'tempdb'
+09:37:34,410 DEBUG (main) [JDBCDBImporter] found catalog 'test'
+09:37:34,410 DEBUG (main) [JDBCDBImporter] Importing schemas
+09:37:34,410 DEBUG (main) [JDBCDBImporter] importing schema 'dbo'
+09:37:34,411 DEBUG (main) [JDBCDBImporter] ignoring schema guest
+09:37:34,411 DEBUG (main) [JDBCDBImporter] ignoring schema INFORMATION_SCHEMA
+09:37:34,411 DEBUG (main) [JDBCDBImporter] ignoring schema sys
+09:37:34,411 INFO  (main) [JDBCDBImporter] Importing tables
+09:37:34,424 DEBUG (main) [JDBCDBImporter] importing table: Dashboard, dbo, Settings, TABLE, null
+09:37:34,428 INFO  (main) [DBSystem] Fetching table details and ordering tables by dependency
+09:37:34,430 DEBUG (main) [JDBCDBImporter] Importing columns for catalog 'Dashboard', schemaPattern 'dbo', tablePattern ''Settings''
+09:37:34,432 DEBUG (main) [JDBCDBImporter] found column: Dashboard, dbo, Settings, DatabaseVersion, 4, int, 10, 0, false, null, null
+09:37:34,435 DEBUG (main) [JDBCDBImporter] Importing primary keys for table Settings
+09:37:34,438 DEBUG (main) [JDBCDBImporter] Importing indexes of table 'Settings'
+09:37:34,439 DEBUG (main) [JDBCDBImporter] Importing imported keys for table Settings
+09:37:34,735 INFO  (main) [PagedTaskRunner] Running task GenerateAndConsumeTask(Staff) 100 times with page size 1 in a single thread
+09:37:34,834 ERROR (main) [GenerateOrIterateStatement] Error in execution of task Staff
+org.databene.commons.ConfigurationError: Catalog 'data' not found in database 'db'
+	at org.databene.platform.db.DBSystem.findTableInConfiguredCatalogAndSchema(DBSystem.java:819)
+	at org.databene.platform.db.DBSystem.getTable(DBSystem.java:791)
+	at org.databene.platform.db.DBSystem.getWriteColumnInfos(DBSystem.java:744)
+	at org.databene.platform.db.DBSystem.persistOrUpdate(DBSystem.java:841)
+	at org.databene.platform.db.DBSystem.store(DBSystem.java:355)
+	at org.databene.benerator.storage.StorageSystemInserter.startProductConsumption(StorageSystemInserter.java:53)
+	at org.databene.benerator.consumer.AbstractConsumer.startConsuming(AbstractConsumer.java:46)
+	at org.databene.benerator.consumer.ConsumerProxy.startConsuming(ConsumerProxy.java:50)
+	at org.databene.benerator.consumer.ConsumerChain.startConsuming(ConsumerChain.java:78)
+	at org.databene.benerator.engine.statement.ConsumptionStatement.execute(ConsumptionStatement.java:52)
+	at org.databene.benerator.engine.statement.GenerateAndConsumeTask.execute(GenerateAndConsumeTask.java:181)
+	at org.databene.task.TaskProxy.execute(TaskProxy.java:58)
+	at org.databene.task.StateTrackingTaskProxy.execute(StateTrackingTaskProxy.java:52)
+	at org.databene.task.runner.SingleThreadedTaskRunner.runWithoutPage(SingleThreadedTaskRunner.java:56)
+	at org.databene.task.runner.SingleThreadedTaskRunner.run(SingleThreadedTaskRunner.java:46)
+	at org.databene.task.runner.PagedTaskRunner.run(PagedTaskRunner.java:141)
+	at org.databene.task.runner.PagedTaskRunner.run(PagedTaskRunner.java:101)
+	at org.databene.task.runner.PagedTaskRunner.execute(PagedTaskRunner.java:169)
+	at org.databene.benerator.engine.statement.GenerateOrIterateStatement.execute(GenerateOrIterateStatement.java:92)
+	at org.databene.benerator.engine.statement.LazyStatement.execute(LazyStatement.java:58)
+	at org.databene.benerator.engine.statement.StatementProxy.execute(StatementProxy.java:45)
+	at org.databene.benerator.engine.statement.TimedGeneratorStatement.execute(TimedGeneratorStatement.java:66)
+	at org.databene.benerator.engine.statement.SequentialStatement.executeSubStatements(SequentialStatement.java:51)
+	at org.databene.benerator.engine.statement.SequentialStatement.execute(SequentialStatement.java:46)
+	at org.databene.benerator.engine.BeneratorRootStatement.execute(BeneratorRootStatement.java:62)
+	at org.databene.benerator.engine.DescriptorRunner.execute(DescriptorRunner.java:135)
+	at org.databene.benerator.engine.DescriptorRunner.runWithoutShutdownHook(DescriptorRunner.java:116)
+	at org.databene.benerator.engine.DescriptorRunner.run(DescriptorRunner.java:109)
+	at org.databene.benerator.main.Benerator.runFile(Benerator.java:88)
+	at org.databene.benerator.main.Benerator.runFromCommandLine(Benerator.java:76)
+	at org.databene.benerator.main.Benerator.main(Benerator.java:69)
+09:37:34,836 ERROR (main) [GenerateOrIterateStatement] Error in execution of task GenerateAndConsumeTask
+java.lang.RuntimeException: org.databene.commons.ConfigurationError: Catalog 'data' not found in database 'db'
+	at org.databene.commons.ErrorHandler.handleError(ErrorHandler.java:91)
+	at org.databene.benerator.engine.statement.GenerateAndConsumeTask.execute(GenerateAndConsumeTask.java:198)
+	at org.databene.task.TaskProxy.execute(TaskProxy.java:58)
+	at org.databene.task.StateTrackingTaskProxy.execute(StateTrackingTaskProxy.java:52)
+	at org.databene.task.runner.SingleThreadedTaskRunner.runWithoutPage(SingleThreadedTaskRunner.java:56)
+	at org.databene.task.runner.SingleThreadedTaskRunner.run(SingleThreadedTaskRunner.java:46)
+	at org.databene.task.runner.PagedTaskRunner.run(PagedTaskRunner.java:141)
+	at org.databene.task.runner.PagedTaskRunner.run(PagedTaskRunner.java:101)
+	at org.databene.task.runner.PagedTaskRunner.execute(PagedTaskRunner.java:169)
+	at org.databene.benerator.engine.statement.GenerateOrIterateStatement.execute(GenerateOrIterateStatement.java:92)
+	at org.databene.benerator.engine.statement.LazyStatement.execute(LazyStatement.java:58)
+	at org.databene.benerator.engine.statement.StatementProxy.execute(StatementProxy.java:45)
+	at org.databene.benerator.engine.statement.TimedGeneratorStatement.execute(TimedGeneratorStatement.java:66)
+	at org.databene.benerator.engine.statement.SequentialStatement.executeSubStatements(SequentialStatement.java:51)
+	at org.databene.benerator.engine.statement.SequentialStatement.execute(SequentialStatement.java:46)
+	at org.databene.benerator.engine.BeneratorRootStatement.execute(BeneratorRootStatement.java:62)
+	at org.databene.benerator.engine.DescriptorRunner.execute(DescriptorRunner.java:135)
+	at org.databene.benerator.engine.DescriptorRunner.runWithoutShutdownHook(DescriptorRunner.java:116)
+	at org.databene.benerator.engine.DescriptorRunner.run(DescriptorRunner.java:109)
+	at org.databene.benerator.main.Benerator.runFile(Benerator.java:88)
+	at org.databene.benerator.main.Benerator.runFromCommandLine(Benerator.java:76)
+	at org.databene.benerator.main.Benerator.main(Benerator.java:69)
+Caused by: org.databene.commons.ConfigurationError: Catalog 'data' not found in database 'db'
+	at org.databene.platform.db.DBSystem.findTableInConfiguredCatalogAndSchema(DBSystem.java:819)
+	at org.databene.platform.db.DBSystem.getTable(DBSystem.java:791)
+	at org.databene.platform.db.DBSystem.getWriteColumnInfos(DBSystem.java:744)
+	at org.databene.platform.db.DBSystem.persistOrUpdate(DBSystem.java:841)
+	at org.databene.platform.db.DBSystem.store(DBSystem.java:355)
+	at org.databene.benerator.storage.StorageSystemInserter.startProductConsumption(StorageSystemInserter.java:53)
+	at org.databene.benerator.consumer.AbstractConsumer.startConsuming(AbstractConsumer.java:46)
+	at org.databene.benerator.consumer.ConsumerProxy.startConsuming(ConsumerProxy.java:50)
+	at org.databene.benerator.consumer.ConsumerChain.startConsuming(ConsumerChain.java:78)
+	at org.databene.benerator.engine.statement.ConsumptionStatement.execute(ConsumptionStatement.java:52)
+	at org.databene.benerator.engine.statement.GenerateAndConsumeTask.execute(GenerateAndConsumeTask.java:181)
+	... 20 more

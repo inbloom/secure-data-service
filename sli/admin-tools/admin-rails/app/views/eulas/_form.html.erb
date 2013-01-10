@@ -1,0 +1,22 @@
+<div class="page-header">
+  <h1>Terms and Conditions</h1>
+</div>
+<p></p>
+<p><b>Step 2 of 3</b></p>
+<p></p>
+    <div class="field well">
+    	
+    	<% if APP_CONFIG['is_sandbox'] %>
+                <%= render :partial => 'eula' %>
+    	<% else %>
+        <%= render :file => '../../public/license.txt' %>
+        <% end %>
+    </div>
+<%= form_for(:eula) do |f| %>
+    <div class="form-actions">
+      <%= f.submit "I Accept",
+                   :id => "acceptEulaButton", :class => "btn btn-primary" %>
+      <%= f.submit "I Decline",
+                   :id => "rejectEulaButton", :class => "btn" %>
+    </div>
+<% end %>

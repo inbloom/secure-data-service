@@ -1,0 +1,45 @@
+{
+    "keyFields" : ["body.staffId","body.programId", "body.beginDate"],
+    "references" :
+    [{
+        "fieldPath" : "body.StaffReference",
+        "deprecated" : true,
+        "ref" :
+        {
+            "entityType" : "staff",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.staffUniqueStateId",
+                        "values" :
+                        [{
+                            "valueSource" : "body.StaffReference.StaffIdentity.StaffUniqueStateId"
+                        }]
+                    }
+                ]
+            ]
+        }
+    },
+    {
+        "fieldPath" : "body.ProgramReference",
+        "deprecated" : true,
+        "ref" :
+        {
+            "entityType" : "program",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.programId",
+                        "values" :
+                        [
+                            {"valueSource" : "body.ProgramReference.ProgramIdentity.ProgramId"}
+                        ]
+                    }
+                ]
+            ]
+        }
+    }]
+}
+

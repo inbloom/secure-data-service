@@ -1,0 +1,43 @@
+{
+    "keyFields" : ["body.schoolId", "body.teacherId", "body.programAssignment"],
+    "references" :
+    [{
+        "deprecated" : true,
+        "fieldPath" : "body.schoolId","ref" :
+        {
+            "entityType" : "educationOrganization",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.stateOrganizationId",
+                        "values" :
+                        [{
+                            "valueSource" : "body.schoolId"
+                        }]
+                    }
+                ]
+            ]
+        }
+    },
+    {
+        "fieldPath" : "body.TeacherReference",
+        "deprecated" : true,
+        "ref" :
+        {
+            "entityType" : "staff",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                        "path" : "body.staffUniqueStateId",
+                        "values" :
+                        [{
+                            "valueSource" : "body.TeacherReference.StaffIdentity.StaffUniqueStateId"
+                        }]
+                    }
+                ]
+            ]
+        }
+    }]
+}

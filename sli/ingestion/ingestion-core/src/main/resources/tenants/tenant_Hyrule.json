@@ -1,0 +1,14 @@
+
+{
+  "landingZone" : [
+    {
+      "educationOrganization" : "NYC" ,
+      "ingestionServer" : "<hostname>" ,
+      "path" : "<lzpath>/Hyrule-NYC" ,
+      "desc" : "Landing zone for Hyrule-NYC"
+    }
+  ] ,
+  "tenantId" : "Hyrule",
+  "dbName" : "Hyrule"
+
+}

@@ -1,0 +1,1 @@
+{"_id":"9bf7591b-8fd5-11e1-86ec-00217016543e","body":{"studentRecordAccess":false,"programId":"9b8c3aab-8fd5-11e1-86ec-0021701f543f_id","staffId":"67ed9078-431a-465e-adf7-c720d08ef512","beginDate":"2011-01-01"},"metaData":{"created":{"$date":1335468340531},"updated":{"$date":1335468340531}},"type":"staffProgramAssociation"}

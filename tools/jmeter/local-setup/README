@@ -1,0 +1,5 @@
+Fixture data to enable running API Performance JMeter tests locally. To do so:
+
+1. Import the API Performance 150K data set.
+2. Run the 'local-jmeter-realm.sh' script to populate the appropriate realm information.
+3. Start jmeter, passing '-q local.properties' on the command line.

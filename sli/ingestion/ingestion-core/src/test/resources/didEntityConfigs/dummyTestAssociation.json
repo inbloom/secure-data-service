@@ -1,0 +1,13 @@
+{
+    "referenceSources" :
+    [
+        {
+            "entityType" : "dummy",
+            "sourceRefPath" : "dummyReference"
+        },
+        {
+            "entityType" : "test",
+            "sourceRefPath" : "testReference"
+        }
+    ]
+}

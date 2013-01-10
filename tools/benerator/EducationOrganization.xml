@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<setup>
+
+	<import platforms = "db"/>
+
+	<comment>set default values</comment>
+	<setting name="database" default="sql_server" />
+
+	<comment>import database specific properties</comment>
+	<include uri="sql_server.properties" /> 
+
+	<comment>echo the settings to the console</comment>
+	<echo>{ftl: Database URL: ${dbUrl}}</echo>
+	<echo>{ftl: JDBC URL: ${dbUrl}}</echo>
+	<echo>{ftl: Username: ${dbUser}}</echo>
+
+	<comment>define the database that will be referred by the id 'db' subsequently</comment>
+	<database id="db" url="{dbUrl}" driver="{dbDriver}" catalog="{dbCatalog}" schema="{dbSchema}"
+        	user="{dbUser}" password="{dbPassword}" />
+
+        <comment>clear the records in the EducationOrganization table</comment>
+	<execute uri="delete_EducationOrganization.sql" target="db" onError="ignore" />
+	
+	<comment>define PK generator</comment>
+	<bean id="idGen" spec="new IncrementGenerator(100001)" />
+	
+	<comment>create education organizations</comment>
+	<generate type="EducationOrganization" count="100" consumer="db">
+        	<variable name="uid" generator="idGen" />
+        	<id name="EducationOrganizationId" generator="idGen" />
+        	<attribute name="StateOrganizationId" script="'EdOrg' + uid" />
+        	<attribute name="NameOfInstitution" script="'EdOrg' + uid" />
+        </generate>
+
+</setup>
+

@@ -1,0 +1,44 @@
+{
+    "keyFields" : ["body.schoolId", "body.studentId"],
+	"references" :
+	[{
+        "fieldPath" : "body.schoolId",
+        "deprecated": true,
+        "ref" :
+        {
+	        "entityType" : "educationOrganization",
+	        "choiceOfFields" :
+	        [
+	            [
+		            {
+		           	    "path" : "body.stateOrganizationId",
+		                "values" :
+		                [{
+			                "valueSource" : "body.schoolId"
+		                }]
+		            }
+	            ]
+	        ]
+        }
+    },
+    {
+        "fieldPath" : "body.StudentReference",
+        "deprecated" : true,
+        "ref" :
+        {
+	        "entityType" : "student",
+	        "choiceOfFields" :
+	        [
+	            [
+		            {
+		           	    "path" : "body.studentUniqueStateId",
+		                "values" :
+		                [{
+			                "valueSource" : "body.StudentReference.StudentIdentity.StudentUniqueStateId"
+		                }]
+		            }
+	            ]
+	        ]
+        }
+    }]
+}

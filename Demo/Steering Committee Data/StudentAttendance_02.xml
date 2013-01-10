@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2010 (http://www.altova.com) by Zeynep Young (private) -->
+<InterchangeStudentAttendance xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="Interchange-StudentAttendance.xsd">
+	<AttendanceEvent>
+		<EventDate>2012-03-24</EventDate>
+		<AttendanceEventType>Daily Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Excused Absense</AttendanceEventCategory>
+		<AttendanceEventReason>Parent Contact</AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174709</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>	
+	<AttendanceEvent>
+		<EventDate>2012-03-10</EventDate>
+		<AttendanceEventType>Daily Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Excused Absense</AttendanceEventCategory>
+		<AttendanceEventReason>Parent Contact</AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174710</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>	
+	<AttendanceEvent>
+		<EventDate>2012-03-17</EventDate>
+		<AttendanceEventType>Daily Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Excused Absense</AttendanceEventCategory>
+		<AttendanceEventReason>Parent Contact</AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174710</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>
+	<AttendanceEvent>
+		<EventDate>2012-03-30</EventDate>
+		<AttendanceEventType>Daily Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Excused Absense</AttendanceEventCategory>
+		<AttendanceEventReason>Parent Contact</AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174710</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>	
+	<AttendanceEvent>
+		<EventDate>2012-03-24</EventDate>
+		<AttendanceEventType>Daily Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Unexcused Absense</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174712</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>	
+	<AttendanceEvent>
+		<EventDate>2012-03-23</EventDate>
+		<AttendanceEventType>Daily Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Unexcused Absense</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174712</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>	
+	<AttendanceEvent>
+		<EventDate>2012-03-25</EventDate>
+		<AttendanceEventType>Daily Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Unexcused Absense</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174712</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>	
+	<AttendanceEvent>
+		<EventDate>2012-03-01</EventDate>
+		<AttendanceEventType>Daily Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Unexcused Absense</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174715</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>	
+	<AttendanceEvent>
+		<EventDate>2012-03-02</EventDate>
+		<AttendanceEventType>Daily Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Unexcused Absense</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174715</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>	
+	<AttendanceEvent>
+		<EventDate>2012-03-03</EventDate>
+		<AttendanceEventType>Daily Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Unexcused Absense</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174715</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>	
+	<AttendanceEvent>
+		<EventDate>2012-03-04</EventDate>
+		<AttendanceEventType>Daily Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Unexcused Absense</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174715</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>	
+	<AttendanceEvent>
+		<EventDate>2012-03-05</EventDate>
+		<AttendanceEventType>Daily Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Unexcused Absense</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174715</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>	
+	<AttendanceEvent>
+		<EventDate>2012-03-06</EventDate>
+		<AttendanceEventType>Daily Attendance</AttendanceEventType>
+		<AttendanceEventCategory>Unexcused Absense</AttendanceEventCategory>
+		<AttendanceEventReason></AttendanceEventReason>
+		<EducationalEnvironment>Classroom</EducationalEnvironment>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>20174715</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<SectionReference>
+			<SectionIdentity>
+				<StateOrganizationId>152901020</StateOrganizationId>
+				<LocalCourseCode>XLRL41</LocalCourseCode>
+				<SchoolYear>2011-2012</SchoolYear>
+				<Term>Fall Semester</Term>
+				<ClassPeriodName>B05</ClassPeriodName>
+				<Location>702</Location>
+			</SectionIdentity>
+		</SectionReference>
+	</AttendanceEvent>	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</InterchangeStudentAttendance>

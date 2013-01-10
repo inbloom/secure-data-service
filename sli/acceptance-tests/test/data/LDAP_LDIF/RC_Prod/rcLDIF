@@ -1,0 +1,5910 @@
+version: 1
+
+dn: ou=rcEnvironment,dc=slidev,dc=org
+objectClass: top
+objectClass: organizationalUnit
+ou: rcEnvironment
+
+dn: ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: SLIAdmin
+
+dn: ou=groups,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: cn=SLC Operator,ou=groups,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: SLC Operator
+gidNumber: 504
+memberUid: slcoperator
+memberUid: slcoperator-email@slidev.org
+
+dn: cn=LEA Administrator,ou=groups,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: posixGroup
+objectClass: top
+cn: LEA Administrator
+gidNumber: 505
+memberUid: avengerdbadmin
+memberUid: avengeriladmin
+memberUid: avengernyadmin
+memberUid: avengersunsetadmin
+memberUid: luckystrikedbadmin
+memberUid: luckystrikeiladmin
+memberUid: luckystrikenyadmin
+memberUid: luckystrikesunsetadmin
+memberUid: pantheondbadmin
+memberUid: pantheondsunsetadmin
+memberUid: pantheoniladmin
+memberUid: pantheonnyadmin
+memberUid: juggernautdbadmin
+memberUid: juggernautiladmin
+memberUid: juggernautnyadmin
+memberUid: juggernautsunsetadmin
+memberUid: megatrondbadmin
+memberUid: megatroniladmin
+memberUid: megatronnyadmin
+memberUid: megatronsunsetadmin
+memberUid: galactusdbadmin
+memberUid: galactussunsetadmin
+memberUid: galactusiladmin
+memberUid: galactusnyadmin
+memberUid: parallaxdbadmin
+
+dn: cn=application_developer,ou=groups,ou=SLIAdmin,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: application_developer
+gidNumber: 506
+memberUid: dip@wgen.net
+memberUid: dwu@wgen.net
+memberUid: scole@wgen.net
+memberUid: sandboxoperator
+memberUid: tosako@wgen.net
+memberUid: mabernathy@wgen.net
+memberUid: rfarris@wgen.net
+memberUid: vummalaneni@wgen.net
+memberUid: cwilson@wgen.net
+
+dn: cn=SEA Administrator,ou=groups,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: posixGroup
+objectClass: top
+cn: SEA Administrator
+gidNumber: 508
+memberUid: avengeriladmin
+memberUid: avengernyadmin
+memberUid: luckystrikeiladmin
+memberUid: luckystrikenyadmin
+memberUid: pantheoniladmin
+memberUid: pantheonnyadmin
+memberUid: juggernautiladmin
+memberUid: juggernautnyadmin
+memberUid: megatroniladmin
+memberUid: megatronnyadmin
+
+dn: cn=Realm Administrator,ou=groups,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,
+ dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Realm Administrator
+gidNumber: 509
+memberUid: avengerdbadmin
+memberUid: avengeriladmin
+memberUid: avengernyadmin
+memberUid: avengersunsetadmin
+memberUid: luckystrikedbadmin
+memberUid: luckystrikeiladmin
+memberUid: luckystrikenyadmin
+memberUid: luckystrikesunsetadmin
+memberUid: pantheondbadmin
+memberUid: pantheondsunsetadmin
+memberUid: pantheoniladmin
+memberUid: pantheonnyadmin
+memberUid: juggernautdbadmin
+memberUid: juggernautiladmin
+memberUid: juggernautnyadmin
+memberUid: juggernautsunsetadmin
+memberUid: megatrondbadmin
+memberUid: megatroniladmin
+memberUid: megatronnyadmin
+memberUid: megatronsunsetadmin
+memberUid: galactusdbadmin
+memberUid: galactusiladmin
+memberUid: galactusnyadmin
+memberUid: galactussunsetadmin
+memberUid: parallaxdbadmin
+memberUid: parallaxiladmin
+memberUid: parallaxnyadmin
+memberUid: parallaxsunsetadmin
+
+dn: cn=ingestion_user,ou=groups,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=or
+ g
+objectClass: posixGroup
+objectClass: top
+cn: ingestion_user
+gidNumber: 510
+memberUid: avengerdbadmin
+memberUid: avengersunsetadmin
+memberUid: avengeriladmin
+memberUid: avengernyadmin
+memberUid: luckystrikedbadmin
+memberUid: luckystrikenyadmin
+memberUid: luckystrikeiladmin
+memberUid: luckystrikesunsetadmin
+memberUid: pantheondbadmin
+memberUid: pantheoniladmin
+memberUid: pantheonnyadmin
+memberUid: pantheondsunsetadmin
+memberUid: juggernautdbadmin
+memberUid: juggernautsunsetadmin
+memberUid: juggernautiladmin
+memberUid: juggernautnyadmin
+memberUid: megatrondbadmin
+memberUid: megatroniladmin
+memberUid: megatronnyadmin
+memberUid: megatronsunsetadmin
+memberUid: parallaxiladmin
+memberUid: parallaxsunsetadmin
+memberUid: sandboxoperator
+memberUid: galactusnyadmin
+memberUid: galactusiladmin
+memberUid: galactussunsetadmin
+memberUid: parallaxdbadmin
+
+dn: cn=Acceptance Test User,ou=groups,ou=SLIAdmin,ou=rcEnvironment,dc=slidev
+ ,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Acceptance Test User
+gidNumber: 511
+memberUid: developer
+memberUid: administrator
+memberUid: demo
+memberUid: leader
+memberUid: realmadmin
+memberUid: fakerealmadmin
+
+dn: cn=Sandbox SLC Operator,ou=groups,ou=SLIAdmin,ou=rcEnvironment,dc=slidev
+ ,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Sandbox SLC Operator
+gidNumber: 515
+memberUid: sandboxoperator
+
+dn: cn=Application Developer,ou=groups,ou=SLIAdmin,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Application Developer
+gidNumber: 506
+
+dn: cn=Ingestion User,ou=groups,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=or
+ g
+objectClass: posixGroup
+objectClass: top
+cn: Ingestion User
+gidNumber: 510
+memberUid: nbrown@wgen.net
+memberUid: nyadmin
+memberUid: sunsetadmin
+memberUid: daybreakadmin
+memberUid: ingestionuser
+memberUid: rfarris@wgen.net
+memberUid: mreynolds
+memberUid: peacefrog@slidev.org
+memberUid: devldapuserlocalhost@slidev.org
+memberUid: saltmueller@wgen.net
+memberUid: cwilson
+memberUid: joechung@slidev.org
+memberUid: lalsop@acme.com
+memberUid: devldapuserpwolf-HP-EliteBook-2560p@slidev.org
+memberUid: lalsop_nxslave1@acme.com
+memberUid: lalsop_nxslave5@acme.com
+memberUid: lalsop_nxslave10@acme.com
+memberUid: lalsop_nxslave6@acme.com
+memberUid: devldapuser@slidev.org
+memberUid: devldapuser_nxslave5@slidev.org
+memberUid: sunsetingestionuser
+memberUid: sandboxingestionuser
+memberUid: devldapuser_nxslave1@slidev.org
+memberUid: devldapuser_nxslave6@slidev.org
+memberUid: devldapuser_nxslave10@slidev.org
+
+dn: cn=Sandbox Administrator,ou=groups,ou=SLIAdmin,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Sandbox Administrator
+gidNumber: 516
+memberUid: sandboxadministrator
+
+dn: ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: cn=AvengerDBAdmin,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=or
+ g
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: AvengerDBAdmin
+gidNumber: 505
+homeDirectory: /ingestion/lz/AvengerIL/13e785053e77f7d6b064cdcd43167f70ae8c3
+ 2ca88c6a3b9b0c8cd52458faa77
+sn: Admin
+uid: avengerdbadmin
+uidNumber: 2348
+description:: dGVuYW50PUF2ZW5nZXJJTAplZE9yZz1JTC1EQVlCUkVBSw==
+displayName: 2c605d39e6cb9bbb7f30d297ab304de8
+gecos: 
+givenName: Daybreak
+loginShell: /bin/sh
+mail: vummalaneni@wgen.net
+userPassword:: e1NTSEF9YVlJN1hWbXBtWkxRTkx1NkluUlZwVFlXOUMySzFZdjg=
+
+dn: cn=AvengerSunsetAdmin,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: AvengerSunsetAdmin
+gidNumber: 505
+homeDirectory: /dev/null
+sn: Admin
+uid: avengersunsetadmin
+uidNumber: 2342
+description:: dGVuYW50PUF2ZW5nZXJJTAplZE9yZz1JTC1TVU5TRVQ=
+displayName: 8fceef13e11da5e1474865cc0233722f
+givenName: Sunset
+loginShell: /bin/sh
+mail: vummalaneni@wgen.net
+userPassword:: e1NIQX1tOE5GU2RWbDJWQmJLSDNnelNDc2Q3NGRQeXc9
+
+dn: cn=SLC Operator,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: SLC Operator
+gidNumber: 504
+homeDirectory: /home/users/slcoperator
+sn: Operator
+uid: slcoperator
+uidNumber: 1118
+displayName: a10563e27edb78c536be6fc3e7bf5d6c
+givenName: SLC
+loginShell: /bin/sh
+mail: slcoperator@slidev.org
+mail: sliops@wgen.net
+userPassword:: e01ENX1qeGVYbGNhWlgxWDFDemx2VGpCdTZ3PT0=
+
+dn: cn=AvengerILAdmin,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=or
+ g
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: AvengerILAdmin
+gidNumber: 508
+homeDirectory: /home/users/iladmin
+sn: Admin
+uid: avengeriladmin
+uidNumber: 1122
+description:: dGVuYW50PUF2ZW5nZXJJTAplZE9yZz1JTA==
+displayName: 5ec3c4c649549e844fdb692c0f631c10
+gecos: a08d7bbd5230e4e9b8d3e988abacd922@1342833361
+givenName: IL
+loginShell: /bin/sh
+mail: vummalaneni@wgen.net
+userPassword:: e1NIQX1tOE5GU2RWbDJWQmJLSDNnelNDc2Q3NGRQeXc9
+
+dn: cn=AvengerNYAdmin,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=or
+ g
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: AvengerNYAdmin
+gidNumber: 508
+homeDirectory: /dev/null
+sn: Admin
+uid: avengernyadmin
+uidNumber: 1123
+description:: dGVuYW50PUF2ZW5nZXJOWQplZE9yZz1OWS1TVEFURS1OWUM=
+displayName: 25fba525abfb2ce339e3a3dc82348dcb
+givenName: NY
+loginShell: /bin/sh
+mail: vummalaneni@wgen.net
+userPassword:: e1NIQX1tOE5GU2RWbDJWQmJLSDNnelNDc2Q3NGRQeXc9
+
+dn: ou=IL-Daybreak,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: IL-Daybreak
+
+dn: ou=groups,ou=IL-Daybreak,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: cn=Educator,ou=groups,ou=IL-Daybreak,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Educator
+gidNumber: 503
+memberUid: linda.kim
+memberUid: cgray
+memberUid: rbraverman
+
+dn: cn=Leader,ou=groups,ou=IL-Daybreak,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Leader
+gidNumber: 512
+memberUid: sbantu
+memberUid: mgonzales
+memberUid: rgorki
+memberUid: afranco
+
+dn: cn=IT Administrator,ou=groups,ou=IL-Daybreak,ou=rcEnvironment,dc=slidev,
+ dc=org
+objectClass: posixGroup
+objectClass: top
+cn: IT Administrator
+gidNumber: 513
+memberUid: jstevenson
+memberUid: akopel
+memberUid: rrogers
+
+dn: cn=Aggregate Viewer,ou=groups,ou=IL-Daybreak,ou=rcEnvironment,dc=slidev,
+ dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Aggregate Viewer
+gidNumber: 514
+memberUid: jjackson
+memberUid: msmith
+memberUid: mjohnson
+
+dn: ou=people,ou=IL-Daybreak,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: cn=Linda Kim,ou=people,ou=IL-Daybreak,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Linda Kim
+gidNumber: 503
+homeDirectory: /home/users/lindakim
+sn: Kim
+uid: linda.kim
+uidNumber: 1117
+givenName: Linda
+loginShell: /bin/sh
+userPassword:: e01ENX15bENoMXNmNERQekZDbFZ5cndHbXhnPT0=
+
+dn: cn=Charles Gray,ou=people,ou=IL-Daybreak,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Charles Gray
+gidNumber: 507
+homeDirectory: /home/users/cgray
+sn: Gray
+uid: cgray
+uidNumber: 1134
+givenName: Charles
+loginShell: /bin/sh
+userPassword:: e01ENX1JOU1IeC9WY2hhSHJvMS9pKytVUU9BPT0=
+
+dn: cn=Rebecca Braverman,ou=people,ou=IL-Daybreak,ou=rcEnvironment,dc=slidev
+ ,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rebecca Braverman
+gidNumber: 507
+homeDirectory: /home/users/rbraverman
+sn: Braverman
+uid: rbraverman
+uidNumber: 1135
+givenName: Rebecca
+loginShell: /bin/sh
+userPassword:: e01ENX1oSFFncWJmc0FqZTNtanEvRHkrR2V3PT0=
+
+dn: cn=Susan Bantu,ou=people,ou=IL-Daybreak,ou=rcEnvironment,dc=slidev,dc=or
+ g
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Susan Bantu
+gidNumber: 512
+homeDirectory: /home/users/sbantu1
+sn: Bantu
+uid: sbantu
+uidNumber: 1136
+givenName: Susan
+loginShell: /bin/bash
+userPassword:: e01ENX1jeFgwdXA2SEFaQzNUZlMxYUNTU0FnPT0=
+
+dn: cn=James Stevenson,ou=people,ou=IL-Daybreak,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: James Stevenson
+gidNumber: 513
+homeDirectory: /home/users/jstevenson
+sn: Stevenson
+uid: jstevenson
+uidNumber: 1137
+givenName: James
+loginShell: /bin/bash
+userPassword:: e01ENX1BblpjMU9zTWZXOUEya1k0a2YwSlh3PT0=
+
+dn: cn=Jack Jackson,ou=people,ou=IL-Daybreak,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Jack Jackson
+gidNumber: 514
+homeDirectory: /home/users/jjackson
+sn: Jackson
+uid: jjackson
+uidNumber: 1138
+givenName: Jack
+loginShell: /bin/bash
+userPassword:: e01ENX0wOGZ2WCtGSENHcU5uYTVSdTM1RmZBPT0=
+
+dn: cn=Maria Gonzales,ou=people,ou=IL-Daybreak,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Maria Gonzales
+gidNumber: 512
+homeDirectory: /home/users/mgonzales
+sn: Gonzales
+uid: mgonzales
+uidNumber: 1139
+givenName: Maria
+loginShell: /bin/bash
+userPassword:: e01ENX1GaUZGYjgvclZJNmx5MjIzcWZkVTF3PT0=
+
+dn: cn=Rob Gorki,ou=people,ou=IL-Daybreak,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rob Gorki
+gidNumber: 512
+homeDirectory: /home/users/rgorki
+sn: Gorki
+uid: rgorki
+uidNumber: 1140
+givenName: Rob
+loginShell: /bin/bash
+userPassword:: e01ENX1TVi94Ni9pSW05c0wrQUpWcDlzZDdnPT0=
+
+dn: cn=Mary Smith,ou=people,ou=IL-Daybreak,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Mary Smith
+gidNumber: 514
+homeDirectory: /home/users/msmith
+sn: Smith
+uid: msmith
+uidNumber: 1141
+givenName: Mary
+loginShell: /bin/bash
+userPassword:: e01ENX1MVU9hSVdxOTlLL2EyM3RUNnpKV0RnPT0=
+
+dn: cn=Michael Johnson,ou=people,ou=IL-Daybreak,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Michael Johnson
+gidNumber: 514
+homeDirectory: /home/users/mjohnson
+sn: Johnson
+uid: mjohnson
+uidNumber: 1142
+givenName: Michael
+loginShell: /bin/bash
+userPassword:: e01ENX04Q1VJSlF3blVTRFJOY0Fqd2M2WTV3PT0=
+
+dn: cn=Amy Kopel,ou=people,ou=IL-Daybreak,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Amy Kopel
+gidNumber: 513
+homeDirectory: /home/users/akopel
+sn: Kopel
+uid: akopel
+uidNumber: 1143
+givenName: Amy
+loginShell: /bin/bash
+userPassword:: e01ENX1md2JjMzJqTzM0V1NObThiaittTkVBPT0=
+
+dn: cn=Rick Rogers,ou=people,ou=IL-Daybreak,ou=rcEnvironment,dc=slidev,dc=or
+ g
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rick Rogers
+gidNumber: 100
+homeDirectory: /home/users/rrogers
+sn: Rogers
+uid: rrogers
+uidNumber: 1144
+givenName: Rick
+loginShell: /bin/bash
+userPassword:: e01ENX1ubnJsdzd0QzU1d0FmMkxtN2llOWFRPT0=
+
+dn: cn=Autoro Franco,ou=people,ou=IL-Daybreak,ou=rcEnvironment,dc=slidev,dc=
+ org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Autoro Franco
+gidNumber: 100
+homeDirectory: /home/users/afranco
+sn: Franco
+uid: afranco
+uidNumber: 1145
+givenName: Autoro
+loginShell: /bin/bash
+userPassword:: e01ENX1vMHl3cTRTMlpZVDVtY3JxL1k0Skt3PT0=
+
+dn: ou=IL-Sunset,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: IL-Sunset
+
+dn: ou=groups,ou=IL-Sunset,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: cn=Educator,ou=groups,ou=IL-Sunset,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Educator
+gidNumber: 507
+memberUid: ejane
+memberUid: manthony
+memberUid: cgray
+memberUid: jdoe
+memberUid: lroslin
+memberUid: john_doe
+memberUid: tbear
+
+dn: cn=Leader,ou=groups,ou=IL-Sunset,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Leader
+gidNumber: 515
+memberUid: llogan
+memberUid: ckoch
+
+dn: cn=Aggregate Viewer,ou=groups,ou=IL-Sunset,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: posixGroup
+objectClass: top
+cn: Aggregate Viewer
+gidNumber: 516
+memberUid: jvasquez
+
+dn: cn=IT Administrator,ou=groups,ou=IL-Sunset,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: posixGroup
+objectClass: top
+cn: IT Administrator
+gidNumber: 517
+memberUid: ljones
+memberUid: jwashington
+
+dn: ou=people,ou=IL-Sunset,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: cn=Christopher Koch,ou=people,ou=IL-Sunset,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Christopher Koch
+gidNumber: 100
+homeDirectory: /home/users/ckoch
+sn: Koch
+uid: ckoch
+uidNumber: 1150
+givenName: Christopher
+loginShell: /bin/bash
+userPassword:: e01ENX1CVjk1NjV0ejJQdVlzQ2c3eDJxRGhnPT0=
+
+dn: cn=Mark Anthony,ou=people,ou=IL-Sunset,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Mark Anthony
+gidNumber: 100
+homeDirectory: /home/users/manthony
+sn: Anthony
+uid: manthony
+uidNumber: 1151
+givenName: Mark
+loginShell: /bin/bash
+userPassword:: e01ENX1VbG9LdFkwdFF2YzVKU1MzeWNCMkJnPT0=
+
+dn: cn=Linda Jones,ou=people,ou=IL-Sunset,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Linda Jones
+gidNumber: 100
+homeDirectory: /home/users/ljones
+sn: Jones
+uid: ljones
+uidNumber: 1152
+givenName: Linda
+loginShell: /bin/bash
+userPassword:: e01ENX1sYUJ6VVQ0NjBXUGgyYUw0TzVnWmVBPT0=
+
+dn: cn=Jon Vasquez,ou=people,ou=IL-Sunset,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Jon Vasquez
+gidNumber: 100
+homeDirectory: /home/users/jvasquez
+sn: Vasquez
+uid: jvasquez
+uidNumber: 1153
+givenName: Jon
+loginShell: /bin/bash
+userPassword:: e01ENX1LOFRiaTVRdkhuVlIzUzBLb0t3VXB3PT0=
+
+dn: cn=Liza Logan,ou=people,ou=IL-Sunset,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Liza Logan
+gidNumber: 100
+homeDirectory: /home/users/llogan
+sn: Logan
+uid: llogan
+uidNumber: 1154
+givenName: Liza
+loginShell: /bin/bash
+userPassword:: e01ENX1VbE9SZFpqY254cG9UdEtRZ2JRampnPT0=
+
+dn: cn=Josef Washington,ou=people,ou=IL-Sunset,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Josef Washington
+gidNumber: 100
+homeDirectory: /home/users/jwashington
+sn: Washington
+uid: jwashington
+uidNumber: 1155
+givenName: Josef
+loginShell: /bin/bash
+userPassword:: e01ENX1pYzdlWkl1SVp4NWorTGxnMXJQbEdnPT0=
+
+dn: cn=Charles Gray,ou=people,ou=IL-Sunset,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Charles Gray
+sn: Gray
+uid: cgray
+userPassword:: e01ENX1JOU1IeC9WY2hhSHJvMS9pKytVUU9BPT0=
+
+dn: cn=BadAdmin Test,ou=people,ou=IL-Sunset,ou=rcEnvironment,dc=slidev,dc=or
+ g
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: BadAdmin Test
+gidNumber: 511
+homeDirectory: /home/users/badadmin
+sn: Test
+uid: badadmin
+uidNumber: 1146
+givenName: BadAdmin
+loginShell: /bin/bash
+userPassword:: e01ENX1iM21BRkJySWQzTjJzOUVrTEkwNXN3PT0=
+
+dn: cn=Elizabeth Jane,ou=people,ou=IL-Sunset,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Elizabeth Jane
+sn: Jane
+uid: ejane
+userPassword:: e01ENX0vK2Nyd3VYY3lLOGR0U2UyM05XUVdnPT0=
+
+dn: cn=John Doe,ou=people,ou=IL-Sunset,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: John Doe
+sn: Doe
+givenName: John
+uid: john_doe
+userPassword:: e01ENX15TndTaWJuMDFQSyt4SzA0ZnFLdzFRPT0=
+
+dn: cn=Teddy Bear,ou=people,ou=IL-Sunset,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Teddy Bear
+sn: Bear
+givenName: Teddy
+uid: tbear
+userPassword:: e01ENX01Y1lFY1RJQ2ZUOHJLZHNOZTJxVGdnPT0=
+
+dn: cn=Joe Doe,ou=people,ou=IL-Sunset,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Joe Doe
+sn: Doe
+givenName: Joe
+uid: jdoe
+userPassword:: e01ENX1Iei9KQ3llT3NyT3VuMldsaEVmaXdRPT0=
+
+dn: cn=Laura Roslin,ou=people,ou=IL-Sunset,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+objectClass: posixAccount
+cn: Laura Roslin
+gidNumber: 100
+homeDirectory: /home/users/lroslin
+sn: Roslin
+uid: lroslin
+uidNumber: 5332
+loginShell: /bin/bash
+userPassword:: e01ENX1HditYVnVya2VIV1hmMzBzSkoxME5RPT0=
+
+dn: ou=NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: NY
+
+dn: ou=groups,ou=NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: cn=Educator,ou=groups,ou=NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Educator
+gidNumber: 518
+memberUid: johndoe
+memberUid: ejane
+memberUid: mario.sanchez
+memberUid: cgray
+
+dn: cn=Leader,ou=groups,ou=NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Leader
+gidNumber: 519
+memberUid: kmelendez
+memberUid: eengland
+memberUid: gcanning
+memberUid: jbarrera
+
+dn: cn=IT Administrator,ou=groups,ou=NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: IT Administrator
+gidNumber: 520
+memberUid: jpratt
+memberUid: mhahn
+memberUid: jcarlyle
+memberUid: agibbs
+
+dn: cn=Aggregate Viewer,ou=groups,ou=NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Aggregate Viewer
+gidNumber: 521
+memberUid: jsmalley
+memberUid: sholcomb
+memberUid: rlindsey
+memberUid: charrison
+
+dn: ou=people,ou=NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: cn=Mario Sanchez,ou=people,ou=NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Mario Sanchez
+gidNumber: 100
+homeDirectory: /home/users/mario.sanchez
+sn: Sanchez
+uid: mario.sanchez
+uidNumber: 1156
+givenName: Mario
+loginShell: /bin/bash
+userPassword:: e01ENX1ITWZaL2JkNktWa3FJZVVnSE0xVlNBPT0=
+
+dn: cn=Emerson England,ou=people,ou=NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Emerson England
+sn: England
+uid: eengland
+userPassword:: e1NIQX11dXRYSTJNWWhVam5vN3I3Q0tMNDFqMXZTaW89
+
+dn: cn=Jefferson Pratt,ou=people,ou=NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Jefferson Pratt
+gidNumber: 100
+homeDirectory: /home/users/jpratt
+sn: Pratt
+uid: jpratt
+uidNumber: 1157
+givenName: Jefferson
+loginShell: /bin/bash
+userPassword:: e01ENX1VakxuOHUyVVEzcHhrcVlrNHMvNy93PT0=
+
+dn: cn=Joshua Smalley,ou=people,ou=NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+objectClass: person
+cn: Joshua Smalley
+sn: Smalley
+givenName: Joshua
+uid: jsmalley
+userPassword:: e01ENX11ZXgxUkhsTXhlRUJIanQ5b3MzTndBPT0=
+
+dn: cn=Georgia Canning,ou=people,ou=NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Georgia Canning
+sn: Canning
+pager: cn=DevLDAP User, ou=People,dc=slidev,dc=org
+uid: gcanning
+userPassword:: e01ENX1ja2x6OXRJZVBYZm9NZnY4ZEF6bTVRPT0=
+
+dn: cn=Justin Carlyle,ou=people,ou=NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Justin Carlyle
+sn: Carlyle
+uid: jcarlyle
+userPassword:: e01ENX1pc3JVOTZUMlFRSkI0Uk45SkZYREZ3PT0=
+
+dn: cn=Marlene Hahn,ou=people,ou=NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Marlene Hahn
+sn: Hahn
+uid: mhahn
+userPassword:: e01ENX1HdlU5bGQwamdRYndYaXZyUVBZUHBnPT0=
+
+dn: cn=Rene Lindsey,ou=people,ou=NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Rene Lindsey
+sn: Lindsey
+uid: rlindsey
+userPassword:: e01ENX1ZYXFQeXp2U1Mvblgyb3RmZXd1cmlnPT0=
+
+dn: cn=Simone Holcomb,ou=people,ou=NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Simone Holcomb
+sn: Holcomb
+uid: sholcomb
+userPassword:: e01ENX1GZktTU01UVTc1Wmh6enkwU0RtcnVBPT0=
+
+dn: cn=Keisha Melendez,ou=people,ou=NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Keisha Melendez
+sn: Melendez
+uid: kmelendez
+userPassword:: e01ENX1jR21KUHVEWTZzeHkwY0VDZE5ZdmhRPT0=
+
+dn: cn=Al Gibbs,ou=people,ou=NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Al Gibbs
+sn: Gibbs
+uid: agibbs
+userPassword:: e01ENX1oNHp1N2tkZHVGRVA4Y3lCRlF4RHdRPT0=
+
+dn: cn=Chandra Harrison,ou=people,ou=NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Chandra Harrison
+sn: Harrison
+uid: charrison
+userPassword:: e01ENX04ZytxNjhjcXMvQ2NFNThoOUNRVTJBPT0=
+
+dn: cn=Jane Barrera,ou=people,ou=NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Jane Barrera
+sn: Barrera
+uid: jbarrera
+userPassword:: e01ENX0wMCtSSXhKVkpPdHdxVlFramVCdTlRPT0=
+
+dn: cn=Emily Jane,ou=people,ou=NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Emily Jane
+sn: Jane
+uid: ejane
+userPassword:: e01ENX0vK2Nyd3VYY3lLOGR0U2UyM05XUVdnPT0=
+
+dn: cn=John Doe,ou=people,ou=NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: John Doe
+sn: Doe
+givenName: John
+uid: johndoe
+userPassword:: e01ENX1qRWVRM0ZLL2l4anA4T3FIUkpHL25RPT0=
+
+dn: cn=Charles Gray,ou=people,ou=NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: posixAccount
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+cn: Charles Gray
+gidNumber: 250
+homeDirectory: /home/cgray
+sn: Gray
+uid: cgray
+uidNumber: 9998
+mail: bsuzuki@wgen.net
+userPassword:: e1NIQX0xREVKOWNVVnNpWmlTM0UwcjViUDJaYVdVdkE9
+
+dn: cn=LuckyStrikeDBAdmin,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: LuckyStrikeDBAdmin
+gidNumber: 505
+homeDirectory: /ingestion/lz/LuckyStrikeIL/13e785053e77f7d6b064cdcd43167f70a
+ e8c32ca88c6a3b9b0c8cd52458faa77
+sn: Admin
+uid: luckystrikedbadmin
+uidNumber: 5000
+description:: dGVuYW50PUx1Y2t5U3RyaWtlSUwKZWRPcmc9SUwtREFZQlJFQUs=
+displayName: 8fceef13e11da5e1474865cc0233722f
+givenName: Daybreak
+loginShell: /bin/sh
+mail: mlane@wgen.net
+userPassword:: e1NIQX1tOE5GU2RWbDJWQmJLSDNnelNDc2Q3NGRQeXc9
+
+dn: cn=LuckyStrikeILAdmin,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: LuckyStrikeILAdmin
+gidNumber: 508
+homeDirectory: /home/users/iladmin
+sn: Admin
+uid: luckystrikeiladmin
+uidNumber: 5001
+description:: dGVuYW50PUx1Y2t5U3RyaWtlSUwKZWRPcmc9SUw=
+displayName: 5ec3c4c649549e844fdb692c0f631c10
+givenName: IL
+loginShell: /bin/sh
+mail: mlane@wgen.net
+userPassword:: e1NIQX1tOE5GU2RWbDJWQmJLSDNnelNDc2Q3NGRQeXc9
+
+dn: cn=LuckyStrikeNYAdmin,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: LuckyStrikeNYAdmin
+gidNumber: 508
+homeDirectory: /ingestion/lz/LuckyStrikeNY/bb81cc088e3e6b056144dd60cd7ac675b
+ c37c36a5d59143157f38f7a9b272aa7
+sn: Admin
+uid: luckystrikenyadmin
+uidNumber: 5002
+description:: dGVuYW50PUx1Y2t5U3RyaWtlTlkKZWRPcmc9TlktU1RBVEUtTllD
+displayName: 25fba525abfb2ce339e3a3dc82348dcb
+givenName: NY
+loginShell: /bin/sh
+mail: mlane@wgen.net
+userPassword:: e1NIQX1tOE5GU2RWbDJWQmJLSDNnelNDc2Q3NGRQeXc9
+
+dn: cn=LuckyStrikeSunsetAdmin,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slid
+ ev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: LuckyStrikeSunsetAdmin
+gidNumber: 505
+homeDirectory: /dev/null
+sn: Admin
+uid: luckystrikesunsetadmin
+uidNumber: 5003
+description:: dGVuYW50PUx1Y2t5U3RyaWtlSUwKZWRPcmc9SUwtU1VOU0VU
+displayName: 8fceef13e11da5e1474865cc0233722f
+givenName: Sunset
+loginShell: /bin/sh
+mail: mlane@wgen.net
+userPassword:: e1NIQX1tOE5GU2RWbDJWQmJLSDNnelNDc2Q3NGRQeXc9
+
+dn: cn=PantheonDBAdmin,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: PantheonDBAdmin
+gidNumber: 505
+homeDirectory: /ingestion/lz/PantheonIL/13e785053e77f7d6b064cdcd43167f70ae8c
+ 32ca88c6a3b9b0c8cd52458faa77
+sn: Admin
+uid: pantheondbadmin
+uidNumber: 5004
+description:: dGVuYW50PVBhbnRoZW9uSUwKZWRPcmc9SUwtREFZQlJFQUs=
+displayName: 8fceef13e11da5e1474865cc0233722f
+givenName: Daybreak
+loginShell: /bin/sh
+mail: srichards@wgen.net
+userPassword:: e1NIQX1tOE5GU2RWbDJWQmJLSDNnelNDc2Q3NGRQeXc9
+
+dn: cn=PantheonILAdmin,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: PantheonILAdmin
+gidNumber: 508
+homeDirectory: /home/users/iladmin
+sn: Admin
+uid: pantheoniladmin
+uidNumber: 5005
+description:: dGVuYW50PVBhbnRoZW9uSUwKZWRPcmc9SUw=
+displayName: 5ec3c4c649549e844fdb692c0f631c10
+givenName: IL
+loginShell: /bin/sh
+mail: srichards@wgen.net
+userPassword:: e1NIQX1tOE5GU2RWbDJWQmJLSDNnelNDc2Q3NGRQeXc9
+
+dn: cn=PantheonNYAdmin,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: PantheonNYAdmin
+gidNumber: 508
+homeDirectory: /dev/null
+sn: Admin
+uid: pantheonnyadmin
+uidNumber: 5006
+description:: dGVuYW50PVBhbnRoZW9uTlkKZWRPcmc9TlktU1RBVEUtTllD
+displayName: 25fba525abfb2ce339e3a3dc82348dcb
+givenName: NY
+loginShell: /bin/sh
+mail: srichards@wgen.net
+userPassword:: e1NIQX1tOE5GU2RWbDJWQmJLSDNnelNDc2Q3NGRQeXc9
+
+dn: cn=PantheonSunsetAdmin,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,
+ dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: PantheonSunsetAdmin
+gidNumber: 505
+homeDirectory: /dev/null
+sn: Admin
+uid: pantheonsunsetadmin
+uidNumber: 5007
+description:: dGVuYW50PVBhbnRoZW9uSUwKZWRPcmc9SUwtU1VOU0VU
+displayName: 8fceef13e11da5e1474865cc0233722f
+givenName: Sunset
+loginShell: /bin/sh
+mail: srichards@wgen.net
+userPassword:: e1NIQX1tOE5GU2RWbDJWQmJLSDNnelNDc2Q3NGRQeXc9
+
+dn: cn=JuggernautDBAdmin,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: JuggernautDBAdmin
+gidNumber: 505
+homeDirectory: /ingestion/lz/JuggernautIL/13e785053e77f7d6b064cdcd43167f70ae
+ 8c32ca88c6a3b9b0c8cd52458faa77
+sn: Admin
+uid: juggernautdbadmin
+uidNumber: 5008
+description:: dGVuYW50PUp1Z2dlcm5hdXRJTAplZE9yZz1JTC1EQVlCUkVBSw==
+displayName: 8fceef13e11da5e1474865cc0233722f
+givenName: Daybreak
+loginShell: /bin/sh
+mail: dip@wgen.net
+userPassword:: e1NIQX1tOE5GU2RWbDJWQmJLSDNnelNDc2Q3NGRQeXc9
+
+dn: cn=JuggernautILAdmin,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: JuggernautILAdmin
+gidNumber: 508
+homeDirectory: /home/users/iladmin
+sn: Admin
+uid: juggernautiladmin
+uidNumber: 5009
+description:: dGVuYW50PUp1Z2dlcm5hdXRJTAplZE9yZz1JTA==
+displayName: 5ec3c4c649549e844fdb692c0f631c10
+givenName: IL
+loginShell: /bin/sh
+mail: dip@wgen.net
+userPassword:: e1NIQX1tOE5GU2RWbDJWQmJLSDNnelNDc2Q3NGRQeXc9
+
+dn: cn=JuggernautNYAdmin,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: JuggernautNYAdmin
+gidNumber: 508
+homeDirectory: /dev/null
+sn: Admin
+uid: juggernautnyadmin
+uidNumber: 5010
+description:: dGVuYW50PUp1Z2dlcm5hdXROWQplZE9yZz1OWS1TVEFURS1OWUM=
+displayName: 25fba525abfb2ce339e3a3dc82348dcb
+givenName: NY
+loginShell: /bin/sh
+mail: dip@wgen.net
+userPassword:: e1NIQX1tOE5GU2RWbDJWQmJLSDNnelNDc2Q3NGRQeXc9
+
+dn: cn=JuggernautSunsetAdmin,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: JuggernautSunsetAdmin
+gidNumber: 505
+homeDirectory: /dev/null
+sn: Admin
+uid: juggernautsunsetadmin
+uidNumber: 5011
+description:: dGVuYW50PUp1Z2dlcm5hdXRJTAplZE9yZz1JTC1TVU5TRVQ=
+displayName: 8fceef13e11da5e1474865cc0233722f
+givenName: Sunset
+loginShell: /bin/sh
+mail: dip@wgen.net
+userPassword:: e1NIQX1tOE5GU2RWbDJWQmJLSDNnelNDc2Q3NGRQeXc9
+
+dn: cn=MegatronILAdmin,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: MegatronILAdmin
+gidNumber: 508
+homeDirectory: /home/users/iladmin
+sn: Admin
+uid: megatroniladmin
+uidNumber: 5013
+description:: dGVuYW50PU1lZ2F0cm9uSUwKZWRPcmc9SUw=
+displayName: 5ec3c4c649549e844fdb692c0f631c10
+givenName: IL
+loginShell: /bin/sh
+mail: bsuzuki@wgen.net
+userPassword:: e1NIQX1tOE5GU2RWbDJWQmJLSDNnelNDc2Q3NGRQeXc9
+
+dn: cn=MegatronNYAdmin,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: MegatronNYAdmin
+gidNumber: 508
+homeDirectory: /ingestion/lz/MegatronNY/bb81cc088e3e6b056144dd60cd7ac675bc37
+ c36a5d59143157f38f7a9b272aa7
+sn: Admin
+uid: megatronnyadmin
+uidNumber: 5014
+description:: dGVuYW50PU1lZ2F0cm9uTlkKZWRPcmc9TlktU1RBVEUtTllD
+displayName: 25fba525abfb2ce339e3a3dc82348dcb
+givenName: NY
+loginShell: /bin/sh
+mail: bsuzuki@wgen.net
+userPassword:: e1NIQX1tOE5GU2RWbDJWQmJLSDNnelNDc2Q3NGRQeXc9
+
+dn: cn=MegatronSunsetAdmin,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,
+ dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: MegatronSunsetAdmin
+gidNumber: 505
+homeDirectory: /dev/null
+sn: Admin
+uid: megatronsunsetadmin
+uidNumber: 5015
+description:: dGVuYW50PU1lZ2F0cm9uSUwKZWRPcmc9SUwtU1VOU0VU
+displayName: 8fceef13e11da5e1474865cc0233722f
+givenName: Sunset
+loginShell: /bin/sh
+mail: bsuzuki@wgen.net
+userPassword:: e1NIQX1tOE5GU2RWbDJWQmJLSDNnelNDc2Q3NGRQeXc9
+
+dn: cn=MegatronDBAdmin,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: MegatronDBAdmin
+gidNumber: 505
+homeDirectory: /dev/null
+sn: Admin
+uid: megatrondbadmin
+uidNumber: 5012
+description:: dGVuYW50PU1lZ2F0cm9uSUwKZWRPcmc9SUwtREFZQlJFQUs=
+displayName: 8fceef13e11da5e1474865cc0233722f
+givenName: Daybreak
+loginShell: /bin/sh
+mail: bsuzuki@wgen.net
+userPassword:: e1NIQX1tOE5GU2RWbDJWQmJLSDNnelNDc2Q3NGRQeXc9
+
+dn: ou=LuckyStrike-IL-Daybreak,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: LuckyStrike-IL-Daybreak
+
+dn: ou=groups,ou=LuckyStrike-IL-Daybreak,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: cn=Educator,ou=groups,ou=LuckyStrike-IL-Daybreak,ou=rcEnvironment,dc=sli
+ dev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Educator
+gidNumber: 503
+memberUid: linda.kim
+memberUid: cgray
+memberUid: rbraverman
+
+dn: cn=Leader,ou=groups,ou=LuckyStrike-IL-Daybreak,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Leader
+gidNumber: 512
+memberUid: sbantu
+memberUid: mgonzales
+memberUid: rgorki
+memberUid: afranco
+
+dn: cn=IT Administrator,ou=groups,ou=LuckyStrike-IL-Daybreak,ou=rcEnvironmen
+ t,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: IT Administrator
+gidNumber: 513
+memberUid: jstevenson
+memberUid: akopel
+memberUid: rrogers
+
+dn: cn=Aggregate Viewer,ou=groups,ou=LuckyStrike-IL-Daybreak,ou=rcEnvironmen
+ t,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Aggregate Viewer
+gidNumber: 514
+memberUid: jjackson
+memberUid: msmith
+memberUid: mjohnson
+
+dn: ou=people,ou=LuckyStrike-IL-Daybreak,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: cn=Linda Kim,ou=people,ou=LuckyStrike-IL-Daybreak,ou=rcEnvironment,dc=sl
+ idev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Linda Kim
+gidNumber: 503
+homeDirectory: /home/users/lindakim
+sn: Kim
+uid: linda.kim
+uidNumber: 1117
+givenName: Linda
+loginShell: /bin/sh
+userPassword:: e01ENX15bENoMXNmNERQekZDbFZ5cndHbXhnPT0=
+
+dn: cn=Charles Gray,ou=people,ou=LuckyStrike-IL-Daybreak,ou=rcEnvironment,dc
+ =slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Charles Gray
+gidNumber: 507
+homeDirectory: /home/users/cgray
+sn: Gray
+uid: cgray
+uidNumber: 1134
+givenName: Charles
+loginShell: /bin/sh
+userPassword:: e01ENX1JOU1IeC9WY2hhSHJvMS9pKytVUU9BPT0=
+
+dn: cn=Rebecca Braverman,ou=people,ou=LuckyStrike-IL-Daybreak,ou=rcEnvironme
+ nt,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rebecca Braverman
+gidNumber: 507
+homeDirectory: /home/users/rbraverman
+sn: Braverman
+uid: rbraverman
+uidNumber: 1135
+givenName: Rebecca
+loginShell: /bin/sh
+userPassword:: e01ENX1oSFFncWJmc0FqZTNtanEvRHkrR2V3PT0=
+
+dn: cn=Susan Bantu,ou=people,ou=LuckyStrike-IL-Daybreak,ou=rcEnvironment,dc=
+ slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Susan Bantu
+gidNumber: 512
+homeDirectory: /home/users/sbantu1
+sn: Bantu
+uid: sbantu
+uidNumber: 1136
+givenName: Susan
+loginShell: /bin/bash
+userPassword:: e01ENX1jeFgwdXA2SEFaQzNUZlMxYUNTU0FnPT0=
+
+dn: cn=James Stevenson,ou=people,ou=LuckyStrike-IL-Daybreak,ou=rcEnvironment
+ ,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: James Stevenson
+gidNumber: 513
+homeDirectory: /home/users/jstevenson
+sn: Stevenson
+uid: jstevenson
+uidNumber: 1137
+givenName: James
+loginShell: /bin/bash
+userPassword:: e01ENX1BblpjMU9zTWZXOUEya1k0a2YwSlh3PT0=
+
+dn: cn=Jack Jackson,ou=people,ou=LuckyStrike-IL-Daybreak,ou=rcEnvironment,dc
+ =slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Jack Jackson
+gidNumber: 514
+homeDirectory: /home/users/jjackson
+sn: Jackson
+uid: jjackson
+uidNumber: 1138
+givenName: Jack
+loginShell: /bin/bash
+userPassword:: e01ENX0wOGZ2WCtGSENHcU5uYTVSdTM1RmZBPT0=
+
+dn: cn=Maria Gonzales,ou=people,ou=LuckyStrike-IL-Daybreak,ou=rcEnvironment,
+ dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Maria Gonzales
+gidNumber: 512
+homeDirectory: /home/users/mgonzales
+sn: Gonzales
+uid: mgonzales
+uidNumber: 1139
+givenName: Maria
+loginShell: /bin/bash
+userPassword:: e01ENX1GaUZGYjgvclZJNmx5MjIzcWZkVTF3PT0=
+
+dn: cn=Rob Gorki,ou=people,ou=LuckyStrike-IL-Daybreak,ou=rcEnvironment,dc=sl
+ idev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rob Gorki
+gidNumber: 512
+homeDirectory: /home/users/rgorki
+sn: Gorki
+uid: rgorki
+uidNumber: 1140
+givenName: Rob
+loginShell: /bin/bash
+userPassword:: e01ENX1TVi94Ni9pSW05c0wrQUpWcDlzZDdnPT0=
+
+dn: cn=Mary Smith,ou=people,ou=LuckyStrike-IL-Daybreak,ou=rcEnvironment,dc=s
+ lidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Mary Smith
+gidNumber: 514
+homeDirectory: /home/users/msmith
+sn: Smith
+uid: msmith
+uidNumber: 1141
+givenName: Mary
+loginShell: /bin/bash
+userPassword:: e01ENX1MVU9hSVdxOTlLL2EyM3RUNnpKV0RnPT0=
+
+dn: cn=Michael Johnson,ou=people,ou=LuckyStrike-IL-Daybreak,ou=rcEnvironment
+ ,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Michael Johnson
+gidNumber: 514
+homeDirectory: /home/users/mjohnson
+sn: Johnson
+uid: mjohnson
+uidNumber: 1142
+givenName: Michael
+loginShell: /bin/bash
+userPassword:: e01ENX04Q1VJSlF3blVTRFJOY0Fqd2M2WTV3PT0=
+
+dn: cn=Amy Kopel,ou=people,ou=LuckyStrike-IL-Daybreak,ou=rcEnvironment,dc=sl
+ idev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Amy Kopel
+gidNumber: 513
+homeDirectory: /home/users/akopel
+sn: Kopel
+uid: akopel
+uidNumber: 1143
+givenName: Amy
+loginShell: /bin/bash
+userPassword:: e01ENX1md2JjMzJqTzM0V1NObThiaittTkVBPT0=
+
+dn: cn=Rick Rogers,ou=people,ou=LuckyStrike-IL-Daybreak,ou=rcEnvironment,dc=
+ slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rick Rogers
+gidNumber: 100
+homeDirectory: /home/users/rrogers
+sn: Rogers
+uid: rrogers
+uidNumber: 1144
+givenName: Rick
+loginShell: /bin/bash
+userPassword:: e01ENX1ubnJsdzd0QzU1d0FmMkxtN2llOWFRPT0=
+
+dn: cn=Autoro Franco,ou=people,ou=LuckyStrike-IL-Daybreak,ou=rcEnvironment,d
+ c=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Autoro Franco
+gidNumber: 100
+homeDirectory: /home/users/afranco
+sn: Franco
+uid: afranco
+uidNumber: 1145
+givenName: Autoro
+loginShell: /bin/bash
+userPassword:: e01ENX1vMHl3cTRTMlpZVDVtY3JxL1k0Skt3PT0=
+
+dn: ou=LuckyStrike-IL-Sunset,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: LuckyStrike-IL-Sunset
+
+dn: ou=groups,ou=LuckyStrike-IL-Sunset,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: cn=Educator,ou=groups,ou=LuckyStrike-IL-Sunset,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Educator
+gidNumber: 507
+memberUid: ejane
+memberUid: manthony
+memberUid: cgray
+memberUid: jdoe
+memberUid: lroslin
+memberUid: john_doe
+memberUid: tbear
+
+dn: cn=Leader,ou=groups,ou=LuckyStrike-IL-Sunset,ou=rcEnvironment,dc=slidev,
+ dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Leader
+gidNumber: 515
+memberUid: llogan
+memberUid: ckoch
+
+dn: cn=Aggregate Viewer,ou=groups,ou=LuckyStrike-IL-Sunset,ou=rcEnvironment,
+ dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Aggregate Viewer
+gidNumber: 516
+memberUid: jvasquez
+
+dn: cn=IT Administrator,ou=groups,ou=LuckyStrike-IL-Sunset,ou=rcEnvironment,
+ dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: IT Administrator
+gidNumber: 517
+memberUid: ljones
+memberUid: jwashington
+
+dn: ou=people,ou=LuckyStrike-IL-Sunset,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: cn=Christopher Koch,ou=people,ou=LuckyStrike-IL-Sunset,ou=rcEnvironment,
+ dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Christopher Koch
+gidNumber: 100
+homeDirectory: /home/users/ckoch
+sn: Koch
+uid: ckoch
+uidNumber: 1150
+givenName: Christopher
+loginShell: /bin/bash
+userPassword:: e01ENX1CVjk1NjV0ejJQdVlzQ2c3eDJxRGhnPT0=
+
+dn: cn=Mark Anthony,ou=people,ou=LuckyStrike-IL-Sunset,ou=rcEnvironment,dc=s
+ lidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Mark Anthony
+gidNumber: 100
+homeDirectory: /home/users/manthony
+sn: Anthony
+uid: manthony
+uidNumber: 1151
+givenName: Mark
+loginShell: /bin/bash
+userPassword:: e01ENX1VbG9LdFkwdFF2YzVKU1MzeWNCMkJnPT0=
+
+dn: cn=Linda Jones,ou=people,ou=LuckyStrike-IL-Sunset,ou=rcEnvironment,dc=sl
+ idev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Linda Jones
+gidNumber: 100
+homeDirectory: /home/users/ljones
+sn: Jones
+uid: ljones
+uidNumber: 1152
+givenName: Linda
+loginShell: /bin/bash
+userPassword:: e01ENX1sYUJ6VVQ0NjBXUGgyYUw0TzVnWmVBPT0=
+
+dn: cn=Jon Vasquez,ou=people,ou=LuckyStrike-IL-Sunset,ou=rcEnvironment,dc=sl
+ idev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Jon Vasquez
+gidNumber: 100
+homeDirectory: /home/users/jvasquez
+sn: Vasquez
+uid: jvasquez
+uidNumber: 1153
+givenName: Jon
+loginShell: /bin/bash
+userPassword:: e01ENX1LOFRiaTVRdkhuVlIzUzBLb0t3VXB3PT0=
+
+dn: cn=Liza Logan,ou=people,ou=LuckyStrike-IL-Sunset,ou=rcEnvironment,dc=sli
+ dev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Liza Logan
+gidNumber: 100
+homeDirectory: /home/users/llogan
+sn: Logan
+uid: llogan
+uidNumber: 1154
+givenName: Liza
+loginShell: /bin/bash
+userPassword:: e01ENX1VbE9SZFpqY254cG9UdEtRZ2JRampnPT0=
+
+dn: cn=Josef Washington,ou=people,ou=LuckyStrike-IL-Sunset,ou=rcEnvironment,
+ dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Josef Washington
+gidNumber: 100
+homeDirectory: /home/users/jwashington
+sn: Washington
+uid: jwashington
+uidNumber: 1155
+givenName: Josef
+loginShell: /bin/bash
+userPassword:: e01ENX1pYzdlWkl1SVp4NWorTGxnMXJQbEdnPT0=
+
+dn: cn=Charles Gray,ou=people,ou=LuckyStrike-IL-Sunset,ou=rcEnvironment,dc=s
+ lidev,dc=org
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Charles Gray
+sn: Gray
+uid: cgray
+userPassword:: e01ENX1JOU1IeC9WY2hhSHJvMS9pKytVUU9BPT0=
+
+dn: cn=BadAdmin Test,ou=people,ou=LuckyStrike-IL-Sunset,ou=rcEnvironment,dc=
+ slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: BadAdmin Test
+gidNumber: 511
+homeDirectory: /home/users/badadmin
+sn: Test
+uid: badadmin
+uidNumber: 1146
+givenName: BadAdmin
+loginShell: /bin/bash
+userPassword:: e01ENX1iM21BRkJySWQzTjJzOUVrTEkwNXN3PT0=
+
+dn: cn=Elizabeth Jane,ou=people,ou=LuckyStrike-IL-Sunset,ou=rcEnvironment,dc
+ =slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Elizabeth Jane
+sn: Jane
+uid: ejane
+userPassword:: e01ENX0vK2Nyd3VYY3lLOGR0U2UyM05XUVdnPT0=
+
+dn: cn=John Doe,ou=people,ou=LuckyStrike-IL-Sunset,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: John Doe
+sn: Doe
+givenName: John
+uid: john_doe
+userPassword:: e01ENX15TndTaWJuMDFQSyt4SzA0ZnFLdzFRPT0=
+
+dn: cn=Teddy Bear,ou=people,ou=LuckyStrike-IL-Sunset,ou=rcEnvironment,dc=sli
+ dev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Teddy Bear
+sn: Bear
+givenName: Teddy
+uid: tbear
+userPassword:: e01ENX01Y1lFY1RJQ2ZUOHJLZHNOZTJxVGdnPT0=
+
+dn: cn=Joe Doe,ou=people,ou=LuckyStrike-IL-Sunset,ou=rcEnvironment,dc=slidev
+ ,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Joe Doe
+sn: Doe
+givenName: Joe
+uid: jdoe
+userPassword:: e01ENX1Iei9KQ3llT3NyT3VuMldsaEVmaXdRPT0=
+
+dn: cn=Laura Roslin,ou=people,ou=LuckyStrike-IL-Sunset,ou=rcEnvironment,dc=s
+ lidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+objectClass: posixAccount
+cn: Laura Roslin
+gidNumber: 100
+homeDirectory: /home/users/lroslin
+sn: Roslin
+uid: lroslin
+uidNumber: 5332
+loginShell: /bin/bash
+userPassword:: e01ENX1HditYVnVya2VIV1hmMzBzSkoxME5RPT0=
+
+dn: ou=LuckyStrike-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: LuckyStrike-NY
+
+dn: ou=groups,ou=LuckyStrike-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: cn=Educator,ou=groups,ou=LuckyStrike-NY,ou=rcEnvironment,dc=slidev,dc=or
+ g
+objectClass: posixGroup
+objectClass: top
+cn: Educator
+gidNumber: 518
+memberUid: johndoe
+memberUid: ejane
+memberUid: mario.sanchez
+memberUid: cgray
+
+dn: cn=Leader,ou=groups,ou=LuckyStrike-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Leader
+gidNumber: 519
+memberUid: kmelendez
+memberUid: eengland
+memberUid: gcanning
+memberUid: jbarrera
+
+dn: cn=IT Administrator,ou=groups,ou=LuckyStrike-NY,ou=rcEnvironment,dc=slid
+ ev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: IT Administrator
+gidNumber: 520
+memberUid: jpratt
+memberUid: mhahn
+memberUid: jcarlyle
+memberUid: agibbs
+
+dn: cn=Aggregate Viewer,ou=groups,ou=LuckyStrike-NY,ou=rcEnvironment,dc=slid
+ ev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Aggregate Viewer
+gidNumber: 521
+memberUid: jsmalley
+memberUid: sholcomb
+memberUid: rlindsey
+memberUid: charrison
+
+dn: ou=people,ou=LuckyStrike-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: cn=Mario Sanchez,ou=people,ou=LuckyStrike-NY,ou=rcEnvironment,dc=slidev,
+ dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Mario Sanchez
+gidNumber: 100
+homeDirectory: /home/users/mario.sanchez
+sn: Sanchez
+uid: mario.sanchez
+uidNumber: 1156
+givenName: Mario
+loginShell: /bin/bash
+userPassword:: e01ENX1ITWZaL2JkNktWa3FJZVVnSE0xVlNBPT0=
+
+dn: cn=Emerson England,ou=people,ou=LuckyStrike-NY,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Emerson England
+sn: England
+uid: eengland
+userPassword:: e1NIQX11dXRYSTJNWWhVam5vN3I3Q0tMNDFqMXZTaW89
+
+dn: cn=Jefferson Pratt,ou=people,ou=LuckyStrike-NY,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Jefferson Pratt
+gidNumber: 100
+homeDirectory: /home/users/jpratt
+sn: Pratt
+uid: jpratt
+uidNumber: 1157
+givenName: Jefferson
+loginShell: /bin/bash
+userPassword:: e01ENX1VakxuOHUyVVEzcHhrcVlrNHMvNy93PT0=
+
+dn: cn=Joshua Smalley,ou=people,ou=LuckyStrike-NY,ou=rcEnvironment,dc=slidev
+ ,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+objectClass: person
+cn: Joshua Smalley
+sn: Smalley
+givenName: Joshua
+uid: jsmalley
+userPassword:: e01ENX11ZXgxUkhsTXhlRUJIanQ5b3MzTndBPT0=
+
+dn: cn=Georgia Canning,ou=people,ou=LuckyStrike-NY,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Georgia Canning
+sn: Canning
+pager: cn=DevLDAP User, ou=People,dc=slidev,dc=org
+uid: gcanning
+userPassword:: e01ENX1ja2x6OXRJZVBYZm9NZnY4ZEF6bTVRPT0=
+
+dn: cn=Justin Carlyle,ou=people,ou=LuckyStrike-NY,ou=rcEnvironment,dc=slidev
+ ,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Justin Carlyle
+sn: Carlyle
+uid: jcarlyle
+userPassword:: e01ENX1pc3JVOTZUMlFRSkI0Uk45SkZYREZ3PT0=
+
+dn: cn=Marlene Hahn,ou=people,ou=LuckyStrike-NY,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Marlene Hahn
+sn: Hahn
+uid: mhahn
+userPassword:: e01ENX1HdlU5bGQwamdRYndYaXZyUVBZUHBnPT0=
+
+dn: cn=Rene Lindsey,ou=people,ou=LuckyStrike-NY,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Rene Lindsey
+sn: Lindsey
+uid: rlindsey
+userPassword:: e01ENX1ZYXFQeXp2U1Mvblgyb3RmZXd1cmlnPT0=
+
+dn: cn=Simone Holcomb,ou=people,ou=LuckyStrike-NY,ou=rcEnvironment,dc=slidev
+ ,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Simone Holcomb
+sn: Holcomb
+uid: sholcomb
+userPassword:: e01ENX1GZktTU01UVTc1Wmh6enkwU0RtcnVBPT0=
+
+dn: cn=Keisha Melendez,ou=people,ou=LuckyStrike-NY,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Keisha Melendez
+sn: Melendez
+uid: kmelendez
+userPassword:: e01ENX1jR21KUHVEWTZzeHkwY0VDZE5ZdmhRPT0=
+
+dn: cn=Al Gibbs,ou=people,ou=LuckyStrike-NY,ou=rcEnvironment,dc=slidev,dc=or
+ g
+objectClass: inetOrgPerson
+objectClass: top
+cn: Al Gibbs
+sn: Gibbs
+uid: agibbs
+userPassword:: e01ENX1oNHp1N2tkZHVGRVA4Y3lCRlF4RHdRPT0=
+
+dn: cn=Chandra Harrison,ou=people,ou=LuckyStrike-NY,ou=rcEnvironment,dc=slid
+ ev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Chandra Harrison
+sn: Harrison
+uid: charrison
+userPassword:: e01ENX04ZytxNjhjcXMvQ2NFNThoOUNRVTJBPT0=
+
+dn: cn=Jane Barrera,ou=people,ou=LuckyStrike-NY,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Jane Barrera
+sn: Barrera
+uid: jbarrera
+userPassword:: e01ENX0wMCtSSXhKVkpPdHdxVlFramVCdTlRPT0=
+
+dn: cn=Emily Jane,ou=people,ou=LuckyStrike-NY,ou=rcEnvironment,dc=slidev,dc=
+ org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Emily Jane
+sn: Jane
+uid: ejane
+userPassword:: e01ENX0vK2Nyd3VYY3lLOGR0U2UyM05XUVdnPT0=
+
+dn: cn=John Doe,ou=people,ou=LuckyStrike-NY,ou=rcEnvironment,dc=slidev,dc=or
+ g
+objectClass: inetOrgPerson
+objectClass: top
+cn: John Doe
+sn: Doe
+givenName: John
+uid: johndoe
+userPassword:: e01ENX1qRWVRM0ZLL2l4anA4T3FIUkpHL25RPT0=
+
+dn: cn=Charles Gray,ou=people,ou=LuckyStrike-NY,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: posixAccount
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+cn: Charles Gray
+gidNumber: 250
+homeDirectory: /home/cgray
+sn: Gray
+uid: cgray
+uidNumber: 9998
+mail: bsuzuki@wgen.net
+userPassword:: e1NIQX0xREVKOWNVVnNpWmlTM0UwcjViUDJaYVdVdkE9
+
+dn: ou=Avenger-IL-Daybreak,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: Avenger-IL-Daybreak
+
+dn: ou=groups,ou=Avenger-IL-Daybreak,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: cn=Educator,ou=groups,ou=Avenger-IL-Daybreak,ou=rcEnvironment,dc=slidev,
+ dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Educator
+gidNumber: 503
+memberUid: linda.kim
+memberUid: cgray
+memberUid: rbraverman
+
+dn: cn=Leader,ou=groups,ou=Avenger-IL-Daybreak,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: posixGroup
+objectClass: top
+cn: Leader
+gidNumber: 512
+memberUid: sbantu
+memberUid: mgonzales
+memberUid: rgorki
+memberUid: afranco
+
+dn: cn=IT Administrator,ou=groups,ou=Avenger-IL-Daybreak,ou=rcEnvironment,dc
+ =slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: IT Administrator
+gidNumber: 513
+memberUid: jstevenson
+memberUid: akopel
+memberUid: rrogers
+
+dn: cn=Aggregate Viewer,ou=groups,ou=Avenger-IL-Daybreak,ou=rcEnvironment,dc
+ =slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Aggregate Viewer
+gidNumber: 514
+memberUid: jjackson
+memberUid: msmith
+memberUid: mjohnson
+
+dn: ou=people,ou=Avenger-IL-Daybreak,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: cn=Linda Kim,ou=people,ou=Avenger-IL-Daybreak,ou=rcEnvironment,dc=slidev
+ ,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Linda Kim
+gidNumber: 503
+homeDirectory: /home/users/lindakim
+sn: Kim
+uid: linda.kim
+uidNumber: 1117
+givenName: Linda
+loginShell: /bin/sh
+userPassword:: e01ENX15bENoMXNmNERQekZDbFZ5cndHbXhnPT0=
+
+dn: cn=Charles Gray,ou=people,ou=Avenger-IL-Daybreak,ou=rcEnvironment,dc=sli
+ dev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Charles Gray
+gidNumber: 507
+homeDirectory: /home/users/cgray
+sn: Gray
+uid: cgray
+uidNumber: 1134
+givenName: Charles
+loginShell: /bin/sh
+userPassword:: e01ENX1JOU1IeC9WY2hhSHJvMS9pKytVUU9BPT0=
+
+dn: cn=Rebecca Braverman,ou=people,ou=Avenger-IL-Daybreak,ou=rcEnvironment,d
+ c=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rebecca Braverman
+gidNumber: 507
+homeDirectory: /home/users/rbraverman
+sn: Braverman
+uid: rbraverman
+uidNumber: 1135
+givenName: Rebecca
+loginShell: /bin/sh
+userPassword:: e01ENX1oSFFncWJmc0FqZTNtanEvRHkrR2V3PT0=
+
+dn: cn=Susan Bantu,ou=people,ou=Avenger-IL-Daybreak,ou=rcEnvironment,dc=slid
+ ev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Susan Bantu
+gidNumber: 512
+homeDirectory: /home/users/sbantu1
+sn: Bantu
+uid: sbantu
+uidNumber: 1136
+givenName: Susan
+loginShell: /bin/bash
+userPassword:: e01ENX1jeFgwdXA2SEFaQzNUZlMxYUNTU0FnPT0=
+
+dn: cn=James Stevenson,ou=people,ou=Avenger-IL-Daybreak,ou=rcEnvironment,dc=
+ slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: James Stevenson
+gidNumber: 513
+homeDirectory: /home/users/jstevenson
+sn: Stevenson
+uid: jstevenson
+uidNumber: 1137
+givenName: James
+loginShell: /bin/bash
+userPassword:: e01ENX1BblpjMU9zTWZXOUEya1k0a2YwSlh3PT0=
+
+dn: cn=Jack Jackson,ou=people,ou=Avenger-IL-Daybreak,ou=rcEnvironment,dc=sli
+ dev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Jack Jackson
+gidNumber: 514
+homeDirectory: /home/users/jjackson
+sn: Jackson
+uid: jjackson
+uidNumber: 1138
+givenName: Jack
+loginShell: /bin/bash
+userPassword:: e01ENX0wOGZ2WCtGSENHcU5uYTVSdTM1RmZBPT0=
+
+dn: cn=Maria Gonzales,ou=people,ou=Avenger-IL-Daybreak,ou=rcEnvironment,dc=s
+ lidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Maria Gonzales
+gidNumber: 512
+homeDirectory: /home/users/mgonzales
+sn: Gonzales
+uid: mgonzales
+uidNumber: 1139
+givenName: Maria
+loginShell: /bin/bash
+userPassword:: e01ENX1GaUZGYjgvclZJNmx5MjIzcWZkVTF3PT0=
+
+dn: cn=Rob Gorki,ou=people,ou=Avenger-IL-Daybreak,ou=rcEnvironment,dc=slidev
+ ,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rob Gorki
+gidNumber: 512
+homeDirectory: /home/users/rgorki
+sn: Gorki
+uid: rgorki
+uidNumber: 1140
+givenName: Rob
+loginShell: /bin/bash
+userPassword:: e01ENX1TVi94Ni9pSW05c0wrQUpWcDlzZDdnPT0=
+
+dn: cn=Mary Smith,ou=people,ou=Avenger-IL-Daybreak,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Mary Smith
+gidNumber: 514
+homeDirectory: /home/users/msmith
+sn: Smith
+uid: msmith
+uidNumber: 1141
+givenName: Mary
+loginShell: /bin/bash
+userPassword:: e01ENX1MVU9hSVdxOTlLL2EyM3RUNnpKV0RnPT0=
+
+dn: cn=Michael Johnson,ou=people,ou=Avenger-IL-Daybreak,ou=rcEnvironment,dc=
+ slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Michael Johnson
+gidNumber: 514
+homeDirectory: /home/users/mjohnson
+sn: Johnson
+uid: mjohnson
+uidNumber: 1142
+givenName: Michael
+loginShell: /bin/bash
+userPassword:: e01ENX04Q1VJSlF3blVTRFJOY0Fqd2M2WTV3PT0=
+
+dn: cn=Amy Kopel,ou=people,ou=Avenger-IL-Daybreak,ou=rcEnvironment,dc=slidev
+ ,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Amy Kopel
+gidNumber: 513
+homeDirectory: /home/users/akopel
+sn: Kopel
+uid: akopel
+uidNumber: 1143
+givenName: Amy
+loginShell: /bin/bash
+userPassword:: e01ENX1md2JjMzJqTzM0V1NObThiaittTkVBPT0=
+
+dn: cn=Rick Rogers,ou=people,ou=Avenger-IL-Daybreak,ou=rcEnvironment,dc=slid
+ ev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rick Rogers
+gidNumber: 100
+homeDirectory: /home/users/rrogers
+sn: Rogers
+uid: rrogers
+uidNumber: 1144
+givenName: Rick
+loginShell: /bin/bash
+userPassword:: e01ENX1ubnJsdzd0QzU1d0FmMkxtN2llOWFRPT0=
+
+dn: cn=Autoro Franco,ou=people,ou=Avenger-IL-Daybreak,ou=rcEnvironment,dc=sl
+ idev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Autoro Franco
+gidNumber: 100
+homeDirectory: /home/users/afranco
+sn: Franco
+uid: afranco
+uidNumber: 1145
+givenName: Autoro
+loginShell: /bin/bash
+userPassword:: e01ENX1vMHl3cTRTMlpZVDVtY3JxL1k0Skt3PT0=
+
+dn: ou=Avenger-IL-Sunset,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: Avenger-IL-Sunset
+
+dn: ou=groups,ou=Avenger-IL-Sunset,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: cn=Educator,ou=groups,ou=Avenger-IL-Sunset,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: posixGroup
+objectClass: top
+cn: Educator
+gidNumber: 507
+memberUid: ejane
+memberUid: manthony
+memberUid: cgray
+memberUid: jdoe
+memberUid: lroslin
+memberUid: john_doe
+memberUid: tbear
+
+dn: cn=Leader,ou=groups,ou=Avenger-IL-Sunset,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: posixGroup
+objectClass: top
+cn: Leader
+gidNumber: 515
+memberUid: llogan
+memberUid: ckoch
+
+dn: cn=Aggregate Viewer,ou=groups,ou=Avenger-IL-Sunset,ou=rcEnvironment,dc=s
+ lidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Aggregate Viewer
+gidNumber: 516
+memberUid: jvasquez
+
+dn: cn=IT Administrator,ou=groups,ou=Avenger-IL-Sunset,ou=rcEnvironment,dc=s
+ lidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: IT Administrator
+gidNumber: 517
+memberUid: ljones
+memberUid: jwashington
+
+dn: ou=people,ou=Avenger-IL-Sunset,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: cn=Christopher Koch,ou=people,ou=Avenger-IL-Sunset,ou=rcEnvironment,dc=s
+ lidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Christopher Koch
+gidNumber: 100
+homeDirectory: /home/users/ckoch
+sn: Koch
+uid: ckoch
+uidNumber: 1150
+givenName: Christopher
+loginShell: /bin/bash
+userPassword:: e01ENX1CVjk1NjV0ejJQdVlzQ2c3eDJxRGhnPT0=
+
+dn: cn=Mark Anthony,ou=people,ou=Avenger-IL-Sunset,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Mark Anthony
+gidNumber: 100
+homeDirectory: /home/users/manthony
+sn: Anthony
+uid: manthony
+uidNumber: 1151
+givenName: Mark
+loginShell: /bin/bash
+userPassword:: e01ENX1VbG9LdFkwdFF2YzVKU1MzeWNCMkJnPT0=
+
+dn: cn=Linda Jones,ou=people,ou=Avenger-IL-Sunset,ou=rcEnvironment,dc=slidev
+ ,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Linda Jones
+gidNumber: 100
+homeDirectory: /home/users/ljones
+sn: Jones
+uid: ljones
+uidNumber: 1152
+givenName: Linda
+loginShell: /bin/bash
+userPassword:: e01ENX1sYUJ6VVQ0NjBXUGgyYUw0TzVnWmVBPT0=
+
+dn: cn=Jon Vasquez,ou=people,ou=Avenger-IL-Sunset,ou=rcEnvironment,dc=slidev
+ ,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Jon Vasquez
+gidNumber: 100
+homeDirectory: /home/users/jvasquez
+sn: Vasquez
+uid: jvasquez
+uidNumber: 1153
+givenName: Jon
+loginShell: /bin/bash
+userPassword:: e01ENX1LOFRiaTVRdkhuVlIzUzBLb0t3VXB3PT0=
+
+dn: cn=Liza Logan,ou=people,ou=Avenger-IL-Sunset,ou=rcEnvironment,dc=slidev,
+ dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Liza Logan
+gidNumber: 100
+homeDirectory: /home/users/llogan
+sn: Logan
+uid: llogan
+uidNumber: 1154
+givenName: Liza
+loginShell: /bin/bash
+userPassword:: e01ENX1VbE9SZFpqY254cG9UdEtRZ2JRampnPT0=
+
+dn: cn=Josef Washington,ou=people,ou=Avenger-IL-Sunset,ou=rcEnvironment,dc=s
+ lidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Josef Washington
+gidNumber: 100
+homeDirectory: /home/users/jwashington
+sn: Washington
+uid: jwashington
+uidNumber: 1155
+givenName: Josef
+loginShell: /bin/bash
+userPassword:: e01ENX1pYzdlWkl1SVp4NWorTGxnMXJQbEdnPT0=
+
+dn: cn=Charles Gray,ou=people,ou=Avenger-IL-Sunset,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Charles Gray
+sn: Gray
+uid: cgray
+userPassword:: e01ENX1JOU1IeC9WY2hhSHJvMS9pKytVUU9BPT0=
+
+dn: cn=BadAdmin Test,ou=people,ou=Avenger-IL-Sunset,ou=rcEnvironment,dc=slid
+ ev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: BadAdmin Test
+gidNumber: 511
+homeDirectory: /home/users/badadmin
+sn: Test
+uid: badadmin
+uidNumber: 1146
+givenName: BadAdmin
+loginShell: /bin/bash
+userPassword:: e01ENX1iM21BRkJySWQzTjJzOUVrTEkwNXN3PT0=
+
+dn: cn=Elizabeth Jane,ou=people,ou=Avenger-IL-Sunset,ou=rcEnvironment,dc=sli
+ dev,dc=org
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Elizabeth Jane
+sn: Jane
+uid: ejane
+userPassword:: e01ENX0vK2Nyd3VYY3lLOGR0U2UyM05XUVdnPT0=
+
+dn: cn=John Doe,ou=people,ou=Avenger-IL-Sunset,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: inetOrgPerson
+objectClass: top
+cn: John Doe
+sn: Doe
+givenName: John
+uid: john_doe
+userPassword:: e01ENX15TndTaWJuMDFQSyt4SzA0ZnFLdzFRPT0=
+
+dn: cn=Teddy Bear,ou=people,ou=Avenger-IL-Sunset,ou=rcEnvironment,dc=slidev,
+ dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Teddy Bear
+sn: Bear
+givenName: Teddy
+uid: tbear
+userPassword:: e01ENX01Y1lFY1RJQ2ZUOHJLZHNOZTJxVGdnPT0=
+
+dn: cn=Joe Doe,ou=people,ou=Avenger-IL-Sunset,ou=rcEnvironment,dc=slidev,dc=
+ org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Joe Doe
+sn: Doe
+givenName: Joe
+uid: jdoe
+userPassword:: e01ENX1Iei9KQ3llT3NyT3VuMldsaEVmaXdRPT0=
+
+dn: cn=Laura Roslin,ou=people,ou=Avenger-IL-Sunset,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+objectClass: posixAccount
+cn: Laura Roslin
+gidNumber: 100
+homeDirectory: /home/users/lroslin
+sn: Roslin
+uid: lroslin
+uidNumber: 5332
+loginShell: /bin/bash
+userPassword:: e01ENX1HditYVnVya2VIV1hmMzBzSkoxME5RPT0=
+
+dn: ou=Avenger-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: Avenger-NY
+
+dn: ou=groups,ou=Avenger-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: cn=Educator,ou=groups,ou=Avenger-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Educator
+gidNumber: 518
+memberUid: johndoe
+memberUid: ejane
+memberUid: mario.sanchez
+memberUid: cgray
+
+dn: cn=Leader,ou=groups,ou=Avenger-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Leader
+gidNumber: 519
+memberUid: kmelendez
+memberUid: eengland
+memberUid: gcanning
+memberUid: jbarrera
+
+dn: cn=IT Administrator,ou=groups,ou=Avenger-NY,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: posixGroup
+objectClass: top
+cn: IT Administrator
+gidNumber: 520
+memberUid: jpratt
+memberUid: mhahn
+memberUid: jcarlyle
+memberUid: agibbs
+
+dn: cn=Aggregate Viewer,ou=groups,ou=Avenger-NY,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: posixGroup
+objectClass: top
+cn: Aggregate Viewer
+gidNumber: 521
+memberUid: jsmalley
+memberUid: sholcomb
+memberUid: rlindsey
+memberUid: charrison
+
+dn: ou=people,ou=Avenger-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: cn=Mario Sanchez,ou=people,ou=Avenger-NY,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Mario Sanchez
+gidNumber: 100
+homeDirectory: /home/users/mario.sanchez
+sn: Sanchez
+uid: mario.sanchez
+uidNumber: 1156
+givenName: Mario
+loginShell: /bin/bash
+userPassword:: e01ENX1ITWZaL2JkNktWa3FJZVVnSE0xVlNBPT0=
+
+dn: cn=Emerson England,ou=people,ou=Avenger-NY,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Emerson England
+sn: England
+uid: eengland
+userPassword:: e1NIQX11dXRYSTJNWWhVam5vN3I3Q0tMNDFqMXZTaW89
+
+dn: cn=Jefferson Pratt,ou=people,ou=Avenger-NY,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Jefferson Pratt
+gidNumber: 100
+homeDirectory: /home/users/jpratt
+sn: Pratt
+uid: jpratt
+uidNumber: 1157
+givenName: Jefferson
+loginShell: /bin/bash
+userPassword:: e01ENX1VakxuOHUyVVEzcHhrcVlrNHMvNy93PT0=
+
+dn: cn=Joshua Smalley,ou=people,ou=Avenger-NY,ou=rcEnvironment,dc=slidev,dc=
+ org
+objectClass: inetOrgPerson
+objectClass: top
+objectClass: person
+cn: Joshua Smalley
+sn: Smalley
+givenName: Joshua
+uid: jsmalley
+userPassword:: e01ENX11ZXgxUkhsTXhlRUJIanQ5b3MzTndBPT0=
+
+dn: cn=Georgia Canning,ou=people,ou=Avenger-NY,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Georgia Canning
+sn: Canning
+pager: cn=DevLDAP User, ou=People,dc=slidev,dc=org
+uid: gcanning
+userPassword:: e01ENX1ja2x6OXRJZVBYZm9NZnY4ZEF6bTVRPT0=
+
+dn: cn=Justin Carlyle,ou=people,ou=Avenger-NY,ou=rcEnvironment,dc=slidev,dc=
+ org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Justin Carlyle
+sn: Carlyle
+uid: jcarlyle
+userPassword:: e01ENX1pc3JVOTZUMlFRSkI0Uk45SkZYREZ3PT0=
+
+dn: cn=Marlene Hahn,ou=people,ou=Avenger-NY,ou=rcEnvironment,dc=slidev,dc=or
+ g
+objectClass: inetOrgPerson
+objectClass: top
+cn: Marlene Hahn
+sn: Hahn
+uid: mhahn
+userPassword:: e01ENX1HdlU5bGQwamdRYndYaXZyUVBZUHBnPT0=
+
+dn: cn=Rene Lindsey,ou=people,ou=Avenger-NY,ou=rcEnvironment,dc=slidev,dc=or
+ g
+objectClass: inetOrgPerson
+objectClass: top
+cn: Rene Lindsey
+sn: Lindsey
+uid: rlindsey
+userPassword:: e01ENX1ZYXFQeXp2U1Mvblgyb3RmZXd1cmlnPT0=
+
+dn: cn=Simone Holcomb,ou=people,ou=Avenger-NY,ou=rcEnvironment,dc=slidev,dc=
+ org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Simone Holcomb
+sn: Holcomb
+uid: sholcomb
+userPassword:: e01ENX1GZktTU01UVTc1Wmh6enkwU0RtcnVBPT0=
+
+dn: cn=Keisha Melendez,ou=people,ou=Avenger-NY,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Keisha Melendez
+sn: Melendez
+uid: kmelendez
+userPassword:: e01ENX1jR21KUHVEWTZzeHkwY0VDZE5ZdmhRPT0=
+
+dn: cn=Al Gibbs,ou=people,ou=Avenger-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Al Gibbs
+sn: Gibbs
+uid: agibbs
+userPassword:: e01ENX1oNHp1N2tkZHVGRVA4Y3lCRlF4RHdRPT0=
+
+dn: cn=Chandra Harrison,ou=people,ou=Avenger-NY,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Chandra Harrison
+sn: Harrison
+uid: charrison
+userPassword:: e01ENX04ZytxNjhjcXMvQ2NFNThoOUNRVTJBPT0=
+
+dn: cn=Jane Barrera,ou=people,ou=Avenger-NY,ou=rcEnvironment,dc=slidev,dc=or
+ g
+objectClass: inetOrgPerson
+objectClass: top
+cn: Jane Barrera
+sn: Barrera
+uid: jbarrera
+userPassword:: e01ENX0wMCtSSXhKVkpPdHdxVlFramVCdTlRPT0=
+
+dn: cn=Emily Jane,ou=people,ou=Avenger-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Emily Jane
+sn: Jane
+uid: ejane
+userPassword:: e01ENX0vK2Nyd3VYY3lLOGR0U2UyM05XUVdnPT0=
+
+dn: cn=John Doe,ou=people,ou=Avenger-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: John Doe
+sn: Doe
+givenName: John
+uid: johndoe
+userPassword:: e01ENX1qRWVRM0ZLL2l4anA4T3FIUkpHL25RPT0=
+
+dn: cn=Charles Gray,ou=people,ou=Avenger-NY,ou=rcEnvironment,dc=slidev,dc=or
+ g
+objectClass: posixAccount
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+cn: Charles Gray
+gidNumber: 250
+homeDirectory: /home/cgray
+sn: Gray
+uid: cgray
+uidNumber: 9998
+mail: bsuzuki@wgen.net
+userPassword:: e1NIQX0xREVKOWNVVnNpWmlTM0UwcjViUDJaYVdVdkE9
+
+dn: ou=Juggernaut-IL-Sunset,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: Juggernaut-IL-Sunset
+
+dn: ou=groups,ou=Juggernaut-IL-Sunset,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: cn=Educator,ou=groups,ou=Juggernaut-IL-Sunset,ou=rcEnvironment,dc=slidev
+ ,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Educator
+gidNumber: 507
+memberUid: ejane
+memberUid: manthony
+memberUid: cgray
+memberUid: jdoe
+memberUid: lroslin
+memberUid: john_doe
+memberUid: tbear
+
+dn: cn=Leader,ou=groups,ou=Juggernaut-IL-Sunset,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: posixGroup
+objectClass: top
+cn: Leader
+gidNumber: 515
+memberUid: llogan
+memberUid: ckoch
+
+dn: cn=Aggregate Viewer,ou=groups,ou=Juggernaut-IL-Sunset,ou=rcEnvironment,d
+ c=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Aggregate Viewer
+gidNumber: 516
+memberUid: jvasquez
+
+dn: cn=IT Administrator,ou=groups,ou=Juggernaut-IL-Sunset,ou=rcEnvironment,d
+ c=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: IT Administrator
+gidNumber: 517
+memberUid: ljones
+memberUid: jwashington
+
+dn: ou=people,ou=Juggernaut-IL-Sunset,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: cn=Christopher Koch,ou=people,ou=Juggernaut-IL-Sunset,ou=rcEnvironment,d
+ c=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Christopher Koch
+gidNumber: 100
+homeDirectory: /home/users/ckoch
+sn: Koch
+uid: ckoch
+uidNumber: 1150
+givenName: Christopher
+loginShell: /bin/bash
+userPassword:: e01ENX1CVjk1NjV0ejJQdVlzQ2c3eDJxRGhnPT0=
+
+dn: cn=Mark Anthony,ou=people,ou=Juggernaut-IL-Sunset,ou=rcEnvironment,dc=sl
+ idev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Mark Anthony
+gidNumber: 100
+homeDirectory: /home/users/manthony
+sn: Anthony
+uid: manthony
+uidNumber: 1151
+givenName: Mark
+loginShell: /bin/bash
+userPassword:: e01ENX1VbG9LdFkwdFF2YzVKU1MzeWNCMkJnPT0=
+
+dn: cn=Linda Jones,ou=people,ou=Juggernaut-IL-Sunset,ou=rcEnvironment,dc=sli
+ dev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Linda Jones
+gidNumber: 100
+homeDirectory: /home/users/ljones
+sn: Jones
+uid: ljones
+uidNumber: 1152
+givenName: Linda
+loginShell: /bin/bash
+userPassword:: e01ENX1sYUJ6VVQ0NjBXUGgyYUw0TzVnWmVBPT0=
+
+dn: cn=Jon Vasquez,ou=people,ou=Juggernaut-IL-Sunset,ou=rcEnvironment,dc=sli
+ dev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Jon Vasquez
+gidNumber: 100
+homeDirectory: /home/users/jvasquez
+sn: Vasquez
+uid: jvasquez
+uidNumber: 1153
+givenName: Jon
+loginShell: /bin/bash
+userPassword:: e01ENX1LOFRiaTVRdkhuVlIzUzBLb0t3VXB3PT0=
+
+dn: cn=Liza Logan,ou=people,ou=Juggernaut-IL-Sunset,ou=rcEnvironment,dc=slid
+ ev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Liza Logan
+gidNumber: 100
+homeDirectory: /home/users/llogan
+sn: Logan
+uid: llogan
+uidNumber: 1154
+givenName: Liza
+loginShell: /bin/bash
+userPassword:: e01ENX1VbE9SZFpqY254cG9UdEtRZ2JRampnPT0=
+
+dn: cn=Josef Washington,ou=people,ou=Juggernaut-IL-Sunset,ou=rcEnvironment,d
+ c=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Josef Washington
+gidNumber: 100
+homeDirectory: /home/users/jwashington
+sn: Washington
+uid: jwashington
+uidNumber: 1155
+givenName: Josef
+loginShell: /bin/bash
+userPassword:: e01ENX1pYzdlWkl1SVp4NWorTGxnMXJQbEdnPT0=
+
+dn: cn=Charles Gray,ou=people,ou=Juggernaut-IL-Sunset,ou=rcEnvironment,dc=sl
+ idev,dc=org
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Charles Gray
+sn: Gray
+uid: cgray
+userPassword:: e01ENX1JOU1IeC9WY2hhSHJvMS9pKytVUU9BPT0=
+
+dn: cn=BadAdmin Test,ou=people,ou=Juggernaut-IL-Sunset,ou=rcEnvironment,dc=s
+ lidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: BadAdmin Test
+gidNumber: 511
+homeDirectory: /home/users/badadmin
+sn: Test
+uid: badadmin
+uidNumber: 1146
+givenName: BadAdmin
+loginShell: /bin/bash
+userPassword:: e01ENX1iM21BRkJySWQzTjJzOUVrTEkwNXN3PT0=
+
+dn: cn=Elizabeth Jane,ou=people,ou=Juggernaut-IL-Sunset,ou=rcEnvironment,dc=
+ slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Elizabeth Jane
+sn: Jane
+uid: ejane
+userPassword:: e01ENX0vK2Nyd3VYY3lLOGR0U2UyM05XUVdnPT0=
+
+dn: cn=John Doe,ou=people,ou=Juggernaut-IL-Sunset,ou=rcEnvironment,dc=slidev
+ ,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: John Doe
+sn: Doe
+givenName: John
+uid: john_doe
+userPassword:: e01ENX15TndTaWJuMDFQSyt4SzA0ZnFLdzFRPT0=
+
+dn: cn=Teddy Bear,ou=people,ou=Juggernaut-IL-Sunset,ou=rcEnvironment,dc=slid
+ ev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Teddy Bear
+sn: Bear
+givenName: Teddy
+uid: tbear
+userPassword:: e01ENX01Y1lFY1RJQ2ZUOHJLZHNOZTJxVGdnPT0=
+
+dn: cn=Joe Doe,ou=people,ou=Juggernaut-IL-Sunset,ou=rcEnvironment,dc=slidev,
+ dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Joe Doe
+sn: Doe
+givenName: Joe
+uid: jdoe
+userPassword:: e01ENX1Iei9KQ3llT3NyT3VuMldsaEVmaXdRPT0=
+
+dn: cn=Laura Roslin,ou=people,ou=Juggernaut-IL-Sunset,ou=rcEnvironment,dc=sl
+ idev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+objectClass: posixAccount
+cn: Laura Roslin
+gidNumber: 100
+homeDirectory: /home/users/lroslin
+sn: Roslin
+uid: lroslin
+uidNumber: 5332
+loginShell: /bin/bash
+userPassword:: e01ENX1HditYVnVya2VIV1hmMzBzSkoxME5RPT0=
+
+dn: ou=Juggernaut-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: Juggernaut-NY
+
+dn: ou=groups,ou=Juggernaut-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: cn=Educator,ou=groups,ou=Juggernaut-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Educator
+gidNumber: 518
+memberUid: johndoe
+memberUid: ejane
+memberUid: mario.sanchez
+memberUid: cgray
+
+dn: cn=Leader,ou=groups,ou=Juggernaut-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Leader
+gidNumber: 519
+memberUid: kmelendez
+memberUid: eengland
+memberUid: gcanning
+memberUid: jbarrera
+
+dn: cn=IT Administrator,ou=groups,ou=Juggernaut-NY,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: IT Administrator
+gidNumber: 520
+memberUid: jpratt
+memberUid: mhahn
+memberUid: jcarlyle
+memberUid: agibbs
+
+dn: cn=Aggregate Viewer,ou=groups,ou=Juggernaut-NY,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Aggregate Viewer
+gidNumber: 521
+memberUid: jsmalley
+memberUid: sholcomb
+memberUid: rlindsey
+memberUid: charrison
+
+dn: ou=people,ou=Juggernaut-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: cn=Mario Sanchez,ou=people,ou=Juggernaut-NY,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Mario Sanchez
+gidNumber: 100
+homeDirectory: /home/users/mario.sanchez
+sn: Sanchez
+uid: mario.sanchez
+uidNumber: 1156
+givenName: Mario
+loginShell: /bin/bash
+userPassword:: e01ENX1ITWZaL2JkNktWa3FJZVVnSE0xVlNBPT0=
+
+dn: cn=Emerson England,ou=people,ou=Juggernaut-NY,ou=rcEnvironment,dc=slidev
+ ,dc=org
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Emerson England
+sn: England
+uid: eengland
+userPassword:: e1NIQX11dXRYSTJNWWhVam5vN3I3Q0tMNDFqMXZTaW89
+
+dn: cn=Jefferson Pratt,ou=people,ou=Juggernaut-NY,ou=rcEnvironment,dc=slidev
+ ,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Jefferson Pratt
+gidNumber: 100
+homeDirectory: /home/users/jpratt
+sn: Pratt
+uid: jpratt
+uidNumber: 1157
+givenName: Jefferson
+loginShell: /bin/bash
+userPassword:: e01ENX1VakxuOHUyVVEzcHhrcVlrNHMvNy93PT0=
+
+dn: cn=Joshua Smalley,ou=people,ou=Juggernaut-NY,ou=rcEnvironment,dc=slidev,
+ dc=org
+objectClass: inetOrgPerson
+objectClass: top
+objectClass: person
+cn: Joshua Smalley
+sn: Smalley
+givenName: Joshua
+uid: jsmalley
+userPassword:: e01ENX11ZXgxUkhsTXhlRUJIanQ5b3MzTndBPT0=
+
+dn: cn=Georgia Canning,ou=people,ou=Juggernaut-NY,ou=rcEnvironment,dc=slidev
+ ,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Georgia Canning
+sn: Canning
+pager: cn=DevLDAP User, ou=People,dc=slidev,dc=org
+uid: gcanning
+userPassword:: e01ENX1ja2x6OXRJZVBYZm9NZnY4ZEF6bTVRPT0=
+
+dn: cn=Justin Carlyle,ou=people,ou=Juggernaut-NY,ou=rcEnvironment,dc=slidev,
+ dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Justin Carlyle
+sn: Carlyle
+uid: jcarlyle
+userPassword:: e01ENX1pc3JVOTZUMlFRSkI0Uk45SkZYREZ3PT0=
+
+dn: cn=Marlene Hahn,ou=people,ou=Juggernaut-NY,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Marlene Hahn
+sn: Hahn
+uid: mhahn
+userPassword:: e01ENX1HdlU5bGQwamdRYndYaXZyUVBZUHBnPT0=
+
+dn: cn=Rene Lindsey,ou=people,ou=Juggernaut-NY,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Rene Lindsey
+sn: Lindsey
+uid: rlindsey
+userPassword:: e01ENX1ZYXFQeXp2U1Mvblgyb3RmZXd1cmlnPT0=
+
+dn: cn=Simone Holcomb,ou=people,ou=Juggernaut-NY,ou=rcEnvironment,dc=slidev,
+ dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Simone Holcomb
+sn: Holcomb
+uid: sholcomb
+userPassword:: e01ENX1GZktTU01UVTc1Wmh6enkwU0RtcnVBPT0=
+
+dn: cn=Keisha Melendez,ou=people,ou=Juggernaut-NY,ou=rcEnvironment,dc=slidev
+ ,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Keisha Melendez
+sn: Melendez
+uid: kmelendez
+userPassword:: e01ENX1jR21KUHVEWTZzeHkwY0VDZE5ZdmhRPT0=
+
+dn: cn=Al Gibbs,ou=people,ou=Juggernaut-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Al Gibbs
+sn: Gibbs
+uid: agibbs
+userPassword:: e01ENX1oNHp1N2tkZHVGRVA4Y3lCRlF4RHdRPT0=
+
+dn: cn=Chandra Harrison,ou=people,ou=Juggernaut-NY,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Chandra Harrison
+sn: Harrison
+uid: charrison
+userPassword:: e01ENX04ZytxNjhjcXMvQ2NFNThoOUNRVTJBPT0=
+
+dn: cn=Jane Barrera,ou=people,ou=Juggernaut-NY,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Jane Barrera
+sn: Barrera
+uid: jbarrera
+userPassword:: e01ENX0wMCtSSXhKVkpPdHdxVlFramVCdTlRPT0=
+
+dn: cn=Emily Jane,ou=people,ou=Juggernaut-NY,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: inetOrgPerson
+objectClass: top
+cn: Emily Jane
+sn: Jane
+uid: ejane
+userPassword:: e01ENX0vK2Nyd3VYY3lLOGR0U2UyM05XUVdnPT0=
+
+dn: cn=John Doe,ou=people,ou=Juggernaut-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: John Doe
+sn: Doe
+givenName: John
+uid: johndoe
+userPassword:: e01ENX1qRWVRM0ZLL2l4anA4T3FIUkpHL25RPT0=
+
+dn: cn=Charles Gray,ou=people,ou=Juggernaut-NY,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: posixAccount
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+cn: Charles Gray
+gidNumber: 250
+homeDirectory: /home/cgray
+sn: Gray
+uid: cgray
+uidNumber: 9998
+mail: bsuzuki@wgen.net
+userPassword:: e1NIQX0xREVKOWNVVnNpWmlTM0UwcjViUDJaYVdVdkE9
+
+dn: ou=Juggernaut-IL-Daybreak,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: Juggernaut-IL-Daybreak
+
+dn: ou=groups,ou=Juggernaut-IL-Daybreak,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: cn=Educator,ou=groups,ou=Juggernaut-IL-Daybreak,ou=rcEnvironment,dc=slid
+ ev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Educator
+gidNumber: 503
+memberUid: linda.kim
+memberUid: cgray
+memberUid: rbraverman
+
+dn: cn=Leader,ou=groups,ou=Juggernaut-IL-Daybreak,ou=rcEnvironment,dc=slidev
+ ,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Leader
+gidNumber: 512
+memberUid: sbantu
+memberUid: mgonzales
+memberUid: rgorki
+memberUid: afranco
+
+dn: cn=IT Administrator,ou=groups,ou=Juggernaut-IL-Daybreak,ou=rcEnvironment
+ ,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: IT Administrator
+gidNumber: 513
+memberUid: jstevenson
+memberUid: akopel
+memberUid: rrogers
+
+dn: cn=Aggregate Viewer,ou=groups,ou=Juggernaut-IL-Daybreak,ou=rcEnvironment
+ ,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Aggregate Viewer
+gidNumber: 514
+memberUid: jjackson
+memberUid: msmith
+memberUid: mjohnson
+
+dn: ou=people,ou=Juggernaut-IL-Daybreak,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: cn=Linda Kim,ou=people,ou=Juggernaut-IL-Daybreak,ou=rcEnvironment,dc=sli
+ dev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Linda Kim
+gidNumber: 503
+homeDirectory: /home/users/lindakim
+sn: Kim
+uid: linda.kim
+uidNumber: 1117
+givenName: Linda
+loginShell: /bin/sh
+userPassword:: e01ENX15bENoMXNmNERQekZDbFZ5cndHbXhnPT0=
+
+dn: cn=Charles Gray,ou=people,ou=Juggernaut-IL-Daybreak,ou=rcEnvironment,dc=
+ slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Charles Gray
+gidNumber: 507
+homeDirectory: /home/users/cgray
+sn: Gray
+uid: cgray
+uidNumber: 1134
+givenName: Charles
+loginShell: /bin/sh
+userPassword:: e01ENX1JOU1IeC9WY2hhSHJvMS9pKytVUU9BPT0=
+
+dn: cn=Rebecca Braverman,ou=people,ou=Juggernaut-IL-Daybreak,ou=rcEnvironmen
+ t,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rebecca Braverman
+gidNumber: 507
+homeDirectory: /home/users/rbraverman
+sn: Braverman
+uid: rbraverman
+uidNumber: 1135
+givenName: Rebecca
+loginShell: /bin/sh
+userPassword:: e01ENX1oSFFncWJmc0FqZTNtanEvRHkrR2V3PT0=
+
+dn: cn=Susan Bantu,ou=people,ou=Juggernaut-IL-Daybreak,ou=rcEnvironment,dc=s
+ lidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Susan Bantu
+gidNumber: 512
+homeDirectory: /home/users/sbantu1
+sn: Bantu
+uid: sbantu
+uidNumber: 1136
+givenName: Susan
+loginShell: /bin/bash
+userPassword:: e01ENX1jeFgwdXA2SEFaQzNUZlMxYUNTU0FnPT0=
+
+dn: cn=James Stevenson,ou=people,ou=Juggernaut-IL-Daybreak,ou=rcEnvironment,
+ dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: James Stevenson
+gidNumber: 513
+homeDirectory: /home/users/jstevenson
+sn: Stevenson
+uid: jstevenson
+uidNumber: 1137
+givenName: James
+loginShell: /bin/bash
+userPassword:: e01ENX1BblpjMU9zTWZXOUEya1k0a2YwSlh3PT0=
+
+dn: cn=Jack Jackson,ou=people,ou=Juggernaut-IL-Daybreak,ou=rcEnvironment,dc=
+ slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Jack Jackson
+gidNumber: 514
+homeDirectory: /home/users/jjackson
+sn: Jackson
+uid: jjackson
+uidNumber: 1138
+givenName: Jack
+loginShell: /bin/bash
+userPassword:: e01ENX0wOGZ2WCtGSENHcU5uYTVSdTM1RmZBPT0=
+
+dn: cn=Maria Gonzales,ou=people,ou=Juggernaut-IL-Daybreak,ou=rcEnvironment,d
+ c=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Maria Gonzales
+gidNumber: 512
+homeDirectory: /home/users/mgonzales
+sn: Gonzales
+uid: mgonzales
+uidNumber: 1139
+givenName: Maria
+loginShell: /bin/bash
+userPassword:: e01ENX1GaUZGYjgvclZJNmx5MjIzcWZkVTF3PT0=
+
+dn: cn=Rob Gorki,ou=people,ou=Juggernaut-IL-Daybreak,ou=rcEnvironment,dc=sli
+ dev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rob Gorki
+gidNumber: 512
+homeDirectory: /home/users/rgorki
+sn: Gorki
+uid: rgorki
+uidNumber: 1140
+givenName: Rob
+loginShell: /bin/bash
+userPassword:: e01ENX1TVi94Ni9pSW05c0wrQUpWcDlzZDdnPT0=
+
+dn: cn=Mary Smith,ou=people,ou=Juggernaut-IL-Daybreak,ou=rcEnvironment,dc=sl
+ idev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Mary Smith
+gidNumber: 514
+homeDirectory: /home/users/msmith
+sn: Smith
+uid: msmith
+uidNumber: 1141
+givenName: Mary
+loginShell: /bin/bash
+userPassword:: e01ENX1MVU9hSVdxOTlLL2EyM3RUNnpKV0RnPT0=
+
+dn: cn=Michael Johnson,ou=people,ou=Juggernaut-IL-Daybreak,ou=rcEnvironment,
+ dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Michael Johnson
+gidNumber: 514
+homeDirectory: /home/users/mjohnson
+sn: Johnson
+uid: mjohnson
+uidNumber: 1142
+givenName: Michael
+loginShell: /bin/bash
+userPassword:: e01ENX04Q1VJSlF3blVTRFJOY0Fqd2M2WTV3PT0=
+
+dn: cn=Amy Kopel,ou=people,ou=Juggernaut-IL-Daybreak,ou=rcEnvironment,dc=sli
+ dev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Amy Kopel
+gidNumber: 513
+homeDirectory: /home/users/akopel
+sn: Kopel
+uid: akopel
+uidNumber: 1143
+givenName: Amy
+loginShell: /bin/bash
+userPassword:: e01ENX1md2JjMzJqTzM0V1NObThiaittTkVBPT0=
+
+dn: cn=Rick Rogers,ou=people,ou=Juggernaut-IL-Daybreak,ou=rcEnvironment,dc=s
+ lidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rick Rogers
+gidNumber: 100
+homeDirectory: /home/users/rrogers
+sn: Rogers
+uid: rrogers
+uidNumber: 1144
+givenName: Rick
+loginShell: /bin/bash
+userPassword:: e01ENX1ubnJsdzd0QzU1d0FmMkxtN2llOWFRPT0=
+
+dn: cn=Autoro Franco,ou=people,ou=Juggernaut-IL-Daybreak,ou=rcEnvironment,dc
+ =slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Autoro Franco
+gidNumber: 100
+homeDirectory: /home/users/afranco
+sn: Franco
+uid: afranco
+uidNumber: 1145
+givenName: Autoro
+loginShell: /bin/bash
+userPassword:: e01ENX1vMHl3cTRTMlpZVDVtY3JxL1k0Skt3PT0=
+
+dn: ou=Pantheon-IL-Sunset,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: Pantheon-IL-Sunset
+
+dn: ou=groups,ou=Pantheon-IL-Sunset,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: cn=Educator,ou=groups,ou=Pantheon-IL-Sunset,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: posixGroup
+objectClass: top
+cn: Educator
+gidNumber: 507
+memberUid: ejane
+memberUid: manthony
+memberUid: cgray
+memberUid: jdoe
+memberUid: lroslin
+memberUid: john_doe
+memberUid: tbear
+
+dn: cn=Leader,ou=groups,ou=Pantheon-IL-Sunset,ou=rcEnvironment,dc=slidev,dc=
+ org
+objectClass: posixGroup
+objectClass: top
+cn: Leader
+gidNumber: 515
+memberUid: llogan
+memberUid: ckoch
+
+dn: cn=Aggregate Viewer,ou=groups,ou=Pantheon-IL-Sunset,ou=rcEnvironment,dc=
+ slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Aggregate Viewer
+gidNumber: 516
+memberUid: jvasquez
+
+dn: cn=IT Administrator,ou=groups,ou=Pantheon-IL-Sunset,ou=rcEnvironment,dc=
+ slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: IT Administrator
+gidNumber: 517
+memberUid: ljones
+memberUid: jwashington
+
+dn: ou=people,ou=Pantheon-IL-Sunset,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: cn=Christopher Koch,ou=people,ou=Pantheon-IL-Sunset,ou=rcEnvironment,dc=
+ slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Christopher Koch
+gidNumber: 100
+homeDirectory: /home/users/ckoch
+sn: Koch
+uid: ckoch
+uidNumber: 1150
+givenName: Christopher
+loginShell: /bin/bash
+userPassword:: e01ENX1CVjk1NjV0ejJQdVlzQ2c3eDJxRGhnPT0=
+
+dn: cn=Mark Anthony,ou=people,ou=Pantheon-IL-Sunset,ou=rcEnvironment,dc=slid
+ ev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Mark Anthony
+gidNumber: 100
+homeDirectory: /home/users/manthony
+sn: Anthony
+uid: manthony
+uidNumber: 1151
+givenName: Mark
+loginShell: /bin/bash
+userPassword:: e01ENX1VbG9LdFkwdFF2YzVKU1MzeWNCMkJnPT0=
+
+dn: cn=Linda Jones,ou=people,ou=Pantheon-IL-Sunset,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Linda Jones
+gidNumber: 100
+homeDirectory: /home/users/ljones
+sn: Jones
+uid: ljones
+uidNumber: 1152
+givenName: Linda
+loginShell: /bin/bash
+userPassword:: e01ENX1sYUJ6VVQ0NjBXUGgyYUw0TzVnWmVBPT0=
+
+dn: cn=Jon Vasquez,ou=people,ou=Pantheon-IL-Sunset,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Jon Vasquez
+gidNumber: 100
+homeDirectory: /home/users/jvasquez
+sn: Vasquez
+uid: jvasquez
+uidNumber: 1153
+givenName: Jon
+loginShell: /bin/bash
+userPassword:: e01ENX1LOFRiaTVRdkhuVlIzUzBLb0t3VXB3PT0=
+
+dn: cn=Liza Logan,ou=people,ou=Pantheon-IL-Sunset,ou=rcEnvironment,dc=slidev
+ ,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Liza Logan
+gidNumber: 100
+homeDirectory: /home/users/llogan
+sn: Logan
+uid: llogan
+uidNumber: 1154
+givenName: Liza
+loginShell: /bin/bash
+userPassword:: e01ENX1VbE9SZFpqY254cG9UdEtRZ2JRampnPT0=
+
+dn: cn=Josef Washington,ou=people,ou=Pantheon-IL-Sunset,ou=rcEnvironment,dc=
+ slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Josef Washington
+gidNumber: 100
+homeDirectory: /home/users/jwashington
+sn: Washington
+uid: jwashington
+uidNumber: 1155
+givenName: Josef
+loginShell: /bin/bash
+userPassword:: e01ENX1pYzdlWkl1SVp4NWorTGxnMXJQbEdnPT0=
+
+dn: cn=Charles Gray,ou=people,ou=Pantheon-IL-Sunset,ou=rcEnvironment,dc=slid
+ ev,dc=org
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Charles Gray
+sn: Gray
+uid: cgray
+userPassword:: e01ENX1JOU1IeC9WY2hhSHJvMS9pKytVUU9BPT0=
+
+dn: cn=BadAdmin Test,ou=people,ou=Pantheon-IL-Sunset,ou=rcEnvironment,dc=sli
+ dev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: BadAdmin Test
+gidNumber: 511
+homeDirectory: /home/users/badadmin
+sn: Test
+uid: badadmin
+uidNumber: 1146
+givenName: BadAdmin
+loginShell: /bin/bash
+userPassword:: e01ENX1iM21BRkJySWQzTjJzOUVrTEkwNXN3PT0=
+
+dn: cn=Elizabeth Jane,ou=people,ou=Pantheon-IL-Sunset,ou=rcEnvironment,dc=sl
+ idev,dc=org
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Elizabeth Jane
+sn: Jane
+uid: ejane
+userPassword:: e01ENX0vK2Nyd3VYY3lLOGR0U2UyM05XUVdnPT0=
+
+dn: cn=John Doe,ou=people,ou=Pantheon-IL-Sunset,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: John Doe
+sn: Doe
+givenName: John
+uid: john_doe
+userPassword:: e01ENX15TndTaWJuMDFQSyt4SzA0ZnFLdzFRPT0=
+
+dn: cn=Teddy Bear,ou=people,ou=Pantheon-IL-Sunset,ou=rcEnvironment,dc=slidev
+ ,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Teddy Bear
+sn: Bear
+givenName: Teddy
+uid: tbear
+userPassword:: e01ENX01Y1lFY1RJQ2ZUOHJLZHNOZTJxVGdnPT0=
+
+dn: cn=Joe Doe,ou=people,ou=Pantheon-IL-Sunset,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Joe Doe
+sn: Doe
+givenName: Joe
+uid: jdoe
+userPassword:: e01ENX1Iei9KQ3llT3NyT3VuMldsaEVmaXdRPT0=
+
+dn: cn=Laura Roslin,ou=people,ou=Pantheon-IL-Sunset,ou=rcEnvironment,dc=slid
+ ev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+objectClass: posixAccount
+cn: Laura Roslin
+gidNumber: 100
+homeDirectory: /home/users/lroslin
+sn: Roslin
+uid: lroslin
+uidNumber: 5332
+loginShell: /bin/bash
+userPassword:: e01ENX1HditYVnVya2VIV1hmMzBzSkoxME5RPT0=
+
+dn: ou=Pantheon-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: Pantheon-NY
+
+dn: ou=groups,ou=Pantheon-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: cn=Educator,ou=groups,ou=Pantheon-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Educator
+gidNumber: 518
+memberUid: johndoe
+memberUid: ejane
+memberUid: mario.sanchez
+memberUid: cgray
+
+dn: cn=Leader,ou=groups,ou=Pantheon-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Leader
+gidNumber: 519
+memberUid: kmelendez
+memberUid: eengland
+memberUid: gcanning
+memberUid: jbarrera
+
+dn: cn=IT Administrator,ou=groups,ou=Pantheon-NY,ou=rcEnvironment,dc=slidev,
+ dc=org
+objectClass: posixGroup
+objectClass: top
+cn: IT Administrator
+gidNumber: 520
+memberUid: jpratt
+memberUid: mhahn
+memberUid: jcarlyle
+memberUid: agibbs
+
+dn: cn=Aggregate Viewer,ou=groups,ou=Pantheon-NY,ou=rcEnvironment,dc=slidev,
+ dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Aggregate Viewer
+gidNumber: 521
+memberUid: jsmalley
+memberUid: sholcomb
+memberUid: rlindsey
+memberUid: charrison
+
+dn: ou=people,ou=Pantheon-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: cn=Mario Sanchez,ou=people,ou=Pantheon-NY,ou=rcEnvironment,dc=slidev,dc=
+ org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Mario Sanchez
+gidNumber: 100
+homeDirectory: /home/users/mario.sanchez
+sn: Sanchez
+uid: mario.sanchez
+uidNumber: 1156
+givenName: Mario
+loginShell: /bin/bash
+userPassword:: e01ENX1ITWZaL2JkNktWa3FJZVVnSE0xVlNBPT0=
+
+dn: cn=Emerson England,ou=people,ou=Pantheon-NY,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Emerson England
+sn: England
+uid: eengland
+userPassword:: e1NIQX11dXRYSTJNWWhVam5vN3I3Q0tMNDFqMXZTaW89
+
+dn: cn=Jefferson Pratt,ou=people,ou=Pantheon-NY,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Jefferson Pratt
+gidNumber: 100
+homeDirectory: /home/users/jpratt
+sn: Pratt
+uid: jpratt
+uidNumber: 1157
+givenName: Jefferson
+loginShell: /bin/bash
+userPassword:: e01ENX1VakxuOHUyVVEzcHhrcVlrNHMvNy93PT0=
+
+dn: cn=Joshua Smalley,ou=people,ou=Pantheon-NY,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: inetOrgPerson
+objectClass: top
+objectClass: person
+cn: Joshua Smalley
+sn: Smalley
+givenName: Joshua
+uid: jsmalley
+userPassword:: e01ENX11ZXgxUkhsTXhlRUJIanQ5b3MzTndBPT0=
+
+dn: cn=Georgia Canning,ou=people,ou=Pantheon-NY,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Georgia Canning
+sn: Canning
+pager: cn=DevLDAP User, ou=People,dc=slidev,dc=org
+uid: gcanning
+userPassword:: e01ENX1ja2x6OXRJZVBYZm9NZnY4ZEF6bTVRPT0=
+
+dn: cn=Justin Carlyle,ou=people,ou=Pantheon-NY,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Justin Carlyle
+sn: Carlyle
+uid: jcarlyle
+userPassword:: e01ENX1pc3JVOTZUMlFRSkI0Uk45SkZYREZ3PT0=
+
+dn: cn=Marlene Hahn,ou=people,ou=Pantheon-NY,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: inetOrgPerson
+objectClass: top
+cn: Marlene Hahn
+sn: Hahn
+uid: mhahn
+userPassword:: e01ENX1HdlU5bGQwamdRYndYaXZyUVBZUHBnPT0=
+
+dn: cn=Rene Lindsey,ou=people,ou=Pantheon-NY,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: inetOrgPerson
+objectClass: top
+cn: Rene Lindsey
+sn: Lindsey
+uid: rlindsey
+userPassword:: e01ENX1ZYXFQeXp2U1Mvblgyb3RmZXd1cmlnPT0=
+
+dn: cn=Simone Holcomb,ou=people,ou=Pantheon-NY,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Simone Holcomb
+sn: Holcomb
+uid: sholcomb
+userPassword:: e01ENX1GZktTU01UVTc1Wmh6enkwU0RtcnVBPT0=
+
+dn: cn=Keisha Melendez,ou=people,ou=Pantheon-NY,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Keisha Melendez
+sn: Melendez
+uid: kmelendez
+userPassword:: e01ENX1jR21KUHVEWTZzeHkwY0VDZE5ZdmhRPT0=
+
+dn: cn=Al Gibbs,ou=people,ou=Pantheon-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Al Gibbs
+sn: Gibbs
+uid: agibbs
+userPassword:: e01ENX1oNHp1N2tkZHVGRVA4Y3lCRlF4RHdRPT0=
+
+dn: cn=Chandra Harrison,ou=people,ou=Pantheon-NY,ou=rcEnvironment,dc=slidev,
+ dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Chandra Harrison
+sn: Harrison
+uid: charrison
+userPassword:: e01ENX04ZytxNjhjcXMvQ2NFNThoOUNRVTJBPT0=
+
+dn: cn=Jane Barrera,ou=people,ou=Pantheon-NY,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: inetOrgPerson
+objectClass: top
+cn: Jane Barrera
+sn: Barrera
+uid: jbarrera
+userPassword:: e01ENX0wMCtSSXhKVkpPdHdxVlFramVCdTlRPT0=
+
+dn: cn=Emily Jane,ou=people,ou=Pantheon-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Emily Jane
+sn: Jane
+uid: ejane
+userPassword:: e01ENX0vK2Nyd3VYY3lLOGR0U2UyM05XUVdnPT0=
+
+dn: cn=John Doe,ou=people,ou=Pantheon-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: John Doe
+sn: Doe
+givenName: John
+uid: johndoe
+userPassword:: e01ENX1qRWVRM0ZLL2l4anA4T3FIUkpHL25RPT0=
+
+dn: cn=Charles Gray,ou=people,ou=Pantheon-NY,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: posixAccount
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+cn: Charles Gray
+gidNumber: 250
+homeDirectory: /home/cgray
+sn: Gray
+uid: cgray
+uidNumber: 9998
+mail: bsuzuki@wgen.net
+userPassword:: e1NIQX0xREVKOWNVVnNpWmlTM0UwcjViUDJaYVdVdkE9
+
+dn: ou=Pantheon-IL-Daybreak,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: Pantheon-IL-Daybreak
+
+dn: ou=groups,ou=Pantheon-IL-Daybreak,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: cn=Educator,ou=groups,ou=Pantheon-IL-Daybreak,ou=rcEnvironment,dc=slidev
+ ,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Educator
+gidNumber: 503
+memberUid: linda.kim
+memberUid: cgray
+memberUid: rbraverman
+
+dn: cn=Leader,ou=groups,ou=Pantheon-IL-Daybreak,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: posixGroup
+objectClass: top
+cn: Leader
+gidNumber: 512
+memberUid: sbantu
+memberUid: mgonzales
+memberUid: rgorki
+memberUid: afranco
+
+dn: cn=IT Administrator,ou=groups,ou=Pantheon-IL-Daybreak,ou=rcEnvironment,d
+ c=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: IT Administrator
+gidNumber: 513
+memberUid: jstevenson
+memberUid: akopel
+memberUid: rrogers
+
+dn: cn=Aggregate Viewer,ou=groups,ou=Pantheon-IL-Daybreak,ou=rcEnvironment,d
+ c=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Aggregate Viewer
+gidNumber: 514
+memberUid: jjackson
+memberUid: msmith
+memberUid: mjohnson
+
+dn: ou=people,ou=Pantheon-IL-Daybreak,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: cn=Linda Kim,ou=people,ou=Pantheon-IL-Daybreak,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Linda Kim
+gidNumber: 503
+homeDirectory: /home/users/lindakim
+sn: Kim
+uid: linda.kim
+uidNumber: 1117
+givenName: Linda
+loginShell: /bin/sh
+userPassword:: e01ENX15bENoMXNmNERQekZDbFZ5cndHbXhnPT0=
+
+dn: cn=Charles Gray,ou=people,ou=Pantheon-IL-Daybreak,ou=rcEnvironment,dc=sl
+ idev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Charles Gray
+gidNumber: 507
+homeDirectory: /home/users/cgray
+sn: Gray
+uid: cgray
+uidNumber: 1134
+givenName: Charles
+loginShell: /bin/sh
+userPassword:: e01ENX1JOU1IeC9WY2hhSHJvMS9pKytVUU9BPT0=
+
+dn: cn=Rebecca Braverman,ou=people,ou=Pantheon-IL-Daybreak,ou=rcEnvironment,
+ dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rebecca Braverman
+gidNumber: 507
+homeDirectory: /home/users/rbraverman
+sn: Braverman
+uid: rbraverman
+uidNumber: 1135
+givenName: Rebecca
+loginShell: /bin/sh
+userPassword:: e01ENX1oSFFncWJmc0FqZTNtanEvRHkrR2V3PT0=
+
+dn: cn=Susan Bantu,ou=people,ou=Pantheon-IL-Daybreak,ou=rcEnvironment,dc=sli
+ dev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Susan Bantu
+gidNumber: 512
+homeDirectory: /home/users/sbantu1
+sn: Bantu
+uid: sbantu
+uidNumber: 1136
+givenName: Susan
+loginShell: /bin/bash
+userPassword:: e01ENX1jeFgwdXA2SEFaQzNUZlMxYUNTU0FnPT0=
+
+dn: cn=James Stevenson,ou=people,ou=Pantheon-IL-Daybreak,ou=rcEnvironment,dc
+ =slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: James Stevenson
+gidNumber: 513
+homeDirectory: /home/users/jstevenson
+sn: Stevenson
+uid: jstevenson
+uidNumber: 1137
+givenName: James
+loginShell: /bin/bash
+userPassword:: e01ENX1BblpjMU9zTWZXOUEya1k0a2YwSlh3PT0=
+
+dn: cn=Jack Jackson,ou=people,ou=Pantheon-IL-Daybreak,ou=rcEnvironment,dc=sl
+ idev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Jack Jackson
+gidNumber: 514
+homeDirectory: /home/users/jjackson
+sn: Jackson
+uid: jjackson
+uidNumber: 1138
+givenName: Jack
+loginShell: /bin/bash
+userPassword:: e01ENX0wOGZ2WCtGSENHcU5uYTVSdTM1RmZBPT0=
+
+dn: cn=Maria Gonzales,ou=people,ou=Pantheon-IL-Daybreak,ou=rcEnvironment,dc=
+ slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Maria Gonzales
+gidNumber: 512
+homeDirectory: /home/users/mgonzales
+sn: Gonzales
+uid: mgonzales
+uidNumber: 1139
+givenName: Maria
+loginShell: /bin/bash
+userPassword:: e01ENX1GaUZGYjgvclZJNmx5MjIzcWZkVTF3PT0=
+
+dn: cn=Rob Gorki,ou=people,ou=Pantheon-IL-Daybreak,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rob Gorki
+gidNumber: 512
+homeDirectory: /home/users/rgorki
+sn: Gorki
+uid: rgorki
+uidNumber: 1140
+givenName: Rob
+loginShell: /bin/bash
+userPassword:: e01ENX1TVi94Ni9pSW05c0wrQUpWcDlzZDdnPT0=
+
+dn: cn=Mary Smith,ou=people,ou=Pantheon-IL-Daybreak,ou=rcEnvironment,dc=slid
+ ev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Mary Smith
+gidNumber: 514
+homeDirectory: /home/users/msmith
+sn: Smith
+uid: msmith
+uidNumber: 1141
+givenName: Mary
+loginShell: /bin/bash
+userPassword:: e01ENX1MVU9hSVdxOTlLL2EyM3RUNnpKV0RnPT0=
+
+dn: cn=Michael Johnson,ou=people,ou=Pantheon-IL-Daybreak,ou=rcEnvironment,dc
+ =slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Michael Johnson
+gidNumber: 514
+homeDirectory: /home/users/mjohnson
+sn: Johnson
+uid: mjohnson
+uidNumber: 1142
+givenName: Michael
+loginShell: /bin/bash
+userPassword:: e01ENX04Q1VJSlF3blVTRFJOY0Fqd2M2WTV3PT0=
+
+dn: cn=Amy Kopel,ou=people,ou=Pantheon-IL-Daybreak,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Amy Kopel
+gidNumber: 513
+homeDirectory: /home/users/akopel
+sn: Kopel
+uid: akopel
+uidNumber: 1143
+givenName: Amy
+loginShell: /bin/bash
+userPassword:: e01ENX1md2JjMzJqTzM0V1NObThiaittTkVBPT0=
+
+dn: cn=Rick Rogers,ou=people,ou=Pantheon-IL-Daybreak,ou=rcEnvironment,dc=sli
+ dev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rick Rogers
+gidNumber: 100
+homeDirectory: /home/users/rrogers
+sn: Rogers
+uid: rrogers
+uidNumber: 1144
+givenName: Rick
+loginShell: /bin/bash
+userPassword:: e01ENX1ubnJsdzd0QzU1d0FmMkxtN2llOWFRPT0=
+
+dn: cn=Autoro Franco,ou=people,ou=Pantheon-IL-Daybreak,ou=rcEnvironment,dc=s
+ lidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Autoro Franco
+gidNumber: 100
+homeDirectory: /home/users/afranco
+sn: Franco
+uid: afranco
+uidNumber: 1145
+givenName: Autoro
+loginShell: /bin/bash
+userPassword:: e01ENX1vMHl3cTRTMlpZVDVtY3JxL1k0Skt3PT0=
+
+dn: ou=Megatron-IL-Sunset,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: Megatron-IL-Sunset
+
+dn: ou=groups,ou=Megatron-IL-Sunset,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: cn=Educator,ou=groups,ou=Megatron-IL-Sunset,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: posixGroup
+objectClass: top
+cn: Educator
+gidNumber: 507
+memberUid: ejane
+memberUid: manthony
+memberUid: cgray
+memberUid: jdoe
+memberUid: lroslin
+memberUid: john_doe
+memberUid: tbear
+
+dn: cn=Leader,ou=groups,ou=Megatron-IL-Sunset,ou=rcEnvironment,dc=slidev,dc=
+ org
+objectClass: posixGroup
+objectClass: top
+cn: Leader
+gidNumber: 515
+memberUid: llogan
+memberUid: ckoch
+
+dn: cn=Aggregate Viewer,ou=groups,ou=Megatron-IL-Sunset,ou=rcEnvironment,dc=
+ slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Aggregate Viewer
+gidNumber: 516
+memberUid: jvasquez
+
+dn: cn=IT Administrator,ou=groups,ou=Megatron-IL-Sunset,ou=rcEnvironment,dc=
+ slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: IT Administrator
+gidNumber: 517
+memberUid: ljones
+memberUid: jwashington
+
+dn: ou=people,ou=Megatron-IL-Sunset,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: cn=Christopher Koch,ou=people,ou=Megatron-IL-Sunset,ou=rcEnvironment,dc=
+ slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Christopher Koch
+gidNumber: 100
+homeDirectory: /home/users/ckoch
+sn: Koch
+uid: ckoch
+uidNumber: 1150
+givenName: Christopher
+loginShell: /bin/bash
+userPassword:: e01ENX1CVjk1NjV0ejJQdVlzQ2c3eDJxRGhnPT0=
+
+dn: cn=Mark Anthony,ou=people,ou=Megatron-IL-Sunset,ou=rcEnvironment,dc=slid
+ ev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Mark Anthony
+gidNumber: 100
+homeDirectory: /home/users/manthony
+sn: Anthony
+uid: manthony
+uidNumber: 1151
+givenName: Mark
+loginShell: /bin/bash
+userPassword:: e01ENX1VbG9LdFkwdFF2YzVKU1MzeWNCMkJnPT0=
+
+dn: cn=Linda Jones,ou=people,ou=Megatron-IL-Sunset,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Linda Jones
+gidNumber: 100
+homeDirectory: /home/users/ljones
+sn: Jones
+uid: ljones
+uidNumber: 1152
+givenName: Linda
+loginShell: /bin/bash
+userPassword:: e01ENX1sYUJ6VVQ0NjBXUGgyYUw0TzVnWmVBPT0=
+
+dn: cn=Jon Vasquez,ou=people,ou=Megatron-IL-Sunset,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Jon Vasquez
+gidNumber: 100
+homeDirectory: /home/users/jvasquez
+sn: Vasquez
+uid: jvasquez
+uidNumber: 1153
+givenName: Jon
+loginShell: /bin/bash
+userPassword:: e01ENX1LOFRiaTVRdkhuVlIzUzBLb0t3VXB3PT0=
+
+dn: cn=Liza Logan,ou=people,ou=Megatron-IL-Sunset,ou=rcEnvironment,dc=slidev
+ ,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Liza Logan
+gidNumber: 100
+homeDirectory: /home/users/llogan
+sn: Logan
+uid: llogan
+uidNumber: 1154
+givenName: Liza
+loginShell: /bin/bash
+userPassword:: e01ENX1VbE9SZFpqY254cG9UdEtRZ2JRampnPT0=
+
+dn: cn=Josef Washington,ou=people,ou=Megatron-IL-Sunset,ou=rcEnvironment,dc=
+ slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Josef Washington
+gidNumber: 100
+homeDirectory: /home/users/jwashington
+sn: Washington
+uid: jwashington
+uidNumber: 1155
+givenName: Josef
+loginShell: /bin/bash
+userPassword:: e01ENX1pYzdlWkl1SVp4NWorTGxnMXJQbEdnPT0=
+
+dn: cn=Charles Gray,ou=people,ou=Megatron-IL-Sunset,ou=rcEnvironment,dc=slid
+ ev,dc=org
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Charles Gray
+sn: Gray
+uid: cgray
+userPassword:: e01ENX1JOU1IeC9WY2hhSHJvMS9pKytVUU9BPT0=
+
+dn: cn=BadAdmin Test,ou=people,ou=Megatron-IL-Sunset,ou=rcEnvironment,dc=sli
+ dev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: BadAdmin Test
+gidNumber: 511
+homeDirectory: /home/users/badadmin
+sn: Test
+uid: badadmin
+uidNumber: 1146
+givenName: BadAdmin
+loginShell: /bin/bash
+userPassword:: e01ENX1iM21BRkJySWQzTjJzOUVrTEkwNXN3PT0=
+
+dn: cn=Elizabeth Jane,ou=people,ou=Megatron-IL-Sunset,ou=rcEnvironment,dc=sl
+ idev,dc=org
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Elizabeth Jane
+sn: Jane
+uid: ejane
+userPassword:: e01ENX0vK2Nyd3VYY3lLOGR0U2UyM05XUVdnPT0=
+
+dn: cn=John Doe,ou=people,ou=Megatron-IL-Sunset,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: John Doe
+sn: Doe
+givenName: John
+uid: john_doe
+userPassword:: e01ENX15TndTaWJuMDFQSyt4SzA0ZnFLdzFRPT0=
+
+dn: cn=Teddy Bear,ou=people,ou=Megatron-IL-Sunset,ou=rcEnvironment,dc=slidev
+ ,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Teddy Bear
+sn: Bear
+givenName: Teddy
+uid: tbear
+userPassword:: e01ENX01Y1lFY1RJQ2ZUOHJLZHNOZTJxVGdnPT0=
+
+dn: cn=Joe Doe,ou=people,ou=Megatron-IL-Sunset,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Joe Doe
+sn: Doe
+givenName: Joe
+uid: jdoe
+userPassword:: e01ENX1Iei9KQ3llT3NyT3VuMldsaEVmaXdRPT0=
+
+dn: cn=Laura Roslin,ou=people,ou=Megatron-IL-Sunset,ou=rcEnvironment,dc=slid
+ ev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+objectClass: posixAccount
+cn: Laura Roslin
+gidNumber: 100
+homeDirectory: /home/users/lroslin
+sn: Roslin
+uid: lroslin
+uidNumber: 5332
+loginShell: /bin/bash
+userPassword:: e01ENX1HditYVnVya2VIV1hmMzBzSkoxME5RPT0=
+
+dn: ou=Megatron-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: Megatron-NY
+
+dn: ou=groups,ou=Megatron-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: cn=Educator,ou=groups,ou=Megatron-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Educator
+gidNumber: 518
+memberUid: johndoe
+memberUid: ejane
+memberUid: mario.sanchez
+memberUid: cgray
+
+dn: cn=Leader,ou=groups,ou=Megatron-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Leader
+gidNumber: 519
+memberUid: kmelendez
+memberUid: eengland
+memberUid: gcanning
+memberUid: jbarrera
+
+dn: cn=IT Administrator,ou=groups,ou=Megatron-NY,ou=rcEnvironment,dc=slidev,
+ dc=org
+objectClass: posixGroup
+objectClass: top
+cn: IT Administrator
+gidNumber: 520
+memberUid: jpratt
+memberUid: mhahn
+memberUid: jcarlyle
+memberUid: agibbs
+
+dn: cn=Aggregate Viewer,ou=groups,ou=Megatron-NY,ou=rcEnvironment,dc=slidev,
+ dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Aggregate Viewer
+gidNumber: 521
+memberUid: jsmalley
+memberUid: sholcomb
+memberUid: rlindsey
+memberUid: charrison
+
+dn: ou=people,ou=Megatron-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: cn=Mario Sanchez,ou=people,ou=Megatron-NY,ou=rcEnvironment,dc=slidev,dc=
+ org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Mario Sanchez
+gidNumber: 100
+homeDirectory: /home/users/mario.sanchez
+sn: Sanchez
+uid: mario.sanchez
+uidNumber: 1156
+givenName: Mario
+loginShell: /bin/bash
+userPassword:: e01ENX1ITWZaL2JkNktWa3FJZVVnSE0xVlNBPT0=
+
+dn: cn=Emerson England,ou=people,ou=Megatron-NY,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Emerson England
+sn: England
+uid: eengland
+userPassword:: e1NIQX11dXRYSTJNWWhVam5vN3I3Q0tMNDFqMXZTaW89
+
+dn: cn=Jefferson Pratt,ou=people,ou=Megatron-NY,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Jefferson Pratt
+gidNumber: 100
+homeDirectory: /home/users/jpratt
+sn: Pratt
+uid: jpratt
+uidNumber: 1157
+givenName: Jefferson
+loginShell: /bin/bash
+userPassword:: e01ENX1VakxuOHUyVVEzcHhrcVlrNHMvNy93PT0=
+
+dn: cn=Joshua Smalley,ou=people,ou=Megatron-NY,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: inetOrgPerson
+objectClass: top
+objectClass: person
+cn: Joshua Smalley
+sn: Smalley
+givenName: Joshua
+uid: jsmalley
+userPassword:: e01ENX11ZXgxUkhsTXhlRUJIanQ5b3MzTndBPT0=
+
+dn: cn=Georgia Canning,ou=people,ou=Megatron-NY,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Georgia Canning
+sn: Canning
+pager: cn=DevLDAP User, ou=People,dc=slidev,dc=org
+uid: gcanning
+userPassword:: e01ENX1ja2x6OXRJZVBYZm9NZnY4ZEF6bTVRPT0=
+
+dn: cn=Justin Carlyle,ou=people,ou=Megatron-NY,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Justin Carlyle
+sn: Carlyle
+uid: jcarlyle
+userPassword:: e01ENX1pc3JVOTZUMlFRSkI0Uk45SkZYREZ3PT0=
+
+dn: cn=Marlene Hahn,ou=people,ou=Megatron-NY,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: inetOrgPerson
+objectClass: top
+cn: Marlene Hahn
+sn: Hahn
+uid: mhahn
+userPassword:: e01ENX1HdlU5bGQwamdRYndYaXZyUVBZUHBnPT0=
+
+dn: cn=Rene Lindsey,ou=people,ou=Megatron-NY,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: inetOrgPerson
+objectClass: top
+cn: Rene Lindsey
+sn: Lindsey
+uid: rlindsey
+userPassword:: e01ENX1ZYXFQeXp2U1Mvblgyb3RmZXd1cmlnPT0=
+
+dn: cn=Simone Holcomb,ou=people,ou=Megatron-NY,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Simone Holcomb
+sn: Holcomb
+uid: sholcomb
+userPassword:: e01ENX1GZktTU01UVTc1Wmh6enkwU0RtcnVBPT0=
+
+dn: cn=Keisha Melendez,ou=people,ou=Megatron-NY,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Keisha Melendez
+sn: Melendez
+uid: kmelendez
+userPassword:: e01ENX1jR21KUHVEWTZzeHkwY0VDZE5ZdmhRPT0=
+
+dn: cn=Al Gibbs,ou=people,ou=Megatron-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Al Gibbs
+sn: Gibbs
+uid: agibbs
+userPassword:: e01ENX1oNHp1N2tkZHVGRVA4Y3lCRlF4RHdRPT0=
+
+dn: cn=Chandra Harrison,ou=people,ou=Megatron-NY,ou=rcEnvironment,dc=slidev,
+ dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Chandra Harrison
+sn: Harrison
+uid: charrison
+userPassword:: e01ENX04ZytxNjhjcXMvQ2NFNThoOUNRVTJBPT0=
+
+dn: cn=Jane Barrera,ou=people,ou=Megatron-NY,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: inetOrgPerson
+objectClass: top
+cn: Jane Barrera
+sn: Barrera
+uid: jbarrera
+userPassword:: e01ENX0wMCtSSXhKVkpPdHdxVlFramVCdTlRPT0=
+
+dn: cn=Emily Jane,ou=people,ou=Megatron-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Emily Jane
+sn: Jane
+uid: ejane
+userPassword:: e01ENX0vK2Nyd3VYY3lLOGR0U2UyM05XUVdnPT0=
+
+dn: cn=John Doe,ou=people,ou=Megatron-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: John Doe
+sn: Doe
+givenName: John
+uid: johndoe
+userPassword:: e01ENX1qRWVRM0ZLL2l4anA4T3FIUkpHL25RPT0=
+
+dn: cn=Charles Gray,ou=people,ou=Megatron-NY,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: posixAccount
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+cn: Charles Gray
+gidNumber: 250
+homeDirectory: /home/cgray
+sn: Gray
+uid: cgray
+uidNumber: 9998
+mail: bsuzuki@wgen.net
+userPassword:: e1NIQX0xREVKOWNVVnNpWmlTM0UwcjViUDJaYVdVdkE9
+
+dn: ou=Megatron-IL-Daybreak,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: Megatron-IL-Daybreak
+
+dn: ou=groups,ou=Megatron-IL-Daybreak,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: cn=Educator,ou=groups,ou=Megatron-IL-Daybreak,ou=rcEnvironment,dc=slidev
+ ,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Educator
+gidNumber: 503
+memberUid: linda.kim
+memberUid: cgray
+memberUid: rbraverman
+
+dn: cn=Leader,ou=groups,ou=Megatron-IL-Daybreak,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: posixGroup
+objectClass: top
+cn: Leader
+gidNumber: 512
+memberUid: sbantu
+memberUid: mgonzales
+memberUid: rgorki
+memberUid: afranco
+
+dn: cn=IT Administrator,ou=groups,ou=Megatron-IL-Daybreak,ou=rcEnvironment,d
+ c=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: IT Administrator
+gidNumber: 513
+memberUid: jstevenson
+memberUid: akopel
+memberUid: rrogers
+
+dn: cn=Aggregate Viewer,ou=groups,ou=Megatron-IL-Daybreak,ou=rcEnvironment,d
+ c=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Aggregate Viewer
+gidNumber: 514
+memberUid: jjackson
+memberUid: msmith
+memberUid: mjohnson
+
+dn: ou=people,ou=Megatron-IL-Daybreak,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: cn=Linda Kim,ou=people,ou=Megatron-IL-Daybreak,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Linda Kim
+gidNumber: 503
+homeDirectory: /home/users/lindakim
+sn: Kim
+uid: linda.kim
+uidNumber: 1117
+givenName: Linda
+loginShell: /bin/sh
+userPassword:: e01ENX15bENoMXNmNERQekZDbFZ5cndHbXhnPT0=
+
+dn: cn=Charles Gray,ou=people,ou=Megatron-IL-Daybreak,ou=rcEnvironment,dc=sl
+ idev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Charles Gray
+gidNumber: 507
+homeDirectory: /home/users/cgray
+sn: Gray
+uid: cgray
+uidNumber: 1134
+givenName: Charles
+loginShell: /bin/sh
+userPassword:: e01ENX1JOU1IeC9WY2hhSHJvMS9pKytVUU9BPT0=
+
+dn: cn=Rebecca Braverman,ou=people,ou=Megatron-IL-Daybreak,ou=rcEnvironment,
+ dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rebecca Braverman
+gidNumber: 507
+homeDirectory: /home/users/rbraverman
+sn: Braverman
+uid: rbraverman
+uidNumber: 1135
+givenName: Rebecca
+loginShell: /bin/sh
+userPassword:: e01ENX1oSFFncWJmc0FqZTNtanEvRHkrR2V3PT0=
+
+dn: cn=Susan Bantu,ou=people,ou=Megatron-IL-Daybreak,ou=rcEnvironment,dc=sli
+ dev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Susan Bantu
+gidNumber: 512
+homeDirectory: /home/users/sbantu1
+sn: Bantu
+uid: sbantu
+uidNumber: 1136
+givenName: Susan
+loginShell: /bin/bash
+userPassword:: e01ENX1jeFgwdXA2SEFaQzNUZlMxYUNTU0FnPT0=
+
+dn: cn=James Stevenson,ou=people,ou=Megatron-IL-Daybreak,ou=rcEnvironment,dc
+ =slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: James Stevenson
+gidNumber: 513
+homeDirectory: /home/users/jstevenson
+sn: Stevenson
+uid: jstevenson
+uidNumber: 1137
+givenName: James
+loginShell: /bin/bash
+userPassword:: e01ENX1BblpjMU9zTWZXOUEya1k0a2YwSlh3PT0=
+
+dn: cn=Jack Jackson,ou=people,ou=Megatron-IL-Daybreak,ou=rcEnvironment,dc=sl
+ idev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Jack Jackson
+gidNumber: 514
+homeDirectory: /home/users/jjackson
+sn: Jackson
+uid: jjackson
+uidNumber: 1138
+givenName: Jack
+loginShell: /bin/bash
+userPassword:: e01ENX0wOGZ2WCtGSENHcU5uYTVSdTM1RmZBPT0=
+
+dn: cn=Maria Gonzales,ou=people,ou=Megatron-IL-Daybreak,ou=rcEnvironment,dc=
+ slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Maria Gonzales
+gidNumber: 512
+homeDirectory: /home/users/mgonzales
+sn: Gonzales
+uid: mgonzales
+uidNumber: 1139
+givenName: Maria
+loginShell: /bin/bash
+userPassword:: e01ENX1GaUZGYjgvclZJNmx5MjIzcWZkVTF3PT0=
+
+dn: cn=Rob Gorki,ou=people,ou=Megatron-IL-Daybreak,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rob Gorki
+gidNumber: 512
+homeDirectory: /home/users/rgorki
+sn: Gorki
+uid: rgorki
+uidNumber: 1140
+givenName: Rob
+loginShell: /bin/bash
+userPassword:: e01ENX1TVi94Ni9pSW05c0wrQUpWcDlzZDdnPT0=
+
+dn: cn=Mary Smith,ou=people,ou=Megatron-IL-Daybreak,ou=rcEnvironment,dc=slid
+ ev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Mary Smith
+gidNumber: 514
+homeDirectory: /home/users/msmith
+sn: Smith
+uid: msmith
+uidNumber: 1141
+givenName: Mary
+loginShell: /bin/bash
+userPassword:: e01ENX1MVU9hSVdxOTlLL2EyM3RUNnpKV0RnPT0=
+
+dn: cn=Michael Johnson,ou=people,ou=Megatron-IL-Daybreak,ou=rcEnvironment,dc
+ =slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Michael Johnson
+gidNumber: 514
+homeDirectory: /home/users/mjohnson
+sn: Johnson
+uid: mjohnson
+uidNumber: 1142
+givenName: Michael
+loginShell: /bin/bash
+userPassword:: e01ENX04Q1VJSlF3blVTRFJOY0Fqd2M2WTV3PT0=
+
+dn: cn=Amy Kopel,ou=people,ou=Megatron-IL-Daybreak,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Amy Kopel
+gidNumber: 513
+homeDirectory: /home/users/akopel
+sn: Kopel
+uid: akopel
+uidNumber: 1143
+givenName: Amy
+loginShell: /bin/bash
+userPassword:: e01ENX1md2JjMzJqTzM0V1NObThiaittTkVBPT0=
+
+dn: cn=Rick Rogers,ou=people,ou=Megatron-IL-Daybreak,ou=rcEnvironment,dc=sli
+ dev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rick Rogers
+gidNumber: 100
+homeDirectory: /home/users/rrogers
+sn: Rogers
+uid: rrogers
+uidNumber: 1144
+givenName: Rick
+loginShell: /bin/bash
+userPassword:: e01ENX1ubnJsdzd0QzU1d0FmMkxtN2llOWFRPT0=
+
+dn: cn=Autoro Franco,ou=people,ou=Megatron-IL-Daybreak,ou=rcEnvironment,dc=s
+ lidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Autoro Franco
+gidNumber: 100
+homeDirectory: /home/users/afranco
+sn: Franco
+uid: afranco
+uidNumber: 1145
+givenName: Autoro
+loginShell: /bin/bash
+userPassword:: e01ENX1vMHl3cTRTMlpZVDVtY3JxL1k0Skt3PT0=
+
+dn: cn=dip@wgen.net,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: dip@wgen.net
+gidNumber: 113
+homeDirectory: /dev/null
+sn: Ip
+uid: dip@wgen.net
+uidNumber: 500
+destinationIndicator: approved
+displayName: 2c5d9bf8375c9f19da4e269d33635ea3
+gecos: 
+givenName: Doris
+loginShell: /sbin/nologin
+mail: dip@wgen.net
+o: wgen
+userPassword:: e1NTSEF9Z3RESlI0NllTTU5KaE8zdmVBcUo4ejFGZ1E2VURKOHc=
+
+dn: cn=dwu@wgen.net,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: dwu@wgen.net
+gidNumber: 113
+homeDirectory: /dev/null
+sn: wu
+uid: dwu@wgen.net
+uidNumber: 500
+destinationIndicator: approved
+displayName: 47293d2334a9901afe31a66ee37d55e6
+gecos: 
+givenName: david
+loginShell: /sbin/nologin
+mail: dwu@wgen.net
+o: wgen
+userPassword:: e1NTSEF9TmNaZUs5UUd1dis3cVhpWWx4b29RK09VWWMyOXNiNzE=
+
+dn: cn=scole@wgen.net,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=or
+ g
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: scole@wgen.net
+gidNumber: 113
+homeDirectory: /dev/null
+sn: Cole
+uid: scole@wgen.net
+uidNumber: 500
+destinationIndicator: approved
+displayName: 9441a6271eb5e70ee62eadcfe9c6c596
+gecos: 
+givenName: Stephen
+loginShell: /sbin/nologin
+mail: scole@wgen.net
+o: wgen
+userPassword:: e1NTSEF9Tlp0L2hYbnRCdDh4T3llbE8yeklSaHQxODczazlhSlc=
+
+dn: cn=GalactusDBAdmin,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: GalactusDBAdmin
+gidNumber: 505
+homeDirectory: /dev/null
+sn: Admin
+uid: galactusdbadmin
+uidNumber: 5016
+description:: dGVuYW50PUdhbGFjdHVzSUwKZWRPcmc9SUwtREFZQlJFQUs=
+displayName: 8fceef13e11da5e1474865cc0233722f
+givenName: Daybreak
+loginShell: /bin/sh
+mail: bsuzuki@wgen.net
+userPassword:: e1NIQX1tOE5GU2RWbDJWQmJLSDNnelNDc2Q3NGRQeXc9
+
+dn: cn=GalactusILAdmin,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: GalactusILAdmin
+gidNumber: 508
+homeDirectory: /home/users/iladmin
+sn: Admin
+uid: galactusiladmin
+uidNumber: 5017
+description:: dGVuYW50PUdhbGFjdHVzSUwKZWRPcmc9SUw=
+displayName: 5ec3c4c649549e844fdb692c0f631c10
+givenName: IL
+loginShell: /bin/sh
+mail: bsuzuki@wgen.net
+userPassword:: e1NIQX1tOE5GU2RWbDJWQmJLSDNnelNDc2Q3NGRQeXc9
+
+dn: cn=GalactusNYAdmin,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: GalactusNYAdmin
+gidNumber: 508
+homeDirectory: /ingestion/lz/GalactusNY/bb81cc088e3e6b056144dd60cd7ac675bc37
+ c36a5d59143157f38f7a9b272aa7
+sn: Admin
+uid: galactusnyadmin
+uidNumber: 5018
+description:: dGVuYW50PUdhbGFjdHVzTlkKZWRPcmc9TlktU1RBVEUtTllD
+displayName: 25fba525abfb2ce339e3a3dc82348dcb
+givenName: NY
+loginShell: /bin/sh
+mail: bsuzuki@wgen.net
+userPassword:: e1NIQX1tOE5GU2RWbDJWQmJLSDNnelNDc2Q3NGRQeXc9
+
+dn: cn=GalactusSunsetAdmin,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,
+ dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: GalactusSunsetAdmin
+gidNumber: 505
+homeDirectory: /ingestion/lz/GalactusIL/9378ae21bda23458b47ec825028df3d09076
+ d5ff930e64c78c23f954c64f5ee0
+sn: Admin
+uid: galactussunsetadmin
+uidNumber: 5019
+description:: dGVuYW50PUdhbGFjdHVzSUwKZWRPcmc9SUwtU1VOU0VU
+displayName: 8fceef13e11da5e1474865cc0233722f
+givenName: Sunset
+loginShell: /bin/sh
+mail: bsuzuki@wgen.net
+userPassword:: e1NIQX1tOE5GU2RWbDJWQmJLSDNnelNDc2Q3NGRQeXc9
+
+dn: ou=Galactus-IL-Daybreak,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: Galactus-IL-Daybreak
+
+dn: ou=groups,ou=Galactus-IL-Daybreak,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: cn=Educator,ou=groups,ou=Galactus-IL-Daybreak,ou=rcEnvironment,dc=slidev
+ ,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Educator
+gidNumber: 503
+memberUid: linda.kim
+memberUid: cgray
+memberUid: rbraverman
+
+dn: cn=Leader,ou=groups,ou=Galactus-IL-Daybreak,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: posixGroup
+objectClass: top
+cn: Leader
+gidNumber: 512
+memberUid: sbantu
+memberUid: mgonzales
+memberUid: rgorki
+memberUid: afranco
+
+dn: cn=IT Administrator,ou=groups,ou=Galactus-IL-Daybreak,ou=rcEnvironment,d
+ c=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: IT Administrator
+gidNumber: 513
+memberUid: jstevenson
+memberUid: akopel
+memberUid: rrogers
+
+dn: cn=Aggregate Viewer,ou=groups,ou=Galactus-IL-Daybreak,ou=rcEnvironment,d
+ c=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Aggregate Viewer
+gidNumber: 514
+memberUid: jjackson
+memberUid: msmith
+memberUid: mjohnson
+
+dn: ou=people,ou=Galactus-IL-Daybreak,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: cn=Linda Kim,ou=people,ou=Galactus-IL-Daybreak,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Linda Kim
+gidNumber: 503
+homeDirectory: /home/users/lindakim
+sn: Kim
+uid: linda.kim
+uidNumber: 1117
+givenName: Linda
+loginShell: /bin/sh
+userPassword:: e01ENX15bENoMXNmNERQekZDbFZ5cndHbXhnPT0=
+
+dn: cn=Charles Gray,ou=people,ou=Galactus-IL-Daybreak,ou=rcEnvironment,dc=sl
+ idev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Charles Gray
+gidNumber: 507
+homeDirectory: /home/users/cgray
+sn: Gray
+uid: cgray
+uidNumber: 1134
+givenName: Charles
+loginShell: /bin/sh
+userPassword:: e01ENX1JOU1IeC9WY2hhSHJvMS9pKytVUU9BPT0=
+
+dn: cn=Rebecca Braverman,ou=people,ou=Galactus-IL-Daybreak,ou=rcEnvironment,
+ dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rebecca Braverman
+gidNumber: 507
+homeDirectory: /home/users/rbraverman
+sn: Braverman
+uid: rbraverman
+uidNumber: 1135
+givenName: Rebecca
+loginShell: /bin/sh
+userPassword:: e01ENX1oSFFncWJmc0FqZTNtanEvRHkrR2V3PT0=
+
+dn: cn=Susan Bantu,ou=people,ou=Galactus-IL-Daybreak,ou=rcEnvironment,dc=sli
+ dev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Susan Bantu
+gidNumber: 512
+homeDirectory: /home/users/sbantu1
+sn: Bantu
+uid: sbantu
+uidNumber: 1136
+givenName: Susan
+loginShell: /bin/bash
+userPassword:: e01ENX1jeFgwdXA2SEFaQzNUZlMxYUNTU0FnPT0=
+
+dn: cn=James Stevenson,ou=people,ou=Galactus-IL-Daybreak,ou=rcEnvironment,dc
+ =slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: James Stevenson
+gidNumber: 513
+homeDirectory: /home/users/jstevenson
+sn: Stevenson
+uid: jstevenson
+uidNumber: 1137
+givenName: James
+loginShell: /bin/bash
+userPassword:: e01ENX1BblpjMU9zTWZXOUEya1k0a2YwSlh3PT0=
+
+dn: cn=Jack Jackson,ou=people,ou=Galactus-IL-Daybreak,ou=rcEnvironment,dc=sl
+ idev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Jack Jackson
+gidNumber: 514
+homeDirectory: /home/users/jjackson
+sn: Jackson
+uid: jjackson
+uidNumber: 1138
+givenName: Jack
+loginShell: /bin/bash
+userPassword:: e01ENX0wOGZ2WCtGSENHcU5uYTVSdTM1RmZBPT0=
+
+dn: cn=Maria Gonzales,ou=people,ou=Galactus-IL-Daybreak,ou=rcEnvironment,dc=
+ slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Maria Gonzales
+gidNumber: 512
+homeDirectory: /home/users/mgonzales
+sn: Gonzales
+uid: mgonzales
+uidNumber: 1139
+givenName: Maria
+loginShell: /bin/bash
+userPassword:: e01ENX1GaUZGYjgvclZJNmx5MjIzcWZkVTF3PT0=
+
+dn: cn=Rob Gorki,ou=people,ou=Galactus-IL-Daybreak,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rob Gorki
+gidNumber: 512
+homeDirectory: /home/users/rgorki
+sn: Gorki
+uid: rgorki
+uidNumber: 1140
+givenName: Rob
+loginShell: /bin/bash
+userPassword:: e01ENX1TVi94Ni9pSW05c0wrQUpWcDlzZDdnPT0=
+
+dn: cn=Mary Smith,ou=people,ou=Galactus-IL-Daybreak,ou=rcEnvironment,dc=slid
+ ev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Mary Smith
+gidNumber: 514
+homeDirectory: /home/users/msmith
+sn: Smith
+uid: msmith
+uidNumber: 1141
+givenName: Mary
+loginShell: /bin/bash
+userPassword:: e01ENX1MVU9hSVdxOTlLL2EyM3RUNnpKV0RnPT0=
+
+dn: cn=Michael Johnson,ou=people,ou=Galactus-IL-Daybreak,ou=rcEnvironment,dc
+ =slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Michael Johnson
+gidNumber: 514
+homeDirectory: /home/users/mjohnson
+sn: Johnson
+uid: mjohnson
+uidNumber: 1142
+givenName: Michael
+loginShell: /bin/bash
+userPassword:: e01ENX04Q1VJSlF3blVTRFJOY0Fqd2M2WTV3PT0=
+
+dn: cn=Amy Kopel,ou=people,ou=Galactus-IL-Daybreak,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Amy Kopel
+gidNumber: 513
+homeDirectory: /home/users/akopel
+sn: Kopel
+uid: akopel
+uidNumber: 1143
+givenName: Amy
+loginShell: /bin/bash
+userPassword:: e01ENX1md2JjMzJqTzM0V1NObThiaittTkVBPT0=
+
+dn: cn=Rick Rogers,ou=people,ou=Galactus-IL-Daybreak,ou=rcEnvironment,dc=sli
+ dev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Rick Rogers
+gidNumber: 100
+homeDirectory: /home/users/rrogers
+sn: Rogers
+uid: rrogers
+uidNumber: 1144
+givenName: Rick
+loginShell: /bin/bash
+userPassword:: e01ENX1ubnJsdzd0QzU1d0FmMkxtN2llOWFRPT0=
+
+dn: cn=Autoro Franco,ou=people,ou=Galactus-IL-Daybreak,ou=rcEnvironment,dc=s
+ lidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Autoro Franco
+gidNumber: 100
+homeDirectory: /home/users/afranco
+sn: Franco
+uid: afranco
+uidNumber: 1145
+givenName: Autoro
+loginShell: /bin/bash
+userPassword:: e01ENX1vMHl3cTRTMlpZVDVtY3JxL1k0Skt3PT0=
+
+dn: ou=Galactus-IL-Sunset,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: Galactus-IL-Sunset
+
+dn: ou=groups,ou=Galactus-IL-Sunset,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: cn=Educator,ou=groups,ou=Galactus-IL-Sunset,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: posixGroup
+objectClass: top
+cn: Educator
+gidNumber: 507
+memberUid: ejane
+memberUid: manthony
+memberUid: cgray
+memberUid: jdoe
+memberUid: lroslin
+memberUid: john_doe
+memberUid: tbear
+
+dn: cn=Leader,ou=groups,ou=Galactus-IL-Sunset,ou=rcEnvironment,dc=slidev,dc=
+ org
+objectClass: posixGroup
+objectClass: top
+cn: Leader
+gidNumber: 515
+memberUid: llogan
+memberUid: ckoch
+
+dn: cn=Aggregate Viewer,ou=groups,ou=Galactus-IL-Sunset,ou=rcEnvironment,dc=
+ slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Aggregate Viewer
+gidNumber: 516
+memberUid: jvasquez
+
+dn: cn=IT Administrator,ou=groups,ou=Galactus-IL-Sunset,ou=rcEnvironment,dc=
+ slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: IT Administrator
+gidNumber: 517
+memberUid: ljones
+memberUid: jwashington
+
+dn: ou=people,ou=Galactus-IL-Sunset,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: cn=Christopher Koch,ou=people,ou=Galactus-IL-Sunset,ou=rcEnvironment,dc=
+ slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Christopher Koch
+gidNumber: 100
+homeDirectory: /home/users/ckoch
+sn: Koch
+uid: ckoch
+uidNumber: 1150
+givenName: Christopher
+loginShell: /bin/bash
+userPassword:: e01ENX1CVjk1NjV0ejJQdVlzQ2c3eDJxRGhnPT0=
+
+dn: cn=Mark Anthony,ou=people,ou=Galactus-IL-Sunset,ou=rcEnvironment,dc=slid
+ ev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Mark Anthony
+gidNumber: 100
+homeDirectory: /home/users/manthony
+sn: Anthony
+uid: manthony
+uidNumber: 1151
+givenName: Mark
+loginShell: /bin/bash
+userPassword:: e01ENX1VbG9LdFkwdFF2YzVKU1MzeWNCMkJnPT0=
+
+dn: cn=Linda Jones,ou=people,ou=Galactus-IL-Sunset,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Linda Jones
+gidNumber: 100
+homeDirectory: /home/users/ljones
+sn: Jones
+uid: ljones
+uidNumber: 1152
+givenName: Linda
+loginShell: /bin/bash
+userPassword:: e01ENX1sYUJ6VVQ0NjBXUGgyYUw0TzVnWmVBPT0=
+
+dn: cn=Jon Vasquez,ou=people,ou=Galactus-IL-Sunset,ou=rcEnvironment,dc=slide
+ v,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Jon Vasquez
+gidNumber: 100
+homeDirectory: /home/users/jvasquez
+sn: Vasquez
+uid: jvasquez
+uidNumber: 1153
+givenName: Jon
+loginShell: /bin/bash
+userPassword:: e01ENX1LOFRiaTVRdkhuVlIzUzBLb0t3VXB3PT0=
+
+dn: cn=Liza Logan,ou=people,ou=Galactus-IL-Sunset,ou=rcEnvironment,dc=slidev
+ ,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Liza Logan
+gidNumber: 100
+homeDirectory: /home/users/llogan
+sn: Logan
+uid: llogan
+uidNumber: 1154
+givenName: Liza
+loginShell: /bin/bash
+userPassword:: e01ENX1VbE9SZFpqY254cG9UdEtRZ2JRampnPT0=
+
+dn: cn=Josef Washington,ou=people,ou=Galactus-IL-Sunset,ou=rcEnvironment,dc=
+ slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Josef Washington
+gidNumber: 100
+homeDirectory: /home/users/jwashington
+sn: Washington
+uid: jwashington
+uidNumber: 1155
+givenName: Josef
+loginShell: /bin/bash
+userPassword:: e01ENX1pYzdlWkl1SVp4NWorTGxnMXJQbEdnPT0=
+
+dn: cn=Charles Gray,ou=people,ou=Galactus-IL-Sunset,ou=rcEnvironment,dc=slid
+ ev,dc=org
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Charles Gray
+sn: Gray
+uid: cgray
+userPassword:: e01ENX1JOU1IeC9WY2hhSHJvMS9pKytVUU9BPT0=
+
+dn: cn=BadAdmin Test,ou=people,ou=Galactus-IL-Sunset,ou=rcEnvironment,dc=sli
+ dev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: BadAdmin Test
+gidNumber: 511
+homeDirectory: /home/users/badadmin
+sn: Test
+uid: badadmin
+uidNumber: 1146
+givenName: BadAdmin
+loginShell: /bin/bash
+userPassword:: e01ENX1iM21BRkJySWQzTjJzOUVrTEkwNXN3PT0=
+
+dn: cn=Elizabeth Jane,ou=people,ou=Galactus-IL-Sunset,ou=rcEnvironment,dc=sl
+ idev,dc=org
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Elizabeth Jane
+sn: Jane
+uid: ejane
+userPassword:: e01ENX0vK2Nyd3VYY3lLOGR0U2UyM05XUVdnPT0=
+
+dn: cn=John Doe,ou=people,ou=Galactus-IL-Sunset,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: John Doe
+sn: Doe
+givenName: John
+uid: john_doe
+userPassword:: e01ENX15TndTaWJuMDFQSyt4SzA0ZnFLdzFRPT0=
+
+dn: cn=Teddy Bear,ou=people,ou=Galactus-IL-Sunset,ou=rcEnvironment,dc=slidev
+ ,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Teddy Bear
+sn: Bear
+givenName: Teddy
+uid: tbear
+userPassword:: e01ENX01Y1lFY1RJQ2ZUOHJLZHNOZTJxVGdnPT0=
+
+dn: cn=Joe Doe,ou=people,ou=Galactus-IL-Sunset,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Joe Doe
+sn: Doe
+givenName: Joe
+uid: jdoe
+userPassword:: e01ENX1Iei9KQ3llT3NyT3VuMldsaEVmaXdRPT0=
+
+dn: cn=Laura Roslin,ou=people,ou=Galactus-IL-Sunset,ou=rcEnvironment,dc=slid
+ ev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+objectClass: posixAccount
+cn: Laura Roslin
+gidNumber: 100
+homeDirectory: /home/users/lroslin
+sn: Roslin
+uid: lroslin
+uidNumber: 5332
+loginShell: /bin/bash
+userPassword:: e01ENX1HditYVnVya2VIV1hmMzBzSkoxME5RPT0=
+
+dn: ou=Galactus-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: Galactus-NY
+
+dn: ou=groups,ou=Galactus-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: cn=Educator,ou=groups,ou=Galactus-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Educator
+gidNumber: 518
+memberUid: johndoe
+memberUid: ejane
+memberUid: mario.sanchez
+memberUid: cgray
+
+dn: cn=Leader,ou=groups,ou=Galactus-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Leader
+gidNumber: 519
+memberUid: kmelendez
+memberUid: eengland
+memberUid: gcanning
+memberUid: jbarrera
+
+dn: cn=IT Administrator,ou=groups,ou=Galactus-NY,ou=rcEnvironment,dc=slidev,
+ dc=org
+objectClass: posixGroup
+objectClass: top
+cn: IT Administrator
+gidNumber: 520
+memberUid: jpratt
+memberUid: mhahn
+memberUid: jcarlyle
+memberUid: agibbs
+
+dn: cn=Aggregate Viewer,ou=groups,ou=Galactus-NY,ou=rcEnvironment,dc=slidev,
+ dc=org
+objectClass: posixGroup
+objectClass: top
+cn: Aggregate Viewer
+gidNumber: 521
+memberUid: jsmalley
+memberUid: sholcomb
+memberUid: rlindsey
+memberUid: charrison
+
+dn: ou=people,ou=Galactus-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: cn=Mario Sanchez,ou=people,ou=Galactus-NY,ou=rcEnvironment,dc=slidev,dc=
+ org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Mario Sanchez
+gidNumber: 100
+homeDirectory: /home/users/mario.sanchez
+sn: Sanchez
+uid: mario.sanchez
+uidNumber: 1156
+givenName: Mario
+loginShell: /bin/bash
+userPassword:: e01ENX1ITWZaL2JkNktWa3FJZVVnSE0xVlNBPT0=
+
+dn: cn=Emerson England,ou=people,ou=Galactus-NY,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Emerson England
+sn: England
+uid: eengland
+userPassword:: e1NIQX11dXRYSTJNWWhVam5vN3I3Q0tMNDFqMXZTaW89
+
+dn: cn=Jefferson Pratt,ou=people,ou=Galactus-NY,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Jefferson Pratt
+gidNumber: 100
+homeDirectory: /home/users/jpratt
+sn: Pratt
+uid: jpratt
+uidNumber: 1157
+givenName: Jefferson
+loginShell: /bin/bash
+userPassword:: e01ENX1VakxuOHUyVVEzcHhrcVlrNHMvNy93PT0=
+
+dn: cn=Joshua Smalley,ou=people,ou=Galactus-NY,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: inetOrgPerson
+objectClass: top
+objectClass: person
+cn: Joshua Smalley
+sn: Smalley
+givenName: Joshua
+uid: jsmalley
+userPassword:: e01ENX11ZXgxUkhsTXhlRUJIanQ5b3MzTndBPT0=
+
+dn: cn=Georgia Canning,ou=people,ou=Galactus-NY,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Georgia Canning
+sn: Canning
+pager: cn=DevLDAP User, ou=People,dc=slidev,dc=org
+uid: gcanning
+userPassword:: e01ENX1ja2x6OXRJZVBYZm9NZnY4ZEF6bTVRPT0=
+
+dn: cn=Justin Carlyle,ou=people,ou=Galactus-NY,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Justin Carlyle
+sn: Carlyle
+uid: jcarlyle
+userPassword:: e01ENX1pc3JVOTZUMlFRSkI0Uk45SkZYREZ3PT0=
+
+dn: cn=Marlene Hahn,ou=people,ou=Galactus-NY,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: inetOrgPerson
+objectClass: top
+cn: Marlene Hahn
+sn: Hahn
+uid: mhahn
+userPassword:: e01ENX1HdlU5bGQwamdRYndYaXZyUVBZUHBnPT0=
+
+dn: cn=Rene Lindsey,ou=people,ou=Galactus-NY,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: inetOrgPerson
+objectClass: top
+cn: Rene Lindsey
+sn: Lindsey
+uid: rlindsey
+userPassword:: e01ENX1ZYXFQeXp2U1Mvblgyb3RmZXd1cmlnPT0=
+
+dn: cn=Simone Holcomb,ou=people,ou=Galactus-NY,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Simone Holcomb
+sn: Holcomb
+uid: sholcomb
+userPassword:: e01ENX1GZktTU01UVTc1Wmh6enkwU0RtcnVBPT0=
+
+dn: cn=Keisha Melendez,ou=people,ou=Galactus-NY,ou=rcEnvironment,dc=slidev,d
+ c=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Keisha Melendez
+sn: Melendez
+uid: kmelendez
+userPassword:: e01ENX1jR21KUHVEWTZzeHkwY0VDZE5ZdmhRPT0=
+
+dn: cn=Al Gibbs,ou=people,ou=Galactus-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Al Gibbs
+sn: Gibbs
+uid: agibbs
+userPassword:: e01ENX1oNHp1N2tkZHVGRVA4Y3lCRlF4RHdRPT0=
+
+dn: cn=Chandra Harrison,ou=people,ou=Galactus-NY,ou=rcEnvironment,dc=slidev,
+ dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Chandra Harrison
+sn: Harrison
+uid: charrison
+userPassword:: e01ENX04ZytxNjhjcXMvQ2NFNThoOUNRVTJBPT0=
+
+dn: cn=Jane Barrera,ou=people,ou=Galactus-NY,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: inetOrgPerson
+objectClass: top
+cn: Jane Barrera
+sn: Barrera
+uid: jbarrera
+userPassword:: e01ENX0wMCtSSXhKVkpPdHdxVlFramVCdTlRPT0=
+
+dn: cn=Emily Jane,ou=people,ou=Galactus-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: Emily Jane
+sn: Jane
+uid: ejane
+userPassword:: e01ENX0vK2Nyd3VYY3lLOGR0U2UyM05XUVdnPT0=
+
+dn: cn=John Doe,ou=people,ou=Galactus-NY,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: top
+cn: John Doe
+sn: Doe
+givenName: John
+uid: johndoe
+userPassword:: e01ENX1qRWVRM0ZLL2l4anA4T3FIUkpHL25RPT0=
+
+dn: cn=Charles Gray,ou=people,ou=Galactus-NY,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: posixAccount
+objectClass: top
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+cn: Charles Gray
+gidNumber: 250
+homeDirectory: /home/cgray
+sn: Gray
+uid: cgray
+uidNumber: 9998
+mail: bsuzuki@wgen.net
+userPassword:: e1NIQX0xREVKOWNVVnNpWmlTM0UwcjViUDJaYVdVdkE9
+
+dn: cn=cwilson@wgen.net,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=
+ org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: cwilson@wgen.net
+gidNumber: 113
+homeDirectory: /dev/null
+sn: Wilson
+uid: cwilson@wgen.net
+uidNumber: 500
+destinationIndicator: approved
+displayName: 449148c5789686c97685975731917ec2
+gecos: 
+givenName: Chad
+loginShell: /sbin/nologin
+mail: cwilson@wgen.net
+o: Wilcorp
+userPassword:: e1NTSEF9bzdrNENsMkhINXg2bVlCeXJRdzlEZzhJekNkRXhlcUs=
+
+dn: cn=tke@wgen.net,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: tke@wgen.net
+gidNumber: 113
+homeDirectory: /dev/null
+sn: Ke
+uid: tke@wgen.net
+uidNumber: 500
+destinationIndicator: eula-accepted
+displayName: 4995240218c8e258cc7aa0d3d0994fd4
+gecos: 
+givenName: Tao
+loginShell: /sbin/nologin
+mail: tke@wgen.net
+o: WGEN
+userPassword:: e1NTSEF9YlhXY1VuQXh3cTh6YmNmbmZCOHdUVGpQYnBSOEI0Szk=
+
+dn: cn=Operator List,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: Operator List
+gidNumber: 113
+homeDirectory: /dev/null
+sn: operator
+uid: sliops@wgen.net
+uidNumber: 500
+displayName: SLC Operator Email List
+gecos: 
+givenName: SLC Operator
+loginShell: /sbin/nologin
+mail: sliops@wgen.net
+o: wgen
+
+dn: cn=ParallaxDBAdmin,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: ParallaxDBAdmin
+gidNumber: 505
+homeDirectory: /dev/null
+sn: Admin
+uid: parallaxdbadmin
+uidNumber: 5020
+description: edOrg=IL-DAYBREAK
+displayName: 8fceef13e11da5e1474865cc0233722f
+givenName: Daybreak
+loginShell: /bin/sh
+mail: joechung@wgen.net
+userPassword:: e1NIQX1tOE5GU2RWbDJWQmJLSDNnelNDc2Q3NGRQeXc9
+
+dn: cn=ParallaxILAdmin,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: ParallaxILAdmin
+gidNumber: 508
+homeDirectory: /home/users/iladmin
+sn: Admin
+uid: parallaxiladmin
+uidNumber: 5021
+description:: dGVuYW50PVBhcmFsbGF4SUwKZWRPcmc9SUw=
+displayName: 5ec3c4c649549e844fdb692c0f631c10
+givenName: IL
+loginShell: /bin/sh
+mail: joechung@wgen.net
+userPassword:: e1NIQX1tOE5GU2RWbDJWQmJLSDNnelNDc2Q3NGRQeXc9
+
+dn: cn=ParallaxNYAdmin,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: ParallaxNYAdmin
+gidNumber: 508
+homeDirectory: /dev/null
+sn: Admin
+uid: parallaxnyadmin
+uidNumber: 5022
+description:: dGVuYW50PVBhcmFsbGF4TlkKZWRPcmc9TlktU1RBVEUtTllD
+displayName: 25fba525abfb2ce339e3a3dc82348dcb
+givenName: NY
+loginShell: /bin/sh
+mail: joechung@wgen.net
+userPassword:: e1NIQX1tOE5GU2RWbDJWQmJLSDNnelNDc2Q3NGRQeXc9
+
+dn: cn=ParallaxSunsetAdmin,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,
+ dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: ParallaxSunsetAdmin
+gidNumber: 505
+homeDirectory: /dev/null
+sn: Admin
+uid: parallaxsunsetadmin
+uidNumber: 5023
+description:: dGVuYW50PVBhcmFsbGF4SUwKZWRPcmc9SUwtU1VOU0VU
+displayName: 8fceef13e11da5e1474865cc0233722f
+givenName: Sunset
+loginShell: /bin/sh
+mail: joechung@wgen.net
+userPassword:: e1NIQX1tOE5GU2RWbDJWQmJLSDNnelNDc2Q3NGRQeXc9
+
+dn: cn=doris.ip@wgen.net,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc
+ =org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: doris.ip@wgen.net
+gidNumber: 113
+homeDirectory: /dev/null
+sn: Ip
+uid: doris.ip@wgen.net
+uidNumber: 500
+destinationIndicator: eula-accepted
+displayName: c2786d89b72053d6065fd5c6e783245e
+gecos: 
+givenName: Doris
+loginShell: /sbin/nologin
+mail: doris.ip@wgen.net
+o: wgen
+userPassword:: e1NTSEF9OWQwd3RDS1BZT1FqQXdDV3J1anBLcVl3UCtLU1lTdXY=
+
+dn: cn=cwilson@wirelessgeneration.com,ou=people,ou=SLIAdmin,ou=rcEnvironment
+ ,dc=slidev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: cwilson@wirelessgeneration.com
+gidNumber: 113
+homeDirectory: /dev/null
+sn: Frank
+uid: cwilson@wirelessgeneration.com
+uidNumber: 500
+destinationIndicator: submitted
+displayName: -
+gecos: 
+givenName: Chad
+loginShell: /sbin/nologin
+mail: cwilson@wirelessgeneration.com
+o: aadsfa
+userPassword:: e1NTSEF9YWNTMmtGeldRMmVHOTdhdUZWSDNvQy81Wnp2TnR3V3I=
+
+dn: cn=tosako@wgen.net,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=o
+ rg
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: tosako@wgen.net
+gidNumber: 113
+homeDirectory: /dev/null
+sn: Osako
+uid: tosako@wgen.net
+uidNumber: 500
+destinationIndicator: approved
+displayName: 050278bfb541da71f1f60679edd64f1a
+gecos: 
+givenName: Takashi
+loginShell: /sbin/nologin
+mail: tosako@wgen.net
+o: wgen
+userPassword:: e1NTSEF9ZTVKY3RHNzd2QlBMenhVTjZGb0lHYWNZTytaSWZjNGw=
+
+dn: cn=takashi.osako@gmail.com,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=sli
+ dev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: takashi.osako@gmail.com
+gidNumber: 113
+homeDirectory: /dev/null
+sn: Osako
+uid: takashi.osako@gmail.com
+uidNumber: 500
+destinationIndicator: eula-accepted
+displayName: 0b08b1c5f1ca5af0d6592ca54738e084
+gecos: 
+givenName: Takashi
+loginShell: /sbin/nologin
+mail: takashi.osako@gmail.com
+o: Wireless Generation
+userPassword:: e1NTSEF9b2VVNFU5QVpzRHJhOWxOQk9UNWpDNkptbkFCaVRvbW4=
+
+dn: cn=takashi.osako@wgen.net,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slid
+ ev,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: takashi.osako@wgen.net
+gidNumber: 113
+homeDirectory: /dev/null
+sn: Osako
+uid: takashi.osako@wgen.net
+uidNumber: 500
+destinationIndicator: eula-accepted
+displayName: f2c9bffdcc5a7de92685042d8b2029e4
+gecos: 
+givenName: Takashi
+loginShell: /sbin/nologin
+mail: takashi.osako@wgen.net
+o: Wireless Generation
+userPassword:: e1NTSEF9YVk5enl3bzdlRHpyaDdSS1pHRnV5Mm5iKzRYSFNReVY=
+
+dn: cn=vummalaneni@wgen.net,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev
+ ,dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: vummalaneni@wgen.net
+gidNumber: 113
+homeDirectory: /dev/null
+sn: Ummalaneni
+uid: vummalaneni@wgen.net
+uidNumber: 500
+destinationIndicator: approved
+displayName: 91de018d1fd337fdee7eed3cae5dd75b
+gecos: 2d706c2d141218915becec824def8336@1342885562
+givenName: Vijay
+loginShell: /sbin/nologin
+mail: vummalaneni@wgen.net
+o: Testing RC Inc.
+userPassword:: e1NTSEF9c09iNnFyM292aDFXN0Zoa2YzYlNUbTl5S0NOVTFoN3Q=
+
+dn: cn=mabernathy@wgen.net,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,
+ dc=org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: mabernathy@wgen.net
+gidNumber: 113
+homeDirectory: /dev/null
+sn: Strike
+uid: mabernathy@wgen.net
+uidNumber: 500
+destinationIndicator: approved
+displayName: f07ae2413a40eaf1e563511b380d420a
+gecos: 
+givenName: Lucky
+loginShell: /sbin/nologin
+mail: mabernathy@wgen.net
+o: LS
+userPassword:: e1NTSEF9TDFYZ3JybWlQNE53c1IvclovS0RtNWhweUpWdUQrdTM=
+
+dn: cn=rfarris@wgen.net,ou=people,ou=SLIAdmin,ou=rcEnvironment,dc=slidev,dc=
+ org
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+cn: rfarris@wgen.net
+gidNumber: 113
+homeDirectory: /dev/null
+sn: Farris
+uid: rfarris@wgen.net
+uidNumber: 500
+destinationIndicator: approved
+displayName: 2d1e55b43a63b3136399227c67f5dd55
+gecos: 
+givenName: Ryan
+loginShell: /sbin/nologin
+mail: rfarris@wgen.net
+o: Wireless
+userPassword:: e1NTSEF9Q3R0U2doa2J6KzR2OVcvejU5MkVIazhjUkE1RTdETHY=
+
