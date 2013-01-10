@@ -87,6 +87,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
         principal.setSubEdOrgHierarchy(edOrgHelper.getSubEdOrgHierarchy(principal.getEntity()));
 
         info("uri: {} -> {}", request.getBaseUri().getPath(), request.getRequestUri().getPath());
+        request.getProperties().put("original-request", request.getPath());
         mutator.mutateURI(SecurityContextHolder.getContext().getAuthentication(), request);
         contextValidator.validateContextToUri(request, principal);
         translator.translate(request);

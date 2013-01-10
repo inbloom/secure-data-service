@@ -35,14 +35,12 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.dal.NeutralRecordAccess;
 import org.slc.sli.ingestion.handler.XmlFileHandler;
 import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.ResourceEntry;
@@ -50,6 +48,10 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.impl.JobSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.service.IngestionExecutor;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
@@ -187,14 +189,16 @@ public class ConcurrentEdFiProcessor implements Processor, ApplicationContextAwa
                 FileType fileType = FileType.findByNameAndFormat(resource.getResourceType(), fileFormat);
                 String fileName = resource.getResourceId();
                 String checksum = resource.getChecksum();
+                String zipParent = resource.getResourceZipParent();
 
                 String lzPath = resource.getTopLevelLandingZonePath();
 
                 IngestionFileEntry fe = new IngestionFileEntry(fileFormat, fileType, fileName, checksum, lzPath);
                 fe.setMessageReport(databaseMessageReport);
-                fe.setReportStats(new SimpleReportStats(batchJobId, fileName, BATCH_JOB_STAGE.getName()));
+                fe.setReportStats(new SimpleReportStats());
                 fe.setFile(new File(resource.getResourceName()));
                 fe.setBatchJobId(batchJobId);
+                fe.setFileZipParent(zipParent);
 
                 fileEntryList.add(fe);
             }
@@ -206,10 +210,11 @@ public class ConcurrentEdFiProcessor implements Processor, ApplicationContextAwa
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.ERROR.name());
         LogUtil.error(LOG, "Error processing batch job " + batchJobId, exception);
+
         if (batchJobId != null) {
-            Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
-                    FaultType.TYPE_ERROR.getName(), null, exception.toString());
-            batchJobDAO.saveError(error);
+            ReportStats reportStats = new SimpleReportStats();
+            Source source = new JobSource(null, BATCH_JOB_STAGE.getName());
+            databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0021, batchJobId, exception.getMessage());
         }
     }
 

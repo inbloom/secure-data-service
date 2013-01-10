@@ -57,6 +57,10 @@ public class TeacherToTeacherSchoolAssociationValidatorTest {
 
 	@Before
 	public void init() {
+        try {
+            vth.resetRepo();
+        } catch (Exception e) {
+        }
 		injector.setEducatorContext(USER_ID);
 	}
 
@@ -75,8 +79,7 @@ public class TeacherToTeacherSchoolAssociationValidatorTest {
 	public void testSuccessMulti() {
 		Set<String> ids = new HashSet<String>();
 
-		int random = (int) Math.floor(Math.random() * 100);
-		for (int i = 0; i < random; i++) {
+		for (int i = 0; i < 100; i++) {
 			ids.add(this.vth.generateTeacherSchool(USER_ID, "Myrran"+i).getEntityId());
 		}
 

@@ -49,6 +49,8 @@ TENTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
 ELEVENTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
 TWELFTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
 
+COURSES_ON_SEA: true
+
 # Staff Catalog location
 STAFF_CATALOG: scenarios/staff.json
 

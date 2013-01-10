@@ -116,9 +116,9 @@ public abstract class AbstractMessageReport implements MessageSourceAware {
      */
     protected String getMessage(ReportStats reportStats, Source source, MessageCode code, Object... args) {
 
-        Object[] arguments = { messageSource.getMessage(code.getCode(), args, "#?" + code.getCode() + "?#", null),
-                source.getUserFriendlyMessage(), code.getCode() };
-        return MessageFormat.format("{0}\n" + "{1}\n" + "Message Code={2}\n", arguments);
+        Object[] arguments = { code.getCode(), source.getUserFriendlyMessage(),
+                messageSource.getMessage(code.getCode(), args, "#?" + code.getCode() + "?#", null) };
+        return MessageFormat.format("{0}:[{1}]-{2}", arguments);
     }
 
     protected abstract void reportError(ReportStats reportStats, Source source, MessageCode code,

@@ -218,7 +218,6 @@ public class AuthController {
         headers.setContentType(MediaType.APPLICATION_JSON);
 
         String response = String.format("{\"access_token\":\"%s\"}", token);
-        info("Access Token: \n{}", response);
 
         return new ResponseEntity<String>(response, headers, HttpStatus.OK);
     }

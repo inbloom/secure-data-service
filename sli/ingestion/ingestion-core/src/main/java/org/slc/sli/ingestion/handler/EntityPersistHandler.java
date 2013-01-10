@@ -31,7 +31,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
 import org.springframework.core.NestedRuntimeException;
 import org.springframework.dao.DuplicateKeyException;
 
@@ -51,7 +50,6 @@ import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.transformation.normalization.ComplexKeyField;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
-import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.NoNaturalKeysDefinedException;
@@ -77,7 +75,6 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
     private Repository<Entity> entityRepository;
     private EntityConfigFactory entityConfigurations;
-    private MessageSource messageSource;
 
     @Value("${sli.ingestion.mongotemplate.writeConcern}")
     private String writeConcern;
@@ -168,10 +165,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entities.get(0).getType());
 
         for (SimpleEntity entity : entities) {
-            NeutralRecordSource source = new NeutralRecordSource(reportStats.getBatchJobId(), entity.getResourceId(),
-                    getStageName(), entity.getType(), entity.getVisitBeforeLineNumber(),
-                    entity.getVisitBeforeColumnNumber(), entity.getVisitAfterLineNumber(),
-                    entity.getVisitAfterColumnNumber());
+            NeutralRecordSource source = new NeutralRecordSource(entity.getResourceId(), getStageName(),
+                    entity.getVisitBeforeLineNumber(), entity.getVisitBeforeColumnNumber(),
+                    entity.getVisitAfterLineNumber(), entity.getVisitAfterColumnNumber());
 
             if (entity.getEntityId() != null) {
                 update(collectionName, entity, failed, report, reportStats, source);
@@ -182,10 +178,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
         for (Map.Entry<List<Object>, SimpleEntity> entry : memory.entrySet()) {
             SimpleEntity entity = entry.getValue();
-            NeutralRecordSource source = new NeutralRecordSource(reportStats.getBatchJobId(), entity.getResourceId(),
-                    getStageName(), entity.getType(), entity.getVisitBeforeLineNumber(),
-                    entity.getVisitBeforeColumnNumber(), entity.getVisitAfterLineNumber(),
-                    entity.getVisitAfterColumnNumber());
+            NeutralRecordSource source = new NeutralRecordSource(entity.getResourceId(), getStageName(),
+                    entity.getVisitBeforeLineNumber(), entity.getVisitBeforeColumnNumber(),
+                    entity.getVisitAfterLineNumber(), entity.getVisitAfterColumnNumber());
             LOG.debug("Processing: {}", entity.getType());
             try {
                 validator.validate(entity);
@@ -210,8 +205,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             // Try to do individual upsert again for other exceptions
             for (Entity entity : queued) {
                 SimpleEntity simpleEntity = (SimpleEntity) entity;
-                NeutralRecordSource source = new NeutralRecordSource(reportStats.getBatchJobId(),
-                        simpleEntity.getResourceId(), getStageName(), simpleEntity.getType(),
+                NeutralRecordSource source = new NeutralRecordSource(simpleEntity.getResourceId(), getStageName(),
                         simpleEntity.getVisitBeforeLineNumber(), simpleEntity.getVisitBeforeColumnNumber(),
                         simpleEntity.getVisitAfterLineNumber(), simpleEntity.getVisitAfterColumnNumber());
                 update(collectionName, entity, failed, report, reportStats, source);
@@ -252,7 +246,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             AbstractMessageReport report, SimpleEntity entity, ReportStats reportStats) {
         List<String> keyFields = entityConfig.getKeyFields();
         ComplexKeyField complexField = entityConfig.getComplexKeyField();
-        Source source = new JobSource(reportStats.getBatchJobId(), entity.getResourceId(), getStageName());
+        Source source = new JobSource(entity.getResourceId(), getStageName());
         if (keyFields.size() > 0) {
             List<Object> keyValues = new ArrayList<Object>();
             for (String field : keyFields) {
@@ -327,20 +321,8 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         report.warning(reportStats, source, CoreMessageCode.CORE_0007, type, warningMessage);
     }
 
-    protected String getFailureMessage(String code, Object... args) {
-        return MessageSourceHelper.getMessage(messageSource, code, args);
-    }
-
     public void setEntityRepository(Repository<Entity> entityRepository) {
         this.entityRepository = entityRepository;
-    }
-
-    public MessageSource getMessageSource() {
-        return messageSource;
-    }
-
-    public void setMessageSource(MessageSource messageSource) {
-        this.messageSource = messageSource;
     }
 
     public EntityConfigFactory getEntityConfigurations() {
@@ -364,9 +346,8 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     @Override
     protected Entity doHandling(SimpleEntity item, AbstractMessageReport report, ReportStats reportStats,
             FileProcessStatus fileProcessStatus) {
-        Source source = new NeutralRecordSource(reportStats.getBatchJobId(), item.getResourceId(), getStageName(),
-                item.getType(), item.getVisitBeforeLineNumber(), item.getVisitBeforeColumnNumber(),
-                item.getVisitAfterLineNumber(), item.getVisitAfterColumnNumber());
+        Source source = new NeutralRecordSource(item.getResourceId(), getStageName(), item.getVisitBeforeLineNumber(),
+                item.getVisitBeforeColumnNumber(), item.getVisitAfterLineNumber(), item.getVisitAfterColumnNumber());
         try {
             return persist(item);
         } catch (EntityValidationException ex) {

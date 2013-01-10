@@ -130,7 +130,7 @@ class LandingZone
     else
       @emailWarningMessage = "Unfortunately, your account does not have an email address and " <<
           "therefore we cannot send an email to you.  Please use this page " <<
-          "as reference or contact the SLC Operator for your landing zone details."
+          "as reference or contact the inBloom Operator for your landing zone details."
     end
 
     {:landingzone => @landingzone, :server => @server, :emailWarning => @emailWarningMessage, :edOrg => user_info[:edorg], :isDuplicate => isDuplicate}

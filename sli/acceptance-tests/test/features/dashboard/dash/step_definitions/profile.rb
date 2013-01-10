@@ -72,7 +72,7 @@ end
 ###############################
 When /^I view its section profile$/ do
   @sectionInfo = viewInfoPanel("sectionProfile", "sectionInfo")
-  verifyPageTitle("SLC - Section Profile")
+  verifyPageTitle("inBloom - Section Profile")
 end
 
 Then /^the section name shown in section profile is "([^"]*)"$/ do |expectedSectionName|
@@ -98,7 +98,7 @@ end
 
 When /^I look at Teacher Profile$/ do
   @teacherInfo = viewInfoPanel("teacherProfile")
-  verifyPageTitle("SLC - Teacher Profile")
+  verifyPageTitle("inBloom - Teacher Profile")
   #Assume first tab is Sections
   @currentTab = getTab("Sections")
 end

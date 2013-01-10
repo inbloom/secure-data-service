@@ -52,7 +52,7 @@ import org.slc.sli.ingestion.routes.orchestra.OrchestraPreProcessor;
 import org.slc.sli.ingestion.routes.orchestra.WorkNoteLatch;
 import org.slc.sli.ingestion.tenant.TenantPopulator;
 import org.slc.sli.ingestion.validation.Validator;
-;
+
 
 /**
  * Ingestion route builder.
@@ -181,7 +181,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         LOG.info("Configuring node {} for node type {}", nodeInfo.getUUID(), nodeInfo.getNodeType());
 
         loggingMessageReport.setLogger(LOG);
-        Source source = new JobSource(null, null, null);
+        Source source = new JobSource(null, null);
         ReportStats reportStats = new SimpleReportStats();
         boolean indexValidated = systemValidator.isValid(null, loggingMessageReport, reportStats, source);
 

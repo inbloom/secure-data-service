@@ -168,6 +168,7 @@ end
 #              and sets the @sessionId variable for use in later stepdefs throughout the scenario
 #              It is suggested you assert the @sessionId before returning success from the calling function
 def idpRealmLogin(user, passwd, realm="SLI")
+  puts "realm " + realm
   token = $SESSION_MAP[user+"_"+realm]
   assert(token != nil, "Could not find session for user #{user} in realm #{realm}")
   @sessionId = token
@@ -606,4 +607,23 @@ end
 ### create a deep copy of entity data used in API CRUD tests
 def deep_copy(o)
   Marshal.load(Marshal.dump(o))
+end
+
+### asserts something with a timeout
+def assertWithPolling(msg, total_wait_sec, &blk)
+  passed = false
+  total_wait_sec.times { |x|
+    begin
+      sleep(1)
+      assert(yield, msg)
+      passed = true
+      break
+    rescue MiniTest::Assertion
+      $stderr.puts "not yet statisfied after #{x} seconds"
+    rescue 
+      $stderr.puts "not yet statisfied after #{x} seconds"
+    end
+  }
+
+  assert(yield, msg) unless passed
 end

@@ -331,7 +331,7 @@ Then /^I have clicked on the button 'Delete' for the application named "([^"]*)"
     
 end
 
-Then /^I got warning message saying 'You are trying to remove this application from SLI\. By doing so, you will prevent any active user to access it\. Do you want to continue\?'$/ do
+Then /^I got warning message saying 'You are trying to remove this application from inBloom\. By doing so, you will prevent any active user to access it\. Do you want to continue\?'$/ do
   @driver.switch_to.alert
 end
 
@@ -424,7 +424,7 @@ end
 
 And /^I can delete "(.*?)"$/ do |app_name|
     step "I have clicked on the button 'Delete' for the application named \"#{app_name}\""
-    step "I got warning message saying 'You are trying to remove this application from SLI. By doing so, you will prevent any active user to access it. Do you want to continue?'"
+    step "I got warning message saying 'You are trying to remove this application from inBloom. By doing so, you will prevent any active user to access it. Do you want to continue?'"
     step "I click 'Yes'"
     step "the application named \"#{app_name}\" is removed from the SLI"
 end

@@ -95,9 +95,10 @@ public class ZipFileProcessor implements Processor {
             resourceId = zipFileResource.getResourceId();
 
             TenantContext.setTenantId(newJob.getTenantId());
+            TenantContext.setJobId(newJob.getId());
             batchJobId = newJob.getId();
 
-            reportStats = new SimpleReportStats(batchJobId, zipFileResource.getResourceId(), BATCH_JOB_STAGE.getName());
+            reportStats = new SimpleReportStats();
 
             File ctlFile = zipFileHandler.handle(zipFileResource, databaseMessageReport, reportStats);
 
@@ -111,9 +112,6 @@ public class ZipFileProcessor implements Processor {
 
             setExchangeBody(exchange, ctlFile, reportStats, batchJobId);
 
-            if (!zipFile.delete()) {
-                LOG.debug("Failed to delete: {}", zipFile.getPath());
-            }
 
         } catch (Exception exception) {
             handleProcessingException(exchange, batchJobId, resourceId, exception, reportStats);
@@ -147,7 +145,7 @@ public class ZipFileProcessor implements Processor {
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOG.error("Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
-            Source source = new JobSource(batchJobId, resourceId, BATCH_JOB_STAGE.getName());
+            Source source = new JobSource(resourceId, BATCH_JOB_STAGE.getName());
             databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0014, exception.toString());
         }
     }

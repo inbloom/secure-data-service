@@ -96,12 +96,36 @@ public class DefaultSelectorQueryEngine implements SelectorQueryEngine, Selector
     }
 
     @Override
+    public SelectorQueryPlan visit (SelectorQueryVisitable visitable) {
+        if (visitable instanceof SemanticSelector) {
+            return visit((SemanticSelector)visitable);
+        }
+        if (visitable instanceof BooleanSelectorElement) {
+            return visit((BooleanSelectorElement)visitable);
+        }
+        if (visitable instanceof ComplexSelectorElement) {
+            return visit((ComplexSelectorElement)visitable);
+        }
+        if (visitable instanceof IncludeAllSelectorElement) {
+            return visit((IncludeAllSelectorElement)visitable);
+        }
+        if (visitable instanceof IncludeXSDSelectorElement) {
+            return visit((IncludeXSDSelectorElement)visitable);
+        }
+        if (visitable instanceof IncludeDefaultSelectorElement) {
+            return visit((IncludeDefaultSelectorElement)visitable);
+        }
+        if (visitable instanceof EmptySelectorElement) {
+            return visit((EmptySelectorElement)visitable);
+        }
+        return null;
+    }
+
     public SelectorQueryPlan visit(SemanticSelector semanticSelector) {
         // No op
         return null;
     }
 
-    @Override
     public SelectorQueryPlan visit(BooleanSelectorElement booleanSelectorElement) {
         SelectorQueryPlan plan = new SelectorQueryPlan();
         String attr = booleanSelectorElement.getElementName();
@@ -127,7 +151,6 @@ public class DefaultSelectorQueryEngine implements SelectorQueryEngine, Selector
         return plan;
     }
 
-    @Override
     public SelectorQueryPlan visit(ComplexSelectorElement complexSelectorElement) {
         SelectorQuery queries = buildQueryPlan(complexSelectorElement.getSelector());
         SelectorQueryPlan plan = new SelectorQueryPlan();
@@ -136,7 +159,6 @@ public class DefaultSelectorQueryEngine implements SelectorQueryEngine, Selector
         return plan;
     }
 
-    @Override
     public SelectorQueryPlan visit(IncludeAllSelectorElement includeAllSelectorElement) {
         Type type = (Type) includeAllSelectorElement.getLHS();
 
@@ -148,7 +170,6 @@ public class DefaultSelectorQueryEngine implements SelectorQueryEngine, Selector
         return plan;
     }
 
-    @Override
     public SelectorQueryPlan visit(IncludeXSDSelectorElement includeXSDSelectorElement) {
         Type type = (Type) includeXSDSelectorElement.getLHS();
 
@@ -158,7 +179,6 @@ public class DefaultSelectorQueryEngine implements SelectorQueryEngine, Selector
         return plan;
     }
 
-    @Override
     public SelectorQueryPlan visit(IncludeDefaultSelectorElement includeDefaultSelectorElement) {
         Type type = (Type) includeDefaultSelectorElement.getLHS();
 
@@ -170,7 +190,6 @@ public class DefaultSelectorQueryEngine implements SelectorQueryEngine, Selector
         return plan;
     }
 
-    @Override
     public SelectorQueryPlan visit(EmptySelectorElement emptySelectorElement) {
         return new SelectorQueryPlan();
     }
@@ -180,5 +199,4 @@ public class DefaultSelectorQueryEngine implements SelectorQueryEngine, Selector
 
         return (schema != null) ? schema.getFields().keySet() : Collections.EMPTY_SET;
     }
-
 }

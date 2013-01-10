@@ -133,17 +133,21 @@ def checkGridEntries(panel, table, mapping, isExactRowsMatch = true, gridNumber 
     found = false
     grid.each do |tr|  
       table.headers.each do |header|
+        value = nil
+        option = nil
         if (mapping[header].kind_of?(Array))
-          #example, fuel gauge tests or visualization
-           td = getTdBasedOnAttribute(tr,mapping[header][0])
-           value = row[header]
-           verifier = mapping[header][1].downcase
-
-           if (verifier == "fuelgauge")
-            testFuelGauge(td, value)
-           end
+          #example, fuel gauge tests or visualization, search results
+           td = getTdBasedOnAttribute(tr, mapping[header][0])
+           # option is for the attribute name that we want to compare to
+           option = mapping[header][1].downcase
+           value = td.attribute(option)
         else
           value = getAttribute(tr, mapping[header])
+        end
+        # Special case for fuel gauge test
+        if (option == "fuelgauge")
+          testFuelGauge(td, row[header])
+        else
           if (value == row[header] || (value.strip == "" && row[header]=="<empty>"))
             found = true
           else

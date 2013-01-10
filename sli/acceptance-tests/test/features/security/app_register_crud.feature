@@ -113,7 +113,7 @@ Scenario: Bootstrapping of apps
 	When I navigate to GET "/apps/"
 	Then I should receive a return code of 200
 	And the "Admin Apps" bootstrap app should exist
-	And the "SLC Dashboards" bootstrap app should exist
+	And the "inBloom Dashboards" bootstrap app should exist
 	And the "SLC Data Browser" bootstrap app should exist
 
 

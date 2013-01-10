@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -59,12 +60,8 @@ public class TeacherToCourseValidator extends AbstractContextValidator {
         
         Set<String> schools = getTeacherEdorgLineage();
         
-        if (schools.size() == 0) {
-            return validIds;
-        }
-        
-        NeutralQuery nq = new NeutralQuery(new NeutralCriteria("_id", "in", ids));
-        nq.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.CRITERIA_IN, schools));
+        NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
+        nq.addCriteria(new NeutralCriteria(ParameterConstants.SCHOOL_ID, NeutralCriteria.CRITERIA_IN, schools));
         Iterable<Entity> entities = getRepo().findAll(EntityNames.COURSE, nq);
         
         for (Entity entity : entities) {

@@ -1,7 +1,7 @@
 <% if APP_CONFIG["is_sandbox"] %>
 <%= @firstName  %>,
 
-Thank you for registering for a developer account with the Shared Learning Collaborative.
+Thank you for registering for a developer account with inBloom.
       
 Please follow this link to confirm your email address:
 
@@ -9,19 +9,19 @@ Please follow this link to confirm your email address:
       
 Thank you,
 
-The Shared Learning Collaborative
+inBloom
 <% else %>
 <%= @firstName  %>,
 
-Thank you for registering for a developer account with the Shared Learning Collaborative.
+Thank you for registering for a developer account with inBloom.
       
 Please follow this link to confirm your email address:
 
 <%= @userEmailValidationLink %>
 
-*Note* - After you have confirmed your email address, your account must be approved by an Shared Learning Collaborative Administrator. For any issues, please email <%= @supportEmail %>
+*Note* - After you have confirmed your email address, your account must be approved by an inBloom Administrator. For any issues, please email <%= @supportEmail %>
      
 Thank you,
 
-The Shared Learning Collaborative
+inBloom
 <% end %>

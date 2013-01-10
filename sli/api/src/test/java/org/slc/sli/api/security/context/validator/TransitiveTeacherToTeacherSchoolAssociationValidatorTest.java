@@ -23,6 +23,7 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,6 +31,7 @@ import org.junit.runner.RunWith;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.domain.Entity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -60,6 +62,15 @@ public class TransitiveTeacherToTeacherSchoolAssociationValidatorTest {
 		injector.setEducatorContext(USER_ID);
 	}
 
+	@After
+	public void cleanUp() {
+	    SecurityContextHolder.clearContext();
+	    try {
+            vth.resetRepo();
+        } catch (Exception e) {
+        }
+	}
+
 	@Test(expected = IllegalArgumentException.class)
 	public void testValidateWrongType() {
 		val.validate(EntityNames.ASSESSMENT, new HashSet<String>(Arrays.asList("Jomolungma")));
@@ -84,8 +95,7 @@ public class TransitiveTeacherToTeacherSchoolAssociationValidatorTest {
 		this.vth.generateTeacherSchool(USER_ID, SCHOOL_ID);
 		Set<String> ids = new HashSet<String>();
 
-		int random = (int) Math.floor(Math.random() * 100);
-		for (int i = 0; i < random; i++) {
+		for (int i = 0; i < 100; i++) {
 			ids.add(this.vth.generateTeacherSchool("Thor" + i, SCHOOL_ID).getEntityId());
 		}
 

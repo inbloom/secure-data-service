@@ -46,10 +46,6 @@ public class TeacherToEdOrgValidator extends AbstractContextValidator {
         }
 
         Set<String> schools = getDirectEdorgs();
-        
-        //TODO: currently adding districts so that teachers can update school entities without the
-        //parent edorg ref causing problems.  Once ed-org write restrictions are in place,
-        //we can use that for PUT reference checks instead of validators.
         schools.addAll(helper.getDistricts(SecurityUtil.getSLIPrincipal().getEntity()));
         return schools.containsAll(ids);
     }

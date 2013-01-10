@@ -141,11 +141,11 @@ end
 When /^the developer click "([^"]*)"$/ do |button|
   if(button == "Accept")
     if(@prod)
-      @email_content = check_email({:subject_substring => "Shared Learning Collaborative Developer Account - Email Confirmation"}) do
+      @email_content = check_email({:subject_substring => "inBloom Developer Account - Email Confirmation"}) do
         @driver.find_element(:xpath, "//input[contains(@id, '#{button.downcase}')]").click
       end
     else
-      @email_content = check_email({:subject_substring => "Shared Learning Collaborative Developer Sandbox Account"}) do
+      @email_content = check_email({:subject_substring => "inBloom Developer Sandbox Account"}) do
         @driver.find_element(:xpath, "//input[contains(@id, '#{button.downcase}')]").click
       end
     end
@@ -166,7 +166,7 @@ end
 
 When /^the developer click link in verification email in "([^"]*)"$/ do |environment|
   if(environment == "sandbox")
-    @email_content = check_email({:subject_substring => "Welcome to the SLC Developer Sandbox"}) do
+    @email_content = check_email({:subject_substring => "Welcome to the inBloom Developer Sandbox"}) do
       sleep(2)
       url = getVerificationLink()
       puts url
@@ -220,8 +220,7 @@ Then /^the user has to authenticate against ldap using "([^"]*)" and "([^"]*)"$/
 end
 
 Then /^the user is redirected to "([^"]*)"$/ do |link|
-  sleep(1)
-  assert( @driver.current_url.include?(link),"the user should be redirected to #{link} but the current url is #{@driver.current_url}")
+  assertWithPolling("the user should be redirected to #{link} but the current url is #{@driver.current_url}", 30) {@driver.current_url.include?(link)}
 end
 
 Then /^the user is redirected to "([^"]*)" after "([^"]*)" seconds$/ do |link, seconds|
@@ -365,7 +364,7 @@ end
 
 When /^the SLC operator approves the vendor account for "([^"]*)"$/ do |email|
   if(@prod)
-    approval_email_subject = "Welcome to the Shared Learning Collaborative"
+    approval_email_subject = "Welcome to inBloom"
     @email_content = check_email({:subject_substring => approval_email_subject}) do
       @driver.find_element(:xpath, "//input[@type='hidden' and @value='#{email}']/../input[@type='submit' and @value='Approve']").click()
       @driver.switch_to().alert().accept()

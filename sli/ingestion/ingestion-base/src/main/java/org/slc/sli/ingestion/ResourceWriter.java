@@ -24,6 +24,7 @@ import java.util.List;
  *
  * @author dduran
  *
+ * @param <T> Type to write
  */
 public interface ResourceWriter<T> {
 

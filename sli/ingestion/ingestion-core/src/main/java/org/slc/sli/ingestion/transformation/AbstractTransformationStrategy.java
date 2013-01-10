@@ -29,7 +29,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 import org.slc.sli.dal.repository.MongoEntityRepository;
-import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.WorkNote;
@@ -107,8 +106,7 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
     }
 
     public ReportStats getReportStats(String fileName) {
-        ReportStats reportStats = new SimpleReportStats(this.batchJobId, fileName,
-                BatchJobStageType.TRANSFORMATION_PROCESSOR.getName());
+        ReportStats reportStats = new SimpleReportStats();
         return reportStats;
     }
 

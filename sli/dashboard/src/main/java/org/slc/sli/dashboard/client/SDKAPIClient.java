@@ -1085,7 +1085,13 @@ public class SDKAPIClient implements APIClient {
         return students;
     }
 
-    /**                    
+    @Override
+    public List<GenericEntity> searchStudents(String token, String query, Map<String, String> params) {
+
+        return this.readEntityList(token, "search/students?q=" + query + "&" + this.buildQueryString(params));
+    }
+
+    /**
      * Get a list of students in the specified section along with gradebook
      * entries
      *
@@ -1538,7 +1544,11 @@ public class SDKAPIClient implements APIClient {
     /**
      * Given a link in the API response, extract the entity's unique id
      *
+<<<<<<< HEAD
+     * @param link
+=======
      * @param path
+>>>>>>> master
      * @return
      */
     private String parseId(String path) {

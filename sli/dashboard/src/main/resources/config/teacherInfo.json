@@ -1,6 +1,6 @@
 {
 	id: "teacherInfo",
-	name: "SLC - Teacher Profile",
+	name: "inBloom - Teacher Profile",
 	type: "PANEL",
 	data :{
 		entity: "teacherInfo",

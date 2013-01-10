@@ -76,7 +76,7 @@ public class SmooksEdFi2SLITransformerTest {
         NeutralRecord directlyMapped = new NeutralRecord();
         directlyMapped.setRecordType("directEntity");
         directlyMapped.setAttributeField("field2", "Test String");
-        ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
+        ReportStats reportStats = new SimpleReportStats();
 
         List<? extends Entity> result = transformer.transform(directlyMapped, new DummyMessageReport(), reportStats);
 
@@ -142,7 +142,7 @@ public class SmooksEdFi2SLITransformerTest {
         assessment.setAttributeField("revisionDate", "1999-01-01");
         assessment.setAttributeField("maxRawScore", "2400");
         assessment.setAttributeField("nomenclature", "nomenclature");
-        ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
+        ReportStats reportStats = new SimpleReportStats();
 
         List<? extends Entity> result = transformer.transform(assessment, new DummyMessageReport(), reportStats);
 
@@ -265,7 +265,7 @@ public class SmooksEdFi2SLITransformerTest {
         assessment.setAttributeField("revisionDate", "1999-01-01");
         assessment.setAttributeField("maxRawScore", "2400");
         assessment.setAttributeField("nomenclature", "nomenclature");
-        ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
+        ReportStats reportStats = new SimpleReportStats();
 
         List<? extends Entity> result = transformer.transform(assessment, new DummyMessageReport(), reportStats);
 
@@ -308,7 +308,7 @@ public class SmooksEdFi2SLITransformerTest {
         when(mockedEntityRepository.findByQuery(eq("assessment"), Mockito.any(Query.class), eq(0), eq(0))).thenReturn(
                 le);
         AbstractMessageReport errorReport = new DummyMessageReport();
-        ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
+        ReportStats reportStats = new SimpleReportStats();
 
         List<SimpleEntity> res = transformer.handle(assessmentRC, errorReport, reportStats);
 

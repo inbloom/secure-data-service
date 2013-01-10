@@ -63,7 +63,7 @@
     <div>
       <label class="checkbox">
               <%= check_box_tag "terms_and_conditions" %>
-              I have read and agree to <a id="terms_and_conditions_link" data-toggle="modal" href="#tou_modal">the Shared Learning Collaborative Terms and Conditions</a>
+              I have read and agree to <a id="terms_and_conditions_link" data-toggle="modal" href="#tou_modal">the inBloom Terms and Conditions</a>
               <div id="tou_modal" class="modal hide">
                 <div class="modal-body">
                   <%= render :partial => 'eulas/eula' %>
@@ -86,3 +86,12 @@
     </table>
   </div>
 <% end %>
+
+<script type="text/javascript">
+    $("#new_account_password_new_pass").popover({
+        html: true,
+        content: "<%= APP_CONFIG['password_policy'].join("<br/>").html_safe %>",
+        trigger: "focus",
+        template: '<div class="popover" style="width:auto"><div class="arrow"></div><div class="popover-inner"><div class="popover-content"><p></p></div></div></div>'
+    });
+</script>

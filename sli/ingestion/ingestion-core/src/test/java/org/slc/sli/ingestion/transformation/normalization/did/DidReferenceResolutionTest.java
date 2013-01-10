@@ -65,7 +65,7 @@ public class DidReferenceResolutionTest {
     public void resolvesAssessmentRefDidInAssessmentItemCorrectly() throws JsonParseException, JsonMappingException, IOException {
         NeutralRecordEntity entity = loadEntity("didTestEntities/assessmentItem.json");
         AbstractMessageReport errorReport = new DummyMessageReport();
-        ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
+        ReportStats reportStats = new SimpleReportStats();
 
         didResolver.resolveInternalIds(entity, TENANT_ID, errorReport, reportStats);
         Map<String, String> naturalKeys = new HashMap<String, String>();
@@ -81,7 +81,7 @@ public class DidReferenceResolutionTest {
     public void resolvesAssessmentRefDidInStudentAssessmentCorrectly() throws JsonParseException, JsonMappingException, IOException {
         NeutralRecordEntity entity = loadEntity("didTestEntities/studentAssessment.json");
         AbstractMessageReport errorReport = new DummyMessageReport();
-        ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
+        ReportStats reportStats = new SimpleReportStats();
 
         didResolver.resolveInternalIds(entity, TENANT_ID, errorReport, reportStats);
 
@@ -98,7 +98,7 @@ public class DidReferenceResolutionTest {
     public void resolvesEdOrgRefDidInAttendanceEventCorrectly() throws JsonParseException, JsonMappingException, IOException {
         NeutralRecordEntity entity = loadEntity("didTestEntities/attendanceEvent.json");
         AbstractMessageReport errorReport = new DummyMessageReport();
-        ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
+        ReportStats reportStats = new SimpleReportStats();
 
         didResolver.resolveInternalIds(entity, TENANT_ID, errorReport, reportStats);
         Map<String, String> naturalKeys = new HashMap<String, String>();
@@ -111,7 +111,7 @@ public class DidReferenceResolutionTest {
     public void resolvesEdOrgRefDidInCohortCorrectly() throws JsonParseException, JsonMappingException, IOException {
         NeutralRecordEntity entity = loadEntity("didTestEntities/cohort.json");
         AbstractMessageReport errorReport = new DummyMessageReport();
-        ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
+        ReportStats reportStats = new SimpleReportStats();
 
         didResolver.resolveInternalIds(entity, TENANT_ID, errorReport, reportStats);
         Map<String, String> naturalKeys = new HashMap<String, String>();
@@ -430,16 +430,16 @@ public class DidReferenceResolutionTest {
         NeutralRecordEntity entity = loadEntity("didTestEntities/gradingPeriod.json");
         resolveInternalId(entity);
 
-		Map<String, String> edorgNaturalKeys = new HashMap<String, String>();
-		edorgNaturalKeys.put("stateOrganizationId", "Illinois");
-		String edOrgDID = generateExpectedDid (edorgNaturalKeys, TENANT_ID, "educationOrganization", null);
+        Map<String, String> edorgNaturalKeys = new HashMap<String, String>();
+        edorgNaturalKeys.put("stateOrganizationId", "Illinois");
+        String edOrgDID = generateExpectedDid(edorgNaturalKeys, TENANT_ID, "educationOrganization", null);
 
-		Map<String, String> naturalKeys = new HashMap<String, String>();
-		naturalKeys.put("date", "2012-01-01");
-		naturalKeys.put("educationOrganizationId", edOrgDID);
+        Map<String, String> naturalKeys = new HashMap<String, String>();
+        naturalKeys.put("date", "2012-01-01");
+        naturalKeys.put("educationOrganizationId", edOrgDID);
 
-		checkId(entity, "CalendarDateReference", naturalKeys, "calendarDate");
-	}
+        checkId(entity, "CalendarDateReference", naturalKeys, "calendarDate");
+    }
 
     @Test
     public void resolvesCohortDidInStaffCohortAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
@@ -1279,7 +1279,7 @@ public class DidReferenceResolutionTest {
 
     private void resolveInternalId(NeutralRecordEntity entity) {
         AbstractMessageReport errorReport = new DummyMessageReport();
-        ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
+        ReportStats reportStats = new SimpleReportStats();
 
         didResolver.resolveInternalIds(entity, TENANT_ID, errorReport, reportStats);
     }

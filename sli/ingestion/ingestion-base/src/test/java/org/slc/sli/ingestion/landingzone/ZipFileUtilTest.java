@@ -25,6 +25,8 @@ import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 
 import junit.framework.Assert;
 
@@ -109,6 +111,55 @@ public class ZipFileUtilTest {
             Assert.fail();  // We catch this exception to differentiate from the expected one.
         }
         ZipFileUtil.extract(zipFile, targetDir, false);
+    }
+
+    @Test(expected = FileNotFoundException.class)
+    public void testFileInputStreamOnBadZip() throws IOException {
+        File zipFile = new File("nozip.zip");
+
+        ZipFileUtil.getInputStreamForFile(zipFile, "doesnotmatter");
+    }
+
+    @Test
+    public void testTryNoFileInputStreamZip() throws IOException {
+        File zipFile = new File(ZIP_FILE_DIR, ZIP_FILE_WITH_NO_DIRS_NAME);
+
+        InputStream is = null;
+
+        try {
+            is = ZipFileUtil.getInputStreamForFile(zipFile, "doesnotexist");
+
+            Assert.assertNull(is);
+        } finally {
+            IOUtils.closeQuietly(is);
+        }
+    }
+
+    @Test
+    public void testFileInputStreamZip() throws IOException {
+        File zipFile = new File(ZIP_FILE_DIR, ZIP_FILE_WITH_NO_DIRS_NAME);
+        File zipCopy = File.createTempFile(UUID.randomUUID().toString(), ".zip");
+        FileUtils.copyFile(zipFile, zipCopy);
+
+        InputStream ctlIs = null;
+        InputStream xmlIs = null;
+
+        try {
+            ctlIs = ZipFileUtil.getInputStreamForFile(zipCopy, "MainControlFile.ctl");
+            xmlIs = ZipFileUtil.getInputStreamForFile(zipCopy, "InterchangeStudent.xml");
+
+            Assert.assertNotNull(ctlIs);
+            Assert.assertNotNull(xmlIs);
+            Assert.assertNotSame(ctlIs, xmlIs);
+            Assert.assertTrue(zipCopy.delete());
+
+            List<String> lines = IOUtils.readLines(ctlIs);
+            Assert.assertTrue(lines.contains("edfi-xml,StudentParent,InterchangeStudentParent.xml,f27c99e9519a5520bc6e485f1a75ed6b"));
+        } finally {
+            IOUtils.closeQuietly(ctlIs);
+            IOUtils.closeQuietly(xmlIs);
+            FileUtils.deleteQuietly(zipCopy);
+        }
     }
 
     @Test

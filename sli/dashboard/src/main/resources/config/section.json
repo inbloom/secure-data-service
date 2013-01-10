@@ -1,6 +1,6 @@
 {
 	id: "section",
-	name: "SLC - Section Profile",
+	name: "inBloom - Section Profile",
 	type: "LAYOUT",
 	data :{
 		entity: "sectionInfo",

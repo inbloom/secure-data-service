@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.landingzone;
 
 import static org.junit.Assert.assertArrayEquals;
@@ -47,7 +46,7 @@ public class ControlFileTest {
         File tmpFile = File.createTempFile("test", ".ctl");
         FileUtils.writeStringToFile(tmpFile, content);
 
-        ControlFile controlFile = ControlFile.parse(tmpFile);
+        ControlFile controlFile = ControlFile.parse(tmpFile, null);
         tmpFile.delete();
 
         ArrayList<IngestionFileEntry> items = (ArrayList<IngestionFileEntry>) controlFile.getFileEntries();

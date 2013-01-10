@@ -300,7 +300,8 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                             Long hl = (Long) sessionEntity.getBody().get("hardLogout");
                             
                             if (isLongLived(hl - createdOn.getTime())) {
-                                info("Using long-lived session {} belonging to app {}", accessToken,
+                            	String displayToken = accessToken.substring(0, 6) + "......" + accessToken.substring(accessToken.length()-4, accessToken.length());
+                                info("Using long-lived session {} belonging to app {}", displayToken,
                                         session.get("clientId"));
                             }
                             // ****

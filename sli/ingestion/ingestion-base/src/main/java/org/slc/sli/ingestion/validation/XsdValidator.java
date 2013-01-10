@@ -135,7 +135,7 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
      * @author dshaw
      *
      */
-    private static final class ExternalEntityResolver implements LSResourceResolver {
+    static final class ExternalEntityResolver implements LSResourceResolver {
         @Override
         public LSInput resolveResource(String type, String namespaceURI, String publicId, String systemId,
                 String baseURI) {
@@ -143,12 +143,16 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
         }
     }
 
-    private static final class XsdErrorHandler implements org.xml.sax.ErrorHandler {
+    /**
+     * XsdErrorHandler
+     *
+     */
+    static final class XsdErrorHandler implements org.xml.sax.ErrorHandler {
 
         private final AbstractMessageReport report;
         private final ReportStats reportStats;
 
-        private XsdErrorHandler(AbstractMessageReport report, ReportStats reportStats) {
+        public XsdErrorHandler(AbstractMessageReport report, ReportStats reportStats) {
             this.report = report;
             this.reportStats = reportStats;
         }
@@ -184,8 +188,8 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
                 File parseFile = new File(fullParsefilePathname);
                 String publicId = (ex.getPublicId() == null) ? "" : ex.getPublicId();
 
-                Source source = new NeutralRecordSource(reportStats.getBatchJobId(), parseFile.getName(), STAGE_NAME,
-                        publicId, ex.getLineNumber(), ex.getColumnNumber());
+                Source source = new NeutralRecordSource(parseFile.getName(), STAGE_NAME, ex.getLineNumber(),
+                        ex.getColumnNumber());
 
                 report.warning(reportStats, source, BaseMessageCode.BASE_0017, parseFile.getName(), ex.getMessage());
             }

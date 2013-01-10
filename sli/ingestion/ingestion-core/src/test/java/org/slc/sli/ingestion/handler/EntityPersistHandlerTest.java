@@ -153,7 +153,7 @@ public class EntityPersistHandlerTest {
 
         entityPersistHandler.setEntityRepository(entityRepository);
         AbstractMessageReport errorReport = new DummyMessageReport();
-        ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
+        ReportStats reportStats = new SimpleReportStats();
         entityPersistHandler.handle(studentEntity, errorReport, reportStats);
 
         verify(entityRepository).updateWithRetries(studentEntity.getType(), studentEntity, totalRetries);
@@ -179,7 +179,7 @@ public class EntityPersistHandlerTest {
     public void testUpdateStudentEntity() {
         MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
         AbstractMessageReport errorReport = new DummyMessageReport();
-        ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
+        ReportStats reportStats = new SimpleReportStats();
 
         SimpleEntity studentEntity = createStudentEntity(true);
         SimpleEntity existingStudentEntity = createStudentEntity(true);
@@ -208,7 +208,7 @@ public class EntityPersistHandlerTest {
                         Mockito.any(CoreMessageCode.class), Mockito.anyString()
                         , Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.any(), Mockito.any());
 
-        ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
+        ReportStats reportStats = new SimpleReportStats();
 
         SimpleEntity studentEntity = createStudentEntity(true);
         SimpleEntity existingStudentEntity = createStudentEntity(true);
@@ -241,7 +241,7 @@ public class EntityPersistHandlerTest {
     public void testCreateStudentSchoolAssociationEntity() {
         MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
         AbstractMessageReport errorReport = new DummyMessageReport();
-        ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
+        ReportStats reportStats = new SimpleReportStats();
 
         // Create a new student-school association entity, and test creating it in the data store.
         SimpleEntity foundStudent = new SimpleEntity();
@@ -279,7 +279,7 @@ public class EntityPersistHandlerTest {
     public void testUpdateStudentSchoolAssociationEntity() {
         MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
         AbstractMessageReport errorReport = new DummyMessageReport();
-        ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
+        ReportStats reportStats = new SimpleReportStats();
 
         // Create a new student-school association entity, and test creating it in the data store.
         NeutralRecordEntity foundStudent = new NeutralRecordEntity(null);
@@ -325,7 +325,7 @@ public class EntityPersistHandlerTest {
          */
 
         AbstractMessageReport report = new DummyMessageReport();
-        ReportStats reportStats = new SimpleReportStats(null, null, null);
+        ReportStats reportStats = new SimpleReportStats();
 
         SimpleEntity mockedEntity = mock(SimpleEntity.class);
 
@@ -438,7 +438,7 @@ public class EntityPersistHandlerTest {
     public void testCreateTeacherSchoolAssociationEntity() {
         MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
         AbstractMessageReport errorReport = new DummyMessageReport();
-        ReportStats reportStats = new SimpleReportStats("testJob", "testResource", "stage");
+        ReportStats reportStats = new SimpleReportStats();
 
         // Create a new student-school association entity, and test creating it in the data store.
         SimpleEntity foundTeacher = new SimpleEntity();

@@ -159,6 +159,7 @@ public class Login {
 
         ModelAndView mav = new ModelAndView("login");
         mav.addObject("subTitle", buildSubTitle(realm));
+        mav.addObject("isSandbox",isSandboxImpersonationEnabled && sliAdminRealmName.equals(realm));
         mav.addObject("adminUrl", adminUrl);
         mav.addObject("isForgotPasswordVisible", realm.equals(sliAdminRealmName));
         mav.addObject("realm", realm);
@@ -178,7 +179,7 @@ public class Login {
     private String buildSubTitle(String realm) {
         if(isSandboxImpersonationEnabled && sliAdminRealmName.equals(realm)){
             //sandbox login for developers
-            return "Developer Sandbox";
+            return "";
         }else if(sliAdminRealmName.equals(realm)){
             //production admin login
             return "";
@@ -252,6 +253,7 @@ public class Login {
                 mav.addObject("errorMsg", "Invalid User Name or password");
                 mav.addObject("isForgotPasswordVisible", sliAdminRealmName.equals(realm));
                 mav.addObject("adminUrl", adminUrl);
+                mav.addObject("developer", developer);
                 mav.addObject("realm", realm);
                 mav.addObject("SAMLRequest", encodedSamlRequest);
                 

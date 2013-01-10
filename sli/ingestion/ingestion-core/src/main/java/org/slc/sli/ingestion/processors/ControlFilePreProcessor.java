@@ -34,8 +34,6 @@ import org.apache.commons.lang.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.MessageSourceAware;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.logging.LogLevelType;
@@ -75,7 +73,7 @@ import org.slc.sli.ingestion.util.MongoCommander;
  *
  */
 @Component
-public class ControlFilePreProcessor implements Processor, MessageSourceAware {
+public class ControlFilePreProcessor implements Processor {
 
     private static final Logger LOG = LoggerFactory.getLogger(ControlFilePreProcessor.class);
 
@@ -97,8 +95,6 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
     @Autowired
     private AbstractMessageReport databaseMessageReport;
 
-    private MessageSource messageSource;
-
     /**
      * @see org.apache.camel.Processor#process(org.apache.camel.Exchange)
      */
@@ -112,6 +108,8 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
 
         String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
+        TenantContext.setJobId(batchJobId);
+
         String controlFileName = "control_file";
 
         ReportStats reportStats = null;
@@ -126,7 +124,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         try {
             fileForControlFile = exchange.getIn().getBody(File.class);
             controlFileName = fileForControlFile.getName();
-            source = new JobSource(batchJobId, controlFileName, BATCH_JOB_STAGE.getName());
+            source = new JobSource(controlFileName, BATCH_JOB_STAGE.getName());
             reportStats = new SimpleReportStats();
 
             newBatchJob = getOrCreateNewBatchJob(batchJobId, fileForControlFile);
@@ -239,7 +237,7 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         File lzFile = new File(newBatchJob.getTopLevelSourceId());
         LandingZone topLevelLandingZone = new LocalFileSystemLandingZone(lzFile);
 
-        ControlFile controlFile = ControlFile.parse(fileForControlFile, topLevelLandingZone, messageSource);
+        ControlFile controlFile = ControlFile.parse(fileForControlFile, topLevelLandingZone, databaseMessageReport);
 
         newBatchJob.setTotalFiles(controlFile.getFileEntries().size());
 
@@ -269,8 +267,8 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
      *            Exception thrown during control file parsing.
      * @param controlFileName
      */
-    private void handleExceptions(Exchange exchange, String batchJobId, Exception exception,
-            ReportStats reportStats, Source source) {
+    private void handleExceptions(Exchange exchange, String batchJobId, Exception exception, ReportStats reportStats,
+            Source source) {
         exchange.getIn().setHeader("BatchJobId", batchJobId);
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
@@ -362,11 +360,6 @@ public class ControlFilePreProcessor implements Processor, MessageSourceAware {
         event.setLogMessage("Ingestion process started.");
 
         audit(event);
-    }
-
-    @Override
-    public void setMessageSource(MessageSource messageSource) {
-        this.messageSource = messageSource;
     }
 
     public Set<String> getShardCollections() {

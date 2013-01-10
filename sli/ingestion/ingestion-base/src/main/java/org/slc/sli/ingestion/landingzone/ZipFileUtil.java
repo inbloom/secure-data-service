@@ -24,11 +24,14 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.Date;
 
 import org.apache.commons.compress.archivers.ArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
+import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,6 +99,37 @@ public final class ZipFileUtil {
     }
 
     /**
+     * @param sourceZipFile
+     * @param targetDir
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    public static InputStream getInputStreamForFile(File sourceZipFile, String fileName) throws IOException {
+        ZipArchiveInputStream zis = null;
+        InputStream fileInputStream = null;
+
+        try {
+            // Create input stream
+            zis = new ZipArchiveInputStream(new BufferedInputStream(new FileInputStream(sourceZipFile)));
+
+            ArchiveEntry entry;
+
+            while ((entry = zis.getNextEntry()) != null) {
+                if (!entry.isDirectory() && entry.getName().equals(fileName)) {
+                    fileInputStream = zis;
+                    break;
+                }
+            }
+        } finally {
+            if (fileInputStream == null) {
+                IOUtils.closeQuietly(zis);
+            }
+        }
+
+        return fileInputStream;
+    }
+
+    /**
      * Extracts a Zip Entry from an archive to a directory
      *
      * @param zis
@@ -158,5 +192,12 @@ public final class ZipFileUtil {
         }
 
         return ctlFile;
+    }
+
+    public static InputStream getZipInputStream(String zipFileName, String zipEntryName) throws IOException {
+        ZipFile zipFile = new ZipFile(zipFileName);
+        ZipArchiveEntry ze = zipFile.getEntry(zipEntryName);
+        InputStream zais = zipFile.getInputStream(ze);
+        return zais;
     }
 }

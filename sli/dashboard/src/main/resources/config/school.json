@@ -1,6 +1,6 @@
 {
 	id: "school",
-	name: "SLC - School Profile",
+	name: "inBloom - School Profile",
     type: "LAYOUT",
 	data :{
 		entity: "schoolInfo",

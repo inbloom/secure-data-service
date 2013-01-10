@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.slc.sli.validation.schema.NeutralSchemaJSONStringWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -57,7 +58,7 @@ public class NeutralJsonExporter {
      * Param 1: --test
      * Param 2: xsdDirectory (defaults to classpath:sliXsd)
      * 
-     * @param args
+     * @param args command line arguments
      * @throws IOException
      */
     @SuppressWarnings({"PMD.SystemPrintln"})   // this is main function of a utility potentiall executed from the command line  
@@ -154,7 +155,7 @@ public class NeutralJsonExporter {
         BufferedWriter writer = null;
         try {
             writer = new BufferedWriter(new FileWriter(new File(dir, schema.getType() + ".json")));
-            writer.write(schema.toJson());
+            writer.write(new NeutralSchemaJSONStringWriter().transform(schema));
             writer.flush();
         } finally {
             if (writer != null) {

@@ -25,7 +25,7 @@ class AppsController < ApplicationController
   # Let us add some docs to this confusing controller.
   # NOTE this controller is performing two actions:
   # It allows developers to create new apps.
-  # It also allows slc operators approve an app for use in the SLC.
+  # It also allows inBloom operators approve an app for use in inBloom.
   def check_rights
     logger.debug {"Roles: #{session[:roles]}"}
     unless is_developer? or is_operator?

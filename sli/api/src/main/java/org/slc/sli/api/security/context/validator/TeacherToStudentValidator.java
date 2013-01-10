@@ -25,14 +25,12 @@ import java.util.Set;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
-import org.slc.sli.api.security.context.AssociativeContextHelper;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.google.common.collect.Lists;
@@ -49,12 +47,6 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
 
-    @Autowired
-    private AssociativeContextHelper helper;
-
-    @Value("${sli.IdsPerAPICall:20}")
-    private int idsPerAPICall;
-
     @Override
     public boolean canValidate(String entityType, boolean through) {
         return EntityNames.STUDENT.equals(entityType)
@@ -68,156 +60,139 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
         }
 
         Set<String> idsToValidate = new HashSet<String>(ids);
-        idsToValidate.removeAll(getValidatedWithSections(idsToValidate));
 
-        if (!idsToValidate.isEmpty()) {
-            idsToValidate.removeAll(getValidatedWithPrograms(idsToValidate));
-            if (!idsToValidate.isEmpty()) {
-                idsToValidate.removeAll(getValidatedWithCohorts(idsToValidate));
-            }
+        idsToValidate.removeAll(getValidatedWithSections(idsToValidate));
+        if (idsToValidate.isEmpty()) {
+            return true;
         }
 
+        idsToValidate.removeAll(getValidatedWithPrograms(idsToValidate));
+        if (idsToValidate.isEmpty()) {
+            return true;
+        }
+
+
+        idsToValidate.removeAll(getValidatedWithCohorts(idsToValidate));
         return idsToValidate.isEmpty();
     }
-    
+
     @Override
     public Set<String> getValid(String entityType, Set<String> ids) {
-    	Set<String> originalIds = new HashSet<String>(ids);
-    	Set<String> validated = getValidatedWithSections(originalIds);
-    	    	
-    	originalIds.removeAll(validated);
-    	
-    	validated.addAll(getValidatedWithCohorts(originalIds));
-    	
-    	originalIds.removeAll(validated);
+        Set<String> originalIds = new HashSet<String>(ids);
 
-    	validated.addAll(getValidatedWithPrograms(originalIds));
-    	
-    	originalIds.removeAll(validated);
-    	
-		return validated;
+        Set<String> validated = getValidatedWithSections(originalIds);
+        originalIds.removeAll(validated);
+        if (originalIds.isEmpty()) {
+            return validated;
+        }
+
+
+        validated.addAll(getValidatedWithCohorts(originalIds));
+        originalIds.removeAll(validated);
+        if (originalIds.isEmpty()) {
+            return validated;
+        }
+
+        validated.addAll(getValidatedWithPrograms(originalIds));
+        originalIds.removeAll(validated);
+        return validated;
     }
 
     private Set<String> getValidatedWithSections(Set<String> ids) {
-    	
-    	Set<String> result = new HashSet<String>();
-    	
-    	if (ids.size() == 0) {
-    		return result;
-    	}
-    	
-    	Set<String> teacherSections = getTeacherSections();
-    	
-    	Map<String, List<String>> studentSectionIds = getStudentParameterIds(Lists.newArrayList(ids), ParameterConstants.SECTION_ID,
-    			EntityNames.STUDENT_SECTION_ASSOCIATION);
-    	
-    	if (studentSectionIds.size() == 0) {
-    		// students not found by program
-    		return result;
-    	}
-    	
-    	Set<String> tempSet = new HashSet<String>(teacherSections);
-    	for (String studentId : studentSectionIds.keySet()) {
-    		List<String> studentSections = studentSectionIds.get(studentId);
-    		
-    		tempSet.retainAll(studentSections);
-    		if (!tempSet.isEmpty()) {
-    			result.add(studentId);
-    		}
-    		
-    		tempSet.clear();
-    		tempSet.addAll(teacherSections);
-    	}
-    	
-    	return result;
+        Set<String> result = new HashSet<String>();
+        if (ids.size() == 0) {
+            return result;
+        }
+
+
+        Map<String, List<String>> studentSectionIds = getStudentParameterIds(Lists.newArrayList(ids), ParameterConstants.SECTION_ID,
+                EntityNames.STUDENT_SECTION_ASSOCIATION);
+
+        if (studentSectionIds.size() == 0) {
+            return result;
+        }
+
+        Set<String> teacherSections = getTeacherSections();
+        for (String studentId : studentSectionIds.keySet()) {
+            Set<String> tempSet = new HashSet<String>(teacherSections);
+            tempSet.retainAll(studentSectionIds.get(studentId));
+            if (!tempSet.isEmpty()) {
+                result.add(studentId);
+            }
+        }
+
+        return result;
     }
 
-	private Set<String> getValidatedWithCohorts(Set<String> ids) {
-		Set<String> staffCohortIds = getStaffCohortIds();
-		
-		Iterable<Entity> studentList =
-				helper.getEntitiesWithDenormalizedReference(EntityNames.STUDENT, "cohort", new ArrayList<String>(staffCohortIds));
-		Set<String> studentIds = new HashSet<String>();
-		for (Entity student : studentList) {
-			List<Map<String, Object>> cohortList = student.getDenormalizedData().get("cohort");
-			for (Map<String, Object> cohort : cohortList) {
-				String cohortRefId = (String) cohort.get("_id");
-				if (staffCohortIds.contains(cohortRefId)) {
-					if (!isFieldExpired(cohort, ParameterConstants.END_DATE, false)) {
-						studentIds.add(student.getEntityId());
-						break;
-					}
-				}
-			}
-		}
-		return studentIds;
-	}
+    private Set<String> getValidatedWithCohorts(Set<String> ids) {
+        Set<String> staffCohortIds = getStaffCohortIds();
 
-	private Set<String> getValidatedWithPrograms(Set<String> ids) {
-		Set<String> result = new HashSet<String>();
-		
-		if (ids.size() == 0) {
-			return result;
-		}	
-		
-		Set<String> staffProgramIds = getStaffPrograms();
-		
-		Map<String, List<String>> studentProgramIds = getStudentParameterIds(Lists.newArrayList(ids), ParameterConstants.PROGRAM_ID, EntityNames.STUDENT_PROGRAM_ASSOCIATION);
-		
-		if (studentProgramIds.size() == 0) {
-			// students not found by program
-			return result;
-		}
-		
-		Set<String> tempSet = new HashSet<String>(staffProgramIds);
-		// Get studentProgramAssociations
-		for (String studentId : studentProgramIds.keySet()) {
-			tempSet.retainAll(studentProgramIds.get(studentId));
-			
-			if (!tempSet.isEmpty()) {
-				result.add(studentId);
-			}
-			
-			tempSet.clear();
-			tempSet.addAll(staffProgramIds);
-		}
-		
-		return result;
-	}
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.COHORT_ID,
+                NeutralCriteria.CRITERIA_IN, staffCohortIds));
+        Iterable<Entity> studentList = repo.findAll(EntityNames.STUDENT_COHORT_ASSOCIATION, query);
+        Set<String> studentIds = new HashSet<String>();
 
-	private Map<String, List<String>> getStudentParameterIds(List<String> ids, String parameter, String entityName) {
-		
-		Map<String, List<String>> result = new HashMap<String, List<String>>();
-		List<Entity> studentEntities = new ArrayList<Entity>();
+        // filter on end_date to get list of students
+        for (Entity student : studentList) {
+            if (!dateHelper.isFieldExpired(student.getBody(), ParameterConstants.END_DATE, false)) {
+                studentIds.add((String) student.getBody().get(ParameterConstants.STUDENT_ID));
+            }
 
-        // we are making API calls with multiple ids for performance optimizations
-        for (int i = 0; i <= ids.size() / idsPerAPICall; i++) {
-            List<String> subList = ids.subList(i * idsPerAPICall,
-                    Math.min((i + 1) * idsPerAPICall, ids.size()));
-            NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STUDENT_ID,
-    		        NeutralCriteria.CRITERIA_IN, subList));
-    		
-    		addEndDateToQuery(basicQuery, false);
-    		studentEntities.addAll(Lists.newArrayList(repo.findAll(entityName, basicQuery)));
+        }
+        return studentIds;
+    }
+
+    private Set<String> getValidatedWithPrograms(Set<String> ids) {
+        Set<String> result = new HashSet<String>();
+
+        if (ids.size() == 0) {
+            return result;
         }
 
+        Set<String> staffProgramIds = getStaffPrograms();
+
+        Map<String, List<String>> studentProgramIds = getStudentParameterIds(Lists.newArrayList(ids), ParameterConstants.PROGRAM_ID, EntityNames.STUDENT_PROGRAM_ASSOCIATION);
+
+        if (studentProgramIds.size() == 0) {
+            // students not found by program
+            return result;
+        }
+
+        Set<String> tempSet = new HashSet<String>(staffProgramIds);
+        // Get studentProgramAssociations
+        for (String studentId : studentProgramIds.keySet()) {
+            tempSet.retainAll(studentProgramIds.get(studentId));
+
+            if (!tempSet.isEmpty()) {
+                result.add(studentId);
+            }
+
+            tempSet.clear();
+            tempSet.addAll(staffProgramIds);
+        }
+
+        return result;
+    }
+
+    private Map<String, List<String>> getStudentParameterIds(List<String> ids, String parameter, String entityName) {
+        Map<String, List<String>> result = new HashMap<String, List<String>>();
         for (String id : ids) {
-        	result.put(id, new ArrayList<String>());
+            result.put(id, new ArrayList<String>());
         }
-        
-		for (Entity studentEntity : studentEntities) {
-		    String studentId = (String) studentEntity.getBody().get(ParameterConstants.STUDENT_ID);
-		    List<String> parameterIds = result.get(studentId);
-			
-		    String parameterId = (String) studentEntity.getBody().get(parameter);
-		    parameterIds.add(parameterId);
-		}
-		
-		return result;
-	}
 
-	private Set<String> getStaffPrograms() {
-		Set<String> staffProgramIds = new HashSet<String>();
+        NeutralQuery queryForStudentRecord = new NeutralQuery(new NeutralCriteria(ParameterConstants.STUDENT_ID, NeutralCriteria.CRITERIA_IN, ids));
+        addEndDateToQuery(queryForStudentRecord, false);
+
+        for (Entity studentEntity : repo.findAll(entityName, queryForStudentRecord)) {
+            List<String> parameterIds = result.get((String) studentEntity.getBody().get(ParameterConstants.STUDENT_ID));
+            parameterIds.add((String) studentEntity.getBody().get(parameter));
+        }
+
+        return result;
+    }
+
+    private Set<String> getStaffPrograms() {
+        Set<String> staffProgramIds = new HashSet<String>();
 
         // Get my staffProgramAssociations
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_ID, NeutralCriteria.OPERATOR_EQUAL,
@@ -226,17 +201,17 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
         basicQuery.addCriteria(new NeutralCriteria(ParameterConstants.STUDENT_RECORD_ACCESS,
                 NeutralCriteria.OPERATOR_EQUAL, true));
         Iterable<Entity> staffCas = repo.findAll(EntityNames.STAFF_PROGRAM_ASSOCIATION, basicQuery);
-        
+
         // Look at only the SCAs for programs in my edorg with date/record access
         for (Entity sca : staffCas) {
             String programId = (String) sca.getBody().get(ParameterConstants.PROGRAM_ID);
             staffProgramIds.add(programId);
         }
-		return staffProgramIds;
-	}
-	
-	private Set<String> getTeacherSections() {
-		Set<String> teacherSectionIds = new HashSet<String>();
+        return staffProgramIds;
+    }
+
+    private Set<String> getTeacherSections() {
+        Set<String> teacherSectionIds = new HashSet<String>();
 
         NeutralQuery basicQuery = new NeutralQuery(
                 new NeutralCriteria(ParameterConstants.TEACHER_ID, NeutralCriteria.OPERATOR_EQUAL, SecurityUtil
@@ -244,18 +219,18 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
         addEndDateToQuery(basicQuery, true);
 
         Iterable<Entity> tsas = repo.findAll(EntityNames.TEACHER_SECTION_ASSOCIATION, basicQuery);
-        
+
         // Look at only the SCAs for programs in my edorg with date/record access
         for (Entity tsa : tsas) {
             String sectionId = (String) tsa.getBody().get(ParameterConstants.SECTION_ID);
             teacherSectionIds.add(sectionId);
         }
-		return teacherSectionIds;
-	}
+        return teacherSectionIds;
+    }
 
 
     private Set<String> getStaffCohortIds() {
-		Set<String> staffCohortIds = new HashSet<String>();
+        Set<String> staffCohortIds = new HashSet<String>();
 
         // Get my staffCohortAssociations
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_ID, NeutralCriteria.OPERATOR_EQUAL,
@@ -271,8 +246,8 @@ public class TeacherToStudentValidator extends AbstractContextValidator {
                 staffCohortIds.add(cohortId);
             }
         }
-		return staffCohortIds;
-	}
+        return staffCohortIds;
+    }
 
     public void setRepo(PagingRepositoryDelegate<Entity> repo) {
         this.repo = repo;

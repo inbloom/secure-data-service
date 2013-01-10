@@ -29,7 +29,7 @@ public class AggregatedSource extends JobSource {
     private List<JobSource> aggregatedJobSourceList = new ArrayList<JobSource>();
 
     public AggregatedSource(String batchJobId, String resourceId, String stageName) {
-        super(batchJobId, resourceId, stageName);
+        super(resourceId, stageName);
     }
 
     public void addSource(JobSource jobSource) {
@@ -39,9 +39,16 @@ public class AggregatedSource extends JobSource {
     @Override
     public String getUserFriendlyMessage() {
         String s = "";
-        for (JobSource source : aggregatedJobSourceList) {
-            s += source.getUserFriendlyMessage();
-            s += "\n";
+        for (int i=0; i<aggregatedJobSourceList.size(); ++i) {
+            String ufm = aggregatedJobSourceList.get(i).getUserFriendlyMessage();
+            // aggregate only non-empty messages
+            // which are separate by ";" 
+            if (ufm != null && ufm.length() > 0) {
+                if (s.length() > 0) {
+                    s += ";";
+                }
+                s += ufm;
+            }
         }
         return s;
     }

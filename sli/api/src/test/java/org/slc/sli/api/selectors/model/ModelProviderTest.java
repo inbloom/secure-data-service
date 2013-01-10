@@ -124,4 +124,28 @@ public class ModelProviderTest {
         assertNotNull(studentStateId);
         assertEquals("studentUniqueStateId", studentStateId.getName());
     }
+
+    @Test
+    public void testGetConnectionPath() {
+        provider = new TestModelProvider();
+
+        ClassType student = provider.getClassType("Student");
+        ClassType section = provider.getClassType("Section");
+        ClassType edOrg = provider.getClassType("EducationOrganization");
+        ClassType staff = provider.getClassType("Staff");
+        ClassType studentSchoolAssociation = provider.getClassType("StudentSchoolAssociation");
+        ClassType school = provider.getClassType("School");
+
+        String path = provider.getConnectionPath(section, student);
+        assertEquals("Should match", "studentId", path);
+
+        path = provider.getConnectionPath(staff, edOrg);
+        assertEquals("Should match", "educationOrganizationReference", path);
+
+        path = provider.getConnectionPath(edOrg, studentSchoolAssociation);
+        assertEquals("Should match", "schoolId", path);
+
+        path = provider.getConnectionPath(staff, school);
+        assertEquals("Should match", "educationOrganizationReference", path);
+    }
 }

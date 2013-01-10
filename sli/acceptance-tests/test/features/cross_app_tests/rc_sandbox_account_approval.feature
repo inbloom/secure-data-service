@@ -7,7 +7,7 @@ Background:
 
 Scenario: As a slc operator I disable an approved sandbox account
  And I navigate to the Portal home page
-  When I see the realm selector I authenticate to "Shared Learning Collaborative"      
+  When I see the realm selector I authenticate to "inBloom"      
   Then I am redirected to "Simple" login page
   When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
   Then I should be on Portal home page
@@ -26,14 +26,14 @@ Scenario: As a slc operator I disable an approved sandbox account
 
 Scenario: As a developer I cannot log in with a disabled account
  And I navigate to the Portal home page
-  When I see the realm selector I authenticate to "Shared Learning Collaborative"      
+  When I see the realm selector I authenticate to "inBloom"      
   Then I am redirected to "Simple" login page
   When I submit the credentials "<DEVELOPER_EMAIL>" "<DEVELOPER_EMAIL_PASS>" for the "Simple" login page
  Then I am informed that authentication has failed
 
 Scenario: As a slc operator I enable an approved sandbox account
  And I navigate to the Portal home page
-  When I see the realm selector I authenticate to "Shared Learning Collaborative"      
+  When I see the realm selector I authenticate to "inBloom"      
   Then I am redirected to "Simple" login page
   When I submit the credentials "slcoperator" "slcoperator1234" for the "Simple" login page
   Then I should be on Portal home page
