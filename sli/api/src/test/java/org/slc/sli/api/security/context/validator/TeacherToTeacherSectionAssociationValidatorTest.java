@@ -64,9 +64,12 @@ public class TeacherToTeacherSectionAssociationValidatorTest {
 	}
 
 	@After
-	public void cleanUp() throws Exception {
+	public void cleanUp() {
 	    SecurityContextHolder.clearContext();
-	    vth.resetRepo();
+	    try {
+            vth.resetRepo();
+        } catch (Exception e) {
+        }
 	}
 
 	@Test(expected = IllegalArgumentException.class)
