@@ -24,25 +24,14 @@ class RealmManagementController < ApplicationController
   # GET /realm_management.json
   def index
     userRealm = session[:edOrg]
-    realmToRedirectTo = GeneralRealmHelper.get_realm_to_redirect_to(userRealm)
-    logger.debug("Redirecting to #{realmToRedirectTo}")
-    if realmToRedirectTo.nil? and session[:roles] != nil and session[:roles].member?("Realm Administrator")
-      redirect_to new_realm_management_path, notice: notice
-    elsif realmToRedirectTo.nil?
+    @edorg = session[:edOrg]
+    @realms = GeneralRealmHelper.get_realm_to_redirect_to(userRealm)
+    logger.debug {"Realms #{@realms.to_json}"}
+    if @realms.nil? or @realms.empty?
       render_404
-    else
-      redirect_to edit_realm_management_path(realmToRedirectTo), notice: notice
     end
-  end
-
-  ## GET /realm_management/1
-  ## GET /realm_management/1.json
-  def show
-    @realm = Realm.find(params[:id])
-
     respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @realm }
+      format.html
     end
   end
 
@@ -74,7 +63,7 @@ class RealmManagementController < ApplicationController
       end
       if success
         @realm = Realm.find(@realm.id)
-        format.html { redirect_to edit_realm_management_path(@realm),  notice: 'Realm was successfully created.' }
+        format.html { redirect_to "/realm_management",  notice: 'Realm was successfully created.' }
         format.json { render json: @realm, status: :created, location: @realm }
       else
         format.html { render action: "new" }
@@ -99,7 +88,7 @@ class RealmManagementController < ApplicationController
         @realm.errors.add(:name, "must be unique") if error.response.body.include? "display"
       end
       if success
-        format.html { redirect_to edit_realm_management_path(@realm), notice: 'Realm was successfully updated.' }
+        format.html { redirect_to "/realm_management", notice: 'Realm was successfully updated.' }
         format.json { head :ok }
       else
         format.html { render action: "edit" }
@@ -110,13 +99,13 @@ class RealmManagementController < ApplicationController
   #
   ## DELETE /realm_management/1
   ## DELETE /realm_management/1.json
-  #def destroy
-  #  @realm = Realm.find(params[:id])
-  #  @realm.destroy
-  #
-  #  respond_to do |format|
-  #    format.html { redirect_to realm_editors_url }
-  #    format.json { head :ok }
-  #  end
-  #end
+  def destroy
+   @realm = Realm.find(params[:id])
+   @realm.destroy
+  
+   respond_to do |format|
+     format.html { redirect_to realm_managements_url }
+     format.json { head :ok }
+   end
+  end
 end
