@@ -21,4 +21,3 @@ db["batchJobStage"].ensureIndex({"jobId":1, "stageName":1});
 db["transformationLatch"].ensureIndex({"jobId" : 1, "syncStage" : 1, "recordType" : 1}, {unique : true});
 db["persistenceLatch"].ensureIndex({"jobId" : 1, "syncStage" : 1, "entities" : 1}, {unique : true});
 db["stagedEntities"].ensureIndex({"jobId" : 1}, {unique : true});
-db["recordHash"].ensureIndex({"t":1});
