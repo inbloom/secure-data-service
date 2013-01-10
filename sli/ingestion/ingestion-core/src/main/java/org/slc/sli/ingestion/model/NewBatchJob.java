@@ -355,4 +355,15 @@ public class NewBatchJob implements Job {
         return resourceEntries.add(resourceEntry);
     }
 
+    public ResourceEntry getZipResourceEntry() {
+        ResourceEntry zipResourceEntry = null;
+        for (ResourceEntry resourceEntry : resourceEntries) {
+            if (FileFormat.ZIP_FILE.getCode().equalsIgnoreCase(resourceEntry.getResourceFormat())) {
+                zipResourceEntry = resourceEntry;
+                break;
+            }
+        }
+        return zipResourceEntry;
+    }
+
 }

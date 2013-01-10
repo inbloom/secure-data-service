@@ -189,6 +189,7 @@ public class ConcurrentEdFiProcessor implements Processor, ApplicationContextAwa
                 FileType fileType = FileType.findByNameAndFormat(resource.getResourceType(), fileFormat);
                 String fileName = resource.getResourceId();
                 String checksum = resource.getChecksum();
+                String zipParent = resource.getResourceZipParent();
 
                 String lzPath = resource.getTopLevelLandingZonePath();
 
@@ -197,6 +198,7 @@ public class ConcurrentEdFiProcessor implements Processor, ApplicationContextAwa
                 fe.setReportStats(new SimpleReportStats());
                 fe.setFile(new File(resource.getResourceName()));
                 fe.setBatchJobId(batchJobId);
+                fe.setFileZipParent(zipParent);
 
                 fileEntryList.add(fe);
             }

@@ -43,6 +43,7 @@ public class IngestionFileEntry implements Serializable, Resource {
     private File deltaNeutralRecordFile;
     private String checksum;
     private String topLevelLandingZonePath;
+    private String fileZipParent;
 
     private AbstractMessageReport errorReport;
 
@@ -234,6 +235,14 @@ public class IngestionFileEntry implements Serializable, Resource {
     @Override
     public String getResourceId() {
         return fileName;
+    }
+
+    public String getFileZipParent() {
+        return fileZipParent;
+    }
+
+    public void setFileZipParent(String fileZipParent) {
+        this.fileZipParent = fileZipParent;
     }
 
 }

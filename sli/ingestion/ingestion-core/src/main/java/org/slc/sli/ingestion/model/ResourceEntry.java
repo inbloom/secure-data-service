@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.model;
 
 /**
@@ -38,6 +37,8 @@ public final class ResourceEntry {
     private String checksum;
 
     private String topLevelLandingZonePath;
+
+    private String resourceZipParent;
 
     private long recordCount;
 
@@ -133,9 +134,18 @@ public final class ResourceEntry {
     }
 
     /**
-     * @param externallyUploadedResourceId the externallyUploadedResourceId to set
+     * @param externallyUploadedResourceId
+     *            the externallyUploadedResourceId to set
      */
     public void setExternallyUploadedResourceId(String externallyUploadedResourceId) {
         this.externallyUploadedResourceId = externallyUploadedResourceId;
+    }
+
+    public String getResourceZipParent() {
+        return resourceZipParent;
+    }
+
+    public void setResourceZipParent(String resourceZipParent) {
+        this.resourceZipParent = resourceZipParent;
     }
 }

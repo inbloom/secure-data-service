@@ -218,6 +218,11 @@ public class ControlFileProcessor implements Processor {
     }
 
     private void createAndAddResourceEntries(NewBatchJob newJob, ControlFile cf) {
+        String zipResource = null;
+        if (newJob.getZipResourceEntry() != null) {
+            zipResource = newJob.getZipResourceEntry().getResourceName();
+        }
+
         for (IngestionFileEntry file : cf.getFileEntries()) {
             ResourceEntry resourceEntry = new ResourceEntry();
             resourceEntry.setResourceId(file.getFileName());
@@ -227,6 +232,8 @@ public class ControlFileProcessor implements Processor {
             resourceEntry.setResourceType(file.getFileType().getName());
             resourceEntry.setChecksum(file.getChecksum());
             resourceEntry.setTopLevelLandingZonePath(newJob.getTopLevelSourceId());
+            resourceEntry.setResourceZipParent(zipResource);
+
             newJob.getResourceEntries().add(resourceEntry);
         }
     }
