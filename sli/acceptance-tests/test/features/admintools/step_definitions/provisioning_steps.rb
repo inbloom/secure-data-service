@@ -33,7 +33,7 @@ CUSTOM_DATA_SET_CHOICE = "custom"
 Given /^LDAP and email server has been setup and running$/ do
   @ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'], 
                           PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'], 
-                          PropLoader.getProps['ldap_admin_pass'])
+                          PropLoader.getProps['ldap_admin_pass'], PropLoader.getProps['ldap_use_ssl'])
    @email_sender_name= "Administrator"
      @email_sender_address= "noreply@slidev.org"
       @email_conf = {
@@ -110,7 +110,7 @@ Then /^I get the success message$/ do
 end
 
 Then /^I check to find if default roles were created for the tenant$/ do
-  @conn             = Mongo::Connection.new('localhost', 27017)
+  @conn             = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
   @db               = @conn['sli']
   @roles_collection = @db.collection('customRole')
   
@@ -174,6 +174,6 @@ end
 
 Then /^I get an rsa key error message$/ do
   sleep 3
-  assertWithWait("Your key was not recognized. The SLC uses RFC4716 format for RSA keys. If you used another format, please covert your key to this format.")  {@driver.find_element(:id, "rsa_validation_error_text")}
+  assertWithWait("Your key was not recognized. inBloom uses RFC4716 format for RSA keys. If you used another format, please covert your key to this format.")  {@driver.find_element(:id, "rsa_validation_error_text")}
 end
 

@@ -22,7 +22,6 @@ import junit.framework.Assert;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -66,10 +65,6 @@ public class CustomConfigTest {
             + "{\"id\":\"component_2_2\",\"name\":\"Second Child Component\",\"type\":\"PANEL\"}" + "]" + "}"
 
             + "}}";
-
-    @Before
-    public void setup() {
-    }
 
     @Test
     public void testCreate() throws Exception {

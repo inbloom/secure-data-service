@@ -74,11 +74,6 @@ class GradeLevelType
   GradeLevelType.define :TWELFTH_GRADE, "Twelfth grade"
   GradeLevelType.define :UNGRADED, "Ungraded"
 
-  # translates the specified Symbol into the String representation of the grade level
-  def self.get(key)
-    const_get(key)
-  end
-
   # returns the set of elementary school grades (K - 5)
   def self.elementary
     [] << :KINDERGARTEN << :FIRST_GRADE << :SECOND_GRADE << :THIRD_GRADE << :FOURTH_GRADE << :FIFTH_GRADE
@@ -114,13 +109,13 @@ class GradeLevelType
     high.include?(grade)
   end
 
-  # overload the subtraction operator to move between the set of ordered grades
-  def self.decrement(grade, num_grades)
+  # decrement from the current grade by num_grades (calls increment with negative number of grades)
+  def self.decrement(grade, num_grades = 1)
     increment(grade, -num_grades)
   end
 
-  # overload the addition operator to move between the set of ordered grades
-  def self.increment(grade, num_grades)
+  # increment from the current grade by num_grades
+  def self.increment(grade, num_grades = 1)
     ordered = GradeLevelType.get_ordered_grades
     current = ordered.index(grade)
     if current != nil
@@ -138,8 +133,9 @@ class GradeLevelType
 
   # return what type of school offers this grade
   def self.school_type(grade)
-    (elementary.include?(grade) and :elementary) or
-    (middle.include?(grade) and :middle) or
-    (high.include?(grade) and :high)
+    return :elementary if elementary.include?(grade)
+    return :middle if middle.include?(grade)
+    return :high if high.include?(grade)
+    return nil
   end
 end

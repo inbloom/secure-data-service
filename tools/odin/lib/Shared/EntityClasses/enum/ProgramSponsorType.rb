@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative 'Enum.rb'
+
 # Enumerates the types of program sponsors. From Ed-Fi-Core.xsd:
 # <xs:simpleType name="ProgramSponsorType">
 #   <xs:annotation>

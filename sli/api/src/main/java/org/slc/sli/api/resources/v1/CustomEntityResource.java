@@ -31,6 +31,7 @@ import javax.ws.rs.core.UriInfo;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.resources.util.ResourceUtil;
 
 /**
@@ -41,10 +42,13 @@ public class CustomEntityResource {
 
     private final EntityDefinition entityDefinition;
     private final String entityId;
+    private ResourceHelper resourceHelper;
 
-    public CustomEntityResource(final String entityId, final EntityDefinition entityDefinition) {
+    public CustomEntityResource(final String entityId, final EntityDefinition entityDefinition,
+                                final ResourceHelper resourceHelper) {
         this.entityId = entityId;
         this.entityDefinition = entityDefinition;
+        this.resourceHelper = resourceHelper;
     }
 
     /**
@@ -100,7 +104,7 @@ public class CustomEntityResource {
             return Response.status(Status.NOT_FOUND).build();
         }
         entityDefinition.getService().createOrUpdateCustom(entityId, customEntity);
-        String uri = ResourceUtil.getURI(uriInfo, PathConstants.V1,
+        String uri = ResourceUtil.getURI(uriInfo, resourceHelper.extractVersion(uriInfo.getPathSegments()),
                 PathConstants.TEMP_MAP.get(entityDefinition.getResourceName()), entityId, PathConstants.CUSTOM_ENTITIES)
                 .toString();
         return Response.status(Status.CREATED).header("Location", uri).build();

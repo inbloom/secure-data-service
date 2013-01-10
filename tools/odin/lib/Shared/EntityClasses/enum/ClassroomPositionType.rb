@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative 'Enum.rb'
+
 # Enumerates the types of classroom positions held by teachers. From Ed-Fi-Core.xsd:
 # <xs:simpleType name="ClassroomPositionType">
 #   <xs:annotation>

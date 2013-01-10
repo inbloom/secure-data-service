@@ -23,8 +23,9 @@ When /^I hit the realm editing URL$/ do
 end
 
 When /^I should see that I am on the "([^"]*)" edit page$/ do |realmName|
-  assertWithWait("Should show 'Realm Management For #{realmName}' message") do
-    @driver.page_source.index("Realm Management For " + realmName) != nil
+  message = "Realm Management For #{realmName}"
+  assertWithWait("Should show '#{message}' message") do
+    @driver.page_source.index(message) != nil
    end
 end
 
@@ -72,7 +73,7 @@ When /^I should click the delete realm link$/ do
 end
 
 Then /^I should see that I am on the new realm page$/ do
-  assertWithWait("Should be on new realm page"){@driver.page_source.index("Create New Realm") != nil}
+  assertWithWait("Should be on new realm page"){@driver.page_source.index("Manage Realm") != nil}
 end
 
 Then /^all of the input fields should be blank$/ do
@@ -94,7 +95,7 @@ Then /^I should see that the page doesn't exist$/ do
 end
 
 Then /^I should be redirected to a new realm page$/ do
-  assertWithWait("Should be on new realm page") {@driver.page_source.index("Create New Realm") != nil}
+  assertWithWait("Should be on new realm page") {@driver.page_source.index("Manage Realm") != nil}
 end
 
 When /^I enter valid data into all fields$/ do

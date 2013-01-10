@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.landingzone.validation;
 
 import java.io.IOException;
@@ -25,7 +24,11 @@ import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
+import org.slc.sli.ingestion.validation.Validator;
 
 /**
  * Validates file's checksum using MD5 algorithm.
@@ -33,16 +36,18 @@ import org.slc.sli.ingestion.validation.ErrorReport;
  * @author okrook
  *
  */
-public class ChecksumValidator extends IngestionFileValidator {
+public class ChecksumValidator implements Validator<FileEntryDescriptor> {
 
-    private Logger log = LoggerFactory.getLogger(ChecksumValidator.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ChecksumValidator.class);
+    private static final String STAGE_NAME = "File Checksum Validation";
 
     @Override
-    public boolean isValid(FileEntryDescriptor item, ErrorReport callback) {
+    public boolean isValid(FileEntryDescriptor item, AbstractMessageReport report, ReportStats reportStats,
+            Source source) {
         IngestionFileEntry fe = item.getFileItem();
 
         if (StringUtils.isBlank(fe.getChecksum())) {
-            fail(callback, getFailureMessage("SL_ERR_MSG10", fe.getFileName()));
+            report.error(reportStats, source, BaseMessageCode.BASE_0007, fe.getFileName());
 
             return false;
         }
@@ -59,9 +64,9 @@ public class ChecksumValidator extends IngestionFileValidator {
         if (!checksumsMatch(actualMd5Hex, fe.getChecksum())) {
 
             String[] args = { fe.getFileName(), actualMd5Hex, fe.getChecksum() };
-            log.debug("File [{}] checksum ({}) does not match control file checksum ({}).", args);
+            LOG.debug("File [{}] checksum ({}) does not match control file checksum ({}).", args);
 
-            fail(callback, getFailureMessage("SL_ERR_MSG2", fe.getFileName()));
+            report.error(reportStats, source, BaseMessageCode.BASE_0006, fe.getFileName());
 
             return false;
         }
@@ -71,6 +76,11 @@ public class ChecksumValidator extends IngestionFileValidator {
 
     protected boolean checksumsMatch(String actualMd5Hex, String recordedMd5Hex) {
         return !StringUtils.isBlank(actualMd5Hex) && actualMd5Hex.equalsIgnoreCase(recordedMd5Hex);
+    }
+
+    @Override
+    public String getStageName() {
+        return STAGE_NAME;
     }
 
 }

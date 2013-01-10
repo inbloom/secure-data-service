@@ -32,16 +32,21 @@ import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.ingestion.BatchJobStage;
+import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.handler.Handler;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.impl.NeutralRecordSource;
 import org.slc.sli.ingestion.transformation.normalization.ComplexKeyField;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
 import org.slc.sli.ingestion.transformation.normalization.RefDef;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
-import org.slc.sli.ingestion.validation.DummyErrorReport;
-import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.NaturalKeyValidationException;
 import org.slc.sli.validation.NoNaturalKeysDefinedException;
 import org.slc.sli.validation.SchemaRepository;
@@ -55,13 +60,11 @@ import org.slc.sli.validation.schema.NeutralSchema;
  * @author okrook
  *
  */
-public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List<SimpleEntity>> {
+public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List<SimpleEntity>>, BatchJobStage {
 
     private static final Logger LOG = LoggerFactory.getLogger(EdFi2SLITransformer.class);
 
     protected static final String METADATA_BLOCK = "metaData";
-
-    private static final String EDORGS = "edOrgs";
 
     protected static final String ID = "_id";
 
@@ -70,6 +73,8 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     private EntityConfigFactory entityConfigurations;
 
     private Repository<Entity> entityRepository;
+
+    private String batchJobId;
 
     @Autowired
     private SchemaRepository schemaRepository;
@@ -81,26 +86,25 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     private DeterministicUUIDGeneratorStrategy deterministicUUIDGeneratorStrategy;
 
     @Override
-    public List<SimpleEntity> handle(NeutralRecord item) {
-        return handle(item, new DummyErrorReport());
-    }
+    public List<SimpleEntity> handle(NeutralRecord item, AbstractMessageReport report, ReportStats reportStats) {
 
-    @Override
-    public List<SimpleEntity> handle(NeutralRecord item, ErrorReport errorReport) {
+        resolveReferences(item, report, reportStats);
 
-        resolveReferences(item, errorReport);
-
-        if (errorReport.hasErrors()) {
+        if (reportStats.hasErrors()) {
             LOG.info("Issue was detected in EdFi2SLITransformer.resolveReferences()");
             return Collections.emptyList();
         }
 
-        List<SimpleEntity> transformed = transform(item, errorReport);
+        List<SimpleEntity> transformed = transform(item, report, reportStats);
 
-        if (errorReport.hasErrors()) {
+        if (reportStats.hasErrors()) {
             LOG.info("Issue was detected in EdFi2SLITransformer.transform()");
             return Collections.emptyList();
         }
+
+        Source source = new NeutralRecordSource(item.getSourceFile(), BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
+                item.getVisitBeforeLineNumber(), item.getVisitBeforeColumnNumber(),
+                item.getVisitAfterLineNumber(), item.getVisitAfterColumnNumber());
 
         if (transformed != null && !transformed.isEmpty()) {
 
@@ -110,31 +114,29 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                     entity.setMetaData(new HashMap<String, Object>());
                 }
 
-                if (item.getMetaData().get(EDORGS) != null) {
-                    entity.getMetaData().put(EDORGS, item.getMetaData().get(EDORGS));
-                }
-
                 try {
-                    matchEntity(entity, errorReport);
+                    matchEntity(entity, report, reportStats);
                 } catch (DataAccessResourceFailureException darfe) {
                     LOG.error("Exception in matchEntity", darfe);
+                    report.error(reportStats, source, CoreMessageCode.CORE_0046, darfe);
                 }
 
-                if (errorReport.hasErrors()) {
+                if (reportStats.hasErrors()) {
                     return Collections.emptyList();
                 }
             }
         } else {
             LOG.error("EdFi2SLI Transform has resulted in either a null or empty list of transformed SimpleEntities.");
+            report.error(reportStats, source, CoreMessageCode.CORE_0047);
         }
 
         return transformed;
     }
 
-    protected void resolveReferences(NeutralRecord item, ErrorReport errorReport) {
-        Entity entity = new NeutralRecordEntity(item);
-        dIdResolver.resolveInternalIds(entity, item.getSourceId(), errorReport);
-}
+    protected void resolveReferences(NeutralRecord item, AbstractMessageReport report, ReportStats reportStats) {
+        NeutralRecordEntity entity = new NeutralRecordEntity(item);
+        dIdResolver.resolveInternalIds(entity, item.getSourceId(), report, reportStats);
+    }
 
     /**
      * Find a matched entity in the data store. If match is found the EntityID gets updated with the
@@ -147,12 +149,12 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
      * @param errorReport
      *            Error reporting
      */
-    protected void matchEntity(SimpleEntity entity, ErrorReport errorReport) {
+    protected void matchEntity(SimpleEntity entity, AbstractMessageReport report, ReportStats reportStats) {
         EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entity.getType());
 
-        Query query = createEntityLookupQuery(entity, entityConfig, errorReport);
+        Query query = createEntityLookupQuery(entity, entityConfig, report, reportStats);
 
-        if (errorReport.hasErrors()) {
+        if (reportStats.hasErrors()) {
             return;
         }
 
@@ -172,22 +174,6 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             // Entity exists in data store.
             Entity matched = match.iterator().next();
             entity.setEntityId(matched.getEntityId());
-
-            @SuppressWarnings("unchecked")
-            List<String> edOrgs = (List<String>) entity.getMetaData().get(EDORGS);
-
-            if (edOrgs != null && edOrgs.size() > 0) {
-                @SuppressWarnings("unchecked")
-                List<String> matchedEdOrgs = (List<String>) matched.getMetaData().get(EDORGS);
-                if (matchedEdOrgs != null) {
-                    for (String edOrg : edOrgs) {
-                        if (!matchedEdOrgs.contains(edOrg)) {
-                            matchedEdOrgs.add(edOrg);
-                        }
-                    }
-                    matched.getMetaData().put(EDORGS, matchedEdOrgs);
-                }
-            }
             entity.getMetaData().putAll(matched.getMetaData());
         }
     }
@@ -205,20 +191,24 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
      *
      * @author tke
      */
-    protected Query createEntityLookupQuery(SimpleEntity entity, EntityConfig entityConfig, ErrorReport errorReport) {
+    protected Query createEntityLookupQuery(SimpleEntity entity, EntityConfig entityConfig,
+            AbstractMessageReport report, ReportStats reportStats) {
         Query query;
 
         NaturalKeyDescriptor naturalKeyDescriptor;
         try {
             naturalKeyDescriptor = naturalKeyExtractor.getNaturalKeyDescriptor(entity);
         } catch (NaturalKeyValidationException e1) {
-            StringBuilder message = new StringBuilder("An entity is missing one or more required natural key fields" + "\n"
-                    + "       Entity     " + entity.getType() + "\n" + "       Instance   " + entity.getRecordNumber());
+            StringBuilder message = new StringBuilder("");
 
             for (String fieldName : e1.getNaturalKeys()) {
                 message.append("\n" + "       Field      " + fieldName);
             }
-            errorReport.error(message.toString(), this);
+            Source source = new NeutralRecordSource(entity.getResourceId(), getStageName(),
+                    entity.getVisitBeforeLineNumber(), entity.getVisitBeforeColumnNumber(), entity.getVisitAfterLineNumber(),
+                    entity.getVisitAfterColumnNumber());
+            report.error(reportStats, source, CoreMessageCode.CORE_0010, entity.getType(),
+                    Long.toString(entity.getRecordNumber()), message.toString());
             return null;
         } catch (NoNaturalKeysDefinedException e) {
             LOG.error(e.getMessage(), e);
@@ -230,7 +220,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             LOG.error("Unable to find natural keys fields" + "       Entity     " + entity.getType() + "\n"
                     + "       Instance   " + entity.getRecordNumber());
 
-            query = createEntityLookupQueryFromKeyFields(entity, entityConfig, errorReport);
+            query = createEntityLookupQueryFromKeyFields(entity, entityConfig, report, reportStats);
         } else {
             query = new Query();
             String entityId = deterministicUUIDGeneratorStrategy.generateId(naturalKeyDescriptor);
@@ -241,12 +231,14 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     }
 
     protected Query createEntityLookupQueryFromKeyFields(SimpleEntity entity, EntityConfig entityConfig,
-            ErrorReport errorReport) {
+            AbstractMessageReport report, ReportStats reportStats) {
         Query query = new Query();
+        Source source = new NeutralRecordSource(entity.getResourceId(), getStageName(), entity.getVisitBeforeLineNumber(),
+                entity.getVisitBeforeColumnNumber(), entity.getVisitAfterLineNumber(), entity.getVisitAfterColumnNumber());
 
-        StringBuilder errorMessage = new StringBuilder("ERROR: Invalid key fields for an entity\n");
+        StringBuilder errorMessage = new StringBuilder("");
         if (entityConfig.getKeyFields() == null || entityConfig.getKeyFields().size() == 0) {
-            errorReport.fatal("Cannot find a match for an entity: No key fields specified", this);
+            report.error(reportStats, source, CoreMessageCode.CORE_0011);
         } else {
             errorMessage.append("       Entity      " + entity.getType() + "\n" + "       Key Fields  "
                     + entityConfig.getKeyFields() + "\n");
@@ -299,16 +291,21 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                         fieldValue));
             }
         } catch (Exception e) {
-            errorReport.error(errorMessage.toString(), this);
+            report.error(reportStats, source, CoreMessageCode.CORE_0012, errorMessage.toString());
         }
 
         return query;
     }
 
-    protected abstract List<SimpleEntity> transform(NeutralRecord item, ErrorReport errorReport);
+    protected abstract List<SimpleEntity> transform(NeutralRecord item, AbstractMessageReport report,
+            ReportStats reportStats);
 
     public void setDIdResolver(DeterministicIdResolver dIdResolver) {
         this.dIdResolver = dIdResolver;
+    }
+
+    public void setBatchJobId(String batchJobId) {
+        this.batchJobId = batchJobId;
     }
 
     public EntityConfigFactory getEntityConfigurations() {

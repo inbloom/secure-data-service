@@ -42,11 +42,12 @@ public class ValidateSchema {
 
     public static void getSchemaVersion(){
         if("sliXsd-R1".equalsIgnoreCase(org.slc.sli.test.xmlgen.StateEdFiXmlGenerator.XSDVersionPath)){
-            SCHEMA_DIR = "../../sli/domain/src/main/resources/sliXsd-R1/";
+            SCHEMA_DIR = "../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/";
+            
         } else {
-            SCHEMA_DIR = "../../sli/domain/src/main/resources/edfiXsd-SLI/";
+            SCHEMA_DIR = "../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/";
         }
-        if ("../../sli/domain/src/main/resources/edfiXsd-SLI/".equalsIgnoreCase(SCHEMA_DIR)) {
+        if ("../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/".equalsIgnoreCase(SCHEMA_DIR)) {
             SCHEMAS.add("SLI-Interchange-AssessmentMetadata.xsd");
             SCHEMAS.add("SLI-Interchange-EducationOrgCalendar.xsd");
             SCHEMAS.add("SLI-Interchange-EducationOrganization.xsd");
@@ -69,6 +70,7 @@ public class ValidateSchema {
 
     public static String check(String xmlDir) throws Exception {
   
+    	org.slc.sli.test.xmlgen.StateEdFiXmlGenerator.XSDVersionPath = "sliXsd";
     	getSchemaVersion();
         Map<String, String> schemaMap = new HashMap<String, String>();
         for (String schema : SCHEMAS) {

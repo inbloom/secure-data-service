@@ -20,19 +20,19 @@ require_relative "../data_utility.rb"
 require_relative "baseEntity.rb"
 
 # creates local education agency
-class LeaEducationOrganization < BaseEntity
+class LocalEducationAgency < BaseEntity
 
-  def initialize(id, parent_id, rand)
-    @id = id
-    @parent_id = parent_id
+  attr_accessor :state_org_id, :parent_id, :programs
+
+  def initialize(rand, id, parent_id, programs = nil)
     @rand = rand
+    if id.kind_of? String
+      @state_org_id = id
+    else
+      @state_org_id = DataUtility.get_local_education_agency_id(id)
+    end
+    @parent_id = parent_id
+    @programs  = programs
   end
 
-  def stateOrgId
-    DataUtility.get_local_education_agency_id(@id)
-  end
-
-  def parentId
-    DataUtility.get_state_education_agency_id(@parent_id)
-  end
 end

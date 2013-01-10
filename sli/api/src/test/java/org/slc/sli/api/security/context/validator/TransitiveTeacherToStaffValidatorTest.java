@@ -30,9 +30,14 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
@@ -41,13 +46,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
-import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Entity;
-
 /**
  * Unit tests for teacher --> staff context validator.
  */
@@ -55,7 +53,6 @@ import org.slc.sli.domain.Entity;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
-@Ignore //ignore while teacher validators are disabled
 public class TransitiveTeacherToStaffValidatorTest {
 
     @Autowired
@@ -84,8 +81,9 @@ public class TransitiveTeacherToStaffValidatorTest {
         List<String> roles = Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR);
 
 
-        repo.deleteAll("educationOrganization", null);
         repo.deleteAll("staff", null);
+        repo.deleteAll("educationOrganization", null);
+        repo.deleteAll("staffEducationOrganizationAssociation", null);
 
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("staffUniqueStateId", "staff1");
@@ -145,9 +143,9 @@ public class TransitiveTeacherToStaffValidatorTest {
         repo.create("staffEducationOrganizationAssociation", body);
 
         body = new HashMap<String, Object>();
-        body.put("schoolId", school1.getEntityId());
-        body.put("teacherId", teacher1Myself.getEntityId());
-        repo.create("teacherSchoolAssociation", body);
+        body.put("educationOrganizationReference", school1.getEntityId());
+        body.put("staffReference", teacher1Myself.getEntityId());
+        repo.create("staffEducationOrganizationAssociation", body);
 
         injector.setCustomContext(user, fullName, "MERPREALM", roles, teacher1Myself, "111");
     }

@@ -37,13 +37,15 @@ package org.slc.sli.ingestion;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  * Container format to store any type of Ingestion data generically.
  *
  */
-public class NeutralRecord implements Cloneable {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class NeutralRecord implements Cloneable, Resource {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
@@ -113,6 +115,23 @@ public class NeutralRecord implements Cloneable {
     private int locationInSourceFile;
 
     /**
+     * The line number in source file of the record when the element is processed in visitBefore()
+     */
+    private int visitBeforeLineNumber;
+    /**
+     * The column number in source file of the record when the element is processed in visitBefore()
+     */
+    private int visitBeforeColumnNumber;
+    /**
+     * The line number in source file of the record when the element is processed in visitAfter()
+     */
+    private int visitAfterLineNumber;
+    /**
+     * The column number in source file of the record when the element is processed in visitAfter()
+     */
+    private int visitAfterColumnNumber;
+
+    /**
      * Time when neutral record was created (in ms).
      */
     private long creationTime;
@@ -154,7 +173,6 @@ public class NeutralRecord implements Cloneable {
         this.recordId = recordId;
     }
 
-        
     /**
      * @param localId
      *            the localId to set
@@ -300,6 +318,38 @@ public class NeutralRecord implements Cloneable {
 
     public void setLocationInSourceFile(int locationInSourceFile) {
         this.locationInSourceFile = locationInSourceFile;
+    }
+
+    public int getVisitBeforeLineNumber() {
+        return visitBeforeLineNumber;
+    }
+
+    public void setVisitBeforeLineNumber(int visitBeforeLineNumber) {
+        this.visitBeforeLineNumber = visitBeforeLineNumber;
+    }
+
+    public int getVisitBeforeColumnNumber() {
+        return visitBeforeColumnNumber;
+    }
+
+    public void setVisitBeforeColumnNumber(int visitBeforeColumnNumber) {
+        this.visitBeforeColumnNumber = visitBeforeColumnNumber;
+    }
+
+    public int getVisitAfterLineNumber() {
+        return visitAfterLineNumber;
+    }
+
+    public void setVisitAfterLineNumber(int visitAfterLineNumber) {
+        this.visitAfterLineNumber = visitAfterLineNumber;
+    }
+
+    public int getVisitAfterColumnNumber() {
+        return visitAfterColumnNumber;
+    }
+
+    public void setVisitAfterColumnNumber(int visitAfterColumnNumber) {
+        this.visitAfterColumnNumber = visitAfterColumnNumber;
     }
 
     public long getCreationTime() {
@@ -457,22 +507,25 @@ public class NeutralRecord implements Cloneable {
 
     /*
      * Clone, e.g. for the DiD calculation needs
-     * 
-     *  @return The cloned object, taking care to handle composite members such as maps.
-     * 
+     *
+     * @return The cloned object, taking care to handle composite members such as maps.
      */
     @Override
     public Object clone() {
-    	NeutralRecord result = null;
-    	try {
-    		result = (NeutralRecord) super.clone();
-    		result.localParentIds = (HashMap<String, Object>) ((HashMap<String, Object>) this.localParentIds).clone();
-    		result.attributes = (HashMap<String, Object>) ((HashMap<String, Object>) this.attributes).clone();
-    		result.metaData = (HashMap<String, Object>) ((HashMap<String, Object>) this.metaData).clone();
-    	}
-    	catch ( CloneNotSupportedException e ) {
-    		result = null;
-    	}
-  		return result;
+        NeutralRecord result = null;
+        try {
+            result = (NeutralRecord) super.clone();
+            result.localParentIds = (HashMap<String, Object>) ((HashMap<String, Object>) this.localParentIds).clone();
+            result.attributes = (HashMap<String, Object>) ((HashMap<String, Object>) this.attributes).clone();
+            result.metaData = (HashMap<String, Object>) ((HashMap<String, Object>) this.metaData).clone();
+        } catch (CloneNotSupportedException e) {
+            result = null;
+        }
+        return result;
+    }
+
+    @Override
+    public String getResourceId() {
+        return getSourceFile();
     }
 }

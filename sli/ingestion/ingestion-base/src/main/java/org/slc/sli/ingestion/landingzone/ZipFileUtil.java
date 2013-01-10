@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -37,9 +38,11 @@ import org.slf4j.LoggerFactory;
  * Zip File utility class.
  *
  */
-public class ZipFileUtil {
+public final class ZipFileUtil {
 
-    static Logger log = LoggerFactory.getLogger(ZipFileUtil.class);
+    private ZipFileUtil() {}
+
+    static final Logger LOG = LoggerFactory.getLogger(ZipFileUtil.class);
 
     static final int BUFFER = 2048;
 
@@ -94,6 +97,37 @@ public class ZipFileUtil {
     }
 
     /**
+     * @param sourceZipFile
+     * @param targetDir
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    public static InputStream getInputStreamForFile(File sourceZipFile, String fileName) throws IOException {
+        ZipArchiveInputStream zis = null;
+        InputStream fileInputStream = null;
+
+        try {
+            // Create input stream
+            zis = new ZipArchiveInputStream(new BufferedInputStream(new FileInputStream(sourceZipFile)));
+
+            ArchiveEntry entry;
+
+            while ((entry = zis.getNextEntry()) != null) {
+                if (!entry.isDirectory() && entry.getName().equals(fileName)) {
+                    fileInputStream = zis;
+                    break;
+                }
+            }
+        } finally {
+            if (fileInputStream == null) {
+                IOUtils.closeQuietly(zis);
+            }
+        }
+
+        return fileInputStream;
+    }
+
+    /**
      * Extracts a Zip Entry from an archive to a directory
      *
      * @param zis
@@ -131,8 +165,12 @@ public class ZipFileUtil {
 
     }
 
-    public static File findCtlFile(File dir) throws IOException {
+    public static File findCtlFile(File dir) {
 
+        if (!dir.isDirectory()) {
+            LOG.info("Non-existent control file directory: " + dir.getAbsolutePath());
+            return null;
+        }
         FilenameFilter filter = new FilenameFilter() {
             @Override
             public boolean accept(File dir, String name) {
@@ -141,16 +179,17 @@ public class ZipFileUtil {
             }
         };
 
-        File[] fileList = dir.listFiles(filter);
         File ctlFile = null;
 
+        File[] fileList = dir.listFiles(filter);
         if (fileList.length > 0) {
             ctlFile = fileList[0];
-            log.info("Found control file: " + ctlFile.getName());
+            LOG.info("Found control file: " + ctlFile.getName());
         } else {
-            log.info("No control file found in " + dir.getAbsolutePath());
+            LOG.info("No control file found in " + dir.getAbsolutePath());
         }
 
         return ctlFile;
     }
+
 }

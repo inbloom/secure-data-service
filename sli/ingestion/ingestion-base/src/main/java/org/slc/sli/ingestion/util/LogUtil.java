@@ -39,10 +39,10 @@ public class LogUtil {
      * @param exception
      *            the exception which caused the log file entry
      */
-    public static void trace(Logger log, String message, Exception exception) {
+    public static void trace(Logger log, String message, Throwable exception) {
         // Log the error with a message-safe exception.
         if (log.isTraceEnabled()) {
-            Exception loggingException = createLoggingException(exception);
+            Throwable loggingException = createLoggingException(exception);
             log.trace(message, loggingException);
         }
     }
@@ -57,10 +57,10 @@ public class LogUtil {
      * @param exception
      *            the exception which caused the log file entry
      */
-    public static void debug(Logger log, String message, Exception exception) {
+    public static void debug(Logger log, String message, Throwable exception) {
         // Log the error with a message-safe exception.
         if (log.isDebugEnabled()) {
-            Exception loggingException = createLoggingException(exception);
+            Throwable loggingException = createLoggingException(exception);
             log.debug(message, loggingException);
         }
     }
@@ -75,10 +75,10 @@ public class LogUtil {
      * @param exception
      *            the exception which caused the log file entry
      */
-    public static void info(Logger log, String message, Exception exception) {
+    public static void info(Logger log, String message, Throwable exception) {
         // Log the error with a message-safe exception.
         if (log.isInfoEnabled()) {
-            Exception loggingException = createLoggingException(exception);
+            Throwable loggingException = createLoggingException(exception);
             log.info(message, loggingException);
         }
     }
@@ -93,10 +93,10 @@ public class LogUtil {
      * @param exception
      *            the exception which caused the log file entry
      */
-    public static void warn(Logger log, String message, Exception exception) {
+    public static void warn(Logger log, String message, Throwable exception) {
         // Log the error with a message-safe exception.
         if (log.isWarnEnabled()) {
-            Exception loggingException = createLoggingException(exception);
+            Throwable loggingException = createLoggingException(exception);
             log.warn(message, loggingException);
         }
     }
@@ -111,10 +111,10 @@ public class LogUtil {
      * @param exception
      *            the exception which caused the log file entry
      */
-    public static void error(Logger log, String message, Exception exception) {
+    public static void error(Logger log, String message, Throwable exception) {
         // Log the error with a message-safe exception.
         if (log.isErrorEnabled()) {
-            Exception loggingException = createLoggingException(exception);
+            Throwable loggingException = createLoggingException(exception);
             log.error(message, loggingException);
         }
     }
@@ -128,17 +128,30 @@ public class LogUtil {
      * @return Exception
      *         the new message-safe exception
      */
-    private static Exception createLoggingException(Exception exception) {
-        if (includeExceptionMessage) {
+    private static Throwable createLoggingException(Throwable exception) {
+        return createLoggingException(exception, includeExceptionMessage);
+    }
+
+    /**
+     * Create a message-safe exception from the original exception
+     *
+     * @param exception
+     *            original exception from which the message-safe exception will be created
+     *
+     * @return Exception
+     *         the new message-safe exception
+     */
+    public static Throwable createLoggingException(Throwable exception, boolean includeMessage) {
+        if (includeMessage) {
             return exception;
         }
 
         Exception loggingException;
         if (exception.getCause() == null) {
-            loggingException = new Exception(exception.getClass().toString());
+            loggingException = new Exception(exception.getClass().toString());  //NOPMD Need to use raw exception as type of exception is unknown
         } else {
-            loggingException = new Exception(exception.getClass().toString(),
-                    createLoggingException((Exception) exception.getCause()));
+            loggingException = new Exception(exception.getClass().toString(),   //NOPMD Need to use raw exception as type of exception is unknown
+                    createLoggingException(exception.getCause(), includeMessage));
         }
         loggingException.setStackTrace(exception.getStackTrace());
         return loggingException;

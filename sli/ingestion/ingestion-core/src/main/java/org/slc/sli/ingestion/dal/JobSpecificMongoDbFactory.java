@@ -25,6 +25,10 @@ import org.springframework.data.mongodb.core.SimpleMongoDbFactory;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 
+/**
+ * JobSpecificMongoDbFactory class.
+ *
+ */
 public class JobSpecificMongoDbFactory extends SimpleMongoDbFactory {
 
     public JobSpecificMongoDbFactory(Mongo mongo, String databaseName) {

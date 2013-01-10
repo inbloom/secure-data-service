@@ -53,7 +53,7 @@ public class DoubleSchema extends PrimitiveNumericSchema<Double> {
             try {
                 return Double.parseDouble((String) value);
             } catch (NumberFormatException nfe) {
-                throw new IllegalArgumentException(value + " cannot be parsed to a double");
+                throw (IllegalArgumentException) new IllegalArgumentException(value + " cannot be parsed to a double").initCause(nfe);
             }
         }
         

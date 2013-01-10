@@ -16,20 +16,32 @@ limitations under the License.
 
 =end
 
+require 'yaml'
+require_relative '../demographics'
+
 # base entity
 class BaseEntity
+
+  def self.initializeDemographics(demographics, choices)
+    @@d = Demographics.new(demographics, choices)
+  end
+
+  def self.demographics
+    @@d
+  end
+
   def choose(options)
     options[@rand.rand(options.size) - 1]
   end
-  
+
   def wChoose(distribution)
     r = @rand.rand weight_total(distribution)
     distribution.each do |element, weight|
       if r < weight
-        return element
+      return element
       end
       r -= weight
-    end 
+    end
   end
 
   def weight_total(distribution)
@@ -42,6 +54,10 @@ class BaseEntity
   
   def bit_choose() 
     rand(2) == 1
+  end
+
+  def bit_choose()
+    @rand.rand(2) == 1
   end
 
 end

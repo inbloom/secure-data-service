@@ -52,7 +52,7 @@ public class ObjectiveAssessmentEntityTest {
     private Set<String> recordLevelDeltaEnabledEntityNames;
 
     private String validXmlTestData = "<InterchangeAssessmentMetadata xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-AssessmentMetadata.xsd\">"
-            + "<ObjectiveAssessment id=\"TAKSReading3-4\">"
+            + "<ObjectiveAssessment>"
             + "  <IdentificationCode>TAKSReading3-4</IdentificationCode>"
             + "  <MaxRawScore>8</MaxRawScore>"
             + "  <PercentOfAssessment>50</PercentOfAssessment>"
@@ -89,7 +89,7 @@ public class ObjectiveAssessmentEntityTest {
             + "     </ObjectiveAssessmentIdentity>"
             + "  </ObjectiveAssessmentReference>"
             + "</ObjectiveAssessment>"
-            + "<ObjectiveAssessment id=\"sub\">"
+            + "<ObjectiveAssessment>"
             + "  <IdentificationCode>sub</IdentificationCode>"
             + "</ObjectiveAssessment>"
             + "</InterchangeAssessmentMetadata>";
@@ -121,7 +121,7 @@ public class ObjectiveAssessmentEntityTest {
         String targetSelector = "InterchangeAssessmentMetadata/ObjectiveAssessment";
 
         String invalidXmlTestData = "<InterchangeAssessmentMetadata xmlns=\"http://ed-fi.org/0100\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"Interchange-AssessmentMetadata.xsd\">"
-                + "<ObjectiveAssessment id=\"TAKSReading3-4\">"
+                + "<ObjectiveAssessment>"
                 + "<IdentificationCode>TAKSReading3-4</IdentificationCode>"
                 + "<MaxRawScore>8</MaxRawScore>"
                 + "<PercentOfAssessment>50</PercentOfAssessment>"

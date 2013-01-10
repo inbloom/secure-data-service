@@ -18,10 +18,12 @@ package org.slc.sli.ingestion.handler;
 
 import java.util.List;
 
+import org.slc.sli.ingestion.BatchJobStage;
 import org.slc.sli.ingestion.FileProcessStatus;
-import org.slc.sli.ingestion.validation.DummyErrorReport;
-import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slc.sli.ingestion.validation.ErrorReportSupport;
+import org.slc.sli.ingestion.Resource;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.impl.JobSource;
 import org.slc.sli.ingestion.validation.Validator;
 
 /**
@@ -29,71 +31,65 @@ import org.slc.sli.ingestion.validation.Validator;
  *
  * @author dduran
  *
+ * @param <T>
+ * @param <O>
  */
-public abstract class AbstractIngestionHandler<T, O> implements Handler<T, O> {
+public abstract class AbstractIngestionHandler<T extends Resource, O> implements Handler<T, O>, BatchJobStage {
 
     List<? extends Validator<T>> preValidators;
 
     List<? extends Validator<T>> postValidators;
 
-    protected abstract O doHandling(T item, ErrorReport errorReport, FileProcessStatus fileProcessStatus);
+    protected abstract O doHandling(T item, AbstractMessageReport report, ReportStats reportStats,
+            FileProcessStatus fileProcessStatus);
 
-    protected abstract List<O> doHandling(List<T> items, ErrorReport errorReport, FileProcessStatus fileProcessStatus);
+    protected abstract List<O> doHandling(List<T> items, AbstractMessageReport report, ReportStats reportStats,
+            FileProcessStatus fileProcessStatus);
 
-    void pre(T item, ErrorReport errorReport) {
+    void pre(T item, AbstractMessageReport report, ReportStats reportStats) {
         if (preValidators != null) {
             for (Validator<T> validator : preValidators) {
-                validator.isValid(item, errorReport);
+                validator.isValid(item, report, reportStats,
+                        new JobSource(item.getResourceId(), validator.getStageName()));
             }
         }
-    };
+    }
 
-    void post(T item, ErrorReport errorReport) {
+    void post(T item, AbstractMessageReport report, ReportStats reportStats) {
         if (postValidators != null) {
             for (Validator<T> validator : postValidators) {
-                validator.isValid(item, errorReport);
+                validator.isValid(item, report, reportStats,
+                        new JobSource(item.getResourceId(), validator.getStageName()));
             }
         }
-    };
-
-    @Override
-    public O handle(T item) {
-
-        ErrorReport errorReport = null;
-        if (item instanceof ErrorReportSupport) {
-            errorReport = ((ErrorReportSupport) item).getErrorReport();
-        } else {
-            errorReport = new DummyErrorReport();
-        }
-
-        return handle(item, errorReport);
     }
 
     @Override
-    public O handle(T item, ErrorReport errorReport) {
-        return handle(item, errorReport, new FileProcessStatus());
+    public O handle(T item, AbstractMessageReport report, ReportStats reportStats) {
+        return handle(item, report, reportStats, new FileProcessStatus());
     }
 
-    @Override
-    public List<O> handle(List<T> items, ErrorReport errorReport) {
-        return handle(items, errorReport, new FileProcessStatus());
-    }
-
-    public O handle(T item, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
+    public O handle(T item, AbstractMessageReport report, ReportStats reportStats, FileProcessStatus fileProcessStatus) {
         O o = null;
-        pre(item, errorReport);
-        if (!errorReport.hasErrors()) {
-            o = doHandling(item, errorReport, fileProcessStatus);
-            post(item, errorReport);
+        pre(item, report, reportStats);
+        if (!reportStats.hasErrors()) {
+            o = doHandling(item, report, reportStats, fileProcessStatus);
+            post(item, report, reportStats);
         }
         return o;
     }
 
-    public List<O> handle(List<T> items, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
+    @Override
+    public List<O> handle(List<T> items, AbstractMessageReport report, ReportStats reportStats) {
+        return handle(items, report, reportStats, new FileProcessStatus());
+    }
+
+    public List<O> handle(List<T> items, AbstractMessageReport report, ReportStats reportStats,
+            FileProcessStatus fileProcessStatus) {
         // TODO: add pre and post validation that will iterate through the list and perform
         // appropriate validations
-        if (!errorReport.hasErrors()) {
-            return doHandling(items, errorReport, fileProcessStatus);
+        if (!reportStats.hasErrors()) {
+            return doHandling(items, report, reportStats, fileProcessStatus);
         }
         return null;
     }

@@ -32,6 +32,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
@@ -100,12 +101,21 @@ public class RealmInitializerTest {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Test
     public void testRealmUnchanged() throws Exception {
+        NeutralQuery adminQuery = new NeutralQuery(new NeutralCriteria("uniqueIdentifier",
+                NeutralCriteria.OPERATOR_EQUAL, RealmInitializer.ADMIN_REALM_ID));
         
+        NeutralQuery developerQuery = new NeutralQuery(new NeutralCriteria("uniqueIdentifier",
+                NeutralCriteria.OPERATOR_EQUAL, null)); 
         // verify that the code doesn't attempt to update the realm if the existing one hasn't been
         // modified
         Map body = realmInit.createAdminRealmBody();
         Entity existingRealm = new MongoEntity("realm", body);
-        Mockito.when(mockRepo.findOne(Mockito.eq("realm"), Mockito.any(NeutralQuery.class))).thenReturn(existingRealm);
+        Map devbody = realmInit.createDeveloperRealmBody();
+        Entity existingDevRealm = new MongoEntity("realm", devbody);
+        
+        Mockito.when(mockRepo.findOne(Mockito.eq("realm"), Mockito.eq(adminQuery))).thenReturn(existingRealm);
+        Mockito.when(mockRepo.findOne(Mockito.eq("realm"), Mockito.eq(developerQuery))).thenReturn(existingDevRealm);
+        
         final AtomicBoolean update = new AtomicBoolean(false);
         Mockito.when(mockRepo.update(Mockito.anyString(), Mockito.any(Entity.class))).thenAnswer(new Answer<Boolean>() {
             

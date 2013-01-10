@@ -53,9 +53,4 @@ class MediumOfInstructionType
   MediumOfInstructionType.define :TELEVISED, "Televised"
   MediumOfInstructionType.define :VIDEOTAPED_PRERECORDED_VIDEO, "Videotaped/prerecorded video"
   MediumOfInstructionType.define :VIRTUAL_ON_LINE_DISTANCE_LEARNING, "Virtual/On-line Distance learning"
-
-  # returns the ed-fi compliant string representation for a medium of instruction type
-  def self.to_string(type)
-    const_get(key)
-  end
 end

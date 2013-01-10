@@ -1,20 +1,20 @@
 {
 "recordType":"staffEducationOrganizationAssociation",
 "attributes":
-{	
-	"EducationOrganizationReference":
-	{
-		"EducationalOrgIdentity":
-		{
-			"StateOrganizationId":"someEdOrg"
-		}
-	},
-	"StaffReference":
-	{
-		"StaffIdentity":
-		{
-			"StaffUniqueStateId":"jjackson"
-		}
-	}
+{
+    "EducationOrganizationReference":
+    {
+        "EducationalOrgIdentity":
+        {
+            "StateOrganizationId":"someEdOrg"
+        }
+    },
+    "StaffReference":
+    {
+        "StaffIdentity":
+        {
+            "StaffUniqueStateId":"jjackson"
+        }
+    }
 }
 }

@@ -30,6 +30,7 @@ import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.service.DefaultResourceService;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -65,6 +66,7 @@ public class AssessmentResourceTest {
     private SecurityContextInjector injector;
 
     @Autowired
+    @Qualifier("defaultResourceService")
     private DefaultResourceService resourceService;
 
     private Resource assessments;

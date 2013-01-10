@@ -57,7 +57,7 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 public class StaffToParentValidatorTest {
     
     @Autowired
-    private StaffToParentValidator validator;
+    private GenericToParentValidator validator;
     
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
@@ -65,12 +65,18 @@ public class StaffToParentValidatorTest {
     @Autowired
     private SecurityContextInjector injector;
     
+    
+    @Autowired
+    private ValidatorTestHelper helper;
+    
     Entity staff1 = null;   //associated to LEA
     Entity staff2 = null;   //associated to school1
     Entity staff3 = null;   //associated to school2
     Entity student1 = null;   //associated to school1
     Entity student2 = null;   //associated to school2
 
+    Entity student3 = null;   //associated to school1
+    Entity student4 = null;   //associated to school2
     
     Entity lea1 = null;
     Entity school1 = null;
@@ -78,30 +84,14 @@ public class StaffToParentValidatorTest {
     
     Entity parent1 = null;  //parent of student1
     Entity parent2 = null;  //parent of student2
+    Entity parent3 = null;  //parent of student3 and student4
     @Before
-    public void setUp() {
-
-        repo.deleteAll("educationOrganization", null);
-        repo.deleteAll("staff", null);
-        repo.deleteAll("course", null);
-        repo.deleteAll(EntityNames.PARENT, null);
-        repo.deleteAll(EntityNames.STUDENT_PARENT_ASSOCIATION, null);
-        repo.deleteAll(EntityNames.STUDENT, null);
-        repo.deleteAll(EntityNames.COHORT, null);
-        repo.deleteAll(EntityNames.PROGRAM, null);
-        repo.deleteAll(EntityNames.STUDENT_COHORT_ASSOCIATION, null);
-        repo.deleteAll(EntityNames.STUDENT_PROGRAM_ASSOCIATION, null);
+    public void setUp() throws Exception {
+        helper.resetRepo();
         Map<String, Object> body = new HashMap<String, Object>();
-        body.put("staffUniqueStateId", "staff1");
-        staff1 = repo.create("staff", body);
-        
-        body = new HashMap<String, Object>();
-        body.put("staffUniqueStateId", "staff2");
-        staff2 = repo.create("staff", body);
-        
-        body = new HashMap<String, Object>();
-        body.put("staffUniqueStateId", "staff3");
-        staff3 = repo.create("staff", body);
+        staff1 = helper.generateStaff();
+        staff2 = helper.generateStaff();
+        staff3 = helper.generateStaff();
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("Local Education Agency"));
@@ -117,20 +107,9 @@ public class StaffToParentValidatorTest {
         body.put("parentEducationAgencyReference", lea1.getEntityId());
         school2 = repo.create("educationOrganization", body);
 
-        body = new HashMap<String, Object>();
-        body.put("educationOrganizationReference", lea1.getEntityId());
-        body.put("staffReference", staff1.getEntityId());
-        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, body);
-        
-        body = new HashMap<String, Object>();
-        body.put("educationOrganizationReference", school1.getEntityId());
-        body.put("staffReference", staff2.getEntityId());
-        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, body);
-        
-        body = new HashMap<String, Object>();
-        body.put("educationOrganizationReference", school2.getEntityId());
-        body.put("staffReference", staff3.getEntityId());
-        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, body);
+        helper.generateStaffEdorg(staff1.getEntityId(), lea1.getEntityId(), false);
+        helper.generateStaffEdorg(staff2.getEntityId(), school1.getEntityId(), false);
+        helper.generateStaffEdorg(staff3.getEntityId(), school2.getEntityId(), false);
         
         body = new HashMap<String, Object>();
         student1 = repo.create("student", body);
@@ -146,6 +125,19 @@ public class StaffToParentValidatorTest {
         student2.getDenormalizedData().put("schools", Arrays.asList(schoolData));
         
         body = new HashMap<String, Object>();
+        student3 = repo.create("student", body);
+        schoolData = new HashMap<String, Object>();
+        schoolData.put("edOrgs", Arrays.asList(lea1.getEntityId(), school1.getEntityId()));
+        student3.getDenormalizedData().put("schools", Arrays.asList(schoolData));
+
+        
+        body = new HashMap<String, Object>();
+        student4 = repo.create("student", body);
+        schoolData = new HashMap<String, Object>();
+        schoolData.put("edOrgs", Arrays.asList(lea1.getEntityId(), school2.getEntityId()));
+        student4.getDenormalizedData().put("schools", Arrays.asList(schoolData));
+        
+        body = new HashMap<String, Object>();
         body.put("schoolId", school1.getEntityId());
         body.put("studentId", student1.getEntityId());
         repo.create(EntityNames.STUDENT_SCHOOL_ASSOCIATION, body);
@@ -156,10 +148,23 @@ public class StaffToParentValidatorTest {
         repo.create(EntityNames.STUDENT_SCHOOL_ASSOCIATION, body);
         
         body = new HashMap<String, Object>();
+        body.put("schoolId", school1.getEntityId());
+        body.put("studentId", student3.getEntityId());
+        repo.create(EntityNames.STUDENT_SCHOOL_ASSOCIATION, body);
+        
+        body = new HashMap<String, Object>();
+        body.put("schoolId", school2.getEntityId());
+        body.put("studentId", student4.getEntityId());
+        repo.create(EntityNames.STUDENT_SCHOOL_ASSOCIATION, body);
+        
+        body = new HashMap<String, Object>();
         parent1 = repo.create("parent", body);
         
         body = new HashMap<String, Object>();
         parent2 = repo.create("parent", body);
+        
+        body = new HashMap<String, Object>();
+        parent3 = repo.create("parent", body);
 
         body = new HashMap<String, Object>();
         body.put("parentId", parent1.getEntityId());
@@ -169,6 +174,16 @@ public class StaffToParentValidatorTest {
         body = new HashMap<String, Object>();
         body.put("parentId", parent2.getEntityId());
         body.put("studentId", student2.getEntityId());
+        repo.create(EntityNames.STUDENT_PARENT_ASSOCIATION, body);
+        
+        body = new HashMap<String, Object>();
+        body.put("parentId", parent3.getEntityId());
+        body.put("studentId", student3.getEntityId());
+        repo.create(EntityNames.STUDENT_PARENT_ASSOCIATION, body);
+
+        body = new HashMap<String, Object>();
+        body.put("parentId", parent3.getEntityId());
+        body.put("studentId", student4.getEntityId());
         repo.create(EntityNames.STUDENT_PARENT_ASSOCIATION, body);
       
     }
@@ -196,12 +211,14 @@ public class StaffToParentValidatorTest {
         Assert.assertTrue("Must validate", validator.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(parent2.getEntityId()))));
         Assert.assertTrue("Must validate", validator.validate(EntityNames.PARENT, new HashSet<String>(
                 Arrays.asList(parent1.getEntityId(), parent2.getEntityId()))));
+        Assert.assertTrue("Must validate", validator.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(parent3.getEntityId()))));
     }
     
     @Test
     public void testValidAssociationsForStaff2() {
         setupCurrentUser(staff2);
         Assert.assertTrue("Must validate", validator.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(parent1.getEntityId()))));
+        Assert.assertTrue("Must validate", validator.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(parent3.getEntityId()))));
     }
     
     @Test
@@ -214,6 +231,7 @@ public class StaffToParentValidatorTest {
     public void testValidAssociationsForStaff3() {
         setupCurrentUser(staff3);
         Assert.assertTrue("Must validate", validator.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(parent2.getEntityId()))));
+        Assert.assertTrue("Must validate", validator.validate(EntityNames.PARENT, new HashSet<String>(Arrays.asList(parent3.getEntityId()))));
     }
     
     @Test

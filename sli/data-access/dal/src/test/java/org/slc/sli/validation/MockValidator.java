@@ -39,11 +39,17 @@ public class MockValidator implements EntityValidator {
 
     @Override
     public void setReferenceCheck(String referenceCheck) {
+    	// overrides super's implementation with an intentionally empty implementation
     }
 
     @Override
     public boolean validatePresent(Entity entity) throws EntityValidationException {
         // TODO Auto-generated method stub
         return false;
+    }
+
+    @Override
+    public boolean validateNaturalKeys(Entity entity, boolean fullOverwrite) {
+        return true;
     }
 }

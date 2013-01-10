@@ -272,6 +272,11 @@ public class JobReportingProcessor implements Processor {
                     warningsCountPerInterchange);
         }
 
+        //It is possible that some errors dont have resourceId.
+        //Reporting such errors.
+        hasErrors |= writeErrors(job, landingZone, null, FaultType.TYPE_ERROR,
+                ERROR_FILE_TYPE, errorsCountPerInterchange);
+
         return hasErrors;
     }
 
@@ -316,9 +321,8 @@ public class JobReportingProcessor implements Processor {
 
     }
 
-    @SuppressWarnings("static-access")
     private void writeDuplicates(NewBatchJob job, PrintWriter jobReportWriter) {
-        List<Metrics> edfiMetrics = job.getStageMetrics(BATCH_JOB_STAGE.EDFI_PROCESSOR);
+        List<Metrics> edfiMetrics = job.getStageMetrics(BatchJobStageType.EDFI_PROCESSOR);
         if (edfiMetrics != null) {
             for (Metrics metric : edfiMetrics) {
                 Map<String, Long> duplicates = metric.getDuplicateCounts();

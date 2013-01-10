@@ -73,8 +73,13 @@ public class SamlAssertionService {
         String issuer = issuerBase;
         if (requestInfo.getRealm() != null && requestInfo.getRealm().length() > 0) {
             issuer += "?realm=" + requestInfo.getRealm();
+            //must have realm, then consider developer
+            if (requestInfo.getDeveloper() != null && requestInfo.getDeveloper().length() > 0) {
+            	issuer += "&amp;developer=" + requestInfo.getDeveloper();
+            }
         }
 
+        
         String encodedResponse = samlComposer.componseResponse(destination, issuer, requestInfo.getRequestId(), userId,
                 attributes, roles);
 

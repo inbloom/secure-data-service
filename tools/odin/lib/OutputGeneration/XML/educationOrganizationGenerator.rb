@@ -16,55 +16,25 @@ limitations under the License.
 
 =end
 
-require "mustache"
-
 require_relative "./EntityWriter"
-require_relative "interchangeGenerator.rb"
-require_relative "../../Shared/data_utility.rb"
-require_relative "../../Shared/util.rb"
-
-Dir["#{File.dirname(__FILE__)}/../EntityClasses/*.rb"].each { |f| load(f) }
+require_relative "./interchangeGenerator"
+require_relative "../../Shared/util"
 
 # event-based education organization interchange generator
 class EducationOrganizationGenerator < InterchangeGenerator
 
   # initialization will define the header and footer for the education organization interchange
-  # writes header to education organization interchange
   # leaves file handle open for event-based writing of ed-fi entities
   def initialize(yaml, interchange)
     super(yaml, interchange)
 
     @header, @footer = build_header_footer("EducationOrganization")
 
-    @writers[SeaEducationOrganization] = EntityWriter.new("state_education_organization.mustache")
-    @writers[LeaEducationOrganization] = EntityWriter.new("local_education_organization.mustache")
-    @writers[SchoolEducationOrganization] = EntityWriter.new("school.mustache")
-    @writers[Course] = EntityWriter.new("course.mustache")
-    @writers[Program] = EntityWriter.new("program.mustache")
+    @writers[ StateEducationAgency ] = EntityWriter.new("state_education_organization.mustache")
+    @writers[ LocalEducationAgency ] = EntityWriter.new("local_education_organization.mustache")
+    @writers[ School ] = EntityWriter.new("school.mustache")
+    @writers[ Course ] = EntityWriter.new("course.mustache")
+    @writers[ Program ] = EntityWriter.new("program.mustache")
   end
 
-  # creates and writes state education agency to interchange
-  def create_state_education_agency(rand, id)
-    self.<< SeaEducationOrganization.new(id, rand)
-  end
-
-  # creates and writes local education agency to interchange
-  def create_local_education_agency(rand, id, parent_id)
-    self.<< LeaEducationOrganization.new(id, parent_id, rand)
-  end
-
-  # creates and writes school to interchange
-  def create_school(rand, id, parent_id, type)
-    self.<< SchoolEducationOrganization.new(rand, id, parent_id, type)
-  end
-
-  # creates and writes course to interchange
-  def create_course(rand, id, title, ed_org_id)
-    self.<< Course.new(id, title, ed_org_id)
-  end
-
-  # creates and writes program to interchange
-  def create_program(rand, id)
-    self.<< Program.new(id.to_s, prng)
-  end
 end

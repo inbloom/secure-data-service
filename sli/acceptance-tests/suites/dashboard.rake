@@ -49,7 +49,7 @@ end
 
 desc "Run Dashboard highest ever result acceptance tests"
 task :HighestEverResultTests do
-    runTests("test/features/dashboard/assessments/Highest_AssessmentScore.feature")
+    runTests("test/features/dashboard/dash/Highest_AssessmentScore.feature")
 end
 
 desc "Run Dashboard performance level acceptance tests"
@@ -193,10 +193,14 @@ task :dashboardSmokeTests do
   runTests("test/features/dashboard/dash/smoked_dashboard.feature")
 end
 
-
 desc "Run dashboard qunit tests"
 task :dashboardQunitTests do
   runTests("test/features/dashboard/dash/qunit_tests.feature")
+end
+
+desc "Run dashboard qunit tests"
+task :dashboardJmeterTests do
+  runTests("test/features/dashboard/jmeter/dashboard_jmeter_performance.feature")
 end
 
 

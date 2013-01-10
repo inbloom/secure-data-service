@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.model;
 
 /**
@@ -39,12 +38,14 @@ public final class ResourceEntry {
 
     private String topLevelLandingZonePath;
 
+    private String resourceZipParent;
+
     private long recordCount;
 
     private long errorCount;
 
-    // mongoTemplate requires this constructor.
     public ResourceEntry() {
+        // mongoTemplate requires this constructor.
     }
 
     public void update(String fileFormat, String fileType, String checksum, int recordCount, int errorCount) {
@@ -133,9 +134,18 @@ public final class ResourceEntry {
     }
 
     /**
-     * @param externallyUploadedResourceId the externallyUploadedResourceId to set
+     * @param externallyUploadedResourceId
+     *            the externallyUploadedResourceId to set
      */
     public void setExternallyUploadedResourceId(String externallyUploadedResourceId) {
         this.externallyUploadedResourceId = externallyUploadedResourceId;
+    }
+
+    public String getResourceZipParent() {
+        return resourceZipParent;
+    }
+
+    public void setResourceZipParent(String resourceZipParent) {
+        this.resourceZipParent = resourceZipParent;
     }
 }

@@ -129,7 +129,7 @@ module("SLC.dataProxy get methods", {
 		pageTitle = SLC.dataProxy.getLayoutName();
 		$("#testTitle").html(pageTitle);
 		
-		equal($("#testTitle").html(), "SLC", "Page title should be 'SLC' if it is not mentioned in the configs");
+		equal($("#testTitle").html(), "inBloom", "Page title should be 'inBloom' if it is not mentioned in the configs");
 		
 		testData.config.listOfStudentsPage.name = "List of Students Layout";
 		

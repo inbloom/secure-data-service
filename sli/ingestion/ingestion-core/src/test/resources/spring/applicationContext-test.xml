@@ -6,7 +6,7 @@
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
     http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
-    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd 
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
     http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
     >
@@ -18,6 +18,8 @@
 
     <!-- this allows using an optional local properties file (ingestion-dev.properties) -->
     <property name="ignoreResourceNotFound" value="true" />
+
+    <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
 
     <property name="locations">
       <list>
@@ -35,16 +37,14 @@
   <import resource="classpath:/spring/db.xml" />
   <import resource="dal-context.xml" />
 
+  <import resource="core-message-context.xml" />
   <import resource="persistence-context.xml" />
   <import resource="validation-context.xml" />
   <import resource="handler-context.xml" />
   <import resource="processor-context.xml" />
-  <import resource="idRefResolution-context.xml" />
   <import resource="recordLvlHash-context.xml" />
   <import resource="tenantdb-context.xml" />
-
-  <!-- <bean id="ProfileAwareTestBean" class="org.slc.sli.repository.ProfileAwareTest"> <property name="slienv" value="${sli.env}"
-    /> <property name="testprop" value="${sli.test.prop}" /> </bean> -->
+  <import resource="systemValidator-context.xml" />
 
   <context:component-scan base-package="org.slc.sli">
     <context:exclude-filter type="regex" expression=".*CustomImpl" />
@@ -52,6 +52,7 @@
     <context:exclude-filter type="regex" expression=".*AvroEntityValidator"></context:exclude-filter>
     <context:exclude-filter type="regex" expression=".*AesCipher" />
     <context:exclude-filter type="regex" expression=".*MemcachedCacheProvider" />
+    <context:exclude-filter type="regex" expression=".*LdapServiceImpl" />
   </context:component-scan>
 
 
@@ -83,23 +84,15 @@
   <bean id="zipFileValidator" class="org.slc.sli.ingestion.landingzone.validation.ZipFileValidator">
   </bean>
 
-  <bean id="indexValidator" class="org.slc.sli.ingestion.validation.IndexValidator" />
+  <bean id="messageSource" parent="coreMessageSource" />
 
-  <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-    <property name="basenames">
-      <list>
-        <value>messages</value>
-      </list>
-    </property>
-  </bean>
-
-  <camelContext xmlns="http://camel.apache.org/schema/spring">
-    <contextScan></contextScan>
-  </camelContext>
+  <camelContext xmlns="http://camel.apache.org/schema/spring" />
 
   <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler" />
 
-  <bean id="tenantDA" class="org.slc.sli.ingestion.tenant.TenantMongoDA" />
+  <bean id="tenantDA" class="org.slc.sli.ingestion.tenant.TenantMongoDA" >
+    <property name="entityRepository" ref="mongoEntityRepository" />
+  </bean>
 
   <bean id="tenantPopulator" class="org.slc.sli.ingestion.tenant.TenantPopulator">
     <property name="parentLandingZoneDir" value="${landingzone.inbounddir}" />
@@ -111,11 +104,8 @@
     </property>
   </bean>
 
-  <bean id="edFiProcessor" class="org.slc.sli.ingestion.processors.EdFiProcessor" />
-
   <bean id="entityPersistHandler" class="org.slc.sli.ingestion.handler.EntityPersistHandler">
     <property name="entityRepository" ref="mongoEntityRepository" />
-    <property name="messageSource" ref="messageSource" />
   </bean>
 
   <bean id="persistenceProcessor" class="org.slc.sli.ingestion.processors.PersistenceProcessor">
@@ -123,6 +113,7 @@
     <property name="defaultEntityPersistHandler" ref="entityPersistHandler" />
     <property name="entityPersistTypeMap" ref="entityPersistTypeMap" />
     <property name="neutralRecordReadConverter" ref="neutralRecordReadConverter" />
+    <property name="recordLvlHashNeutralRecordTypes" ref="recordLvlHashNeutralRecordTypes" />
   </bean>
 
   <bean id="WorkNoteSplitter" class="org.slc.sli.ingestion.routes.orchestra.WorkNoteSplitter" />
@@ -140,5 +131,5 @@
     <value>assessmentFamily,false,creationTime</value>
     <value>assessmentItem,false,creationTime</value>
   </util:set>
-  
+
 </beans>

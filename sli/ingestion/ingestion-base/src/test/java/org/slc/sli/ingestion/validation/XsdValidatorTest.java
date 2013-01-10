@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.validation;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -28,15 +29,20 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Component;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.ingestion.Fault;
-import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.IngestionTest;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.MessageCode;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.JobSource;
+import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 
 /**
  *
@@ -47,294 +53,271 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class XsdValidatorTest {
 
-    private final String REF_ERROR_FORMAT = "Attribute 'ref' is not allowed to appear in element '%s'.";
+    private static final String REF_WARNING = "Attribute 'ref' is not allowed to appear in element '%s'.";
+    private static final String INVALID_CONTENT_WARNING = "Invalid content was found starting with element '%s'.";
+    private static final String INCOMPLETE_CONTENT_WARNING = "The content of element '%s' is not complete.";
+    private static final String MISSING_DECLARATION_WARNING = "Cannot find the declaration of element '%s'.";
+
+    private static final String MISSING_FILE_ERROR = "File %s: Not found.";
+    private static final String FILE_IO_ERROR = "File %s: Problem reading file.";
 
     @Autowired
     private XsdValidator xsdValidator;
 
+    @Autowired
+    MemoryMessageReport memoryMessageReport;
+
     @Test
-    public void studentParentInterchangeRefsShouldResultInWarning() throws IOException {
-        File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudentParent.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION, xmlFile.getAbsolutePath(), "");
+    public void testUnreadableXml() throws IOException {
+        File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudent-Unreadable.xml");
+        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION,
+                xmlFile.getAbsolutePath(), "");
         ife.setFile(xmlFile);
-        FaultsReport faultsReport = new FaultsReport();
-        xsdValidator.isValid(ife, faultsReport);
 
-        List<Fault> faults = faultsReport.getFaults();
-        Assert.assertFalse(faults.isEmpty());
+        String batchJobId = "1234567-eieio";
+        String resourceId = "theResourceId";
+        String stageName = "ConcurrentEdFiProcessor";
+        JobSource jobSource = new JobSource(resourceId, stageName);
+        ReportStats reportStats = new SimpleReportStats();
 
-        // Check student reference
-        String invalidStudentRefMessage = String.format(REF_ERROR_FORMAT, "StudentReference");
-        Assert.assertTrue("Should see warning for student reference", faultListContainsWarningMessage(faults, invalidStudentRefMessage));
+        xsdValidator.isValid(ife, memoryMessageReport, reportStats, jobSource);
 
-        // Check parent reference
-        String invalidParentRefMessage = String.format(REF_ERROR_FORMAT, "ParentReference");
-        Assert.assertTrue("Should see warning for parent reference", faultListContainsWarningMessage(faults, invalidParentRefMessage));
+        Assert.assertTrue(reportStats.hasErrors());
+
+        List<String> errors = memoryMessageReport.getErrors();
+
+        // Check StateOrganizationId content.
+        String errorMessage = String.format(FILE_IO_ERROR, ife.getFile().getAbsolutePath());
+        Assert.assertTrue("Should see error for XML file reading problem", containsStringPartial(errors, errorMessage));
     }
 
     @Test
-    public void staffAssociationInterchangeRefsShouldResultInWarning() throws IOException {
+    public void staffAssociationInterchangeShouldBeValid() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStaffAssociation.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STAFF_ASSOCIATION, xmlFile.getAbsolutePath(), "");
+        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STAFF_ASSOCIATION,
+                xmlFile.getAbsolutePath(), "");
         ife.setFile(xmlFile);
-        FaultsReport faultsReport = new FaultsReport();
-        xsdValidator.isValid(ife, faultsReport);
 
-        List<Fault> faults = faultsReport.getFaults();
-        Assert.assertFalse(faults.isEmpty());
+        ReportStats reportStats = new SimpleReportStats();
 
-        // Check teacher reference
-        String invalidTeacherRefMessage = String.format(REF_ERROR_FORMAT, "TeacherReference");
-        Assert.assertTrue("Should see warning for teacher reference", faultListContainsWarningMessage(faults, invalidTeacherRefMessage));
+        xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
 
-        // Check school reference - TODO update to assertTrue once id-ref for school has been removed
-        String invalidSchoolRefMessage = String.format(REF_ERROR_FORMAT, "SchoolReference");
-        Assert.assertFalse("Should see warning for school reference", faultListContainsWarningMessage(faults, invalidSchoolRefMessage));
-
-        // Check section reference
-        String invalidSectionRefMessage = String.format(REF_ERROR_FORMAT, "SectionReference");
-        Assert.assertTrue("Should see warning for section reference", faultListContainsWarningMessage(faults, invalidSectionRefMessage));
-
-        // Check edorg reference - TODO update to assertTrue once id-ref for edorg has been removed
-        String invalidEdOrgRefMessage = String.format(REF_ERROR_FORMAT, "EducationOrgReference");
-        Assert.assertFalse("Should see warning for edorg reference", faultListContainsWarningMessage(faults, invalidEdOrgRefMessage));
-
-        // Check staff reference
-        String invalidStaffRefMessage = String.format(REF_ERROR_FORMAT, "StaffReference");
-        Assert.assertTrue("Should see warning for staff reference", faultListContainsWarningMessage(faults, invalidStaffRefMessage));
+        Assert.assertFalse(reportStats.hasWarnings());
     }
 
     @Test
-    public void assessmentMetadataInterchangeRefsShouldResultInWarning() throws IOException {
+    public void studentAttendanceInterchangeShouldResultInWarning() throws IOException {
+        File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudentAttendance.xml");
+        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_ATTENDANCE,
+                xmlFile.getAbsolutePath(), "");
+        ife.setFile(xmlFile);
+
+        ReportStats reportStats = new SimpleReportStats();
+
+        xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
+
+        Assert.assertTrue(reportStats.hasWarnings());
+
+        List<String> warnings = memoryMessageReport.getWarnings();
+
+        // Check LearningStandardId content.
+        String warningMessage = String.format(INCOMPLETE_CONTENT_WARNING, "AttendanceEvent");
+        Assert.assertTrue("Should see warning for incomplete AttendanceEvent",
+                containsStringPartial(warnings, warningMessage));
+    }
+
+    @Test
+    public void assessmentMetadataInterchangeShouldResultInWarning() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeAssessmentMetadata.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_ASSESSMENT_METADATA, xmlFile.getAbsolutePath(), "");
+        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_ASSESSMENT_METADATA,
+                xmlFile.getAbsolutePath(), "");
         ife.setFile(xmlFile);
-        FaultsReport faultsReport = new FaultsReport();
-        xsdValidator.isValid(ife, faultsReport);
 
-        List<Fault> faults = faultsReport.getFaults();
-        Assert.assertFalse(faults.isEmpty());
+        ReportStats reportStats = new SimpleReportStats();
 
-        // Check learningStandard reference - TODO update to assertTrue once id-ref for assessmentFamily has been removed
-        String invalidLearningStandardRefMessage = String.format(REF_ERROR_FORMAT, "LearningStandardReference");
-        Assert.assertFalse("Should see warning for learningStandard reference", faultListContainsWarningMessage(faults, invalidLearningStandardRefMessage));
+        xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
 
-        // Check objectiveAssessment reference
-        String invalidObjectiveAssessmentRefMessage = String.format(REF_ERROR_FORMAT, "ObjectiveAssessmentReference");
-        Assert.assertTrue("Should see warning for objectiveAssessment reference", faultListContainsWarningMessage(faults, invalidObjectiveAssessmentRefMessage));
+        Assert.assertTrue(reportStats.hasWarnings());
 
-        // Check assessmentFamily reference - TODO update to assertTrue once id-ref for assessmentFamily has been removed
-        String invalidAssessmentFamilyRefMessage = String.format(REF_ERROR_FORMAT, "AssessmentFamilyReference");
-        Assert.assertFalse("Should see warning for assessmentFamily reference", faultListContainsWarningMessage(faults, invalidAssessmentFamilyRefMessage));
+        List<String> warnings = memoryMessageReport.getWarnings();
+
+        // Check LearningStandardId content.
+        String warningMessage = String.format(INVALID_CONTENT_WARNING, "LearningStandardId");
+        Assert.assertTrue("Should see warning for invalid LearningStandardIdentity content",
+                containsStringPartial(warnings, warningMessage));
     }
 
     @Test
-    public void educationOrgCalendarInterchangeRefsShouldResultInWarning() throws IOException {
+    public void educationOrgCalendarInterchangeShouldResultInWarning() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeEducationOrgCalendar.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_EDUCATION_ORG_CALENDAR, xmlFile.getAbsolutePath(), "");
+        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_EDUCATION_ORG_CALENDAR,
+                xmlFile.getAbsolutePath(), "");
         ife.setFile(xmlFile);
-        FaultsReport faultsReport = new FaultsReport();
-        xsdValidator.isValid(ife, faultsReport);
 
-        List<Fault> faults = faultsReport.getFaults();
-        Assert.assertFalse(faults.isEmpty());
+        ReportStats reportStats = new SimpleReportStats();
 
-        // Check gradingPeriod reference
-        String invalidGradingPeriodRefMessage = String.format(REF_ERROR_FORMAT, "GradingPeriodReference");
-        Assert.assertTrue("Should see warning for gradingPeriod reference", faultListContainsWarningMessage(faults, invalidGradingPeriodRefMessage));
+        xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
 
-        // Check calendarDate reference
-        String invalidCalendarDateRefMessage = String.format(REF_ERROR_FORMAT, "CalendarDateReference");
-        Assert.assertTrue("Should see warning for calendarDate reference", faultListContainsWarningMessage(faults, invalidCalendarDateRefMessage));
+        Assert.assertTrue(reportStats.hasWarnings());
 
-        // Check academicWeek reference
-        String invalidAcademicWeekRefMessage = String.format(REF_ERROR_FORMAT, "AcademicWeekReference");
-        Assert.assertTrue("Should see warning for academicWeek reference", faultListContainsWarningMessage(faults, invalidAcademicWeekRefMessage));
+        List<String> warnings = memoryMessageReport.getWarnings();
+
+        // Check CalendarDateReference completeness.
+        String warningMessage = String.format(INCOMPLETE_CONTENT_WARNING, "CalendarDateReference");
+        Assert.assertTrue("Should see warning for incomplete CalendarDateReference",
+                containsStringPartial(warnings, warningMessage));
     }
 
     @Test
-    public void educationOrganizationInterchangeRefsShouldResultInWarning() throws IOException {
+    public void educationOrganizationInterchangeShouldBeValid() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeEducationOrganization.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_EDUCATION_ORGANIZATION, xmlFile.getAbsolutePath(), "");
+        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_EDUCATION_ORGANIZATION,
+                xmlFile.getAbsolutePath(), "");
         ife.setFile(xmlFile);
-        FaultsReport faultsReport = new FaultsReport();
-        xsdValidator.isValid(ife, faultsReport);
 
-        List<Fault> faults = faultsReport.getFaults();
-        Assert.assertFalse(faults.isEmpty());
+        ReportStats reportStats = new SimpleReportStats();
 
-        // Check stateEducationAgency reference - TODO update to assertTrue once id-ref for edorg has been removed
-        String invalidStateEducationAgencyRefMessage = String.format(REF_ERROR_FORMAT, "StateEducationAgencyReference");
-        Assert.assertFalse("Should see warning for stateEducationAgency reference", faultListContainsWarningMessage(faults, invalidStateEducationAgencyRefMessage));
+        xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
 
-        // Check localEducationAgency reference - TODO update to assertTrue once id-ref for edorg has been removed
-        String invalidLocalEducationAgencyRefMessage = String.format(REF_ERROR_FORMAT, "LocalEducationAgencyReference");
-        Assert.assertFalse("Should see warning for localEducationAgency reference", faultListContainsWarningMessage(faults, invalidLocalEducationAgencyRefMessage));
+        Assert.assertFalse(reportStats.hasWarnings());
     }
 
     @Test
-    public void masterScheduleInterchangeRefsShouldResultInWarning() throws IOException {
+    public void masterScheduleInterchangeShouldResultInWarning() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeMasterSchedule.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_MASTER_SCHEDULE, xmlFile.getAbsolutePath(), "");
+        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_MASTER_SCHEDULE,
+                xmlFile.getAbsolutePath(), "");
         ife.setFile(xmlFile);
-        FaultsReport faultsReport = new FaultsReport();
-        xsdValidator.isValid(ife, faultsReport);
 
-        List<Fault> faults = faultsReport.getFaults();
-        Assert.assertFalse(faults.isEmpty());
+        ReportStats reportStats = new SimpleReportStats();
 
-        // Check session reference
-        String invalidSessionRefMessage = String.format(REF_ERROR_FORMAT, "SessionReference");
-        Assert.assertTrue("Should see warning for session reference", faultListContainsWarningMessage(faults, invalidSessionRefMessage));
+        xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
 
-        // Check course reference
-        String invalidCourseRefMessage = String.format(REF_ERROR_FORMAT, "CourseReference");
-        Assert.assertTrue("Should see warning for course reference", faultListContainsWarningMessage(faults, invalidCourseRefMessage));
+        Assert.assertTrue(reportStats.hasWarnings());
 
-        // Check courseOffering reference
-        String invalidCourseOfferingRefMessage = String.format(REF_ERROR_FORMAT, "CourseOfferingReference");
-        Assert.assertTrue("Should see warning for courseOffering reference", faultListContainsWarningMessage(faults, invalidCourseOfferingRefMessage));
+        List<String> warnings = memoryMessageReport.getWarnings();
+
+        // Check CourseCode content.
+        String warningMessage = String.format(INVALID_CONTENT_WARNING, "CourseCode");
+        Assert.assertTrue("Should see warning for invalid CourseCode content",
+                containsStringPartial(warnings, warningMessage));
     }
 
     @Test
-    public void studentAssessmentInterchangeRefsShouldResultInWarning() throws IOException {
+    public void studentAssessmentInterchangeShouldBeValid() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudentAssessment.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_ASSESSMENT, xmlFile.getAbsolutePath(), "");
+        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_ASSESSMENT,
+                xmlFile.getAbsolutePath(), "");
         ife.setFile(xmlFile);
-        FaultsReport faultsReport = new FaultsReport();
-        xsdValidator.isValid(ife, faultsReport);
 
-        List<Fault> faults = faultsReport.getFaults();
-        Assert.assertFalse(faults.isEmpty());
+        ReportStats reportStats = new SimpleReportStats();
 
-        // Check assessment reference - TODO update to assertTrue once id-ref for assessment has been removed
-        String invalidAssessmentRefMessage = String.format(REF_ERROR_FORMAT, "AssessmentReference");
-        Assert.assertFalse("Should see warning for assessment reference", faultListContainsWarningMessage(faults, invalidAssessmentRefMessage));
+        xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
 
-        // Check studentAssessment reference
-        String invalidStudentAssessmentRefMessage = String.format(REF_ERROR_FORMAT, "StudentAssessmentReference");
-        Assert.assertTrue("Should see warning for studentAssessment reference", faultListContainsWarningMessage(faults, invalidStudentAssessmentRefMessage));
-
-        // Check assessmentItem reference
-        String invalidAssessmentItemRefMessage = String.format(REF_ERROR_FORMAT, "AssessmentItemReference");
-        Assert.assertTrue("Should see warning for assessmentItem reference", faultListContainsWarningMessage(faults, invalidAssessmentItemRefMessage));
+        Assert.assertFalse(reportStats.hasWarnings());
     }
 
     @Test
-    public void studentDisciplineInterchangeRefsShouldResultInWarning() throws IOException {
+    public void studentDisciplineInterchangeShouldBeValid() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudentDiscipline.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_DISCIPLINE, xmlFile.getAbsolutePath(), "");
+        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_DISCIPLINE,
+                xmlFile.getAbsolutePath(), "");
         ife.setFile(xmlFile);
-        FaultsReport faultsReport = new FaultsReport();
-        xsdValidator.isValid(ife, faultsReport);
 
-        List<Fault> faults = faultsReport.getFaults();
-        Assert.assertFalse(faults.isEmpty());
+        ReportStats reportStats = new SimpleReportStats();
 
-        // Check disciplineIncident reference
-        String invalidDisciplineIncidentRefMessage = String.format(REF_ERROR_FORMAT, "DisciplineIncidentReference");
-        Assert.assertTrue("Should see warning for disciplineIncident reference", faultListContainsWarningMessage(faults, invalidDisciplineIncidentRefMessage));
+        xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
+
+        Assert.assertFalse(reportStats.hasWarnings());
     }
 
     @Test
-    public void studentEnrollmentInterchangeRefsShouldResultInWarning() throws IOException {
+    public void studentEnrollmentInterchangeShouldResultInWarning() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudentEnrollment.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_ENROLLMENT, xmlFile.getAbsolutePath(), "");
+        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_ENROLLMENT,
+                xmlFile.getAbsolutePath(), "");
         ife.setFile(xmlFile);
-        FaultsReport faultsReport = new FaultsReport();
-        xsdValidator.isValid(ife, faultsReport);
 
-        List<Fault> faults = faultsReport.getFaults();
-        Assert.assertFalse(faults.isEmpty());
+        ReportStats reportStats = new SimpleReportStats();
+
+        xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
+
+        Assert.assertTrue(reportStats.hasWarnings());
+
+        List<String> warnings = memoryMessageReport.getWarnings();
 
         // Check graduationPlan reference
-        String invalidGraduationPlanRefMessage = String.format(REF_ERROR_FORMAT, "GraduationPlanReference");
-        Assert.assertTrue("Should see warning for graduationPlan reference", faultListContainsWarningMessage(faults, invalidGraduationPlanRefMessage));
+        String invalidGraduationPlanRefMessage = String.format(REF_WARNING, "GraduationPlanReference");
+        Assert.assertTrue("Should see warning for graduationPlan reference",
+                containsStringPartial(warnings, invalidGraduationPlanRefMessage));
     }
 
     @Test
-    public void studentGradeInterchangeRefsShouldResultInWarning() throws IOException {
+    public void studentGradeInterchangeShouldResultInWarning() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudentGrade.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_GRADES, xmlFile.getAbsolutePath(), "");
+        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_GRADES,
+                xmlFile.getAbsolutePath(), "");
         ife.setFile(xmlFile);
-        FaultsReport faultsReport = new FaultsReport();
-        xsdValidator.isValid(ife, faultsReport);
 
-        List<Fault> faults = faultsReport.getFaults();
-        Assert.assertFalse(faults.isEmpty());
+        ReportStats reportStats = new SimpleReportStats();
 
-        // Check reportCard reference
-        String invalidReportCardRefMessage = String.format(REF_ERROR_FORMAT, "ReportCardReference");
-        Assert.assertTrue("Should see warning for reportCard reference", faultListContainsWarningMessage(faults, invalidReportCardRefMessage));
+        xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
 
-        // Check studentAcademicRecord reference
-        String invalidStudentAcademicRecordRefMessage = String.format(REF_ERROR_FORMAT, "StudentAcademicRecordReference");
-        Assert.assertTrue("Should see warning for studentAcademicRecord reference", faultListContainsWarningMessage(faults, invalidStudentAcademicRecordRefMessage));
+        Assert.assertTrue(reportStats.hasWarnings());
 
-        // Check studentSectionAssociation reference
-        String invalidStudentSectionAssociationRefMessage = String.format(REF_ERROR_FORMAT, "StudentSectionAssociationReference");
-        Assert.assertTrue("Should see warning for studentSectionAssociation reference", faultListContainsWarningMessage(faults, invalidStudentSectionAssociationRefMessage));
+        List<String> warnings = memoryMessageReport.getWarnings();
 
-        // Check studentCompetency reference
-        String invalidStudentCompetencyRefMessage = String.format(REF_ERROR_FORMAT, "StudentCompetencyReference");
-        Assert.assertTrue("Should see warning for studentCompetency reference", faultListContainsWarningMessage(faults, invalidStudentCompetencyRefMessage));
-
-        // Check learningObjective reference
-        String invalidLearningObjectiveRefMessage = String.format(REF_ERROR_FORMAT, "LearningObjectiveReference");
-        Assert.assertTrue("Should see warning for learningObjective reference", faultListContainsWarningMessage(faults, invalidLearningObjectiveRefMessage));
-
-        // Check gradebookEntry reference
-        String invalidGradebookEntryRefMessage = String.format(REF_ERROR_FORMAT, "GradebookEntryReference");
-        Assert.assertTrue("Should see warning for gradebookEntry reference", faultListContainsWarningMessage(faults, invalidGradebookEntryRefMessage));
-
-        // Check grade reference
-        String invalidGradeRefMessage = String.format(REF_ERROR_FORMAT, "GradeReference");
-        Assert.assertTrue("Should see warning for grade reference", faultListContainsWarningMessage(faults, invalidGradeRefMessage));
-
-        // Check studentCompetencyObjective reference
-        String invalidStudentCompetencyObjectiveRefMessage = String.format(REF_ERROR_FORMAT, "StudentCompetencyObjectiveReference");
-        Assert.assertTrue("Should see warning for studentCompetencyObjective reference", faultListContainsWarningMessage(faults, invalidStudentCompetencyObjectiveRefMessage));
-
-        // Check diploma reference
-        String invalidDiplomaRefMessage = String.format(REF_ERROR_FORMAT, "DiplomaReference");
-        Assert.assertTrue("Should see warning for diploma reference", faultListContainsWarningMessage(faults, invalidDiplomaRefMessage));
+        // Check StudentIdentity content.
+        String warningMessage = String.format(INVALID_CONTENT_WARNING, "StudentIdentity");
+        Assert.assertTrue("Should see warning for invalid StudentIdentity content",
+                containsStringPartial(warnings, warningMessage));
     }
 
     @Test
-    public void studentProgramInterchangeRefsShouldResultInWarning() throws IOException {
+    public void studentProgramInterchangeShouldResultInWarning() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudentProgram.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_PROGRAM, xmlFile.getAbsolutePath(), "");
+        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_PROGRAM,
+                xmlFile.getAbsolutePath(), "");
         ife.setFile(xmlFile);
-        FaultsReport faultsReport = new FaultsReport();
-        xsdValidator.isValid(ife, faultsReport);
 
-        List<Fault> faults = faultsReport.getFaults();
-        Assert.assertFalse(faults.isEmpty());
+        ReportStats reportStats = new SimpleReportStats();
 
-        // Check program reference
-        String invalidRefMessage = String.format(REF_ERROR_FORMAT, "ProgramReference");
-        Assert.assertTrue("Should see warning for program reference", faultListContainsWarningMessage(faults, invalidRefMessage));
+        xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
+
+        Assert.assertTrue(reportStats.hasWarnings());
+
+        List<String> warnings = memoryMessageReport.getWarnings();
+
+        // Check StateOrganizationId content.
+        String warningMessage = String.format(INVALID_CONTENT_WARNING, "StateOrganizationId");
+        Assert.assertTrue("Should see warning for invalid StateOrganizationId content",
+                containsStringPartial(warnings, warningMessage));
     }
 
     @Test
-    public void studentCohortInterchangeRefsShouldResultInWarning() throws IOException {
+    public void studentCohortInterchangeShouldResultInWarning() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudentCohort.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_COHORT, xmlFile.getAbsolutePath(), "");
+        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_COHORT,
+                xmlFile.getAbsolutePath(), "");
         ife.setFile(xmlFile);
-        FaultsReport faultsReport = new FaultsReport();
-        xsdValidator.isValid(ife, faultsReport);
 
-        List<Fault> faults = faultsReport.getFaults();
-        Assert.assertFalse(faults.isEmpty());
+        ReportStats reportStats = new SimpleReportStats();
 
-        // Check cohort reference
-        String invalidRefMessage = String.format(REF_ERROR_FORMAT, "CohortReference");
-        Assert.assertTrue("Should see warning for cohort reference", faultListContainsWarningMessage(faults, invalidRefMessage));
+        xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
+
+        Assert.assertTrue(reportStats.hasWarnings());
+
+        List<String> warnings = memoryMessageReport.getWarnings();
+
+        // Check StateOrganizationId content.
+        String warningMessage = String.format(INVALID_CONTENT_WARNING, "StateOrganizationId");
+        Assert.assertTrue("Should see warning for invalid StateOrganizationId content",
+                containsStringPartial(warnings, warningMessage));
     }
 
-    private boolean faultListContainsWarningMessage(List<Fault> faults, String message) {
-        for(Fault fault : faults) {
-            if (fault.isWarning() && fault.getMessage().contains(message)) {
+    private boolean containsStringPartial(List<String> messages, String expectedMessage) {
+        for (String message : messages) {
+            if (message.contains(expectedMessage)) {
                 return true;
             }
         }
@@ -344,25 +327,55 @@ public class XsdValidatorTest {
     @Test
     public void testValidXml() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudent-Valid.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION, xmlFile.getAbsolutePath(), "");
+        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION,
+                xmlFile.getAbsolutePath(), "");
         ife.setFile(xmlFile);
-        Assert.assertTrue(xsdValidator.isValid(ife, Mockito.mock(ErrorReport.class)));
+
+        Assert.assertTrue(xsdValidator.isValid(ife, Mockito.mock(AbstractMessageReport.class),
+                Mockito.mock(ReportStats.class), null));
     }
 
     @Test
-    public void testInValidXml() throws IOException {
+    public void testInValidXml() throws IOException, SecurityException, NoSuchFieldException, IllegalArgumentException,
+            IllegalAccessException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudent-InValid.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION, xmlFile.getAbsolutePath(), "");
+        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION,
+                xmlFile.getAbsolutePath(), "");
         ife.setFile(xmlFile);
-        FaultsReport faultsReport = new FaultsReport();
-        xsdValidator.isValid(ife, faultsReport);
-        Assert.assertFalse(faultsReport.getFaults().isEmpty());
+
+        ReportStats reportStats = new SimpleReportStats();
+
+        xsdValidator.isValid(ife, memoryMessageReport, reportStats, null);
+
+        Assert.assertTrue(reportStats.hasWarnings());
+
+        List<String> warnings = memoryMessageReport.getWarnings();
+
+        // Check for InterchangeStudent declaration.
+        String warningMessage = String.format(MISSING_DECLARATION_WARNING, "InterchangeStudent");
+        Assert.assertTrue("Should see warning for missing InterchangeStudent declaration",
+                containsStringPartial(warnings, warningMessage));
     }
 
     @Test
     public void testXmlNotExists() {
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION, "XsdValidation/NoFile.xml", "");
-        Assert.assertFalse(xsdValidator.isValid(ife, Mockito.mock(ErrorReport.class)));
+        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION,
+                "XsdValidation/NoFile.xml", "");
+
+        String batchJobId = "1234567-eieio";
+        String resourceId = "theResourceId";
+        String stageName = "ConcurrentEdFiProcessor";
+        JobSource jobSource = new JobSource(resourceId, stageName);
+        ReportStats reportStats = new SimpleReportStats();
+
+        xsdValidator.isValid(ife, memoryMessageReport, reportStats, jobSource);
+        Assert.assertTrue(reportStats.hasErrors());
+
+        List<String> errors = memoryMessageReport.getErrors();
+
+        // Check StateOrganizationId content.
+        String errorMessage = String.format(MISSING_FILE_ERROR, ife.getFileName());
+        Assert.assertTrue("Should see error for missing XML file", containsStringPartial(errors, errorMessage));
     }
 
     @Test
@@ -399,5 +412,36 @@ public class XsdValidatorTest {
         Assert.assertTrue(resources.get("StudentParent").exists());
         Assert.assertTrue(resources.get("StudentProgram").exists());
         Assert.assertTrue(resources.get("StudentCohort").exists());
+    }
+
+    @Component
+    private static class MemoryMessageReport extends AbstractMessageReport {
+
+        private final List<String> errors = new ArrayList<String>();
+        private final List<String> warnings = new ArrayList<String>();
+
+        @Override
+        protected void reportError(ReportStats reportStats, Source source, MessageCode code, Object... args) {
+            errors.add(getMessage(reportStats, source, code, args));
+        }
+
+        @Override
+        protected void reportWarning(ReportStats reportStats, Source source, MessageCode code, Object... args) {
+            warnings.add(getMessage(reportStats, source, code, args));
+        }
+
+        @Override
+        protected void reportInfo(ReportStats reportStats, Source source, MessageCode code, Object... args) {
+            // Do Nothing
+        }
+
+        public List<String> getErrors() {
+            return Collections.unmodifiableList(errors);
+        }
+
+        public List<String> getWarnings() {
+            return Collections.unmodifiableList(warnings);
+        }
+
     }
 }

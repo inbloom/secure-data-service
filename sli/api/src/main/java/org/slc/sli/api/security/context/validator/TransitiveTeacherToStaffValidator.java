@@ -31,6 +31,7 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Validates the context of a transitive teacher to see the requested set of staff entities.
@@ -38,7 +39,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author mabernathy
  */
-//@Component - Disable teacher validators for now
+@Component
 public class TransitiveTeacherToStaffValidator extends AbstractContextValidator {
 
     @Autowired
@@ -52,11 +53,15 @@ public class TransitiveTeacherToStaffValidator extends AbstractContextValidator 
     
     @Override
     public boolean validate(String entityName, Set<String> staffIds) {
+        if (!areParametersValid(EntityNames.STAFF, entityName, staffIds)) {
+            return false;
+        }
+        
         //Query staff's schools
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria("staffReference", NeutralCriteria.CRITERIA_IN, staffIds));
         basicQuery.setIncludeFields(Arrays.asList("educationOrganizationReference", "staffReference"));
         
-        NeutralCriteria endDateCriteria = new NeutralCriteria(ParameterConstants.END_DATE, NeutralCriteria.CRITERIA_GTE, getFilterDate());
+        NeutralCriteria endDateCriteria = new NeutralCriteria(ParameterConstants.END_DATE, NeutralCriteria.CRITERIA_GTE, getFilterDate(true));
         basicQuery.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.END_DATE, NeutralCriteria.CRITERIA_EXISTS, false)));
         basicQuery.addOrQuery(new NeutralQuery(endDateCriteria));
         
@@ -66,14 +71,8 @@ public class TransitiveTeacherToStaffValidator extends AbstractContextValidator 
         populateMapFromMongoResponse(staffEdorgMap, edOrgAssoc);
 
         //Query current teacher's schools
-        basicQuery = new NeutralQuery(new NeutralCriteria("teacherId", NeutralCriteria.OPERATOR_EQUAL,
-                SecurityUtil.getSLIPrincipal().getEntity().getEntityId()));
-        basicQuery.setIncludeFields(Arrays.asList("schoolId"));
-        Iterable<Entity> schoolAssoc = repo.findAll(EntityNames.TEACHER_SCHOOL_ASSOCIATION, basicQuery);
-        List<String> schools = new ArrayList<String>();
-        for (Entity assoc : schoolAssoc) {
-            schools.add((String) assoc.getBody().get("schoolId"));
-        }
+        Set<String> schools = new HashSet<String>();
+        schools.addAll(getDirectEdorgs());
 
         for (List<String> edorgs : staffEdorgMap.values()) {
             HashSet<String> tmpSchools = new HashSet<String>(schools);

@@ -27,6 +27,7 @@
 @RALLY_US4398
 @RALLY_DE2150
 @RALLY_DE2218
+@RALLY_DE2227
 Feature: Acceptance Storied Data Ingestion Test
 
 Background: I have a landing zone route configured
@@ -38,6 +39,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingestion job
     And the following collections are empty in datastore:
         | collectionName                        |
+        | recordHash                            |
         | assessment                            |
         | attendance                            |
         | calendarDate                          |
@@ -92,7 +94,7 @@ Then I should see following map of entry counts in the corresponding collections
         | courseOffering              | 95    |
         | disciplineAction            | 2     |
         | disciplineIncident          | 2     |
-        | educationOrganization       | 5     |
+        | educationOrganization       | 6     |
         | grade                       | 4     |
         | gradebookEntry              | 12    |
         | gradingPeriod               | 17    |
@@ -106,7 +108,7 @@ Then I should see following map of entry counts in the corresponding collections
         | session                     | 22    |
         | staff                       | 14    |
         | staffCohortAssociation      | 3     |
-        | staffEducationOrganizationAssociation| 10 |
+        | staffEducationOrganizationAssociation| 13 |
         | staffProgramAssociation     | 7     |
         | student                     | 78    |
         | studentAcademicRecord       | 117   |
@@ -155,9 +157,6 @@ Then I should see following map of entry counts in the corresponding collections
        | educationOrganization       | 1                   | body.stateOrganizationId      | IL                         | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId      | IL-DAYBREAK                | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId      | South Daybreak Elementary  | string               |
-       | graduationPlan              | 1                   | metaData.externalId                            | GP-ADVANCED      | string  |
-       | graduationPlan              | 1                   | metaData.externalId                            | GP-MINIMUM       | string  |
-       | graduationPlan              | 1                   | metaData.externalId                            | GP-STANDARD      | string  |
        | graduationPlan              | 3                   | body.educationOrganizationId                   | 1b223f577827204a1c7e9c851dba06bea6b031fe_id | string  |
        | graduationPlan              | 2                   | body.graduationPlanType                        | Minimum                                     | string  |
        | program                     | 1                   | body.programId      | ACC-TEST-PROG-1            | string               |
@@ -178,13 +177,13 @@ Then I should see following map of entry counts in the corresponding collections
        | studentAssessment | 25                 | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-4    | string |
        | studentParentAssociation     | 2                  | body.contactRestrictions                                      | NO CONTACT ALLOWED  | string |
        | studentParentAssociation     | 3                  | body.contactPriority                                          | 1                   | integer|
-    And I should see "Processed 4262 records." in the resulting batch job file
+    And I should see "Processed 4266 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeEducationOrganization.xml records considered: 108" in the resulting batch job file
-    And I should see "InterchangeEducationOrganization.xml records ingested successfully: 108" in the resulting batch job file
+    And I should see "InterchangeEducationOrganization.xml records considered: 109" in the resulting batch job file
+    And I should see "InterchangeEducationOrganization.xml records ingested successfully: 109" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeEducationOrgCalendar.xml records considered: 595" in the resulting batch job file
     And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 595" in the resulting batch job file
@@ -192,8 +191,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeMasterSchedule.xml records considered: 192" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records ingested successfully: 192" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records considered: 45" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records ingested successfully: 45" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records considered: 48" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records ingested successfully: 48" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records considered: 496" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 496" in the resulting batch job file
@@ -337,7 +336,7 @@ And I check to find if record is in collection:
      | staffCohortAssociation      | 1                   | body.beginDate              | 2011-07-01              | string               |
      | staffCohortAssociation      | 1                   | body.endDate                | 2012-02-15              | string               |
 And I check to find if record is in collection:
-     | collectionName                          | expectedRecordCount | searchParameter                     | searchValue          | searchType           |
+     | collectionName                | expectedRecordCount | searchParameter                     | searchValue          | searchType           |
      | student | 2                   | studentDisciplineIncidentAssociation.body.studentParticipationCode       | Perpetrator          | string               |
      | student | 1                   | studentDisciplineIncidentAssociation.body.studentParticipationCode       | Witness              | string               |
      | student | 1                   | studentDisciplineIncidentAssociation.body.studentParticipationCode       | Victim               | string               |
@@ -483,37 +482,18 @@ Scenario: Verify deterministic ids generated: Clean Database
     | teacherSchoolAssociation             | 68bd8fc5cd433b27d98b8b73dd94e8e0d932c22c_id | body.programAssignment              | Regular Education                    |
     | teacherSchoolAssociation             | 68bd8fc5cd433b27d98b8b73dd94e8e0d932c22c_id | body.schoolId                       | a13489364c2eb015c219172d561c62350f0453f3_id |
 # courseOffering
-    | courseOffering                       | a6c96dcc34fc021f685b6d082c7759b070731f93_id | body.schoolId                       | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
-    | courseOffering                       | a6c96dcc34fc021f685b6d082c7759b070731f93_id | body.sessionId                      | f1f768e7ec6f9936b2414372dcb046a3bca7ad93_id |
-    | courseOffering                       | a6c96dcc34fc021f685b6d082c7759b070731f93_id | body.localCourseCode                | Pre-Algebra I                          |
-   | courseTranscript                     | b40e7c315873a891873e4eb8b9036f47ac553d28_id | body.studentAcademicRecordId            | 1272719cf8247946b9ef689bf1860b27e7df7828_id                                 |
-   | courseTranscript                     | b40e7c315873a891873e4eb8b9036f47ac553d28_id | body.courseId                | 28ef7ffd6361d977db1c8f66c461d4597913a16e_id                                 |
-   | courseTranscript                     | b40e7c315873a891873e4eb8b9036f47ac553d28_id | body.courseAttemptResult            | Pass                                 |
-   | studentParentAssociation             | 067198fd6da91e1aa8d67e28e850f224d6851713_id482360640e4db1dc0dd3755e699b25cfc9abf4a9_id | body.studentId            | 067198fd6da91e1aa8d67e28e850f224d6851713_id |
-   | studentParentAssociation             | 067198fd6da91e1aa8d67e28e850f224d6851713_id482360640e4db1dc0dd3755e699b25cfc9abf4a9_id | body.parentId             | 93616529c9acb1f9a5a88b8bf735d8a4277d6f08_id |
-   | studentSchoolAssociation             | b0fa95fe87c80a76598fdedd181cce8044c44f0f_id | body.studentId            | 0c93f4ca943a22e75b979fb468e7dc949c479bb9_id  |
-   | studentSchoolAssociation             | b0fa95fe87c80a76598fdedd181cce8044c44f0f_id | body.schoolId            | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
-   | studentSchoolAssociation             | b0fa95fe87c80a76598fdedd181cce8044c44f0f_id | body.entryDate            | 2011-09-01                              |
-   | section                                | 84432d70656e1ab68df27cf2584282da351ab684_id | studentSectionAssociation.body.beginDate            | 2011-09-01                              |
-   | section                                | 84432d70656e1ab68df27cf2584282da351ab684_id | studentSectionAssociation.body.studentId            | 6578f984876bbf6f884c1be2ef415dbf4441db89_id |
-   | section                                | 84432d70656e1ab68df27cf2584282da351ab684_id | studentSectionAssociation.body.sectionId            | 84432d70656e1ab68df27cf2584282da351ab684_id |
-   | section                                | 84432d70656e1ab68df27cf2584282da351ab684_id | studentSectionAssociation._id | 84432d70656e1ab68df27cf2584282da351ab684_id2f7176f215be612c37c2c1745ec01eba6cd9b87a_id  |
-   | teacherSectionAssociation            | 135963f2abd3320ae508546fbff31f37e10b949e_id107eb8696c809b0bce7431b362b49c32a46ea72f_id | body.teacherId            | 6757c28005c30748f3bbda02882bf59bc81e0d71_id |
-   | teacherSectionAssociation            | 135963f2abd3320ae508546fbff31f37e10b949e_id107eb8696c809b0bce7431b362b49c32a46ea72f_id | body.sectionId            | 135963f2abd3320ae508546fbff31f37e10b949e_id |
-    | program                              | a50802f02c7e771d979f7d5b3870c500014e6803_id | body.programId            | ACC-TEST-PROG-1                      |
-    | calendarDate                         | a4785ee1380871b68888ec317c39c9e8ef7e1346_id | body.date                 | 2010-10-13                           |
-    | calendarDate                         | 356b451105c8cd5678f69eb7c3dce42d5ef4c873_id | body.date                 | 2010-10-14                           |
-    | studentProgramAssociation            | a50802f02c7e771d979f7d5b3870c500014e6803_id98ae5d5377bee52764848bb05f5284ba72ef65e2_id | body.studentId            | c20c4b37f887348b67a02091dc10ee6b27fbd1ce_id |
-    | studentProgramAssociation            | a50802f02c7e771d979f7d5b3870c500014e6803_idfbdb2bd12da6fa64d2e74242c20c2235cd3f04d4_id | body.programId            | a50802f02c7e771d979f7d5b3870c500014e6803_id |
-    | studentProgramAssociation            | a50802f02c7e771d979f7d5b3870c500014e6803_idcf81759eafe33b0f1280caa1ea1922fc578ef9c7_id | body.educationOrganizationId | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
-    | parent                               | aae71d23ffacfef68aa2eaa357c7259445daa0fe_id | body.parentUniqueStateId  | 3597672174             |
-    | section                              | 92451eba2195a4cffcb0b55fe6d6ac8b13faa9ad_id | body.uniqueSectionCode    | Drama I - Sec 5f09 |
-    | section                              | 92451eba2195a4cffcb0b55fe6d6ac8b13faa9ad_id | body.schoolId             | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id |
-    | gradingPeriod                        | a6c7aac9afe6bd86b0b8c8116caa8edb35e2a0ba_id | body.beginDate                           | 2012-03-05                           |
-    | gradingPeriod                        | a6c7aac9afe6bd86b0b8c8116caa8edb35e2a0ba_id | body.gradingPeriodIdentity.gradingPeriod | Fifth Six Weeks                      |
-    | gradingPeriod                        | a6c7aac9afe6bd86b0b8c8116caa8edb35e2a0ba_id | body.gradingPeriodIdentity.schoolId      | 352e8570bd1116d11a72755b987902440045d346_id |
-    | gradingPeriod                        | a6c7aac9afe6bd86b0b8c8116caa8edb35e2a0ba_id | body.calendarDateReference                | 085e5a5fcc6c175e66eed7b8edcc2ed1b3b38ba0_id |
-# session
+   | courseOffering                       | a6c96dcc34fc021f685b6d082c7759b070731f93_id | body.localCourseCode              | Pre-Algebra I                        |
+   | courseTranscript                     | b40e7c315873a891873e4eb8b9036f47ac553d28_id | body.courseAttemptResult          | Pass                                 |
+   | studentSchoolAssociation             | b0fa95fe87c80a76598fdedd181cce8044c44f0f_id | body.entryDate                    | 2011-09-01                           |
+   | section                              | 84432d70656e1ab68df27cf2584282da351ab684_id | studentSectionAssociation.body.beginDate | 2011-09-01                    |
+   | program                              | a50802f02c7e771d979f7d5b3870c500014e6803_id | body.programId                    | ACC-TEST-PROG-1                      |
+   | calendarDate                         | f514742294804bd2c902c103c7b516e4a4709148_id | body.date                 | 2012-04-14                           |
+   | calendarDate                         | f514742294804bd2c902c103c7b516e4a4709148_id | body.educationOrganizationId                | b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id                           |
+   | parent                               | aae71d23ffacfef68aa2eaa357c7259445daa0fe_id | body.parentUniqueStateId          | 3597672174                           |
+   | section                              | 92451eba2195a4cffcb0b55fe6d6ac8b13faa9ad_id | body.uniqueSectionCode            | Drama I - Sec 5f09                   |
+   | gradingPeriod                        | 91869b91e65741410c45456ed1d211fbe7838c52_id | body.beginDate                           | 2007-05-27                           |
+   | gradingPeriod                        | 91869b91e65741410c45456ed1d211fbe7838c52_id | body.gradingPeriodIdentity.gradingPeriod | End of Year                      |
+    # session
     | session                              | 1e217f65c48cda4f5009cb1518cb33ddd51637e0_id | body.sessionName                     | Fall 2007 South Daybreak Elementary    |
     | session                              | 1e217f65c48cda4f5009cb1518cb33ddd51637e0_id | body.schoolId                        | 352e8570bd1116d11a72755b987902440045d346_id |
     | attendance                           | 0e4cf9728e804e6ab0c09432d58e3f5bdd3622c1_id | body.studentId                       | 366e15c0213a81f653cdcf524606edeed3f80f99_id |
@@ -525,6 +505,9 @@ Scenario: Verify deterministic ids generated: Clean Database
     | learningObjective                    | e7ca691a652808cedd4fc8abd1275c94f9679e56_id | body.objectiveGradeLevel             | Third grade |
     | learningObjective                    | e7ca691a652808cedd4fc8abd1275c94f9679e56_id | body.learningStandards               | 62b9f6af06aa6a931b0e5e47b5a3356849db0724_id |
     | learningStandard                     | 84a2dbad54ca44b613728cdfbe92d2e9a3bbcd9f_id | body.learningStandardId.identificationCode | 9DB2617F615743cfA8D225346AC4CB4D |
+And I check that multiple educationOrganization ids were generated properly:
+     | collectionName                      | deterministicId                             | field                                                  | value                                       |
+     | courseTranscript                    | 0a5dd745aecf511780b1bcef48194d93602e1aae_id | body.educationOrganizationReference                    | 772a61c687ee7ecd8e6d9ad3369f7883409f803b_id,352e8570bd1116d11a72755b987902440045d346_id,a13489364c2eb015c219172d561c62350f0453f3_id |
 
 @smoke
 Scenario: Verify references were resolved correctly
@@ -546,7 +529,27 @@ Scenario: Verify references were resolved correctly
 	| disciplineAction						| 70b8c1f4b77823bf5ede69389e13b0487f32e720_id											 | body.disciplineIncidentId					 | disciplineIncident						  |
 	| studentDisciplineIncidentAssociation  | 6578f984876bbf6f884c1be2ef415dbf4441db89_ide2449a1a6d0e37f388ce871d066a4705aabac16c_id | body.disciplineIncidentId    				 | disciplineIncident						  |
 	#educationOrganization
-	| graduationPlan                        | 7f5c42b2ff7edf0bfa0b877eab43df47985cd99c_id 											 | body.educationOrganizationId					 | educationOrganization					  |
+	| attendance                           | 0e4cf9728e804e6ab0c09432d58e3f5bdd3622c1_id 											 | body.schoolId                        		 | educationOrganization 					  |
+	| cohort                               | e097d0f6e1e3d40d58930052eae2d7074eaa901a_id 											 | body.educationOrgId                      	 | educationOrganization 					  |
+    | course                               | a42a8a8deaaf4fa04448d602ea96c0e2f74c6521_id 											 | body.schoolId  								 | educationOrganization                      |
+  	| courseOffering                       | a6c96dcc34fc021f685b6d082c7759b070731f93_id 											 | body.schoolId                        		 | educationOrganization 					  |
+  	| disciplineAction                     | 9c4d62d9af758b3b7124836ffc75afd98a858c6b_id 											 | body.assignmentSchoolId              		 | educationOrganization 					  |
+    | disciplineAction                     | 70b8c1f4b77823bf5ede69389e13b0487f32e720_id 											 | body.responsibilitySchoolId          		 | educationOrganization 					  |
+    | disciplineIncident                   | 950c9f3ec3c8866d10794a7c053d7745c80f6b91_id 											 | body.schoolId                        		 | educationOrganization 					  |
+
+    | educationOrganization                | 1b223f577827204a1c7e9c851dba06bea6b031fe_id                                             | body.parentEducationAgencyReference           | educationOrganization 					  |
+	| educationOrganization                | 64d6f51699270b047483e27846880ede195425e0_id                                             | body.localEducationAgencyReference            | educationOrganization 					  |
+	| educationOrganization                | a13489364c2eb015c219172d561c62350f0453f3_id 											 | body.parentEducationAgencyReference      	 | educationOrganization 					  |
+
+   	| gradingPeriod                        | a6c7aac9afe6bd86b0b8c8116caa8edb35e2a0ba_id 											 | body.gradingPeriodIdentity.schoolId      	 | educationOrganization 					  |
+   	| graduationPlan                       | 7f5c42b2ff7edf0bfa0b877eab43df47985cd99c_id 											 | body.educationOrganizationId					 | educationOrganization					  |
+    | section                              | 92451eba2195a4cffcb0b55fe6d6ac8b13faa9ad_id 											 | body.schoolId                            	 | educationOrganization 					  |
+    | session                              | 1e217f65c48cda4f5009cb1518cb33ddd51637e0_id 											 | body.schoolId                        		 | educationOrganization 					  |
+	| staffEducationOrganizationAssociation| 5a000d037de00063995e84fdc3d0f91d9afb4b65_id 											 | body.educationOrganizationReference  		 | educationOrganization 					  |
+    | studentCompetencyObjective           | 85aa230afd51cfbe761c883bc7694ebb0ba2f867_id 											 | body.educationOrganizationId         		 | educationOrganization 					  |
+    | studentProgramAssociation            | a50802f02c7e771d979f7d5b3870c500014e6803_idcf81759eafe33b0f1280caa1ea1922fc578ef9c7_id  | body.educationOrganizationId 				 | educationOrganization 					  |
+	| studentSchoolAssociation             | b0fa95fe87c80a76598fdedd181cce8044c44f0f_id 											 | body.schoolId             					 | educationOrganization  					  |
+    | teacherSchoolAssociation             | 68bd8fc5cd433b27d98b8b73dd94e8e0d932c22c_id 											 | body.schoolId                       			 | educationOrganization 					  |
 	#grade
 	| reportCard							| 8f3a05e77f7d902f963b73b5ec072ced1583fbda_id											 | body.grades									 | grade									  |
 	#gradebookEntry
@@ -611,7 +614,6 @@ Scenario: Verify references were resolved correctly
 	| studentGradebookEntry           | 56751666983beeaa65cf74c1178f1f824fe02659_id 											| body.studentSectionAssociationId  			| studentSectionAssociation				  |
 	| grade                           | 3f8df929951a9ea94709be3aeef49a91c5addea9_id 										  | body.studentSectionAssociationId  			| studentSectionAssociation				  |
 	| studentCompetency               | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id 											| body.studentSectionAssociationId  			| studentSectionAssociation  			  |
-
 	
 @integration @IL-Sunset
 Scenario: Post a zip file containing all data for Illinois Sunset as a payload of the ingestion job: Append Database
@@ -628,7 +630,7 @@ Then I should see following map of entry counts in the corresponding collections
         | courseOffering              | 96    |
         | disciplineAction            | 2     |
         | disciplineIncident          | 2     |
-        | educationOrganization       | 7     |
+        | educationOrganization       | 8     |
         | grade                       | 4     |
         | gradebookEntry              | 12    |
         | parent                      | 9     |
@@ -638,7 +640,7 @@ Then I should see following map of entry counts in the corresponding collections
         | session                     | 23    |
         | staff                       | 21    |
         | staffCohortAssociation      | 3     |
-        | staffEducationOrganizationAssociation| 16 |
+        | staffEducationOrganizationAssociation| 20 |
         | staffProgramAssociation     | 7     |
         | student                     | 183   |
         | studentAssessment| 203   |
@@ -660,7 +662,10 @@ Then I should see following map of entry counts in the corresponding collections
        | educationOrganization       | 1                   | body.stateOrganizationId | Sunset Central High School | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId | IL-SUNSET                  | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId | IL                         | string               |
+
     And I should see "Processed 342 records." in the resulting batch job file
+    #TODO - this test data generates a warn file
+    #And I should not see a warning log file created
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 105" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 105" in the resulting batch job file
@@ -668,14 +673,14 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeEducationOrganization.xml records considered: 3" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records ingested successfully: 3" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeEducationOrgCalendar.xml records considered: 3" in the resulting batch job file
-    And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 3" in the resulting batch job file
+    And I should see "InterchangeEducationOrgCalendar.xml records considered: 2" in the resulting batch job file
+    And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 2" in the resulting batch job file
     And I should see "InterchangeEducationOrgCalendar.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records considered: 4" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records ingested successfully: 4" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records considered: 17" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records ingested successfully: 17" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records considered: 18" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records ingested successfully: 18" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records considered: 210" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 210" in the resulting batch job file
@@ -688,6 +693,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
   And I post "StoriedDataSet_NY.zip" file as the payload of the ingestion job
       And the following collections are empty in datastore:
         | collectionName                      |
+        | recordHash                          |
         | student                             |
         | studentSchoolAssociation            |
         | course                              |
@@ -748,7 +754,7 @@ Then I should see following map of entry counts in the corresponding collections
         | session                     | 4     |
         | staff                       | 37    |
         | staffCohortAssociation      | 0     |
-        | staffEducationOrganizationAssociation| 21 |
+        | staffEducationOrganizationAssociation| 37 |
         | staffProgramAssociation     | 0     |
         | student                     | 8     |
         | studentAssessment| 0     |
@@ -770,8 +776,10 @@ Then I should see following map of entry counts in the corresponding collections
        | educationOrganization       | 1                   | body.stateOrganizationId | 1000000111                 | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId | NY-Parker                  | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId | NY                         | string               |
-    And I should see "Processed 726 records." in the resulting batch job file
+    And I should see "Processed 742 records." in the resulting batch job file
     And I should not see an error log file created
+    #TODO warning files generated - data needs to be cleaned
+    #And I should not see a warning log file created
     And I should see "InterchangeStudent.xml records considered: 8" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 8" in the resulting batch job file
     And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
@@ -784,8 +792,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeMasterSchedule.xml records considered: 24" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records ingested successfully: 24" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records considered: 90" in the resulting batch job file
-    And I should see "InterchangeStaffAssociation.xml records ingested successfully: 90" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records considered: 106" in the resulting batch job file
+    And I should see "InterchangeStaffAssociation.xml records ingested successfully: 106" in the resulting batch job file
     And I should see "InterchangeStaffAssociation.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records considered: 16" in the resulting batch job file
     And I should see "InterchangeStudentEnrollment.xml records ingested successfully: 16" in the resulting batch job file
@@ -797,6 +805,9 @@ Then I should see following map of entry counts in the corresponding collections
 
 Scenario: Post an append zip file containing append data for Illinois Daybreak as a payload of the ingestion job: Append Database
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
+  And the following collections are empty in datastore:
+        | collectionName              |
+        | recordHash                  |
   And I post "StoriedDataSet_IL_Daybreak_Append.zip" file as the payload of the ingestion job
 When zip file is scp to ingestion landing zone
   And a batch job for file "StoriedDataSet_IL_Daybreak_Append.zip" is completed in database
@@ -1017,11 +1028,12 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "InterchangeEducationOrganization.xml records considered: 3" in the resulting batch job file
   And I should see "InterchangeEducationOrganization.xml records ingested successfully: 3" in the resulting batch job file
   And I should see "InterchangeEducationOrganization.xml records failed: 0" in the resulting batch job file
-
+  
 Scenario: Concurrent job processing
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the following collections are empty in datastore:
         | collectionName              |
+        | recordHash                  |
         | student                     |
         | studentSchoolAssociation    |
         | course                      |
@@ -1063,6 +1075,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
     And the following collections are empty in datastore:
         | collectionName              |
+        | recordHash                  |
         | assessment                  |
         | attendance                  |
         | calendarDate                |
@@ -1132,7 +1145,7 @@ Then I should see following map of entry counts in the corresponding collections
         | session                     | 4     |
         | staff                       | 37    |
         | staffCohortAssociation      | 0     |
-        | staffEducationOrganizationAssociation| 21 |
+        | staffEducationOrganizationAssociation| 37 |
         | staffProgramAssociation     | 0     |
         | student                     | 8     |
         | studentAcademicRecord       | 0     |
@@ -1184,6 +1197,9 @@ Scenario: Post a zip file containing new entities and deltas for existing entiti
     And I post "StoriedDataSet_IL_Daybreak_Deltas.zip" file as the payload of the ingestion job
     And zip file is scp to ingestion landing zone
     And a batch job for file "StoriedDataSet_IL_Daybreak_Deltas.zip" is completed in database
+    #TODO Test data generates warn file
+    #And I should not see a warning log file created
+    And I should not see an error log file created
     Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | gradebookEntry              | 13    |

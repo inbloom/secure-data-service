@@ -39,14 +39,14 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
 import org.slc.sli.api.init.RoleInitializer;
-import org.slc.sli.api.ldap.LdapService;
-import org.slc.sli.api.ldap.User;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.service.SuperAdminService;
 import org.slc.sli.api.util.SecurityUtil.SecurityUtilProxy;
+import org.slc.sli.common.ldap.LdapService;
+import org.slc.sli.common.ldap.User;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -106,7 +106,7 @@ public class UserResource {
 
     
     @POST
-    @RightsAllowed({Right.CRUD_LEA_ADMIN, Right.CRUD_SEA_ADMIN, Right.CRUD_SLC_OPERATOR, Right.CRUD_SANDBOX_ADMIN, Right.CRUD_SANDBOX_SLC_OPERATOR})
+    @RightsAllowed({Right.CRUD_LEA_ADMIN, Right.CRUD_SEA_ADMIN, Right.CRUD_SLC_OPERATOR, Right.CRUD_SANDBOX_ADMIN, Right.CRUD_SANDBOX_SLC_OPERATOR })
     public final Response create(final User newUser) {
         Response result = validateUserCreate(newUser, secUtil.getTenantId());
         if (result != null) {
@@ -127,7 +127,7 @@ public class UserResource {
     }
 
     @GET
-    @RightsAllowed({Right.CRUD_LEA_ADMIN, Right.CRUD_SEA_ADMIN, Right.CRUD_SLC_OPERATOR, Right.CRUD_SANDBOX_ADMIN, Right.CRUD_SANDBOX_SLC_OPERATOR})
+    @RightsAllowed({Right.CRUD_LEA_ADMIN, Right.CRUD_SEA_ADMIN, Right.CRUD_SLC_OPERATOR, Right.CRUD_SANDBOX_ADMIN, Right.CRUD_SANDBOX_SLC_OPERATOR })
     public final Response readAll() {
         String tenant = secUtil.getTenantId();
         String edorg = secUtil.getEdOrg();
@@ -162,7 +162,7 @@ public class UserResource {
     }
 
     @PUT
-    @RightsAllowed({Right.CRUD_LEA_ADMIN, Right.CRUD_SEA_ADMIN, Right.CRUD_SLC_OPERATOR, Right.CRUD_SANDBOX_ADMIN, Right.CRUD_SANDBOX_SLC_OPERATOR})
+    @RightsAllowed({Right.CRUD_LEA_ADMIN, Right.CRUD_SEA_ADMIN, Right.CRUD_SLC_OPERATOR, Right.CRUD_SANDBOX_ADMIN, Right.CRUD_SANDBOX_SLC_OPERATOR })
     public final Response update(final User updateUser) {
         Response result = validateUserUpdate(updateUser, secUtil.getTenantId());
         if (result != null) {
@@ -177,7 +177,7 @@ public class UserResource {
 
     @DELETE
     @Path("{uid}")
-    @RightsAllowed({Right.CRUD_LEA_ADMIN, Right.CRUD_SEA_ADMIN, Right.CRUD_SLC_OPERATOR, Right.CRUD_SANDBOX_ADMIN, Right.CRUD_SANDBOX_SLC_OPERATOR})
+    @RightsAllowed({Right.CRUD_LEA_ADMIN, Right.CRUD_SEA_ADMIN, Right.CRUD_SLC_OPERATOR, Right.CRUD_SANDBOX_ADMIN, Right.CRUD_SANDBOX_SLC_OPERATOR })
     public final Response delete(@PathParam("uid") final String uid) {
         Response result = validateUserDelete(uid, secUtil.getTenantId());
         if (result != null) {
@@ -198,7 +198,7 @@ public class UserResource {
      */
     @GET
     @Path("edorgs")
-    @RightsAllowed({Right.CRUD_LEA_ADMIN, Right.CRUD_SEA_ADMIN, Right.CRUD_SLC_OPERATOR, Right.CRUD_SANDBOX_ADMIN, Right.CRUD_SANDBOX_SLC_OPERATOR})
+    @RightsAllowed({Right.CRUD_LEA_ADMIN, Right.CRUD_SEA_ADMIN, Right.CRUD_SLC_OPERATOR, Right.CRUD_SANDBOX_ADMIN, Right.CRUD_SANDBOX_SLC_OPERATOR })
     public final Response getEdOrgs() {
         String tenant = secUtil.getTenantId();
 
@@ -255,6 +255,10 @@ public class UserResource {
             return badRequest("No uid");
         }
 
+        if (isSandboxAdministrator()) {
+        	user.setVendor(secUtil.getVendor());
+        }
+        
         updateUnmodifiableFields(user, null);
 
         return null;
@@ -600,6 +604,13 @@ public class UserResource {
     private boolean isLeaAdmin() {
         return secUtil.hasRole(RoleInitializer.LEA_ADMINISTRATOR);
     }
+    
+    /*
+     * Determine if current logged in user is a Sandbox Administrator
+     */
+    private boolean isSandboxAdministrator() {
+    	return secUtil.hasRole(RoleInitializer.SANDBOX_ADMINISTRATOR);
+    }
 
     /*
      * Determines if the specified user has LEA permission
@@ -607,6 +618,7 @@ public class UserResource {
     private boolean isUserLeaAdmin(User user) {
         return user.getGroups().contains(RoleInitializer.LEA_ADMINISTRATOR);
     }
+    
 
     private static final String[] ADMIN_ROLES = new String[] { RoleInitializer.LEA_ADMINISTRATOR,
             RoleInitializer.SEA_ADMINISTRATOR, RoleInitializer.SLC_OPERATOR, RoleInitializer.SANDBOX_SLC_OPERATOR,

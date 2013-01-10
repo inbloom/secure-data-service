@@ -30,12 +30,11 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.util.BatchJobUtils2;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  * Model for ingestion jobs.
@@ -110,12 +109,12 @@ public class NewBatchJob implements Job {
     }
 
     private void initStartTime() {
-        jobStartTimestamp = BatchJobUtils2.getCurrentTimeStamp();
+        jobStartTimestamp = BatchJobUtils.getCurrentTimeStamp();
 
     }
 
     public void stop() {
-        jobStopTimestamp = BatchJobUtils2.getCurrentTimeStamp();
+        jobStopTimestamp = BatchJobUtils.getCurrentTimeStamp();
     }
 
     public static NewBatchJob createJobForFile(String fileName) {
@@ -231,7 +230,7 @@ public class NewBatchJob implements Job {
     }
 
     public Date getJobStartTimestamp() {
-        return new Date (jobStartTimestamp.getTime());
+        return new Date(jobStartTimestamp.getTime());
     }
 
     public Date getJobStopTimestamp() {
@@ -356,10 +355,15 @@ public class NewBatchJob implements Job {
         return resourceEntries.add(resourceEntry);
     }
 
-    @Override
-    public FaultsReport getFaultsReport() {
-        // TODO Auto-generated method stub
-        return null;
+    public ResourceEntry getZipResourceEntry() {
+        ResourceEntry zipResourceEntry = null;
+        for (ResourceEntry resourceEntry : resourceEntries) {
+            if (FileFormat.ZIP_FILE.getCode().equalsIgnoreCase(resourceEntry.getResourceFormat())) {
+                zipResourceEntry = resourceEntry;
+                break;
+            }
+        }
+        return zipResourceEntry;
     }
 
 }

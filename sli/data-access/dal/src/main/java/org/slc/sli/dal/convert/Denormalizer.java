@@ -16,25 +16,28 @@
 
 package org.slc.sli.dal.convert;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
-import com.mongodb.WriteConcern;
-import org.slc.sli.common.domain.EmbeddedDocumentRelations;
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.domain.Entity;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import com.mongodb.WriteConcern;
+
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+
+import org.slc.sli.common.domain.EmbeddedDocumentRelations;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.domain.Entity;
 
 
 /**
@@ -288,7 +291,7 @@ public class Denormalizer {
             }
 
             if (denormalizedIdKey.equals("schoolId")) {
-                dbObj.put("edOrgs", new ArrayList<String>(fetchLineage(internalId)));
+                dbObj.put("edOrgs", new ArrayList<String>(fetchLineage(internalId, new HashSet<String>())));
             }
 
             return dbObj;
@@ -303,16 +306,20 @@ public class Denormalizer {
          *            Education Organization for which the lineage must be assembled.
          * @return Set of parent education organization ids.
          */
-        private Set<String> fetchLineage(String id) {
-            Set<String> parents = new HashSet<String>();
-            Entity edOrg = template.findOne(new Query().addCriteria(Criteria.where("_id").is(id)), Entity.class,
-                    EDUCATION_ORGANIZATION);
-            if (edOrg != null) {
-                parents.add(id);
-                Map<String, Object> body = edOrg.getBody();
-                if (body.containsKey(PARENT_REFERENCE)) {
-                    String myParent = (String) body.get(PARENT_REFERENCE);
-                    parents.addAll(fetchLineage(myParent));
+        private Set<String> fetchLineage(String id, Set<String> parentsSoFar) {
+            Set<String> parents = new HashSet<String>(parentsSoFar);
+            if (id != null) {
+                Entity edOrg = template.findOne(new Query().addCriteria(Criteria.where("_id").is(id)), Entity.class,
+                        EDUCATION_ORGANIZATION);
+                if (edOrg != null) {
+                    parents.add(id);
+                    Map<String, Object> body = edOrg.getBody();
+                    if (body.containsKey(PARENT_REFERENCE)) {
+                        String myParent = (String) body.get(PARENT_REFERENCE);
+                        if (!parents.contains(myParent)) {
+                            parents.addAll(fetchLineage(myParent, parents));
+                        }
+                    }
                 }
             }
             return parents;
@@ -338,7 +345,7 @@ public class Denormalizer {
             }
 
             Update update = new Update();
-            update.pushAll(denormalizedToField, docs.toArray());
+            update.set("type", denormalizeToEntity).pushAll(denormalizedToField, docs.toArray());
 
             return update.getUpdateObject();
         }
@@ -387,11 +394,8 @@ public class Denormalizer {
             return doUpdate(parentQuery, newEntities);
         }
 
-        public boolean delete(Entity entity, String id) {
-
-            if (entity == null) {
-                entity = findTypeEntity(id);
-            }
+        public boolean delete(Entity providedEntity, String id) {
+        	Entity entity = providedEntity == null ? findTypeEntity(id) : providedEntity;
 
             if (entity == null) {
                 return false;
@@ -414,7 +418,9 @@ public class Denormalizer {
         }
 
         public boolean doUpdate(Entity parentEntity, Update update) {
-            if (parentEntity == null) return false;
+            if (parentEntity == null) {
+				return false;
+			}
 
             DBObject parentQuery = getParentQuery(parentEntity.getBody());
             parentQuery.put(denormalizedToField + "._id", parentEntity.getBody().get(denormalizedIdKey));
@@ -434,9 +440,11 @@ public class Denormalizer {
                 if (key.startsWith("$")) {
                     Map<String, Object> fieldAndValue = (Map<String, Object>) originalUpdate.getUpdateObject().get(key);
                     Map<String, Object> newFieldAndValue = new HashMap<String, Object>();
-                    for (String field : fieldAndValue.keySet()) {
+
+                    for (Entry<String, Object> entry : fieldAndValue.entrySet()) {
+                        String field = entry.getKey();
                         if (!field.startsWith("$")) {
-                            newFieldAndValue.put(denormalizedToField + ".$." + field, fieldAndValue.get(field));
+                            newFieldAndValue.put(denormalizedToField + ".$." + field, entry.getValue());
                         }
                     }
                     updateDBObject.put(key, newFieldAndValue);

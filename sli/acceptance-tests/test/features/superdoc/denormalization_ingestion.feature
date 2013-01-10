@@ -11,6 +11,7 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
     And the following collections are empty in datastore:
       | collectionName                        |
       | assessment                            |
+      | recordHash                            |
       | attendance                            |
       | calendarDate                          |
       | cohort                                |
@@ -63,7 +64,7 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
       | courseOffering                        | 95    |
       | disciplineAction                      | 2     |
       | disciplineIncident                    | 2     |
-      | educationOrganization                 | 5     |
+      | educationOrganization                 | 6     |
       | grade                                 | 4     |
       | gradebookEntry                        | 12    |
       | gradingPeriod                         | 17    |
@@ -77,7 +78,7 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
       | session                               | 22    |
       | staff                                 | 14    |
       | staffCohortAssociation                | 3     |
-      | staffEducationOrganizationAssociation | 10    |
+      | staffEducationOrganizationAssociation | 13    |
       | staffProgramAssociation               | 7     |
       | student                               | 78    |
       | studentAcademicRecord                 | 117   |
@@ -94,7 +95,7 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
       | courseTranscript                      | 196   |
       | teacherSchoolAssociation              | 3     |
       | teacherSectionAssociation             | 11    |
-    And I should see "Processed 4262 records." in the resulting batch job file
+    And I should see "Processed 4266 records." in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
     And I should not see an error log file created
 

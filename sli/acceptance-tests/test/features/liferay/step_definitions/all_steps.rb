@@ -27,6 +27,12 @@ When /^I navigate to the Portal home page$/ do
   @explicitWait ||= Selenium::WebDriver::Wait.new(:timeout => 15)
 end
 
+When /^I navigate to the mini sandbox Portal home page$/ do
+  puts PropLoader.getProps['minisb_portal_server_address'] + PropLoader.getProps['portal_app_suffix']
+  @driver.get PropLoader.getProps['minisb_portal_server_address'] + PropLoader.getProps['portal_app_suffix']
+  @explicitWait ||= Selenium::WebDriver::Wait.new(:timeout => 15)
+end
+
 Then /^I should see Admin link$/ do
   @driver.find_element(:link_text, "Admin")
 end
@@ -36,29 +42,37 @@ Then /^I should not see Admin link$/ do
   assert(adminLink.length == 0, "Admin link was found")
 end
 
+#This logout step is for clicking the exit/logout link from the portal header
 Then /^I click on log out$/ do
   menuList = @driver.find_element(:class, "menu_n").find_element(:class, "first_item")
   menu = menuList.find_element(:id,"menulink")
   menu.click
-  menuList.find_element(:link_text, "Logout").click
-  assertWithWait("User didn't log out properly") {@driver.current_url != PropLoader.getProps['portal_server_address'] + PropLoader.getProps['portal_app_suffix']}
+  begin
+    menuList.find_element(:link_text, "Exit").click
+  rescue
+    menuList.find_element(:link_text, "Logout").click
+  ensure
+    assertWithWait("User didn't log out properly") {@driver.current_url != PropLoader.getProps['portal_server_address'] + PropLoader.getProps['portal_app_suffix']}
+  end
 end
 
 # TODO, look for something now in eula, if found proceed
 Then /^I should be on Portal home page$/ do
+  sleep 2
   home = @driver.find_elements(:class, "sli_home_title")
   assert(home.length == 1, "User is not on the portal home page. Current URL: " + @driver.current_url)
   if (@driver.page_source.include?("d_popup"))
-    accept = @driver.find_element(:xpath, "//input[@value='Agree']")
+    accept = @driver.find_element(:css, "[class*='aui-button-input-submit']")
     puts "EULA is present"
     accept.click
+    sleep 2
   else
     puts "EULA has already been accepted"
   end
 end
 
 Then /^I should be on the authentication failed page$/ do
-   @driver.page_source.include?('Invalid')
+  @driver.page_source.include?('Invalid')
 end
 
 Then /^I should be on the admin page$/ do
@@ -80,7 +94,7 @@ When /^I click on Admin$/ do
   clickOnLink("Admin")
 end
 
-And /^I should see logo$/ do 
+And /^I should see logo$/ do
   logo = @driver.find_element(:class, "company-logo")
   text = @driver.find_element(:class, "sli_logo_main").text
   assert(text == "SLC", "Expected: SLC, Actual: {#text}")
@@ -126,13 +140,18 @@ Then /^under System Tools, I see the following "(.*?)"$/ do |links|
   verifyItemsInSections(links, section, "System Tools")
 end
 
+Then /^under System Tools, I shouldn't see the following "(.*?)"$/ do |links|
+  section = @driver.find_element(:id, "column-4")
+  verifyItemsInSections(links, section, "System Tools", false)
+end
+
 Then /^under My Applications, I see the following apps: "(.*?)"$/ do |apps|
   myApps = @driver.find_element(:id, "column-4")
   verifyItemsInSections(apps, myApps, "My Applications")
 end
 
 Then /^I switch to the iframe$/ do
-  wait = Selenium::WebDriver::Wait.new(:timeout => 15) 
+  wait = Selenium::WebDriver::Wait.new(:timeout => 20)
   wait.until{(iframe = isIframePresent()) != nil}
 end
 
@@ -153,18 +172,18 @@ def isIframePresent()
     @driver.find_element(:id,"messageContainer")
     puts "iframe contents appears to be loaded"
     return iframe
-  rescue  
+  rescue
     puts "iframe not fully loaded yet"
     @driver.switch_to.default_content
     return nil
-  end 
+  end
 end
 
 def clickOnLink(linkText)
   @driver.find_element(:link, linkText).click
 end
 
-def verifyItemsInSections(expectedItems, section, sectionTitle)
+def verifyItemsInSections(expectedItems, section, sectionTitle, exist = true)
   listOfItems = expectedItems.split(';')
   title = section.find_element(:class, "portlet-title-text")
   assert(title.text == sectionTitle, "Expected: #{sectionTitle} Actual: #{title}")
@@ -177,7 +196,9 @@ def verifyItemsInSections(expectedItems, section, sectionTitle)
         break
       end
     end
-    assert(found,"#{item} was not found in My Applications")
+    message = (exist)? "#{item} should be found under #{sectionTitle}" :
+        "#{item} should not be found under #{sectionTitle}"
+    assert(found == exist, message)
   end
 end
 

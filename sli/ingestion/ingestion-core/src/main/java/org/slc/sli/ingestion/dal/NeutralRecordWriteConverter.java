@@ -75,7 +75,7 @@ public class NeutralRecordWriteConverter implements Converter<NeutralRecord, DBO
         } else {
             uid = neutralRecord.getRecordId();
         }
-        
+
         Map<String, Object> localParentIds = neutralRecord.getLocalParentIds();
         if (localParentIds != null) {
             // The old ingestion id resolver code used fields with "." in the name. This will cause the
@@ -103,6 +103,10 @@ public class NeutralRecordWriteConverter implements Converter<NeutralRecord, DBO
         dbObj.put("localParentIds", localParentIds);
         dbObj.put("sourceFile", neutralRecord.getSourceFile());
         dbObj.put("locationInSourceFile", neutralRecord.getLocationInSourceFile());
+        dbObj.put("visitBeforeLineNumber", neutralRecord.getVisitBeforeLineNumber());
+        dbObj.put("visitBeforeColumnNumber", neutralRecord.getVisitBeforeColumnNumber());
+        dbObj.put("visitAfterLineNumber", neutralRecord.getVisitAfterLineNumber());
+        dbObj.put("visitAfterColumnNumber", neutralRecord.getVisitAfterColumnNumber());
         dbObj.put("association", neutralRecord.isAssociation());
 
         if (neutralRecord.getCreationTime() != 0) {
@@ -140,8 +144,8 @@ public class NeutralRecordWriteConverter implements Converter<NeutralRecord, DBO
         }
         for (String key : toRemove) {
             Object value = map.remove(key);
-            key = key.replaceAll("\\.", "%DELIM%");
-            map.put(key, value);
+            String newKey = key.replace("%DELIM%", ".");
+            map.put(newKey, value);
         }
     }
 }

@@ -29,7 +29,7 @@ import org.slc.sli.domain.Entity;
  * @author dduran
  *
  */
-public class NeutralRecordEntity implements Entity {
+public class NeutralRecordEntity implements Entity, Resource {
 
     private NeutralRecord neutralRecord;
     private long recordNumberInFile;
@@ -113,6 +113,22 @@ public class NeutralRecordEntity implements Entity {
         this.neutralRecord = neutralRecord;
     }
 
+    public int getVisitBeforeLineNumber() {
+        return neutralRecord.getVisitBeforeLineNumber();
+    }
+
+    public int getVisitBeforeColumnNumber() {
+        return neutralRecord.getVisitBeforeColumnNumber();
+    }
+
+    public int getVisitAfterLineNumber() {
+        return neutralRecord.getVisitAfterLineNumber();
+    }
+
+    public int getVisitAfterColumnNumber() {
+        return neutralRecord.getVisitAfterColumnNumber();
+    }
+
     @Override
     public String getStagedEntityId() {
         return neutralRecord.getRecordId();
@@ -144,12 +160,17 @@ public class NeutralRecordEntity implements Entity {
     }
 
     @Override
-    public Map<String,List<Entity>> getEmbeddedData() {
+    public Map<String, List<Entity>> getEmbeddedData() {
         return new HashMap<String, List<Entity>>();
     }
 
     @Override
     public Map<String, List<Map<String, Object>>> getDenormalizedData() {
         return new HashMap<String, List<Map<String, Object>>>();
+    }
+
+    @Override
+    public String getResourceId() {
+        return neutralRecord.getResourceId();
     }
 }

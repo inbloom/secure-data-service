@@ -14,24 +14,23 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.landingzone;
 
 import java.io.File;
 import java.io.Serializable;
 
-import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
-import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slc.sli.ingestion.validation.ErrorReportSupport;
+import org.slc.sli.ingestion.Resource;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
 
 /**
  * Represents an Ingestion File Entry which includes the file to ingest along with its
  * metainformation.
  *
  */
-public class IngestionFileEntry implements Serializable, ErrorReportSupport {
+public class IngestionFileEntry implements Serializable, Resource {
 
     private static final long serialVersionUID = 8326156381009199389L;
 
@@ -43,8 +42,12 @@ public class IngestionFileEntry implements Serializable, ErrorReportSupport {
     private File neutralRecordFile;
     private File deltaNeutralRecordFile;
     private String checksum;
-    private FaultsReport faultsReport;
     private String topLevelLandingZonePath;
+    private String fileZipParent;
+
+    private AbstractMessageReport errorReport;
+
+    private ReportStats reportStats;
 
     // will only be set when this is added to a BatchJob
     private String batchJobId;
@@ -54,16 +57,31 @@ public class IngestionFileEntry implements Serializable, ErrorReportSupport {
         this(fileFormat, fileType, fileName, checksum, null);
     }
 
-    public IngestionFileEntry(FileFormat fileFormat, FileType fileType, String fileName, String checksum, String topLevelLandingZonePath) {
+    public IngestionFileEntry(FileFormat fileFormat, FileType fileType, String fileName, String checksum,
+            String topLevelLandingZonePath) {
         this.fileFormat = fileFormat;
         this.fileType = fileType;
         this.fileName = fileName;
         this.checksum = checksum;
-        this.faultsReport = new FaultsReport();
         this.topLevelLandingZonePath = topLevelLandingZonePath;
     }
 
     // Methods
+
+    /**
+     * @param reportStats
+     *            the reportStats to set
+     */
+    public void setReportStats(ReportStats reportStats) {
+        this.reportStats = reportStats;
+    }
+
+    /**
+     * @return the reportStats
+     */
+    public ReportStats getReportStats() {
+        return reportStats;
+    }
 
     /**
      * Set the Ingestion file format.
@@ -176,15 +194,6 @@ public class IngestionFileEntry implements Serializable, ErrorReportSupport {
         this.deltaNeutralRecordFile = deltaNeutralRecordFile;
     }
 
-    public FaultsReport getFaultsReport() {
-        return this.faultsReport;
-    }
-
-    @Override
-    public ErrorReport getErrorReport() {
-        return getFaultsReport();
-    }
-
     public String getBatchJobId() {
         return batchJobId;
     }
@@ -201,9 +210,39 @@ public class IngestionFileEntry implements Serializable, ErrorReportSupport {
     }
 
     /**
-     * @param topLevelLandingZonePath the topLevelLandingZonePath to set
+     * @param topLevelLandingZonePath
+     *            the topLevelLandingZonePath to set
      */
     public void setTopLevelLandingZonePath(String topLevelLandingZonePath) {
         this.topLevelLandingZonePath = topLevelLandingZonePath;
     }
+
+    /**
+     * @return the databaseMessageReport
+     */
+    public AbstractMessageReport getMessageReport() {
+        return errorReport;
+    }
+
+    /**
+     * @param databaseMessageReport
+     *            the databaseMessageReport to set
+     */
+    public void setMessageReport(AbstractMessageReport databaseMessageReport) {
+        this.errorReport = databaseMessageReport;
+    }
+
+    @Override
+    public String getResourceId() {
+        return fileName;
+    }
+
+    public String getFileZipParent() {
+        return fileZipParent;
+    }
+
+    public void setFileZipParent(String fileZipParent) {
+        this.fileZipParent = fileZipParent;
+    }
+
 }

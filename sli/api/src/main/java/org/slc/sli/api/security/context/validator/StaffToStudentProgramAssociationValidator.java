@@ -50,6 +50,10 @@ public class StaffToStudentProgramAssociationValidator extends AbstractContextVa
      */
     @Override
     public boolean validate(String entityType, Set<String> ids) {
+        if (!areParametersValid(EntityNames.STUDENT_PROGRAM_ASSOCIATION, entityType, ids)) {
+            return false;
+        }
+        
         boolean match = false;
         // See the program && see the edorg
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
@@ -62,7 +66,7 @@ public class StaffToStudentProgramAssociationValidator extends AbstractContextVa
             boolean validByEdOrg = lineage.contains(edOrgId);
             boolean validByProgram = staffProgramValidator.validate(EntityNames.PROGRAM,
                     new HashSet<String>(Arrays.asList(programId)));
-            if (!(validByEdOrg || validByProgram) || isFieldExpired(sca.getBody(), ParameterConstants.END_DATE)) {
+            if (!(validByEdOrg || validByProgram) || isFieldExpired(sca.getBody(), ParameterConstants.END_DATE, true)) {
                 return false;
             } else {
                 match = true;

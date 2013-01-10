@@ -64,15 +64,16 @@ public class DateSchema extends NeutralSchema {
     }
 
     @Override
+    @SuppressWarnings("PMD.AvoidCatchingNPE") // DE2407
     public Object convert(Object value) {
         try {
             DatatypeConverter.parseDate((String) value);
         } catch (NullPointerException e) {
             LOG.error("Failed to parse date", e);
-            throw new EntityValidationException("irrelevant", "doesn't matter", new ArrayList<ValidationError>());
+            throw (EntityValidationException) new EntityValidationException("irrelevant", "doesn't matter", new ArrayList<ValidationError>()).initCause(e);
         } catch (IllegalArgumentException e) {
             LOG.error("Failed to parse date", e);
-            throw new EntityValidationException("irrelevant", "doesn't matter", new ArrayList<ValidationError>());
+            throw (EntityValidationException) new EntityValidationException("irrelevant", "doesn't matter", new ArrayList<ValidationError>()).initCause(e);
         }
 
         return value;

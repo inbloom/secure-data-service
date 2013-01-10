@@ -16,11 +16,13 @@
 
 package org.slc.sli.api.resources.generic.util;
 
-import javax.ws.rs.core.MultivaluedHashMap;
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.PathSegment;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
+
+import com.sun.jersey.core.util.MultivaluedMapImpl;
+
 import java.net.URI;
 import java.util.List;
 
@@ -39,12 +41,22 @@ public class ChangedUriInfo implements UriInfo {
     
     @Override
     public String getPath() {
-        // No op
+        String uriPath = this.uri.getPath();
+        if (uriPath != null) {
+            String removeString = "/rest/";
+            if (uriPath.startsWith(removeString)) {
+                return uriPath.substring(removeString.length());
+            }
+            
+            return uriPath;
+        }
+
         return null;
     }
     
     @Override
     public String getPath(boolean decode) {
+        
         // No op
         return null;
     }
@@ -108,7 +120,7 @@ public class ChangedUriInfo implements UriInfo {
     
     @Override
     public MultivaluedMap<String, String> getQueryParameters() {
-        return new MultivaluedHashMap<String, String>();
+        return new MultivaluedMapImpl();
     }
     
     @Override

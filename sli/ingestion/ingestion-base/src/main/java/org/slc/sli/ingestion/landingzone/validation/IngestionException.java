@@ -28,12 +28,6 @@ public class IngestionException extends Exception {
     private static final long serialVersionUID = -6220525338718056313L;
 
     /**
-     * Default constructor.
-     */
-    public IngestionException() {
-    }
-
-    /**
      * Constructs a new exception with the specified detail message.
      *
      * @param message

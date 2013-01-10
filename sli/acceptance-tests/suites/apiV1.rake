@@ -1,6 +1,12 @@
 ############################################################
 # API V1 tests start
 ############################################################
+
+task :apiVersionTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/api_versions/apiVersions.feature")
+end
+
 task :longLivedSessionTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/long_lived_session/")
@@ -8,7 +14,23 @@ end
 
 task :apiV1EntityTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
+  # This is to extract assessment, learningStandard, etc. into Elastic Search  
+  Rake::Task["runSearchBulkExtract"].execute
   runTests("test/features/apiV1/entities/crud")
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/entities/crud_auto")
+end
+
+task :crudAutoTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/entities/crud_auto")
+end
+
+task :writeValidationTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  # This is to extract assessment, learningStandard, etc. into Elastic Search  
+  #Rake::Task["runSearchBulkExtract"].execute
+  runTests("test/features/security/write_validation.feature")
 end
 
 task :apiV1AssociationTests => [:realmInit] do
@@ -49,6 +71,8 @@ desc "Run API querying tests"
 task :apiV1QueryingTests => [:realmInit] do
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Hyrule")
   Rake::Task["importSandboxData"].execute
+  # This is to extract assessment, learningStandard, etc. into Elastic Search  
+  Rake::Task["runSearchBulkExtract"].execute
   runTests("test/features/apiV1/querying/querying.feature")
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
 end
@@ -61,6 +85,8 @@ end
 desc "Run V1 XML Tests"
 task :v1XMLTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
+  # This is to extract assessment, learningStandard, etc. into Elastic Search  
+  Rake::Task["runSearchBulkExtract"].execute
   runTests("test/features/apiV1/xml")
 end
 
@@ -81,6 +107,12 @@ desc "Run V1 Direct References Tests"
 task :v1DirectReferencesTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/associations/directReferences/directReferences.feature")
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/apiV1/associations/directReferences/directReferences_teacher.feature")
+end
+
+desc "Run V1 Direct References Teacher Tests"
+task :v1DirectReferencesTeacherTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/associations/directReferences/directReferences_teacher.feature")
 end
@@ -152,6 +184,8 @@ end
 desc "Run Sorting and Paging Tests"
 task :v1SortingAndPagingTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
+  # This is to extract assessment, learningStandard, etc. into Elastic Search  
+  Rake::Task["runSearchBulkExtract"].execute
   runTests("test/features/apiV1/sorting_paging")
 end
 
@@ -172,10 +206,16 @@ task :v1ListTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/end_user_stories/lists")
 end
+
 desc "Run Tests for new endpoints"
 task :v1NewEndpointTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  runTests("test/features/apiV1/endpoints")
+  runTests("test/features/apiV1/endpoints/endpoints.feature")
+end
+
+desc "Run Tests for list-attendance endpoint"
+task :v1ListAttendanceEndpointTests do
+  runTests("test/features/apiV1/endpoints/listAttendancesEndpoint.feature")
 end
 
 desc "Run V1 Assessment User Story Tests"
@@ -237,6 +277,11 @@ task :apiPerformanceTests => [:realmInit] do
   runTests("test/features/apiV1/performance/performance.feature")
 end
 
+desc "Run API JMeter Tests"
+task :apiJMeterTests do
+  runTests("test/features/apiV1/jmeter/jmeterPerformance.feature")
+end
+
 ############################################################
 # API V1 tests end
 ############################################################
@@ -247,6 +292,7 @@ end
 desc "Run Security Tests"
 task :securityTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
+  Rake::Task["runSearchBulkExtract"].execute
   runTests("test/features/security")
 end
 

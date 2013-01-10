@@ -315,17 +315,12 @@ SLC.namespace('SLC.util', (function () {
 		$(document).ready( function() {
 		    $('#banner #dbrd_frm_search').live("submit", function(e) {
 			  e.preventDefault();
-			  var firstName = $('#dbrd_inp_search_firstName').val();
-			  if (!firstName || firstName === "First Name") {
-			    firstName = '';
+			  var studentName = $('#dbrd_inp_search_studentName').val();
+			  if (!studentName || studentName === "Enter student name") {
+				  studentName = '';
 			  }
 
-			  var lastName = $('#dbrd_inp_search_lastName').val();
-			  if (!lastName || lastName === "Last Name") {
-			    lastName = '';
-			  }
-
-			  goToLayout('studentSearch', null, 'firstName=' + firstName + '&lastName=' + lastName);
+			  goToLayout('studentSearch', null, 'name=' + studentName);
 			  return false;
 			});
 		});

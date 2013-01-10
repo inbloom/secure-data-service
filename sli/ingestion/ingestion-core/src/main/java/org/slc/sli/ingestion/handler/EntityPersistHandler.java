@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
+import org.springframework.core.NestedRuntimeException;
 import org.springframework.dao.DuplicateKeyException;
 
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
@@ -40,12 +40,16 @@ import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.FileProcessStatus;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.impl.JobSource;
+import org.slc.sli.ingestion.reporting.impl.NeutralRecordSource;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.transformation.normalization.ComplexKeyField;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
-import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
-import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.NoNaturalKeysDefinedException;
@@ -54,22 +58,23 @@ import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.schema.AppInfo;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.slc.sli.validation.schema.NeutralSchema;
+
 /**
  * Handles the persisting of Entity objects
- * 
+ *
  * @author dduran
  *         Modified by Thomas Shewchuk (PI3 US811)
  *         - 2/1/2010 Added record DB lookup and update capabilities, and support for association
  *         entities.
- * 
+ *
  */
 public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity, Entity> implements InitializingBean {
 
     public static final Logger LOG = LoggerFactory.getLogger(EntityPersistHandler.class);
+    private static final String STAGE_NAME = "Entity Persistence";
 
     private Repository<Entity> entityRepository;
     private EntityConfigFactory entityConfigurations;
-    private MessageSource messageSource;
 
     @Value("${sli.ingestion.mongotemplate.writeConcern}")
     private String writeConcern;
@@ -98,31 +103,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         entityRepository.setReferenceCheck(referenceCheckEnabled);
     }
 
-    Entity doHandling(SimpleEntity entity, ErrorReport errorReport) {
-        return doHandling(entity, errorReport, null);
-    }
-
-    @Override
-    protected Entity doHandling(SimpleEntity entity, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
-        try {
-            return persist(entity);
-        } catch (EntityValidationException ex) {
-            reportErrors(ex.getValidationErrors(), entity, errorReport);
-        } catch (DuplicateKeyException ex) {
-            reportWarnings(ex.getRootCause().getMessage(), entity.getType(), entity.getSourceFile(), errorReport);
-        }
-        return null;
-    }
-
-    @Override
-    protected List<Entity> doHandling(List<SimpleEntity> entities, ErrorReport errorReport,
-            FileProcessStatus fileProcessStatus) {
-        return persist(entities, errorReport);
-    }
-
     /**
      * Persist entity in the data store.
-     * 
+     *
      * @param entity
      *            Entity to be persisted
      * @return Persisted entity
@@ -154,7 +137,8 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         }
     }
 
-    boolean update(String collectionName, Entity entity, List<Entity> failed, ErrorReport errorReport) {
+    boolean update(String collectionName, Entity entity, List<Entity> failed, AbstractMessageReport report,
+            ReportStats reportStats, NeutralRecordSource nrSource) {
         boolean res = false;
 
         try {
@@ -163,13 +147,17 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                 failed.add(entity);
             }
         } catch (MongoException e) {
-            reportWarnings(e.getCause().getMessage(), collectionName, ((SimpleEntity) entity).getSourceFile(), errorReport);
+            NestedRuntimeException wrapper = new NestedRuntimeException("Mongo Exception", e) {
+                private static final long serialVersionUID = 1L;
+            };
+            reportWarnings(wrapper.getMostSpecificCause().getMessage(), collectionName,
+                    ((SimpleEntity) entity).getSourceFile(), report, reportStats, nrSource);
         }
 
         return res;
     }
 
-    private List<Entity> persist(List<SimpleEntity> entities, ErrorReport errorReport) {
+    private List<Entity> persist(List<SimpleEntity> entities, AbstractMessageReport report, ReportStats reportStats) {
         List<Entity> failed = new ArrayList<Entity>();
         List<Entity> queued = new ArrayList<Entity>();
         Map<List<Object>, SimpleEntity> memory = new HashMap<List<Object>, SimpleEntity>();
@@ -177,22 +165,29 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entities.get(0).getType());
 
         for (SimpleEntity entity : entities) {
+            NeutralRecordSource source = new NeutralRecordSource(entity.getResourceId(), getStageName(),
+                    entity.getVisitBeforeLineNumber(), entity.getVisitBeforeColumnNumber(),
+                    entity.getVisitAfterLineNumber(), entity.getVisitAfterColumnNumber());
+
             if (entity.getEntityId() != null) {
-                update(collectionName, entity, failed, errorReport);
+                update(collectionName, entity, failed, report, reportStats, source);
             } else {
-                preMatchEntity(memory, entityConfig, errorReport, entity);
+                preMatchEntity(memory, entityConfig, report, entity, reportStats);
             }
         }
 
         for (Map.Entry<List<Object>, SimpleEntity> entry : memory.entrySet()) {
             SimpleEntity entity = entry.getValue();
+            NeutralRecordSource source = new NeutralRecordSource(entity.getResourceId(), getStageName(),
+                    entity.getVisitBeforeLineNumber(), entity.getVisitBeforeColumnNumber(),
+                    entity.getVisitAfterLineNumber(), entity.getVisitAfterColumnNumber());
             LOG.debug("Processing: {}", entity.getType());
             try {
                 validator.validate(entity);
                 addTimestamps(entity);
                 queued.add(entity);
             } catch (EntityValidationException e) {
-                reportErrors(e.getValidationErrors(), entity, errorReport);
+                reportErrors(e.getValidationErrors(), entity, report, reportStats, source);
                 failed.add(entity);
             }
         }
@@ -209,7 +204,11 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
             // Try to do individual upsert again for other exceptions
             for (Entity entity : queued) {
-                update(collectionName, entity, failed, errorReport);
+                SimpleEntity simpleEntity = (SimpleEntity) entity;
+                NeutralRecordSource source = new NeutralRecordSource(simpleEntity.getResourceId(), getStageName(),
+                        simpleEntity.getVisitBeforeLineNumber(), simpleEntity.getVisitBeforeColumnNumber(),
+                        simpleEntity.getVisitAfterLineNumber(), simpleEntity.getVisitAfterColumnNumber());
+                update(collectionName, entity, failed, report, reportStats, source);
             }
         }
 
@@ -217,7 +216,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     }
 
     private void preMatchEntity(Map<List<Object>, SimpleEntity> memory, EntityConfig entityConfig,
-            ErrorReport errorReport, SimpleEntity entity) {
+            AbstractMessageReport report, SimpleEntity entity, ReportStats reportStats) {
 
         NaturalKeyDescriptor naturalKeyDescriptor;
         try {
@@ -232,7 +231,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                     + "       Instance   " + entity.getRecordNumber();
             LOG.error(message);
 
-            preMatchEntityWithNaturalKeys(memory, entityConfig, errorReport, entity);
+            preMatchEntityWithNaturalKeys(memory, entityConfig, report, entity, reportStats);
         } else {
             // "new" style -> based on natural keys from schema
             String id = deterministicUUIDGeneratorStrategy.generateId(naturalKeyDescriptor);
@@ -244,18 +243,17 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     }
 
     private void preMatchEntityWithNaturalKeys(Map<List<Object>, SimpleEntity> memory, EntityConfig entityConfig,
-            ErrorReport errorReport, SimpleEntity entity) {
+            AbstractMessageReport report, SimpleEntity entity, ReportStats reportStats) {
         List<String> keyFields = entityConfig.getKeyFields();
         ComplexKeyField complexField = entityConfig.getComplexKeyField();
+        Source source = new JobSource(entity.getResourceId(), getStageName());
         if (keyFields.size() > 0) {
             List<Object> keyValues = new ArrayList<Object>();
             for (String field : keyFields) {
                 try {
                     keyValues.add(PropertyUtils.getProperty(entity, field));
                 } catch (Exception e) {
-                    String errorMessage = "Issue finding key field: " + field + " for entity of type: "
-                            + entity.getType() + "\n";
-                    errorReport.error(errorMessage, entity.getSourceFile(), this);
+                    report.error(reportStats, source, CoreMessageCode.CORE_0008, null, field, entity.getType());
                 }
 
                 if (complexField != null) {
@@ -264,9 +262,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                     try {
                         keyValues.add(PropertyUtils.getProperty(entity, propertyString));
                     } catch (Exception e) {
-                        String errorMessage = "Issue finding key field: " + " for entity of type: " + entity.getType()
-                                + "\n";
-                        errorReport.error(errorMessage, entity.getSourceFile(), this);
+                        report.error(reportStats, source, CoreMessageCode.CORE_0008, null, field, entity.getType());
                     }
                 }
 
@@ -287,7 +283,6 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         return collectionName;
     }
 
-
     /**
      * Generic error reporting function.
      *
@@ -297,48 +292,37 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
      *            Entity reporting errors.
      * @param errorReport
      *            Reference to error report logging error messages.
+     * @param source
+     *            Reference to Source.
      */
-    private void reportErrors(List<ValidationError> errors, SimpleEntity entity, ErrorReport errorReport) {
+    private void reportErrors(List<ValidationError> errors, SimpleEntity entity, AbstractMessageReport report,
+            ReportStats reportStats, Source source) {
         for (ValidationError err : errors) {
-
-            String message = "ERROR: There has been a data validation error when saving an entity" + "\n"
-                    + "       Error      " + err.getType().name() + "\n" + "       Entity     " + entity.getType()
-                    + "\n" + "       Instance   " + entity.getRecordNumber() + "\n" + "       Field      "
-                    + err.getFieldName() + "\n" + "       Value      " + err.getFieldValue() + "\n"
-                    + "       Expected   " + Arrays.toString(err.getExpectedTypes()) + "\n";
-            errorReport.error(message, entity.getSourceFile(), this);
+            report.error(reportStats, source, CoreMessageCode.CORE_0006, err.getType().name(), entity.getType(),
+                    Long.toString(entity.getRecordNumber()), err.getFieldName(), err.getFieldValue(),
+                    Arrays.toString(err.getExpectedTypes()));
         }
     }
 
     /**
      * Generic warning reporting function.
-     * 
+     *
      * @param warningMessage
      *            Warning message reported by entity.
      * @param entity
      *            Entity reporting warning.
      * @param errorReport
      *            Reference to error report to log warning message in.
+     * @param source
+     *            Reference to Source.
      */
-    private void reportWarnings(String warningMessage, String type, String resourceId, ErrorReport errorReport) {
-        String assembledMessage = "Entity (" + type + ") reports warning: " + warningMessage;
-        errorReport.warning(assembledMessage, resourceId, this);
-    }
-
-    protected String getFailureMessage(String code, Object... args) {
-        return MessageSourceHelper.getMessage(messageSource, code, args);
+    private void reportWarnings(String warningMessage, String type, String resourceId, AbstractMessageReport report,
+            ReportStats reportStats, Source source) {
+        report.warning(reportStats, source, CoreMessageCode.CORE_0007, type, warningMessage);
     }
 
     public void setEntityRepository(Repository<Entity> entityRepository) {
         this.entityRepository = entityRepository;
-    }
-
-    public MessageSource getMessageSource() {
-        return messageSource;
-    }
-
-    public void setMessageSource(MessageSource messageSource) {
-        this.messageSource = messageSource;
     }
 
     public EntityConfigFactory getEntityConfigurations() {
@@ -353,5 +337,36 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         Date now = DateTimeUtil.getNowInUTC();
         entity.getMetaData().put("created", now);
         entity.getMetaData().put("updated", now);
+    }
+
+    Entity doHandling(SimpleEntity entity, AbstractMessageReport report, ReportStats reportStats) {
+        return doHandling(entity, report, reportStats, null);
+    }
+
+    @Override
+    protected Entity doHandling(SimpleEntity item, AbstractMessageReport report, ReportStats reportStats,
+            FileProcessStatus fileProcessStatus) {
+        Source source = new NeutralRecordSource(item.getResourceId(), getStageName(), item.getVisitBeforeLineNumber(),
+                item.getVisitBeforeColumnNumber(), item.getVisitAfterLineNumber(), item.getVisitAfterColumnNumber());
+        try {
+            return persist(item);
+        } catch (EntityValidationException ex) {
+            reportErrors(ex.getValidationErrors(), item, report, reportStats, source);
+        } catch (DuplicateKeyException ex) {
+            reportWarnings(ex.getMostSpecificCause().getMessage(), item.getType(), item.getSourceFile(), report,
+                    reportStats, source);
+        }
+        return null;
+    }
+
+    @Override
+    protected List<Entity> doHandling(List<SimpleEntity> items, AbstractMessageReport report, ReportStats reportStats,
+            FileProcessStatus fileProcessStatus) {
+        return persist(items, report, reportStats);
+    }
+
+    @Override
+    public String getStageName() {
+        return STAGE_NAME;
     }
 }

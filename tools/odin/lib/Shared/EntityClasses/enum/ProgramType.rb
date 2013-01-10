@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative 'Enum.rb'
+
 # Enumerates the different types of programs. From Ed-Fi-Core.xsd:
 # <xs:simpleType name="ProgramType">
 #   <xs:annotation>

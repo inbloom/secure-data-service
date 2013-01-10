@@ -44,6 +44,7 @@ module Enum
     end
  
     def const_missing(key)
+      return nil if @hash[key] == nil
       @hash[key].value
     end    
  
@@ -56,6 +57,13 @@ module Enum
     def all
       @hash.values
     end
+
+    def get_key(value)
+      items = []
+      @hash.values.each { |item| items << item if item.value == value }
+      return nil if items.size == 0 or items.size > 1
+      items.first.key
+    end
  
     def all_to_hash
       hash = {}
@@ -63,6 +71,18 @@ module Enum
         hash[key] = value.value
       end
       hash
+    end
+
+    # translates the specified Symbol into the ed-fi compliant String representation of the enumerated type
+    # -> returns nil if the Symbol doesn't exist
+    def to_string(key)
+      const_get(key)
+    end
+
+    # translates the specified String representation of the enumerated type into a Symbol
+    # -> returns nil if the String representation doesn't map to a Symbol
+    def to_symbol(value)
+      get_key(value)
     end
   end
 end

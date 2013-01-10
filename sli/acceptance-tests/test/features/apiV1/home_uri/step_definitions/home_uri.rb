@@ -40,17 +40,17 @@ Transform /^(\/[\w-]+\/)(<.+>)$/ do |uri, template|
 end
 
 # transform /v1/entity/<Place Holder Id>
-Transform /^(\/[\w-]+\/)([\w-]+\/)(<.+>)$/ do |version, uri, template|
+Transform /^(\/[\w-].+\/)([\w-]+\/)(<.+>)$/ do |version, uri, template|
   version + uri + Transform(template)
 end
 
 # transform /path/<Place Holder Id>
-Transform /^(\/[\w-]+\/)([\w-]+\/)(<.+>)(\/[\w-]+)$/ do |version, uri, template, assoc|
+Transform /^(\/[\w-].+\/)([\w-]+\/)(<.+>)(\/[\w-]+)$/ do |version, uri, template, assoc|
   version + uri + Transform(template) + assoc
 end
 
 # transform /path/<Place Holder Id>
-Transform /^(\/[\w-]+\/)([\w-]+\/)(<.+>)(\/[\w-]+)(\/[\w-]+)$/ do |version, uri, template, assoc, entity|
+Transform /^(\/[\w-].+\/)([\w-]+\/)(<.+>)(\/[\w-]+)(\/[\w-]+)$/ do |version, uri, template, assoc, entity|
   version + uri + Transform(template) + assoc + entity
 end
 

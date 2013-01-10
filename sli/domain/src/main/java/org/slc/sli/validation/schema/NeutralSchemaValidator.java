@@ -31,6 +31,7 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.SchemaRepository;
+import org.slc.sli.validation.SelfReferenceValidator;
 import org.slc.sli.validation.ValidationError;
 
 /**
@@ -59,9 +60,12 @@ public class NeutralSchemaValidator implements EntityValidator {
     @Qualifier("simpleValidationRepo")
     private Repository<Entity> simpleValidationRepo;
 
-    // Constructors
-    public NeutralSchemaValidator() {
+    @Autowired
+    private SelfReferenceValidator selfReferenceValidator;
 
+	// Constructors
+    public NeutralSchemaValidator() {
+        // necessary for instantiation via Spring 
     }
 
     public NeutralSchemaValidator(SchemaRepository entitySchemaRegistry) {
@@ -89,6 +93,12 @@ public class NeutralSchemaValidator implements EntityValidator {
             throw new EntityValidationException(entity.getEntityId(), entity.getType(), errors);
         }
 
+        valid = selfReferenceValidator.validate(entity, errors);
+        if (!valid) {
+            LOG.debug("Errors detected in {}, {}", new Object[]{entity.getEntityId(), errors});
+            throw new EntityValidationException(entity.getEntityId(), entity.getType(), errors);
+        }
+
         return true;
     }
 
@@ -109,6 +119,11 @@ public class NeutralSchemaValidator implements EntityValidator {
         }
 
     }
+    
+    @Override
+    public boolean validateNaturalKeys(final Entity entity, boolean clearOriginal) {
+        return true;
+    }
 
     @Override
     public boolean validatePresent(Entity entity) throws EntityValidationException {
@@ -128,5 +143,10 @@ public class NeutralSchemaValidator implements EntityValidator {
 
         return true;
     }
+
+    public void setSelfReferenceValidator(
+			SelfReferenceValidator selfReferenceValidator) {
+		this.selfReferenceValidator = selfReferenceValidator;
+	}
 
 }

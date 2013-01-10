@@ -20,18 +20,12 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Field;
 import java.util.List;
 
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.io.IOUtils;
-import org.milyn.Smooks;
 import org.milyn.SmooksException;
-import org.milyn.delivery.ContentHandlerConfigMapTable;
-import org.milyn.delivery.VisitorConfigMap;
-import org.milyn.delivery.sax.SAXVisitAfter;
-import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +34,14 @@ import org.xml.sax.SAXException;
 
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.impl.JobSource;
+import org.slc.sli.ingestion.smooks.SliSmooks;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
 import org.slc.sli.ingestion.smooks.SmooksEdFiVisitor;
-import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  * smooks handler for edfi files
@@ -55,67 +54,62 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
 
     private static final Logger LOG = LoggerFactory.getLogger(SmooksFileHandler.class);
 
+    private static final String STAGE_NAME = "Smooks File Parsing";
+
     @Autowired
     private SliSmooksFactory sliSmooksFactory;
 
     @Override
-    protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, ErrorReport errorReport,
-            FileProcessStatus fileProcessStatus) {
+    protected IngestionFileEntry doHandling(IngestionFileEntry item, AbstractMessageReport report,
+            ReportStats reportStats, FileProcessStatus fileProcessStatus) {
+        Source source = new JobSource(item.getResourceId(), getStageName());
         try {
 
-            generateNeutralRecord(fileEntry, errorReport, fileProcessStatus);
+            generateNeutralRecord(item, report, reportStats, source, fileProcessStatus);
 
         } catch (IOException e) {
-            LOG.error("IOException: Could not instantiate smooks, unable to read configuration file", e);
-            errorReport.fatal("Could not instantiate smooks, unable to read configuration file.",
-                    SmooksFileHandler.class);
+            report.error(reportStats, source, CoreMessageCode.CORE_0016);
         } catch (SAXException e) {
-            LOG.error("SAXException: Could not instantiate smooks, problem parsing configuration file", e);
-            errorReport.fatal("Could not instantiate smooks, problem parsing configuration file.",
-                    SmooksFileHandler.class);
+            report.error(reportStats, source, CoreMessageCode.CORE_0017);
         }
 
-        return fileEntry;
+        return item;
     }
 
-    void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, ErrorReport errorReport,
-            FileProcessStatus fileProcessStatus) throws IOException, SAXException {
+    void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, AbstractMessageReport errorReport,
+            ReportStats reportStats, Source source, FileProcessStatus fileProcessStatus) throws IOException,
+            SAXException {
 
         // create instance of Smooks (with visitors already added)
-        Smooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, errorReport);
+        SliSmooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, errorReport, reportStats);
 
         InputStream inputStream = new BufferedInputStream(new FileInputStream(ingestionFileEntry.getFile()));
         try {
             // filter fileEntry inputStream, converting into NeutralRecord entries as we go
             smooks.filterSource(new StreamSource(inputStream));
+            SmooksEdFiVisitor edFiVisitor = smooks.getSmooksEdFiVisitor();
 
-            try {
-                Field f = smooks.getClass().getDeclaredField("visitorConfigMap");
-                f.setAccessible(true);
-                VisitorConfigMap map = (VisitorConfigMap) f.get(smooks);
-                ContentHandlerConfigMapTable<SAXVisitAfter> visitAfters = map.getSaxVisitAfters();
-                SmooksEdFiVisitor visitAfter = (SmooksEdFiVisitor) visitAfters.getAllMappings().get(0)
-                        .getContentHandler();
+            int recordsPersisted = edFiVisitor.getRecordsPerisisted();
+            fileProcessStatus.setTotalRecordCount(recordsPersisted);
 
-                int recordsPersisted = visitAfter.getRecordsPerisisted();
-                fileProcessStatus.setTotalRecordCount(recordsPersisted);
-
-                LOG.info("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
-                        ingestionFileEntry.getFileName());
-            } catch (Exception e) {
-                LOG.error("Error accessing visitor list in smooks", e);
-            }
+            LOG.info("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
+                    ingestionFileEntry.getFileName());
         } catch (SmooksException se) {
-            LOG.error("smooks exception: encountered problem with " + ingestionFileEntry.getFile().getName() + "\n", se);
-            errorReport.error("SmooksException encountered while filtering input.", SmooksFileHandler.class);
+            errorReport.error(reportStats, source, CoreMessageCode.CORE_0020, ingestionFileEntry.getFile().getName());
         } finally {
             IOUtils.closeQuietly(inputStream);
         }
     }
 
     @Override
-    protected List<IngestionFileEntry> doHandling(List<IngestionFileEntry> items, ErrorReport errorReport,
-            FileProcessStatus fileProcessStatus) {
+    protected List<IngestionFileEntry> doHandling(List<IngestionFileEntry> items, AbstractMessageReport report,
+            ReportStats reportStats, FileProcessStatus fileProcessStatus) {
+        // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public String getStageName() {
+        return STAGE_NAME;
     }
 }

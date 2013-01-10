@@ -23,7 +23,9 @@ Background: Nothing yet
     | courseOfferings             | courseOffering             | dc7df8c7-a5f1-48df-9e51-4c45afcc149f    |
 
   Scenario Outline: Getting response from GET - Read all
-    Given parameter "limit" is "0"
+  
+	#ES bug, set this back to zero after bug fix
+    Given parameter "limit" is "250"
     When I navigate to GET "/v1/<ENTITY URI>"
     Then I should receive a return code of 200
     And I should receive an XML document
@@ -36,7 +38,7 @@ Background: Nothing yet
     | schools                     | school                     | 1               |
     | students                    | student                    | 31              |
     | studentSectionAssociations  | studentSectionAssociation  | 31              |
-    | courseOfferings             | courseOffering             | 11              |
+    | courseOfferings             | courseOffering             | 39              |
 
   Scenario: Getting response from POST - Create (school)
     Given a valid XML document for a new school entity

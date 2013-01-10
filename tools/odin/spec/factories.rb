@@ -25,19 +25,19 @@ FactoryGirl.define do
     firstName "John"
     lastName "Snow"
     email "jsnow@thewall.com"
-    
+
   end
 
   factory :parent do
-    initialize_with { new(52, Date.new(1980, 10, 2)) }
+    initialize_with { new(FactoryGirl.build(:student), :dad) }
     sex "Male"
     firstName "James"
     lastName "Snow"
     email "jsnow1@thewall.com"
   end
-  
-   factory :teacher do
-    initialize_with { new(52, Date.new(1980, 10, 2)) }
+
+  factory :staff do
+    initialize_with { new(1052,  Date.new(1960, 11, 2)) }
     sex "Male"
     firstName "Frank"
     lastName "McCourt"
@@ -45,8 +45,29 @@ FactoryGirl.define do
   end
 
   factory :studentParentAssociation do
-    rand = Random.new(42)
-    initialize_with { new(52, 42, rand) }
+    initialize_with { new(FactoryGirl.build(:student), :dad) }
     primaryContactStatus true
+  end
+  
+   factory :assessment do
+  
+    initialize_with { new(52, Date.new(2012, 11, 2)) }
+    assessmentTitle "SAT II - US History"
+    gradeLevelAssessed "Twelfth grade"
+  end
+  
+   factory :assessment_family do
+  
+    initialize_with { new(52, Date.new(2012, 11, 2)) }
+    assessmentFamilyTitle "SAT II"
+  end
+  
+   factory :assessment_item do
+
+    initialize_with { new(52, FactoryGirl.build(:assessment)) }
+    identificationCode "8675309"
+    itemCategory "Analytic"
+    association :assessment, strategy: :build
+   
   end
 end

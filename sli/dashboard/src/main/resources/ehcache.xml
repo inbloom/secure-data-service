@@ -15,11 +15,11 @@
   limitations under the License.
 -->
 <ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="ehcache.xsd" updateCheck="false" maxBytesLocalHeap="50%">
+    xsi:noNamespaceSchemaLocation="ehcache.xsd" updateCheck="false" maxBytesLocalHeap="30%">
 
     <defaultCache eternal="false" maxElementsInMemory="1000"
         overflowToDisk="false" diskPersistent="false" timeToIdleSeconds="0"
-        timeToLiveSeconds="600" memoryStoreEvictionPolicy="LRU"/>
+        timeToLiveSeconds="300" memoryStoreEvictionPolicy="LRU"/>
 
     <cache name="user.panel.data" eternal="false" overflowToDisk="false"><sizeOfPolicy maxDepth="100000"/></cache>
 

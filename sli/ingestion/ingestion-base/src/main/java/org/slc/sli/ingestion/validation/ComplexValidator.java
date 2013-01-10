@@ -14,18 +14,22 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.validation;
 
 import java.util.List;
 
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
+
 /**
- * Abstract validator.
+ * Abstract validator
  *
  * @author okrook
  *
+ * @param <T>
  */
-public class ComplexValidator<T> extends SimpleValidator<T> {
+public class ComplexValidator<T> implements Validator<T> {
     private List<? extends Validator<T>> validators;
 
     public List<? extends Validator<T>> getValidators() {
@@ -37,27 +41,18 @@ public class ComplexValidator<T> extends SimpleValidator<T> {
     }
 
     @Override
-    public boolean isValid(T object, ErrorReport callback) {
+    public boolean isValid(T object, AbstractMessageReport report, ReportStats reportStats, Source source) {
         for (Validator<T> validator : validators) {
-            if (!validator.isValid(object, callback)) {
+            if (!validator.isValid(object, report, reportStats, source)) {
                 return false;
             }
         }
-
         return true;
     }
 
-    /**
-     * Helper to report a validation failure.
-     *
-     * @param report Validation report callback
-     * @param message Validation message
-     */
     @Override
-    protected void fail(ErrorReport report, String message) {
-        if (report != null) {
-            report.error(message, this);
-        }
+    public String getStageName() {
+        return "Complex Validation";
     }
 
 }

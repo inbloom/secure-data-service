@@ -64,6 +64,9 @@ public class StaffToCourseValidatorTest {
     @Autowired
     private SecurityContextInjector injector;
     
+    @Autowired
+    ValidatorTestHelper helper;
+    
     Entity staff1 = null;   //associated to LEA
     Entity staff2 = null;   //associated to school1
     Entity staff3 = null;   //associated to school2
@@ -127,17 +130,9 @@ public class StaffToCourseValidatorTest {
         body.put("staffReference", staff3.getEntityId());
         repo.create("staffEducationOrganizationAssociation", body);
         
-        body = new HashMap<String, Object>();
-        body.put("schoolId", lea1.getEntityId());
-        course1 = repo.create("course", body);
-        
-        body = new HashMap<String, Object>();
-        body.put("schoolId", school1.getEntityId());
-        course2 = repo.create("course", body);
-
-        body = new HashMap<String, Object>();
-        body.put("schoolId", school2.getEntityId());
-        course3 = repo.create("course", body);
+        course1 = helper.generateCourse(lea1.getEntityId());
+        course2 = helper.generateCourse(school1.getEntityId());
+        course3 = helper.generateCourse(school2.getEntityId());
     }
     
     private void setupCurrentUser(Entity staff) {

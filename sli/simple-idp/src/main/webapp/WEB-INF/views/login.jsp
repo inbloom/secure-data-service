@@ -9,60 +9,33 @@
 <link rel="icon" type="image/x-icon" href="resources/favicon.ico"/>
 <script type="text/javascript" src="resources/jquery-1.7.2.min.js"></script>
 
-<style type="text/css">
-.tenant {
-	/* color: #438746 */
-}
-
-.realm-name {
-	padding: 30px;
-	background-color: #EEE;
-	border: thick;
-	-webkit-border-radius: 6px;
-	-mox-border-radius: 6px;
-	border-radius: 6px;
-	margin-top: 30px;
-}
-
-.form-container {
-	margin: 10px;
-	margin-top: 30px;
-}
-
-.tool-tip-link {
-	margin-left:140px;
-	color:rgb(0, 102, 153);
-	font-size:11px; 
-}
-
-.custom-role {
-    margin-left: 140px;
-    margin-top: 20px;
-}
-
-.top-gap {
-    margin-top: 10px;
-}
-
-
-</style>
 <link href="resources/bootstrap.css" rel="stylesheet"/>
+<link href="resources/bootstrap-responsive.min.css" rel="stylesheet"/>
+<link href="resources/globalStyles.css" rel="stylesheet"/>
+
 </head>
 
 <body onload="document.login_form.user_id.focus();">
-	<div class="container">
-		
-      <div class="hero-unit">
-      	<div class="row">
-      		<div class="span2">
-      			<img src="resources/default.png" alt="SLC IDP Logo"/>
-      		</div><!-- end span2 -->
-      		<div class="span8">
-      			<h1>Shared Learning Collaborative</h1>
-      			<h2>${subTitle}</h2>
-      		</div><!-- end span7 -->
-      	</div><!-- end row -->
-      </div><!-- end hero-unit -->
+<div class="container">
+	<div class="row">
+		<div class="span12">
+			<div class="brandContainer">
+				<div class="row">
+					<div class="span2"> 
+						<c:if test="${!isSandbox}">
+							<img src="resources/inBloom_logo.png"> 
+						</c:if>
+						 <c:if test="${isSandbox}">
+	            			<img src="resources/inBloomSandbox.png">
+	            		</c:if>
+					</div>
+					<div class="span8">
+						<h1>${fn:escapeXml(subTitle)}</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 		
 		<c:if test="${msg!=null}">
 			<div class="alert alert-success"><c:out value="${msg}"/></div>
@@ -74,8 +47,8 @@
 		<div class='form-container'>
 			<form id="login_form" name="login_form" action="login" method="post" class="form-horizontal">
 				<input type="hidden" name="realm" value="${fn:escapeXml(realm)}"/>
-				<input type="hidden" name="SAMLRequest" value="${fn:escapeXml(SAMLRequest)}"/>
-				<input type="hidden" name="isForgotPasswordVisible" value="${fn:escapeXml(isForgotPasswordVisible)}"/>
+				<input type="hidden" name="developer" value="${fn:escapeXml(developer)}"/>
+      			<input type="hidden" name="SAMLRequest" value="${fn:escapeXml(SAMLRequest)}"/>
 				<fieldset>
 					<div class="control-group">
 						<label for="user_id" class="control-label">Email Address:</label>
@@ -91,12 +64,14 @@
 					</div>
 					<c:if test="${isForgotPasswordVisible}">
 						<div class="control-group">
-							<a class="tool-tip-link" id="forgotPassword" name="forgotPassword" href="${fn:escapeXml(adminUrl)}/forgotPassword">Forgot your password?</a>
+							<div class="controls">
+								<a class="tool-tip-link" id="forgotPassword" name="forgotPassword" href="${fn:escapeXml(adminUrl)}/forgotPassword">Forgot your password?</a>
+							</div>
 						</div>
 					</c:if>
 					<div class="control-group">
 						<div class="controls">
-							<input id="login_button" name="commit" type="submit" value="Login" class="btn btn-primary" />
+							<input id="login_button" name="commit" type="submit" value="Sign in" class="btn btn-primary" />
 						</div>
 					</div>
 				</fieldset>

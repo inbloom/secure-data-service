@@ -54,7 +54,7 @@ import org.slc.sli.validation.schema.NeutralSchema;
 public class MongoQueryConverter {
     private static final String MONGO_ID = "_id";
     private static final String MONGO_BODY = "body.";
-    private static final String ENCRYPTION_ERROR = "Unable to perform search operation on PII field ";
+    private static final String ENCRYPTION_ERROR = "Unable to perform search operation on PII field.";
 
     private static final Logger LOG = LoggerFactory.getLogger(MongoQueryConverter.class);
 
@@ -91,7 +91,7 @@ public class MongoQueryConverter {
             try {
                 idList = (Collection<String>) rawValues;
             } catch (ClassCastException cce) {
-                throw new RuntimeException("IDs must be List<String>");
+                throw new RuntimeException("IDs must be List<String>", cce);
             }
 
         } else if (rawValues instanceof String) {
@@ -166,7 +166,7 @@ public class MongoQueryConverter {
                              return Criteria.where(prefixKey(neutralCriteria)).in((Collection<Object>) neutralCriteria.getValue());
                          }
                      } catch (ClassCastException cce) {
-                        throw new QueryParseException("Invalid list of in values " + neutralCriteria.getValue(), neutralCriteria.toString());
+                        throw new QueryParseException("Invalid list of in values " + neutralCriteria.getValue(), neutralCriteria.toString(), cce);
                      }
                  }
              }
@@ -184,7 +184,7 @@ public class MongoQueryConverter {
                     try {
                         return Criteria.where(prefixKey(neutralCriteria)).nin(neutralCriteria.getValue());
                     } catch (ClassCastException cce) {
-                        throw new QueryParseException("Invalid list of in values " + neutralCriteria.getValue(), neutralCriteria.toString());
+                        throw new QueryParseException("Invalid list of in values " + neutralCriteria.getValue(), neutralCriteria.toString(), cce);
                     }
                 }
             }
@@ -250,13 +250,18 @@ public class MongoQueryConverter {
         this.operatorImplementations.put("=~", new MongoCriteriaGenerator() {
             @Override
             public Criteria generateCriteria(NeutralCriteria neutralCriteria, Criteria criteria) {
-                if (criteria != null) {
-                    criteria.regex((String) neutralCriteria.getValue());
 
-                    return criteria;
-                } else {
-                    return Criteria.where(prefixKey(neutralCriteria)).regex((String) neutralCriteria.getValue());
+                if (neutralCriteria.getValue() instanceof String) {
+                    if (criteria != null) {
+                        criteria.regex((String) neutralCriteria.getValue());
+
+                        return criteria;
+                    } else {
+                        return Criteria.where(prefixKey(neutralCriteria)).regex((String) neutralCriteria.getValue());
+                    }
                 }
+                
+                throw new QueryParseException("Attempted to query against a non-string field", neutralCriteria.toString());
             }
         });
 
@@ -371,7 +376,7 @@ public class MongoQueryConverter {
 
                 NeutralSchema fieldSchema = this.getFieldSchema(entitySchema, neutralQuery.getSortBy());
                 if (fieldSchema != null && fieldSchema.isPii()) {
-                    throw new QueryParseException(ENCRYPTION_ERROR + " cannot be sorted on", neutralQuery.toString());
+                    throw new QueryParseException(ENCRYPTION_ERROR + " PII cannot be sorted on", neutralQuery.toString());
                 }
             }
 
@@ -402,11 +407,15 @@ public class MongoQueryConverter {
 
             if (fieldSchema != null) {
                 if (!operator.equals("exists")) {
+                    if (!fieldSchema.isSimple() && operator.equals(NeutralCriteria.CRITERIA_REGEX)) {
+                        throw new QueryParseException("Cannot query on intermediate data structures, only fields", neutralCriteria.toString());
+                    }
+
                     value = fieldSchema.convert(neutralCriteria.getValue());
                 }
                 if (fieldSchema.isPii()) {
                     if (operator.contains("<") || operator.contains(">") || operator.contains("~")) {
-                        throw new QueryParseException(ENCRYPTION_ERROR + value, neutralQuery.toString());
+                        throw new QueryParseException(ENCRYPTION_ERROR + " Invalid Operator: " + operator, neutralQuery.toString());
                     }
 
                     if (encryptor != null) {
@@ -532,16 +541,17 @@ public class MongoQueryConverter {
     }
 
     private NeutralSchema getFieldSchema(NeutralSchema schema, String dottedField) {
+    	NeutralSchema tempSchema = schema;
         for (String field : dottedField.split("\\.")) {
-            schema = this.getNestedSchema(schema, field);
-            if (schema != null) {
-                LOG.debug("nested schema type is {}", schema.getSchemaType());
+            tempSchema = this.getNestedSchema(tempSchema, field);
+            if (tempSchema != null) {
+                LOG.debug("nested schema type is {}", tempSchema.getSchemaType());
             } else {
                 LOG.debug("nested schema type is {}", "NULL");
             }
         }
 
-        return schema;
+        return tempSchema;
     }
 
 }

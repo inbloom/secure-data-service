@@ -13,7 +13,7 @@ Scenario: View Matt Sollars
  When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 And I see a header on the page
 And I see a footer on the page
-And the title of the page is "SLC Dashboard"
+And the title of the page is "inBloom Dashboard"
 When I select ed org "Daybreak School District 4529"
 When I select school "East Daybreak Junior High"
 And I click on the go button
@@ -125,7 +125,7 @@ And the grades teardrop color widgets for "previousSemester;twoSemestersAgo" are
 And I click on student "Matt Sollars"
 And I see a header on the page
 And I see a footer on the page
-And the title of the page is "SLC - Student Profile"
+And the title of the page is "inBloom - Student Profile"
 And I view its student profile
 And their name shown in profile is "Matt Joseph Sollars Jr"
 And their id shown in proflie is "800000025"
@@ -217,7 +217,7 @@ And the Assessment History for "StateTest Writing" has the following entries:
 When I click on "Attendance and Discipline" Tab
 And the Attendance History in grid "1" has the following entries:
 |Term         |School                     |Grade Level  |% Present  |Total Absences |Excused  |Unexcused  |Tardy  |
-|2011-2012    |East Daybreak Junior High  |8            |95         |4              |4        |0          |0      |
+|2011-2012    |East Daybreak Junior High  |8            |0          |0              |0        |0          |0      |
 And the Attendance History in grid "2" has the following entries:
 |Term         |School                     |Grade Level  |% Present  |Total Absences |Excused  |Unexcused  |Tardy  |
 |2010-2011    |East Daybreak Junior High  |7            |0          |0              |0        |0          |0      |

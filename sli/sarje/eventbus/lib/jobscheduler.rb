@@ -86,10 +86,14 @@ module Eventbus
             @threads << Thread.new do
               job_reader = Eventbus::JobReader.new(config)
               loop do
-                jobs, event_job_map = job_reader.get_jobs
-                @logger.info "publishing #{jobs}" if @logger
-                @event_subscriber.observe_events(jobs)
-                event_job_mapper.set_event_job_map(event_job_map)
+                begin
+                  jobs, event_job_map = job_reader.get_jobs
+                  @logger.info "publishing #{jobs}" if @logger
+                  @event_subscriber.observe_events(jobs)
+                  event_job_mapper.set_event_job_map(event_job_map)
+                rescue Mongo::ConnectionFailure => mce
+                  @logger.warn "Mongo connection failure, will attempt to reconnect in #{@poll_interval} seconds"
+                end
                 sleep @poll_interval
               end
             end
@@ -98,8 +102,8 @@ module Eventbus
             event_id_with_timestamp_queue = Queue.new
             @threads << Thread.new do
               @event_subscriber.handle_event do |event_ids|
+                @logger.info "received #{event_ids.size} events" if @logger
                 event_ids.each do |event_id|
-                 @logger.info "received event #{event_id}" if @logger
                   event_id_with_timestamp_queue << {:event_id => event_id, :time_received => Time.now.to_i}
                 end
               end

@@ -17,7 +17,7 @@ limitations under the License.
 =end
 Then /^I view the School Profile/ do
   @schoolInfo = viewInfoPanel("schoolProfile", "schoolInfo")
-  verifyPageTitle("SLC - School Profile")
+  verifyPageTitle("inBloom - School Profile")
   #Assume first tab is Subjects and Courses
   @currentTab = getTab("Subjects and Courses")
 end

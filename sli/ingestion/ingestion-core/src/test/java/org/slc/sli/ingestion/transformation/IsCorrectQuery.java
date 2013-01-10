@@ -15,13 +15,12 @@
  */
 package org.slc.sli.ingestion.transformation;
 
+import java.util.List;
+
 import com.mongodb.BasicDBObject;
 
 import org.mockito.ArgumentMatcher;
 import org.springframework.data.mongodb.core.query.Query;
-
-import java.util.List;
-import java.util.ArrayList;
 
 /**
  * Util class for Query match
@@ -67,8 +66,8 @@ public class IsCorrectQuery extends ArgumentMatcher<Query> {
                     {
                         return false;
                     } else if (key2.equals("$in")) {
-                        List queryVal = (ArrayList) queryObj.get(key2);
-                        List argVal = (ArrayList) argObj.get(key2);
+                        List<?> queryVal = (List<?>) queryObj.get(key2);
+                        List<?> argVal = (List<?>) argObj.get(key2);
                         if (queryVal.size() != argVal.size()) {
                             return false;
                         }

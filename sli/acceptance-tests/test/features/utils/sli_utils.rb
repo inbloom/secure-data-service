@@ -127,11 +127,13 @@ $SESSION_MAP = {
                 "staff22_SEC" => "00000000-5555-5555-0001-500000000122",
                 "linda.kim_Zork" => "08e3cc74-4a5c-4a0e-b8ab-680ee11cc890",
                 "linda.kim_Chaos" => "160eb95e-173f-472a-8ed2-b973a4d775a3",
+                "linda.kimadmin_IL" => "4cf7a5d4-37a1-ca19-8b13-b5f95131afff",
                 "cgrayadmin_IL" => "bd8987d4-75a2-ba63-8b53-424242424242",
                 "jstevenson_SIF" => "e4e9d71c-d674-11e1-9ea4-f9fc6188709b",
                 "linda.kim_developer-email" => "d0c34964-4a5c-4a0e-b8ab-1fd1a6801888",
                 "linda.kim_sandboxadministrator" => "9a87321a-8534-4a0e-b8ab-981ab8716233",
-                "unprovisioned_sunset_admin_SLI" => "261d8a09-a181-4e3f-bcaa-241f409afb8b"
+                "unprovisioned_sunset_admin_SLI" => "261d8a09-a181-4e3f-bcaa-241f409afb8b",
+                "rrogerslimitedwrite_IL" => "03af65a0-5720-4cbc-ae49-f7bcb46c25f1"
 }
 
 def convertTenantIdToDbName(tenantId)
@@ -166,6 +168,7 @@ end
 #              and sets the @sessionId variable for use in later stepdefs throughout the scenario
 #              It is suggested you assert the @sessionId before returning success from the calling function
 def idpRealmLogin(user, passwd, realm="SLI")
+  puts "realm " + realm
   token = $SESSION_MAP[user+"_"+realm]
   assert(token != nil, "Could not find session for user #{user} in realm #{realm}")
   @sessionId = token
@@ -189,6 +192,16 @@ def restHttpPost(id, data, format = @format, sessionId = @sessionId)
 
   urlHeader = makeUrlAndHeaders('post',id,sessionId,format)
   @res = RestClient.post(urlHeader[:url], data, urlHeader[:headers]){|response, request, result| response }
+
+  puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
+end
+
+def restHttpPostAbs(url, data = nil, format = @format, sessionId = @sessionId)
+  # Validate SessionId is not nil
+  assert(sessionId != nil, "Session ID passed into POST was nil")
+
+  urlHeader = makeHeaders('post',sessionId,format)
+  @res = RestClient.post(url, data, urlHeader[:headers]){|response, request, result| response }
 
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
@@ -280,6 +293,16 @@ def restHttpDelete(id, format = @format, sessionId = @sessionId)
   puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
 end
 
+def restHttpDeleteAbs(url, format = @format, sessionId = @sessionId)
+  # Validate SessionId is not nil
+  assert(sessionId != nil, "Session ID passed into DELETE was nil")
+
+  urlHeader = makeHeaders('delete',sessionId,format)
+  @res = RestClient.delete(url, urlHeader[:headers]){|response, request, result| response }
+
+  puts(@res.code,@res.body,@res.raw_headers) if $SLI_DEBUG
+end
+
 def makeUrlAndHeaders(verb,id,sessionId,format)
   headers = makeHeaders(verb, sessionId, format)
 
@@ -297,6 +320,9 @@ def makeHeaders(verb,sessionId,format)
   end
 
   headers.store(:Authorization, "bearer "+sessionId)
+  if !headers.has_key?(:content_type)
+    headers.store("Content-Type", "application/json")
+  end
   return headers
 end
 
@@ -349,7 +375,7 @@ Around('@LDAP_Reset_developer-email') do |scenario, block|
   if scenario.failed?
     ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'],
                           PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'],
-                          PropLoader.getProps['ldap_admin_pass'])
+                          PropLoader.getProps['ldap_admin_pass'], PropLoader.getProps['ldap_use_ssl'])
     ldap.update_user_info({:email=> "developer-email@slidev.org", :password=>"test1234"})
   end
 end
@@ -359,7 +385,7 @@ Around('@LDAP_Reset_sunsetadmin') do |scenario, block|
   if scenario.failed?
     ldap = LDAPStorage.new(PropLoader.getProps['ldap_hostname'], PropLoader.getProps['ldap_port'],
                           PropLoader.getProps['ldap_base'], PropLoader.getProps['ldap_admin_user'],
-                          PropLoader.getProps['ldap_admin_pass'])
+                          PropLoader.getProps['ldap_admin_pass'], PropLoader.getProps['ldap_use_ssl'])
     ldap.update_user_info({:email=> "sunsetadmin", :password=>"sunsetadmin1234", :emailtoken => "sunsetadminderpityderp1304425892"})
   end
 end
@@ -444,6 +470,7 @@ end
 module DataProvider
   def self.getValidRealmData()
     return {
+       "uniqueIdentifier" => "Whatever",
        "tenantId" => "bliss",
        "admin" => false,
        "idp" => {"id" => "http://path.to.nowhere", "redirectEndpoint" => "http://path.to.nowhere/somewhere/else"},
@@ -581,4 +608,23 @@ end
 ### create a deep copy of entity data used in API CRUD tests
 def deep_copy(o)
   Marshal.load(Marshal.dump(o))
+end
+
+### asserts something with a timeout
+def assertWithPolling(msg, total_wait_sec, &blk)
+  passed = false
+  total_wait_sec.times { |x|
+    begin
+      sleep(1)
+      assert(yield, msg)
+      passed = true
+      break
+    rescue MiniTest::Assertion
+      $stderr.puts "not yet statisfied after #{x} seconds"
+    rescue 
+      $stderr.puts "not yet statisfied after #{x} seconds"
+    end
+  }
+
+  assert(yield, msg) unless passed
 end

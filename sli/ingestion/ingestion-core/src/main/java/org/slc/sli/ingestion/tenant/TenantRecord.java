@@ -36,10 +36,6 @@ public class TenantRecord {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
-    // mongoTemplate requires this constructor.
-    public TenantRecord() {
-    }
-
     public String getTenantId() {
         return tenantId;
     }
@@ -98,6 +94,16 @@ public class TenantRecord {
         } catch (java.io.IOException e) {
             return super.toString();
         }
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((landingZone == null) ? 0 : landingZone.hashCode());
+        result = prime * result + ((tenantId == null) ? 0 : tenantId.hashCode());
+        result = prime * result + ((dbName == null) ? 0 : dbName.hashCode());
+        return result;
     }
 
     @Override

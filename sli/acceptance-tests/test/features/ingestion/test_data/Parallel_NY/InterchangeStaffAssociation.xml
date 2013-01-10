@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<?xml version='1.0' encoding='UTF-8' standalone='yes'?>
 <!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
-<InterchangeStaffAssociation xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../common/domain/src/main/resources/edfiXsd/Interchange-StaffAssociation.xsd">
+<InterchangeStaffAssociation xsi:schemaLocation='http://ed-fi.org/0100 ../../../../../../common/domain/src/main/resources/edfiXsd/Interchange-StaffAssociation.xsd' xmlns='http://ed-fi.org/0100' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
 	<Teacher>
 		<StaffUniqueStateId>mmcgregor</StaffUniqueStateId>
 		<Name>
@@ -231,6 +231,20 @@
 			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
 		</AcademicSubjects>
 	</TeacherSchoolAssociation>
+	<StaffEducationOrgAssignmentAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>mmcgregor</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000112</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<StaffClassification>Teacher</StaffClassification>
+		<BeginDate>2007-07-07</BeginDate>
+	</StaffEducationOrgAssignmentAssociation>
 	<TeacherSchoolAssociation>
 		<TeacherReference>
 			<StaffIdentity>
@@ -250,6 +264,20 @@
 			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
 		</AcademicSubjects>
 	</TeacherSchoolAssociation>
+	<StaffEducationOrgAssignmentAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>aharwell</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000122</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<StaffClassification>Teacher</StaffClassification>
+		<BeginDate>2007-07-07</BeginDate>
+	</StaffEducationOrgAssignmentAssociation>
 	<TeacherSchoolAssociation>
 		<TeacherReference>
 			<StaffIdentity>
@@ -269,6 +297,20 @@
 			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
 		</AcademicSubjects>
 	</TeacherSchoolAssociation>
+	<StaffEducationOrgAssignmentAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>dreiss</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000112</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<StaffClassification>Teacher</StaffClassification>
+		<BeginDate>2007-07-07</BeginDate>
+	</StaffEducationOrgAssignmentAssociation>
 	<TeacherSchoolAssociation>
 		<TeacherReference>
 			<StaffIdentity>
@@ -288,6 +330,20 @@
 			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
 		</AcademicSubjects>
 	</TeacherSchoolAssociation>
+	<StaffEducationOrgAssignmentAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>rwagers</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000122</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<StaffClassification>Teacher</StaffClassification>
+		<BeginDate>2007-07-07</BeginDate>
+	</StaffEducationOrgAssignmentAssociation>
 	<TeacherSchoolAssociation>
 		<TeacherReference>
 			<StaffIdentity>
@@ -307,6 +363,20 @@
 			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
 		</AcademicSubjects>
 	</TeacherSchoolAssociation>
+	<StaffEducationOrgAssignmentAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>jroebuck</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000112</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<StaffClassification>Teacher</StaffClassification>
+		<BeginDate>2007-07-07</BeginDate>
+	</StaffEducationOrgAssignmentAssociation>
 	<TeacherSchoolAssociation>
 		<TeacherReference>
 			<StaffIdentity>
@@ -326,6 +396,20 @@
 			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
 		</AcademicSubjects>
 	</TeacherSchoolAssociation>
+	<StaffEducationOrgAssignmentAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>cbeadette</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000122</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<StaffClassification>Teacher</StaffClassification>
+		<BeginDate>2007-07-07</BeginDate>
+	</StaffEducationOrgAssignmentAssociation>
 	<TeacherSchoolAssociation>
 		<TeacherReference>
 			<StaffIdentity>
@@ -345,6 +429,20 @@
 			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
 		</AcademicSubjects>
 	</TeacherSchoolAssociation>
+	<StaffEducationOrgAssignmentAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>cclift</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000122</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<StaffClassification>Teacher</StaffClassification>
+		<BeginDate>2007-07-07</BeginDate>
+	</StaffEducationOrgAssignmentAssociation>
 	<TeacherSchoolAssociation>
 		<TeacherReference>
 			<StaffIdentity>
@@ -364,6 +462,20 @@
 			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
 		</AcademicSubjects>
 	</TeacherSchoolAssociation>
+	<StaffEducationOrgAssignmentAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>eroemer</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000112</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<StaffClassification>Teacher</StaffClassification>
+		<BeginDate>2007-07-07</BeginDate>
+	</StaffEducationOrgAssignmentAssociation>
 	<TeacherSchoolAssociation>
 		<TeacherReference>
 			<StaffIdentity>
@@ -383,6 +495,20 @@
 			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
 		</AcademicSubjects>
 	</TeacherSchoolAssociation>
+	<StaffEducationOrgAssignmentAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>sgoddard</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>10000000121</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<StaffClassification>Teacher</StaffClassification>
+		<BeginDate>2007-07-07</BeginDate>
+	</StaffEducationOrgAssignmentAssociation>
 	<TeacherSchoolAssociation>
 		<TeacherReference>
 			<StaffIdentity>
@@ -402,6 +528,20 @@
 			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
 		</AcademicSubjects>
 	</TeacherSchoolAssociation>
+	<StaffEducationOrgAssignmentAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>emcroberts</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>10000000121</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<StaffClassification>Teacher</StaffClassification>
+		<BeginDate>2007-07-07</BeginDate>
+	</StaffEducationOrgAssignmentAssociation>
 	<TeacherSchoolAssociation>
 		<TeacherReference>
 			<StaffIdentity>
@@ -421,6 +561,20 @@
 			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
 		</AcademicSubjects>
 	</TeacherSchoolAssociation>
+	<StaffEducationOrgAssignmentAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>rburton</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>10000000121</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<StaffClassification>Teacher</StaffClassification>
+		<BeginDate>2007-07-07</BeginDate>
+	</StaffEducationOrgAssignmentAssociation>
 	<TeacherSchoolAssociation>
 		<TeacherReference>
 			<StaffIdentity>
@@ -440,6 +594,20 @@
 			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
 		</AcademicSubjects>
 	</TeacherSchoolAssociation>
+	<StaffEducationOrgAssignmentAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>ngriffith</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000111</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<StaffClassification>Teacher</StaffClassification>
+		<BeginDate>2007-07-07</BeginDate>
+	</StaffEducationOrgAssignmentAssociation>
 	<TeacherSchoolAssociation>
 		<TeacherReference>
 			<StaffIdentity>
@@ -459,6 +627,20 @@
 			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
 		</AcademicSubjects>
 	</TeacherSchoolAssociation>
+	<StaffEducationOrgAssignmentAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>jmasterson</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000111</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<StaffClassification>Teacher</StaffClassification>
+		<BeginDate>2007-07-07</BeginDate>
+	</StaffEducationOrgAssignmentAssociation>
 	<TeacherSchoolAssociation>
 		<TeacherReference>
 			<StaffIdentity>
@@ -478,6 +660,20 @@
 			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
 		</AcademicSubjects>
 	</TeacherSchoolAssociation>
+	<StaffEducationOrgAssignmentAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>nballinger</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000111</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<StaffClassification>Teacher</StaffClassification>
+		<BeginDate>2007-07-07</BeginDate>
+	</StaffEducationOrgAssignmentAssociation>
 	<TeacherSchoolAssociation>
 		<TeacherReference>
 			<StaffIdentity>
@@ -497,6 +693,20 @@
 			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
 		</AcademicSubjects>
 	</TeacherSchoolAssociation>
+	<StaffEducationOrgAssignmentAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>alovato</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>1000000111</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<StaffClassification>Teacher</StaffClassification>
+		<BeginDate>2007-07-07</BeginDate>
+	</StaffEducationOrgAssignmentAssociation>
 	<TeacherSchoolAssociation>
 		<TeacherReference>
 			<StaffIdentity>
@@ -516,6 +726,20 @@
 			<AcademicSubject>Computer and Information Sciences</AcademicSubject>
 		</AcademicSubjects>
 	</TeacherSchoolAssociation>
+	<StaffEducationOrgAssignmentAssociation>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>dmallard</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<EducationOrganizationReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>10000000121</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</EducationOrganizationReference>
+		<StaffClassification>Teacher</StaffClassification>
+		<BeginDate>2007-07-07</BeginDate>
+	</StaffEducationOrgAssignmentAssociation>
 	<TeacherSectionAssociation>
 		<TeacherReference>
 			<StaffIdentity>
@@ -807,17 +1031,17 @@
 	<!--Keisha Melendez principal (Leader) Dawn Elementary School-->
 	<Staff>
 		<StaffUniqueStateId>kmelendez</StaffUniqueStateId>
-		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
+		<StaffIdentificationCode AssigningOrganizationCode='a' IdentificationSystem='Selective Service'>
 			<ID>a</ID>
 		</StaffIdentificationCode>
-		<Name Verification="Life insurance policy">
+		<Name Verification='Life insurance policy'>
 			<PersonalTitlePrefix>Ms</PersonalTitlePrefix>
 			<FirstName>Keisha </FirstName>
 			<LastSurname>Melendez</LastSurname>
 		</Name>
 		<Sex>Female</Sex>
 		<BirthDate>1956-08-14</BirthDate>
-		<Address AddressType="Work">
+		<Address AddressType='Work'>
 			<StreetNumberName>123 Sesame Street</StreetNumberName>
 			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
 			<City>New York</City>
@@ -826,10 +1050,10 @@
 			<CountryCode>US</CountryCode>
 			<BeginDate>1967-08-13</BeginDate>
 		</Address>
-		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+		<Telephone PrimaryTelephoneNumberIndicator='true' TelephoneNumberType='Fax'>
 			<TelephoneNumber>a</TelephoneNumber>
 		</Telephone>
-		<ElectronicMail EmailAddressType="Organization">
+		<ElectronicMail EmailAddressType='Organization'>
 			<EmailAddress>junk@junk.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
@@ -871,17 +1095,17 @@
 	<!--Al Gibbs IT Support (IT Administrator) Dawn Elementary School-->
 	<Staff>
 		<StaffUniqueStateId>agibbs</StaffUniqueStateId>
-		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
+		<StaffIdentificationCode AssigningOrganizationCode='a' IdentificationSystem='Selective Service'>
 			<ID>a</ID>
 		</StaffIdentificationCode>
-		<Name Verification="Life insurance policy">
+		<Name Verification='Life insurance policy'>
 			<PersonalTitlePrefix>Mr</PersonalTitlePrefix>
 			<FirstName>Al</FirstName>
 			<LastSurname>Gibbs</LastSurname>
 		</Name>
 		<Sex>Male</Sex>
 		<BirthDate>1980-02-01</BirthDate>
-		<Address AddressType="Work">
+		<Address AddressType='Work'>
 			<StreetNumberName>123 Sesame Street</StreetNumberName>
 			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
 			<City>New York</City>
@@ -890,10 +1114,10 @@
 			<CountryCode>US</CountryCode>
 			<BeginDate>1967-08-13</BeginDate>
 		</Address>
-		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+		<Telephone PrimaryTelephoneNumberIndicator='true' TelephoneNumberType='Fax'>
 			<TelephoneNumber>a</TelephoneNumber>
 		</Telephone>
-		<ElectronicMail EmailAddressType="Organization">
+		<ElectronicMail EmailAddressType='Organization'>
 			<EmailAddress>junk@junk.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
@@ -934,17 +1158,17 @@
 	<!--Chandra Harrison Researcher (Aggregate Viewer) Dawn Elementary School-->
 	<Staff>
 		<StaffUniqueStateId>charrison</StaffUniqueStateId>
-		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
+		<StaffIdentificationCode AssigningOrganizationCode='a' IdentificationSystem='Selective Service'>
 			<ID>a</ID>
 		</StaffIdentificationCode>
-		<Name Verification="Life insurance policy">
+		<Name Verification='Life insurance policy'>
 			<PersonalTitlePrefix>Mrs</PersonalTitlePrefix>
 			<FirstName>Chandra</FirstName>
 			<LastSurname>Harrison</LastSurname>
 		</Name>
 		<Sex>Male</Sex>
 		<BirthDate>1980-02-01</BirthDate>
-		<Address AddressType="Work">
+		<Address AddressType='Work'>
 			<StreetNumberName>123 Sesame Street</StreetNumberName>
 			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
 			<City>New York</City>
@@ -953,10 +1177,10 @@
 			<CountryCode>US</CountryCode>
 			<BeginDate>1967-08-13</BeginDate>
 		</Address>
-		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+		<Telephone PrimaryTelephoneNumberIndicator='true' TelephoneNumberType='Fax'>
 			<TelephoneNumber>a</TelephoneNumber>
 		</Telephone>
-		<ElectronicMail EmailAddressType="Organization">
+		<ElectronicMail EmailAddressType='Organization'>
 			<EmailAddress>junk@junk.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
@@ -997,17 +1221,17 @@
 	<!--Jane Barrera state superintendent (Leader) New York State Education System-->
 	<Staff>
 		<StaffUniqueStateId>jbarrera</StaffUniqueStateId>
-		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
+		<StaffIdentificationCode AssigningOrganizationCode='a' IdentificationSystem='Selective Service'>
 			<ID>a</ID>
 		</StaffIdentificationCode>
-		<Name Verification="Life insurance policy">
+		<Name Verification='Life insurance policy'>
 			<PersonalTitlePrefix>Mrs</PersonalTitlePrefix>
 			<FirstName>Jane</FirstName>
 			<LastSurname>Barrera</LastSurname>
 		</Name>
 		<Sex>Female</Sex>
 		<BirthDate>1980-02-01</BirthDate>
-		<Address AddressType="Work">
+		<Address AddressType='Work'>
 			<StreetNumberName>123 Sesame Street</StreetNumberName>
 			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
 			<City>New York</City>
@@ -1016,10 +1240,10 @@
 			<CountryCode>US</CountryCode>
 			<BeginDate>1995-08-13</BeginDate>
 		</Address>
-		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+		<Telephone PrimaryTelephoneNumberIndicator='true' TelephoneNumberType='Fax'>
 			<TelephoneNumber>a</TelephoneNumber>
 		</Telephone>
-		<ElectronicMail EmailAddressType="Organization">
+		<ElectronicMail EmailAddressType='Organization'>
 			<EmailAddress>junk@junk.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
@@ -1060,17 +1284,17 @@
 	<!--Jefferson Pratt IT Support (IT Administrator) New York State Education System-->
 	<Staff>
 		<StaffUniqueStateId>jpratt</StaffUniqueStateId>
-		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
+		<StaffIdentificationCode AssigningOrganizationCode='a' IdentificationSystem='Selective Service'>
 			<ID>a</ID>
 		</StaffIdentificationCode>
-		<Name Verification="Life insurance policy">
+		<Name Verification='Life insurance policy'>
 			<PersonalTitlePrefix>Mr</PersonalTitlePrefix>
 			<FirstName>Jefferson</FirstName>
 			<LastSurname>Pratt</LastSurname>
 		</Name>
 		<Sex>Male</Sex>
 		<BirthDate>1980-02-01</BirthDate>
-		<Address AddressType="Work">
+		<Address AddressType='Work'>
 			<StreetNumberName>123 Sesame Street</StreetNumberName>
 			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
 			<City>New York</City>
@@ -1079,10 +1303,10 @@
 			<CountryCode>US</CountryCode>
 			<BeginDate>1995-08-13</BeginDate>
 		</Address>
-		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+		<Telephone PrimaryTelephoneNumberIndicator='true' TelephoneNumberType='Fax'>
 			<TelephoneNumber>a</TelephoneNumber>
 		</Telephone>
-		<ElectronicMail EmailAddressType="Organization">
+		<ElectronicMail EmailAddressType='Organization'>
 			<EmailAddress>junk@junk.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
@@ -1123,17 +1347,17 @@
 	<!--Simone Holcomb Researcher (Aggregate Viewer) New York State Education System-->
 	<Staff>
 		<StaffUniqueStateId>sholcomb</StaffUniqueStateId>
-		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
+		<StaffIdentificationCode AssigningOrganizationCode='a' IdentificationSystem='Selective Service'>
 			<ID>a</ID>
 		</StaffIdentificationCode>
-		<Name Verification="Life insurance policy">
+		<Name Verification='Life insurance policy'>
 			<PersonalTitlePrefix>Mrs</PersonalTitlePrefix>
 			<FirstName>Simone</FirstName>
 			<LastSurname>Holcomb</LastSurname>
 		</Name>
 		<Sex>Male</Sex>
 		<BirthDate>1980-02-01</BirthDate>
-		<Address AddressType="Work">
+		<Address AddressType='Work'>
 			<StreetNumberName>123 Wall Street</StreetNumberName>
 			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
 			<City>Brooklyn</City>
@@ -1142,10 +1366,10 @@
 			<CountryCode>SI</CountryCode>
 			<BeginDate>1995-08-13</BeginDate>
 		</Address>
-		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+		<Telephone PrimaryTelephoneNumberIndicator='true' TelephoneNumberType='Fax'>
 			<TelephoneNumber>a</TelephoneNumber>
 		</Telephone>
-		<ElectronicMail EmailAddressType="Organization">
+		<ElectronicMail EmailAddressType='Organization'>
 			<EmailAddress>junk@junk.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
@@ -1186,17 +1410,17 @@
 	<!--Emerson England District Superintendent (Leader) Dusk District School System-->
 	<Staff>
 		<StaffUniqueStateId>eengland</StaffUniqueStateId>
-		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
+		<StaffIdentificationCode AssigningOrganizationCode='a' IdentificationSystem='Selective Service'>
 			<ID>a</ID>
 		</StaffIdentificationCode>
-		<Name Verification="Life insurance policy">
+		<Name Verification='Life insurance policy'>
 			<PersonalTitlePrefix>Dr</PersonalTitlePrefix>
 			<FirstName>Emerson</FirstName>
 			<LastSurname>England</LastSurname>
 		</Name>
 		<Sex>Male</Sex>
 		<BirthDate>1980-02-01</BirthDate>
-		<Address AddressType="Work">
+		<Address AddressType='Work'>
 			<StreetNumberName>123 Wall Street</StreetNumberName>
 			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
 			<City>Chicago</City>
@@ -1205,10 +1429,10 @@
 			<CountryCode>SI</CountryCode>
 			<BeginDate>1995-08-13</BeginDate>
 		</Address>
-		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+		<Telephone PrimaryTelephoneNumberIndicator='true' TelephoneNumberType='Fax'>
 			<TelephoneNumber>a</TelephoneNumber>
 		</Telephone>
-		<ElectronicMail EmailAddressType="Organization">
+		<ElectronicMail EmailAddressType='Organization'>
 			<EmailAddress>junk@junk.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
@@ -1249,17 +1473,17 @@
 	<!--Marlene Hahn IT Support (IT Administrator) Dusk District School System-->
 	<Staff>
 		<StaffUniqueStateId>mhahn</StaffUniqueStateId>
-		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
+		<StaffIdentificationCode AssigningOrganizationCode='a' IdentificationSystem='Selective Service'>
 			<ID>a</ID>
 		</StaffIdentificationCode>
-		<Name Verification="Life insurance policy">
+		<Name Verification='Life insurance policy'>
 			<PersonalTitlePrefix>Ms</PersonalTitlePrefix>
 			<FirstName>Marlene</FirstName>
 			<LastSurname>Hahn</LastSurname>
 		</Name>
 		<Sex>Female</Sex>
 		<BirthDate>1980-02-01</BirthDate>
-		<Address AddressType="Work">
+		<Address AddressType='Work'>
 			<StreetNumberName>123 Wall Street</StreetNumberName>
 			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
 			<City>Riverdale</City>
@@ -1268,10 +1492,10 @@
 			<CountryCode>SI</CountryCode>
 			<BeginDate>1995-08-13</BeginDate>
 		</Address>
-		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+		<Telephone PrimaryTelephoneNumberIndicator='true' TelephoneNumberType='Fax'>
 			<TelephoneNumber>a</TelephoneNumber>
 		</Telephone>
-		<ElectronicMail EmailAddressType="Organization">
+		<ElectronicMail EmailAddressType='Organization'>
 			<EmailAddress>junk@junk.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
@@ -1312,17 +1536,17 @@
 	<!--Rene Lindsey Researcher (Aggregate Viewer) Dusk District School System-->
 	<Staff>
 		<StaffUniqueStateId>rlindsey</StaffUniqueStateId>
-		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
+		<StaffIdentificationCode AssigningOrganizationCode='a' IdentificationSystem='Selective Service'>
 			<ID>a</ID>
 		</StaffIdentificationCode>
-		<Name Verification="Life insurance policy">
+		<Name Verification='Life insurance policy'>
 			<PersonalTitlePrefix>Mrs</PersonalTitlePrefix>
 			<FirstName>Rene</FirstName>
 			<LastSurname>Lindsey</LastSurname>
 		</Name>
 		<Sex>Female</Sex>
 		<BirthDate>1980-02-01</BirthDate>
-		<Address AddressType="Work">
+		<Address AddressType='Work'>
 			<StreetNumberName>123 Wall Street</StreetNumberName>
 			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
 			<City>New York</City>
@@ -1331,10 +1555,10 @@
 			<NameOfCounty>SI</NameOfCounty>
 			<BeginDate>1995-08-13</BeginDate>
 		</Address>
-		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+		<Telephone PrimaryTelephoneNumberIndicator='true' TelephoneNumberType='Fax'>
 			<TelephoneNumber>a</TelephoneNumber>
 		</Telephone>
-		<ElectronicMail EmailAddressType="Organization">
+		<ElectronicMail EmailAddressType='Organization'>
 			<EmailAddress>junk@junk.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
@@ -1375,17 +1599,17 @@
 	<!--Georgia Canning District Superintendent (Leader) Parker District School System-->
 	<Staff>
 		<StaffUniqueStateId>gcanning</StaffUniqueStateId>
-		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
+		<StaffIdentificationCode AssigningOrganizationCode='a' IdentificationSystem='Selective Service'>
 			<ID>a</ID>
 		</StaffIdentificationCode>
-		<Name Verification="Life insurance policy">
+		<Name Verification='Life insurance policy'>
 			<PersonalTitlePrefix>Dr</PersonalTitlePrefix>
 			<FirstName>Georgia</FirstName>
 			<LastSurname>Canning</LastSurname>
 		</Name>
 		<Sex>Female</Sex>
 		<BirthDate>1980-02-01</BirthDate>
-		<Address AddressType="Work">
+		<Address AddressType='Work'>
 			<StreetNumberName>123 Wall Street</StreetNumberName>
 			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
 			<City>Chicago</City>
@@ -1394,10 +1618,10 @@
 			<CountryCode>SI</CountryCode>
 			<BeginDate>1995-08-13</BeginDate>
 		</Address>
-		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+		<Telephone PrimaryTelephoneNumberIndicator='true' TelephoneNumberType='Fax'>
 			<TelephoneNumber>a</TelephoneNumber>
 		</Telephone>
-		<ElectronicMail EmailAddressType="Organization">
+		<ElectronicMail EmailAddressType='Organization'>
 			<EmailAddress>junk@junk.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
@@ -1438,17 +1662,17 @@
 	<!--Justin Carlyle IT Support (IT Administrator) Parker District School System-->
 	<Staff>
 		<StaffUniqueStateId>jcarlyle</StaffUniqueStateId>
-		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
+		<StaffIdentificationCode AssigningOrganizationCode='a' IdentificationSystem='Selective Service'>
 			<ID>a</ID>
 		</StaffIdentificationCode>
-		<Name Verification="Life insurance policy">
+		<Name Verification='Life insurance policy'>
 			<PersonalTitlePrefix>Mr</PersonalTitlePrefix>
 			<FirstName>Justin</FirstName>
 			<LastSurname>Carlyle</LastSurname>
 		</Name>
 		<Sex>Male</Sex>
 		<BirthDate>1980-02-01</BirthDate>
-		<Address AddressType="Work">
+		<Address AddressType='Work'>
 			<StreetNumberName>123 Wall Street</StreetNumberName>
 			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
 			<City>Riverdale</City>
@@ -1457,10 +1681,10 @@
 			<CountryCode>SI</CountryCode>
 			<BeginDate>1995-08-13</BeginDate>
 		</Address>
-		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+		<Telephone PrimaryTelephoneNumberIndicator='true' TelephoneNumberType='Fax'>
 			<TelephoneNumber>a</TelephoneNumber>
 		</Telephone>
-		<ElectronicMail EmailAddressType="Organization">
+		<ElectronicMail EmailAddressType='Organization'>
 			<EmailAddress>junk@junk.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
@@ -1501,17 +1725,17 @@
 	<!--Joshua Smalley Researcher (Aggregate Viewer) Parker District School System-->
 	<Staff>
 		<StaffUniqueStateId>jsmalley</StaffUniqueStateId>
-		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
+		<StaffIdentificationCode AssigningOrganizationCode='a' IdentificationSystem='Selective Service'>
 			<ID>a</ID>
 		</StaffIdentificationCode>
-		<Name Verification="Life insurance policy">
+		<Name Verification='Life insurance policy'>
 			<PersonalTitlePrefix>Mr</PersonalTitlePrefix>
 			<FirstName>Joshua</FirstName>
 			<LastSurname>Smalley</LastSurname>
 		</Name>
 		<Sex>Male</Sex>
 		<BirthDate>1980-02-01</BirthDate>
-		<Address AddressType="Work">
+		<Address AddressType='Work'>
 			<StreetNumberName>123 Wall Street</StreetNumberName>
 			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
 			<City>New York</City>
@@ -1520,10 +1744,10 @@
 			<NameOfCounty>SI</NameOfCounty>
 			<BeginDate>1995-08-13</BeginDate>
 		</Address>
-		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+		<Telephone PrimaryTelephoneNumberIndicator='true' TelephoneNumberType='Fax'>
 			<TelephoneNumber>a</TelephoneNumber>
 		</Telephone>
-		<ElectronicMail EmailAddressType="Organization">
+		<ElectronicMail EmailAddressType='Organization'>
 			<EmailAddress>junk@junk.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
@@ -1564,17 +1788,17 @@
 	<!--Mark Gonsalves principal (Leader) Dusk High School-->
 	<Staff>
 		<StaffUniqueStateId>mgonsalves</StaffUniqueStateId>
-		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
+		<StaffIdentificationCode AssigningOrganizationCode='a' IdentificationSystem='Selective Service'>
 			<ID>a</ID>
 		</StaffIdentificationCode>
-		<Name Verification="Life insurance policy">
+		<Name Verification='Life insurance policy'>
 			<PersonalTitlePrefix>Mr</PersonalTitlePrefix>
 			<FirstName>Mark</FirstName>
 			<LastSurname>Gonsalves</LastSurname>
 		</Name>
 		<Sex>Male</Sex>
 		<BirthDate>1956-08-14</BirthDate>
-		<Address AddressType="Work">
+		<Address AddressType='Work'>
 			<StreetNumberName>123 Sesame Street</StreetNumberName>
 			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
 			<City>New York</City>
@@ -1583,10 +1807,10 @@
 			<CountryCode>US</CountryCode>
 			<BeginDate>1967-08-13</BeginDate>
 		</Address>
-		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+		<Telephone PrimaryTelephoneNumberIndicator='true' TelephoneNumberType='Fax'>
 			<TelephoneNumber>a</TelephoneNumber>
 		</Telephone>
-		<ElectronicMail EmailAddressType="Organization">
+		<ElectronicMail EmailAddressType='Organization'>
 			<EmailAddress>junk@junk.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
@@ -1628,17 +1852,17 @@
 	<!--Luis Neff IT Support (IT Administrator) Dusk High School-->
 	<Staff>
 		<StaffUniqueStateId>lneff</StaffUniqueStateId>
-		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
+		<StaffIdentificationCode AssigningOrganizationCode='a' IdentificationSystem='Selective Service'>
 			<ID>a</ID>
 		</StaffIdentificationCode>
-		<Name Verification="Life insurance policy">
+		<Name Verification='Life insurance policy'>
 			<PersonalTitlePrefix>Mr</PersonalTitlePrefix>
 			<FirstName>Luis</FirstName>
 			<LastSurname>Neff</LastSurname>
 		</Name>
 		<Sex>Male</Sex>
 		<BirthDate>1980-02-01</BirthDate>
-		<Address AddressType="Work">
+		<Address AddressType='Work'>
 			<StreetNumberName>123 Sesame Street</StreetNumberName>
 			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
 			<City>New York</City>
@@ -1647,10 +1871,10 @@
 			<CountryCode>US</CountryCode>
 			<BeginDate>1967-08-13</BeginDate>
 		</Address>
-		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+		<Telephone PrimaryTelephoneNumberIndicator='true' TelephoneNumberType='Fax'>
 			<TelephoneNumber>a</TelephoneNumber>
 		</Telephone>
-		<ElectronicMail EmailAddressType="Organization">
+		<ElectronicMail EmailAddressType='Organization'>
 			<EmailAddress>junk@junk.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
@@ -1691,17 +1915,17 @@
 	<!--Carolyn Earl Researcher (Aggregate Viewer) Dusk High School-->
 	<Staff>
 		<StaffUniqueStateId>cearl</StaffUniqueStateId>
-		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
+		<StaffIdentificationCode AssigningOrganizationCode='a' IdentificationSystem='Selective Service'>
 			<ID>a</ID>
 		</StaffIdentificationCode>
-		<Name Verification="Life insurance policy">
+		<Name Verification='Life insurance policy'>
 			<PersonalTitlePrefix>Mrs</PersonalTitlePrefix>
 			<FirstName>Carolyn</FirstName>
 			<LastSurname>Earl</LastSurname>
 		</Name>
 		<Sex>Male</Sex>
 		<BirthDate>1980-02-01</BirthDate>
-		<Address AddressType="Work">
+		<Address AddressType='Work'>
 			<StreetNumberName>123 Sesame Street</StreetNumberName>
 			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
 			<City>New York</City>
@@ -1710,10 +1934,10 @@
 			<CountryCode>US</CountryCode>
 			<BeginDate>1967-08-13</BeginDate>
 		</Address>
-		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+		<Telephone PrimaryTelephoneNumberIndicator='true' TelephoneNumberType='Fax'>
 			<TelephoneNumber>a</TelephoneNumber>
 		</Telephone>
-		<ElectronicMail EmailAddressType="Organization">
+		<ElectronicMail EmailAddressType='Organization'>
 			<EmailAddress>junk@junk.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
@@ -1754,17 +1978,17 @@
 	<!--Robyn Maye principal (Leader) Parker High School-->
 	<Staff>
 		<StaffUniqueStateId>rmaye</StaffUniqueStateId>
-		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
+		<StaffIdentificationCode AssigningOrganizationCode='a' IdentificationSystem='Selective Service'>
 			<ID>a</ID>
 		</StaffIdentificationCode>
-		<Name Verification="Life insurance policy">
+		<Name Verification='Life insurance policy'>
 			<PersonalTitlePrefix>Mrs</PersonalTitlePrefix>
 			<FirstName>Robyn</FirstName>
 			<LastSurname>Maye</LastSurname>
 		</Name>
 		<Sex>Female</Sex>
 		<BirthDate>1956-08-14</BirthDate>
-		<Address AddressType="Work">
+		<Address AddressType='Work'>
 			<StreetNumberName>123 Sesame Street</StreetNumberName>
 			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
 			<City>New York</City>
@@ -1773,10 +1997,10 @@
 			<CountryCode>US</CountryCode>
 			<BeginDate>1967-08-13</BeginDate>
 		</Address>
-		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+		<Telephone PrimaryTelephoneNumberIndicator='true' TelephoneNumberType='Fax'>
 			<TelephoneNumber>a</TelephoneNumber>
 		</Telephone>
-		<ElectronicMail EmailAddressType="Organization">
+		<ElectronicMail EmailAddressType='Organization'>
 			<EmailAddress>junk@junk.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
@@ -1818,17 +2042,17 @@
 	<!--Lorraine Bonnett IT Support (IT Administrator) Parker High School-->
 	<Staff>
 		<StaffUniqueStateId>lbonnett</StaffUniqueStateId>
-		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
+		<StaffIdentificationCode AssigningOrganizationCode='a' IdentificationSystem='Selective Service'>
 			<ID>a</ID>
 		</StaffIdentificationCode>
-		<Name Verification="Life insurance policy">
+		<Name Verification='Life insurance policy'>
 			<PersonalTitlePrefix>Mr</PersonalTitlePrefix>
 			<FirstName>Lorraine</FirstName>
 			<LastSurname>Bonnett</LastSurname>
 		</Name>
 		<Sex>Female</Sex>
 		<BirthDate>1980-02-01</BirthDate>
-		<Address AddressType="Work">
+		<Address AddressType='Work'>
 			<StreetNumberName>123 Sesame Street</StreetNumberName>
 			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
 			<City>New York</City>
@@ -1837,10 +2061,10 @@
 			<CountryCode>US</CountryCode>
 			<BeginDate>1967-08-13</BeginDate>
 		</Address>
-		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+		<Telephone PrimaryTelephoneNumberIndicator='true' TelephoneNumberType='Fax'>
 			<TelephoneNumber>a</TelephoneNumber>
 		</Telephone>
-		<ElectronicMail EmailAddressType="Organization">
+		<ElectronicMail EmailAddressType='Organization'>
 			<EmailAddress>junk@junk.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
@@ -1881,17 +2105,17 @@
 	<!--Bruce Callison Researcher (Aggregate Viewer) Parker High School-->
 	<Staff>
 		<StaffUniqueStateId>bcallison</StaffUniqueStateId>
-		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
+		<StaffIdentificationCode AssigningOrganizationCode='a' IdentificationSystem='Selective Service'>
 			<ID>a</ID>
 		</StaffIdentificationCode>
-		<Name Verification="Life insurance policy">
+		<Name Verification='Life insurance policy'>
 			<PersonalTitlePrefix>Mr</PersonalTitlePrefix>
 			<FirstName>Bruce</FirstName>
 			<LastSurname>Callison</LastSurname>
 		</Name>
 		<Sex>Male</Sex>
 		<BirthDate>1980-02-01</BirthDate>
-		<Address AddressType="Work">
+		<Address AddressType='Work'>
 			<StreetNumberName>123 Sesame Street</StreetNumberName>
 			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
 			<City>New York</City>
@@ -1900,10 +2124,10 @@
 			<CountryCode>US</CountryCode>
 			<BeginDate>1967-08-13</BeginDate>
 		</Address>
-		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+		<Telephone PrimaryTelephoneNumberIndicator='true' TelephoneNumberType='Fax'>
 			<TelephoneNumber>a</TelephoneNumber>
 		</Telephone>
-		<ElectronicMail EmailAddressType="Organization">
+		<ElectronicMail EmailAddressType='Organization'>
 			<EmailAddress>junk@junk.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
@@ -1944,17 +2168,17 @@
 	<!--Shawn Brooke principal (Leader) Parker Elementary School-->
 	<Staff>
 		<StaffUniqueStateId>sbrooke</StaffUniqueStateId>
-		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
+		<StaffIdentificationCode AssigningOrganizationCode='a' IdentificationSystem='Selective Service'>
 			<ID>a</ID>
 		</StaffIdentificationCode>
-		<Name Verification="Life insurance policy">
+		<Name Verification='Life insurance policy'>
 			<PersonalTitlePrefix>Mrs</PersonalTitlePrefix>
 			<FirstName>Shawn</FirstName>
 			<LastSurname>Brooke</LastSurname>
 		</Name>
 		<Sex>Female</Sex>
 		<BirthDate>1956-08-14</BirthDate>
-		<Address AddressType="Work">
+		<Address AddressType='Work'>
 			<StreetNumberName>123 Sesame Street</StreetNumberName>
 			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
 			<City>New York</City>
@@ -1963,10 +2187,10 @@
 			<CountryCode>US</CountryCode>
 			<BeginDate>1967-08-13</BeginDate>
 		</Address>
-		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+		<Telephone PrimaryTelephoneNumberIndicator='true' TelephoneNumberType='Fax'>
 			<TelephoneNumber>a</TelephoneNumber>
 		</Telephone>
-		<ElectronicMail EmailAddressType="Organization">
+		<ElectronicMail EmailAddressType='Organization'>
 			<EmailAddress>junk@junk.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
@@ -2008,17 +2232,17 @@
 	<!--Jennie Brewer IT Support (IT Administrator) Parker Elementary School-->
 	<Staff>
 		<StaffUniqueStateId>jbrewer</StaffUniqueStateId>
-		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
+		<StaffIdentificationCode AssigningOrganizationCode='a' IdentificationSystem='Selective Service'>
 			<ID>a</ID>
 		</StaffIdentificationCode>
-		<Name Verification="Life insurance policy">
+		<Name Verification='Life insurance policy'>
 			<PersonalTitlePrefix>Mr</PersonalTitlePrefix>
 			<FirstName>Jennie</FirstName>
 			<LastSurname>Brewer</LastSurname>
 		</Name>
 		<Sex>Female</Sex>
 		<BirthDate>1980-02-01</BirthDate>
-		<Address AddressType="Work">
+		<Address AddressType='Work'>
 			<StreetNumberName>123 Sesame Street</StreetNumberName>
 			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
 			<City>New York</City>
@@ -2027,10 +2251,10 @@
 			<CountryCode>US</CountryCode>
 			<BeginDate>1967-08-13</BeginDate>
 		</Address>
-		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+		<Telephone PrimaryTelephoneNumberIndicator='true' TelephoneNumberType='Fax'>
 			<TelephoneNumber>a</TelephoneNumber>
 		</Telephone>
-		<ElectronicMail EmailAddressType="Organization">
+		<ElectronicMail EmailAddressType='Organization'>
 			<EmailAddress>junk@junk.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
@@ -2071,17 +2295,17 @@
 	<!--Daniel Schoonmaker Researcher (Aggregate Viewer) Parker Elementary School-->
 	<Staff>
 		<StaffUniqueStateId>dschoonmaker</StaffUniqueStateId>
-		<StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="a">
+		<StaffIdentificationCode AssigningOrganizationCode='a' IdentificationSystem='Selective Service'>
 			<ID>a</ID>
 		</StaffIdentificationCode>
-		<Name Verification="Life insurance policy">
+		<Name Verification='Life insurance policy'>
 			<PersonalTitlePrefix>Mr</PersonalTitlePrefix>
 			<FirstName>Daniel</FirstName>
 			<LastSurname>Schoonmaker</LastSurname>
 		</Name>
 		<Sex>Male</Sex>
 		<BirthDate>1980-02-01</BirthDate>
-		<Address AddressType="Work">
+		<Address AddressType='Work'>
 			<StreetNumberName>123 Sesame Street</StreetNumberName>
 			<ApartmentRoomSuiteNumber>7B</ApartmentRoomSuiteNumber>
 			<City>New York</City>
@@ -2090,10 +2314,10 @@
 			<CountryCode>US</CountryCode>
 			<BeginDate>1967-08-13</BeginDate>
 		</Address>
-		<Telephone TelephoneNumberType="Fax" PrimaryTelephoneNumberIndicator="true">
+		<Telephone PrimaryTelephoneNumberIndicator='true' TelephoneNumberType='Fax'>
 			<TelephoneNumber>a</TelephoneNumber>
 		</Telephone>
-		<ElectronicMail EmailAddressType="Organization">
+		<ElectronicMail EmailAddressType='Organization'>
 			<EmailAddress>junk@junk.com</EmailAddress>
 		</ElectronicMail>
 		<HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>

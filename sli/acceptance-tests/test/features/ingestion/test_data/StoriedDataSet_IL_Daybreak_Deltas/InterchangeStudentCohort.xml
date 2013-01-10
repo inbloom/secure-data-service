@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <InterchangeStudentCohort xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentCohort.xsd">
+  xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentCohort.xsd">
   <StaffCohortAssociation>
     <StaffReference>
       <StaffIdentity>

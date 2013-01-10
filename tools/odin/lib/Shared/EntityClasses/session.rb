@@ -24,13 +24,16 @@ require_relative "enum/GradingPeriodType.rb"
 # creates session
 class Session < BaseEntity
 
-  attr_accessor :name, :school_year, :ed_org_id;
+  attr_accessor :name, :school_year, :ed_org_id, :begin_date, :end_date, :num_school_days, :holidays;
 
   def initialize(name, year, term, interval, ed_org_id, grading_periods)
   	@name            = name
   	@school_year     = year.to_s + "-" + (year+1).to_s
   	@term            = term
-  	@interval        = interval
+    @begin_date      = interval.get_begin_date
+    @end_date        = interval.get_end_date
+    @num_school_days = interval.get_num_school_days
+    @holidays        = interval.get_holidays
   	@ed_org_id       = ed_org_id
     @grading_periods = grading_periods
   end
@@ -39,25 +42,13 @@ class Session < BaseEntity
     SchoolTerm.to_string(@term)
   end
 
-  def begin_date
-  	@interval.get_begin_date
-  end
-
-  def end_date
-  	@interval.get_end_date
-  end
-
-  def num_school_days
-  	@interval.get_num_school_days
-  end
-
   def grading_periods
     periods = []
     @grading_periods.each do |grading_period|
       interval             = grading_period["interval"]
       period               = Hash.new
       period["type"]       = GradingPeriodType.to_string(grading_period["type"])
-      period["begin_date"] = interval.get_begin_date
+      period["begin_date"] = interval.get_begin_date.to_s
       period["ed_org_id"]  = grading_period["ed_org_id"]
       periods              << period
     end

@@ -20,7 +20,6 @@ import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
-import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.constants.ResourceNames;
@@ -65,9 +64,8 @@ import java.util.Set;
  * @author pghosh
  */
 
-@Component
+@Component("defaultResourceService")
 public class DefaultResourceService implements ResourceService {
-
 
     @Autowired
     private LogicalEntity logicalEntity;
@@ -149,6 +147,7 @@ public class DefaultResourceService implements ResourceService {
             public ServiceResponse run(final Resource resource, final EntityDefinition definition) {
                 Iterable<EntityBody> entityBodies = null;
                 final ApiQuery apiQuery = resourceServiceHelper.getApiQuery(definition, requestURI);
+                addAdditionalCriteria(apiQuery);
 
                 if (getAllEntities) {
                     entityBodies = SecurityUtil.sudoRun(new SecurityUtil.SecurityTask<Iterable<EntityBody>>() {
@@ -177,6 +176,10 @@ public class DefaultResourceService implements ResourceService {
                 return new ServiceResponse((List<EntityBody>) entityBodies, count);
             }
         });
+    }
+
+    protected void addAdditionalCriteria(final NeutralQuery apiQuery) {
+        // no-op
     }
 
     protected long getEntityCount(EntityDefinition definition, ApiQuery apiQuery) {
@@ -369,7 +372,7 @@ public class DefaultResourceService implements ResourceService {
             apiQuery.setLimit(0);
             apiQuery.addCriteria(new NeutralCriteria(associationKey, "in", valueList));
             if (association.getResourceType().equals(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS)
-                    && requestUri.getPath().matches("^/api/rest/v1/schools/[^/]+/studentSchoolAssociations/students")) {
+                    && requestUri.getPath().matches("^/api/rest/[^/]+/schools/[^/]+/studentSchoolAssociations/students")) {
                 apiQuery.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.EXIT_WITHDRAW_DATE,
                         NeutralCriteria.CRITERIA_EXISTS, false)));
                 apiQuery.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.EXIT_WITHDRAW_DATE,
@@ -378,7 +381,7 @@ public class DefaultResourceService implements ResourceService {
             }
 
             for (EntityBody entityBody : assocEntity.getService().list(apiQuery)) {
-                List<String> filteredIds = entityBody.getId(resourceKey);
+                List<String> filteredIds = entityBody.getValues(resourceKey);
                 if ((filteredIds == null) || (filteredIds.isEmpty())) {
                    key = resourceKey;
                    filteredIdList.addAll(valueList);

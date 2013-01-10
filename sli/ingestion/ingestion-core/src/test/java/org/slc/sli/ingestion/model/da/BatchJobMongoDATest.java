@@ -62,7 +62,7 @@ import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.queues.MessageType;
-import org.slc.sli.ingestion.util.BatchJobUtils2;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  * JUnits for testing the BatchJobMongoDA class.
@@ -111,30 +111,6 @@ public class BatchJobMongoDATest {
         NewBatchJob resultJob = mockBatchJobMongoDA.findBatchJobById(BATCHJOBID);
 
         assertEquals(resultJob.getId(), BATCHJOBID);
-    }
-
-    @Deprecated
-    @Test
-    public void testFindBatchJobErrors() {
-        List<Error> errors = new ArrayList<Error>();
-        Error error = new Error(BATCHJOBID, BatchJobStageType.EDFI_PROCESSOR.getName(), "resourceid", "sourceIp",
-                "hostname", "recordId", BatchJobUtils2.getCurrentTimeStamp(), FaultType.TYPE_ERROR.getName(), "errorType", "errorDetail");
-        errors.add(error);
-
-        when(mockMongoTemplate.find((Query) any(), eq(Error.class), eq("error"))).thenReturn(errors);
-
-        List<Error> errorList = mockBatchJobMongoDA.findBatchJobErrors(BATCHJOBID);
-
-        Error errorReturned = errorList.get(0);
-        assertEquals(errorReturned.getBatchJobId(), BATCHJOBID);
-        assertEquals(errorReturned.getStageName(), BatchJobStageType.EDFI_PROCESSOR.getName());
-        assertEquals(errorReturned.getResourceId(), "resourceid");
-        assertEquals(errorReturned.getSourceIp(), "sourceIp");
-        assertEquals(errorReturned.getHostname(), "hostname");
-        assertEquals(errorReturned.getRecordIdentifier(), "recordId");
-        assertEquals(errorReturned.getSeverity(), FaultType.TYPE_ERROR.getName());
-        assertEquals(errorReturned.getErrorType(), "errorType");
-        assertEquals(errorReturned.getErrorDetail(), "errorDetail");
     }
 
     /**
@@ -385,7 +361,7 @@ public class BatchJobMongoDATest {
                 "sourceIp" + errorIndex,
                 "hostname" + errorIndex,
                 "recordId" + errorIndex,
-                BatchJobUtils2.getCurrentTimeStamp(),
+                BatchJobUtils.getCurrentTimeStamp(),
                 FaultType.TYPE_ERROR.getName(),
                 "errorType" + errorIndex,
                 "errorDetail" + errorIndex));
@@ -411,6 +387,10 @@ public class BatchJobMongoDATest {
     @Test
     public void testUpsertRecordHash() {
         // Capture mongoTemplate.save()!
+        /**
+         * DBAnswer implementation.
+         *
+         */
         class DBAnswer implements Answer<Object> {
             RecordHash savedRecordHash = null;
 
@@ -427,11 +407,11 @@ public class BatchJobMongoDATest {
                     }
                     return new BasicDBObject(savedRecordHash.toKVMap());
                 } else if (method.equals("insert")) {
-                	savedRecordHash = new RecordHash((Map<String, Object>) args[0]);
-                	return null;
+                    savedRecordHash = new RecordHash((Map<String, Object>) args[0]);
+                    return null;
                 } else if (method.equals("update")) {
-                	savedRecordHash = new RecordHash((Map<String, Object>) args[1]);
-                	return null;
+                    savedRecordHash = new RecordHash((Map<String, Object>) args[1]);
+                    return null;
                 }
                 else {
                     return null;
@@ -455,10 +435,10 @@ public class BatchJobMongoDATest {
         RecordHash rh = mockBatchJobMongoDA.findRecordHash(testTenantId, testRecordHashId);
         Assert.assertNull(rh);
 
-        mockBatchJobMongoDA.insertRecordHash(testTenantId, testRecordHashId, "fedcba9876543210fedcba9876543210fedcba98");
-        long savedTimestamp =  dbAnswer.savedRecordHash.updated;
-        String savedId        =  dbAnswer.savedRecordHash._id;
-        String savedHash      =  dbAnswer.savedRecordHash.hash;
+        mockBatchJobMongoDA.insertRecordHash(testRecordHashId, "fedcba9876543210fedcba9876543210fedcba98");
+        long savedTimestamp =  dbAnswer.savedRecordHash.getUpdated();
+        String savedId        =  dbAnswer.savedRecordHash.getId();
+        String savedHash      =  dbAnswer.savedRecordHash.getHash();
 
         //introduce delay between calls so that recordHash timestamp changes.
         try{Thread.sleep(5); } catch (Exception e){e.printStackTrace();}
@@ -467,10 +447,10 @@ public class BatchJobMongoDATest {
         rh = mockBatchJobMongoDA.findRecordHash(testTenantId, testRecordHashId);
         Assert.assertNotNull(rh);
 
-        mockBatchJobMongoDA.updateRecordHash(testTenantId, rh, "aaacba9876543210fedcba9876543210fedcba98");
-        long updatedTimestamp = dbAnswer.savedRecordHash.updated;
-        String updatedId        = dbAnswer.savedRecordHash._id;
-        String updatedHash      = dbAnswer.savedRecordHash.hash;
+        mockBatchJobMongoDA.updateRecordHash(rh, "aaacba9876543210fedcba9876543210fedcba98");
+        long updatedTimestamp = dbAnswer.savedRecordHash.getUpdated();
+        String updatedId        = dbAnswer.savedRecordHash.getId();
+        String updatedHash      = dbAnswer.savedRecordHash.getHash();
         Assert.assertTrue(savedId.equals(updatedId));
 
         // The timestamp on the recordHash should have changed after the second call, and the create time should be the same

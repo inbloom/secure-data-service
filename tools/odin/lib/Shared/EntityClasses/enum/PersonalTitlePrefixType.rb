@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative 'Enum.rb'
+
 # Enumerates the types of personal title prefixes. From Ed-Fi-Core.xsd:
 # <xs:simpleType name="PersonalTitlePrefixType">
 #   <xs:annotation>

@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative 'Enum.rb'
+
 # Enumerates the types of Section 504 disabilities currently supported by ed-fi. From Ed-Fi-Core.xsd:
 # <xs:simpleType name="Section504DisabilityItemType">
 #   <xs:annotation>

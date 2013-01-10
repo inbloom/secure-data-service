@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative 'Enum.rb'
+
 # Enumerates the types of assessment reporting methods. From Ed-Fi-Core.xsd:
 # <xs:simpleType name="AssessmentReportingMethodType">
 #   <xs:annotation>

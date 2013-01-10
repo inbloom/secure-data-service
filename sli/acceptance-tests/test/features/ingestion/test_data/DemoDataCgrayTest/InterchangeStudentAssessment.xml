@@ -2,7 +2,7 @@
 <InterchangeStudentAssessment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
   xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentAssessment.xsd">
 
-  <StudentAssessment id="saa_id_43">
+  <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -31,7 +31,7 @@
     </AssessmentReference>
   </StudentAssessment>
 
-  <StudentAssessment id="saa_id_3">
+  <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -60,7 +60,7 @@
     </AssessmentReference>
   </StudentAssessment>
 
-    <StudentAssessment id="saa_id_15">
+    <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -89,7 +89,7 @@
     </AssessmentReference>
   </StudentAssessment>
 
-    <StudentAssessment id="saa_id_31">
+    <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -118,7 +118,7 @@
     </AssessmentReference>
   </StudentAssessment>
 
-    <StudentAssessment id="saa_id_39">
+    <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -147,7 +147,7 @@
     </AssessmentReference>
   </StudentAssessment>
 
-  <StudentAssessment id="saa_id_55">
+  <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -176,7 +176,7 @@
     </AssessmentReference>
   </StudentAssessment>
 
-    <StudentAssessment id="saa_id_73">
+    <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -205,7 +205,7 @@
     </AssessmentReference>
   </StudentAssessment>
 
-    <StudentAssessment id="saa_id_13">
+    <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -234,7 +234,7 @@
     </AssessmentReference>
   </StudentAssessment>
 
-    <StudentAssessment id="saa_id_27">
+    <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -263,7 +263,7 @@
     </AssessmentReference>
   </StudentAssessment>
 
-    <StudentAssessment id="saa_id_35">
+    <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -292,7 +292,7 @@
     </AssessmentReference>
   </StudentAssessment>
 
-    <StudentAssessment id="saa_id_83">
+    <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -321,7 +321,7 @@
     </AssessmentReference>
   </StudentAssessment>
 
-    <StudentAssessment id="saa_id_99">
+    <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -350,7 +350,7 @@
     </AssessmentReference>
   </StudentAssessment>
 
-  <StudentAssessment id="saa_id_45">
+  <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -379,7 +379,7 @@
     </AssessmentReference>
   </StudentAssessment>
 
-   <StudentAssessment id="saa_id_61">
+   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -408,7 +408,7 @@
     </AssessmentReference>
   </StudentAssessment>
 
-   <StudentAssessment id="saa_id_71">
+   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -437,7 +437,7 @@
     </AssessmentReference>
   </StudentAssessment>
 
-  <StudentAssessment id="saa_id_1">
+  <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -466,7 +466,7 @@
     </AssessmentReference>
   </StudentAssessment>
 
-  <StudentAssessment id="saa_id_7">
+  <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -495,7 +495,7 @@
     </AssessmentReference>
   </StudentAssessment>
 
-    <StudentAssessment id="saa_id_9">
+    <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -524,7 +524,7 @@
     </AssessmentReference>
   </StudentAssessment>
 
-   <StudentAssessment id="saa_id_25">
+   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -553,7 +553,7 @@
     </AssessmentReference>
   </StudentAssessment>
 
-  <StudentAssessment id="saa_id_41">
+  <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -582,7 +582,7 @@
     </AssessmentReference>
   </StudentAssessment>
 
-    <StudentAssessment id="saa_id_87">
+    <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>

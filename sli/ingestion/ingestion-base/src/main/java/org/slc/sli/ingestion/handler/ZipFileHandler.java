@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.handler;
 
 import java.io.File;
@@ -23,26 +22,27 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.commons.compress.archivers.zip.UnsupportedZipFeatureException;
-import org.apache.commons.lang.NotImplementedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.MessageSource;
-import org.springframework.context.MessageSourceAware;
 
 import org.slc.sli.ingestion.FileProcessStatus;
+import org.slc.sli.ingestion.landingzone.FileResource;
 import org.slc.sli.ingestion.landingzone.ZipFileUtil;
-import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
-import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
+import org.slc.sli.ingestion.reporting.impl.JobSource;
 
 /**
  * @author ablum
  *
  */
-public class ZipFileHandler extends AbstractIngestionHandler<File, File> implements MessageSourceAware {
+public class ZipFileHandler extends AbstractIngestionHandler<FileResource, File> {
     private static final Logger LOG = LoggerFactory.getLogger(ZipFileHandler.class);
 
-    private MessageSource messageSource;
+    private static final String STAGE_NAME = "Zip File Extraction";
 
     @Value("${sli.ingestion.file.timeout:600000}")
     private Long zipfileCompletionTimeout;
@@ -50,15 +50,17 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> impleme
     @Value("${sli.ingestion.file.retryinterval:30000}")
     private Long zipfileCompletionPollInterval;
 
-    File doHandling(File zipFile, ErrorReport errorReport) {
-        return doHandling(zipFile, errorReport, null);
+    File doHandling(FileResource zipFile, AbstractMessageReport report, ReportStats reportStats) {
+        return doHandling(zipFile, report, reportStats, null);
     }
 
     @Override
-    protected File doHandling(File zipFile, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
+    protected File doHandling(FileResource zipFile, AbstractMessageReport report, ReportStats reportStats,
+            FileProcessStatus fileProcessStatus) {
 
         boolean done = false;
         long clockTimeout = System.currentTimeMillis() + zipfileCompletionTimeout;
+        Source source = new JobSource(zipFile.getResourceId(), getStageName());
 
         while (!done) {
 
@@ -68,28 +70,31 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> impleme
                 done = true;
 
                 // Find manifest (ctl file)
-                return ZipFileUtil.findCtlFile(dir);
+                File ctlFile = ZipFileUtil.findCtlFile(dir);
+                if (ctlFile == null) {
+                    report.error(reportStats, source, BaseMessageCode.BASE_0012);
+                }
+                return ctlFile;
 
             } catch (UnsupportedZipFeatureException ex) {
                 // Unsupported compression method
-                String message = MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG18", zipFile.getName());
-                LOG.error(message, ex);
-                errorReport.error(message, this);
+                report.error(reportStats, source, BaseMessageCode.BASE_0011);
                 done = true;
 
             } catch (FileNotFoundException ex) {
-                // DE1618 Gluster may have lost track of the file, or it has been deleted from under us so give up
-                LOG.info(zipFile.getAbsolutePath() + " cannot be found. If the file was not processed by another ingestion service, please resubmit.", ex);
-                String message = MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG4", zipFile.getName());
-                errorReport.error(message, this);
+                // DE1618 Gluster may have lost track of the file, or it has been deleted from under
+                // us so give up
+                LOG.info(
+                        zipFile.getAbsolutePath()
+                                + " cannot be found. If the file was not processed by another ingestion service, please resubmit.",
+                        ex);
+                report.error(reportStats, source, BaseMessageCode.BASE_0008);
                 done = true;
 
             } catch (IOException ex) {
 
                 if (System.currentTimeMillis() >= clockTimeout) {
-                    String message = MessageSourceHelper.getMessage(messageSource, "SL_ERR_MSG4", zipFile.getName());
-                    LOG.error(message, ex);
-                    errorReport.error(message, this);
+                    report.error(reportStats, source, BaseMessageCode.BASE_0008);
                     done = true;
                 } else {
                     try {
@@ -107,12 +112,15 @@ public class ZipFileHandler extends AbstractIngestionHandler<File, File> impleme
     }
 
     @Override
-    public void setMessageSource(MessageSource messageSource) {
-        this.messageSource = messageSource;
+    protected List<File> doHandling(List<FileResource> items, AbstractMessageReport report, ReportStats reportStats,
+            FileProcessStatus fileProcessStatus) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     @Override
-    protected List<File> doHandling(List<File> items, ErrorReport errorReport, FileProcessStatus fileProcessStatus) {
-        throw new NotImplementedException("Processing of multiple zip files is not currently supported.");
+    public String getStageName() {
+        return STAGE_NAME;
     }
+
 }

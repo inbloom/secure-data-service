@@ -54,6 +54,7 @@ class App < SessionResource
     boolean "is_admin", "license_acceptance", "installed", "allowed_for_all_edorgs"
     time "created", "updated"
     string "authorized_ed_orgs", "vendor"
+    string "author_first_name", "author_last_name"
 
   end
 

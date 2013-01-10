@@ -15,6 +15,7 @@
  */
 package org.slc.sli.api.security.context.validator;
 
+import java.util.Arrays;
 import java.util.Set;
 
 import org.slc.sli.api.constants.EntityNames;
@@ -31,23 +32,26 @@ import org.springframework.stereotype.Component;
 public class GenericToStaffValidator extends AbstractContextValidator {
     
     @Override
-    //Validates both teacher to staff and staff to staff
+    //Validates both teacher to staff and staff to staff and teacher to teacher
     public boolean canValidate(String entityType, boolean isTransitive) {
-        
-        //For now we'll disable for teachers, but logic should be the same for both staff and teacher
-        return !isTransitive && EntityNames.STAFF.equals(entityType) && isStaff();
+        return !isTransitive && (EntityNames.STAFF.equals(entityType) || 
+                (isTeacher() && EntityNames.TEACHER.equals(entityType)));
     }
     
     @Override
     public boolean validate(String entityName, Set<String> staffIds) {
-        String myself = SecurityUtil.getSLIPrincipal().getEntity().getEntityId();
-        for (String staffId : staffIds) {
-            if (!staffId.equals(myself)) {
-                return false;
-            }
+        if (!areParametersValid(Arrays.asList(EntityNames.STAFF, EntityNames.TEACHER), entityName, staffIds)) {
+            return false;
         }
         
-        return true;
+        if (staffIds.size() > 1) {
+            return false;
+        }
+        
+        String myself = SecurityUtil.principalId();
+        
+        //will only be one staffId in the list
+        return staffIds.contains(myself);
         
     }
 }

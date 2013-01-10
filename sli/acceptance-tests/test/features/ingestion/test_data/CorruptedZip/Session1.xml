@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeEducationOrgCalendar xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="Interchange-EducationOrgCalendar.xsd" xmlns="http://ed-fi.org/0100RFC062811">
 
-    <GradingPeriod id="GRDP_20101004">
+    <GradingPeriod>
       <GradingPeriodIdentity>
         <GradingPeriod>Second Six Weeks</GradingPeriod>
         <SchoolYear>2011-2012</SchoolYear>
@@ -12,7 +12,7 @@
       <TotalInstructionalDays>25</TotalInstructionalDays>
     </GradingPeriod>
 
-    <GradingPeriod id="GRDP_20110104">
+    <GradingPeriod>
       <GradingPeriodIdentity>
         <GradingPeriod>Second Six Weeks</GradingPeriod>
         <SchoolYear>2011-2012</SchoolYear>
@@ -23,7 +23,7 @@
       <TotalInstructionalDays>25</TotalInstructionalDays>
     </GradingPeriod>
 
-    <GradingPeriod id="GRDP_20110222">
+    <GradingPeriod>
      <GradingPeriodIdentity>
         <GradingPeriod>Second Six Weeks</GradingPeriod>
         <SchoolYear>2011-2012</SchoolYear>
@@ -34,7 +34,7 @@
       <TotalInstructionalDays>25</TotalInstructionalDays>
     </GradingPeriod>
 
-    <GradingPeriod id="GRDP_20110411">
+    <GradingPeriod>
      <GradingPeriodIdentity>
         <GradingPeriod>Second Six Weeks</GradingPeriod>
         <SchoolYear>2011-2012</SchoolYear>
@@ -45,7 +45,7 @@
       <TotalInstructionalDays>25</TotalInstructionalDays>
     </GradingPeriod>
 
-    <GradingPeriod id="GRDP_20100823">
+    <GradingPeriod>
      <GradingPeriodIdentity>
         <GradingPeriod>Second Six Weeks</GradingPeriod>
         <SchoolYear>2011-2012</SchoolYear>
@@ -56,7 +56,7 @@
       <TotalInstructionalDays>25</TotalInstructionalDays>
     </GradingPeriod>
 
-    <GradingPeriod id="GRDP_20101108">
+    <GradingPeriod>
      <GradingPeriodIdentity>
         <GradingPeriod>Second Six Weeks</GradingPeriod>
         <SchoolYear>2011-2012</SchoolYear>
@@ -79,9 +79,9 @@
                 <StateOrganizationId>255901001</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Fall 2011 Baker School</SessionName>
@@ -95,9 +95,9 @@
                 <StateOrganizationId>255901001</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Fall 2011 Charlie School</SessionName>
@@ -111,9 +111,9 @@
                 <StateOrganizationId>255901001</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Fall 2011 Dog School</SessionName>
@@ -127,9 +127,9 @@
                 <StateOrganizationId>255901001</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Fall 2011 Echo School</SessionName>
@@ -143,9 +143,9 @@
                 <StateOrganizationId>255901001</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
 
 
@@ -161,9 +161,9 @@
                 <StateOrganizationId>255901044</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Spring 2012 Baker School</SessionName>
@@ -177,9 +177,9 @@
                 <StateOrganizationId>255901044</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Spring 2012 Charlie School</SessionName>
@@ -193,9 +193,9 @@
                 <StateOrganizationId>255901044</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Spring 2012 Dog School</SessionName>
@@ -209,9 +209,9 @@
                 <StateOrganizationId>255901044</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Spring 2012 Echo School</SessionName>
@@ -225,9 +225,9 @@
                 <StateOrganizationId>255901044</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
 
 
@@ -243,9 +243,9 @@
                 <StateOrganizationId>255901001</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20110104"/>
-        <GradingPeriodReference ref="GRDP_20110222"/>
-        <GradingPeriodReference ref="GRDP_20110411"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Fall 2012 Baker School</SessionName>
@@ -259,9 +259,9 @@
                 <StateOrganizationId>255901001</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20110104"/>
-        <GradingPeriodReference ref="GRDP_20110222"/>
-        <GradingPeriodReference ref="GRDP_20110411"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Fall 2012 Charlie School</SessionName>
@@ -275,9 +275,9 @@
                 <StateOrganizationId>255901001</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20110104"/>
-        <GradingPeriodReference ref="GRDP_20110222"/>
-        <GradingPeriodReference ref="GRDP_20110411"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Fall 2012 Dog School</SessionName>
@@ -291,9 +291,9 @@
                 <StateOrganizationId>255901001</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20110104"/>
-        <GradingPeriodReference ref="GRDP_20110222"/>
-        <GradingPeriodReference ref="GRDP_20110411"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Fall 2012 Echo School</SessionName>
@@ -307,9 +307,9 @@
                 <StateOrganizationId>255901001</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20110104"/>
-        <GradingPeriodReference ref="GRDP_20110222"/>
-        <GradingPeriodReference ref="GRDP_20110411"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
 
     <Session>
@@ -324,9 +324,9 @@
                 <StateOrganizationId>255901044</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20110104"/>
-        <GradingPeriodReference ref="GRDP_20110222"/>
-        <GradingPeriodReference ref="GRDP_20110411"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Spring 2013 Baker School</SessionName>
@@ -340,9 +340,9 @@
                 <StateOrganizationId>255901044</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20110104"/>
-        <GradingPeriodReference ref="GRDP_20110222"/>
-        <GradingPeriodReference ref="GRDP_20110411"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Spring 2013 Charlie School</SessionName>
@@ -356,9 +356,9 @@
                 <StateOrganizationId>255901044</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20110104"/>
-        <GradingPeriodReference ref="GRDP_20110222"/>
-        <GradingPeriodReference ref="GRDP_20110411"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Spring 2013 Dog School</SessionName>
@@ -372,9 +372,9 @@
                 <StateOrganizationId>255901044</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20110104"/>
-        <GradingPeriodReference ref="GRDP_20110222"/>
-        <GradingPeriodReference ref="GRDP_20110411"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Spring 2013 Echo School</SessionName>
@@ -388,9 +388,9 @@
                 <StateOrganizationId>255901044</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20110104"/>
-        <GradingPeriodReference ref="GRDP_20110222"/>
-        <GradingPeriodReference ref="GRDP_20110411"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
 
 
@@ -407,9 +407,9 @@
                 <StateOrganizationId>255901107</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Fall 2013 Baker School</SessionName>
@@ -423,9 +423,9 @@
                 <StateOrganizationId>255901107</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Fall 2013 Charlie School</SessionName>
@@ -439,9 +439,9 @@
                 <StateOrganizationId>255901107</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Fall 2013 Dog School</SessionName>
@@ -455,9 +455,9 @@
                 <StateOrganizationId>255901107</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Fall 2013 Echo School</SessionName>
@@ -471,9 +471,9 @@
                 <StateOrganizationId>255901107</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
 
     <Session>
@@ -488,9 +488,9 @@
                 <StateOrganizationId>255901107</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20110104"/>
-        <GradingPeriodReference ref="GRDP_20110222"/>
-        <GradingPeriodReference ref="GRDP_20110411"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Spring 2014 Baker School</SessionName>
@@ -504,9 +504,9 @@
                 <StateOrganizationId>255901107</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20110104"/>
-        <GradingPeriodReference ref="GRDP_20110222"/>
-        <GradingPeriodReference ref="GRDP_20110411"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Spring 2014 Charlie School</SessionName>
@@ -520,9 +520,9 @@
                 <StateOrganizationId>255901107</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20110104"/>
-        <GradingPeriodReference ref="GRDP_20110222"/>
-        <GradingPeriodReference ref="GRDP_20110411"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Spring 2014 Dog School</SessionName>
@@ -536,9 +536,9 @@
                 <StateOrganizationId>255901107</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20110104"/>
-        <GradingPeriodReference ref="GRDP_20110222"/>
-        <GradingPeriodReference ref="GRDP_20110411"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Spring 2014 Echo School</SessionName>
@@ -552,9 +552,9 @@
                 <StateOrganizationId>255901107</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20110104"/>
-        <GradingPeriodReference ref="GRDP_20110222"/>
-        <GradingPeriodReference ref="GRDP_20110411"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
 
 
@@ -571,9 +571,9 @@
                 <StateOrganizationId>255901107</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Fall 2014 Baker School</SessionName>
@@ -587,9 +587,9 @@
                 <StateOrganizationId>255901107</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Fall 2014 Charlie School</SessionName>
@@ -603,9 +603,9 @@
                 <StateOrganizationId>255901107</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Fall 2014 Dog School</SessionName>
@@ -619,9 +619,9 @@
                 <StateOrganizationId>255901107</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Fall 2014 Echo School</SessionName>
@@ -635,9 +635,9 @@
                 <StateOrganizationId>255901107</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
 
     <Session>
@@ -652,9 +652,9 @@
                 <StateOrganizationId>255901107</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20110104"/>
-        <GradingPeriodReference ref="GRDP_20110222"/>
-        <GradingPeriodReference ref="GRDP_20110411"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Spring 2015 Baker School</SessionName>
@@ -668,9 +668,9 @@
                 <StateOrganizationId>255901107</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20110104"/>
-        <GradingPeriodReference ref="GRDP_20110222"/>
-        <GradingPeriodReference ref="GRDP_20110411"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Spring 2015 Charlie School</SessionName>
@@ -684,9 +684,9 @@
                 <StateOrganizationId>255901107</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20110104"/>
-        <GradingPeriodReference ref="GRDP_20110222"/>
-        <GradingPeriodReference ref="GRDP_20110411"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Spring 2015 Dog School</SessionName>
@@ -700,9 +700,9 @@
                 <StateOrganizationId>255901107</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20110104"/>
-        <GradingPeriodReference ref="GRDP_20110222"/>
-        <GradingPeriodReference ref="GRDP_20110411"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Spring 2015 Echo School</SessionName>
@@ -716,9 +716,9 @@
                 <StateOrganizationId>255901107</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20110104"/>
-        <GradingPeriodReference ref="GRDP_20110222"/>
-        <GradingPeriodReference ref="GRDP_20110411"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
 
 
@@ -735,9 +735,9 @@
                 <StateOrganizationId>255901107</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Fall 2015 Baker School</SessionName>
@@ -751,9 +751,9 @@
                 <StateOrganizationId>255901107</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Fall 2015 Charlie School</SessionName>
@@ -767,9 +767,9 @@
                 <StateOrganizationId>255901107</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Fall 2015 Dog School</SessionName>
@@ -783,9 +783,9 @@
                 <StateOrganizationId>255901107</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Fall 2015 Echo School</SessionName>
@@ -799,9 +799,9 @@
                 <StateOrganizationId>255901107</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20100823"/>
-        <GradingPeriodReference ref="GRDP_20101004"/>
-        <GradingPeriodReference ref="GRDP_20101108"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
 
     <Session>
@@ -816,9 +816,9 @@
                 <StateOrganizationId>255901107</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20110104"/>
-        <GradingPeriodReference ref="GRDP_20110222"/>
-        <GradingPeriodReference ref="GRDP_20110411"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Spring 2016 Baker School</SessionName>
@@ -832,9 +832,9 @@
                 <StateOrganizationId>255901107</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20110104"/>
-        <GradingPeriodReference ref="GRDP_20110222"/>
-        <GradingPeriodReference ref="GRDP_20110411"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Spring 2016 Charlie School</SessionName>
@@ -848,9 +848,9 @@
                 <StateOrganizationId>255901107</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20110104"/>
-        <GradingPeriodReference ref="GRDP_20110222"/>
-        <GradingPeriodReference ref="GRDP_20110411"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Spring 2016 Dog School</SessionName>
@@ -864,9 +864,9 @@
                 <StateOrganizationId>255901107</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20110104"/>
-        <GradingPeriodReference ref="GRDP_20110222"/>
-        <GradingPeriodReference ref="GRDP_20110411"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
     <Session>
         <SessionName>Spring 2016 Echo School</SessionName>
@@ -880,9 +880,9 @@
                 <StateOrganizationId>255901107</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <GradingPeriodReference ref="GRDP_20110104"/>
-        <GradingPeriodReference ref="GRDP_20110222"/>
-        <GradingPeriodReference ref="GRDP_20110411"/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
+        <GradingPeriodReference/>
     </Session>
 
 

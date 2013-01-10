@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd"
     xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
     xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
     xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
         http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd
         http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
 
     <json:reader rootName="json" />
+
+    <core:filterSettings type="SAX" readerPoolSize="5" />
 
     <jb:bean beanId="courseTranscripts" class="java.util.ArrayList" createOnElement="#document">
         <jb:wiring beanIdRef="courseTranscript" />
@@ -30,9 +34,14 @@
         <jb:value property="courseRepeatCode" data="attributes courseRepeatCode"></jb:value>
         <jb:value property="gradeType" data="attributes gradeType"></jb:value>
         <jb:value property="courseId" data="attributes CourseReference"></jb:value>
+	    <jb:wiring property="educationOrganizationReference" beanIdRef="CourseTranscript_EdOrgReferenceArray"/>
         <jb:value property="studentAcademicRecordId" data="attributes StudentAcademicRecordReference"></jb:value>
     </jb:bean>
 
+   <jb:bean beanId="CourseTranscript_EdOrgReferenceArray" class="java.util.ArrayList" createOnElement="attributes">
+        <jb:value data="attributes EducationOrganizationReference element" />
+    </jb:bean>
+    
     <jb:bean beanId="CreditsAttemptedValue" class="java.util.HashMap" createOnElement="attributes creditsAttempted">
         <jb:value property="credit" data="attributes creditsAttempted credit" decoder="Double"></jb:value>
     </jb:bean>

@@ -10,6 +10,64 @@
             "GradeLevelAssessed":"Fifth grade",
             "Version":"1"
         }
-    }
+    },
+    "studentId":
+    {
+        "StudentIdentity":
+        {
+            "StudentUniqueStateId":"100000000"
+        }
+    },
+    "studentAssessmentItems":
+    [
+    	{
+    		"assessmentItem":
+			{
+				"learningStandards":
+				[
+    				{
+        				"LearningStandardIdentity":
+        				{
+            				"IdentificationCode":"0123456789"
+        				}
+    				}
+    			]
+			}
+		}
+	],
+	"studentObjectiveAssessments" :
+	[
+		{
+			"objectiveAssessment" :
+			{
+				"learningObjectives" :
+				[
+					{
+						"LearningObjectiveIdentity" :
+						{
+							"ObjectiveGradeLevel" : "Twelfth grade",
+							"Objective" : "Writing: Informational Text",
+							"AcademicSubject" : "ELA"
+						}
+					}
+				],
+				"objectiveAssessments" :
+				[
+					{	"learningObjectives" :
+						[
+							{
+								"LearningObjectiveIdentity" :
+								{
+									"ObjectiveGradeLevel" : "Twelfth grade",
+									"Objective" : "Writing: Informational Text",
+									"AcademicSubject" : "ELA"
+								}
+							}
+						]
+					}
+				]
+			}
+		}
+	]
 }
 }

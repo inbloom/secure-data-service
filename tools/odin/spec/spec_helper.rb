@@ -17,7 +17,9 @@ limitations under the License.
 =end
 
 require 'simplecov'
+require 'factory_girl'
 require 'yaml'
+require_relative '../lib/Shared/EntityClasses/baseEntity'
 
 SimpleCov.start do
   add_filter '/spec/'
@@ -58,6 +60,21 @@ RSpec.configure do |config|
   config.order = 'random'
 end
 
+
+
+FactoryGirl.find_definitions
+
 def get_spec_scenario
   { 'BATCH_SIZE' => 1 }
 end
+
+# monkey patch StringIO so it can be used more like a file for tests
+class StringIO
+  def path
+    "testfile"
+  end
+end
+
+BaseEntity.initializeDemographics(
+    File.join( "#{File.dirname(__FILE__)}/", "../scenarios/defaults/demographics.yml"),
+    File.join( "#{File.dirname(__FILE__)}/", "../scenarios/defaults/choices.yml"))

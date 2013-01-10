@@ -14,29 +14,40 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.landingzone.validation;
 
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
+import org.slc.sli.ingestion.validation.Validator;
 
 /**
  * File format validator.
  */
-public class FileFormatValidator extends IngestionFileValidator {
+public class FileFormatValidator implements Validator<FileEntryDescriptor> {
+
+    private static final String STAGE_NAME = "File Format Validation";
 
     @Override
-    public boolean isValid(FileEntryDescriptor item, ErrorReport callback) {
+    public boolean isValid(FileEntryDescriptor item, AbstractMessageReport report, ReportStats reportStats,
+            Source source) {
         IngestionFileEntry entry = item.getFileItem();
         FileFormat format = entry.getFileFormat();
         if (format == null) {
-            fail(callback, getFailureMessage("SL_ERR_MSG1", entry.getFileName(), "format"));
+            report.error(reportStats, source, BaseMessageCode.BASE_0005, entry.getFileName(), "format");
 
             return false;
         }
         return true;
+    }
+
+    @Override
+    public String getStageName() {
+        return STAGE_NAME;
     }
 
 }

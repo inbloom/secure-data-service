@@ -23,23 +23,9 @@ require_relative '../../utils/sli_utils.rb'
 require_relative '../../utils/selenium_common.rb'
 require_relative '../../dashboard/dash/step_definitions/selenium_common_dash.rb'
 
-When /^I click on the "([^"]*)" realm in "([^"]*)"$/ do |realmName,mode|
-  if mode=="Sandbox"
- 	@driver.find_element(:id, "sandboxLink").click if realmName=="Sandbox"
- 	@driver.find_element(:id, "adminLink").click if realmName=="Admin"	
-  else #production mode
-  	select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:tag_name, "select"))
-  	select.select_by(:text, arg1)
-  	@driver.find_element(:id, "go").click
-  end
-end
 
 Given /^I navigate to databrowser home page$/ do
   @driver.get PropLoader.getProps['databrowser_server_url']
-end
-
-Then /^I will be redirected to realm selector web page$/ do
-  assertWithWait("Failed to navigate to Realm chooser") {@driver.title.index("Choose your realm") != nil}
 end
 
 When /^I enter the credentials "([^"]*)" "([^"]*)" for the Simple IDP$/ do |arg1, arg2|
@@ -105,7 +91,7 @@ Then /^I should be redirected to the databrowser web page$/ do
 end
 
 Then /^I should see the name "([^"]*)" on the page$/ do |arg1|
-  assert(@driver.page_source.include?(arg1), "Failed to find #{arg1} on the page")
+  assertWithWait("Failed to find #{arg1} on the page") {@driver.page_source.include?(arg1)}
 end
 
 Then /^I am denied from accessing the databrowser$/ do

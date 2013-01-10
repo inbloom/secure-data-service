@@ -16,7 +16,6 @@ limitations under the License.
 
 =end
 
-
 def webdriverDebugMessage(driver, message="Webdriver could not achieve expected results")
   return "Debug Informaton\nCurrent Page: "+driver.title+"\nCurrent URL : "+driver.current_url+"\nCurrent Time: "+Time.now.getutc.to_s+"\n\n"+message
 end
@@ -69,6 +68,11 @@ When /^I was redirected to the "([^"]*)" IDP Login page$/ do |idpType|
     raise "IDP type '#{arg1}' not implemented yet"
   end
 end
+When /^I submit the developer credentials "([^"]*)" "([^"]*)" for the impersonation login page$/ do |user, pass|
+  @driver.find_element(:id, "user_id").send_keys user
+  @driver.find_element(:id, "password").send_keys pass
+  @driver.find_element(:id, "login_button").click
+end
 
 When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page$/ do |user, pass, idpType|
   disable_NOTABLESCAN
@@ -88,6 +92,10 @@ When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page
     @driver.find_element(:id, "user_id").send_keys user
     @driver.find_element(:id, "password").send_keys pass
     @driver.find_element(:id, "login_button").click
+    if @driver.title=="Sandbox User Impersonation"
+      #handle sandbox admin/impersonation chooser page
+  	  @driver.find_element(:id, "adminLink").click
+    end
   else
     raise "IDP type '#{arg1}' not implemented yet"
   end
@@ -96,7 +104,11 @@ When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page
 
 end
 
-After do |scenario| 
+After do |scenario|
+  begin
+    File.delete("./cats_with_lasers.png")
+  rescue Exception => e
+  end
   #puts "Running the After hook for Scenario: #{scenario}"s
   begin
     File.rm("./cats_with_lasers.png")

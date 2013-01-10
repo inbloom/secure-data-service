@@ -29,14 +29,15 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 import org.slc.sli.dal.repository.MongoEntityRepository;
-import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
-import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.validation.DatabaseLoggingErrorReport;
-import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.MessageCode;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 
 /**
  * Base TransformationStrategy.
@@ -66,7 +67,7 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
     private MongoEntityRepository mongoEntityRepository;
 
     @Autowired
-    private BatchJobDAO batchJobDAO;
+    protected AbstractMessageReport databaseMessageReport;
 
     @Override
     public void perform(Job job) {
@@ -104,9 +105,9 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
         return batchJobId;
     }
 
-    public ErrorReport getErrorReport(String fileName) {
-        return new DatabaseLoggingErrorReport(this.batchJobId, BatchJobStageType.TRANSFORMATION_PROCESSOR, fileName,
-                this.batchJobDAO);
+    public ReportStats getReportStats(String fileName) {
+        ReportStats reportStats = new SimpleReportStats();
+        return reportStats;
     }
 
     public void setBatchJobId(String batchJobId) {
@@ -261,6 +262,23 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
 
     public void setMongoEntityRepository(MongoEntityRepository mongoEntityRepository) {
         this.mongoEntityRepository = mongoEntityRepository;
+    }
+
+    /**
+     * This method is for cases where ReportStats is not important to the context to save
+     * the code to create a ReportStats all the time, which is true for many transformers.
+     *
+     * @param fileName
+     * @param source
+     * @param code
+     * @param args
+     */
+    public void reportError(String fileName, Source source, MessageCode code, Object... args) {
+        databaseMessageReport.error(getReportStats(fileName), source, code, args);
+    }
+
+    public void reportWarnings(String fileName, Source source, MessageCode code, Object... args) {
+        databaseMessageReport.warning(getReportStats(fileName), source, code, args);
     }
 
 }

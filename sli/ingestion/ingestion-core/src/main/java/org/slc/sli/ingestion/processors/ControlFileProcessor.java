@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.processors;
 
 import java.util.Enumeration;
@@ -26,32 +25,34 @@ import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
-import org.springframework.context.MessageSourceAware;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.aspect.MongoTrackingAspect;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
-import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.landingzone.AttributeType;
-import org.slc.sli.ingestion.landingzone.BatchJobAssembler;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.validation.ControlFileValidator;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.impl.JobSource;
+import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.LogUtil;
-import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
 
 /**
  * Control file processor.
@@ -60,7 +61,7 @@ import org.slc.sli.ingestion.util.spring.MessageSourceHelper;
  *
  */
 @Component
-public class ControlFileProcessor implements Processor, MessageSourceAware {
+public class ControlFileProcessor implements Processor {
 
     private static final Logger LOG = LoggerFactory.getLogger(ControlFileProcessor.class);
 
@@ -74,11 +75,10 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
     private ControlFileValidator validator;
 
     @Autowired
-    private BatchJobAssembler jobAssembler;
+    private BatchJobDAO batchJobDAO;
 
     @Autowired
-    private BatchJobDAO batchJobDAO;
-    private MessageSource messageSource;
+    private AbstractMessageReport databaseMessageReport;
 
     @Override
     public void process(Exchange exchange) throws Exception {
@@ -114,7 +114,7 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
 
             newJob = batchJobDAO.findBatchJobById(batchJobId);
             TenantContext.setTenantId(newJob.getTenantId());
-
+            TenantContext.setJobId(batchJobId);
 
             ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
 
@@ -122,34 +122,33 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
 
             newJob.setBatchProperties(aggregateBatchJobProperties(cf));
 
-            FaultsReport errorReport = new FaultsReport();
+            ReportStats reportStats = new SimpleReportStats();
+            Source source = new JobSource(cf.getFileName(), BatchJobStageType.CONTROL_FILE_PROCESSOR.getName());
 
-            if (newJob.getProperty(AttributeType.PURGE.getName()) == null) {
-                if (validator.isValid(cfd, errorReport)) {
+            if ((newJob.getProperty(AttributeType.PURGE.getName()) == null)
+                    && (newJob.getProperty(AttributeType.PURGE_KEEP_EDORGS.getName()) == null)) {
+                if (validator.isValid(cfd, databaseMessageReport, reportStats, source)) {
                     createAndAddResourceEntries(newJob, cf);
                 } else {
                     boolean isZipFile = false;
                     for (ResourceEntry resourceEntry : newJob.getResourceEntries()) {
                         if (FileFormat.ZIP_FILE.getCode().equalsIgnoreCase(resourceEntry.getResourceFormat())) {
-                           isZipFile = true;
+                            isZipFile = true;
                         }
                     }
                     if (!isZipFile) {
-                        LOG.info(MessageSourceHelper.getMessage(messageSource, "CTLFILEPROC_WRNG_MSG1"));
-                        errorReport.warning(MessageSourceHelper.getMessage(messageSource, "CTLFILEPROC_WRNG_MSG1"), this);
+                        databaseMessageReport.warning(reportStats, source, CoreMessageCode.CORE_0002);
+
                     }
                 }
             }
 
-            BatchJobUtils.writeErrorsWithDAO(batchJobId, cf.getFileName(), BATCH_JOB_STAGE, errorReport, batchJobDAO);
-
-            setExchangeHeaders(exchange, newJob, errorReport);
+            setExchangeHeaders(exchange, newJob, reportStats);
 
             setExchangeBody(exchange, batchJobId);
             if (!cf.getFile().delete()) {
-                LOG.debug("Failed to delete: " + cf.getFile().getPath());
+                LOG.debug("Failed to delete: {}", cf.getFile().getPath());
             }
-
 
         } catch (Exception exception) {
             handleExceptions(exchange, batchJobId, exception);
@@ -172,11 +171,12 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
         }
     }
 
-    private void setExchangeHeaders(Exchange exchange, NewBatchJob newJob, FaultsReport errorReport) {
-        if (errorReport.hasErrors()) {
-            exchange.getIn().setHeader("hasErrors", errorReport.hasErrors());
+    private void setExchangeHeaders(Exchange exchange, NewBatchJob newJob, ReportStats reportStats) {
+        if (reportStats.hasErrors()) {
+            exchange.getIn().setHeader("hasErrors", reportStats.hasErrors());
             exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.ERROR.name());
-        } else if (newJob.getProperty(AttributeType.PURGE.getName()) != null) {
+        } else if ((newJob.getProperty(AttributeType.PURGE.getName()) != null)
+                || (newJob.getProperty(AttributeType.PURGE_KEEP_EDORGS.getName()) != null)) {
             exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.PURGE.name());
         } else {
             exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.CONTROL_FILE_PROCESSED.name());
@@ -189,11 +189,26 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
             LOG.debug("Did not match @dry-run tag in control file.");
         }
 
-        if (newJob.getProperty(AttributeType.NO_ID_REF.getName()) != null) {
-            LOG.debug("Matched @no-id-ref tag from control file parsing.");
-            exchange.getIn().setHeader(AttributeType.NO_ID_REF.name(), true);
+        String ddProp = newJob.getProperty(AttributeType.DUPLICATE_DETECTION.getName());
+        if (ddProp != null) {
+            LOG.debug("Matched @duplicate-detection tag from control file parsing.");
+            // Make sure it is one of the known values
+            String[] allowed = { RecordHash.RECORD_HASH_MODE_DEBUG_DROP, RecordHash.RECORD_HASH_MODE_DISABLE,
+                    RecordHash.RECORD_HASH_MODE_RESET };
+            boolean found = false;
+            for (int i = 0; i < allowed.length; i++) {
+                if (allowed[i].equalsIgnoreCase(ddProp)) {
+                    found = true;
+                    break;
+                }
+            }
+            if (found) {
+                exchange.getIn().setHeader(AttributeType.DUPLICATE_DETECTION.name(), ddProp);
+            } else {
+                LOG.error("Value '" + ddProp + "' given for @duplicate-detection is invalid: ignoring");
+            }
         } else {
-            LOG.debug("Did not match @no-id-ref tag in control file.");
+            LOG.debug("Did not match @duplicate-detection tag in control file.");
         }
 
         if (newJob.getProperty(AttributeType.STRICT.getName()) != null) {
@@ -210,6 +225,11 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
     }
 
     private void createAndAddResourceEntries(NewBatchJob newJob, ControlFile cf) {
+        String zipResource = null;
+        if (newJob.getZipResourceEntry() != null) {
+            zipResource = newJob.getZipResourceEntry().getResourceName();
+        }
+
         for (IngestionFileEntry file : cf.getFileEntries()) {
             ResourceEntry resourceEntry = new ResourceEntry();
             resourceEntry.setResourceId(file.getFileName());
@@ -219,6 +239,8 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
             resourceEntry.setResourceType(file.getFileType().getName());
             resourceEntry.setChecksum(file.getChecksum());
             resourceEntry.setTopLevelLandingZonePath(newJob.getTopLevelSourceId());
+            resourceEntry.setResourceZipParent(zipResource);
+
             newJob.getResourceEntries().add(resourceEntry);
         }
     }
@@ -236,16 +258,4 @@ public class ControlFileProcessor implements Processor, MessageSourceAware {
         return batchProperties;
     }
 
-    public BatchJobAssembler getJobAssembler() {
-        return jobAssembler;
-    }
-
-    public void setJobAssembler(BatchJobAssembler jobAssembler) {
-        this.jobAssembler = jobAssembler;
-    }
-
-    @Override
-    public void setMessageSource(MessageSource messageSource) {
-        this.messageSource = messageSource;
-    }
 }

@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative 'Enum.rb'
+
 # Enumeration for types of schools. From Ed-Fi-Core.xsd:
 # <xs:simpleType name="SchoolCategoryItemType">
 #   <xs:annotation>

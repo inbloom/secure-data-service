@@ -57,7 +57,7 @@ import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.util.BatchJobUtils2;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  *
@@ -74,11 +74,13 @@ public class JobReportingProcessorTest {
 
     private static final String BATCHJOBID = "test.ctl-11111111111111111";
     private static final String RESOURCEID = "InterchangeStudentParent.xml";
+    private static final String NULLRESOURCEID = null;
     private static final int RECORDS_CONSIDERED = 50;
     private static final int RECORDS_FAILED = 5;
     private static final int RECORDS_PASSED = RECORDS_CONSIDERED - RECORDS_FAILED;
     private static final String RECORDID = "recordIdentifier";
     private static final String ERRORDETAIL = "errorDetail";
+    private static final String NULLERRORDETAIL = "null errorDetail";
 
     private static PrintStream printOut = new PrintStream(System.out);
 
@@ -147,6 +149,10 @@ public class JobReportingProcessorTest {
                 mockedBatchJobDAO.getBatchJobErrors(Matchers.eq(BATCHJOBID), Matchers.eq(RESOURCEID),
                         Matchers.eq(FaultType.TYPE_ERROR), Matchers.anyInt())).thenReturn(fakeErrorIterable);
         Mockito.when(
+                mockedBatchJobDAO.getBatchJobErrors(Matchers.eq(BATCHJOBID), (String)Matchers.isNull(),
+                        Matchers.eq(FaultType.TYPE_ERROR), Matchers.anyInt())).thenReturn(fakeErrorIterable);
+
+        Mockito.when(
                 mockedBatchJobDAO.getBatchJobErrors(Matchers.eq(BATCHJOBID), Matchers.eq(RESOURCEID),
                         Matchers.eq(FaultType.TYPE_WARNING), Matchers.anyInt())).thenReturn(fakeErrorIterable);
 
@@ -157,8 +163,7 @@ public class JobReportingProcessorTest {
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
         exchange.getIn().setBody(workNote, WorkNote.class);
 
-        LocalFileSystemLandingZone tmpLz = new LocalFileSystemLandingZone();
-        tmpLz.setDirectory(tmpDir);
+        LocalFileSystemLandingZone tmpLz = new LocalFileSystemLandingZone(tmpDir);
         // jobReportingProcessor.setLandingZone(tmpLz);
         printOut.println("Writing to " + tmpLz.getDirectory().getAbsolutePath());
 
@@ -187,6 +192,7 @@ public class JobReportingProcessorTest {
         fr = new FileReader(TEMP_DIR + errorFileName);
         br = new BufferedReader(fr);
         assertTrue(br.readLine().contains("ERROR  " + ERRORDETAIL));
+        assertTrue(br.readLine().contains("ERROR  " + NULLERRORDETAIL));
 
         fr.close();
     }
@@ -225,9 +231,15 @@ public class JobReportingProcessorTest {
     private Iterable<Error> createFakeErrorIterable() {
         List<Error> errors = new LinkedList<Error>();
         Error error = new Error(BATCHJOBID, BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), RESOURCEID,
-                "10.81.1.27", "testhost", RECORDID, BatchJobUtils2.getCurrentTimeStamp(),
+                "10.81.1.27", "testhost", RECORDID, BatchJobUtils.getCurrentTimeStamp(),
                 FaultType.TYPE_ERROR.getName(), "errorType", ERRORDETAIL);
         errors.add(error);
+
+        Error nullError = new Error(BATCHJOBID, BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), NULLRESOURCEID,
+                "10.81.1.27", "testhost", RECORDID, BatchJobUtils.getCurrentTimeStamp(),
+                FaultType.TYPE_ERROR.getName(), "errorType", NULLERRORDETAIL);
+        errors.add(nullError);
+
         return errors;
     }
 
@@ -237,7 +249,7 @@ public class JobReportingProcessorTest {
 
         List<Stage> fakeStageList = new LinkedList<Stage>();
         Stage s = new Stage(BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), "Persists records to the sli databse",
-                "finished", BatchJobUtils2.getCurrentTimeStamp(), BatchJobUtils2.getCurrentTimeStamp(), fakeMetrics);
+                "finished", BatchJobUtils.getCurrentTimeStamp(), BatchJobUtils.getCurrentTimeStamp(), fakeMetrics);
         fakeStageList.add(s);
         return fakeStageList;
     }

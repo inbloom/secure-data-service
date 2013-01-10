@@ -8,12 +8,14 @@ Given I am using local data store
 
 
 Scenario: Post a zip file containing all configured Learning Objective interchanges as a payload of the ingestion job: Clean Database
-Given I post "CommonCoreStandards/grade12English.zip" file as the payload of the ingestion job
+  Given I post "CommonCoreStandards/grade12English.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
      | collectionName              |
      | learningObjective           |
      | learningStandard            |
-When zip file is scp to ingestion landing zone
+     | recordHash                  |
+  When zip file is scp to ingestion landing zone
+  And a batch job for file "grade12English.zip" is completed in database
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
@@ -40,7 +42,9 @@ Given I post "CommonCoreStandards/grade12Math.zip" file as the payload of the in
      | collectionName                     |
      | learningObjective                  |
      | learningStandard                   |
+     | recordHash                         |
 When zip file is scp to ingestion landing zone
+  And a batch job for file "grade12Math.zip" is completed in database
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |
@@ -71,6 +75,7 @@ Given I post "CommonCoreStandards/grade12Math.zip" file as the payload of the in
      | collectionName                     |
      | learningObjective                  |
      | learningStandard                   |
+     | recordHash                         |
 When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
@@ -78,7 +83,8 @@ Then I should see following map of entry counts in the corresponding collections
      | learningObjective           | 65     |
      | learningStandard            | 509    |
 Given I post "CommonCoreStandards/grade12Math.zip" file as the payload of the ingestion job
-When zip file is scp to ingestion landing zone
+When zip file is scp to ingestion landing zone with name "grade12Math2.zip"
+  And a batch job for file "grade12Math2.zip" is completed in database
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName              | count |

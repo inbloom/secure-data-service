@@ -36,15 +36,23 @@ import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.dao.InvalidDataAccessApiUsageException;
 import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.data.mongodb.UncategorizedMongoDbException;
+import org.xml.sax.Locator;
 
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
+import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.ResourceWriter;
+import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.impl.NeutralRecordSource;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.util.NeutralRecordUtils;
-import org.slc.sli.ingestion.validation.ErrorReport;
 
 /**
  * Visitor that writes a neutral record or reports errors encountered.
@@ -53,7 +61,7 @@ import org.slc.sli.ingestion.validation.ErrorReport;
  *
  */
 @StreamResultWriter
-public final class SmooksEdFiVisitor implements SAXElementVisitor {
+public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLocatorHandler {
 
     // Logging
     private static final Logger LOG = LoggerFactory.getLogger(SmooksEdFiVisitor.class);
@@ -67,7 +75,6 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
 
     private final String beanId;
     private final String batchJobId;
-    private final ErrorReport errorReport;
     private final IngestionFileEntry fe;
     private Map<String, Integer> occurences;
     private Map<String, List<NeutralRecord>> queuedWrites;
@@ -77,8 +84,17 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     private Set<String> recordLevelDeltaEnabledEntities;
     private DeterministicUUIDGeneratorStrategy dIdStrategy;
     private DeterministicIdResolver dIdResolver;
+    private Locator locator;
+
+    private int visitBeforeLineNumber;
+    private int visitBeforeColumnNumber;
+    private int visitAfterLineNumber;
+    private int visitAfterColumnNumber;
 
     private Map<String, Long> duplicateCounts = new HashMap<String, Long>();
+
+    private AbstractMessageReport errorReport;
+    private ReportStats reportStats;
 
     /**
      * Get records persisted to data store. If there are still queued writes waiting, flush the
@@ -91,23 +107,33 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         return recordsPerisisted;
     }
 
-    private SmooksEdFiVisitor(String beanId, String batchJobId, ErrorReport errorReport, IngestionFileEntry fe) {
+    private SmooksEdFiVisitor(String beanId, String batchJobId, AbstractMessageReport report,
+            ReportStats reportStats, IngestionFileEntry fe) {
         this.beanId = beanId;
         this.batchJobId = batchJobId;
-        this.errorReport = errorReport;
+        this.errorReport = report;
+        this.reportStats = reportStats;
         this.fe = fe;
         this.occurences = new HashMap<String, Integer>();
         this.recordsPerisisted = 0;
         this.queuedWrites = new HashMap<String, List<NeutralRecord>>();
     }
 
-    public static SmooksEdFiVisitor createInstance(String beanId, String batchJobId, ErrorReport errorReport,
-            IngestionFileEntry fe) {
-        return new SmooksEdFiVisitor(beanId, batchJobId, errorReport, fe);
+    public static SmooksEdFiVisitor createInstance(String beanId, String batchJobId, AbstractMessageReport report,
+            ReportStats reportStats, IngestionFileEntry fe) {
+        return new SmooksEdFiVisitor(beanId, batchJobId, report, reportStats, fe);
+    }
+
+    @Override
+    public void setDocumentLocator(Locator locator) {
+        this.locator = locator;
     }
 
     @Override
     public void visitAfter(SAXElement element, ExecutionContext executionContext) throws IOException {
+
+        visitAfterLineNumber = (locator == null ? -1 : locator.getLineNumber());
+        visitAfterColumnNumber = (locator == null ? -1 : locator.getColumnNumber());
 
         Throwable terminationError = executionContext.getTerminationError();
         if (terminationError == null) {
@@ -117,9 +143,16 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
                 queueNeutralRecordForWriting(neutralRecord);
             } else {
 
-                if (!SliDeltaManager.isPreviouslyIngested(neutralRecord, batchJobDAO, dIdStrategy, dIdResolver, errorReport)) {
-                    queueNeutralRecordForWriting(neutralRecord);
+                // Handle record hash checking according to various modes.
+                String rhMode = TenantContext.getBatchProperty(AttributeType.DUPLICATE_DETECTION.getName());
+                boolean modeDisable = (null != rhMode) && rhMode.equalsIgnoreCase(RecordHash.RECORD_HASH_MODE_DISABLE);
+                boolean modeDebugDrop = (null != rhMode)
+                        && rhMode.equalsIgnoreCase(RecordHash.RECORD_HASH_MODE_DEBUG_DROP);
 
+                if (modeDisable
+                        || (!modeDebugDrop && !SliDeltaManager.isPreviouslyIngested(neutralRecord, batchJobDAO,
+                                dIdStrategy, dIdResolver, errorReport, reportStats))) {
+                    queueNeutralRecordForWriting(neutralRecord);
                 } else {
                     String type = neutralRecord.getRecordType();
                     Long count = duplicateCounts.containsKey(type) ? duplicateCounts.get(type) : Long.valueOf(0);
@@ -133,10 +166,12 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
         } else {
 
             // Indicate Smooks Validation Failure
-            LOG.error("Smooks validation failure at element " + element.getName().toString());
-
             if (errorReport != null) {
-                errorReport.error(terminationError.getMessage(), SmooksEdFiVisitor.class);
+                // TODO: kludge refactor needed
+                NeutralRecordSource nrSource = new NeutralRecordSource(fe.getFileName(), BatchJobStageType.EDFI_PROCESSOR.getName(),
+                        visitBeforeLineNumber, visitBeforeColumnNumber,
+                        visitAfterLineNumber, visitAfterColumnNumber);
+                errorReport.error(reportStats, nrSource, CoreMessageCode.CORE_0019, element.getName().toString());
             }
         }
     }
@@ -196,6 +231,11 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
             neutralRecord.setLocationInSourceFile(FIRST_INSTANCE);
         }
 
+        neutralRecord.setVisitBeforeLineNumber(visitBeforeLineNumber);
+        neutralRecord.setVisitBeforeColumnNumber(visitBeforeColumnNumber);
+        neutralRecord.setVisitAfterLineNumber(visitAfterLineNumber);
+        neutralRecord.setVisitAfterColumnNumber(visitAfterColumnNumber);
+
         // scrub empty strings in NeutralRecord (this is needed for the current way we parse CSV
         // files)
         neutralRecord.setAttributes(NeutralRecordUtils.decodeAndTrimXmlStrings(neutralRecord.getAttributes()));
@@ -230,7 +270,8 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
 
     @Override
     public void visitBefore(SAXElement element, ExecutionContext executionContext) {
-        // nothing
+        visitBeforeLineNumber = (locator == null ? -1 : locator.getLineNumber());
+        visitBeforeColumnNumber = (locator == null ? -1 : locator.getColumnNumber());
     }
 
     @Override
@@ -251,6 +292,5 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor {
     public void setDuplicateCounts(Map<String, Long> duplicateCounts) {
         this.duplicateCounts = duplicateCounts;
     }
-
 
 }

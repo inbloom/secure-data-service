@@ -127,6 +127,6 @@ public class LogUtilTest {
 
             return true;
         }
-    };
+    }
 
 }

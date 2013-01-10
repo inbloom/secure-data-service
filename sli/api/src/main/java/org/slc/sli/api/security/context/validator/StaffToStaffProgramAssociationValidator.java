@@ -51,7 +51,10 @@ public class StaffToStaffProgramAssociationValidator extends AbstractContextVali
      */
     @Override
     public boolean validate(String entityType, Set<String> ids) {
-
+        if (!areParametersValid(EntityNames.STAFF_PROGRAM_ASSOCIATION, entityType, ids)) {
+            return false;
+        }
+        
         //Get the ones based on staffIds (Including me)
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
         
@@ -59,7 +62,7 @@ public class StaffToStaffProgramAssociationValidator extends AbstractContextVali
         Iterable<Entity> staffPrograms = getRepo().findAll(EntityNames.STAFF_PROGRAM_ASSOCIATION, basicQuery);
         for (Entity staff : staffPrograms) {
             Map<String, Object> body = staff.getBody();
-            if (isFieldExpired(body, ParameterConstants.END_DATE)) {
+            if (isFieldExpired(body, ParameterConstants.END_DATE, true)) {
                 continue;
             }
             staffIds.add((String) body.get(ParameterConstants.STAFF_ID));

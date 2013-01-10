@@ -60,9 +60,9 @@ import com.mongodb.WriteResult;
 
 /**
  * Test for sub doc accessor
- *
+ * 
  * @author nbrown
- *
+ * 
  */
 public class SubDocAccessorTest {
 
@@ -88,15 +88,28 @@ public class SubDocAccessorTest {
         WriteResult success = mock(WriteResult.class);
         CommandResult successCR = mock(CommandResult.class);
         CommandResult failCR = mock(CommandResult.class);
+        CommandResult countCR = mock(CommandResult.class);
+        CommandResult countFailCR = mock(CommandResult.class);
         when(success.getLastError()).thenReturn(successCR);
         when(successCR.ok()).thenReturn(true);
         when(successCR.get("value")).thenReturn("updated");
         when(failCR.get("value")).thenReturn(null);
         when(failCR.get("result")).thenReturn(null);
-        when(sectionCollection.update(any(DBObject.class), any(DBObject.class), eq(false), eq(false), eq(WriteConcern.SAFE))).thenReturn(
-                success);
-        when(sectionCollection.update(any(DBObject.class), any(DBObject.class), eq(true), eq(false), eq(WriteConcern.SAFE))).thenReturn(
-                success);
+
+        DBObject r = new BasicDBObject();
+        r.put("count", 1);
+        List<DBObject> l = new ArrayList<DBObject>();
+        l.add(r);
+        when(countCR.get("result")).thenReturn(l);
+
+        when(countFailCR.get("result")).thenReturn(new ArrayList<DBObject>());
+        
+        when(
+                sectionCollection.update(any(DBObject.class), any(DBObject.class), eq(false), eq(false),
+                        eq(WriteConcern.SAFE))).thenReturn(success);
+        when(
+                sectionCollection.update(any(DBObject.class), any(DBObject.class), eq(true), eq(false),
+                        eq(WriteConcern.SAFE))).thenReturn(success);
         when(template.getCollection("section")).thenReturn(sectionCollection);
         Map<String, Object> section = new HashMap<String, Object>();
         Map<String, Object> studentSectionAssociations = new HashMap<String, Object>();
@@ -136,8 +149,8 @@ public class SubDocAccessorTest {
 
         String queryCommand = "{aggregate : \"section\", pipeline:[{$match : { \"_id\" : \"parent_id\"}}"
                 + ",{$project : {\"studentSectionAssociation\":1,\"_id\":0 } }"
-                + ",{$unwind: \"$studentSectionAssociation\"},{$match:{ \"studentSectionAssociation._id\" : \"parent_idchild\"" +
-                ", \"studentSectionAssociation.someProperty\" : \"someValue\"}}]}";
+                + ",{$unwind: \"$studentSectionAssociation\"},{$match:{ \"studentSectionAssociation._id\" : \"parent_idchild\""
+                + ", \"studentSectionAssociation.someProperty\" : \"someValue\"}}]}";
         DBObject subDocQueryResult = new BasicDBObject();
         DBObject subDocEntity = new BasicDBObject();
         subDocEntity.put("_id", "parent_idchild");
@@ -153,20 +166,20 @@ public class SubDocAccessorTest {
         when(successCR.get("result")).thenReturn(subDocQueryResults);
         when(template.executeCommand(queryCommand)).thenReturn(successCR);
 
-        String findByID = "{aggregate : \"section\", pipeline:[{$match : { \"_id\" : \"parent_id\"}}," +
-                "{$project : {\"studentSectionAssociation\":1,\"_id\":0 } }," +
-                "{$unwind: \"$studentSectionAssociation\"},{$match : { \"studentSectionAssociation._id\" : \"parent_idchild\"}}]}";
+        String findByID = "{aggregate : \"section\", pipeline:[{$match : { \"_id\" : \"parent_id\"}},"
+                + "{$project : {\"studentSectionAssociation\":1,\"_id\":0 } },"
+                + "{$unwind: \"$studentSectionAssociation\"},{$match : { \"studentSectionAssociation._id\" : \"parent_idchild\"}}]}";
         when(template.executeCommand(findByID)).thenReturn(successCR);
 
         String nonExistIdForDelete = "{aggregate : \"section\", pipeline:[{$match : { \"studentSectionAssociation._id\" : \"nonExistId\"}}"
-                + ",{$project : {\"studentSectionAssociation\":1,\"_id\":0 } },"
-                + "{$unwind: \"$studentSectionAssociation\"},{$match : { \"studentSectionAssociation._id\" : \"nonExistId\"}}]}";
+                + ",{$project : {\"studentSectionAssociation\":1,\"_id\":0 } },{$unwind: \"$studentSectionAssociation\"},"
+                + "{$match : { \"studentSectionAssociation._id\" : \"nonExistId\"}}]}";
 
         when(template.executeCommand(nonExistIdForDelete)).thenReturn(failCR);
 
-        String findAllQueryCommand = "{aggregate : \"section\", pipeline:[{$match : { \"_id\" : \"parent_id\"}}," +
-                "{$project : {\"studentSectionAssociation\":1,\"_id\":0 } },{$unwind: \"$studentSectionAssociation\"}," +
-                "{$match : { \"studentSectionAssociation._id\" : \"parent_idchild\" , \"studentSectionAssociation.someProperty\" : \"someValue\"}},{$limit:1}]}";
+        String findAllQueryCommand = "{aggregate : \"section\", pipeline:[{$match : { \"_id\" : \"parent_id\"}},"
+                + "{$project : {\"studentSectionAssociation\":1,\"_id\":0 } },{$unwind: \"$studentSectionAssociation\"},"
+                + "{$match : { \"studentSectionAssociation._id\" : \"parent_idchild\" , \"studentSectionAssociation.someProperty\" : \"someValue\"}},{$limit:1}]}";
         when(template.executeCommand(findAllQueryCommand)).thenReturn(successCR);
 
         String nonExistQueryCommand = "{aggregate : \"section\", pipeline:[{$match : { \"studentSectionAssociation._id\" : \"nonExistId\"}}"
@@ -174,15 +187,17 @@ public class SubDocAccessorTest {
                 + "{$match:{ \"studentSectionAssociation._id\" : \"nonExistId\"}}]}";
         when(template.executeCommand(nonExistQueryCommand)).thenReturn(failCR);
 
-        String countQueryCommand = "{aggregate : \"section\", pipeline:[{$match : { \"_id\" : \"parent_id\"}}," +
-                "{$project : {\"studentSectionAssociation\":1,\"_id\":0 } },{$unwind: \"$studentSectionAssociation\"}," +
-                "{$match : { \"studentSectionAssociation._id\" : \"parent_idchild\" , \"studentSectionAssociation.someProperty\" : \"someValue\"}}]}";
-        when(template.executeCommand(countQueryCommand)).thenReturn(successCR);
+        String countQueryCommand = "{aggregate : \"section\", pipeline:[{$match : { \"_id\" : \"parent_id\"}},"
+                + "{$project : {\"studentSectionAssociation\":1,\"_id\":0 } },{$unwind: \"$studentSectionAssociation\"},"
+                + "{$match : { \"studentSectionAssociation._id\" : \"parent_idchild\" , \"studentSectionAssociation.someProperty\" : \"someValue\"}}, "
+                + "{$group: { _id: null, count: {$sum: 1}}}]}";
+        when(template.executeCommand(countQueryCommand)).thenReturn(countCR);
 
-        String nonExistCountCommand = "{aggregate : \"section\", pipeline:[{$match : { \"_id\" : \"parent_id\"}}," +
-                "{$project : {\"studentSectionAssociation\":1,\"_id\":0 } },{$unwind: \"$studentSectionAssociation\"}," +
-                "{$match : { \"studentSectionAssociation._id\" : \"parent_idchild\" , \"studentSectionAssociation.nonExistProperty\" : \"someValue\"}}]}";
-        when(template.executeCommand(nonExistCountCommand)).thenReturn(failCR);
+        String nonExistCountCommand = "{aggregate : \"section\", pipeline:[{$match : { \"_id\" : \"parent_id\"}},"
+                + "{$project : {\"studentSectionAssociation\":1,\"_id\":0 } },{$unwind: \"$studentSectionAssociation\"},"
+                + "{$match : { \"studentSectionAssociation._id\" : \"parent_idchild\" , \"studentSectionAssociation.nonExistProperty\" : \"someValue\"}}, "
+                + "{$group: { _id: null, count: {$sum: 1}}}]}";
+        when(template.executeCommand(nonExistCountCommand)).thenReturn(countFailCR);
     }
 
     @Test
@@ -331,8 +346,9 @@ public class SubDocAccessorTest {
 
     @Test
     public void testFindAll() {
-
-        Query originalQuery = new Query(Criteria.where("_id").is("parent_idchild").and("someProperty").is("someValue")).skip(0).limit(1);
+        
+        Query originalQuery = new Query(Criteria.where("_id").is("parent_idchild").and("someProperty").is("someValue"))
+                .skip(0).limit(1);
         List<Entity> entityResults = underTest.subDoc("studentSectionAssociation").findAll(originalQuery);
         assertNotNull(entityResults);
         assertEquals(1, entityResults.size());

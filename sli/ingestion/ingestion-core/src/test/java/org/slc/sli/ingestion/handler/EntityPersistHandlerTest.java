@@ -36,6 +36,8 @@ import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Matchers;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ContextConfiguration;
@@ -46,10 +48,14 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.NeutralRecordEntity;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.impl.DummyMessageReport;
+import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
-import org.slc.sli.ingestion.validation.ErrorReport;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
@@ -99,23 +105,25 @@ public class EntityPersistHandlerTest {
         mockedEntityRepository = mock(MongoEntityRepository.class);
         entityPersistHandler.setEntityRepository(mockedEntityRepository);
 
-        when(
-                mockedEntityRepository.findAll(eq("student"), any(NeutralQuery.class))).thenReturn(studentFound);
+        when(mockedEntityRepository.findAll(eq("student"), any(NeutralQuery.class))).thenReturn(studentFound);
 
         // School search.
         regionIdStudentIdQuery = new NeutralQuery();
-        regionIdStudentIdQuery.addCriteria(new NeutralCriteria(METADATA_BLOCK + "." + REGION_ID_FIELD, NeutralCriteria.OPERATOR_EQUAL, REGION_ID, false));
-        regionIdStudentIdQuery.addCriteria(new NeutralCriteria(METADATA_BLOCK + "." + EXTERNAL_ID_FIELD, NeutralCriteria.OPERATOR_EQUAL, STUDENT_ID, false));
-        when(mockedEntityRepository.findAll(eq("school"), eq(regionIdStudentIdQuery)))
-                .thenReturn(schoolFound);
+        regionIdStudentIdQuery.addCriteria(new NeutralCriteria(METADATA_BLOCK + "." + REGION_ID_FIELD,
+                NeutralCriteria.OPERATOR_EQUAL, REGION_ID, false));
+        regionIdStudentIdQuery.addCriteria(new NeutralCriteria(METADATA_BLOCK + "." + EXTERNAL_ID_FIELD,
+                NeutralCriteria.OPERATOR_EQUAL, STUDENT_ID, false));
+        when(mockedEntityRepository.findAll(eq("school"), eq(regionIdStudentIdQuery))).thenReturn(schoolFound);
 
         // Student-School Association search.
         ssaQuery = new NeutralQuery();
-        ssaQuery.addCriteria(new NeutralCriteria(METADATA_BLOCK + "." + REGION_ID_FIELD, NeutralCriteria.OPERATOR_EQUAL, REGION_ID, false));
-        ssaQuery.addCriteria(new NeutralCriteria("body.studentId", NeutralCriteria.OPERATOR_EQUAL, INTERNAL_STUDENT_ID, false));
-        ssaQuery.addCriteria(new NeutralCriteria("body.schoolId", NeutralCriteria.OPERATOR_EQUAL, INTERNAL_SCHOOL_ID, false));
-        when(
-                mockedEntityRepository.findAll(eq("studentSchoolAssociation"), eq(ssaQuery))).thenReturn(
+        ssaQuery.addCriteria(new NeutralCriteria(METADATA_BLOCK + "." + REGION_ID_FIELD,
+                NeutralCriteria.OPERATOR_EQUAL, REGION_ID, false));
+        ssaQuery.addCriteria(new NeutralCriteria("body.studentId", NeutralCriteria.OPERATOR_EQUAL, INTERNAL_STUDENT_ID,
+                false));
+        ssaQuery.addCriteria(new NeutralCriteria("body.schoolId", NeutralCriteria.OPERATOR_EQUAL, INTERNAL_SCHOOL_ID,
+                false));
+        when(mockedEntityRepository.findAll(eq("studentSchoolAssociation"), eq(ssaQuery))).thenReturn(
                 studentSchoolAssociationFound);
 
     }
@@ -128,23 +136,25 @@ public class EntityPersistHandlerTest {
     @Test
     public void testCreateStudentEntity() {
         MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
-        FaultsReport fr = new FaultsReport();
 
         // Student search.
         NeutralQuery query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria(METADATA_BLOCK + "." + REGION_ID_FIELD, NeutralCriteria.OPERATOR_EQUAL, REGION_ID, false));
-        query.addCriteria(new NeutralCriteria(METADATA_BLOCK + "." + EXTERNAL_ID_FIELD, NeutralCriteria.OPERATOR_EQUAL, STUDENT_ID, false));
+        query.addCriteria(new NeutralCriteria(METADATA_BLOCK + "." + REGION_ID_FIELD, NeutralCriteria.OPERATOR_EQUAL,
+                REGION_ID, false));
+        query.addCriteria(new NeutralCriteria(METADATA_BLOCK + "." + EXTERNAL_ID_FIELD, NeutralCriteria.OPERATOR_EQUAL,
+                STUDENT_ID, false));
         // Create a new student entity with entity ID, and test creating it in the data store.
         SimpleEntity studentEntity = createStudentEntity(true);
 
         List<Entity> le = new ArrayList<Entity>();
         le.add(studentEntity);
-        when(entityRepository.findAll(eq("student"), any(NeutralQuery.class)))
-                .thenReturn(le);
+        when(entityRepository.findAll(eq("student"), any(NeutralQuery.class))).thenReturn(le);
         when(entityRepository.updateWithRetries(studentEntity.getType(), studentEntity, totalRetries)).thenReturn(true);
 
         entityPersistHandler.setEntityRepository(entityRepository);
-        entityPersistHandler.doHandling(studentEntity, fr);
+        AbstractMessageReport errorReport = new DummyMessageReport();
+        ReportStats reportStats = new SimpleReportStats();
+        entityPersistHandler.handle(studentEntity, errorReport, reportStats);
 
         verify(entityRepository).updateWithRetries(studentEntity.getType(), studentEntity, totalRetries);
 
@@ -153,12 +163,12 @@ public class EntityPersistHandlerTest {
         SimpleEntity studentEntity2 = createStudentEntity(false);
         le.add(studentEntity2);
 
-        entityPersistHandler.doHandling(studentEntity2, fr);
+        entityPersistHandler.handle(studentEntity2, errorReport, reportStats);
 
         verify(entityRepository).createWithRetries(studentEntity.getType(), null, studentEntity.getBody(),
                 studentEntity.getMetaData(), "student", totalRetries);
 
-        Assert.assertFalse("Error report should not contain errors", fr.hasErrors());
+        Assert.assertFalse("Error report should not contain errors", reportStats.hasErrors());
     }
 
     /**
@@ -168,7 +178,8 @@ public class EntityPersistHandlerTest {
     @Test
     public void testUpdateStudentEntity() {
         MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
-        FaultsReport fr = new FaultsReport();
+        AbstractMessageReport errorReport = new DummyMessageReport();
+        ReportStats reportStats = new SimpleReportStats();
 
         SimpleEntity studentEntity = createStudentEntity(true);
         SimpleEntity existingStudentEntity = createStudentEntity(true);
@@ -176,22 +187,28 @@ public class EntityPersistHandlerTest {
         existingStudentEntity.setEntityId(UUID.randomUUID().toString());
 
         // Student search.
-        when(entityRepository.findAll(eq("student"), eq(regionIdStudentIdQuery)))
-                .thenReturn(Arrays.asList((Entity) existingStudentEntity));
+        when(entityRepository.findAll(eq("student"), eq(regionIdStudentIdQuery))).thenReturn(
+                Arrays.asList((Entity) existingStudentEntity));
         when(entityRepository.updateWithRetries("student", studentEntity, totalRetries)).thenReturn(true);
 
         entityPersistHandler.setEntityRepository(entityRepository);
         studentEntity.getMetaData().put(EntityMetadataKey.TENANT_ID.getKey(), REGION_ID);
-        entityPersistHandler.doHandling(studentEntity, fr);
+        entityPersistHandler.doHandling(studentEntity, errorReport, reportStats);
 
         verify(entityRepository).updateWithRetries("student", studentEntity, totalRetries);
-        Assert.assertFalse("Error report should not contain errors", fr.hasErrors());
+        Assert.assertFalse("Error report should not contain errors", reportStats.hasErrors());
     }
 
     @Test
     public void testPersistanceExceptionHandling() {
         MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
-        FaultsReport fr = new FaultsReport();
+        DummyMessageReport errorReport = mock(DummyMessageReport.class);
+        Mockito.doCallRealMethod().when(errorReport)
+                .error(Mockito.any(ReportStats.class), Matchers.any(Source.class),
+                        Mockito.any(CoreMessageCode.class), Mockito.anyString()
+                        , Mockito.anyString(), Mockito.anyString(), Mockito.anyString(), Mockito.any(), Mockito.any());
+
+        ReportStats reportStats = new SimpleReportStats();
 
         SimpleEntity studentEntity = createStudentEntity(true);
         SimpleEntity existingStudentEntity = createStudentEntity(true);
@@ -199,8 +216,8 @@ public class EntityPersistHandlerTest {
         existingStudentEntity.setEntityId(UUID.randomUUID().toString());
 
         // Student search.
-        when(entityRepository.findAll(eq("student"), eq(regionIdStudentIdQuery)))
-                .thenReturn(Arrays.asList((Entity) existingStudentEntity));
+        when(entityRepository.findAll(eq("student"), eq(regionIdStudentIdQuery))).thenReturn(
+                Arrays.asList((Entity) existingStudentEntity));
         ValidationError error = new ValidationError(ErrorType.REQUIRED_FIELD_MISSING, "field", null,
                 new String[] { "String" });
         when(entityRepository.updateWithRetries("student", studentEntity, totalRetries)).thenThrow(
@@ -208,14 +225,12 @@ public class EntityPersistHandlerTest {
 
         entityPersistHandler.setEntityRepository(entityRepository);
         studentEntity.getMetaData().put(EntityMetadataKey.TENANT_ID.getKey(), REGION_ID);
-        entityPersistHandler.doHandling(studentEntity, fr);
+        entityPersistHandler.doHandling(studentEntity, errorReport, reportStats);
 
-        Assert.assertTrue("Error report should contain errors", fr.hasErrors());
-        String message = "ERROR: There has been a data validation error when saving an entity\n"
-                + "       Error      REQUIRED_FIELD_MISSING\n" + "       Entity     student\n"
-                + "       Instance   0\n" + "       Field      field\n" + "       Value      null\n"
-                + "       Expected   [String]\n";
-        Assert.assertEquals(message, fr.getFaults().get(0).getMessage());
+        Assert.assertTrue("Error report should contain errors", reportStats.hasErrors());
+        Mockito.verify(errorReport, Mockito.times(1)).error(Matchers.any(ReportStats.class),
+                Matchers.any(Source.class), Matchers.eq(CoreMessageCode.CORE_0006), Matchers.any(String.class),
+                Matchers.anyString(), Matchers.anyString(), Matchers.anyString(), Matchers.any(), Matchers.any());
     }
 
     /**
@@ -225,7 +240,8 @@ public class EntityPersistHandlerTest {
     @Test
     public void testCreateStudentSchoolAssociationEntity() {
         MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
-        FaultsReport fr = new FaultsReport();
+        AbstractMessageReport errorReport = new DummyMessageReport();
+        ReportStats reportStats = new SimpleReportStats();
 
         // Create a new student-school association entity, and test creating it in the data store.
         SimpleEntity foundStudent = new SimpleEntity();
@@ -235,8 +251,7 @@ public class EntityPersistHandlerTest {
         studentList.add(foundStudent);
 
         // Student search.
-        when(entityRepository.findAll(eq("student"), eq(regionIdStudentIdQuery)))
-                .thenReturn(studentList);
+        when(entityRepository.findAll(eq("student"), eq(regionIdStudentIdQuery))).thenReturn(studentList);
 
         // School search.
         SimpleEntity foundSchool = new SimpleEntity();
@@ -244,17 +259,16 @@ public class EntityPersistHandlerTest {
 
         LinkedList<Entity> schoolList = new LinkedList<Entity>();
         schoolList.add(foundSchool);
-        when(entityRepository.findAll(eq("school"), any(NeutralQuery.class)))
-                .thenReturn(schoolList);
+        when(entityRepository.findAll(eq("school"), any(NeutralQuery.class))).thenReturn(schoolList);
 
         SimpleEntity studentSchoolAssociationEntity = createStudentSchoolAssociationEntity(STUDENT_ID, false);
         entityPersistHandler.setEntityRepository(entityRepository);
         studentSchoolAssociationEntity.getMetaData().put(EntityMetadataKey.TENANT_ID.getKey(), REGION_ID);
-        entityPersistHandler.doHandling(studentSchoolAssociationEntity, fr);
+        entityPersistHandler.doHandling(studentSchoolAssociationEntity, errorReport, reportStats);
         verify(entityRepository).createWithRetries(studentSchoolAssociationEntity.getType(), null,
                 studentSchoolAssociationEntity.getBody(), studentSchoolAssociationEntity.getMetaData(),
                 studentSchoolAssociationEntity.getType(), totalRetries);
-        Assert.assertFalse("Error report should not contain errors", fr.hasErrors());
+        Assert.assertFalse("Error report should not contain errors", reportStats.hasErrors());
     }
 
     /**
@@ -264,7 +278,8 @@ public class EntityPersistHandlerTest {
     @Test
     public void testUpdateStudentSchoolAssociationEntity() {
         MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
-        FaultsReport fr = new FaultsReport();
+        AbstractMessageReport errorReport = new DummyMessageReport();
+        ReportStats reportStats = new SimpleReportStats();
 
         // Create a new student-school association entity, and test creating it in the data store.
         NeutralRecordEntity foundStudent = new NeutralRecordEntity(null);
@@ -273,25 +288,21 @@ public class EntityPersistHandlerTest {
         studentList.add(foundStudent);
 
         // Student search.
-        when(entityRepository.findAll(eq("student"), eq(regionIdStudentIdQuery)))
-                .thenReturn(studentList);
+        when(entityRepository.findAll(eq("student"), eq(regionIdStudentIdQuery))).thenReturn(studentList);
 
         // School search.
         NeutralRecordEntity foundSchool = new NeutralRecordEntity(null);
 
         LinkedList<Entity> schoolList = new LinkedList<Entity>();
         schoolList.add(foundSchool);
-        when(entityRepository.findAll(eq("school"), eq(regionIdStudentIdQuery)))
-                .thenReturn(schoolList);
+        when(entityRepository.findAll(eq("school"), eq(regionIdStudentIdQuery))).thenReturn(schoolList);
 
         SimpleEntity studentSchoolAssociationEntity = createStudentSchoolAssociationEntity(STUDENT_ID, true);
         SimpleEntity existingStudentSchoolAssociationEntity = createStudentSchoolAssociationEntity(STUDENT_ID, true);
 
         existingStudentSchoolAssociationEntity.setEntityId(UUID.randomUUID().toString());
 
-        when(
-                entityRepository.findAll(eq("studentSchoolAssociation"),
-                        eq(ssaQuery))).thenReturn(
+        when(entityRepository.findAll(eq("studentSchoolAssociation"), eq(ssaQuery))).thenReturn(
                 Arrays.asList((Entity) existingStudentSchoolAssociationEntity));
 
         when(
@@ -300,11 +311,11 @@ public class EntityPersistHandlerTest {
 
         entityPersistHandler.setEntityRepository(entityRepository);
         studentSchoolAssociationEntity.getMetaData().put(EntityMetadataKey.TENANT_ID.getKey(), REGION_ID);
-        entityPersistHandler.doHandling(studentSchoolAssociationEntity, fr);
+        entityPersistHandler.doHandling(studentSchoolAssociationEntity, errorReport, reportStats);
 
         verify(entityRepository).updateWithRetries("studentSchoolAssociation", studentSchoolAssociationEntity,
                 totalRetries);
-        Assert.assertFalse("Error report should not contain errors", fr.hasErrors());
+        Assert.assertFalse("Error report should not contain errors", reportStats.hasErrors());
     }
 
     @Test
@@ -313,8 +324,10 @@ public class EntityPersistHandlerTest {
          * when validation fails for an entity, we should not try to persist
          */
 
+        AbstractMessageReport report = new DummyMessageReport();
+        ReportStats reportStats = new SimpleReportStats();
+
         SimpleEntity mockedEntity = mock(SimpleEntity.class);
-        ErrorReport mockedErrorReport = mock(ErrorReport.class);
 
         String expectedType = "student";
         when(mockedEntity.getType()).thenReturn(expectedType);
@@ -327,9 +340,7 @@ public class EntityPersistHandlerTest {
         expectedMetaData.put(EXTERNAL_ID_FIELD, STUDENT_ID);
         when(mockedEntity.getMetaData()).thenReturn(expectedMetaData);
 
-        when(mockedErrorReport.hasErrors()).thenReturn(true);
-
-        entityPersistHandler.handle(mockedEntity, mockedErrorReport);
+        entityPersistHandler.handle(mockedEntity, report, reportStats);
 
         verify(mockedEntityRepository, never()).create(expectedType, expectedMap, expectedMetaData, expectedType);
     }
@@ -426,7 +437,8 @@ public class EntityPersistHandlerTest {
     @Test
     public void testCreateTeacherSchoolAssociationEntity() {
         MongoEntityRepository entityRepository = mock(MongoEntityRepository.class);
-        FaultsReport fr = new FaultsReport();
+        AbstractMessageReport errorReport = new DummyMessageReport();
+        ReportStats reportStats = new SimpleReportStats();
 
         // Create a new student-school association entity, and test creating it in the data store.
         SimpleEntity foundTeacher = new SimpleEntity();
@@ -436,8 +448,7 @@ public class EntityPersistHandlerTest {
         teacherList.add(foundTeacher);
 
         // Teacher search.
-        when(entityRepository.findAll(eq("teacher"), eq(regionIdStudentIdQuery)))
-                .thenReturn(teacherList);
+        when(entityRepository.findAll(eq("teacher"), eq(regionIdStudentIdQuery))).thenReturn(teacherList);
 
         // School search.
         SimpleEntity foundSchool = new SimpleEntity();
@@ -445,16 +456,15 @@ public class EntityPersistHandlerTest {
 
         LinkedList<Entity> schoolList = new LinkedList<Entity>();
         schoolList.add(foundSchool);
-        when(entityRepository.findAll(eq("school"), eq(regionIdStudentIdQuery)))
-                .thenReturn(schoolList);
+        when(entityRepository.findAll(eq("school"), eq(regionIdStudentIdQuery))).thenReturn(schoolList);
 
         SimpleEntity teacherSchoolAssociationEntity = createTeacherSchoolAssociationEntity(STUDENT_ID, false);
         entityPersistHandler.setEntityRepository(entityRepository);
         teacherSchoolAssociationEntity.getMetaData().put(EntityMetadataKey.TENANT_ID.getKey(), REGION_ID);
-        entityPersistHandler.doHandling(teacherSchoolAssociationEntity, fr);
+        entityPersistHandler.doHandling(teacherSchoolAssociationEntity, errorReport, reportStats);
         verify(entityRepository).createWithRetries(teacherSchoolAssociationEntity.getType(), null,
                 teacherSchoolAssociationEntity.getBody(), teacherSchoolAssociationEntity.getMetaData(),
                 teacherSchoolAssociationEntity.getType(), totalRetries);
-        Assert.assertFalse("Error report should not contain errors", fr.hasErrors());
+        Assert.assertFalse("Error report should not contain errors", reportStats.hasErrors());
     }
 }

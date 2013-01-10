@@ -37,6 +37,7 @@ Scenario: Create a new realm
   Then I should receive a return code of 201
      And I should receive a new ID for my new realm
 
+
 Scenario: Deny creation of a new custom role doc when one already exists for this realm/tenant
   Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
   When I POST a new custom role document with realm "Fake Realm"
@@ -56,6 +57,20 @@ Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
 Scenario: Create a custom role doc
   Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
   When I POST a new custom role document with realm "Fake Realm"
+    Then I should receive a return code of 201
+     And I should receive a new ID for my new custom role doc
+     
+Scenario: Create another new realm
+
+  Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
+  When I POST another new realm
+  Then I should receive a return code of 201
+     And I should receive a new ID for my new realm
+
+@wip
+Scenario: Create a custom role doc for my second realm
+  Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
+  When I POST a new custom role document with for my new realm
     Then I should receive a return code of 201
      And I should receive a new ID for my new custom role doc
 

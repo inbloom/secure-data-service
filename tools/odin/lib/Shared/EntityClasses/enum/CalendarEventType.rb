@@ -55,9 +55,4 @@ class CalendarEventType
   CalendarEventType.define :STUDENT_LATE_ARRIVAL_EARLY_DISMISSAL, "Student late arrival/early dismissal"
   CalendarEventType.define :TEACHER_ONLY_DAY, "Teacher only day"
   CalendarEventType.define :WEATHER_DAY, "Weather day"
-
-  # translates the specified Symbol into the String representation of the calendar event type
-  def self.to_string(key)
-    const_get(key)
-  end
 end

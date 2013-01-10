@@ -19,6 +19,7 @@ package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -36,12 +37,6 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.constants.ResourceNames;
@@ -58,6 +53,11 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
 
 /**
  *
@@ -98,7 +98,7 @@ public class ApplicationAuthorizationResource {
     public static final String NAME = "name";
     public static final String DESCRIPTION = "description";
 
-    public static final String RESOURCE_APPLICATION = "application";
+    public static final String RESOURCE_APPLICATION = "apps";
     public static final String RESOURCE_EDORG = "educationOrganization";
 
     @PostConstruct
@@ -115,7 +115,7 @@ public class ApplicationAuthorizationResource {
 
     @GET
     @Path("{" + UUID + "}")
-    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE})
+    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE })
     public Response getAuthorization(@PathParam(UUID) String uuid) {
 
         if (uuid != null) {
@@ -129,7 +129,7 @@ public class ApplicationAuthorizationResource {
     }
 
     @POST
-    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE})
+    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE })
     public Response createAuthorization(EntityBody newAppAuth, @Context final UriInfo uriInfo) {
         verifyAccess((String) newAppAuth.get(AUTH_ID), null);
 
@@ -141,7 +141,7 @@ public class ApplicationAuthorizationResource {
 
     @PUT
     @Path("{" + UUID + "}")
-    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE})
+    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE })
     public Response updateAuthorization(@PathParam(UUID) String uuid, EntityBody auth, @Context final UriInfo uriInfo) {
 
         EntityBody oldAuth = service.get(uuid);
@@ -159,6 +159,12 @@ public class ApplicationAuthorizationResource {
             body.put("message", "authType is read only");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
+        
+        // Ensure uniqeness accross all apps
+        List<String> apps = (List) auth.get(APP_IDS);
+        Set<String> unique = new LinkedHashSet<String>(apps);
+        apps = new ArrayList<String>(unique);
+        auth.put(APP_IDS, apps);
 
         boolean status = service.update(uuid, auth);
         if (status) { // if the entity was changed
@@ -171,7 +177,7 @@ public class ApplicationAuthorizationResource {
     }
 
     @GET
-    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE})
+    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE })
     public Response getAuthorizations(@Context UriInfo info) {
         List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
         String edOrgId = SecurityUtil.getEdOrgId();

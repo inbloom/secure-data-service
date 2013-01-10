@@ -1,5 +1,4 @@
-#require 'mongo'
-#require 'json'
+require 'mongo'
 require 'fileutils'
 require_relative '../../utils/sli_utils.rb'
 
@@ -15,10 +14,6 @@ end
 # STEPS: BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE BEFORE
 ############################################################
 Before do
-  #@conn = Mongo::Connection.new("127.0.0.1", 27017)
-  #assert(@conn != nil)
-  #@db = @conn.db("sli")
-  #assert(@db != nil)
   @at_working_path = Dir.pwd
   @odin_working_path = "#{File.dirname(__FILE__)}" + "/../../../../../../tools/odin/"
 end
@@ -35,26 +30,35 @@ end
 ############################################################
 When /^I generate the 10 student data set in the (.*?) directory$/ do |gen_dir|
   @gen_path = "#{@odin_working_path}#{gen_dir}/"
-  puts "Calling generate function for 10 students"
-  generate('10students')   
+  puts "Calling generate function for 10 students scenario"
+  generate("10students")   
 end
 
-When /^I generate the 10001 student data set$/ do
-  generate('10001students')    
+When /^I generate the 10001 student data set in the (.*?) directory$/ do |gen_dir|
+  @gen_path = "#{@odin_working_path}#{gen_dir}/"
+  puts "Calling generate function for 10001 students scenario"
+  generate("10001students")    
+end
+
+When /^I generate the jmeter api performance data set in the (.*?) directory$/ do |gen_dir|
+  @gen_path = "#{@odin_working_path}#{gen_dir}/"
+  puts "Calling generate function for jmeter api performance scenario"
+  generate("jmeter_api_performance")   
 end
 
 When /^I zip generated data under filename (.*?) to the new (.*?) directory$/ do |zip_file, new_dir|
-  @zip_path = @gen_path + new_dir
+  @zip_path = "#{@gen_path}#{new_dir}/"
   FileUtils.mkdir_p(@zip_path)
   FileUtils.chmod(0777, @zip_path)
-  runShellCommand("zip -j #{@zip_path}/#{zip_file} #{@gen_path}/*.xml #{@gen_path}/*.ctl")
+  runShellCommand("zip -j #{@zip_path}#{zip_file} #{@gen_path}*.xml #{@gen_path}*.ctl")
 end
 
 When /^I copy generated data to the new (.*?) directory$/ do |new_dir|
-  @zip_path = @gen_path + new_dir
-  #FileUtils.cp("#{@gen_path}*.xml", @zip_path)
-  #FileUtils.cp("#{@gen_path}*.ctl", @zip_path)
-  Dir["#{@gen_path}*.xml"].each {|f| FileUtils.cp(f, @zip_path)}
+  @zip_path = "#{@gen_path}#{new_dir}"
+  Dir["#{@gen_path}*.xml"].each do |f|
+    FileUtils.cp(f, @zip_path)
+    puts "Copied file #{f} to #{@zip_path}"
+  end
   Dir["#{@gen_path}*.ctl"].each {|f| FileUtils.cp(f, @zip_path)}
 end
 
@@ -62,23 +66,25 @@ end
 # STEPS: THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
 ############################################################
 Then /^I should see ([0-9]+) xml interchange files$/ do |file_count|
-  raise "Did not find expected number of Interchange files (found #{file_count}, expected 8)" if file_count.to_i != 8
+  count = Dir["#{@gen_path}*xml"].length
+  file_count = file_count.to_i
+  puts "Expected to see #{file_count} files, found #{count}"
+  raise "Did not find expected number of Interchange files (found #{count}, expected #{file_count})" if file_count.to_i != count
 end
 
 Then /^I should see (.*?) has been generated$/ do |filename|
   raise "#{filename} does not exist" if !File.exist?("#{@gen_path}#{filename}")
 end
 
-Then /^for the student with ID <Id>, I see a highest ever score of <Score> for the <Assessment> assessment:$/ do |data|
-  runShellCommand("cd #{@odin_working_path}")
+Given /^the edfi manifest that was generated in the '([^\']*)' directory$/ do |dir|
+  @manifest = "#{@odin_working_path}#{dir}/manifest.json"
 end
 
-Then /^I see the expected number of <Collection> records with aggregates for <Assessment> is <Count>:$/ do |data|
-
+Given /^the tenant is '([^\']*)'$/ do |tenant_id|
+  @tenant_id = tenant_id
 end
 
-Then /^East Daybreak Junior High has cut point <Cut> count <Count> for assessment <Assessment>:$/ do |data|
-
+Then /^the sli\-verify script completes successfully$/ do
+  results = `bundle exec ruby #{@odin_working_path}sli-verify.rb #{@tenant_id} #{@manifest}`
+  assert(results.include?("All expected entities found\n"), "verification script failed, results are #{results}")
 end
-
-

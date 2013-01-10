@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <InterchangeStudentGrade xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentGrade.xsd">
-    <StudentAcademicRecord id="SAR-800000025-7">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -43,10 +43,28 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-800000025-7"/>
+        <StudentAcademicRecordReference>
+            <StudentAcademicRecordIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>900000021</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+            </StudentAcademicRecordIdentity>
+        </StudentAcademicRecordReference>
         <GradeType>Final</GradeType>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-91919002-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -89,10 +107,28 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919002-2"/>
+        <StudentAcademicRecordReference>
+            <StudentAcademicRecordIdentity>
+            <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>900000021</StudentUniqueStateId>
+                </StudentIdentity>
+            </StudentReference>
+            <SessionReference>
+                <SessionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <SessionName>Spring 2011 East Daybreak Junior High</SessionName>
+                </SessionIdentity>
+            </SessionReference>
+            </StudentAcademicRecordIdentity>
+        </StudentAcademicRecordReference>
         <GradeType>Final</GradeType>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-91919003-1">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -135,10 +171,28 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919003-1"/>
+        <StudentAcademicRecordReference>
+            <StudentAcademicRecordIdentity>
+            <StudentReference>
+                <StudentIdentity>
+                    <StudentUniqueStateId>900000021</StudentUniqueStateId>
+                </StudentIdentity>
+            </StudentReference>
+            <SessionReference>
+                <SessionIdentity>
+                    <EducationalOrgReference>
+                        <EducationalOrgIdentity>
+                            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+                        </EducationalOrgIdentity>
+                    </EducationalOrgReference>
+                    <SessionName>Fall 2011 East Daybreak Junior High</SessionName>
+                </SessionIdentity>
+            </SessionReference>
+            </StudentAcademicRecordIdentity>
+        </StudentAcademicRecordReference>
         <GradeType>Final</GradeType>
     </CourseTranscript>
-    <StudentAcademicRecord id="SAR-91919003-2">
+    <StudentAcademicRecord>
         <CumulativeCreditsAttempted CreditConversion="0" CreditType="Carnegie unit">
             <Credit>5</Credit>
         </CumulativeCreditsAttempted>
@@ -181,7 +235,25 @@
                 <StateOrganizationId>Daybreak Central High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
-        <StudentAcademicRecordReference ref="SAR-91919003-2"/>
+        <StudentAcademicRecordReference>
+            <StudentAcademicRecordIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>800000022</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <SessionReference>
+                    <SessionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <SessionName>Spring 2011 Daybreak Central High</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+            </StudentAcademicRecordIdentity>
+        </StudentAcademicRecordReference>
         <GradeType>Final</GradeType>
     </CourseTranscript>
 </InterchangeStudentGrade>

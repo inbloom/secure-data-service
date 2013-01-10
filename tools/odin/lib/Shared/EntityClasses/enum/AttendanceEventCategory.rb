@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative 'Enum.rb'
+
 # Enumerates the types of attendance event categories. From Ed-Fi-Core.xsd:
 # <xs:simpleType name="AttendanceEventCategoryType">
 #   <xs:annotation>

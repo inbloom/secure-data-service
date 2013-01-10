@@ -33,7 +33,7 @@ class ForgotPasswordsController < ApplicationController
   def get_user
     @user = APP_LDAP_CLIENT.read_user_resetkey(params[:key])
     if !@user
-      flash[:error] = "Unable to verify user. Please contact the SLC"
+      flash[:error] = "Unable to verify user. Please contact inBloom"
       redirect_to forgot_password_notify_path
     end
   end
@@ -56,7 +56,7 @@ class ForgotPasswordsController < ApplicationController
     @forgot_password.errors.clear
     respond_to do |format|
       if @forgot_password.set_password {|emailAddress, fullName| ApplicationMailer.notify_password_change(emailAddress, fullName).deliver}
-        format.html { redirect_to "/forgotPassword/notify", notice: 'Your password has been successfully modified.'}
+        format.html { redirect_to "/forgotPassword/success", notice: 'Your password has been successfully modified.'}
         format.json { render :json => @forgot_password, status: :created, location: @forgot_password }
       else
         format.html { render action: "update" }
@@ -126,12 +126,12 @@ class ForgotPasswordsController < ApplicationController
           logger.error e.message
           logger.error e.backtrace.join("\n")
 
-          @forgot_password.errors.add(:base, "Unable to reset your password. Please contact the SLC.")
+          @forgot_password.errors.add(:base, "Unable to reset your password. Please contact inBloom.")
           format.html { render action: "reset" }
           format.json { render json: @forgot_password.errors, status: :unprocessable_entity }
         end
       else
-        @forgot_password.errors.add(:base, "Unable to verify your user ID. Please contact the SLC.")
+        @forgot_password.errors.add(:base, "Unable to verify your user ID. Please contact inBloom.")
         format.html { render action: "reset" }
         format.json { render json: @forgot_password.errors, status: :unprocessable_entity }
       end

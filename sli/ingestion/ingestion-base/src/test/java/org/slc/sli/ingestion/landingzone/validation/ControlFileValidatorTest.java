@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.landingzone.validation;
 
 import java.io.File;
@@ -30,16 +29,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.ingestion.FaultsReport;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.LandingZone;
-import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.DummyMessageReport;
+import org.slc.sli.ingestion.reporting.impl.JobSource;
+import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 
 /**
  * Tests for control file validator.
+ *
  * @author npandey
  *
  */
@@ -50,7 +54,6 @@ public class ControlFileValidatorTest {
     @Autowired
     ControlFileValidator controlFileValidator;
 
-    private FaultsReport errorReport = new FaultsReport();
     private ControlFileDescriptor item;
     private ControlFile contorlFile;
     private IngestionFileEntry entry;
@@ -85,58 +88,78 @@ public class ControlFileValidatorTest {
 
     @Test
     public void noFileEntriesTest() {
-        boolean isValid = controlFileValidator.isValid(item, errorReport);
+        AbstractMessageReport report = new DummyMessageReport();
+        ReportStats reportStats = new SimpleReportStats();
+        Source source = new JobSource(null, null);
 
-        Assert.assertEquals("ERROR: No files specified in control file.", errorReport.getFaults().get(0).toString());
-        Assert.assertTrue(errorReport.hasErrors());
+        boolean isValid = controlFileValidator.isValid(item, report, reportStats, source);
+
+        Assert.assertTrue(reportStats.hasErrors());
         Assert.assertFalse(isValid);
     }
 
     @Test
     public void fileNotPresentTest() {
+        AbstractMessageReport report = new DummyMessageReport();
+        ReportStats reportStats = new SimpleReportStats();
+        Source source = new JobSource(null, null);
+
         Mockito.when(lz.getFile(fileName)).thenReturn(null);
         fileEntries.add(entry);
 
-        boolean isValid = controlFileValidator.isValid(item, errorReport);
+        boolean isValid = controlFileValidator.isValid(item, report, reportStats, source);
 
-        Assert.assertEquals("ERROR: File " + fileName + ": Specified file is missing.", errorReport.getFaults().get(0).toString());
-        Assert.assertTrue(errorReport.hasErrors());
+        Assert.assertTrue(reportStats.hasErrors());
         Assert.assertFalse(isValid);
     }
 
     @Test
     public void fileValidTest() {
+        AbstractMessageReport report = new DummyMessageReport();
+        ReportStats reportStats = new SimpleReportStats();
 
         fileEntries.add(entry);
-        Mockito.doReturn(true).when(cfv).isValid(Mockito.any(FileEntryDescriptor.class), Mockito.any(ErrorReport.class));
+        Mockito.doReturn(true)
+                .when(cfv)
+                .isValid(Mockito.any(FileEntryDescriptor.class), Mockito.any(AbstractMessageReport.class),
+                        Mockito.any(ReportStats.class), Mockito.any(Source.class));
 
-        boolean isValid = cfv.isValid(item, errorReport);
+        boolean isValid = cfv.isValid(item, report, reportStats, null);
 
-        Assert.assertFalse(errorReport.hasErrors());
+        Assert.assertFalse(reportStats.hasErrors());
         Assert.assertTrue(isValid);
     }
 
     @Test
     public void fileNotValidTest() {
+        AbstractMessageReport report = new DummyMessageReport();
+        ReportStats reportStats = new SimpleReportStats();
+        Source source = new JobSource(null, null);
+
         fileEntries.add(entry);
-        Mockito.doReturn(false).when(cfv).isValid(Mockito.any(FileEntryDescriptor.class), Mockito.any(ErrorReport.class));
+        Mockito.doReturn(false)
+                .when(cfv)
+                .isValid(Mockito.any(FileEntryDescriptor.class), Mockito.any(AbstractMessageReport.class),
+                        Mockito.any(ReportStats.class), Mockito.any(Source.class));
 
-        boolean isValid = cfv.isValid(item, errorReport);
+        boolean isValid = cfv.isValid(item, report, reportStats, source);
 
-        Assert.assertEquals("ERROR: No valid files specified in control file.", errorReport.getFaults().get(0).toString());
-        Assert.assertTrue(errorReport.hasErrors());
+        Assert.assertTrue(reportStats.hasErrors());
         Assert.assertFalse(isValid);
     }
 
     @Test
     public void controlFileHasPath() {
+        AbstractMessageReport report = new DummyMessageReport();
+        ReportStats reportStats = new SimpleReportStats();
+        Source source = new JobSource(null, null);
+
         Mockito.when(entry.getFileName()).thenReturn(path + fileName);
         fileEntries.add(entry);
 
-        boolean isValid = controlFileValidator.isValid(item, errorReport);
+        boolean isValid = controlFileValidator.isValid(item, report, reportStats, source);
 
-        Assert.assertEquals("ERROR: File " + path + fileName + ": File name contains path.", errorReport.getFaults().get(0).toString());
-        Assert.assertTrue(errorReport.hasErrors());
+        Assert.assertTrue(reportStats.hasErrors());
         Assert.assertFalse(isValid);
     }
 }

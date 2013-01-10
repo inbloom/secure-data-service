@@ -78,7 +78,8 @@ public class RealmResourceTest {
         mapping.put("realm_name", "Waffles");
         mapping.put("edOrg", "fake-ed-org");
         mapping.put("mappings", new HashMap<String, Object>());
-
+        mapping.put("idp", new HashMap<String, Object>());
+        
         EntityBody realm2 = new EntityBody();
         realm2.put("id", "other-realm");
         realm2.put("name", "Other Realm");

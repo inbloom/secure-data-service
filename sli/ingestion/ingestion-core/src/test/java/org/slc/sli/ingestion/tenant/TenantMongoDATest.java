@@ -63,6 +63,7 @@ public class TenantMongoDATest {
     private final String lzPath2 = "lz_path_2";
     private final String tenantId = "test_tenant_id";
 
+    @SuppressWarnings("unchecked")
     @Before
     public void setup() {
         tenantDA = new TenantMongoDA();
@@ -153,6 +154,7 @@ public class TenantMongoDATest {
             this.tenant = tenant;
         }
 
+        @SuppressWarnings("unchecked")
         @Override
         public boolean matches(Object argument) {
             Map<String, Object> arg = (Map<String, Object>) argument;

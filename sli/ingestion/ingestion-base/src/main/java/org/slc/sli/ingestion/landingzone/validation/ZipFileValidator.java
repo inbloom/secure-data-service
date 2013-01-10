@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.landingzone.validation;
 
 import java.io.BufferedInputStream;
@@ -31,8 +30,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
-import org.slc.sli.ingestion.validation.ErrorReport;
-import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
+import org.slc.sli.ingestion.validation.Validator;
 
 /**
  * Zip file validator.
@@ -40,9 +42,10 @@ import org.slc.sli.ingestion.validation.spring.SimpleValidatorSpring;
  * @author okrook
  *
  */
-public class ZipFileValidator extends SimpleValidatorSpring<File> {
+public class ZipFileValidator implements Validator<File> {
 
     private static final Logger LOG = LoggerFactory.getLogger(ZipFileValidator.class);
+    private static final String STAGE_NAME = "Zip File Validation";
 
     // how long to wait for the file to become valid before giving up
     @Value("${sli.ingestion.file.timeout:600000}")
@@ -53,8 +56,7 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
     private Long zipfilePollInterval;
 
     @Override
-    public boolean isValid(File zipFile, ErrorReport callback) {
-
+    public boolean isValid(File zipFile, AbstractMessageReport report, ReportStats reportStats, Source source) {
         FileInputStream fis = null;
         ZipArchiveInputStream zis = null;
 
@@ -76,7 +78,7 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
                 while ((ze = zis.getNextEntry()) != null) {
 
                     if (isDirectory(ze)) {
-                        fail(callback, getFailureMessage("SL_ERR_MSG15", zipFile.getName()));
+                        report.error(reportStats, source, BaseMessageCode.BASE_0010, zipFile.getName());
                         return false;
                     }
 
@@ -87,31 +89,32 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
 
                 // no manifest (.ctl file) found in the zip file
                 if (!isValid) {
-                    fail(callback, getFailureMessage("SL_ERR_MSG5", zipFile.getName()));
+                    report.error(reportStats, source, BaseMessageCode.BASE_0009, zipFile.getName());
                 }
 
                 done = true;
 
             } catch (UnsupportedZipFeatureException ex) {
                 // Unsupported compression method
-                fail(callback, getFailureMessage("SL_ERR_MSG18", zipFile.getName()));
+                report.error(reportStats, source, BaseMessageCode.BASE_0011, zipFile.getName());
                 done = true;
                 return false;
 
             } catch (FileNotFoundException ex) {
-                // DE1618 Gluster may have lost track of the file, or it has been deleted from under us
-                String message = zipFile.getAbsolutePath() + " cannot be found. If the file is not processed, please resubmit.";
+                // DE1618 Gluster may have lost track of the file, or it has been deleted from under
+                // us
+                String message = zipFile.getAbsolutePath()
+                        + " cannot be found. If the file is not processed, please resubmit.";
                 LOG.error(message, ex);
-                fail(callback, getFailureMessage("SL_ERR_MSG4", zipFile.getName()));
+                report.error(reportStats, source, BaseMessageCode.BASE_0008, zipFile.getName());
                 done = true;
                 return false;
 
             } catch (IOException ex) {
                 LOG.warn("Caught IO exception processing " + zipFile.getAbsolutePath());
-                ex.printStackTrace();
                 if (System.currentTimeMillis() >= clockTimeout) {
                     // error reading zip file
-                    fail(callback, getFailureMessage("SL_ERR_MSG4", zipFile.getName()));
+                    report.error(reportStats, source, BaseMessageCode.BASE_0008, zipFile.getName());
                     LOG.error("Unable to validate " + zipFile.getAbsolutePath(), ex);
                     done = true;
                     return false;
@@ -125,7 +128,7 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
                     }
                 }
             } finally {
-               IOUtils.closeQuietly(zis);
+                IOUtils.closeQuietly(zis);
                 IOUtils.closeQuietly(fis);
             }
         }
@@ -139,13 +142,18 @@ public class ZipFileValidator extends SimpleValidatorSpring<File> {
             return true;
         }
 
-
-        //UN: This check is to ensure that any zipping utility which does not pack a directory entry
-        //    is verified by checking for a filename with '/'. Example: Windows Zipping Tool.
+        // UN: This check is to ensure that any zipping utility which does not pack a directory
+        // entry
+        // is verified by checking for a filename with '/'. Example: Windows Zipping Tool.
         if (zipEntry.getName().contains("/")) {
             return true;
         }
 
         return false;
+    }
+
+    @Override
+    public String getStageName() {
+        return STAGE_NAME;
     }
 }

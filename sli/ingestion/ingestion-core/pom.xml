@@ -24,7 +24,7 @@
     <aspectj.maven.version>1.4</aspectj.maven.version>
     <aspectjweaver.version>1.6.12</aspectjweaver.version>
     <freemarker.version>2.3.14</freemarker.version>
-    <sli.home>${project.parent..parent.basedir}</sli.home>
+    <sli.home>${project.parent.parent.basedir}</sli.home>
     <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
     <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf>
   </properties>
@@ -117,7 +117,6 @@
       <groupId>org.slc.sli.domain</groupId>
       <artifactId>domain</artifactId>
       <type>test-jar</type>
-      <version>${project.version}</version>
       <scope>test</scope>
     </dependency>
 
@@ -242,7 +241,6 @@
     <dependency>
       <groupId>org.aspectj</groupId>
       <artifactId>aspectjrt</artifactId>
-      <version>${aspectj.version}</version>
     </dependency>
 
     <dependency>
@@ -254,7 +252,6 @@
     <dependency>
       <groupId>junit-addons</groupId>
       <artifactId>junit-addons</artifactId>
-      <version>1.4</version>
       <scope>test</scope>
     </dependency>
 

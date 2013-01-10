@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd"
     xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
     xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
     xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
         http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd
         http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
 
     <json:reader rootName="json" />
+
+    <core:filterSettings type="SAX" readerPoolSize="5" />
 
     <jb:bean beanId="localEducationAgencies" class="java.util.ArrayList" createOnElement="#document">
         <jb:wiring beanIdRef="localEducationAgency" />
@@ -29,7 +33,10 @@
 
         <jb:value property="localEducationAgencyReference"        data="attributes LocalEducationAgencyReference" />
         <jb:value property="educationServiceCenterReference"      data="attributes EducationServiceCenterReference" />
-        <jb:value property="parentEducationAgencyReference"       data="attributes StateEducationAgencyReference" />
+
+        <jb:expression property="parentEducationAgencyReference" execOnElement="attributes">
+           (LocalEducationAgencyReference!=null)?LocalEducationAgencyReference.LEA:(StateEducationAgencyReference!=null) ? StateEducationAgencyReference.SEA:null
+        </jb:expression>
 
         <jb:wiring property="educationOrgIdentificationCode"      beanIdRef="educationOrgIdentificationCodeArray" />
         <jb:wiring property="organizationCategories"              beanIdRef="organizationCategories" />
@@ -37,6 +44,14 @@
         <jb:wiring property="telephone"                           beanIdRef="telephoneArray" />
         <jb:wiring property="accountabilityRatings"               beanIdRef="accountabilityRatingsArray" />
         <jb:wiring property="programReference"                    beanIdRef="programReferenceArray" />
+    </jb:bean>
+
+    <jb:bean beanId="StateEducationAgencyReference" class="java.util.HashMap" createOnElement="attributes StateEducationAgencyReference">
+        <jb:value property="SEA"        data="attributes StateEducationAgencyReference" />
+    </jb:bean>
+
+    <jb:bean beanId="LocalEducationAgencyReference" class="java.util.HashMap" createOnElement="attributes LocalEducationAgencyReference">
+        <jb:value property="LEA"        data="attributes LocalEducationAgencyReference" />
     </jb:bean>
 
     <jb:bean beanId="educationOrgIdentificationCodeArray" class="java.util.ArrayList" createOnElement="attributes">

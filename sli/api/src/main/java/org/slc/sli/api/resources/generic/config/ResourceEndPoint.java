@@ -21,6 +21,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 import javax.annotation.PostConstruct;
 
@@ -52,30 +54,59 @@ public class ResourceEndPoint {
     
     private List<String> queryingDisallowedEndPoints = new ArrayList<String>();
 
+    private Map<String, SortedSet<String>> nameSpaceMappings = new HashMap<String, SortedSet<String>>();
+
     @Autowired
     private ResourceHelper resourceHelper;
 
     @PostConstruct
     public void load() throws IOException {
-        loadNameSpace(getClass().getResourceAsStream("/wadl/v1_resources.json"));
+        InputStream is = getClass().getResourceAsStream("/wadl/resources.json");
+        try {
+            loadNameSpace(is);
+        } finally {
+            is.close();
+        }
     }
 
-    protected ApiNameSpace loadNameSpace(InputStream fileStream) throws IOException {
+    protected ApiNameSpace[] loadNameSpace(InputStream fileStream) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
 
-        ApiNameSpace apiNameSpace = mapper.readValue(fileStream, ApiNameSpace.class);
-        String nameSpace = apiNameSpace.getNameSpace();
+        ApiNameSpace[] apiNameSpaces = mapper.readValue(fileStream, ApiNameSpace[].class);
 
-        List<ResourceEndPointTemplate> resources = apiNameSpace.getResources();
-        for (ResourceEndPointTemplate resource : resources) {
-            if (!resource.isQueryable()) {
-                queryingDisallowedEndPoints.add(resource.getPath().substring(1));
+        for (ApiNameSpace apiNameSpace : apiNameSpaces) {
+            String[] nameSpaces = apiNameSpace.getNameSpace();
+
+            for (String nameSpace : nameSpaces) {
+                nameSpaceMappings.putAll(buildNameSpaceMappings(nameSpace, nameSpaceMappings));
+                List<ResourceEndPointTemplate> resources = apiNameSpace.getResources();
+                for (ResourceEndPointTemplate resource : resources) {
+                    if (!resource.isQueryable()) {
+                        queryingDisallowedEndPoints.add(resource.getPath().substring(1));
+                    }
+
+                    resourceEndPoints.putAll(buildEndPoints(nameSpace, "", resource));
+                }
             }
-            
-            resourceEndPoints.putAll(buildEndPoints(nameSpace, "", resource));
         }
 
-        return apiNameSpace;
+        return apiNameSpaces;
+    }
+
+    private Map<String, SortedSet<String>> buildNameSpaceMappings(String nameSpace, Map<String, SortedSet<String>> nameSpaceMappings) {
+        Map<String, SortedSet<String>> localNameSpaceMappings = new HashMap<String, SortedSet<String>>(nameSpaceMappings);
+        String[] versions = nameSpace.split("\\.");
+
+        if (localNameSpaceMappings.containsKey(versions[0])) {
+            localNameSpaceMappings.get(versions[0]).add(versions[1]);
+        } else {
+            SortedSet<String> minorVersions = new TreeSet<String>();
+            minorVersions.add(versions[1]);
+
+            localNameSpaceMappings.put(versions[0], minorVersions);
+        }
+
+        return localNameSpaceMappings;
     }
 
     protected Map<String, String> buildEndPoints(String nameSpace, String resourcePath, ResourceEndPointTemplate template) {
@@ -132,5 +163,13 @@ public class ResourceEndPoint {
 
     public Map<String, String> getResources() {
         return resourceEndPoints;
+    }
+
+    public Map<String, SortedSet<String>> getNameSpaceMappings() {
+        return nameSpaceMappings;
+    }
+
+    public void setNameSpaceMappings(Map<String, SortedSet<String>> nameSpaceMappings) {
+        this.nameSpaceMappings = nameSpaceMappings;
     }
 }

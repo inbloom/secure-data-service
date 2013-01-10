@@ -27,15 +27,19 @@ import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
-import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.impl.JobSource;
+import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.transformation.TransformationFactory;
 import org.slc.sli.ingestion.transformation.Transmogrifier;
 import org.slc.sli.ingestion.util.BatchJobUtils;
@@ -65,6 +69,11 @@ public class TransformationProcessor implements Processor {
     @Autowired
     private NeutralRecordMongoAccess neutralRecordMongoAccess;
 
+    @Autowired
+    private AbstractMessageReport databaseMessageReport;
+
+    private ReportStats reportStats;
+
     /**
      * Camel Exchange process callback method
      *
@@ -73,6 +82,8 @@ public class TransformationProcessor implements Processor {
     @Override
     public void process(Exchange exchange) {
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
+
+        reportStats = new SimpleReportStats();
 
         if (workNote == null || workNote.getBatchJobId() == null) {
             handleNoBatchJobId(exchange);
@@ -136,7 +147,7 @@ public class TransformationProcessor implements Processor {
      * @param job
      */
     void performDataTransformations(WorkNote workNote, Job job) {
-        LOG.info("performing data transformation BatchJob: {}", job);
+        LOG.info("performing data transformation BatchJob: {}", job.getId());
 
         Transmogrifier transmogrifier = transformationFactory.createTransmogrifier(workNote, job);
 
@@ -153,9 +164,8 @@ public class TransformationProcessor implements Processor {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         LogUtil.error(LOG, "Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
-            Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
-                    FaultType.TYPE_ERROR.getName(), null, exception.toString());
-            batchJobDAO.saveError(error);
+            Source source = new JobSource(null, BATCH_JOB_STAGE.getName());
+            databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0027, exception.getMessage());
         }
     }
 

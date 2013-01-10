@@ -22,9 +22,9 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.ws.rs.core.PathSegment;
 
+import com.sun.jersey.core.header.InBoundHeaders;
 import com.sun.jersey.spi.container.ContainerRequest;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -67,23 +67,36 @@ public class EndpointMutator {
         List<PathSegment> segments = sanitizePathSegments(request);
         String parameters = request.getRequestUri().getQuery();
 
-        if (usingV1Api(segments)) {
-            request.getProperties().put(REQUESTED_PATH, request.getPath());
-            Pair<String, String> mutated = uriMutator.mutate(segments, parameters, user.getEntity());
-            String newPath = mutated.getLeft();
-            String newParameters = mutated.getRight();
+        if (usingVersionedApi(segments)) {
+            if (!request.getProperties().containsKey(REQUESTED_PATH)) {
+                request.getProperties().put(REQUESTED_PATH, request.getPath());
+            }
+            MutatedContainer mutated = uriMutator.mutate(segments, parameters, user.getEntity());
+            String version = segments.get(0).getPath();
 
-            if (newPath != null) {
-                if (newParameters != null && !newParameters.isEmpty()) {
-                    info("URI Rewrite: {}?{} --> {}?{}", new Object[] { request.getPath(), parameters, newPath,
-                            newParameters });
-                    request.setUris(request.getBaseUri(),
-                            request.getBaseUriBuilder().path(PathConstants.V1).path(newPath)
-                                    .replaceQuery(newParameters).build());
-                } else {
-                    info("URI Rewrite: {} --> {}", new Object[] { request.getPath(), newPath });
-                    request.setUris(request.getBaseUri(),
-                            request.getBaseUriBuilder().path(PathConstants.V1).path(newPath).build());
+            if (mutated != null && mutated.isModified()) {
+
+                if (mutated.getHeaders() != null) {
+                    InBoundHeaders headers = new InBoundHeaders();
+                    headers.putAll(request.getRequestHeaders());
+                    for (String key : mutated.getHeaders().keySet()) {
+                        headers.putSingle(key, mutated.getHeaders().get(key));
+                    }
+                    request.setHeaders(headers);
+                }
+
+                if (mutated.getPath() != null) {
+                    if (mutated.getQueryParameters() != null && !mutated.getQueryParameters().isEmpty()) {
+                        info("URI Rewrite: {}?{} --> {}?{}", new Object[] { request.getPath(), parameters, mutated.getPath(),
+                                mutated.getQueryParameters() });
+                        request.setUris(request.getBaseUri(),
+                                request.getBaseUriBuilder().path(version).path(mutated.getPath())
+                                    .replaceQuery(mutated.getQueryParameters()).build());
+                    } else {
+                        info("URI Rewrite: {} --> {}", new Object[] { request.getPath(), mutated.getPath() });
+                        request.setUris(request.getBaseUri(),
+                                request.getBaseUriBuilder().path(version).path(mutated.getPath()).build());
+                    }
                 }
             }
         }
@@ -115,8 +128,8 @@ public class EndpointMutator {
      *            List of path segments.
      * @return True if using the v1 API, false otherwise.
      */
-    protected boolean usingV1Api(List<PathSegment> segments) {
-        return segments.get(0).getPath().equals(PathConstants.V1);
+    protected boolean usingVersionedApi(List<PathSegment> segments) {
+        return segments.get(0).getPath().startsWith(PathConstants.V);
     }
 
 }

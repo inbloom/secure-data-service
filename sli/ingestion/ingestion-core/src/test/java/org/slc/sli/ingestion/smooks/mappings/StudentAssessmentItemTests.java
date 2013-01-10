@@ -55,8 +55,8 @@ public class StudentAssessmentItemTests {
             + "  <ResponseIndicator>Effective response</ResponseIndicator>"
             + "  <AssessmentItemResult>Correct</AssessmentItemResult>"
             + "  <RawScoreResult>100</RawScoreResult>"
-            + "  <StudentAssessmentReference ref='sass-ref' />"
-            + "  <StudentObjectiveAssessmentReference ref='soa-ref' />"
+            + "  <StudentAssessmentReference />"
+            + "  <StudentObjectiveAssessmentReference />"
             + "  <AssessmentItemReference>"
             + "    <AssessmentItemIdentity>"
             + "      <AssessmentItemIdentificationCode>aii-code</AssessmentItemIdentificationCode>"
@@ -90,7 +90,6 @@ public class StudentAssessmentItemTests {
 
         Map<String, Object> pIds = nr.getLocalParentIds();
         Assert.assertEquals("sass-ref", pIds.get("studentResultRef"));
-//        Assert.assertEquals("soa-ref", pIds.get("studentObjectiveAssessmentRef"));
         Assert.assertEquals("aii-code", pIds.get("assessmentItemIdentificatonCode"));
     }
 

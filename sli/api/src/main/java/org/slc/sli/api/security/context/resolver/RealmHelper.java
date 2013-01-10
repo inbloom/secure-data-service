@@ -17,7 +17,9 @@
 package org.slc.sli.api.security.context.resolver;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.slc.sli.api.init.RealmInitializer;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -52,20 +54,8 @@ public class RealmHelper {
     EdOrgHelper edorgHelper;
 
     public String getSandboxRealmId() {
-        Entity realm = SecurityUtil.runWithAllTenants(new SecurityTask<Entity>() {
-
-            @Override
-            public Entity execute() {
-                NeutralQuery realmQuery = new NeutralQuery();
-                realmQuery.addCriteria(new NeutralCriteria("uniqueIdentifier", NeutralCriteria.OPERATOR_EQUAL, sandboxUniqueId));
-                return repo.findOne("realm", realmQuery);
-            }
-        });
-
-        if (realm != null) {
-            return realm.getEntityId();
-        }
-        return null;
+        //sandbox and admin realm are the same
+        return getAdminRealmId();
     }
 
     public String getAdminRealmId() {
@@ -85,7 +75,7 @@ public class RealmHelper {
     public List<String> getPreferredLoginRealmIds(Entity userEntity) {
         //If there's a realm directly associated with your edorg, we'll require that
         List<String> toReturn = new ArrayList<String>();
-        List<String> edOrgs = edorgHelper.getDirectEdOrgAssociations(userEntity);
+        Set<String> edOrgs = edorgHelper.getDirectEdorgs(userEntity);
         for (String edOrgId : edOrgs) {
             Entity edOrgEntity = repo.findById("educationOrganization", edOrgId);
             Entity realm = getRealm(edOrgEntity);
@@ -139,7 +129,7 @@ public class RealmHelper {
     public boolean isUserAllowedLoginToRealm(Entity userEntity, Entity realm) {
 
         //Always allow sandbox realm
-        if (realm.getBody().get("uniqueIdentifier").equals(sandboxUniqueId)) {
+        if (isSandboxEnabled) {
             return true;
         }
 
@@ -150,7 +140,7 @@ public class RealmHelper {
         }
 
         //There wasn't a preferred realm, so let's check other realms in the hierarchy
-        List<String> userEdorgs = edorgHelper.getDirectEdOrgAssociations(userEntity);
+        Set<String> userEdorgs = edorgHelper.getDirectEdorgs(userEntity);
         for (String id : userEdorgs) {
             Entity edorgEntity = repo.findById("educationOrganization", id);
 
@@ -192,7 +182,7 @@ public class RealmHelper {
     }
 
     /**
-     * Get the ID of the realm the user is associated with.
+     * Get the IDs of the realms the user is associated with.
      *
      * In the case of sandbox, this is always the sandbox realm.
      * If it's production and the user is an admin user, this is the realm
@@ -201,23 +191,23 @@ public class RealmHelper {
      *
      * @return the realm's mongo id, or null if a realm doesn't exist.
      */
-    public String getAssociatedRealmId() {
-
+    public Set<String> getAssociatedRealmIds() {
+        HashSet<String> toReturn = new HashSet<String>();
         if (isSandboxEnabled) {
-            return getSandboxRealmId();
+            toReturn.add(getSandboxRealmId());
         } else {
             NeutralQuery realmQuery = new NeutralQuery();
             String edOrg = SecurityUtil.getEdOrg();
-            debug("Looking up realm for edorg {}.", edOrg);
+            debug("Looking up realms for edorg {}.", edOrg);
             realmQuery.addCriteria(new NeutralCriteria("edOrg", NeutralCriteria.OPERATOR_EQUAL, edOrg));
             realmQuery.addCriteria(new NeutralCriteria("tenantId", NeutralCriteria.OPERATOR_EQUAL, SecurityUtil
                     .getTenantId()));
-            Entity realm = repo.findOne("realm", realmQuery);
-            if (realm != null) {
-                return realm.getEntityId();
+            Iterable<String> realmIds = repo.findAllIds("realm", realmQuery);
+            for (String id : realmIds) {
+                toReturn.add(id);
             }
-            return null;
         }
+        return toReturn;
 
     }
 

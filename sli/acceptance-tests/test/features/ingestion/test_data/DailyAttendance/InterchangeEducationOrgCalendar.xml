@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <InterchangeEducationOrgCalendar xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-EducationOrgCalendar.xsd">
-    <GradingPeriod id="GRDP_20120527_EDJH">
+    <GradingPeriod>
         <GradingPeriod>End of Year</GradingPeriod>
         <SchoolYear>2011-2012</SchoolYear>
         <EducationOrganizationReference>
@@ -11,8 +11,18 @@
         <BeginDate>2012-05-27</BeginDate>
         <EndDate>2012-05-27</EndDate>
         <TotalInstructionalDays>0</TotalInstructionalDays>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-02-11</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
-    <GradingPeriod id="GRDP_20110527_EDJH">
+    <GradingPeriod>
         <GradingPeriod>End of Year</GradingPeriod>
         <SchoolYear>2010-2011</SchoolYear>
         <EducationOrganizationReference>
@@ -23,8 +33,18 @@
         <BeginDate>2011-05-27</BeginDate>
         <EndDate>2011-05-27</EndDate>
         <TotalInstructionalDays>0</TotalInstructionalDays>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-02-11</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
-    <GradingPeriod id="GRDP_20120527_SDE">
+    <GradingPeriod>
         <GradingPeriod>End of Year</GradingPeriod>
         <SchoolYear>2011-2012</SchoolYear>
         <EducationOrganizationReference>
@@ -35,8 +55,18 @@
         <BeginDate>2012-05-27</BeginDate>
         <EndDate>2012-05-27</EndDate>
         <TotalInstructionalDays>0</TotalInstructionalDays>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-02-11</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
-    <GradingPeriod id="GRDP_20110527_SDE">
+    <GradingPeriod>
         <GradingPeriod>End of Year</GradingPeriod>
         <SchoolYear>2010-2011</SchoolYear>
         <EducationOrganizationReference>
@@ -47,8 +77,18 @@
         <BeginDate>2011-05-27</BeginDate>
         <EndDate>2011-05-27</EndDate>
         <TotalInstructionalDays>0</TotalInstructionalDays>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-02-11</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
-    <GradingPeriod id="GRDP_20120527_DCH">
+    <GradingPeriod>
         <GradingPeriod>End of Year</GradingPeriod>
         <SchoolYear>2011-2012</SchoolYear>
         <EducationOrganizationReference>
@@ -59,8 +99,18 @@
         <BeginDate>2012-05-27</BeginDate>
         <EndDate>2012-05-27</EndDate>
         <TotalInstructionalDays>0</TotalInstructionalDays>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-02-11</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
-    <GradingPeriod id="GRDP_20110527_DCH">
+    <GradingPeriod>
         <GradingPeriod>End of Year</GradingPeriod>
         <SchoolYear>2010-2011</SchoolYear>
         <EducationOrganizationReference>
@@ -71,8 +121,18 @@
         <BeginDate>2011-05-27</BeginDate>
         <EndDate>2011-05-27</EndDate>
         <TotalInstructionalDays>0</TotalInstructionalDays>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-02-11</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
-    <GradingPeriod id="GRDP_20120527_SCHS">
+    <GradingPeriod>
         <GradingPeriod>End of Year</GradingPeriod>
         <SchoolYear>2011-2012</SchoolYear>
         <EducationOrganizationReference>
@@ -83,8 +143,18 @@
         <BeginDate>2012-05-27</BeginDate>
         <EndDate>2012-05-27</EndDate>
         <TotalInstructionalDays>0</TotalInstructionalDays>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-02-11</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
-    <GradingPeriod id="GRDP_20110527_SCHS">
+    <GradingPeriod>
         <GradingPeriod>End of Year</GradingPeriod>
         <SchoolYear>2010-2011</SchoolYear>
         <EducationOrganizationReference>
@@ -95,6 +165,16 @@
         <BeginDate>2011-05-27</BeginDate>
         <EndDate>2011-05-27</EndDate>
         <TotalInstructionalDays>0</TotalInstructionalDays>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-02-11</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
     </GradingPeriod>
     <Session>
         <SessionName>Fall 2010 East Daybreak Junior High</SessionName>
@@ -108,6 +188,16 @@
                 <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
             </EducationalOrgIdentity>
         </EducationOrganizationReference>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2011-02-11</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>IL</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
         <GradingPeriodReference>
             <GradingPeriodIdentity>
                 <EducationalOrgReference>

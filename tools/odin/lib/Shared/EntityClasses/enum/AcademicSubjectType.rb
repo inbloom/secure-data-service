@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative 'Enum.rb'
+
 # Enumerates the academic subjects supported by ed-fi. From Ed-Fi-Core.xsd:
 # <xs:simpleType name="AcademicSubjectType">
 #   <xs:annotation>
@@ -90,4 +92,29 @@ class AcademicSubjectType
   AcademicSubjectType.define :SOCIAL_STUDIES, "Social Studies"
   AcademicSubjectType.define :TRANSPORTATION_DISTRIBUTION_AND_LOGISTICS, "Transportation, Distribution and Logistics"
   AcademicSubjectType.define :WRITING, "Writing"
+
+  # returns academic subjects commonly associated with elementary school courses
+  def self.elementary
+    subjects = []
+    subjects << :MATHEMATICS << :READING << :SCIENCE << :SOCIAL_STUDIES << :WRITING << :ELA
+    subjects
+  end
+
+  # returns academic subjects commonly associated with middle school courses
+  def self.middle
+    subjects = []
+    subjects << elementary
+    subjects << :AGRICULTURE_FOOD_AND_NATURAL_RESOURCES << :CRITICAL_READING << :ENGLISH << :LIFE_AND_PHYSICAL_SCIENCES
+    subjects.flatten
+  end
+
+  # returns academic subjects commonly associated with high school courses
+  def self.high
+    subjects = []
+    subjects << middle
+    subjects << :BUSINESS_AND_MARKETING << :COMMUNICATION_AND_AUDIO_VISUAL_TECHNOLOGY << :COMPUTER_AND_INFORMATION_SCIENCES << :ENGINEERING_AND_TECHNOLOGY
+    subjects << :ENGLISH_LANGUAGE_AND_LITERATURE << :FOREIGN_LANGUAGE_AND_LITERATURE << :HEALTH_CARE_SCIENCES << :HUMAN_SERVICES << :MISCELLANEOUS
+    subjects << :PHYSICAL_HEALTH_AND_SAFETY_EDUCATION << :SOCIAL_SCIENCES_AND_HISTORY
+    subjects.flatten 
+  end
 end

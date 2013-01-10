@@ -16,7 +16,6 @@
 
 package org.slc.sli.ingestion.transformation;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -29,12 +28,11 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.milyn.Smooks;
 import org.milyn.payload.JavaResult;
 import org.milyn.payload.StringSource;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.validation.ErrorReport;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
 
 /**
  * EdFi to SLI transformer based on Smooks
@@ -45,19 +43,12 @@ import org.slc.sli.ingestion.validation.ErrorReport;
 @Component
 public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
     private static final ObjectMapper MAPPER = new ObjectMapper();
-
-    private static final Logger LOG = LoggerFactory.getLogger(SmooksEdFi2SLITransformer.class);
-
-    private final String EDFI_ASSESSMENT_REFERENCE = "AssessmentReference";
-    private final String SLI_ASSESSMENT_REFERENCE = "assessmentId";
-    private final String EDFI_PROGRAM_REFERENCE = "ProgramReference";
-    private final String SLC_PROGRAM_REFERENCE = "programReference";
-
+    private static final String STAGE_NAME = "Smooks EdFi To SLI Transformer";
 
     private Map<String, Smooks> smooksConfigs;
 
     @Override
-    public List<SimpleEntity> transform(NeutralRecord item, ErrorReport errorReport) {
+    public List<SimpleEntity> transform(NeutralRecord item, AbstractMessageReport report, ReportStats reportStats) {
         JavaResult result = new JavaResult();
         Smooks smooks = smooksConfigs.get(item.getRecordType());
 
@@ -75,6 +66,12 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
             if (recordNumber != null) {
                 entity.setRecordNumber(recordNumber.longValue());
             }
+            entity.setSourceFile(item.getSourceFile());
+
+            entity.setVisitBeforeLineNumber(item.getVisitBeforeLineNumber());
+            entity.setVisitBeforeColumnNumber(item.getVisitBeforeColumnNumber());
+            entity.setVisitAfterLineNumber(item.getVisitAfterLineNumber());
+            entity.setVisitAfterColumnNumber(item.getVisitAfterColumnNumber());
 
             if (entity.getMetaData() == null) {
                 entity.setMetaData(new HashMap<String, Object>());
@@ -94,6 +91,12 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
             StringSource source = new StringSource(MAPPER.writeValueAsString(item));
             smooks.filterSource(source, result);
             sliEntities = getEntityListResult(result);
+            for (SimpleEntity entity : sliEntities) {
+                entity.setVisitBeforeLineNumber(item.getVisitBeforeLineNumber());
+                entity.setVisitBeforeColumnNumber(item.getVisitBeforeColumnNumber());
+                entity.setVisitAfterLineNumber(item.getVisitAfterLineNumber());
+                entity.setVisitAfterColumnNumber(item.getVisitAfterColumnNumber());
+            }
         } catch (java.io.IOException e) {
             sliEntities = Collections.emptyList();
         }
@@ -127,9 +130,22 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
         this.smooksConfigs = smooksConfigs;
     }
 
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.slc.sli.ingestion.handler.Handler#handle(java.util.List,
+     * org.slc.sli.ingestion.reporting.AbstractMessageReport,
+     * org.slc.sli.ingestion.reporting.ReportStats)
+     */
     @Override
-    public List<List<SimpleEntity>> handle(List<NeutralRecord> items, ErrorReport errorReport) {
+    public List<List<SimpleEntity>> handle(List<NeutralRecord> items, AbstractMessageReport report,
+            ReportStats reportStats) {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public String getStageName() {
+        return STAGE_NAME;
     }
 }

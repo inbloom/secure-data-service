@@ -18,53 +18,23 @@ limitations under the License.
 
 require 'set'
 
-require_relative '../OutputGeneration/XML/studentParentInterchangeGenerator'
-require_relative '../OutputGeneration/XML/enrollmentGenerator'
-require_relative '../Shared/EntityClasses/student.rb'
-require_relative '../Shared/EntityClasses/studentSchoolAssociation.rb'
-require_relative '../Shared/EntityClasses/studentSectionAssociation.rb'
-require_relative 'student_work_order'
+require_relative '../WorldDefinition/student_work_order'
+require_relative '../WorldDefinition/section_work_order'
 
+# class for processing student work orders
 class WorkOrderProcessor
 
-  def initialize(interchanges)
-    @interchanges = interchanges
-  end
-
-  def build(work_order)
-    work_order.build(@interchanges)
-  end
-
-  def self.run(world,  scenarioYAML)
-    File.open("generated/InterchangeStudentParent.xml", 'w') do |studentParentFile|
-      studentParent = StudentParentInterchangeGenerator.new(scenarioYAML, studentParentFile)
-      studentParent.start
-      File.open("generated/InterchangeStudentEnrollment.xml", 'w') do |enrollmentFile|
-        enrollment = EnrollmentGenerator.new(scenarioYAML, enrollmentFile)
-        enrollment.start
-        interchanges = {:studentParent => studentParent, :enrollment => enrollment}
-        processor = WorkOrderProcessor.new(interchanges)
-        for work_order in gen_work_orders(world) do
-          processor.build(work_order)
-        end
-        enrollment.finalize
-      end
-      studentParent.finalize
-    end
-  end
-
-  def self.gen_work_orders(world)
-    next_student = 0
+  # uses the snapshot of the 'world' to generate student work orders
+  def self.generate_work_orders(world, scenario, prng)
+    section_factory = SectionWorkOrderFactory.new(world, scenario, prng)
+    student_factory = StudentWorkOrderFactory.new(world, scenario, section_factory)
     Enumerator.new do |y|
-      world.each{|_, edOrgs|
+      world.each{|type, edOrgs|
         edOrgs.each{|edOrg|
-          students = edOrg['students']
-          unless students.nil?
-            next_student = StudentWorkOrder.gen_work_orders(students, edOrg, next_student, y)
-          end
+          section_factory.generate_sections_with_teachers(edOrg, type, y)
+          student_factory.generate_work_orders(edOrg, y)
         }
       }
     end
   end
-
 end

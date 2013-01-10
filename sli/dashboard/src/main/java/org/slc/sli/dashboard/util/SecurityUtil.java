@@ -59,15 +59,13 @@ public class SecurityUtil {
             if (authentication != null) {
                 Collection<GrantedAuthority> authorities = authentication.getAuthorities();
                 for (GrantedAuthority authority : authorities) {
-                    if (authority.getAuthority().equals(Constants.ROLE_IT_ADMINISTRATOR)) {
-                        return true;
-                    } else if (authority.getAuthority().equals(Constants.ROLE_LEADER)) {
-                        return true;
+                    if  (authority.getAuthority().equals(Constants.ROLE_EDUCATOR)) {
+                        return false;
                     }
                 }
             }
         }
-        return false;
+        return true;
     }
 
     public static boolean isAdmin() {
@@ -76,11 +74,19 @@ public class SecurityUtil {
             Authentication authentication = context.getAuthentication();
             if (authentication != null) {
                 Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-                for (GrantedAuthority authority : authorities) {
-                    if (authority.getAuthority().equals(Constants.ROLE_IT_ADMINISTRATOR)) {
-                        return true;
+                if (authorities != null) {
+                    for (GrantedAuthority authority : authorities) {
+                        if (authority != null) {
+                            String authorityString = authority.getAuthority();
+                            
+                            if (Constants.ROLE_IT_ADMINISTRATOR.equals(authorityString)) {
+                                return true;
+                            }
+                        }
+                        
                     }
                 }
+                
             }
         }
         return false;

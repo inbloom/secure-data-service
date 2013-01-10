@@ -16,6 +16,8 @@ limitations under the License.
 
 =end
 
+require_relative 'Enum.rb'
+
 # Enumerates the reasons for differences in length of discipline actions. From Ed-Fi-Core.xsd:
 # <xs:simpleType name="DisciplineActionLengthDifferenceReasonType">
 #   <xs:annotation>

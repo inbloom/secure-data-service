@@ -1,4 +1,4 @@
-#!ruby 
+#!/usr/bin/env ruby 
 
 =begin
 
@@ -24,25 +24,31 @@ $LOAD_PATH << localdir + "/lib"
 require 'eventbus'
 require 'yaml'
 require 'logger'
+require 'daemons'
 
 if __FILE__ == $0
-  unless ARGV.length == 1
-    puts "Usage: " + $0 + " config.yml"
-    exit(1)
-  end
+  config_file = if ENV['SARJE_CONFIG']
+                    ENV['SARJE_CONFIG']
+                elsif ARGV.length == 1
+                    ARGV[0]
+                else 
+                    puts "Usage: " + $0 + " config.yml"
+                    exit(1)
+                end
 
-  config = YAML::load(File.open(ARGV[0]))
+  config = YAML::load(File.open(config_file))
 
   # make the config symbol based
   config.keys().each { |k| config[k.to_sym] = config.delete(k) }
 
   #set up logger configuration
+  $stdout.sync = true
   logger = Logger.new(Logger.const_get(config[:logger_output]))
   logger.level = Logger.const_get(config[:logger_level])
 
   # create instances of the queue listener and the job runner and
   # and plug them into an Jobscheduler
-  listener = Eventbus::EventSubscriber.new(config, "oplog", logger)
+  listener = Eventbus::EventSubscriber.new(config, "/topic/oplog", "hadoop_job", logger)
   jobrunner = Eventbus::HadoopJobRunner.new({:hadoop_jars => config[:hadoop_jars], 
                                              :hadoop_home => config[:hadoop_home]})
   active_config = config.update(:event_subscriber => listener,
@@ -50,4 +56,5 @@ if __FILE__ == $0
 
   scheduler = Eventbus::JobScheduler.new(active_config, logger)
   scheduler.join
+
 end

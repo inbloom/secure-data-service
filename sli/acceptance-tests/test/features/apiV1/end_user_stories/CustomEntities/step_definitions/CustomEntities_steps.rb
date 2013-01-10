@@ -21,6 +21,7 @@ require 'json'
 require 'mongo'
 require 'rest-client'
 require 'rexml/document'
+require 'base64'
 include REXML
 require_relative '../../../../utils/sli_utils.rb'
 require_relative '../../../utils/api_utils.rb'
@@ -36,7 +37,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"       if human_readable_id == "EDUCATION ORGANIZATION ID"
     
   #students
-  id = "0cff1537-95e6-440b-ba2f-3003a2ecd7ed"       if human_readable_id == "STUDENT ID"
+  id = "0cff1537-95e6-440b-ba2f-3003a2ecd7ed_id"       if human_readable_id == "STUDENT ID"
   
   #student school associations
   id = "3b638fbc-0b82-459a-8002-ee57717e02e9"       if human_readable_id == "STUDENT SCHOOL ASSOC ID"
@@ -112,4 +113,27 @@ Then /^there is no other custom data returned$/ do
   assert(@result != nil, "Response contains no data")
   assert(@result.is_a?(Hash), "Response contains #{@result.class}, expected Hash")
   assert(@result["custom"]==nil, "Response include custom data!")
+end
+
+Given /^I add a large random file with key "([^"]*)" to the object$/ do |data_key| 
+  @fields = {} if !defined? @fields
+  target_size = 1024 * 1024 * 10     # target size = 10MB 
+  @random_data = (0...target_size).map { rand(255).chr }.join
+  @fields[data_key] = Base64.encode64(@random_data)
+end 
+
+Then /^I should receive the same large random file in key "([^"]*)" in the result$/ do |data_key| 
+  assert(@result != nil, "Response contains no data")
+  assert(@result.is_a?(Hash), "Response contains #{@result.class}, expected Hash")
+  assert(@result.has_key?(data_key), "Response does not contain key #{data_key}")
+  found_data = Base64.decode64(@result[data_key])
+  assert(found_data == @random_data, "Expected random data of size #{@random_data.length}, but received #{found_data.length}")
+end 
+
+When /^I navigate to a truncated, faulty POST "([^"]*)"$/ do |post_uri|
+  data = prepareData(@format, @fields)
+  k_128 = 1024 * 128
+  data = data[0..k_128]
+  restHttpPost(post_uri, data)
+  assert(@res != nil, "Response from rest-client POST is nil")
 end

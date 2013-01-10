@@ -28,11 +28,10 @@
       <groupId>org.slc.sli.common</groupId>
       <artifactId>common-encrypt</artifactId>
     </dependency>
-    
+
     <dependency>
       <groupId>org.slc.sli</groupId>
       <artifactId>encryption-tool</artifactId>
-      <version>1.0-SNAPSHOT</version>
     </dependency>
 
     <!-- SLI - Domain -->
@@ -86,32 +85,6 @@
       <artifactId>httpclient</artifactId>
       <version>4.1.3</version>
     </dependency>
-
-<dependency>
-    <groupId>org.springframework.ldap</groupId>
-    <artifactId>spring-ldap-core</artifactId>
-    <version>1.3.1.RELEASE</version>
-</dependency>
-<dependency>
-    <groupId>org.springframework.ldap</groupId>
-    <artifactId>spring-ldap-core-tiger</artifactId>
-    <version>1.3.1.RELEASE</version>
-</dependency>
-<dependency>
-    <groupId>org.springframework.ldap</groupId>
-    <artifactId>spring-ldap-odm</artifactId>
-    <version>1.3.1.RELEASE</version>
-</dependency>
-<dependency>
-    <groupId>org.springframework.ldap</groupId>
-    <artifactId>spring-ldap-ldif-core</artifactId>
-    <version>1.3.1.RELEASE</version>
-</dependency>
-<dependency>
-    <groupId>org.springframework.ldap</groupId>
-    <artifactId>spring-ldap-ldif-batch</artifactId>
-    <version>1.3.1.RELEASE</version>
-</dependency>
 
     <!-- Spring Web MVC dependency -->
     <dependency>

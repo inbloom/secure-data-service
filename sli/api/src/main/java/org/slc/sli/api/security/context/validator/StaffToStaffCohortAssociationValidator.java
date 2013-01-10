@@ -51,14 +51,17 @@ public class StaffToStaffCohortAssociationValidator extends AbstractContextValid
      */
     @Override
     public boolean validate(String entityType, Set<String> ids) {
-
+        if (!areParametersValid(EntityNames.STAFF_COHORT_ASSOCIATION, entityType, ids)) {
+            return false;
+        }
+        
         //Get the ones based on staffIds (Including me)
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
         Set<String> staffIds = new HashSet<String>();
         Iterable<Entity> staffCohorts = getRepo().findAll(EntityNames.STAFF_COHORT_ASSOCIATION, basicQuery);
         for (Entity staff : staffCohorts) {
             Map<String, Object> body = staff.getBody();
-            if (isFieldExpired(body, ParameterConstants.END_DATE)) {
+            if (isFieldExpired(body, ParameterConstants.END_DATE, true)) {
                 continue;
             }
             staffIds.add((String) body.get(ParameterConstants.STAFF_ID));

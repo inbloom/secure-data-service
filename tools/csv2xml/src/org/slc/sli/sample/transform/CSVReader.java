@@ -28,6 +28,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+
 /**
  * This class reads CSV file and convert data into record.
  * Each record consists of a set of column-name/value pairs.
@@ -40,20 +44,38 @@ public class CSVReader {
     protected BufferedReader csvFile;
     protected Map<String, String> record;
 
-    public static Calendar getDate(String dateString) {
+    public static XMLGregorianCalendar getDate(String dateString) {
         DateFormat dateFormatter = new SimpleDateFormat(CSVReader.DATE_FORMAT);
         Calendar calendar = Calendar.getInstance();
-
+        Date date = null;
         try {
-            Date date = (Date) dateFormatter.parse(dateString);
+            date = (Date) dateFormatter.parse(dateString);
             calendar.setTime(date);
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        return calendar;
+        DatatypeFactory dtf = null;
+        XMLGregorianCalendar xgc = null;
+		try {
+			 dtf = DatatypeFactory.newInstance();
+		     xgc = dtf.newXMLGregorianCalendar(); 
+	
+		     xgc.setYear(calendar.get(Calendar.YEAR)); 
+		     xgc.setMonth(calendar.get(Calendar.MONTH)+1);
+		     xgc.setDay(calendar.get(Calendar.DAY_OF_MONTH));
+
+		} catch (DatatypeConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}             
+        
+        return xgc;
     }
 
+
+
+    
     public CSVReader(String filename) throws IOException {
         csvFile = new BufferedReader(new FileReader(filename));
         String dataRow = csvFile.readLine();

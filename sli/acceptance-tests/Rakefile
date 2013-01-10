@@ -1,5 +1,7 @@
 require 'mongo'
 require 'rbconfig'
+require 'json'
+require 'socket'
 
 
 Dir.glob('suites/*.rake').each { |r| import r }
@@ -161,7 +163,6 @@ def setFixture(collectionName,fixtureFileName,fixtureFilePath="test/data",dropEx
       puts "Exited with code: #{exit_code.exitstatus}, please confirm that mongo binaries are on your PATH" unless success
     end
   end
-
 end
 
 def addMultipleFixtureFiles(myHash, fixtureFilePath="test/data")
@@ -285,7 +286,7 @@ def swap_realm_ids()
   custom_roles = @dbTenant.collection('customRole')
   to_swap = [
         {"unique_realm_id" => "Shared Learning Collaborative", "placeholder" => "ADMIN_REALM_ID_PLACEHOLDER"},
-        {"unique_realm_id" => "SandboxIDP", "placeholder" => "SANDBOX_REALM_ID_PLACEHOLDER"},
+        {"unique_realm_id" => "Shared Learning Collaborative", "placeholder" => "SANDBOX_REALM_ID_PLACEHOLDER"},
   ]
 
   to_swap.each do |realm|
@@ -324,7 +325,7 @@ def swap_app_ids(dbName)
 
   to_swap = [
         {"app_name" => "SLC Data Browser", "placeholder" => "DATABROWSER_ID_PLACEHOLDER"},
-        {"app_name" => "SLC Dashboards", "placeholder" => "DASHBOARD_ID_PLACEHOLDER"},
+        {"app_name" => "inBloom Dashboards", "placeholder" => "DASHBOARD_ID_PLACEHOLDER"},
   ]
   apps = @db.collection('application')
   app_auths = @dbTenant.collection('applicationAuthorization')
@@ -435,17 +436,92 @@ task :appInit do
   enable_NOTABLESCAN()
 end
 
-desc "Approve SLC apps for ingested realms"
+desc "Approve inBloom apps for ingested realms"
 task :addBootstrapAppAuths do
   require_relative 'test/features/utils/rakefile_common.rb'
   require 'securerandom'
-  allLeaAllowApp("SLC Dashboards")
+  allLeaAllowApp("inBloom Dashboards")
   allLeaAllowApp("SLC Data Browser")
 end
 
 task :loadDefaultIngestionTenants do
   #jshort - must fix with some profile swap
   #setFixture("tenant", "defaultIngestionTenant_fixture.json", "test/data")
+
+  # chung - the code below is a ruby port of tenant bootstrapping by ingestion.
+  # It generates time-based shard type 1 uuids and replaces dbName with SHA1 digest.
+  private
+  def get_default_tenant_docs
+    # Read default tenant JSON documents specified in ingestion-core
+    tenant_doc_dir = "#{File.dirname(__FILE__)}/../ingestion/ingestion-core/src/main/resources/tenants"
+    tenants = []
+    Dir.foreach(tenant_doc_dir) do |file|
+      next if file == "." or file == ".."
+      doc = {
+        "type" => "tenant",
+        "body" => JSON.parse(IO.read("#{tenant_doc_dir}/#{file}"))
+      }
+      doc["body"]["landingZone"].each do |lz|
+        lz["path"] = lz["path"].gsub(File::SEPARATOR, File::ALT_SEPARATOR || File::SEPARATOR)
+      end
+      tenants << doc
+    end
+    tenants
+  end
+
+  private
+  def replace_placeholders(lzs)
+    hostname_placeholder = "<hostname>"
+    lzpath_placeholder = "<lzpath>"
+    hostname = Socket.gethostname
+    # Read parent LZ path from sli.properties if not specified
+    if ENV['ingestion_landing_zone']
+      parent_lz_path = ENV['ingestion_landing_zone']
+    else
+      require_relative 'test/features/utils/rakefile_common.rb'
+      parent_lz_path = ""
+      sli_props_loc = PropLoader.getProps["ingestion_properties_file"]
+      File.readlines(sli_props_loc).each do |line|
+        if line.include?("landingzone.inbounddir")
+          parent_lz_path = line.split("=")[1].strip
+        end
+      end
+    end
+    # Dir.chdir hack to make sure both absolute and relative parent LZ paths are resolved
+    current_dir = Dir.getwd
+    Dir.chdir("#{File.dirname(__FILE__)}/../ingestion/ingestion-service")
+    lzs.each do |lz|
+      lz_server = lz["ingestionServer"]
+      lz["ingestionServer"].replace(lz_server.gsub(hostname_placeholder, hostname))
+      lz_path = lz["path"]
+      FileUtils.mkdir_p(parent_lz_path) if !Dir.exists?(parent_lz_path)
+      Dir.chdir(parent_lz_path) do
+        new_path = Dir.getwd.gsub(File::SEPARATOR, File::ALT_SEPARATOR || File::SEPARATOR)
+        if new_path.start_with?("c:")
+          new_path = new_path.sub("c:", "C:");
+        end
+        lz["path"].replace(lz_path.gsub(lzpath_placeholder, new_path))
+        Dir.mkdir(lz["path"]) if !Dir.exists?(lz["path"])
+      end
+    end
+    Dir.chdir(current_dir)
+  end
+
+  private
+  def replace_id_and_dbName(tenant)
+    tenant = ShardType1UUIDPKFactory.new.create_pk(tenant)
+    tenant["body"]["dbName"].replace(convertTenantIdToDbName(tenant["body"]["dbName"]))
+  end
+
+  tenant_col = Mongo::Connection.new(DB_HOST).db(SYSTEM_DB_NAME).collection('tenant')
+  get_default_tenant_docs.each do |tenant|
+    lzs = tenant["body"]["landingZone"]
+    replace_placeholders(lzs)
+    replace_id_and_dbName(tenant)
+    puts "Inserting default tenant: tenantId = #{tenant["body"]["tenantId"]}"
+    tenant_col.remove("body.tenantId" => tenant["body"]["tenantId"])
+    tenant_col.insert(tenant)
+  end
 end
 
 # Run a whole series of acceptance and integration tests
@@ -498,7 +574,7 @@ end
 # 'raise' exception logic below.  Rake will exit immediately if you raise an exception
 # before all the tests complete and will show incomplete results
 desc "Run API/Security Acceptances Tests"
-task :apiAndSecurityTests => [:apiV1Tests, :apiSuperDocTests, :securityTests, :provisioningTests, :onboardingTests, :apiMegaTests, :v1SecurityEventTests] do
+task :apiAndSecurityTests => [:apiV1Tests, :apiSuperDocTests, :securityTests, :migrationTests, :provisioningTests, :onboardingTests, :apiMegaTests, :v1SecurityEventTests] do
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
@@ -550,7 +626,8 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :userAdminCrudTests,
                      :v1CommaSeparatedListOrderTests,
                      :v1SelectorTests,
-                     :longLivedSessionTests] do
+                     :longLivedSessionTests,
+                     :apiVersionTests] do
   displayFailureReport()
 end
 
@@ -658,7 +735,8 @@ end
 # Dashboard SDS tests start
 ############################################################
 desc "Run Dashboard Tests against SDS"
-task :dashboardSdsTests => [:dashboardSdsUploadConfigTests,
+task :dashboardSdsTests => [:runSearchBulkExtract,
+                         :dashboardSdsUploadConfigTests,
                          :dashboardSdsCoreStudentsTests,
                          :dashboardSdsContactInfoTests,
                          :dashboardSdsLoginTests,
@@ -699,18 +777,44 @@ desc "Run Ingestion Acceptances Tests"
 #                         :ingestionStaffCohortAssociationTest, :ingestionDisciplineIncidentTest, :ingestionDisciplineActionTest, :ingestionStudentDisciplineIncidentAssociationTest, :ingestionIndexTest,
 #                         :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
 #                         :ingestionEmptyControlFileTest, :ingestionDryRunTest, :ingestionCourseOfferingTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest ] do
-task :ingestionTests => [:IngestionIndexValidationTest, :ingestionDbSpinupTest, :loadDefaultIngestionTenants,:ingestionAcceptanceSdsTest, :ingestionConcurrentTenantTest, :ingestionLearningObjectiveTest, :ingestionNegativeTests,  :ingestionAttendanceTests, :ingestionCommonCoreTest, :ingestionEncryptionTests,
+task :ingestionTests => [:loadDefaultIngestionTenants, :IngestionIndexValidationTest, :ingestionDbSpinupTest, :ingestionDupDetectTest, :ingestionAcceptanceSdsTest, :ingestionConcurrentTenantTest, :ingestionLearningObjectiveTest, :ingestionNegativeTests,  :ingestionAttendanceTests, :ingestionCommonCoreTest, :ingestionEncryptionTests,
                          :ingestionidNamespaceTest,  :ingestionSmooksVerificationTests, :ingestionXsdValidationTest, :ingestionOfflineSimpleTest,
-                         :ingestionBatchJobTest, :ingestionIDReferenceResolutionTest, :ingestionTenantPurgeTests,
+                         :ingestionBatchJobTest, :ingestionIgnoreIDRefsTest, :ingestionTenantPurgeTests,
                          :ingestionIndexTest, :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
                          :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest, :ingestionSmallSampleDataSet, :ingestionMediumSampleDataSet, :partialTransformedIngestionTest, :partialIngestionTest, :ingestionDeltaTest, :ingestionPreloading, :ingestionJeffCoOnboardingTest,
-                         :ingestionSuperDocTests, :ingestionSubdocTests, :ingestionErrorWarnCountTest, :ingestionRevertDataTest] do
+                         :ingestionSuperDocTests, :ingestionSubdocTests, :ingestionErrorWarnCountTest, :ingestionRevertDataTest, :ingestionUniqueSectionCodeTest] do
 
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"
   else
     raise "Tests have failed"
+  end
+end
+
+
+desc "Run High Priority Emma Ingestion Acceptances Tests"
+    #New or tests modified this sprint, or tests that have recently failed
+    task :highPriority => [:loadDefaultIngestionTenants, :ingestionPreloading, :ingestionDeltaTest] do
+end
+
+desc "Run Normal Priority Emma Ingestion Acceptances Tests"
+    task :normalPriority => [:loadDefaultIngestionTenants, :IngestionIndexValidationTest, :ingestionDbSpinupTest, :ingestionAcceptanceSdsTest, :ingestionConcurrentTenantTest, :ingestionLearningObjectiveTest, :ingestionNegativeTests,  :ingestionAttendanceTests, :ingestionCommonCoreTest, :ingestionEncryptionTests,
+        :ingestionidNamespaceTest,  :ingestionSmooksVerificationTests, :ingestionXsdValidationTest,
+        :ingestionBatchJobTest, :ingestionIgnoreIDRefsTest, :ingestionTenantPurgeTests,
+        :ingestionIndexTest, :ingestionTenantTest, :ingestionBlacklistValidationTests, :ingestionXXETest, :ingestionCompetencyLevelDescriptorTest,
+        :ingestionDryRunTest, :ingestionComplexObjectArrayIdRefTest, :ingestionHealthCheckTest, :ingestionSmallSampleDataSet, :ingestionMediumSampleDataSet, :partialTransformedIngestionTest, :partialIngestionTest, :ingestionJeffCoOnboardingTest,
+        :ingestionSuperDocTests, :ingestionSubdocTests, :ingestionErrorWarnCountTest, :ingestionRevertDataTest, :ingestionUniqueSectionCodeTest, :ingestionDupDetectTest] do
+end
+
+desc "Run Emma Ingestion Acceptances Tests"
+    task :ingestionEmmaTests => [:highPriority, :normalPriority] do
+
+    displayFailureReport()
+        if $SUCCESS
+        puts "Completed All Tests"
+    else
+        raise "Tests have failed"
   end
 end
 ############################################################
@@ -729,8 +833,34 @@ task :odinTests => [:odinGenerateTests, :ingestOdinDataSet] do
     raise "Tests have failed"
   end
 end
+
+desc "Run Odin Jmeter generate and ingest for use with Jmeter API Performance Tests"
+task :jmeterOdinTests => [:generateOdinJmeterDataSet, :ingestOdinJmeterDataSet] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
 ############################################################
 # Odin Data Generation tests end
+############################################################
+
+############################################################
+# List Attendance Endpoint tests start
+############################################################
+desc "Run List Attendance Endpoint tests"
+task :listAttendanceEndPoint => [:loadDefaultIngestionTenants, :odin10k1GenerateTests, :ingestOdin10k1DataSet, :realmInit, :v1ListAttendanceEndpointTests] do
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
+end
+############################################################
+# List Attendance Endpoint tests end
 ############################################################
 
 ############################################################
@@ -742,6 +872,7 @@ task :integrationTests => [:realmInitNoPeople] do
   Rake::Task["loadDefaultIngestionTenants"].invoke
   Rake::Task["ingestionAcceptanceSdsTest"].execute
   Rake::Task["crossAppTests"].execute
+  Rake::Task["searchApiTests"].invoke
   Rake::Task["dashboardSdsTests"].invoke
   displayFailureReport()
   if $SUCCESS
@@ -782,6 +913,13 @@ runTests("test/features/sandbox/Integration/onboarding_integration.feature")
 
 desc "Run Provisioning Integration Tests"
 task :provisionIntegrationTests do
+  runTests("test/features/sandbox/Provision/Provision_Integrated.feature")
+end
+
+desc "Run Sandbox Auto Provisioning ingestion test"
+task :sandboxAutoIngestTest => [:realmInit] do
+  @tags ||= ["~@wip", "@sandbox"]
+  @tags << ["@auto-prov-ingest"]
   runTests("test/features/sandbox/Provision/Provision_Integrated.feature")
 end
 
@@ -953,7 +1091,6 @@ task :importSecuredData do
     "courseTranscript" => "secured/courseTranscript.json",
     "grade" => "secured/grade.json",
     "educationOrganization" => "secured/educationOrganization.json",
-    "gradebookEntry" => "secured/gradebookEntry.json",
     "program" => "secured/program.json",
     "reportCard" => "secured/reportCard.json",
     "section" => "secured/section.json",
@@ -964,18 +1101,12 @@ task :importSecuredData do
     "staffProgramAssociation" => "secured/staffProgramAssociation.json",
     "student" => "secured/student.json",
     "studentAssessment" => "secured/studentAssessment.json",
-    "studentCohortAssociation" => "secured/studentCohortAssociation.json",
     "studentCompetency" => "secured/studentCompetency.json",
-#    "studentDisciplineIncidentAssociation" => "secured/studentDisciplineIncidentAssociation.json",
-    "studentProgramAssociation" => "secured/studentProgramAssociation.json",    "studentAcademicRecord" => "secured/studentAcademicRecord.json",
+    "studentAcademicRecord" => "secured/studentAcademicRecord.json",
     "studentSchoolAssociation" => "secured/studentSchoolAssociation.json",
-    "studentSectionAssociation" => "secured/studentSectionAssociation.json",
     "studentGradebookEntry" => "secured/studentGradebookEntry.json",
     "teacherSchoolAssociation" => "secured/teacherSchoolAssociation.json",
     "parent" => "secured/parent.json",
-    "studentParentAssociation" => "secured/studentParentAssociation.json",
-    "teacherSectionAssociation" => "secured/teacherSectionAssociation.json"
-
   ]
 
    tenant = {
@@ -1032,13 +1163,10 @@ task :importSandboxMidgarData do
     "course" => "Midgar_data/course_fixture.json",
     "student" => "Midgar_data/student_fixture.json",
     "parent" => "Midgar_data/parent_fixture.json",
-    "studentParentAssociation" => "Midgar_data/studentParentAssociation_fixture.json",
     "staff" => "Midgar_data/staff_fixture.json",
     "assessment" => "Midgar_data/assessment_fixture.json",
     "attendance" => "Midgar_data/attendance_fixture.json",
     "studentSchoolAssociation" => "Midgar_data/studentSchoolAssociation_fixture.json",
-    "teacherSectionAssociation" => "Midgar_data/teacherSectionAssociation_fixture.json",
-    "studentAssessment" => "Midgar_data/studentAssessment_fixture.json",
     "teacherSchoolAssociation" => "Midgar_data/teacherSchoolAssociation_fixture.json",
     "educationOrganization" => "Midgar_data/educationOrganization_fixture.json",
     "aggregationDefinition" => "Midgar_data/aggregationdefinition_fixture.json",
@@ -1046,26 +1174,24 @@ task :importSandboxMidgarData do
     "schoolSessionAssociation" => "Midgar_data/schoolSessionAssociation_fixture.json",
     "courseOffering" => "Midgar_data/sessionCourseAssociation_fixture.json",
     "courseTranscript" => "Midgar_data/courseTranscript_fixture.json",
-    "gradebookEntry" => "Midgar_data/gradebookEntry_fixture.json",
     "studentGradebookEntry" => "Midgar_data/studentGradebookEntry_fixture.json",
     "disciplineIncident" => "Midgar_data/disciplineIncident_fixture.json",
     # "studentDisciplineIncidentAssociation" => "Midgar_data/studentDisciplineIncidentAssociation_fixture.json",
     "disciplineAction" => "Midgar_data/disciplineAction_fixture.json",
     "cohort" => "Midgar_data/cohort_fixture.json",
     "staffCohortAssociation" => "Midgar_data/staffCohortAssociation_fixture.json",
-    "studentCohortAssociation" => "Midgar_data/studentCohortAssociation_fixture.json",
     "staffProgramAssociation" => "Midgar_data/staffProgramAssociation_fixture.json",
-    "studentProgramAssociation" => "Midgar_data/studentProgramAssociation_fixture.json",
     "studentAcademicRecord" => "Midgar_data/studentAcademicRecord_fixture.json",
     "learningStandard" => "Midgar_data/learningStandard_fixture.json",
     "learningObjective" => "Midgar_data/learningObjective_fixture.json",
     "grade" => "Midgar_data/grade_fixture.json",
     "studentCompetency" => "Midgar_data/studentCompetency_fixture.json",
-    "adminDelegation" => "Midgar_data/adminDelegation_fixture.json",
     "gradingPeriod" => "Midgar_data/gradingPeriod_fixture.json",
+    "adminDelegation" => "Midgar_data/adminDelegation_fixture.json",
     "reportCard" => "Midgar_data/reportCard_fixture.json",
     "graduationPlan" => "Midgar_data/graduationPlan_fixture.json",
-    "studentCompetencyObjective" => "Midgar_data/studentCompetencyObjective_fixture.json"
+    "studentCompetencyObjective" => "Midgar_data/studentCompetencyObjective_fixture.json",
+    "competencyLevelDescriptor" => "Midgar_data/competencyLevelDescriptor_fixture.json"
   ]
   setMultipleFixtureFiles(testHash)
 end
@@ -1081,8 +1207,6 @@ task :importSandboxHyruleData do
     "staff" => "Hyrule_data/staff_fixture.json",
     "assessment" => "Hyrule_data/assessment_fixture.json",
     "studentSchoolAssociation" => "Hyrule_data/studentSchoolAssociation_fixture.json",
-    "teacherSectionAssociation" => "Hyrule_data/teacherSectionAssociation_fixture.json",
-    "studentSectionAssociation" => "Hyrule_data/studentSectionAssociation_fixture.json",
     "teacherSchoolAssociation" => "Hyrule_data/teacherSchoolAssociation_fixture.json",
     "educationOrganization" => "Hyrule_data/educationOrganization_fixture.json",
     "staffEducationOrganizationAssociation" => "Hyrule_data/staffEducationOrganizationAssociation_fixture.json",
@@ -1105,10 +1229,53 @@ task :importSandboxData do
   end
 end
 
+
+desc "Import Migration Test Data to Midgar"
+task :importMigrationData do
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
+  testHash = Hash[
+    "session" => "migration_data/session_fixture.json",
+    "program" => "migration_data/program_fixture.json",
+    "section" => "migration_data/section_fixture.json",
+    "course" => "migration_data/course_fixture.json",
+    "student" => "migration_data/student_fixture.json",
+    "parent" => "migration_data/parent_fixture.json",
+    "staff" => "migration_data/staff_fixture.json",
+    "assessment" => "migration_data/assessment_fixture.json",
+    "attendance" => "migration_data/attendance_fixture.json",
+    "studentSchoolAssociation" => "migration_data/studentSchoolAssociation_fixture.json",
+    "teacherSchoolAssociation" => "migration_data/teacherSchoolAssociation_fixture.json",
+    "educationOrganization" => "migration_data/educationOrganization_fixture.json",
+    "staffEducationOrganizationAssociation" => "migration_data/staffEducationOrganizationAssociation_fixture.json",
+    "schoolSessionAssociation" => "migration_data/schoolSessionAssociation_fixture.json",
+    "courseOffering" => "migration_data/courseOffering_fixture.json",
+    "courseTranscript" => "migration_data/courseTranscript_fixture.json",
+    "studentGradebookEntry" => "migration_data/studentGradebookEntry_fixture.json",
+    "disciplineIncident" => "migration_data/disciplineIncident_fixture.json",
+    # "studentDisciplineIncidentAssociation" => "migration_data/studentDisciplineIncidentAssociation_fixture.json",
+    "disciplineAction" => "migration_data/disciplineAction_fixture.json",
+    "cohort" => "migration_data/cohort_fixture.json",
+    "staffCohortAssociation" => "migration_data/staffCohortAssociation_fixture.json",
+    "staffProgramAssociation" => "migration_data/staffProgramAssociation_fixture.json",
+    "studentAcademicRecord" => "migration_data/studentAcademicRecord_fixture.json",
+    "learningStandard" => "migration_data/learningStandard_fixture.json",
+    "learningObjective" => "migration_data/learningObjective_fixture.json",
+    "grade" => "migration_data/grade_fixture.json",
+    "studentCompetency" => "migration_data/studentCompetency_fixture.json",
+    "gradingPeriod" => "migration_data/gradingPeriod_fixture.json",
+    "reportCard" => "migration_data/reportCard_fixture.json",
+    "graduationPlan" => "migration_data/graduationPlan_fixture.json",
+    "studentCompetencyObjective" => "migration_data/studentCompetencyObjective_fixture.json",
+    "competencyLevelDescriptor" => "migration_data/competencyLevelDescriptor_fixture.json"
+  ]
+  setMultipleFixtureFiles(testHash)
+end
+
 desc "Import Sandbox Test Data"
 task :importZorkSandboxData do
   testHash = Hash[
     "educationOrganization" => "educationOrganization_fixture_zork.json",
+    "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture_zork.json",
     "staff" => "staff_fixture_zork.json",
     "teacherSchoolAssociation" => "teacherSchoolAssociation_fixture_zork.json",
 
@@ -1126,6 +1293,7 @@ desc "Import Sandbox Test Data"
 task :importChaosSandboxData do
   testHash = Hash[
     "educationOrganization" => "educationOrganization_fixture_chaos.json",
+    "staffEducationOrganizationAssociation" => "staffEducationOrganizationAssociation_fixture_chaos.json",
     "staff" => "staff_fixture_chaos.json",
     "teacherSchoolAssociation" => "teacherSchoolAssociation_fixture_chaos.json",
 
@@ -1147,15 +1315,12 @@ task :importUnifiedData => [:realmInit] do
     "course" => "unified_data/uds_course.json",
     "courseOffering" => "unified_data/uds_courseOffering.json",
     "educationOrganization" => "unified_data/uds_educationOrganization.json",
-    "gradebookEntry" => "unified_data/uds_gradebookEntry.json",
+    "staffEducationOrganizationAssociation" => "unified_data/uds_staffEducationOrganizationAssociation.json",
     "parent" => "unified_data/uds_parent.json",
     "section" => "unified_data/uds_section.json",
     "session" => "unified_data/uds_session.json",
     "student" => "unified_data/uds_student.json",
-    "studentAssessment" => "unified_data/uds_studentAssessment.json",
-    "studentParentAssociation" => "unified_data/uds_studentParentAssociation.json",
     "studentSchoolAssociation" => "unified_data/uds_studentSchoolAssociation.json",
-    "studentSectionAssociation" => "unified_data/uds_studentSectionAssociation.json",
     "studentGradebookEntry" => "unified_data/uds_studentGradebookEntry.json",
     "courseTranscript" => "unified_data/uds_courseTranscript.json",
     "staff" => "unified_data/uds_staff.json",
@@ -1228,3 +1393,18 @@ task :tasks do
       puts ":" + t.to_s
     end
 end
+
+#######################################################
+# Primary Key Factory Class for Shard Type 1 UUIDs
+#######################################################
+
+class ShardType1UUIDPKFactory
+  require 'securerandom'
+  def create_pk(doc)
+    chars = ("a".."z").to_a
+    prefix = Time.new.year.to_s + Array.new(2, '').collect{chars[rand(chars.size)]}.join
+    doc["_id"] ||= prefix + "-" + SecureRandom.uuid
+    doc
+  end
+end
+

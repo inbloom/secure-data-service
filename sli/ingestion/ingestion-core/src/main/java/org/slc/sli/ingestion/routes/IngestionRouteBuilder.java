@@ -20,7 +20,6 @@ import javax.annotation.PostConstruct;
 
 import org.apache.camel.CamelContext;
 import org.apache.camel.LoggingLevel;
-import org.apache.camel.Processor;
 import org.apache.camel.spring.SpringRouteBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,24 +32,27 @@ import org.slc.sli.ingestion.nodes.IngestionNodeType;
 import org.slc.sli.ingestion.nodes.NodeInfo;
 import org.slc.sli.ingestion.processors.CommandProcessor;
 import org.slc.sli.ingestion.processors.ConcurrentEdFiProcessor;
-import org.slc.sli.ingestion.processors.ConcurrentXmlFileProcessor;
 import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
-import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.JobReportingProcessor;
 import org.slc.sli.ingestion.processors.LandingZoneProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
 import org.slc.sli.ingestion.processors.PurgeProcessor;
 import org.slc.sli.ingestion.processors.TenantProcessor;
 import org.slc.sli.ingestion.processors.TransformationProcessor;
-import org.slc.sli.ingestion.processors.XmlFileProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.JobSource;
+import org.slc.sli.ingestion.reporting.impl.LoggingMessageReport;
+import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.routes.orchestra.AggregationPostProcessor;
 import org.slc.sli.ingestion.routes.orchestra.OrchestraPreProcessor;
 import org.slc.sli.ingestion.routes.orchestra.WorkNoteLatch;
 import org.slc.sli.ingestion.tenant.TenantPopulator;
-import org.slc.sli.ingestion.validation.IndexValidator;
+import org.slc.sli.ingestion.validation.Validator;
+
 
 /**
  * Ingestion route builder.
@@ -76,9 +78,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     private ControlFileProcessor ctlFileProcessor;
 
     @Autowired
-    private EdFiProcessor edFiProcessor;
-
-    @Autowired
     private ConcurrentEdFiProcessor concurrentEdFiProcessor;
 
     @Autowired
@@ -90,11 +89,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Autowired
     private TransformationProcessor transformationProcessor;
 
-    @Autowired
-    private XmlFileProcessor xmlFileProcessor;
-
-    @Autowired
-    private ConcurrentXmlFileProcessor concurrentXmlFileProcessor;
+/*    @Autowired
+    private ConcurrentXmlFileProcessor concurrentXmlFileProcessor;*/
 
     @Autowired
     private OrchestraPreProcessor orchestraPreProcessor;
@@ -118,13 +114,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     private NodeInfo nodeInfo;
 
     @Autowired
-    private IndexValidator indexValidator;
-
-    @Value("${sli.ingestion.processor.edfi}")
-    private String edfiProcessorMode;
-
-    @Value("${sli.ingestion.processor.xml}")
-    private String xmlProcessorMode;
+    private Validator<?> systemValidator;
 
     @Value("${sli.ingestion.queue.workItem.queueURI}")
     private String workItemQueue;
@@ -175,6 +165,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     private static final String INGESTION_MESSAGE_TYPE = "IngestionMessageType";
 
+    @Autowired
+    private LoggingMessageReport loggingMessageReport;
+
     // Spring's dependency management can confuse camel due to some circular dependencies. Removing
     // this constructor, even if it doesn't look like it will change things, may affect loading
     // order and cause ingestion to fail to start on certain JVMs
@@ -187,7 +180,11 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     public void configure() throws Exception {
         LOG.info("Configuring node {} for node type {}", nodeInfo.getUUID(), nodeInfo.getNodeType());
 
-        boolean indexValidated = indexValidator.isValid(null, null);
+        loggingMessageReport.setLogger(LOG);
+        Source source = new JobSource(null, null);
+        ReportStats reportStats = new SimpleReportStats();
+        boolean indexValidated = systemValidator.isValid(null, loggingMessageReport, reportStats, source);
+
         if (!indexValidated) {
             LOG.error("Indexes could not be verified, check the index file configurations are set");
         }
@@ -334,16 +331,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
      */
     private void buildExtractionRoutes(String workItemQueueUri) {
 
-        Processor edfiProcessorToUse = edFiProcessor;
-        if ("concurrent".equals(edfiProcessorMode)) {
-            edfiProcessorToUse = concurrentEdFiProcessor;
-        }
-
-        Processor xmlFileProcessorToUse = xmlFileProcessor;
-        if ("concurrent".equals(xmlProcessorMode)) {
-            xmlFileProcessorToUse = concurrentXmlFileProcessor;
-        }
-
         // routeId: extraction
         from(workItemQueueUri).routeId("extraction").choice()
                 .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.ERROR.name()))
@@ -358,12 +345,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .process(purgeProcessor).to("direct:stop")
 
                 .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.CONTROL_FILE_PROCESSED.name()))
-                .log(LoggingLevel.INFO, "CamelRouting", "Routing to " + xmlProcessorMode + "XmlFileProcessor.")
-                .process(xmlFileProcessorToUse).to(workItemQueueUri)
-
-                .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.XML_FILE_PROCESSED.name()))
-                .log(LoggingLevel.INFO, "CamelRouting", "Routing to " + edfiProcessorMode + "EdfiProcessor.")
-                .process(edfiProcessorToUse).to("direct:postExtract");
+                .log(LoggingLevel.INFO, "CamelRouting", "Routing to ConcurrentEdfiProcessor.")
+                .process(concurrentEdFiProcessor).to("direct:postExtract");
 
         // routeId: assembledJobs
         from("direct:assembledJobs").routeId("assembledJobs").choice().when(header(HAS_ERRORS).isEqualTo(true))
@@ -386,21 +369,24 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
         // routeId: pitNodes
         from(pitNodeQueueUri).routeId("pitNodes")
-                .log(LoggingLevel.DEBUG, "CamelRouting", "Pit message received: ${body}").choice()
-                .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
+            .log(LoggingLevel.INFO, "CamelRouting", "Pit message received: ${body}")
+            .choice()
+            .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.DATA_TRANSFORMATION.name()))
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to TransformationProcessor.")
                 .process(transformationProcessor)
                 .log(LoggingLevel.INFO, "CamelRouting", "TransformationProcessor complete. Routing back to Maestro.")
                 .to(maestroQueueUri)
 
                 .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.PERSIST_REQUEST.name()))
-                .log(LoggingLevel.INFO, "CamelRouting", "Routing to PersistenceProcessor.")
-                .log("persist: jobId: " + header("jobId").toString()).choice()
+                .choice()
                 .when(header(AttributeType.DRYRUN.getName()).isEqualTo(true))
-                .log(LoggingLevel.INFO, "CamelRouting", "Dry-run specified. Routing back to Maestro.")
-                .to(maestroQueueUri).otherwise().process(persistenceProcessor)
-                .log(LoggingLevel.INFO, "CamelRouting", "PersistenceProcessor complete. Routing back to Maestro.")
-                .to(maestroQueueUri);
+                    .log(LoggingLevel.INFO, "CamelRouting", "Dry-run specified. Routing back to Maestro.")
+                    .to(maestroQueueUri)
+                .otherwise()
+                    .log(LoggingLevel.INFO, "CamelRouting", "Routing to PersistenceProcessor.")
+                    .process(persistenceProcessor)
+                    .log(LoggingLevel.INFO, "CamelRouting", "PersistenceProcessor complete. Routing back to Maestro.")
+                    .to(maestroQueueUri);
     }
 
     public void configureTenantPollingTimerRoute() {

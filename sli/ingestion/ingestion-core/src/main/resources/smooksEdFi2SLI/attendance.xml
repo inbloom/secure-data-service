@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd"
     xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
     xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
     xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
         http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd
         http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
 
     <json:reader rootName="json" />
+
+    <core:filterSettings type="SAX" readerPoolSize="5" />
 
     <jb:bean beanId="attendances" class="java.util.ArrayList" createOnElement="#document">
         <jb:wiring beanIdRef="attendance" />
@@ -15,7 +19,7 @@
 
     <jb:bean beanId="attendance" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
         <jb:expression property="type">'attendance'</jb:expression>
-        <jb:wiring property="body" beanIdRef="attendanceBody" />        
+        <jb:wiring property="body" beanIdRef="attendanceBody" />
     </jb:bean>
 
     <jb:bean beanId="attendanceBody" class="java.util.HashMap" createOnElement="attributes">
@@ -23,20 +27,20 @@
         <jb:value property="schoolId" data="attributes schoolId"></jb:value>
         <jb:wiring property="schoolYearAttendance" beanIdRef="schoolYearAttendanceArray"></jb:wiring>
     </jb:bean>
-    
+
     <jb:bean beanId="schoolYearAttendanceArray" class="java.util.ArrayList" createOnElement="attributes">
         <jb:wiring beanIdRef="schoolYearAttendanceMap"/>
     </jb:bean>
-    
+
     <jb:bean beanId="schoolYearAttendanceMap" class="java.util.HashMap" createOnElement="schoolYearAttendance element">
         <jb:value property="schoolYear" data="schoolYearAttendance element schoolYear"></jb:value>
         <jb:wiring property="attendanceEvent" beanIdRef="attendanceEventsArray"/>
     </jb:bean>
-    
+
     <jb:bean beanId="attendanceEventsArray" class="java.util.ArrayList" createOnElement="schoolYearAttendance element attendanceEvent">
         <jb:wiring beanIdRef="attendanceEventMap"></jb:wiring>
     </jb:bean>
-    
+
     <jb:bean beanId="attendanceEventMap" class="java.util.HashMap" createOnElement="attendanceEvent element">
         <jb:value property="date" data="attendanceEvent element date"></jb:value>
         <jb:value property="event" data="attendanceEvent element event"></jb:value>

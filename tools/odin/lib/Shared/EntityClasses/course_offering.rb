@@ -22,29 +22,14 @@ require_relative "baseEntity.rb"
 # creates course offering
 class CourseOffering < BaseEntity
 
-  attr_accessor :title, :ed_org_id
+  attr_accessor :code, :title, :ed_org_id, :session, :course
 
   def initialize(id, title, ed_org_id, session, course)
-    @id                   = id
+    @code                 = DataUtility.get_course_offering_code(id)
     @title                = title
     @ed_org_id            = ed_org_id
-    @session              = Hash.new
-    @session["name"]      = session["name"]
-    @session["ed_org_id"] = session["ed_org_id"]
-    @course               = Hash.new
-    @course["id"]         = DataUtility.get_course_unique_id(course["id"])
-    @course["ed_org_id"]  = course["ed_org_id"]
-  end
-
-  def code
-    DataUtility.get_course_offering_code(@id)
+    @session              = {'name'=>session["name"], 'ed_org_id'=>session["ed_org_id"]}
+    @course               = {'id'=>DataUtility.get_course_unique_id(course["id"]), 'ed_org_id'=>course["ed_org_id"]}
   end
    
-  def session
-    @session
-  end
-   
-  def course
-    @course
-  end
 end

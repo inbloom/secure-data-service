@@ -22,12 +22,13 @@ import java.util.Map;
 
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.ingestion.Resource;
 
 /**
  * @author okrook
  *
  */
-public class SimpleEntity implements Entity {
+public class SimpleEntity implements Entity, Resource {
     private String type;
     private String entityId;
     private String stagedEntityId;
@@ -35,6 +36,10 @@ public class SimpleEntity implements Entity {
     private Map<String, Object> metaData;
     private long recordNumber;
     private String sourceFile;
+    private int visitBeforeLineNumber;
+    private int visitBeforeColumnNumber;
+    private int visitAfterLineNumber;
+    private int visitAfterColumnNumber;
 
     @Override
     public String getType() {
@@ -80,6 +85,38 @@ public class SimpleEntity implements Entity {
         this.recordNumber = recordNumber;
     }
 
+    public int getVisitBeforeLineNumber() {
+        return visitBeforeLineNumber;
+    }
+
+    public void setVisitBeforeLineNumber(int visitBeforeLineNumber) {
+        this.visitBeforeLineNumber = visitBeforeLineNumber;
+    }
+
+    public int getVisitBeforeColumnNumber() {
+        return visitBeforeColumnNumber;
+    }
+
+    public void setVisitBeforeColumnNumber(int visitBeforeColumnNumber) {
+        this.visitBeforeColumnNumber = visitBeforeColumnNumber;
+    }
+
+    public int getVisitAfterLineNumber() {
+        return visitAfterLineNumber;
+    }
+
+    public void setVisitAfterLineNumber(int visitAfterLineNumber) {
+        this.visitAfterLineNumber = visitAfterLineNumber;
+    }
+
+    public int getVisitAfterColumnNumber() {
+        return visitAfterColumnNumber;
+    }
+
+    public void setVisitAfterColumnNumber(int visitAfterColumnNumber) {
+        this.visitAfterColumnNumber = visitAfterColumnNumber;
+    }
+
     @Override
     public String getStagedEntityId() {
         return stagedEntityId;
@@ -122,12 +159,17 @@ public class SimpleEntity implements Entity {
     }
 
     @Override
-    public Map<String,List<Entity>> getEmbeddedData() {
+    public Map<String, List<Entity>> getEmbeddedData() {
         return new HashMap<String, List<Entity>>();
     }
 
     @Override
     public Map<String, List<Map<String, Object>>> getDenormalizedData() {
         return new HashMap<String, List<Map<String, Object>>>();
+    }
+
+    @Override
+    public String getResourceId() {
+        return getSourceFile();
     }
 }
