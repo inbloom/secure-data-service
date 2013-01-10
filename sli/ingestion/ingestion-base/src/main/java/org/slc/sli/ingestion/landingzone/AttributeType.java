@@ -25,7 +25,6 @@ public enum AttributeType {
     PURGE("purge"),
     PURGE_KEEP_EDORGS("purge-keep-edorgs"),  // Keep edorg apps accessible to tenant.
     DRYRUN("dry-run"),
-    NO_ID_REF("no-id-ref"),
     STRICT("strict");
 
     /* Various modes for the duplicate detect/discard optimization (a.k.a. the recordHash
