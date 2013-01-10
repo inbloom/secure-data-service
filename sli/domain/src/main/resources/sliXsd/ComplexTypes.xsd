@@ -706,10 +706,13 @@
 		<xs:annotation>
 			<xs:documentation>This entity represents an administrative unit at
 				the
-				local level which exists primarily to operate schools or to contract
-				for educational services. It includes school districts, charter
+				local level which exists primarily to operate schools or to
+				contract
+				for educational services. It includes school districts,
+				charter
 				schools,
-				charter management organizations, or other local administrative
+				charter management organizations, or other local
+				administrative
 				organizations.
 			</xs:documentation>
 			<xs:appinfo>
@@ -735,9 +738,11 @@
 						<xs:annotation>
 							<xs:documentation>A school or agency providing free public
 								elementary or secondary education to eligible students under
-								a specific charter granted by the state legislature or other
+								a
+								specific charter granted by the state legislature or other
 								appropriate authority and designated by such authority to be
-								a charter school.
+								a
+								charter school.
 							</xs:documentation>
 							<xs:appinfo>
 								<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
@@ -749,7 +754,8 @@
 						type='reference'>
 						<xs:annotation>
 							<xs:documentation>For subdistricts, the LEA the subdistrict
-								is a component of.
+								is a
+								component of.
 							</xs:documentation>
 							<xs:appinfo>
 								<sli:ReferenceType>educationOrganization</sli:ReferenceType>
@@ -2641,8 +2647,10 @@
 		<xs:annotation>
 			<xs:documentation>This entity represents the agency of the state
 				charged
-				with primary responsibility for coordinating and supervising public
-				instruction, including the setting of standards for elementary and
+				with primary responsibility for coordinating and supervising
+				public
+				instruction, including the setting of standards for elementary
+				and
 				secondary
 				instruction programs.
 			</xs:documentation>
@@ -7345,13 +7353,15 @@
 	<xs:complexType name='gradingPeriodIdentityType'>
 		<xs:annotation>
 			<xs:documentation>Encapsulates the possible attributes that can be
-				used to lookup the grading period.</xs:documentation>
+				used to lookup the grading period.
+			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name='gradingPeriod' type='gradingPeriodType'>
 				<xs:annotation>
 					<xs:documentation>The name of the period for which grades are
-						reported</xs:documentation>
+						reported
+					</xs:documentation>
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
@@ -7758,7 +7768,8 @@
 				<xs:annotation>
 					<xs:documentation>A unique number or alphanumeric code assigned to
 						a
-						course by a school, school system, a state, or other agency or entity.
+						course by a school, school system, a state, or other agency or
+						entity.
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
@@ -8619,7 +8630,8 @@
 			<xs:element name='educationOrganizationId' type='reference'>
 				<xs:annotation>
 					<xs:documentation>
-						The education organization in which the calendar date is defined.
+						The education organization in which the calendar
+						date is defined.
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
@@ -9263,7 +9275,8 @@
 			<xs:element name='objectiveId' type='studentCompetencyObjectiveReference'>
 				<xs:annotation>
 					<xs:documentation>The objective evaluated or assessed for the
-						student.</xs:documentation>
+						student.
+					</xs:documentation>
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
@@ -9313,13 +9326,15 @@
 	<xs:complexType name='studentCompetencyObjectiveReference'>
 		<xs:annotation>
 			<xs:documentation>The objective evaluated or assessed for the
-				student.</xs:documentation>
+				student.
+			</xs:documentation>
 		</xs:annotation>
 		<xs:choice>
 			<xs:element name='learningObjectiveId' type='reference'>
 				<xs:annotation>
 					<xs:documentation>The learning objective evaluated or assessed for
-						the student.</xs:documentation>
+						the student.
+					</xs:documentation>
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
 						<sli:ReferenceType>learningObjective</sli:ReferenceType>
@@ -9331,7 +9346,8 @@
 			<xs:element name='studentCompetencyObjectiveId' type='reference'>
 				<xs:annotation>
 					<xs:documentation>The student competency objective evaluated for
-						the student.</xs:documentation>
+						the student.
+					</xs:documentation>
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
 						<sli:ReferenceType>studentCompetencyObjective</sli:ReferenceType>
