@@ -194,10 +194,4 @@ public final class ZipFileUtil {
         return ctlFile;
     }
 
-    public static InputStream getZipInputStream(String zipFileName, String zipEntryName) throws IOException {
-        ZipFile zipFile = new ZipFile(zipFileName);
-        ZipArchiveEntry ze = zipFile.getEntry(zipEntryName);
-        InputStream zais = zipFile.getInputStream(ze);
-        return zais;
-    }
 }

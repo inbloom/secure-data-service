@@ -22,6 +22,7 @@ import static org.junit.Assert.assertTrue;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -224,9 +225,9 @@ public class RealmHelperTest {
         injector.setCustomContext("LEA", "LEA One", lea1Realm.getEntityId(),
                 Arrays.asList("Realm Administrator"),
                 staff, (String) lea1Realm.getBody().get("edOrg"));
-        String realmId = helper.getAssociatedRealmId();
-        assertTrue(realmId != null);
-        assertTrue(realmId.equals(lea1Realm.getEntityId()));
+        Set<String> realmIds = helper.getAssociatedRealmIds();
+        assertTrue(realmIds != null);
+        assertTrue(realmIds.contains(lea1Realm.getEntityId()));
     }
 
 }

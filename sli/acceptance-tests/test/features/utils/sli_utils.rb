@@ -470,6 +470,7 @@ end
 module DataProvider
   def self.getValidRealmData()
     return {
+       "uniqueIdentifier" => "Whatever",
        "tenantId" => "bliss",
        "admin" => false,
        "idp" => {"id" => "http://path.to.nowhere", "redirectEndpoint" => "http://path.to.nowhere/somewhere/else"},
