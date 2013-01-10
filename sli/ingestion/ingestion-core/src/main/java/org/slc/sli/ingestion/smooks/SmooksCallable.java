@@ -16,8 +16,7 @@
 
 package org.slc.sli.ingestion.smooks;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
@@ -37,6 +36,7 @@ import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.handler.XmlFileHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.landingzone.ZipFileUtil;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
@@ -63,8 +63,8 @@ public class SmooksCallable implements Callable<Boolean> {
     private final IngestionFileEntry fe;
     private final Stage stage;
 
-    public SmooksCallable(NewBatchJob newBatchJob, XmlFileHandler handler, IngestionFileEntry fe, Stage stage, BatchJobDAO batchJobDAO,
-            SliSmooksFactory sliSmooksFactory) {
+    public SmooksCallable(NewBatchJob newBatchJob, XmlFileHandler handler, IngestionFileEntry fe, Stage stage,
+            BatchJobDAO batchJobDAO, SliSmooksFactory sliSmooksFactory) {
         this.newBatchJob = newBatchJob;
         this.handler = handler;
         this.fe = fe;
@@ -141,22 +141,26 @@ public class SmooksCallable implements Callable<Boolean> {
 
     void generateNeutralRecord(FileProcessStatus fileProcessStatus) throws IOException, SAXException {
 
-        // create instance of Smooks (with visitors already added)
-        SliSmooks smooks = sliSmooksFactory.createInstance(fe, fe.getMessageReport(), fe.getReportStats());
+        InputStream zais = ZipFileUtil.getInputStreamForFile(new File(fe.getFileZipParent()), fe.getFileName());
 
-        InputStream inputStream = new BufferedInputStream(new FileInputStream(fe.getFile()));
         try {
-            // filter fileEntry inputStream, converting into NeutralRecord entries as we go
-            smooks.filterSource(new StreamSource(inputStream));
+            // create instance of Smooks (with visitors already added)
+            SliSmooks smooks = sliSmooksFactory.createInstance(fe, fe.getMessageReport(), fe.getReportStats());
 
-            populateRecordCountsFromSmooks(smooks, fileProcessStatus, fe);
+            try {
+                // filter fileEntry inputStream, converting into NeutralRecord entries as we go
+                smooks.filterSource(new StreamSource(zais));
 
-        } catch (SmooksException se) {
-            LogUtil.error(LOG, "smooks exception - encountered problem with " + fe.getFile().getName(), se);
-            Source source = new JobSource(fe.getFileName(), BatchJobStageType.EDFI_PROCESSOR.getName());
-            fe.getMessageReport().error(fe.getReportStats(), source, CoreMessageCode.CORE_0020, fe.getFile().getName());
+                populateRecordCountsFromSmooks(smooks, fileProcessStatus, fe);
+
+            } catch (SmooksException se) {
+                LogUtil.error(LOG, "smooks exception - encountered problem with " + fe.getFile().getName(), se);
+                Source source = new JobSource(fe.getFileName(), BatchJobStageType.EDFI_PROCESSOR.getName());
+                fe.getMessageReport().error(fe.getReportStats(), source, CoreMessageCode.CORE_0020,
+                        fe.getFile().getName());
+            }
         } finally {
-            IOUtils.closeQuietly(inputStream);
+            IOUtils.closeQuietly(zais);
         }
     }
 
