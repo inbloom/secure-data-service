@@ -1,9 +1,7 @@
 import pymongo
-
-PERF_DB = "apiPerf"
-PERF_COLLECTION = "apiResponse"
+import common 
 
 if __name__=="__main__":
-    con = pymongo.Connection()
-    con.drop_database(PERF_DB)
+    con = pymongo.Connection(common.MONGO_HOST)
+    con.drop_database(common.PERF_DB)
 

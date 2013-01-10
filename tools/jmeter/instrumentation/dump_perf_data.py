@@ -136,7 +136,8 @@ def extract_by_testrun(testrun, col):
 
 if __name__=="__main__":
     q = {}
-    con = pymongo.Connection()
+    print "Connecting to: %s" % common.MONGO_HOST
+    con = pymongo.Connection(common.MONGO_HOST)
     db = con[common.PERF_DB]
     col = db[common.PERF_COLLECTION]
 
