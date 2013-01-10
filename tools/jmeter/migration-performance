@@ -1,10 +1,19 @@
 #!/usr/bin/env ruby
-require 'fileutils'
 
-OUT_DIR = "writeback_off"
-FileUtils.mkdir OUT_DIR 
+require 'benchmark'
 
-10.times do |i|
-  #%x(mongo 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a pantomcat-setup/unset-favorite-color.js)
-  %x(jmeter -n -q pantomcat.properties -t pantomcat01.jmx -l #{OUT_DIR}/out-run#{i}.jtl)
+WRITEBACK_ON = true
+times = []
+10.times do |_|
+  times << Benchmark.realtime do 
+    %x(curl -s -H "Authorization: Bearer cacd9227-5b14-4685-babe-31230476cf3b" \
+               -H "Accept: application/json" \
+           "http://local.slidev.org:8080/api/rest/v1/programs/2fad75663edd263a81854f981e2766ea13410785_id/studentProgramAssociations/students?limit=1000") 
+  end
+  if WRITEBACK_ON
+    %x(mongo 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a pantomcat-setup/unset-favorite-color.js)
+  end
 end
+
+#convert to milliseconds
+times.each {|t| puts((t * 1000).round)}

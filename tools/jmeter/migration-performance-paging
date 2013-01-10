@@ -1,0 +1,17 @@
+#!/usr/bin/env ruby
+
+require 'benchmark'
+
+times = []
+20.times do |x|
+  times << Benchmark.realtime do 
+    %x(curl -s -H "Authorization: Bearer cacd9227-5b14-4685-babe-31230476cf3b" \
+               -H "Accept: application/json" \
+           "http://local.slidev.org:8080/api/rest/v1/programs/2fad75663edd263a81854f981e2766ea13410785_id/studentProgramAssociations/students?offset=#{50 * x}") 
+  end
+
+  %x(mongo 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a pantomcat-setup/unset-favorite-color.js)
+end
+
+#convert to milliseconds
+times.each {|t| puts((t * 1000).round)}
