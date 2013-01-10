@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<documents xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:noNamespaceSchemaLocation="documents.xsd">
-  <document name="Assessment">
-    <class name="Assessment"></class>
-    <graph>assessments</graph>
-    <singular>assessment</singular>
-  </document>
-</documents>

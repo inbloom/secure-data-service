@@ -27,14 +27,8 @@
     <module>rest</module>
     <module>wadl</module>
     <module>xdm</module>
-    <module>jgen</module>
-    <module>docgen</module>
-    <module>sdkgen</module>
     <module>xmigen</module>
     <module>xmicomp</module>
-    <module>xsdgen</module>
-    <module>waudit</module>
-    <!--<module>shtick</module> -->
   </modules>
 
 </project>
