@@ -187,11 +187,7 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
                 } else if (SliMongoConstants.SLI_READ_ENFORCEMENT.equals(name)) {
                     final Identifier tagDefinition = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_ENFORCE_READ);
                     final String text = XmlTools.collapseWhitespace(stringValue(element.getChildNodes()));
-                    if ("READ_RESTRICTED".equals(text)) {
-                        taggedValues.add(new TaggedValue(text, tagDefinition));
-                    } else {
-                        throw new AssertionError("Unexpected value for appinfo: " + name + " => " + text);
-                    }
+                    taggedValues.add(new TaggedValue(text, tagDefinition));
                 } else if (SliMongoConstants.SLI_SECURITY_SPHERE.equals(name)) {
                     final Identifier tagDefinition = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_SECURITY_SPHERE);
                     final String text = XmlTools.collapseWhitespace(stringValue(element.getChildNodes()));
@@ -221,11 +217,7 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
                 } else if (SliMongoConstants.SLI_WRITE_ENFORCEMENT.equals(name)) {
                     final Identifier tagDefinition = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_ENFORCE_WRITE);
                     final String text = XmlTools.collapseWhitespace(stringValue(element.getChildNodes()));
-                    if ("WRITE_RESTRICTED".equals(text)) {
-                        taggedValues.add(new TaggedValue(text, tagDefinition));
-                    } else {
-                        throw new AssertionError("Unexpected value for appinfo: " + name + " => " + text);
-                    }
+                    taggedValues.add(new TaggedValue(text, tagDefinition));
                 } else if (SliMongoConstants.SLI_ASSOCIATION_KEY.equals(name)) {
                     final Identifier tagDefinition = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_ASSOCIATION_KEY);
                     taggedValues.add(new TaggedValue("true", tagDefinition));
