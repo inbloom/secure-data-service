@@ -1,9 +1,0 @@
-{
-    "referenceSources" :
-    [
-        {
-            "entityType" : "",
-            "sourceRefPath" : "body.ref_field"
-        }
-    ]
-}

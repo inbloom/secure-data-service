@@ -1,9 +1,0 @@
-{
-  "type" : "staffEducationOrganizationAssociation",
-  "body" : {
-    "staffClassification" : "Other",
-    "positionTitle" : "Super Senior Staff",
-    "endDate" : "2012-07-31",
-    "beginDate" : "2010-08-01"
-  }
-}

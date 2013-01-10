@@ -1,9 +1,0 @@
-{
-  "schedule" : {
-      "event" : "create student | create SAA",
-      "waiting_period" : 600,
-      "command" : "hadoop",
-      "arguments" : "jar HighestEver.jar StateMath_conf.json -fs hdfs://localhost:9001 -jt http://localhost:9000",
-      "retry_on_failure" : false
-  }
-}

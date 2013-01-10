@@ -1,2 +1,0 @@
-{"_id":{"$binary":"J52+ZfJlkdq9f0xb6sqA==","$type":"03"},"type":"learningObjective","body":{"objective":"Reading Test","academicSubject":"Reading","objectiveGradeLevel":"Fifth grade"},"tenantId":"Zork"}
-{"_id":{"$binary":"J53+ZfJlkdq8f0xb5sqA==","$type":"03"},"type":"learningObjective","body":{"objective":"Writing Test","academicSubject":"Writing","objectiveGradeLevel":"Fifth grade"},"tenantId":"Zork"}

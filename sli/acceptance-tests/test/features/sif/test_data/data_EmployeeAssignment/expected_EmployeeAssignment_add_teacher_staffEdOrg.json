@@ -1,8 +1,0 @@
-{
-  "type" : "staffEducationOrganizationAssociation",
-  "body" : {
-    "staffClassification" : "Teacher",
-    "endDate" : "2013-07-31",
-    "beginDate" : "2010-08-01"
-  }
-}

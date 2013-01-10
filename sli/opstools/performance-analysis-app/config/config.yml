@@ -1,9 +1,0 @@
-common: &common
-    database: apiPerf
-    port: 27017
-development:
-    <<: *common
-    host: localhost
-production:
-    <<: *common
-    host: jenkins.slidev.org

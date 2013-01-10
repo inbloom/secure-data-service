@@ -1,8 +1,0 @@
-{
-  id : "studentSearch",
-  type: "LAYOUT",
-  name: "SLC - Search",
-  items: [
-    {id: "studentSearchResults", name: "Student Search", type: "GRID"}
-  ]
-}
