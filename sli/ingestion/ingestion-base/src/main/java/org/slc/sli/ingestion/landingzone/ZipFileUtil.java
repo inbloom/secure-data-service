@@ -24,11 +24,14 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.Date;
 
 import org.apache.commons.compress.archivers.ArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
+import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -158,5 +161,12 @@ public final class ZipFileUtil {
         }
 
         return ctlFile;
+    }
+
+    public static InputStream getZipInputStream(String zipFileName, String zipEntryName) throws IOException {
+        ZipFile zipFile = new ZipFile(zipFileName);
+        ZipArchiveEntry ze = zipFile.getEntry(zipEntryName);
+        InputStream zais = zipFile.getInputStream(ze);
+        return zais;
     }
 }
