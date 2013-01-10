@@ -20,14 +20,21 @@ limitations under the License.
 require 'test_helper'
 
 class RealmManagementControllerTest < ActionController::TestCase
-  #setup do
-  #  @realm_editor = realm_management(:one)
-  #end
+  # setup do
+  #   session[:edOrg] = "Waffles"
+  # end
 
-  test "should get index" do
+  test "should get index with no realms" do
     get :index
-    assert_response 404
+    assert_response 302
   end
+
+  test "should get index with some realms" do
+    session[:edOrg] = "Waffles"
+    get :index
+    assert_response 200
+  end
+
 
   test "should get new" do
     get :new
