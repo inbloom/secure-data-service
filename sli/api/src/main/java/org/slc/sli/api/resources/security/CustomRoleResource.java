@@ -24,12 +24,14 @@ import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -91,12 +93,14 @@ public class CustomRoleResource {
     
     public static final String RESOURCE_NAME = "customRole";
     
-    public static final String ERROR_DUPLICATE_ROLE = "Cannot list duplicate roles";
-    public static final String ERROR_INVALID_REALM = "Cannot modify custom roles for that realm/tenant";
-    public static final String ERROR_INVALID_RIGHT = "Invalid right listed in custom role document";
-    public static final String ERROR_MULTIPLE_DOCS = "Cannot create multiple custom role documents per realm/tenant";
-    public static final String ERROR_FORBIDDEN = "User does not have access to requested role document";
-    public static final String ERROR_DUPLICATE_RIGHTS = "Cannot have the same right listed more than once in a role";
+    protected static final String ERROR_DUPLICATE_ROLE = "Cannot list duplicate roles";
+    protected static final String ERROR_INVALID_REALM = "Cannot modify custom roles for that realm/tenant";
+    protected static final String ERROR_INVALID_RIGHT = "Invalid right listed in custom role document";
+    protected static final String ERROR_MULTIPLE_DOCS = "Cannot create multiple custom role documents per realm/tenant";
+    protected static final String ERROR_FORBIDDEN = "User does not have access to requested role document";
+    protected static final String ERROR_DUPLICATE_RIGHTS = "Cannot have the same right listed more than once in a role";
+    protected static final String ERROR_CHANGING_REALM_ID = "Cannot change the realmId on a custom role document";
+    protected static final String ERROR_INVALID_REALM_ID = "Invalid realmId specified.";
     
     @PostConstruct
     public void init() {
@@ -106,7 +110,8 @@ public class CustomRoleResource {
     
     @GET
     @RightsAllowed({Right.CRUD_ROLE })
-    public Response readAll(@Context final UriInfo uriInfo) {
+    public Response readAll(@Context final UriInfo uriInfo, 
+            @DefaultValue("") @QueryParam("realmId") String realmId) {
         
         if (uriInfo.getQueryParameters() != null) {
             String defaultsOnly = uriInfo.getQueryParameters().getFirst("defaultsOnly");
@@ -117,8 +122,25 @@ public class CustomRoleResource {
         }            
         
         List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
+        
+        //If the user's edorg is mapped to more than one realm, then we have to use a
+        //realmId param to figure out which to use.  Otherwise we can just return custom
+        //roles for all the user's realms.
+        Set<String> myRealms = realmHelper.getAssociatedRealmIds();
+        Set<String> realmsToQuery = null;
+        if (!realmId.isEmpty() && !myRealms.contains(realmId)) {
+            return buildBadRequest(ERROR_INVALID_REALM_ID);
+        } else {
+            if (realmId.isEmpty()) {
+                realmsToQuery = myRealms;
+            } else {
+                realmsToQuery = new HashSet<String>();
+                realmsToQuery.add(realmId);
+            }
+        }
+
         NeutralQuery customRoleQuery = new NeutralQuery();
-        customRoleQuery.addCriteria(new NeutralCriteria("realmId", NeutralCriteria.OPERATOR_EQUAL, realmHelper.getAssociatedRealmId()));
+        customRoleQuery.addCriteria(new NeutralCriteria("realmId", NeutralCriteria.CRITERIA_IN, realmsToQuery));
         
         Entity customRole = repo.findOne("customRole", customRoleQuery);
         if (customRole != null) {
@@ -134,9 +156,8 @@ public class CustomRoleResource {
     public Response read(@PathParam("id") String id, @Context final UriInfo uriInfo) {
 
         EntityBody customRole = service.get(id);
-        if (!customRole.get("realmId").equals(realmHelper.getAssociatedRealmId())) {
-            audit(securityEventBuilder.createSecurityEvent(CustomRoleResource.class.getName(), uriInfo.getRequestUri(),
-                    "Failed to read custom role with id: " + id + "  --> wrong tenant + realm combination."));
+        if (!realmHelper.getAssociatedRealmIds().contains(customRole.get("realmId"))) {
+            auditSecEvent(uriInfo, "Failed to read custom role with id: " + id + "  --> wrong tenant + realm combination.");
             return Response.status(Status.FORBIDDEN).entity(ERROR_FORBIDDEN).build();
         }
         return Response.ok(customRole).build();
@@ -148,20 +169,17 @@ public class CustomRoleResource {
 
         Response res = validateRights(newCustomRole);
         if (res != null) {
-            audit(securityEventBuilder.createSecurityEvent(CustomRoleResource.class.getName(), uriInfo.getRequestUri(),
-                    "Failed to create custom role --> rights validation failed."));
+            auditSecEvent(uriInfo, "Failed to create custom role --> rights validation failed.");
             return res;
         }
         res = validateUniqueRoles(newCustomRole);
         if (res != null) {
-            audit(securityEventBuilder.createSecurityEvent(CustomRoleResource.class.getName(), uriInfo.getRequestUri(),
-                    "Failed to create custom role --> unique roles check failed."));
+            auditSecEvent(uriInfo, "Failed to create custom role --> unique roles check failed.");
             return res;
         }
         res = validateValidRealm(newCustomRole);
         if (res != null) {
-            audit(securityEventBuilder.createSecurityEvent(CustomRoleResource.class.getName(), uriInfo.getRequestUri(),
-                    "Failed to create custom role --> invalid realm specified."));
+            auditSecEvent(uriInfo, "Failed to create custom role --> invalid realm specified.");
             return res;
         }
         
@@ -170,16 +188,14 @@ public class CustomRoleResource {
         existingCustomRoleQuery.addCriteria(new NeutralCriteria("realmId", NeutralCriteria.OPERATOR_EQUAL, realmId));
         Entity existingRoleDoc = repo.findOne(RESOURCE_NAME, existingCustomRoleQuery);
         if (existingRoleDoc != null) {
-            audit(securityEventBuilder.createSecurityEvent(CustomRoleResource.class.getName(), uriInfo.getRequestUri(),
-                    "Failed to create custom role --> Already exists."));
-            return Response.status(Status.BAD_REQUEST).entity(ERROR_MULTIPLE_DOCS).build();
+            auditSecEvent(uriInfo, "Failed to create custom role --> Already exists.");
+            return buildBadRequest(ERROR_MULTIPLE_DOCS);
         }
         
         String id = service.create(newCustomRole);
         if (id != null) {
             String uri = uriToString(uriInfo) + "/" + id;
-            audit(securityEventBuilder.createSecurityEvent(CustomRoleResource.class.getName(), uriInfo.getRequestUri(),
-                    "Created custom role with id: " + id));
+            auditSecEvent(uriInfo, "Created custom role with id: " + id);
             return Response.status(Status.CREATED).header("Location", uri).build();
         }
         return Response.status(Status.BAD_REQUEST).build();
@@ -192,20 +208,17 @@ public class CustomRoleResource {
         
         Response res = validateRights(updated);
         if (res != null) {
-            audit(securityEventBuilder.createSecurityEvent(CustomRoleResource.class.getName(), uriInfo.getRequestUri(),
-                    "Failed to create custom role --> rights validation failed."));
+            auditSecEvent(uriInfo, "Failed to create custom role --> rights validation failed.");
             return res;
         }
         res = validateUniqueRoles(updated);
         if (res != null) {
-            audit(securityEventBuilder.createSecurityEvent(CustomRoleResource.class.getName(), uriInfo.getRequestUri(),
-                    "Failed to create custom role --> unique roles check failed."));
+            auditSecEvent(uriInfo, "Failed to create custom role --> unique roles check failed.");
             return res;
         }
         res = validateValidRealm(updated);
         if (res != null) {
-            audit(securityEventBuilder.createSecurityEvent(CustomRoleResource.class.getName(), uriInfo.getRequestUri(),
-                    "Failed to create custom role --> invalid realm specified."));
+            auditSecEvent(uriInfo, "Failed to create custom role --> invalid realm specified.");
             return res;
         }
         
@@ -213,16 +226,13 @@ public class CustomRoleResource {
         String oldRealmId = (String) oldRealm.get("realmId");
         String updatedRealmId = (String) updated.get("realmId");
         if (!updatedRealmId.equals(oldRealmId)) {
-            audit(securityEventBuilder.createSecurityEvent(CustomRoleResource.class.getName(), uriInfo.getRequestUri(),
-                    "Failed to update realmId { from: " + oldRealmId + ", to: " + updatedRealmId
-                            + " } for role with id:" + id));
-            return Response.status(Status.BAD_REQUEST).entity("Cannot update the realmId on a custom role document")
-                    .build();
+            auditSecEvent(uriInfo, "Failed to update realmId { from: " + oldRealmId + ", to: " + updatedRealmId
+                    + " } for role with id:" + id);
+            return buildBadRequest(ERROR_CHANGING_REALM_ID);
         }
         
         if (service.update(id, updated)) {
-            audit(securityEventBuilder.createSecurityEvent(CustomRoleResource.class.getName(), uriInfo.getRequestUri(),
-                    "Updated role with id:" + id));
+            auditSecEvent(uriInfo, "Updated role with id:" + id);
             return Response.status(Status.NO_CONTENT).build();
         }
         return Response.status(Status.BAD_REQUEST).build();
@@ -237,8 +247,7 @@ public class CustomRoleResource {
     @RightsAllowed({Right.CRUD_ROLE })
     public Response deleteCustomRole(@PathParam("id") String id, @Context final UriInfo uriInfo) {
         service.delete(id);
-        audit(securityEventBuilder.createSecurityEvent(CustomRoleResource.class.getName(), uriInfo.getRequestUri(),
-                "Deleted role with id:" + id));
+        auditSecEvent(uriInfo, "Deleted role with id:" + id);
         return Response.status(Status.NO_CONTENT).build();
     }
     
@@ -253,11 +262,11 @@ public class CustomRoleResource {
                 try {
                     right = Right.valueOf(rightName);
                 } catch (IllegalArgumentException iae) {
-                    return Response.status(Status.BAD_REQUEST).entity(ERROR_INVALID_RIGHT).build();
+                    return buildBadRequest(ERROR_INVALID_RIGHT);
                 }
                 
                 if (rightsSet.contains(right)) {
-                    return Response.status(Status.BAD_REQUEST).entity(ERROR_DUPLICATE_RIGHTS).build();
+                    return buildBadRequest(ERROR_DUPLICATE_RIGHTS);
                 } else {
                     rightsSet.add(right);
                 }
@@ -275,7 +284,7 @@ public class CustomRoleResource {
             List<String> names = cur.get("names");
             for (String name : names) {
                 if (roleNames.contains(name)) {
-                    return Response.status(Status.BAD_REQUEST).entity(ERROR_DUPLICATE_ROLE).build();
+                    return buildBadRequest(ERROR_DUPLICATE_ROLE);
                 } else {
                     roleNames.add(name);
                 }
@@ -285,12 +294,19 @@ public class CustomRoleResource {
     }
     
     private Response validateValidRealm(EntityBody customRoleDoc) {
-        String realmId = realmHelper.getAssociatedRealmId();
-        if (!realmId.equals(customRoleDoc.get("realmId"))) {
+        Set<String> realmIds = realmHelper.getAssociatedRealmIds();
+        if (!realmIds.contains(customRoleDoc.get("realmId"))) {
             return Response.status(Status.FORBIDDEN).entity(ERROR_INVALID_REALM).build();
         }
         return null;
     }
     
+    private void auditSecEvent(UriInfo uriInfo, String message) {
+        audit(securityEventBuilder.createSecurityEvent(CustomRoleResource.class.getName(), uriInfo.getRequestUri(), message));
+    }
+    
+    private Response buildBadRequest(String message) {
+        return Response.status(Status.BAD_REQUEST).entity(message).build();
+    }
 
 }

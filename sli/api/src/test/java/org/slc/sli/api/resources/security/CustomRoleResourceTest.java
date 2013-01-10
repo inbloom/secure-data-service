@@ -21,6 +21,7 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -84,11 +85,20 @@ public class CustomRoleResourceTest {
         injector.setRealmAdminContext();
         MockitoAnnotations.initMocks(this);
         uriInfo = ResourceTestUtil.buildMockUriInfo("");
-        Mockito.when(realmHelper.getAssociatedRealmId()).thenReturn(REALM_ID);
+        
+    }
+    
+    private void setRealms(String ... realmIds) {
+        HashSet<String> ids = new HashSet<String>();
+        for (String id : realmIds) {
+            ids.add(id);
+        }
+        Mockito.when(realmHelper.getAssociatedRealmIds()).thenReturn(ids);
     }
 
     @Test
     public void testValidCreate() throws URISyntaxException {
+        setRealms(REALM_ID);
         EntityBody body = getValidRoleDoc();
         
         mockGetRealmId();
@@ -101,6 +111,7 @@ public class CustomRoleResourceTest {
 
     @Test
     public void testValidUpdate() {
+        setRealms(REALM_ID);
         EntityBody body = getValidRoleDoc();
         mockGetRealmId();
         String id = "old-id";
@@ -113,9 +124,31 @@ public class CustomRoleResourceTest {
         Assert.assertEquals(204, res.getStatus());
     }
     
-    @SuppressWarnings("unchecked")
     @Test
     public void testReadAll() {
+        setRealms(REALM_ID);
+        EntityBody body = getValidRoleDoc();
+        String id = "old-id";
+        
+        Mockito.when(service.get(id)).thenReturn((EntityBody) body.clone());
+        mockGetRealmId();
+        
+        Entity mockEntity = Mockito.mock(Entity.class);
+        Mockito.when(mockEntity.getEntityId()).thenReturn("mock-id");
+        Mockito.when(service.get("mock-id")).thenReturn(body);
+        
+        NeutralQuery customRoleQuery = new NeutralQuery();
+        customRoleQuery.addCriteria(new NeutralCriteria("realmId", NeutralCriteria.CRITERIA_IN, new HashSet<String>(Arrays.asList(REALM_ID))));
+        Mockito.when(repo.findOne("customRole", customRoleQuery)).thenReturn(mockEntity);
+
+        Response res = resource.readAll(uriInfo, "");
+        Assert.assertEquals(200, res.getStatus());
+        Assert.assertEquals(Arrays.asList(body), res.getEntity());
+    }
+    
+    @Test
+    public void testReadAllWithBadRealmIdParam() {
+        setRealms(REALM_ID);
         EntityBody body = getValidRoleDoc();
         String id = "old-id";
         
@@ -130,14 +163,56 @@ public class CustomRoleResourceTest {
         customRoleQuery.addCriteria(new NeutralCriteria("realmId", NeutralCriteria.OPERATOR_EQUAL, REALM_ID));
         Mockito.when(repo.findOne("customRole", customRoleQuery)).thenReturn(mockEntity);
 
-        Response res = resource.readAll(uriInfo);
+        Response res = resource.readAll(uriInfo, "BAD_REALM_ID");
+        Assert.assertEquals(400, res.getStatus());
+    }
+    
+    @Test
+    public void testReadAllWithMultipleRealmsAndNoRealmIdParam() {
+        setRealms(REALM_ID, "REALM2");
+        EntityBody body = getValidRoleDoc();
+        String id = "old-id";
+        
+        Mockito.when(service.get(id)).thenReturn((EntityBody) body.clone());
+        mockGetRealmId();
+        
+        Entity mockEntity = Mockito.mock(Entity.class);
+        Mockito.when(mockEntity.getEntityId()).thenReturn("mock-id");
+        Mockito.when(service.get("mock-id")).thenReturn(body);
+        
+        NeutralQuery customRoleQuery = new NeutralQuery();
+        customRoleQuery.addCriteria(new NeutralCriteria("realmId", NeutralCriteria.CRITERIA_IN, new HashSet<String>(Arrays.asList(REALM_ID, "REALM2"))));
+        Mockito.when(repo.findOne("customRole", customRoleQuery)).thenReturn(mockEntity);
+
+        Response res = resource.readAll(uriInfo, "");
+        Assert.assertEquals(200, res.getStatus());
+    }
+    
+    @Test
+    public void testReadAllWithMultipleRealmsAndValidRealmIdParam() {
+        setRealms(REALM_ID, "REALM2");
+        EntityBody body = getValidRoleDoc();
+        String id = "old-id";
+        
+        Mockito.when(service.get(id)).thenReturn((EntityBody) body.clone());
+        mockGetRealmId();
+        
+        Entity mockEntity = Mockito.mock(Entity.class);
+        Mockito.when(mockEntity.getEntityId()).thenReturn("mock-id");
+        Mockito.when(service.get("mock-id")).thenReturn(body);
+        
+        NeutralQuery customRoleQuery = new NeutralQuery();
+        customRoleQuery.addCriteria(new NeutralCriteria("realmId", NeutralCriteria.CRITERIA_IN, new HashSet<String>(Arrays.asList(REALM_ID))));
+        Mockito.when(repo.findOne("customRole", customRoleQuery)).thenReturn(mockEntity);
+
+        Response res = resource.readAll(uriInfo, REALM_ID);
         Assert.assertEquals(200, res.getStatus());
         Assert.assertEquals(Arrays.asList(body), res.getEntity());
-
     }
     
     @Test
     public void testReadAccessible() {
+        setRealms(REALM_ID);
         EntityBody body = getValidRoleDoc();
         String id = "old-id";
         
@@ -278,6 +353,7 @@ public class CustomRoleResourceTest {
     
     @Test
     public void testCreateDuplicate() {
+        setRealms(REALM_ID);
         NeutralQuery existingCustomRoleQuery = new NeutralQuery();
         existingCustomRoleQuery.addCriteria(new NeutralCriteria("realmId", NeutralCriteria.OPERATOR_EQUAL, REALM_ID));
         
