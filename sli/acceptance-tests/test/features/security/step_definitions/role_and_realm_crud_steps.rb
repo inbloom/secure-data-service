@@ -68,6 +68,7 @@ When /^I POST a new realm$/ do
   assert(@res != nil, "Response from rest-client POST is nil")
 end
 
+
 Then /^I should receive a new ID for my new realm$/ do
   assert(@res.raw_headers["location"] != nil, "No ID was returned for created object")
 end
@@ -142,6 +143,27 @@ When /^I POST a new custom role document with (realm "[^"]*")$/ do |realm|
   restHttpPost("/customRoles", dataFormatted, "application/json")
   assert(@res != nil, "Response from rest-client POST is nil")
 end
+
+When /^I POST another new realm$/ do
+  data = DataProvider.getValidRealmData()
+  data["idp"]["id"] = "MyOtherIdp"
+  data["uniqueIdentifier"] = "shizzle"
+  data["name"] = "wiggity"
+  data["edOrg"] = "NC-KRYPTON"
+  dataFormatted = prepareData("application/json", data)
+  restHttpPost("/realm", dataFormatted, "application/json")
+  assert(@res != nil, "Response from rest-client POST is nil")
+  $new_realm_id = @res.raw_headers["location"][0].split(/\//)[-1]
+end
+
+When /^I POST a new custom role document with for my new realm$/ do
+  data = DataProvider.getValidCustomRoleData()
+  data["realmId"] = $new_realm_id
+  dataFormatted = prepareData("application/json", data)
+  restHttpPost("/customRoles", dataFormatted, "application/json")
+  assert(@res != nil, "Response from rest-client POST is nil")
+end
+
 
 Then /^I should receive a new ID for my new custom role document$/ do
   assert(@res.raw_headers["location"] != nil, "No ID was returned for created object")

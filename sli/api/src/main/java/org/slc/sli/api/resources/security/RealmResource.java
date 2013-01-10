@@ -79,6 +79,8 @@ public class RealmResource {
     public static final String RESPONSE = "response";
     public static final String NAME = "name";
     public static final String UNIQUE_IDENTIFIER = "uniqueIdentifier";
+    public static final String IDP_ID = "idp.id";
+    
     @Autowired
     private EntityDefinitionStore store;
 
@@ -128,7 +130,8 @@ public class RealmResource {
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
         Response validateUniqueness = validateUniqueId(realmId, (String) updatedRealm.get(UNIQUE_IDENTIFIER),
-                (String) updatedRealm.get(NAME));
+                (String) updatedRealm.get(NAME),
+                getIdpId(updatedRealm));
         if (validateUniqueness != null) {
             return validateUniqueness;
         }
@@ -172,7 +175,7 @@ public class RealmResource {
             return Response.status(Status.FORBIDDEN).entity(body).build();
         }
         Response validateUniqueness = validateUniqueId(null, (String) newRealm.get(UNIQUE_IDENTIFIER),
-                (String) newRealm.get(NAME));
+                (String) newRealm.get(NAME), getIdpId(newRealm));
         if (validateUniqueness != null) {
             debug("On realm create, uniqueId is not unique");
             return validateUniqueness;
@@ -235,10 +238,7 @@ public class RealmResource {
         return Response.ok(result).build();
     }
 
-    private Response validateUniqueId(String realmId, String uniqueId, String displayName) {
-        if (uniqueId == null || uniqueId.length() == 0) {
-            return null;
-        }
+    private Response validateUniqueId(String realmId, String uniqueId, String displayName, String idpId) {
         // Check for uniqueness of Unique ID
         final NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria(UNIQUE_IDENTIFIER, "=", uniqueId));
@@ -280,6 +280,27 @@ public class RealmResource {
             res.put(RESPONSE, "Cannot have duplicate display names");
             return Response.status(Status.BAD_REQUEST).entity(res).build();
         }
+        
+        // Check for uniqueness of idp id
+        final NeutralQuery idpIdQuery = new NeutralQuery();
+        idpIdQuery.addCriteria(new NeutralCriteria(IDP_ID, "=", idpId));
+        if (realmId != null) {
+            idpIdQuery.addCriteria(new NeutralCriteria("_id", "!=", idConverter.toDatabaseId(realmId)));
+        }
+        entity = SecurityUtil.runWithAllTenants(new SecurityTask<Entity>() {
+
+            @Override
+            public Entity execute() {
+                return repo.findOne(REALM, idpIdQuery);
+            }
+        });
+
+        if (entity != null) {
+            debug("idp info: {}", getIdpId(entity.getBody()));
+            Map<String, String> res = new HashMap<String, String>();
+            res.put(RESPONSE, "Cannot have duplicate idp ids");
+            return Response.status(Status.BAD_REQUEST).entity(res).build();
+        }
 
         return null;
     }
@@ -291,6 +312,10 @@ public class RealmResource {
     private boolean canEditCurrentRealm(EntityBody realm) {
         String edOrg = SecurityUtil.getEdOrg();
         return !(edOrg == null || !edOrg.equals(realm.get(ED_ORG)));
-
+    }
+    
+    private String getIdpId(Map body) {
+        Map idp = (Map) body.get("idp");
+        return (String) idp.get("id");
     }
 }
