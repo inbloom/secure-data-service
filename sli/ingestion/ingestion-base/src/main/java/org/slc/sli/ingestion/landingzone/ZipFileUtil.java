@@ -99,6 +99,37 @@ public final class ZipFileUtil {
     }
 
     /**
+     * @param sourceZipFile
+     * @param targetDir
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    public static InputStream getInputStreamForFile(File sourceZipFile, String fileName) throws IOException {
+        ZipArchiveInputStream zis = null;
+        InputStream fileInputStream = null;
+
+        try {
+            // Create input stream
+            zis = new ZipArchiveInputStream(new BufferedInputStream(new FileInputStream(sourceZipFile)));
+
+            ArchiveEntry entry;
+
+            while ((entry = zis.getNextEntry()) != null) {
+                if (!entry.isDirectory() && entry.getName().equals(fileName)) {
+                    fileInputStream = zis;
+                    break;
+                }
+            }
+        } finally {
+            if (fileInputStream == null) {
+                IOUtils.closeQuietly(zis);
+            }
+        }
+
+        return fileInputStream;
+    }
+
+    /**
      * Extracts a Zip Entry from an archive to a directory
      *
      * @param zis
