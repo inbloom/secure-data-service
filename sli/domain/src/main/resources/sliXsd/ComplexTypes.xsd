@@ -34,7 +34,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -48,7 +48,7 @@
 						separators.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -64,7 +64,7 @@
 						agency.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -84,7 +84,7 @@
 						"Cognitive and perceptual skills test."
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -102,7 +102,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -129,7 +129,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -149,7 +149,7 @@
 						"Second Grade," and so on.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -170,7 +170,7 @@
 						without any mapping to scores.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -189,7 +189,7 @@
 						standard."
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -204,7 +204,7 @@
 						response.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -216,7 +216,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -230,7 +230,7 @@
 						revision.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -243,7 +243,7 @@
 						at the maximum.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -256,7 +256,7 @@
 						at the minimum.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -267,7 +267,7 @@
 						The specific nomenclature used for assessment.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -284,7 +284,7 @@
 						and "End of Year."
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -298,7 +298,7 @@
 						learning objectives.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -310,7 +310,7 @@
 						Individual test items, if appropriate.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -1777,7 +1777,7 @@
 							<xs:documentation>The grade levels served at the school.
 							</xs:documentation>
 							<xs:appinfo>
-								<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+								<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 								<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 							</xs:appinfo>
 						</xs:annotation>
@@ -1790,7 +1790,7 @@
 								High School, Middle School, and/or Elementary School.
 							</xs:documentation>
 							<xs:appinfo>
-								<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+								<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 								<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 							</xs:appinfo>
 						</xs:annotation>
@@ -1803,7 +1803,7 @@
 								primary focus.
 							</xs:documentation>
 							<xs:appinfo>
-								<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+								<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 								<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 							</xs:appinfo>
 						</xs:annotation>
@@ -1821,7 +1821,7 @@
 								charter school.
 							</xs:documentation>
 							<xs:appinfo>
-								<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+								<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 								<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 							</xs:appinfo>
 						</xs:annotation>
@@ -1833,7 +1833,7 @@
 								school.
 							</xs:documentation>
 							<xs:appinfo>
-								<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+								<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 								<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 							</xs:appinfo>
 						</xs:annotation>
@@ -1853,7 +1853,7 @@
 								language).
 							</xs:documentation>
 							<xs:appinfo>
-								<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+								<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 								<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 							</xs:appinfo>
 						</xs:annotation>
@@ -1867,7 +1867,7 @@
 								funding source, for example public or private.
 							</xs:documentation>
 							<xs:appinfo>
-								<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+								<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 								<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 							</xs:appinfo>
 						</xs:annotation>
@@ -5590,7 +5590,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -5605,7 +5605,7 @@
 						other agency or entity.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -5616,7 +5616,7 @@
 						institution.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -5627,7 +5627,7 @@
 					<xs:documentation>A short name for the institution.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -5644,7 +5644,7 @@
 						state.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -5656,7 +5656,7 @@
 						city, state, ZIP code, and ZIP code + 4.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -5669,7 +5669,7 @@
 						code, for the education entity.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -5681,7 +5681,7 @@
 						organization.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -5692,7 +5692,7 @@
 						organization (e.g., active, inactive).
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -5705,7 +5705,7 @@
 						organization.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -5718,7 +5718,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>program</sli:ReferenceType>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -5729,7 +5729,7 @@
 						using '.' separators.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -5744,7 +5744,7 @@
 					<xs:appinfo>
 						<sli:SelfReference>true</sli:SelfReference>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -6719,7 +6719,7 @@
 						objective in the context of a standard (e.g., 111.15.3.1.A)
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -6731,7 +6731,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -6742,7 +6742,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -6755,7 +6755,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -6768,7 +6768,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -6781,7 +6781,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>learningStandard</sli:ReferenceType>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -6795,7 +6795,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>learningObjective</sli:ReferenceType>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -6857,7 +6857,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -6869,7 +6869,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -6881,7 +6881,7 @@
 						state, national, etc.)
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -6892,7 +6892,7 @@
 						standard.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -6902,7 +6902,7 @@
 					<xs:documentation>Subject area for the learning standard.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
@@ -6913,7 +6913,7 @@
 						learning standard is associated.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
+						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>

@@ -1,6 +1,15 @@
 require 'net/http'
 require 'rexml/document'
 
+def getType(elem)
+  puts "inspecting #{elem.name}"
+  if elem.name == "complexType"
+    return elem
+  else
+    return getType(elem.parent)
+  end
+end
+
 # extract event information
 f = File.open("/Users/dkornishev/Documents/git/sli/sli/domain/target/classes/sliXsd/ComplexTypes.xsd")
 doc = REXML::Document.new(f)
@@ -23,14 +32,20 @@ doc.elements.each('//xs:element') do |elem|
   end
 
   puts appinfo.get_elements("sil:WriteEnforcement").size
-  
+
   if appinfo.get_elements("sli:ReadEnforcement").empty?
     puts "adding read enforcement"
     readEnforcement = REXML::Element.new("sli:ReadEnforcement",appinfo)
     readEnforcement.add_text("READ_GENERAL")
   end
-  
-  puts appinfo.get_elements("sli:ReadEnforcement").size
+
+  publicEntities = ["assessment", "learningObjective", "learningStandard", "school", "educationOrganization"]
+
+  type = getType(elem)
+  puts type.attribute("name")
+  if publicEntities.include? type.attribute("name").to_s
+    appinfo.get_elements("sli:WriteEnforcement")[0].text=("WRITE_PUBLIC")
+  end
 
 end
 
@@ -39,3 +54,4 @@ f.write(doc.to_s)
 f.close()
 
 puts "ALL DONE"
+
