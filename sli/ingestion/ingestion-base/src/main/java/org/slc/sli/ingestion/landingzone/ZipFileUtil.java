@@ -24,6 +24,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -93,6 +94,37 @@ public final class ZipFileUtil {
             IOUtils.closeQuietly(zis);
             IOUtils.closeQuietly(fis);
         }
+    }
+
+    /**
+     * @param sourceZipFile
+     * @param targetDir
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
+    public static InputStream getInputStreamForFile(File sourceZipFile, String fileName) throws IOException {
+        ZipArchiveInputStream zis = null;
+        InputStream fileInputStream = null;
+
+        try {
+            // Create input stream
+            zis = new ZipArchiveInputStream(new BufferedInputStream(new FileInputStream(sourceZipFile)));
+
+            ArchiveEntry entry;
+
+            while ((entry = zis.getNextEntry()) != null) {
+                if (!entry.isDirectory() && entry.getName().equals(fileName)) {
+                    fileInputStream = zis;
+                    break;
+                }
+            }
+        } finally {
+            if (fileInputStream == null) {
+                IOUtils.closeQuietly(zis);
+            }
+        }
+
+        return fileInputStream;
     }
 
     /**
