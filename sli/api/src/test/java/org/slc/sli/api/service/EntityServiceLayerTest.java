@@ -52,6 +52,8 @@ import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.CallingApplicationInfoProvider;
 import org.slc.sli.api.service.AssociationService.EntityIdList;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -261,10 +263,17 @@ public class EntityServiceLayerTest {
         String id2 = studentService.create(student2);
         String id3 = studentService.create(student3);
         String id4 = studentService.create(student4);
-        EntityBody school = new EntityBody();
+        final EntityBody school = new EntityBody();
         school.put("name", "Battle School");
         school.put("nameOfInstitution", "Battle School");
-        String schoolId = schoolService.create(school);
+        String schoolId = SecurityUtil.sudoRun(new SecurityTask<String>() {
+
+			@Override
+			public String execute() {
+				return schoolService.create(school);
+			}
+        	
+        });
         EntityBody assoc1 = new EntityBody();
         assoc1.put("schoolId", schoolId);
         assoc1.put("studentId", id1);
