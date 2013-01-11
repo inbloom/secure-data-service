@@ -5,4 +5,4 @@ Scenario: Run Jmeter tests
     | testName            |
     | dashboard           |
   Then I only check "See LOS;See Student Profile" for performance regression
-  Then no performance regressions should be found
+  #Then no performance regressions should be found
