@@ -55,9 +55,9 @@ end
 
 def add_new_field(xsd)
 	# add new field to staff
-	insert_index = xsd.index("<xs:element name=\"staffUniqueStateId\" ")
+	insert_index = xsd.index("<xs:element name=\'staffUniqueStateId\' ")
 
-	new_schema_field = "<xs:element name=\"favoriteSubject\" type=\"xs:string\"/>\n"
+	new_schema_field = "<xs:element name=\'favoriteSubject\' type=\'xs:string\'/>\n"
 	xsd.insert(insert_index,new_schema_field)
 	return xsd
 end
@@ -65,8 +65,8 @@ end
 
 def remove_field(xsd)
 
-	entity_index = xsd.index("<xs:element name=\"staffUniqueStateId\" ") 
-	begin_index = xsd.index("<xs:element name=\"sex\"",entity_index)
+	entity_index = xsd.index("<xs:element name=\'staffUniqueStateId\' ") 
+	begin_index = xsd.index("<xs:element name=\'sex\'",entity_index)
 	end_index = xsd.index("</xs:element>",begin_index) + "</xs:element>".length - 1
 
 	xsd.slice!(begin_index..end_index)
@@ -77,8 +77,8 @@ end
 
 def rename_field(xsd)
 
-	entity_index = xsd.index("<xs:element name=\"staffUniqueStateId\" ")
-	begin_index = xsd.index("\"name\"",entity_index)
+	entity_index = xsd.index("<xs:element name=\'staffUniqueStateId\' ")
+	begin_index = xsd.index("\'name\'",entity_index)
 
 	xsd[begin_index+1..begin_index+4] = "nameData"
 
