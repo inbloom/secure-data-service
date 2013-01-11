@@ -38,8 +38,8 @@ cp /opt/megatron/sli/sli/acceptance-tests/test/data/megtomcat01_securityEvent_fi
 cp /opt/megatron/sli/sli/acceptance-tests/test/features/utils/megtomcat01_properties.yml /opt/megatron/sli/sli/acceptance-tests/test/features/utils/properties.yml
 cp /opt/megatron/sli/sli/admin-tools/admin-rails/config/megtomcat01_admin_config.yml /opt/megatron/sli/sli/admin-tools/admin-rails/config/config.yml
 cp /opt/megatron/sli/sli/databrowser/config/megtomcat01_databrowser_config.yml /opt/megatron/sli/sli/databrowser/config/config.yml
-cp /opt/megatron/sli/sli/config/properties/megtomcat01.properties /opt/tomcat/apache-tomcat-7.0.34/conf/sli.properties
-cp /opt/megatron/sli/sli/config/properties/megtomcat01.properties /opt/megatron/sli/sli/config/properties/sli.properties
+cp /opt/megatron/sli/sli/acceptance-tests/megtomcat01.properties /opt/tomcat/apache-tomcat-7.0.34/conf/sli.properties
+cp /opt/megatron/sli/sli/acceptance-tests/megtomcat01.properties /opt/megatron/sli/sli/config/properties/sli.properties
 cd /opt/megatron/sli/sli/admin-tools/admin-rails/
 bundle install --deployment
 bundle exec rails server -d
@@ -47,7 +47,7 @@ cd /opt/megatron/sli/sli/databrowser/
 bundle install --deployment
 bundle exec rails server -d
 cd /opt/megatron/sli/sli/
-mvn clean package install -DskipTests
+mvn clean package install -DskipTests -Dpmd.skip=true
 curl 'http://tomcat:s3cret@localhost/manager/text/deploy?path=/api&war=file:/opt/megatron/sli/sli/api/target/api.war'
 curl 'http://tomcat:s3cret@localhost/manager/text/deploy?path=/dashboard&war=file:/opt/megatron/sli/sli/dashboard/target/dashboard.war'
 curl 'http://tomcat:s3cret@localhost/manager/text/deploy?path=/ingestion-service&war=file:/opt/megatron/sli/sli/ingestion/ingestion-service/target/ingestion-service.war'
@@ -63,8 +63,14 @@ cd /opt/megatron/sli/sli/acceptance-tests/
 bundle install --deployment
 Xvfb :4 -screen 0 1024x768x24 >/dev/null 2>&1 &
 export DISPLAY=:4.0
-bundle exec rake FORCE_COLOR=true ingestion_log_directory=/opt/ingestion/logs ingestion_landing_zone=/opt/ingestion/lz/inbound ingestion_healthcheck_url=http://megtomcat01.slidev.org/ingestion-service/healthcheck ingestionTests
+sh /opt/megatron/sli/sli/acceptance-tests/restartApi.sh &
+cd /opt/megatron/sli/sli/acceptance-tests/
 bundle exec rake FORCE_COLOR=true sampleApp_server_address=http://megtomcat01.slidev.org/ dashboard_server_address=http://megtomcat01.slidev.org dashboard_api_server_uri=http://megtomcat01.slidev.org realm_page_url="http://megtomcat01.slidev.org/api/oauth/authorize" admintools_server_url=http://megtomcat01.slidev.org:3001 api_server_url=http://megtomcat01.slidev.org databrowser_server_url=http://megtomcat01.slidev.org:3000 ingestion_landing_zone=/opt/ingestion/lz/inbound integrationTests
+cd /opt/megatron/sli/sli/config/scripts/
+sh resetAllDbs.sh
+sh /opt/megatron/sli/sli/acceptance-tests/restartApi.sh &
+cd /opt/megatron/sli/sli/acceptance-tests/
+bundle exec rake FORCE_COLOR=true ingestion_log_directory=/opt/ingestion/logs ingestion_landing_zone=/opt/ingestion/lz/inbound ingestion_healthcheck_url=http://megtomcat01.slidev.org/ingestion-service/healthcheck ingestionTests
 
 
 
