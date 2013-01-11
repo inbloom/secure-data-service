@@ -115,10 +115,13 @@ class SectionWorkOrderFactory
                 yielder << {:type=>Section, :id=>section[:id], :edOrg=>school_id, :offering=>offering}
                 yielder << {:type=>TeacherSectionAssociation, :teacher=>teacher_id, :section=>section[:id], :school=>school_id, :position=>:TEACHER_OF_RECORD}
                 unless session.nil?
-                  (@scenario['INCIDENTS_PER_SECTION'] or 0).times {|i|
-                    yielder << DisciplineIncident.new(i, section[:id], school_id, teacher_id, session['interval'], "Classroom")
-                  }
+                  dates = session['interval']
+                else
+                  dates = DateInterval.new(Date.new, Date.new + 180, 180)
                 end
+                (@scenario['INCIDENTS_PER_SECTION'] or 0).times {|i|
+                  yielder << DisciplineIncident.new(i, section[:id], school_id, teacher_id, dates, "Classroom")
+                }
               }
             }
           }
