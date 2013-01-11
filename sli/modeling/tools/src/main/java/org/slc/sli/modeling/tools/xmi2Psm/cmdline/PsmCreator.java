@@ -19,7 +19,7 @@ package org.slc.sli.modeling.tools.xmi2Psm.cmdline;
 
 import org.slc.sli.modeling.psm.PsmCollection;
 import org.slc.sli.modeling.psm.PsmConfig;
-import org.slc.sli.modeling.psm.PsmConfigWriter;
+import org.slc.sli.modeling.tools.xmi2Psm.PsmConfigWriter;
 import org.slc.sli.modeling.psm.PsmDocument;
 import org.slc.sli.modeling.psm.PsmResource;
 import org.slc.sli.modeling.uml.ClassType;

@@ -2,11 +2,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>org.slc.sli.modeling</groupId>
-		<artifactId>modeling</artifactId>
-		<version>1.0-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>org.slc.sli.modeling</groupId>
+        <artifactId>modeling</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 
 	<name>Modeling Tools</name>
 
@@ -35,6 +35,16 @@
 			<version>${commons.schema.version}</version>
 		</dependency>
 
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <scope>test</scope>
+        </dependency>
 		<!-- StAX API -->
 		<dependency>
 			<groupId>stax</groupId>
@@ -58,17 +68,13 @@
 			<groupId>org.slc.sli.modeling</groupId>
 			<artifactId>xsd</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.slc.sli.modeling</groupId>
-			<artifactId>wadl</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.slc.sli.modeling</groupId>
+            <artifactId>wadl</artifactId>
+        </dependency>
 		<dependency>
 			<groupId>org.slc.sli.modeling</groupId>
 			<artifactId>rest</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slc.sli.modeling</groupId>
-			<artifactId>jgen</artifactId>
 		</dependency>
 	</dependencies>
 	<artifactId>tools</artifactId>
@@ -97,13 +103,13 @@
                     <!--</execution>-->
                 <!--</executions>-->
             <!--</plugin>-->
-            <plugin>
+            <!-- plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <!-- Adds Main-Class to MANIFEST.MF -->
+                            <! - - Adds Main-Class to MANIFEST.MF - - >
                             <mainClass>org.slc.sli.modeling.tools.selector.SelectorDoc</mainClass>
                         </manifest>
                     </archive>
@@ -120,7 +126,7 @@
                         </goals>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin -->
         </plugins>
     </build>
 </project>
