@@ -94,7 +94,7 @@ public class ZipFileHandler extends AbstractIngestionHandler<FileResource, File>
             } catch (IOException ex) {
 
                 if (System.currentTimeMillis() >= clockTimeout) {
-                    report.error(reportStats, source, BaseMessageCode.BASE_0008);
+                    report.error(reportStats, source, BaseMessageCode.BASE_0019);
                     done = true;
                 } else {
                     try {

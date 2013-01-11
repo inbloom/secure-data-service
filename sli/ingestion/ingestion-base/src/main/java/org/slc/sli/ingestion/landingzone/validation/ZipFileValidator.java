@@ -96,7 +96,7 @@ public class ZipFileValidator implements Validator<File> {
 
             } catch (UnsupportedZipFeatureException ex) {
                 // Unsupported compression method
-                report.error(reportStats, source, BaseMessageCode.BASE_0011, zipFile.getName());
+                report.error(reportStats, source, BaseMessageCode.BASE_0022, zipFile.getName());
                 done = true;
                 return false;
 
@@ -106,7 +106,7 @@ public class ZipFileValidator implements Validator<File> {
                 String message = zipFile.getAbsolutePath()
                         + " cannot be found. If the file is not processed, please resubmit.";
                 LOG.error(message, ex);
-                report.error(reportStats, source, BaseMessageCode.BASE_0008, zipFile.getName());
+                report.error(reportStats, source, BaseMessageCode.BASE_0020, zipFile.getName());
                 done = true;
                 return false;
 
@@ -114,7 +114,7 @@ public class ZipFileValidator implements Validator<File> {
                 LOG.warn("Caught IO exception processing " + zipFile.getAbsolutePath());
                 if (System.currentTimeMillis() >= clockTimeout) {
                     // error reading zip file
-                    report.error(reportStats, source, BaseMessageCode.BASE_0008, zipFile.getName());
+                    report.error(reportStats, source, BaseMessageCode.BASE_0021, zipFile.getName());
                     LOG.error("Unable to validate " + zipFile.getAbsolutePath(), ex);
                     done = true;
                     return false;

@@ -142,11 +142,11 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             } catch (InvocationTargetException e) {
                 LOG.error("Failed to extract StudentUniqueStateId from attendance entity", e);
                 super.reportError(attendances.values().iterator().next().getSourceFile(), getAggregatedSource(),
-                        CoreMessageCode.CORE_0048, e.toString());
+                        CoreMessageCode.CORE_0056, e.toString());
             } catch (NoSuchMethodException e) {
                 LOG.error("Failed to extract StudentUniqueStateId from attendance entity", e);
                 super.reportError(attendances.values().iterator().next().getSourceFile(), getAggregatedSource(),
-                        CoreMessageCode.CORE_0048, e.toString());
+                        CoreMessageCode.CORE_0057, e.toString());
             }
 
             if (attributes.containsKey(SCHOOL_ID)) {
