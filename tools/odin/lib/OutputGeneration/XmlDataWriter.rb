@@ -31,6 +31,7 @@ require_relative "XML/studentAttendanceGenerator.rb"
 require_relative "XML/studentGradeGenerator.rb"
 require_relative "XML/studentParentGenerator.rb"
 require_relative "XML/studentProgramGenerator.rb"
+require_relative "XML/disciplineGenerator.rb"
 
 # ed-fi xml interchange writer class
 # -> event-driven writing of entities to xml interchanges
@@ -69,6 +70,7 @@ class XmlDataWriter < DataWriter
     @writers << StudentGradeGenerator.new(@yaml, initialize_interchange(directory, "StudentGrades"))
     @writers << StudentParentGenerator.new(@yaml, initialize_interchange(directory, "StudentParent"))
     @writers << StudentProgramGenerator.new(@yaml, initialize_interchange(directory, "StudentProgram"))
+    @writers << DisciplineGenerator.new(@yaml, initialize_interchange(directory, "StudentDiscipline"))
 
     # enable entities to be written
     # -> writes header and starts reporting

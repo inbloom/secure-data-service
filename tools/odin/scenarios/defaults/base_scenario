@@ -140,3 +140,9 @@ STAFF_HAVE_COHORT_ACCESS: true
 
 #parents
 INCLUDE_PARENTS: true
+
+#discipline
+BEHAVIORS: [
+  { short: "Fighting", desc: "Fighting with another student", category: "School Violation" },
+  { short: "Disruption", desc: "Disrupting class", category: "School Code of Conduct" },
+  { short: "Tardiness", desc: "Being late for class", category: "School Violation" }]

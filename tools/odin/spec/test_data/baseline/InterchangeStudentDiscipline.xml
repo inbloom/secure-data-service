@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<InterchangeStudentDiscipline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
+xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentDiscipline.xsd">
+<BehaviorDescriptor>
+  <CodeValue>BE0</CodeValue>
+  <ShortDescription>Fighting</ShortDescription>
+  <Description>Fighting with another student</Description>
+  <BehaviorCategory>School Violation</BehaviorCategory>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</BehaviorDescriptor>
+<BehaviorDescriptor>
+  <CodeValue>BE1</CodeValue>
+  <ShortDescription>Disruption</ShortDescription>
+  <Description>Disrupting class</Description>
+  <BehaviorCategory>School Code of Conduct</BehaviorCategory>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</BehaviorDescriptor>
+<BehaviorDescriptor>
+  <CodeValue>BE2</CodeValue>
+  <ShortDescription>Tardiness</ShortDescription>
+  <Description>Being late for class</Description>
+  <BehaviorCategory>School Violation</BehaviorCategory>
+  <EducationOrganizationReference>
+    <EducationalOrgIdentity>
+      <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+    </EducationalOrgIdentity>
+  </EducationOrganizationReference>
+</BehaviorDescriptor>
+</InterchangeStudentDiscipline>
