@@ -25,7 +25,6 @@ import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.UUID;
 
 import junit.framework.Assert;
@@ -151,10 +150,6 @@ public class ZipFileUtilTest {
             Assert.assertNotNull(ctlIs);
             Assert.assertNotNull(xmlIs);
             Assert.assertNotSame(ctlIs, xmlIs);
-            Assert.assertTrue(zipCopy.delete());
-
-            List<String> lines = IOUtils.readLines(ctlIs);
-            Assert.assertTrue(lines.contains("edfi-xml,StudentParent,InterchangeStudentParent.xml,f27c99e9519a5520bc6e485f1a75ed6b"));
         } finally {
             IOUtils.closeQuietly(ctlIs);
             IOUtils.closeQuietly(xmlIs);
