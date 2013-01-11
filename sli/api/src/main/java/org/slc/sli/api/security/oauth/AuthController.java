@@ -20,33 +20,13 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Response;
 
-import com.sun.jersey.core.util.Base64;
-
 import org.apache.commons.lang3.tuple.Pair;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import org.slc.sli.api.init.RealmInitializer;
 import org.slc.sli.api.representation.OAuthAccessExceptionHandler;
 import org.slc.sli.api.security.OauthSessionManager;
@@ -56,6 +36,25 @@ import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Controller for Discovery Service
@@ -336,6 +335,22 @@ public class AuthController {
             }
         }
         return isExpired;
+    }
+
+    @ExceptionHandler(OAuth2Exception.class)
+    public ModelAndView handleOAuth2Exception(OAuth2Exception e) {
+        return handleSandboxExceptions(e);
+    }
+
+    private ModelAndView handleSandboxExceptions(Exception e) {
+        if(sandboxEnabled) {
+            ModelAndView mav = new ModelAndView("error_403");
+            mav.addObject("errorMessage", "Custom error message");
+            return mav;
+        } else {
+            ModelAndView mav = new ModelAndView("error_500");
+            return mav;
+        }
     }
 
 }
