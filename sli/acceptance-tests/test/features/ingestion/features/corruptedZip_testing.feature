@@ -11,5 +11,5 @@ Scenario: Post a corrupted zip file to verify we report an error
   And a batch job for file "CorruptedZip.zip" is completed in database
   And a batch job log has been created
   And I should see "Processed 0 records." in the resulting batch job file
-  And I should see "ERROR  Could not read .zip archive CorruptedZip.zip." in the resulting error log file
+  And I should see "BASE_0008" in the resulting error log file
 
