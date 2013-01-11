@@ -29,7 +29,7 @@ import org.slc.sli.modeling.uml.TaggedValue;
 /**
  * Intentionally package protected.
  */
-final class Xsd2UmlPluginGeneric extends Xsd2UmlPluginDefault {
+final class Xsd2UmlPluginGeneric extends Xsd2UmlPluginDefault implements Xsd2UmlHostedPlugin {
     
     @Override
     public List<TagDefinition> declareTagDefinitions(final Xsd2UmlPluginHost host) {
@@ -46,9 +46,9 @@ final class Xsd2UmlPluginGeneric extends Xsd2UmlPluginDefault {
     public boolean isAssociationEnd(final ClassType classType, final Attribute attribute, final Xsd2UmlPluginHost host) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
-    public String nameAssociation(final AssociationEnd lhs, final AssociationEnd rhs, final Xsd2UmlPluginHost host) {
+    public String nameAssociation(AssociationEnd lhs, AssociationEnd rhs, Xsd2UmlHostedPlugin host) {
         throw new UnsupportedOperationException();
     }
     

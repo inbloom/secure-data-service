@@ -40,7 +40,7 @@ import static org.mockito.Mockito.when;
 public class Xsd2UmlLinkerTest {
     private Model model;
     //private Xsd2UmlLinker linker;
-    private Xsd2UmlPlugin plugin;
+    private Xsd2UmlHostedPlugin plugin;
 
     private static final String DATATYPE_NAME = "dataTypeName";
     private static final Identifier DATATYPE_ID = Identifier.random();
@@ -67,7 +67,7 @@ public class Xsd2UmlLinkerTest {
         Range range = mock(Range.class);
         when(multiplicity.getRange()).thenReturn(range);
         when(range.getUpper()).thenReturn(Occurs.UNBOUNDED);
-        plugin = mock(Xsd2UmlPlugin.class);
+        plugin = mock(Xsd2UmlHostedPlugin.class);
         List<Attribute> attributeList = new ArrayList<Attribute>();
         attributeList.add(attribute);
         when(mockClass.getId()).thenReturn(Identifier.random());
