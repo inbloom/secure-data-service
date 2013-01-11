@@ -66,10 +66,6 @@ public class UriMutator {
 
     @Resource
     private RootSearchMutator rootSearchMutator;
-    
-    @Autowired
-    @Qualifier("validationRepo")
-    private Repository<Entity> repo;
 
     @Autowired
     @Qualifier("validationRepo")
@@ -101,7 +97,6 @@ public class UriMutator {
      */
     public Pair<String, String> mutate(List<PathSegment> segments, String queryParameters, Entity user) {
         String mutatedParameters = queryParameters;
-<<<<<<< HEAD
         if (mutatedParameters == null) {
             mutatedParameters = "";
         }
@@ -138,57 +133,6 @@ public class UriMutator {
 
             if (!shouldSkipMutationToEnableSearch(segments, mutatedParameters)) {
                 Pair<String, String> mutated;
-=======
-        String[] queries = queryParameters != null ? queryParameters.split("&") : new String[0];
-        Map<String, String> keys = new HashMap<String, String>();
-        String type = "";
-        String field = "";
-        String value = "";
-        String resourceName = "";
-        for (String query : queries) {
-            if (query.matches("(studentUniqueStateId)=.+")) {
-                field = "studentUniqueStateId";
-                type = EntityNames.STUDENT;
-                resourceName = "students";
-
-            } else if (query.matches("(staffUniqueStateId)=.+")) {
-                field = "staffUniqueStateId";
-                type = EntityNames.STAFF;
-                resourceName = "staff";
-
-            } else if (query.matches("(parentUniqueStateId)=.+")) {
-                field = "parentUniqueStateId";
-                type = EntityNames.PARENT;
-                resourceName = "parents";
-
-            } else if (query.matches("(stateOrganizationId)=.+")) {
-                field = "stateOrganizationId";
-                type = EntityNames.EDUCATION_ORGANIZATION;
-                resourceName = "educationOrganizations";
-
-            }
-            if (type.length() != 0) {
-                // Stop iterating after the first.
-                value = query.substring(query.indexOf('=') + 1);
-                break;
-            }
-
-        }
-        if (type.length() != 0) {
-            NeutralQuery query = new NeutralQuery(new NeutralCriteria(field, NeutralCriteria.OPERATOR_EQUAL, value));
-            Entity e = repo.findOne(type, query);
-            if (e != null) {
-                String newPath = String.format("/%s/%s", resourceName, e.getEntityId());
-                info("Rewriting URI to {} based on natural keys", newPath);
-                return Pair.of(newPath, null);
-            }
-        }
-
-        if (segments.size() < 3) {
-
-            if (!shouldSkipMutationToEnableSearch(segments, queryParameters)) {
-                Pair<String, String> mutated = new MutablePair<String, String>();
->>>>>>> 1376bbc... [DE2207] Fixing databrowser search
                 if (segments.size() == 1) {
                     // api/v1
                     mutated = mutateBaseUri(ResourceNames.HOME, mutatedParameters, user);
