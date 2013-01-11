@@ -14,39 +14,39 @@ See the License for the specific language governing permissions and
 limitations under the License.
 }}
 {{#entity}}
-<DisciplineIncident>
-  <IncidentIdentifier>{{incident_identifier}}</IncidentIdentifier>
-  <IncidentDate>{{date}}</IncidentDate>
-  <IncidentTime>{{time}}</IncidentTime>
-  <IncidentLocation>{{location}}</IncidentLocation>
-  {{#reporter_description}}
-  <ReporterDescription>{{reporter_description}}</ReporterDescription>
-  {{/reporter_description}}
-  {{#reporter_name}}
-  <ReporterName>{{reporter_name}}</ReporterName>
-  {{/reporter_name}}
-  {{#behaviors}}
-  <Behaviors>
-    <CodeValue>{{.}}</CodeValue>
-  </Behaviors>
-  {{/behavior}}
-  {{#weapons}}
-  <Weapons>
-    <Weapon>{{.}}</Weapon>
-  </Weapons>
-  {{/weapons}}
-  {{#reported_to_law_enforcement}}
-  <ReportedToLawEnforcement>{{reported_to_law_enformcement}}</ReportedToLawEnforcement>
-  {{/reported_to_law_enformcement}}
-  <SchoolReference>
-    <EducationalOrgIdentity>
-      <StateOrganizationId>{{school_id}}</StateOrganizationId>
-    </EducationalOrgIdentity>
-  </SchoolReference>
-  <StaffReference>
-    <StaffIdentity>
-      <StaffUniqueStateId>{{staff_id}}</StaffUniqueStateId>
-    </StaffIdentity>
-  </StaffReference>
-</DisciplineIncident>
+  <DisciplineIncident>
+    <IncidentIdentifier>{{incident_identifier}}</IncidentIdentifier>
+    <IncidentDate>{{date}}</IncidentDate>
+    <IncidentTime>{{time}}</IncidentTime>
+    <IncidentLocation>{{location}}</IncidentLocation>
+    {{#reporter_description}}
+    <ReporterDescription>{{reporter_description}}</ReporterDescription>
+    {{/reporter_description}}
+    {{#reporter_name}}
+    <ReporterName>{{reporter_name}}</ReporterName>
+    {{/reporter_name}}
+    {{#behaviors}}
+    <Behaviors>
+      <CodeValue>{{.}}</CodeValue>
+    </Behaviors>
+    {{/behaviors}}
+    {{#weapons}}
+    <Weapons>
+      <Weapon>{{.}}</Weapon>
+    </Weapons>
+    {{/weapons}}
+    {{#reported_to_law_enforcement}}
+    <ReportedToLawEnforcement>{{reported_to_law_enformcement}}</ReportedToLawEnforcement>
+    {{/reported_to_law_enforcement}}
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>{{school_id}}</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>{{staff_id}}</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+  </DisciplineIncident>
 {{/entity}}

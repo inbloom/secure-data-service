@@ -18,16 +18,25 @@ limitations under the License.
 
 require_relative 'baseEntity'
 
-# creates an assessment
+# creates an discipline incident
 class DisciplineIncident < BaseEntity
-  attr_accessor :incident_identifier, :date, :location, :behaviors,
+  attr_accessor :incident_identifier, :date, :time, :location, :behaviors,
     :school_id, :staff_id
 
-  def initialize(id, school, staff, date)
-    @incident_identifier = id
-    @date = date
+  def initialize(id, section_id, school, staff, interval, location, behaviors = nil)
+    rand = Random.new(id + section_id * 10)
+    @incident_identifier = DisciplineIncident.gen_id(id, section_id)
+    @date = interval.random_day(rand)
+    eight_hours = 8 * 60 * 60
+    @time = (@date.to_time + eight_hours + rand.rand(eight_hours)).strftime("%H:%M:%S")
     @school_id = school
     @staff_id = staff
+    @location = location
+    @behaviors = behaviors || ["BE#{rand.rand(@@scenario['BEHAVIORS'].count)}"]
+  end
+
+  def self.gen_id(id, section_id)
+    "#{section_id}##{id}"
   end
 
 end

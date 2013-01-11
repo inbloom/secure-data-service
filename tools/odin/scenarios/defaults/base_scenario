@@ -142,6 +142,7 @@ STAFF_HAVE_COHORT_ACCESS: true
 INCLUDE_PARENTS: true
 
 #discipline
+INCIDENTS_PER_SECTION: 2
 BEHAVIORS: [
   { short: "Fighting", desc: "Fighting with another student", category: "School Violation" },
   { short: "Disruption", desc: "Disrupting class", category: "School Code of Conduct" },

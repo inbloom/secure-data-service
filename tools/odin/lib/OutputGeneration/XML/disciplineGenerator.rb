@@ -30,6 +30,7 @@ class DisciplineGenerator < InterchangeGenerator
 
     @header, @footer = build_header_footer( "StudentDiscipline" )
     @writers[ BehaviorDescriptor ] = EntityWriter.new("behavior_descriptor.mustache")
+    @writers[ DisciplineIncident ] = EntityWriter.new("discipline_incident.mustache")
   end
 
 end

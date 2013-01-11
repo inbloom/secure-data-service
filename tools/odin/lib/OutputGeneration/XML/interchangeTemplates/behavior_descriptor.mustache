@@ -14,17 +14,17 @@ See the License for the specific language governing permissions and
 limitations under the License.
 }}
 {{#entity}}
-<BehaviorDescriptor>
-  <CodeValue>{{code}}</CodeValue>
-  <ShortDescription>{{short_description}}</ShortDescription>
-  {{#description}}
-  <Description>{{description}}</Description>
-  {{/description}}
-  <BehaviorCategory>{{category}}</BehaviorCategory>
-  <EducationOrganizationReference>
-    <EducationalOrgIdentity>
-      <StateOrganizationId>{{ed_org_id}}</StateOrganizationId>
-    </EducationalOrgIdentity>
-  </EducationOrganizationReference>
-</BehaviorDescriptor>
+  <BehaviorDescriptor>
+    <CodeValue>{{code}}</CodeValue>
+    <ShortDescription>{{short_description}}</ShortDescription>
+    {{#description}}
+    <Description>{{description}}</Description>
+    {{/description}}
+    <BehaviorCategory>{{category}}</BehaviorCategory>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>{{ed_org_id}}</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </BehaviorDescriptor>
 {{/entity}}
