@@ -310,7 +310,7 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName               | count   |
      | attendance                   |   0     |
   And I should see "Processed 5 records." in the resulting batch job file
-  And I should see "attendance events are not processed, because they are not within any school year" in the resulting warning log file for "StudentAttendanceEvents.xml"
+  And I should see "CORE_0028" in the resulting warning log file for "StudentAttendanceEvents.xml"
   And I should see "Element:line-4,column-21" in the resulting warning log file for "StudentAttendanceEvents.xml"
   And I should see "Element:line-16,column-21" in the resulting warning log file for "StudentAttendanceEvents.xml"
 
