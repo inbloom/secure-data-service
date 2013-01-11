@@ -80,7 +80,7 @@ public class OfflineTool {
             }
             if (file.isDirectory()) {
                 messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0013);
-                messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0012, appName);
+                messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0016, appName);
                 return;
             }
         }
