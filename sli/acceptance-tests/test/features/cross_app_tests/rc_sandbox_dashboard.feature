@@ -32,7 +32,7 @@ Scenario: All-in-one scenario
 	When I select section "8th Grade English - Sec 6"
 	And I view its section profile
 	Then I see a list of 28 students
-	When I enter "rudolph" into the "firstName" search box
+	When I enter "rudolph" into the student search box
 	And I click the search button
 	And I select school "Daybreak Central High"
 	And I search by clicking on the go button
@@ -167,7 +167,7 @@ Scenario: All-in-one scenario
 	And I select course "American Literature"
 	And I select section "Sec 145"
 	Then I see a list of 25 students
-	When I enter "Matt" into the "firstName" search box
+	When I enter "Matt" into the student search box
 	And I click the search button
 	When I look in the school drop-down
 	Then I see these values in the drop-down: "Daybreak Central High;East Daybreak Junior High;South Daybreak Elementary"
