@@ -78,10 +78,11 @@ When /^I GET a list of realms$/ do
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
-Then /^I should see a list of valid realm objects$/ do
+Then /^I should see a list of "([^"]*)" valid realm objects$/ do |number|
   assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
+  assert(result.size == number.to_i)
 
   result.each do |item|
     assert(item["idp"] != nil, "Realm "+item["tenantId"]+" URL was not found.")
@@ -144,11 +145,11 @@ When /^I POST a new custom role document with (realm "[^"]*")$/ do |realm|
   assert(@res != nil, "Response from rest-client POST is nil")
 end
 
-When /^I POST another new realm$/ do
+When /^I POST another new realm called "([^"]*)"$/ do |name|
   data = DataProvider.getValidRealmData()
-  data["idp"]["id"] = "MyOtherIdp"
-  data["uniqueIdentifier"] = "shizzle"
-  data["name"] = "wiggity"
+  data["idp"]["id"] = "https://fake.path.org/#{name}"
+  data["uniqueIdentifier"] = "#{name}_4shizzle"
+  data["name"] = name
   data["edOrg"] = "NC-KRYPTON"
   dataFormatted = prepareData("application/json", data)
   restHttpPost("/realm", dataFormatted, "application/json")

@@ -8,7 +8,7 @@ Scenario: Read a list of realms
   Given I am logged in using "sunsetrealmadmin" "sunsetrealmadmin1234" to realm "SLI"
   When I GET a list of realms
   Then I should receive a return code of 200
-  And I should see a list of valid realm objects
+  And I should see a list of "1" valid realm objects
   And I should only see the realm "IL-Sunset"
 
 Scenario: Read an existing realm
@@ -20,23 +20,29 @@ And I should see a valid object returned
 
 Scenario: Update an existing realm
 
-	Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
-	When I PUT to change the realm "Fake Realm" to change field "name" to "Endless"
-	Then I should receive a return code of 204
+Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
+When I PUT to change the realm "Fake Realm" to change field "name" to "Endless"
+Then I should receive a return code of 204
+
+Scenario: Deny altering or deletion of realm not yours
+
+Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
+When I DELETE the realm "Another Fake Realm"
+Then I should receive a return code of 403
+When I PUT to change the realm "Another Fake Realm" to change field "name" to "Endless"
+Then I should receive a return code of 403
 
 Scenario: Delete an existing realm
 
-	Given I am logged in using "anotherfakerealmadmin" "anotherfakerealmadmin1234" to realm "SLI"
-	When I DELETE the realm "Another Fake Realm"
-	Then I should receive a return code of 204
-	
+Given I am logged in using "anotherfakerealmadmin" "anotherfakerealmadmin1234" to realm "SLI"
+When I DELETE the realm "Another Fake Realm"
+Then I should receive a return code of 204
+  
 Scenario: Create a new realm
-
   Given I am logged in using "anotherfakerealmadmin" "anotherfakerealmadmin1234" to realm "SLI"
   When I POST a new realm
   Then I should receive a return code of 201
-     And I should receive a new ID for my new realm
-
+  And I should receive a new ID for my new realm
 
 Scenario: Deny creation of a new custom role doc when one already exists for this realm/tenant
   Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
@@ -57,24 +63,21 @@ Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
 Scenario: Create a custom role doc
   Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
   When I POST a new custom role document with realm "Fake Realm"
-    Then I should receive a return code of 201
-     And I should receive a new ID for my new custom role doc
+  Then I should receive a return code of 201
+   And I should receive a new ID for my new custom role doc
      
 Scenario: Create another new realm
+Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
+When I POST another new realm called "Chicken"
+Then I should receive a return code of 201
+And I should receive a new ID for my new realm
+When I POST another new realm called "Waffles"
+Then I should receive a return code of 201
+And I should receive a new ID for my new realm
+When I GET a list of realms
+Then I should receive a return code of 200
+And I should see a list of "3" valid realm objects
 
-  Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
-  When I POST another new realm
-  Then I should receive a return code of 201
-     And I should receive a new ID for my new realm
-
-@wip
-Scenario: Create a custom role doc for my second realm
-  Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
-  When I POST a new custom role document with for my new realm
-    Then I should receive a return code of 201
-     And I should receive a new ID for my new custom role doc
-
-		
 Scenario: Deny the same role being listed in two different groups
 
   Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
@@ -83,22 +86,19 @@ Scenario: Deny the same role being listed in two different groups
   When I add a role "Foo" in group "Leader"
   Then I should receive a return code of 400
 
-
 Scenario: Deny the same role being listed twice in one group
   Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
   When I add a role "Bar" in group "Educator"
   Then I should receive a return code of 204
   When I add a role "Bar" in group "Educator"
   Then I should receive a return code of 400
-
-	
+  
 Scenario: Deny a right being listed twice in one group
   Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
   When I add a right "WRITE_GENERAL" in group "Educator"
   Then I should receive a return code of 204
   When I add a right "WRITE_GENERAL" in group "Educator"
   Then I should receive a return code of 400
-
 
 Scenario: Deny creating a new role with a realm I do not have access to
   Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
