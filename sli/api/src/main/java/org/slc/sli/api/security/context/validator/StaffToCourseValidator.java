@@ -16,20 +16,21 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.springframework.stereotype.Component;
-
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+
 /**
  * Resolves which course(s) any given staff can access.
- * 
- * @author kmyers
  *
+ * @author kmyers
  */
 @Component
 public class StaffToCourseValidator extends AbstractContextValidator {
@@ -38,17 +39,18 @@ public class StaffToCourseValidator extends AbstractContextValidator {
     public boolean canValidate(String entityType, boolean isTransitive) {
         return EntityNames.COURSE.equals(entityType) && isStaff();
     }
-    
+
     @Override
     public boolean validate(String entityType, Set<String> ids) {
         if (!areParametersValid(EntityNames.COURSE, entityType, ids)) {
             return false;
         }
-        
+
         Set<String> lineage = this.getStaffEdOrgLineage();
-        
-        NeutralQuery nq = new NeutralQuery(new NeutralCriteria("_id", "in", ids));
-        nq.addCriteria(new NeutralCriteria("schoolId", NeutralCriteria.CRITERIA_IN, lineage));
+        lineage.addAll(this.getStaffEdOrgParents());
+
+        NeutralQuery nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN, ids));
+        nq.addCriteria(new NeutralCriteria(ParameterConstants.SCHOOL_ID, NeutralCriteria.CRITERIA_IN, lineage));
         Iterable<Entity> entities = getRepo().findAll(EntityNames.COURSE, nq);
 
         Set<String> validIds = new HashSet<String>();
@@ -57,6 +59,5 @@ public class StaffToCourseValidator extends AbstractContextValidator {
         }
 
         return validIds.containsAll(ids);
-
     }
 }

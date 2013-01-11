@@ -141,10 +141,10 @@ public class CustomRoleResource {
 
         NeutralQuery customRoleQuery = new NeutralQuery();
         customRoleQuery.addCriteria(new NeutralCriteria("realmId", NeutralCriteria.CRITERIA_IN, realmsToQuery));
-        
-        Entity customRole = repo.findOne("customRole", customRoleQuery);
-        if (customRole != null) {
-            EntityBody result = service.get(customRole.getEntityId());
+
+        Iterable<String> customRoles = repo.findAllIds("customRole", customRoleQuery);
+        for (String id : customRoles) {
+            EntityBody result = service.get(id);
             results.add(result);
         }
         return Response.ok(results).build();
