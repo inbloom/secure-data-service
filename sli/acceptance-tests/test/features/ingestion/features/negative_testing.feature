@@ -18,7 +18,7 @@ Scenario: Post an empty zip file should fail
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job for file "emptyFile.zip" is completed in database
-  And I should see "File student.xml: Empty file" in the resulting error log file
+  And I should see "BASE_0015" in the resulting error log file
   And I should see "Processed 0 records." in the resulting batch job file
   And I should see "student.xml records considered: 0" in the resulting batch job file
   And I should see "student.xml records ingested successfully: 0" in the resulting batch job file
@@ -32,13 +32,7 @@ Scenario: Post a zip file where the first record has an incorrect enum for an at
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job for file "valueTypeNotMatchAttributeType.zip" is completed in database
-  And I should see "There has been a data validation error when saving an entity" in the resulting error log file
-  And I should see "     Error      ENUMERATION_MISMATCH" in the resulting error log file
-  And I should see "     Entity     student" in the resulting error log file
-  And I should see "     Instance   1" in the resulting error log file
-  And I should see "     Field      sex" in the resulting error log file
-  And I should see "     Value      Boy" in the resulting error log file
-  And I should see "     Expected   ['Female', 'Male']" in the resulting error log file
+  And I should see "CORE_0006" in the resulting error log file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
   And I should see "student.xml records considered: 2" in the resulting batch job file
   And I should see "student.xml records ingested successfully: 1" in the resulting batch job file
@@ -52,10 +46,7 @@ Scenario: Post a zip file where the first record has a bad attribute should fail
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job for file "firstRecordHasIncorrectAttribute.zip" is completed in database
-  And I should see "An entity is missing one or more required natural key fields" in the resulting error log file
-  And I should see "     Entity     student" in the resulting error log file
-  And I should see "     Instance   1" in the resulting error log file
-  And I should see "     Field      studentUniqueStateId" in the resulting error log file
+  And I should see "CORE_0010" in the resulting error log file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
   And I should see "Processed 2 records." in the resulting batch job file
   And I should see "student.xml records considered: 2" in the resulting batch job file
@@ -71,10 +62,7 @@ Scenario: Post a zip file where the second record has a bad attribute should fai
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job for file "secondRecordHasIncorrectAttribute.zip" is completed in database
-  And I should see "An entity is missing one or more required natural key fields" in the resulting error log file
-  And I should see "     Entity     student" in the resulting error log file
-  And I should see "     Instance   2" in the resulting error log file
-  And I should see "     Field      studentUniqueStateId" in the resulting error log file
+  And I should see "CORE_0010" in the resulting error log file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
   And I should see "Processed 2 records." in the resulting batch job file
   And I should see "student.xml records considered: 2" in the resulting batch job file
@@ -90,13 +78,7 @@ Scenario: Post a zip file where the first record has an undefined attribute shou
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job for file "firstRecordHasMoreAttributes.zip" is completed in database
-  And I should see "There has been a data validation error when saving an entity" in the resulting error log file
-  And I should see "     Error      REQUIRED_FIELD_MISSING" in the resulting error log file
-  And I should see "     Entity     student" in the resulting error log file
-  And I should see "     Instance   1" in the resulting error log file
-  And I should see "     Field      firstName" in the resulting error log file
-  And I should see "     Value      " in the resulting error log file
-  And I should see "     Expected   [STRING]" in the resulting error log file
+  And I should see "CORE_0006" in the resulting error log file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
   And I should see "Processed 2 records." in the resulting batch job file
   And I should see "student.xml records considered: 2" in the resulting batch job file
@@ -112,13 +94,7 @@ Scenario: Post a zip file where the first record has a missing attribute should 
   When zip file is scp to ingestion landing zone
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job for file "firstRecordMissingAttribute.zip" is completed in database
-  And I should see "There has been a data validation error when saving an entity" in the resulting error log file
-  And I should see "       Error      REQUIRED_FIELD_MISSING" in the resulting error log file
-  And I should see "       Entity     student" in the resulting error log file
-  And I should see "       Instance   1" in the resulting error log file
-  And I should see "       Field      firstName" in the resulting error log file
-  And I should see "       Value      " in the resulting error log file
-  And I should see "       Expected   [STRING]" in the resulting error log file
+  And I should see "CORE_0006" in the resulting error log file
   And I should see "Not all records were processed completely due to errors." in the resulting batch job file
   And I should see "Processed 2 records." in the resulting batch job file
   And I should see "student.xml records considered: 2" in the resulting batch job file
@@ -184,7 +160,7 @@ When zip file is scp to ingestion landing zone
      | collectionName              | count |
 	| error                       | 1     |
     And I should see "INFO  Processed 0 records." in the resulting batch job file
-    And I should see "No valid files specified in control file." in the resulting error log file
+    And I should see "BASE_0002" in the resulting error log file
 
 
 Scenario: Post a Zip File containing a control file with directory pathnames
@@ -200,7 +176,7 @@ Then I should see following map of entry counts in the corresponding collections
         | collectionName                          | count     |
         | session                                 | 0         |
         | student                                 | 0         |
-Then I should see "File ./InterchangeEducationOrganization.xml: File name contains path." in the resulting error log file
+Then I should see "BASE_0004" in the resulting error log file
   And I should see "Processed 0 records." in the resulting batch job file
 
 
@@ -217,7 +193,7 @@ Then I should see following map of entry counts in the corresponding collections
         | collectionName                          | count     |
         | session                                 | 0         |
         | student                                 | 0         |
-Then I should see ".zip archive ZipContainsSubfolder.zip contains a directory." in the resulting error log file
+Then I should see "BASE_0010" in the resulting error log file
   And I should see "Processed 0 records." in the resulting batch job file
 
 
@@ -232,7 +208,7 @@ Scenario: Post a Zip File containing a control file with invalid record type
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName                          | count     |
         | student                                 | 0         |
-Then I should see "File Students.xml: unknown or empty file format specified" in the resulting error log file
+Then I should see "BASE_0005" in the resulting error log file
   And I should see "Processed 0 records." in the resulting batch job file
 
 Scenario: Post a Zip File containing a control file with extra file item entry
@@ -246,7 +222,7 @@ Scenario: Post a Zip File containing a control file with extra file item entry
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName                          | count     |
         | student                                 | 0         |
-Then I should see "File MissingXmlFile.xml: Specified file is missing" in the resulting error log file
+Then I should see "BASE_0001" in the resulting error log file
   And I should see "Processed 0 records." in the resulting batch job file
 
 Scenario: Post a Zip File containing a control file with checksum error
@@ -260,7 +236,7 @@ Scenario: Post a Zip File containing a control file with checksum error
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName                          | count     |
         | student                                 | 0         |
-Then I should see "File Session2.xml: Checksum validation failed. Possible file corruption." in the resulting error log file
+Then I should see "BASE_0006" in the resulting error log file
   And I should see "Processed 0 records." in the resulting batch job file
 
 Scenario: Post a zip file with bad control file
@@ -277,8 +253,8 @@ Scenario: Post an zip file where the control file has extra properties
         | session                     |
   When zip file is scp to ingestion landing zone
   And a batch job for file "ControlFileHasExtraProperty.zip" is completed in database
-  And I should see "ERROR  BASE_0016:" in the resulting error log file
-  And I should see "ERROR  CORE_0003:" in the resulting error log file
+  And I should see "BASE_0016:" in the resulting error log file
+  And I should see "CORE_0003:" in the resulting error log file
   And I should see "Processed 0 records." in the resulting batch job file
 
 Scenario: Post a zip file containing error CalendarDate with ID References job: Clean Database
@@ -306,7 +282,7 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName               | count   |
      | session                      |  10     |
   And I should see "Processed 29 records." in the resulting batch job file
-  And I should see "Failed to resolve a deterministic id" in the resulting error log file for "InterchangeEducationOrgCalendar.xml"
+  And I should see "CORE_0009" in the resulting error log file for "InterchangeEducationOrgCalendar.xml"
 
 Scenario: Post a zip file containing attendance but no session data: Clean Database
 Given I post "Error_Report2.zip" file as the payload of the ingestion job
