@@ -46,7 +46,7 @@ public class FileTypeValidator implements Validator<FileEntryDescriptor> {
         FileType fileType = entry.getFileType();
 
         if (fileType == null) {
-            report.error(reportStats, source, BaseMessageCode.BASE_0005, entry.getFileName(), "type");
+            report.error(reportStats, source, BaseMessageCode.BASE_0018, entry.getFileName(), "type");
 
             return false;
         }

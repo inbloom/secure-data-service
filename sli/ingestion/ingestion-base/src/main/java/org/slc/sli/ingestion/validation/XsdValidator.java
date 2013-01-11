@@ -75,10 +75,10 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
 
         } catch (FileNotFoundException e) {
             LOG.error("File not found: " + ingestionFileEntry.getFileName(), e);
-            report.error(reportStats, source, BaseMessageCode.BASE_0013, ingestionFileEntry.getFileName());
+            report.error(reportStats, source, BaseMessageCode.BASE_0023, ingestionFileEntry.getFileName());
         } catch (IOException e) {
             LOG.error("Problem reading file: " + ingestionFileEntry.getFileName(), e);
-            report.error(reportStats, source, BaseMessageCode.BASE_0014, ingestionFileEntry.getFileName());
+            report.error(reportStats, source, BaseMessageCode.BASE_0024, ingestionFileEntry.getFileName());
         } catch (SAXException e) {
             LOG.error("SAXException");
         } catch (Exception e) {
