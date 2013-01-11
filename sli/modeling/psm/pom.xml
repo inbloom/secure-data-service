@@ -43,17 +43,5 @@
 			<version>1.0.1</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.slc.sli.modeling</groupId>
-			<artifactId>uml</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slc.sli.modeling</groupId>
-			<artifactId>xml</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slc.sli.modeling</groupId>
-			<artifactId>xmi</artifactId>
-		</dependency>
 	</dependencies>
 </project>

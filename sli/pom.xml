@@ -307,13 +307,7 @@
 
       <dependency>
         <groupId>org.slc.sli.modeling</groupId>
-        <artifactId>xmigen</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.slc.sli.modeling</groupId>
-        <artifactId>xsdgen</artifactId>
+        <artifactId>tools</artifactId>
         <version>${project.version}</version>
       </dependency>
 
