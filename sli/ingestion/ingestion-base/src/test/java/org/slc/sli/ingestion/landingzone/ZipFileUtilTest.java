@@ -135,7 +135,7 @@ public class ZipFileUtilTest {
         }
     }
 
-//    @Test
+    @Test
     public void testFileInputStreamZip() throws IOException {
         File zipFile = new File(ZIP_FILE_DIR, ZIP_FILE_WITH_NO_DIRS_NAME);
         File zipCopy = File.createTempFile(UUID.randomUUID().toString(), ".zip");
