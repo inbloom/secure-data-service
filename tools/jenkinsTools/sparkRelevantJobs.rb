@@ -9,7 +9,7 @@ require 'rest-client'
 @token = ""
 
 @pathToTestMap = {
-  "sli/api/" => ["api", "search-indexer", "jmeter"],
+  "sli/api/" => ["api", "search-indexer", "jmeter", "admin"],
   "sli/simple-idp" => ["api", "admin"],
   "sli/acceptance-tests/test/features/api" => ["api"],
   "sli/acceptance-tests/test/features/simple_idp" => ["api"],
