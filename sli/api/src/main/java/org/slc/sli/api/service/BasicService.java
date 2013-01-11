@@ -21,10 +21,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
@@ -763,11 +765,20 @@ public class BasicService implements EntityService {
                 Object value = entry.getValue();
 
                 String fieldPath = prefix + fieldName;
-                Right neededRight = getNeededRight(fieldPath);
+                Set<Right> neededRights = getNeededRights(fieldPath);
 
                 SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
                         .getPrincipal();
-                if (!auths.contains(neededRight) && !principal.getEntity().getEntityId().equals(eb.get("id"))) {
+                
+                boolean foundValidRight = false;
+                for (Right right : neededRights) {
+                    if (auths.contains(right)) {
+                        foundValidRight = true;
+                        break;
+                    }
+                }
+
+                if (!foundValidRight && !principal.getEntity().getEntityId().equals(eb.get("id"))) {
                     toRemove.add(fieldName);
                 } else if (value instanceof Map) {
                     filterFields((Map<String, Object>) value, prefix + "." + fieldName + ".");
@@ -787,20 +798,20 @@ public class BasicService implements EntityService {
      *            The field name
      * @return
      */
-    protected Right getNeededRight(String fieldPath) {
-        Right neededRight = provider.getRequiredReadLevel(defn.getType(), fieldPath);
+    protected Set<Right> getNeededRights(String fieldPath) {
+        Set<Right> neededRights = provider.getRequiredReadLevels(defn.getType(), fieldPath);
 
         if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
-            neededRight = Right.ADMIN_ACCESS;
+            neededRights = new HashSet<Right>(Arrays.asList(Right.ADMIN_ACCESS));
         }
 
         if (PUBLIC_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
-            if (Right.READ_GENERAL.equals(neededRight)) {
-                neededRight = Right.READ_PUBLIC;
+            if (neededRights.contains(Right.READ_GENERAL)) {
+                neededRights = new HashSet<Right>(Arrays.asList(Right.READ_PUBLIC));
             }
         }
 
-        return neededRight;
+        return neededRights;
     }
 
     /**
@@ -819,9 +830,15 @@ public class BasicService implements EntityService {
             if (!auths.contains(Right.FULL_ACCESS) && !auths.contains(Right.ANONYMOUS_ACCESS)) {
                 for (NeutralCriteria criteria : query.getCriteria()) {
                     // get the needed right for the field
-                    Right neededRight = getNeededRight(criteria.getKey());
-
-                    if (!auths.contains(neededRight)) {
+                    Set<Right> neededRights = getNeededRights(criteria.getKey());
+                    boolean foundValidRight = false;
+                    for (Right right : neededRights) {
+                        if (auths.contains(right)) {
+                            foundValidRight = true;
+                            break;
+                        }
+                    }
+                    if (!foundValidRight) {
                         throw new QueryParseException("Cannot search on restricted field", criteria.getKey());
                     }
                 }
@@ -851,10 +868,10 @@ public class BasicService implements EntityService {
                     filterFields((Map<String, Object>) value, prefix + "." + fieldName + ".");
                 } else {
                     String fieldPath = prefix + fieldName;
-                    Right neededRight = provider.getRequiredWriteLevel(defn.getType(), fieldPath);
-                    debug("Field {} requires {}", fieldPath, neededRight);
+                    Set<Right> neededRights = provider.getRequiredWriteLevels(defn.getType(), fieldPath);
+                    debug("Field {} requires {}", fieldPath, neededRights);
 
-                    if (neededRight == Right.WRITE_RESTRICTED) {
+                    if (neededRights.contains(Right.WRITE_RESTRICTED)) {
                         toReturn = Right.WRITE_RESTRICTED;
                         break;
                     }

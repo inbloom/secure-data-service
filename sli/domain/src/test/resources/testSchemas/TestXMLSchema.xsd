@@ -245,7 +245,7 @@
 	<xs:complexType name="TestSecurityComplex">
 		<xs:annotation>
 			<xs:appinfo>
-				<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+				<sli:ReadEnforcement><sli:allowedBy>READ_RESTRICTED</sli:allowedBy></sli:ReadEnforcement>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>

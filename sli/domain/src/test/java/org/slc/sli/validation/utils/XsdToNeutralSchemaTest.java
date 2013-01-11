@@ -252,13 +252,13 @@ public class XsdToNeutralSchemaTest {
         simpleDoc = repo.getSchema("TestSecuritySimple");
         assertNotNull(simpleDoc);
         appInfo = simpleDoc.getAppInfo();
-        assertNotNull(appInfo.getReadAuthority());
-        assertTrue(appInfo.getReadAuthority() == Right.ADMIN_ACCESS);
+        assertNotNull(appInfo.getReadAuthorities());
+        assertTrue(appInfo.getReadAuthorities().contains(Right.ADMIN_ACCESS));
 
         complexDoc = repo.getSchema("TestSecurityComplex");
         assertNotNull(complexDoc);
         appInfo = complexDoc.getAppInfo();
-        assertTrue(appInfo.getReadAuthority() == Right.READ_RESTRICTED);
+        assertTrue(appInfo.getReadAuthorities().contains(Right.READ_RESTRICTED));
 
         // attributes with more restrictive rights should maintain those rights.
         fields = complexDoc.getFields();
@@ -267,10 +267,10 @@ public class XsdToNeutralSchemaTest {
             appInfo = entry.getValue().getAppInfo();
 
             if (entry.getKey().equals("security")) {
-                assertTrue(appInfo.getReadAuthority() == Right.ADMIN_ACCESS);
+                assertTrue(appInfo.getReadAuthorities().contains(Right.ADMIN_ACCESS));
 
             } else {
-                assertTrue(appInfo.getReadAuthority() == Right.READ_RESTRICTED);
+                assertTrue(appInfo.getReadAuthorities().contains(Right.READ_RESTRICTED));
             }
         }
     }

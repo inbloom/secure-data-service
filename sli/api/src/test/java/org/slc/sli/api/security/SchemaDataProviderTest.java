@@ -52,19 +52,19 @@ public class SchemaDataProviderTest {
 
     @Test
     public void testGeneral() {
-        Assert.assertEquals(Right.READ_GENERAL, provider.getRequiredReadLevel(ENTITY_TYPE, "studentUniqueStateId"));
-        Assert.assertEquals(Right.WRITE_GENERAL, provider.getRequiredWriteLevel(ENTITY_TYPE, "studentUniqueStateId"));
+        Assert.assertTrue(provider.getRequiredReadLevels(ENTITY_TYPE, "studentUniqueStateId").contains(Right.READ_GENERAL));
+        Assert.assertTrue(provider.getRequiredWriteLevels(ENTITY_TYPE, "studentUniqueStateId").contains(Right.WRITE_GENERAL));
     }
 
     @Test
     public void testRestricted() {
-        Assert.assertEquals(Right.READ_RESTRICTED, provider.getRequiredReadLevel(ENTITY_TYPE, RESTRICTED_FIELD));
-        Assert.assertEquals(Right.WRITE_RESTRICTED, provider.getRequiredWriteLevel(ENTITY_TYPE, RESTRICTED_FIELD));
+        Assert.assertTrue(provider.getRequiredReadLevels(ENTITY_TYPE, RESTRICTED_FIELD).contains(Right.READ_RESTRICTED));
+        Assert.assertTrue(provider.getRequiredWriteLevels(ENTITY_TYPE, RESTRICTED_FIELD).contains(Right.WRITE_RESTRICTED));
     }
 
     @Test
     public void testDeepTraversal() {
-        Assert.assertEquals(Right.READ_GENERAL, provider.getRequiredReadLevel(ENTITY_TYPE, "name.firstName"));
+        Assert.assertTrue(provider.getRequiredReadLevels(ENTITY_TYPE, "name.firstName").contains(Right.READ_GENERAL));
     }
 
     @Test
