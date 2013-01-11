@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<documents xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="../../../../psm/src/test/resources/documents.xsd">
+	<document name="Academic Honor">
+		<class name="AcademicHonor"></class>
+		<graph>academicHonors</graph>
+		<singular>academicHonor</singular>
+	</document>
+</documents>

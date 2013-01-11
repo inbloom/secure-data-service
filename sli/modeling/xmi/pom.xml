@@ -43,13 +43,30 @@
 			<version>1.0.1</version>
 		</dependency>
 
+        <dependency>
+            <groupId>net.sf.jopt-simple</groupId>
+            <artifactId>jopt-simple</artifactId>
+            <version>4.3</version>
+        </dependency>
+
 		<dependency>
 			<groupId>org.slc.sli.modeling</groupId>
 			<artifactId>uml</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.slc.sli.modeling</groupId>
 			<artifactId>xml</artifactId>
 		</dependency>
+
+        <dependency>
+            <groupId>org.slc.sli.modeling</groupId>
+            <artifactId>xsd</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slc.sli.modeling</groupId>
+            <artifactId>psm</artifactId>
+        </dependency>
 	</dependencies>
 </project>

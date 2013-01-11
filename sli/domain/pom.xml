@@ -29,13 +29,9 @@
         </dependency>
 
         <dependency>
-            <groupId>org.slc.sli.modeling</groupId>
-            <artifactId>xmigen</artifactId>
-        </dependency>
-
-        <dependency>
           <groupId>org.slc.sli.modeling</groupId>
-          <artifactId>xsdgen</artifactId>
+          <artifactId>tools</artifactId>
+          <version>${project.version}</version>
         </dependency>
 
         <!--  Apache Commons IO Dependency -->
@@ -119,7 +115,7 @@
                         </goals>
                         <phase>generate-resources</phase>
                         <configuration>
-                            <mainClass>org.slc.sli.modeling.xmigen.XmiGen</mainClass>
+                            <mainClass>org.slc.sli.modeling.tools.xmigen.XmiGen</mainClass>
                             <arguments>
                                 <argument>--xsdFile</argument>
                                 <argument>${sli.home}/domain/src/main/resources/sliXsd/SLI.xsd</argument>
@@ -128,7 +124,7 @@
                                 <argument>--xmiFolder</argument>
                                 <argument>${sli.home}/domain/src/main/resources/sliModel</argument>
                                 <argument>--plugInName</argument>
-                                <argument>org.slc.sli.modeling.xmigen.Xsd2UmlPluginForSLI</argument>
+                                <argument>org.slc.sli.modeling.tools.xmigen.Xsd2UmlPluginForSLI</argument>
                             </arguments>
                         </configuration>
                     </execution>
@@ -137,12 +133,12 @@
                       <goals><goal>java</goal></goals>
                       <phase>generate-resources</phase>
                       <configuration>
-                        <mainClass>org.slc.sli.modeling.xsdgen.XsdGen</mainClass>
+                        <mainClass>org.slc.sli.modeling.tools.xsdgen.XsdGen</mainClass>
                         <arguments>
                           <argument>--outFolder</argument>
                           <argument>${sli.home}/domain/src/main/resources/sliModel</argument>
                           <argument>--plugInName</argument>
-                          <argument>org.slc.sli.modeling.xsdgen.PluginForREST</argument>
+                          <argument>org.slc.sli.modeling.tools.xsdgen.PluginForREST</argument>
                           <argument>--xmiFile</argument>
                           <argument>${sli.home}/domain/src/main/resources/sliModel/SLI.xmi</argument>
                           <argument>--documentFile</argument>
