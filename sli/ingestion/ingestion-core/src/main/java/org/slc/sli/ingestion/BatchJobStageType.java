@@ -25,6 +25,7 @@ package org.slc.sli.ingestion;
  */
 public enum BatchJobStageType {
 
+    LANDING_ZONE_PROCESSOR("LandingZoneProcessor"),
     ZIP_FILE_PROCESSOR("ZipFileProcessor"),
     CONTROL_FILE_PREPROCESSOR("ControlFilePreProcessor"),
     CONTROL_FILE_PROCESSOR("ControlFileProcessor"),

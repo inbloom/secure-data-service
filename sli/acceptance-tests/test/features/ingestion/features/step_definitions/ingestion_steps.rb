@@ -534,7 +534,11 @@ def processPayloadFile(file_name)
   new_ctl_file.close
   FileUtils.mv zip_dir + ctl_template + "-tmp", zip_dir + ctl_template
 
-  runShellCommand("zip -j #{@local_file_store_path}#{file_name} #{zip_dir}/*")
+  if ctl_template == "UnzippedControlFile.ctl"
+    FileUtils.cp_r zip_dir + '/.', @local_file_store_path
+  else
+    runShellCommand("zip -j #{@local_file_store_path}#{file_name} #{zip_dir}/*")
+  end
   FileUtils.rm_r zip_dir
 
   return file_name
@@ -1341,6 +1345,11 @@ def scpFileToParallelLandingZone(lz, filename)
   runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path} #{ACTIVEMQ_HOST}")
 
   assert(true, "File Not Uploaded")
+end
+
+When /^ctl file is scp to ingestion landing zone$/ do
+  puts "Copying ctl file at #{Time.now}"
+  scpFileToLandingZone @source_file_name
 end
 
 When /^zip file is scp to ingestion landing zone with name "([^"]*)"$/ do |dest_file_name|
