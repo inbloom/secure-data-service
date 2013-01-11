@@ -17,6 +17,5 @@ Then I should see following map of entry counts in the corresponding collections
         | collectionName                          | count     |
         | student                                 | 0         |
 
-Then I should see "ERROR  File InterchangeEducationOrganization.xml: Checksum validation failed." in the resulting error log file
-Then I should see "ERROR  File Session2.xml: Checksum validation failed. Possible file corruption." in the resulting error log file
+Then I should see "BASE_0006" in the resulting error log file
   And I should see "Processed 0 records." in the resulting batch job file
