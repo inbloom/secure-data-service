@@ -89,9 +89,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Autowired
     private TransformationProcessor transformationProcessor;
 
-/*    @Autowired
-    private ConcurrentXmlFileProcessor concurrentXmlFileProcessor;*/
-
     @Autowired
     private OrchestraPreProcessor orchestraPreProcessor;
 
@@ -238,35 +235,36 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
         // routeId: lzDropFile
         from(landingZoneQueueUri).routeId("lzDropFile")
-            .log(LoggingLevel.INFO, "CamelRouting", "Landing Zone message detected.").process(landingZoneProcessor)
-            .choice().when(header(HAS_ERRORS).isEqualTo(true))
-                .to("direct:stop")
-            .otherwise()
-                .to("direct:processLzFile");
+            .log(LoggingLevel.INFO, "CamelRouting", "Landing Zone message detected. Routing to LandingZoneProcessor.")
+            .to("direct:processLandingZone");
 
-        // routeId: processLzFile
-        from("direct:processLzFile").routeId("processLzFile").log(LoggingLevel.INFO, "CamelRouting", "Landing Zone is valid.")
-            .choice().when(header("filePath").endsWith(".ctl"))
-                .log(LoggingLevel.INFO, "CamelRouting", "Control file detected. Routing to ControlFilePreProcessor.")
-                .process(controlFilePreProcessor)
-                .choice().when(header(HAS_ERRORS).isEqualTo(true))
-                    .to("direct:stop")
-                .otherwise()
-                    .to(workItemQueueUri).endChoice()
-            .when(header("filePath").endsWith(".zip"))
-                .log(LoggingLevel.INFO, "CamelRouting", "Zip file detected. Routing to ZipFileProcessor.")
-                .process(zipFileProcessor)
-                .choice().when(header(HAS_ERRORS).isEqualTo(true))
-                    .to("direct:stop")
-                .otherwise()
-                    .log(LoggingLevel.INFO, "CamelRouting", "No errors in zip file. Routing to ControlFilePreProcessor.")
-                    .process(controlFilePreProcessor)
-                        .choice().when(header(HAS_ERRORS).isEqualTo(true))
-                            .to("direct:stop")
-                        .otherwise()
-                            .to(workItemQueueUri).endChoice().endChoice()
+        // routeId: processLandingZone
+        from("direct:processLandingZone").routeId("processLandingZone")
+            .process(landingZoneProcessor)
+            .choice().when(header(HAS_ERRORS).isEqualTo(true))
+                .log(LoggingLevel.WARN, "CamelRouting", "Invalid landing zone detected.").to("direct:stop")
             .otherwise()
-                .log(LoggingLevel.WARN, "CamelRouting", "Unknown file type detected.").to("direct:stop");
+                .log(LoggingLevel.INFO, "CamelRouting", "Landing zone is valid. Routing to ZipFileProcessor.")
+                .to("direct:processZipFile");
+
+        // routeId: processZipFile
+        from("direct:processZipFile").routeId("processZipFile")
+            .process(zipFileProcessor)
+            .choice().when(header(HAS_ERRORS).isEqualTo(true))
+                .log(LoggingLevel.WARN, "CamelRouting", "Invalid zip file detected.").to("direct:stop")
+            .otherwise()
+                .log(LoggingLevel.INFO, "CamelRouting", "No errors in zip file. Routing to ControlFilePreProcessor.")
+                .to("direct:processControlFilePre");
+
+
+        // routeId: processControlFilePre
+        from("direct:processControlFilePre").routeId("processControlFilePre")
+            .process(controlFilePreProcessor)
+            .choice().when(header(HAS_ERRORS).isEqualTo(true))
+                .log(LoggingLevel.WARN, "CamelRouting", "Failed to pre-process control file.").to("direct:stop")
+            .otherwise()
+                .log(LoggingLevel.INFO, "CamelRouting", "Pre-processed control file.")
+                .to(workItemQueueUri);
     }
 
     /**
