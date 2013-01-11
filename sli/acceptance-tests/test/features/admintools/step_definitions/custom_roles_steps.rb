@@ -25,7 +25,7 @@ require_relative '../../utils/selenium_common.rb'
 Transform /rights "(.*?)"/ do |arg1|
   # Default rights for SLI Default roles  
   rights = ["READ_GENERAL", "AGGREGATE_READ", "READ_PUBLIC"] if arg1 == "Educator"
-  rights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC"] if arg1 == "IT Administrator"
+  rights = ["READ_GENERAL", "WRITE_GENERAL", "WRITE_PUBLIC", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC"] if arg1 == "IT Administrator"
   rights = ["READ_GENERAL", "READ_RESTRICTED", "AGGREGATE_READ", "READ_PUBLIC"] if arg1 == "Leader"
   rights = ["AGGREGATE_READ", "READ_PUBLIC"] if arg1 == "Aggregate Viewer"
   rights = ["READ_GENERAL"] if arg1 == "New Custom"
