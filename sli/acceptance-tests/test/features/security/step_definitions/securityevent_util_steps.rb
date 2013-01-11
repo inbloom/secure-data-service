@@ -29,12 +29,12 @@ end
 
 Then /^a security event matching ("[^"]*") should be in the sli db$/ do |securityeventpattern|
   securityEventCollection()
-  puts("Matching on #{securityeventpattern}")
+  puts("Matching on #{securityeventpattern}") if ENV['DEBUG']
   secEventCount = @coll.count({"body.logMessage" => /#{securityeventpattern}/})
   puts("Found #{secEventCount} matching security events out of " + @coll.count().to_s)
-  secEvent = @coll.find_one({"body.logMessage" => /#{securityeventpattern}/})
-  puts("Find one returned security event #{secEvent}")
-  assert(secEventCount > 0, "No security events were found with logMessage matching \" #{securityeventpattern} \"")
+  secEvent = @coll.find_one({"body.logMessage" => /#{securityeventpattern}/}) if ENV['DEBUG']
+  puts("Find one returned security event #{secEvent}") if ENV['DEBUG']
+  assert(secEventCount > 0, "No security events were found with logMessage matching #{securityeventpattern}")
 end
 
 def securityEventCollection
