@@ -68,9 +68,14 @@ cd /opt/megatron/sli/sli/acceptance-tests/
 bundle exec rake FORCE_COLOR=true sampleApp_server_address=http://megtomcat01.slidev.org/ dashboard_server_address=http://megtomcat01.slidev.org dashboard_api_server_uri=http://megtomcat01.slidev.org realm_page_url="http://megtomcat01.slidev.org/api/oauth/authorize" admintools_server_url=http://megtomcat01.slidev.org:3001 api_server_url=http://megtomcat01.slidev.org databrowser_server_url=http://megtomcat01.slidev.org:3000 ingestion_landing_zone=/opt/ingestion/lz/inbound integrationTests
 cd /opt/megatron/sli/sli/config/scripts/
 sh resetAllDbs.sh
-sh /opt/megatron/sli/sli/acceptance-tests/restartApi.sh &
 cd /opt/megatron/sli/sli/acceptance-tests/
 bundle exec rake FORCE_COLOR=true ingestion_log_directory=/opt/ingestion/logs ingestion_landing_zone=/opt/ingestion/lz/inbound ingestion_healthcheck_url=http://megtomcat01.slidev.org/ingestion-service/healthcheck ingestionTests
+cd /opt/megatron/sli/sli/config/scripts/
+sh resetAllDbs.sh
+sh /opt/megatron/sli/sli/acceptance-tests/restartApi.sh &
+cd /opt/megatron/sli/sli/acceptance-tests/
+bundle exec rake FORCE_COLOR=true sampleApp_server_address=http://megtomcat01.slidev.org/ dashboard_server_address=http://megtomcat01.slidev.org dashboard_api_server_uri=http://megtomcat01.slidev.org realm_page_url="http://megtomcat01.slidev.org/api/oauth/authorize" admintools_server_url=http://megtomcat01.slidev.org:3001 api_server_url=http://megtomcat01.slidev.org databrowser_server_url=http://megtomcat01.slidev.org:3000 ingestion_landing_zone=/opt/ingestion/lz/inbound smokeTests
+
 
 
 
