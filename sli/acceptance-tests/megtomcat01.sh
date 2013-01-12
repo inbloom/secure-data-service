@@ -21,13 +21,14 @@ curl http://tomcat:s3cret@localhost/manager/text/undeploy?path=/sif-agent
 curl http://tomcat:s3cret@localhost/manager/text/stop?path=/simple-idp
 curl http://tomcat:s3cret@localhost/manager/text/undeploy?path=/simple-idp
 cd /opt/megatron/sli/
-git fetch
 git checkout -- /opt/megatron/sli/sli/acceptance-tests/test/data/application_fixture.json
 git checkout -- /opt/megatron/sli/sli/acceptance-tests/test/data/realm_fixture.json
 git checkout -- /opt/megatron/sli/sli/acceptance-tests/test/data/securityEvent_fixture.json
 git checkout -- /opt/megatron/sli/sli/acceptance-tests/test/features/utils/properties.yml
 git checkout -- /opt/megatron/sli/sli/admin-tools/admin-rails/config/config.yml
 git checkout -- /opt/megatron/sli/sli/databrowser/config/config.yml
+set -e
+git fetch
 git checkout $branch
 git pull
 cd /opt/megatron/sli/build-tools/
