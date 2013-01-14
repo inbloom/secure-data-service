@@ -47,7 +47,7 @@ class LandingZoneController < ApplicationController
       logger.info("received the sample data selection is: #{sample_data_select}")
       logger.info("received the edorg selection is: #{ed_org_id}")
     else
-      ed_org_id = ApplicationHelper.get_edorg_from_ldap( uid() )
+      ed_org_id = ApplicationHelper.get_edorg_from_ldap(uid())
     end
 
     @public_key = params[:public_key]
@@ -105,7 +105,7 @@ class LandingZoneController < ApplicationController
   def already_there
     respond_to do |format|
       format.html { render :file => "#{Rails.root}/public/409.html", :status => :conflict }
-      format.any  { head :conflict }
+      format.any { head :conflict }
     end
   end
 end

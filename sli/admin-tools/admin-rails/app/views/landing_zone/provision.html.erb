@@ -1,20 +1,25 @@
 <% if @landingzone[:isDuplicate] && @landingzone[:preload]!=nil && @landingzone[:preload]!="" %>
-<div class="page-header">
+    <div class="page-header">
       <h1>Select Sandbox Data Source</h1>
     </div>
     <div class="alert alert-error">
-    <p>The system is currently processing your previous ingestion job and can not load the sample data you selected. You can check back to reload sample data once this process is complete.</p>
-    <p>For support questions, contact <%= APP_CONFIG['support_email'] %></p>
+      <p>The system is currently processing your previous ingestion job and can not load the sample data you selected.
+        You can check back to reload sample data once this process is complete.</p>
+
+      <p>For support questions, contact <%= APP_CONFIG['support_email'] %></p>
     </div>
     <div class="hidden" id="alreadyProvisioned"/>
-<%elsif @landingzone[:isDuplicate]%>
+<% elsif @landingzone[:isDuplicate] %>
     <div class="page-header">
       <h1>Landing Zone Settings</h1>
     </div>
     <div class="alert alert-error">
-    <p>Your landing zone for <%= @landingzone[:edOrg] %> has already been provisioned.</p>
-    <p>To access your landing zone, please SFTP to <%=@landingzone[:server]%> with using your inBloom username and password.</p>
-    <p>Please contact <%= APP_CONFIG['support_email'] %> for further questions.</p>
+      <p>Your landing zone for <%= @landingzone[:edOrg] %> has already been provisioned.</p>
+
+      <p>To access your landing zone, please SFTP to <%= @landingzone[:server] %> with using your inBloom username and
+        password.</p>
+
+      <p>Please contact <%= APP_CONFIG['support_email'] %> for further questions.</p>
     </div>
     <div class="hidden" id="alreadyProvisioned"/>
 <% else %>
@@ -27,29 +32,35 @@
         <% end %>
       </h1>
     </div>
-    <% if @landingzone[:preload]!=nil && @landingzone[:preload]!=""%>
-    <div class="alert alert-success">
-        <i class="icon-ok"></i> The system is loading the sample data set you selected. The corresponding data will appear in the data browser application once this process is complete. Please be aware that the time it takes for the data to load varies.<br/><br/>
-To access the data browser, log out of the system and take the following steps:<br/>
-<ol>
-<li>Log in to <a href="<%=APP_CONFIG["portal_url"]%>"><%=APP_CONFIG["portal_url"]%></a>.</li>
-<li>Complete and submit the form to sign in.</li>
-<li>Under "Test Applications in my Sandbox", select the dataset you are using and select a user that has the "IT Administrator" role or click "Manually Specify a User" if you are using your own custom dataset.</li>
-<li>Click "Admin" in the upper right, and select "Data Browser" from the available applications.</li>
-</ol><br/>
-For support questions, contact <%= APP_CONFIG['support_email'] %>
-    </div>
-    <%else%>
-    <div class="alert alert-success">
-        <i class="icon-ok"></i> Your landing zone was successfully provisioned on <%= @landingzone[:server] %>. You will receive an email with further instructions about uploading the data.
-        <p>For support questions, contact <%= APP_CONFIG['support_email'] %></p> 
-    </div>
-    <%end%>
+    <% if @landingzone[:preload]!=nil && @landingzone[:preload]!="" %>
+        <div class="alert alert-success">
+          <i class="icon-ok"></i> The system is loading the sample data set you selected. The corresponding data will
+          appear in the data browser application once this process is complete. Please be aware that the time it takes
+          for the data to load varies.<br/><br/>
+          To access the data browser, log out of the system and take the following steps:<br/>
+          <ol>
+            <li>Log in to <a href="<%= APP_CONFIG["portal_url"] %>"><%= APP_CONFIG["portal_url"] %></a>.</li>
+            <li>Complete and submit the form to sign in.</li>
+            <li>Under "Test Applications in my Sandbox", select the dataset you are using and select a user that has the
+              "IT Administrator" role or click "Manually Specify a User" if you are using your own custom dataset.
+            </li>
+            <li>Click "Admin" in the upper right, and select "Data Browser" from the available applications.</li>
+          </ol>
+          <br/>
+          For support questions, contact <%= APP_CONFIG['support_email'] %>
+        </div>
+    <% else %>
+        <div class="alert alert-success">
+          <i class="icon-ok"></i> Your landing zone was successfully provisioned on <%= @landingzone[:server] %>. You
+          will receive an email with further instructions about uploading the data.
+          <p>For support questions, contact <%= APP_CONFIG['support_email'] %></p>
+        </div>
+    <% end %>
     <div class="hidden" id="successMessage"/>
 <% end %>
 
 <div class="form-actions">
-  <%= link_to "OK", APP_CONFIG['portal_url'], :class =>"btn btn-primary" %>
+  <%= link_to "OK", APP_CONFIG['portal_url'], :class => "btn btn-primary" %>
 </div>
 
 
