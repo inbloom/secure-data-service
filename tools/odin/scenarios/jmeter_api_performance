@@ -2,8 +2,9 @@
 STUDENT_COUNT: 1000
 NUMBER_OF_YEARS: 2
 BEGIN_YEAR: 2012
+COURSES_ON_SEA: false
 
-ENTITY_WHILTELIST: [
+ENTITY_WHITELIST: [
   "GraduationPlan",
   "AssessmentFamily",
   "Assessment",

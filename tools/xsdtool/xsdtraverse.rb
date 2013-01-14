@@ -45,6 +45,7 @@ doc.elements.each('//xs:element') do |elem|
   puts type.attribute("name")
   if publicEntities.include? type.attribute("name").to_s
     appinfo.get_elements("sli:WriteEnforcement")[0].text=("WRITE_PUBLIC")
+    appinfo.get_elements("sli:ReadEnforcement")[0].text=("READ_PUBLIC")
   end
 
 end

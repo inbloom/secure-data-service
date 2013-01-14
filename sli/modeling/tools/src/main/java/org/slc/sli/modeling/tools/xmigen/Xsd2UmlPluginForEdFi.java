@@ -34,7 +34,7 @@ import org.slc.sli.modeling.uml.TaggedValue;
  * The conversion of EdFi TitleCase attribute names to camelCase is configurable.
  * 
  */
-public final class Xsd2UmlPluginForEdFi extends Xsd2UmlPluginDefault {
+public final class Xsd2UmlPluginForEdFi extends Xsd2UmlPluginDefault implements Xsd2UmlHostedPlugin {
     
     /**
      * A name ending with the string "Reference" is a Ed-Fi convention for a reference.
@@ -196,7 +196,7 @@ public final class Xsd2UmlPluginForEdFi extends Xsd2UmlPluginDefault {
     }
     
     @Override
-    public String nameAssociation(final AssociationEnd lhs, final AssociationEnd rhs, final Xsd2UmlPluginHost host) {
+    public String nameAssociation(final AssociationEnd lhs, final AssociationEnd rhs, final Xsd2UmlHostedPlugin host) {
         return host.nameAssociation(lhs, rhs, host);
     }
     

@@ -35,7 +35,7 @@ import org.slc.sli.modeling.uml.index.ModelIndex;
 /**
  * Intentionally package protected.
  */
-final class Xsd2UmlPluginHostAdapter implements Xsd2UmlPluginHost {
+final class Xsd2UmlPluginHostAdapter implements Xsd2UmlPluginHost, Xsd2UmlHostedPlugin {
     
     private final ModelIndex mapper;
     
@@ -44,6 +44,11 @@ final class Xsd2UmlPluginHostAdapter implements Xsd2UmlPluginHost {
             throw new IllegalArgumentException("mapper");
         }
         this.mapper = mapper;
+    }
+
+    @Override
+    public Xsd2UmlHostedPlugin getPlugin() {
+        return this;
     }
     
     @Override
@@ -82,7 +87,7 @@ final class Xsd2UmlPluginHostAdapter implements Xsd2UmlPluginHost {
     }
     
     @Override
-    public String nameAssociation(final AssociationEnd lhs, final AssociationEnd rhs, final Xsd2UmlPluginHost host) {
+    public String nameAssociation(final AssociationEnd lhs, final AssociationEnd rhs, final Xsd2UmlHostedPlugin host) {
         // Associations don't have to be named.
         return lhs.getName() + "<=>" + rhs.getName();
     }

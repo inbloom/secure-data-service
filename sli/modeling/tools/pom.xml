@@ -9,8 +9,10 @@
     </parent>
 
 	<name>Modeling Tools</name>
+    <artifactId>tools</artifactId>
 
-	<properties>
+
+    <properties>
       <sli.home>${project.parent.parent.basedir}</sli.home>
 	</properties>
 
@@ -76,57 +78,11 @@
 			<groupId>org.slc.sli.modeling</groupId>
 			<artifactId>rest</artifactId>
 		</dependency>
-	</dependencies>
-	<artifactId>tools</artifactId>
 
-    <build>
-        <plugins>
-            <!--<plugin>-->
-                <!--<groupId>org.codehaus.mojo</groupId>-->
-                <!--<artifactId>exec-maven-plugin</artifactId>-->
-                <!--<version>1.1</version>-->
-                <!--<executions>-->
-                    <!--<execution>-->
-                        <!--<id>wadl-comparator</id>-->
-                        <!--<phase>package</phase>-->
-                        <!--<goals>-->
-                            <!--<goal>java</goal>-->
-                        <!--</goals>-->
-                        <!--<configuration>-->
-                            <!--<mainClass>org.slc.sli.modeling.tools.wadlComparator.WadlComparator</mainClass>-->
-                            <!--<arguments>-->
-                                <!--<argument>${sli.home}/domain/src/main/resources/sliModel/SLI.wadl</argument>-->
-                                <!--<argument>${sli.home}/scaffold/target/doc/eapplication.wadl</argument>-->
-                                <!--<argument>${sli.home}/modeling/tools/target/wadl-compare-report.txt</argument>-->
-                            <!--</arguments>-->
-                        <!--</configuration>-->
-                    <!--</execution>-->
-                <!--</executions>-->
-            <!--</plugin>-->
-            <!-- plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <! - - Adds Main-Class to MANIFEST.MF - - >
-                            <mainClass>org.slc.sli.modeling.tools.selector.SelectorDoc</mainClass>
-                        </manifest>
-                    </archive>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>make-my-jar-with-dependencies</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin -->
-        </plugins>
-    </build>
+        <dependency>
+            <groupId>net.sf.jopt-simple</groupId>
+            <artifactId>jopt-simple</artifactId>
+            <version>4.3</version>
+        </dependency>
+	</dependencies>
 </project>

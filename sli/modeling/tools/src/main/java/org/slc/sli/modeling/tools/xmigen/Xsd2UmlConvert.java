@@ -121,7 +121,7 @@ final class Xsd2UmlConvert {
                     taggedValues.add(documentation(documentation, config));
                 } else if (child instanceof XmlSchemaAppInfo) {
                     final XmlSchemaAppInfo appInfo = (XmlSchemaAppInfo) child;
-                    taggedValues.addAll(config.tagsFromAppInfo(appInfo, config));
+                    taggedValues.addAll(config.getPlugin().tagsFromAppInfo(appInfo, config));
                 } else {
                     throw new AssertionError(child);
                 }
@@ -152,7 +152,7 @@ final class Xsd2UmlConvert {
                 // of elements.
                 // Need to fix the SLI MongoDB schemes so that all types are
                 // named.
-                handler.visit(new Generalization(config.nameFromComplexTypeExtension(complexTypeName, base),
+                handler.visit(new Generalization(config.getPlugin().nameFromComplexTypeExtension(complexTypeName, base),
                         complexTypeId, baseId));
             } else if (content instanceof XmlSchemaComplexContentRestriction) {
                 throw new AssertionError(content);
@@ -167,7 +167,7 @@ final class Xsd2UmlConvert {
         
         attributes.addAll(parseFields(complexType, schema, config));
         
-        final String name = config.nameFromSchemaTypeName(complexTypeName);
+        final String name = config.getPlugin().nameFromSchemaTypeName(complexTypeName);
         handler.visit(new ClassType(complexTypeId, name, false, attributes, taggedValues));
     }
     
@@ -184,7 +184,7 @@ final class Xsd2UmlConvert {
             // What's the best way to handle? complexType?
             // final XmlSchemaSimpleTypeList simpleTypeList = (XmlSchemaSimpleTypeList)content;
             // final XmlSchemaSimpleType itemType = simpleTypeList.getItemType();
-            final DataType dataType = new DataType(simpleTypeId, config.nameFromSchemaTypeName(simpleType.getQName()),
+            final DataType dataType = new DataType(simpleTypeId, config.getPlugin().nameFromSchemaTypeName(simpleType.getQName()),
                     false, annotations(simpleType, config));
             handler.visit(dataType);
         } else if (content instanceof XmlSchemaSimpleTypeRestriction) {
@@ -246,26 +246,26 @@ final class Xsd2UmlConvert {
             taggedValues.addAll(annotations(simpleType, config));
             final Identifier typeIdentifier;
             if (enumLiterals.isEmpty()) {
-                final DataType dataType = new DataType(simpleTypeId, config.nameFromSchemaTypeName(simpleType
+                final DataType dataType = new DataType(simpleTypeId, config.getPlugin().nameFromSchemaTypeName(simpleType
                         .getQName()), false, taggedValues);
                 handler.visit(dataType);
                 typeIdentifier = dataType.getId();
                 if (!restriction.getBaseTypeName().equals(WxsNamespace.STRING)) {
-                    handler.visit(new Generalization(config.nameFromSimpleTypeRestriction(simpleType.getQName(),
+                    handler.visit(new Generalization(config.getPlugin().nameFromSimpleTypeRestriction(simpleType.getQName(),
                             restriction.getBaseTypeName()), typeIdentifier, baseId));
                 }
             } else {
-                final EnumType enumType = new EnumType(simpleTypeId, config.nameFromSchemaTypeName(simpleType
+                final EnumType enumType = new EnumType(simpleTypeId, config.getPlugin().nameFromSchemaTypeName(simpleType
                         .getQName()), enumLiterals, taggedValues);
                 handler.visit(enumType);
                 typeIdentifier = enumType.getId();
                 if (!restriction.getBaseTypeName().equals(WxsNamespace.TOKEN)) {
-                    handler.visit(new Generalization(config.nameFromSimpleTypeRestriction(simpleType.getQName(),
+                    handler.visit(new Generalization(config.getPlugin().nameFromSimpleTypeRestriction(simpleType.getQName(),
                             restriction.getBaseTypeName()), typeIdentifier, baseId));
                 }
             }
         } else if (content instanceof XmlSchemaSimpleTypeUnion) {
-            final DataType dataType = new DataType(simpleTypeId, config.nameFromSchemaTypeName(simpleType.getQName()),
+            final DataType dataType = new DataType(simpleTypeId, config.getPlugin().nameFromSchemaTypeName(simpleType.getQName()),
                     false, annotations(simpleType, config));
             handler.visit(dataType);
         } else {
@@ -362,7 +362,7 @@ final class Xsd2UmlConvert {
         tagDefinitions.add(makeTagDefinition(TagName.MONGO_NAME, Occurs.ZERO, Occurs.ONE, config));
         tagDefinitions.add(makeTagDefinition(TagName.MONGO_NAVIGABLE, Occurs.ZERO, Occurs.ONE, config));
         // Tag definition used by the plug-in.
-        tagDefinitions.addAll(config.declareTagDefinitions(config));
+        tagDefinitions.addAll(config.getPlugin().declareTagDefinitions(config));
         return tagDefinitions;
     }
     
@@ -391,12 +391,12 @@ final class Xsd2UmlConvert {
      * may require some heuristics to extract. This functionality will be
      * deferred to a post-processor.
      */
-    public static final Model extract(final String name, final XmlSchema schema, final Xsd2UmlPlugin plugin) {
+    public static final Model extract(final String name, final XmlSchema schema, final Xsd2UmlHostedPlugin plugin) {
         return extractModel(name, 0, schema, plugin);
     }
     
     private static final Model extractModel(final String name, final int level, final XmlSchema schema,
-            final Xsd2UmlPlugin plugin) {
+            final Xsd2UmlHostedPlugin plugin) {
         final Xsd2UmlConfig context = new Xsd2UmlConfig(plugin);
         return parseXmlSchema(name, level, schema, context, plugin);
     }
@@ -485,7 +485,7 @@ final class Xsd2UmlConvert {
     private static final Attribute parseAttribute(final XmlSchemaAttribute attribute, final XmlSchema schema,
             final Xsd2UmlConfig config) {
         
-        final String name = config.nameFromSchemaAttributeName(attribute.getQName());
+        final String name = config.getPlugin().nameFromSchemaAttributeName(attribute.getQName());
         final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
         taggedValues.addAll(annotations(attribute, config));
         
@@ -503,7 +503,7 @@ final class Xsd2UmlConvert {
     private static final Attribute parseElement(final XmlSchemaElement element, final XmlSchema schema,
             final Xsd2UmlConfig config) {
         
-        final String name = config.nameFromSchemaElementName(element.getQName());
+        final String name = config.getPlugin().nameFromSchemaElementName(element.getQName());
         final List<TaggedValue> taggedValues = new LinkedList<TaggedValue>();
         taggedValues.addAll(annotations(element, config));
         
@@ -609,7 +609,7 @@ final class Xsd2UmlConvert {
     }
     
     private static final Model parseXmlSchema(final String name, final int level, final XmlSchema schema,
-            final Xsd2UmlConfig config, final Xsd2UmlPlugin plugin) {
+            final Xsd2UmlConfig config, final Xsd2UmlHostedPlugin plugin) {
         
         final List<NamespaceOwnedElement> ownedElements = new LinkedList<NamespaceOwnedElement>();
         
