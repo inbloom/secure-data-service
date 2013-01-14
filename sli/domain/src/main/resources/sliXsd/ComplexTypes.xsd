@@ -35,7 +35,7 @@
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -49,7 +49,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -65,7 +65,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -85,7 +85,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -103,7 +103,7 @@
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -130,7 +130,7 @@
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -150,7 +150,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -171,7 +171,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -190,7 +190,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -205,7 +205,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -217,7 +217,7 @@
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -231,7 +231,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -244,7 +244,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -257,7 +257,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -268,7 +268,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -285,7 +285,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -299,7 +299,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -311,7 +311,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1778,7 +1778,7 @@
 							</xs:documentation>
 							<xs:appinfo>
 								<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-								<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+								<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
@@ -1791,7 +1791,7 @@
 							</xs:documentation>
 							<xs:appinfo>
 								<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-								<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+								<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
@@ -1804,7 +1804,7 @@
 							</xs:documentation>
 							<xs:appinfo>
 								<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-								<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+								<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
@@ -1822,7 +1822,7 @@
 							</xs:documentation>
 							<xs:appinfo>
 								<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-								<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+								<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
@@ -1834,7 +1834,7 @@
 							</xs:documentation>
 							<xs:appinfo>
 								<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-								<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+								<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
@@ -1854,7 +1854,7 @@
 							</xs:documentation>
 							<xs:appinfo>
 								<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-								<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+								<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
@@ -1868,7 +1868,7 @@
 							</xs:documentation>
 							<xs:appinfo>
 								<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-								<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+								<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 							</xs:appinfo>
 						</xs:annotation>
 					</xs:element>
@@ -5591,7 +5591,7 @@
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5606,7 +5606,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5617,7 +5617,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5628,7 +5628,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5645,7 +5645,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5657,7 +5657,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5670,7 +5670,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5682,7 +5682,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5693,7 +5693,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5706,7 +5706,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5719,7 +5719,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>program</sli:ReferenceType>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5730,7 +5730,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5745,7 +5745,7 @@
 						<sli:SelfReference>true</sli:SelfReference>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6720,7 +6720,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6732,7 +6732,7 @@
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6743,7 +6743,7 @@
 					<xs:appinfo>
 						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6756,7 +6756,7 @@
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6769,7 +6769,7 @@
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6782,7 +6782,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>learningStandard</sli:ReferenceType>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6796,7 +6796,7 @@
 					<xs:appinfo>
 						<sli:ReferenceType>learningObjective</sli:ReferenceType>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6858,7 +6858,7 @@
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6870,7 +6870,7 @@
 					<xs:appinfo>
 						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6882,7 +6882,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6893,7 +6893,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6903,7 +6903,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6914,7 +6914,7 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:WriteEnforcement>WRITE_PUBLIC</sli:WriteEnforcement>
-						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+						<sli:ReadEnforcement>READ_PUBLIC</sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
