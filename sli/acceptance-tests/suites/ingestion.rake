@@ -183,11 +183,6 @@ task :ingestionHealthCheckTest do
   runTests("test/features/ingestion/features/ingestion_healthCheck.feature")
 end
 
-desc "Run Ingestion Concurrent Jon Error Message Testing"
-task :ingestionConcurrentJobErrorTest do
-  runTests("test/features/ingestion/features/ingestion_concurrentJobErrorTest.feature")
-end
-
 desc "Run Ingestion Error/Warning Limitation Testing"
 task :ingestionErrorWarnCountTest do
   runTests("test/features/ingestion/features/ingestion_error_warning_count.feature")

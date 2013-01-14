@@ -26,6 +26,7 @@ describe 'DisciplineGenerator' do
   let(:interchange) { File.open( path, 'w')}
   let(:generator) { DisciplineGenerator.new(get_spec_scenario(), interchange) }
   let(:behavior) { FactoryGirl.build(:behavior_descriptor) }
+  let(:student_incident) { FactoryGirl.build(:student_discipline_incident_association) }
   let(:incident) { FactoryGirl.build(:discipline_incident) }
 
   describe '<<' do
@@ -36,6 +37,8 @@ describe 'DisciplineGenerator' do
       generator << behavior
 
       generator << incident
+
+      generator << student_incident
 
       generator.finalize()
 
