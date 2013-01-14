@@ -26,8 +26,7 @@ require_relative "../../utils/sli_utils.rb"
 require_relative "../../utils/selenium_common.rb"
 require "date"
 
-SAMPLE_DATA_SET1_CHOICE = "ed_org_STANDARD-SEA"
-SAMPLE_DATA_SET2_CHOICE = "ed_org_IL-SUNSET"
+SAMPLE_DATA_RADIO_ID = "ed_org_from_sample"
 CUSTOM_DATA_SET_CHOICE = "custom"
 
 Given /^LDAP and email server has been setup and running$/ do
@@ -85,8 +84,7 @@ end
 Then /^I can only enter a custom high\-level ed\-org$/ do
   lower_timeout_for_same_page_validation
   assertWithWait("Custom data choice does not exist") {@driver.find_element(:id, CUSTOM_DATA_SET_CHOICE) != nil}
-  assert(@driver.find_elements(:id, SAMPLE_DATA_SET1_CHOICE).empty?, "Sample data choices exist on production")
-  assert(@driver.find_elements(:id, SAMPLE_DATA_SET2_CHOICE).empty?, "Sample data choices exist on production")
+  assert(@driver.find_elements(:id, SAMPLE_DATA_RADIO_ID).empty?, "Sample data choices exist on production")
   reset_timeouts_to_default
 end
 
@@ -96,7 +94,7 @@ When /^I set the custom high\-level ed\-org to "([^"]*)"$/ do |arg1|
 end
 
 When /^I select the first sample data set$/ do
-  @driver.find_element(:id, SAMPLE_DATA_SET1_CHOICE).click
+  @driver.find_element(:id, SAMPLE_DATA_RADIO_ID).click
 end
 
 When /^I click the Provision button$/ do
@@ -152,8 +150,7 @@ sleep(1)
 end
 
 Then /^I can select between the the high level ed\-org of the sample data sets or enter a custom high\-level ed\-org$/ do
-  assertWithWait("Sample data choice does not exist") {@driver.find_element(:id, SAMPLE_DATA_SET1_CHOICE) != nil}
-  #assertWithWait("Sample data choice does not exist") {@driver.find_element(:id, SAMPLE_DATA_SET2_CHOICE) != nil}
+  assertWithWait("Sample data choice does not exist") {@driver.find_element(:id, SAMPLE_DATA_RADIO_ID) != nil}
   assertWithWait("Custom data choice does not exist") {@driver.find_element(:id, CUSTOM_DATA_SET_CHOICE) != nil}
 end
 

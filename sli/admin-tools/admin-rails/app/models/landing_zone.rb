@@ -20,15 +20,6 @@ limitations under the License.
 require "erb"
 
 class LandingZone
-  def self.possible_edorgs
-    if APP_CONFIG["is_sandbox"]
-      edOrgs = []
-      edOrgs << EducationOrganization.new(:stateUniqueId => 'STANDARD-SEA', :nameOfInstitution => "Use a SLC sample dataset")
-      return edOrgs
-    else
-      []
-    end
-  end
 
   def self.possible_sample_data
     if APP_CONFIG["is_sandbox"]
@@ -45,6 +36,17 @@ class LandingZone
       "small" => "linda.kim",
       "medium" => "lroslin"
   }
+
+  SAMPLE_DATA_SET_TO_ED_ORG = {
+      "small" => "STANDARD-SEA",
+      "medium" => "CAP0"
+  }
+
+  def self.edorg_for_sample_dataset(sample)
+    sample_data_set = SAMPLE_DATA_SET_TO_ED_ORG[sample]
+    raise "Cannot determine EdOrg for sample dataset #{sample}" if sample_data_set == nil
+    return sample_data_set
+  end
 
   def self.provision(edorg_id, tenant, uid, sample_data_select = nil, public_key = nil)
     hasPublicKey = !public_key.nil? && !public_key.empty?
