@@ -17,6 +17,8 @@
 package org.slc.sli.aspect;
 
 import org.slf4j.LoggerFactory;
+import org.springframework.data.mongodb.core.MongoTemplate;
+
 import org.slc.sli.common.util.logging.SecurityEvent;
 
 
@@ -24,7 +26,17 @@ public aspect LoggerCarrierAspect {
 
     declare parents : (org.slc.sli.api..* && !java.lang.Enum+ && !org.slc.sli.api.util.SecurityUtil.SecurityTask+ && !org.slc.sli.api.util.PATCH && !org.slc.sli.api.security.RightsAllowed)  implements LoggerCarrier;
 
-    public void LoggerCarrier.debug(String msg) {
+	private MongoTemplate template;
+
+	public MongoTemplate getTemplate() {
+	    return template;
+	}
+
+	public void setTemplate(MongoTemplate template) {
+	    this.template = template;
+	}
+
+	public void LoggerCarrier.debug(String msg) {
         LoggerFactory.getLogger(this.getClass()).debug(msg);
     }
 
@@ -47,16 +59,22 @@ public aspect LoggerCarrierAspect {
     public void LoggerCarrier.warn(String msg, Object... params) {
         LoggerFactory.getLogger(this.getClass()).warn(msg, params);
     }
-    
+
     public void LoggerCarrier.error(String msg, Object... params) {
-        LoggerFactory.getLogger(this.getClass()).error(msg, params);        
+        LoggerFactory.getLogger(this.getClass()).error(msg, params);
     }
 
     public void LoggerCarrier.error(String msg, Throwable x) {
         LoggerFactory.getLogger(this.getClass()).error(msg, x);
     }
 
-    public void LoggerCarrier.audit(SecurityEvent event) {
+    public void LoggerCarrier.auditLog(SecurityEvent event) {
         LoggerFactory.getLogger("audit").info(event.toString());
     }
+
+    public void LoggerCarrier.audit(SecurityEvent event) {
+    	MongoTemplate mongoTemplate = LoggerCarrierAspect.aspectOf().getTemplate();
+   	 	mongoTemplate.save(event);
+   }
+
 }

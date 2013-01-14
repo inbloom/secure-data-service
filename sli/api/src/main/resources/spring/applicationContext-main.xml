@@ -60,4 +60,9 @@
 		</property>
 	</bean>
 	
+   <bean class="org.slc.sli.aspect.LoggerCarrierAspect" factory-method="aspectOf">
+       <property name="template" ref="mongoTemplate" />
+   </bean>
+	
+	
 </beans>
