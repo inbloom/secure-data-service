@@ -17,12 +17,7 @@ package org.slc.sli.api.resources.generic.config;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.SortedSet;
-import java.util.TreeSet;
+import java.util.*;
 
 import javax.annotation.PostConstruct;
 
@@ -54,6 +49,8 @@ public class ResourceEndPoint {
     
     private List<String> queryingDisallowedEndPoints = new ArrayList<String>();
 
+    private Set<String> dateRangeDisallowedEndPoints = new LinkedHashSet<String>();
+
     private Map<String, SortedSet<String>> nameSpaceMappings = new HashMap<String, SortedSet<String>>();
 
     @Autowired
@@ -83,6 +80,17 @@ public class ResourceEndPoint {
                 for (ResourceEndPointTemplate resource : resources) {
                     if (!resource.isQueryable()) {
                         queryingDisallowedEndPoints.add(resource.getPath().substring(1));
+                    }
+                    if (resource.isDateSearchDisallowed()) {
+                        dateRangeDisallowedEndPoints.add(nameSpace + resource.getPath());
+                    }
+                    
+                    if (resource.getSubResources() != null) {
+                        for (ResourceEndPointTemplate subResource : resource.getSubResources()) {
+                            if (subResource.isDateSearchDisallowed()) {
+                                dateRangeDisallowedEndPoints.add(nameSpace + resource.getPath() + subResource.getPath());
+                            }
+                        }
                     }
 
                     resourceEndPoints.putAll(buildEndPoints(nameSpace, "", resource));
@@ -140,6 +148,10 @@ public class ResourceEndPoint {
     
     public List<String> getQueryingDisallowedEndPoints() {
         return this.queryingDisallowedEndPoints;
+    }
+
+    public Set<String> getDateRangeDisallowedEndPoints() {
+        return this.dateRangeDisallowedEndPoints;
     }
 
     protected String bruteForceMatch(final String resourcePath) {
