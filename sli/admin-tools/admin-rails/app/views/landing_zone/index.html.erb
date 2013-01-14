@@ -69,37 +69,7 @@
         your data.</p>
   <% end %>
 
-  <!--  !!! Commenting out RSA Key field UI temporarily !!!
-		<div class="rsaKeyBlock">
-	      <label id="addKeyBtn">Add Public Key to SFTP
-            <i id="key_arrow"
-  <% if @validation_errors %>class="icon-chevron-down"
-  <% else %>class="icon-chevron-left"
-  <% end %>></i>
-          </label>
-		  <i id="key_tooltip" class="icon-question-sign" style="cursor:pointer;font-size:20px"></i>
-		</div>
-		<div class="controls" id="rsaKeyField"
-  <% if !@validation_errors %>style="display: none"
-  <% end %>>
-		    
-		    <span class="control-group">
-		      <%= text_area_tag(:public_key, @public_key) %>
-		    </span>
-		    
-		      <span class="control-group error">
-		        <span id="rsa_validation_error_text" class="help-inline">
-		          <%= rsaKey_error_text %>
-		        </span>
-			<span id="spinner" class="spinner" style="display:none"><img src="/assets/spinner.gif"></span>
-		      </span>
-		</div>
-  !!! Commenting out RSA Key field UI temporarily !!!  -->
-
   <div class="form-actions">
-    <%#
-			<input name="cancel" type="submit" value="Cancel" id="cancelButton" disabled="true" class="btn btn-danger"/>
-    %>
     <input name="commit" type="submit"
            <% if APP_CONFIG['is_sandbox'] %>value="Select"
     <% else %>value="Create"
