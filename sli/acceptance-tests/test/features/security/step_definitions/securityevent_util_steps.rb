@@ -31,7 +31,7 @@ Then /^a security event matching ("[^"]*") should be in the sli db$/ do |securit
   securityEventCollection()
   puts("Matching on #{securityeventpattern}") if ENV['DEBUG']
   secEventCount = @coll.count({"body.logMessage" => /#{securityeventpattern}/})
-  puts("Found #{secEventCount} matching security events out of " + @coll.count().to_s)
+  puts("Found #{secEventCount} matching security events out of " + @coll.count().to_s) if ENV['DEBUG']
   secEvent = @coll.find_one({"body.logMessage" => /#{securityeventpattern}/}) if ENV['DEBUG']
   puts("Find one returned security event #{secEvent}") if ENV['DEBUG']
   assert(secEventCount > 0, "No security events were found with logMessage matching #{securityeventpattern}")
