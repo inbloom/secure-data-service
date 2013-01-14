@@ -32,7 +32,11 @@ class DisciplineIncident < BaseEntity
     @school_id = school
     @staff_id = staff
     @location = location
-    @behaviors = behaviors || ["BE#{rand.rand(@@scenario['BEHAVIORS'].count)}"]
+    @behaviors = behaviors || [DisciplineIncident.gen_behavior(id, section_id)]
+  end
+
+  def self.gen_behavior(id, section_id)
+    "BE#{(id + section_id * 10) % @@scenario['BEHAVIORS'].count}"
   end
 
   def self.gen_id(id, section_id)

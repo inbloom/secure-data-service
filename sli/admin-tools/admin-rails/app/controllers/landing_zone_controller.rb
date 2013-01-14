@@ -40,7 +40,10 @@ class LandingZoneController < ApplicationController
     if APP_CONFIG["is_sandbox"]
       ed_org_id = params[:ed_org]
       ed_org_id = params[:custom_ed_org] if ed_org_id == 'custom'
-      sample_data_select = params[:sample_data_select]
+      if ed_org_id == "from_sample"
+        sample_data_select = params[:sample_data_select]
+        ed_org_id = LandingZone.edorg_for_sample_dataset(sample_data_select)
+      end
       logger.info("received the sample data selection is: #{sample_data_select}")
       logger.info("received the edorg selection is: #{ed_org_id}")
     else
@@ -65,7 +68,6 @@ class LandingZoneController < ApplicationController
   end
 
   def index
-    @edOrgs = LandingZone.possible_edorgs
     @sample_data =LandingZone.possible_sample_data
   end
 

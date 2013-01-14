@@ -29,9 +29,6 @@ require_relative '../../../utils/sli_utils.rb'
 require_relative '../../../utils/selenium_common.rb'
 require_relative '../../../utils/email.rb'
 
-SAMPLE_DATA_SET1_CHOICE = "ed_org_STANDARD-SEA"
-SAMPLE_DATA_SET2_CHOICE = "ed_org_IL-SUNSET"
-CUSTOM_DATA_SET_CHOICE = "custom"
 
 Before do
   disable_NOTABLESCAN()
@@ -229,7 +226,7 @@ Then /^the user is redirected to "([^"]*)" after "([^"]*)" seconds$/ do |link, s
 end
 
 When /^the user selects the option to use the "([^"]*)"$/ do |arg1|
-  @driver.find_element(:id, SAMPLE_DATA_SET1_CHOICE).click
+  @driver.find_element(:id, "ed_org_from_sample").click
 end
 
 When /^clicks on "([^"]*)"$/ do |arg1|
