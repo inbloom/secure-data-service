@@ -63,7 +63,7 @@ describe "WorkOrderProcessor" do
       class Factory
         # student creation
         attr_accessor :students, :school_associations, :assessment_associations, :section_associations, :assessment_items,
-          :parents, :parent_associations, :cohort_associations, :program_associations
+          :parents, :parent_associations, :cohort_associations, :program_associations, :report_cards
         def create(work_order)
           to_build = work_order.build
           @students = to_build.select{|a| a.kind_of? Student}
@@ -75,6 +75,7 @@ describe "WorkOrderProcessor" do
           @parent_associations = to_build.select{|a| a.kind_of? StudentParentAssociation}
           @program_associations = to_build.select{|a| a.kind_of? StudentProgramAssociation}
           @cohort_associations = to_build.select{|a| a.kind_of? StudentCohortAssociation}
+          @report_cards = to_build.select{|a| a.kind_of? ReportCard}
         end
       end
 
@@ -93,7 +94,7 @@ describe "WorkOrderProcessor" do
 
       let(:work_order) {StudentWorkOrder.new(42, :initial_grade => :KINDERGARTEN, :initial_year => 2001, :scenario => scenario,
                                              :plan => {2001 => {:type => elementary_school, :grade => kindergarten, :school => ed_org, :programs => programs},
-                                                       2002 => {:type => elementary_school, :grade => first_grade, :school => ed_org, :programs => programs}}, 
+                                                       2002 => {:type => elementary_school, :grade => first_grade, :school => ed_org, :programs => programs}},
                                              :section_factory => section_factory, 
                                              :assessment_factory => assessment_factory)}
 
@@ -163,6 +164,14 @@ describe "WorkOrderProcessor" do
           associations.should have(2).items
         }
 
+      end
+
+      it "will generate the correct number of report cards" do
+        factory.report_cards.should have(2).items
+        factory.report_cards.each{|report_card|
+          report_card.gpa_given_grading_period.should be <= 4.0
+          report_card.gpa_given_grading_period.should be >= 0.0
+        }
       end
     end
 
