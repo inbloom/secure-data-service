@@ -7,23 +7,24 @@ import javax.annotation.Resource;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.dal.repository.MongoEntityRepository;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.ingestion.streaming.StreamingLoader;
-import org.slc.sli.validation.EntityValidationException;
-import org.slc.sli.validation.EntityValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.StopWatch;
 
+import org.slc.sli.dal.repository.MongoEntityRepository;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.ingestion.streaming.StreamingLoader;
+import org.slc.sli.validation.EntityValidationException;
+import org.slc.sli.validation.EntityValidator;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/ctx.xml", "/spring/db.xml" })
 public class StreamingLoaderTest {
 
-	public static final Logger log = LoggerFactory.getLogger(StreamingLoaderTest.class);
-	
+	public static final Logger LOG = LoggerFactory.getLogger(StreamingLoaderTest.class);
+
 	@Resource(name = "mongoEntityRepository")
 	private MongoEntityRepository repo;
 
@@ -34,10 +35,17 @@ public class StreamingLoaderTest {
 	public void init() {
 		repo.setValidator(new EntityValidator() {
 
+			@Override
+			public boolean validateNaturalKeys(Entity entity, boolean fullOverwrite) throws EntityValidationException {
+				return false;
+			}
+
+			@Override
 			public boolean validate(Entity entity) throws EntityValidationException {
 				return true;
 			}
 
+			@Override
 			public void setReferenceCheck(String referenceCheck) {
 			}
 
@@ -56,7 +64,7 @@ public class StreamingLoaderTest {
 		sw.start();
 		sp.process(new FileReader("src/test/resources/xml/small/InterchangeSectionBig.xml"));
 		sw.stop();
-		log.info("Total time: "+sw.getTotalTimeMillis());
+		LOG.info("Total time: "+sw.getTotalTimeMillis());
 	}
 
 	//@Test
@@ -66,20 +74,20 @@ public class StreamingLoaderTest {
 		sp.process(new FileReader("src/test/resources/xml/interchange.xml"));
 		sw.stop();
 
-		log.info(""+sw.getTotalTimeMillis());
+		LOG.info(""+sw.getTotalTimeMillis());
 
 		sw = new StopWatch();
 		sw.start();
 		sp.process(new FileReader("src/test/resources/xml/interchange.xml"));
 		sw.stop();
 
-		log.info(""+sw.getTotalTimeMillis());
+		LOG.info(""+sw.getTotalTimeMillis());
 
 		sw = new StopWatch();
 		sw.start();
 		sp.process(new FileReader("src/test/resources/xml/interchange.xml"));
 		sw.stop();
 
-		log.info(""+sw.getTotalTimeMillis());
+		LOG.info(""+sw.getTotalTimeMillis());
 	}
 }

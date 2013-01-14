@@ -73,7 +73,7 @@ Then I should see following map of entry counts in the corresponding collections
      | courseSectionAssociation                 |                  0|
      | courseTranscript                         |                  0|
      | disciplineAction                         |                  0|
-     | disciplineIncident                       |                150|
+     | disciplineIncident                       |                 75|
      | educationOrganization                    |                  6|
      | educationOrganizationAssociation         |                  0|
      | educationOrganizationSchoolAssociation   |                  0|
@@ -102,7 +102,7 @@ Then I should see following map of entry counts in the corresponding collections
      | studentCohortAssociation                 |                 36|
      | studentCompetency                        |                  0|
      | studentCompetencyObjective               |                  0|
-     | studentDisciplineIncidentAssociation     |                  0|
+     | studentDisciplineIncidentAssociation     |                 75|
      | studentGradebookEntry                    |               1222|
      | studentParentAssociation                 |                 20|
      | studentProgramAssociation                |                102|

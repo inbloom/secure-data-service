@@ -84,4 +84,8 @@ FactoryGirl.define do
     initialize_with{ new(16, 32, "My School", "Mrs Wormwood", FactoryGirl.build(:date_interval), "Classroom", ["42"]) }
   end
 
+  factory :student_discipline_incident_association do
+    initialize_with{ new(42, 16, 32, "My School", "Perpetrator") }
+  end
+
 end
