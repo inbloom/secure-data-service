@@ -351,4 +351,4 @@ Then I should see following map of entry counts in the corresponding collections
      | student                      |   0     |
      | recordHash                   |   0     |
   And I should see "Processed 0 records." in the resulting batch job file
-  And I should see "Landing zone file UnzippedControlFile.ctl is not a zip file" in the resulting error log file for "UnzippedControlFile.ctl"
+  And I should see "CORE_0022" in the resulting error log file for "UnzippedControlFile.ctl"
