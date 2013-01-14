@@ -28,7 +28,8 @@ require 'rest-client'
   "sli/acceptance-tests/test/features/dash" => ["dashboard"],
   "sli/databrowser" => ["databrowser"],
   "sli/acceptance-tests/test/features/databrowser" => ["databrowser"],
-  "tools/odin" => ["odin"],
+  "tools/odin" => ["odin", "jmeter"],
+  "test/features/odin" => ["odin", "jmeter"],
   "sli/search-indexer" => ["search-indexer"]
 }
 
