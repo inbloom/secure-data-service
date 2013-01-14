@@ -152,36 +152,10 @@ wrapInputWithDeleteButton = (input, type, name) ->
   return input.parent()
 
 editRowStop = (tr) ->
-  
-  #Reshow all the row buttons
-  #tr.parent().find(".rowButtons").each ->
-  #  $(@).show()
-
-  $("#addGroupButton").removeClass("disabled")
-  $("#addGroupButton").removeAttr('disabled')
-  $("#rowEditToolSaveButton").addClass("disabled") #disable until we get ajax success
-  $("#rowEditToolSaveButton").attr('disabled', 'disabled')
-
-  #Move the components back to their original location
-  $("#addRoleUi").hide()
-  $("#components").append($("#addRoleUi"))
-  $("#addRightUi").hide()
-  $("#components").append($("#addRightUi"))
-  td = tr.find("td")
-  td.removeClass("highlight")
-    
-  #Replace input with delete buttons back to normal inputs
-  td.find(".role ").each ->
-    $(@).parent().replaceWith(createLabel('role', $(@).text()))
-  td.find(".right").each ->
-    $(@).parent().replaceWith(createLabel('right', $(@).text()))
-
-  #Replace editable group name with normal div
-  groupName = $('#groupNameInput').val()
-  groupTitle = tr.find("td:eq(0)").find(".groupTitle") 
-  groupTitle.text(groupName)
-  groupTitle.show();
-
+  $(".rowEditToolSaveButton").addClass("disabled") #disable save buttons while saving
+  $(".rowEditToolSaveButton").attr('disabled', 'disabled')
+  $(".rowEditToolCancelButton").addClass("disabled") #disable save buttons while saving
+  $(".rowEditToolCancelButton").attr('disabled', 'disabled')
   saveData(getJsonData()) 
   editRowIndex = -1
 
@@ -194,23 +168,23 @@ saveData = (json) ->
     data: JSON.stringify({json})
     dataType: 'json'
     success: (data, status, xhr) ->
-      $("#rowEditToolSaveButton").removeClass("disabled")
-      $("#rowEditToolSaveButton").removeAttr('disabled')
-      $(".saveButtons").hide()
+      #$(".saveButtons").hide()
       window.location.reload(true);
     error: (data, status, xhr) ->
       console.log("error", data, status, xhr)
       window.location.reload(true);
 
 
+# Should be able to scrape the data from each row regardless of whether the row is in edit mode
 getJsonData = () ->
   data = []
   $("#custom_roles tr:gt(0)").each ->
     groupName = $(@).find("td:eq(0)").find(".groupTitle").val()
     if groupName == ""
       groupName = $(@).find("td:eq(0)").find(".groupTitle").text()
-
-    foo = $(@).find("td:eq(0)")
+    #still in edit mode
+    if groupName == ""
+      groupName = $(@).find("td:eq(0)").find("#groupNameInput").val()
 
     roles = []
     $(@).find("td:eq(0) .customLabel").each ->

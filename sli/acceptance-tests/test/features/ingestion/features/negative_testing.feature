@@ -281,8 +281,12 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName               | count   |
      | session                      |  10     |
-  And I should see "Processed 29 records." in the resulting batch job file
+  And I should see "Processed 35 records." in the resulting batch job file
   And I should see "CORE_0009" in the resulting error log file for "InterchangeEducationOrgCalendar.xml"
+  And I should see "CORE_0006" in the resulting error log file for "InterchangeEducationOrganization.xml"
+  And I should see "SELF_REFERENCING_DATA" in the resulting error log file for "InterchangeEducationOrganization.xml"
+  And I should see "parentEducationAgencyReference" in the resulting error log file for "InterchangeEducationOrganization.xml"
+  And I should see "IL-DAYBREAK" in the resulting error log file for "InterchangeEducationOrganization.xml"
 
 Scenario: Post a zip file containing attendance but no session data: Clean Database
 Given I post "Error_Report2.zip" file as the payload of the ingestion job
