@@ -1626,6 +1626,7 @@
 					<xs:appinfo>
 						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+                        <sli:beginDate>yes</sli:beginDate>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1637,6 +1638,7 @@
 					<xs:appinfo>
 						<sli:WriteEnforcement>WRITE_GENERAL</sli:WriteEnforcement>
 						<sli:ReadEnforcement>READ_GENERAL</sli:ReadEnforcement>
+                        <sli:endDate>yes</sli:endDate>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -8739,6 +8741,8 @@
 				<sli:CollectionType>program</sli:CollectionType>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 				<sli:schemaVersion>1</sli:schemaVersion>
+                <sli:associatedDatedCollection>staffProgramAssociation</sli:associatedDatedCollection>
+                <sli:associatedDatedCollection>studentProgramAssociation</sli:associatedDatedCollection>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
