@@ -139,10 +139,12 @@ wrapInputWithDeleteButton = (input, type, name) ->
       roles = getRoles(label.parents("tr"))
       if roles.length <= 1
         return alert("Role group must contain at least one role.")
-      
-    button.parent().parent().fadeOut -> 
-      populateRightComboBox($(this).parents("tr"))
+
+    button.parent().parent().fadeOut 'fast', ->
+      parentTr = $(this).parents('tr')
       $(this).remove()
+      populateRightComboBox(parentTr)
+      
   
   input.addClass("editable")
   input.wrap("<" + type + "/>").parent().css("white-space", "nowrap")
@@ -218,7 +220,6 @@ getJsonData = () ->
       rights.push($(@).text())
     isAdminRole = $(@).find(".isAdmin").prop("checked")
     data.push({"groupTitle": groupName, "names": roles, "rights": rights, "isAdminRole": isAdminRole})
-  console.log(data)
   return data
 
 getRights = (tr) ->
