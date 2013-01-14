@@ -21,21 +21,27 @@ And I should see a valid object returned
 Scenario: Update an existing realm
 
 	Given I am logged in using "fakerealmadmin" "fakerealmadmin1234" to realm "SLI"
+	And the sli securityEvent collection is empty
 	When I PUT to change the realm "Fake Realm" to change field "name" to "Endless"
 	Then I should receive a return code of 204
+     And a security event matching "^Realm .* updated" should be in the sli db
 
 Scenario: Delete an existing realm
 
 	Given I am logged in using "anotherfakerealmadmin" "anotherfakerealmadmin1234" to realm "SLI"
+     And the sli securityEvent collection is empty
 	When I DELETE the realm "Another Fake Realm"
 	Then I should receive a return code of 204
+     And a security event matching "^Realm .* deleted" should be in the sli db
 	
 Scenario: Create a new realm
 
   Given I am logged in using "anotherfakerealmadmin" "anotherfakerealmadmin1234" to realm "SLI"
+  And the sli securityEvent collection is empty
   When I POST a new realm
   Then I should receive a return code of 201
-     And I should receive a new ID for my new realm
+  And I should receive a new ID for my new realm
+  And a security event matching "^Realm .* created" should be in the sli db
 
 
 Scenario: Deny creation of a new custom role doc when one already exists for this realm/tenant
