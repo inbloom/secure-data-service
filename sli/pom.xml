@@ -18,7 +18,7 @@
     <java.version>1.6</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <lifecycle.mapping.version>1.0.0</lifecycle.mapping.version>
-    <wgen.build.tools>1.0-SNAPSHOT</wgen.build.tools>
+    <sli.build.tools>1.0-SNAPSHOT</sli.build.tools>
     <!-- Maven Plugin Versions -->
     <maven.compiler.version>2.3.2</maven.compiler.version>
     <maven.jar.version>2.3.2</maven.jar.version>
@@ -359,7 +359,7 @@
       <dependency>
         <groupId>org.slc.sli</groupId>
         <artifactId>build-tools</artifactId>
-        <version>${wgen.build.tools}</version>
+        <version>${sli.build.tools}</version>
         <scope>provided</scope>
       </dependency>
       <dependency>
@@ -741,7 +741,7 @@
             <dependency>
               <groupId>org.slc.sli</groupId>
               <artifactId>build-tools</artifactId>
-              <version>${wgen.build.tools}</version>
+              <version>${sli.build.tools}</version>
             </dependency>
           </dependencies>
         </plugin>
@@ -764,7 +764,7 @@
             <dependency>
               <groupId>org.slc.sli</groupId>
               <artifactId>build-tools</artifactId>
-              <version>${wgen.build.tools}</version>
+              <version>${sli.build.tools}</version>
             </dependency>
           </dependencies>
           <executions>
@@ -784,7 +784,7 @@
             <dependency>
               <groupId>org.slc.sli</groupId>
               <artifactId>build-tools</artifactId>
-              <version>${wgen.build.tools}</version>
+              <version>${sli.build.tools}</version>
             </dependency>
           </dependencies>
         </plugin>
@@ -987,7 +987,7 @@
           <dependency>
             <groupId>org.slc.sli</groupId>
             <artifactId>build-tools</artifactId>
-            <version>${wgen.build.tools}</version>
+            <version>${sli.build.tools}</version>
           </dependency>
         </dependencies>
       </plugin>
@@ -1020,7 +1020,7 @@
           <dependency>
             <groupId>org.slc.sli</groupId>
             <artifactId>build-tools</artifactId>
-            <version>${wgen.build.tools}</version>
+            <version>${sli.build.tools}</version>
           </dependency>
         </dependencies>
       </plugin>
