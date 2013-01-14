@@ -1,62 +1,87 @@
 <% @title="Provision Landing Zone" %>
 <% custom_ed_org_text = "I will upload my own data" %>
 <% standard_ed_org_text = "Autoload inBloom sample data" %>
-<% tooltip_text =  "Enter the name of the State Organization Id of your sample State Education Agency (SEA)" %>
+<% tooltip_text = "Enter the name of the State Organization Id of your sample State Education Agency (SEA)" %>
 <% rsaKey_error_text = "Your key was not recognized. inBloom uses RFC4716 format for RSA keys. If you used another format, please covert your key to this format." %>
 <div class="provision">
   <div class="page-header">
-	<% if APP_CONFIG['is_sandbox']%><h1>Configure Your Test Data - Select a Source</h1><%else%><h1>Create a Landing Zone for your Data</h1><%end%>
+    <% if APP_CONFIG['is_sandbox'] %>
+        <h1>Configure Your Test Data - Select a Source</h1>
+    <% else %>
+        <h1>Create a Landing Zone for your Data</h1>
+    <% end %>
   </div>
-	<% if APP_CONFIG['is_sandbox']%>
-		<p>To use your sandbox for application development and testing, you need to add sample data to your sandbox data store. You can choose to preload the Ed-Fi compliant sample data which inBloom provides to you. Alternatively, to add custom, Ed-Fi compliant data, use this page to configure a landing zone, which is an SFTP location for uploading data files. Each time you want to upload data for a new education organization, you must return to this page to configure a new landing zone.</p>
-        <p>To configure the landing zone, select one of the following:</p>
-        <p>&nbsp;</p>
-	<%else%>
-		<p>A landing zone is a directory on inBloom's server that stores and processes your organization's data.</p><p>After you have created a landing zone, you will be able to access it using a SFTP client. We will send you an email with information how to upload your data for ingestion into inBloom. Please click Create to continue. </p>
-	<% end %>
-	
-	<%= form_tag( url_for(:controller => 'landing_zone', :action => 'provision')) %>
-	    <% if APP_CONFIG['is_sandbox'] %>
-		<% if not @edOrgs.empty? %>
-			<% @edOrgs.each do |org| %>
-				<div class="provisionBlock">
-					<%= radio_button_tag 'ed_org', org.stateUniqueId, false, :class => "radioButton" %>
-					<label for="ed_org_<%= org.stateUniqueId %>"><%= standard_ed_org_text %></label>
-					<div class="sample_data_select">
-					<%= select_tag  "sample_data_select", options_for_select(@sample_data)  %>
-					</div>
-				</div>
-				<p></p>
-			<% end %>
-			<div class="provisionBlock">
-	                  <input id="custom" name="ed_org" type="radio" value="custom" class="radioButton" /> 
-			  <label for="custom" rel="tooltip" title="<%= tooltip_text %>"><%= custom_ed_org_text %> <i id="tooltip" class="icon-question-sign"></i></label>
-			  <div class="edOrgIdSelect">
-			    <%= text_field_tag "custom_ed_org", nil, :placeholder => "custom_edorg"  %>
-			    <label for="custom_ed_org">State organization Id of Ed Org</label>
-		          </div>
-			</div>
-		<% else %>
-			<input id="custom" type="hidden" name="ed_org" value="custom" class="radioButton" >
-			<div class="provisionBlock">
-			  <label rel="tooltip" title="<%= tooltip_text %>"><%= custom_ed_org_text %> <i id="tooltip" class="icon-question-sign"></i></label>
-			  <div class="edOrgIdSelect">
-			    <%= text_field_tag "custom_ed_org", nil, :placeholder => "custom_edorg"  %>
-			    <label for="custom_ed_org">State organization Id of Ed Org</label>
-			  </div>
-			</div>
-		<% end %>
-        <p>After you configure your landing zone, you will receive an email with further instructions on how to upload your data.</p>
-		<% end %>
+  <% if APP_CONFIG['is_sandbox'] %>
+      <p>To use your sandbox for application development and testing, you need to add sample data to your sandbox data
+        store. You can choose to preload the Ed-Fi compliant sample data which inBloom provides to you. Alternatively,
+        to add custom, Ed-Fi compliant data, use this page to configure a landing zone, which is an SFTP location for
+        uploading data files. Each time you want to upload data for a new education organization, you must return to
+        this page to configure a new landing zone.</p>
 
-<!--  !!! Commenting out RSA Key field UI temporarily !!!
+      <p>To configure the landing zone, select one of the following:</p>
+
+      <p>&nbsp;</p>
+  <% else %>
+      <p>A landing zone is a directory on inBloom's server that stores and processes your organization's data.</p>
+
+      <p>After you have created a landing zone, you will be able to access it using a SFTP client. We will send you an
+        email with information how to upload your data for ingestion into inBloom. Please click Create to continue. </p>
+  <% end %>
+
+  <%= form_tag(url_for(:controller => 'landing_zone', :action => 'provision')) %>
+  <% if APP_CONFIG['is_sandbox'] %>
+      <% if not @edOrgs.empty? %>
+          <% @edOrgs.each do |org| %>
+              <div class="provisionBlock">
+                <%= radio_button_tag 'ed_org', org.stateUniqueId, false, :class => "radioButton" %>
+                <label for="ed_org_<%= org.stateUniqueId %>"><%= standard_ed_org_text %></label>
+
+                <div class="sample_data_select">
+                  <%= select_tag "sample_data_select", options_for_select(@sample_data) %>
+                </div>
+              </div>
+              <p></p>
+          <% end %>
+          <div class="provisionBlock">
+            <input id="custom" name="ed_org" type="radio" value="custom" class="radioButton"/>
+            <label for="custom" rel="tooltip" title="<%= tooltip_text %>"><%= custom_ed_org_text %>
+              <i id="tooltip" class="icon-question-sign"></i></label>
+
+            <div class="edOrgIdSelect">
+              <%= text_field_tag "custom_ed_org", nil, :placeholder => "custom_edorg" %>
+              <label for="custom_ed_org">State organization Id of Ed Org</label>
+            </div>
+          </div>
+      <% else %>
+          <input id="custom" type="hidden" name="ed_org" value="custom" class="radioButton">
+
+          <div class="provisionBlock">
+            <label rel="tooltip" title="<%= tooltip_text %>"><%= custom_ed_org_text %>
+              <i id="tooltip" class="icon-question-sign"></i></label>
+
+            <div class="edOrgIdSelect">
+              <%= text_field_tag "custom_ed_org", nil, :placeholder => "custom_edorg" %>
+              <label for="custom_ed_org">State organization Id of Ed Org</label>
+            </div>
+          </div>
+      <% end %>
+      <p>After you configure your landing zone, you will receive an email with further instructions on how to upload
+        your data.</p>
+  <% end %>
+
+  <!--  !!! Commenting out RSA Key field UI temporarily !!!
 		<div class="rsaKeyBlock">
 	      <label id="addKeyBtn">Add Public Key to SFTP
-            <i id="key_arrow" <% if @validation_errors %>class="icon-chevron-down"<% else %>class="icon-chevron-left"<% end %>></i>
+            <i id="key_arrow"
+  <% if @validation_errors %>class="icon-chevron-down"
+  <% else %>class="icon-chevron-left"
+  <% end %>></i>
           </label>
 		  <i id="key_tooltip" class="icon-question-sign" style="cursor:pointer;font-size:20px"></i>
 		</div>
-		<div class="controls" id="rsaKeyField" <% if !@validation_errors %>style="display: none"<% end %>>
+		<div class="controls" id="rsaKeyField"
+  <% if !@validation_errors %>style="display: none"
+  <% end %>>
 		    
 		    <span class="control-group">
 		      <%= text_area_tag(:public_key, @public_key) %>
@@ -71,20 +96,23 @@
 		</div>
   !!! Commenting out RSA Key field UI temporarily !!!  -->
 
-		<div class="form-actions">
-          <%#
+  <div class="form-actions">
+    <%#
 			<input name="cancel" type="submit" value="Cancel" id="cancelButton" disabled="true" class="btn btn-danger"/>
-          %>
-			<input name="commit" type="submit" <% if APP_CONFIG['is_sandbox']%>value="Select"<% else %>value="Create" <%end%> id="provisionButton" class= "btn btn-primary"/>
-			<span id="spinner" class="spinner" style="display:none"><img src="/assets/spinner.gif"></span>
-		</div>
-	</form>
+    %>
+    <input name="commit" type="submit"
+           <% if APP_CONFIG['is_sandbox'] %>value="Select"
+    <% else %>value="Create"
+           <% end %> id="provisionButton" class="btn btn-primary"/>
+    <span id="spinner" class="spinner" style="display:none"><img src="/assets/spinner.gif"></span>
+  </div>
+  </form>
 </div>
 <script type="text/javascript">
     var is_sandbox = <%= APP_CONFIG['is_sandbox'] %>
-    $("#key_tooltip").tooltip();
+            $("#key_tooltip").tooltip();
     <% if APP_CONFIG['is_sandbox'] %>
-        $("#tooltip").tooltip();
+    $("#tooltip").tooltip();
     <% end %>
 </script>
 
