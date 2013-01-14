@@ -225,10 +225,11 @@ class StudentWorkOrder
     associations
   end
 
-  # creates student enrollment and gradebook entries:
+  # creates student enrollment, gradebook entries, and report cards:
   # - StudentSchoolAssociation
   # - StudentSectionAssociation
   # - StudentGradebookEntry (as part of enrollment in section)
+  # - ReportCard
   def generate_enrollment_and_gradebook_entries(school_id, type, year, grade, session)
     rval = []
     unless session.nil?
