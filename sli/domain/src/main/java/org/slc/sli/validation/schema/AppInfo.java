@@ -82,22 +82,18 @@ public class AppInfo extends Annotation {
                 }
 
                 String key = node.getLocalName().trim();
-                if (key.equals(READ_ENFORCEMENT_ELEMENT_NAME) || key.equals(WRITE_ENFORCEMENT_ELEMENT_NAME)) {
-                    //Element allowedBy = (Element) node.getFirstChild();
-                    NodeList rightsNodes = node.getChildNodes();
-                    if (rightsNodes != null) {
-                        Set<String> rights = new HashSet<String>();
-                        for (int i = 0; i < rightsNodes.getLength(); ++i) {
-                            if (rightsNodes.item(i) != null && rightsNodes.item(i).getNodeValue() != null) {
-                                rights.add(rightsNodes.item(i).getNodeValue().trim());
+                if ((key.equals(READ_ENFORCEMENT_ELEMENT_NAME) || key.equals(WRITE_ENFORCEMENT_ELEMENT_NAME)) && e.hasChildNodes()) {
+                    Set<String> rights = new HashSet<String>();
+                    NodeList allAllowedBy = e.getChildNodes();
+                    for (int i = 0; i < allAllowedBy.getLength(); i++) {
+                        Node allowedBy = allAllowedBy.item(i);
+                        if (allowedBy.hasChildNodes()) {
+                            NodeList rightsNodes = allowedBy.getChildNodes();
+                            for (int j = 0; j < rightsNodes.getLength(); j++) {
+                                rights.add(rightsNodes.item(j).getNodeValue().trim());
                             }
+                            values.put(key, rights);
                         }
-
-                        if (rights.size() > 0) {
-                            System.out.println("rights: " + rights);
-                        }
-
-                        values.put(key, rights);
                     }
                 } else {
                     String value = node.getFirstChild().getNodeValue().trim();
