@@ -258,7 +258,10 @@ public class XsdToNeutralSchemaTest {
         complexDoc = repo.getSchema("TestSecurityComplex");
         assertNotNull(complexDoc);
         appInfo = complexDoc.getAppInfo();
+        assertTrue(appInfo.getReadAuthorities().size() == 3);
         assertTrue(appInfo.getReadAuthorities().contains(Right.READ_RESTRICTED));
+        assertTrue(appInfo.getReadAuthorities().contains(Right.READ_GENERAL));
+        assertTrue(appInfo.getReadAuthorities().contains(Right.READ_PUBLIC));
 
         // attributes with more restrictive rights should maintain those rights.
         fields = complexDoc.getFields();

@@ -83,17 +83,26 @@ public class AppInfo extends Annotation {
 
                 String key = node.getLocalName().trim();
                 if (key.equals(READ_ENFORCEMENT_ELEMENT_NAME) || key.equals(WRITE_ENFORCEMENT_ELEMENT_NAME)) {
-                    Element allowedBy = (Element) node.getFirstChild();
-                    NodeList rightsNodes = allowedBy.getChildNodes();
-                    Set<String> rights = new HashSet<String>();
-                    for (int i = 0; i < rightsNodes.getLength(); ++i) {
-                        rights.add(rightsNodes.item(i).getNodeValue().trim());
+                    //Element allowedBy = (Element) node.getFirstChild();
+                    NodeList rightsNodes = node.getChildNodes();
+                    if (rightsNodes != null) {
+                        Set<String> rights = new HashSet<String>();
+                        for (int i = 0; i < rightsNodes.getLength(); ++i) {
+                            if (rightsNodes.item(i) != null && rightsNodes.item(i).getNodeValue() != null) {
+                                rights.add(rightsNodes.item(i).getNodeValue().trim());
+                            }
+                        }
+
+                        if (rights.size() > 0) {
+                            System.out.println("rights: " + rights);
+                        }
+
+                        values.put(key, rights);
                     }
-                    values.put(key, rights);
                 } else {
                     String value = node.getFirstChild().getNodeValue().trim();
                     values.put(key, value);
-                }    
+                }
             }
         }
     }
@@ -246,7 +255,7 @@ public class AppInfo extends Annotation {
         if (parentInfo.isRelaxedBlacklisted()) {
             values.put(RELAXEDBLACKLIST_ELEMENT_NAME, "true");
         }
-        
+
         for (Right right : parentInfo.getReadAuthorities()) {
             if (right.equals(Right.FULL_ACCESS)) {
                 values.put(READ_ENFORCEMENT_ELEMENT_NAME, toSet(Right.FULL_ACCESS.toString()));
@@ -264,7 +273,7 @@ public class AppInfo extends Annotation {
                 }
             }
         }
-        
+
         for (Right right : parentInfo.getWriteAuthorities()) {
             if (right.equals(Right.FULL_ACCESS)) {
                 values.put(WRITE_ENFORCEMENT_ELEMENT_NAME, toSet(Right.FULL_ACCESS.toString()));
@@ -287,7 +296,7 @@ public class AppInfo extends Annotation {
             values.put(SECURITY_SPHERE, parentInfo.getSecuritySphere());
         }
     }
-    
+
     private static Set<String> toSet(String ... elements) {
         HashSet<String> toReturn = new HashSet<String>(elements.length);
         for (String element : elements) {
