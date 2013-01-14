@@ -17,6 +17,7 @@ limitations under the License.
 =end
 
 require_relative 'baseEntity'
+require_relative 'descriptor'
 
 # creates discipline descriptor
 class DisciplineDescriptor < Descriptor
