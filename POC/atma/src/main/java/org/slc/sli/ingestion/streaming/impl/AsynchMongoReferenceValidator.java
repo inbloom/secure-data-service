@@ -10,16 +10,17 @@ import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.streaming.ReferenceValidator;
-import org.springframework.stereotype.Component;
 
 /**
  * Validates references by asynchronously issuing mongo queries
- * 
+ *
  * @author dkornishev
- * 
+ *
  */
 @Component
 public class AsynchMongoReferenceValidator implements ReferenceValidator {
@@ -47,14 +48,14 @@ public class AsynchMongoReferenceValidator implements ReferenceValidator {
 						}
 						Thread.sleep(100);
 					} catch (InterruptedException e) {
-						e.printStackTrace();
+						e.printStackTrace(); // NOPMD OK to print stack in POC code
 					}
 				}
 			}
 
 			/**
 			 * Figures out which collection to query FIXME needs to do actual figuring out
-			 * 
+			 *
 			 * @param elementName
 			 * @return
 			 */
@@ -74,7 +75,7 @@ public class AsynchMongoReferenceValidator implements ReferenceValidator {
 		try {
 			queue.offer(Pair.of(elementName, value), 1, TimeUnit.MILLISECONDS);
 		} catch (InterruptedException e) {
-			e.printStackTrace();
+			e.printStackTrace(); // NOPMD OK to print stack in POC code
 		}
 	}
 

@@ -9,7 +9,7 @@ require 'rest-client'
 @token = ""
 
 @pathToTestMap = {
-  "sli/api/" => ["api", "search-indexer", "jmeter"],
+  "sli/api/" => ["api", "search-indexer", "jmeter", "admin"],
   "sli/simple-idp" => ["api", "admin"],
   "sli/acceptance-tests/test/features/api" => ["api"],
   "sli/acceptance-tests/test/features/simple_idp" => ["api"],
@@ -28,7 +28,8 @@ require 'rest-client'
   "sli/acceptance-tests/test/features/dash" => ["dashboard"],
   "sli/databrowser" => ["databrowser"],
   "sli/acceptance-tests/test/features/databrowser" => ["databrowser"],
-  "tools/odin" => ["odin"],
+  "tools/odin" => ["odin", "jmeter"],
+  "test/features/odin" => ["odin", "jmeter"],
   "sli/search-indexer" => ["search-indexer"]
 }
 
@@ -117,8 +118,9 @@ def updateMongo(hash)
   conn = Mongo::Connection.new(@jenkinsHostname, @jenkinsMongoPort)
   db = conn.db("git_hash")
   coll = db['commit']
+  currTime = Time.new
 
-  coll.update({"_id" => "last_used_commit"}, {"$set" => {"commit_hash" => hash}})
+  coll.update({"_id" => "last_used_commit"}, {"$set" => {"commit_hash" => hash, "lastUpdate" => currTime}})
 end
 
 ##################### Main Methods #########################################

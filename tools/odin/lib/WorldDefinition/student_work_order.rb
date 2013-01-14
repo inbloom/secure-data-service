@@ -225,10 +225,11 @@ class StudentWorkOrder
     associations
   end
 
-  # creates student enrollment and gradebook entries:
+  # creates student enrollment, gradebook entries, and report cards:
   # - StudentSchoolAssociation
   # - StudentSectionAssociation
   # - StudentGradebookEntry (as part of enrollment in section)
+  # - ReportCard
   def generate_enrollment_and_gradebook_entries(school_id, type, year, grade, session)
     rval = []
     unless session.nil?
@@ -241,8 +242,10 @@ class StudentWorkOrder
       unless @section_factory.nil?
         sections = @section_factory.sections(school_id, type.to_s, year, grade)
         unless sections.nil?
+          final_grades = []
           sections.each{|course_offering, available_sections|
-            section    = available_sections[id % available_sections.count]
+            section    = available_sections[@id % available_sections.count]
+            index_in_section = ((@id + section[:id]) / available_sections.count) % @scenario['STUDENTS_PER_SECTION'][type.to_s]
             section_id = DataUtility.get_unique_section_id(section[:id])
             rval       << StudentSectionAssociation.new(@id, section_id, school_id, begin_date, grade)
 
@@ -259,13 +262,26 @@ class StudentWorkOrder
                 end
               end
               # compute final grade using breakdown --> need to look up breakdown from @scenario
-              rval << get_student_final_grade(grade, grades, school_id, section_id, session)
+              final_grade = get_student_final_grade(grade, grades, school_id, section_id, session)
+              final_grades << final_grade
+              rval << final_grade
             end
+            rval += addDisciplineEntities(section[:id], index_in_section, school_id)
           }
+          rval << ReportCard.new(@id, final_grades, GradingPeriod.new(:END_OF_YEAR, session['year'], session['interval'], session['edOrgId'], []))
         end
       end
     end
     rval
+  end
+
+  def addDisciplineEntities(section_id, index_in_section, school_id)
+    num_incidents = @scenario['INCIDENTS_PER_SECTION'] || 0
+    if index_in_section < num_incidents
+      [StudentDisciplineIncidentAssociation.new(@id, index_in_section, section_id, school_id)]
+    else
+      []
+    end
   end
 
   # creates a student gradebook entry, based on the input gradebook entry work order

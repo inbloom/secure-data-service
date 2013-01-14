@@ -137,7 +137,7 @@ public class ControlFileProcessor implements Processor {
                         }
                     }
                     if (!isZipFile) {
-                        databaseMessageReport.warning(reportStats, source, CoreMessageCode.CORE_0002);
+                        databaseMessageReport.warning(reportStats, source, CoreMessageCode.CORE_0051);
 
                     }
                 }

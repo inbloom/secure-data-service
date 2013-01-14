@@ -90,7 +90,7 @@ public class ValidationControllerTest {
 
         validationController.doValidation(ctlFile);
         Mockito.verify(messageReport, Mockito.atLeastOnce()).error(Matchers.any(ReportStats.class),
-                Matchers.any(Source.class), Matchers.eq(ValidationMessageCode.VALIDATION_0001));
+                Matchers.any(Source.class), Matchers.eq(ValidationMessageCode.VALIDATION_0015));
     }
 
     @Test

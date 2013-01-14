@@ -73,7 +73,7 @@ Then I should see following map of entry counts in the corresponding collections
      | courseSectionAssociation                 |                  0|
      | courseTranscript                         |                  0|
      | disciplineAction                         |                  0|
-     | disciplineIncident                       |                  0|
+     | disciplineIncident                       |                 75|
      | educationOrganization                    |                  6|
      | educationOrganizationAssociation         |                  0|
      | educationOrganizationSchoolAssociation   |                  0|
@@ -85,7 +85,7 @@ Then I should see following map of entry counts in the corresponding collections
      | learningStandard                         |                  0|
      | parent                                   |                 20|
      | program                                  |                 70|
-     | reportCard                               |                  0|
+     | reportCard                               |                 30|
      | schoolSessionAssociation                 |                  0|
      | section                                  |                 75|
      | sectionAssessmentAssociation             |                  0|
@@ -102,7 +102,7 @@ Then I should see following map of entry counts in the corresponding collections
      | studentCohortAssociation                 |                 36|
      | studentCompetency                        |                  0|
      | studentCompetencyObjective               |                  0|
-     | studentDisciplineIncidentAssociation     |                  0|
+     | studentDisciplineIncidentAssociation     |                 75|
      | studentGradebookEntry                    |               1222|
      | studentParentAssociation                 |                 20|
      | studentProgramAssociation                |                102|
@@ -110,7 +110,7 @@ Then I should see following map of entry counts in the corresponding collections
      | studentSectionAssociation                |                 75|
      | teacherSchoolAssociation                 |                 19|
      | teacherSectionAssociation                |                 75|
-    And I should see "Processed 5577 records." in the resulting batch job file
+    And I should see "Processed 5757 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
 

@@ -18,6 +18,7 @@
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
+import java.io.IOException;
 
 import junitx.util.PrivateAccessor;
 
@@ -25,14 +26,23 @@ import org.apache.camel.Exchange;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.impl.DefaultExchange;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Matchers;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.IngestionTest;
 import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.ResourceEntry;
+import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 
 /**
@@ -46,7 +56,16 @@ import org.slc.sli.ingestion.queues.MessageType;
 public class ZipFileProcessorTest {
 
     @Autowired
+    @InjectMocks
     private ZipFileProcessor zipProc;
+
+    @Mock
+    private BatchJobDAO mockedBatchJobDAO;
+
+    @Before
+    public void setup() throws IOException {
+        MockitoAnnotations.initMocks(this);
+    }
 
     @Test
     public void testHappyZipFileProcessor() throws Exception {
@@ -54,6 +73,14 @@ public class ZipFileProcessorTest {
         Exchange preObject = new DefaultExchange(new DefaultCamelContext());
 
         preObject.getIn().setBody(IngestionTest.getFile("zip/ValidZip.zip"));
+
+        String batchJobId = NewBatchJob.createId("ValidZip.zip");
+        NewBatchJob mockedJob = new NewBatchJob(batchJobId);
+        File zipFile = IngestionTest.getFile("zip/ValidZip.zip");
+        createResourceEntryAndAddToJob(zipFile, mockedJob);
+        mockedJob.setSourceId("zip");
+        Mockito.when(mockedBatchJobDAO.findBatchJobById(Matchers.eq(batchJobId))).thenReturn(mockedJob);
+        preObject.getIn().setHeader("BatchJobId", batchJobId);
 
         zipProc.process(preObject);
 
@@ -68,6 +95,14 @@ public class ZipFileProcessorTest {
 
         preObject.getIn().setBody(IngestionTest.getFile("zip/NoControlFile.zip"));
 
+        String batchJobId = NewBatchJob.createId("NoControlFile.zip");
+        NewBatchJob mockedJob = new NewBatchJob(batchJobId);
+        File zipFile = IngestionTest.getFile("zip/NoControlFile.zip");
+        createResourceEntryAndAddToJob(zipFile, mockedJob);
+        mockedJob.setSourceId("zip");
+        Mockito.when(mockedBatchJobDAO.findBatchJobById(Matchers.eq(batchJobId))).thenReturn(mockedJob);
+        preObject.getIn().setHeader("BatchJobId", batchJobId);
+
         zipProc.process(preObject);
 
         Assert.assertNotNull(preObject.getIn().getBody());
@@ -75,12 +110,12 @@ public class ZipFileProcessorTest {
         Assert.assertEquals(preObject.getIn().getHeader("IngestionMessageType") , MessageType.BATCH_REQUEST.name());
     }
 
-    @Test
-    public void testBatchJobCreation() throws Throwable {
-        File zipFile = IngestionTest.getFile("zip/ValidZip.zip");
-
-        NewBatchJob job = (NewBatchJob) PrivateAccessor.invoke(zipProc, "createNewBatchJob", new Class<?>[] { File.class }, new Object[] { zipFile });
-
-        Assert.assertEquals(zipFile.getParent(), job.getTopLevelSourceId());
+    private void createResourceEntryAndAddToJob(File zipFile, NewBatchJob newJob) throws IOException {
+        ResourceEntry resourceName = new ResourceEntry();
+        resourceName.setResourceName(zipFile.getCanonicalPath());
+        resourceName.setResourceId(zipFile.getName());
+        resourceName.setExternallyUploadedResourceId(zipFile.getName());
+        resourceName.setResourceFormat(FileFormat.ZIP_FILE.getCode());
+        newJob.getResourceEntries().add(resourceName);
     }
 }

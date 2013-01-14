@@ -67,7 +67,7 @@ public class ValidationController {
                 messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0001);
             }
         } else {
-            messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0001);
+            messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0015);
         }
     }
 

@@ -7,15 +7,12 @@
     <groupId>org.slc.sli</groupId>
     <version>1.0-SNAPSHOT</version>
   </parent>
+
   <groupId>org.slc.sli.modeling</groupId>
   <artifactId>modeling</artifactId>
   <packaging>pom</packaging>
   <name>Modeling</name>
   <description>Modeling</description>
-
-  <properties>
-    <sli.home>${project.parent.basedir}</sli.home>
-  </properties>
 
   <modules>
     <module>psm</module>
@@ -23,12 +20,11 @@
     <module>xml</module>
     <module>xsd</module>
     <module>uml</module>
-    <module>tools</module>
     <module>rest</module>
     <module>wadl</module>
     <module>xdm</module>
-    <module>xmigen</module>
-    <module>xmicomp</module>
+    <module>tools</module>
+    <module>docgen</module>
   </modules>
 
 </project>

@@ -262,7 +262,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                     try {
                         keyValues.add(PropertyUtils.getProperty(entity, propertyString));
                     } catch (Exception e) {
-                        report.error(reportStats, source, CoreMessageCode.CORE_0008, null, field, entity.getType());
+                        report.error(reportStats, source, CoreMessageCode.CORE_0052, null, field, entity.getType());
                     }
                 }
 

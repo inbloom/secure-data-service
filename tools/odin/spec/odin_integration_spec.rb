@@ -80,7 +80,7 @@ describe "Odin" do
       end
 
       it "will generate a valid control file with the correct number of interchanges" do     
-        @interchanges.length.should eq(12)
+        @interchanges.length.should eq(13)
       end
       
       it "will generate a valid control file with Student as a type" do
@@ -101,7 +101,7 @@ describe "Odin" do
         end
         
         it "will generate a valid control file with the correct number of interchanges" do     
-          @interchanges.length.should eq(12)
+          @interchanges.length.should eq(13)
         end
         
         it "will generate a valid control file with Student as a type" do

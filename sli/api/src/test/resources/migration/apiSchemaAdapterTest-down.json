@@ -1,0 +1,19 @@
+{
+    "entities":{
+        "session": {
+            "1": [{
+                "ADD": {
+                    "fieldName": "downFoo",
+                    "defaultValue": "downBar"
+                },
+                "REMOVE": {
+                    "fieldName": "removeDownFoo"
+                },
+                "RENAME": {
+                    "oldFieldName": "oldDownFoo",
+                    "newFieldName": "newDownFoo"
+                }
+            }]
+        }
+    }
+}

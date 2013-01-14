@@ -139,8 +139,7 @@ public class CustomRoleResourceTest {
         
         NeutralQuery customRoleQuery = new NeutralQuery();
         customRoleQuery.addCriteria(new NeutralCriteria("realmId", NeutralCriteria.CRITERIA_IN, new HashSet<String>(Arrays.asList(REALM_ID))));
-        Mockito.when(repo.findOne("customRole", customRoleQuery)).thenReturn(mockEntity);
-
+        Mockito.when(repo.findAllIds("customRole", customRoleQuery)).thenReturn(Arrays.asList("mock-id"));
         Response res = resource.readAll(uriInfo, "");
         Assert.assertEquals(200, res.getStatus());
         Assert.assertEquals(Arrays.asList(body), res.getEntity());
@@ -161,7 +160,7 @@ public class CustomRoleResourceTest {
         
         NeutralQuery customRoleQuery = new NeutralQuery();
         customRoleQuery.addCriteria(new NeutralCriteria("realmId", NeutralCriteria.OPERATOR_EQUAL, REALM_ID));
-        Mockito.when(repo.findOne("customRole", customRoleQuery)).thenReturn(mockEntity);
+        Mockito.when(repo.findAllIds("customRole", customRoleQuery)).thenReturn(Arrays.asList("mock-id"));
 
         Response res = resource.readAll(uriInfo, "BAD_REALM_ID");
         Assert.assertEquals(400, res.getStatus());
@@ -182,7 +181,7 @@ public class CustomRoleResourceTest {
         
         NeutralQuery customRoleQuery = new NeutralQuery();
         customRoleQuery.addCriteria(new NeutralCriteria("realmId", NeutralCriteria.CRITERIA_IN, new HashSet<String>(Arrays.asList(REALM_ID, "REALM2"))));
-        Mockito.when(repo.findOne("customRole", customRoleQuery)).thenReturn(mockEntity);
+        Mockito.when(repo.findAllIds("customRole", customRoleQuery)).thenReturn(Arrays.asList("mock-id"));
 
         Response res = resource.readAll(uriInfo, "");
         Assert.assertEquals(200, res.getStatus());
@@ -203,7 +202,7 @@ public class CustomRoleResourceTest {
         
         NeutralQuery customRoleQuery = new NeutralQuery();
         customRoleQuery.addCriteria(new NeutralCriteria("realmId", NeutralCriteria.CRITERIA_IN, new HashSet<String>(Arrays.asList(REALM_ID))));
-        Mockito.when(repo.findOne("customRole", customRoleQuery)).thenReturn(mockEntity);
+        Mockito.when(repo.findAllIds("customRole", customRoleQuery)).thenReturn(Arrays.asList("mock-id"));
 
         Response res = resource.readAll(uriInfo, REALM_ID);
         Assert.assertEquals(200, res.getStatus());

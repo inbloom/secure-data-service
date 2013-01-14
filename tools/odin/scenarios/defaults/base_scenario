@@ -140,3 +140,14 @@ STAFF_HAVE_COHORT_ACCESS: true
 
 #parents
 INCLUDE_PARENTS: true
+
+#discipline
+INCIDENTS_PER_SECTION: 2
+BEHAVIORS: [
+  { short: "Fighting", desc: "Fighting with another student", category: "School Violation" },
+  { short: "Disruption", desc: "Disrupting class", category: "School Code of Conduct" },
+  { short: "Tardiness", desc: "Being late for class", category: "School Violation" }]
+DISCIPLINE_OPTIONS: [
+  { short: "Warning", desc: "Student is given a verbal warning" },
+  { short: "Detention", desc: "Student is given detention" },
+  { short: "Suspension", desc: "Student is suspended from school" }]
