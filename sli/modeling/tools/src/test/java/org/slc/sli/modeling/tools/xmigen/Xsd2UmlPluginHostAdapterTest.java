@@ -170,7 +170,7 @@ public void testIsAssociationEnd() throws Exception {
 public void testNameAssociation() throws Exception {
     Mockito.when(lhs.getName()).thenReturn("lhs");
     Mockito.when(rhs.getName()).thenReturn("rhs");
-    String assocEnd = adapter.nameAssociation(lhs, rhs, host);
+    String assocEnd = adapter.nameAssociation(lhs, rhs, host.getPlugin());
     Assert.assertEquals("lhs<=>rhs", assocEnd);
 }
 
