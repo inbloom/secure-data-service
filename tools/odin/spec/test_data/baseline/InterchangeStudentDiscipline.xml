@@ -40,25 +40,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentTime>10:01:33</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE0</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000001</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>1#1</IncidentIdentifier>
-    <IncidentDate>2002-03-06</IncidentDate>
-    <IncidentTime>13:59:44</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
       <CodeValue>BE1</CodeValue>
     </Behaviors>
     <SchoolReference>
@@ -92,50 +73,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StaffReference>
   </DisciplineIncident>
   <DisciplineIncident>
-    <IncidentIdentifier>2#1</IncidentIdentifier>
-    <IncidentDate>2002-03-22</IncidentDate>
-    <IncidentTime>09:39:04</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE0</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000001</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
     <IncidentIdentifier>3#0</IncidentIdentifier>
     <IncidentDate>2002-01-14</IncidentDate>
     <IncidentTime>08:15:19</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE2</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000001</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>3#1</IncidentIdentifier>
-    <IncidentDate>2002-03-25</IncidentDate>
-    <IncidentTime>15:24:00</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE2</CodeValue>
+      <CodeValue>BE0</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -152,25 +95,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentIdentifier>4#0</IncidentIdentifier>
     <IncidentDate>2002-04-03</IncidentDate>
     <IncidentTime>12:01:41</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE0</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000002</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>4#1</IncidentIdentifier>
-    <IncidentDate>2001-11-15</IncidentDate>
-    <IncidentTime>10:21:53</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
       <CodeValue>BE1</CodeValue>
@@ -192,26 +116,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentTime>09:33:20</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE1</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>cgray</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>5#1</IncidentIdentifier>
-    <IncidentDate>2002-11-01</IncidentDate>
-    <IncidentTime>12:41:09</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE0</CodeValue>
+      <CodeValue>BE2</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -230,26 +135,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentTime>08:52:17</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE2</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>cgray</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>6#1</IncidentIdentifier>
-    <IncidentDate>2002-12-13</IncidentDate>
-    <IncidentTime>13:33:06</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE2</CodeValue>
+      <CodeValue>BE0</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -268,26 +154,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentTime>14:00:18</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE0</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>cgray</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>7#1</IncidentIdentifier>
-    <IncidentDate>2002-12-21</IncidentDate>
-    <IncidentTime>11:23:25</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE0</CodeValue>
+      <CodeValue>BE1</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -304,25 +171,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentIdentifier>8#0</IncidentIdentifier>
     <IncidentDate>2003-02-27</IncidentDate>
     <IncidentTime>09:28:28</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE2</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>cgray</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>8#1</IncidentIdentifier>
-    <IncidentDate>2003-03-17</IncidentDate>
-    <IncidentTime>14:46:16</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
@@ -358,50 +206,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StaffReference>
   </DisciplineIncident>
   <DisciplineIncident>
-    <IncidentIdentifier>9#1</IncidentIdentifier>
-    <IncidentDate>2003-03-02</IncidentDate>
-    <IncidentTime>08:28:30</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE2</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000001</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
     <IncidentIdentifier>10#0</IncidentIdentifier>
     <IncidentDate>2002-09-13</IncidentDate>
     <IncidentTime>14:28:40</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE0</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000002</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>10#1</IncidentIdentifier>
-    <IncidentDate>2002-09-16</IncidentDate>
-    <IncidentTime>12:55:45</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE2</CodeValue>
+      <CodeValue>BE1</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -420,26 +230,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentTime>10:45:55</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE1</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000001</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>11#1</IncidentIdentifier>
-    <IncidentDate>2003-04-05</IncidentDate>
-    <IncidentTime>09:09:42</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE1</CodeValue>
+      <CodeValue>BE2</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -456,25 +247,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentIdentifier>12#0</IncidentIdentifier>
     <IncidentDate>2003-02-19</IncidentDate>
     <IncidentTime>10:46:24</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE2</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000002</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>12#1</IncidentIdentifier>
-    <IncidentDate>2003-05-27</IncidentDate>
-    <IncidentTime>15:16:47</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
       <CodeValue>BE0</CodeValue>
@@ -494,25 +266,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentIdentifier>13#0</IncidentIdentifier>
     <IncidentDate>2003-12-30</IncidentDate>
     <IncidentTime>14:45:49</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE2</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000003</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>13#1</IncidentIdentifier>
-    <IncidentDate>2004-04-13</IncidentDate>
-    <IncidentTime>13:08:28</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
       <CodeValue>BE1</CodeValue>
@@ -548,50 +301,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StaffReference>
   </DisciplineIncident>
   <DisciplineIncident>
-    <IncidentIdentifier>14#1</IncidentIdentifier>
-    <IncidentDate>2003-12-31</IncidentDate>
-    <IncidentTime>08:09:21</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE1</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000004</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
     <IncidentIdentifier>15#0</IncidentIdentifier>
     <IncidentDate>2004-04-19</IncidentDate>
     <IncidentTime>15:31:06</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE1</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000004</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>15#1</IncidentIdentifier>
-    <IncidentDate>2004-04-09</IncidentDate>
-    <IncidentTime>11:24:13</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE1</CodeValue>
+      <CodeValue>BE0</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -610,26 +325,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentTime>09:58:07</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE0</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000004</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>16#1</IncidentIdentifier>
-    <IncidentDate>2003-11-21</IncidentDate>
-    <IncidentTime>11:39:55</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE0</CodeValue>
+      <CodeValue>BE1</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -646,25 +342,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentIdentifier>17#0</IncidentIdentifier>
     <IncidentDate>2003-10-13</IncidentDate>
     <IncidentTime>10:04:20</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE0</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>cgray</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>17#1</IncidentIdentifier>
-    <IncidentDate>2003-09-26</IncidentDate>
-    <IncidentTime>14:34:22</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
@@ -686,26 +363,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentTime>08:47:18</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE1</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>cgray</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>18#1</IncidentIdentifier>
-    <IncidentDate>2004-05-14</IncidentDate>
-    <IncidentTime>10:58:33</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE1</CodeValue>
+      <CodeValue>BE0</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -738,50 +396,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StaffReference>
   </DisciplineIncident>
   <DisciplineIncident>
-    <IncidentIdentifier>19#1</IncidentIdentifier>
-    <IncidentDate>2003-09-07</IncidentDate>
-    <IncidentTime>08:36:12</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE2</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>cgray</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
     <IncidentIdentifier>20#0</IncidentIdentifier>
     <IncidentDate>2003-12-18</IncidentDate>
     <IncidentTime>08:13:04</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE0</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>cgray</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>20#1</IncidentIdentifier>
-    <IncidentDate>2003-09-04</IncidentDate>
-    <IncidentTime>12:59:21</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE0</CodeValue>
+      <CodeValue>BE2</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -814,50 +434,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StaffReference>
   </DisciplineIncident>
   <DisciplineIncident>
-    <IncidentIdentifier>21#1</IncidentIdentifier>
-    <IncidentDate>2004-05-23</IncidentDate>
-    <IncidentTime>15:50:30</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE2</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000001</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
     <IncidentIdentifier>22#0</IncidentIdentifier>
     <IncidentDate>2004-04-11</IncidentDate>
     <IncidentTime>12:33:19</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE0</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000002</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>22#1</IncidentIdentifier>
-    <IncidentDate>2004-04-21</IncidentDate>
-    <IncidentTime>14:18:28</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE2</CodeValue>
+      <CodeValue>BE1</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -890,47 +472,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StaffReference>
   </DisciplineIncident>
   <DisciplineIncident>
-    <IncidentIdentifier>23#1</IncidentIdentifier>
-    <IncidentDate>2003-11-30</IncidentDate>
-    <IncidentTime>08:20:00</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE0</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000001</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
     <IncidentIdentifier>24#0</IncidentIdentifier>
     <IncidentDate>2004-01-25</IncidentDate>
     <IncidentTime>09:02:12</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE2</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000002</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>24#1</IncidentIdentifier>
-    <IncidentDate>2003-12-03</IncidentDate>
-    <IncidentTime>13:45:27</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
       <CodeValue>BE0</CodeValue>
@@ -950,25 +494,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentIdentifier>25#0</IncidentIdentifier>
     <IncidentDate>2001-11-12</IncidentDate>
     <IncidentTime>13:10:50</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE0</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>linda.kim</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>25#1</IncidentIdentifier>
-    <IncidentDate>2001-09-29</IncidentDate>
-    <IncidentTime>09:27:39</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
       <CodeValue>BE1</CodeValue>
@@ -1004,50 +529,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StaffReference>
   </DisciplineIncident>
   <DisciplineIncident>
-    <IncidentIdentifier>26#1</IncidentIdentifier>
-    <IncidentDate>2002-04-08</IncidentDate>
-    <IncidentTime>08:56:31</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE1</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>linda.kim</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
     <IncidentIdentifier>27#0</IncidentIdentifier>
     <IncidentDate>2001-09-28</IncidentDate>
     <IncidentTime>12:15:59</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE2</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>linda.kim</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>27#1</IncidentIdentifier>
-    <IncidentDate>2001-12-02</IncidentDate>
-    <IncidentTime>11:02:24</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE1</CodeValue>
+      <CodeValue>BE0</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1066,26 +553,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentTime>10:45:24</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE0</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000005</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>28#1</IncidentIdentifier>
-    <IncidentDate>2001-12-21</IncidentDate>
-    <IncidentTime>09:09:42</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE0</CodeValue>
+      <CodeValue>BE1</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1102,25 +570,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentIdentifier>29#0</IncidentIdentifier>
     <IncidentDate>2001-12-30</IncidentDate>
     <IncidentTime>10:36:22</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE0</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000006</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>29#1</IncidentIdentifier>
-    <IncidentDate>2001-10-13</IncidentDate>
-    <IncidentTime>11:41:57</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
@@ -1142,26 +591,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentTime>09:50:25</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE1</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000006</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>30#1</IncidentIdentifier>
-    <IncidentDate>2001-11-03</IncidentDate>
-    <IncidentTime>09:02:10</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE1</CodeValue>
+      <CodeValue>BE0</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1194,50 +624,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StaffReference>
   </DisciplineIncident>
   <DisciplineIncident>
-    <IncidentIdentifier>31#1</IncidentIdentifier>
-    <IncidentDate>2002-03-07</IncidentDate>
-    <IncidentTime>13:59:57</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE2</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000006</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
     <IncidentIdentifier>32#0</IncidentIdentifier>
     <IncidentDate>2002-03-09</IncidentDate>
     <IncidentTime>08:30:02</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE0</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000007</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>32#1</IncidentIdentifier>
-    <IncidentDate>2001-09-22</IncidentDate>
-    <IncidentTime>09:10:20</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE1</CodeValue>
+      <CodeValue>BE2</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1270,50 +662,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StaffReference>
   </DisciplineIncident>
   <DisciplineIncident>
-    <IncidentIdentifier>33#1</IncidentIdentifier>
-    <IncidentDate>2002-01-27</IncidentDate>
-    <IncidentTime>10:09:56</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE2</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000008</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
     <IncidentIdentifier>34#0</IncidentIdentifier>
     <IncidentDate>2002-01-06</IncidentDate>
     <IncidentTime>12:32:25</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE2</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000008</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>34#1</IncidentIdentifier>
-    <IncidentDate>2001-12-20</IncidentDate>
-    <IncidentTime>10:13:57</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE2</CodeValue>
+      <CodeValue>BE1</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1330,25 +684,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentIdentifier>35#0</IncidentIdentifier>
     <IncidentDate>2001-12-28</IncidentDate>
     <IncidentTime>11:18:22</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE2</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000008</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>35#1</IncidentIdentifier>
-    <IncidentDate>2001-11-01</IncidentDate>
-    <IncidentTime>12:04:50</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
@@ -1384,50 +719,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StaffReference>
   </DisciplineIncident>
   <DisciplineIncident>
-    <IncidentIdentifier>36#1</IncidentIdentifier>
-    <IncidentDate>2002-05-07</IncidentDate>
-    <IncidentTime>10:24:19</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE0</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000009</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
     <IncidentIdentifier>37#0</IncidentIdentifier>
     <IncidentDate>2003-04-25</IncidentDate>
     <IncidentTime>09:26:41</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE0</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000008</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>37#1</IncidentIdentifier>
-    <IncidentDate>2002-11-25</IncidentDate>
-    <IncidentTime>11:20:26</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE0</CodeValue>
+      <CodeValue>BE1</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1460,47 +757,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StaffReference>
   </DisciplineIncident>
   <DisciplineIncident>
-    <IncidentIdentifier>38#1</IncidentIdentifier>
-    <IncidentDate>2002-11-17</IncidentDate>
-    <IncidentTime>12:30:03</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE2</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000009</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
     <IncidentIdentifier>39#0</IncidentIdentifier>
     <IncidentDate>2003-02-04</IncidentDate>
     <IncidentTime>08:21:06</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE1</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000008</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>39#1</IncidentIdentifier>
-    <IncidentDate>2003-04-29</IncidentDate>
-    <IncidentTime>11:43:30</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
       <CodeValue>BE0</CodeValue>
@@ -1522,26 +781,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentTime>09:25:07</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE2</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000009</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>40#1</IncidentIdentifier>
-    <IncidentDate>2003-03-23</IncidentDate>
-    <IncidentTime>15:51:05</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE2</CodeValue>
+      <CodeValue>BE1</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1574,47 +814,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StaffReference>
   </DisciplineIncident>
   <DisciplineIncident>
-    <IncidentIdentifier>41#1</IncidentIdentifier>
-    <IncidentDate>2002-12-22</IncidentDate>
-    <IncidentTime>14:59:59</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE0</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000006</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
     <IncidentIdentifier>42#0</IncidentIdentifier>
     <IncidentDate>2002-11-16</IncidentDate>
     <IncidentTime>13:47:50</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE2</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000007</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>42#1</IncidentIdentifier>
-    <IncidentDate>2002-10-28</IncidentDate>
-    <IncidentTime>13:07:03</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
       <CodeValue>BE0</CodeValue>
@@ -1636,26 +838,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentTime>11:55:11</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE0</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000006</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>43#1</IncidentIdentifier>
-    <IncidentDate>2003-05-08</IncidentDate>
-    <IncidentTime>15:48:07</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE2</CodeValue>
+      <CodeValue>BE1</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1688,50 +871,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StaffReference>
   </DisciplineIncident>
   <DisciplineIncident>
-    <IncidentIdentifier>44#1</IncidentIdentifier>
-    <IncidentDate>2003-01-24</IncidentDate>
-    <IncidentTime>11:55:03</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE2</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000007</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
     <IncidentIdentifier>45#0</IncidentIdentifier>
     <IncidentDate>2002-11-07</IncidentDate>
     <IncidentTime>10:38:38</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE2</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>linda.kim</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>45#1</IncidentIdentifier>
-    <IncidentDate>2002-10-06</IncidentDate>
-    <IncidentTime>08:06:22</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE1</CodeValue>
+      <CodeValue>BE0</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1748,25 +893,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentIdentifier>46#0</IncidentIdentifier>
     <IncidentDate>2003-03-26</IncidentDate>
     <IncidentTime>15:40:03</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE2</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000005</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>46#1</IncidentIdentifier>
-    <IncidentDate>2003-02-05</IncidentDate>
-    <IncidentTime>08:44:06</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
       <CodeValue>BE1</CodeValue>
@@ -1788,26 +914,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentTime>10:31:51</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE0</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>linda.kim</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>47#1</IncidentIdentifier>
-    <IncidentDate>2002-11-26</IncidentDate>
-    <IncidentTime>15:23:35</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE1</CodeValue>
+      <CodeValue>BE2</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1840,50 +947,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StaffReference>
   </DisciplineIncident>
   <DisciplineIncident>
-    <IncidentIdentifier>48#1</IncidentIdentifier>
-    <IncidentDate>2003-03-30</IncidentDate>
-    <IncidentTime>10:55:39</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE1</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000005</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
     <IncidentIdentifier>49#0</IncidentIdentifier>
     <IncidentDate>2004-02-05</IncidentDate>
     <IncidentTime>09:24:19</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE2</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000008</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>49#1</IncidentIdentifier>
-    <IncidentDate>2004-02-29</IncidentDate>
-    <IncidentTime>13:02:04</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE0</CodeValue>
+      <CodeValue>BE1</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1902,26 +971,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentTime>13:23:09</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE0</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000009</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>50#1</IncidentIdentifier>
-    <IncidentDate>2003-11-30</IncidentDate>
-    <IncidentTime>08:11:11</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE0</CodeValue>
+      <CodeValue>BE2</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1938,25 +988,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentIdentifier>51#0</IncidentIdentifier>
     <IncidentDate>2004-01-17</IncidentDate>
     <IncidentTime>12:13:24</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE1</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000010</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>51#1</IncidentIdentifier>
-    <IncidentDate>2003-12-30</IncidentDate>
-    <IncidentTime>09:20:05</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
       <CodeValue>BE0</CodeValue>
@@ -1978,26 +1009,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentTime>09:01:31</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE0</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000011</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>52#1</IncidentIdentifier>
-    <IncidentDate>2003-09-22</IncidentDate>
-    <IncidentTime>08:09:19</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE2</CodeValue>
+      <CodeValue>BE1</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2016,26 +1028,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentTime>11:51:12</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE0</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000006</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>53#1</IncidentIdentifier>
-    <IncidentDate>2004-02-22</IncidentDate>
-    <IncidentTime>11:37:10</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE0</CodeValue>
+      <CodeValue>BE2</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2052,25 +1045,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentIdentifier>54#0</IncidentIdentifier>
     <IncidentDate>2003-11-26</IncidentDate>
     <IncidentTime>15:35:50</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE1</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000007</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>54#1</IncidentIdentifier>
-    <IncidentDate>2004-01-13</IncidentDate>
-    <IncidentTime>10:10:20</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
       <CodeValue>BE0</CodeValue>
@@ -2106,50 +1080,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StaffReference>
   </DisciplineIncident>
   <DisciplineIncident>
-    <IncidentIdentifier>55#1</IncidentIdentifier>
-    <IncidentDate>2004-04-12</IncidentDate>
-    <IncidentTime>13:40:18</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE1</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000006</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
     <IncidentIdentifier>56#0</IncidentIdentifier>
     <IncidentDate>2004-01-20</IncidentDate>
     <IncidentTime>15:31:26</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000006</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>56#1</IncidentIdentifier>
-    <IncidentDate>2003-10-06</IncidentDate>
-    <IncidentTime>11:58:43</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE0</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2182,47 +1118,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StaffReference>
   </DisciplineIncident>
   <DisciplineIncident>
-    <IncidentIdentifier>57#1</IncidentIdentifier>
-    <IncidentDate>2003-12-03</IncidentDate>
-    <IncidentTime>10:32:48</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE1</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>linda.kim</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
     <IncidentIdentifier>58#0</IncidentIdentifier>
     <IncidentDate>2004-04-01</IncidentDate>
     <IncidentTime>13:43:20</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE1</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000005</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>58#1</IncidentIdentifier>
-    <IncidentDate>2004-03-11</IncidentDate>
-    <IncidentTime>12:39:57</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
       <CodeValue>BE1</CodeValue>
@@ -2244,26 +1142,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentTime>13:10:15</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE0</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>linda.kim</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>59#1</IncidentIdentifier>
-    <IncidentDate>2004-04-10</IncidentDate>
-    <IncidentTime>08:05:14</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE1</CodeValue>
+      <CodeValue>BE2</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2282,26 +1161,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentTime>11:11:07</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE2</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000005</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>60#1</IncidentIdentifier>
-    <IncidentDate>2004-02-20</IncidentDate>
-    <IncidentTime>09:59:18</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE2</CodeValue>
+      <CodeValue>BE0</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2318,25 +1178,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentIdentifier>61#0</IncidentIdentifier>
     <IncidentDate>2001-11-19</IncidentDate>
     <IncidentTime>08:16:12</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE2</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>rbraverman</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>61#1</IncidentIdentifier>
-    <IncidentDate>2001-09-10</IncidentDate>
-    <IncidentTime>09:01:07</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
       <CodeValue>BE1</CodeValue>
@@ -2358,25 +1199,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentTime>10:24:27</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE0</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000012</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>62#1</IncidentIdentifier>
-    <IncidentDate>2002-02-17</IncidentDate>
-    <IncidentTime>13:53:11</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
       <CodeValue>BE2</CodeValue>
     </Behaviors>
     <SchoolReference>
@@ -2396,26 +1218,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentTime>08:44:36</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE1</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000013</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>63#1</IncidentIdentifier>
-    <IncidentDate>2001-09-21</IncidentDate>
-    <IncidentTime>10:19:29</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE1</CodeValue>
+      <CodeValue>BE0</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2434,26 +1237,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentTime>13:07:40</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE2</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000014</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>64#1</IncidentIdentifier>
-    <IncidentDate>2002-02-02</IncidentDate>
-    <IncidentTime>09:27:55</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE2</CodeValue>
+      <CodeValue>BE1</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2472,26 +1256,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentTime>09:57:34</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE1</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000015</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>65#1</IncidentIdentifier>
-    <IncidentDate>2002-04-07</IncidentDate>
-    <IncidentTime>11:27:38</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE0</CodeValue>
+      <CodeValue>BE2</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2524,50 +1289,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StaffReference>
   </DisciplineIncident>
   <DisciplineIncident>
-    <IncidentIdentifier>66#1</IncidentIdentifier>
-    <IncidentDate>2002-02-27</IncidentDate>
-    <IncidentTime>08:01:19</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE0</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000016</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
     <IncidentIdentifier>67#0</IncidentIdentifier>
     <IncidentDate>2002-10-25</IncidentDate>
     <IncidentTime>14:56:25</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE0</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000016</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>67#1</IncidentIdentifier>
-    <IncidentDate>2003-03-03</IncidentDate>
-    <IncidentTime>09:13:05</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE0</CodeValue>
+      <CodeValue>BE1</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2586,26 +1313,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentTime>10:04:30</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE1</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000015</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>68#1</IncidentIdentifier>
-    <IncidentDate>2003-02-01</IncidentDate>
-    <IncidentTime>13:14:06</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE1</CodeValue>
+      <CodeValue>BE2</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2624,26 +1332,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentTime>12:27:34</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE1</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000014</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>69#1</IncidentIdentifier>
-    <IncidentDate>2002-11-14</IncidentDate>
-    <IncidentTime>11:46:26</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE2</CodeValue>
+      <CodeValue>BE0</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2662,26 +1351,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentTime>14:04:47</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE2</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000013</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>70#1</IncidentIdentifier>
-    <IncidentDate>2003-04-05</IncidentDate>
-    <IncidentTime>13:49:25</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE2</CodeValue>
+      <CodeValue>BE1</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2698,25 +1368,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentIdentifier>71#0</IncidentIdentifier>
     <IncidentDate>2003-04-23</IncidentDate>
     <IncidentTime>08:52:49</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE1</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000012</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>71#1</IncidentIdentifier>
-    <IncidentDate>2002-12-11</IncidentDate>
-    <IncidentTime>11:34:58</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
@@ -2752,47 +1403,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StaffReference>
   </DisciplineIncident>
   <DisciplineIncident>
-    <IncidentIdentifier>72#1</IncidentIdentifier>
-    <IncidentDate>2004-03-07</IncidentDate>
-    <IncidentTime>09:40:33</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE0</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000016</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
     <IncidentIdentifier>73#0</IncidentIdentifier>
     <IncidentDate>2004-05-21</IncidentDate>
     <IncidentTime>11:37:52</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
-      <CodeValue>BE2</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000015</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>73#1</IncidentIdentifier>
-    <IncidentDate>2003-12-02</IncidentDate>
-    <IncidentTime>11:48:42</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
       <CodeValue>BE1</CodeValue>
@@ -2814,25 +1427,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentTime>13:28:02</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE1</CodeValue>
-    </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000014</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>74#1</IncidentIdentifier>
-    <IncidentDate>2004-05-25</IncidentDate>
-    <IncidentTime>10:15:42</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
-    <Behaviors>
       <CodeValue>BE2</CodeValue>
     </Behaviors>
     <SchoolReference>
@@ -2852,7 +1446,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentTime>10:30:34</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
     <Behaviors>
-      <CodeValue>BE1</CodeValue>
+      <CodeValue>BE0</CodeValue>
     </Behaviors>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2865,23 +1459,1579 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </StaffIdentity>
     </StaffReference>
   </DisciplineIncident>
-  <DisciplineIncident>
-    <IncidentIdentifier>75#1</IncidentIdentifier>
-    <IncidentDate>2003-11-04</IncidentDate>
-    <IncidentTime>12:18:46</IncidentTime>
-    <IncidentLocation>Classroom</IncidentLocation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>1#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>2#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
     </Behaviors>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <StaffReference>
-      <StaffIdentity>
-        <StaffUniqueStateId>tech-0000000013</StaffUniqueStateId>
-      </StaffIdentity>
-    </StaffReference>
-  </DisciplineIncident>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>3#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>4#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>5#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>6#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>7#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>8#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>13#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>14#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>15#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>16#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>2</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>25#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>2</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>26#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>2</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>27#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>2</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>28#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>2</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>41#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>2</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>42#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>2</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>43#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>2</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>44#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>2</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>49#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>2</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>50#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>2</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>51#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>2</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>52#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>3</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>29#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>3</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>30#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>3</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>31#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>3</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>32#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>3</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>37#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>3</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>38#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>3</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>39#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>3</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>40#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>3</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>21#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>3</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>22#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>3</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>23#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>3</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>24#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>4</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>33#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>4</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>34#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>4</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>35#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>4</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>36#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>4</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>9#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>4</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>10#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>4</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>11#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>4</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>12#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>4</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>17#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>4</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>18#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>4</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>19#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>4</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>20#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>5</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>61#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>5</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>71#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>5</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>75#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>6</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>62#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>6</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>70#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>6</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>74#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>7</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>63#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>7</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>69#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>7</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>73#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>8</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>64#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>8</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>68#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>8</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>72#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>9</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>65#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>9</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>67#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>9</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>57#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>9</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>58#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>9</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>59#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>9</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>60#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>10</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>66#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>10</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>45#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>10</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>46#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>10</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>47#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>10</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>48#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>10</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>53#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>10</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>54#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE0</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>10</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>55#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE1</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
+  <StudentDisciplineIncidentAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>10</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <DisciplineIncidentReference>
+      <DisciplineIncidentIdentity>
+        <IncidentIdentifier>56#0</IncidentIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </DisciplineIncidentIdentity>
+    </DisciplineIncidentReference>
+    <StudentParticipationCode>Perpetrator</StudentParticipationCode>
+    <Behaviors>
+      <CodeValue>BE2</CodeValue>
+    </Behaviors>
+  </StudentDisciplineIncidentAssociation>
 </InterchangeStudentDiscipline>

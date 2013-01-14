@@ -53,6 +53,8 @@ describe "WorkOrderProcessor" do
   let(:scenario) {Scenario.new({'BEGIN_YEAR' => 2001, 'NUMBER_OF_YEARS' => 2, 
                     'ASSESSMENTS_TAKEN' => {'GRADE_WIDE_ASSESSMENTS' => 5}, 'ASSESSMENTS_PER_GRADE'=>3,
                     'ASSESSMENT_ITEMS_PER_ASSESSMENT' => {'GRADE_WIDE_ASSESSMENTS' => 3},
+                    'STUDENTS_PER_SECTION' => {'high' => 2, 'middle' => 2, 'elementary' => 2},
+                    'INCIDENTS_PER_SECTION' => 1,
                     'INCLUDE_PARENTS' => true, 'COHORTS_PER_SCHOOL' => 4, 'PROBABILITY_STUDENT_IN_COHORT' => 1, 'DAYS_IN_COHORT' => 30})}
   describe "#build" do
 
@@ -63,7 +65,7 @@ describe "WorkOrderProcessor" do
       class Factory
         # student creation
         attr_accessor :students, :school_associations, :assessment_associations, :section_associations, :assessment_items,
-          :parents, :parent_associations, :cohort_associations, :program_associations, :report_cards
+          :parents, :parent_associations, :cohort_associations, :program_associations, :report_cards, :discipline_incidents
         def create(work_order)
           to_build = work_order.build
           @students = to_build.select{|a| a.kind_of? Student}
@@ -76,6 +78,7 @@ describe "WorkOrderProcessor" do
           @program_associations = to_build.select{|a| a.kind_of? StudentProgramAssociation}
           @cohort_associations = to_build.select{|a| a.kind_of? StudentCohortAssociation}
           @report_cards = to_build.select{|a| a.kind_of? ReportCard}
+          @discipline_incidents = to_build.select{|a| a.kind_of? StudentDisciplineIncidentAssociation}
         end
       end
 
@@ -172,6 +175,14 @@ describe "WorkOrderProcessor" do
           report_card.gpa_given_grading_period.should be <= 4.0
           report_card.gpa_given_grading_period.should be >= 0.0
         }
+      end
+
+      it "will generate student discipline incident associations when appropriate" do
+        # with only two students in the section and one incident per section, student should get a 
+        # single incident association each year
+        # This may requiring tweaking some ideas, the important part is that they get generated in some cases
+        # but not in others
+        factory.discipline_incidents.should have(2).items
       end
     end
 
