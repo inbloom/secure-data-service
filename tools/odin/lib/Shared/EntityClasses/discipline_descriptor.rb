@@ -18,12 +18,6 @@ limitations under the License.
 
 require_relative 'baseEntity'
 
-# creates a behavior descriptor
-class BehaviorDescriptor < Descriptor
-  attr_accessor :category
-
-  def initialize(code, short, desc, ed_org_id, category)
-    super(code, short, desc, ed_org_id)
-    @category = category
-  end
+# creates discipline descriptor
+class DisciplineDescriptor < Descriptor
 end

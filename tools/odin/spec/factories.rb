@@ -75,6 +75,10 @@ FactoryGirl.define do
     initialize_with{ new("42", "Incident", "The Noodle Incident", "Standard SEA", "School Violation")}
   end
 
+  factory :discipline_descriptor do
+    initialize_with{ new("42", "Chalkboard", "Student has to write a sentance over and over again on the chalkboard", "Standard SEA")}
+  end
+
   factory :date_interval do
     d = Date.new(1985, 11, 18)
     initialize_with{ new(d, d+180, 180) }

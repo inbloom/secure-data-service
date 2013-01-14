@@ -34,6 +34,36 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </BehaviorDescriptor>
+  <DisciplineDescriptor>
+    <CodeValue>DI0</CodeValue>
+    <ShortDescription>Warning</ShortDescription>
+    <Description>Student is given a verbal warning</Description>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </DisciplineDescriptor>
+  <DisciplineDescriptor>
+    <CodeValue>DI1</CodeValue>
+    <ShortDescription>Detention</ShortDescription>
+    <Description>Student is given detention</Description>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </DisciplineDescriptor>
+  <DisciplineDescriptor>
+    <CodeValue>DI2</CodeValue>
+    <ShortDescription>Suspension</ShortDescription>
+    <Description>Student is suspended from school</Description>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </DisciplineDescriptor>
   <DisciplineIncident>
     <IncidentIdentifier>1#0</IncidentIdentifier>
     <IncidentDate>2002-05-19</IncidentDate>

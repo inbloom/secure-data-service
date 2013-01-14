@@ -1,5 +1,4 @@
-=begin
-
+{{! 
 Copyright 2012 Shared Learning Collaborative, LLC
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,17 +12,16 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
-=end
-
-require_relative 'baseEntity'
-
-# creates a behavior descriptor
-class BehaviorDescriptor < Descriptor
-  attr_accessor :category
-
-  def initialize(code, short, desc, ed_org_id, category)
-    super(code, short, desc, ed_org_id)
-    @category = category
-  end
-end
+}}
+{{#entity}}
+  <DisciplineDescriptor>
+    <CodeValue>{{code}}</CodeValue>
+    <ShortDescription>{{short_description}}</ShortDescription>
+    <Description>{{description}}</Description>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>{{ed_org_id}}</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </DisciplineDescriptor>
+{{/entity}}
