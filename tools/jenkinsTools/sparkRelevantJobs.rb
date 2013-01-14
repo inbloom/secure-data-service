@@ -117,8 +117,9 @@ def updateMongo(hash)
   conn = Mongo::Connection.new(@jenkinsHostname, @jenkinsMongoPort)
   db = conn.db("git_hash")
   coll = db['commit']
+  currTime = Time.new
 
-  coll.update({"_id" => "last_used_commit"}, {"$set" => {"commit_hash" => hash}})
+  coll.update({"_id" => "last_used_commit"}, {"$set" => {"commit_hash" => hash, "lastUpdate" => currTime}})
 end
 
 ##################### Main Methods #########################################
