@@ -1623,10 +1623,11 @@
 					<xs:documentation>Month, day and year of the first day of the
 						session.
 					</xs:documentation>
-					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
-					</xs:appinfo>
+          <xs:appinfo>
+            <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+            <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+            <sli:beginDate>yes</sli:beginDate>
+          </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name='endDate' type='xs:date'>
@@ -1635,10 +1636,11 @@
 						session.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
-					</xs:appinfo>
-				</xs:annotation>
+            <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+            <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+            <sli:endDate>yes</sli:endDate>
+          </xs:appinfo>
+        </xs:annotation>
 			</xs:element>
 			<xs:element name='totalInstructionalDays' type='xs:int'>
 				<xs:annotation>
@@ -8733,6 +8735,8 @@
 				<sli:CollectionType>program</sli:CollectionType>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 				<sli:schemaVersion>1</sli:schemaVersion>
+                <sli:associatedDatedCollection>staffProgramAssociation</sli:associatedDatedCollection>
+                <sli:associatedDatedCollection>studentProgramAssociation</sli:associatedDatedCollection>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
