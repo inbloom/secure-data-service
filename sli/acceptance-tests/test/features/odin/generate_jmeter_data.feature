@@ -7,8 +7,8 @@ Scenario: Generate jmeter api performance data set using Odin generate tool
     When I generate the jmeter api performance data set in the generated directory
       And I zip generated data under filename OdinSampleDataSet.zip to the new OdinSampleDataSet directory
       And I copy generated data to the new OdinSampleDataSet directory
-
-    Then I should see 13 xml interchange files
+      
+    Then I should see 12 xml interchange files
       And I should see InterchangeAssessmentMetadata.xml has been generated
       And I should see InterchangeAttendance.xml has been generated
       And I should see InterchangeEducationOrganization.xml has been generated
