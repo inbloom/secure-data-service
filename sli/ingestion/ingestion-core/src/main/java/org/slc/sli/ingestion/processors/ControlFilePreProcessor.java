@@ -41,13 +41,10 @@ import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
-import org.slc.sli.ingestion.landingzone.LandingZone;
-import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.landingzone.validation.IngestionException;
 import org.slc.sli.ingestion.landingzone.validation.SubmissionLevelException;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -108,33 +105,25 @@ public class ControlFilePreProcessor implements Processor {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
 
         String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
+        String controlFileName = exchange.getIn().getHeader("ResourceId", String.class);
         TenantContext.setJobId(batchJobId);
-
-        String controlFileName = "control_file";
-
-        ReportStats reportStats = null;
 
         // TODO handle invalid control file (user error)
         // TODO handle IOException or other system error
-        NewBatchJob newBatchJob = null;
-        File fileForControlFile = null;
+        NewBatchJob currentBatchJob = null;
         ControlFileDescriptor controlFileDescriptor = null;
-        Source source = null;
+
+        ReportStats reportStats = new SimpleReportStats();
+        Source source = new JobSource(controlFileName, BATCH_JOB_STAGE.getName());
 
         try {
-            fileForControlFile = exchange.getIn().getBody(File.class);
-            controlFileName = fileForControlFile.getName();
-            source = new JobSource(controlFileName, BATCH_JOB_STAGE.getName());
-            reportStats = new SimpleReportStats();
+            currentBatchJob = getBatchJob(batchJobId);
 
-            newBatchJob = getOrCreateNewBatchJob(batchJobId, fileForControlFile);
-            createResourceEntryAndAddToJob(fileForControlFile, newBatchJob);
+            ControlFile controlFile = parseControlFile(currentBatchJob, controlFileName);
 
-            ControlFile controlFile = parseControlFile(newBatchJob, fileForControlFile);
+            if (ensureTenantDbIsReady(currentBatchJob.getTenantId())) {
 
-            if (ensureTenantDbIsReady(newBatchJob.getTenantId())) {
-
-                controlFileDescriptor = createControlFileDescriptor(newBatchJob, controlFile);
+                controlFileDescriptor = new ControlFileDescriptor(controlFile, currentBatchJob.getSourceId());
 
                 auditSecurityEvent(controlFile);
 
@@ -142,29 +131,29 @@ public class ControlFilePreProcessor implements Processor {
                 databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0001);
             }
 
-            setExchangeHeaders(exchange, newBatchJob, reportStats);
+            setExchangeHeaders(exchange, currentBatchJob, reportStats);
 
-            setExchangeBody(exchange, controlFileDescriptor, reportStats, newBatchJob.getId());
+            setExchangeBody(exchange, controlFileDescriptor, reportStats, currentBatchJob.getId());
 
         } catch (SubmissionLevelException exception) {
             String id = "null";
-            if (newBatchJob != null) {
-                id = newBatchJob.getId();
-                if (newBatchJob.getResourceEntries().size() == 0) {
+            if (currentBatchJob != null) {
+                id = currentBatchJob.getId();
+                if (currentBatchJob.getResourceEntries().size() == 0) {
                     databaseMessageReport.warning(reportStats, source, CoreMessageCode.CORE_0002);
                 }
             }
             handleExceptions(exchange, id, exception, reportStats, source);
         } catch (Exception exception) {
             String id = "null";
-            if (newBatchJob != null) {
-                id = newBatchJob.getId();
+            if (currentBatchJob != null) {
+                id = currentBatchJob.getId();
             }
             handleExceptions(exchange, id, exception, reportStats, source);
         } finally {
-            if (newBatchJob != null) {
-                BatchJobUtils.stopStageAndAddToJob(stage, newBatchJob);
-                batchJobDAO.saveBatchJob(newBatchJob);
+            if (currentBatchJob != null) {
+                BatchJobUtils.stopStageAndAddToJob(stage, currentBatchJob);
+                batchJobDAO.saveBatchJob(currentBatchJob);
             }
         }
     }
@@ -219,41 +208,35 @@ public class ControlFilePreProcessor implements Processor {
         }
     }
 
-    private NewBatchJob getOrCreateNewBatchJob(String batchJobId, File cf) {
-        NewBatchJob job = null;
-        if (batchJobId != null) {
-            job = batchJobDAO.findBatchJobById(batchJobId);
-        } else {
-            job = createNewBatchJob(cf);
-        }
+    private NewBatchJob getBatchJob(String batchJobId) {
+        NewBatchJob job = batchJobDAO.findBatchJobById(batchJobId);
 
         TenantContext.setJobId(job.getId());
 
         return job;
     }
 
-    private ControlFile parseControlFile(NewBatchJob newBatchJob, File fileForControlFile) throws IOException,
+    private ControlFile parseControlFile(NewBatchJob batchJob, String controlFileName) throws IOException,
             IngestionException {
-        File lzFile = new File(newBatchJob.getTopLevelSourceId());
-        LandingZone topLevelLandingZone = new LocalFileSystemLandingZone(lzFile);
 
-        ControlFile controlFile = ControlFile.parse(fileForControlFile, topLevelLandingZone, databaseMessageReport);
+        registerResourceEntry(batchJob, controlFileName);
 
-        newBatchJob.setTotalFiles(controlFile.getFileEntries().size());
+        String tenantId = findCurrentTenant(batchJob);
 
-        // derive the tenantId property from the landing zone directory with a mongo lookup
-        String tenantId = setTenantIdFromDb(controlFile, lzFile.getAbsolutePath());
-        newBatchJob.setTenantId(tenantId);
+        ControlFile controlFile = ControlFile.parse(batchJob.getSourceId(), controlFileName, databaseMessageReport);
 
-        TenantContext.setTenantId(newBatchJob.getTenantId());
+        batchJob.setTotalFiles(controlFile.getFileEntries().size());
+        batchJob.setTenantId(tenantId);
+
+        TenantContext.setTenantId(tenantId);
 
         return controlFile;
     }
 
-    private ControlFileDescriptor createControlFileDescriptor(NewBatchJob newBatchJob, ControlFile controlFile) {
-        File sourceFile = new File(newBatchJob.getSourceId());
-        LandingZone resolvedLandingZone = new LocalFileSystemLandingZone(sourceFile);
-        return new ControlFileDescriptor(controlFile, resolvedLandingZone);
+    private String findCurrentTenant(NewBatchJob batchJob) throws IngestionException {
+        File lzFile = new File(batchJob.getTopLevelSourceId());
+
+        return getTenantIdFromDb(lzFile.getAbsolutePath());
     }
 
     /**
@@ -294,22 +277,16 @@ public class ControlFilePreProcessor implements Processor {
         }
     }
 
-    private NewBatchJob createNewBatchJob(File controlFile) {
-        NewBatchJob newJob = NewBatchJob.createJobForFile(controlFile.getName());
-        newJob.setSourceId(controlFile.getParentFile().getAbsolutePath() + File.separator);
-        newJob.setStatus(BatchJobStatusType.RUNNING.getName());
-        LOG.info("Created job [{}]", newJob.getId());
-        return newJob;
-    }
-
-    private void createResourceEntryAndAddToJob(File cf, NewBatchJob newJob) {
+    private void registerResourceEntry(NewBatchJob batchJob, String controlFile) {
         ResourceEntry resourceEntry = new ResourceEntry();
-        resourceEntry.setResourceId(cf.getName());
-        resourceEntry.setExternallyUploadedResourceId(cf.getName());
-        resourceEntry.setResourceName(newJob.getSourceId() + cf.getName());
+        resourceEntry.setResourceId(controlFile);
+        resourceEntry.setExternallyUploadedResourceId(controlFile);
+        resourceEntry.setResourceName(controlFile);
+        resourceEntry.setResourceZipParent(batchJob.getSourceId());
         resourceEntry.setResourceFormat(FileFormat.CONTROL_FILE.getCode());
-        resourceEntry.setTopLevelLandingZonePath(newJob.getTopLevelSourceId());
-        newJob.getResourceEntries().add(resourceEntry);
+        resourceEntry.setTopLevelLandingZonePath(batchJob.getTopLevelSourceId());
+
+        batchJob.getResourceEntries().add(resourceEntry);
     }
 
     /**
@@ -318,13 +295,11 @@ public class ControlFilePreProcessor implements Processor {
      *
      * Throws an IngestionException if a tenantId could not be resolved.
      */
-    private String setTenantIdFromDb(ControlFile cf, String lzPath) throws IngestionException {
+    private String getTenantIdFromDb(String lzPath) throws IngestionException {
         String absLzPath = new File(lzPath).getAbsolutePath();
         // TODO add user facing error report for no tenantId found
         String tenantId = tenantDA.getTenantId(absLzPath);
-        if (tenantId != null) {
-            cf.getConfigProperties().put("tenantId", tenantId);
-        } else {
+        if (tenantId == null) {
             throw new IngestionException("Could not find tenantId for landing zone: " + absLzPath);
         }
         return tenantId;

@@ -17,8 +17,6 @@
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;

@@ -21,7 +21,6 @@ import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
-import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
@@ -33,16 +32,15 @@ import org.slc.sli.ingestion.validation.Validator;
  * File Type validator.
  *
  */
-public class FileTypeValidator implements Validator<FileEntryDescriptor> {
+public class FileTypeValidator implements Validator<IngestionFileEntry> {
 
     private static final String STAGE_NAME = "File Type Validation";
 
     private static final Logger LOG = LoggerFactory.getLogger(XmlFileValidator.class);
 
     @Override
-    public boolean isValid(FileEntryDescriptor item, AbstractMessageReport report, ReportStats reportStats,
+    public boolean isValid(IngestionFileEntry entry, AbstractMessageReport report, ReportStats reportStats,
             Source source) {
-        IngestionFileEntry entry = item.getFileItem();
         FileType fileType = entry.getFileType();
 
         if (fileType == null) {

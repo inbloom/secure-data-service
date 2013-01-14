@@ -120,7 +120,7 @@ public class ZipFileUtilTest {
         ZipFileUtil.getInputStreamForFile(zipFile, "doesnotmatter");
     }
 
-    @Test
+    @Test(expected = FileNotFoundException.class)
     public void testTryNoFileInputStreamZip() throws IOException {
         File zipFile = new File(ZIP_FILE_DIR, ZIP_FILE_WITH_NO_DIRS_NAME);
 
@@ -128,8 +128,6 @@ public class ZipFileUtilTest {
 
         try {
             is = ZipFileUtil.getInputStreamForFile(zipFile, "doesnotexist");
-
-            Assert.assertNull(is);
         } finally {
             IOUtils.closeQuietly(is);
         }

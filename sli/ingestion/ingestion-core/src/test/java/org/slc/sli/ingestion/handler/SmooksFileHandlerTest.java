@@ -37,7 +37,6 @@ import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.IngestionTest;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
@@ -62,9 +61,6 @@ public class SmooksFileHandlerTest {
     @Autowired
     SmooksFileHandler smooksFileHandler;
 
-    @Autowired
-    LocalFileSystemLandingZone lz;
-
     ReportStats reportStats = new SimpleReportStats();
 
     /*
@@ -82,9 +78,8 @@ public class SmooksFileHandlerTest {
                 .getFile("fileLevelTestData/invalidXML/valueTypeNotMatchAttributeType/student.xml");
 
         // Create Ingestion File Entry
-        IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML,
+        IngestionFileEntry inputFileEntry = new IngestionFileEntry(inputFile.getParentFile().getAbsolutePath(), FileFormat.EDFI_XML,
                 FileType.XML_STUDENT_PARENT_ASSOCIATION, inputFile.getName(), MD5.calculate(inputFile));
-        inputFileEntry.setFile(inputFile);
 
         AbstractMessageReport errorReport = new DummyMessageReport();
         ReportStats reportStats = new SimpleReportStats();
@@ -101,9 +96,8 @@ public class SmooksFileHandlerTest {
         File inputFile = IngestionTest.getFile("fileLevelTestData/invalidXML/malformedXML/student.xml");
 
         // Create Ingestion File Entry
-        IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML,
-                FileType.XML_STUDENT_PARENT_ASSOCIATION, inputFile.getName(), MD5.calculate(inputFile), lz.getLZId());
-        inputFileEntry.setFile(inputFile);
+        IngestionFileEntry inputFileEntry = new IngestionFileEntry(inputFile.getParentFile().getAbsolutePath(), FileFormat.EDFI_XML,
+                FileType.XML_STUDENT_PARENT_ASSOCIATION, inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setBatchJobId("111111111-222222222-333333333-444444444-555555555-6");
 
         AbstractMessageReport errorReport = new DummyMessageReport();
@@ -124,9 +118,8 @@ public class SmooksFileHandlerTest {
         File inputFile = IngestionTest.getFile("fileLevelTestData/validXML/student.xml");
 
         // Create Ingestion File Entry
-        IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML,
+        IngestionFileEntry inputFileEntry = new IngestionFileEntry(inputFile.getParentFile().getAbsolutePath(), FileFormat.EDFI_XML,
                 FileType.XML_STUDENT_PARENT_ASSOCIATION, inputFile.getName(), MD5.calculate(inputFile));
-        inputFileEntry.setFile(inputFile);
         inputFileEntry.setBatchJobId("111111111-222222222-333333333-444444444-555555555-6");
 
         AbstractMessageReport errorReport = new DummyMessageReport();
@@ -147,9 +140,8 @@ public class SmooksFileHandlerTest {
         PrivateAccessor.setField(smooksFileHandler, "sliSmooksFactory", factory);
 
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudent-Valid.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION,
-                xmlFile.getAbsolutePath(), "", lz.getLZId());
-        ife.setFile(xmlFile);
+        IngestionFileEntry ife = new IngestionFileEntry(xmlFile.getParentFile().getAbsolutePath(), FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION,
+                xmlFile.getName(), "");
         AbstractMessageReport errorReport = Mockito.mock(AbstractMessageReport.class);
 
         SmooksEdFiVisitor visitor = SmooksEdFiVisitor.createInstance("", "", errorReport, reportStats, ife);

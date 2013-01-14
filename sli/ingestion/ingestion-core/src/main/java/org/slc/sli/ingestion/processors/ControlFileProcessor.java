@@ -146,10 +146,6 @@ public class ControlFileProcessor implements Processor {
             setExchangeHeaders(exchange, newJob, reportStats);
 
             setExchangeBody(exchange, batchJobId);
-            if (!cf.getFile().delete()) {
-                LOG.debug("Failed to delete: {}", cf.getFile().getPath());
-            }
-
         } catch (Exception exception) {
             handleExceptions(exchange, batchJobId, exception);
         } finally {
@@ -227,7 +223,7 @@ public class ControlFileProcessor implements Processor {
             ResourceEntry resourceEntry = new ResourceEntry();
             resourceEntry.setResourceId(file.getFileName());
             resourceEntry.setExternallyUploadedResourceId(file.getFileName());
-            resourceEntry.setResourceName(newJob.getSourceId() + file.getFileName());
+            resourceEntry.setResourceName(file.getFileName());
             resourceEntry.setResourceFormat(file.getFileFormat().getCode());
             resourceEntry.setResourceType(file.getFileType().getName());
             resourceEntry.setChecksum(file.getChecksum());

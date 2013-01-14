@@ -19,6 +19,8 @@ package org.slc.sli.ingestion.processors;
 
 import java.io.File;
 
+import junitx.util.PrivateAccessor;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.impl.DefaultExchange;
@@ -30,6 +32,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.ingestion.IngestionTest;
+import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.queues.MessageType;
 
 /**
@@ -55,7 +58,7 @@ public class ZipFileProcessorTest {
         zipProc.process(preObject);
 
         Assert.assertNotNull(preObject.getIn().getBody());
-        Assert.assertEquals("ControlFile.ctl", ((File) preObject.getIn().getBody()).getName());
+        Assert.assertEquals("ControlFile.ctl", preObject.getIn().getHeader("ResourceId"));
     }
 
     @Test
@@ -70,5 +73,14 @@ public class ZipFileProcessorTest {
         Assert.assertNotNull(preObject.getIn().getBody());
         Assert.assertTrue((Boolean) preObject.getIn().getHeader("hasErrors"));
         Assert.assertEquals(preObject.getIn().getHeader("IngestionMessageType") , MessageType.BATCH_REQUEST.name());
+    }
+
+    @Test
+    public void testBatchJobCreation() throws Throwable {
+        File zipFile = IngestionTest.getFile("zip/ValidZip.zip");
+
+        NewBatchJob job = (NewBatchJob) PrivateAccessor.invoke(zipProc, "createNewBatchJob", new Class<?>[] { File.class }, new Object[] { zipFile });
+
+        Assert.assertEquals(zipFile.getParent(), job.getTopLevelSourceId());
     }
 }

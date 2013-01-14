@@ -183,7 +183,6 @@ public class NewBatchJob implements Job {
 
     public void setSourceId(String sourceId) {
         this.sourceId = sourceId;
-        this.topLevelSourceId = deriveTopLevelSourceId(sourceId);
     }
 
     private String deriveTopLevelSourceId(String sourceId) {
@@ -324,35 +323,19 @@ public class NewBatchJob implements Job {
 
         // create IngestionFileEntry items from eligible ResourceEntry items
         for (ResourceEntry resourceEntry : resourceEntries) {
-            String lzPath = resourceEntry.getTopLevelLandingZonePath();
             FileFormat fileFormat = FileFormat.findByCode(resourceEntry.getResourceFormat());
             if (fileFormat != null && resourceEntry.getResourceType() != null) {
 
                 FileType fileType = FileType.findByNameAndFormat(resourceEntry.getResourceType(), fileFormat);
                 if (fileType != null) {
-                    IngestionFileEntry ingestionFileEntry = new IngestionFileEntry(fileFormat, fileType,
-                            resourceEntry.getResourceId(), resourceEntry.getChecksum(), lzPath);
+                    IngestionFileEntry ingestionFileEntry = new IngestionFileEntry(resourceEntry.getResourceZipParent(), fileFormat, fileType,
+                            resourceEntry.getResourceId(), resourceEntry.getChecksum());
                     ingestionFileEntries.add(ingestionFileEntry);
                 }
             }
         }
 
         return ingestionFileEntries;
-    }
-
-    @Override
-    public boolean addFile(IngestionFileEntry ingestionFileEntry) {
-
-        ResourceEntry resourceEntry = new ResourceEntry();
-        resourceEntry.setResourceId(ingestionFileEntry.getFileName());
-        resourceEntry.setResourceName(ingestionFileEntry.getFileName());
-        resourceEntry.setChecksum(ingestionFileEntry.getChecksum());
-        resourceEntry.setResourceFormat(ingestionFileEntry.getFileFormat().getCode());
-        resourceEntry.setResourceType(ingestionFileEntry.getFileType().getName());
-        resourceEntry.setExternallyUploadedResourceId(ingestionFileEntry.getFileName());
-        resourceEntry.setTopLevelLandingZonePath(ingestionFileEntry.getTopLevelLandingZonePath());
-
-        return resourceEntries.add(resourceEntry);
     }
 
     public ResourceEntry getZipResourceEntry() {

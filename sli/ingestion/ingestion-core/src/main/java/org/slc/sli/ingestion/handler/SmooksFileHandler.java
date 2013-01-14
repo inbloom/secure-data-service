@@ -16,8 +16,6 @@
 
 package org.slc.sli.ingestion.handler;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -83,8 +81,11 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
         // create instance of Smooks (with visitors already added)
         SliSmooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, errorReport, reportStats);
 
-        InputStream inputStream = new BufferedInputStream(new FileInputStream(ingestionFileEntry.getFile()));
+        InputStream inputStream = null;
+
         try {
+            inputStream = ingestionFileEntry.getFileStream();
+
             // filter fileEntry inputStream, converting into NeutralRecord entries as we go
             smooks.filterSource(new StreamSource(inputStream));
             SmooksEdFiVisitor edFiVisitor = smooks.getSmooksEdFiVisitor();
@@ -95,7 +96,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
             LOG.info("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
                     ingestionFileEntry.getFileName());
         } catch (SmooksException se) {
-            errorReport.error(reportStats, source, CoreMessageCode.CORE_0020, ingestionFileEntry.getFile().getName());
+            errorReport.error(reportStats, source, CoreMessageCode.CORE_0020, ingestionFileEntry.getFileName());
         } finally {
             IOUtils.closeQuietly(inputStream);
         }

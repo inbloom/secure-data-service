@@ -16,8 +16,13 @@
 
 package org.slc.sli.ingestion.landingzone;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+
+import org.apache.commons.io.FileUtils;
 
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
@@ -35,15 +40,12 @@ public class IngestionFileEntry implements Serializable, Resource {
     private static final long serialVersionUID = 8326156381009199389L;
 
     // Attributes
+    private String parentFileOrDirectory;
     private FileFormat fileFormat;
     private FileType fileType;
     private String fileName;
-    private File file;
-    private File neutralRecordFile;
-    private File deltaNeutralRecordFile;
     private String checksum;
-    private String topLevelLandingZonePath;
-    private String fileZipParent;
+    private boolean valid;
 
     private AbstractMessageReport errorReport;
 
@@ -52,18 +54,13 @@ public class IngestionFileEntry implements Serializable, Resource {
     // will only be set when this is added to a BatchJob
     private String batchJobId;
 
-    // Constructors
-    public IngestionFileEntry(FileFormat fileFormat, FileType fileType, String fileName, String checksum) {
-        this(fileFormat, fileType, fileName, checksum, null);
-    }
-
-    public IngestionFileEntry(FileFormat fileFormat, FileType fileType, String fileName, String checksum,
-            String topLevelLandingZonePath) {
+    public IngestionFileEntry(String parentFileOrDirectory, FileFormat fileFormat, FileType fileType, String fileName, String checksum) {
+        this.parentFileOrDirectory = parentFileOrDirectory;
         this.fileFormat = fileFormat;
         this.fileType = fileType;
         this.fileName = fileName;
         this.checksum = checksum;
-        this.topLevelLandingZonePath = topLevelLandingZonePath;
+        this.valid = true;
     }
 
     // Methods
@@ -141,25 +138,6 @@ public class IngestionFileEntry implements Serializable, Resource {
     }
 
     /**
-     * Set the Ingestion file.
-     *
-     * @param file
-     *            to set
-     */
-    public void setFile(File file) {
-        this.file = file;
-    }
-
-    /**
-     * Get the Ingestion file.
-     *
-     * @return file to obtain
-     */
-    public File getFile() {
-        return this.file;
-    }
-
-    /**
      * Set the Ingestion file checksum.
      *
      * @param checksum
@@ -178,43 +156,12 @@ public class IngestionFileEntry implements Serializable, Resource {
         return this.checksum;
     }
 
-    public File getNeutralRecordFile() {
-        return neutralRecordFile;
-    }
-
-    public void setNeutralRecordFile(File neutralRecordFile) {
-        this.neutralRecordFile = neutralRecordFile;
-    }
-
-    public File getDeltaNeutralRecordFile() {
-        return deltaNeutralRecordFile;
-    }
-
-    public void setDeltaNeutralRecordFile(File deltaNeutralRecordFile) {
-        this.deltaNeutralRecordFile = deltaNeutralRecordFile;
-    }
-
     public String getBatchJobId() {
         return batchJobId;
     }
 
     public void setBatchJobId(String batchJobId) {
         this.batchJobId = batchJobId;
-    }
-
-    /**
-     * @return the topLevelLandingZonePath
-     */
-    public String getTopLevelLandingZonePath() {
-        return topLevelLandingZonePath;
-    }
-
-    /**
-     * @param topLevelLandingZonePath
-     *            the topLevelLandingZonePath to set
-     */
-    public void setTopLevelLandingZonePath(String topLevelLandingZonePath) {
-        this.topLevelLandingZonePath = topLevelLandingZonePath;
     }
 
     /**
@@ -237,12 +184,24 @@ public class IngestionFileEntry implements Serializable, Resource {
         return fileName;
     }
 
-    public String getFileZipParent() {
-        return fileZipParent;
+    public boolean isValid() {
+        return valid;
     }
 
-    public void setFileZipParent(String fileZipParent) {
-        this.fileZipParent = fileZipParent;
+    public void setValid(boolean valid) {
+        this.valid = valid;
     }
 
+    public String getParentFileOrDirectory() {
+        return parentFileOrDirectory;
+    }
+
+    public InputStream getFileStream() throws IOException {
+        File parentFile = new File(getParentFileOrDirectory());
+        if (parentFile.isDirectory()) {
+            return new BufferedInputStream(FileUtils.openInputStream(new File(parentFile, getFileName())));
+        } else {
+            return ZipFileUtil.getInputStreamForFile(parentFile, getFileName());
+        }
+    }
 }

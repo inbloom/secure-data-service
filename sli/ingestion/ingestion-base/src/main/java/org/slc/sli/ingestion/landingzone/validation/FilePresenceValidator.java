@@ -16,7 +16,12 @@
 
 package org.slc.sli.ingestion.landingzone.validation;
 
-import org.slc.sli.ingestion.FileFormat;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.apache.commons.io.IOUtils;
+
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
@@ -25,22 +30,39 @@ import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
 import org.slc.sli.ingestion.validation.Validator;
 
 /**
- * File format validator.
+ * File Type validator.
+ *
  */
-public class FileFormatValidator implements Validator<IngestionFileEntry> {
+public class FilePresenceValidator implements Validator<IngestionFileEntry> {
 
-    private static final String STAGE_NAME = "File Format Validation";
+    private static final String STAGE_NAME = "File Presense Validation";
 
     @Override
     public boolean isValid(IngestionFileEntry entry, AbstractMessageReport report, ReportStats reportStats,
             Source source) {
-        FileFormat format = entry.getFileFormat();
-        if (format == null) {
-            report.error(reportStats, source, BaseMessageCode.BASE_0005, entry.getFileName(), "format");
 
-            return false;
+        InputStream is = null;
+        boolean valid = true;
+
+        if (hasPathInName(entry.getFileName())) {
+            report.error(reportStats, source, BaseMessageCode.BASE_0004, entry.getFileName());
+            valid = false;
+        } else {
+            try {
+                is = entry.getFileStream();
+            } catch (IOException e) {
+                report.error(reportStats, source, BaseMessageCode.BASE_0001, entry.getFileName());
+                valid = false;
+            } finally {
+                IOUtils.closeQuietly(is);
+            }
         }
-        return true;
+
+        return valid;
+    }
+
+    private static boolean hasPathInName(String fileName) {
+        return (fileName.contains(File.separator) || fileName.contains("/"));
     }
 
     @Override

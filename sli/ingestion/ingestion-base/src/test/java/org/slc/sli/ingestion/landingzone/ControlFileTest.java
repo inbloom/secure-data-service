@@ -19,12 +19,14 @@ package org.slc.sli.ingestion.landingzone;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
-import java.io.File;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.io.InputStream;
 import java.util.Enumeration;
+import java.util.List;
 
-import org.apache.commons.io.FileUtils;
+import junitx.framework.Assert;
+
 import org.junit.Test;
 
 import org.slc.sli.ingestion.FileFormat;
@@ -40,16 +42,23 @@ public class ControlFileTest {
     public void testParseFile() throws IOException, SubmissionLevelException {
 
         String sep = System.getProperty("line.separator");
-        String content = "@hello=world" + sep + " " + sep
+        final String content = "@hello=world" + sep + " " + sep
                 + "edfi-xml,StudentEnrollment,data.xml,756a5e96e330082424b83902908b070a" + sep;
 
-        File tmpFile = File.createTempFile("test", ".ctl");
-        FileUtils.writeStringToFile(tmpFile, content);
+        ControlFile controlFile = new ControlFile("", "") {
+            private static final long serialVersionUID = 1L;
 
-        ControlFile controlFile = ControlFile.parse(tmpFile, null);
-        tmpFile.delete();
+            @Override
+            public InputStream getFileStream() {
+                return new ByteArrayInputStream(content.getBytes());
+            }
+        };
 
-        ArrayList<IngestionFileEntry> items = (ArrayList<IngestionFileEntry>) controlFile.getFileEntries();
+        controlFile.parse(null);
+
+        Assert.assertNotNull(controlFile);
+
+        List<IngestionFileEntry> items = controlFile.getFileEntries();
 
         assertEquals(items.size(), 1);
 
