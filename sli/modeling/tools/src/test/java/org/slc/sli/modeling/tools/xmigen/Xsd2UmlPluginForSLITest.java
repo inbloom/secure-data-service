@@ -140,7 +140,7 @@ public void testIsAssociationEnd() throws Exception {
 public void testNameAssociation() throws Exception { 
     AssociationEnd associationEnd = Mockito.mock(AssociationEnd.class);
     Xsd2UmlPluginHost host = Mockito.mock(Xsd2UmlPluginHost.class);
-    Assert.assertTrue(pluginForSLI.nameAssociation(associationEnd, associationEnd, host).isEmpty());
+    Assert.assertTrue(pluginForSLI.nameAssociation(associationEnd, associationEnd, host.getPlugin()).isEmpty());
 } 
 
 /** 

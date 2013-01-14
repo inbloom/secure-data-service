@@ -17,29 +17,26 @@ limitations under the License.
 =end
 
 require_relative 'spec_helper'
-require_relative '../lib/OutputGeneration/XML/assessment_metadata_generator'
+require_relative '../lib/OutputGeneration/XML/disciplineGenerator'
 require_relative '../lib/OutputGeneration/XML/validator'
 require 'factory_girl'
 
-describe 'AssessmentMetadataGenerator' do
-  let(:path) { File.join( "#{File.dirname(__FILE__)}/", "../generated/InterchangeAssessmentMetadata.xml" ) }
+describe 'DisciplineGenerator' do
+  let(:path) { File.join( "#{File.dirname(__FILE__)}/", "../generated/InterchangeStudentDiscipline.xml" ) }
   let(:interchange) { File.open( path, 'w')}
-  let(:generator) {AssessmentMetadataGenerator.new(get_spec_scenario(), interchange)}
-  let(:assessment) {FactoryGirl.build(:assessment)}
-  let(:assessment_family) {FactoryGirl.build(:assessment_family)}
-  let(:assessment_item) {FactoryGirl.build(:assessment_item)}
+  let(:generator) { DisciplineGenerator.new(get_spec_scenario(), interchange) }
+  let(:behavior) { FactoryGirl.build(:behavior_descriptor) }
+  let(:incident) { FactoryGirl.build(:discipline_incident) }
 
   describe '<<' do
-    it 'will write an assessment metadata interchange to edfi' do
+    it 'will write a student discipline interchange to edfi' do
 
       generator.start()
 
-      generator << assessment_family
+      generator << behavior
 
-      generator << assessment
-      
+      generator << incident
 
-      generator << assessment_item
       generator.finalize()
 
       validate_file( path ).should be true

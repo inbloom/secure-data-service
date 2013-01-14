@@ -28,13 +28,7 @@ import org.slc.sli.modeling.uml.ClassType;
 
 import java.util.Collections;
 
-/**
- * Xsd2UmlPluginGeneric Tester.
- *
- * @author <Authors name>
- * @version 1.0
- * @since <pre>Sep 11, 2012</pre>
- */
+
 public class Xsd2UmlPluginGenericTest {
 
     @Mock
@@ -84,7 +78,7 @@ public class Xsd2UmlPluginGenericTest {
     @Test(expected = UnsupportedOperationException.class)
     public void testNameAssociation() throws Exception {
         AssociationEnd end = Mockito.mock(AssociationEnd.class);
-        generic.nameAssociation(end, end, host);
+        generic.nameAssociation(end, end, generic);
     }
 
     /**
