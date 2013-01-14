@@ -10,8 +10,6 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:choice maxOccurs="unbounded">
-				<xs:element name="StudentReference" type="StudentReferenceType"/>
-				<xs:element name="AssessmentReference" type="AssessmentReferenceType"/>
 				<xs:element name="StudentAssessment" type="SLC-StudentAssessment"/>
 				<xs:element name="StudentObjectiveAssessment" type="SLC-StudentObjectiveAssessment"/>
 				<xs:element name="StudentAssessmentItem" type="SLC-StudentAssessmentItem"/>
