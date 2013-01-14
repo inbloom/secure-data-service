@@ -21,7 +21,7 @@ import javax.xml.namespace.QName;
 /**
  * Provides default behavior, though implementation inheritance for a plug-in.
  */
-public abstract class Xsd2UmlPluginDefault implements Xsd2UmlPlugin {
+public abstract class Xsd2UmlPluginDefault implements Xsd2UmlHostedPlugin {
     
     @Override
     public final String nameFromComplexTypeExtension(final QName complexType, final QName base) {

@@ -76,11 +76,11 @@ class SectionWorkOrderFactory
                   # keep :name => nil in work order --> Teacher entity class will lazily create name for teacher if its nil
                   yielder << {:type=>Teacher, :id=>section[:teacher]['id'], :year=>year_of, :name=>section[:teacher]['name']}
                 end
-                
-                if !@teachers[school_id].include?(section[:teacher]['id'])
-                  @teachers[school_id] << section[:teacher]['id']
+                teacher_id = section[:teacher]['id']
+                if !@teachers[school_id].include?(teacher_id)
+                  @teachers[school_id] << teacher_id
                   yielder << {:type=>TeacherSchoolAssociation, 
-                    :id=>section[:teacher]['id'], 
+                    :id=>teacher_id,
                     :school=>school_id, 
                     :assignment=>:REGULAR_EDUCATION, 
                     :grades=>[grade], 
@@ -90,12 +90,12 @@ class SectionWorkOrderFactory
                   # add staff -> education organization assignment association for current session (where teacher is associated to school)
                   # -> this will eventually allow us to migrate teachers (even pre-requisite teachers) across education organizations as part of 
                   #    the current simulation
-                  ed_org_associations = create_staff_ed_org_association_for_teacher(session, section[:teacher]['id'], school_id, ed_org_type)
+                  ed_org_associations = create_staff_ed_org_association_for_teacher(session, teacher_id, school_id, ed_org_type)
                   ed_org_associations.each { |order| yielder << order }
 
                   # add staff -> program associations (currently very random)
                   # future implementations should be based off of a program catalog, OR more intelligence in reacting to students during simulation
-                  program_associations = create_staff_program_associations_for_teacher(session, section[:teacher]['id'], ed_org["programs"])
+                  program_associations = create_staff_program_associations_for_teacher(session, teacher_id, ed_org["programs"])
                   program_associations.each { |order| yielder << order }
                 end
 
@@ -113,7 +113,15 @@ class SectionWorkOrderFactory
                 gradebook_entries.each { |entry| yielder << entry }
 
                 yielder << {:type=>Section, :id=>section[:id], :edOrg=>school_id, :offering=>offering}
-                yielder << {:type=>TeacherSectionAssociation, :teacher=>section[:teacher]['id'], :section=>section[:id], :school=>school_id, :position=>:TEACHER_OF_RECORD}
+                yielder << {:type=>TeacherSectionAssociation, :teacher=>teacher_id, :section=>section[:id], :school=>school_id, :position=>:TEACHER_OF_RECORD}
+                unless session.nil?
+                  dates = session['interval']
+                else
+                  dates = DateInterval.new(Date.new, Date.new + 180, 180)
+                end
+                (@scenario['INCIDENTS_PER_SECTION'] or 0).times {|i|
+                  yielder << DisciplineIncident.new(i, section[:id], school_id, teacher_id, dates, "Classroom")
+                }
               }
             }
           }

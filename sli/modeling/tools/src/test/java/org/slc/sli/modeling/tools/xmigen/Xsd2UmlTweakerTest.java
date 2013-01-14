@@ -45,7 +45,7 @@ public class Xsd2UmlTweakerTest {
     Model model;
 
     @Mock
-    Xsd2UmlPlugin plugin;
+    Xsd2UmlHostedPlugin plugin;
 
 @Before
 public void before() throws Exception {
