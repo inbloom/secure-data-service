@@ -215,7 +215,7 @@ public class XsdToNeutralSchemaTest {
         NeutralSchema simpleDoc = repo.getSchema("TestDocumentationSimple");
         assertNotNull(simpleDoc);
         AppInfo appInfo = simpleDoc.getAppInfo();
-        assertNull(appInfo);
+        assertNotNull(appInfo);
 
         // Simple type marked PII
         simpleDoc = repo.getSchema("TestPersonallyIdentifiableInfoSimple");
