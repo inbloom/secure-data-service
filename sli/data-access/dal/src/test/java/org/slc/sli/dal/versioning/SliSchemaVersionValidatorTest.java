@@ -16,19 +16,27 @@
 
 package org.slc.sli.dal.versioning;
 
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyList;
+import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import junit.framework.Assert;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
+import org.hamcrest.core.AnyOf;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -93,16 +101,8 @@ public class SliSchemaVersionValidatorTest {
     }
 
     @Test
-    public void test() {
-
-        List<EntityVersionData> data = Arrays.asList(new EntityVersionData[] {
-                new EntityVersionData(STUDENT, 1, new CollectionVersionData(1, 0)),
-                new EntityVersionData(SECTION, 2, new CollectionVersionData(1, 0)),
-                new EntityVersionData(TEACHER, 1, null) });
-
-        setupMockVersions(data);
-
-        this.sliSchemaVersionValidator.initMigration();
+    public void testInitMigration() {
+        initMockMigration();
 
         Mockito.verify(mongoTemplate, Mockito.times(1)).updateFirst(Mockito.any(Query.class),
                 Mockito.any(Update.class), Mockito.any(String.class));
@@ -118,7 +118,7 @@ public class SliSchemaVersionValidatorTest {
 
         Assert.assertEquals(1, transforms.size());
         MigrationStrategy strategy = transforms.get(0);
-        Assert.assertTrue("Expected AddStrategy", strategy instanceof AddStrategy);
+        assertTrue("Expected AddStrategy", strategy instanceof AddStrategy);
     }
 
     @Test
@@ -165,6 +165,49 @@ public class SliSchemaVersionValidatorTest {
             Assert.assertEquals("yellow", e.getBody().get("favoriteColor"));
         }
 
+    }
+
+    @Test
+    public void testIsMigrationNeeded() {
+        String entityType = "student";
+        Entity entity = new MongoEntity("student", new HashMap<String, Object>());
+
+        initMockMigration();
+        assertTrue("Should be true", sliSchemaVersionValidator.isMigrationNeeded(entityType, entity));
+
+        Map<String, Object> metaData = new HashMap<String, Object>();
+        metaData.put("version", 5);
+        entity = new MongoEntity("student", "someId", new HashMap<String, Object>(), metaData);
+        assertFalse("Should be false", sliSchemaVersionValidator.isMigrationNeeded(entityType, entity));
+    }
+
+    @Test
+    public void testPerformMigration() {
+        String entityType = "student";
+        String collectionName = "student";
+        Entity entity = new MongoEntity("student", new HashMap<String, Object>());
+
+        ValidationWithoutNaturalKeys repo = mock(ValidationWithoutNaturalKeys.class);
+        when(repo.updateWithoutValidatingNaturalKeys(anyString(), any(Entity.class))).thenReturn(true);
+
+        initMockMigration();
+
+        sliSchemaVersionValidator.performMigration(entityType, entity, repo, collectionName, false);
+        Mockito.verify(repo, never()).updateWithoutValidatingNaturalKeys(anyString(), any(Entity.class));
+
+        sliSchemaVersionValidator.performMigration(entityType, entity, repo, collectionName, true);
+        Mockito.verify(repo, Mockito.times(1)).updateWithoutValidatingNaturalKeys(anyString(), any(Entity.class));
+    }
+
+    private void initMockMigration() {
+        List<EntityVersionData> data = Arrays.asList(new EntityVersionData[] {
+                new EntityVersionData(STUDENT, 1, new CollectionVersionData(1, 0)),
+                new EntityVersionData(SECTION, 2, new CollectionVersionData(1, 0)),
+                new EntityVersionData(TEACHER, 1, null) });
+
+        setupMockVersions(data);
+
+        this.sliSchemaVersionValidator.initMigration();
     }
 
     private void setupMockVersions(List<EntityVersionData> enitityData) {
