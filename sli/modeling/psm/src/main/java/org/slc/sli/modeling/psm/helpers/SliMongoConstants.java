@@ -42,4 +42,7 @@ public final class SliMongoConstants {
     public static final QName SLI_RESTRICTED_FOR_LOGGING = new QName(NAMESPACE_SLI, "RestrictedForLogging");
     public static final QName SLI_SCHEMA_VERSION = new QName(NAMESPACE_SLI, "schemaVersion");
     public static final QName SLI_ASSOCIATION_KEY = new QName(NAMESPACE_SLI, "associationKey");
+    public static final QName SLI_BEGIN_DATE = new QName(NAMESPACE_SLI, "beginDate");
+    public static final QName SLI_END_DATE = new QName(NAMESPACE_SLI, "endDate");
+    public static final QName SLI_ASSOCIATED_DATED_COLLECTION= new QName(NAMESPACE_SLI, "associatedDatedCollection");
 }
