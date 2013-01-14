@@ -31,6 +31,7 @@ import java.util.Collections;
 public class Xsd2UmlPluginForEdFiTest {
     private Xsd2UmlPluginForEdFi pluginForEdFi;
     private Xsd2UmlPluginHost host;
+    private Xsd2UmlHostedPlugin plugin;
     private ClassType classType;
     private Attribute attribute;
     
@@ -38,6 +39,7 @@ public class Xsd2UmlPluginForEdFiTest {
     public void setUp() throws Exception {
         pluginForEdFi = new Xsd2UmlPluginForEdFi();
         host = Mockito.mock(Xsd2UmlPluginHost.class);
+        plugin = Mockito.mock(Xsd2UmlHostedPlugin.class);
         classType = Mockito.mock(ClassType.class);
         attribute = Mockito.mock(Attribute.class);
     }
@@ -183,9 +185,9 @@ public class Xsd2UmlPluginForEdFiTest {
     public void testNameAssociation() throws Exception {
         AssociationEnd associationEnd = Mockito.mock(AssociationEnd.class);
         Mockito.when(
-                host.nameAssociation(Mockito.any(AssociationEnd.class), Mockito.any(AssociationEnd.class),
-                        Mockito.any(Xsd2UmlPluginHost.class))).thenReturn("test");
-        Assert.assertEquals("test", pluginForEdFi.nameAssociation(associationEnd, associationEnd, host));
+                plugin.nameAssociation(Mockito.any(AssociationEnd.class), Mockito.any(AssociationEnd.class),
+                        Mockito.any(Xsd2UmlHostedPlugin.class))).thenReturn("test");
+        Assert.assertEquals("test", pluginForEdFi.nameAssociation(associationEnd, associationEnd, plugin));
     }
     
     @Test

@@ -30,6 +30,10 @@ class BaseEntity
     @@d
   end
 
+  def self.set_scenario(scenario)
+    @@scenario = scenario
+  end
+
   def choose(options)
     options[@rand.rand(options.size) - 1]
   end

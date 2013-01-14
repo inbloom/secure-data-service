@@ -49,20 +49,20 @@ FactoryGirl.define do
     primaryContactStatus true
   end
   
-   factory :assessment do
+  factory :assessment do
   
     initialize_with { new(52, Date.new(2012, 11, 2)) }
     assessmentTitle "SAT II - US History"
     gradeLevelAssessed "Twelfth grade"
   end
   
-   factory :assessment_family do
+  factory :assessment_family do
   
     initialize_with { new(52, Date.new(2012, 11, 2)) }
     assessmentFamilyTitle "SAT II"
   end
   
-   factory :assessment_item do
+  factory :assessment_item do
 
     initialize_with { new(52, FactoryGirl.build(:assessment)) }
     identificationCode "8675309"
@@ -70,4 +70,18 @@ FactoryGirl.define do
     association :assessment, strategy: :build
    
   end
+
+  factory :behavior_descriptor do
+    initialize_with{ new("42", "Incident", "The Noodle Incident", "Standard SEA", "School Violation")}
+  end
+
+  factory :date_interval do
+    d = Date.new(1985, 11, 18)
+    initialize_with{ new(d, d+180, 180) }
+  end
+
+  factory :discipline_incident do
+    initialize_with{ new(16, 32, "My School", "Mrs Wormwood", FactoryGirl.build(:date_interval), "Classroom", ["42"]) }
+  end
+
 end

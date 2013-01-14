@@ -132,7 +132,7 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
     }
 
     @Override
-    public String nameAssociation(final AssociationEnd lhs, final AssociationEnd rhs, final Xsd2UmlPluginHost host) {
+    public String nameAssociation(final AssociationEnd lhs, final AssociationEnd rhs, final Xsd2UmlHostedPlugin host) {
         // DE1531: don't return a name for the association as it just adds unwanted <=> to the end documentation
         // return host.nameAssociation(lhs, rhs, host);
         return "";

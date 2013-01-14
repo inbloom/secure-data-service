@@ -25,7 +25,7 @@ import org.slc.sli.modeling.uml.Model;
  *
  */
 public final class Xsd2Uml {
-    public static final Model transform(final String name, final XmlSchema schema, final Xsd2UmlPlugin plugin) {
+    public static final Model transform(final String name, final XmlSchema schema, final Xsd2UmlHostedPlugin plugin) {
         final Model model01 = Xsd2UmlConvert.extract(name, schema, plugin);
         final Model model02 = Xsd2UmlLinker.link(model01, plugin);
         final Model model03 = Xsd2UmlTweaker.tweak(model02, plugin);

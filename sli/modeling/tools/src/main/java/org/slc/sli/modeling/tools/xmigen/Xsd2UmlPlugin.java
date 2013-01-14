@@ -32,15 +32,7 @@ import org.slc.sli.modeling.uml.TaggedValue;
  * Plug-in used to customize the W3C XML Schema to UML conversion.
  */
 public interface Xsd2UmlPlugin {
-    
-    Collection<TagDefinition> declareTagDefinitions(Xsd2UmlPluginHost host);
-    
-    String getAssociationEndTypeName(ClassType classType, Attribute attribute, Xsd2UmlPluginHost host);
-    
-    boolean isAssociationEnd(ClassType classType, Attribute attribute, Xsd2UmlPluginHost host);
-    
-    String nameAssociation(AssociationEnd lhs, AssociationEnd rhs, Xsd2UmlPluginHost host);
-    
+
     String nameFromComplexTypeExtension(QName complexType, QName base);
     
     /**
@@ -59,6 +51,4 @@ public interface Xsd2UmlPlugin {
     String nameFromSchemaTypeName(QName name);
     
     String nameFromSimpleTypeRestriction(QName simpleType, QName base);
-    
-    List<TaggedValue> tagsFromAppInfo(XmlSchemaAppInfo appInfo, Xsd2UmlPluginHost host);
 }

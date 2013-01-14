@@ -42,8 +42,8 @@ When /^I try to access the URI "([^"]*)" with operation "([^"]*)"$/ do |arg1, ar
   @format = "application/json"
 
   dataObj = DataProvider.getValidRealmData()
-  dataObj["state"] = "URI Access Test State" 
-  
+  dataObj["state"] = "URI Access Test State"
+
   data = prepareData("application/json", dataObj)
 
   restHttpPost(arg1, data) if arg2 == "POST"
@@ -57,7 +57,7 @@ Then /^I should be denied access$/ do
 end
 
 Then /^I should see a valid object returned$/ do
-  result = JSON.parse(@res.body)
+  result = JSON.parse(@res.body).sort()
   assert(result != nil, "Result of JSON parsing is nil")
 end
 
@@ -78,10 +78,11 @@ When /^I GET a list of realms$/ do
   assert(@res != nil, "Response from rest-client GET is nil")
 end
 
-Then /^I should see a list of valid realm objects$/ do
+Then /^I should see a list of "([^"]*)" valid realm objects$/ do |number|
   assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
   result = JSON.parse(@res.body)
   assert(result != nil, "Result of JSON parsing is nil")
+  assert(result.size == number.to_i)
 
   result.each do |item|
     assert(item["idp"] != nil, "Realm "+item["tenantId"]+" URL was not found.")
@@ -106,22 +107,22 @@ When /^I PUT to change the (realm "[^"]*") to change field "([^"]*)" to "([^"]*)
   data = JSON.parse(@res.body)
   # put(data) if $DEBUG
   data[fieldName] = fieldValue
-  
+
   dataFormatted = prepareData("application/json", data)
-  
+
   restHttpPut("/realm/" + realmId, dataFormatted, "application/json")
   assert(@res != nil, "Response from rest-client PUT is nil")
 end
 
 When /^I add a mapping between non-existent role "([^"]*)" and custom role "([^"]*)" for (realm "[^"]*")$/ do |arg1, arg2, arg3|
-  restHttpGet("/realm/" + arg3) 
+  restHttpGet("/realm/" + arg3)
   assert(@res != nil, "Response from rest-client GET is nil")
   data = JSON.parse(@res.body)
-  
-  data["mappings"]["role"].push({"sliRoleName"=>arg1,"clientRoleName"=>[arg2]})  
-        
+
+  data["mappings"]["role"].push({"sliRoleName"=>arg1,"clientRoleName"=>[arg2]})
+
   dataFormatted = prepareData("application/json", data)
-  
+
   restHttpPut("/realm/" + arg3, dataFormatted, "application/json")
   assert(@res != nil, "Response from rest-client PUT is nil")
 end
@@ -144,11 +145,11 @@ When /^I POST a new custom role document with (realm "[^"]*")$/ do |realm|
   assert(@res != nil, "Response from rest-client POST is nil")
 end
 
-When /^I POST another new realm$/ do
+When /^I POST another new realm called "([^"]*)"$/ do |name|
   data = DataProvider.getValidRealmData()
-  data["idp"]["id"] = "MyOtherIdp"
-  data["uniqueIdentifier"] = "shizzle"
-  data["name"] = "wiggity"
+  data["idp"]["id"] = "https://fake.path.org/#{name}"
+  data["uniqueIdentifier"] = "#{name}_4shizzle"
+  data["name"] = name
   data["edOrg"] = "NC-KRYPTON"
   dataFormatted = prepareData("application/json", data)
   restHttpPost("/realm", dataFormatted, "application/json")
@@ -172,7 +173,11 @@ end
 When /^I add a role "([^"]*)" in group "([^"]*)"$/ do |role, group|
   restHttpGet("/customRoles")
   assert(@res != nil, "Response from custom role request is nil")
-  data = JSON.parse(@res.body)[0]
+  data = JSON.parse(@res.body)
+  if data.is_a?(Array)
+    data = data.sort_by { |hsh| hsh["id"] }
+  end
+  data = data[0]
   groups = data["roles"]
   curGroup = groups.select {|group| group["groupTitle"] == group}
   if curGroup.nil? or curGroup.empty?
@@ -192,7 +197,12 @@ end
 When /^I add a right "([^"]*)" in group "([^"]*)"$/ do |right, group|
   restHttpGet("/customRoles")
   assert(@res != nil, "Response from custom role request is nil")
-  data = JSON.parse(@res.body)[0]
+  data = JSON.parse(@res.body)
+  if data.is_a?(Array)
+    data = data.sort_by { |hsh| hsh["id"] }
+  end
+
+  data = data[0]
   groups = data["roles"]
   curGroup = groups.select {|group| group["groupTitle"] == group}
   if curGroup.nil? or curGroup.empty?
@@ -209,10 +219,10 @@ When /^I add a right "([^"]*)" in group "([^"]*)"$/ do |right, group|
 
 end
 
-When /^I DELETE my custom role doc$/ do 
+When /^I DELETE my custom role doc$/ do
   restHttpGet("/customRoles/")
   assert(@res != nil, "Response from custom role request is nil")
-  data = JSON.parse(@res.body)[0]
+  data = JSON.parse(@res.body).sort()[0]
   restHttpDelete("/customRoles/" + data["id"])
 end
 
@@ -227,14 +237,14 @@ When /^I GET my custom role doc$/ do
 end
 
 Then /^I should see one custom roles document for the (realm ".*?")$/ do |arg1|
-  result = JSON.parse(@res.body)
+  result = JSON.parse(@res.body).sort()
   assert(result != nil, "Result of JSON parsing is nil")
   assert(result.size == 1, "Admin users should only ever see one custom roles doc, got #{result.size}")
   assert(result[0]["realmId"] == arg1, "Custom role doc returned was not expected: got #{result[0]["realmId"]}, expected #{arg1}")
 end
 
 Then /^I should see that my custom role document is the default with (realm "[^"]*")$/ do |realm|
-  data = JSON.parse(@res.body)[0]
+  data = JSON.parse(@res.body).sort()[0]
   assert(data["realmId"] == realm, "Realm received from custom role document did not match")
   default = DataProvider.getValidCustomRoleData()
   assert(data["roles"] == default["roles"], "Roles info from custom role document did not match")
@@ -244,7 +254,7 @@ end
 When /^I PUT a new group "(.*?)" with role "(.*?)" and right "(.*?)"$/ do |group, role, right|
   restHttpGet("/customRoles/")
   assert(@res != nil, "Response from custom role request is nil")
-  data = JSON.parse(@res.body)[0]
+  data = JSON.parse(@res.body).sort()[0]
   puts("\n\nThe data is #{data.inspect}")
   newGroup = {"groupTitle" => group, "names" => [role], "rights" => [right], "isAdminRole" => false}
   data["roles"].push(newGroup)

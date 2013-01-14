@@ -137,7 +137,7 @@ public class Xsd2UmlConvertTest {
         
         final String name = "foo";
         final XmlSchema schema = Mockito.mock(XmlSchema.class);
-        final Xsd2UmlPlugin plugin = Mockito.mock(Xsd2UmlPlugin.class);
+        final Xsd2UmlHostedPlugin plugin = Mockito.mock(Xsd2UmlHostedPlugin.class);
         
         Mockito.when(schema.getItems()).thenReturn(xmlSchemaObjectCollection);
         Mockito.when(plugin.nameFromSchemaTypeName(Matchers.any(QName.class))).thenReturn("name");

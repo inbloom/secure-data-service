@@ -56,7 +56,7 @@ final class Xsd2UmlLinker {
     private static final String SUFFIX_ID = "Id";
 
     private static final List<Attribute> splitClassFeatures(final ClassType classType,
-                                                            final List<Attribute> attributes, final Xsd2UmlPlugin plugin, final ModelIndex lookup,
+                                                            final List<Attribute> attributes, final Xsd2UmlHostedPlugin plugin, final ModelIndex lookup,
                                                             final Map<String, Identifier> nameToClassTypeId, final Map<String, Attribute> classAttributes,
                                                             final Map<String, AssociationEnd> classAssociationEnds) {
         final List<Attribute> result = new LinkedList<Attribute>();
@@ -71,7 +71,7 @@ final class Xsd2UmlLinker {
     }
 
     private static final Attribute splitClassFeature(final ClassType classType, final Attribute attribute,
-                                                     final Xsd2UmlPlugin plugin, final ModelIndex indexedModel, final Map<String, Identifier> classTypeMap,
+                                                     final Xsd2UmlHostedPlugin plugin, final ModelIndex indexedModel, final Map<String, Identifier> classTypeMap,
                                                      final Map<String, AssociationEnd> associationEnds) {
         final Xsd2UmlPluginHost host = new Xsd2UmlPluginHostAdapter(indexedModel);
         if (plugin.isAssociationEnd(classType, attribute, host)) {
@@ -83,7 +83,7 @@ final class Xsd2UmlLinker {
         }
     }
 
-    private static final ComplexType cleanUpClassType(final ClassType classType, final Xsd2UmlPlugin plugin,
+    private static final ComplexType cleanUpClassType(final ClassType classType, final Xsd2UmlHostedPlugin plugin,
                                                       final ModelIndex lookup, final Map<String, Identifier> nameToClassTypeId,
                                                       final Map<Type, Map<String, AssociationEnd>> navigations) {
         final Identifier id = classType.getId();
@@ -101,7 +101,7 @@ final class Xsd2UmlLinker {
     }
 
     private static final AssociationEnd toAssociationEnd(final ClassType classType, final Attribute attribute,
-                                                         final Xsd2UmlPlugin plugin, final Xsd2UmlPluginHost lookup, final Map<String, Identifier> nameToClassTypeId) {
+                                                         final Xsd2UmlHostedPlugin plugin, final Xsd2UmlPluginHost lookup, final Map<String, Identifier> nameToClassTypeId) {
         final String referenceType = plugin.getAssociationEndTypeName(classType, attribute, lookup);
         if (nameToClassTypeId.containsKey(referenceType)) {
             final Identifier reference = nameToClassTypeId.get(referenceType);
@@ -191,7 +191,7 @@ final class Xsd2UmlLinker {
         }
     }
 
-    public static Model link(final Model model, final Xsd2UmlPlugin plugin) {
+    public static Model link(final Model model, final Xsd2UmlHostedPlugin plugin) {
 
         final ModelIndex indexedModel = new DefaultModelIndex(model);
         final Map<String, Identifier> nameToClassTypeId = makeNameToClassTypeId(indexedModel.getClassTypes().values());
@@ -213,7 +213,7 @@ final class Xsd2UmlLinker {
     }
 
     private static final AssociationEnd makeAssociationEnd(final String lhsName, final Type lhsType,
-                                                           final AssociationEnd rhsEnd, final Xsd2UmlPlugin plugin, final Xsd2UmlPluginHost host
+                                                           final AssociationEnd rhsEnd, final Xsd2UmlHostedPlugin plugin, final Xsd2UmlPluginHost host
     ) {
         final Range sourceRange = new Range(Occurs.ZERO, Occurs.UNBOUNDED);
         final Multiplicity sourceMultiplicity = new Multiplicity(sourceRange);
@@ -224,7 +224,7 @@ final class Xsd2UmlLinker {
     }
 
     private static final List<ClassType> makeAssociations(final Map<Type, Map<String, AssociationEnd>> navigations,
-                                                          final ModelIndex lookup, final Xsd2UmlPlugin plugin, final Xsd2UmlPluginHost host) {
+                                                          final ModelIndex lookup, final Xsd2UmlHostedPlugin plugin, final Xsd2UmlPluginHost host) {
         final List<ClassType> associations = new LinkedList<ClassType>();
         // Make sure that every navigation has a reverse navigation.
         for (final Map.Entry<Type, Map<String, AssociationEnd>> navEntry : navigations.entrySet()) {
@@ -246,12 +246,12 @@ final class Xsd2UmlLinker {
                             lhsTypeName);
 
                     final AssociationEnd lhsEnd = makeAssociationEnd(lhsEndName, lhsType, rhsEnd, plugin, host);
-                    final String name = plugin.nameAssociation(lhsEnd, rhsEnd, host);
+                    final String name = plugin.nameAssociation(lhsEnd, rhsEnd, host.getPlugin());
                     associations.add(new ClassType(name, lhsEnd, rhsEnd));
 
                 } else {
                     final AssociationEnd lhsEnd = getNavigation(rhsType, lhsType, navigations, rhsEnd);
-                    final String name = plugin.nameAssociation(lhsEnd, rhsEnd, host);
+                    final String name = plugin.nameAssociation(lhsEnd, rhsEnd, host.getPlugin());
                     associations.add(new ClassType(name, lhsEnd, rhsEnd));
                 }
             }

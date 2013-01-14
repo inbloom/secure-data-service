@@ -38,7 +38,9 @@ public enum ValidationMessageCode implements MessageCode {
     VALIDATION_0011,
     VALIDATION_0012,
     VALIDATION_0013,
-    VALIDATION_0014;
+    VALIDATION_0014,
+    VALIDATION_0015,
+    VALIDATION_0016;
 
     @Override
     public String getCode() {

@@ -101,6 +101,7 @@ class WorldBuilder
 
     create_master_schedule
     create_assessments(begin_year, num_years)
+    create_descriptors
     create_work_orders
   end
 
@@ -1182,13 +1183,20 @@ class WorldBuilder
 
   def create_assessments(begin_year, num_years)
     factory = AssessmentFactory.new(@scenarioYAML)
-      (begin_year..(begin_year + num_years -1)).each{|year|
-        gen_parent = true
-        GradeLevelType.get_ordered_grades.each{|grade|
-          @queue.push_work_order GradeWideAssessmentWorkOrder.new(grade, year, gen_parent, factory)
-          gen_parent = false
-        }
+    (begin_year..(begin_year + num_years -1)).each{|year|
+      gen_parent = true
+      GradeLevelType.get_ordered_grades.each{|grade|
+        @queue.push_work_order GradeWideAssessmentWorkOrder.new(grade, year, gen_parent, factory)
+        gen_parent = false
       }
-    end
+    }
+  end
+
+  def create_descriptors
+    sea = @world['seas'][0]
+    @scenarioYAML["BEHAVIORS"].each_with_index{ |behavior, index|
+      @queue.push_work_order BehaviorDescriptor.new("BE#{index}", behavior['short'], behavior['desc'], sea['id'], behavior['category'])
+    }
+  end
 
 end

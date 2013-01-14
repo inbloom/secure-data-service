@@ -41,7 +41,6 @@ import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.landingzone.ControlFile;
@@ -127,7 +126,7 @@ public class ControlFilePreProcessor implements Processor {
             source = new JobSource(controlFileName, BATCH_JOB_STAGE.getName());
             reportStats = new SimpleReportStats();
 
-            newBatchJob = getOrCreateNewBatchJob(batchJobId, fileForControlFile);
+            newBatchJob = batchJobDAO.findBatchJobById(batchJobId);
             createResourceEntryAndAddToJob(fileForControlFile, newBatchJob);
 
             ControlFile controlFile = parseControlFile(newBatchJob, fileForControlFile);
@@ -219,19 +218,6 @@ public class ControlFilePreProcessor implements Processor {
         }
     }
 
-    private NewBatchJob getOrCreateNewBatchJob(String batchJobId, File cf) {
-        NewBatchJob job = null;
-        if (batchJobId != null) {
-            job = batchJobDAO.findBatchJobById(batchJobId);
-        } else {
-            job = createNewBatchJob(cf);
-        }
-
-        TenantContext.setJobId(job.getId());
-
-        return job;
-    }
-
     private ControlFile parseControlFile(NewBatchJob newBatchJob, File fileForControlFile) throws IOException,
             IngestionException {
         File lzFile = new File(newBatchJob.getTopLevelSourceId());
@@ -292,14 +278,6 @@ public class ControlFilePreProcessor implements Processor {
         } else {
             exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
         }
-    }
-
-    private NewBatchJob createNewBatchJob(File controlFile) {
-        NewBatchJob newJob = NewBatchJob.createJobForFile(controlFile.getName());
-        newJob.setSourceId(controlFile.getParentFile().getAbsolutePath() + File.separator);
-        newJob.setStatus(BatchJobStatusType.RUNNING.getName());
-        LOG.info("Created job [{}]", newJob.getId());
-        return newJob;
     }
 
     private void createResourceEntryAndAddToJob(File cf, NewBatchJob newJob) {

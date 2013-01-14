@@ -241,6 +241,7 @@ class StudentWorkOrder
       unless @section_factory.nil?
         sections = @section_factory.sections(school_id, type.to_s, year, grade)
         unless sections.nil?
+          final_grades = []
           sections.each{|course_offering, available_sections|
             section    = available_sections[id % available_sections.count]
             section_id = DataUtility.get_unique_section_id(section[:id])
@@ -259,9 +260,12 @@ class StudentWorkOrder
                 end
               end
               # compute final grade using breakdown --> need to look up breakdown from @scenario
-              rval << get_student_final_grade(grade, grades, school_id, section_id, session)
+              final_grade = get_student_final_grade(grade, grades, school_id, section_id, session)
+              final_grades << final_grade
+              rval << final_grade
             end
           }
+          rval << ReportCard.new(@id, final_grades, GradingPeriod.new(:END_OF_YEAR, session['year'], session['interval'], session['edOrgId'], []))
         end
       end
     end
