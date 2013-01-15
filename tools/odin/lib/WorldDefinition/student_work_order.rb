@@ -278,11 +278,17 @@ class StudentWorkOrder
               rval << student_competency
             }
           }
-          rval << ReportCard.new(@id, final_grades, GradingPeriod.new(:END_OF_YEAR, session['year'], session['interval'], session['edOrgId'], []), student_competencies)
+          report_card = ReportCard.new(@id, final_grades, GradingPeriod.new(:END_OF_YEAR, session['year'], session['interval'], session['edOrgId'], []), student_competencies)
+          rval << report_card
+          rval << academic_record(report_card, session)
         end
       end
     end
     rval
+  end
+
+  def academic_record(report_card, session)
+    StudentAcademicRecord.new(@id, session, report_card)
   end
 
   def addDisciplineEntities(section_id, index_in_section, school_id, session)

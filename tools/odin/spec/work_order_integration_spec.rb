@@ -66,7 +66,7 @@ describe "WorkOrderProcessor" do
         # student creation
         attr_accessor :students, :school_associations, :assessment_associations, :section_associations, :assessment_items,
           :parents, :parent_associations, :cohort_associations, :program_associations, :report_cards, :discipline_incidents,
-          :discipline_actions, :student_competencies
+          :discipline_actions, :student_competencies, :academic_records
         def create(work_order)
           to_build = work_order.build
           @students = to_build.select{|a| a.kind_of? Student}
@@ -79,6 +79,7 @@ describe "WorkOrderProcessor" do
           @program_associations = to_build.select{|a| a.kind_of? StudentProgramAssociation}
           @cohort_associations = to_build.select{|a| a.kind_of? StudentCohortAssociation}
           @report_cards = to_build.select{|a| a.kind_of? ReportCard}
+          @academic_records = to_build.select{|a| a.kind_of? StudentAcademicRecord}
           @discipline_incidents = to_build.select{|a| a.kind_of? StudentDisciplineIncidentAssociation}
           @discipline_actions = to_build.select{|a| a.kind_of? DisciplineAction}
           @student_competencies = to_build.select{|a| a.kind_of? StudentCompetency}
@@ -182,6 +183,14 @@ describe "WorkOrderProcessor" do
 
       it "will generate the correct number of student competencies" do
         factory.student_competencies.should have(8).items
+      end
+
+      it "will generate the correct student academic records" do
+        records = factory.academic_records
+        records.should have(2).items
+        records.select{|r| r.session['year'] == 2001}.should have(1).items
+        records.select{|r| r.session['year'] == 2002}.should have(1).items
+        records.map{|r| r.report_card}.should eq factory.report_cards
       end
 
       it "will generate student discipline incident associations when appropriate" do
