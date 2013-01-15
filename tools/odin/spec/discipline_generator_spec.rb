@@ -25,15 +25,16 @@ describe 'DisciplineGenerator' do
   let(:path) { File.join( "#{File.dirname(__FILE__)}/", "../generated/InterchangeStudentDiscipline.xml" ) }
   let(:interchange) { File.open( path, 'w')}
   let(:generator) { DisciplineGenerator.new(get_spec_scenario(), interchange) }
-  let(:behavior) { FactoryGirl.build(:behavior_descriptor) }
+  #Commented out until BehaviorDescriptor ingestion implemented
+  #let(:behavior) { FactoryGirl.build(:behavior_descriptor) }
   let(:incident) { FactoryGirl.build(:discipline_incident) }
 
   describe '<<' do
     it 'will write a student discipline interchange to edfi' do
 
       generator.start()
-
-      generator << behavior
+	  #Commented out until BehaviorDescriptor ingestion implemented
+      #generator << behavior
 
       generator << incident
 
