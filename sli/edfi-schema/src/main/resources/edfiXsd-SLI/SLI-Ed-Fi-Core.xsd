@@ -26,7 +26,10 @@
 
 	  <!-- Sequence of entities wrapped -->
 	  <xs:choice minOccurs="0" maxOccurs="unbounded">
+	    <!-- This is a starter list.  Eventually it would include all possible entities that can be at the top level of the action wrapper -->
 	    <xs:element name="EducationOrgReference" type="SLC-EducationalOrgReferenceType"/>
+	    <xs:element name="LocationReference" type="LocationReferenceType"/>
+	    <xs:element name="CourseReference" type="SLC-CourseReferenceType"/>
 	  </xs:choice>
 	  
 	  <!--  Attributes -->
