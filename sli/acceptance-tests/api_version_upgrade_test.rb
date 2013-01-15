@@ -55,23 +55,17 @@ def init
   @sli_workspace = File.absolute_path("#{File.dirname(__FILE__)}/../")
   @extract_dest = "#{@sli_workspace}/test-bundle-extract/"
   @api_log = "#{@sli_workspace}/acceptance-tests/target/api_version_upgrade_test.log"
+  @dirs_to_archive = ["acceptance-tests",
+                      "opstools",
+                      "admin-tools/approval",
+                      "ingestion/ingestion-validation/target/",
+                      "api/src/main/resources/wadl/"]
   @old_version = @options[:old_version]
   @old_branch = @options[:old_branch]
-  @new_branch = @options[:new_branch] || current_branch
+  @new_branch = @options[:new_branch]
   # @rake_tasks = @options[:tasks] ? @options[:tasks].join(" ") : "apiAndSecurityTests"
   @rake_tasks = "apiAndSecurityTests"
   @ci = @options[:ci]
-end
-
-def current_branch
-  gbr = `git branch`
-  branch = ""
-  gbr.each_line do |line|
-    if line.include? "*"
-      branch = line.split(" ")[1]
-    end
-  end
-  branch
 end
 
 def run_cmd(cmd)
@@ -85,10 +79,13 @@ def checkout(branch)
   run_cmd cmd
 end
 
-def package_test_code
+def package_test_code(branch)
   puts "---- Package test code"
-  package_script_loc = "#{@sli_workspace}/acceptance-tests/build.rb"
-  cmd = "bundle exec ruby #{package_script_loc}"
+  run_cmd "git fetch"
+  dirs = @dirs_to_archive.join(" ")
+  @test_code_package = "#{@sli_workspace}/testBundle_#{Time.new.strftime("%m%d%Y_%H%M%S")}_#{branch}.zip"
+  Dir.chdir(@sli_workspace)
+  cmd = "git archive --format=zip origin/#{branch} #{dirs} > #{@test_code_package}"
   run_cmd cmd
 end
 
@@ -98,18 +95,8 @@ def build_sli
   run_cmd cmd
 end
 
-def get_test_code_package
-  Dir.entries(@sli_workspace).each do |f|
-    if f.match("testBundle(.*)_#{@old_branch}.zip")
-      @test_code_package = "#{@sli_workspace}/#{f}"
-      break
-    end
-  end
-end
-
 def unpackage_test_code(dest)
-  get_test_code_package
-  if @test_code_package
+  if File.file? @test_code_package
     puts "---- Unpackage test code"
     Zip::ZipFile.open(@test_code_package) do |zip_file|
       zip_file.each do |f|
@@ -135,27 +122,21 @@ end
 
 def start_api
   puts "---- Start API"
-  if @ci
-    run_cmd "curl http://tomcat:s3cret@localhost:8080/manager/text/stop?path=/api"
-    run_cmd "curl http://tomcat:s3cret@localhost:8080/manager/text/undeploy?path=/api"
-    run_cmd "curl \"http://tomcat:s3cret@localhost:8080/manager/text/deploy?path=/api&war=file:$WORKSPACE/sli/api/target/api.war\""
-  else
-    @api_pid = `mvn jetty:run -f #{@sli_workspace}/api/pom.xml > #{@api_log} 2>&1 & echo $!`
-    puts "---- Wait for API to start"
-    begin
-      pattern = /Starting scanner at interval of 5 seconds/
-      Timeout::timeout(60) {
-        while true do
-          text = File.read @api_log
-          return true if text =~ pattern
-          print "."
-          $stdout.flush
-          sleep 1
-        end
-      }
-    rescue Timeout::Error
-      raise Exception.new "API fails to start in 60 seconds."
-    end
+  @api_pid = `mvn jetty:run -f #{@sli_workspace}/api/pom.xml > #{@api_log} 2>&1 & echo $!`
+  puts "---- Wait for API to start"
+  begin
+    pattern = /Starting scanner at interval of 5 seconds/
+    Timeout::timeout(60) {
+      while true do
+        text = File.read @api_log
+        return true if text =~ pattern
+        print "."
+        $stdout.flush
+        sleep 1
+      end
+    }
+  rescue Timeout::Error
+    raise Exception.new "API fails to start in 60 seconds."
   end
 end
 
@@ -176,19 +157,18 @@ end
 def main
   begin
     init
-    checkout @old_branch
-    package_test_code
-    checkout @new_branch
-    build_sli
+    package_test_code @old_branch
+    checkout @new_branch if @new_branch
+    build_sli unless @ci
     unpackage_test_code @extract_dest
     replace_api_version @old_version if @old_version
-    start_api
+    start_api unless @ci
     run_test @rake_tasks
   rescue Exception => e
     puts e.message
     # puts e.backtrace.inspect
   ensure
-    clean_up
+    clean_up unless @ci
     puts "API log is available at #{@api_log}"
   end
 end
