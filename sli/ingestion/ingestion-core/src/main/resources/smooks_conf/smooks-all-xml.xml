@@ -21,13 +21,6 @@
 
   <core:filterSettings defaultSerialization="false" readerPoolSize="5" terminateOnException="false" type="SAX" />
 
-  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeEducationOrganization/AwesomeWrapper">
-    <jb:wiring property="EducationalOrgIdentity" beanIdRef="AW_EOR_EOI" />
-  </jb:bean>
-  <jb:bean beanId="AW_EOR_EOI" class="java.util.HashMap" createOnElement="InterchangeEducationOrganization/AwesomeWrapper/EducationOrgReference/EducationalOrgIdentity">
-     <jb:value property="StateOrganizationId" data="InterchangeEducationOrganization/AwesomeWrapper/EducationOrgReference/EducationalOrgIdentity/StateOrganizationId" />
-  </jb:bean>
-
  <!-- School mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeEducationOrganization/School">
     <jb:expression property="recordType">'school'</jb:expression>

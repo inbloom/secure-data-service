@@ -21,7 +21,7 @@
 				<xs:element name="CompetencyLevelDescriptor" type="CompetencyLevelDescriptor"/>
 				<xs:element name="Program" type="SLC-Program"/>
 
-				<xs:element name="AwesomeWrapper" type="AwesomeWrapperType"/>
+				<xs:element name="DbOperation" type="DbOperationType"/>
 			</xs:choice>
 		</xs:complexType>
 	</xs:element>
