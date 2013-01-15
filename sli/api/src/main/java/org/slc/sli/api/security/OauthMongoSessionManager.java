@@ -271,89 +271,106 @@ public class OauthMongoSessionManager implements OauthSessionManager {
     @SuppressWarnings("unchecked")
     public OAuth2Authentication getAuthentication(String authz) {
         OAuth2Authentication auth = createAnonymousAuth();
-
-        if (authz != null && !authz.equals("")) {
-            Matcher user = USER_AUTH.matcher(authz);
-            if (user.find()) {
-                String accessToken = user.group(1);
-                
-                Entity sessionEntity = findEntityForAccessToken(accessToken);
-                if (sessionEntity != null) {
-                    List<Map<String, Object>> sessions = (List<Map<String, Object>>) sessionEntity.getBody().get(
-                            "appSession");
-                    for (Map<String, Object> session : sessions) {
-                        if (session.get("token").equals(accessToken)) {
+        String accessToken = getTokenFromAuthHeader(authz);
+        if (accessToken != null) {
+            Entity sessionEntity = findEntityForAccessToken(accessToken);
+            if (sessionEntity != null) {
+                List<Map<String, Object>> sessions = (List<Map<String, Object>>) sessionEntity.getBody().get(
+                        "appSession");
+                for (Map<String, Object> session : sessions) {
+                    if (session.get("token").equals(accessToken)) {
+                        
+                        // Log that the long lived session is being used
+                        Date createdOn;
+                        if (sessionEntity.getMetaData().get("created").getClass() == String.class) {
+                            String date = (String) sessionEntity.getMetaData().get("created");
                             
-                            // Log that the long lived session is being used
-                            Date createdOn;
-                            if (sessionEntity.getMetaData().get("created").getClass() == String.class) {
-                                String date = (String) sessionEntity.getMetaData().get("created");
-                                
-                                if (date.contains("T")) {
-                                    date = date.substring(0, date.indexOf("T"));
-                                }
-                                createdOn = DateTimeUtil.parseDateTime(date).toDate();
-                                
-                            } else {
-                                createdOn = (Date) sessionEntity.getMetaData().get("created");
+                            if (date.contains("T")) {
+                                date = date.substring(0, date.indexOf("T"));
                             }
-                            Long hl = (Long) sessionEntity.getBody().get("hardLogout");
+                            createdOn = DateTimeUtil.parseDateTime(date).toDate();
                             
-                            if (isLongLived(hl - createdOn.getTime())) {
-                            	String displayToken = accessToken.substring(0, 6) + "......" + accessToken.substring(accessToken.length()-4, accessToken.length());
-                                info("Using long-lived session {} belonging to app {}", displayToken,
-                                        session.get("clientId"));
-                            }
-                            // ****
-                            
-                            ClientToken token = new ClientToken((String) session.get("clientId"), null, null);
-                            
-                            try {
-                                // Spring doesn't provide a setter for the approved field (used by
-                                // isAuthorized), so we set it the hard way
-                                Field approved = ClientToken.class.getDeclaredField("approved");
-                                approved.setAccessible(true);
-                                approved.set(token, true);
-                            } catch (Exception e) {
-                                error("Error processing authentication.  Anonymous context will be returned.", e);
-                            }
-                            
-                            SLIPrincipal principal = jsoner.convertValue(sessionEntity.getBody().get("principal"),
-                                    SLIPrincipal.class);
-                            TenantContext.setTenantId(principal.getTenantId());
-                            principal.setEntity(locator.locate(principal.getTenantId(), principal.getExternalId())
-                                    .getEntity());
-                            principal.setSessionId(sessionEntity.getEntityId());
-                            Collection<GrantedAuthority> authorities = resolveAuthorities(principal.getTenantId(),
-                                    principal.getRealm(), principal.getRoles(), principal.isAdminRealmAuthenticated());
-                            PreAuthenticatedAuthenticationToken userToken = new PreAuthenticatedAuthenticationToken(
-                                    principal, accessToken, authorities);
-                            userToken.setAuthenticated(true);
-                            auth = new OAuth2Authentication(token, userToken);
-                            
-                            // Extend the session
-                            long previousExpire = (Long) sessionEntity.getBody().get("expiration");
-                            // only update the expire time if it is within the next 5 minutes
-                            // this explicitly does not update the expire time for long-lived
-                            // session tokens
-                            // they will last until their end, plus a 5 minutes session buffer
-                            if (previousExpire < (System.currentTimeMillis() + 300000)) {
-                                sessionEntity.getBody().put("expiration",
-                                        System.currentTimeMillis() + this.sessionLength);
-                                repo.update(SESSION_COLLECTION, sessionEntity);
-                            }
-                            // Purge expired sessions
-                            purgeExpiredSessions();
-                            
-                            break;
+                        } else {
+                            createdOn = (Date) sessionEntity.getMetaData().get("created");
                         }
+                        Long hl = (Long) sessionEntity.getBody().get("hardLogout");
+                        
+                        if (isLongLived(hl - createdOn.getTime())) {
+                        	String displayToken = accessToken.substring(0, 6) + "......" + accessToken.substring(accessToken.length()-4, accessToken.length());
+                            info("Using long-lived session {} belonging to app {}", displayToken,
+                                    session.get("clientId"));
+                        }
+                        // ****
+                        
+                        ClientToken token = new ClientToken((String) session.get("clientId"), null, null);
+                        
+                        try {
+                            // Spring doesn't provide a setter for the approved field (used by
+                            // isAuthorized), so we set it the hard way
+                            Field approved = ClientToken.class.getDeclaredField("approved");
+                            approved.setAccessible(true);
+                            approved.set(token, true);
+                        } catch (Exception e) {
+                            error("Error processing authentication.  Anonymous context will be returned.", e);
+                        }
+                        
+                        SLIPrincipal principal = jsoner.convertValue(sessionEntity.getBody().get("principal"),
+                                SLIPrincipal.class);
+                        TenantContext.setTenantId(principal.getTenantId());
+                        principal.setEntity(locator.locate(principal.getTenantId(), principal.getExternalId())
+                                .getEntity());
+                        principal.setSessionId(sessionEntity.getEntityId());
+                        Collection<GrantedAuthority> authorities = resolveAuthorities(principal.getTenantId(),
+                                principal.getRealm(), principal.getRoles(), principal.isAdminRealmAuthenticated());
+                        PreAuthenticatedAuthenticationToken userToken = new PreAuthenticatedAuthenticationToken(
+                                principal, accessToken, authorities);
+                        userToken.setAuthenticated(true);
+                        auth = new OAuth2Authentication(token, userToken);
+                        
+                        // Extend the session
+                        long previousExpire = (Long) sessionEntity.getBody().get("expiration");
+                        // only update the expire time if it is within the next 5 minutes
+                        // this explicitly does not update the expire time for long-lived
+                        // session tokens
+                        // they will last until their end, plus a 5 minutes session buffer
+                        if (previousExpire < (System.currentTimeMillis() + 300000)) {
+                            sessionEntity.getBody().put("expiration",
+                                    System.currentTimeMillis() + this.sessionLength);
+                            repo.update(SESSION_COLLECTION, sessionEntity);
+                        }
+                        // Purge expired sessions
+                        purgeExpiredSessions();
+                        
+                        break;
                     }
                 }
             } else {
-                info("User is anonymous");
+                //details is a convenient place to store an error message
+                auth.setDetails("Invalid session.");
             }
+        } else {
+            //details is a convenient place to store an error message
+            if (authz == null) {
+                auth.setDetails("No Authorization header specified.");
+            } else {
+                auth.setDetails("Authorization header must be of the form 'Bearer <token>'");
+            } 
         }
         return auth;
+    }
+
+    private String getTokenFromAuthHeader(String authz) {
+        if (authz == null || authz.isEmpty()) {
+            return null;
+        }
+        
+        Matcher user = USER_AUTH.matcher(authz);
+        if (user.find()) {
+            String accessToken = user.group(1);
+            return accessToken;
+        } else {
+            return null;
+        }
     }
 
     /**

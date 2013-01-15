@@ -211,7 +211,13 @@ public class SecurityUtil {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth instanceof OAuth2Authentication
                 && ((OAuth2Authentication) auth).getUserAuthentication() instanceof AnonymousAuthenticationToken) {
-            throw new InsufficientAuthenticationException("Login Required");
+            
+            //We use the details field of the auth to store error details (See OauthMongoSessionManager)
+            String error = (String) auth.getDetails();
+            if (error == null) {
+                error = "Login required.";
+            }
+            throw new InsufficientAuthenticationException(error);
         }
     }
 
