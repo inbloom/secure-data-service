@@ -5,7 +5,13 @@
     attributeFormDefault="qualified">
     
 	<xs:simpleType name="BaseSimpleType">
-	        <xs:restriction base="xs:string">
+		<xs:annotation>
+			<xs:appinfo>
+				<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+				<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+			</xs:appinfo>
+		</xs:annotation>
+        <xs:restriction base="xs:string">
             <xs:minLength value="1" />
             <xs:maxLength value="30" />
         </xs:restriction>
@@ -15,6 +21,10 @@
     <xs:simpleType name="TestDocumentationSimple">
         <xs:annotation>
             <xs:documentation>Test documentation.</xs:documentation>
+            <xs:appinfo>
+				<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+				<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+			</xs:appinfo>
         </xs:annotation>
         <xs:restriction base="xs:string"/>
     </xs:simpleType>
@@ -25,6 +35,8 @@
 			</xs:documentation>
             <xs:appinfo>
 				<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
+				<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+				<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
             </xs:appinfo>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
@@ -37,6 +49,10 @@
 		<xs:annotation>
 			<xs:documentation>A detailed description of the entity.
 			</xs:documentation>
+			<xs:appinfo>
+				<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+				<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:restriction base="xs:string">
 			<xs:minLength value="1" />
@@ -49,6 +65,8 @@
         <xs:annotation>
             <xs:appinfo>
                 <sli:PersonallyIdentifiableInfo>true</sli:PersonallyIdentifiableInfo>
+                <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+				<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
             </xs:appinfo>
         </xs:annotation>
         <xs:restriction base="xs:string"/>
@@ -58,22 +76,37 @@
         <xs:annotation>
             <xs:appinfo>
                 <sli:PersonallyIdentifiableInfo>false</sli:PersonallyIdentifiableInfo>
+                <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+				<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
             </xs:appinfo>
         </xs:annotation>
         <xs:restriction base="xs:string"/>
     </xs:simpleType>
     
+    <xs:simpleType name="TestNoReadOrWriteEnforcement">
+    	<xs:annotation>
+			<xs:documentation>Entity used for testing handling of null read/write enforcement in xsd.</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string" />
+    </xs:simpleType>
     
     <xs:simpleType name="TestSecuritySimple">
         <xs:annotation>
             <xs:appinfo>
-                <sli:ReadEnforcement>ADMIN_ACCESS</sli:ReadEnforcement>
+                <sli:ReadEnforcement><sli:allowedBy>ADMIN_ACCESS</sli:allowedBy></sli:ReadEnforcement>
+                <sli:WriteEnforcement><sli:allowedBy>ADMIN_ACCESS</sli:allowedBy></sli:WriteEnforcement>
             </xs:appinfo>
         </xs:annotation>
         <xs:restriction base="xs:string"/>
     </xs:simpleType>
     
     <xs:simpleType name="RestrictedString">
+    	<xs:annotation>
+    		<xs:appinfo>
+				<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+				<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+			</xs:appinfo>
+    	</xs:annotation>
     	<xs:restriction base="xs:string">
             <xs:minLength value="1" />
             <xs:maxLength value="150" />

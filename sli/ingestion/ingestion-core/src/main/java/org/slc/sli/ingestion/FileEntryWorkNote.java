@@ -51,6 +51,12 @@ public final class FileEntryWorkNote implements Serializable {
         return new FileEntryWorkNote(batchJobId, null, 0);
     }
 
+    public FileEntryWorkNote (String batchJob, IngestionFileEntry fileEntry) {
+        this.batchJobId = batchJob;
+        this.fileEntry = fileEntry;
+        this.batchSize = 0;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
