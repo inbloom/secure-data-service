@@ -252,7 +252,6 @@ When /^I PUT a new group "(.*?)" with role "(.*?)" and right "(.*?)"$/ do |group
   restHttpGet("/customRoles/")
   assert(@res != nil, "Response from custom role request is nil")
   data = JSON.parse(@res.body).sort()[0]
-  puts("\n\nThe data is #{data.inspect}")
   newGroup = {"groupTitle" => group, "names" => [role], "rights" => [right], "isAdminRole" => false}
   data["roles"].push(newGroup)
   dataFormatted = prepareData("application/json", data)
