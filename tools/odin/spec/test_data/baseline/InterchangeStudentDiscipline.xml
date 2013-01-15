@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <InterchangeStudentDiscipline xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentDiscipline.xsd">
+xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentDiscipline.xsd">
+<!-- Commented out until BehaviorDescriptor support added
   <BehaviorDescriptor>
     <CodeValue>BE0</CodeValue>
     <ShortDescription>Fighting</ShortDescription>
@@ -34,6 +35,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </BehaviorDescriptor>
+-->
   <DisciplineIncident>
     <IncidentIdentifier>1#0</IncidentIdentifier>
     <IncidentDate>2002-05-19</IncidentDate>
