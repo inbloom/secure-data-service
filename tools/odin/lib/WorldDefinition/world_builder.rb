@@ -102,6 +102,7 @@ class WorldBuilder
     create_master_schedule
     create_assessments(begin_year, num_years)
     create_descriptors
+    create_learning_objectives
     create_work_orders
   end
 
@@ -1199,6 +1200,22 @@ class WorldBuilder
     }
     (@scenarioYAML["DISCIPLINE_OPTIONS"] or []).each_with_index{ |discipline, index|
       @queue.push_work_order DisciplineDescriptor.new("DI#{index}", discipline['short'], discipline['desc'], sea['id'])
+    }
+  end
+
+  def create_learning_objectives
+    GradeLevelType.get_ordered_grades.each{|grade|
+      academic_subjects = nil
+      if GradeLevelType.is_elementary_school_grade grade
+        academic_subjects = AcademicSubjectType.elementary
+      elsif GradeLevelType.is_middle_school_grade grade
+        academic_subjects = AcademicSubjectType.middle
+      elsif GradeLevelType.is_high_school_grade grade
+        academic_subjects = AcademicSubjectType.high
+      end
+      academic_subjects.each {|academic_subject|
+        @queue.push_work_order LearningObjective.new(AcademicSubjectType.to_string(academic_subject), GradeLevelType.to_string(grade))
+      }
     }
   end
 

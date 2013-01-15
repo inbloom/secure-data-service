@@ -48,7 +48,8 @@ public class Encryptor {
 		setKeyLocation(keyStoreLocation);
         setKeyStorePass(keyStorePassword);
         
-        File keyfile = new File(getKeyLocation());
+        String keyLocation = getKeyLocation();
+        File keyfile = new File(keyLocation);
 
 //        System.out.println("\nUsing keystore: " + getKeyLocation());
         
@@ -66,7 +67,7 @@ public class Encryptor {
 				}
 			}
         } else {
-            throw new FileNotFoundException("Please specify a valid keystore file.");
+            throw new FileNotFoundException("Unable to load file '" + keyLocation + "' -- Please specify a valid keystore file.");
         }
     }
 

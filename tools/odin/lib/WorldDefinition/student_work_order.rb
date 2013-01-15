@@ -266,7 +266,7 @@ class StudentWorkOrder
               final_grades << final_grade
               rval << final_grade
             end
-            rval += addDisciplineEntities(section[:id], index_in_section, school_id)
+            rval += addDisciplineEntities(section[:id], index_in_section, school_id, session)
           }
           rval << ReportCard.new(@id, final_grades, GradingPeriod.new(:END_OF_YEAR, session['year'], session['interval'], session['edOrgId'], []))
         end
@@ -275,10 +275,13 @@ class StudentWorkOrder
     rval
   end
 
-  def addDisciplineEntities(section_id, index_in_section, school_id)
+  def addDisciplineEntities(section_id, index_in_section, school_id, session)
     num_incidents = @scenario['INCIDENTS_PER_SECTION'] || 0
     if index_in_section < num_incidents
-      [StudentDisciplineIncidentAssociation.new(@id, index_in_section, section_id, school_id)]
+      [
+        StudentDisciplineIncidentAssociation.new(@id, index_in_section, section_id, school_id),
+        DisciplineAction.new(@id, school_id, DisciplineIncident.new(index_in_section, section_id, school_id, nil, session['interval'], "Classroom"))
+      ]
     else
       []
     end

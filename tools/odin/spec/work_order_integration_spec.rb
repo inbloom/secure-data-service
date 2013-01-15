@@ -65,7 +65,8 @@ describe "WorkOrderProcessor" do
       class Factory
         # student creation
         attr_accessor :students, :school_associations, :assessment_associations, :section_associations, :assessment_items,
-          :parents, :parent_associations, :cohort_associations, :program_associations, :report_cards, :discipline_incidents
+          :parents, :parent_associations, :cohort_associations, :program_associations, :report_cards, :discipline_incidents,
+          :discipline_actions
         def create(work_order)
           to_build = work_order.build
           @students = to_build.select{|a| a.kind_of? Student}
@@ -79,6 +80,7 @@ describe "WorkOrderProcessor" do
           @cohort_associations = to_build.select{|a| a.kind_of? StudentCohortAssociation}
           @report_cards = to_build.select{|a| a.kind_of? ReportCard}
           @discipline_incidents = to_build.select{|a| a.kind_of? StudentDisciplineIncidentAssociation}
+          @discipline_actions = to_build.select{|a| a.kind_of? DisciplineAction}
         end
       end
 
@@ -183,6 +185,10 @@ describe "WorkOrderProcessor" do
         # This may requiring tweaking some ideas, the important part is that they get generated in some cases
         # but not in others
         factory.discipline_incidents.should have(2).items
+      end
+
+      it "will generate discipline actions for each incident" do
+        factory.discipline_actions.map{|a| a.incidents[0].incident_identifier}.should eq(factory.discipline_incidents.map{|i| i.incident})
       end
     end
 

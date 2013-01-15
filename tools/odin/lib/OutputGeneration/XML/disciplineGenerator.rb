@@ -33,6 +33,7 @@ class DisciplineGenerator < InterchangeGenerator
     @writers[ DisciplineDescriptor ] = EntityWriter.new("discipline_descriptor.mustache")
     @writers[ DisciplineIncident ] = EntityWriter.new("discipline_incident.mustache")
     @writers[ StudentDisciplineIncidentAssociation ] = EntityWriter.new("student_discipline_assoc.mustache")
+    @writers[ DisciplineAction ] = EntityWriter.new("discipline_action.mustache")
   end
 
 end

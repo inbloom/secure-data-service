@@ -65,7 +65,7 @@ public class SelfReferenceValidator {
                     try {
                         naturalKeys = naturalKeyExtractor.getNaturalKeys(entity);
                         if (naturalKeys != null && naturalKeys.size() > 0) {
-                            property = naturalKeys.values().iterator().next();
+                            property = naturalKeys.toString();
                         }
                     } catch (NoNaturalKeysDefinedException e) {
                         // Nothing can be done with the entity at this point,
