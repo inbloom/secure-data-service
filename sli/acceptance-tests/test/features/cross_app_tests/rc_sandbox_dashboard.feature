@@ -34,10 +34,11 @@ Scenario: All-in-one scenario
 	Then I see a list of 28 students
 	When I enter "rudolph" into the student search box
 	And I click the search button
-	Then "1" results are returned in the page
+	Then "2" results are returned in the page
 	And the search results include:
-	 |Student          |Grade    |School                     |
-	 |Rudolph Krinsky  |12       |Daybreak Central High      |
+	 |Student                   |Grade    |School                     |
+	 |Rudolph Sennett           |1        |South Daybreak Elementary  |
+	 |Rudolph Theodore Krinsky  |12       |Daybreak Central High      |
 	And I click on log out
     Then I should be redirected to the impersonation page
     And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
