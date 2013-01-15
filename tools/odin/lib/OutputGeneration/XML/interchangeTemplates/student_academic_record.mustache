@@ -14,4 +14,56 @@ See the License for the specific language governing permissions and
 limitations under the License.
 }}
 {{#entity}}
+  <StudentAcademicRecord>
+    {{#cumulative_credits}}
+    <CumulativeCreditsAttempted>
+      <Credit>{{cumulative_credits}}</Credit>
+    </CumulativeCreditsAttempted>
+    {{/cumulative_credits}}
+    {{#cumulative_gpa}}
+    <CumulativeGradePointAverage>{{cumulative_gpa}}</CumulativeGradePointAverage>
+    {{/cumulative_gpa}}
+    {{#session_gpa}}
+    <SessionGradePointAverage>{{session_gpa}}</SessionGradePointAverage>
+    {{/session_gpa}}
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>{{student_id}}</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>{{ed_org_id}}</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>{{session_name}}</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    {{#report_card}}
+    <ReportCardReference>
+      <ReportCardIdentity>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>{{student}}</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        {{#grading_period}}
+        <GradingPeriodReference>
+          <GradingPeriodIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>{{ed_org_id}}</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <GradingPeriod>{{type}}</GradingPeriod>
+            <BeginDate>{{begin_date}}</BeginDate>
+          </GradingPeriodIdentity>
+        </GradingPeriodReference>
+        {{/grading_period}}
+      </ReportCardIdentity>
+    </ReportCardReference>
+    {{/report_card}}
+  </StudentAcademicRecord>
 {{/entity}}
