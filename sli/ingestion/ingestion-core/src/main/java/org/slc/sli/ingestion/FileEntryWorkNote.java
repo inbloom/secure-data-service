@@ -34,7 +34,7 @@ public final class FileEntryWorkNote implements Serializable {
     private final IngestionFileEntry fileEntry;
     private final int batchSize;
 
-    private FileEntryWorkNote(String batchJobId, IngestionFileEntry fileEntry, int batchSize) {
+    public FileEntryWorkNote(String batchJobId, IngestionFileEntry fileEntry, int batchSize) {
         this.batchJobId = batchJobId;
         this.fileEntry = fileEntry;
         this.batchSize = batchSize;
