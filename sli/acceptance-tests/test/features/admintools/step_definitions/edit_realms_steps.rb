@@ -16,7 +16,6 @@ limitations under the License.
 
 =end
 
-
 When /^I hit the realm editing URL$/ do
   @url = PropLoader.getProps['admintools_server_url'] + "/realm_management"
   @driver.get @url
@@ -143,3 +142,43 @@ Then /^I should get (\d+) error$/ do |arg1|
   step "I should get 1 errors"
 end
 
+When /^I see the realms for "([^"]*)"$/ do |uid|
+  title = (@driver.find_elements(:xpath, "//html/body/div/h1"))[0].text
+  assert(title == "Realms for #{uid}", "Page title not expected")
+end
+
+When /^I click the "(.*?)" edit button$/ do |arg1|
+  @driver.find_element(:link, "Edit").click
+end
+
+#def close_alert_and_get_its_text()
+  #if (@accept_next_alert) then
+    #alert.accept()
+  #else
+    #alert.dismiss()
+  #end
+  #alert.text
+#ensure
+  #@accept_next_alert = true
+#end
+
+When /^I click the "(.*?)" delete button and confirm deletion$/ do |arg1|
+  @driver.find_element(:link, "Delete Realm").click
+  alert = @driver.switch_to().alert()
+  alert.accept()
+  #assert_confirmation /^WARNING: DELETING REALM WILL PREVENT ANY USER ASSOCIATED WITH THIS REALM FROM AUTHENTICATING ON inBloom AND WILL RESET ROLE MAPPING\. ARE YOU SURE[\s\S]$/i
+  assert_match alert.text, /^WARNING: DELETING REALM WILL PREVENT ANY USER ASSOCIATED WITH THIS REALM FROM AUTHENTICATING ON inBloom AND WILL RESET ROLE MAPPING\. ARE YOU SURE[\s\S]$/
+  sleep 2
+end
+
+And /^the realm "(.*?)" will not exist$/ do |arg1|
+  assert_no_match /^[\s\S]*#{arg1}[\s\S]*$/, @driver.find_element(:id, "realms").text
+end
+
+And /^the realm "(.*?)" will exist$/ do |arg1|
+  assert_match /^[\s\S]*#{arg1}[\s\S]*$/, @driver.find_element(:id, "realms").text
+end
+
+When /^pause$/ do
+  sleep 30
+end

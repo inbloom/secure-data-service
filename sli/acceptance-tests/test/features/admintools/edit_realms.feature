@@ -9,21 +9,20 @@ Background:
   And I submit the credentials "fakerealmadmin" "fakerealmadmin1234" for the "Simple" login page
 
 Scenario: Realm administrator editing an existing realm
-    And I should see that I am on the "Fake Realm" edit page
+    When I see the realms for "NC-KRYPTON"
+    And I click the "Fake Realm" edit button
+    Then I should see that I am on the "Fake Realm" edit page
     And I should enter "Edited Fake" into the Display Name field
     And I should click the "Save" button
     Then I should be redirected back to the edit page
     And I should receive a notice that the realm was successfully "updated"
-    And I should see that I am on the "Edited Fake" edit page
+    And I see the realms for "NC-KRYPTON"
   
 Scenario: Realm Administrator deleting a existing realm
-   And I should see that I am on the "Edited Fake" edit page
-   And I should click the delete realm link
-   Then I should be redirected to a new realm page
-   And I should receive a notice that the realm was successfully "deleted"
-   And I should see that I am on the new realm page
-   And all of the input fields should be blank
-   
+  When I see the realms for "NC-KRYPTON"
+  And I click the "Fake Realm" delete button and confirm deletion
+  Then I see the realms for "NC-KRYPTON"
+  And the realm "Fake Realm" will not exist
 
 Scenario: Realm Administrator creating a new realm
   And I should see that I am on the new realm page
@@ -32,9 +31,12 @@ Scenario: Realm Administrator creating a new realm
   And I should click the "Save" button
   Then I should be redirected back to the edit page
   And I should receive a notice that the realm was successfully "created"
-  And I should see that I am on the "Brand New Realm" edit page
+  And I see the realms for "NC-KRYPTON"
+  And the realm "Brand New Realm" will exist
 
 Scenario: Realm creation/editing should have validation
+  When I see the realms for "NC-KRYPTON"
+  And I click the "Brand New Realm" edit button
   And I should see that I am on the "Brand New Realm" edit page
   And I should remove all of the fields
   And I should click the "Save" button
@@ -42,6 +44,7 @@ Scenario: Realm creation/editing should have validation
   When I enter valid data into all fields
   And I should click the "Save" button
   Then I should not see any errors
+  When I click the "Brand New Realm" edit button
   And I should make the unique identifier not unique
   And I should click the "Save" button
   Then I should get 1 error
