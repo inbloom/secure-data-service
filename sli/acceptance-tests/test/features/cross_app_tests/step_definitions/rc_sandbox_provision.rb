@@ -26,7 +26,7 @@ When /^the developer selects to preload "(.*?)"$/ do |sample_data_set|
   else
     sample_data_set="medium"
   end
-  @explicitWait.until{@driver.find_element(:id,"ed_org_STANDARD-SEA").click}
+  @explicitWait.until{@driver.find_element(:id,"ed_org_from_sample").click}
   select = Selenium::WebDriver::Support::Select.new(@explicitWait.until{@driver.find_element(:id,"sample_data_select")})
   select.select_by(:value, sample_data_set)
   @explicitWait.until{@driver.find_element(:id,"provisionButton").click}

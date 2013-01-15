@@ -1195,8 +1195,11 @@ class WorldBuilder
 
   def create_descriptors
     sea = @world['seas'][0]
-    @scenarioYAML["BEHAVIORS"].each_with_index{ |behavior, index|
+    (@scenarioYAML["BEHAVIORS"] or []).each_with_index{ |behavior, index|
       @queue.push_work_order BehaviorDescriptor.new("BE#{index}", behavior['short'], behavior['desc'], sea['id'], behavior['category'])
+    }
+    (@scenarioYAML["DISCIPLINE_OPTIONS"] or []).each_with_index{ |discipline, index|
+      @queue.push_work_order DisciplineDescriptor.new("DI#{index}", discipline['short'], discipline['desc'], sea['id'])
     }
   end
 

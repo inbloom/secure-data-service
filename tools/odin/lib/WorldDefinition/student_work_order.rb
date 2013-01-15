@@ -244,7 +244,8 @@ class StudentWorkOrder
         unless sections.nil?
           final_grades = []
           sections.each{|course_offering, available_sections|
-            section    = available_sections[id % available_sections.count]
+            section    = available_sections[@id % available_sections.count]
+            index_in_section = ((@id + section[:id]) / available_sections.count) % @scenario['STUDENTS_PER_SECTION'][type.to_s]
             section_id = DataUtility.get_unique_section_id(section[:id])
             rval       << StudentSectionAssociation.new(@id, section_id, school_id, begin_date, grade)
 
@@ -265,12 +266,25 @@ class StudentWorkOrder
               final_grades << final_grade
               rval << final_grade
             end
+            rval += addDisciplineEntities(section[:id], index_in_section, school_id, session)
           }
           rval << ReportCard.new(@id, final_grades, GradingPeriod.new(:END_OF_YEAR, session['year'], session['interval'], session['edOrgId'], []))
         end
       end
     end
     rval
+  end
+
+  def addDisciplineEntities(section_id, index_in_section, school_id, session)
+    num_incidents = @scenario['INCIDENTS_PER_SECTION'] || 0
+    if index_in_section < num_incidents
+      [
+        StudentDisciplineIncidentAssociation.new(@id, index_in_section, section_id, school_id),
+        DisciplineAction.new(@id, school_id, DisciplineIncident.new(index_in_section, section_id, school_id, nil, session['interval'], "Classroom"))
+      ]
+    else
+      []
+    end
   end
 
   # creates a student gradebook entry, based on the input gradebook entry work order

@@ -17,16 +17,14 @@ limitations under the License.
 =end
 
 require_relative 'baseEntity'
+require_relative 'descriptor'
 
-# creates an assessment
-class BehaviorDescriptor < BaseEntity
-  attr_accessor :code, :short_description, :description, :ed_org_id, :category
+# creates a behavior descriptor
+class BehaviorDescriptor < Descriptor
+  attr_accessor :category
 
   def initialize(code, short, desc, ed_org_id, category)
-    @code = code
-    @short_description = short
-    @description = desc
-    @ed_org_id = ed_org_id
+    super(code, short, desc, ed_org_id)
     @category = category
   end
 end
