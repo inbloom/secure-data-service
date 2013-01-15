@@ -46,7 +46,7 @@ public class XsdTypeProvider implements TypeProvider {
 
 		Properties sliProps = PropertiesLoaderUtils.loadProperties(sliPropsFile);
 		if ( null == sliProps ) {
-			throw new Exception("Cannot load properties from props file '" + sliPropsFile + "' == ${sli.conf}");
+                    throw new Exception("Cannot load properties from props file '" + sliPropsFile + "' == ${sli.conf}"); // NOPMD POC code
 		}
 
 		// FIXME: file name from properties should be relative to SLI home dir not the current dir
@@ -55,7 +55,7 @@ public class XsdTypeProvider implements TypeProvider {
 		// InputStream schemaStream = ClassLoader.getSystemResourceAsStream(schemaLocation);
 		FileInputStream schemaStream = new FileInputStream(schemaLocation);
 		if ( null == schemaStream ) {
-			throw new Exception("Cannot open XSD schema '" + schemaLocation + "'");
+                    throw new Exception("Cannot open XSD schema '" + schemaLocation + "'"); // NOPMD POC code
 		}
 
 		SAXBuilder b = new SAXBuilder();
