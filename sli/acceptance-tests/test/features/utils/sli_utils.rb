@@ -133,7 +133,10 @@ $SESSION_MAP = {
                 "linda.kim_developer-email" => "d0c34964-4a5c-4a0e-b8ab-1fd1a6801888",
                 "linda.kim_sandboxadministrator" => "9a87321a-8534-4a0e-b8ab-981ab8716233",
                 "unprovisioned_sunset_admin_SLI" => "261d8a09-a181-4e3f-bcaa-241f409afb8b",
-                "rrogerslimitedwrite_IL" => "03af65a0-5720-4cbc-ae49-f7bcb46c25f1"
+                "rrogerslimitedwrite_IL" => "03af65a0-5720-4cbc-ae49-f7bcb46c25f1",
+                "mmagic_Midgar" => "7e859615-3487-41b0-a052-cb1beb6fb12d",
+                "morion_Midgar" => "11a45527-9141-491d-8ebd-132f1d105625"
+                                    
 }
 
 def convertTenantIdToDbName(tenantId)
