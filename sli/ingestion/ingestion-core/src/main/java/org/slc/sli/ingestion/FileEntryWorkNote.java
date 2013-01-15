@@ -34,7 +34,7 @@ public final class FileEntryWorkNote implements Serializable {
     private final IngestionFileEntry fileEntry;
     private final int batchSize;
 
-    private FileEntryWorkNote(String batchJobId, IngestionFileEntry fileEntry, int batchSize) {
+    public FileEntryWorkNote(String batchJobId, IngestionFileEntry fileEntry, int batchSize) {
         this.batchJobId = batchJobId;
         this.fileEntry = fileEntry;
         this.batchSize = batchSize;
@@ -49,6 +49,12 @@ public final class FileEntryWorkNote implements Serializable {
      */
     public static FileEntryWorkNote createSimpleWorkNote(String batchJobId) {
         return new FileEntryWorkNote(batchJobId, null, 0);
+    }
+
+    public FileEntryWorkNote (String batchJob, IngestionFileEntry fileEntry) {
+        this.batchJobId = batchJob;
+        this.fileEntry = fileEntry;
+        this.batchSize = 0;
     }
 
     @Override

@@ -15,29 +15,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
-class DeferredGarbageCollector
 
-  @@call_time = Time.now
+# creates learning objective
+class LearningObjective < BaseEntity
 
-  def initialize(delay)
-    if $GC_DEFERRED
-      puts "enabling deferred garbage collection"
-      @delay = delay
-    else
-      @delay = 0
-    end
+  attr_accessor :objective, :academic_subject, :objective_grade_level
+
+  def initialize(objective = "Generic Learning Objective", academic_subject, objective_grade_level)
+    @objective = objective
+    @academic_subject = academic_subject
+    @objective_grade_level = objective_grade_level
   end
 
-  def start
-    GC.disable if @delay > 0
-  end
-
-  def collect
-    if @delay > 0 && Time.now - @@call_time >= @delay
-      GC.enable
-      GC.start
-      GC.disable
-      @@call_time = Time.now
-    end
-  end
 end

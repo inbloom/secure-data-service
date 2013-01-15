@@ -15,29 +15,32 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
-class DeferredGarbageCollector
 
-  @@call_time = Time.now
+require_relative 'baseEntity'
 
-  def initialize(delay)
-    if $GC_DEFERRED
-      puts "enabling deferred garbage collection"
-      @delay = delay
-    else
-      @delay = 0
-    end
+# creates a student academic record
+class StudentAcademicRecord < BaseEntity
+  attr_accessor :student_id, :report_card, :cumulative_credits, :session
+
+  def initialize(student_id, session, report_card)
+    @student_id = student_id
+    @session = session
+    @report_card = report_card
   end
 
-  def start
-    GC.disable if @delay > 0
+  def ed_org_id
+    @session['edOrgId']
   end
 
-  def collect
-    if @delay > 0 && Time.now - @@call_time >= @delay
-      GC.enable
-      GC.start
-      GC.disable
-      @@call_time = Time.now
-    end
+  def session_name
+    @session['name']
+  end
+
+  def session_gpa
+    @report_card.gpa_given_grading_period
+  end
+
+  def cumulative_gpa
+    @report_card.gpa_cumulative
   end
 end
