@@ -34,19 +34,19 @@
     </div>
     <% if @landingzone[:preload]!=nil %>
         <div class="alert alert-success">
-          <i class="icon-ok"></i> The system is loading the sample data set you selected. The corresponding data will
-          appear in the data browser application once this process is complete. Please be aware that the time it takes
-          for the data to load varies.<br/><br/>
-          To access the data browser, log out of the system and take the following steps:<br/>
+          <i class="icon-ok"></i> The system is loading the sample data set you selected. The corresponding data will become available in your Sandbox account once this process is complete. Please be aware that the time it takes for the data to load varies.<br/><br/>
+          To use the SLC-provided applications (Dashboard or Data Browser), perform the following steps:<br/>
           <ol>
-            <li>Log in to <a href="<%= APP_CONFIG["portal_url"] %>"><%= APP_CONFIG["portal_url"] %></a>.</li>
-            <li>Complete and submit the form to sign in.</li>
-            <li>Under "Test Applications in my Sandbox", select the dataset you are using and select a user that has the
-              "IT Administrator" role or click "Manually Specify a User" if you are using your own custom dataset.
-            </li>
-            <li>Click "Admin" in the upper right, and select "Data Browser" from the available applications.</li>
+            <li>Go to <a href="<%= APP_CONFIG["portal_url"] %>"><%= APP_CONFIG["portal_url"] %></a>.</li>
+            <li>If prompted, login to the Sandbox environment using the email address and password associated with your Sandbox account.</li>
+            <li>If you have loaded one of the provided sample data sets, select the "Use a Sample User" option, and the corresponding data set you have loaded. If you have loaded your own custom data set, select "Manually Specify a User" option, and enter user and role information based on users defined in your data.</li>
+            <li>To view sample data using the SLC Dashboard, select any of the available users and click "Test as this user", and launch the "SLC Dashboards" application from this emulated user’s portal home page.
+            <br/>Or<br/>
+            To navigate through the structure of your sample data using the Data Browser, select one of the available users who is an IT Administrator, click "Test as this user", choose the "Admin" menu, and launch the "SLC Data Browser" application, found under the "System Tools" section. Data Browser is only available with IT Administrator user role.</li>
           </ol>
           <br/>
+          The first time you emulate a given user, you will be required to accept a License Agreement.
+          <br/><br/>
           For support questions, contact <%= APP_CONFIG['support_email'] %>
         </div>
     <% else %>
