@@ -66,7 +66,7 @@ describe "WorkOrderProcessor" do
         # student creation
         attr_accessor :students, :school_associations, :assessment_associations, :section_associations, :assessment_items,
           :parents, :parent_associations, :cohort_associations, :program_associations, :report_cards, :discipline_incidents,
-          :discipline_actions, :student_competencies, :academic_records
+          :discipline_actions, :student_competencies, :academic_records, :transcripts
         def create(work_order)
           to_build = work_order.build
           @students = to_build.select{|a| a.kind_of? Student}
@@ -83,6 +83,7 @@ describe "WorkOrderProcessor" do
           @discipline_incidents = to_build.select{|a| a.kind_of? StudentDisciplineIncidentAssociation}
           @discipline_actions = to_build.select{|a| a.kind_of? DisciplineAction}
           @student_competencies = to_build.select{|a| a.kind_of? StudentCompetency}
+          @transcripts = to_build.select{|a| a.kind_of? CourseTranscript}
         end
       end
 
@@ -203,6 +204,15 @@ describe "WorkOrderProcessor" do
 
       it "will generate discipline actions for each incident" do
         factory.discipline_actions.map{|a| a.incidents[0].incident_identifier}.should eq(factory.discipline_incidents.map{|i| i.incident})
+      end
+
+      it "will generate a course transcript for each course taken" do
+        transcripts = factory.transcripts
+        transcripts.should have(factory.section_associations.count).items
+        transcripts.each{|t|
+          t.student_id.should eq 42
+          t.ed_org_id.should eq DataUtility.get_elementary_school_id 64
+        }
       end
     end
 

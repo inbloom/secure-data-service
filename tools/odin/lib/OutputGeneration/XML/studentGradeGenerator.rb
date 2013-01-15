@@ -30,7 +30,7 @@ class StudentGradeGenerator < InterchangeGenerator
 
     @header, @footer = build_header_footer( "StudentGrade" )    
     #@writers[ CompetencyLevelDescriptor ] = EntityWriter.new("competency_level_descriptor.mustache")
-    #@writers[ CourseTranscript ] = EntityWriter.new("course_transcript.mustache")
+    @writers[ CourseTranscript ] = EntityWriter.new("course_transcript.mustache")
     @writers[ Grade ] = EntityWriter.new("grade.mustache")
     @writers[ GradebookEntry ] = EntityWriter.new("gradebook_entry.mustache")
     #@writers[ LearningObjective ] = EntityWriter.new("learning_objective.mustache")
