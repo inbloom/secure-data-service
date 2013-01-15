@@ -25,15 +25,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.mockito.Mockito;
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.init.RoleInitializer;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.resolve.RolesToRightsResolver;
-import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
-import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -43,6 +34,16 @@ import org.springframework.security.oauth2.provider.ClientToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.init.RoleInitializer;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.resolve.RolesToRightsResolver;
+import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
 
 /**
  * Simple class for injecting a security context for unit tests.
@@ -55,7 +56,7 @@ public class SecurityContextInjector {
     private static final String DEFAULT_REALM_ID = "dc=slidev,dc=net";
     public static final String TENANT_ID = "Midgar";
     private static final String SESSION_ID = "SOME_SESSION_ID";
-    
+
     @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity> repo;
@@ -96,7 +97,7 @@ public class SecurityContextInjector {
         principal.setEdOrg(ED_ORG_ID);
         principal.setEdOrgId(ED_ORG_ID);
         setSecurityContext(principal, new HashSet<GrantedAuthority>(Arrays.asList(
-                Right.WRITE_GENERAL, Right.READ_GENERAL, Right.WRITE_GENERAL, Right.WRITE_RESTRICTED, Right.READ_PUBLIC)));
+                Right.WRITE_GENERAL, Right.READ_GENERAL, Right.READ_RESTRICTED, Right.WRITE_RESTRICTED, Right.READ_PUBLIC)));
     }
 
     public void setAccessAllAdminContext() {
@@ -254,7 +255,7 @@ public class SecurityContextInjector {
 
         return new PreAuthenticatedAuthenticationToken(principal, token, authorities);
     }
-    
+
     private PreAuthenticatedAuthenticationToken getAuthenticationToken(String token, final SLIPrincipal principal, Set<GrantedAuthority> rights) {
         return new PreAuthenticatedAuthenticationToken(principal, token, rights);
     }
@@ -270,7 +271,7 @@ public class SecurityContextInjector {
         principal.setRoles(roles);
         setSecurityContext(principal, false);
     }
-    
+
     public void setEducatorContext(String userId) {
         String user = "educator";
         String fullName = "Educator";
@@ -283,10 +284,10 @@ public class SecurityContextInjector {
         principal.setRoles(roles);
         setSecurityContext(principal, false);
     }
-    
+
     public void setAnonymousContext() {
         OAuth2Authentication token = new OAuth2Authentication(
-                new ClientToken("blah", "blah", new HashSet<String>()), 
+                new ClientToken("blah", "blah", new HashSet<String>()),
                 new AnonymousAuthenticationToken("blah", new Object(), new ArrayList<GrantedAuthority>(Arrays.asList(Right.ANONYMOUS_ACCESS))));
         SecurityContextHolder.getContext().setAuthentication(token);
     }
@@ -313,7 +314,7 @@ public class SecurityContextInjector {
 
         return principal;
     }
-    
+
     private SLIPrincipal setSecurityContext(SLIPrincipal principal, Set<GrantedAuthority> rights) {
         String token = "AQIC5wM2LY4SfczsoqTgHpfSEciO4J34Hc5ThvD0QaM2QUI.*AAJTSQACMDE.*";
 
@@ -340,7 +341,7 @@ public class SecurityContextInjector {
         principal.setSessionId(session.getEntityId());
         return principal;
     }
-    
-    
+
+
 
 }

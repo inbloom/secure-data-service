@@ -17,8 +17,11 @@
 
 package org.slc.sli.validation.schema;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.ws.commons.schema.constants.Constants.BlockConstants;
 import org.w3c.dom.Element;
@@ -40,6 +43,7 @@ public class AppInfo extends Annotation {
     protected static final String PII_ELEMENT_NAME = "PersonallyIdentifiableInfo";
     protected static final String READ_ENFORCEMENT_ELEMENT_NAME = "ReadEnforcement";
     protected static final String WRITE_ENFORCEMENT_ELEMENT_NAME = "WriteEnforcement";
+    protected static final String ALLOWED_BY_ELEMENT_NAME = "allowedBy";
     protected static final String RELAXEDBLACKLIST_ELEMENT_NAME = "RelaxedBlacklist";
     protected static final String REFERENCE_TYPE_ELEMENT_NAME = "ReferenceType";
     protected static final String COLLECTION_TYPE_ELEMENT_NAME = "CollectionType";
@@ -54,7 +58,7 @@ public class AppInfo extends Annotation {
 
     protected static final int DEFAULT_SCHEMA_VERSION = NOT_VERSIONED;
 
-    private final Map<String, String> values = new LinkedHashMap<String, String>();
+    private final Map<String, Object> values = new LinkedHashMap<String, Object>();
 
     /**
      * Construct an AppInfo instance from a list of AppInfo DOM nodes.
@@ -78,14 +82,28 @@ public class AppInfo extends Annotation {
                 }
 
                 String key = node.getLocalName().trim();
-                String value = node.getFirstChild().getNodeValue().trim();
-
-                values.put(key, value);
+                if ((key.equals(READ_ENFORCEMENT_ELEMENT_NAME) || key.equals(WRITE_ENFORCEMENT_ELEMENT_NAME)) && e.hasChildNodes()) {
+                    Set<String> rights = new HashSet<String>();
+                    NodeList allAllowedBy = e.getChildNodes();
+                    for (int i = 0; i < allAllowedBy.getLength(); i++) {
+                        Node allowedBy = allAllowedBy.item(i);
+                        if (allowedBy.hasChildNodes()) {
+                            NodeList rightsNodes = allowedBy.getChildNodes();
+                            for (int j = 0; j < rightsNodes.getLength(); j++) {
+                                rights.add(rightsNodes.item(j).getNodeValue().trim());
+                            }
+                            values.put(key, rights);
+                        }
+                    }
+                } else {
+                    String value = node.getFirstChild().getNodeValue().trim();
+                    values.put(key, value);
+                }
             }
         }
     }
 
-    public void put(String key, String value) {
+    public void put(String key, Object value) {
         values.put(key, value);
     }
 
@@ -95,7 +113,7 @@ public class AppInfo extends Annotation {
     }
 
 
-    public Map<String, String> getValues() {
+    public Map<String, Object> getValues() {
         return values;
     }
 
@@ -106,7 +124,7 @@ public class AppInfo extends Annotation {
         int idx = 0;
         int len = values.size();
 
-        for (Map.Entry<String, String> entry : values.entrySet()) {
+        for (Map.Entry<String, Object> entry : values.entrySet()) {
             builder.append("\"" + entry.getKey() + "\":");
             builder.append("\"" + entry.getValue() + "\"");
 
@@ -127,7 +145,7 @@ public class AppInfo extends Annotation {
 
         boolean rval = false;
         if (values.containsKey(PII_ELEMENT_NAME)) {
-            rval = Boolean.parseBoolean(values.get(PII_ELEMENT_NAME));
+            rval = Boolean.parseBoolean((String) values.get(PII_ELEMENT_NAME));
         }
 
         return rval;
@@ -136,7 +154,7 @@ public class AppInfo extends Annotation {
     public boolean isRestrictedFieldForLogging() {
         boolean rval = false;
         if (values.containsKey(RESTRICTED_ELEMENT_NAME)) {
-            rval = Boolean.parseBoolean(values.get(RESTRICTED_ELEMENT_NAME));
+            rval = Boolean.parseBoolean((String) values.get(RESTRICTED_ELEMENT_NAME));
         }
 
         return rval;
@@ -145,38 +163,48 @@ public class AppInfo extends Annotation {
     public boolean isRelaxedBlacklisted() {
         boolean rval = false;
         if (values.containsKey(RELAXEDBLACKLIST_ELEMENT_NAME)) {
-            rval = Boolean.parseBoolean(values.get(RELAXEDBLACKLIST_ELEMENT_NAME));
+            rval = Boolean.parseBoolean((String) values.get(RELAXEDBLACKLIST_ELEMENT_NAME));
         }
 
         return rval;
 
     }
 
-    public Right getReadAuthority() {
+    public Set<Right> getReadAuthorities() {
         Right rval = Right.READ_GENERAL;
 
         if (values.containsKey(READ_ENFORCEMENT_ELEMENT_NAME)) {
-            return Right.valueOf(values.get(READ_ENFORCEMENT_ELEMENT_NAME));
+            Set<String> rightStrings = (Set<String>) values.get(READ_ENFORCEMENT_ELEMENT_NAME);
+            Set<Right> rights = new HashSet<Right>();
+            for (String string : rightStrings) {
+                rights.add(Right.valueOf(string));
+            }
+            return rights;
         }
 
-        return rval;
+        return new HashSet<Right>(Arrays.asList(rval));
     }
 
-    public Right getWriteAuthority() {
+    public Set<Right> getWriteAuthorities() {
         Right rval = Right.WRITE_GENERAL;
 
         if (values.containsKey(WRITE_ENFORCEMENT_ELEMENT_NAME)) {
-            return Right.valueOf(values.get(WRITE_ENFORCEMENT_ELEMENT_NAME));
+            Set<String> rightStrings = (Set<String>) values.get(WRITE_ENFORCEMENT_ELEMENT_NAME);
+            Set<Right> rights = new HashSet<Right>();
+            for (String string : rightStrings) {
+                rights.add(Right.valueOf(string));
+            }
+            return rights;
         }
 
-        return rval;
+        return new HashSet<Right>(Arrays.asList(rval));
     }
 
     public String getSecuritySphere() {
         String rval = "CDM";
 
         if (values.containsKey(SECURITY_SPHERE)) {
-            rval = values.get(SECURITY_SPHERE);
+            rval = (String) values.get(SECURITY_SPHERE);
         }
 
         return rval;
@@ -184,7 +212,7 @@ public class AppInfo extends Annotation {
 
     public String getReferenceType() {
         if (values.containsKey(REFERENCE_TYPE_ELEMENT_NAME)) {
-            return values.get(REFERENCE_TYPE_ELEMENT_NAME);
+            return (String) values.get(REFERENCE_TYPE_ELEMENT_NAME);
         }
 
         return null;
@@ -192,7 +220,7 @@ public class AppInfo extends Annotation {
 
     public String getCollectionType() {
         if (values.containsKey(COLLECTION_TYPE_ELEMENT_NAME)) {
-            return values.get(COLLECTION_TYPE_ELEMENT_NAME);
+            return (String) values.get(COLLECTION_TYPE_ELEMENT_NAME);
         }
 
         return null;
@@ -200,14 +228,14 @@ public class AppInfo extends Annotation {
 
     public int getSchemaVersion() {
         if (values.containsKey(SCHEMA_VERSION)) {
-            return Integer.parseInt(values.get(SCHEMA_VERSION));
+            return Integer.parseInt((String) values.get(SCHEMA_VERSION));
         }
 
         return NOT_VERSIONED;
     }
 
     public String getValue(String key) {
-        return values.get(key);
+        return (String) values.get(key);
     }
 
     /**
@@ -224,50 +252,40 @@ public class AppInfo extends Annotation {
             values.put(RELAXEDBLACKLIST_ELEMENT_NAME, "true");
         }
 
-        switch (parentInfo.getReadAuthority()) {
-            case FULL_ACCESS:
-                values.put(READ_ENFORCEMENT_ELEMENT_NAME, Right.FULL_ACCESS.toString());
-                break;
-            case ADMIN_ACCESS:
-                if (getReadAuthority() != Right.FULL_ACCESS) {
-                    values.put(READ_ENFORCEMENT_ELEMENT_NAME, Right.ADMIN_ACCESS.toString());
+        for (Right right : parentInfo.getReadAuthorities()) {
+            if (right.equals(Right.FULL_ACCESS)) {
+                values.put(READ_ENFORCEMENT_ELEMENT_NAME, toSet(Right.FULL_ACCESS.toString()));
+            } else if (right.equals(Right.ADMIN_ACCESS)) {
+                if (!getReadAuthorities().contains(Right.FULL_ACCESS)) {
+                    values.put(READ_ENFORCEMENT_ELEMENT_NAME, toSet(Right.ADMIN_ACCESS.toString()));
                 }
-                break;
-            case READ_RESTRICTED:
-                if (getReadAuthority() != Right.FULL_ACCESS && getReadAuthority() != Right.ADMIN_ACCESS) {
-                    values.put(READ_ENFORCEMENT_ELEMENT_NAME, Right.READ_RESTRICTED.toString());
+            } else if (right.equals(Right.READ_RESTRICTED)) {
+                if (!getReadAuthorities().contains(Right.FULL_ACCESS) && !getReadAuthorities().contains(Right.ADMIN_ACCESS)) {
+                    values.put(READ_ENFORCEMENT_ELEMENT_NAME, toSet(Right.READ_RESTRICTED.toString()));
                 }
-                break;
-            case READ_GENERAL:
-                if (getReadAuthority() == Right.ANONYMOUS_ACCESS) {
-                    values.put(READ_ENFORCEMENT_ELEMENT_NAME, Right.READ_GENERAL.toString());
+            } else if (right.equals(Right.READ_GENERAL)) {
+                if (getReadAuthorities().contains(Right.ANONYMOUS_ACCESS)) {
+                    values.put(READ_ENFORCEMENT_ELEMENT_NAME, toSet(Right.READ_GENERAL.toString()));
                 }
-                break;
-            default:
-                break;
+            }
         }
 
-        switch (parentInfo.getWriteAuthority()) {
-            case FULL_ACCESS:
-                values.put(WRITE_ENFORCEMENT_ELEMENT_NAME, Right.FULL_ACCESS.toString());
-                break;
-            case ADMIN_ACCESS:
-                if (getWriteAuthority() != Right.FULL_ACCESS) {
-                    values.put(WRITE_ENFORCEMENT_ELEMENT_NAME, Right.ADMIN_ACCESS.toString());
+        for (Right right : parentInfo.getWriteAuthorities()) {
+            if (right.equals(Right.FULL_ACCESS)) {
+                values.put(WRITE_ENFORCEMENT_ELEMENT_NAME, toSet(Right.FULL_ACCESS.toString()));
+            } else if (right.equals(Right.ADMIN_ACCESS)) {
+                if (!getWriteAuthorities().contains(Right.FULL_ACCESS)) {
+                    values.put(WRITE_ENFORCEMENT_ELEMENT_NAME, toSet(Right.ADMIN_ACCESS.toString()));
                 }
-                break;
-            case WRITE_RESTRICTED:
-                if (getWriteAuthority() != Right.FULL_ACCESS && getWriteAuthority() != Right.ADMIN_ACCESS) {
-                    values.put(WRITE_ENFORCEMENT_ELEMENT_NAME, Right.WRITE_RESTRICTED.toString());
+            } else if (right.equals(Right.WRITE_RESTRICTED)) {
+                if (!getWriteAuthorities().contains(Right.FULL_ACCESS) && !getReadAuthorities().contains(Right.ADMIN_ACCESS)) {
+                    values.put(WRITE_ENFORCEMENT_ELEMENT_NAME, toSet(Right.WRITE_RESTRICTED.toString()));
                 }
-                break;
-            case WRITE_GENERAL:
-                if (getWriteAuthority() == Right.ANONYMOUS_ACCESS) {
-                    values.put(WRITE_ENFORCEMENT_ELEMENT_NAME, Right.WRITE_GENERAL.toString());
+            } else if (right.equals(Right.WRITE_GENERAL)) {
+                if (getWriteAuthorities().contains(Right.ANONYMOUS_ACCESS)) {
+                    values.put(WRITE_ENFORCEMENT_ELEMENT_NAME, toSet(Right.WRITE_GENERAL.toString()));
                 }
-                break;
-            default:
-                break;
+            }
         }
 
         if (parentInfo.getSecuritySphere() != null) {
@@ -275,8 +293,16 @@ public class AppInfo extends Annotation {
         }
     }
 
+    private static Set<String> toSet(String ... elements) {
+        HashSet<String> toReturn = new HashSet<String>(elements.length);
+        for (String element : elements) {
+            toReturn.add(element);
+        }
+        return toReturn;
+    }
+
     public boolean isRequired() {
-        String tmp = values.get(BlockConstants.REQUIRED);
+        String tmp = (String) values.get(BlockConstants.REQUIRED);
         if (tmp != null) {
             return Boolean.parseBoolean(tmp);
         }
@@ -287,7 +313,7 @@ public class AppInfo extends Annotation {
     public boolean isNaturalKey() {
         boolean rval = false;
         if (values.containsKey(NATURAL_KEY)) {
-            rval = Boolean.parseBoolean(values.get(NATURAL_KEY));
+            rval = Boolean.parseBoolean((String) values.get(NATURAL_KEY));
         }
 
         return rval;
@@ -296,7 +322,7 @@ public class AppInfo extends Annotation {
     public boolean applyNaturalKeys() {
         boolean rval = false;
         if (values.containsKey(APPLY_NATURAL_KEYS)) {
-            rval = Boolean.parseBoolean(values.get(APPLY_NATURAL_KEYS));
+            rval = Boolean.parseBoolean((String) values.get(APPLY_NATURAL_KEYS));
         }
 
         return rval;
@@ -305,7 +331,7 @@ public class AppInfo extends Annotation {
     public boolean isSelfReference() {
         boolean rval = false;
         if (values.containsKey(SELF_REFERENCE)) {
-            rval = Boolean.parseBoolean(values.get(SELF_REFERENCE));
+            rval = Boolean.parseBoolean((String) values.get(SELF_REFERENCE));
         }
 
         return rval;
