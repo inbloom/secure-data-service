@@ -25,45 +25,39 @@ class LandingZoneController < ApplicationController
   rescue_from ActiveResource::BadRequest, :with => :handle_error
 
   def provision
-    if (params[:cancel] == "Cancel")
-      redirect_to "/"
-      return
-    end
 
     tenant = get_tenant
     if (tenant == nil)
-      Rails.logger.warn("Tenant ID is nil for user #{uid()}")
+      Rails.logger.fatal("Tenant ID is nil for user #{uid()}")
       render_403
       return
     end
 
     if APP_CONFIG["is_sandbox"]
       ed_org_id = params[:ed_org]
-      ed_org_id = params[:custom_ed_org] if ed_org_id == 'custom'
+
       if ed_org_id == "from_sample"
         sample_data_select = params[:sample_data_select]
         ed_org_id = LandingZone.edorg_for_sample_dataset(sample_data_select)
+        logger.info("Sample Dataset selected: #{sample_data_select}")
+      elsif ed_org_id == 'custom'
+        ed_org_id = params[:custom_ed_org]
       end
-      logger.info("received the sample data selection is: #{sample_data_select}")
-      logger.info("received the edorg selection is: #{ed_org_id}")
     else
       ed_org_id = ApplicationHelper.get_edorg_from_ldap(uid())
     end
-
-    @public_key = params[:public_key]
-    Rails.logger.debug("Public key: #{@public_key}")
+    logger.info("Provisioning request for edorg: #{ed_org_id}")
 
     if (ed_org_id == nil || ed_org_id.gsub(/\s/, '').length == 0)
       redirect_to :action => 'index', :controller => 'landing_zone'
-    else
-      ed_org_id = ed_org_id.gsub(/^ed_org_/, '')
+      return
+    end
 
-      if sample_data_select != nil && sample_data_select != ""
-        @landingzone = LandingZone.provision ed_org_id, tenant, uid, sample_data_select, @public_key
-        @landingzone[:preload] = sample_data_select
-      else
-        @landingzone = LandingZone.provision ed_org_id, tenant, uid, nil, @public_key
-      end
+    if sample_data_select != nil
+      @landingzone = LandingZone.provision ed_org_id, tenant, uid, sample_data_select, nil
+      @landingzone[:preload] = sample_data_select
+    else
+      @landingzone = LandingZone.provision ed_org_id, tenant, uid, nil, nil
     end
   end
 

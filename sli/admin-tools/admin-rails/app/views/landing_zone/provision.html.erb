@@ -1,4 +1,4 @@
-<% if @landingzone[:isDuplicate] && @landingzone[:preload]!=nil && @landingzone[:preload]!="" %>
+<% if @landingzone[:isDuplicate] && @landingzone[:preload]!=nil %>
     <div class="page-header">
       <h1>Select Sandbox Data Source</h1>
     </div>
@@ -32,7 +32,7 @@
         <% end %>
       </h1>
     </div>
-    <% if @landingzone[:preload]!=nil && @landingzone[:preload]!="" %>
+    <% if @landingzone[:preload]!=nil %>
         <div class="alert alert-success">
           <i class="icon-ok"></i> The system is loading the sample data set you selected. The corresponding data will
           appear in the data browser application once this process is complete. Please be aware that the time it takes

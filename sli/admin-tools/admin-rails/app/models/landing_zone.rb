@@ -56,6 +56,10 @@ class LandingZone
     if (!user_info)
       raise ProvisioningError.new "User does not exist in LDAP"
     end
+    if (user_info[:emailAddress] == nil || user_info[:emailAddress].length == 0)
+      Rails.logger.fatal "Cannot provision landing zone: No email address for account with uid #{uid}"
+      raise ProvisioningError.new "No email address for account with uid #{uid}"
+    end
 
     if (hasPublicKey)
       Rails.logger.debug("Doing something with this public key: #{public_key}")
@@ -71,7 +75,7 @@ class LandingZone
     end
 
     isDuplicate = false
-    if (APP_CONFIG['is_sandbox'] && (sample_data_select == nil || sample_data_select == ""))
+    if (APP_CONFIG['is_sandbox'] && sample_data_select == nil)
       isDuplicate = (user_info[:edorg] == edorg_id && user_info[:tenant] == tenant)
     elsif APP_CONFIG['is_sandbox'] == false
       isDuplicate = user_info[:homedir] != "/dev/null"
@@ -87,7 +91,7 @@ class LandingZone
     Rails.logger.info "landing zone is #{@landingzone}, server is #{@server}"
     Rails.logger.info "the tenant uuid is: #{result.attributes[:tenantUuid]}"
 
-    if (APP_CONFIG['is_sandbox'] && sample_data_select != nil && sample_data_select != "")
+    if (APP_CONFIG['is_sandbox'] && sample_data_select != nil)
       begin
         Rails.logger.info("start preload data to tenant uuid: #{result.attributes[:tenantUuid]}, with #{sample_data_select} sample data")
         preload_result = OnBoarding.new.preload(result.attributes[:tenantUuid], sample_data_select)
@@ -100,42 +104,30 @@ class LandingZone
       end
     end
 
-    user_info[:homedir] = result.attributes[:landingZone]
-    user_info[:edorg] = edorg_id
-    # if APP_CONFIG["is_sandbox"]
-    #   user_info[:tenant] = tenant
-    # end
-
     begin
+      user_info[:homedir] = result.attributes[:landingZone]
+      user_info[:edorg] = edorg_id
       APP_LDAP_CLIENT.update_user_info(user_info)
     rescue => e
       Rails.logger.error e.message
       Rails.logger.error e.backtrace.join("\n")
-
       Rails.logger.error "Could not update ldap for user #{uid} with #{user_info}.\nError: #{e.message}."
     end
 
-    if (user_info[:emailAddress] != nil && user_info[:emailAddress].length != 0)
-      begin
-        if sample_data_select !=nil && sample_data_select != "" && isDuplicate == false
-          ApplicationMailer.auto_provision_email(user_info[:emailAddress], user_info[:first], SAMPLE_DATA_SET_TO_LOGIN_USER[sample_data_select]).deliver
-        elsif (sample_data_select == nil || sample_data_select == "")
-          ApplicationMailer.provision_email(user_info[:emailAddress], user_info[:first], @server, edorg_id).deliver
-        end
-      rescue => e
-        Rails.logger.error e.message
-        Rails.logger.error e.backtrace.join("\n")
-        Rails.logger.error "Could not send email to #{user_info[:emailAddress]}."
-      end
 
-      @emailWarningMessage = ""
-    else
-      @emailWarningMessage = "Unfortunately, your account does not have an email address and " <<
-          "therefore we cannot send an email to you.  Please use this page " <<
-          "as reference or contact the inBloom Operator for your landing zone details."
+    begin
+      if sample_data_select !=nil && isDuplicate == false
+        ApplicationMailer.auto_provision_email(user_info[:emailAddress], user_info[:first], SAMPLE_DATA_SET_TO_LOGIN_USER[sample_data_select]).deliver
+      elsif sample_data_select == nil
+        ApplicationMailer.provision_email(user_info[:emailAddress], user_info[:first], @server, edorg_id).deliver
+      end
+    rescue => e
+      Rails.logger.error e.message
+      Rails.logger.error e.backtrace.join("\n")
+      Rails.logger.error "Could not send email to #{user_info[:emailAddress]}."
     end
 
-    {:landingzone => @landingzone, :server => @server, :emailWarning => @emailWarningMessage, :edOrg => user_info[:edorg], :isDuplicate => isDuplicate}
+    {:server => @server, :edOrg => user_info[:edorg], :isDuplicate => isDuplicate}
   end
 
 end
