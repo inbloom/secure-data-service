@@ -96,6 +96,9 @@ public class OnboardingResource {
     @RightsAllowed({Right.INGEST_DATA })
     public Response provision(Map<String, String> reqBody, @Context final UriInfo uriInfo) {
         String orgId = reqBody.get(STATE_EDORG_ID);
+        if (orgId == null) {
+            return Response.status(Status.BAD_REQUEST).entity("Missing required " + STATE_EDORG_ID).build();
+        }
         Response r = createEdOrg(orgId);
         return r;
     }

@@ -119,6 +119,12 @@ public class OnboardingResourceTest {
         SecurityContextHolder.clearContext();
         repo.deleteAll("educationalOrganization", null);
     }
+    
+    @Test
+    public void testBadData() {
+        Response response = resource.provision(new HashMap<String, String>(), null);
+        assertEquals(response.getStatus(), Status.BAD_REQUEST.getStatusCode());
+    }
 
     @SuppressWarnings("unchecked")
     @Test
