@@ -21,7 +21,7 @@ require_relative 'baseEntity'
 # creates an discipline incident
 class DisciplineIncident < BaseEntity
   attr_accessor :incident_identifier, :date, :time, :location, :behaviors,
-    :school_id, :staff_id
+    :school_id, :staff_id, :index
 
   def initialize(id, section_id, school, staff, interval, location, behaviors = nil)
     rand = Random.new(id + section_id * 10)
@@ -32,7 +32,16 @@ class DisciplineIncident < BaseEntity
     @school_id = school
     @staff_id = staff
     @location = location
-    @behaviors = behaviors || ["BE#{rand.rand(@@scenario['BEHAVIORS'].count)}"]
+    @index = DisciplineIncident.gen_index(id, section_id)
+    @behaviors = behaviors || [DisciplineIncident.gen_behavior(id, section_id)]
+  end
+
+  def self.gen_index(id, section_id)
+    (id + section_id * 10) % @@scenario['BEHAVIORS'].count
+  end
+
+  def self.gen_behavior(id, section_id)
+    "BE#{gen_index(id, section_id)}"
   end
 
   def self.gen_id(id, section_id)

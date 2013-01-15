@@ -61,6 +61,16 @@ public class SelfReferenceValidator {
                     uuid = getDeterministicId(entity);
                 }
                 if (property != null && property.equals(uuid)) {
+                    Map<String, String> naturalKeys = null;
+                    try {
+                        naturalKeys = naturalKeyExtractor.getNaturalKeys(entity);
+                        if (naturalKeys != null && naturalKeys.size() > 0) {
+                            property = naturalKeys.toString();
+                        }
+                    } catch (NoNaturalKeysDefinedException e) {
+                        // Nothing can be done with the entity at this point,
+                        LOG.error(e.getMessage(), e);
+                    }
                     errors.add(new ValidationError(ErrorType.SELF_REFERENCING_DATA, selfReferencePath,
                             property, new String[] { "Reference to a seperate entity" }));
                     return false;

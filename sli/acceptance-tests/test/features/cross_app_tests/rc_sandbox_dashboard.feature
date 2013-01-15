@@ -34,12 +34,11 @@ Scenario: All-in-one scenario
 	Then I see a list of 28 students
 	When I enter "rudolph" into the student search box
 	And I click the search button
-	And I select school "Daybreak Central High"
-	And I search by clicking on the go button
-	Then "1" results are returned in the page
+	Then "2" results are returned in the page
 	And the search results include:
-	 |Student          |Grade    |School                     |
-	 |Rudolph Krinsky  |12       |Daybreak Central High      |
+	 |Student                   |Grade    |School                     |
+	 |Rudolph Sennett           |1        |South Daybreak Elementary  |
+	 |Rudolph Theodore Krinsky  |12       |Daybreak Central High      |
 	And I click on log out
     Then I should be redirected to the impersonation page
     And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
@@ -169,17 +168,6 @@ Scenario: All-in-one scenario
 	Then I see a list of 25 students
 	When I enter "Matt" into the student search box
 	And I click the search button
-	When I look in the school drop-down
-	Then I see these values in the drop-down: "Daybreak Central High;East Daybreak Junior High;South Daybreak Elementary"
-	And I select school "Daybreak Central High"
-	And I search by clicking on the go button
-	Then "0" results are returned in the page
-	And I select school "South Daybreak Elementary"
-	And I search by clicking on the go button
-	Then "0" results are returned in the page
-	And I select school "East Daybreak Junior High" 
-	And I search by clicking on the go button
-	Then "1" results are returned in the page
 	And the search results include:
 	 |Student          |Grade    |School                     |
 	 |Matt Sollars     |8        |East Daybreak Junior High  |
