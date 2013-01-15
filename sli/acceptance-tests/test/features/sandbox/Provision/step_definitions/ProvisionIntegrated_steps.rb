@@ -324,14 +324,6 @@ Then /^the user gets an error message$/ do
   assert(already_provisioned!=nil,"didnt get an already provisioned message")
 end
 
-Then /^an ed\-org is created in Mongo with the "([^"]*)" is "([^"]*)"$/ do |key1, value1|
-  step "I am logged in using \"operator\" \"operator1234\" to realm \"SLI\""
-  uri="/v1/educationOrganizations"
-  uri=uri+"?"+URI.escape(key1)+"="+URI.escape(value1)
-  restHttpGet(uri)
-  assert(@res.length>0,"didnt see a top level ed org with #{key1} is #{value1}")
-end
-
 Then /^a request to provision a landing zone is made$/ do
   # this request is made by landing zone app in admin tools
 end

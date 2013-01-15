@@ -69,7 +69,6 @@ public class BatchJobMongoDA implements BatchJobDAO {
     private static final String RESOURCE_ID_FIELD = "resourceId";
     private static final String SEVERITY_FIELD = "severity";
     private static final String TRANSFORMATION_LATCH = "transformationLatch";
-    private static final String FILE_ENTRY_LATCH = "fileEntryLatch";
     private static final String PERSISTENCE_LATCH = "persistenceLatch";
     private static final String STAGED_ENTITIES = "stagedEntities";
     private static final String RECORD_HASH = "recordHash";
@@ -79,6 +78,8 @@ public class BatchJobMongoDA implements BatchJobDAO {
     private static final String COUNT = "count";
     private static final String ENTITIES = "entities";
     private static final int DUP_KEY_CODE = 11000;
+    private static final String FILE_ENTRY_LATCH = "fileEntryLatch";
+    private static final String FILES = "files";
 
     @Value("${sli.ingestion.totalRetries}")
     private int numberOfRetries;
@@ -567,5 +568,32 @@ public class BatchJobMongoDA implements BatchJobDAO {
         }
 
         return false;
+    }
+
+    @Override
+    public boolean createFileLatch(String jobId, List<String> fileEntries) {
+        try {
+            final BasicDBObject latchObject = new BasicDBObject();
+            latchObject.put(JOB_ID, jobId);
+            latchObject.put(FILES, fileEntries);
+
+            RetryMongoCommand retry = new RetryMongoCommand() {
+
+                @Override
+                public Object execute() {
+                    batchJobMongoTemplate.getCollection(FILE_ENTRY_LATCH).insert(latchObject, WriteConcern.SAFE);
+                    return null;
+                }
+            };
+
+            retry.executeOperation(numberOfRetries);
+
+        } catch (MongoException me) {
+            if (me.getCode() == DUP_KEY_CODE) {
+                LOG.debug(me.getMessage());
+            }
+            return false;
+        }
+        return true;
     }
 }

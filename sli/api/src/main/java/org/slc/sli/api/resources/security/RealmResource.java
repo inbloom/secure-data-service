@@ -311,7 +311,7 @@ public class RealmResource {
 
     private boolean canEditCurrentRealm(EntityBody realm) {
         String edOrg = SecurityUtil.getEdOrg();
-        return !(edOrg == null || !edOrg.equals(realm.get(ED_ORG)));
+        return edOrg != null && edOrg.equals(realm.get(ED_ORG));
     }
     
     private String getIdpId(Map body) {

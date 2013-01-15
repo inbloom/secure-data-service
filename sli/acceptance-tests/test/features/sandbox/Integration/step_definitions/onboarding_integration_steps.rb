@@ -236,22 +236,6 @@ When /^clicks on "([^"]*)"$/ do |arg1|
    @driver.find_element(:id, "provisionButton").click
 end
 
-Then /^an "([^"]*)" is saved to mongo$/ do |arg1|
-  disable_NOTABLESCAN()
- edOrg_coll=@db["educationOrganization"]
- edOrg=edOrg_coll.find({"body.stateOrganizationId"=> arg1})
- assert(edOrg.count()>0,"didnt save #{arg1} to mongo")
- enable_NOTABLESCAN()
-end
-
-Then /^an "([^"]*)" is saved to sandbox mongo$/ do |arg1|
-  disable_NOTABLESCAN()
- edOrg_coll=@sandboxdb["educationOrganization"]
- edOrg=edOrg_coll.find({"body.stateOrganizationId"=> arg1})
- assert(edOrg.count()>0,"didnt save #{arg1} to mongo")
- enable_NOTABLESCAN()
-end
-
 Then /^an "([^"]*)" is added in the application table for "([^"]*)","([^"]*)", "([^"]*)"$/ do |arg1, arg2, arg3, arg4|
   disable_NOTABLESCAN()
   app_collection=@slidb["application"]

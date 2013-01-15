@@ -109,4 +109,6 @@ public interface BatchJobDAO {
 
     boolean updateFileEntryLatch(String batchJobId, String filename);
 
+    public boolean createFileLatch(String jobId, List<String> fileEntries);
+
 }

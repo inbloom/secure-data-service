@@ -17,7 +17,10 @@
 
 package org.slc.sli.api.security.schema;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
@@ -58,13 +61,13 @@ public class XsdSchemaDataProvider implements SchemaDataProvider {
                 return new AppInfo(null) {
 
                     @Override
-                    public Right getReadAuthority() {
-                        return Right.READ_GENERAL;
+                    public Set<Right> getReadAuthorities() {
+                        return new HashSet<Right>(Arrays.asList(Right.READ_GENERAL));
                     }
 
                     @Override
-                    public Right getWriteAuthority() {
-                        return Right.WRITE_GENERAL;
+                    public Set<Right> getWriteAuthorities() {
+                        return new HashSet<Right>(Arrays.asList(Right.WRITE_GENERAL));
                     }
 
                 };
@@ -93,30 +96,30 @@ public class XsdSchemaDataProvider implements SchemaDataProvider {
     }
 
     @Override
-    public Right getRequiredReadLevel(String entityType, String fieldPath) {
+    public Set<Right> getRequiredReadLevels(String entityType, String fieldPath) {
         Right auth = Right.READ_GENERAL;
 
         NeutralSchema schema = traverse(entityType, fieldPath);
         if (schema != null) {
             AppInfo info = schema.getAppInfo();
             if (info != null) {
-                auth = info.getReadAuthority();
+                return info.getReadAuthorities();
             }
         }
-        return auth;
+        return new HashSet<Right>(Arrays.asList(auth));
     }
 
     @Override
-    public Right getRequiredWriteLevel(String entityType, String fieldPath) {
+    public Set<Right> getRequiredWriteLevels(String entityType, String fieldPath) {
         Right auth = Right.WRITE_GENERAL;
         NeutralSchema schema = traverse(entityType, fieldPath);
         if (schema != null) {
             AppInfo info = schema.getAppInfo();
             if (info != null) {
-                auth = info.getWriteAuthority();
+                return info.getWriteAuthorities();
             }
         }
-        return auth;
+        return new HashSet<Right>(Arrays.asList(auth));
     }
 
     @Override

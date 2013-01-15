@@ -9,32 +9,47 @@
 		<xs:sequence>
 			<xs:element name="testString" type="xs:string">
 				<xs:annotation>
-					<xs:documentation>A test String
-					</xs:documentation>
+					<xs:documentation>A test String</xs:documentation>
+					<xs:appinfo>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="testSimpleReference" type="BaseSimpleType">
 				<xs:annotation>
-					<xs:documentation>A reference to another type
-					</xs:documentation>
+					<xs:documentation>A reference to another type</xs:documentation>
+					<xs:appinfo>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="testDate" type="xs:date">
 				<xs:annotation>
-					<xs:documentation>A test date
-					</xs:documentation>
+					<xs:documentation>A test date</xs:documentation>
+					<xs:appinfo>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="testDouble" type="xs:double">
 				<xs:annotation>
-					<xs:documentation>A test date
-					</xs:documentation>
+					<xs:documentation>A test date</xs:documentation>
+					<xs:appinfo>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="testFloat" type="xs:float">
 				<xs:annotation>
-					<xs:documentation>A test date
-					</xs:documentation>
+					<xs:documentation>A test date</xs:documentation>
+					<xs:appinfo>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name="testAnonymousSimpleType">
@@ -42,6 +57,10 @@
 					<xs:documentation>
 						An anonymous simple type
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+					</xs:appinfo>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:int">
@@ -55,8 +74,8 @@
 					<xs:complexContent>
 						<xs:extension base="complexType1">
 							<xs:sequence>
-								<xs:element name="extension1" type="complexType2"></xs:element>
-								<xs:element name="extension2" type="BaseSimpleType"></xs:element>
+								<xs:element name="extension1" type="complexType2" />
+								<xs:element name="extension2" type="BaseSimpleType" />
 							</xs:sequence>
 						</xs:extension>
 					</xs:complexContent>
@@ -68,6 +87,10 @@
 						The number of weeks in which the meeting time
 						schedules repeat.
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+					</xs:appinfo>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:int">
@@ -87,6 +110,10 @@
 						The number of weeks in which the meeting time
 						schedules repeat.
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+					</xs:appinfo>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="xs:int">
@@ -106,6 +133,10 @@
 						The number of weeks in which the meeting time
 						schedules repeat.
 					</xs:documentation>
+					<xs:appinfo>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+					</xs:appinfo>
 				</xs:annotation>
 				<xs:simpleType>
 					<xs:restriction base="RestrictedString">
@@ -119,6 +150,12 @@
 	<xs:complexType name="complexType1">
 		<xs:sequence>
 			<xs:element name="stringElement" type="xs:string">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+					</xs:appinfo>
+				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
@@ -126,6 +163,12 @@
 	<xs:complexType name="complexType2">
 		<xs:sequence>
 			<xs:element name="intElement" type="xs:int">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+					</xs:appinfo>
+				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
@@ -142,55 +185,23 @@
 
 	<xs:complexType name="TestRelaxedBlacklistSequenceComplex">
 		<xs:annotation>
-			<xs:documentation>Test RelaxedBlacklist sequence complex documentation.</xs:documentation>
+			<xs:documentation>Test RelaxedBlacklist sequence complex
+				documentation.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="white" type="TestRelaxedBlacklistString" >
-				<xs:annotation>
-					<xs:documentation>A code or abbreviation that is used to refer to
-						the
-						certification field.
-					</xs:documentation>
-		            <xs:appinfo>
-						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
-		            </xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="nonwhite" type="TestNonRelaxedBlacklistString" >
-				<xs:annotation>
-					<xs:documentation>A code or abbreviation that is used to refer to
-						the
-						certification field.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
+			<xs:element name="white" type="TestRelaxedBlacklistString" />
+			<xs:element name="nonwhite" type="TestNonRelaxedBlacklistString" />
 		</xs:sequence>
 	</xs:complexType>
 
 	<xs:complexType name="TestRelaxedBlacklistChoiceComplex">
 		<xs:annotation>
-			<xs:documentation>Test RelaxedBlacklist choice complex documentation.</xs:documentation>
+			<xs:documentation>Test RelaxedBlacklist choice complex documentation.
+			</xs:documentation>
 		</xs:annotation>
 		<xs:choice minOccurs="0" maxOccurs="unbounded">
-			<xs:element name="white" type="TestRelaxedBlacklistString" >
-				<xs:annotation>
-					<xs:documentation>A code or abbreviation that is used to refer to
-						the
-						certification field.
-					</xs:documentation>
-		            <xs:appinfo>
-						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
-		            </xs:appinfo>
-				</xs:annotation>
-			</xs:element>
-			<xs:element name="nonwhite" type="TestNonRelaxedBlacklistString" >
-				<xs:annotation>
-					<xs:documentation>A code or abbreviation that is used to refer to
-						the
-						certification field.
-					</xs:documentation>
-				</xs:annotation>
-			</xs:element>
+			<xs:element name="white" type="TestRelaxedBlacklistString" />
+			<xs:element name="nonwhite" type="TestNonRelaxedBlacklistString" />
 		</xs:choice>
 	</xs:complexType>
 
@@ -206,6 +217,8 @@
 		<xs:annotation>
 			<xs:appinfo>
 				<sli:PersonallyIdentifiableInfo>true</sli:PersonallyIdentifiableInfo>
+				<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+				<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
@@ -220,6 +233,8 @@
 	<xs:complexType name="TestNotRestrictedForLoggingComplex">
 		<xs:annotation>
 			<xs:appinfo>
+				<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+				<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
@@ -245,7 +260,14 @@
 	<xs:complexType name="TestSecurityComplex">
 		<xs:annotation>
 			<xs:appinfo>
-				<sli:ReadEnforcement>READ_RESTRICTED</sli:ReadEnforcement>
+				<sli:ReadEnforcement>
+					<sli:allowedBy>READ_RESTRICTED</sli:allowedBy>
+					<sli:allowedBy>READ_GENERAL</sli:allowedBy>
+					<sli:allowedBy>READ_PUBLIC</sli:allowedBy>					
+				</sli:ReadEnforcement>
+				<sli:WriteEnforcement>
+					<sli:allowedBy>WRITE_GENERAL</sli:allowedBy>
+				</sli:WriteEnforcement>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
@@ -256,29 +278,85 @@
 
 	<xs:complexType name="TestChoiceNoMinOccurs">
 		<xs:choice minOccurs="0" maxOccurs="unbounded">
-			<xs:element name="intChoice" type="xs:int" />
-			<xs:element name="stringChoice" type="xs:string" />
+			<xs:element name="intChoice" type="xs:int">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="stringChoice" type="xs:string">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
 		</xs:choice>
 	</xs:complexType>
 
 	<xs:complexType name="TestChoiceOnlyOne">
 		<xs:choice minOccurs="1" maxOccurs="1">
-			<xs:element name="intChoice" type="xs:int" />
-			<xs:element name="stringChoice" type="xs:string" />
+			<xs:element name="intChoice" type="xs:int">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+					</xs:appinfo>
+				</xs:annotation>			
+			</xs:element>
+			<xs:element name="stringChoice" type="xs:string">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
 		</xs:choice>
 	</xs:complexType>
 
 	<xs:complexType name="TestChoiceMinTwoMaxTwo">
 		<xs:choice minOccurs="1" maxOccurs="2">
-			<xs:element name="intChoice" type="xs:int" />
-			<xs:element name="stringChoice" type="xs:string" />
+			<xs:element name="intChoice" type="xs:int">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="stringChoice" type="xs:string">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
 		</xs:choice>
 	</xs:complexType>
 
 	<xs:complexType name="TestChoiceMinOneMaxUnbounded">
 		<xs:choice minOccurs="1" maxOccurs="unbounded">
-			<xs:element name="intChoice" type="xs:int" />
-			<xs:element name="stringChoice" type="xs:string" />
+			<xs:element name="intChoice" type="xs:int">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="stringChoice" type="xs:string">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
 		</xs:choice>
 	</xs:complexType>
 

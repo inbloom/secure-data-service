@@ -119,6 +119,12 @@ public class OnboardingResourceTest {
         SecurityContextHolder.clearContext();
         repo.deleteAll("educationalOrganization", null);
     }
+    
+    @Test
+    public void testBadData() {
+        Response response = resource.provision(new HashMap<String, String>(), null);
+        assertEquals(response.getStatus(), Status.BAD_REQUEST.getStatusCode());
+    }
 
     @SuppressWarnings("unchecked")
     @Test
@@ -147,16 +153,8 @@ public class OnboardingResourceTest {
         Map<String, String> result = (Map<String, String>) res.getEntity();
         assertNotNull(result.get("landingZone"));
         Assert.assertEquals("LANDING ZONE", result.get("landingZone"));
-        assertNotNull(result.get("edOrg"));
         assertNotNull(result.get("serverName"));
         Assert.assertEquals("landingZone", result.get("serverName"));
-
-        // check new edorg has been created in mongod
-        NeutralQuery query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria(OnboardingResource.STATE_EDORG_ID, NeutralCriteria.OPERATOR_EQUAL,
-                "TestOrg"));
-        String edorgId = repo.findOne("educationOrganization", query).getEntityId();
-        assertNotNull("educationOrganization Id should not be null", edorgId);
 
         // Attempt to create the same edorg.
         res = resource.provision(requestBody, null);

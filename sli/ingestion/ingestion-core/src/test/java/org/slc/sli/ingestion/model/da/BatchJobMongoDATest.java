@@ -478,4 +478,16 @@ public class BatchJobMongoDATest {
         Assert.assertTrue(result);
     }
 
+    public void testFileLatch() {
+        DBCollection collection = Mockito.mock(DBCollection.class);
+        Mockito.when(mockMongoTemplate.getCollection("fileEntryLatch")).thenReturn(collection);
+        Mockito.when(collection
+                .insert(Matchers.any(DBObject.class), Matchers.any(WriteConcern.class))).thenReturn(null);
+
+        List<String> fileEntries = new ArrayList<String>();
+        fileEntries.add("test1.xml");
+        fileEntries.add("test2.xml");
+        Assert.assertTrue(mockBatchJobMongoDA.createFileLatch(BATCHJOBID, fileEntries));
+   }
+
 }
