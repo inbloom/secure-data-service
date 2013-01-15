@@ -1,4 +1,5 @@
-{{! 
+=begin
+
 Copyright 2012 Shared Learning Collaborative, LLC
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,11 +13,18 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-}}
-{{#entity}}
-  <LearningObjective>
-    <Objective>{{objective}}</Objective>
-    <AcademicSubject>{{academic_subject}}</AcademicSubject>
-    <ObjectiveGradeLevel>{{objective_grade_level}}</ObjectiveGradeLevel>
-  </LearningObjective>
-{{/entity}}
+
+=end
+
+# creates learning objective
+class LearningObjective < BaseEntity
+
+  attr_accessor :objective, :academic_subject, :objective_grade_level
+
+  def initialize(objective = "Generic Learning Objective", academic_subject, objective_grade_level)
+    @objective = objective
+    @academic_subject = academic_subject
+    @objective_grade_level = objective_grade_level
+  end
+
+end
