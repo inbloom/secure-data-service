@@ -34,6 +34,8 @@ import org.slc.sli.api.selectors.UnsupportedSelectorException;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.aspect.ApiMigrationAspect.MigratePostedEntity;
+import org.slc.sli.aspect.ApiMigrationAspect.MigrateResponse;
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.NeutralCriteria;
@@ -97,6 +99,7 @@ public class DefaultResourceService implements ResourceService {
     }
 
     @Override
+    @MigrateResponse
     public ServiceResponse getEntitiesByIds(final Resource resource, final String idList, final URI requestURI) {
 
         return handle(resource, new ServiceLogic() {
@@ -139,6 +142,7 @@ public class DefaultResourceService implements ResourceService {
     }
 
     @Override
+    @MigrateResponse
     public ServiceResponse getEntities(final Resource resource, final URI requestURI,
                                        final boolean getAllEntities) {
 
@@ -206,6 +210,7 @@ public class DefaultResourceService implements ResourceService {
     }
 
     @Override
+    @MigratePostedEntity
     public String postEntity(final Resource resource, EntityBody entity) {
         EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
 
@@ -213,6 +218,7 @@ public class DefaultResourceService implements ResourceService {
     }
 
     @Override
+    @MigratePostedEntity
     public void putEntity(Resource resource, String id, EntityBody entity) {
         EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
 
@@ -223,6 +229,7 @@ public class DefaultResourceService implements ResourceService {
     }
 
     @Override
+    @MigratePostedEntity
     public void patchEntity(Resource resource, String id, EntityBody entity) {
         EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
 
@@ -260,6 +267,7 @@ public class DefaultResourceService implements ResourceService {
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
     @Override
+    @MigrateResponse
     public ServiceResponse getEntities(final Resource base, final String id, final Resource resource, final URI requestURI) {
         final EntityDefinition definition = resourceHelper.getEntityDefinition(resource);
 

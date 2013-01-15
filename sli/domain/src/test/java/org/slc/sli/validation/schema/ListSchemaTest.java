@@ -21,7 +21,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -222,11 +224,11 @@ public class ListSchemaTest {
         schema.clearFields();
         complexSchema.clearFields();
         AppInfo d = new AppInfo(null);
-        d.put(AppInfo.READ_ENFORCEMENT_ELEMENT_NAME, Right.READ_RESTRICTED.toString());
+        d.put(AppInfo.READ_ENFORCEMENT_ELEMENT_NAME, new HashSet<String>(Arrays.asList(Right.READ_RESTRICTED.toString())));
         complexSchema.addAnnotation(d);
         schema.getList().add(complexSchema);
-        assertTrue("The schema should have a read_restricted annotation", schema.getAppInfo().getReadAuthority()
-                .equals(Right.READ_RESTRICTED));
+        assertTrue("The schema should have a read_restricted annotation", schema.getAppInfo().getReadAuthorities()
+                .contains(Right.READ_RESTRICTED));
     }
 
     @Test

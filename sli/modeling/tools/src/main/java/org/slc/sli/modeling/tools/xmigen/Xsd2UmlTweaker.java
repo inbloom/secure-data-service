@@ -26,7 +26,7 @@ import org.slc.sli.modeling.uml.index.ModelIndex;
  */
 final class Xsd2UmlTweaker {
     
-    public static Model tweak(final Model model, final Xsd2UmlPlugin plugin) {
+    public static Model tweak(final Model model, final Xsd2UmlHostedPlugin plugin) {
         
         final ModelIndex indexedModel = new DefaultModelIndex(model);
         

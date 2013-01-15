@@ -4,10 +4,12 @@ require_relative '../../utils/sli_utils.rb'
 
 def generate(scenario="10students")
   # run bundle exec rake in the Odin directory
-  puts "Shell command will be bundle exec ruby driver.rb #{scenario}"
+  command = "bundle exec ruby driver.rb --normalgc #{scenario}"
+  puts "Shell command will be #{command}"
   FileUtils.cd @odin_working_path
-  runShellCommand("bundle exec ruby driver.rb #{scenario}")
+  `#{command}`
   FileUtils.cd @at_working_path
+  @files = Dir.entries("#{@gen_path}")
 end
 
 ############################################################
@@ -31,19 +33,19 @@ end
 When /^I generate the 10 student data set in the (.*?) directory$/ do |gen_dir|
   @gen_path = "#{@odin_working_path}#{gen_dir}/"
   puts "Calling generate function for 10 students scenario"
-  generate("10students")   
+  generate("10students")
 end
 
 When /^I generate the 10001 student data set in the (.*?) directory$/ do |gen_dir|
   @gen_path = "#{@odin_working_path}#{gen_dir}/"
   puts "Calling generate function for 10001 students scenario"
-  generate("10001students")    
+  generate("10001students")
 end
 
 When /^I generate the jmeter api performance data set in the (.*?) directory$/ do |gen_dir|
   @gen_path = "#{@odin_working_path}#{gen_dir}/"
   puts "Calling generate function for jmeter api performance scenario"
-  generate("jmeter_api_performance")   
+  generate("jmeter_api_performance")
 end
 
 When /^I zip generated data under filename (.*?) to the new (.*?) directory$/ do |zip_file, new_dir|
@@ -65,11 +67,10 @@ end
 ############################################################
 # STEPS: THEN THEN THEN THEN THEN THEN THEN THEN THEN THEN
 ############################################################
-Then /^I should see ([0-9]+) xml interchange files$/ do |file_count|
-  count = Dir["#{@gen_path}*xml"].length
-  file_count = file_count.to_i
-  puts "Expected to see #{file_count} files, found #{count}"
-  raise "Did not find expected number of Interchange files (found #{count}, expected #{file_count})" if file_count.to_i != count
+Then /^I should see generated file <File>$/ do |table|
+  table.hashes.each do |f|
+    raise "Did not find exepected file #{f}" unless @files.find($f)
+  end
 end
 
 Then /^I should see (.*?) has been generated$/ do |filename|

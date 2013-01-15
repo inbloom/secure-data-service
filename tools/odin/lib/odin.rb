@@ -59,6 +59,7 @@ class Odin
     choices = scenarioYAML['choices'] || File.join("#{File.dirname(__FILE__)}", '../scenarios/defaults/choices.yml')
 
     BaseEntity.initializeDemographics(demographics, choices)
+    BaseEntity.set_scenario(scenarioYAML)
 
     clean
 

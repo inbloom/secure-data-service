@@ -20,7 +20,12 @@ class DeferredGarbageCollector
   @@call_time = Time.now
 
   def initialize(delay)
-    @delay = delay
+    if $GC_DEFERRED
+      puts "enabling deferred garbage collection"
+      @delay = delay
+    else
+      @delay = 0
+    end
   end
 
   def start

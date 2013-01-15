@@ -17,6 +17,7 @@
 
 package org.slc.sli.validation;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -34,12 +35,21 @@ public class EntityValidationException extends RuntimeException {
     final String entityType;
 
     public EntityValidationException(String entityId, String entityType, List<ValidationError> errors) {
+    	super();
         this.entityId = entityId;
         this.entityType = entityType;
         this.errors = Collections.unmodifiableList(errors);
     }
+    
+    public EntityValidationException(Exception e, String entityId,
+			String entityType, ArrayList<ValidationError> errors) {
+    	super(e);
+        this.entityId = entityId;
+        this.entityType = entityType;
+        this.errors = Collections.unmodifiableList(errors);
+	}
 
-    public List<ValidationError> getValidationErrors() {
+	public List<ValidationError> getValidationErrors() {
         return errors;
     }
 
@@ -51,3 +61,5 @@ public class EntityValidationException extends RuntimeException {
         return entityType;
     }
 }
+
+

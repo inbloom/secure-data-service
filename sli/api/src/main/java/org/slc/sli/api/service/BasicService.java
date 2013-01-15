@@ -21,10 +21,21 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
@@ -46,14 +57,6 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -153,19 +156,34 @@ public class BasicService implements EntityService {
 
         // if service does not allow anonymous write access, check user rights
         if (writeRight != Right.ANONYMOUS_ACCESS) {
-            checkRights(determineWriteAccess(content, ""));
+            checkAllRights(determineWriteAccess(content, ""), true);
         }
 
         checkReferences(content);
 
         String entityId = "";
-        Entity entity = getRepo().create(defn.getType(), sanitizeEntityBody(content), createMetadata(),
-                collectionName);
+        Entity entity = getRepo().create(defn.getType(), sanitizeEntityBody(content), createMetadata(), collectionName);
         if (entity != null) {
             entityId = entity.getEntityId();
         }
 
         return entityId;
+    }
+
+    private void checkAllRights(Set<Right> neededRights, boolean isWrite) {
+        Collection<GrantedAuthority> auths = getAuths();
+
+        if (auths.contains(Right.FULL_ACCESS)) {
+            debug("User has full access");
+        } else if (neededRights.isEmpty()) {
+            debug("User is granted access because there are no needed rights.");
+        } else if (!isWrite && intersection(auths, neededRights)) {
+            debug("User is performing READ and has at least one of the needed rights: {}", neededRights);
+        } else if (isWrite && union(auths, neededRights)) {
+            debug("User is performing WRITE and has all of the needed rights: {}", neededRights);
+        } else {
+            throw new AccessDeniedException("Insufficient Privileges");
+        }
     }
 
     @Override
@@ -552,8 +570,9 @@ public class BasicService implements EntityService {
     }
 
     /**
-     * Deletes any object with a reference to the given sourceId. Assumes that the sourceId
-     * still exists so that authorization/context can be checked.
+     * Deletes any object with a reference to the given sourceId. Assumes that the sourceId still
+     * exists so that
+     * authorization/context can be checked.
      *
      * @param sourceId
      *            ID that was deleted, where anything else with that ID should also be deleted
@@ -614,8 +633,9 @@ public class BasicService implements EntityService {
     }
 
     /**
-     * Checks that Actor has the appropriate Rights and linkage to access given entity
-     * Also checks for existence of the given entity
+     * Checks that Actor has the appropriate Rights and linkage to access given entity Also checks
+     * for existence of the
+     * given entity
      *
      * @param right
      *            needed Right for action
@@ -626,10 +646,17 @@ public class BasicService implements EntityService {
      * @throws AccessDeniedException
      *             if actor doesn't have association path to given entity
      */
-    private void checkAccess(Right right, String entityId) {
+    @SuppressWarnings("unchecked")
+    private void checkAccess(Object right, String entityId) {
 
-        // Check that user has the needed right
-        checkRights(right);
+        // Check that user has the needed right(s)
+        if (right instanceof Right) {
+            checkRights((Right) right);
+        } else if (Set.class.isAssignableFrom(right.getClass())) {
+            checkAllRights((Set<Right>) right, true);
+        } else {
+            throw new IllegalArgumentException("Passed right wasn't a right or a list of rights");
+        }
 
         // Check that target entity actually exists
         if (securityRepo.findById(collectionName, entityId) == null) {
@@ -762,12 +789,12 @@ public class BasicService implements EntityService {
                 String fieldName = entry.getKey();
                 Object value = entry.getValue();
 
-                String fieldPath = prefix + fieldName;
-                Right neededRight = getNeededRight(fieldPath);
+                String fieldPath = prefix.replaceAll("^.", "") + fieldName;
+                Set<Right> neededRights = getNeededRights(fieldPath);
 
                 SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
                         .getPrincipal();
-                if (!auths.contains(neededRight) && !principal.getEntity().getEntityId().equals(eb.get("id"))) {
+                if (!intersection(auths, neededRights) && !principal.getEntity().getEntityId().equals(eb.get("id"))) {
                     toRemove.add(fieldName);
                 } else if (value instanceof Map) {
                     filterFields((Map<String, Object>) value, prefix + "." + fieldName + ".");
@@ -787,20 +814,20 @@ public class BasicService implements EntityService {
      *            The field name
      * @return
      */
-    protected Right getNeededRight(String fieldPath) {
-        Right neededRight = provider.getRequiredReadLevel(defn.getType(), fieldPath);
+    protected Set<Right> getNeededRights(String fieldPath) {
+        Set<Right> neededRights = provider.getRequiredReadLevels(defn.getType(), fieldPath);
 
         if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
-            neededRight = Right.ADMIN_ACCESS;
+            neededRights.add(Right.ADMIN_ACCESS);
         }
 
         if (PUBLIC_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
-            if (Right.READ_GENERAL.equals(neededRight)) {
-                neededRight = Right.READ_PUBLIC;
+            if (neededRights.contains(Right.READ_GENERAL)) {
+                neededRights.add(Right.READ_PUBLIC);
             }
         }
-
-        return neededRight;
+        
+        return neededRights;
     }
 
     /**
@@ -818,15 +845,57 @@ public class BasicService implements EntityService {
 
             if (!auths.contains(Right.FULL_ACCESS) && !auths.contains(Right.ANONYMOUS_ACCESS)) {
                 for (NeutralCriteria criteria : query.getCriteria()) {
-                    // get the needed right for the field
-                    Right neededRight = getNeededRight(criteria.getKey());
+                    // get the needed rights for the field
+                    Set<Right> neededRights = getNeededRights(criteria.getKey());
 
-                    if (!auths.contains(neededRight)) {
+                    if (!intersection(auths, neededRights)) {
                         throw new QueryParseException("Cannot search on restricted field", criteria.getKey());
                     }
                 }
             }
         }
+    }
+
+    /**
+     * Determines if there is an intersection of a single needed right within the user's collection
+     * of granted authorities.
+     *
+     * @param authorities
+     *            User's collection of granted authorities.
+     * @param neededRights
+     *            Set of rights needed for accessing a given field.
+     * @return True if the user can access the field, false otherwise.
+     */
+    protected boolean intersection(Collection<GrantedAuthority> authorities, Set<Right> neededRights) {
+        boolean intersects = false;
+        for (GrantedAuthority authority : authorities) {
+            if (neededRights.contains(authority)) {
+                intersects = true;
+                break;
+            }
+        }
+        return intersects;
+    }
+
+    /**
+     * Determines if there is a union of all needed rights with the user's collection of granted
+     * authorities.
+     *
+     * @param authorities
+     *            User's collection of granted authorities.
+     * @param neededRights
+     *            Set of rights needed for accessing a given field.
+     * @return True if the user can access the field, false otherwise.
+     */
+    protected boolean union(Collection<GrantedAuthority> authorities, Set<Right> neededRights) {
+        boolean union = true;
+        for (Right neededRight : neededRights) {
+            if (!authorities.contains(neededRight)) {
+                union = false;
+                break;
+            }
+        }
+        return union;
     }
 
     /**
@@ -837,12 +906,11 @@ public class BasicService implements EntityService {
      * @return WRITE_RESTRICTED if restricted fields are being written, WRITE_GENERAL otherwise
      */
     @SuppressWarnings("unchecked")
-    private Right determineWriteAccess(Map<String, Object> eb, String prefix) {
-        Right toReturn = Right.WRITE_GENERAL;
+    private Set<Right> determineWriteAccess(Map<String, Object> eb, String prefix) {
+        Set<Right> toReturn = new HashSet<Right>();
         if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
-            toReturn = Right.ADMIN_ACCESS;
+            toReturn.add(Right.ADMIN_ACCESS);
         } else {
-
             for (Map.Entry<String, Object> entry : eb.entrySet()) {
                 String fieldName = entry.getKey();
                 Object value = entry.getValue();
@@ -851,13 +919,9 @@ public class BasicService implements EntityService {
                     filterFields((Map<String, Object>) value, prefix + "." + fieldName + ".");
                 } else {
                     String fieldPath = prefix + fieldName;
-                    Right neededRight = provider.getRequiredWriteLevel(defn.getType(), fieldPath);
-                    debug("Field {} requires {}", fieldPath, neededRight);
-
-                    if (neededRight == Right.WRITE_RESTRICTED) {
-                        toReturn = Right.WRITE_RESTRICTED;
-                        break;
-                    }
+                    Set<Right> neededRights = provider.getRequiredWriteLevels(defn.getType(), fieldPath);
+                    debug("Field {} requires {}", fieldPath, neededRights);
+                    toReturn.addAll(neededRights);
                 }
             }
         }
@@ -884,11 +948,10 @@ public class BasicService implements EntityService {
         return metadata;
     }
 
-
     /**
-     * Set the entity definition for this service.
-     * There is a circular dependency between BasicService and EntityDefinition, so they both can't
-     * have it be a constructor arg.
+     * Set the entity definition for this service. There is a circular dependency between
+     * BasicService and
+     * EntityDefinition, so they both can't have it be a constructor arg.
      */
     public void setDefn(EntityDefinition defn) {
         this.defn = defn;

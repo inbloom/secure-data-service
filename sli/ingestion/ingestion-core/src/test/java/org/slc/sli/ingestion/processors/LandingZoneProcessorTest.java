@@ -16,8 +16,8 @@
 
 package org.slc.sli.ingestion.processors;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.io.File;
@@ -28,7 +28,6 @@ import org.apache.camel.Exchange;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.impl.DefaultExchange;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -41,6 +40,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.tenant.TenantDA;
 
 /**
@@ -61,6 +61,10 @@ public class LandingZoneProcessorTest {
     @Mock
     private TenantDA mockedTenantDA;
 
+    @SuppressWarnings("unused")
+    @Mock
+    private BatchJobDAO mockedBatchJobDAO;
+
     @Before
     public void setup() {
         // Setup the mocks.
@@ -73,8 +77,7 @@ public class LandingZoneProcessorTest {
      * @throws Exception
      */
     @Test
-    @Ignore
-    public void testValidLz() {
+    public void testValidLz() throws Exception {
 
         File validLzPathFile = new File("/test/lz/inbound/TEST-LZ/testFile.zip");
         String validLzPathname = validLzPathFile.getParent();
@@ -82,18 +85,13 @@ public class LandingZoneProcessorTest {
         testLzPaths.add(validLzPathname);
         when(mockedTenantDA.getLzPaths()).thenReturn(testLzPaths);
 
-        // Submit a valid landing zone.
+        // Submit a valid landing zone with a zip file.
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
-        exchange.getIn().setBody(validLzPathFile.getPath(), String.class);
-        try {
-            landingZoneProcessor.process(exchange);
-        } catch (Exception e) {
-            fail();
-        }
+        exchange.getIn().setHeader("filePath", validLzPathFile.getPath());
+        landingZoneProcessor.process(exchange);
 
         // Check there is no error in the exchange.
-        assertEquals("Header on exchange should indicate success", false,
-                exchange.getIn().getHeader("hasErrors"));
+        assertFalse("Header on exchange should indicate success", (Boolean) exchange.getIn().getHeader("hasErrors"));
     }
 
     /**
@@ -102,8 +100,7 @@ public class LandingZoneProcessorTest {
      * @throws Exception
      */
     @Test
-    @Ignore
-    public void testInvalidLz() {
+    public void testInvalidLz() throws Exception {
 
         File validLzPathFile = new File("/test/lz/inbound/TEST-LZ/testFile.zip");
         String validLzPathname = validLzPathFile.getParent();
@@ -114,16 +111,35 @@ public class LandingZoneProcessorTest {
         // Submit an invalid landing zone.
         File inValidLzPathFile = new File("/test/lz/inbound/BAD-TEST-LZ/testFile.zip");
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
-        exchange.getIn().setBody(inValidLzPathFile.getPath(), String.class);
-        try {
-            landingZoneProcessor.process(exchange);
-        } catch (Exception e) {
-            fail();
-        }
+        exchange.getIn().setHeader("filePath", inValidLzPathFile.getPath());
+
+        landingZoneProcessor.process(exchange);
 
         // Check there is an error in the exchange.
-        assertEquals("Header on exchange should indicate failure", true,
-                exchange.getIn().getHeader("hasErrors"));
+        assertTrue("Header on exchange should indicate failure", (Boolean) exchange.getIn().getHeader("hasErrors"));
+    }
+
+    /**
+     * Test to check that ingestion file in lz submitted to LandingZoneProcessor is not a zip file.
+     *
+     * @throws Exception
+     */
+    @Test
+    public void testNonZipFileInLz() throws Exception {
+
+        File unzippedLzPathFile = new File("/test/lz/inbound/TEST-LZ/testFile.ctl");
+        String validLzPathname = unzippedLzPathFile.getParent();
+        List<String> testLzPaths = new ArrayList<String>();
+        testLzPaths.add(validLzPathname);
+        when(mockedTenantDA.getLzPaths()).thenReturn(testLzPaths);
+
+        // Submit a valid landing zone with a non-zip file.
+        Exchange exchange = new DefaultExchange(new DefaultCamelContext());
+        exchange.getIn().setHeader("filePath", unzippedLzPathFile.getPath());
+        landingZoneProcessor.process(exchange);
+
+        // Check there is no error in the exchange.
+        assertTrue("Header on exchange should indicate failure", (Boolean) exchange.getIn().getHeader("hasErrors"));
     }
 
 }

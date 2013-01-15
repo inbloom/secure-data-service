@@ -28,6 +28,7 @@ require_relative '../../../utils/selenium_common.rb'
 require_relative '../../../ingestion/features/step_definitions/ingestion_steps.rb'
 
 PRELOAD_EDORG = "STANDARD-SEA"
+PRELOAD_EDORGS = ["STANDARD-SEA", "CAP0"]
 
 API_DB = PropLoader.getProps['DB_HOST']
 API_DB_PORT = PropLoader.getProps['DB_PORT']
@@ -70,14 +71,16 @@ After do
   # It depends on other sandbox LZ provisioning tests to clean up the LZ for the pre-populate test.
   # This assumes test ordering, so it's definitely not the clean way to code.
   # Please update if anyone can think of a better way. Thank you!
-  begin
-    sample_data_set_lz = @lz[0..@lz.rindex("/")] + sha256(PRELOAD_EDORG) + "/"
-    STDOUT.puts "Attempting to delete #{sample_data_set_lz}" if $SLI_DEBUG
-    initializeLandingZone(sample_data_set_lz)
-  rescue
-    if $SLI_DEBUG
-      STDOUT.puts "Could not clean out landing zone:  #{sample_data_set_lz}"
-      STDOUT.puts "Reason:  #{$!}"
+  PRELOAD_EDORGS.each do |preload_edorg|
+    begin
+      sample_data_set_lz = @lz[0..@lz.rindex("/")] + sha256(preload_edorg) + "/"
+      STDOUT.puts "Attempting to delete #{sample_data_set_lz}" if $SLI_DEBUG
+      initializeLandingZone(sample_data_set_lz)
+    rescue
+      if $SLI_DEBUG
+        STDOUT.puts "Could not clean out landing zone:  #{sample_data_set_lz}"
+        STDOUT.puts "Reason:  #{$!}"
+      end
     end
   end
 end
@@ -321,14 +324,6 @@ Then /^the user gets an error message$/ do
   assert(already_provisioned!=nil,"didnt get an already provisioned message")
 end
 
-Then /^an ed\-org is created in Mongo with the "([^"]*)" is "([^"]*)"$/ do |key1, value1|
-  step "I am logged in using \"operator\" \"operator1234\" to realm \"SLI\""
-  uri="/v1/educationOrganizations"
-  uri=uri+"?"+URI.escape(key1)+"="+URI.escape(value1)
-  restHttpGet(uri)
-  assert(@res.length>0,"didnt see a top level ed org with #{key1} is #{value1}")
-end
-
 Then /^a request to provision a landing zone is made$/ do
   # this request is made by landing zone app in admin tools
 end
@@ -345,18 +340,20 @@ When /^the developer selects to preload "(.*?)"$/ do |sample_data_set|
   else
     sample_data_set="medium"
   end
-  @explicitWait.until{@driver.find_element(:id,"ed_org_STANDARD-SEA").click}
+  edorg = edorg_for_dataset(sample_data_set)
+  @explicitWait.until{@driver.find_element(:id,"ed_org_from_sample").click}
   select = Selenium::WebDriver::Support::Select.new(@explicitWait.until{@driver.find_element(:id,"sample_data_select")})
   select.select_by(:value, sample_data_set)
   @explicitWait.until{@driver.find_element(:id,"provisionButton").click}
-  @edorgName = PRELOAD_EDORG
+  @edorgName = edorg
   enable_NOTABLESCAN
 end
 
 Then /^the "(.*?)" data to preload is stored for the tenant in mongo$/ do |sample_data_set|
   disable_NOTABLESCAN()
   tenant_collection =@db["tenant"]
-  preload_tenant=tenant_collection.find("body.tenantId"=> @tenantId,"body.landingZone.educationOrganization" => PRELOAD_EDORG,"body.landingZone.preload.files" => [sample_data_set])
+  edorg = edorg_for_dataset(sample_data_set)
+  preload_tenant=tenant_collection.find("body.tenantId"=> @tenantId,"body.landingZone.educationOrganization" => edorg,"body.landingZone.preload.files" => [sample_data_set])
   assert(preload_tenant.count()>0,"the #{sample_data_set} data to preload is not stored for tenant #{@tenantId} in mongo, instead tenant was #{tenant_collection.find("body.tenantId"=> @tenantId)}")
   enable_NOTABLESCAN()
   #preload_tenant.each  do |tenant|
@@ -368,10 +365,11 @@ Then /^the user gets a success message indicating preloading has been triggered$
   step "the user gets a success message"
 end
 
-Given /^user's landing zone is still provisioned from the prior preloading$/ do
+Given /^user's landing zone is still provisioned from the prior preloading of "(.*?)"$/ do |sample_data_set|
   disable_NOTABLESCAN()
   tenant_coll = @db["tenant"]
-  preload_tenant=tenant_coll.find("body.tenantId" => @tenantId, "body.landingZone.educationOrganization" => PRELOAD_EDORG)
+  edorg = edorg_for_dataset(sample_data_set)
+  preload_tenant=tenant_coll.find("body.tenantId" => @tenantId, "body.landingZone.educationOrganization" => edorg)
   assert(preload_tenant.count()>0, "the user's landing zone is not provisioned from the prior preloading")
   enable_NOTABLESCAN()
 end
@@ -395,6 +393,14 @@ Then /^I clean the landing zone$/ do
       puts "Could not clean out landing zone:  #{@lz}"
       puts "Reason:  #{$!}"
     end
+  end
+end
+
+def edorg_for_dataset(sample_dataset)
+  if (sample_dataset == "small" || sample_dataset == "Small Dataset")
+    return "STANDARD-SEA"
+  elsif (sample_dataset == "medium" || sample_dataset == "Medium Dataset")
+    return "CAP0"
   end
 end
 
