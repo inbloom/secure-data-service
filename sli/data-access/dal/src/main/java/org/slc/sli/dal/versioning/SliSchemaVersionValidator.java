@@ -252,8 +252,8 @@ public class SliSchemaVersionValidator {
             returnEntities.add(entity);
         }
 
-        if (!migratedEntities.isEmpty()) {
-            repo.insert(migratedEntities, collectionName);
+        for (Entity migratedEntity : migratedEntities) {
+            repo.updateWithoutValidatingNaturalKeys(collectionName, migratedEntity);
         }
 
         return returnEntities;
