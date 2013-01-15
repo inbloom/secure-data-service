@@ -96,8 +96,8 @@ def build_sli
 end
 
 def unpackage_test_code(dest)
+  puts "---- Unpackage test code"
   if File.file? @test_code_package
-    puts "---- Unpackage test code"
     Zip::ZipFile.open(@test_code_package) do |zip_file|
       zip_file.each do |f|
         f_path = File.join(dest, f.name)
@@ -122,7 +122,9 @@ end
 
 def start_api
   puts "---- Start API"
-  @api_pid = `mvn jetty:run -f #{@sli_workspace}/api/pom.xml > #{@api_log} 2>&1 & echo $!`
+  cmd = "mvn jetty:run -f #{@sli_workspace}/api/pom.xml > #{@api_log} 2>&1 & echo $!"
+  puts cmd
+  @api_pid = `#{cmd}`
   puts "---- Wait for API to start"
   begin
     pattern = /Starting scanner at interval of 5 seconds/
@@ -140,18 +142,25 @@ def start_api
   end
 end
 
+def copy_new_custom_roles
+  puts "---- Replace custom role fixtures"
+  Dir["#{@sli_workspace}/acceptance-tests/test/data/customRole*.json"].each do |f|
+    FileUtils.cp(f, "#{@extract_dest}/acceptance-tests/test/data/")
+  end
+end
+
 def run_test(tasks)
   puts "---- Run #{tasks}"
   Dir.chdir("#{@extract_dest}/acceptance-tests")
   run_cmd "bundle install"
-  run_cmd "bundle exec rake #{tasks} TOGGLE_TABLESCANS=1"
+  run_cmd "bundle exec rake #{tasks} FORCE_COLOR=1 TOGGLE_TABLESCANS=1"
 end
 
 def clean_up
   puts "---- Clean up"
   FileUtils.rm_rf @extract_dest
   FileUtils.rm @test_code_package if @test_code_package
-  `kill #{@api_pid}`
+  `kill #{@api_pid}` if @api_log
 end
 
 def main
@@ -163,6 +172,7 @@ def main
     unpackage_test_code @extract_dest
     replace_api_version @old_version if @old_version
     start_api unless @ci
+    copy_new_custom_roles
     run_test @rake_tasks
   rescue Exception => e
     puts e.message
