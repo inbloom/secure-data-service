@@ -35,7 +35,7 @@ class StudentGradeGenerator < InterchangeGenerator
     @writers[ GradebookEntry ] = EntityWriter.new("gradebook_entry.mustache")
     #@writers[ LearningObjective ] = EntityWriter.new("learning_objective.mustache")
     @writers[ ReportCard ] = EntityWriter.new("report_card.mustache")
-    #@writers[ StudentAcademicRecord ] = EntityWriter.new("student_academic_record.mustache")
+    @writers[ StudentAcademicRecord ] = EntityWriter.new("student_academic_record.mustache")
     #@writers[ StudentCompetency ] = EntityWriter.new("student_competency.mustache")
     #@writers[ StudentCompetencyObjective ] = EntityWriter.new("student_competency_objective.mustache")
     @writers[ StudentGradebookEntry ] = EntityWriter.new("student_gradebook_entry.mustache")

@@ -136,7 +136,7 @@ Scenario: All-in-one scenario
 	When I click on "Attendance and Discipline" Tab
 	And the Attendance History in grid "1" has the following entries:
 	|Term         |School                     |Grade Level  |% Present  |Total Absences |Excused  |Unexcused  |Tardy  |
-	|2011-2012    |East Daybreak Junior High  |8            |95         |4              |4        |0          |0      |
+	|2011-2012    |East Daybreak Junior High  |8            |0          |0              |0        |0          |0      |
 	And the Attendance History in grid "2" has the following entries:
 	|Term         |School                     |Grade Level  |% Present  |Total Absences |Excused  |Unexcused  |Tardy  |
 	|2010-2011    |East Daybreak Junior High  |7            |0          |0              |0        |0          |0      |
@@ -169,9 +169,9 @@ Scenario: All-in-one scenario
 	When I enter "Matt" into the student search box
 	And I click the search button
 	And the search results include:
-	 |Student          |Grade    |School                     |
-	 |Matt Sollars     |8        |East Daybreak Junior High  |
-	And I click on student "Matt Sollars"
+	 |Student                 |Grade    |School                     |
+	 |Matt Joseph Sollars     |8        |East Daybreak Junior High  |
+	And I click on student "Matt Joseph Sollars"
 	And I view its student profile
 	And Student Enrollment History has the following entries:
 	|Year   |School                     |Gr|Entry Date |Entry Type                                                                 |Transfer |Withdraw Date|Withdraw Type      |
