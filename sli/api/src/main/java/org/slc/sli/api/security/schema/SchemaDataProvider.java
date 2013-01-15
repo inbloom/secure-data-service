@@ -17,6 +17,8 @@
 
 package org.slc.sli.api.security.schema;
 
+import java.util.Set;
+
 import org.slc.sli.domain.enums.Right;
 
 /**
@@ -26,9 +28,9 @@ import org.slc.sli.domain.enums.Right;
  *
  */
 public interface SchemaDataProvider {
-    public Right getRequiredReadLevel(String entityType, String fieldPath);
+    public Set<Right> getRequiredReadLevels(String entityType, String fieldPath);
 
-    public Right getRequiredWriteLevel(String entityType, String fieldPath);
+    public Set<Right> getRequiredWriteLevels(String entityType, String fieldPath);
 
     public String getDataSphere(String entityType);
     

@@ -37,8 +37,8 @@ import org.slc.sli.modeling.uml.Type;
  * 
  * Intentionally package protected.
  */
-final class Xsd2UmlConfig implements Xsd2UmlPlugin, Xsd2UmlPluginHost {
-    private final Xsd2UmlPlugin plugin;
+final class Xsd2UmlConfig implements Xsd2UmlPluginHost {
+    private final Xsd2UmlHostedPlugin plugin;
     /**
      * Provides tag definition identifier from the tag definition name.
      */
@@ -50,16 +50,11 @@ final class Xsd2UmlConfig implements Xsd2UmlPlugin, Xsd2UmlPluginHost {
         this(new Xsd2UmlPluginGeneric());
     }
     
-    public Xsd2UmlConfig(final Xsd2UmlPlugin plugin) {
+    public Xsd2UmlConfig(final Xsd2UmlHostedPlugin plugin) {
         if (plugin == null) {
             throw new IllegalArgumentException("plugin");
         }
         this.plugin = plugin;
-    }
-    
-    @Override
-    public Collection<TagDefinition> declareTagDefinitions(final Xsd2UmlPluginHost host) {
-        return plugin.declareTagDefinitions(host);
     }
     
     /**
@@ -68,18 +63,13 @@ final class Xsd2UmlConfig implements Xsd2UmlPlugin, Xsd2UmlPluginHost {
     public Identifier ensureId(final QName name) {
         return typeId.from(name);
     }
-    
+
     @Override
     public Identifier ensureTagDefinitionId(final String name) {
         return tagDefinition.from(name);
     }
-    
-    @Override
-    public String getAssociationEndTypeName(final ClassType classType, final Attribute attribute,
-            final Xsd2UmlPluginHost host) {
-        return plugin.getAssociationEndTypeName(classType, attribute, host);
-    }
-    
+
+
     @Override
     public TagDefinition getTagDefinition(final Identifier id) {
         throw new UnsupportedOperationException();
@@ -89,71 +79,9 @@ final class Xsd2UmlConfig implements Xsd2UmlPlugin, Xsd2UmlPluginHost {
     public Type getType(final Identifier typeId) {
         throw new UnsupportedOperationException();
     }
-    
+
     @Override
-    public boolean isAssociationEnd(final ClassType classType, final Attribute attribute, final Xsd2UmlPluginHost host) {
-        return plugin.isAssociationEnd(classType, attribute, host);
-    }
-    
-    @Override
-    public String nameAssociation(final AssociationEnd lhs, final AssociationEnd rhs, final Xsd2UmlPluginHost host) {
-        return plugin.nameAssociation(lhs, rhs, host);
-    }
-    
-    @Override
-    public String nameFromComplexTypeExtension(final QName complexType, final QName base) {
-        if (complexType == null) {
-            throw new IllegalArgumentException("complexType");
-        }
-        if (base == null) {
-            throw new IllegalArgumentException("base");
-        }
-        return plugin.nameFromComplexTypeExtension(complexType, base);
-    }
-    
-    @Override
-    public String nameFromSchemaElementName(final QName name) {
-        if (name == null) {
-            throw new IllegalArgumentException("name");
-        }
-        return plugin.nameFromSchemaElementName(name);
-    }
-    
-    @Override
-    public String nameFromSchemaAttributeName(final QName name) {
-        if (name == null) {
-            throw new IllegalArgumentException("name");
-        }
-        return plugin.nameFromSchemaAttributeName(name);
-    }
-    
-    @Override
-    public String nameFromSimpleTypeRestriction(final QName simpleType, final QName base) {
-        if (simpleType == null) {
-            throw new IllegalArgumentException("simpleType");
-        }
-        if (base == null) {
-            throw new IllegalArgumentException("base");
-        }
-        return plugin.nameFromSimpleTypeRestriction(simpleType, base);
-    }
-    
-    @Override
-    public String nameFromSchemaTypeName(final QName name) {
-        if (name == null) {
-            throw new IllegalArgumentException("name");
-        }
-        return plugin.nameFromSchemaTypeName(name);
-    }
-    
-    @Override
-    public List<TaggedValue> tagsFromAppInfo(XmlSchemaAppInfo appInfo, final Xsd2UmlPluginHost host) {
-        if (appInfo == null) {
-            throw new IllegalArgumentException("appInfo");
-        }
-        if (host == null) {
-            throw new IllegalArgumentException("host");
-        }
-        return plugin.tagsFromAppInfo(appInfo, host);
+    public Xsd2UmlHostedPlugin getPlugin() {
+        return plugin;
     }
 }

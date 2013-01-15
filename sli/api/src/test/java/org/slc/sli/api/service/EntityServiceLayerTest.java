@@ -52,6 +52,8 @@ import org.slc.sli.api.resources.SecurityContextInjector;
 import org.slc.sli.api.security.CallingApplicationInfoProvider;
 import org.slc.sli.api.service.AssociationService.EntityIdList;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.api.util.SecurityUtil.SecurityTask;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -66,7 +68,7 @@ import org.slc.sli.domain.Repository;
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 public class EntityServiceLayerTest {
-    
+
     @Autowired
     private EntityDefinitionStore defs;
     private EntityDefinition studentDef;
@@ -77,19 +79,19 @@ public class EntityServiceLayerTest {
     private AssociationService studentSchoolAssociationService;
     @Autowired
     private Repository<Entity> repo;
-    
+
     public void setSecurityContextInjector(SecurityContextInjector securityContextInjector) {
         this.securityContextInjector = securityContextInjector;
     }
-    
+
     @Autowired
     private SecurityContextInjector securityContextInjector;
-    
+
     @Before
     public void setUp() {
         // inject administrator security context for unit testing
         securityContextInjector.setStaffContext();
-        
+
         repo.deleteAll("student", null);
         repo.deleteAll("school", null);
         repo.deleteAll("studentSchoolAssociations", null);
@@ -100,12 +102,12 @@ public class EntityServiceLayerTest {
         schoolService = schoolDef.getService();
         studentSchoolAssociationService = studentEnrollmentDef.getService();
     }
-    
+
     @After
     public void tearDown() {
         SecurityContextHolder.clearContext();
     }
-    
+
     @Test
     public void testCrudEntity() {
         EntityBody student = new EntityBody();
@@ -155,7 +157,7 @@ public class EntityServiceLayerTest {
             assertTrue(true);
         }
     }
-    
+
     @Test
     public void testNoSuchEntity() {
         try {
@@ -165,14 +167,16 @@ public class EntityServiceLayerTest {
             assertTrue(true);
         }
         try {
-            studentService.update("NoSuchStudent", new EntityBody());
+            EntityBody body = new EntityBody();
+            body.put("studentUniqueStateId", "student123");
+            studentService.update("NoSuchStudent", body);
             fail("should have thrown exception");
         } catch (EntityNotFoundException e) {
             assertTrue(true);
         }
-        
+
     }
-    
+
     @Test
     public void testMultipleEntities() {
         EntityBody student1 = new EntityBody();
@@ -228,12 +232,12 @@ public class EntityServiceLayerTest {
         zeroToFourQuery.setLimit(4);
         assertEquals(new ArrayList<EntityBody>(), studentService.list(zeroToFourQuery));
     }
-    
+
     @Test
     public void testLinkedResources() {
         assertTrue(defs.getLinked(studentDef).contains(studentEnrollmentDef));
     }
-    
+
     @Test
     public void testAssociations() {
         EntityBody student1 = new EntityBody();
@@ -261,10 +265,17 @@ public class EntityServiceLayerTest {
         String id2 = studentService.create(student2);
         String id3 = studentService.create(student3);
         String id4 = studentService.create(student4);
-        EntityBody school = new EntityBody();
+        final EntityBody school = new EntityBody();
         school.put("name", "Battle School");
         school.put("nameOfInstitution", "Battle School");
-        String schoolId = schoolService.create(school);
+        String schoolId = SecurityUtil.sudoRun(new SecurityTask<String>() {
+
+			@Override
+			public String execute() {
+				return schoolService.create(school);
+			}
+
+        });
         EntityBody assoc1 = new EntityBody();
         assoc1.put("schoolId", schoolId);
         assoc1.put("studentId", id1);
@@ -320,7 +331,7 @@ public class EntityServiceLayerTest {
         assertEquals(Arrays.asList(assocId4), studentSchoolAssociationService.getAssociationsWith(id4, neutralQueryD));
         assertEquals(Arrays.asList(assocId1, assocId2, assocId3, assocId4),
                 studentSchoolAssociationService.getAssociationsTo(schoolId, neutralQuery));
-        
+
         // test query fields
         NeutralQuery neutralQuery1 = new NeutralQuery();
         neutralQuery1.setLimit(4);
@@ -330,7 +341,7 @@ public class EntityServiceLayerTest {
         neutralQuery2.setLimit(4);
         neutralQuery2.addCriteria(new NeutralCriteria("entryGradeLevel", "=", "Second grade"));
         assertFalse(studentSchoolAssociationService.getAssociationsWith(id1, neutralQuery2).iterator().hasNext());
-        
+
         NeutralQuery neutralQuery3 = new NeutralQuery();
         neutralQuery3.setLimit(4);
         neutralQuery3.addCriteria(new NeutralCriteria("entryGradeLevel", "=", "First grade"));
@@ -340,7 +351,7 @@ public class EntityServiceLayerTest {
         neutralQuery4.setLimit(4);
         neutralQuery4.addCriteria(new NeutralCriteria("entryGradeLevel", "=", "Fifth grade"));
         assertFalse(studentSchoolAssociationService.getAssociationsTo(schoolId, neutralQuery4).iterator().hasNext());
-        
+
         NeutralQuery neutralQuery5 = new NeutralQuery();
         neutralQuery5.setLimit(4);
         neutralQuery5.addCriteria(new NeutralCriteria("nameOfInstitution", "=", "Battle School"));
@@ -351,7 +362,7 @@ public class EntityServiceLayerTest {
         neutralQuery6.setLimit(4);
         neutralQuery6.addCriteria(new NeutralCriteria("nameOfInstitution", "=", "new Battle School"));
         assertFalse(studentSchoolAssociationService.getAssociatedEntitiesWith(id1, neutralQuery6).iterator().hasNext());
-        
+
         NeutralQuery neutralQuery7 = new NeutralQuery();
         neutralQuery7.setLimit(4);
         neutralQuery7.addCriteria(new NeutralCriteria("studentUniqueStateId", "=", "0"));
@@ -363,7 +374,7 @@ public class EntityServiceLayerTest {
         neutralQuery8.addCriteria(new NeutralCriteria("name.firstName", "=", "non exist"));
         assertFalse(studentSchoolAssociationService.getAssociatedEntitiesTo(schoolId, neutralQuery8).iterator()
                 .hasNext());
-        
+
         // test sorting
         NeutralQuery neutralQuery9 = new NeutralQuery();
         neutralQuery9.setLimit(4);
@@ -371,7 +382,7 @@ public class EntityServiceLayerTest {
         neutralQuery9.setSortOrder(NeutralQuery.SortOrder.ascending);
         assertEquals(Arrays.asList(assocId1, assocId4, assocId2, assocId3),
                 studentSchoolAssociationService.getAssociationsTo(schoolId, neutralQuery9));
-        
+
         NeutralQuery neutralQuery10 = new NeutralQuery();
         neutralQuery10.setLimit(4);
         neutralQuery10.setSortBy("studentUniqueStateId");
@@ -379,20 +390,20 @@ public class EntityServiceLayerTest {
         EntityIdList idList3 = studentSchoolAssociationService.getAssociatedEntitiesTo(schoolId, neutralQuery10);
         assertEquals(Arrays.asList(id4, id3, id2, id1), iterableToList(idList3));
         assertEquals(4, idList3.getTotalCount());
-        
+
         studentService.delete(id1);
         studentService.delete(id2);
         studentService.delete(id3);
         studentService.delete(id4);
         schoolService.delete(schoolId);
     }
-    
+
     @Test
     public void testCustomEntities() {
         CallingApplicationInfoProvider clientInfo = Mockito.mock(CallingApplicationInfoProvider.class);
         Mockito.when(clientInfo.getClientId()).thenReturn("TEST_CLIENT");
         ((BasicService) studentService).setClientInfo(clientInfo);
-        
+
         EntityBody student1 = new EntityBody();
         student1.put("firstName", "Bonzo");
         student1.put("name.firstName", "Bonzo");
@@ -400,26 +411,26 @@ public class EntityServiceLayerTest {
         student1.put("lastName", "Madrid");
         student1.put("studentUniqueStateId", "0");
         String studentId = studentService.create(student1);
-        
+
         EntityBody customData = new EntityBody();
         customData.put("key1", "A");
         customData.put("key2", "B");
         studentService.createOrUpdateCustom(studentId, customData);
-        
+
         EntityBody entity = studentService.getCustom(studentId);
         assertEquals(customData, entity);
-        
+
         studentService.deleteCustom(studentId);
-        
+
         entity = studentService.getCustom(studentId);
         assertEquals(null, entity);
-        
+
         studentService.createOrUpdateCustom(studentId, customData);
         entity = studentService.getCustom(studentId);
         assertEquals(customData, entity);
-        
+
         studentService.delete(studentId);
-        
+
         try {
             entity = studentService.getCustom(studentId);
             fail("expected EntityNotFoundException");
@@ -427,7 +438,7 @@ public class EntityServiceLayerTest {
             assertEquals(studentId, e.getId());
         }
     }
-    
+
     private <T> List<T> iterableToList(Iterable<T> itr) {
         List<T> result = new ArrayList<T>();
         for (T item : itr) {
@@ -435,7 +446,7 @@ public class EntityServiceLayerTest {
         }
         return result;
     }
-    
+
     @SuppressWarnings("unused")
     private Map<String, String> setupTestDeleteWithAssoc() {
         Map<String, String> ids = new HashMap<String, String>();
@@ -443,38 +454,38 @@ public class EntityServiceLayerTest {
         student1.put("firstName", "Bonzo");
         student1.put("lastName", "Madrid");
         String studentId = studentService.create(student1);
-        
+
         EntityBody student2 = new EntityBody();
         student1.put("firstName", "Jane");
         student1.put("lastName", "Doe");
         String student2Id = studentService.create(student2);
-        
+
         EntityBody school = new EntityBody();
         school.put("name", "Battle School");
         String schoolId = schoolService.create(school);
-        
+
         EntityBody assoc = new EntityBody();
         assoc.put("schoolId", schoolId);
         assoc.put("studentId", studentId);
         assoc.put("startDate", (new Date()).getTime());
         String assocId = studentSchoolAssociationService.create(assoc);
-        
+
         EntityBody assoc2 = new EntityBody();
         assoc2.put("schoolId", schoolId);
         assoc2.put("studentId", student2Id);
         assoc2.put("startDate", (new Date()).getTime());
         String assoc2Id = studentSchoolAssociationService.create(assoc2);
-        
+
         ids.put("studentId", studentId);
         ids.put("schoolId", schoolId);
         ids.put("assocId", assocId);
-        
+
         ids.put("student2Id", student2Id);
         ids.put("assoc2Id", assoc2Id);
-        
+
         return ids;
     }
-    
+
     private Map<String, Object> createMap(String key, Object value) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put(key, value);

@@ -149,7 +149,7 @@ class MockXsd2UmlPluginDefault extends Xsd2UmlPluginDefault {
         return Collections.emptyList();
     }
 
-    public String nameAssociation(AssociationEnd lhs, AssociationEnd rhs, Xsd2UmlPluginHost host) {
+    public String nameAssociation(AssociationEnd lhs, AssociationEnd rhs, Xsd2UmlHostedPlugin host) {
         return lhs.getName() + " <=> " + rhs.getName();
     }
 }

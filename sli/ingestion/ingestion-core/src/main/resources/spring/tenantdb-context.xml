@@ -45,7 +45,6 @@
     <value>courseTranscript</value>
     <value>teacherSchoolAssociation</value>
     <value>teacherSectionAssociation</value>
-    <value>recordHash</value>
   </util:set>
 </beans>
 

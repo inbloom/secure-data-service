@@ -32,6 +32,9 @@ if ARGV.length > 0
     puts "Specified scenario (\"#{tmp}\") does not exist.\n"
     exit(1)
   end
+  if ARGV.index("--normalgc").nil?
+    $GC_DEFERRED = true
+  end
 end
 
 o = Odin.new

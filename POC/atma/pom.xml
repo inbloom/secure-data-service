@@ -32,4 +32,9 @@
 			<artifactId>spring-test</artifactId>
 		</dependency>
 	</dependencies>
+
+	<properties>
+	  <sli.home>${project.basedir}</sli.home>
+	  <sli.encryption.keyStore>../../sli/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
+	</properties>
 </project>
