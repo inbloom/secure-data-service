@@ -476,7 +476,7 @@ module DataProvider
        "idp" => {"id" => "http://path.to.nowhere", "redirectEndpoint" => "http://path.to.nowhere/somewhere/else"},
        "saml" => {"field" => []},
        "name" => "a_new_realm",
-       "edOrg" => "ba987125-a8ed-eafd-bf75-c98a2fcc3dfg",
+       "edOrg" => "NC-KRYPTON"
     }
   end
 

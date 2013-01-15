@@ -28,6 +28,8 @@ describe 'DisciplineGenerator' do
   let(:behavior) { FactoryGirl.build(:behavior_descriptor) }
   let(:student_incident) { FactoryGirl.build(:student_discipline_incident_association) }
   let(:incident) { FactoryGirl.build(:discipline_incident) }
+  let(:discipline_descriptor) { FactoryGirl.build(:discipline_descriptor) }
+  let(:discipline_action) { FactoryGirl.build(:discipline_action) }
 
   describe '<<' do
     it 'will write a student discipline interchange to edfi' do
@@ -35,10 +37,10 @@ describe 'DisciplineGenerator' do
       generator.start()
 
       generator << behavior
-
       generator << incident
-
       generator << student_incident
+      generator << discipline_descriptor
+      generator << discipline_action
 
       generator.finalize()
 

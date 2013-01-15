@@ -17,14 +17,17 @@ limitations under the License.
 =end
 
 require_relative 'baseEntity'
-require_relative 'descriptor'
 
-# creates a behavior descriptor
-class BehaviorDescriptor < Descriptor
-  attr_accessor :category
+# creates discipline action
+class DisciplineAction < BaseEntity
+  attr_accessor :action_id, :disciplines, :date, :students, :incidents, :staff_id, :ed_org_id
 
-  def initialize(code, short, desc, ed_org_id, category)
-    super(code, short, desc, ed_org_id)
-    @category = category
+  def initialize(student_id, ed_org_id, incident)
+    @action_id = incident.incident_identifier
+    @disciplines = ["DI#{incident.index}"]
+    @date = incident.date + 1
+    @students = [student_id]
+    @incidents = [incident]
+    @ed_org_id = ed_org_id
   end
 end
