@@ -243,11 +243,14 @@ class StudentWorkOrder
         sections = @section_factory.sections(school_id, type.to_s, year, grade)
         unless sections.nil?
           final_grades = []
+          student_competencies = []
+          academic_subjects = AcademicSubjectType.get_academic_subjects(grade)
           sections.each{|course_offering, available_sections|
             section    = available_sections[@id % available_sections.count]
             index_in_section = ((@id + section[:id]) / available_sections.count) % @scenario['STUDENTS_PER_SECTION'][type.to_s]
             section_id = DataUtility.get_unique_section_id(section[:id])
-            rval       << StudentSectionAssociation.new(@id, section_id, school_id, begin_date, grade)
+            student_section_association = StudentSectionAssociation.new(@id, section_id, school_id, begin_date, grade)
+            rval       << student_section_association
 
             unless @gradebook_factory.nil? or section[:gbe].nil?
               grades = {}
@@ -267,8 +270,15 @@ class StudentWorkOrder
               rval << final_grade
             end
             rval += addDisciplineEntities(section[:id], index_in_section, school_id, session)
+
+            academic_subject = AcademicSubjectType.to_string(academic_subjects[section[:id] % academic_subjects.size])
+            LearningObjective.build_learning_objectives((@scenario["NUM_LEARNING_OBJECTIVES_PER_SUBJECT_AND_GRADE"] or 2), academic_subject, GradeLevelType.to_string(grade)).each {|learning_objective|
+              student_competency = StudentCompetency.new(learning_objective, student_section_association)
+              student_competencies << student_competency
+              rval << student_competency
+            }
           }
-          rval << ReportCard.new(@id, final_grades, GradingPeriod.new(:END_OF_YEAR, session['year'], session['interval'], session['edOrgId'], []))
+          rval << ReportCard.new(@id, final_grades, GradingPeriod.new(:END_OF_YEAR, session['year'], session['interval'], session['edOrgId'], []), student_competencies)
         end
       end
     end

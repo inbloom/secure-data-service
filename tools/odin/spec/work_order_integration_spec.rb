@@ -66,7 +66,7 @@ describe "WorkOrderProcessor" do
         # student creation
         attr_accessor :students, :school_associations, :assessment_associations, :section_associations, :assessment_items,
           :parents, :parent_associations, :cohort_associations, :program_associations, :report_cards, :discipline_incidents,
-          :discipline_actions
+          :discipline_actions, :student_competencies
         def create(work_order)
           to_build = work_order.build
           @students = to_build.select{|a| a.kind_of? Student}
@@ -81,6 +81,7 @@ describe "WorkOrderProcessor" do
           @report_cards = to_build.select{|a| a.kind_of? ReportCard}
           @discipline_incidents = to_build.select{|a| a.kind_of? StudentDisciplineIncidentAssociation}
           @discipline_actions = to_build.select{|a| a.kind_of? DisciplineAction}
+          @student_competencies = to_build.select{|a| a.kind_of? StudentCompetency}
         end
       end
 
@@ -171,12 +172,16 @@ describe "WorkOrderProcessor" do
 
       end
 
-      it "will generate the correct number of report cards" do
+      it "will generate the correct number of report cards with valid gpa range" do
         factory.report_cards.should have(2).items
         factory.report_cards.each{|report_card|
           report_card.gpa_given_grading_period.should be <= 4.0
           report_card.gpa_given_grading_period.should be >= 0.0
         }
+      end
+
+      it "will generate the correct number of student competencies" do
+        factory.student_competencies.should have(8).items
       end
 
       it "will generate student discipline incident associations when appropriate" do
