@@ -147,3 +147,8 @@ BEHAVIORS: [
   { short: "Fighting", desc: "Fighting with another student", category: "School Violation" },
   { short: "Disruption", desc: "Disrupting class", category: "School Code of Conduct" },
   { short: "Tardiness", desc: "Being late for class", category: "School Violation" }]
+
+ENTITY_BLACKLIST: [
+"BehaviorDescriptor",
+"BellSchedule"]
+  
