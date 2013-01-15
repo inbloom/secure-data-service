@@ -200,7 +200,7 @@ Given /^that dashboard has been authorized for all ed orgs$/ do
 end
 
 Given /^that databrowser has been authorized for all ed orgs$/ do
-  allLeaAllowApp("SLC Data Browser")
+  allLeaAllowApp("inBloom Data Browser")
 end
 
 Then /^I should receive a link named "([^"]*)"$/ do |arg1|

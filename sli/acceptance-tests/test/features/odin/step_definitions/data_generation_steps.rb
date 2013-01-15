@@ -4,9 +4,10 @@ require_relative '../../utils/sli_utils.rb'
 
 def generate(scenario="10students")
   # run bundle exec rake in the Odin directory
-  puts "Shell command will be bundle exec ruby driver.rb #{scenario}"
+  command = "bundle exec ruby driver.rb --normalgc #{scenario}"
+  puts "Shell command will be #{command}"
   FileUtils.cd @odin_working_path
-  runShellCommand("bundle exec ruby driver.rb #{scenario}")
+  `#{command}`
   FileUtils.cd @at_working_path
   @files = Dir.entries("#{@gen_path}")
 end
