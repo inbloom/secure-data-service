@@ -39,7 +39,7 @@ Then I should be on Portal home page
 Then I should not see "inBloom Dashboards"
 And I click on Admin
 And I should be on the admin page
-And I should not see "SLC Data Browser"
+And I should not see "inBloom Data Browser"
 And I click on log out
 
 Scenario: App developer creates new Installed app and Full window web app
@@ -147,7 +147,7 @@ And it is colored "green"
 And the Approve button next to it is disabled
 And the Deny button next to it is enabled
 #Authorize the Databrowser
-And I see an application "SLC Data Browser" in the table
+And I see an application "inBloom Data Browser" in the table
 And in Status it says "Not Approved"
 And I click on the "Approve" button next to it
 And I am asked 'Do you really want this application to access the district's data'
