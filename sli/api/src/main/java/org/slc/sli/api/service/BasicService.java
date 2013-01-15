@@ -789,7 +789,7 @@ public class BasicService implements EntityService {
                 String fieldName = entry.getKey();
                 Object value = entry.getValue();
 
-                String fieldPath = prefix + fieldName;
+                String fieldPath = prefix.replaceAll("^.", "") + fieldName;
                 Set<Right> neededRights = getNeededRights(fieldPath);
 
                 SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
@@ -826,7 +826,7 @@ public class BasicService implements EntityService {
                 neededRights.add(Right.READ_PUBLIC);
             }
         }
-
+        
         return neededRights;
     }
 
