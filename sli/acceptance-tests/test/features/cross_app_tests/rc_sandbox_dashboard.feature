@@ -34,8 +34,6 @@ Scenario: All-in-one scenario
 	Then I see a list of 28 students
 	When I enter "rudolph" into the student search box
 	And I click the search button
-	And I select school "Daybreak Central High"
-	And I search by clicking on the go button
 	Then "1" results are returned in the page
 	And the search results include:
 	 |Student          |Grade    |School                     |
@@ -169,17 +167,6 @@ Scenario: All-in-one scenario
 	Then I see a list of 25 students
 	When I enter "Matt" into the student search box
 	And I click the search button
-	When I look in the school drop-down
-	Then I see these values in the drop-down: "Daybreak Central High;East Daybreak Junior High;South Daybreak Elementary"
-	And I select school "Daybreak Central High"
-	And I search by clicking on the go button
-	Then "0" results are returned in the page
-	And I select school "South Daybreak Elementary"
-	And I search by clicking on the go button
-	Then "0" results are returned in the page
-	And I select school "East Daybreak Junior High" 
-	And I search by clicking on the go button
-	Then "1" results are returned in the page
 	And the search results include:
 	 |Student          |Grade    |School                     |
 	 |Matt Sollars     |8        |East Daybreak Junior High  |
