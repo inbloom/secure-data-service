@@ -111,51 +111,12 @@ public class OnboardingResource {
 
         String tenantId = SecurityUtil.getTenantId();
 
-        NeutralQuery query = new NeutralQuery();
-
-        query.addCriteria(new NeutralCriteria(STATE_EDORG_ID, "=", orgId));
-
-        String uuid = null;
-        Entity entity = repo.findOne(EntityNames.EDUCATION_ORGANIZATION, query);
-        if (entity != null) {
-            uuid = entity.getEntityId();
-        } else {
-            EntityBody body = new EntityBody();
-            body.put(STATE_EDORG_ID, orgId);
-            body.put(EDORG_INSTITUTION_NAME, orgId);
-
-            List<String> categories = new ArrayList<String>();
-            categories.add(STATE_EDUCATION_AGENCY);
-            body.put(CATEGORIES, categories);
-
-            List<Map<String, String>> addresses = new ArrayList<Map<String, String>>();
-            Map<String, String> address = new HashMap<String, String>();
-            address.put(ADDRESS_STREET, "unknown");
-            address.put(ADDRESS_CITY, "unknown");
-            address.put(ADDRESS_STATE_ABRV, "NC");
-            address.put(ADDRESS_POSTAL_CODE, "27713");
-            addresses.add(address);
-
-            body.put(ADDRESSES, addresses);
-
-            Map<String, Object> meta = new HashMap<String, Object>();
-            meta.put("externalId", orgId);
-            Entity edOrgEntity = repo.create("stateEducationAgency", body, meta, EntityNames.EDUCATION_ORGANIZATION);
-
-            if (edOrgEntity == null) {
-                return Response.status(Status.INTERNAL_SERVER_ERROR).build();
-            }
-
-            uuid = edOrgEntity.getEntityId();
-        }
-
         try {
             LandingZoneInfo landingZone = tenantResource.createLandingZone(tenantId, orgId, isSandboxEnabled);
 
             Map<String, String> returnObject = new HashMap<String, String>();
             returnObject.put("landingZone", landingZone.getLandingZonePath());
             returnObject.put("serverName", landingZoneServer);
-            returnObject.put("edOrg", uuid);
 
             NeutralQuery tenantQuery = new NeutralQuery();
             tenantQuery.addCriteria(new NeutralCriteria("tenantId", "=", tenantId));
@@ -166,11 +127,6 @@ public class OnboardingResource {
                 tenantUuid = tenantEntity.getEntityId();
             }
             returnObject.put("tenantUuid", tenantUuid);
-            if (entity != null) {
-                returnObject.put("isDuplicate", "true");
-            } else {
-                returnObject.put("isDuplicate", "false");
-            }
             return Response.status(Status.CREATED).entity(returnObject).build();
         } catch (TenantResourceCreationException trce) {
             EntityBody entityBody = new EntityBody();
