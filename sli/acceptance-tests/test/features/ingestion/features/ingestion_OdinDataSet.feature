@@ -81,7 +81,7 @@ Then I should see following map of entry counts in the corresponding collections
      | gradebookEntry                           |               1222|
      | gradingPeriod                            |                  6|
      | graduationPlan                           |                  3|
-     | learningObjective                        |                150|
+     | learningObjective                        |                750|
      | learningStandard                         |                  0|
      | parent                                   |                 20|
      | program                                  |                 70|
@@ -100,7 +100,7 @@ Then I should see following map of entry counts in the corresponding collections
      | studentAcademicRecord                    |                 30|
      | studentAssessment                        |                180|
      | studentCohortAssociation                 |                 36|
-     | studentCompetency                        |                  0|
+     | studentCompetency                        |                375|
      | studentCompetencyObjective               |                  0|
      | studentDisciplineIncidentAssociation     |                 75|
      | studentGradebookEntry                    |               1222|
@@ -110,7 +110,7 @@ Then I should see following map of entry counts in the corresponding collections
      | studentSectionAssociation                |                 75|
      | teacherSchoolAssociation                 |                 19|
      | teacherSectionAssociation                |                 75|
-    And I should see "Processed 6012 records." in the resulting batch job file
+    And I should see "Processed 6987 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
 

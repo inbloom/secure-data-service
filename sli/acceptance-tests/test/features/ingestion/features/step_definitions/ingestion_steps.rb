@@ -77,17 +77,24 @@ Before do
 
   if (INGESTION_MODE != 'remote')
     @batchConn.drop_database(INGESTION_BATCHJOB_DB_NAME)
-    ensureBatchJobIndexes(@batchConn) 
-
+    ensureBatchJobIndexes(@batchConn)
     puts "Dropped " + INGESTION_BATCHJOB_DB_NAME + " database"
   else
-    @batchDB = @batchConn.db(INGESTION_BATCHJOB_DB_NAME)
-    @recordHash = @batchDB.collection('recordHash')
-    @recordHash.remove("t" => PropLoader.getProps['tenant'])
-    @recordHash.remove("t" => PropLoader.getProps['sandbox_tenant'])
-
+    @tenant_conn = @conn.db(convertTenantIdToDbName(PropLoader.getProps['tenant']))
+    @recordHash = @tenant_conn.collection('recordHash')
+    @recordHash.remove()
+    @tenant_conn = @conn.db(convertTenantIdToDbName(PropLoader.getProps['sandbox_tenant']))
+    @recordHash = @tenant_conn.collection('recordHash')
+    @recordHash.remove()
     puts "Dropped recordHash for remote testing tenants"
   end
+
+  @tenant_conn = @conn.db(convertTenantIdToDbName('Midgar'))
+  @recordHash = @tenant_conn.collection('recordHash')
+  @recordHash.remove()
+  @tenant_conn = @conn.db(convertTenantIdToDbName('Hyrule'))
+  @recordHash = @tenant_conn.collection('recordHash')
+  @recordHash.remove()
 
   @mdb = @conn.db(INGESTION_DB_NAME)
   @tenantColl = @mdb.collection('tenant')

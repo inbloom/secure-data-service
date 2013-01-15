@@ -19,14 +19,15 @@ limitations under the License.
 # creates report card
 class ReportCard < BaseEntity
 
-  attr_accessor :student, :grades, :grading_period, :gpa_given_grading_period, :gpa_cumulative
+  attr_accessor :student, :grades, :grading_period, :gpa_given_grading_period, :gpa_cumulative, :student_competencies
 
-  def initialize(student, grades, grading_period)
+  def initialize(student, grades, grading_period, student_competencies)
     @student = student
     @grades = grades
     @grading_period = grading_period
     @gpa_given_grading_period = get_gpa(grades)
     @gpa_cumulative = @gpa_given_grading_period
+    @student_competencies = student_competencies
   end
 
   def get_gpa(grades)
