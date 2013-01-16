@@ -111,6 +111,10 @@ describe "WorldBuilder" do
       it "will associate a staff member for each cohort for each year" do
         @queue.count(StaffCohortAssociation).should eq(27)
       end
+
+      it "will contain the correct number of Learning Objectives" do
+        @queue.count(LearningObjective).should eq(750)
+      end
     end
   end
 

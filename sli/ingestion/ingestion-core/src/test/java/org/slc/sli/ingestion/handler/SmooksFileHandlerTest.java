@@ -16,6 +16,7 @@
 
 package org.slc.sli.ingestion.handler;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -76,7 +77,6 @@ public class SmooksFileHandlerTest {
     // we have removed the type information from the smooks mappings for this sprint.
     // TODO: remove @Ignore when the smooks mappings once again contain type information
     public void valueTypeNotMatchAttributeType() throws IOException, SAXException {
-
         // Get Input File
         File inputFile = IngestionTest
                 .getFile("fileLevelTestData/invalidXML/valueTypeNotMatchAttributeType/student.xml");
@@ -85,6 +85,7 @@ public class SmooksFileHandlerTest {
         IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML,
                 FileType.XML_STUDENT_PARENT_ASSOCIATION, inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
+        inputFileEntry.setFileZipParent(inputFile.getParent() + "/valueTypeNotMatchAttributeType.zip");
 
         AbstractMessageReport errorReport = new DummyMessageReport();
         ReportStats reportStats = new SimpleReportStats();
@@ -96,15 +97,16 @@ public class SmooksFileHandlerTest {
 
     @Test
     public void malformedXML() throws IOException, SAXException {
-
         // Get Input File
-        File inputFile = IngestionTest.getFile("fileLevelTestData/invalidXML/malformedXML/student.xml");
+        File zipFile = IngestionTest.getFile("fileLevelTestData/invalidXML/malformedXML/malformedXML.zip");
+        File inputFile = new File("student.xml");
 
         // Create Ingestion File Entry
         IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML,
                 FileType.XML_STUDENT_PARENT_ASSOCIATION, inputFile.getName(), MD5.calculate(inputFile), lz.getLZId());
         inputFileEntry.setFile(inputFile);
         inputFileEntry.setBatchJobId("111111111-222222222-333333333-444444444-555555555-6");
+        inputFileEntry.setFileZipParent(zipFile.getAbsolutePath());
 
         AbstractMessageReport errorReport = new DummyMessageReport();
         ReportStats reportStats = new SimpleReportStats();
@@ -115,18 +117,16 @@ public class SmooksFileHandlerTest {
     }
 
     @Test
-    @Ignore
-    // TODO this needs to work with a mock mongo instance. It shouldn't be trying to create its own
-    // database connection
     public void validXml() throws IOException, SAXException {
-
         // Get Input File
-        File inputFile = IngestionTest.getFile("fileLevelTestData/validXML/student.xml");
+        File zipFile = IngestionTest.getFile("fileLevelTestData/validXML/validXML.zip");
+        File inputFile = new File("student.xml");
 
         // Create Ingestion File Entry
         IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML,
                 FileType.XML_STUDENT_PARENT_ASSOCIATION, inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setFile(inputFile);
+        inputFileEntry.setFileZipParent(zipFile.getAbsolutePath());
         inputFileEntry.setBatchJobId("111111111-222222222-333333333-444444444-555555555-6");
 
         AbstractMessageReport errorReport = new DummyMessageReport();
@@ -134,7 +134,7 @@ public class SmooksFileHandlerTest {
 
         smooksFileHandler.handle(inputFileEntry, errorReport, reportStats);
 
-        assertTrue("Valid XML should give no errors.", !reportStats.hasErrors());
+        assertFalse("Valid XML should give no errors.", reportStats.hasErrors());
     }
 
     @Test
@@ -146,10 +146,13 @@ public class SmooksFileHandlerTest {
                         Mockito.any(ReportStats.class))).thenReturn(smooks);
         PrivateAccessor.setField(smooksFileHandler, "sliSmooksFactory", factory);
 
-        File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudent-Valid.xml");
+        File zipFile = IngestionTest.getFile("XsdValidation/InterchangeStudent-Valid.zip");
+        File xmlFile = new File("InterchangeStudent-Valid.xml");
         IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION,
-                xmlFile.getAbsolutePath(), "", lz.getLZId());
+                xmlFile.getName(), "", lz.getLZId());
         ife.setFile(xmlFile);
+        ife.setFileZipParent(zipFile.getAbsolutePath());
+
         AbstractMessageReport errorReport = Mockito.mock(AbstractMessageReport.class);
 
         SmooksEdFiVisitor visitor = SmooksEdFiVisitor.createInstance("", "", errorReport, reportStats, ife);

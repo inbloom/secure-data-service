@@ -78,3 +78,22 @@ And the role attribute equals "Leader"
 And "Leader" is allowed to view restricted Student fields
 When I make an API call to view a Student's data
 Then the Student restricted fields are visible in the response
+
+@WritePublic
+Scenario Outline: User with WRITE_PUBLIC can post public data
+	Given I am logged in using "morion" "moron" to realm "Midgar"
+    And format "application/vnd.slc+json"
+    Given entity URI <Entity Resource URI>
+    Given a valid entity json document for a <Entity Type>
+    When I post the entity
+    Then I should receive a return code of 201
+    And I should receive a new entity URI    
+    Given I am logged in using "mmagic" "moron" to realm "Midgar"
+    When I post the entity
+    Then I should receive a return code of 403    
+Examples:
+    | Entity Type                    | Entity Resource URI   	|
+    | "assessment"                   | "assessments"            |
+    | "learningObjective"            | "learningObjectives"     |
+    | "learningStandard"             | "learningStandards"      |
+    | "educationOrganization"        | "educationOrganizations" |
