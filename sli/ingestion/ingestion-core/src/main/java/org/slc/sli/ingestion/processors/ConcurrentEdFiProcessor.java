@@ -16,7 +16,6 @@
 
 package org.slc.sli.ingestion.processors;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -105,14 +104,14 @@ public class ConcurrentEdFiProcessor implements Processor, ApplicationContextAwa
     private void processEdFi(Exchange exchange, String batchJobId) {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
 
-        NewBatchJob newJob = null;
+        NewBatchJob currentJob = null;
         try {
-            newJob = batchJobDAO.findBatchJobById(batchJobId);
+            currentJob = batchJobDAO.findBatchJobById(batchJobId);
 
-            String tenantId = newJob.getTenantId();
+            String tenantId = currentJob.getTenantId();
             TenantContext.setTenantId(tenantId);
             TenantContext.setJobId(batchJobId);
-            TenantContext.setBatchProperties(newJob.getBatchProperties());
+            TenantContext.setBatchProperties(currentJob.getBatchProperties());
 
             // Check for record hash purge option given
             String rhMode = TenantContext.getBatchProperty(AttributeType.DUPLICATE_DETECTION.getName());
@@ -125,8 +124,8 @@ public class ConcurrentEdFiProcessor implements Processor, ApplicationContextAwa
 
             indexStagingDB();
 
-            List<IngestionFileEntry> fileEntryList = extractFileEntryList(batchJobId, newJob);
-            List<FutureTask<Boolean>> smooksFutureTaskList = processFilesInFuture(fileEntryList, newJob, stage);
+            List<IngestionFileEntry> fileEntryList = extractFileEntryList(currentJob);
+            List<FutureTask<Boolean>> smooksFutureTaskList = processFilesInFuture(fileEntryList, currentJob, stage);
             boolean anyErrorsProcessingFiles = aggregateFutureResults(smooksFutureTaskList);
 
             setExchangeHeaders(exchange, anyErrorsProcessingFiles);
@@ -134,9 +133,9 @@ public class ConcurrentEdFiProcessor implements Processor, ApplicationContextAwa
         } catch (Exception exception) {
             handleProcessingExceptions(exchange, batchJobId, exception);
         } finally {
-            if (newJob != null) {
-                BatchJobUtils.stopStageAndAddToJob(stage, newJob);
-                batchJobDAO.saveBatchJob(newJob);
+            if (currentJob != null) {
+                BatchJobUtils.stopStageAndAddToJob(stage, currentJob);
+                batchJobDAO.saveBatchJob(currentJob);
             }
         }
     }
@@ -178,10 +177,10 @@ public class ConcurrentEdFiProcessor implements Processor, ApplicationContextAwa
         return anyErrorsProcessingFiles;
     }
 
-    private List<IngestionFileEntry> extractFileEntryList(String batchJobId, NewBatchJob newJob) {
+    private List<IngestionFileEntry> extractFileEntryList(NewBatchJob job) {
         List<IngestionFileEntry> fileEntryList = new ArrayList<IngestionFileEntry>();
 
-        List<ResourceEntry> resourceList = newJob.getResourceEntries();
+        List<ResourceEntry> resourceList = job.getResourceEntries();
         for (ResourceEntry resource : resourceList) {
             if (FileFormat.EDFI_XML.getCode().equalsIgnoreCase(resource.getResourceFormat())) {
 
@@ -191,14 +190,10 @@ public class ConcurrentEdFiProcessor implements Processor, ApplicationContextAwa
                 String checksum = resource.getChecksum();
                 String zipParent = resource.getResourceZipParent();
 
-                String lzPath = resource.getTopLevelLandingZonePath();
-
-                IngestionFileEntry fe = new IngestionFileEntry(fileFormat, fileType, fileName, checksum, lzPath);
+                IngestionFileEntry fe = new IngestionFileEntry(zipParent, fileFormat, fileType, fileName, checksum);
                 fe.setMessageReport(databaseMessageReport);
                 fe.setReportStats(new SimpleReportStats());
-                fe.setFile(new File(resource.getResourceName()));
-                fe.setBatchJobId(batchJobId);
-                fe.setFileZipParent(zipParent);
+                fe.setBatchJobId(job.getId());
 
                 fileEntryList.add(fe);
             }

@@ -37,7 +37,8 @@ public enum FileType {
     XML_STUDENT_ENROLLMENT("StudentEnrollment", FileFormat.EDFI_XML),
     XML_STUDENT_GRADES("StudentGrades", FileFormat.EDFI_XML),
     XML_STUDENT_PARENT_ASSOCIATION("StudentParent", FileFormat.EDFI_XML),
-    XML_STUDENT_PROGRAM("StudentProgram", FileFormat.EDFI_XML);
+    XML_STUDENT_PROGRAM("StudentProgram", FileFormat.EDFI_XML),
+    CONTROL("Control", FileFormat.CONTROL_FILE);
 
     private final String name;
     private final FileFormat fileFormat;

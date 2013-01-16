@@ -33,12 +33,12 @@ describe "SectionWorkOrderFactory" do
         'BEHAVIORS' => [ { short: "Fighting", desc: "Fighting with another student", category: "School Violation" }]
       }}
   let(:config) {YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))}
-  let(:offerings) {[{'id' => 1, 'grade' => :NINTH_GRADE, 'ed_org_id'=>'high-0000000042'}, 
-        {'id' => 2, 'grade' => :TENTH_GRADE, 'ed_org_id'=>'high-0000000042'}, 
-        {'id' => 3, 'grade' => :TENTH_GRADE, 'ed_org_id'=>'high-0000000042'}]}
+  let(:offerings) {[{'id' => 1, 'grade' => :NINTH_GRADE, 'ed_org_id'=>'42'}, 
+        {'id' => 2, 'grade' => :TENTH_GRADE, 'ed_org_id'=>'42'}, 
+        {'id' => 3, 'grade' => :TENTH_GRADE, 'ed_org_id'=>'42'}]}
   let(:ed_org) {{'id' => 42, 'students' => {2001 => {:NINTH_GRADE => 30, :TENTH_GRADE => 0}, 2002 => {:NINTH_GRADE => 0, :TENTH_GRADE => 30}},
                              'offerings' => {2001 => offerings, 2002 => offerings},
-                             'teachers' => []}}
+                             'sessions' => [], 'teachers' => []}}
   let(:world) {{ "high" => [ed_org] }}
   let(:prng) {Random.new(config['seed'])}
   let(:factory) {SectionWorkOrderFactory.new(world, scenario, prng)}

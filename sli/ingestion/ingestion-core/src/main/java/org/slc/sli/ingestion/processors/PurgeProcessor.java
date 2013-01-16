@@ -63,8 +63,6 @@ public class PurgeProcessor implements Processor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PurgeProcessor.class);
 
-    private static final String TENANT_ID = "tenantId";
-
     @Autowired
     private MongoTemplate mongoTemplate;
 
@@ -117,14 +115,11 @@ public class PurgeProcessor implements Processor {
 
                 TenantContext.setTenantId(newJob.getTenantId());
 
-                String tenantId = newJob.getProperty(TENANT_ID);
+                String tenantId = newJob.getTenantId();
                 if (tenantId == null) {
-
                     handleNoTenantId(batchJobId);
                 } else {
-
                     purgeForTenant(exchange, newJob, tenantId);
-
                 }
 
             } catch (Exception exception) {

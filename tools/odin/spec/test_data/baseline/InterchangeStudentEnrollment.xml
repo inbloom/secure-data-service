@@ -632,7 +632,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>Daybreak Central High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000001</UniqueSectionCode>
+        <UniqueSectionCode>1</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2001-08-27</BeginDate>
@@ -650,7 +650,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>Daybreak Central High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000002</UniqueSectionCode>
+        <UniqueSectionCode>2</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2001-08-27</BeginDate>
@@ -668,7 +668,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>Daybreak Central High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000003</UniqueSectionCode>
+        <UniqueSectionCode>3</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2001-08-27</BeginDate>
@@ -686,7 +686,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>Daybreak Central High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000004</UniqueSectionCode>
+        <UniqueSectionCode>4</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2001-08-27</BeginDate>
@@ -704,7 +704,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>Daybreak Central High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000005</UniqueSectionCode>
+        <UniqueSectionCode>5</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2002-09-05</BeginDate>
@@ -722,7 +722,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>Daybreak Central High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000006</UniqueSectionCode>
+        <UniqueSectionCode>6</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2002-09-05</BeginDate>
@@ -740,7 +740,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>Daybreak Central High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000007</UniqueSectionCode>
+        <UniqueSectionCode>7</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2002-09-05</BeginDate>
@@ -758,7 +758,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>Daybreak Central High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000008</UniqueSectionCode>
+        <UniqueSectionCode>8</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2002-09-05</BeginDate>
@@ -776,7 +776,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>Daybreak Central High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000013</UniqueSectionCode>
+        <UniqueSectionCode>13</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2003-09-04</BeginDate>
@@ -794,7 +794,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>Daybreak Central High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000014</UniqueSectionCode>
+        <UniqueSectionCode>14</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2003-09-04</BeginDate>
@@ -812,7 +812,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>Daybreak Central High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000015</UniqueSectionCode>
+        <UniqueSectionCode>15</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2003-09-04</BeginDate>
@@ -830,7 +830,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>Daybreak Central High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000016</UniqueSectionCode>
+        <UniqueSectionCode>16</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2003-09-04</BeginDate>
@@ -848,7 +848,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000025</UniqueSectionCode>
+        <UniqueSectionCode>25</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2001-08-27</BeginDate>
@@ -866,7 +866,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000026</UniqueSectionCode>
+        <UniqueSectionCode>26</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2001-08-27</BeginDate>
@@ -884,7 +884,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000027</UniqueSectionCode>
+        <UniqueSectionCode>27</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2001-08-27</BeginDate>
@@ -902,7 +902,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000028</UniqueSectionCode>
+        <UniqueSectionCode>28</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2001-08-27</BeginDate>
@@ -920,7 +920,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000041</UniqueSectionCode>
+        <UniqueSectionCode>41</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2002-09-05</BeginDate>
@@ -938,7 +938,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000042</UniqueSectionCode>
+        <UniqueSectionCode>42</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2002-09-05</BeginDate>
@@ -956,7 +956,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000043</UniqueSectionCode>
+        <UniqueSectionCode>43</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2002-09-05</BeginDate>
@@ -974,7 +974,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000044</UniqueSectionCode>
+        <UniqueSectionCode>44</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2002-09-05</BeginDate>
@@ -992,7 +992,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000049</UniqueSectionCode>
+        <UniqueSectionCode>49</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2003-09-04</BeginDate>
@@ -1010,7 +1010,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000050</UniqueSectionCode>
+        <UniqueSectionCode>50</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2003-09-04</BeginDate>
@@ -1028,7 +1028,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000051</UniqueSectionCode>
+        <UniqueSectionCode>51</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2003-09-04</BeginDate>
@@ -1046,7 +1046,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000052</UniqueSectionCode>
+        <UniqueSectionCode>52</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2003-09-04</BeginDate>
@@ -1064,7 +1064,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000029</UniqueSectionCode>
+        <UniqueSectionCode>29</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2001-08-27</BeginDate>
@@ -1082,7 +1082,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000030</UniqueSectionCode>
+        <UniqueSectionCode>30</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2001-08-27</BeginDate>
@@ -1100,7 +1100,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000031</UniqueSectionCode>
+        <UniqueSectionCode>31</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2001-08-27</BeginDate>
@@ -1118,7 +1118,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000032</UniqueSectionCode>
+        <UniqueSectionCode>32</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2001-08-27</BeginDate>
@@ -1136,7 +1136,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000037</UniqueSectionCode>
+        <UniqueSectionCode>37</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2002-09-05</BeginDate>
@@ -1154,7 +1154,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000038</UniqueSectionCode>
+        <UniqueSectionCode>38</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2002-09-05</BeginDate>
@@ -1172,7 +1172,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000039</UniqueSectionCode>
+        <UniqueSectionCode>39</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2002-09-05</BeginDate>
@@ -1190,7 +1190,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000040</UniqueSectionCode>
+        <UniqueSectionCode>40</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2002-09-05</BeginDate>
@@ -1208,7 +1208,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>Daybreak Central High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000021</UniqueSectionCode>
+        <UniqueSectionCode>21</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2003-09-04</BeginDate>
@@ -1226,7 +1226,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>Daybreak Central High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000022</UniqueSectionCode>
+        <UniqueSectionCode>22</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2003-09-04</BeginDate>
@@ -1244,7 +1244,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>Daybreak Central High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000023</UniqueSectionCode>
+        <UniqueSectionCode>23</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2003-09-04</BeginDate>
@@ -1262,7 +1262,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>Daybreak Central High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000024</UniqueSectionCode>
+        <UniqueSectionCode>24</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2003-09-04</BeginDate>
@@ -1280,7 +1280,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000033</UniqueSectionCode>
+        <UniqueSectionCode>33</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2001-08-27</BeginDate>
@@ -1298,7 +1298,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000034</UniqueSectionCode>
+        <UniqueSectionCode>34</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2001-08-27</BeginDate>
@@ -1316,7 +1316,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000035</UniqueSectionCode>
+        <UniqueSectionCode>35</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2001-08-27</BeginDate>
@@ -1334,7 +1334,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000036</UniqueSectionCode>
+        <UniqueSectionCode>36</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2001-08-27</BeginDate>
@@ -1352,7 +1352,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>Daybreak Central High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000009</UniqueSectionCode>
+        <UniqueSectionCode>9</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2002-09-05</BeginDate>
@@ -1370,7 +1370,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>Daybreak Central High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000010</UniqueSectionCode>
+        <UniqueSectionCode>10</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2002-09-05</BeginDate>
@@ -1388,7 +1388,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>Daybreak Central High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000011</UniqueSectionCode>
+        <UniqueSectionCode>11</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2002-09-05</BeginDate>
@@ -1406,7 +1406,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>Daybreak Central High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000012</UniqueSectionCode>
+        <UniqueSectionCode>12</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2002-09-05</BeginDate>
@@ -1424,7 +1424,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>Daybreak Central High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000017</UniqueSectionCode>
+        <UniqueSectionCode>17</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2003-09-04</BeginDate>
@@ -1442,7 +1442,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>Daybreak Central High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000018</UniqueSectionCode>
+        <UniqueSectionCode>18</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2003-09-04</BeginDate>
@@ -1460,7 +1460,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>Daybreak Central High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000019</UniqueSectionCode>
+        <UniqueSectionCode>19</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2003-09-04</BeginDate>
@@ -1478,7 +1478,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>Daybreak Central High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000020</UniqueSectionCode>
+        <UniqueSectionCode>20</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2003-09-04</BeginDate>
@@ -1496,7 +1496,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000061</UniqueSectionCode>
+        <UniqueSectionCode>61</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2001-08-27</BeginDate>
@@ -1514,7 +1514,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000071</UniqueSectionCode>
+        <UniqueSectionCode>71</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2002-09-05</BeginDate>
@@ -1532,7 +1532,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000075</UniqueSectionCode>
+        <UniqueSectionCode>75</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2003-09-04</BeginDate>
@@ -1550,7 +1550,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000062</UniqueSectionCode>
+        <UniqueSectionCode>62</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2001-08-27</BeginDate>
@@ -1568,7 +1568,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000070</UniqueSectionCode>
+        <UniqueSectionCode>70</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2002-09-05</BeginDate>
@@ -1586,7 +1586,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000074</UniqueSectionCode>
+        <UniqueSectionCode>74</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2003-09-04</BeginDate>
@@ -1604,7 +1604,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000063</UniqueSectionCode>
+        <UniqueSectionCode>63</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2001-08-27</BeginDate>
@@ -1622,7 +1622,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000069</UniqueSectionCode>
+        <UniqueSectionCode>69</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2002-09-05</BeginDate>
@@ -1640,7 +1640,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000073</UniqueSectionCode>
+        <UniqueSectionCode>73</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2003-09-04</BeginDate>
@@ -1658,7 +1658,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000064</UniqueSectionCode>
+        <UniqueSectionCode>64</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2001-08-27</BeginDate>
@@ -1676,7 +1676,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000068</UniqueSectionCode>
+        <UniqueSectionCode>68</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2002-09-05</BeginDate>
@@ -1694,7 +1694,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000072</UniqueSectionCode>
+        <UniqueSectionCode>72</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2003-09-04</BeginDate>
@@ -1712,7 +1712,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000065</UniqueSectionCode>
+        <UniqueSectionCode>65</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2001-08-27</BeginDate>
@@ -1730,7 +1730,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000067</UniqueSectionCode>
+        <UniqueSectionCode>67</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2002-09-05</BeginDate>
@@ -1748,7 +1748,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000057</UniqueSectionCode>
+        <UniqueSectionCode>57</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2003-09-04</BeginDate>
@@ -1766,7 +1766,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000058</UniqueSectionCode>
+        <UniqueSectionCode>58</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2003-09-04</BeginDate>
@@ -1784,7 +1784,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000059</UniqueSectionCode>
+        <UniqueSectionCode>59</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2003-09-04</BeginDate>
@@ -1802,7 +1802,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000060</UniqueSectionCode>
+        <UniqueSectionCode>60</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2003-09-04</BeginDate>
@@ -1820,7 +1820,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000066</UniqueSectionCode>
+        <UniqueSectionCode>66</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2001-08-27</BeginDate>
@@ -1838,7 +1838,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000045</UniqueSectionCode>
+        <UniqueSectionCode>45</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2002-09-05</BeginDate>
@@ -1856,7 +1856,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000046</UniqueSectionCode>
+        <UniqueSectionCode>46</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2002-09-05</BeginDate>
@@ -1874,7 +1874,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000047</UniqueSectionCode>
+        <UniqueSectionCode>47</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2002-09-05</BeginDate>
@@ -1892,7 +1892,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000048</UniqueSectionCode>
+        <UniqueSectionCode>48</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2002-09-05</BeginDate>
@@ -1910,7 +1910,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000053</UniqueSectionCode>
+        <UniqueSectionCode>53</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2003-09-04</BeginDate>
@@ -1928,7 +1928,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000054</UniqueSectionCode>
+        <UniqueSectionCode>54</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2003-09-04</BeginDate>
@@ -1946,7 +1946,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000055</UniqueSectionCode>
+        <UniqueSectionCode>55</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2003-09-04</BeginDate>
@@ -1964,7 +1964,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueSectionCode>sctn-0000000056</UniqueSectionCode>
+        <UniqueSectionCode>56</UniqueSectionCode>
       </SectionIdentity>
     </SectionReference>
     <BeginDate>2003-09-04</BeginDate>
