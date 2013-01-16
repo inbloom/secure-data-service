@@ -21,6 +21,22 @@
 
   <core:filterSettings defaultSerialization="false" readerPoolSize="5" terminateOnException="false" type="SAX" />
 
+  <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeEducationOrganization/DbOperation">
+    <jb:expression property="recordType">'dbOperation'</jb:expression>
+    <jb:wiring property="dbOperands" beanIdRef="dbOperation" />
+    <jb:value property="Action" data="InterchangeEducationOrganization/DbOperation/@Action" />
+    <jb:value property="Cascade" data="InterchangeEducationOrganization/DbOperation/@Cascade" />
+  </jb:bean>
+
+  <!-- Work in progress ... below is copy/paste from above and non-functional ... O. Krook & J. Hinsdale WIP 15Jan2013 -->
+  <jb:bean beanId="dbOperation" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeEducationOrganization/DbOperation">
+    <jb:expression property="recordType">'dbOperation'</jb:expression>
+    <jb:wiring property="dbOperands" beanIdRef="dbOperation" />
+    <jb:value property="Action" data="InterchangeEducationOrganization/DbOperation/@Action" />
+    <jb:value property="Cascade" data="InterchangeEducationOrganization/DbOperation/@Cascade" />
+  </jb:bean>
+
+
  <!-- School mapping -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeEducationOrganization/School">
     <jb:expression property="recordType">'school'</jb:expression>
