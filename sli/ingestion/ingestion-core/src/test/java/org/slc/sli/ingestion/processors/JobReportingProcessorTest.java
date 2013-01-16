@@ -46,7 +46,7 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
-import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.dal.NeutralRecordRepository;
 import org.slc.sli.ingestion.model.Error;
@@ -129,7 +129,7 @@ public class JobReportingProcessorTest {
         Iterable<Error> fakeErrorIterable = createFakeErrorIterable();
 
         // mock the WorkNote
-        WorkNote workNote = WorkNote.createSimpleWorkNote(BATCHJOBID);
+        RangedWorkNote workNote = RangedWorkNote.createSimpleWorkNote(BATCHJOBID);
 
         List<Stage> mockStages = new LinkedList<Stage>();
         List<Metrics> mockMetrics = new LinkedList<Metrics>();
@@ -157,7 +157,7 @@ public class JobReportingProcessorTest {
 
         // create exchange
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
-        exchange.getIn().setBody(workNote, WorkNote.class);
+        exchange.getIn().setBody(workNote, RangedWorkNote.class);
 
         jobReportingProcessor.setBatchJobDAO(mockedBatchJobDAO);
         jobReportingProcessor.process(exchange);

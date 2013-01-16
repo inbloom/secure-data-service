@@ -107,8 +107,6 @@ public class EdFiProcessor implements Processor {
                 throw new FileNotFoundException("No match for file " + fe.getFileName() + " in batch job "
                         + newJob.getId());
             }
-            fe.setMessageReport(databaseMessageReport);
-            fe.setReportStats(new SimpleReportStats());
             Metrics metrics = Metrics.newInstance(fe.getFileName());
             stage.addMetrics(metrics);
 
@@ -123,13 +121,14 @@ public class EdFiProcessor implements Processor {
 
             indexStagingDB();
 
+            ReportStats rs = new SimpleReportStats();
+
             // Convert XML file to neutral records, and stage.
-            FileProcessStatus fileProcessStatus = smooksFileHandler.handle(fe, fe.getMessageReport(),
-                    fe.getReportStats());
+            FileProcessStatus fileProcessStatus = smooksFileHandler.handle(fe, databaseMessageReport, rs);
 
-            processMetrics(metrics, fe, fileProcessStatus);
+            processMetrics(metrics, fe, fileProcessStatus, rs);
 
-            setExchangeHeaders(exchange, fe.getReportStats().hasErrors());
+            setExchangeHeaders(exchange, rs.hasErrors());
         } catch (Exception exception) {
             handleProcessingExceptions(exchange, batchJobId, exception);
         } finally {
@@ -161,10 +160,10 @@ public class EdFiProcessor implements Processor {
         return false;
     }
 
-    private void processMetrics(Metrics metrics, IngestionFileEntry fe, FileProcessStatus fileProcessStatus) {
+    private void processMetrics(Metrics metrics, IngestionFileEntry fe, FileProcessStatus fileProcessStatus, ReportStats rs) {
         metrics.setDuplicateCounts(fileProcessStatus.getDuplicateCounts());
         metrics.setRecordCount(fileProcessStatus.getTotalRecordCount());
-        metrics.setErrorCount(fe.getReportStats().getErrorCount());
+        metrics.setErrorCount(rs.getErrorCount());
     }
 
     private void handleProcessingExceptions(Exchange exchange, String batchJobId, Exception exception) {

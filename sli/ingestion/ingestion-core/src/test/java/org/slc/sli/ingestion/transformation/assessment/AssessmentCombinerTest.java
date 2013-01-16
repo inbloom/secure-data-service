@@ -51,7 +51,7 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.dal.NeutralRecordRepository;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
@@ -95,7 +95,7 @@ public class AssessmentCombinerTest {
     public void setup() throws IOException, NoSuchFieldException {
         MockitoAnnotations.initMocks(this);
 
-        WorkNote workNote = WorkNote.createSimpleWorkNote("batchJobId");
+        RangedWorkNote workNote = RangedWorkNote.createSimpleWorkNote("batchJobId");
         combiner.setWorkNote(workNote);
 
         when(neutralRecordMongoAccess.getRecordRepository()).thenReturn(repository);

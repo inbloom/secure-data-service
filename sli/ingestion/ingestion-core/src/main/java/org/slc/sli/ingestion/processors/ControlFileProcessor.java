@@ -31,7 +31,7 @@ import org.slc.sli.dal.aspect.MongoTrackingAspect;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
-import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
@@ -208,8 +208,8 @@ public class ControlFileProcessor implements Processor {
     }
 
     private void setExchangeBody(Exchange exchange, String batchJobId) {
-        WorkNote workNote = WorkNote.createSimpleWorkNote(batchJobId);
-        exchange.getIn().setBody(workNote, WorkNote.class);
+        RangedWorkNote workNote = RangedWorkNote.createSimpleWorkNote(batchJobId);
+        exchange.getIn().setBody(workNote, RangedWorkNote.class);
     }
 
     private void createAndAddResourceEntries(NewBatchJob newJob, ControlFile cf) {
