@@ -193,9 +193,6 @@ describe "WorldBuilder" do
       it "grade wide assessment work orders will be created for each grade and year" do
         @queue.count(GradeWideAssessmentWorkOrder).should eq(13)
       end
-      it "will generate each of the behavior descriptors" do
-        @queue.count(BehaviorDescriptor).should eq 3
-      end
 
     end
   end
