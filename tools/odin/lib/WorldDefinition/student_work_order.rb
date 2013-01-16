@@ -245,6 +245,8 @@ class StudentWorkOrder
           final_grades = []
           student_competencies = []
           academic_subjects = AcademicSubjectType.get_academic_subjects(grade)
+          code_values = (@scenario["COMPETENCY_LEVEL_DESCRIPTORS"] or []).collect{|competency_level_descriptor| competency_level_descriptor['code_value']}
+          code_values = [1, 2, 3] if code_values.empty?
           sections.each{|course_offering, available_sections|
             section    = available_sections[@id % available_sections.count]
             index_in_section = ((@id + section[:id]) / available_sections.count) % @scenario['STUDENTS_PER_SECTION'][type.to_s]
@@ -273,7 +275,8 @@ class StudentWorkOrder
 
             academic_subject = AcademicSubjectType.to_string(academic_subjects[section[:id] % academic_subjects.size])
             LearningObjective.build_learning_objectives((@scenario["NUM_LEARNING_OBJECTIVES_PER_SUBJECT_AND_GRADE"] or 2), academic_subject, GradeLevelType.to_string(grade)).each {|learning_objective|
-              student_competency = StudentCompetency.new(learning_objective, student_section_association)
+              # Note: Randomizing the code value does not correlate well with the real world.
+              student_competency = StudentCompetency.new(code_values[(section[:id] + @id) % code_values.size], learning_objective, student_section_association)
               student_competencies << student_competency
               rval << student_competency
             }
