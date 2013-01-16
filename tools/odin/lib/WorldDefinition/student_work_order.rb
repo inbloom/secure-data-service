@@ -218,8 +218,7 @@ class StudentWorkOrder
     other_programs     = DataUtility.select_num_from_options(@rand, num_other_programs, programs)
     other_programs.each do |other_program|
       program_id = DataUtility.get_program_id(other_program[:id])
-      ed_org_id  = DataUtility.get_state_education_agency_id(other_program[:ed_org_id]) if other_program[:sponsor] == :STATE_EDUCATION_AGENCY
-      ed_org_id  = DataUtility.get_local_education_agency_id(other_program[:ed_org_id]) if other_program[:sponsor] == :LOCAL_EDUCATION_AGENCY
+      ed_org_id = other_program['ed_org_id']
       associations << StudentProgramAssociation.new(@id, program_id, ed_org_id, begin_date, end_date)
     end
     associations

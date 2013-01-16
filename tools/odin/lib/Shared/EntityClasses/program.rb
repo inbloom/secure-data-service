@@ -29,11 +29,7 @@ class Program < BaseEntity
   def initialize(prng, id, type = nil, sponsor = nil)
     @rand = prng
 
-    if id.kind_of?(String)
-      @id = id
-    else
-      @id = DataUtility.get_program_id(id)
-    end
+    @id = id
 
     if type.nil? 
       @type = choose(ProgramType.all).value
