@@ -74,7 +74,9 @@ public aspect LoggerCarrierAspect {
 
     public void LoggerCarrier.audit(SecurityEvent event) {
     	MongoTemplate mongoTemplate = LoggerCarrierAspect.aspectOf().getTemplate();
-   	 	mongoTemplate.save(event);
+    	if(mongoTemplate != null) {
+			mongoTemplate.save(event);
+		}
    }
 
 }
