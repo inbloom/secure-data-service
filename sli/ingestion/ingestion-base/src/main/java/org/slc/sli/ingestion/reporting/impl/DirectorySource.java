@@ -15,33 +15,17 @@
  */
 package org.slc.sli.ingestion.reporting.impl;
 
-import java.text.MessageFormat;
-
 /**
- * A source implementation for control files.
- *
- * @author dduran
+ * 
+ * @author slee
  *
  */
-public class ControlFileSource extends FileSource {
+public class DirectorySource extends JobSource
+{
 
-    private int lineNumber;
-    private String line;
-
-    public ControlFileSource(String resourceId, String stageName) {
+    public DirectorySource(String resourceId, String stageName)
+    {
         super(resourceId, stageName);
-    }
-
-    public ControlFileSource(String resourceId, String stageName, int lineNumber, String line) {
-        this(resourceId, stageName);
-        this.lineNumber = lineNumber;
-        this.line = line;
-    }
-
-    @Override
-    public String getUserFriendlyMessage() {
-        Object[] arguments = { lineNumber, line };
-        return (lineNumber == 0 && line == null) ? "" : MessageFormat.format("At line number {0}: {1}", arguments);
     }
 
 }
