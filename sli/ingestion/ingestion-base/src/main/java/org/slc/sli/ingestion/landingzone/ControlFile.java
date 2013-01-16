@@ -27,6 +27,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -80,7 +81,10 @@ public class ControlFile extends IngestionFileEntry {
             List<String> lines = IOUtils.readLines(is);
 
             for (int i = 0; i < lines.size(); i++) {
-                parse(lines.get(i), i, report);
+                String line = lines.get(i);
+                if (StringUtils.isNotBlank(line)) {
+                    parse(line, i, report);
+                }
             }
 
         } finally {
@@ -109,13 +113,10 @@ public class ControlFile extends IngestionFileEntry {
             }
         }
 
-        // blank lines are ignored silently, but stray marks are not
-        if (line.trim().length() > 0) {
-            // line was not parse-able
-            Source source = new ControlFileSource(getFileName(), "Control File Parsing", lineNumber, line);
-            report.error(new SimpleReportStats(), source, BaseMessageCode.BASE_0016);
-            throw new SubmissionLevelException("line was not parseable");
-        }
+        // line was not parse-able
+        Source source = new ControlFileSource(getFileName(), "Control File Parsing", lineNumber, line);
+        report.error(new SimpleReportStats(), source, BaseMessageCode.BASE_0016);
+        throw new SubmissionLevelException("line was not parseable");
     }
 
     private IngestionFileEntry parseAsFileEntry(String line) {
@@ -129,7 +130,7 @@ public class ControlFile extends IngestionFileEntry {
         return null;
     }
 
-    private static String parseAsConfigEntry(String line) {
+    private String parseAsConfigEntry(String line) {
         Matcher m = CE_PATTERN.matcher(line);
         if (m.matches()) {
             return m.group(1).trim();

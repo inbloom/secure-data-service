@@ -50,6 +50,8 @@ public class NewBatchJob implements Job {
     @Id
     private String id;
 
+    private String tenantId;
+
     private String sourceId;
 
     private String topLevelSourceId;
@@ -74,8 +76,9 @@ public class NewBatchJob implements Job {
         initStartTime();
     }
 
-    public NewBatchJob(String id) {
+    public NewBatchJob(String id, String tenantId) {
         this.id = id;
+        this.tenantId = tenantId;
         this.batchProperties = new HashMap<String, String>();
         this.stages = new LinkedList<Stage>();
         this.resourceEntries = new LinkedList<ResourceEntry>();
@@ -117,13 +120,6 @@ public class NewBatchJob implements Job {
         jobStopTimestamp = BatchJobUtils.getCurrentTimeStamp();
     }
 
-    public static NewBatchJob createJobForFile(String fileName) {
-
-        String id = createId(fileName);
-
-        return new NewBatchJob(id);
-    }
-
     /**
      * generates a new unique ID
      */
@@ -137,15 +133,11 @@ public class NewBatchJob implements Job {
 
     @Override
     public String getTenantId() {
-        String tenantId = getProperty("tenantId");
-        if (tenantId == null) {
-            tenantId = "SLI";
-        }
         return tenantId;
     }
 
     public void setTenantId(String tenantId) {
-        setProperty("tenantId", tenantId);
+        this.tenantId = tenantId;
     }
 
     @Override

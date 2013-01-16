@@ -104,7 +104,7 @@ public class BatchJobMongoDATest {
 
     @Test
     public void testFindBatchJob() {
-        NewBatchJob job = new NewBatchJob(BATCHJOBID);
+        NewBatchJob job = new NewBatchJob(BATCHJOBID, "SLI");
 
         when(mockMongoTemplate.findOne((Query) any(), eq(NewBatchJob.class))).thenReturn(job);
 

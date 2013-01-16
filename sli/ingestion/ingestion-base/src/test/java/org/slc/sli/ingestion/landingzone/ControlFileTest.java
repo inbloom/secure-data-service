@@ -25,13 +25,12 @@ import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.List;
 
-import junitx.framework.Assert;
-
 import org.junit.Test;
 
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.landingzone.validation.SubmissionLevelException;
+import org.slc.sli.ingestion.reporting.impl.DummyMessageReport;
 
 /**
  * Test for ControlFile
@@ -42,21 +41,12 @@ public class ControlFileTest {
     public void testParseFile() throws IOException, SubmissionLevelException {
 
         String sep = System.getProperty("line.separator");
-        final String content = "@hello=world" + sep + " " + sep
+        String content = "@hello=world" + sep + " " + sep
                 + "edfi-xml,StudentEnrollment,data.xml,756a5e96e330082424b83902908b070a" + sep;
 
-        ControlFile controlFile = new ControlFile("", "") {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public InputStream getFileStream() {
-                return new ByteArrayInputStream(content.getBytes());
-            }
-        };
+        ControlFile controlFile = getControlFileFor(content);
 
         controlFile.parse(null);
-
-        Assert.assertNotNull(controlFile);
 
         List<IngestionFileEntry> items = controlFile.getFileEntries();
 
@@ -75,6 +65,44 @@ public class ControlFileTest {
         }
         String[] expectedNames = { "hello", };
         assertArrayEquals(expectedNames, configPropNames);
+    }
+
+    @Test(expected = SubmissionLevelException.class)
+    public void testInvalidRecordParseFile() throws IOException, SubmissionLevelException {
+
+        String content = "edfi-xml,StudentEnrollment,data.xml756a5e96e330082424b83902908b070a";
+
+        ControlFile controlFile = getControlFileFor(content);
+
+        controlFile.parse(new DummyMessageReport());
+    }
+
+    @Test
+    public void testEmptyParseFile() throws IOException, SubmissionLevelException {
+
+        final String content = "";
+
+        ControlFile controlFile = getControlFileFor(content);
+
+        controlFile.parse(null);
+
+        List<IngestionFileEntry> items = controlFile.getFileEntries();
+
+        assertEquals(items.size(), 0);
+    }
+
+
+    private ControlFile getControlFileFor(final String content) {
+        ControlFile controlFile = new ControlFile("", "") {
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            public InputStream getFileStream() {
+                return new ByteArrayInputStream(content.getBytes());
+            }
+        };
+
+        return controlFile;
     }
 
 }

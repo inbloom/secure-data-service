@@ -20,8 +20,6 @@ package org.slc.sli.ingestion.processors;
 import java.io.File;
 import java.io.IOException;
 
-import junitx.util.PrivateAccessor;
-
 import org.apache.camel.Exchange;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.impl.DefaultExchange;
@@ -75,7 +73,7 @@ public class ZipFileProcessorTest {
         preObject.getIn().setBody(IngestionTest.getFile("zip/ValidZip.zip"));
 
         String batchJobId = NewBatchJob.createId("ValidZip.zip");
-        NewBatchJob mockedJob = new NewBatchJob(batchJobId);
+        NewBatchJob mockedJob = new NewBatchJob(batchJobId, "SLI");
         File zipFile = IngestionTest.getFile("zip/ValidZip.zip");
         createResourceEntryAndAddToJob(zipFile, mockedJob);
         mockedJob.setSourceId("zip");
@@ -96,7 +94,7 @@ public class ZipFileProcessorTest {
         preObject.getIn().setBody(IngestionTest.getFile("zip/NoControlFile.zip"));
 
         String batchJobId = NewBatchJob.createId("NoControlFile.zip");
-        NewBatchJob mockedJob = new NewBatchJob(batchJobId);
+        NewBatchJob mockedJob = new NewBatchJob(batchJobId, "SLI");
         File zipFile = IngestionTest.getFile("zip/NoControlFile.zip");
         createResourceEntryAndAddToJob(zipFile, mockedJob);
         mockedJob.setSourceId("zip");

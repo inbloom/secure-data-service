@@ -16,7 +16,6 @@
 
 package org.slc.sli.ingestion.processors;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
@@ -212,6 +211,7 @@ public class ControlFilePreProcessor implements Processor {
         NewBatchJob job = batchJobDAO.findBatchJobById(batchJobId);
 
         TenantContext.setJobId(job.getId());
+        TenantContext.setTenantId(job.getTenantId());
 
         return job;
     }
@@ -221,22 +221,11 @@ public class ControlFilePreProcessor implements Processor {
 
         registerResourceEntry(batchJob, controlFileName);
 
-        String tenantId = findCurrentTenant(batchJob);
-
         ControlFile controlFile = ControlFile.parse(batchJob.getSourceId(), controlFileName, databaseMessageReport);
 
         batchJob.setTotalFiles(controlFile.getFileEntries().size());
-        batchJob.setTenantId(tenantId);
-
-        TenantContext.setTenantId(tenantId);
 
         return controlFile;
-    }
-
-    private String findCurrentTenant(NewBatchJob batchJob) throws IngestionException {
-        File lzFile = new File(batchJob.getTopLevelSourceId());
-
-        return getTenantIdFromDb(lzFile.getAbsolutePath());
     }
 
     /**
@@ -287,22 +276,6 @@ public class ControlFilePreProcessor implements Processor {
         resourceEntry.setTopLevelLandingZonePath(batchJob.getTopLevelSourceId());
 
         batchJob.getResourceEntries().add(resourceEntry);
-    }
-
-    /**
-     * Derive the tenantId using a database look up based on the LZ path
-     * and override the property on the ControlFile with he derived value.
-     *
-     * Throws an IngestionException if a tenantId could not be resolved.
-     */
-    private String getTenantIdFromDb(String lzPath) throws IngestionException {
-        String absLzPath = new File(lzPath).getAbsolutePath();
-        // TODO add user facing error report for no tenantId found
-        String tenantId = tenantDA.getTenantId(absLzPath);
-        if (tenantId == null) {
-            throw new IngestionException("Could not find tenantId for landing zone: " + absLzPath);
-        }
-        return tenantId;
     }
 
     private void auditSecurityEvent(ControlFile controlFile) {

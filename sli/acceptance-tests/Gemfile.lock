@@ -15,7 +15,7 @@ GEM
       bson (~> 1.6.4)
     builder (3.0.0)
     childprocess (0.3.6)
-      ffi (>= 1.0.6, ~> 1.0)
+      ffi (~> 1.0, >= 1.0.6)
     clbustos-rtf (0.4.2)
     cucumber (1.2.1)
       builder (>= 2.1.2)

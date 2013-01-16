@@ -140,15 +140,13 @@ public class LandingZoneProcessor implements Processor {
      */
     private NewBatchJob createNewBatchJob(File lzFile) {
         String batchJobId = NewBatchJob.createId(lzFile.getName());
-        NewBatchJob newJob = new NewBatchJob(batchJobId);
-        newJob.setStatus(BatchJobStatusType.RUNNING.getName());
-        newJob.setTenantId(tenantDA.getTenantId(lzFile.getParent()));
-        LOG.info("Created job [{}]", newJob.getId());
+        String tenantId = tenantDA.getTenantId(lzFile.getParent());
 
-        // Added so that errors are later logged to correct location in case process fails early.
-        File parentFile = lzFile.getParentFile();
-        String topLevelSourceId = parentFile.getAbsolutePath();
-        newJob.setTopLevelSourceId(topLevelSourceId);
+        NewBatchJob newJob = new NewBatchJob(batchJobId, tenantId);
+        newJob.setStatus(BatchJobStatusType.RUNNING.getName());
+        newJob.setTopLevelSourceId(lzFile.getParentFile().getAbsolutePath());
+
+        LOG.info("Created job [{}]", newJob.getId());
 
         return newJob;
     }
