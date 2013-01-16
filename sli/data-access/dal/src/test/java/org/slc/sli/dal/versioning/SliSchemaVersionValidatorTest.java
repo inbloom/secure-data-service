@@ -114,7 +114,7 @@ public class SliSchemaVersionValidatorTest {
     public void shouldCreateAddStrategy() {
         this.sliSchemaVersionValidator.initMigration();
 
-        List<MigrationStrategy> transforms = this.sliSchemaVersionValidator.getMigrationStrategies("student", 2);
+        List<MigrationStrategy> transforms = this.sliSchemaVersionValidator.getMigrationStrategies("student", -1, 2);
 
         Assert.assertEquals(1, transforms.size());
         MigrationStrategy strategy = transforms.get(0);
