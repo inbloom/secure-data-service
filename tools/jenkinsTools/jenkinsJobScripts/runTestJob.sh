@@ -24,7 +24,6 @@ APPSTODEPLOY=$@
 
 ############## Run Tests ###########################
 
-processApps $APPSTODEPLOY
 source "$ROOT/apiTests.sh"
 
 

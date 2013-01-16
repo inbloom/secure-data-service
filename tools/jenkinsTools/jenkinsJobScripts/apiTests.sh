@@ -13,6 +13,8 @@ profileSwapAndPropGen
 
 startSearchIndexer
 
+processApps $APPSTODEPLOY
+
 cd $WORKSPACE/sli/acceptance-tests
 export LANG=en_US.UTF-8
 bundle install --deployment

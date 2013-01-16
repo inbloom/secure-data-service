@@ -43,7 +43,7 @@ profileSwapAndPropGen()
 
 resetDatabases()
 {
-  cd $WORKSPACE/config/scripts
+  cd $WORKSPACE/sli/config/scripts
   sh resetAllDbs.sh
 }
 
