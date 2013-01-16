@@ -16,8 +16,6 @@
 
 package org.slc.sli.ingestion.handler;
 
-import java.io.File;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -28,9 +26,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.slc.sli.ingestion.landingzone.FileResource;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
-import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.DummyMessageReport;
-import org.slc.sli.ingestion.reporting.impl.JobSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 
 /**
@@ -53,11 +49,10 @@ public class ZipFileHandlerTest {
         AbstractMessageReport report = new DummyMessageReport();
         ReportStats reportStats = new SimpleReportStats();
 
-        File ctlFile = zipHandler.handle(zip, report, reportStats);
+        String ctlFile = zipHandler.handle(zip, report, reportStats);
 
         Assert.assertFalse(reportStats.hasErrors());
-        Assert.assertNotNull(ctlFile);
-        Assert.assertTrue(ctlFile.exists());
+        Assert.assertEquals("ControlFile.ctl", ctlFile);
     }
 
     @Test
@@ -67,7 +62,7 @@ public class ZipFileHandlerTest {
         AbstractMessageReport report = new DummyMessageReport();
         ReportStats reportStats = new SimpleReportStats();
 
-        File ctlFile = zipHandler.handle(zip, report, reportStats);
+        String ctlFile = zipHandler.handle(zip, report, reportStats);
 
         Assert.assertTrue(reportStats.hasErrors());
         Assert.assertNull(ctlFile);
@@ -79,9 +74,8 @@ public class ZipFileHandlerTest {
 
         AbstractMessageReport report = new DummyMessageReport();
         ReportStats reportStats = new SimpleReportStats();
-        Source source = new JobSource(null, null);
 
-        File ctlFile = zipHandler.handle(zip, report, reportStats);
+        String ctlFile = zipHandler.handle(zip, report, reportStats);
 
         Assert.assertTrue(reportStats.hasErrors());
         Assert.assertNull(ctlFile);

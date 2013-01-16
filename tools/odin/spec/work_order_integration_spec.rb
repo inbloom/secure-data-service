@@ -130,7 +130,7 @@ describe "WorkOrderProcessor" do
       it "will generate StudentSchoolAssociations with the correct information" do
         factory.school_associations.each{|a|
           a.student.should eq 42
-          a.school.should eq "elem-0000000064"
+          a.school.should eq 64
         }
         factory.school_associations[0].start_date.year.should eq(2001)
         factory.school_associations[0].grade.should eq("Kindergarten")
@@ -141,15 +141,15 @@ describe "WorkOrderProcessor" do
       it "will generate StudentSectionAssociations with the correct information" do
         factory.section_associations.each{|a|
           a.student.should eq 42
-          a.ed_org_id.should eq "elem-0000000064"
+          a.ed_org_id.should eq 64
         }
         section_associations = factory.section_associations.group_by{|a| a.begin_date.year}
         section_associations[2001].count.should eq 2
-        section_associations[2001][0].section.should match(/sctn\-0000000042/)
-        section_associations[2001][1].section.should match(/sctn\-0000000045/)
+        section_associations[2001][0].section.should eq 42
+        section_associations[2001][1].section.should eq 45
         section_associations[2002].count.should eq 2
-        section_associations[2002][0].section.should match(/sctn\-0000000042/)
-        section_associations[2002][1].section.should match(/sctn\-0000000045/)
+        section_associations[2002][0].section.should eq 42
+        section_associations[2002][1].section.should eq 45
       end
 
       it "will generate StudentAssessments with the correct related assessment" do
@@ -170,7 +170,7 @@ describe "WorkOrderProcessor" do
       it "will generate correct cohort associations for the student" do
         factory.cohort_associations.each{|c|
           c.student.should eq 42
-          c.cohort.ed_org_id.should eq "elem-0000000064"
+          c.cohort.ed_org_id.should eq 64
           c.begin_date.should eq c.end_date - 30
         }
         factory.cohort_associations.group_by{|c| c.cohort.identifier}.each{|cohort, associations|
@@ -247,15 +247,15 @@ describe "WorkOrderProcessor" do
       it "will get enrollments for each school" do
         factory.students.should have(1).items
         factory.school_associations[0].start_date.year.should eq(2001)
-        factory.school_associations[0].school.should eq('elem-0000000064')
+        factory.school_associations[0].school.should eq(64)
         factory.school_associations[1].start_date.year.should eq(2002)
-        factory.school_associations[1].school.should eq('midl-0000000065')
+        factory.school_associations[1].school.should eq(65)
         factory.school_associations[2].start_date.year.should eq(2003)
-        factory.school_associations[2].school.should eq('midl-0000000065')
+        factory.school_associations[2].school.should eq(65)
         factory.school_associations[3].start_date.year.should eq(2004)
-        factory.school_associations[3].school.should eq('midl-0000000065')
+        factory.school_associations[3].school.should eq(65)
         factory.school_associations[4].start_date.year.should eq(2005)
-        factory.school_associations[4].school.should eq('high-0000000066')
+        factory.school_associations[4].school.should eq(66)
       end
 
       it "will put graduation plans on the school association iff the school is a high school" do

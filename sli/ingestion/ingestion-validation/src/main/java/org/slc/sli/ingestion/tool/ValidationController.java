@@ -25,7 +25,6 @@ import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.FileResource;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.landingzone.validation.SubmissionLevelException;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
@@ -33,7 +32,6 @@ import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.ControlFileSource;
 import org.slc.sli.ingestion.reporting.impl.DirectorySource;
 import org.slc.sli.ingestion.reporting.impl.FileSource;
-import org.slc.sli.ingestion.reporting.impl.JobSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.reporting.impl.XmlFileSource;
 import org.slc.sli.ingestion.reporting.impl.ZipFileSource;
@@ -48,7 +46,7 @@ import org.slc.sli.ingestion.validation.Validator;
  */
 public class ValidationController {
 
-    private Handler<Resource, File> zipFileHandler;
+    private Handler<Resource, String> zipFileHandler;
 
     private Validator<IngestionFileEntry> complexValidator;
 
@@ -56,21 +54,19 @@ public class ValidationController {
 
     private AbstractMessageReport messageReport;
 
-    private ReportStats reportStats = null;
-
     /*
      * retrieve zip file or control file from the input directory and invoke
      * relevant validator
      */
     public void doValidation(File path) {
-        reportStats = new SimpleReportStats();
+        ReportStats reportStats = new SimpleReportStats();
+
         if (path.isFile()) {
             Source source = new FileSource(path.getName(), null);
-
             if (path.getName().endsWith(".ctl")) {
-                processControlFile(path);
+                processControlFile(path.getParentFile().getAbsoluteFile(), path.getName(), reportStats);
             } else if (path.getName().endsWith(".zip")) {
-                processZip(path);
+                processZip(path, reportStats);
             } else {
                 messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0001);
             }
@@ -80,11 +76,11 @@ public class ValidationController {
         }
     }
 
-    public void processValidators(ControlFile cfile) {
+    public void processValidators(ControlFile cfile, ReportStats reportStats) {
         boolean isValid = false;
         for (IngestionFileEntry ife : cfile.getFileEntries()) {
-            if (ife.getFile() != null) {
-                Source source = new XmlFileSource(ife.getFile().getName(), null);
+            if (ife.isValid()) {
+                Source source = new XmlFileSource(ife.getFileName(), null);
                 messageReport.info(reportStats, source, ValidationMessageCode.VALIDATION_0002, ife.getFileName());
                 isValid = complexValidator.isValid(ife, messageReport, reportStats, source);
                 if (!isValid) {
@@ -96,50 +92,47 @@ public class ValidationController {
         }
     }
 
-    public void processZip(File zipFile) {
+    public void processZip(File zipFile, ReportStats reportStats) {
 
         Source source = new ZipFileSource(zipFile.getName(), null);
         messageReport.info(reportStats, source, ValidationMessageCode.VALIDATION_0005, zipFile.getAbsolutePath());
 
         FileResource zipFileResource = new FileResource(zipFile.getAbsolutePath());
-        File ctlFile = zipFileHandler.handle(zipFileResource, messageReport, reportStats);
+        String ctlFile = zipFileHandler.handle(zipFileResource, messageReport, reportStats);
 
         if (!reportStats.hasErrors()) {
-
-            processControlFile(ctlFile);
+            processControlFile(zipFile, ctlFile, reportStats);
         }
 
         messageReport.info(reportStats, source, ValidationMessageCode.VALIDATION_0006, zipFile.getAbsolutePath());
     }
 
-    public void processControlFile(File ctlFile) {
-
-        Source source = new ControlFileSource(ctlFile.getName(), null);
-        messageReport.info(reportStats, source, ValidationMessageCode.VALIDATION_0007, ctlFile.getAbsolutePath());
+    public void processControlFile(File parentDirectoryOrZipFile, String ctlFile, ReportStats reportStats) {
+        Source source = new ControlFileSource(ctlFile, null);
+        messageReport.info(reportStats, source, ValidationMessageCode.VALIDATION_0007, ctlFile);
 
         try {
-            LocalFileSystemLandingZone lz = new LocalFileSystemLandingZone(ctlFile.getAbsoluteFile().getParentFile());
-            ControlFile cfile = ControlFile.parse(ctlFile, messageReport);
+            ControlFile cfile = ControlFile.parse(parentDirectoryOrZipFile.getAbsolutePath(), ctlFile, messageReport);
 
-            ControlFileDescriptor cfd = new ControlFileDescriptor(cfile, lz);
+            ControlFileDescriptor cfd = new ControlFileDescriptor(cfile, parentDirectoryOrZipFile.getAbsolutePath());
 
             controlFilevalidator.isValid(cfd, messageReport, reportStats, source);
-            processValidators(cfile);
 
+            processValidators(cfile, reportStats);
         } catch (IOException e) {
             messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0008);
         } catch (SubmissionLevelException exception) {
             messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0010, exception.getMessage());
         } finally {
-            messageReport.info(reportStats, source, ValidationMessageCode.VALIDATION_0009, ctlFile.getAbsolutePath());
+            messageReport.info(reportStats, source, ValidationMessageCode.VALIDATION_0009, ctlFile);
         }
     }
 
-    public Handler<Resource, File> getZipFileHandler() {
+    public Handler<Resource, String> getZipFileHandler() {
         return zipFileHandler;
     }
 
-    public void setZipFileHandler(Handler<Resource, File> zipFileHandler) {
+    public void setZipFileHandler(Handler<Resource, String> zipFileHandler) {
         this.zipFileHandler = zipFileHandler;
     }
 

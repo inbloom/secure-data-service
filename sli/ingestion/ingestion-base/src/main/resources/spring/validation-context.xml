@@ -70,6 +70,7 @@
   <bean id="controlFileValidator" class="org.slc.sli.ingestion.landingzone.validation.ControlFileValidator">
     <property name="ingestionFileValidators">
       <list>
+        <bean class="org.slc.sli.ingestion.landingzone.validation.FilePresenceValidator" />
         <bean class="org.slc.sli.ingestion.landingzone.validation.FileFormatValidator" />
         <bean class="org.slc.sli.ingestion.landingzone.validation.FileTypeValidator" />
         <bean class="org.slc.sli.ingestion.landingzone.validation.ChecksumValidator" />

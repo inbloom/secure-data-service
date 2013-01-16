@@ -25,49 +25,35 @@ require_relative "EntityClasses/enum/GradeLevelType.rb"
 # -> helper class for ed-fi entity and interchange generators
 class DataUtility
 
-  #-----------   INTERCHANGE: STUDENT PARENT   ------------
-  # create a student unique state id
-  def self.get_student_unique_state_id(id)
-    "sdnt-" + pad_id_with_zeroes(id, 10)
-  end
-
-  # create a parent unique state id
-  def self.get_parent_unique_state_id(id)
-    "prnt-" + pad_id_with_zeroes(id, 10)
-  end
-  #-----------   INTERCHANGE: STUDENT PARENT   ------------
-
   #-------   INTERCHANGE: EDUCATION ORGANIZATION   --------
   # create state education agency's state organization id
   def self.get_state_education_agency_id(id)
-    return id if id.kind_of? String
-    "stte-" + pad_id_with_zeroes(id, 10)
+    id
   end
 
   # create local education agency's state organization id
   def self.get_local_education_agency_id(id)
-    return id if id.kind_of? String
-    "locl-" + pad_id_with_zeroes(id, 10)
+    id
   end
 
   # create elementary school's state organization id
   def self.get_elementary_school_id(id)
-    "elem-" + pad_id_with_zeroes(id, 10)
+    id
   end
 
   # create middle school's state organization id
   def self.get_middle_school_id(id)
-    "midl-" + pad_id_with_zeroes(id, 10)
+    id
   end
 
   # create high school's state organization id
   def self.get_high_school_id(id)
-    "high-" + pad_id_with_zeroes(id, 10)
+    id
   end
 
   # create course's unique id
   def self.get_course_unique_id(id)
-    "crse-" + pad_id_with_zeroes(id, 10)
+    id
   end
 
   # get course title
@@ -94,20 +80,19 @@ class DataUtility
   #-----------   INTERCHANGE: MASTER SCHEDULE   -----------
   # create a course offering code
   def self.get_course_offering_code(id)
-    "cofr-" + pad_id_with_zeroes(id, 10)
+    id
   end
 
   # create a unique section id
   def self.get_unique_section_id(id)
-    "sctn-" + pad_id_with_zeroes(id, 10)
+    id
   end
   #-----------   INTERCHANGE: MASTER SCHEDULE   -----------
   #-----------   INTERCHANGE: STUDENT PROGRAM   -----------
 
   # create a program id
   def self.get_program_id(id)
-    return id if id.kind_of? String
-    "prgm-" + pad_id_with_zeroes(id, 10)
+    id
   end
 
   #-----------   INTERCHANGE: STUDENT PROGRAM   -----------
@@ -143,10 +128,7 @@ class DataUtility
 
   # create the id for the school based on the given type
   def self.get_school_id(id, type)
-    return id if id.kind_of? String
-    return get_elementary_school_id id if type == :elementary || type == "elementary"
-    return get_middle_school_id id if type == :middle || type == "middle"
-    return get_high_school_id id if type == :high || type == "high"
+    id
   end
 
   def self.pad_id_with_zeroes(id, num_zeroes)

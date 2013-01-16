@@ -103,7 +103,7 @@ public class PurgeProcessorTest {
         Mockito.when(message.getBody(WorkNote.class)).thenReturn(workNote);
 
         NewBatchJob job = new NewBatchJob();
-        job.setProperty("tenantId", "SLI");
+        job.setTenantId("SLI");
         Mockito.when(mockBatchJobDAO.findBatchJobById(BATCHJOBID)).thenReturn(job);
 
         Set<String> collectionNames = new HashSet<String>();
