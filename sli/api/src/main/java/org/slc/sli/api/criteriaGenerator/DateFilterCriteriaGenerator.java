@@ -19,13 +19,9 @@
 package org.slc.sli.api.criteriaGenerator;
 
 import com.sun.jersey.spi.container.ContainerRequest;
-import org.apache.commons.lang3.tuple.Pair;
 import org.slc.sli.api.constants.ParameterConstants;
-import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.domain.NeutralCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -42,34 +38,21 @@ public class DateFilterCriteriaGenerator {
     @Autowired
     EntityIdentifier entityIdentifier;
 
-    @Autowired
-    SessionRangeCalculator sessionRangeCalculator;
-
     private ThreadLocal<GranularAccessFilter> granularAccessFilterStore = new ThreadLocal<GranularAccessFilter>();
     public void generate(ContainerRequest request) {
-
-        List<String> schoolYears = request.getQueryParameters().get(ParameterConstants.SCHOOL_YEARS);
-
-        // only process if there is a schoolYear query parameter
-        if (schoolYears != null && schoolYears.size() > 0) {
-            String schoolYearRange = schoolYears.get(0);
-
-            //Extract date range using session
-            Pair<String, String> dates = sessionRangeCalculator.findDateRange(schoolYearRange);
-
-            // Find appropriate entity to apply filter
-            entityIdentifier.findEntity(request.getPath());
-            builder().forEntity(entityIdentifier.getEntityName())
+        //validate
+        //Extract date range using session
+        //Find appropriate entity to apply filter
+        entityIdentifier.findEntity(request.getPath());
+        builder().forEntity(entityIdentifier.getEntityName())
                 .withAttributes(entityIdentifier.getBeginDateAttribute(), entityIdentifier.getEndDateAttribute())
-                .startingFrom(dates.getLeft())
-                .endingTo(dates.getRight())
+                .startingFrom("")
+                .endingTo("")
                 .build();
-        }
     }
     private DateFilterCriteriaBuilder builder() {
         return new DateFilterCriteriaBuilder();
     }
-
 
     private final class DateFilterCriteriaBuilder {
         private String entityName;
