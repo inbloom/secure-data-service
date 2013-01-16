@@ -92,4 +92,7 @@ FactoryGirl.define do
     initialize_with{ new(42, 16, 32, "My School", "Perpetrator") }
   end
 
+  factory :discipline_action do
+    initialize_with{ new(42, "My School", FactoryGirl.build(:discipline_incident))}
+  end
 end

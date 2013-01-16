@@ -286,7 +286,7 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "CORE_0006" in the resulting error log file for "InterchangeEducationOrganization.xml"
   And I should see "SELF_REFERENCING_DATA" in the resulting error log file for "InterchangeEducationOrganization.xml"
   And I should see "parentEducationAgencyReference" in the resulting error log file for "InterchangeEducationOrganization.xml"
-  And I should see "IL-DAYBREAK" in the resulting error log file for "InterchangeEducationOrganization.xml"
+  And I should see "stateOrganizationId=IL-DAYBREAK" in the resulting error log file for "InterchangeEducationOrganization.xml"
 
 Scenario: Post a zip file containing attendance but no session data: Clean Database
 Given I post "Error_Report2.zip" file as the payload of the ingestion job
@@ -341,7 +341,7 @@ Scenario: Post a zip file and then post it again and make sure the updated date 
   And verify that "metaData.created" is unequal to "metaData.updated"
 
 Scenario: Post an unzipped ctl file and make sure it is not processed
-  Given I post "UnzippedControlFile.ctl" file as the payload of the ingestion job
+  Given I post "UnzippedControlFile.ctl" unzipped file as the payload of the ingestion job
   And the following collections are empty in datastore:
         | collectionName              |
         | student                     |

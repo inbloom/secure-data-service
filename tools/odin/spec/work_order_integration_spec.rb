@@ -65,7 +65,8 @@ describe "WorkOrderProcessor" do
       class Factory
         # student creation
         attr_accessor :students, :school_associations, :assessment_associations, :section_associations, :assessment_items,
-          :parents, :parent_associations, :cohort_associations, :program_associations, :report_cards, :discipline_incidents
+          :parents, :parent_associations, :cohort_associations, :program_associations, :report_cards, :discipline_incidents,
+          :discipline_actions, :student_competencies, :academic_records, :transcripts
         def create(work_order)
           to_build = work_order.build
           @students = to_build.select{|a| a.kind_of? Student}
@@ -78,7 +79,11 @@ describe "WorkOrderProcessor" do
           @program_associations = to_build.select{|a| a.kind_of? StudentProgramAssociation}
           @cohort_associations = to_build.select{|a| a.kind_of? StudentCohortAssociation}
           @report_cards = to_build.select{|a| a.kind_of? ReportCard}
+          @academic_records = to_build.select{|a| a.kind_of? StudentAcademicRecord}
           @discipline_incidents = to_build.select{|a| a.kind_of? StudentDisciplineIncidentAssociation}
+          @discipline_actions = to_build.select{|a| a.kind_of? DisciplineAction}
+          @student_competencies = to_build.select{|a| a.kind_of? StudentCompetency}
+          @transcripts = to_build.select{|a| a.kind_of? CourseTranscript}
         end
       end
 
@@ -169,12 +174,24 @@ describe "WorkOrderProcessor" do
 
       end
 
-      it "will generate the correct number of report cards" do
+      it "will generate the correct number of report cards with valid gpa range" do
         factory.report_cards.should have(2).items
         factory.report_cards.each{|report_card|
           report_card.gpa_given_grading_period.should be <= 4.0
           report_card.gpa_given_grading_period.should be >= 0.0
         }
+      end
+
+      it "will generate the correct number of student competencies" do
+        factory.student_competencies.should have(8).items
+      end
+
+      it "will generate the correct student academic records" do
+        records = factory.academic_records
+        records.should have(2).items
+        records.select{|r| r.session['year'] == 2001}.should have(1).items
+        records.select{|r| r.session['year'] == 2002}.should have(1).items
+        records.map{|r| r.report_card}.should eq factory.report_cards
       end
 
       it "will generate student discipline incident associations when appropriate" do
@@ -183,6 +200,19 @@ describe "WorkOrderProcessor" do
         # This may requiring tweaking some ideas, the important part is that they get generated in some cases
         # but not in others
         factory.discipline_incidents.should have(2).items
+      end
+
+      it "will generate discipline actions for each incident" do
+        factory.discipline_actions.map{|a| a.incidents[0].incident_identifier}.should eq(factory.discipline_incidents.map{|i| i.incident})
+      end
+
+      it "will generate a course transcript for each course taken" do
+        transcripts = factory.transcripts
+        transcripts.should have(factory.section_associations.count).items
+        transcripts.each{|t|
+          t.student_id.should eq 42
+          t.ed_org_id.should eq DataUtility.get_elementary_school_id 64
+        }
       end
     end
 
