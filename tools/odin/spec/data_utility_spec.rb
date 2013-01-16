@@ -33,54 +33,6 @@ describe "DataUtility" do
   end
 
   describe "Generates correct _id for each supported entity" do
-    describe "#get_student_unique_state_id" do
-      it "will generate a student unique state id with the correct format" do
-        DataUtility.get_student_unique_state_id(8042).should match("sdnt-0000008042")
-      end
-    end
-
-    describe "#get_parent_unique_state_id" do
-      it "will generate a student unique state id with the correct format" do
-        DataUtility.get_parent_unique_state_id(8042).should match("prnt-0000008042")
-      end
-    end
-
-    describe "#get_state_education_agency_state_organization_id" do
-      it "will generate a student unique state id with the correct format" do
-        DataUtility.get_state_education_agency_id(8042).should match("stte-0000008042")
-      end
-    end
-
-    describe "#get_local_education_agency_state_organization_id" do
-      it "will generate a student unique state id with the correct format" do
-        DataUtility.get_local_education_agency_id(8042).should match("locl-0000008042")
-      end
-    end
-
-    describe "#get_elementary_school_id" do
-      it "will generate an elementary school stateOrganizationId with the correct format" do
-        DataUtility.get_elementary_school_id(26).should match("elem-0000000026")
-      end
-    end
-
-    describe "#get_middle_school_id" do
-      it "will generate a middle school stateOrganizationId with the correct format" do
-        DataUtility.get_middle_school_id(47).should match("midl-0000000047")
-      end
-    end
-
-    describe "#get_high_school_id" do
-      it "will generate a high school stateOrganizationId with the correct format" do
-        DataUtility.get_high_school_id(100375).should match("high-0000100375")
-      end
-    end
-
-    describe "#get_course_unique_id" do
-      it "will generate a course unique id with the correct format" do
-        DataUtility.get_course_unique_id(100375).should match("crse-0000100375")
-      end
-    end
-
     describe "#get_staff_unique_state_id" do
       it "will generate a staff unique state id with the correct format" do
         DataUtility.get_staff_unique_state_id(146724).should match("stff-0000146724")
@@ -93,38 +45,9 @@ describe "DataUtility" do
       end
     end
 
-    describe "#get_course_offering_code" do
-      it "will generate a course offering code with the correct format" do
-        DataUtility.get_course_offering_code(90125555).should match("cofr-0090125555")
-      end
-    end
-
-    describe "#get_unique_section_id" do
-      it "will generate a unique section id with the correct format" do
-        DataUtility.get_unique_section_id(43).should match("sctn-0000000043")
-      end
-    end
-
-    describe "#get_program_id" do
-      it "will generate a program id with the correct format" do
-        DataUtility.get_program_id(40).should match("prgm-0000000040")
-      end
-    end
   end
 
   describe "Handles requests for entities correctly" do
-    describe "--> request to get elementary school id with string" do
-      it "will return the string that was input" do
-        DataUtility.get_school_id("Daybreak Elementary School", :elementary).should match("Daybreak Elementary School")
-      end
-    end
-
-    describe "--> request to get elementary school id with integer" do
-      it "will return the corresponding elementary school id" do
-        DataUtility.get_school_id(34, :elementary).should match("elem-0000000034")
-      end
-    end
-
     describe "--> request to get staff unique state id with string" do
       it "will return the string that was input" do
         DataUtility.get_staff_unique_state_id("rrogers").should match("rrogers")
@@ -148,19 +71,6 @@ describe "DataUtility" do
         DataUtility.get_teacher_unique_state_id(18).should match("tech-0000000018")
       end
     end
-
-    describe "--> request to get middle school id with integer" do
-      it "will return the corresponding middle school id" do
-        DataUtility.get_school_id(35, :middle).should match("midl-0000000035")
-      end
-    end
-
-    describe "--> request to get high school id with integer" do
-      it "will return the corresponding high school id" do
-        DataUtility.get_school_id(36, :high).should match("high-0000000036")
-      end
-    end
-
     describe "--> request to get random elementary school grade" do
       it "will always return only grades that are in elementary school" do
         grades = [:KINDERGARTEN, :FIRST_GRADE, :SECOND_GRADE, :THIRD_GRADE, :FOURTH_GRADE, :FIFTH_GRADE]
@@ -209,22 +119,6 @@ describe "DataUtility" do
         options = [1,2,3,4,5,6,7,8,9,10]
         subset  = DataUtility.select_num_from_options(@prng, 0, options)
         subset.size.should eq 0
-      end
-    end
-  end
-
-  describe "Handles edge cases" do
-    describe "--> state organization id edge cases" do
-      it "will handle null input" do
-        DataUtility.get_elementary_school_id(nil).should match("elem-0000000000")
-      end
-
-      it "will handle zero input" do
-        DataUtility.get_elementary_school_id(0).should match("elem-0000000000")
-      end
-
-      it "will handle organization ids with more than 10 characters" do
-        DataUtility.get_elementary_school_id(1123581321345589).should match("elem-1123581321345589")
       end
     end
   end

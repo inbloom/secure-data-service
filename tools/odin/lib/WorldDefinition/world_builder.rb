@@ -499,7 +499,7 @@ class WorldBuilder
         session             = Hash.new
         session["term"]     = :YEAR_ROUND
         session["year"]     = year
-        session["name"]     = year.to_s + "-" + (year+1).to_s + " " + SchoolTerm.to_string(:YEAR_ROUND) + " session: " + state_organization_id
+        session["name"] = year.to_s + "-" + (year+1).to_s + " " + SchoolTerm.to_string(:YEAR_ROUND) + " session: " + state_organization_id.to_s
         session["interval"] = interval
         session["edOrgId"]  = state_organization_id
         @world["leas"][index]["sessions"] << session
