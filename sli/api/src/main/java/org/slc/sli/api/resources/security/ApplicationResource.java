@@ -56,7 +56,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
@@ -405,11 +404,8 @@ public class ApplicationResource extends UnversionedResource {
 
 
                 //validate sandbox user isn't trying to authorize an edorg outside of their tenant
-                if (!edOrgsBelongToTenant(edOrgs)) {
-                    EntityBody body = new EntityBody();
-                    body.put(MESSAGE, "Attempt to authorized edorg in sandbox outside of tenant.");
-                    return Response.status(Status.BAD_REQUEST).entity(body).build();
-                }
+                edOrgs = sanitizeEdorgs(edOrgs);
+                app.put(AUTHORIZED_ED_ORGS, edOrgs);
 
                 service = store.lookupByResourceName(ApplicationAuthorizationResource.RESOURCE_NAME).getService();
                 iterateEdOrgs(uuid, edOrgs);
@@ -460,21 +456,19 @@ public class ApplicationResource extends UnversionedResource {
     /**
      * In sandbox mode, a user can only authorize edorgs stamped with the user's own tenant ID,
      * which is the external ID (email address) of the user.
-     *
+     * 
      * @param edOrgs
-     * @return
+     * @return a new list of edorgs you can actaully authorize
      */
-    private boolean edOrgsBelongToTenant(List<String> edOrgs) {
-        SecurityContext context = SecurityContextHolder.getContext();
-        SLIPrincipal principal = (SLIPrincipal) context.getAuthentication().getPrincipal();
-        String sandboxTenant = principal.getExternalId();
+    private List<String> sanitizeEdorgs(List<String> edOrgs) {
         EntityService edorgService = store.lookupByResourceName(ResourceNames.EDUCATION_ORGANIZATIONS).getService();
-
-
-        NeutralQuery query = new NeutralQuery();
-        query.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, edOrgs, false));
-        long count = edorgService.count(query);
-        return edOrgs.size() == count;
+        List<String> safeEdorgs = new ArrayList<String>();
+        for (String id : edOrgs) {
+            if (edorgService.exists(id)) {
+                safeEdorgs.add(id);
+            }
+        }
+        return safeEdorgs;
     }
 
     private void iterateEdOrgs(String uuid, List<String> edOrgIds) {
