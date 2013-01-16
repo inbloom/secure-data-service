@@ -218,8 +218,7 @@ class StudentWorkOrder
     other_programs     = DataUtility.select_num_from_options(@rand, num_other_programs, programs)
     other_programs.each do |other_program|
       program_id = DataUtility.get_program_id(other_program[:id])
-      ed_org_id  = DataUtility.get_state_education_agency_id(other_program[:ed_org_id]) if other_program[:sponsor] == :STATE_EDUCATION_AGENCY
-      ed_org_id  = DataUtility.get_local_education_agency_id(other_program[:ed_org_id]) if other_program[:sponsor] == :LOCAL_EDUCATION_AGENCY
+      ed_org_id = other_program['ed_org_id']
       associations << StudentProgramAssociation.new(@id, program_id, ed_org_id, begin_date, end_date)
     end
     associations
@@ -245,6 +244,8 @@ class StudentWorkOrder
           final_grades = []
           student_competencies = []
           academic_subjects = AcademicSubjectType.get_academic_subjects(grade)
+          code_values = (@scenario["COMPETENCY_LEVEL_DESCRIPTORS"] or []).collect{|competency_level_descriptor| competency_level_descriptor['code_value']}
+          code_values = [1, 2, 3] if code_values.empty?
           sections.each{|course_offering, available_sections|
             section    = available_sections[@id % available_sections.count]
             index_in_section = ((@id + section[:id]) / available_sections.count) % @scenario['STUDENTS_PER_SECTION'][type.to_s]
@@ -276,7 +277,7 @@ class StudentWorkOrder
             academic_subject = AcademicSubjectType.to_string(academic_subjects[section[:id] % academic_subjects.size])
             num_objectives = (@scenario["NUM_LEARNING_OBJECTIVES_PER_SUBJECT_AND_GRADE"] or 2)
             LearningObjective.build_learning_objectives(num_objectives, academic_subject, GradeLevelType.to_string(grade)).each {|learning_objective|
-              student_competency = StudentCompetency.new(learning_objective, student_section_association)
+              student_competency = StudentCompetency.new(code_values[(section[:id] + @id) % code_values.size], learning_objective, student_section_association)
               student_competencies << student_competency
               rval << student_competency
             }

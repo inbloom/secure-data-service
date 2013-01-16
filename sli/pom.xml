@@ -18,6 +18,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <lifecycle.mapping.version>1.0.0</lifecycle.mapping.version>
         <sli.build.tools>1.0-SNAPSHOT</sli.build.tools>
+	<test.threadcount>2</test.threadcount>
         <!-- Maven Plugin Versions -->
         <maven.compiler.version>2.3.2</maven.compiler.version>
         <maven.jar.version>2.3.2</maven.jar.version>
@@ -1084,7 +1085,7 @@
                 <configuration>
                     <runOrder>alphabetical</runOrder>
                     <parallel>methods</parallel>
-                    <threadCount>2</threadCount>
+                    <threadCount>${test.threadcount}</threadCount>
                     <systemPropertyVariables>
                         <emma.rt.control>false</emma.rt.control>
                         <sli.conf>${sli.conf}</sli.conf>
