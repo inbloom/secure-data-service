@@ -19,12 +19,14 @@ deployHash=( [api]="$WORKSPACE/sli/api/target/api.war"
 ############### Process Inputs #####################
 
 WHICHTEST=$1
+GITCOMMIT=$2
+shift
 shift
 APPSTODEPLOY=$@
 
 ############## Run Tests ###########################
 
-source "$ROOT/apiTests.sh"
+source "$ROOT/${WHICHTEST}Tests.sh"
 
 
 ####################################################
