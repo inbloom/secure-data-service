@@ -18,8 +18,8 @@ package org.slc.sli.common.util.scope;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.Scope;
 import org.springframework.context.support.SimpleThreadScope;
@@ -30,7 +30,7 @@ import org.springframework.core.NamedThreadLocal;
  * cleanup method that will clear all the TheadLocal data for the current thread.
  */
 public class CustomThreadScope implements Scope {
-    private static final Log LOGGER = LogFactory.getLog(CustomThreadScope.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(CustomThreadScope.class);
 
     private static final ThreadLocal<Map<String, Object>> THREAD_SCOPE =
             new NamedThreadLocal<Map<String, Object>>("SimpleThreadScope") {
