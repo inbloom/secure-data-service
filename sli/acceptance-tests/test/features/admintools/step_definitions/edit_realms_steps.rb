@@ -49,8 +49,8 @@ When /^I should click the "([^"]*)" button$/ do |buttonText|
   @driver.find_elements(:xpath, ".//input[@value='#{buttonText}']")[0].click
 end
 
-Then /^I should be redirected back to the edit page$/ do
-  #No code necessary
+Then /^I should be redirected back to the realm listing page$/ do
+  #No code necessary, this step is just to make Gherkin read happy
 end
 
 Then /^I should receive a notice that the realm was successfully "([^"]*)"$/ do |action|

@@ -14,9 +14,10 @@ Scenario: Realm administrator editing an existing realm
     Then I should see that I am on the "Fake Realm" edit page
     And I should enter "Edited Fake" into the Display Name field
     And I should click the "Save" button
-    Then I should be redirected back to the edit page
+    Then I should be redirected back to the realm listing page
     And I should receive a notice that the realm was successfully "updated"
     And I see the realms for "NC-KRYPTON"
+    And the realm "Edited Fake" will exist
   
 Scenario: Realm Administrator deleting a existing realm
   When I see the realms for "NC-KRYPTON"
@@ -24,12 +25,12 @@ Scenario: Realm Administrator deleting a existing realm
   Then I see the realms for "NC-KRYPTON"
   And the realm "Fake Realm" will not exist
 
-Scenario: Realm Administrator creating a new realm
+Scenario: Realm Administrator creating a new realm with none existing
   And I should see that I am on the new realm page
   And all of the input fields should be blank
   When I enter valid data into all fields
   And I should click the "Save" button
-  Then I should be redirected back to the edit page
+  Then I should be redirected back to the realm listing page
   And I should receive a notice that the realm was successfully "created"
   And I see the realms for "NC-KRYPTON"
   And the realm "Brand New Realm" will exist
