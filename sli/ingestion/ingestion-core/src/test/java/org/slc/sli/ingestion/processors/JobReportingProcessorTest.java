@@ -30,7 +30,6 @@ import java.util.Map;
 import org.apache.camel.Exchange;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.impl.DefaultExchange;
-import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -103,7 +102,16 @@ public class JobReportingProcessorTest {
 
     @After
     public void tearDown() throws Exception {
-        FileUtils.deleteDirectory(tmpDir);
+        if (tmpDir.exists()) {
+            String[] files = tmpDir.list();
+            for (String temp : files) {
+                // construct the file structure
+                File fileToDelete = new File(tmpDir, temp);
+                fileToDelete.delete();
+            }
+
+            tmpDir.delete();
+        }
     }
 
     @Test
@@ -137,7 +145,7 @@ public class JobReportingProcessorTest {
                 mockedBatchJobDAO.getBatchJobErrors(Matchers.eq(BATCHJOBID), Matchers.eq(RESOURCEID),
                         Matchers.eq(FaultType.TYPE_ERROR), Matchers.anyInt())).thenReturn(fakeErrorIterable);
         Mockito.when(
-                mockedBatchJobDAO.getBatchJobErrors(Matchers.eq(BATCHJOBID), (String)Matchers.isNull(),
+                mockedBatchJobDAO.getBatchJobErrors(Matchers.eq(BATCHJOBID), (String) Matchers.isNull(),
                         Matchers.eq(FaultType.TYPE_ERROR), Matchers.anyInt())).thenReturn(fakeErrorIterable);
 
         Mockito.when(
