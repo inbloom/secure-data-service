@@ -71,12 +71,12 @@ public class ValidationControllerTest {
 
         ValidationController vc = Mockito.spy(validationController);
         Mockito.doNothing().when(vc).processControlFile(Mockito.eq(ctlDirectory),
-                Mockito.eq("Test.ctl"), Mockito.any(ReportStats.class), Mockito.any(Source.class));
+                Mockito.eq("Test.ctl"), Mockito.any(ReportStats.class));
 
         vc.doValidation(ctlFile);
 
         Mockito.verify(vc, Mockito.atLeastOnce()).processControlFile(Mockito.eq(ctlDirectory),
-                Mockito.eq("Test.ctl"), Mockito.any(ReportStats.class), Mockito.any(Source.class));
+                Mockito.eq("Test.ctl"), Mockito.any(ReportStats.class));
     }
 
     @Test
@@ -101,11 +101,11 @@ public class ValidationControllerTest {
         Mockito.when(zipFile.isFile()).thenReturn(true);
 
         ValidationController vc = Mockito.spy(validationController);
-        Mockito.doNothing().when(vc).processZip(Mockito.eq(zipFile), Mockito.any(ReportStats.class), Mockito.any(Source.class));
+        Mockito.doNothing().when(vc).processZip(Mockito.eq(zipFile), Mockito.any(ReportStats.class));
 
         vc.doValidation(zipFile);
 
-        Mockito.verify(vc, Mockito.atLeastOnce()).processZip(Mockito.eq(zipFile), Mockito.any(ReportStats.class), Mockito.any(Source.class));
+        Mockito.verify(vc, Mockito.atLeastOnce()).processZip(Mockito.eq(zipFile), Mockito.any(ReportStats.class));
     }
 
     @Test
@@ -130,8 +130,6 @@ public class ValidationControllerTest {
         ReportStats rs = Mockito.mock(ReportStats.class);
         Mockito.when(rs.hasErrors()).thenReturn(false);
 
-        Source source = new JobSource(zipFileName, "");
-
         AbstractMessageReport messageReport = Mockito.mock(AbstractMessageReport.class);
 
         PrivateAccessor.setField(validationController, "messageReport", messageReport);
@@ -142,12 +140,12 @@ public class ValidationControllerTest {
         ValidationController vc = Mockito.spy(validationController);
 
         Mockito.doNothing().when(vc).processControlFile(Mockito.any(FileResource.class),
-                Mockito.any(String.class), Mockito.any(ReportStats.class), Mockito.any(Source.class));
+                Mockito.any(String.class), Mockito.any(ReportStats.class));
 
         Mockito.doReturn(zipFile.getName()).when(handler).handle(zipFileResource, messageReport, rs);
 
         vc.setZipFileHandler(handler);
-        vc.processZip(zipFileResource, rs, source);
+        vc.processZip(zipFileResource, rs);
         Mockito.verify(handler, Mockito.atLeastOnce()).handle(zipFileResource, messageReport, rs);
     }
 
@@ -160,8 +158,6 @@ public class ValidationControllerTest {
         ReportStats reportStats = Mockito.mock(ReportStats.class);
         Mockito.when(reportStats.hasErrors()).thenReturn(true);
 
-        Source source = new JobSource(zipFileName, "");
-
         File zipFile = (new ClassPathResource(zipFileName)).getFile();
         FileResource zipFileResource = new FileResource(zipFile.getAbsolutePath());
 
@@ -172,8 +168,8 @@ public class ValidationControllerTest {
         PrivateAccessor.setField(validationController, "messageReport", messageReport);
 
         Mockito.doReturn("Session1.ctl").when(handler).handle(zipFileResource, messageReport, reportStats);
-        vc.processZip(zipFileResource, reportStats, source);
-        Mockito.verify(vc, Mockito.never()).processControlFile(zipFileResource, "Session1.ctl", reportStats, source);
+        vc.processZip(zipFileResource, reportStats);
+        Mockito.verify(vc, Mockito.never()).processControlFile(zipFileResource, "Session1.ctl", reportStats);
     }
 
     @Test
@@ -196,9 +192,7 @@ public class ValidationControllerTest {
         ReportStats reportStats = Mockito.mock(ReportStats.class);
         Mockito.when(reportStats.hasErrors()).thenReturn(true);
 
-        Source source = new JobSource(xmlFile.getName(), "");
-
-        validationController.processValidators(cfl, reportStats, source);
+        validationController.processValidators(cfl, reportStats);
 
         Mockito.verify(messageReport, Mockito.atLeastOnce()).info(Matchers.any(ReportStats.class),
                 Matchers.any(Source.class), Matchers.eq(ValidationMessageCode.VALIDATION_0003), Matchers.eq(xmlFile.getName()));
@@ -224,9 +218,7 @@ public class ValidationControllerTest {
         ReportStats reportStats = Mockito.mock(ReportStats.class);
         Mockito.when(reportStats.hasErrors()).thenReturn(false);
 
-        Source source = new JobSource(xmlFile.getName(), "");
-
-        validationController.processValidators(cfl, reportStats, source);
+        validationController.processValidators(cfl, reportStats);
         Mockito.verify(messageReport, Mockito.atLeastOnce()).info(Matchers.any(ReportStats.class),
                 Matchers.any(Source.class), Matchers.eq(ValidationMessageCode.VALIDATION_0002), Matchers.eq(xmlFile.getName()));
     }
@@ -245,12 +237,10 @@ public class ValidationControllerTest {
 
         PrivateAccessor.setField(validationController, "messageReport", messageReport);
 
-        Source source = new JobSource(controlFileName, "");
-
-        vc.processControlFile(ctlFile.getParentFile(), ctlFile.getName(), reportStats, source);
+        vc.processControlFile(ctlFile.getParentFile(), ctlFile.getName(), reportStats);
 
         Mockito.verify(vc).processValidators(Mockito.any(ControlFile.class),
-                Mockito.any(ReportStats.class), Mockito.any(Source.class));
+                Mockito.any(ReportStats.class));
     }
 
     @Test
@@ -265,9 +255,7 @@ public class ValidationControllerTest {
         ReportStats reportStats = Mockito.mock(ReportStats.class);
         Mockito.when(reportStats.hasErrors()).thenReturn(false);
 
-        Source source = new JobSource(invalidControlFile, "");
-
-        validationController.processControlFile(ctlFile.getParentFile(), ctlFile.getName(), reportStats, source);
+        validationController.processControlFile(ctlFile.getParentFile(), ctlFile.getName(), reportStats);
 
         Mockito.verify(messageReport).error(Matchers.any(ReportStats.class),
                 Matchers.any(Source.class), Matchers.eq(ValidationMessageCode.VALIDATION_0010), Matchers.anyString());
