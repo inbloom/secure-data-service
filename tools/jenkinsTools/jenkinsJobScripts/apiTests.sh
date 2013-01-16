@@ -1,7 +1,6 @@
 #!/bin/bash
 
-mongo --eval "db.adminCommand( { setParameter: 1, notablescan: false } )"
-/usr/sbin/cleanup_tomcat
+noTableScanAndCleanTomcat
 
 resetDatabases
 
