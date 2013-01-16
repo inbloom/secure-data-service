@@ -24,7 +24,7 @@
   </bean>
 
    <!-- MONGODB CONFIG -->
-   <mongo:mongo id="sliMongo" host="${sli.mongodb.host}" port="${sli.mongodb.port}">
+   <mongo:mongo id="sliMongo" replica-set="${sli.mongodb.host}">
       <mongo:options connections-per-host="${sli.mongodb.connections}" auto-connect-retry="true" socket-timeout="600000" socket-keep-alive="true" slave-ok="false"/>
    </mongo:mongo>
 

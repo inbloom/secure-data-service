@@ -73,7 +73,7 @@ public class ZipFileProcessorTest {
         preObject.getIn().setBody(IngestionTest.getFile("zip/ValidZip.zip"));
 
         String batchJobId = NewBatchJob.createId("ValidZip.zip");
-        NewBatchJob mockedJob = new NewBatchJob(batchJobId);
+        NewBatchJob mockedJob = new NewBatchJob(batchJobId, "SLI");
         File zipFile = IngestionTest.getFile("zip/ValidZip.zip");
         createResourceEntryAndAddToJob(zipFile, mockedJob);
         mockedJob.setSourceId("zip");
@@ -83,7 +83,7 @@ public class ZipFileProcessorTest {
         zipProc.process(preObject);
 
         Assert.assertNotNull(preObject.getIn().getBody());
-        Assert.assertEquals("ControlFile.ctl", ((File) preObject.getIn().getBody()).getName());
+        Assert.assertEquals("ControlFile.ctl", preObject.getIn().getHeader("ResourceId"));
     }
 
     @Test
@@ -94,7 +94,7 @@ public class ZipFileProcessorTest {
         preObject.getIn().setBody(IngestionTest.getFile("zip/NoControlFile.zip"));
 
         String batchJobId = NewBatchJob.createId("NoControlFile.zip");
-        NewBatchJob mockedJob = new NewBatchJob(batchJobId);
+        NewBatchJob mockedJob = new NewBatchJob(batchJobId, "SLI");
         File zipFile = IngestionTest.getFile("zip/NoControlFile.zip");
         createResourceEntryAndAddToJob(zipFile, mockedJob);
         mockedJob.setSourceId("zip");
@@ -116,5 +116,4 @@ public class ZipFileProcessorTest {
         resourceName.setResourceFormat(FileFormat.ZIP_FILE.getCode());
         newJob.getResourceEntries().add(resourceName);
     }
-
 }

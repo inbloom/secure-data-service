@@ -89,7 +89,6 @@ public class StudentAssessmentItemTests {
         Assert.assertEquals(100, m.get("rawScoreResult"));
 
         Map<String, Object> pIds = nr.getLocalParentIds();
-        Assert.assertEquals("sass-ref", pIds.get("studentResultRef"));
         Assert.assertEquals("aii-code", pIds.get("assessmentItemIdentificatonCode"));
     }
 

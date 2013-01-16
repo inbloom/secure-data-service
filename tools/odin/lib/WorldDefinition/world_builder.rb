@@ -499,7 +499,7 @@ class WorldBuilder
         session             = Hash.new
         session["term"]     = :YEAR_ROUND
         session["year"]     = year
-        session["name"]     = year.to_s + "-" + (year+1).to_s + " " + SchoolTerm.to_string(:YEAR_ROUND) + " session: " + state_organization_id
+        session["name"] = year.to_s + "-" + (year+1).to_s + " " + SchoolTerm.to_string(:YEAR_ROUND) + " session: " + state_organization_id.to_s
         session["interval"] = interval
         session["edOrgId"]  = state_organization_id
         @world["leas"][index]["sessions"] << session
@@ -761,6 +761,7 @@ class WorldBuilder
     create_master_schedule_work_orders
     create_staff_association_work_orders
     create_student_and_enrollment_work_orders
+    create_competency_level_descriptor_work_order
   end
 
   # writes ed-fi xml interchange: education organization entities:
@@ -1180,6 +1181,12 @@ class WorldBuilder
 
   def create_student_and_enrollment_work_orders
     generate_student_work_orders.each { |work_order| @queue.push_work_order(work_order) }
+  end
+
+  def create_competency_level_descriptor_work_order
+    (@scenarioYAML["COMPETENCY_LEVEL_DESCRIPTORS"] or []).each_with_index{ |competency_level_descriptor|
+      @queue.push_work_order CompetencyLevelDescriptor.new(competency_level_descriptor['code_value'], competency_level_descriptor['description'], competency_level_descriptor['performance_base_conversion'])
+    }
   end
 
   def create_assessments(begin_year, num_years)

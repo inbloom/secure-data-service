@@ -114,7 +114,7 @@ end
 def replace_api_version(version)
   puts "---- Replace API versions in URLs with \"#{@old_version}\" in test code"
   Dir[File.join("#{@extract_dest}/acceptance-tests/test/features", "**", "*.{rb,feature}")].each do |f|
-    text = File.read(f).gsub(/\/v\d+\.?\d*\//, "/#{@old_version}/")
+    text = File.read(f).gsub(/v\d+\.?\d*/, "#{@old_version}")
     File.open(f, "w") do |f|
       f.write text
     end
@@ -154,7 +154,7 @@ def run_test(tasks)
   puts "---- Run #{tasks}"
   Dir.chdir("#{@extract_dest}/acceptance-tests")
   run_cmd "bundle install"
-  run_cmd "bundle exec rake #{tasks} FORCE_COLOR=1 TOGGLE_TABLESCANS=1"
+  run_cmd "bundle exec rake #{tasks} FORCE_COLOR=1 TOGGLE_TABLESCANS=1 FAILSLOW=1"
 end
 
 def clean_up

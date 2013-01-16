@@ -21,7 +21,6 @@ import static org.junit.Assert.assertTrue;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.PrintStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -31,6 +30,7 @@ import java.util.Map;
 import org.apache.camel.Exchange;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.impl.DefaultExchange;
+import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -50,7 +50,6 @@ import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.dal.NeutralRecordRepository;
-import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -82,8 +81,6 @@ public class JobReportingProcessorTest {
     private static final String ERRORDETAIL = "errorDetail";
     private static final String NULLERRORDETAIL = "null errorDetail";
 
-    private static PrintStream printOut = new PrintStream(System.out);
-
     @InjectMocks
     JobReportingProcessor jobReportingProcessor = new JobReportingProcessor();
 
@@ -99,24 +96,14 @@ public class JobReportingProcessorTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        if (tmpDir.mkdirs()) {
-            printOut.println("Created temp directory " + tmpDir.getAbsolutePath());
-        }
+        tmpDir.mkdirs();
+
         jobReportingProcessor.setCommandTopicUri("seda:ingestion.command");
     }
 
     @After
     public void tearDown() throws Exception {
-        if (tmpDir.exists()) {
-            String[] files = tmpDir.list();
-
-            for (String temp : files) {
-                // construct the file structure
-                File fileToDelete = new File(tmpDir, temp);
-                fileToDelete.delete();
-            }
-        }
-        tmpDir.delete();
+        FileUtils.deleteDirectory(tmpDir);
     }
 
     @Test
@@ -129,6 +116,7 @@ public class JobReportingProcessorTest {
         NewBatchJob mockedJob = new NewBatchJob(BATCHJOBID, "192.168.59.11", "finished", 1, mockedProperties,
                 mockedStages, mockedResourceEntries);
         mockedJob.setSourceId(TEMP_DIR);
+        mockedJob.setTopLevelSourceId(TEMP_DIR);
 
         Iterable<Error> fakeErrorIterable = createFakeErrorIterable();
 
@@ -162,10 +150,6 @@ public class JobReportingProcessorTest {
         // create exchange
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
         exchange.getIn().setBody(workNote, WorkNote.class);
-
-        LocalFileSystemLandingZone tmpLz = new LocalFileSystemLandingZone(tmpDir);
-        // jobReportingProcessor.setLandingZone(tmpLz);
-        printOut.println("Writing to " + tmpLz.getDirectory().getAbsolutePath());
 
         jobReportingProcessor.setBatchJobDAO(mockedBatchJobDAO);
         jobReportingProcessor.process(exchange);

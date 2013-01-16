@@ -50,6 +50,8 @@ public class NewBatchJob implements Job {
     @Id
     private String id;
 
+    private String tenantId;
+
     private String sourceId;
 
     private String topLevelSourceId;
@@ -74,8 +76,9 @@ public class NewBatchJob implements Job {
         initStartTime();
     }
 
-    public NewBatchJob(String id) {
+    public NewBatchJob(String id, String tenantId) {
         this.id = id;
+        this.tenantId = tenantId;
         this.batchProperties = new HashMap<String, String>();
         this.stages = new LinkedList<Stage>();
         this.resourceEntries = new LinkedList<ResourceEntry>();
@@ -117,13 +120,6 @@ public class NewBatchJob implements Job {
         jobStopTimestamp = BatchJobUtils.getCurrentTimeStamp();
     }
 
-    public static NewBatchJob createJobForFile(String fileName) {
-
-        String id = createId(fileName);
-
-        return new NewBatchJob(id);
-    }
-
     /**
      * generates a new unique ID
      */
@@ -137,15 +133,11 @@ public class NewBatchJob implements Job {
 
     @Override
     public String getTenantId() {
-        String tenantId = getProperty("tenantId");
-        if (tenantId == null) {
-            tenantId = "SLI";
-        }
         return tenantId;
     }
 
     public void setTenantId(String tenantId) {
-        setProperty("tenantId", tenantId);
+        this.tenantId = tenantId;
     }
 
     @Override
@@ -183,7 +175,6 @@ public class NewBatchJob implements Job {
 
     public void setSourceId(String sourceId) {
         this.sourceId = sourceId;
-        this.topLevelSourceId = deriveTopLevelSourceId(sourceId);
     }
 
     private String deriveTopLevelSourceId(String sourceId) {
@@ -324,35 +315,19 @@ public class NewBatchJob implements Job {
 
         // create IngestionFileEntry items from eligible ResourceEntry items
         for (ResourceEntry resourceEntry : resourceEntries) {
-            String lzPath = resourceEntry.getTopLevelLandingZonePath();
             FileFormat fileFormat = FileFormat.findByCode(resourceEntry.getResourceFormat());
             if (fileFormat != null && resourceEntry.getResourceType() != null) {
 
                 FileType fileType = FileType.findByNameAndFormat(resourceEntry.getResourceType(), fileFormat);
                 if (fileType != null) {
-                    IngestionFileEntry ingestionFileEntry = new IngestionFileEntry(fileFormat, fileType,
-                            resourceEntry.getResourceId(), resourceEntry.getChecksum(), lzPath);
+                    IngestionFileEntry ingestionFileEntry = new IngestionFileEntry(resourceEntry.getResourceZipParent(), fileFormat, fileType,
+                            resourceEntry.getResourceId(), resourceEntry.getChecksum());
                     ingestionFileEntries.add(ingestionFileEntry);
                 }
             }
         }
 
         return ingestionFileEntries;
-    }
-
-    @Override
-    public boolean addFile(IngestionFileEntry ingestionFileEntry) {
-
-        ResourceEntry resourceEntry = new ResourceEntry();
-        resourceEntry.setResourceId(ingestionFileEntry.getFileName());
-        resourceEntry.setResourceName(ingestionFileEntry.getFileName());
-        resourceEntry.setChecksum(ingestionFileEntry.getChecksum());
-        resourceEntry.setResourceFormat(ingestionFileEntry.getFileFormat().getCode());
-        resourceEntry.setResourceType(ingestionFileEntry.getFileType().getName());
-        resourceEntry.setExternallyUploadedResourceId(ingestionFileEntry.getFileName());
-        resourceEntry.setTopLevelLandingZonePath(ingestionFileEntry.getTopLevelLandingZonePath());
-
-        return resourceEntries.add(resourceEntry);
     }
 
     public ResourceEntry getZipResourceEntry() {
