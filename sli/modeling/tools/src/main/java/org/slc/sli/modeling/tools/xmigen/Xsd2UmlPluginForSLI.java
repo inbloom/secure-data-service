@@ -231,10 +231,10 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
                     taggedValues.add(new TaggedValue("true", tagDefinition));
                 } else if (SliMongoConstants.SLI_BEGIN_DATE.equals(name)) {
                     final Identifier tagDefinition = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_BEGIN_DATE);
-                    taggedValues.add(new TaggedValue("true", tagDefinition));
+                    taggedValues.add(new TaggedValue(SliUmlConstants.TAGDEF_BEGIN_DATE, tagDefinition));
                 } else if (SliMongoConstants.SLI_END_DATE.equals(name)) {
                     final Identifier tagDefinition = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_END_DATE);
-                    taggedValues.add(new TaggedValue("true", tagDefinition));
+                    taggedValues.add(new TaggedValue(SliUmlConstants.TAGDEF_END_DATE, tagDefinition));
                 } else if (!(SliMongoConstants.SLI_SCHEMA_VERSION.equals(name))) {
                     throw new AssertionError("Unexpected element in appinfo: " + name);
                 }

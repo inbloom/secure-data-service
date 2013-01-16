@@ -22,7 +22,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.model.ModelProvider;
-import org.slc.sli.modeling.psm.helpers.SliUmlConstants;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.TaggedValue;
@@ -86,15 +85,7 @@ public class EntityIdentifier {
     }
 
     private void getAttributes(ClassType entityType) {
-       List<Attribute> attributeList = modelProvider.getAttributes(entityType);
-        for(Attribute attribute: attributeList) {
-            List<TaggedValue> taggedValueList = attribute.getTaggedValues();
-            for(TaggedValue tag: taggedValueList) {
-                if (modelProvider.getTagDefinition(tag.getTagDefinition()).getName().equals(SliUmlConstants.TAGDEF_BEGIN_DATE)) {
-                    beginDateAttribute = attribute.getName();
-                    break;
-                }
-            }
-        }
+        beginDateAttribute = entityType.getBeginDateAttribute().getName();
+        endDateAttribute = entityType.getEndDateAttribute().getName();
     }
 }
