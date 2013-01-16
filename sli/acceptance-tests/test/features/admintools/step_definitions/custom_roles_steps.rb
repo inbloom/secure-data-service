@@ -260,6 +260,9 @@ When /^I click on the Reset Mapping button$/ do
 end
 
 Then /^the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves$/ do
+  # Why oh why does Jenkins hate me so, sleep to appease the CI Gods
+  sleep 2
+
   # Seach for two occurances of each of the default roles as elements of <td>s, one being client role other being default role 
   ["Educator","Leader","Aggregate Viewer","IT Administrator"].each do |role|
     results = @driver.find_elements(:xpath, "//td/div[text()='#{role}']")

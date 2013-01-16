@@ -55,19 +55,11 @@ Then I have navigated to my Custom Role Mapping Page
 And the user "custom" in tenant "IL" can access the API with rights "Read General"
 And I edit the group "New Custom"
 When I add the right "WRITE_GENERAL" to the group "New Custom"
+And I check the admin role box
 And I hit the save button
 Then I am no longer in edit mode
 And the group "New Custom" contains the rights "Read and Write General"
 And the user "custom" in tenant "IL" can access the API with rights "Read and Write General"
-
-@production
-Scenario: Add admin flag to group
-When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
-Then I have navigated to my Custom Role Mapping Page
-And I edit the group "New Custom"
-When I check the admin role box
-And I hit the save button
-Then I am no longer in edit mode
 And the group "New Custom" has the admin role box checked
 
 @production
