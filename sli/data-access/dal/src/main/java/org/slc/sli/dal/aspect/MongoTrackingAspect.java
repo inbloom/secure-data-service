@@ -124,13 +124,22 @@ public class MongoTrackingAspect {
         }
         return result;
     }
-    
+        
     /**
      * Track calls in the various implementation of the Repository interface. 
      */
     
     @Around("call(* org.slc.sli.domain.Repository+.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test) && !within(org..*MongoPerfRepository)")
     public Object trackDALCalls(ProceedingJoinPoint pjp) throws Throwable {
+        return trackCalls(pjp); 
+    }
+    
+    @Around("call(* org.slc.sli.api.resources.*(..)) || call(* org.slc.sli.api.security.*(..)) || call(* org.slc.sli.api.service.*(..))")
+    public Object trackAPICalls(ProceedingJoinPoint pjp) throws Throwable {
+        return trackCalls(pjp); 
+    }
+    
+    private Object trackCalls(ProceedingJoinPoint pjp) throws Throwable {
 
         Object result; 
         if (Boolean.valueOf(dbCallTracking)) {

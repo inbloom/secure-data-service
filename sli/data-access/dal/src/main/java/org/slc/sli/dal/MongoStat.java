@@ -65,7 +65,7 @@ public class MongoStat {
     public void startRequest(String reqestId) { 
         dbHitCount = 0; 
         requestId = requestId;
-        stats = new ArrayList<List<Object>>(1000);  
+        stats.clear();   
     }
     
     public void addEvent(String eventType, String eventId, Long timeStamp, List<String> args) {
