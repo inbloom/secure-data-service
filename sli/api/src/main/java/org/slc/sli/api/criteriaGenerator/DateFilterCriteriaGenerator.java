@@ -41,8 +41,11 @@ public class DateFilterCriteriaGenerator {
         //Extract date range using session
         //Find appropriate entity to apply filter
         entityIdentifier.findEntity(request.getPath());
-        //Use above two points to build criteria
-
+        builder().forEntity(entityIdentifier.getEntityName())
+                .withAttributes(entityIdentifier.getBeginDateAttribute(), entityIdentifier.getEndDateAttribute())
+                .startingFrom("")
+                .endingTo("")
+                .build();
     }
     private DateFilterCriteriaBuilder builder() {
         return new DateFilterCriteriaBuilder();

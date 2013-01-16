@@ -16,15 +16,7 @@
 
 package org.slc.sli.api.model;
 
-import org.slc.sli.modeling.uml.AssociationEnd;
-import org.slc.sli.modeling.uml.Attribute;
-import org.slc.sli.modeling.uml.ClassType;
-import org.slc.sli.modeling.uml.Generalization;
-import org.slc.sli.modeling.uml.Identifier;
-import org.slc.sli.modeling.uml.Model;
-import org.slc.sli.modeling.uml.ModelElement;
-import org.slc.sli.modeling.uml.TagDefinition;
-import org.slc.sli.modeling.uml.Type;
+import org.slc.sli.modeling.uml.*;
 import org.slc.sli.modeling.uml.index.DefaultModelIndex;
 import org.slc.sli.modeling.uml.index.ModelIndex;
 import org.slc.sli.modeling.xmi.reader.XmiReader;
@@ -271,6 +263,20 @@ public class ModelProvider {
         }
 
         return toType.equals(endType);
+    }
+    public List<String> getAssociatedDatedEntities(final ClassType entityType) {
+        List<String> associatedDatedEntities = entityType.getAssociatedDatedCollectionStore();
+        if(associatedDatedEntities == null) {
+            associatedDatedEntities = new ArrayList<String>();
+            List<TaggedValue> taggedValues = entityType.getTaggedValues();
+            for(TaggedValue taggedValue: taggedValues) {
+                if(modelIndex.getTagDefinition(taggedValue.getTagDefinition()).getName().equals("dataStore.associatedDatedCollection")) {
+                    associatedDatedEntities.add(taggedValue.getValue());
+                }
+            }
+        }
+        entityType.setAssociatedDatedCollectionStore(associatedDatedEntities);
+        return entityType.getAssociatedDatedCollectionStore();
     }
 }
 

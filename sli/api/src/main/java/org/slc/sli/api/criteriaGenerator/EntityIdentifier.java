@@ -80,12 +80,28 @@ public class EntityIdentifier {
         String resource = resources.get(resources.size() - 1);
         EntityDefinition definition = entityDefinitionStore.lookupByResourceName(resource);
         ClassType entityType = modelProvider.getClassType(StringUtils.capitalize(definition.getType()));
-        getAttributes(entityType);
-        entityName = resource;
+        if (populateAttributes(entityType)) {
+            entityName = resource;
+        } else {
+            List<String> associations = modelProvider.getAssociatedDatedEntities(entityType);
+            for(String association: associations) {
+               if(request.toLowerCase().contains(association.toLowerCase())) {
+                   populateAttributes(modelProvider.getClassType(association));
+                   entityName = request.substring(request.toLowerCase().indexOf(association.toLowerCase())).split("/")[0];
+               }
+            }
+        }
+        //Enable this once all entities have stamped in ComplextTypes.xsd
+//        if (entityName.isEmpty() || beginDateAttribute.isEmpty() || endDateAttribute.isEmpty()) {
+//            throw new IllegalArgumentException("Cannot Identify execution path for uri " + request);
+//        }
     }
 
-    private void getAttributes(ClassType entityType) {
-        beginDateAttribute = entityType.getBeginDateAttribute().getName();
-        endDateAttribute = entityType.getEndDateAttribute().getName();
+    private boolean populateAttributes(ClassType entityType) {
+
+        beginDateAttribute = (entityType.getBeginDateAttribute()!=null)?entityType.getBeginDateAttribute().getName():"";
+        endDateAttribute = (entityType.getEndDateAttribute()!=null)?entityType.getEndDateAttribute().getName():"";
+
+        return !(beginDateAttribute.isEmpty() && endDateAttribute.isEmpty());
     }
 }

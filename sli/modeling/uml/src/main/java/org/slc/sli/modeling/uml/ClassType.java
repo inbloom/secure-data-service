@@ -24,8 +24,8 @@ import java.util.List;
  */
 public class ClassType extends ComplexType implements Navigable {
     private static final List<Attribute> EMPTY_ATTRIBUTE_LIST = Collections.emptyList();
-    private static final String BEGIN_DATE = "datastore.beginDate";
-    private static final String END_DATE = "datastore.endDate";
+    private static final String BEGIN_DATE = "dataStore.beginDate";
+    private static final String END_DATE = "dataStore.endDate";
     /**
      * Checks the invariant that either both ends are specified or both omitted.
      */
@@ -68,6 +68,15 @@ public class ClassType extends ComplexType implements Navigable {
     private final AssociationEnd rhs;
     private Attribute beginDateAttribute;
 
+    private Attribute endDateAttribute;
+
+
+    public void setAssociatedDatedCollectionStore(List<String> associatedDatedCollectionStore) {
+        this.associatedDatedCollectionStore = associatedDatedCollectionStore;
+    }
+
+    private List<String> associatedDatedCollectionStore ;
+
     public Attribute getBeginDateAttribute() {
         return beginDateAttribute;
     }
@@ -76,8 +85,10 @@ public class ClassType extends ComplexType implements Navigable {
         return endDateAttribute;
     }
 
-    private Attribute endDateAttribute;
-    
+    public List<String> getAssociatedDatedCollectionStore() {
+        return associatedDatedCollectionStore;
+    }
+
     public ClassType(final AssociationEnd lhs, final AssociationEnd rhs) {
         this(Identifier.random(), "", lhs, rhs, EMPTY_TAGGED_VALUES);
     }
@@ -106,10 +117,10 @@ public class ClassType extends ComplexType implements Navigable {
             List<TaggedValue> taggedValueList = attribute.getTaggedValues();
             for(TaggedValue taggedValue: taggedValueList) {
                 if(taggedValue.getValue().equals(BEGIN_DATE)) {
-                    beginDateAttribute = attribute;
+                    this.beginDateAttribute = attribute;
                 }
                 if(taggedValue.getValue().equals(END_DATE)) {
-                    endDateAttribute = attribute;
+                    this.endDateAttribute = attribute;
                 }
             }
         }
