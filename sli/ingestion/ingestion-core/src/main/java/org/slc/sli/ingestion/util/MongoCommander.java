@@ -288,11 +288,10 @@ public final class MongoCommander {
 				return sresult;
 			}
         }
-        preSplitRecordHash(dbName, mongoTemplate);
-        return null;
+        return preSplitRecordHash(dbName, mongoTemplate);
     }
 
-    private static void preSplitRecordHash(String dbName,  MongoTemplate mongoTemplate) {
+    private static String preSplitRecordHash(String dbName,  MongoTemplate mongoTemplate) {
         DB dbConn = mongoTemplate.getDb().getSisterDB("admin");
         List<String> shards = getShards(dbConn);
         if (shards != null && shards.size() > 0) {
@@ -302,11 +301,16 @@ public final class MongoCommander {
             DBObject shardColl = new BasicDBObject();
             shardColl.put("shardCollection", collection);
             shardColl.put("key", new BasicDBObject(ID, 1));
-            dbConn.command(shardColl);
+            CommandResult result = dbConn.command(shardColl);
+            if (!result.ok()) {
+                LOG.error("Error enabling shard'ing on recordHash: {}", result.getErrorMessage());
+               return result.getErrorMessage();
+            }
 
             int charOffset = 256 / numShards;
             List<byte[]> shardPoints = new ArrayList<byte[]>();
-            for (int shard = 0; shard < numShards; shard++) {
+            shardPoints.add(null);
+            for (int shard = 1; shard < numShards; shard++) {
                 String splitString = Integer.toHexString(charOffset * shard);
                 if (splitString.length() < 2) {
                     splitString = "0" + splitString;
@@ -320,19 +324,30 @@ public final class MongoCommander {
                 DBObject splitCmd = new BasicDBObject();
                 splitCmd.put("split", collection);
                 splitCmd.put("middle", new BasicDBObject(ID, splitPoint));
-                dbConn.command(splitCmd);
+                result = dbConn.command(splitCmd);
+                if (!result.ok()) {
+                    LOG.error("Error splitting chunk in recordHash: {}", result.getErrorMessage());
+                    return result.getErrorMessage();
+                }
             }
 
             for (int index = 0; index < numShards; index++) {
                 DBObject moveCommand = new BasicDBObject();
                 moveCommand.put("moveChunk", collection);
-                moveCommand.put("find", new BasicDBObject(ID, shardPoints.get(index)));
+                moveCommand.put("find", new BasicDBObject(ID, index == 0 ? "$minkey" : shardPoints.get(index)));
                 moveCommand.put("to", shards.get(index));
-                dbConn.command(moveCommand);
+                result = dbConn.command(moveCommand);
+                if (!result.ok()) {
+                	if (!result.getErrorMessage().equals("that chunk is already on that shard")) {
+                		LOG.error("Error moving chunk in recordHash: {}", result.getErrorMessage());
+                		return result.getErrorMessage();
+                	}
+                }
             }
         } else {
             LOG.info("No shards or shard count < 0. Not setting sharding config for recordHash!");
         }
+        return null;
     }
 
 
