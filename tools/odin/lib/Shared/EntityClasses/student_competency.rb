@@ -21,7 +21,7 @@ class StudentCompetency < BaseEntity
 
   attr_accessor :code_value, :learning_objective, :student_section_association
 
-  def initialize(code_value = 3, learning_objective, student_section_association)
+  def initialize(code_value, learning_objective, student_section_association)
     @code_value = code_value
     @learning_objective = [learning_objective]
     @student_section_association = [student_section_association]
