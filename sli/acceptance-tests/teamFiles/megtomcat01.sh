@@ -34,14 +34,14 @@ git checkout $branch
 git pull
 cd /opt/megatron/sli/build-tools/
 mvn clean package install
-cp /opt/megatron/sli/sli/acceptance-tests/test/data/megtomcat01_application_fixture.json /opt/megatron/sli/sli/acceptance-tests/test/data/application_fixture.json
-cp /opt/megatron/sli/sli/acceptance-tests/test/data/megtomcat01_realm_fixture.json /opt/megatron/sli/sli/acceptance-tests/test/data/realm_fixture.json
-cp /opt/megatron/sli/sli/acceptance-tests/test/data/megtomcat01_securityEvent_fixture.json /opt/megatron/sli/sli/acceptance-tests/test/data/securityEvent_fixture.json
-cp /opt/megatron/sli/sli/acceptance-tests/test/features/utils/megtomcat01_properties.yml /opt/megatron/sli/sli/acceptance-tests/test/features/utils/properties.yml
+cp /opt/megatron/sli/sli/acceptance-tests/test/data/teamData/megtomcat01_application_fixture.json /opt/megatron/sli/sli/acceptance-tests/test/data/application_fixture.json
+cp /opt/megatron/sli/sli/acceptance-tests/test/data/teamData/megtomcat01_realm_fixture.json /opt/megatron/sli/sli/acceptance-tests/test/data/realm_fixture.json
+cp /opt/megatron/sli/sli/acceptance-tests/test/data/teamData/megtomcat01_securityEvent_fixture.json /opt/megatron/sli/sli/acceptance-tests/test/data/securityEvent_fixture.json
+cp /opt/megatron/sli/sli/acceptance-tests/test/features/utils/teamProps/megtomcat01_properties.yml /opt/megatron/sli/sli/acceptance-tests/test/features/utils/properties.yml
 cp /opt/megatron/sli/sli/admin-tools/admin-rails/config/megtomcat01_admin_config.yml /opt/megatron/sli/sli/admin-tools/admin-rails/config/config.yml
 cp /opt/megatron/sli/sli/databrowser/config/megtomcat01_databrowser_config.yml /opt/megatron/sli/sli/databrowser/config/config.yml
-cp /opt/megatron/sli/sli/acceptance-tests/megtomcat01.properties /opt/tomcat/apache-tomcat-7.0.34/conf/sli.properties
-cp /opt/megatron/sli/sli/acceptance-tests/megtomcat01.properties /opt/megatron/sli/sli/config/properties/sli.properties
+cp /opt/megatron/sli/sli/acceptance-tests/teamFiles/megtomcat01.properties /opt/tomcat/apache-tomcat-7.0.34/conf/sli.properties
+cp /opt/megatron/sli/sli/acceptance-tests/teamFiles/megtomcat01.properties /opt/megatron/sli/sli/config/properties/sli.properties
 cd /opt/megatron/sli/sli/config/scripts/
 sh resetAllDbs.sh
 cd /opt/megatron/sli/sli/admin-tools/admin-rails/
@@ -94,8 +94,8 @@ bundle exec rake FORCE_COLOR=true api_server_url=http://megtomcat01.slidev.org a
 #curl http://tomcat:s3cret@localhost/manager/text/undeploy?path=/sif-agent
 #curl http://tomcat:s3cret@localhost/manager/text/stop?path=/simple-idp
 #curl http://tomcat:s3cret@localhost/manager/text/undeploy?path=/simple-idp
-#cp /opt/megatron/sli/sli/acceptance-tests/megtomcat01_sandbox.properties /opt/tomcat/apache-tomcat-7.0.34/conf/sli.properties
-#cp /opt/megatron/sli/sli/acceptance-tests/megtomcat01_sandbox.properties /opt/megatron/sli/sli/config/properties/sli.properties
+#cp /opt/megatron/sli/sli/acceptance-tests/teamFiles/megtomcat01_sandbox.properties /opt/tomcat/apache-tomcat-7.0.34/conf/sli.properties
+#cp /opt/megatron/sli/sli/acceptance-tests/teamFiles/megtomcat01_sandbox.properties /opt/megatron/sli/sli/config/properties/sli.properties
 #cd /opt/megatron/sli/sli/config/scripts/
 #sh resetAllDbs.sh
 #cd /opt/megatron/sli/sli/admin-tools/admin-rails/
