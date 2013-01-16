@@ -53,10 +53,10 @@ sed -i.bk2 's#local.slidev.org#megtomcat01.slidev.org#g' securityEvent_fixture.j
 cd /opt/megatron/sli/sli/databrowser/config/
 sed -i.bk 's#/jsonws/headerfooter#/jsonws/headerfooter-not#g' config.yml
 sed -i.bk2 's#:8080/#/#g' config.yml
-sed -i.bk3 's#local.slidev.org#megtomcat01.slidev.org#g'config.yml
+sed -i.bk3 's#local.slidev.org#megtomcat01.slidev.org#g' config.yml
 cd /opt/megatron/sli/sli/admin-tools/admin-rails/config/
 sed -i.bk 's#:8080/#/#g' config.yml
-sed -i.bk2 's#local.slidev.org#megtomcat01.slidev.org#g'config.yml
+sed -i.bk2 's#local.slidev.org#megtomcat01.slidev.org#g' config.yml
 cd /opt/megatron/sli/sli/config/scripts/
 ruby webapp-provision.rb ../config.in/canonical_config.yml local ../properties/sli.properties
 cd ../properties/
