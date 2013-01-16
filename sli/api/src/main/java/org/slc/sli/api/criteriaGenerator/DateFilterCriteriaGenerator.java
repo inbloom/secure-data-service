@@ -20,6 +20,7 @@ package org.slc.sli.api.criteriaGenerator;
 
 import com.sun.jersey.spi.container.ContainerRequest;
 import org.slc.sli.domain.NeutralCriteria;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -30,11 +31,16 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class DateFilterCriteriaGenerator {
+
+    @Autowired
+    EntityIdentifier entityIdentifier;
+
     private ThreadLocal<GranularAccessFilter> granularAccessFilterStore = new ThreadLocal<GranularAccessFilter>();
     public void generate(ContainerRequest request) {
         //validate
         //Extract date range using session
         //Find appropriate entity to apply filter
+        entityIdentifier.findEntity(request.getPath());
         //Use above two points to build criteria
 
     }
