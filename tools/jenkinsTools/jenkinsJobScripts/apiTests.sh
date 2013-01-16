@@ -1,11 +1,13 @@
 #!/bin/bash
 
-source utils.sh
+PRG="$0"
+ROOT=`dirname "$PRG"`
+source "$ROOT/utils.sh"
 
 mongo --eval "db.adminCommand( { setParameter: 1, notablescan: false } )"
 /usr/sbin/cleanup_tomcat
 
-cd sli
+cd $WORKSPACE/sli
 sh profile_swap.sh $NODE_NAME
 cd config/scripts
 sh resetAllDbs.sh
@@ -22,7 +24,7 @@ curlUndeploy api
 #curl "http://tomcat:s3cret@localhost:8080/manager/text/deploy?path=/api&war=file:$WORKSPACE/sli/api/target/api.war"
 curlDeploy api "$WORKSPACE/sli/api/target/api.war"
 
-cd sli/acceptance-tests
+cd $WORKSPACE/sli/acceptance-tests
 export LANG=en_US.UTF-8
 bundle install --deployment
 bundle exec rake FORCE_COLOR=true api_server_url=https://$NODE_NAME.slidev.org apiAndSecurityTests TOGGLE_TABLESCANS=true

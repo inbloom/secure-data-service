@@ -26,8 +26,6 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.slc.sli.ingestion.landingzone.LandingZone;
-
 /**
  * Utility class to calculate MD5 on a file.
  *
@@ -38,27 +36,13 @@ public class MD5 {
 
     private static final Logger LOG = LoggerFactory.getLogger(MD5.class);
 
-    public static String calculate(String fileName, LandingZone lz) {
-        String md5 = "";
-
-        File f = lz.getFile(fileName);
-
-        if (f != null) {
-            md5 = calculate(f);
-        }
-
-        return md5;
-    }
-
     public static String calculate(File f) {
         String md5 = "";
-
 
         try {
             md5 = DigestUtils.md5Hex( new BufferedInputStream( new FileInputStream(f) ) );
         } catch (IOException e) {
           LOG.error( "Error opening file: " + f.getAbsolutePath(), e );
-
         }
 
         return md5;

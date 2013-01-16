@@ -13,7 +13,7 @@ curlUndeploy()
 curlDeploy()
 {
   APP=$1
-  PATH=$2
-  echo "Deploy app $APP to path $PATH"
-  curl "http://tomcat:s3cret@localhost:8080/manager/text/deploy?path=/$APP&war=file:$PATH"
+  APPFILEPATH=$2
+  echo "Deploy app $APP to path $APPFILEPATH"
+  curl "http://tomcat:s3cret@localhost:8080/manager/text/deploy?path=/$APP&war=file:$APPFILEPATH"
 }

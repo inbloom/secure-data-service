@@ -44,7 +44,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.BatchJobStage;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
-import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
@@ -359,7 +358,7 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
      * insertion in queue.
      */
     // FIXME: remove once deterministic ids are in place.
-    private ReportStats persistSelfReferencingEntity(WorkNote workNote, Job job, Map<String, Metrics> perFileMetrics,
+    private ReportStats persistSelfReferencingEntity(WorkNote workNote, NewBatchJob job, Map<String, Metrics> perFileMetrics,
             String stageName, ReportStats reportStatsForCollection, ReportStats reportStatsForNrEntity,
             Iterable<NeutralRecord> records) {
 
@@ -482,10 +481,10 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
         return null;
     }
 
-    private SimpleEntity transformNeutralRecord(NeutralRecord record, Job job, ReportStats reportStats) {
+    private SimpleEntity transformNeutralRecord(NeutralRecord record, NewBatchJob job, ReportStats reportStats) {
         LOG.debug("processing transformable neutral record of type: {}", record.getRecordType());
 
-        String tenantId = getTenantId(job);
+        String tenantId = job.getTenantId();
         record.setRecordType(record.getRecordType().replaceFirst("_transformed", ""));
         record.setSourceId(tenantId);
 
@@ -541,22 +540,6 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
      */
     private static ReportStats createReportStats(String batchJobId, String resourceId, String stageName) {
         return new SimpleReportStats();
-    }
-
-    /**
-     * Gets the tenant id of the current batch job.
-     *
-     * @param job
-     *            current batch job.
-     * @return tenant id.
-     */
-    private static String getTenantId(Job job) {
-        // TODO this should be determined based on the sourceId
-        String tenantId = job.getProperty("tenantId");
-        if (tenantId == null) {
-            tenantId = "SLI";
-        }
-        return tenantId;
     }
 
     private static String getCollectionToPersistFrom(String collectionNameAsStaged, EntityPipelineType entityPipelineType) {

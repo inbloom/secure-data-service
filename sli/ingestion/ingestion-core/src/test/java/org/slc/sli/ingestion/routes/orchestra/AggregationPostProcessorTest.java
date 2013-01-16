@@ -31,8 +31,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.ingestion.WorkNote;
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 /**
 *
@@ -53,10 +51,6 @@ public class AggregationPostProcessorTest {
     @Test
     public void testProcess() {
         Exchange preObject = new DefaultExchange(new DefaultCamelContext());
-
-        IngestionFileEntry entry = Mockito.mock(IngestionFileEntry.class);
-        NewBatchJob job = Mockito.mock(NewBatchJob.class);
-        job.addFile(entry);
 
         BatchJobDAO dao = Mockito.mock(BatchJobDAO.class);
         FINISHED_ENTITIES.add(RECORD_TYPE);

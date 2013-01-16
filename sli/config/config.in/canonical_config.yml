@@ -177,7 +177,7 @@ default:
         # Pit (worker) nodes
         sli.ingestion.queue.pit.queueURI: seda:IngestionPit
         sli.ingestion.queue.pit.consumerQueueURI: seda:IngestionPit
-        sli.ingestion.queue.pit.concurrentConsumers: 5
+        sli.ingestion.queue.pit.concurrentConsumers: 30
         sli.ingestion.queue.pit.uriOptions:
 
         sli.ingestion.nodeType: standalone
@@ -462,7 +462,7 @@ acceptance-tests:
         # Pit (worker) nodes
         sli.ingestion.queue.pit.queueURI: activemq:queue:IngestionPit
         sli.ingestion.queue.pit.consumerQueueURI: txActivemq:queue:IngestionPit
-        sli.ingestion.queue.pit.concurrentConsumers: 5
+        sli.ingestion.queue.pit.concurrentConsumers: 30
         sli.ingestion.queue.pit.uriOptions: '&transferExchange=true'
 
         #Reference Schema reference check
@@ -1154,7 +1154,7 @@ team:
         # Pit (worker) nodes
         sli.ingestion.queue.pit.queueURI: activemq:queue:ingestion.pit
         sli.ingestion.queue.pit.consumerQueueURI: txActivemq:queue:ingestion.pit
-        sli.ingestion.queue.pit.concurrentConsumers: 5
+        sli.ingestion.queue.pit.concurrentConsumers: 30
         sli.ingestion.queue.pit.uriOptions: '&transferExchange=true'
 
         sli.ingestion.tenant.loadDefaultTenants: true
