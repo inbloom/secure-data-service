@@ -33,7 +33,7 @@ public class OAuthAccessException extends Exception {
      * 
      */
     public enum OAuthError {
-        INVALID_REQUEST, INVALID_GRANT, UNAUTHORIZED_CLIENT, UNSUPPORTED_GRANT_TYPE, INVALID_SCOPE, INVALID_CLIENT;
+        INVALID_REQUEST, INVALID_GRANT, UNAUTHORIZED_CLIENT, UNSUPPORTED_GRANT_TYPE, INVALID_SCOPE, INVALID_CLIENT, INVALID_TOKEN;
         
         @Override
         public String toString() {

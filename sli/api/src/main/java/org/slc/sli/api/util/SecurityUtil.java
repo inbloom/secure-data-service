@@ -34,6 +34,8 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.oauth.OAuthAccessException;
+import org.slc.sli.api.security.oauth.OAuthAccessException.OAuthError;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.enums.Right;
@@ -212,12 +214,8 @@ public class SecurityUtil {
         if (auth instanceof OAuth2Authentication
                 && ((OAuth2Authentication) auth).getUserAuthentication() instanceof AnonymousAuthenticationToken) {
             
-            //We use the details field of the auth to store error details (See OauthMongoSessionManager)
-            String error = (String) auth.getDetails();
-            if (error == null) {
-                error = "Login required.";
-            }
-            throw new InsufficientAuthenticationException(error);
+            //We use the details field of the auth to store an embedded OAuthException, if applicable            
+            throw new InsufficientAuthenticationException("Unauthorized", (Throwable) auth.getDetails());
         }
     }
 

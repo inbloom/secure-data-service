@@ -50,6 +50,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.oauth2.common.exceptions.RedirectMismatchException;
 import org.springframework.security.oauth2.provider.ClientToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -264,6 +265,24 @@ public class OauthMongoSessionManager implements OauthSessionManager {
     /**
      * Loads session referenced by the headers
      * 
+     * If there's a problem with the token, we embed a relevant {@link OAuth2Exception} in the auth's details field
+     * 
+     * Per Oauth spec:
+     * 
+     * If the protected resource request included an access token and failed
+     * authentication, the resource server SHOULD include the "error"
+     * attribute to provide the client with the reason why the access
+     * request was declined.
+     * 
+     * In addition, the resource server MAY include the
+     * "error_description" attribute to provide developers a human-readable
+     * explanation that is not meant to be displayed to end-users.
+     * 
+     * If the request lacks any authentication information (e.g., the client
+     * was unaware that authentication is necessary or attempted using an
+     * unsupported authentication method), the resource server SHOULD NOT
+     * include an error code or other error information.
+     * 
      * @param headers
      * @return
      */
@@ -346,14 +365,14 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                 }
             } else {
                 //details is a convenient place to store an error message
-                auth.setDetails("Invalid session.");
+                auth.setDetails(new OAuthAccessException(OAuthError.INVALID_TOKEN, "The access token does not exist or is expired."));
             }
         } else {
             //details is a convenient place to store an error message
             if (authz == null) {
-                auth.setDetails("No Authorization header specified.");
+                auth.setDetails(null);  //oauth spec says not to give detailed error information if token isn't included
             } else {
-                auth.setDetails("Authorization header must be of the form 'Bearer <token>'");
+                auth.setDetails(new OAuthAccessException(OAuthError.INVALID_TOKEN, "Authorization header must be of the form 'Bearer <token>'"));
             } 
         }
         return auth;
