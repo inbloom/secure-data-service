@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
+  
+  <DbOperation Action="DELETE" Cascade="true">
+
+    <EducationOrgReference>
+      <EducationalOrgIdentity>
+	<StateOrganizationId>IL</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrgReference>
+
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>CAP0-D0-HSch0</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>CAP0-D0-HSch0-cse0-1</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+
+    <LocationReference>
+      <LocationIdentity>
+        <ClassroomIdentificationCode>Sample Class</ClassroomIdentificationCode>
+        <StateOrganizationId>Sample School</StateOrganizationId>
+      </LocationIdentity>
+    </LocationReference>
+
+  </DbOperation>
+  
+</InterchangeEducationOrganization>
