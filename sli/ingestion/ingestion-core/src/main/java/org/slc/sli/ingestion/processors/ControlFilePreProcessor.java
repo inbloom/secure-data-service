@@ -172,10 +172,13 @@ public class ControlFilePreProcessor implements Processor {
 
             if (onboardingLockIsAcquired) {
 
-                runDbSpinUpScripts(tenantId);
-
-                isNowReady = tenantDA.tenantDbIsReady(tenantId);
-                LOG.info("Tenant ready flag for {} now marked: {}", tenantId, isNowReady);
+                String result = runDbSpinUpScripts(tenantId);
+                if (result != null) {
+                    LOG.error("Spinup scripts failed for {}, not setting tenant as ready", tenantId);
+                } else {
+                    isNowReady = tenantDA.tenantDbIsReady(tenantId);
+                    LOG.info("Tenant ready flag for {} now marked: {}", tenantId, isNowReady);
+                }
             }
 
             return isNowReady;
@@ -183,18 +186,25 @@ public class ControlFilePreProcessor implements Processor {
         }
     }
 
-    private void runDbSpinUpScripts(String tenantId) {
+    private String runDbSpinUpScripts(String tenantId) {
 
         String jsEscapedTenantId = StringEscapeUtils.escapeJavaScript(tenantId);
         String dbName = TenantIdToDbName.convertTenantIdToDbName(jsEscapedTenantId);
 
         LOG.info("Running tenant indexing script for tenant: {} db: {}", tenantId, dbName);
-        MongoCommander.ensureIndexes(INDEX_SCRIPT, dbName, batchJobDAO.getMongoTemplate());
+        String result = MongoCommander.ensureIndexes(INDEX_SCRIPT, dbName, batchJobDAO.getMongoTemplate());
+        if (result != null) {
+			return result;
+		}
 
         LOG.info("Running tenant presplit script for tenant: {} db: {}", tenantId, dbName);
-        MongoCommander.preSplit(shardCollections, dbName, batchJobDAO.getMongoTemplate());
+        result = MongoCommander.preSplit(shardCollections, dbName, batchJobDAO.getMongoTemplate());
+        if (result != null) {
+			return result;
+		}
 
         tenantDA.setTenantReadyFlag(tenantId);
+        return null;
     }
 
     private void setExchangeBody(Exchange exchange, ControlFileDescriptor controlFileDescriptor,

@@ -17,11 +17,8 @@ cp $WORKSPACE/sli/common/common-encrypt/trust/* /opt/tomcat/trust/
 cd ../../search-indexer
 scripts/local_search_indexer.sh restart target/search_indexer.tar.gz -Dsli.conf=/opt/tomcat/conf/sli.properties -Dsli.encryption.keyStore=/opt/tomcat/encryption/ciKeyStore.jks -Dlock.dir=data/
 
-#curl http://tomcat:s3cret@localhost:8080/manager/text/stop?path=/api
 curlStop api
-#curl http://tomcat:s3cret@localhost:8080/manager/text/undeploy?path=/api
 curlUndeploy api
-#curl "http://tomcat:s3cret@localhost:8080/manager/text/deploy?path=/api&war=file:$WORKSPACE/sli/api/target/api.war"
 curlDeploy api "$WORKSPACE/sli/api/target/api.war"
 
 cd $WORKSPACE/sli/acceptance-tests
