@@ -1,4 +1,5 @@
-{{! 
+=begin
+
 Copyright 2012 Shared Learning Collaborative, LLC
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,11 +13,18 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-}}
-{{#entity}}
-  <CompetencyLevelDescriptor>
-      <CodeValue>{{code_value}}</CodeValue>
-      <Description>{{description}}</Description>
-      <PerformanceBaseConversion>{{performance_base_conversion}}</PerformanceBaseConversion>
-  </CompetencyLevelDescriptor>
-{{/entity}}
+
+=end
+
+# creates competency level descriptor
+class CompetencyLevelDescriptor < BaseEntity
+
+  attr_accessor :code_value, :description, :performance_base_conversion
+
+  def initialize(code_value, description, performance_base_conversion)
+    @code_value = code_value
+    @description = description
+    @performance_base_conversion = performance_base_conversion
+  end
+
+end

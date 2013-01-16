@@ -200,7 +200,9 @@ describe "WorldBuilder" do
       it "will generate each of the behavior descriptors" do
         @queue.count(BehaviorDescriptor).should eq 3
       end
-
+      it "will generate each of the competency level descriptors" do
+        @queue.count(CompetencyLevelDescriptor).should eq 4
+      end
     end
   end
 

@@ -50,12 +50,17 @@ describe "WorkOrderProcessor" do
 
   let(:config) {YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))}
   let(:prng) {Random.new(config['seed'])}
+  let(:competency_level_descriptors) {[
+      {'code_value' => 'Code Value 1', "description" => "Description 1"},
+      {'code_value' => 'Code Value 2', "description" => "Description 2"},
+  ]}
   let(:scenario) {Scenario.new({'BEGIN_YEAR' => 2001, 'NUMBER_OF_YEARS' => 2, 
                     'ASSESSMENTS_TAKEN' => {'GRADE_WIDE_ASSESSMENTS' => 5}, 'ASSESSMENTS_PER_GRADE'=>3,
                     'ASSESSMENT_ITEMS_PER_ASSESSMENT' => {'GRADE_WIDE_ASSESSMENTS' => 3},
                     'STUDENTS_PER_SECTION' => {'high' => 2, 'middle' => 2, 'elementary' => 2},
                     'INCIDENTS_PER_SECTION' => 1,
-                    'INCLUDE_PARENTS' => true, 'COHORTS_PER_SCHOOL' => 4, 'PROBABILITY_STUDENT_IN_COHORT' => 1, 'DAYS_IN_COHORT' => 30})}
+                    'INCLUDE_PARENTS' => true, 'COHORTS_PER_SCHOOL' => 4, 'PROBABILITY_STUDENT_IN_COHORT' => 1, 'DAYS_IN_COHORT' => 30,
+                    'COMPETENCY_LEVEL_DESCRIPTORS' => competency_level_descriptors})}
   describe "#build" do
 
     let(:entity_queue) {EntityQueue.new}
@@ -66,7 +71,7 @@ describe "WorkOrderProcessor" do
         # student creation
         attr_accessor :students, :school_associations, :assessment_associations, :section_associations, :assessment_items,
           :parents, :parent_associations, :cohort_associations, :program_associations, :report_cards, :discipline_incidents,
-          :discipline_actions, :student_competencies, :academic_records
+          :discipline_actions, :student_competencies, :academic_records, :transcripts
         def create(work_order)
           to_build = work_order.build
           @students = to_build.select{|a| a.kind_of? Student}
@@ -83,6 +88,7 @@ describe "WorkOrderProcessor" do
           @discipline_incidents = to_build.select{|a| a.kind_of? StudentDisciplineIncidentAssociation}
           @discipline_actions = to_build.select{|a| a.kind_of? DisciplineAction}
           @student_competencies = to_build.select{|a| a.kind_of? StudentCompetency}
+          @transcripts = to_build.select{|a| a.kind_of? CourseTranscript}
         end
       end
 
@@ -181,8 +187,11 @@ describe "WorkOrderProcessor" do
         }
       end
 
-      it "will generate the correct number of student competencies" do
+      it "will generate the correct number of student competencies with valid code values" do
         factory.student_competencies.should have(8).items
+        factory.student_competencies.each{|student_competency|
+          ["Code Value 1", "Code Value 2"].should include(student_competency.code_value)
+        }
       end
 
       it "will generate the correct student academic records" do
@@ -203,6 +212,15 @@ describe "WorkOrderProcessor" do
 
       it "will generate discipline actions for each incident" do
         factory.discipline_actions.map{|a| a.incidents[0].incident_identifier}.should eq(factory.discipline_incidents.map{|i| i.incident})
+      end
+
+      it "will generate a course transcript for each course taken" do
+        transcripts = factory.transcripts
+        transcripts.should have(factory.section_associations.count).items
+        transcripts.each{|t|
+          t.student_id.should eq 42
+          t.ed_org_id.should eq DataUtility.get_elementary_school_id 64
+        }
       end
     end
 
