@@ -159,9 +159,9 @@ public class MongoCommanderTest {
         MongoCommander.preSplit(shardCollections, dbName, mockedMongoTemplate);
 
         Mockito.verify(db, Mockito.times(1)).command(new BasicDBObject("enableSharding", dbName));
-        Mockito.verify(db, Mockito.times(1)).command(new BasicDBObject("listShards", 1));
+        Mockito.verify(db, Mockito.times(2)).command(new BasicDBObject("listShards", 1));
         //Verify total number of mongo command calls
-        Mockito.verify(db, Mockito.times(17)).command(Matchers.any(DBObject.class));
+        Mockito.verify(db, Mockito.times(21)).command(Matchers.any(DBObject.class));
 
         //For setBalancerState
         Mockito.verify(settings, Mockito.times(1)).update(Matchers.any(DBObject.class), Matchers.any(DBObject.class), Matchers.eq(true), Matchers.eq(false));

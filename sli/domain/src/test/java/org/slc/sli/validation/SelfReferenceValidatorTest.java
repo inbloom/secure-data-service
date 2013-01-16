@@ -30,6 +30,7 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
 import org.slc.sli.domain.Entity;
+import org.slc.sli.validation.schema.INaturalKeyExtractor;
 
 
 /**
@@ -44,6 +45,9 @@ public class SelfReferenceValidatorTest {
 
 	@Mock
 	SelfReferenceExtractor selfReferenceExtractor;
+
+    @Mock
+    INaturalKeyExtractor naturalKeyExtractor;
 
     @Before
     public void initMocks() {

@@ -39,4 +39,5 @@ ENTITY_WHITELIST: [
   "AttendanceEvent",
   "StudentCohortAssociation",
   "Parent",
-  "StudentParentAssociation"]
+  "StudentParentAssociation"
+]

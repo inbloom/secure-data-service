@@ -1,4 +1,8 @@
 defaultRights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "AGGREGATE_WRITE", "READ_PUBLIC"]
+ROLE_COL = "td:eq(0)";
+RIGHT_COL = "td:eq(1)";
+ADMIN_COL = "td:eq(2)";
+EDIT_COL = "td:eq(3)";
 
 jQuery ->
   unless initCustomRoleScripts?
@@ -23,11 +27,10 @@ jQuery ->
     newRow = $("<tr><td><div class='groupTitle'></div></td><td></td><td><input type='checkbox' class='isAdmin'></td><td></td></tr>")
     $("#custom_roles tbody").append(newRow)
 
-    newRow.find("td:eq(3)").append($("#rowEditTool").clone().children())
+    newRow.find(EDIT_COL).append($("#rowEditTool").clone().children())
 
     # Disable the save button until they've added a role and right
-    newRow.find(".rowEditToolSaveButton").addClass("disabled") #disable until we get ajax success
-    newRow.find(".rowEditToolSaveButton").attr('disabled', 'disabled')
+    disableButton(newRow.find(".rowEditToolSaveButton"))
     editRow(newRow)
 
     #Add row edit tool
@@ -42,7 +45,7 @@ jQuery ->
 
   $("#addRoleUi button").click ->
     tr = $(@).parents("tr")
-    td = tr.find("td:eq(0)")
+    td = tr.find(ROLE_COL)
     roleName = $("#addRoleInput").val().trim()
     if (roleName == "")
       return
@@ -80,28 +83,27 @@ editRow = (tr) ->
     if $(@) != curRowButtons
       $(@).hide()
  
-  $("#addGroupButton").addClass("disabled")
-  $("#addGroupButton").attr('disabled', 'disabled')
+  disableButton($("#addGroupButton"))
   tr.find(".saveButtons").show()
   tr.find(".editButtons").hide()
   tr.find(".isAdmin").prop("disabled", false)
 
   populateRightComboBox(tr)
-  tr.find("td:eq(1)").prepend($("#addRightUi"))
+  tr.find(RIGHT_COL).prepend($("#addRightUi"))
   $("#addRightUi").fadeIn()
 
   #Give it a nice glow
   tr.find("td").addClass("highlight")
 
   #Add role name field
-  td = tr.find("td:eq(0)")
+  td = tr.find(ROLE_COL)
   addRoleUi = $("#addRoleUi")
   td.prepend(addRoleUi)
   addRoleUi.find("input").val("")
   addRoleUi.fadeIn()
 
   #Turn group name into input
-  groupName = tr.find("td:eq(0)").find(".groupTitle")
+  groupName = tr.find(ROLE_COL).find(".groupTitle")
   groupName.hide()
   input = $('#groupNameInput').val(groupName.text().trim())
 
@@ -109,8 +111,8 @@ editRow = (tr) ->
     input.attr("placeholder", "Enter group name")
 
   #Add delete button to each role name
-  tr.find("td:eq(0) .roleLabel").each -> wrapInputWithDeleteButton($(@), "div", groupName)
-  tr.find("td:eq(1) .roleLabel").each -> wrapInputWithDeleteButton($(@), "span", groupName)
+  tr.find(ROLE_COL).find(".roleLabel").each -> wrapInputWithDeleteButton($(@), "div", groupName)
+  tr.find(RIGHT_COL).find(".roleLabel").each -> wrapInputWithDeleteButton($(@), "span", groupName)
 
 populateRightComboBox = (tr) ->
   #Add right combobox - only add rights that haven't already been used
@@ -139,10 +141,12 @@ wrapInputWithDeleteButton = (input, type, name) ->
       roles = getRoles(label.parents("tr"))
       if roles.length <= 1
         return alert("Role group must contain at least one role.")
-      
-    button.parent().parent().fadeOut -> 
-      populateRightComboBox($(this).parents("tr"))
+
+    button.parent().parent().fadeOut 'fast', ->
+      parentTr = $(this).parents('tr')
       $(this).remove()
+      populateRightComboBox(parentTr)
+      
   
   input.addClass("editable")
   input.wrap("<" + type + "/>").parent().css("white-space", "nowrap")
@@ -150,36 +154,8 @@ wrapInputWithDeleteButton = (input, type, name) ->
   return input.parent()
 
 editRowStop = (tr) ->
-  
-  #Reshow all the row buttons
-  #tr.parent().find(".rowButtons").each ->
-  #  $(@).show()
-
-  $("#addGroupButton").removeClass("disabled")
-  $("#addGroupButton").removeAttr('disabled')
-  $("#rowEditToolSaveButton").addClass("disabled") #disable until we get ajax success
-  $("#rowEditToolSaveButton").attr('disabled', 'disabled')
-
-  #Move the components back to their original location
-  $("#addRoleUi").hide()
-  $("#components").append($("#addRoleUi"))
-  $("#addRightUi").hide()
-  $("#components").append($("#addRightUi"))
-  td = tr.find("td")
-  td.removeClass("highlight")
-    
-  #Replace input with delete buttons back to normal inputs
-  td.find(".role ").each ->
-    $(@).parent().replaceWith(createLabel('role', $(@).text()))
-  td.find(".right").each ->
-    $(@).parent().replaceWith(createLabel('right', $(@).text()))
-
-  #Replace editable group name with normal div
-  groupName = $('#groupNameInput').val()
-  groupTitle = tr.find("td:eq(0)").find(".groupTitle") 
-  groupTitle.text(groupName)
-  groupTitle.show();
-
+  disableButton($(".rowEditToolSaveButton"))
+  disableButton($(".rowEditToolCancelButton"))
   saveData(getJsonData()) 
   editRowIndex = -1
 
@@ -192,51 +168,50 @@ saveData = (json) ->
     data: JSON.stringify({json})
     dataType: 'json'
     success: (data, status, xhr) ->
-      $("#rowEditToolSaveButton").removeClass("disabled")
-      $("#rowEditToolSaveButton").removeAttr('disabled')
-      $(".saveButtons").hide()
+      #$(".saveButtons").hide()
       window.location.reload(true);
     error: (data, status, xhr) ->
       console.log("error", data, status, xhr)
       window.location.reload(true);
 
 
+# Should be able to scrape the data from each row regardless of whether the row is in edit mode
 getJsonData = () ->
   data = []
   $("#custom_roles tr:gt(0)").each ->
-    groupName = $(@).find("td:eq(0)").find(".groupTitle").val()
+    groupName = $(@).find(ROLE_COL).find(".groupTitle").val()
     if groupName == ""
-      groupName = $(@).find("td:eq(0)").find(".groupTitle").text()
-
-    foo = $(@).find("td:eq(0)")
+      groupName = $(@).find(ROLE_COL).find(".groupTitle").text()
+    #still in edit mode
+    if groupName == ""
+      groupName = $(@).find(ROLE_COL).find("#groupNameInput").val()
 
     roles = []
-    $(@).find("td:eq(0) .customLabel").each ->
+    $(@).find(ROLE_COL).find(".customLabel").each ->
       roles.push($(@).text())
     rights = []
-    $(@).find("td:eq(1) .customLabel").each ->
+    $(@).find(RIGHT_COL).find(".customLabel").each ->
       rights.push($(@).text())
     isAdminRole = $(@).find(".isAdmin").prop("checked")
     data.push({"groupTitle": groupName, "names": roles, "rights": rights, "isAdminRole": isAdminRole})
-  console.log(data)
   return data
 
 getRights = (tr) ->
     rights = []
-    tr.find("td:eq(1) .customLabel").each ->
+    tr.find(RIGHT_COL).find(".customLabel").each ->
       rights.push($(@).text())
     return rights
 
 getRoles = (tr) ->
     roles = []
-    tr.find("td:eq(0) .customLabel").each ->
+    tr.find(ROLE_COL).find(".customLabel").each ->
       roles.push($(@).text())
     return roles
 
 getAllRoles = () ->
   roles = []
   $("#custom_roles tr:gt(0)").each ->
-    $(@).find("td:eq(0) .customLabel").each ->
+    $(@).find(ROLE_COL).find(".customLabel").each ->
       roles.push($(@).text())
   return roles
 
@@ -246,23 +221,27 @@ populateTable = (data) ->
     newRow = $("<tr><td><div></div></td><td></td><td></td><td></td></tr>")
     $("#custom_roles tbody").append(newRow)
 
-    newRow.find("td:eq(0)").append($("<div class='groupTitle'></div>").text(role.groupTitle))
+    newRow.find(ROLE_COL).append($("<div class='groupTitle'></div>").text(role.groupTitle))
 
     for name in role.names
       div = $('<div/>')
       div.append(createLabel('role', name))
-      newRow.find("td:eq(0)").append(div)
+      newRow.find(ROLE_COL).append(div)
 
     for right in role.rights
-      newRow.find("td:eq(1)").append(createLabel('right', right))
-      newRow.find("td:eq(1)").append(" ")
+      newRow.find(RIGHT_COL).append(createLabel('right', right))
+      newRow.find(RIGHT_COL).append(" ")
 
-    newRow.find("td:eq(2)").append("<input type='checkbox' class='isAdmin' disabled='true'>")
+    newRow.find(ADMIN_COL).append("<input type='checkbox' class='isAdmin' disabled='true'>")
     if (role.isAdminRole)
       newRow.find(".isAdmin").prop("checked", true)
 
-    newRow.find("td:eq(3)").append($("#rowEditTool").clone().children())
+    newRow.find(EDIT_COL).append($("#rowEditTool").clone().children())
     wireEditButtons(newRow)
+
+disableButton = (buttonElement) ->
+  buttonElement.addClass("disabled")
+  buttonElement.attr('disabled', 'disabled')
 
 wireEditButtons = (tr) ->
   tr.find(".rowEditToolDeleteButton").click ->

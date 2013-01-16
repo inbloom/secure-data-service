@@ -192,26 +192,46 @@ public class SliSchemaVersionValidator {
         }
 
         String entityType = entity.getType();
-
         Entity localEntity = entity;
 
+        if (isMigrationNeeded(entityType, localEntity)) {
+            localEntity = performMigration(entityType, localEntity, repo, collectionName, true);
+        }
+
+        return localEntity;
+    }
+
+    protected boolean isMigrationNeeded(String entityType, Entity entity) {
         if (this.entityTypesBeingMigrated.containsKey(entityType)) {
             int entityVersionNumber = this.getEntityVersionNumber(entity);
             int newVersionNumber = this.entityTypesBeingMigrated.get(entityType);
 
             if (entityVersionNumber < newVersionNumber) {
-
-                for (MigrationStrategy migrationStrategy : this.getMigrationStrategies(entityType, newVersionNumber)) {
-                    localEntity = migrationStrategy.migrate(localEntity);
-                }
-                
-                localEntity.getMetaData().put(VERSION_NUMBER_FIELD, newVersionNumber);
-                repo.updateWithoutValidatingNaturalKeys(collectionName, localEntity);
+                return true;
             }
+        }
+
+        return false;
+    }
+
+    protected Entity performMigration(String entityType, Entity entity, ValidationWithoutNaturalKeys repo,
+                          String collectionName, boolean doUpdate) {
+        int newVersionNumber = this.entityTypesBeingMigrated.get(entityType);
+
+        Entity localEntity = entity;
+        for (MigrationStrategy migrationStrategy : this.getMigrationStrategies(entityType, newVersionNumber)) {
+            localEntity = migrationStrategy.migrate(localEntity);
+        }
+
+        localEntity.getMetaData().put(VERSION_NUMBER_FIELD, newVersionNumber);
+
+        if (doUpdate) {
+            repo.updateWithoutValidatingNaturalKeys(collectionName, localEntity);
         }
 
         return localEntity;
     }
+
 
     public Iterable<Entity> migrate(String collectionName, Iterable<Entity> entities, ValidationWithoutNaturalKeys repo)
             throws MigrationException {
@@ -221,12 +241,22 @@ public class SliSchemaVersionValidator {
         }
 
         List<Entity> migratedEntities = new ArrayList<Entity>();
+        List<Entity> returnEntities = new ArrayList<Entity>();
 
         for (Entity entity : entities) {
-            migratedEntities.add(this.migrate(collectionName, entity, repo));
+            if (isMigrationNeeded(entity.getType(), entity)) {
+                entity = performMigration(entity.getType(), entity, repo, collectionName, false);
+                migratedEntities.add(entity);
+            }
+
+            returnEntities.add(entity);
         }
 
-        return migratedEntities;
+        for (Entity migratedEntity : migratedEntities) {
+            repo.updateWithoutValidatingNaturalKeys(collectionName, migratedEntity);
+        }
+
+        return returnEntities;
     }
 
     /**

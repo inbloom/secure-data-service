@@ -102,6 +102,7 @@ class WorldBuilder
     create_master_schedule
     create_assessments(begin_year, num_years)
     create_descriptors
+    create_learning_objectives
     create_work_orders
   end
 
@@ -1194,8 +1195,21 @@ class WorldBuilder
 
   def create_descriptors
     sea = @world['seas'][0]
-    @scenarioYAML["BEHAVIORS"].each_with_index{ |behavior, index|
+    (@scenarioYAML["BEHAVIORS"] or []).each_with_index{ |behavior, index|
       @queue.push_work_order BehaviorDescriptor.new("BE#{index}", behavior['short'], behavior['desc'], sea['id'], behavior['category'])
+    }
+    (@scenarioYAML["DISCIPLINE_OPTIONS"] or []).each_with_index{ |discipline, index|
+      @queue.push_work_order DisciplineDescriptor.new("DI#{index}", discipline['short'], discipline['desc'], sea['id'])
+    }
+  end
+
+  def create_learning_objectives
+    GradeLevelType.get_ordered_grades.each{|grade|
+      AcademicSubjectType.get_academic_subjects(grade).each {|academic_subject|
+        LearningObjective.build_learning_objectives((@scenarioYAML["NUM_LEARNING_OBJECTIVES_PER_SUBJECT_AND_GRADE"] or 2), AcademicSubjectType.to_string(academic_subject), GradeLevelType.to_string(grade)).each {|learning_objective|
+          @queue.push_work_order learning_objective
+        }
+      }
     }
   end
 
