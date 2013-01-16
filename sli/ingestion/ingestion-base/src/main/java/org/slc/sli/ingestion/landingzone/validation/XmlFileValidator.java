@@ -29,6 +29,7 @@ import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
+import org.slc.sli.ingestion.reporting.impl.XmlFileSource;
 import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.validation.Validator;
 
@@ -60,20 +61,23 @@ public class XmlFileValidator implements Validator<IngestionFileEntry> {
             ReportStats reportStats, Source source) {
         boolean isEmpty = false;
         BufferedReader br = null;
+        // we know more of our source
+        Source newsource = new XmlFileSource(fileEntry.getFileName(),
+                (source == null ? null : source.getStageName()));
 
         try {
             br = new BufferedReader(new FileReader(fileEntry.getFile()));
             if (br.read() == -1) {
-                report.error(reportStats, source, BaseMessageCode.BASE_0015, fileEntry.getFileName());
+                report.error(reportStats, newsource, BaseMessageCode.BASE_0015, fileEntry.getFileName());
                 isEmpty = true;
             }
         } catch (FileNotFoundException e) {
             LOG.error("File not found: " + fileEntry.getFileName(), e);
-            report.error(reportStats, source, BaseMessageCode.BASE_0013, fileEntry.getFileName());
+            report.error(reportStats, newsource, BaseMessageCode.BASE_0013, fileEntry.getFileName());
             isEmpty = true;
         } catch (IOException e) {
             LOG.error("Problem reading file: " + fileEntry.getFileName());
-            report.error(reportStats, source, BaseMessageCode.BASE_0014, fileEntry.getFileName());
+            report.error(reportStats, newsource, BaseMessageCode.BASE_0014, fileEntry.getFileName());
             isEmpty = true;
         } finally {
             try {

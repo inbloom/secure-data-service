@@ -30,8 +30,13 @@ import org.slc.sli.ingestion.landingzone.validation.SubmissionLevelException;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.ControlFileSource;
+import org.slc.sli.ingestion.reporting.impl.DirectorySource;
+import org.slc.sli.ingestion.reporting.impl.FileSource;
 import org.slc.sli.ingestion.reporting.impl.JobSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
+import org.slc.sli.ingestion.reporting.impl.XmlFileSource;
+import org.slc.sli.ingestion.reporting.impl.ZipFileSource;
 import org.slc.sli.ingestion.validation.ComplexValidator;
 import org.slc.sli.ingestion.validation.Validator;
 
@@ -51,7 +56,6 @@ public class ValidationController {
 
     private AbstractMessageReport messageReport;
 
-    private Source source = null;
     private ReportStats reportStats = null;
 
     /*
@@ -59,9 +63,9 @@ public class ValidationController {
      * relevant validator
      */
     public void doValidation(File path) {
+        reportStats = new SimpleReportStats();
         if (path.isFile()) {
-            source = new JobSource(path.getName(), null);
-            reportStats = new SimpleReportStats();
+            Source source = new FileSource(path.getName(), null);
 
             if (path.getName().endsWith(".ctl")) {
                 processControlFile(path);
@@ -71,6 +75,7 @@ public class ValidationController {
                 messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0001);
             }
         } else {
+            Source source = new DirectorySource(path.getName(), null);
             messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0015);
         }
     }
@@ -79,6 +84,7 @@ public class ValidationController {
         boolean isValid = false;
         for (IngestionFileEntry ife : cfile.getFileEntries()) {
             if (ife.getFile() != null) {
+                Source source = new XmlFileSource(ife.getFile().getName(), null);
                 messageReport.info(reportStats, source, ValidationMessageCode.VALIDATION_0002, ife.getFileName());
                 isValid = complexValidator.isValid(ife, messageReport, reportStats, source);
                 if (!isValid) {
@@ -92,6 +98,7 @@ public class ValidationController {
 
     public void processZip(File zipFile) {
 
+        Source source = new ZipFileSource(zipFile.getName(), null);
         messageReport.info(reportStats, source, ValidationMessageCode.VALIDATION_0005, zipFile.getAbsolutePath());
 
         FileResource zipFileResource = new FileResource(zipFile.getAbsolutePath());
@@ -107,6 +114,7 @@ public class ValidationController {
 
     public void processControlFile(File ctlFile) {
 
+        Source source = new ControlFileSource(ctlFile.getName(), null);
         messageReport.info(reportStats, source, ValidationMessageCode.VALIDATION_0007, ctlFile.getAbsolutePath());
 
         try {

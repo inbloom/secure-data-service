@@ -22,10 +22,6 @@ import java.io.IOException;
 import java.util.List;
 
 import org.apache.commons.compress.archivers.zip.UnsupportedZipFeatureException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.landingzone.FileResource;
 import org.slc.sli.ingestion.landingzone.ZipFileUtil;
@@ -33,7 +29,10 @@ import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
-import org.slc.sli.ingestion.reporting.impl.JobSource;
+import org.slc.sli.ingestion.reporting.impl.FileSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * @author ablum
@@ -60,7 +59,7 @@ public class ZipFileHandler extends AbstractIngestionHandler<FileResource, File>
 
         boolean done = false;
         long clockTimeout = System.currentTimeMillis() + zipfileCompletionTimeout;
-        Source source = new JobSource(zipFile.getResourceId(), getStageName());
+        Source source = new FileSource(zipFile.getResourceId(), getStageName());
 
         while (!done) {
 

@@ -16,9 +16,6 @@
 
 package org.slc.sli.ingestion.landingzone.validation;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
@@ -28,6 +25,8 @@ import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
 import org.slc.sli.ingestion.validation.Validator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * File Type validator.
@@ -46,6 +45,7 @@ public class FileTypeValidator implements Validator<FileEntryDescriptor> {
         FileType fileType = entry.getFileType();
 
         if (fileType == null) {
+            // reuse source
             report.error(reportStats, source, BaseMessageCode.BASE_0018, entry.getFileName(), "type");
 
             return false;
