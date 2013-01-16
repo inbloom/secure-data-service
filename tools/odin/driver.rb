@@ -32,8 +32,9 @@ if ARGV.length > 0
     puts "Specified scenario (\"#{tmp}\") does not exist.\n"
     exit(1)
   end
-  if ARGV.index("--normalgc").nil?
-    $GC_DEFERRED = true
+  unless ARGV.index("--normalgc").nil?
+    puts "disabling deffered garbage collection"
+    DeferredGarbageCollector.disable
   end
 end
 

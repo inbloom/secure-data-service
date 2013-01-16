@@ -16,18 +16,15 @@ limitations under the License.
 
 =end
 
-# creates learning objective
-class LearningObjective < BaseEntity
+# creates student competency
+class StudentCompetency < BaseEntity
 
-  attr_accessor :objective, :academic_subject, :objective_grade_level
+  attr_accessor :code_value, :learning_objective, :student_section_association
 
-  def initialize(objective, academic_subject, objective_grade_level)
-    @objective = objective
-    @academic_subject = academic_subject
-    @objective_grade_level = objective_grade_level
+  def initialize(code_value = 3, learning_objective, student_section_association)
+    @code_value = code_value
+    @learning_objective = [learning_objective]
+    @student_section_association = [student_section_association]
   end
 
-  def self.build_learning_objectives(count, academic_subject, objective_grade_level)
-    (1..count).collect{|x| LearningObjective.new("Generic Learning Objective #{x}", academic_subject, objective_grade_level)}
-  end
 end
