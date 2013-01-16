@@ -53,3 +53,33 @@ startSearchIndexer()
   scripts/local_search_indexer.sh restart target/search_indexer.tar.gz -Dsli.conf=/opt/tomcat/conf/sli.properties -Dsli.encryption.keyStore=/opt/tomcat/encryption/ciKeyStore.jks -Dlock.dir=data/
 
 }
+
+noTableScanAndCleanTomcat()
+{
+  mongo --eval "db.adminCommand( { setParameter: 1, notablescan: false } )"
+  /usr/sbin/cleanup_tomcat
+}
+
+deployAdmin()
+{
+  cd $WORKSPACE/sli/admin-tools/admin-rails
+  bundle install --deployment
+  bundle exec cap team deploy -s subdomain=$NODE_NAME -S branch=$GITCOMMIT
+}
+
+deployDatabrowser()
+{
+  cd $WORKSPACE/sli/databrowser
+  bundle install --deployment
+  bundle exec cap team deploy -s subdomain=$NODE_NAME -S branch=$GITCOMMIT
+}
+
+
+
+
+
+
+
+
+
+

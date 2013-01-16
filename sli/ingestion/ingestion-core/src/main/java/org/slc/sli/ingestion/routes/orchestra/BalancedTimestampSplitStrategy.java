@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.IngestionStagedEntity;
-import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordAccess;
 
 /**
@@ -52,8 +52,8 @@ public class BalancedTimestampSplitStrategy implements SplitStrategy {
     private NeutralRecordAccess neutralRecordAccess;
 
     @Override
-    public List<WorkNote> splitForEntity(IngestionStagedEntity stagedEntity) {
-        List<WorkNote> workNotesForEntity;
+    public List<RangedWorkNote> splitForEntity(IngestionStagedEntity stagedEntity) {
+        List<RangedWorkNote> workNotesForEntity;
 
         long minTime = neutralRecordAccess.getMinCreationTimeForEntity(stagedEntity);
         long maxTime = neutralRecordAccess.getMaxCreationTimeForEntity(stagedEntity);
@@ -65,7 +65,7 @@ public class BalancedTimestampSplitStrategy implements SplitStrategy {
 
             workNotesForEntity = partitionWorkNotes(minTime, maxTime, stagedEntity);
 
-            for (WorkNote workNote : workNotesForEntity) {
+            for (RangedWorkNote workNote : workNotesForEntity) {
                 workNote.setBatchSize(workNotesForEntity.size());
             }
 
@@ -89,7 +89,7 @@ public class BalancedTimestampSplitStrategy implements SplitStrategy {
      * @param jobId
      * @return
      */
-    private List<WorkNote> partitionWorkNotes(long min, long max, IngestionStagedEntity stagedEntity) {
+    private List<RangedWorkNote> partitionWorkNotes(long min, long max, IngestionStagedEntity stagedEntity) {
         String collectionName = stagedEntity.getCollectionNameAsStaged();
         long recordsInRange = getCountOfRecords(collectionName, min, max);
 
@@ -102,8 +102,8 @@ public class BalancedTimestampSplitStrategy implements SplitStrategy {
 
         long pivot = findGoodPivot(min, max, recordsInRange, collectionName);
 
-        List<WorkNote> leftWorkNotes = partitionWorkNotes(min, pivot, stagedEntity);
-        List<WorkNote> rightWorkNotes = partitionWorkNotes(pivot, max, stagedEntity);
+        List<RangedWorkNote> leftWorkNotes = partitionWorkNotes(min, pivot, stagedEntity);
+        List<RangedWorkNote> rightWorkNotes = partitionWorkNotes(pivot, max, stagedEntity);
 
         leftWorkNotes.addAll(rightWorkNotes);
 
@@ -152,9 +152,9 @@ public class BalancedTimestampSplitStrategy implements SplitStrategy {
         return pivot;
     }
 
-    private List<WorkNote> singleWorkNoteList(long min, long max, long recordsInRange, IngestionStagedEntity entity) {
-        List<WorkNote> workNoteList = new ArrayList<WorkNote>();
-        workNoteList.add(WorkNote.createBatchedWorkNote(TenantContext.getJobId(), entity, min, max, recordsInRange, SINGLE_BATCH_SIZE));
+    private List<RangedWorkNote> singleWorkNoteList(long min, long max, long recordsInRange, IngestionStagedEntity entity) {
+        List<RangedWorkNote> workNoteList = new ArrayList<RangedWorkNote>();
+        workNoteList.add(RangedWorkNote.createBatchedWorkNote(TenantContext.getJobId(), entity, min, max, recordsInRange, SINGLE_BATCH_SIZE));
         return workNoteList;
     }
 

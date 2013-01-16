@@ -13,24 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.slc.sli.ingestion;
-
-import org.junit.Assert;
-import org.junit.Test;
+package org.slc.sli.ingestion.reporting.impl;
 
 /**
- *
- * @author ablum
+ * 
+ * @author slee
  *
  */
-public class FileEntryWorkNoteTest {
+public class DirectorySource extends JobSource
+{
 
-    @Test
-    public void testCreateSimpleWorkNote() {
-        FileEntryWorkNote workNote = new FileEntryWorkNote("batchJobId", "SLI", null);
-        Assert.assertEquals("batchJobId", workNote.getBatchJobId());
-        Assert.assertEquals(null, workNote.getFileEntry());
-        Assert.assertEquals("SLI", workNote.getTenantId());
+    public DirectorySource(String resourceId, String stageName)
+    {
+        super(resourceId, stageName);
     }
 
 }

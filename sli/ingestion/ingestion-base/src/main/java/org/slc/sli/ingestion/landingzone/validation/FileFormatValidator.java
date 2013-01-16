@@ -36,6 +36,7 @@ public class FileFormatValidator implements Validator<IngestionFileEntry> {
             Source source) {
         FileFormat format = entry.getFileFormat();
         if (format == null) {
+            // reuse source
             report.error(reportStats, source, BaseMessageCode.BASE_0005, entry.getFileName(), "format");
 
             return false;

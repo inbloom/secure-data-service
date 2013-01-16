@@ -18,7 +18,7 @@
 package org.slc.sli.ingestion.transformation;
 
 import org.slc.sli.ingestion.Job;
-import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.RangedWorkNote;
 
 /**
  * @author dduran
@@ -39,6 +39,6 @@ public interface TransformationStrategy {
      * @param job id of the current job
      * @param workNote work handed out by maestro to be performed by pit
      */
-    void perform(Job job, WorkNote workNote);
+    void perform(Job job, RangedWorkNote workNote);
     
 }

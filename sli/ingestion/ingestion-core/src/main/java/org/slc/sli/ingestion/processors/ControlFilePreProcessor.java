@@ -41,7 +41,7 @@ import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FileFormat;
-import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.validation.IngestionException;
@@ -212,8 +212,8 @@ public class ControlFilePreProcessor implements Processor {
         if (!reportStats.hasErrors() && controlFileDescriptor != null) {
             exchange.getIn().setBody(controlFileDescriptor, ControlFileDescriptor.class);
         } else {
-            WorkNote workNote = WorkNote.createSimpleWorkNote(batchJobId);
-            exchange.getIn().setBody(workNote, WorkNote.class);
+            RangedWorkNote workNote = RangedWorkNote.createSimpleWorkNote(batchJobId);
+            exchange.getIn().setBody(workNote, RangedWorkNote.class);
         }
     }
 
@@ -261,8 +261,8 @@ public class ControlFilePreProcessor implements Processor {
 
             // TODO: we should be creating WorkNote at the very first point of processing.
             // this will require some routing changes
-            WorkNote workNote = WorkNote.createSimpleWorkNote(batchJobId);
-            exchange.getIn().setBody(workNote, WorkNote.class);
+            RangedWorkNote workNote = RangedWorkNote.createSimpleWorkNote(batchJobId);
+            exchange.getIn().setBody(workNote, RangedWorkNote.class);
         }
     }
 

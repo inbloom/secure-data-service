@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.handler.ZipFileHandler;
 import org.slc.sli.ingestion.landingzone.FileResource;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -107,7 +107,7 @@ public class ZipFileProcessor implements Processor {
 
             setExchangeHeaders(exchange, reportStats, newJob, ctlFile);
 
-            exchange.getIn().setBody(WorkNote.createSimpleWorkNote(batchJobId));
+            exchange.getIn().setBody(RangedWorkNote.createSimpleWorkNote(batchJobId));
         } catch (Exception exception) {
             handleProcessingException(exchange, batchJobId, resourceId, exception, reportStats);
         } finally {

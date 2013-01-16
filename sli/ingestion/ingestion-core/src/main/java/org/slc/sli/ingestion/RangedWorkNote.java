@@ -24,16 +24,14 @@ import java.io.Serializable;
  *
  * @author shalka
  */
-public final class WorkNote implements Serializable {
+public class RangedWorkNote extends SLIWorkNote implements Serializable {
 
     private static final long serialVersionUID = 7526472295622776147L;
 
-    private final String batchJobId;
-    private final IngestionStagedEntity ingestionStagedEntity;
-    private final long startTime;
-    private final long endTime;
-    private final long recordsInRange;
-
+    private IngestionStagedEntity ingestionStagedEntity;
+    private long startTime;
+    private long endTime;
+    private long recordsInRange;
     private int batchSize;
 
     /**
@@ -44,9 +42,9 @@ public final class WorkNote implements Serializable {
      * @param minimum
      * @param maximum
      */
-    private WorkNote(String batchJobId, IngestionStagedEntity ingestionStagedEntity, long startTime, long endTime,
+    public RangedWorkNote(String batchJobId, IngestionStagedEntity ingestionStagedEntity, long startTime, long endTime,
             long recordsInRange, int batchSize) {
-        this.batchJobId = batchJobId;
+        super(batchJobId, ""); //FIXME: Provide the tenantId
         this.ingestionStagedEntity = ingestionStagedEntity;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -61,9 +59,9 @@ public final class WorkNote implements Serializable {
      * @param ingestionStagedEntity
      * @return
      */
-    public static WorkNote createSimpleWorkNote(String batchJobId) {
+    public static RangedWorkNote createSimpleWorkNote(String batchJobId) {
         long now = System.currentTimeMillis();
-        return new WorkNote(batchJobId, null, now, now, 0L, 0);
+        return new RangedWorkNote(batchJobId, null, now, now, 0L, 0);
     }
 
     /**
@@ -76,18 +74,9 @@ public final class WorkNote implements Serializable {
      * @param batchSize
      * @return
      */
-    public static WorkNote createBatchedWorkNote(String batchJobId, IngestionStagedEntity ingestionStagedEntity,
+    public static RangedWorkNote createBatchedWorkNote(String batchJobId, IngestionStagedEntity ingestionStagedEntity,
             long startTime, long endTime, long recordsInRage, int batchSize) {
-        return new WorkNote(batchJobId, ingestionStagedEntity, startTime, endTime, recordsInRage, batchSize);
-    }
-
-    /**
-     * Gets the batch job id.
-     *
-     * @return String representing batch job id.
-     */
-    public String getBatchJobId() {
-        return batchJobId;
+        return new RangedWorkNote(batchJobId, ingestionStagedEntity, startTime, endTime, recordsInRage, batchSize);
     }
 
     /**
@@ -140,11 +129,13 @@ public final class WorkNote implements Serializable {
         this.batchSize = batchSize;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
-        int result = 1;
-        result = prime * result + ((batchJobId == null) ? 0 : batchJobId.hashCode());
+        int result = super.hashCode();
         result = prime * result + batchSize;
         result = prime * result + (int) (endTime ^ (endTime >>> 32));
         result = prime * result + ((ingestionStagedEntity == null) ? 0 : ingestionStagedEntity.hashCode());
@@ -153,25 +144,21 @@ public final class WorkNote implements Serializable {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (obj == null) {
+        if (!super.equals(obj)) {
             return false;
         }
         if (getClass() != obj.getClass()) {
             return false;
         }
-        WorkNote other = (WorkNote) obj;
-        if (batchJobId == null) {
-            if (other.batchJobId != null) {
-                return false;
-            }
-        } else if (!batchJobId.equals(other.batchJobId)) {
-            return false;
-        }
+        RangedWorkNote other = (RangedWorkNote) obj;
         if (batchSize != other.batchSize) {
             return false;
         }
@@ -194,11 +181,14 @@ public final class WorkNote implements Serializable {
         return true;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "WorkNote [batchJobId=" + batchJobId + ", ingestionStagedEntity=" + ingestionStagedEntity
-                + ", startTime=" + startTime + ", endTime=" + endTime + ", recordsInRange=" + recordsInRange
-                + ", batchSize=" + batchSize + "]";
+        return "WorkNote [ingestionStagedEntity=" + ingestionStagedEntity + ", startTime=" + startTime + ", endTime="
+                + endTime + ", recordsInRange=" + recordsInRange + ", batchSize=" + batchSize + ", batchJobId="
+                + getBatchJobId() + ", tenantId=" + getTenantId() + "]";
     }
 
 }
