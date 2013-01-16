@@ -165,7 +165,6 @@ end
 When /^I remove the right "([^"]*)" from the group "([^"]*)"$/ do |arg1, arg2|
   group = @driver.find_element(:xpath, "//div[text()='#{arg2}']/../..")
   group.find_element(:id, "DELETE_" + arg1).click
-#  assertWithWait("Right #{arg1} still remained on page after deletion") {@driver.find_elements(:id, "DELETE_" + arg1).size == 0}
 end
 
 When /^I remove the role <Role> from the group <Group> that denies <User> access to the API$/ do |table|
@@ -221,7 +220,6 @@ When /^I edit the rights for the group <Group> to include the duplicate right <R
   table.hashes.each do |hash|
     step "I edit the group #{hash["Group"]}"
     # Check that the duplicate right is not an available choice in the dropdown
-    # group = @driver.find_elements(:xpath, "//div[text()='#{hash["Group"]}']/../..")
     select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:id, "addRightSelect"))
     # select = Selenium::WebDriver::Support::Select.new(group.find_element(:tag_name, "select"))
     select.options.each do |option|
@@ -302,6 +300,9 @@ Then /^the group "(.*?)" has the admin role box checked$/ do |title|
 end
 
 Then /^the user "(.*?)" in tenant "(.*?)" can access the API with adminUser "(.*?)"$/ do |user, tenant, adminChecked|
+  # Wait two seconds for the API to catch up
+  sleep 2
+
   # Login and get a session ID
   idpRealmLogin(user, user+"1234", tenant)
   assert(@sessionId != nil, "Session returned was nil")
