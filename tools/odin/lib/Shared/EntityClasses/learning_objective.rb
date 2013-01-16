@@ -21,10 +21,13 @@ class LearningObjective < BaseEntity
 
   attr_accessor :objective, :academic_subject, :objective_grade_level
 
-  def initialize(objective = "Generic Learning Objective", academic_subject, objective_grade_level)
+  def initialize(objective, academic_subject, objective_grade_level)
     @objective = objective
     @academic_subject = academic_subject
     @objective_grade_level = objective_grade_level
   end
 
+  def self.build_learning_objectives(count, academic_subject, objective_grade_level)
+    (1..count).collect{|x| LearningObjective.new("Generic Learning Objective #{x}", academic_subject, objective_grade_level)}
+  end
 end

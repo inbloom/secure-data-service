@@ -324,7 +324,7 @@ def swap_app_ids(dbName)
   @dbTenant = @conn.db(dbName)
 
   to_swap = [
-        {"app_name" => "SLC Data Browser", "placeholder" => "DATABROWSER_ID_PLACEHOLDER"},
+        {"app_name" => "inBloom Data Browser", "placeholder" => "DATABROWSER_ID_PLACEHOLDER"},
         {"app_name" => "inBloom Dashboards", "placeholder" => "DASHBOARD_ID_PLACEHOLDER"},
   ]
   apps = @db.collection('application')
@@ -441,7 +441,7 @@ task :addBootstrapAppAuths do
   require_relative 'test/features/utils/rakefile_common.rb'
   require 'securerandom'
   allLeaAllowApp("inBloom Dashboards")
-  allLeaAllowApp("SLC Data Browser")
+  allLeaAllowApp("inBloom Data Browser")
 end
 
 task :loadDefaultIngestionTenants do
