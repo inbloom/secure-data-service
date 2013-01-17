@@ -16,7 +16,7 @@
 
 package org.slc.sli.api.criteriaGenerator;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * Contains the date needed to identify session dates and id's for a date range query
@@ -25,9 +25,9 @@ import java.util.List;
 public class SessionDateInfo {
     private String startDate;
     private String endDate;
-    private List<String> sessionIds;
+    private Set<String> sessionIds;
 
-    public SessionDateInfo(String startDate, String endDate, List<String> sessionIds) {
+    public SessionDateInfo(String startDate, String endDate, Set<String> sessionIds) {
         this.startDate = startDate;
         this.endDate = endDate;
         this.sessionIds = sessionIds;
@@ -49,11 +49,11 @@ public class SessionDateInfo {
         this.endDate = endDate;
     }
 
-    public List<String> getSessionIds() {
+    public Set<String> getSessionIds() {
         return sessionIds;
     }
 
-    public void setSessionIds(List<String> sessionIds) {
+    public void setSessionIds(Set<String> sessionIds) {
         this.sessionIds = sessionIds;
     }
 }

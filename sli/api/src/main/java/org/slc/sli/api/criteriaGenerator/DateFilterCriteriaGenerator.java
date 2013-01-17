@@ -31,6 +31,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -60,7 +61,12 @@ public class DateFilterCriteriaGenerator {
             SessionDateInfo sessionDateInfo = sessionRangeCalculator.findDateRange(schoolYearRange);
 
             // Find appropriate entity to apply filter
+            // [JS] refactor this so that findEntity isn't modifying the instance variable
             entityIdentifier.findEntity(request.getPath());
+
+            // [JS] Change to static builder?
+            // This seems strange to me, since builders should be creating an object, but we are creating then throwing
+            // away
             builder().forEntity(entityIdentifier.getEntityName())
                 .withDateAttributes(entityIdentifier.getBeginDateAttribute(), entityIdentifier.getEndDateAttribute())
                     .withSessionAttribute(entityIdentifier.getSessionAttribute())
@@ -70,6 +76,7 @@ public class DateFilterCriteriaGenerator {
                 .build();
         }
     }
+    // [JS] Switch to static builder and remove this method
     private DateFilterCriteriaBuilder builder() {
         return new DateFilterCriteriaBuilder();
     }
@@ -81,8 +88,9 @@ public class DateFilterCriteriaGenerator {
         private String endDate;
         private String beginDateAttribute;
         private String endDateAttribute;
-        private List<String> sessionIds;
         private String sessionAttribute;
+        private Set<String> sessionIds;
+        private boolean isSessionBasedQuery;
 
         public DateFilterCriteriaBuilder forEntity(String entityName) {
             this.entityName = entityName;
@@ -101,14 +109,14 @@ public class DateFilterCriteriaGenerator {
             this.endDate = endDate;
             return this;
         }
-        public DateFilterCriteriaBuilder withSessionIds(List<String> sessionIds) {
+        public DateFilterCriteriaBuilder withSessionIds(Set<String> sessionIds) {
             this.sessionIds = sessionIds;
             return this;
         }
-       public DateFilterCriteriaBuilder withSessionAttribute(String sessionAttribute) {
-           this.sessionAttribute = sessionAttribute;
-           return this;
-       }
+        public DateFilterCriteriaBuilder withSessionAttribute(String sessionAttribute) {
+            this.sessionAttribute = sessionAttribute;
+            return this;
+        }
 
 
         public void build() {
@@ -118,7 +126,7 @@ public class DateFilterCriteriaGenerator {
             granularAccessFilter.setNeutralQuery(neutralQuery);
             granularAccessFilterStore.set(granularAccessFilter);
 
-            if (isSessionBasedQuery){
+            if (isSessionBasedQuery) {
                 NeutralCriteria sessionCriteria = new NeutralCriteria("sessionId", NeutralCriteria.CRITERIA_IN, sessionIds);
                 neutralQuery.addCriteria(sessionCriteria);
             }
@@ -132,9 +140,7 @@ public class DateFilterCriteriaGenerator {
                 neutralQuery.addCriteria(entityBeginDateCriteria);
                 neutralQuery.addOrQuery(entityEndOrQuery);
             }
-
         }
-
     }
 }
 

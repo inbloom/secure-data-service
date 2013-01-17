@@ -42,13 +42,14 @@ import java.util.List;
 public class EntityIdentifier {
 
     @Autowired
-    ModelProvider modelProvider;
+    private ModelProvider modelProvider;
 
     @Autowired
     private EntityDefinitionStore entityDefinitionStore;
 
     private String entityName;
     private String beginDateAttribute;
+    private String endDateAttribute;
 
     public String getSessionAttribute() {
         return sessionAttribute;
@@ -80,8 +81,7 @@ public class EntityIdentifier {
         this.endDateAttribute = endDateAttribute;
     }
 
-    private String endDateAttribute;
-
+    // [JS] findXXXX methods shouldn't be void
     public void findEntity(String request) {
         List<String> resources = Arrays.asList(request.split("/"));
         String resource = resources.get(resources.size() - 1);
@@ -94,11 +94,12 @@ public class EntityIdentifier {
         }
         else {
             List<String> associations = modelProvider.getAssociatedDatedEntities(entityType);
-            for(String association: associations) {
-               if(request.toLowerCase().contains(association.toLowerCase())) {
-                   populateDateAttributes(modelProvider.getClassType(association));
-                   entityName = request.substring(request.toLowerCase().indexOf(association.toLowerCase())).split("/")[0];
-               }
+            for (String association: associations) {
+                // [JS] revisit this
+                if (request.toLowerCase().contains(association.toLowerCase())) {
+                    populateDateAttributes(modelProvider.getClassType(association));
+                    entityName = request.substring(request.toLowerCase().indexOf(association.toLowerCase())).split("/")[0];
+                }
             }
         }
         //Enable this once all entities have stamped in ComplextTypes.xsd
@@ -108,19 +109,21 @@ public class EntityIdentifier {
     }
 
     private boolean populateSessionAttribute(ClassType entityType) {
-       for( AssociationEnd assoc : modelProvider.getAssociationEnds(entityType.getId())) {
-           if(assoc.getName().equals("session")) {
-               sessionAttribute = assoc.getAssociatedAttributeName();
-           }
-       }
+        for (AssociationEnd assoc : modelProvider.getAssociationEnds(entityType.getId())) {
+            if (assoc.getName().equals("session")) {
+                sessionAttribute = assoc.getAssociatedAttributeName();
+            }
+        }
         return !sessionAttribute.isEmpty();
     }
 
 
+    // [JS] Can one of these fail and the other succeed? If so, we may end up with an object in inconsistent state,
+    // if beginDateAttribute && endDateAttribute are required
     private boolean populateDateAttributes(ClassType entityType) {
 
-        beginDateAttribute = (entityType.getBeginDateAttribute()!=null)?entityType.getBeginDateAttribute().getName():"";
-        endDateAttribute = (entityType.getEndDateAttribute()!=null)?entityType.getEndDateAttribute().getName():"";
+        beginDateAttribute = (entityType.getBeginDateAttribute() != null) ? entityType.getBeginDateAttribute().getName() : "";
+        endDateAttribute = (entityType.getEndDateAttribute() != null) ? entityType.getEndDateAttribute().getName() : "";
 
         return !(beginDateAttribute.isEmpty() && endDateAttribute.isEmpty());
     }

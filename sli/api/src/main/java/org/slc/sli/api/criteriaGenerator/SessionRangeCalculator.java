@@ -17,6 +17,7 @@
 package org.slc.sli.api.criteriaGenerator;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -110,7 +111,7 @@ public class SessionRangeCalculator {
         String earliestDate = "9999";
         String latestDate = "0000";
 
-        List<String> sessionIds = new ArrayList<String>();
+        Set<String> sessionIds = new HashSet<String>();
 
         for (Entity e : sessions) {
             sessionsLocated = true;
@@ -136,7 +137,6 @@ public class SessionRangeCalculator {
             dates = new ImmutablePair<String, String>(earliestDate, latestDate);
         }
 
-        return new SessionDateInfo(dates.getLeft(),dates.getRight(),sessionIds);
+        return new SessionDateInfo(dates.getLeft(), dates.getRight(), sessionIds);
     }
-    
 }
