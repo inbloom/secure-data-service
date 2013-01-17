@@ -39,6 +39,7 @@ import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
+import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
@@ -246,7 +247,11 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             AbstractMessageReport report, SimpleEntity entity, ReportStats reportStats) {
         List<String> keyFields = entityConfig.getKeyFields();
         ComplexKeyField complexField = entityConfig.getComplexKeyField();
-        Source source = new JobSource(entity.getResourceId(), getStageName());
+        NeutralRecordSource source = new NeutralRecordSource(entity.getResourceId(), getStageName(),
+                entity.getVisitBeforeLineNumber(),
+                entity.getVisitBeforeColumnNumber(),
+                entity.getVisitAfterLineNumber(),
+                entity.getVisitAfterColumnNumber());
         if (keyFields.size() > 0) {
             List<Object> keyValues = new ArrayList<Object>();
             for (String field : keyFields) {
