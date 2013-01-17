@@ -60,6 +60,13 @@ noTableScanAndCleanTomcat()
   /usr/sbin/cleanup_tomcat
 }
 
+adminUnitTests()
+{
+  cd $WORKSPACE/sli/admin-tools/admin-rails
+  bundle install --deployment
+  bundle exec rake ci:setup:testunit test
+}
+
 deployAdmin()
 {
   cd $WORKSPACE/sli/admin-tools/admin-rails
