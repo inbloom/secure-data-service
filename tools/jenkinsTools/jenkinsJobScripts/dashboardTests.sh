@@ -19,4 +19,8 @@ export DEBUG=true
 bundle install --deployment
 bundle exec rake FORCE_COLOR=true api_server_url=https://$NODE_NAME.slidev.org dashboard_server_address=https://$NODE_NAME.slidev.org dashboard_api_server_url=https://$NODE_NAME.slidev.org realm_page_url=https://$NODE_NAME.slidev.org ingestion_landing_zone=/home/ingestion/lz/inbound localDashboardTests TOGGLE_TABLESCANS=true
 
+EXITCODE=$?
+
 mongo --eval "db.adminCommand( { setParameter: 1, notablescan: false } )"
+
+exit $EXITCODE

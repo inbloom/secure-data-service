@@ -20,3 +20,9 @@ cd $WORKSPACE/sli/acceptance-tests/
 export LANG=en_US.UTF-8
 bundle install --deployment
 bundle exec rake FORCE_COLOR=true admintools_server_url=https://${NODE_NAME}.slidev.org:2001 ldap_base=ou=SLIAdmin,dc=slidev,dc=org adminToolsTests TOGGLE_TABLESCANS=1
+
+EXITCODE=$?
+
+mongo --eval "db.adminCommand( { setParameter: 1, notablescan: false } )"
+
+exit $EXITCODE
