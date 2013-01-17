@@ -91,9 +91,9 @@ bundle exec rails server -d
 cd /opt/megatron/sli/sli/databrowser/
 bundle install --deployment
 bundle exec rails server -d
-cd /opt/megatron/sli/tools/odin
-bundle install --deployment
-bundle exec rake test
+#cd /opt/megatron/sli/tools/odin
+#bundle install --deployment
+#bundle exec rake test
 cd /opt/megatron/sli/sli/
 mvn clean package install -DskipTests -Dpmd.skip=true
 curl 'http://tomcat:s3cret@localhost/manager/text/deploy?path=/api&war=file:/opt/megatron/sli/sli/api/target/api.war'
