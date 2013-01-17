@@ -113,9 +113,9 @@ public class ClassType extends ComplexType implements Navigable {
         this.lhs = lhs;
         this.rhs = rhs;
         this.isClassType = isClassType;
-        for(Attribute attribute: this.attributes) {
+        for (Attribute attribute: this.attributes) {
             List<TaggedValue> taggedValueList = attribute.getTaggedValues();
-            for(TaggedValue taggedValue: taggedValueList) {
+            for (TaggedValue taggedValue: taggedValueList) {
                 if(taggedValue.getValue().equals(BEGIN_DATE)) {
                     this.beginDateAttribute = attribute;
                 }

@@ -89,8 +89,6 @@ public class EntityIdentifier {
         ClassType entityType = modelProvider.getClassType(StringUtils.capitalize(definition.getType()));
         if (populateDateAttributes(entityType)) {
             entityName = resource;
-        } else if (populateSessionAttribute(entityType)) {
-
         }
         else {
             List<String> associations = modelProvider.getAssociatedDatedEntities(entityType);

@@ -15,26 +15,30 @@
  */
 package org.slc.sli.api.resources.generic.config;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.*;
-
-import javax.annotation.PostConstruct;
-
 import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.resources.generic.FivePartResource;
 import org.slc.sli.api.resources.generic.SixPartResource;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
 import org.slc.sli.api.resources.generic.util.ResourceTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
 
 /**
  * Reads in different nameSpaced resource end points and loads them
  *
  * @author srupasinghe
- *
  */
 @Component
 public class ResourceEndPoint {
@@ -46,7 +50,7 @@ public class ResourceEndPoint {
     private static final String SIX_PART_RESOURCE = SixPartResource.class.getName();
 
     private Map<String, String> resourceEndPoints = new HashMap<String, String>();
-    
+
     private List<String> queryingDisallowedEndPoints = new ArrayList<String>();
 
     private Set<String> dateRangeDisallowedEndPoints = new LinkedHashSet<String>();
@@ -84,7 +88,7 @@ public class ResourceEndPoint {
                     if (resource.isDateSearchDisallowed()) {
                         dateRangeDisallowedEndPoints.add(nameSpace + resource.getPath());
                     }
-                    
+
                     if (resource.getSubResources() != null) {
                         for (ResourceEndPointTemplate subResource : resource.getSubResources()) {
                             if (subResource.isDateSearchDisallowed()) {
@@ -119,7 +123,7 @@ public class ResourceEndPoint {
 
     protected Map<String, String> buildEndPoints(String nameSpace, String resourcePath, ResourceEndPointTemplate template) {
         Map<String, String> resources = new HashMap<String, String>();
-        String fullPath =  nameSpace + resourcePath + template.getPath();
+        String fullPath = nameSpace + resourcePath + template.getPath();
 
         resources.put(fullPath, getResourceClass("/rest/" + fullPath, template));
 
@@ -145,7 +149,7 @@ public class ResourceEndPoint {
 
         return resourceClass;
     }
-    
+
     public List<String> getQueryingDisallowedEndPoints() {
         return this.queryingDisallowedEndPoints;
     }
