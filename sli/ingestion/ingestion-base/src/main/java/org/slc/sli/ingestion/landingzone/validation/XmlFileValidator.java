@@ -60,8 +60,7 @@ public class XmlFileValidator implements Validator<IngestionFileEntry> {
             ReportStats reportStats, Source source) {
         boolean isEmpty = false;
         // we know more of our source
-        Source newsource = new XmlFileSource(entry.getFileName(),
-                (source == null ? null : source.getStageName()));
+        Source newsource = new XmlFileSource(source, entry.getFileName());
 
         InputStream is = null;
         try {

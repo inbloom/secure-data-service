@@ -30,6 +30,7 @@ import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
+import org.slc.sli.ingestion.reporting.impl.ControlFileSource;
 import org.slc.sli.ingestion.reporting.impl.XmlFileSource;
 import org.slc.sli.ingestion.validation.Validator;
 
@@ -48,8 +49,11 @@ public class ChecksumValidator implements Validator<IngestionFileEntry> {
     public boolean isValid(IngestionFileEntry fe, AbstractMessageReport report, ReportStats reportStats,
             Source source) {
 
+        // we know more of our source
+        Source newsource = new ControlFileSource(source, fe.getFileName());
+
         if (StringUtils.isBlank(fe.getChecksum())) {
-            report.error(reportStats, source, BaseMessageCode.BASE_0007, fe.getFileName());
+            report.error(reportStats, newsource, BaseMessageCode.BASE_0007, fe.getFileName());
 
             return false;
         }
@@ -73,7 +77,7 @@ public class ChecksumValidator implements Validator<IngestionFileEntry> {
             String[] args = { fe.getFileName(), actualMd5Hex, fe.getChecksum() };
             LOG.debug("File [{}] checksum ({}) does not match control file checksum ({}).", args);
 
-            report.error(reportStats, source, BaseMessageCode.BASE_0006, fe.getFileName());
+            report.error(reportStats, newsource, BaseMessageCode.BASE_0006, fe.getFileName());
 
             return false;
         }

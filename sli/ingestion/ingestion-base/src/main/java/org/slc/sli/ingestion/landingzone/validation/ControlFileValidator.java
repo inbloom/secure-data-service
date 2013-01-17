@@ -26,7 +26,6 @@ import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
 import org.slc.sli.ingestion.reporting.impl.ControlFileSource;
-import org.slc.sli.ingestion.reporting.impl.XmlFileSource;
 import org.slc.sli.ingestion.validation.Validator;
 
 /**
@@ -55,8 +54,7 @@ public class ControlFileValidator implements Validator<ControlFileDescriptor> {
         ControlFile controlFile = item.getFileItem();
 
         // we know more of our source
-        Source newsource = new ControlFileSource(controlFile.getFileName(),
-                (source == null ? null : source.getStageName()));
+        Source newsource = new ControlFileSource(source, controlFile);
         List<IngestionFileEntry> entries = controlFile.getFileEntries();
 
         if (entries.size() < 1) {
@@ -67,7 +65,7 @@ public class ControlFileValidator implements Validator<ControlFileDescriptor> {
 
         boolean isValid = true;
         for (IngestionFileEntry entry : entries) {
-            if (!isValid(entry, report, reportStats, source)) {
+            if (!isValid(entry, report, reportStats, newsource)) {
                 // remove the file from the entry since it did not pass the validation
                 entry.setValid(false);
                 isValid = false;
