@@ -49,7 +49,7 @@ public class ZipFileHandler extends AbstractIngestionHandler<FileResource, Strin
         } catch (IOException e) {
             // we know more of our source
             Source source = new ZipFileSource(new JobSource(zipFile.getResourceId(), getStageName()), zipFile);
-            report.error(reportStats, source, BaseMessageCode.BASE_0018, zipFile.getName());
+            report.error(reportStats, source, BaseMessageCode.BASE_0025, zipFile.getName());
         }
 
         return null;
