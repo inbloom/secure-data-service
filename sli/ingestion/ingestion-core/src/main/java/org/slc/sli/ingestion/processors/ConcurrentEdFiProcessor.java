@@ -50,7 +50,7 @@ import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.JobSource;
+import org.slc.sli.ingestion.reporting.impl.ProcessorSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.service.IngestionExecutor;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
@@ -205,7 +205,7 @@ public class ConcurrentEdFiProcessor implements Processor, ApplicationContextAwa
 
         if (batchJobId != null) {
             ReportStats reportStats = new SimpleReportStats();
-            Source source = new JobSource(null, BATCH_JOB_STAGE.getName());
+            Source source = new ProcessorSource(null, BATCH_JOB_STAGE.getName());
             databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0021, batchJobId, exception.getMessage());
         }
     }

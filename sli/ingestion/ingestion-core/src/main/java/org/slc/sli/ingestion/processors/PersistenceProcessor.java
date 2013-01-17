@@ -61,8 +61,8 @@ import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.AggregatedSource;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.JobSource;
 import org.slc.sli.ingestion.reporting.impl.NeutralRecordSource;
+import org.slc.sli.ingestion.reporting.impl.ProcessorSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.smooks.SliDeltaManager;
 import org.slc.sli.ingestion.transformation.EdFi2SLITransformer;
@@ -336,7 +336,7 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
                 }
             }
         } catch (Exception e) {
-            Source source = new JobSource(collectionNameAsStaged, stage.getStageName());
+            Source source = new ProcessorSource(collectionNameAsStaged, stage.getStageName());
             databaseMessageReport.error(reportStatsForCollection, source, CoreMessageCode.CORE_0005,
                     collectionNameAsStaged);
             LogUtil.error(LOG, "Exception when attempting to ingest NeutralRecords in: " + collectionNameAsStaged, e);
