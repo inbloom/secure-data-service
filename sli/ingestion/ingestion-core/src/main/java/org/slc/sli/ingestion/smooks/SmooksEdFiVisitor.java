@@ -167,8 +167,8 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLo
 
             // Indicate Smooks Validation Failure
             if (errorReport != null) {
-                // TODO: kludge refactor needed
                 NeutralRecordSource nrSource = new NeutralRecordSource(fe.getFileName(), BatchJobStageType.EDFI_PROCESSOR.getName(),
+                        null,
                         visitBeforeLineNumber, visitBeforeColumnNumber,
                         visitAfterLineNumber, visitAfterColumnNumber);
                 errorReport.error(reportStats, nrSource, CoreMessageCode.CORE_0019, element.getName().toString());

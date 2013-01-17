@@ -77,7 +77,7 @@ public class ControlFileValidatorTest {
         Mockito.when(contorlFile.getFileEntries()).thenReturn(fileEntries);
         Mockito.when(item.getFileItem()).thenReturn(contorlFile);
 
-        Mockito.when(item.getParentFileOrDirectory()).thenReturn(path);
+        Mockito.when(item.getParentZipFileOrDirectory()).thenReturn(path);
     }
 
     @Test

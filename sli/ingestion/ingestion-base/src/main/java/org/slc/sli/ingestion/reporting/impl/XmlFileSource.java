@@ -15,6 +15,8 @@
  */
 package org.slc.sli.ingestion.reporting.impl;
 
+import org.slc.sli.ingestion.reporting.Source;
+
 /**
  * 
  * @author slee
@@ -22,10 +24,22 @@ package org.slc.sli.ingestion.reporting.impl;
  */
 public class XmlFileSource extends FileSource
 {
+    private String xmlFileName;
 
-    public XmlFileSource(String resourceId, String stageName)
+    public XmlFileSource(Source source, String xmlFileName)
+    {
+        super(source == null ? null : source.getResourceId(), source == null ? null : source.getStageName());
+        this.xmlFileName = xmlFileName;
+    }
+
+    public XmlFileSource(String resourceId, String stageName) 
     {
         super(resourceId, stageName);
+    }
+
+    @Override
+    public String getUserFriendlyMessage() {
+        return xmlFileName == null ? super.getUserFriendlyMessage() : xmlFileName;
     }
 
 }

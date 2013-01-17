@@ -76,9 +76,9 @@ class EntitiesController < ApplicationController
   def show
     @@LIMIT = 50
     @page = Page.new
-
     if params[:search_id] && @search_field
-      @entities = Entity.get("", @search_field => params[:search_id]) if params[:search_id]
+      @entities = []
+      @entities = Entity.get("", @search_field => params[:search_id].strip) if params[:search_id] && !params[:search_id].strip.empty?
       clean_up_results
       flash.now[:notice] = "There were no entries matching your search" if @entities.size == 0 || @entities.nil?
     else

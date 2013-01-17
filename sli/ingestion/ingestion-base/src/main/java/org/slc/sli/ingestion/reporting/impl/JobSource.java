@@ -45,7 +45,7 @@ public class JobSource implements Source {
 
     @Override
     public String getUserFriendlyMessage() {
-        return "";
+        return resourceId == null ? "" : resourceId;
     }
 
 }

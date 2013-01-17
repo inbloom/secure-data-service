@@ -100,6 +100,7 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
                 if (learningObjectiveIdMap.containsKey(new LearningObjectiveId(objective, academicSubject,
                         objectiveGradeLevel))) {
                     NeutralRecordSource source = new NeutralRecordSource(lo.getSourceFile(), BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
+                            lo.getRecordType(),
                             lo.getVisitBeforeLineNumber(),
                             lo.getVisitBeforeColumnNumber(),
                             lo.getVisitAfterLineNumber(), lo.getVisitAfterColumnNumber());
@@ -164,6 +165,7 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
                     transformedLearningObjectives.add(childEntityNR);
                 } else {
                     NeutralRecordSource source = new NeutralRecordSource(parentLO.getSourceFile(), BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
+                            parentLO.getRecordType(),
                             parentLO.getVisitBeforeLineNumber(),
                             parentLO.getVisitBeforeColumnNumber(),
                             parentLO.getVisitAfterLineNumber(), parentLO.getVisitAfterColumnNumber());
@@ -184,6 +186,7 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
             childLo.getAttributes().put(PARENT_LEARNING_OBJ_REF, childLearningObjRefs);
         } else {
             NeutralRecordSource source = new NeutralRecordSource(childLo.getSourceFile(), BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
+                    childLo.getRecordType(),
                     childLo.getVisitBeforeLineNumber(),
                     childLo.getVisitBeforeColumnNumber(),
                     childLo.getVisitAfterLineNumber(), childLo.getVisitAfterColumnNumber());
@@ -204,6 +207,7 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
             for (Map<String, Object> learnStdRef : childLearningStdRefs) {
                 if (learnStdRef == null) {
                     NeutralRecordSource source = new NeutralRecordSource(parentLO.getSourceFile(), BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
+                            parentLO.getRecordType(),
                             parentLO.getVisitBeforeLineNumber(),
                             parentLO.getVisitBeforeColumnNumber(),
                             parentLO.getVisitAfterLineNumber(), parentLO.getVisitAfterColumnNumber());

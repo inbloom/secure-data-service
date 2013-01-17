@@ -58,14 +58,14 @@ public class ControlFile extends IngestionFileEntry {
     /**
      * Constructor.
      */
-    protected ControlFile(String parentFileOrDirectory, String fileName) {
-        super(parentFileOrDirectory, FileFormat.CONTROL_FILE, FileType.CONTROL, fileName, null);
+    protected ControlFile(String parentZipFileOrDirectory, String fileName) {
+        super(parentZipFileOrDirectory, FileFormat.CONTROL_FILE, FileType.CONTROL, fileName, null);
     }
 
-    public static ControlFile parse(String parentFolderOrZip, String controlFileName, AbstractMessageReport report)
+    public static ControlFile parse(String parentZipFileOrDirectory, String controlFileName, AbstractMessageReport report)
             throws IOException, SubmissionLevelException {
 
-        ControlFile cf = new ControlFile(parentFolderOrZip, controlFileName);
+        ControlFile cf = new ControlFile(parentZipFileOrDirectory, controlFileName);
 
         cf.parse(report);
 
@@ -124,7 +124,7 @@ public class ControlFile extends IngestionFileEntry {
         if (m.matches()) {
             FileFormat fileFormat = FileFormat.findByCode(m.group(1));
             FileType fileType = FileType.findByNameAndFormat(m.group(2), fileFormat);
-            return new IngestionFileEntry(getParentFileOrDirectory(), fileFormat, fileType, m.group(3), m.group(4));
+            return new IngestionFileEntry(getParentZipFileOrDirectory(), fileFormat, fileType, m.group(3), m.group(4));
         }
 
         return null;

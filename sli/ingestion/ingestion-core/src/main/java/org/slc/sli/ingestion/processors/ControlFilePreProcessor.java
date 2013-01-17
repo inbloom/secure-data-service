@@ -138,9 +138,6 @@ public class ControlFilePreProcessor implements Processor {
             String id = "null";
             if (currentBatchJob != null) {
                 id = currentBatchJob.getId();
-                if (currentBatchJob.getResourceEntries().size() == 0) {
-                    databaseMessageReport.warning(reportStats, source, CoreMessageCode.CORE_0002);
-                }
             }
             handleExceptions(exchange, id, exception, reportStats, source);
         } catch (Exception exception) {

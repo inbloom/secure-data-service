@@ -123,7 +123,6 @@ public class JobReportingProcessorTest {
         Map<String, String> mockedProperties = createFakeBatchProperties();
         NewBatchJob mockedJob = new NewBatchJob(BATCHJOBID, "192.168.59.11", "finished", 1, mockedProperties,
                 mockedStages, mockedResourceEntries);
-        mockedJob.setSourceId(TEMP_DIR);
         mockedJob.setTopLevelSourceId(TEMP_DIR);
 
         Iterable<Error> fakeErrorIterable = createFakeErrorIterable();
