@@ -16,19 +16,30 @@
 
 package org.slc.sli.common.util.tenantdb;
 
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+
 import org.apache.commons.codec.digest.DigestUtils;
 
 /**
- *
+ * 
  * Convert tenant ID to tenant DB name.
- *
+ * 
  * @author tshewchuk
  */
 public class TenantIdToDbName {
-
+    
+    // The sha calculation showed up in profiling.  Use a simple LRU cache.
+    private static final LoadingCache<String, String> TENANT_ID_CACHE = CacheBuilder.newBuilder().maximumSize(10000).build(new CacheLoader<String, String>() {
+                public String load(String tenant) {
+                    return DigestUtils.shaHex(tenant);
+                }
+            });
+    
     /**
      * Convert tenant ID to tenant DB name.
-     *
+     * 
      * @param tenantId
      *            Tenant ID from client/user.
      *            return String
@@ -36,7 +47,7 @@ public class TenantIdToDbName {
      */
     public static String convertTenantIdToDbName(String tenantId) {
         if (tenantId != null) {
-            return DigestUtils.shaHex(tenantId);
+            return TENANT_ID_CACHE.getUnchecked(tenantId);
         } else {
             return tenantId;
         }
