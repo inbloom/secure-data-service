@@ -37,7 +37,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.ingestion.IngestionStagedEntity;
-import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 import org.slc.sli.ingestion.queues.MessageType;
 
@@ -76,11 +76,11 @@ public class WorkNoteSplitterTest {
         Mockito.when(mockBatchJobMongoDA.getStagedEntitiesForJob("1")).thenReturn(set);
         Mockito.when(mockBatchJobMongoDA.createTransformationLatch("1", "student", 0)).thenReturn(true);
 
-        List<WorkNote> list = new ArrayList<WorkNote>();
-        list.add(WorkNote.createBatchedWorkNote("", IngestionStagedEntity.createFromRecordType("student"), 0, 0, 0, 0));
+        List<RangedWorkNote> list = new ArrayList<RangedWorkNote>();
+        list.add(RangedWorkNote.createBatchedWorkNote("", IngestionStagedEntity.createFromRecordType("student"), 0, 0, 0, 0));
         Mockito.when(balancedTimestampSplitStrategy.splitForEntity(IngestionStagedEntity.createFromRecordType("student"))).thenReturn(list);
 
-        List<WorkNote> result = workNoteSplitter.splitTransformationWorkNotes(exchange);
+        List<RangedWorkNote> result = workNoteSplitter.splitTransformationWorkNotes(exchange);
 
         Assert.assertEquals(list, result);
         Mockito.verify(balancedTimestampSplitStrategy, Mockito.times(1)).splitForEntity(Mockito.any(IngestionStagedEntity.class));
@@ -108,15 +108,15 @@ public class WorkNoteSplitterTest {
         Mockito.when(exchange.getIn()).thenReturn(message);
         Mockito.when(message.getHeader("IngestionMessageType")).thenReturn(MessageType.PERSIST_REQUEST.name());
 
-        Mockito.when(message.getBody(WorkNote.class)).thenReturn(WorkNote.createBatchedWorkNote("", IngestionStagedEntity.createFromRecordType("student"), 0, 0, 0, 0));
+        Mockito.when(message.getBody(RangedWorkNote.class)).thenReturn(RangedWorkNote.createBatchedWorkNote("", IngestionStagedEntity.createFromRecordType("student"), 0, 0, 0, 0));
 
         Mockito.when(message.getHeader("jobId")).thenReturn("1");
 
-        List<WorkNote> list = new ArrayList<WorkNote>();
-        list.add(WorkNote.createBatchedWorkNote("", IngestionStagedEntity.createFromRecordType("student"), 0, 0, 0, 0));
+        List<RangedWorkNote> list = new ArrayList<RangedWorkNote>();
+        list.add(RangedWorkNote.createBatchedWorkNote("", IngestionStagedEntity.createFromRecordType("student"), 0, 0, 0, 0));
         Mockito.when(balancedTimestampSplitStrategy.splitForEntity(IngestionStagedEntity.createFromRecordType("student"))).thenReturn(list);
 
-        List<WorkNote> result = workNoteSplitter.splitPersistanceWorkNotes(exchange);
+        List<RangedWorkNote> result = workNoteSplitter.splitPersistanceWorkNotes(exchange);
 
         Assert.assertEquals(list, result);
         Mockito.verify(balancedTimestampSplitStrategy, Mockito.times(1)).splitForEntity(Mockito.any(IngestionStagedEntity.class));

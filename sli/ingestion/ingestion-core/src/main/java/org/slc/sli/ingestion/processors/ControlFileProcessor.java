@@ -17,7 +17,6 @@
 package org.slc.sli.ingestion.processors;
 
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.camel.Exchange;
@@ -32,7 +31,7 @@ import org.slc.sli.dal.aspect.MongoTrackingAspect;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
-import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
@@ -120,7 +119,7 @@ public class ControlFileProcessor implements Processor {
 
             ControlFile cf = cfd.getFileItem();
 
-            newJob.setBatchProperties(aggregateBatchJobProperties(cf));
+            aggregateBatchJobProperties(newJob, cf);
 
             ReportStats reportStats = new SimpleReportStats();
             Source source = new JobSource(cf.getFileName(), BatchJobStageType.CONTROL_FILE_PROCESSOR.getName());
@@ -146,10 +145,6 @@ public class ControlFileProcessor implements Processor {
             setExchangeHeaders(exchange, newJob, reportStats);
 
             setExchangeBody(exchange, batchJobId);
-            if (!cf.getFile().delete()) {
-                LOG.debug("Failed to delete: {}", cf.getFile().getPath());
-            }
-
         } catch (Exception exception) {
             handleExceptions(exchange, batchJobId, exception);
         } finally {
@@ -213,8 +208,8 @@ public class ControlFileProcessor implements Processor {
     }
 
     private void setExchangeBody(Exchange exchange, String batchJobId) {
-        WorkNote workNote = WorkNote.createSimpleWorkNote(batchJobId);
-        exchange.getIn().setBody(workNote, WorkNote.class);
+        RangedWorkNote workNote = RangedWorkNote.createSimpleWorkNote(batchJobId);
+        exchange.getIn().setBody(workNote, RangedWorkNote.class);
     }
 
     private void createAndAddResourceEntries(NewBatchJob newJob, ControlFile cf) {
@@ -227,7 +222,7 @@ public class ControlFileProcessor implements Processor {
             ResourceEntry resourceEntry = new ResourceEntry();
             resourceEntry.setResourceId(file.getFileName());
             resourceEntry.setExternallyUploadedResourceId(file.getFileName());
-            resourceEntry.setResourceName(newJob.getSourceId() + file.getFileName());
+            resourceEntry.setResourceName(file.getFileName());
             resourceEntry.setResourceFormat(file.getFileFormat().getCode());
             resourceEntry.setResourceType(file.getFileType().getName());
             resourceEntry.setChecksum(file.getChecksum());
@@ -238,8 +233,8 @@ public class ControlFileProcessor implements Processor {
         }
     }
 
-    private Map<String, String> aggregateBatchJobProperties(ControlFile cf) {
-        Map<String, String> batchProperties = new HashMap<String, String>();
+    private Map<String, String> aggregateBatchJobProperties(NewBatchJob job, ControlFile cf) {
+        Map<String, String> batchProperties = job.getBatchProperties();
         Enumeration<Object> keys = cf.getConfigProperties().keys();
         Enumeration<Object> elements = cf.getConfigProperties().elements();
 

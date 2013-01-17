@@ -23,7 +23,7 @@ import java.text.MessageFormat;
  * @author dduran
  *
  */
-public class ControlFileSource extends JobSource {
+public class ControlFileSource extends FileSource {
 
     private int lineNumber;
     private String line;

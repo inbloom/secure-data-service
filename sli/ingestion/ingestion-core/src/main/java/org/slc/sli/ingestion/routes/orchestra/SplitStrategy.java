@@ -20,7 +20,7 @@ package org.slc.sli.ingestion.routes.orchestra;
 import java.util.List;
 
 import org.slc.sli.ingestion.IngestionStagedEntity;
-import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.RangedWorkNote;
 
 /**
  * Strategy interface for splitting WorkNotes
@@ -37,5 +37,5 @@ public interface SplitStrategy {
      * @param jobId
      * @return list of WorkNotes
      */
-    List<WorkNote> splitForEntity(IngestionStagedEntity stagedEntity);
+    List<RangedWorkNote> splitForEntity(IngestionStagedEntity stagedEntity);
 }

@@ -16,10 +16,6 @@
   <import resource="validation-context.xml" />
   <import resource="handler-context.xml" />
 
-  <bean id="lz" class="org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone">
-    <property name="directory" value="src/test/resources/dummylz" />
-  </bean>
-
   <context:property-placeholder ignore-resource-not-found="true" />
 
   <aop:aspectj-autoproxy />

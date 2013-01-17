@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.handler.ZipFileHandler;
 import org.slc.sli.ingestion.landingzone.FileResource;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -99,17 +99,15 @@ public class ZipFileProcessor implements Processor {
 
             reportStats = new SimpleReportStats();
 
-            File ctlFile = zipFileHandler.handle(zipFileResource, databaseMessageReport, reportStats);
+            String ctlFile = zipFileHandler.handle(zipFileResource, databaseMessageReport, reportStats);
 
             if (ctlFile != null) {
-                newJob.setSourceId(ctlFile.getParentFile().getCanonicalPath() + File.separator);
+                newJob.setSourceId(zipFile.getCanonicalPath());
             }
 
-            setExchangeHeaders(exchange, reportStats, newJob);
+            setExchangeHeaders(exchange, reportStats, newJob, ctlFile);
 
-            setExchangeBody(exchange, ctlFile, reportStats, batchJobId);
-
-
+            exchange.getIn().setBody(RangedWorkNote.createSimpleWorkNote(batchJobId));
         } catch (Exception exception) {
             handleProcessingException(exchange, batchJobId, resourceId, exception, reportStats);
         } finally {
@@ -131,17 +129,9 @@ public class ZipFileProcessor implements Processor {
         }
     }
 
-    private void setExchangeBody(Exchange exchange, File ctlFile, ReportStats reportStats, String batchJobId) {
-        if (!reportStats.hasErrors() && ctlFile != null) {
-            exchange.getIn().setBody(ctlFile, File.class);
-        } else {
-            WorkNote workNote = WorkNote.createSimpleWorkNote(batchJobId);
-            exchange.getIn().setBody(workNote, WorkNote.class);
-        }
-    }
-
-    private void setExchangeHeaders(Exchange exchange, ReportStats reportStats, NewBatchJob newJob) {
+    private void setExchangeHeaders(Exchange exchange, ReportStats reportStats, NewBatchJob newJob, String ctlFile) {
         exchange.getIn().setHeader("BatchJobId", newJob.getId());
+        exchange.getIn().setHeader("ResourceId", ctlFile);
         if (reportStats.hasErrors()) {
             exchange.getIn().setHeader("hasErrors", reportStats.hasErrors());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());

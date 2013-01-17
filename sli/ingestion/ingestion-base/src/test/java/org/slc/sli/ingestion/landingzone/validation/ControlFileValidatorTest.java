@@ -31,9 +31,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
-import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.landingzone.LandingZone;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
@@ -58,7 +56,6 @@ public class ControlFileValidatorTest {
     private ControlFile contorlFile;
     private IngestionFileEntry entry;
     private List<IngestionFileEntry> fileEntries;
-    private LandingZone lz;
     private File xmlFile;
     private ControlFileValidator cfv;
     private final String fileName = "Test.xml";
@@ -67,7 +64,6 @@ public class ControlFileValidatorTest {
     @Before
     public void setup() {
         item = Mockito.mock(ControlFileDescriptor.class);
-        lz = Mockito.mock(LandingZone.class);
         contorlFile = Mockito.mock(ControlFile.class);
         entry = Mockito.mock(IngestionFileEntry.class);
         cfv = Mockito.spy(controlFileValidator);
@@ -81,9 +77,7 @@ public class ControlFileValidatorTest {
         Mockito.when(contorlFile.getFileEntries()).thenReturn(fileEntries);
         Mockito.when(item.getFileItem()).thenReturn(contorlFile);
 
-        Mockito.when(item.getLandingZone()).thenReturn(lz);
-        Mockito.when(lz.getLZId()).thenReturn(path);
-        Mockito.when(lz.getFile(fileName)).thenReturn(xmlFile);
+        Mockito.when(item.getParentFileOrDirectory()).thenReturn(path);
     }
 
     @Test
@@ -104,7 +98,7 @@ public class ControlFileValidatorTest {
         ReportStats reportStats = new SimpleReportStats();
         Source source = new JobSource(null, null);
 
-        Mockito.when(lz.getFile(fileName)).thenReturn(null);
+        Mockito.when(entry.isValid()).thenReturn(false);
         fileEntries.add(entry);
 
         boolean isValid = controlFileValidator.isValid(item, report, reportStats, source);
@@ -121,7 +115,7 @@ public class ControlFileValidatorTest {
         fileEntries.add(entry);
         Mockito.doReturn(true)
                 .when(cfv)
-                .isValid(Mockito.any(FileEntryDescriptor.class), Mockito.any(AbstractMessageReport.class),
+                .isValid(Mockito.any(IngestionFileEntry.class), Mockito.any(AbstractMessageReport.class),
                         Mockito.any(ReportStats.class), Mockito.any(Source.class));
 
         boolean isValid = cfv.isValid(item, report, reportStats, null);
@@ -139,7 +133,7 @@ public class ControlFileValidatorTest {
         fileEntries.add(entry);
         Mockito.doReturn(false)
                 .when(cfv)
-                .isValid(Mockito.any(FileEntryDescriptor.class), Mockito.any(AbstractMessageReport.class),
+                .isValid(Mockito.any(IngestionFileEntry.class), Mockito.any(AbstractMessageReport.class),
                         Mockito.any(ReportStats.class), Mockito.any(Source.class));
 
         boolean isValid = cfv.isValid(item, report, reportStats, source);

@@ -15,8 +15,8 @@
  */
 
 package org.slc.sli.common.util.tenantdb;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Class that provides thread-local context for non-local jump use cases.
@@ -35,7 +35,7 @@ public class TenantContext {
             return false;
         }
     };
-    
+
 
     /**
      * Get the tenant id local to this thread.
@@ -83,17 +83,17 @@ public class TenantContext {
     }
 
     public static String getBatchProperty(String key) {
-    	Map<String, String> props = threadLocalBatchProperties.get();
-    	if (null == props) {
-    		return null;
-    	}
-    	return props.get(key);
+        Map<String, String> props = threadLocalBatchProperties.get();
+        if (null == props) {
+            return null;
+        }
+        return props.get(key);
     }
-    
+
     public static Map<String, String> getBatchProperties() {
-    	return threadLocalBatchProperties.get();
+        return threadLocalBatchProperties.get();
     }
-    
+
     public static boolean isSystemCall() {
         return threadLocalIsSystemCall.get();
     }
@@ -101,7 +101,7 @@ public class TenantContext {
     public static void setIsSystemCall(boolean isSystemCall) {
         threadLocalIsSystemCall.set(isSystemCall);
     }
-    
+
     /**
      * Remove all the ThreadLocals used by TenantContext for the current thread
      */

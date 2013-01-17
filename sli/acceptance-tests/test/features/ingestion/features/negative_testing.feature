@@ -341,7 +341,7 @@ Scenario: Post a zip file and then post it again and make sure the updated date 
   And verify that "metaData.created" is unequal to "metaData.updated"
 
 Scenario: Post an unzipped ctl file and make sure it is not processed
-  Given I post "UnzippedControlFile.ctl" file as the payload of the ingestion job
+  Given I post "UnzippedControlFile.ctl" unzipped file as the payload of the ingestion job
   And the following collections are empty in datastore:
         | collectionName              |
         | student                     |

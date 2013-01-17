@@ -20,7 +20,7 @@ Feature: Data Browser
     And I should see Admin link
     And I click on Admin
     Then I should be on the admin page
-    And under System Tools, I click on "SLC Data Browser"
+    And under System Tools, I click on "inBloom Data Browser"
     Then I should be redirected to the Data Browser home page
     And I should see the name "Rick Rogers" on the page
     And I should see my available links labeled
@@ -50,7 +50,7 @@ Feature: Data Browser
     And I should see Admin link
     And I click on Admin
     Then I should be on the admin page
-    And under System Tools, I click on "SLC Data Browser"
+    And under System Tools, I click on "inBloom Data Browser"
     Then I should be redirected to the Data Browser home page
     And I should see the name "James Stevenson" on the page
     And I click on the "GetStaffProgramAssociations" link
@@ -77,7 +77,7 @@ Feature: Data Browser
     And I should see Admin link
     And I click on Admin
     Then I should be on the admin page
-    And under System Tools, I click on "SLC Data Browser"
+    And under System Tools, I click on "inBloom Data Browser"
     Then I should be redirected to the Data Browser home page
     And I should see the name "Amy Kopel" on the page
     And I click on the "GetEducationOrganizations" link
@@ -127,7 +127,7 @@ Feature: Data Browser
     And I should see Admin link
     And I click on Admin
     Then I should be on the admin page
-    And under System Tools, I click on "SLC Data Browser"
+    And under System Tools, I click on "inBloom Data Browser"
     Then I should be redirected to the Data Browser home page
     And I should see the name "Charles Gray" on the page
     And I should see my available links labeled

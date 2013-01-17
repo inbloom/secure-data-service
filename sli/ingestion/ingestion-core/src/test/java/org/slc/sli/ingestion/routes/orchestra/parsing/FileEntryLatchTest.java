@@ -57,8 +57,8 @@ public class FileEntryLatchTest {
     @Test
     public void testReceive() throws Exception {
         Exchange exchange =  new DefaultExchange(new DefaultCamelContext());
-        IngestionFileEntry entry = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_PROGRAM, "fileName", "111");
-        FileEntryWorkNote workNote = new FileEntryWorkNote("batchJobId", entry, 3);
+        IngestionFileEntry entry = new IngestionFileEntry("/", FileFormat.EDFI_XML, FileType.XML_STUDENT_PROGRAM, "fileName", "111");
+        FileEntryWorkNote workNote = new FileEntryWorkNote("batchJobId", "SLI", entry);
 
         exchange.getIn().setBody(workNote, FileEntryWorkNote.class);
 

@@ -7549,8 +7549,8 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7560,8 +7560,8 @@
 						learning standard was derived.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>

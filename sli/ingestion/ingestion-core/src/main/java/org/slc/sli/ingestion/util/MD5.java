@@ -26,8 +26,6 @@ import java.security.NoSuchAlgorithmException;
 
 import org.apache.commons.codec.binary.Hex;
 
-import org.slc.sli.ingestion.landingzone.LandingZone;
-
 /**
  * Utility class to calculate MD5 on a file.
  *
@@ -37,18 +35,6 @@ import org.slc.sli.ingestion.landingzone.LandingZone;
 public final class MD5 {
 
     private MD5() { }
-
-    public static String calculate(String fileName, LandingZone lz) {
-        String md5 = "";
-
-        File f = lz.getFile(fileName);
-
-        if (f != null) {
-            md5 = calculate(f);
-        }
-
-        return md5;
-    }
 
     public static String calculate(File f) {
         String md5 = "";

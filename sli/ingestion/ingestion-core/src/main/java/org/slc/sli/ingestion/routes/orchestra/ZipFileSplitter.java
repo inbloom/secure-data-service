@@ -72,7 +72,7 @@ public class ZipFileSplitter {
 
         for (IngestionFileEntry fileEntry : fileEntries) {
             fileNames.add(fileEntry.getFileName());
-            fileEntryWorkNotes.add(new FileEntryWorkNote(jobId, fileEntry));
+            fileEntryWorkNotes.add(new FileEntryWorkNote(jobId, "SLI", fileEntry));
         }
 
         batchJobDAO.createFileLatch(jobId, fileNames);
