@@ -22,10 +22,12 @@ package org.slc.sli.ingestion.reporting.impl;
  */
 public class DirectorySource extends JobSource
 {
+    private final String directoryPath;
 
-    public DirectorySource(String resourceId, String stageName)
+    public DirectorySource(String directoryPath, String resourceId, String stageName)
     {
         super(resourceId, stageName);
+        this.directoryPath = directoryPath;
     }
 
 }

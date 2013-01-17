@@ -120,7 +120,7 @@ def get_id_for_resource resource
   "studentCompetencyObjectives"=>"313db42ad65b911b0897d8240e26ca4b50bddb5e_id",
   "studentDisciplineIncidentAssociations"=>"74cf790e-84c4-4322-84b8-fca7206f1085_id0e26de6c-225b-9f67-9224-5113ad50a03b_id",
   "competencyLevelDescriptorTypes"=>"",
-  "studentParentAssociations"=>"5738d251-dd0b-4734-9ea6-417ac9320a15_id_idc5aa1969-492a-5150-8479-71bfc4d57f1e_id",
+  "studentParentAssociations"=>"5738d251-dd0b-4734-9ea6-417ac9320a15_idc5aa1969-492a-5150-8479-71bfc4d57f1e_id",
   "courseOfferings"=>"00291269-33e0-415e-a0a4-833f0ef38189",
   "disciplineActions"=>"0e26de6c-225b-9f67-9201-8113ad50a03b",
   "students"=>"00209530-6e1f-4273-a5a7-eb686c79fcd9_id",
