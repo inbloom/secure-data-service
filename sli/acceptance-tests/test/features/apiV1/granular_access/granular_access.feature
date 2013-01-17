@@ -17,6 +17,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     And I should receive a collection of "<Count With Range>" entities
     And I should only find "<Entity List>" in the list of entities returned
     Examples:
+    # TODO: update the count with range and entity list
     | Entity URI                              | Count Without Range | Count With Range | Entity List |
     | attendances                             | 0                   | 99999            |             |
     | courseOfferings                         | 0                   | 99999            |             |
@@ -61,6 +62,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     And I should receive a collection of "<Count With Range>" entities
     And I should only find "<Entity List>" in the list of entities returned
     Examples:
+    # TODO: update the count with range and entity list
     | Entity URI                              | Count Without Range | Count With Range | Entity List |
     | attendances                             | 29                  | 99999            |             |
     | courseOfferings                         | 39                  | 99999            |             |
@@ -180,6 +182,20 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | 2012-01-01 | 1     | # Starts unknown, ends after range ends                 |
     | ?          | 0     | # Starts unknown, ends unknown                          |
 
+  Scenario: Provide a really wide school year range to "get everything"
+    Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
+    And parameter "schoolYear" is "1900-2100"
+    And parameter "limit" is "0"
+    When I navigate to GET "/v1/studentSchoolAssociations"
+    Then I should receive a return code of 200
+    # TODO: update the count for everything
+    And I should receive a collection of "" entities
+    Given parameter "schoolYear" is "2009-2010"
+    When I navigate to GET "/v1/studentSchoolAssociations"
+    Then I should receive a return code of 200
+    # TODO: update the count for 2009-2010
+    And I should receive a collection of "" entities
+
   Scenario Outline: Sad path - invalid date ranges
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
     And parameter "schoolYear" is "<Range>"
@@ -190,5 +206,4 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     Examples:
     | Range     | # Note                                |
     | 2011-2011 | # Same begin and end years            |
-    | 1900-2100 | # Non-matching begin and end years    |
     | 2012-2009 | # Begin year is earlier than end year |
