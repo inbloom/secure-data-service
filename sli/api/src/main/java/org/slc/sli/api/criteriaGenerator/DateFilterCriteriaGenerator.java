@@ -19,6 +19,7 @@
 package org.slc.sli.api.criteriaGenerator;
 
 import com.sun.jersey.spi.container.ContainerRequest;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.SLIPrincipal;
@@ -126,8 +127,8 @@ public class DateFilterCriteriaGenerator {
             granularAccessFilter.setNeutralQuery(neutralQuery);
             granularAccessFilterStore.set(granularAccessFilter);
 
-            if (isSessionBasedQuery) {
-                NeutralCriteria sessionCriteria = new NeutralCriteria("sessionId", NeutralCriteria.CRITERIA_IN, sessionIds);
+            if (StringUtils.isNotBlank(sessionAttribute)) {
+                NeutralCriteria sessionCriteria = new NeutralCriteria(sessionAttribute, NeutralCriteria.CRITERIA_IN, sessionIds);
                 neutralQuery.addCriteria(sessionCriteria);
             }
             else {
