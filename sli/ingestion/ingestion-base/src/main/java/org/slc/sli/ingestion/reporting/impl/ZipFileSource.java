@@ -38,4 +38,10 @@ public class ZipFileSource extends FileSource
     {
         super(resourceId, stageName);
     }
+
+    @Override
+    public String getUserFriendlyMessage() {
+        return zipFilePath == null ? super.getUserFriendlyMessage() : zipFilePath;
+    }
+
 }

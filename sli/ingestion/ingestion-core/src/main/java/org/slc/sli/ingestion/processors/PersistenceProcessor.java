@@ -245,8 +245,8 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
                 records = queryBatchFromDb(collectionToPersistFrom, job.getId(), workNote);
                 for (NeutralRecord nr : records) {
                     NeutralRecordSource nrSource = new NeutralRecordSource(collectionNameAsStaged, stage.getStageName(),
-                            nr.getVisitBeforeLineNumber(), nr.getVisitBeforeColumnNumber(), nr.getVisitAfterLineNumber(),
-                            nr.getVisitAfterColumnNumber());
+                            nr.getRecordType(), nr.getVisitBeforeLineNumber(), nr.getVisitBeforeColumnNumber(),
+                            nr.getVisitAfterLineNumber(), nr.getVisitAfterColumnNumber());
                     source.addSource(nrSource);
                 }
             } catch (MongoException me) {
@@ -492,7 +492,7 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
         List<SimpleEntity> transformed = transformer.handle(record, databaseMessageReport, reportStats);
 
         if (transformed == null || transformed.isEmpty()) {
-            NeutralRecordSource source = new NeutralRecordSource(record.getResourceId(), getStageName(),
+            NeutralRecordSource source = new NeutralRecordSource(record.getResourceId(), getStageName(), record.getRecordType(),
                     record.getVisitBeforeLineNumber(), record.getVisitBeforeColumnNumber(), record.getVisitAfterLineNumber(),
                     record.getVisitAfterColumnNumber());
             databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0004, record.getRecordType());

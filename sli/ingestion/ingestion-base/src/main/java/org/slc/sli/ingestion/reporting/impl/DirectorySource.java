@@ -30,4 +30,9 @@ public class DirectorySource extends JobSource
         this.directoryPath = directoryPath;
     }
 
+    @Override
+    public String getUserFriendlyMessage() {
+        return directoryPath == null ? "" : directoryPath;
+    }
+
 }

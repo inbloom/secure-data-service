@@ -167,7 +167,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
         for (SimpleEntity entity : entities) {
             NeutralRecordSource source = new NeutralRecordSource(entity.getResourceId(), getStageName(),
-                    entity.getVisitBeforeLineNumber(), entity.getVisitBeforeColumnNumber(),
+                    entity.getType(), entity.getVisitBeforeLineNumber(), entity.getVisitBeforeColumnNumber(),
                     entity.getVisitAfterLineNumber(), entity.getVisitAfterColumnNumber());
 
             if (entity.getEntityId() != null) {
@@ -180,7 +180,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         for (Map.Entry<List<Object>, SimpleEntity> entry : memory.entrySet()) {
             SimpleEntity entity = entry.getValue();
             NeutralRecordSource source = new NeutralRecordSource(entity.getResourceId(), getStageName(),
-                    entity.getVisitBeforeLineNumber(), entity.getVisitBeforeColumnNumber(),
+                    entity.getType(), entity.getVisitBeforeLineNumber(), entity.getVisitBeforeColumnNumber(),
                     entity.getVisitAfterLineNumber(), entity.getVisitAfterColumnNumber());
             LOG.debug("Processing: {}", entity.getType());
             try {
@@ -207,8 +207,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             for (Entity entity : queued) {
                 SimpleEntity simpleEntity = (SimpleEntity) entity;
                 NeutralRecordSource source = new NeutralRecordSource(simpleEntity.getResourceId(), getStageName(),
-                        simpleEntity.getVisitBeforeLineNumber(), simpleEntity.getVisitBeforeColumnNumber(),
-                        simpleEntity.getVisitAfterLineNumber(), simpleEntity.getVisitAfterColumnNumber());
+                        simpleEntity.getType(), simpleEntity.getVisitBeforeLineNumber(),
+                        simpleEntity.getVisitBeforeColumnNumber(), simpleEntity.getVisitAfterLineNumber(),
+                        simpleEntity.getVisitAfterColumnNumber());
                 update(collectionName, entity, failed, report, reportStats, source);
             }
         }
@@ -248,6 +249,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         List<String> keyFields = entityConfig.getKeyFields();
         ComplexKeyField complexField = entityConfig.getComplexKeyField();
         NeutralRecordSource source = new NeutralRecordSource(entity.getResourceId(), getStageName(),
+                entity.getType(),
                 entity.getVisitBeforeLineNumber(),
                 entity.getVisitBeforeColumnNumber(),
                 entity.getVisitAfterLineNumber(),
@@ -351,8 +353,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     @Override
     protected Entity doHandling(SimpleEntity item, AbstractMessageReport report, ReportStats reportStats,
             FileProcessStatus fileProcessStatus) {
-        Source source = new NeutralRecordSource(item.getResourceId(), getStageName(), item.getVisitBeforeLineNumber(),
-                item.getVisitBeforeColumnNumber(), item.getVisitAfterLineNumber(), item.getVisitAfterColumnNumber());
+        Source source = new NeutralRecordSource(item.getResourceId(), getStageName(), item.getType(),
+                item.getVisitBeforeLineNumber(), item.getVisitBeforeColumnNumber(),
+                item.getVisitAfterLineNumber(), item.getVisitAfterColumnNumber());
         try {
             return persist(item);
         } catch (EntityValidationException ex) {

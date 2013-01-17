@@ -31,4 +31,9 @@ public class ProcessorSource extends JobSource
         this.processorName = stageName;
     }
 
+    @Override
+    public String getUserFriendlyMessage() {
+        return processorName == null ? "" : processorName;
+    }
+
 }
