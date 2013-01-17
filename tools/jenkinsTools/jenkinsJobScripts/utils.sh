@@ -41,6 +41,16 @@ profileSwapAndPropGen()
   cp $WORKSPACE/sli/common/common-encrypt/trust/* /opt/tomcat/trust/
 }
 
+profileSwapAndPropGenSB()
+{
+  cd $WORKSPACE/sli
+  sh profile_swap.sh $NODE_NAME
+  cd config/scripts
+  ruby webapp-provision.rb ../config.in/canonical_config.yml sandbox ../properties/sli.properties
+  cp $WORKSPACE/sli/data-access/dal/keyStore/ci* /opt/tomcat/encryption/ 
+  cp $WORKSPACE/sli/common/common-encrypt/trust/* /opt/tomcat/trust/
+}
+
 resetDatabases()
 {
   cd $WORKSPACE/sli/config/scripts
