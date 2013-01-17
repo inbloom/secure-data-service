@@ -19,6 +19,7 @@
 package org.slc.sli.api.criteriaGenerator;
 
 import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Created with IntelliJ IDEA.
@@ -27,7 +28,7 @@ import org.slc.sli.domain.NeutralCriteria;
  */
 public class GranularAccessFilter {
     private String entityName;
-    private NeutralCriteria neutralCriteria;
+    private NeutralQuery neutralQuery;
 
     public String getEntityName() {
         return entityName;
@@ -37,11 +38,11 @@ public class GranularAccessFilter {
         this.entityName = entityName;
     }
 
-    public NeutralCriteria getNeutralCriteria() {
-        return neutralCriteria;
+    public NeutralQuery getNeutralQuery() {
+        return neutralQuery;
     }
 
-    public void setNeutralCriteria(NeutralCriteria neutralCriteria) {
-        this.neutralCriteria = neutralCriteria;
+    public void setNeutralQuery(NeutralQuery neutralQuery) {
+        this.neutralQuery = neutralQuery;
     }
 }
