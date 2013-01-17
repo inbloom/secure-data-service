@@ -16,31 +16,45 @@
 
 package org.slc.sli.aspect;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.slf4j.LoggerFactory;
-import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import org.slc.sli.common.util.logging.SecurityEvent;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
+
 
 
 public aspect LoggerCarrierAspect {
 
     declare parents : (org.slc.sli.api..* && !java.lang.Enum+ && !org.slc.sli.api.util.SecurityUtil.SecurityTask+ && !org.slc.sli.api.util.PATCH && !org.slc.sli.api.security.RightsAllowed)  implements LoggerCarrier;
 
-	private MongoTemplate template;
-
-	public MongoTemplate getTemplate() {
-	    return template;
-	}
-
-	public void setTemplate(MongoTemplate template) {
-	    this.template = template;
-	}
+    @Autowired
+    private Repository<Entity> mongoEntityRepository;
 
 	public void LoggerCarrier.debug(String msg) {
         LoggerFactory.getLogger(this.getClass()).debug(msg);
     }
 
-    public void LoggerCarrier.info(String msg) {
+
+
+	public Repository<Entity> getMongoEntityRepository() {
+		return mongoEntityRepository;
+	}
+
+
+
+	public void setMongoEntityRepository(Repository<Entity> mongoEntityRepository) {
+		this.mongoEntityRepository = mongoEntityRepository;
+	}
+
+
+
+	public void LoggerCarrier.info(String msg) {
         LoggerFactory.getLogger(this.getClass()).info(msg);
     }
 
@@ -73,10 +87,12 @@ public aspect LoggerCarrierAspect {
     }
 
     public void LoggerCarrier.audit(SecurityEvent event) {
-    	MongoTemplate mongoTemplate = LoggerCarrierAspect.aspectOf().getTemplate();
-    	if(mongoTemplate != null) {
-			mongoTemplate.save(event);
-		}
-   }
+    	if(LoggerCarrierAspect.aspectOf().getMongoEntityRepository() != null) {
+    		Map<String, Object> metadata = new HashMap<String, Object>();
+    		metadata.put("tenantId", event.getTenantId());
+    		boolean isSystemCall = TenantContext.isSystemCall();
+    	    LoggerCarrierAspect.aspectOf().getMongoEntityRepository().create("securityEvent", event.getProperties(), metadata, "securityEvent");
+    	}
+    }
 
 }
