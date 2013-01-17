@@ -13,21 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
-package org.slc.sli.ingestion.landingzone;
-
+package org.slc.sli.ingestion.reporting.impl;
 
 /**
- * Describes a file and the Landing Zone it is in.
+ * 
+ * @author slee
  *
- * @author okrook
  */
-public class FileEntryDescriptor extends FileDescriptor<IngestionFileEntry> {
+public class ZipFileSource extends FileSource
+{
 
-    private static final long serialVersionUID = 4327439876894214016L;
-
-    public FileEntryDescriptor(IngestionFileEntry fileItem, LandingZone landingZone) {
-        super(fileItem, landingZone);
+    public ZipFileSource(String resourceId, String stageName)
+    {
+        super(resourceId, stageName);
     }
+
 }

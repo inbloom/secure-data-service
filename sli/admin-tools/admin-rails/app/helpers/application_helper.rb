@@ -35,6 +35,10 @@ module ApplicationHelper
       "last_name" => "UNKNOWN",
   }
 
+  # marker exception indicating something went wrong when sending email
+  class EmailException < Exception
+  end
+
   # Looks up the provided GUID (record) through the API, removes (deletes) that record,
   # and removes the associated user from the LDAP.
   #
@@ -68,7 +72,11 @@ module ApplicationHelper
     end
 
     userEmailValidationLink = "#{APP_CONFIG['email_replace_uri']}/user_account_validation/#{email_token}"
-    ApplicationMailer.verify_email(email_address,first_name,userEmailValidationLink).deliver
+    begin
+      ApplicationMailer.verify_email(email_address,first_name,userEmailValidationLink).deliver
+    rescue Exception => e
+      raise EmailException, e
+    end
     true
   end
 

@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
+                                  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
   <StateEducationAgency>
     <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
     <NameOfInstitution>STANDARD-SEA (State Education Agency)</NameOfInstitution>
@@ -15,27 +15,27 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </Address>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000066</ProgramId>
+        <ProgramId>66</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000067</ProgramId>
+        <ProgramId>67</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000068</ProgramId>
+        <ProgramId>68</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000069</ProgramId>
+        <ProgramId>69</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000070</ProgramId>
+        <ProgramId>70</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
   </StateEducationAgency>
@@ -43,7 +43,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <CourseTitle>Kindergarten</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000001</ID>
+      <ID>1</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -58,13 +58,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000001</UniqueCourseId>
+    <UniqueCourseId>1</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>First grade</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000002</ID>
+      <ID>2</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -79,13 +79,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000002</UniqueCourseId>
+    <UniqueCourseId>2</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Second grade</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000003</ID>
+      <ID>3</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -100,13 +100,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000003</UniqueCourseId>
+    <UniqueCourseId>3</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Third grade</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000004</ID>
+      <ID>4</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -121,13 +121,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000004</UniqueCourseId>
+    <UniqueCourseId>4</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Fourth grade</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000005</ID>
+      <ID>5</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -142,13 +142,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000005</UniqueCourseId>
+    <UniqueCourseId>5</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Fifth grade</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000006</ID>
+      <ID>6</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -163,13 +163,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000006</UniqueCourseId>
+    <UniqueCourseId>6</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Sixth grade Mathematics</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000007</ID>
+      <ID>7</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -184,13 +184,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000007</UniqueCourseId>
+    <UniqueCourseId>7</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Sixth grade Science</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000008</ID>
+      <ID>8</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -205,13 +205,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000008</UniqueCourseId>
+    <UniqueCourseId>8</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Sixth grade English</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000009</ID>
+      <ID>9</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -226,13 +226,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000009</UniqueCourseId>
+    <UniqueCourseId>9</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Sixth grade History</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000010</ID>
+      <ID>10</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -247,13 +247,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000010</UniqueCourseId>
+    <UniqueCourseId>10</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Seventh grade Mathematics</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000011</ID>
+      <ID>11</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -268,13 +268,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000011</UniqueCourseId>
+    <UniqueCourseId>11</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Seventh grade Science</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000012</ID>
+      <ID>12</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -289,13 +289,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000012</UniqueCourseId>
+    <UniqueCourseId>12</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Seventh grade English</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000013</ID>
+      <ID>13</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -310,13 +310,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000013</UniqueCourseId>
+    <UniqueCourseId>13</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Seventh grade History</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000014</ID>
+      <ID>14</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -331,13 +331,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000014</UniqueCourseId>
+    <UniqueCourseId>14</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Eighth grade Mathematics</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000015</ID>
+      <ID>15</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -352,13 +352,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000015</UniqueCourseId>
+    <UniqueCourseId>15</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Eighth grade Science</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000016</ID>
+      <ID>16</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -373,13 +373,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000016</UniqueCourseId>
+    <UniqueCourseId>16</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Eighth grade English</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000017</ID>
+      <ID>17</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -394,13 +394,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000017</UniqueCourseId>
+    <UniqueCourseId>17</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Eighth grade History</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000018</ID>
+      <ID>18</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -415,13 +415,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000018</UniqueCourseId>
+    <UniqueCourseId>18</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Ninth grade Mathematics</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000019</ID>
+      <ID>19</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -436,13 +436,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000019</UniqueCourseId>
+    <UniqueCourseId>19</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Ninth grade Science</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000020</ID>
+      <ID>20</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -457,13 +457,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000020</UniqueCourseId>
+    <UniqueCourseId>20</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Ninth grade English</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000021</ID>
+      <ID>21</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -478,13 +478,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000021</UniqueCourseId>
+    <UniqueCourseId>21</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Ninth grade History</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000022</ID>
+      <ID>22</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -499,13 +499,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000022</UniqueCourseId>
+    <UniqueCourseId>22</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Tenth grade Mathematics</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000023</ID>
+      <ID>23</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -520,13 +520,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000023</UniqueCourseId>
+    <UniqueCourseId>23</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Tenth grade Science</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000024</ID>
+      <ID>24</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -541,13 +541,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000024</UniqueCourseId>
+    <UniqueCourseId>24</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Tenth grade English</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000025</ID>
+      <ID>25</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -562,13 +562,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000025</UniqueCourseId>
+    <UniqueCourseId>25</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Tenth grade History</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000026</ID>
+      <ID>26</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -583,13 +583,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000026</UniqueCourseId>
+    <UniqueCourseId>26</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Eleventh grade Mathematics</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000027</ID>
+      <ID>27</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -604,13 +604,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000027</UniqueCourseId>
+    <UniqueCourseId>27</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Eleventh grade Science</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000028</ID>
+      <ID>28</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -625,13 +625,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000028</UniqueCourseId>
+    <UniqueCourseId>28</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Eleventh grade English</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000029</ID>
+      <ID>29</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -646,13 +646,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000029</UniqueCourseId>
+    <UniqueCourseId>29</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Eleventh grade History</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000030</ID>
+      <ID>30</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -667,13 +667,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000030</UniqueCourseId>
+    <UniqueCourseId>30</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Twelfth grade Mathematics</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000031</ID>
+      <ID>31</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -688,13 +688,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000031</UniqueCourseId>
+    <UniqueCourseId>31</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Twelfth grade Science</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000032</ID>
+      <ID>32</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -709,13 +709,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000032</UniqueCourseId>
+    <UniqueCourseId>32</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Twelfth grade English</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000033</ID>
+      <ID>33</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -730,13 +730,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000033</UniqueCourseId>
+    <UniqueCourseId>33</UniqueCourseId>
   </Course>
   <Course>
     <CourseTitle>Twelfth grade History</CourseTitle>
     <NumberOfParts>1</NumberOfParts>
     <CourseCode IdentificationSystem="School course code">
-      <ID>crse-0000000034</ID>
+      <ID>34</ID>
     </CourseCode>
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
@@ -751,566 +751,566 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
-    <UniqueCourseId>crse-0000000034</UniqueCourseId>
+    <UniqueCourseId>34</UniqueCourseId>
   </Course>
   <Program>
-    <ProgramId>prgm-0000000066</ProgramId>
+    <ProgramId>66</ProgramId>
     <ProgramType>Adult/Continuing Education</ProgramType>
     <ProgramSponsor>State Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000066</CodeValue>
+      <CodeValue>srv:66</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000067</ProgramId>
+    <ProgramId>67</ProgramId>
     <ProgramType>Even Start</ProgramType>
     <ProgramSponsor>State Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000067</CodeValue>
+      <CodeValue>srv:67</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000068</ProgramId>
+    <ProgramId>68</ProgramId>
     <ProgramType>Remedial Education</ProgramType>
     <ProgramSponsor>State Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000068</CodeValue>
+      <CodeValue>srv:68</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000069</ProgramId>
+    <ProgramId>69</ProgramId>
     <ProgramType>Bilingual Summer</ProgramType>
     <ProgramSponsor>State Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000069</CodeValue>
+      <CodeValue>srv:69</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000070</ProgramId>
+    <ProgramId>70</ProgramId>
     <ProgramType>Adult/Continuing Education</ProgramType>
     <ProgramSponsor>State Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000070</CodeValue>
+      <CodeValue>srv:70</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000050</ProgramId>
+    <ProgramId>50</ProgramId>
     <ProgramType>Student Retention/Dropout Prevention</ProgramType>
     <ProgramSponsor>Local Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000050</CodeValue>
+      <CodeValue>srv:50</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000051</ProgramId>
+    <ProgramId>51</ProgramId>
     <ProgramType>Neglected and Delinquent Program</ProgramType>
     <ProgramSponsor>Local Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000051</CodeValue>
+      <CodeValue>srv:51</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000052</ProgramId>
+    <ProgramId>52</ProgramId>
     <ProgramType>Health Services Program</ProgramType>
     <ProgramSponsor>Local Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000052</CodeValue>
+      <CodeValue>srv:52</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000053</ProgramId>
+    <ProgramId>53</ProgramId>
     <ProgramType>Vocational Education</ProgramType>
     <ProgramSponsor>Local Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000053</CodeValue>
+      <CodeValue>srv:53</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000054</ProgramId>
+    <ProgramId>54</ProgramId>
     <ProgramType>Migrant Education</ProgramType>
     <ProgramSponsor>Local Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000054</CodeValue>
+      <CodeValue>srv:54</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000055</ProgramId>
+    <ProgramId>55</ProgramId>
     <ProgramType>International Baccalaureate</ProgramType>
     <ProgramSponsor>Local Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000055</CodeValue>
+      <CodeValue>srv:55</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000056</ProgramId>
+    <ProgramId>56</ProgramId>
     <ProgramType>Service Learning</ProgramType>
     <ProgramSponsor>Local Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000056</CodeValue>
+      <CodeValue>srv:56</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000057</ProgramId>
+    <ProgramId>57</ProgramId>
     <ProgramType>Even Start</ProgramType>
     <ProgramSponsor>Local Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000057</CodeValue>
+      <CodeValue>srv:57</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000058</ProgramId>
+    <ProgramId>58</ProgramId>
     <ProgramType>Magnet/Special Program Emphasis</ProgramType>
     <ProgramSponsor>Local Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000058</CodeValue>
+      <CodeValue>srv:58</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000059</ProgramId>
+    <ProgramId>59</ProgramId>
     <ProgramType>Compensatory Services for Disadvantaged Students</ProgramType>
     <ProgramSponsor>Local Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000059</CodeValue>
+      <CodeValue>srv:59</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000060</ProgramId>
+    <ProgramId>60</ProgramId>
     <ProgramType>Compensatory Services for Disadvantaged Students</ProgramType>
     <ProgramSponsor>Local Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000060</CodeValue>
+      <CodeValue>srv:60</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000061</ProgramId>
+    <ProgramId>61</ProgramId>
     <ProgramType>Bilingual Summer</ProgramType>
     <ProgramSponsor>Local Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000061</CodeValue>
+      <CodeValue>srv:61</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000062</ProgramId>
+    <ProgramId>62</ProgramId>
     <ProgramType>International Baccalaureate</ProgramType>
     <ProgramSponsor>Local Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000062</CodeValue>
+      <CodeValue>srv:62</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000063</ProgramId>
+    <ProgramId>63</ProgramId>
     <ProgramType>Athletics</ProgramType>
     <ProgramSponsor>Local Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000063</CodeValue>
+      <CodeValue>srv:63</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000064</ProgramId>
+    <ProgramId>64</ProgramId>
     <ProgramType>College Preparatory</ProgramType>
     <ProgramSponsor>Local Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000064</CodeValue>
+      <CodeValue>srv:64</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000065</ProgramId>
+    <ProgramId>65</ProgramId>
     <ProgramType>IDEA</ProgramType>
     <ProgramSponsor>Local Education Agency</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000065</CodeValue>
+      <CodeValue>srv:65</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000001</ProgramId>
+    <ProgramId>1</ProgramId>
     <ProgramType>Library/Media Services Program</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000001</CodeValue>
+      <CodeValue>srv:1</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000002</ProgramId>
+    <ProgramId>2</ProgramId>
     <ProgramType>Extended Day/Child Care Services</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000002</CodeValue>
+      <CodeValue>srv:2</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000003</ProgramId>
+    <ProgramId>3</ProgramId>
     <ProgramType>Cocurricular Programs</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000003</CodeValue>
+      <CodeValue>srv:3</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000004</ProgramId>
+    <ProgramId>4</ProgramId>
     <ProgramType>Community Service Program</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000004</CodeValue>
+      <CodeValue>srv:4</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000005</ProgramId>
+    <ProgramId>5</ProgramId>
     <ProgramType>Even Start</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000005</CodeValue>
+      <CodeValue>srv:5</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000006</ProgramId>
+    <ProgramId>6</ProgramId>
     <ProgramType>Community Service Program</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000006</CodeValue>
+      <CodeValue>srv:6</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000007</ProgramId>
+    <ProgramId>7</ProgramId>
     <ProgramType>Magnet/Special Program Emphasis</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000007</CodeValue>
+      <CodeValue>srv:7</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000008</ProgramId>
+    <ProgramId>8</ProgramId>
     <ProgramType>Section 504 Placement</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000008</CodeValue>
+      <CodeValue>srv:8</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000009</ProgramId>
+    <ProgramId>9</ProgramId>
     <ProgramType>Immigrant Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000009</CodeValue>
+      <CodeValue>srv:9</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000010</ProgramId>
+    <ProgramId>10</ProgramId>
     <ProgramType>Student Retention/Dropout Prevention</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000010</CodeValue>
+      <CodeValue>srv:10</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000011</ProgramId>
+    <ProgramId>11</ProgramId>
     <ProgramType>Gifted and Talented</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000011</CodeValue>
+      <CodeValue>srv:11</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000012</ProgramId>
+    <ProgramId>12</ProgramId>
     <ProgramType>Athletics</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000012</CodeValue>
+      <CodeValue>srv:12</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000013</ProgramId>
+    <ProgramId>13</ProgramId>
     <ProgramType>Community/Junior College Education Program</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000013</CodeValue>
+      <CodeValue>srv:13</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000014</ProgramId>
+    <ProgramId>14</ProgramId>
     <ProgramType>Gifted and Talented</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000014</CodeValue>
+      <CodeValue>srv:14</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000015</ProgramId>
+    <ProgramId>15</ProgramId>
     <ProgramType>Career and Technical Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000015</CodeValue>
+      <CodeValue>srv:15</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000016</ProgramId>
+    <ProgramId>16</ProgramId>
     <ProgramType>Counseling Services</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000016</CodeValue>
+      <CodeValue>srv:16</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000017</ProgramId>
+    <ProgramId>17</ProgramId>
     <ProgramType>Community/Junior College Education Program</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000017</CodeValue>
+      <CodeValue>srv:17</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000018</ProgramId>
+    <ProgramId>18</ProgramId>
     <ProgramType>Migrant Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000018</CodeValue>
+      <CodeValue>srv:18</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000019</ProgramId>
+    <ProgramId>19</ProgramId>
     <ProgramType>Library/Media Services Program</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000019</CodeValue>
+      <CodeValue>srv:19</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000020</ProgramId>
+    <ProgramId>20</ProgramId>
     <ProgramType>Library/Media Services Program</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000020</CodeValue>
+      <CodeValue>srv:20</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000021</ProgramId>
+    <ProgramId>21</ProgramId>
     <ProgramType>Cocurricular Programs</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000021</CodeValue>
+      <CodeValue>srv:21</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000022</ProgramId>
+    <ProgramId>22</ProgramId>
     <ProgramType>Alternative Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000022</CodeValue>
+      <CodeValue>srv:22</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000023</ProgramId>
+    <ProgramId>23</ProgramId>
     <ProgramType>Career and Technical Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000023</CodeValue>
+      <CodeValue>srv:23</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000024</ProgramId>
+    <ProgramId>24</ProgramId>
     <ProgramType>Neglected and Delinquent Program</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000024</CodeValue>
+      <CodeValue>srv:24</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000025</ProgramId>
+    <ProgramId>25</ProgramId>
     <ProgramType>Magnet/Special Program Emphasis</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000025</CodeValue>
+      <CodeValue>srv:25</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000026</ProgramId>
+    <ProgramId>26</ProgramId>
     <ProgramType>Title I Part A</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000026</CodeValue>
+      <CodeValue>srv:26</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000027</ProgramId>
+    <ProgramId>27</ProgramId>
     <ProgramType>Section 504 Placement</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000027</CodeValue>
+      <CodeValue>srv:27</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000028</ProgramId>
+    <ProgramId>28</ProgramId>
     <ProgramType>Optional Flexible School Day Program (OFSDP)</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000028</CodeValue>
+      <CodeValue>srv:28</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000029</ProgramId>
+    <ProgramId>29</ProgramId>
     <ProgramType>Student Retention/Dropout Prevention</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000029</CodeValue>
+      <CodeValue>srv:29</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000030</ProgramId>
+    <ProgramId>30</ProgramId>
     <ProgramType>Title I Part A</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000030</CodeValue>
+      <CodeValue>srv:30</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000031</ProgramId>
+    <ProgramId>31</ProgramId>
     <ProgramType>Other</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000031</CodeValue>
+      <CodeValue>srv:31</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000032</ProgramId>
+    <ProgramId>32</ProgramId>
     <ProgramType>Section 504 Placement</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000032</CodeValue>
+      <CodeValue>srv:32</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000033</ProgramId>
+    <ProgramId>33</ProgramId>
     <ProgramType>Bilingual</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000033</CodeValue>
+      <CodeValue>srv:33</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000034</ProgramId>
+    <ProgramId>34</ProgramId>
     <ProgramType>Student Retention/Dropout Prevention</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000034</CodeValue>
+      <CodeValue>srv:34</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000035</ProgramId>
+    <ProgramId>35</ProgramId>
     <ProgramType>Gifted and Talented</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000035</CodeValue>
+      <CodeValue>srv:35</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000036</ProgramId>
+    <ProgramId>36</ProgramId>
     <ProgramType>Other</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000036</CodeValue>
+      <CodeValue>srv:36</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000037</ProgramId>
+    <ProgramId>37</ProgramId>
     <ProgramType>Teacher Professional Development/Mentoring</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000037</CodeValue>
+      <CodeValue>srv:37</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000038</ProgramId>
+    <ProgramId>38</ProgramId>
     <ProgramType>Health Services Program</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000038</CodeValue>
+      <CodeValue>srv:38</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000039</ProgramId>
+    <ProgramId>39</ProgramId>
     <ProgramType>Alternative Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000039</CodeValue>
+      <CodeValue>srv:39</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000040</ProgramId>
+    <ProgramId>40</ProgramId>
     <ProgramType>Gifted and Talented</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000040</CodeValue>
+      <CodeValue>srv:40</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000041</ProgramId>
+    <ProgramId>41</ProgramId>
     <ProgramType>Migrant Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000041</CodeValue>
+      <CodeValue>srv:41</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000042</ProgramId>
+    <ProgramId>42</ProgramId>
     <ProgramType>Regular Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000042</CodeValue>
+      <CodeValue>srv:42</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000043</ProgramId>
+    <ProgramId>43</ProgramId>
     <ProgramType>Optional Flexible School Day Program (OFSDP)</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000043</CodeValue>
+      <CodeValue>srv:43</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000044</ProgramId>
+    <ProgramId>44</ProgramId>
     <ProgramType>Health Services Program</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000044</CodeValue>
+      <CodeValue>srv:44</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000045</ProgramId>
+    <ProgramId>45</ProgramId>
     <ProgramType>Service Learning</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000045</CodeValue>
+      <CodeValue>srv:45</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000046</ProgramId>
+    <ProgramId>46</ProgramId>
     <ProgramType>Service Learning</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000046</CodeValue>
+      <CodeValue>srv:46</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000047</ProgramId>
+    <ProgramId>47</ProgramId>
     <ProgramType>Counseling Services</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000047</CodeValue>
+      <CodeValue>srv:47</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000048</ProgramId>
+    <ProgramId>48</ProgramId>
     <ProgramType>Career and Technical Education</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000048</CodeValue>
+      <CodeValue>srv:48</CodeValue>
     </Services>
   </Program>
   <Program>
-    <ProgramId>prgm-0000000049</ProgramId>
+    <ProgramId>49</ProgramId>
     <ProgramType>Community/Junior College Education Program</ProgramType>
     <ProgramSponsor>School</ProgramSponsor>
     <Services>
-      <CodeValue>srv:prgm-0000000049</CodeValue>
+      <CodeValue>srv:49</CodeValue>
     </Services>
   </Program>
   <LocalEducationAgency>
@@ -1333,8 +1333,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StateEducationAgencyReference>
   </LocalEducationAgency>
   <LocalEducationAgency>
-    <StateOrganizationId>locl-0000000005</StateOrganizationId>
-    <NameOfInstitution>School District locl-0000000005</NameOfInstitution>
+    <StateOrganizationId>5</StateOrganizationId>
+    <NameOfInstitution>School District 5</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>Local Education Agency</OrganizationCategory>
     </OrganizationCategories>
@@ -1371,12 +1371,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <TelephoneNumber>(917)-555-0212</TelephoneNumber>
     </Telephone>
     <GradesOffered>
-        <GradeLevel>Kindergarten</GradeLevel>
-        <GradeLevel>First grade</GradeLevel>
-        <GradeLevel>Second grade</GradeLevel>
-        <GradeLevel>Third grade</GradeLevel>
-        <GradeLevel>Fourth grade</GradeLevel>
-        <GradeLevel>Fifth grade</GradeLevel>
+      <GradeLevel>Kindergarten</GradeLevel>
+      <GradeLevel>First grade</GradeLevel>
+      <GradeLevel>Second grade</GradeLevel>
+      <GradeLevel>Third grade</GradeLevel>
+      <GradeLevel>Fourth grade</GradeLevel>
+      <GradeLevel>Fifth grade</GradeLevel>
     </GradesOffered>
     <SchoolCategories>
       <SchoolCategory>Elementary School</SchoolCategory>
@@ -1407,9 +1407,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <TelephoneNumber>(917)-555-0212</TelephoneNumber>
     </Telephone>
     <GradesOffered>
-        <GradeLevel>Sixth grade</GradeLevel>
-        <GradeLevel>Seventh grade</GradeLevel>
-        <GradeLevel>Eighth grade</GradeLevel>
+      <GradeLevel>Sixth grade</GradeLevel>
+      <GradeLevel>Seventh grade</GradeLevel>
+      <GradeLevel>Eighth grade</GradeLevel>
     </GradesOffered>
     <SchoolCategories>
       <SchoolCategory>Middle School</SchoolCategory>
@@ -1440,10 +1440,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <TelephoneNumber>(917)-555-0212</TelephoneNumber>
     </Telephone>
     <GradesOffered>
-        <GradeLevel>Ninth grade</GradeLevel>
-        <GradeLevel>Tenth grade</GradeLevel>
-        <GradeLevel>Eleventh grade</GradeLevel>
-        <GradeLevel>Twelfth grade</GradeLevel>
+      <GradeLevel>Ninth grade</GradeLevel>
+      <GradeLevel>Tenth grade</GradeLevel>
+      <GradeLevel>Eleventh grade</GradeLevel>
+      <GradeLevel>Twelfth grade</GradeLevel>
     </GradesOffered>
     <SchoolCategories>
       <SchoolCategory>High School</SchoolCategory>
@@ -1454,4 +1454,24 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </EducationalOrgIdentity>
     </LocalEducationAgencyReference>
   </School>
+  <CompetencyLevelDescriptor>
+    <CodeValue>Incompetent</CodeValue>
+    <Description>Student does not understand anything</Description>
+    <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+  </CompetencyLevelDescriptor>
+  <CompetencyLevelDescriptor>
+    <CodeValue>Barely Competent</CodeValue>
+    <Description>Student understands some basic</Description>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
+  </CompetencyLevelDescriptor>
+  <CompetencyLevelDescriptor>
+    <CodeValue>Competent</CodeValue>
+    <Description>Student understands basic and some intermediate material</Description>
+    <PerformanceBaseConversion>Proficient</PerformanceBaseConversion>
+  </CompetencyLevelDescriptor>
+  <CompetencyLevelDescriptor>
+    <CodeValue>Very Competent</CodeValue>
+    <Description>Student understands everything in subject</Description>
+    <PerformanceBaseConversion>Advanced</PerformanceBaseConversion>
+  </CompetencyLevelDescriptor>
 </InterchangeEducationOrganization>

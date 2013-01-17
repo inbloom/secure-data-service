@@ -34,7 +34,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
@@ -62,8 +62,6 @@ public class PurgeProcessor implements Processor {
     private static final String BATCH_JOB_STAGE_DESC = "Purges tenant's ingested data from sli database";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PurgeProcessor.class);
-
-    private static final String TENANT_ID = "tenantId";
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -117,14 +115,11 @@ public class PurgeProcessor implements Processor {
 
                 TenantContext.setTenantId(newJob.getTenantId());
 
-                String tenantId = newJob.getProperty(TENANT_ID);
+                String tenantId = newJob.getTenantId();
                 if (tenantId == null) {
-
                     handleNoTenantId(batchJobId);
                 } else {
-
                     purgeForTenant(exchange, newJob, tenantId);
-
                 }
 
             } catch (Exception exception) {
@@ -236,7 +231,7 @@ public class PurgeProcessor implements Processor {
     private String getBatchJobId(Exchange exchange) {
         String batchJobId = null;
 
-        WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
+        RangedWorkNote workNote = exchange.getIn().getBody(RangedWorkNote.class);
         if (workNote != null) {
             batchJobId = workNote.getBatchJobId();
         }

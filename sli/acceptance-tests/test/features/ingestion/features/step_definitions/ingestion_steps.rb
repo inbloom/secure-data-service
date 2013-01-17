@@ -488,6 +488,10 @@ def initializeLandingZone(lz)
   end
 end
 
+def processUnzippedPayloadFile(file_name)
+  return file_name[0..-5]
+end
+
 def processPayloadFile(file_name)
   path_name = file_name[0..-5]
   file_name = file_name.split('/')[-1] if file_name.include? '/'
@@ -541,11 +545,7 @@ def processPayloadFile(file_name)
   new_ctl_file.close
   FileUtils.mv zip_dir + ctl_template + "-tmp", zip_dir + ctl_template
 
-  if ctl_template == "UnzippedControlFile.ctl"
-    FileUtils.cp_r zip_dir + '/.', @local_file_store_path
-  else
-    runShellCommand("zip -j #{@local_file_store_path}#{file_name} #{zip_dir}/*")
-  end
+  runShellCommand("zip -j #{@local_file_store_path}#{file_name} #{zip_dir}/*")
   FileUtils.rm_r zip_dir
 
   return file_name
@@ -769,9 +769,15 @@ Given /^I should see the number of warnings in warn log is no more than the warn
   verifyWarnCount(count)
 end
 
+Given /^I post "([^"]*)" unzipped file as the payload of the ingestion job$/ do |file_name|
+  @source_dir_name = processUnzippedPayloadFile file_name
+  @source_file_name = file_name
+end
+
 Given /^I post "([^"]*)" file as the payload of the ingestion job$/ do |file_name|
   @source_file_name = processPayloadFile file_name
 end
+
 Given /^I post "([^"]*)" zip file with folder as the payload of the ingestion job$/ do |file_name|
   @source_file_name = processZipWithFolder file_name
 end
@@ -1284,6 +1290,31 @@ def checkForBatchJobLog(landing_zone, should_has_log = true)
   end
 end
 
+def scpUnzippedFilesToLandingZone(filename, dirname)
+  @source_path = @local_file_store_path + dirname
+  @destination_path = @landing_zone_path + filename
+
+  puts "Source = " + @source_path
+  puts "Destination = " + @destination_path
+
+  assert(@destination_path != nil, "Destination path was nil")
+  assert(@source_path != nil, "Source path was nil")
+
+  if (INGESTION_MODE == 'remote')
+    Dir.foreach(@landing_zone_path) do |entry|
+      remoteLzCopy(@source_path + entry, @destination_path)
+    end
+  else
+    # copy file from local filesystem to landing zone
+    FileUtils.cp_r @source_path + '/.', @destination_path
+  end
+
+  puts "ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path} #{ACTIVEMQ_HOST}"
+  runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path} #{ACTIVEMQ_HOST}")
+
+  assert(true, "File Not Uploaded")
+end
+
 def scpFileToLandingZone(filename)
   @source_path = @local_file_store_path + filename
   @destination_path = @landing_zone_path + filename
@@ -1356,7 +1387,7 @@ end
 
 When /^ctl file is scp to ingestion landing zone$/ do
   puts "Copying ctl file at #{Time.now}"
-  scpFileToLandingZone @source_file_name
+  scpUnzippedFilesToLandingZone @source_file_name, @source_dir_name
 end
 
 When /^zip file is scp to ingestion landing zone with name "([^"]*)"$/ do |dest_file_name|
