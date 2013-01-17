@@ -175,7 +175,7 @@ public class LandingZoneProcessor implements Processor {
         LOG.error("LandingZoneProcessor: {} is not a zip file.", lzFileName);
         if (batchJobId != null) {
             Source source = new DirectorySource(lzDirectoryPathName, lzFileName, LZ_STAGE.getName());
-            databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0022, lzFileName);
+            databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0058, lzFileName);
         }
     }
 
