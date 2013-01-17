@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.slc.sli.ingestion.reporting.impl;
 
 /**
@@ -20,19 +21,19 @@ package org.slc.sli.ingestion.reporting.impl;
  * @author slee
  *
  */
-public class DirectorySource extends JobSource
+public class ProcessorSource extends JobSource
 {
-    private final String directoryPath;
+    private final String processorName;
 
-    public DirectorySource(String directoryPath, String resourceId, String stageName)
+    public ProcessorSource(String resourceId, String stageName)
     {
         super(resourceId, stageName);
-        this.directoryPath = directoryPath;
+        this.processorName = stageName;
     }
 
     @Override
     public String getUserFriendlyMessage() {
-        return directoryPath == null ? "" : directoryPath;
+        return processorName == null ? "" : processorName;
     }
 
 }

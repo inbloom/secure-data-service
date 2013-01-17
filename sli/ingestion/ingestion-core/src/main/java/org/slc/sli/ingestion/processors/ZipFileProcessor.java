@@ -38,8 +38,8 @@ import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.JobSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
+import org.slc.sli.ingestion.reporting.impl.ZipFileSource;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
@@ -124,7 +124,7 @@ public class ZipFileProcessor implements Processor {
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOG.error("Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
-            Source source = new JobSource(resourceId, BATCH_JOB_STAGE.getName());
+            Source source = new ZipFileSource(resourceId, BATCH_JOB_STAGE.getName());
             databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0014, exception.toString());
         }
     }

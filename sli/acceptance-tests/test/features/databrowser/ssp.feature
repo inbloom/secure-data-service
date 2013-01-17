@@ -22,6 +22,7 @@ Scenario: Searching for a entities
 |educationOrganizations|waffles   | Fail   |
 |staff                 |wgoodman  | Pass   |
 |staff                 |waffles   | Fail   |
+|staff                 |          | Fail  |
 
 @wip
 Scenario: Sorting in ascending/descending

@@ -46,7 +46,7 @@ profileSwapAndPropGenSB()
   cd $WORKSPACE/sli
   sh profile_swap.sh $NODE_NAME
   cd config/scripts
-  ruby webapp-provision.rb ../config.in/canonical_config.yml sandbox ../properties/sli.properties
+  ruby webapp-provision.rb ../config.in/canonical_config.yml sandbox /opt/tomcat/conf/sli.properties
   cp $WORKSPACE/sli/data-access/dal/keyStore/ci* /opt/tomcat/encryption/ 
   cp $WORKSPACE/sli/common/common-encrypt/trust/* /opt/tomcat/trust/
 }
@@ -77,6 +77,13 @@ adminUnitTests()
   bundle exec rake ci:setup:testunit test
 }
 
+databrowserUnitTests()
+{
+  cd $WORKSPACE/sli/databrowser
+  bundle install --deployment
+  bundle exec rake ci:setup:testunit test
+}
+
 deployAdmin()
 {
   cd $WORKSPACE/sli/admin-tools/admin-rails
@@ -96,6 +103,12 @@ deployDatabrowser()
   cd $WORKSPACE/sli/databrowser
   bundle install --deployment
   bundle exec cap team deploy -s subdomain=$NODE_NAME -S branch=$GITCOMMIT
+}
+
+buildApi()
+{
+  cd $WORKSPACE/sli
+  /jenkins/tools/Maven/bin/mvn -pl api -am -ff -P team -Dmaven.test.failure.ignore=false -Dsli.env=team -Dsli.dev.subdomain=$NODE_NAME clean install -DskipTests=true
 }
 
 

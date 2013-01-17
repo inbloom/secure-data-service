@@ -87,7 +87,7 @@ public class OfflineTool {
                 return;
             }
             if (file.isDirectory()) {
-                Source source = new DirectorySource(file.getName(), null);
+                Source source = new DirectorySource(file.getPath(), file.getName(), null);
                 messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0013);
                 messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0016, appName);
                 return;

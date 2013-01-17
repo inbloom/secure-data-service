@@ -159,6 +159,7 @@ public class ObjectiveAssessmentBuilder {
             Map<String, Object> objectiveAssessmentToReturn = new HashMap<String, Object>();
             NeutralRecord neutralRecord = objectiveAssessment.getValue();
             NeutralRecordSource source = new NeutralRecordSource(neutralRecord.getSourceFile(), BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
+                    neutralRecord.getRecordType(),
                     neutralRecord.getVisitBeforeLineNumber(),
                     neutralRecord.getVisitBeforeColumnNumber(),
                     neutralRecord.getVisitAfterLineNumber(), neutralRecord.getVisitAfterColumnNumber());
@@ -290,6 +291,7 @@ public class ObjectiveAssessmentBuilder {
 
             for (NeutralRecord nr : objectiveAssessments.values()) {
                 NeutralRecordSource nrSource = new NeutralRecordSource(sourceFile, BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
+                        nr.getRecordType(),
                         nr.getVisitBeforeLineNumber(),
                         nr.getVisitBeforeColumnNumber(),
                         nr.getVisitAfterLineNumber(), nr.getVisitAfterColumnNumber());

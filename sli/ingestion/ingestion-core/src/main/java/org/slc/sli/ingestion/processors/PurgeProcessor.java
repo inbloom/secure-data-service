@@ -44,7 +44,7 @@ import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.JobSource;
+import org.slc.sli.ingestion.reporting.impl.ProcessorSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 
@@ -73,8 +73,6 @@ public class PurgeProcessor implements Processor {
     private AbstractMessageReport databaseMessageReport;
 
     private List<String> excludeCollections;
-
-    private Source source = null;
 
     private ReportStats reportStats = null;
 
@@ -106,7 +104,6 @@ public class PurgeProcessor implements Processor {
         String batchJobId = getBatchJobId(exchange);
         if (batchJobId != null) {
 
-            source = new JobSource(null, BATCH_JOB_STAGE.getName());
             reportStats = new SimpleReportStats();
 
             NewBatchJob newJob = null;
@@ -217,6 +214,7 @@ public class PurgeProcessor implements Processor {
     }
 
     private void handleNoTenantId(String batchJobId) {
+        Source source = new ProcessorSource(null, BATCH_JOB_STAGE.getName());
         databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0035);
     }
 
@@ -225,6 +223,7 @@ public class PurgeProcessor implements Processor {
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         exchange.setProperty("purge.complete", "Errors encountered during purge process");
 
+        Source source = new ProcessorSource(null, BATCH_JOB_STAGE.getName());
         databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0036, exception.toString());
     }
 

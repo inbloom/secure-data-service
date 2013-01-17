@@ -26,7 +26,6 @@ import org.slc.sli.ingestion.reporting.MessageCode;
  */
 public enum CoreMessageCode implements MessageCode {
     CORE_0001,
-    CORE_0002,
     CORE_0003,
     CORE_0004,
     CORE_0005,

@@ -66,8 +66,7 @@ public class ZipFileValidator implements Validator<File> {
         long clockTimeout = System.currentTimeMillis() + zipfileTimeout;
 
         // we know more of our source
-        Source newsource = new ZipFileSource(zipFile.getName(),
-                (source == null ? null : source.getStageName()));
+        Source newsource = new ZipFileSource(source, zipFile);
         LOG.info("Validating " + zipFile.getAbsolutePath());
 
         while (!done) {
