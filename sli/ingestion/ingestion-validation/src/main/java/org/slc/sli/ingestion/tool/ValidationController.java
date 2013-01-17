@@ -71,7 +71,7 @@ public class ValidationController {
                 messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0001);
             }
         } else {
-            Source source = new DirectorySource(path.getName(), null);
+            Source source = new DirectorySource(path.getPath(), path.getName(), null);
             messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0015);
         }
     }
