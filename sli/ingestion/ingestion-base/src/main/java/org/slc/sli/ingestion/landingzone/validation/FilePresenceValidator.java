@@ -31,7 +31,10 @@ import org.slc.sli.ingestion.reporting.impl.ControlFileSource;
 import org.slc.sli.ingestion.validation.Validator;
 
 /**
- * File Type validator.
+ * File Presence validator.
+ *
+ * Performs a test of the presence and that does not contain a folder in the path.
+ *
  *
  */
 public class FilePresenceValidator implements Validator<IngestionFileEntry> {

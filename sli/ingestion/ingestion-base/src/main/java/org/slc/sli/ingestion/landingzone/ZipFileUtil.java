@@ -86,18 +86,6 @@ public final class ZipFileUtil {
     /**
      * Returns a stream for a file stored in the ZIP archive.
      *
-     * @param zipFilePath Path to the ZIP archive
-     * @param fileName Name of the file to get stream for
-     * @throws FileNotFoundException
-     * @throws IOException
-     */
-    public static InputStream getInputStreamForFile(String zipFilePath, String fileName) throws IOException {
-        return getInputStreamForFile(new File(zipFilePath), fileName);
-    }
-
-    /**
-     * Returns a stream for a file stored in the ZIP archive.
-     *
      * @param zipFile ZIP archive
      * @param fileName Name of the file to get stream for
      * @throws FileNotFoundException
