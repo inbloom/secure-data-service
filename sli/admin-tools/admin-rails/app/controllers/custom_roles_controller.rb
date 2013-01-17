@@ -34,14 +34,14 @@ class CustomRolesController < ApplicationController
 
   # # GET /realms/1/
   def show
-    @custom_roles = CustomRole.find(:first, :realmId => params[:id])
+    @custom_roles = CustomRole.find(:first, :params => {"realmId" => params[:id]})
     logger.debug {"Custom Roles: #{@custom_roles.to_json}"}
     @default_roles = CustomRole.defaults()
   end
 
   # # PUT /realms/1
   def update
-    @custom_roles = CustomRole.find(params[:id])
+    @custom_roles = CustomRole.find(:first, :params => {"realmId" => params[:id]})
     respond_to do |format|
       success = false
       errorMsg = ""
