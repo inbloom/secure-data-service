@@ -118,12 +118,7 @@ Then /^I should get (\d+) errors$/ do |arg1|
 end
 
 Then /^I should not see any errors$/ do
-  begin
-    @driver.find_element(:id, 'error_explanation')
-    assert(false, "Shouldn't be any errors")
-  rescue
-    assert(true, "There shouldn't be any errors found")
-  end
+  assertWithWait("Shouldn't be any errors") { @driver.find_elements(:id, 'error_explanation').size == 0 }
 end
 
 Then /^I should make the unique identifier not unique$/ do
@@ -148,37 +143,22 @@ When /^I see the realms for "([^"]*)"$/ do |uid|
 end
 
 When /^I click the "(.*?)" edit button$/ do |arg1|
-  @driver.find_element(:link, "Edit").click
+  realm_row = @driver.find_element(:xpath, "//td[text()='#{arg1}']/..")
+  realm_row.find_element(:link, "Edit").click
 end
 
-#def close_alert_and_get_its_text()
-  #if (@accept_next_alert) then
-    #alert.accept()
-  #else
-    #alert.dismiss()
-  #end
-  #alert.text
-#ensure
-  #@accept_next_alert = true
-#end
-
 When /^I click the "(.*?)" delete button and confirm deletion$/ do |arg1|
-  @driver.find_element(:link, "Delete Realm").click
+  realm_row = @driver.find_element(:xpath, "//td[text()='#{arg1}']/..")
+  realm_row.find_element(:link, "Delete Realm").click
   alert = @driver.switch_to().alert()
+  assert(alert.text.index("WARNING: DELETING REALM WILL PREVENT ANY USER ASSOCIATED WITH THIS REALM FROM AUTHENTICATING ON inBloom AND WILL RESET ROLE MAPPING") != nil, "Popup message was not expected")
   alert.accept()
-  #assert_confirmation /^WARNING: DELETING REALM WILL PREVENT ANY USER ASSOCIATED WITH THIS REALM FROM AUTHENTICATING ON inBloom AND WILL RESET ROLE MAPPING\. ARE YOU SURE[\s\S]$/i
-  assert_match alert.text, /^WARNING: DELETING REALM WILL PREVENT ANY USER ASSOCIATED WITH THIS REALM FROM AUTHENTICATING ON inBloom AND WILL RESET ROLE MAPPING\. ARE YOU SURE[\s\S]$/
-  sleep 2
 end
 
 And /^the realm "(.*?)" will not exist$/ do |arg1|
-  assert_no_match /^[\s\S]*#{arg1}[\s\S]*$/, @driver.find_element(:id, "realms").text
+  assertWithWait("Realm #{arg1} was still found on page") {@driver.find_element(:id, "realms").text.index(arg1) == nil}
 end
 
 And /^the realm "(.*?)" will exist$/ do |arg1|
-  assert_match /^[\s\S]*#{arg1}[\s\S]*$/, @driver.find_element(:id, "realms").text
-end
-
-When /^pause$/ do
-  sleep 30
+  assertWithWait("Realm #{arg1} was not found on page") {@driver.find_element(:id, "realms").text.index(arg1) != nil}
 end
