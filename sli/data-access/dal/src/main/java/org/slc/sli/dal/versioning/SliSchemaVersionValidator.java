@@ -120,7 +120,7 @@ public class SliSchemaVersionValidator {
             String entityType = entry.getKey();
             int newVersion = entry.getValue();
             
-            if (this.getMigrationStrategies(entityType, -1, newVersion) == NO_STRATEGIES_DEFINED) {
+            if (this.getMigrationStrategies(entityType, 0, newVersion) == NO_STRATEGIES_DEFINED) {
                 LOG.warn("Migration of entity type [{}] to version [{}] is undefined", entry.getKey(), entry.getValue());
             }
         }
@@ -324,7 +324,7 @@ public class SliSchemaVersionValidator {
         List<MigrationStrategy> allStrategies = new LinkedList<MigrationStrategy>();
 
         if (entityMigrations != null) {
-            for (int version = entityVersionNumber; version <= newVersionNumber; version++) {
+            for (int version = entityVersionNumber+1; version <= newVersionNumber; version++) {
                 List<MigrationStrategy> strategies = entityMigrations.get(version);
 
                 if (strategies != null) {
