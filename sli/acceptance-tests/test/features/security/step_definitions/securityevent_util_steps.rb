@@ -28,12 +28,19 @@ Given /^the sli securityEvent collection is empty/ do
 end
 
 Then /^a security event matching ("[^"]*") should be in the sli db$/ do |securityeventpattern|
-  securityEventCollection()
-  puts("Matching on #{securityeventpattern}") if ENV['DEBUG']
-  secEventCount = @coll.count({"body.logMessage" => /#{securityeventpattern}/})
-  puts("Found #{secEventCount} matching security events out of " + @coll.count().to_s) if ENV['DEBUG']
-  secEvent = @coll.find_one({"body.logMessage" => /#{securityeventpattern}/}) if ENV['DEBUG']
-  puts("Find one returned security event #{secEvent}") if ENV['DEBUG']
+  params = {'search' => 'DB'}
+#  search_string = params['search']
+  search_string = params[securityeventpattern]
+
+#  securityEventCollection()
+  db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
+  coll ||= db.collection('securityEvent')
+  
+  STDOUT.puts("Matching on #{securityeventpattern}") if ENV['DEBUG']
+  secEventCount = coll.find({"body.logMessage" => /#{search_string}/}).count()
+  STDOUT.puts("Found #{secEventCount} matching security events out of " + coll.count().to_s) if ENV['DEBUG']
+  STDOUT.puts("Find one security event ") if ENV['DEBUG']
+  STDOUT.puts coll.find_one({"body.logMessage" => /#{search_string}/}).to_s if ENV['DEBUG']
   assert(secEventCount > 0, "No security events were found with logMessage matching #{securityeventpattern}")
 end
 
