@@ -55,14 +55,16 @@ public class DateFilterCriteriaGenerator {
             String schoolYearRange = schoolYears.get(0);
 
             //Extract date range using session
-            Pair<String, String> dates = sessionRangeCalculator.findDateRange(schoolYearRange);
+            SessionDateInfo sessionDateInfo = sessionRangeCalculator.findDateRange(schoolYearRange);
 
             // Find appropriate entity to apply filter
             entityIdentifier.findEntity(request.getPath());
             builder().forEntity(entityIdentifier.getEntityName())
                 .withAttributes(entityIdentifier.getBeginDateAttribute(), entityIdentifier.getEndDateAttribute())
-                .startingFrom(dates.getLeft())
-                .endingTo(dates.getRight())
+                .startingFrom(sessionDateInfo.getStartDate())
+                .endingTo(sessionDateInfo.getEndDate())
+                .withSessionIds(sessionDateInfo.getSessionIds())
+                .asSessionBasedQuery(false)
                 .build();
         }
     }
@@ -77,6 +79,8 @@ public class DateFilterCriteriaGenerator {
         private String endDate;
         private String beginDateAttribute;
         private String endDateAttribute;
+        private List<String> sessionIds;
+        private boolean isSessionBasedQuery;
 
         public DateFilterCriteriaBuilder forEntity(String entityName) {
             this.entityName = entityName;
@@ -95,6 +99,15 @@ public class DateFilterCriteriaGenerator {
             this.endDate = endDate;
             return this;
         }
+        public DateFilterCriteriaBuilder withSessionIds(List<String> sessionIds) {
+            this.sessionIds = sessionIds;
+            return this;
+        }
+        public DateFilterCriteriaBuilder asSessionBasedQuery(boolean isSessionBasedQuery) {
+            this.isSessionBasedQuery = isSessionBasedQuery;
+            return this;
+        }
+
 
         public void build() {
             GranularAccessFilter granularAccessFilter = new GranularAccessFilter();

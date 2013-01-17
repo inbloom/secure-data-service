@@ -84,20 +84,22 @@ public class SessionRangeCalculatorTest {
     public void shouldAllowValidDateRange() {
 
         initRepo();
-        Pair<String,String> result = calc.findDateRange("2009-2010");
+        SessionDateInfo result = calc.findDateRange("2009-2010");
 
-        Assert.assertEquals("Should match", "2006-08-14", result.getLeft());
-        Assert.assertEquals("Should match", "2009-05-22", result.getRight());
+        Assert.assertEquals("Should match", "2006-08-14", result.getStartDate());
+        Assert.assertEquals("Should match", "2009-05-22", result.getEndDate());
+        Assert.assertEquals("Should match", 4, result.getSessionIds().size());
     }
 
     @Test
     public void shouldReturnEmptyRanges() {
 
         initRepo(Collections.EMPTY_LIST);
-        Pair<String,String> result = calc.findDateRange("2009-2010");
+        SessionDateInfo result = calc.findDateRange("2009-2010");
 
-        Assert.assertEquals("Should match", "", result.getLeft());
-        Assert.assertEquals("Should match", "", result.getRight());
+        Assert.assertEquals("Should match", "", result.getStartDate());
+        Assert.assertEquals("Should match", "", result.getEndDate());
+        Assert.assertEquals("Should match", 0, result.getSessionIds().size());
     }
 
     private void initRepo(){
@@ -115,8 +117,12 @@ public class SessionRangeCalculatorTest {
     private void initRepo(List<Pair<String,String>> sessionDates){
         List<Entity> sessions = new ArrayList<Entity>();
 
+        int id = 1000;
+
         for(Pair<String,String> pair : sessionDates){
-            Entity e = new MongoEntity("", new HashMap<String, Object>());
+            String entityId = id + "";
+            id += 1;
+            Entity e = new MongoEntity("someEntity", entityId, new HashMap<String, Object>(), null);
             e.getBody().put("beginDate",pair.getLeft());
             e.getBody().put("endDate",pair.getRight());
             sessions.add(e);
