@@ -60,11 +60,11 @@ public class DateFilterCriteriaGenerator {
             // Find appropriate entity to apply filter
             entityIdentifier.findEntity(request.getPath());
             builder().forEntity(entityIdentifier.getEntityName())
-                .withAttributes(entityIdentifier.getBeginDateAttribute(), entityIdentifier.getEndDateAttribute())
+                .withDateAttributes(entityIdentifier.getBeginDateAttribute(), entityIdentifier.getEndDateAttribute())
+                    .withSessionAttribute(entityIdentifier.getSessionAttribute())
                 .startingFrom(sessionDateInfo.getStartDate())
                 .endingTo(sessionDateInfo.getEndDate())
                 .withSessionIds(sessionDateInfo.getSessionIds())
-                .asSessionBasedQuery(false)
                 .build();
         }
     }
@@ -80,13 +80,13 @@ public class DateFilterCriteriaGenerator {
         private String beginDateAttribute;
         private String endDateAttribute;
         private List<String> sessionIds;
-        private boolean isSessionBasedQuery;
+        private String sessionAttribute;
 
         public DateFilterCriteriaBuilder forEntity(String entityName) {
             this.entityName = entityName;
             return this;
         }
-        public DateFilterCriteriaBuilder withAttributes(String beginDateAttribute, String endDateAttribute) {
+        public DateFilterCriteriaBuilder withDateAttributes(String beginDateAttribute, String endDateAttribute) {
             this.beginDateAttribute = beginDateAttribute;
             this.endDateAttribute = endDateAttribute;
             return this;
@@ -103,10 +103,10 @@ public class DateFilterCriteriaGenerator {
             this.sessionIds = sessionIds;
             return this;
         }
-        public DateFilterCriteriaBuilder asSessionBasedQuery(boolean isSessionBasedQuery) {
-            this.isSessionBasedQuery = isSessionBasedQuery;
-            return this;
-        }
+       public DateFilterCriteriaBuilder withSessionAttribute(String sessionAttribute) {
+           this.sessionAttribute = sessionAttribute;
+           return this;
+       }
 
 
         public void build() {

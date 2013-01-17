@@ -22,6 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.model.ModelProvider;
+import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.TaggedValue;
@@ -48,6 +49,12 @@ public class EntityIdentifier {
 
     private String entityName;
     private String beginDateAttribute;
+
+    public String getSessionAttribute() {
+        return sessionAttribute;
+    }
+
+    private String sessionAttribute;
 
     public String getEntityName() {
         return entityName;
@@ -80,13 +87,16 @@ public class EntityIdentifier {
         String resource = resources.get(resources.size() - 1);
         EntityDefinition definition = entityDefinitionStore.lookupByResourceName(resource);
         ClassType entityType = modelProvider.getClassType(StringUtils.capitalize(definition.getType()));
-        if (populateAttributes(entityType)) {
+        if (populateDateAttributes(entityType)) {
             entityName = resource;
-        } else {
+        } else if (populateSessionAttribute(entityType)) {
+
+        }
+        else {
             List<String> associations = modelProvider.getAssociatedDatedEntities(entityType);
             for(String association: associations) {
                if(request.toLowerCase().contains(association.toLowerCase())) {
-                   populateAttributes(modelProvider.getClassType(association));
+                   populateDateAttributes(modelProvider.getClassType(association));
                    entityName = request.substring(request.toLowerCase().indexOf(association.toLowerCase())).split("/")[0];
                }
             }
@@ -97,7 +107,17 @@ public class EntityIdentifier {
 //        }
     }
 
-    private boolean populateAttributes(ClassType entityType) {
+    private boolean populateSessionAttribute(ClassType entityType) {
+       for( AssociationEnd assoc : modelProvider.getAssociationEnds(entityType.getId())) {
+           if(assoc.getName().equals("session")) {
+               sessionAttribute = assoc.getAssociatedAttributeName();
+           }
+       }
+        return !sessionAttribute.isEmpty();
+    }
+
+
+    private boolean populateDateAttributes(ClassType entityType) {
 
         beginDateAttribute = (entityType.getBeginDateAttribute()!=null)?entityType.getBeginDateAttribute().getName():"";
         endDateAttribute = (entityType.getEndDateAttribute()!=null)?entityType.getEndDateAttribute().getName():"";
