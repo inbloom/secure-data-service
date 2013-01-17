@@ -90,7 +90,11 @@ public class DotPath implements Cloneable {
 
     @Override
     public boolean equals(Object o) {
-        return path.equals(o);
+        if (o instanceof DotPath) {
+        	DotPath other = (DotPath) o;
+        	return path.equals(other.path);
+        }
+    	return false;
     }
 
     @Override
