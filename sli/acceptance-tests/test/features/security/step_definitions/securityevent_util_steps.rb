@@ -27,21 +27,17 @@ Given /^the sli securityEvent collection is empty/ do
   @coll.remove()
 end
 
-Then /^a security event matching ("[^"]*") should be in the sli db$/ do |securityeventpattern|
-  params = {'search' => 'DB'}
-#  search_string = params['search']
-  search_string = params[securityeventpattern]
+Then /^a security event matching "([^"]*)" should be in the sli db$/ do |securityeventpattern|
+  search_string = securityeventpattern.to_s
 
-#  securityEventCollection()
-  db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
-  coll ||= db.collection('securityEvent')
+  securityEventCollection()
   
-  STDOUT.puts("Matching on #{securityeventpattern}") if ENV['DEBUG']
+  STDOUT.puts("Matching on " + securityeventpattern + "/" + search_string) if ENV['DEBUG']
   secEventCount = coll.find({"body.logMessage" => /#{search_string}/}).count()
   STDOUT.puts("Found #{secEventCount} matching security events out of " + coll.count().to_s) if ENV['DEBUG']
   STDOUT.puts("Find one security event ") if ENV['DEBUG']
   STDOUT.puts coll.find_one({"body.logMessage" => /#{search_string}/}).to_s if ENV['DEBUG']
-  assert(secEventCount > 0, "No security events were found with logMessage matching #{securityeventpattern}")
+  assert(secEventCount > 0, "No security events were found with logMessage matching " + securityeventpattern)
 end
 
 def securityEventCollection
