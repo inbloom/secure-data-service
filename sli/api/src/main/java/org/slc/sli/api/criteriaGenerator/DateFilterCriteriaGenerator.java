@@ -43,10 +43,10 @@ import java.util.Set;
 public class DateFilterCriteriaGenerator {
 
     @Autowired
-    EntityIdentifier entityIdentifier;
+    private EntityIdentifier entityIdentifier;
 
     @Autowired
-    SessionRangeCalculator sessionRangeCalculator;
+    private SessionRangeCalculator sessionRangeCalculator;
 
     private ThreadLocal<GranularAccessFilter> granularAccessFilterStore = new ThreadLocal<GranularAccessFilter>();
     public void generate(ContainerRequest request) {
