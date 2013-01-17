@@ -27,6 +27,7 @@ import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
+import org.slc.sli.ingestion.reporting.impl.ControlFileSource;
 import org.slc.sli.ingestion.validation.Validator;
 
 /**
@@ -43,15 +44,17 @@ public class FilePresenceValidator implements Validator<IngestionFileEntry> {
 
         InputStream is = null;
         boolean valid = true;
+        // we know more of our source
+        Source newsource = new ControlFileSource(source, entry.getFileName());
 
         if (hasPathInName(entry.getFileName())) {
-            report.error(reportStats, source, BaseMessageCode.BASE_0004, entry.getFileName());
+            report.error(reportStats, newsource, BaseMessageCode.BASE_0004, entry.getFileName());
             valid = false;
         } else {
             try {
                 is = entry.getFileStream();
             } catch (IOException e) {
-                report.error(reportStats, source, BaseMessageCode.BASE_0001, entry.getFileName());
+                report.error(reportStats, newsource, BaseMessageCode.BASE_0001, entry.getFileName());
                 valid = false;
             } finally {
                 IOUtils.closeQuietly(is);
