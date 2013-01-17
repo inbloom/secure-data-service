@@ -45,7 +45,7 @@ import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.JobSource;
+import org.slc.sli.ingestion.reporting.impl.ProcessorSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.LogUtil;
@@ -107,8 +107,6 @@ public class EdFiProcessor implements Processor {
                 throw new FileNotFoundException("No match for file " + fe.getFileName() + " in batch job "
                         + newJob.getId());
             }
-            fe.setMessageReport(databaseMessageReport);
-            fe.setReportStats(new SimpleReportStats());
             Metrics metrics = Metrics.newInstance(fe.getFileName());
             stage.addMetrics(metrics);
 
@@ -123,13 +121,14 @@ public class EdFiProcessor implements Processor {
 
             indexStagingDB();
 
+            ReportStats rs = new SimpleReportStats();
+
             // Convert XML file to neutral records, and stage.
-            FileProcessStatus fileProcessStatus = smooksFileHandler.handle(fe, fe.getMessageReport(),
-                    fe.getReportStats());
+            FileProcessStatus fileProcessStatus = smooksFileHandler.handle(fe, databaseMessageReport, rs);
 
-            processMetrics(metrics, fe, fileProcessStatus);
+            processMetrics(metrics, fe, fileProcessStatus, rs);
 
-            setExchangeHeaders(exchange, fe.getReportStats().hasErrors());
+            setExchangeHeaders(exchange, rs.hasErrors());
         } catch (Exception exception) {
             handleProcessingExceptions(exchange, batchJobId, exception);
         } finally {
@@ -161,10 +160,10 @@ public class EdFiProcessor implements Processor {
         return false;
     }
 
-    private void processMetrics(Metrics metrics, IngestionFileEntry fe, FileProcessStatus fileProcessStatus) {
+    private void processMetrics(Metrics metrics, IngestionFileEntry fe, FileProcessStatus fileProcessStatus, ReportStats rs) {
         metrics.setDuplicateCounts(fileProcessStatus.getDuplicateCounts());
         metrics.setRecordCount(fileProcessStatus.getTotalRecordCount());
-        metrics.setErrorCount(fe.getReportStats().getErrorCount());
+        metrics.setErrorCount(rs.getErrorCount());
     }
 
     private void handleProcessingExceptions(Exchange exchange, String batchJobId, Exception exception) {
@@ -174,7 +173,7 @@ public class EdFiProcessor implements Processor {
 
         if (batchJobId != null) {
             ReportStats reportStats = new SimpleReportStats();
-            Source source = new JobSource(null, BATCH_JOB_STAGE.getName());
+            Source source = new ProcessorSource(null, BATCH_JOB_STAGE.getName());
             databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0021, batchJobId,
                     exception.getMessage());
         }

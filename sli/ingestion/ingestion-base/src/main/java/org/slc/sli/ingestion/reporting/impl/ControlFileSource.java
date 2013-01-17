@@ -17,23 +17,44 @@ package org.slc.sli.ingestion.reporting.impl;
 
 import java.text.MessageFormat;
 
+import org.slc.sli.ingestion.landingzone.ControlFile;
+import org.slc.sli.ingestion.reporting.Source;
+
 /**
  * A source implementation for control files.
  *
  * @author dduran
  *
  */
-public class ControlFileSource extends JobSource {
+public class ControlFileSource extends FileSource {
 
     private int lineNumber;
     private String line;
+    private String controlFileName;
+    private String parentZipFileOrDirectory;
+    private String fileEntryName;
 
     public ControlFileSource(String resourceId, String stageName) {
         super(resourceId, stageName);
     }
 
+    public ControlFileSource(Source source, ControlFile controlFile) {
+        super(source == null ? null : source.getResourceId(), source == null ? null : source.getStageName());
+        this.controlFileName = controlFile.getFileName();
+        this.parentZipFileOrDirectory = controlFile.getParentZipFileOrDirectory();
+    }
+
+    public ControlFileSource(Source source, String fileEntryName) {
+        super(source == null ? null : source.getResourceId(), source == null ? null : source.getStageName());
+        if (source instanceof ControlFileSource) {
+            this.controlFileName = ((ControlFileSource) source).controlFileName;
+            this.parentZipFileOrDirectory = ((ControlFileSource) source).parentZipFileOrDirectory;
+        }
+        this.fileEntryName = fileEntryName;
+    }
+
     public ControlFileSource(String resourceId, String stageName, int lineNumber, String line) {
-        this(resourceId, stageName);
+        super(resourceId, stageName);
         this.lineNumber = lineNumber;
         this.line = line;
     }

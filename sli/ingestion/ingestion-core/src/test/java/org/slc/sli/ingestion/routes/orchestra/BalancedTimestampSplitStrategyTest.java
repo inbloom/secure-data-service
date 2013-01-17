@@ -29,7 +29,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.ingestion.EdfiEntity;
 import org.slc.sli.ingestion.IngestionStagedEntity;
-import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordAccess;
 
 /**
@@ -53,7 +53,7 @@ public class BalancedTimestampSplitStrategyTest {
         IngestionStagedEntity stagedEntity = new IngestionStagedEntity(collectionName, EdfiEntity.STUDENT);
 
         balancedTimestampSplitStrategy.setSplitChunkSize(8000);
-        List<WorkNote> workNotes = balancedTimestampSplitStrategy.splitForEntity(stagedEntity);
+        List<RangedWorkNote> workNotes = balancedTimestampSplitStrategy.splitForEntity(stagedEntity);
 
         assertEquals(1, workNotes.size());
     }
@@ -64,7 +64,7 @@ public class BalancedTimestampSplitStrategyTest {
         IngestionStagedEntity stagedEntity = new IngestionStagedEntity(collectionName, EdfiEntity.STUDENT);
 
         balancedTimestampSplitStrategy.setSplitChunkSize(4000);
-        List<WorkNote> workNotes = balancedTimestampSplitStrategy.splitForEntity(stagedEntity);
+        List<RangedWorkNote> workNotes = balancedTimestampSplitStrategy.splitForEntity(stagedEntity);
 
         assertEquals(2, workNotes.size());
     }
@@ -75,7 +75,7 @@ public class BalancedTimestampSplitStrategyTest {
         IngestionStagedEntity stagedEntity = new IngestionStagedEntity(collectionName, EdfiEntity.STUDENT);
 
         balancedTimestampSplitStrategy.setSplitChunkSize(900);
-        List<WorkNote> workNotes = balancedTimestampSplitStrategy.splitForEntity(stagedEntity);
+        List<RangedWorkNote> workNotes = balancedTimestampSplitStrategy.splitForEntity(stagedEntity);
 
         assertEquals(10, workNotes.size());
     }

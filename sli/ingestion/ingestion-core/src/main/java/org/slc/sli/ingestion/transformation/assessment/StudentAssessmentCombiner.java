@@ -119,7 +119,9 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : studentAssessments.entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
             Map<String, Object> attributes = neutralRecord.getAttributes();
-            NeutralRecordSource source = new NeutralRecordSource(neutralRecord.getSourceFile(), BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
+            NeutralRecordSource source = new NeutralRecordSource(neutralRecord.getSourceFile(),
+                    BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
+                    neutralRecord.getRecordType(),
                     neutralRecord.getVisitBeforeLineNumber(),
                     neutralRecord.getVisitBeforeColumnNumber(),
                     neutralRecord.getVisitAfterLineNumber(), neutralRecord.getVisitAfterColumnNumber());
@@ -268,6 +270,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                 String assessmentItemIdentificatonCode = (String) sai.getLocalParentIds().get(
                         "assessmentItemIdentificatonCode");
                 NeutralRecordSource source = new NeutralRecordSource(sai.getSourceFile(), BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
+                        sai.getRecordType(),
                         sai.getVisitBeforeLineNumber(),
                         sai.getVisitBeforeColumnNumber(),
                         sai.getVisitAfterLineNumber(), sai.getVisitAfterColumnNumber());

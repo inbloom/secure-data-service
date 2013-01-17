@@ -44,6 +44,7 @@ import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
 import org.slc.sli.ingestion.reporting.impl.NeutralRecordSource;
+import org.slc.sli.ingestion.reporting.impl.XmlFileSource;
 
 /**
  * Validates the xml file against an xsd. Returns false if there is any error else it will always
@@ -65,6 +66,8 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
     public boolean isValid(IngestionFileEntry entry, AbstractMessageReport report,
             ReportStats reportStats, Source source) {
 
+        // we know more of our source
+        Source newsource = new XmlFileSource(source, entry.getFileName());
         InputStream is = null;
         try {
             is = entry.getFileStream();
@@ -72,10 +75,10 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
             return validateXmlFile(entry, is, report, reportStats);
         } catch (FileNotFoundException e) {
             LOG.error("File not found: " + entry.getFileName(), e);
-            report.error(reportStats, source, BaseMessageCode.BASE_0023, entry.getFileName());
+            report.error(reportStats, newsource, BaseMessageCode.BASE_0023, entry.getFileName());
         } catch (IOException e) {
             LOG.error("Problem reading file: " + entry.getFileName(), e);
-            report.error(reportStats, source, BaseMessageCode.BASE_0024, entry.getFileName());
+            report.error(reportStats, newsource, BaseMessageCode.BASE_0024, entry.getFileName());
         } catch (SAXException e) {
             LOG.error("SAXException");
         } catch (Exception e) {

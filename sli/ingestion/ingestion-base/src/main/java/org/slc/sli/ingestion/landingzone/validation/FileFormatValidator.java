@@ -22,6 +22,7 @@ import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
+import org.slc.sli.ingestion.reporting.impl.ControlFileSource;
 import org.slc.sli.ingestion.validation.Validator;
 
 /**
@@ -36,7 +37,9 @@ public class FileFormatValidator implements Validator<IngestionFileEntry> {
             Source source) {
         FileFormat format = entry.getFileFormat();
         if (format == null) {
-            report.error(reportStats, source, BaseMessageCode.BASE_0005, entry.getFileName(), "format");
+            // we know more of our source
+            Source newsource = new ControlFileSource(source, entry.getFileName());
+            report.error(reportStats, newsource, BaseMessageCode.BASE_0005, entry.getFileName(), "format");
 
             return false;
         }

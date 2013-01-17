@@ -26,15 +26,15 @@ import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.zip.UnsupportedZipFeatureException;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
+import org.slc.sli.ingestion.reporting.impl.ZipFileSource;
 import org.slc.sli.ingestion.validation.Validator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * Zip file validator.
@@ -65,6 +65,8 @@ public class ZipFileValidator implements Validator<File> {
         boolean done = false;
         long clockTimeout = System.currentTimeMillis() + zipfileTimeout;
 
+        // we know more of our source
+        Source newsource = new ZipFileSource(source, zipFile);
         LOG.info("Validating " + zipFile.getAbsolutePath());
 
         while (!done) {
@@ -78,7 +80,7 @@ public class ZipFileValidator implements Validator<File> {
                 while ((ze = zis.getNextEntry()) != null) {
 
                     if (isDirectory(ze)) {
-                        report.error(reportStats, source, BaseMessageCode.BASE_0010, zipFile.getName());
+                        report.error(reportStats, newsource, BaseMessageCode.BASE_0010, zipFile.getName());
                         return false;
                     }
 
@@ -89,14 +91,14 @@ public class ZipFileValidator implements Validator<File> {
 
                 // no manifest (.ctl file) found in the zip file
                 if (!isValid) {
-                    report.error(reportStats, source, BaseMessageCode.BASE_0009, zipFile.getName());
+                    report.error(reportStats, newsource, BaseMessageCode.BASE_0009, zipFile.getName());
                 }
 
                 done = true;
 
             } catch (UnsupportedZipFeatureException ex) {
                 // Unsupported compression method
-                report.error(reportStats, source, BaseMessageCode.BASE_0022, zipFile.getName());
+                report.error(reportStats, newsource, BaseMessageCode.BASE_0022, zipFile.getName());
                 done = true;
                 return false;
 
@@ -106,7 +108,7 @@ public class ZipFileValidator implements Validator<File> {
                 String message = zipFile.getAbsolutePath()
                         + " cannot be found. If the file is not processed, please resubmit.";
                 LOG.error(message, ex);
-                report.error(reportStats, source, BaseMessageCode.BASE_0020, zipFile.getName());
+                report.error(reportStats, newsource, BaseMessageCode.BASE_0020, zipFile.getName());
                 done = true;
                 return false;
 
@@ -114,7 +116,7 @@ public class ZipFileValidator implements Validator<File> {
                 LOG.warn("Caught IO exception processing " + zipFile.getAbsolutePath());
                 if (System.currentTimeMillis() >= clockTimeout) {
                     // error reading zip file
-                    report.error(reportStats, source, BaseMessageCode.BASE_0021, zipFile.getName());
+                    report.error(reportStats, newsource, BaseMessageCode.BASE_0021, zipFile.getName());
                     LOG.error("Unable to validate " + zipFile.getAbsolutePath(), ex);
                     done = true;
                     return false;

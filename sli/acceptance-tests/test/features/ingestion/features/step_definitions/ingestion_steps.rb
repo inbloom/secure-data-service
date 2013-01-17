@@ -1292,7 +1292,7 @@ end
 
 def scpUnzippedFilesToLandingZone(filename, dirname)
   @source_path = @local_file_store_path + dirname
-  @destination_path = @landing_zone_path + filename
+  @destination_path = @landing_zone_path
 
   puts "Source = " + @source_path
   puts "Destination = " + @destination_path
@@ -1300,17 +1300,22 @@ def scpUnzippedFilesToLandingZone(filename, dirname)
   assert(@destination_path != nil, "Destination path was nil")
   assert(@source_path != nil, "Source path was nil")
 
+  file_path_list = Dir[@source_path + '/*.*'].select { |e| File.file?(e) }
+  file_list ||=[]
+  file_path_list.each { |e| file_list << File.basename(e.gsub("\\","/")) }
+  puts "Copying files " + file_list.join(", ") + " to landing zone."
   if (INGESTION_MODE == 'remote')
     Dir.foreach(@landing_zone_path) do |entry|
       remoteLzCopy(@source_path + entry, @destination_path)
     end
   else
     # copy file from local filesystem to landing zone
-    FileUtils.cp_r @source_path + '/.', @destination_path
+    FileUtils.cp file_path_list, @destination_path
   end
 
-  puts "ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path} #{ACTIVEMQ_HOST}"
-  runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path} #{ACTIVEMQ_HOST}")
+  lz_file = @destination_path + filename
+  puts "ruby #{UPLOAD_FILE_SCRIPT} STOR #{lz_file} #{ACTIVEMQ_HOST}"
+  runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{lz_file} #{ACTIVEMQ_HOST}")
 
   assert(true, "File Not Uploaded")
 end
