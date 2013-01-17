@@ -10,7 +10,7 @@ source "$ROOT/utils.sh"
 declare -A deployHash
 
 deployHash=( [api]="$WORKSPACE/sli/api/target/api.war" 
-             [dashboard]="$WORKSPACE/sli/dashbaord/target/dashboard.war" 
+             [dashboard]="$WORKSPACE/sli/dashboard/target/dashboard.war" 
              [simple-idp]="$WORKSPACE/sli/simple-idp/target/simple-idp.war"
              [sample]="$WORKSPACE/sli/SDK/sample/target/sample.war"
              [ingestion-service]="$WORKSPACE/sli/ingestion/ingestion-service/target/ingestion-service.war"
