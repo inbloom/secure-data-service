@@ -29,27 +29,26 @@ public class NeutralRecordSource extends JobSource {
     private int visitBeforeColumnNumber;
     private int visitAfterLineNumber;
     private int visitAfterColumnNumber;
-
-    public NeutralRecordSource(String resourceId, String stageName) {
-        super(resourceId, stageName);
-    }
+    private String neutralRecordType;
 
     public NeutralRecordSource(String resourceId, String stageName, int visitBeforeLineNumber,
             int visitBeforeColumnNumber) {
 
-        this(resourceId, stageName);
+        super(resourceId, stageName);
         this.visitBeforeLineNumber = visitBeforeLineNumber;
         this.visitBeforeColumnNumber = visitBeforeColumnNumber;
     }
 
-    public NeutralRecordSource(String resourceId, String stageName, int visitBeforeLineNumber,
-            int visitBeforeColumnNumber, int visitAfterLineNumber, int visitAfterColumnNumber) {
+    public NeutralRecordSource(String resourceId, String stageName, String type,
+            int visitBeforeLineNumber, int visitBeforeColumnNumber,
+            int visitAfterLineNumber, int visitAfterColumnNumber) {
 
-        this(resourceId, stageName);
+        super(resourceId, stageName);
         this.visitBeforeLineNumber = visitBeforeLineNumber;
         this.visitBeforeColumnNumber = visitBeforeColumnNumber;
         this.visitAfterLineNumber = visitAfterLineNumber;
         this.visitAfterColumnNumber = visitAfterColumnNumber;
+        this.neutralRecordType = type;
     }
 
     public void updateSourceLocation(int visitBeforeLineNumber, int visitBeforeColumnNumber, int visitAfterLineNumber,

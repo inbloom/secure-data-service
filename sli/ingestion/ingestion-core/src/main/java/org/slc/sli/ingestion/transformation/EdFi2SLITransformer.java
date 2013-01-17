@@ -103,6 +103,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
         }
 
         Source source = new NeutralRecordSource(item.getSourceFile(), BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
+                item.getRecordType(),
                 item.getVisitBeforeLineNumber(), item.getVisitBeforeColumnNumber(),
                 item.getVisitAfterLineNumber(), item.getVisitAfterColumnNumber());
 
@@ -204,7 +205,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             for (String fieldName : e1.getNaturalKeys()) {
                 message.append("\n" + "       Field      " + fieldName);
             }
-            Source source = new NeutralRecordSource(entity.getResourceId(), getStageName(),
+            Source source = new NeutralRecordSource(entity.getResourceId(), getStageName(), entity.getType(),
                     entity.getVisitBeforeLineNumber(), entity.getVisitBeforeColumnNumber(), entity.getVisitAfterLineNumber(),
                     entity.getVisitAfterColumnNumber());
             report.error(reportStats, source, CoreMessageCode.CORE_0010, entity.getType(),
@@ -233,8 +234,9 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     protected Query createEntityLookupQueryFromKeyFields(SimpleEntity entity, EntityConfig entityConfig,
             AbstractMessageReport report, ReportStats reportStats) {
         Query query = new Query();
-        Source source = new NeutralRecordSource(entity.getResourceId(), getStageName(), entity.getVisitBeforeLineNumber(),
-                entity.getVisitBeforeColumnNumber(), entity.getVisitAfterLineNumber(), entity.getVisitAfterColumnNumber());
+        Source source = new NeutralRecordSource(entity.getResourceId(), getStageName(), entity.getType(),
+                entity.getVisitBeforeLineNumber(), entity.getVisitBeforeColumnNumber(),
+                entity.getVisitAfterLineNumber(), entity.getVisitAfterColumnNumber());
 
         StringBuilder errorMessage = new StringBuilder("");
         if (entityConfig.getKeyFields() == null || entityConfig.getKeyFields().size() == 0) {

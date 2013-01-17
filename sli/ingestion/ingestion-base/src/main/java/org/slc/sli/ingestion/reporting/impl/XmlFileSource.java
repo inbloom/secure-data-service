@@ -37,4 +37,9 @@ public class XmlFileSource extends FileSource
         super(resourceId, stageName);
     }
 
+    @Override
+    public String getUserFriendlyMessage() {
+        return xmlFileName == null ? super.getUserFriendlyMessage() : xmlFileName;
+    }
+
 }

@@ -31,7 +31,7 @@ public class ControlFileSource extends FileSource {
     private int lineNumber;
     private String line;
     private String controlFileName;
-    private String parentFileOrDirectory;
+    private String parentZipFileOrDirectory;
     private String fileEntryName;
 
     public ControlFileSource(String resourceId, String stageName) {
@@ -41,14 +41,14 @@ public class ControlFileSource extends FileSource {
     public ControlFileSource(Source source, ControlFile controlFile) {
         super(source == null ? null : source.getResourceId(), source == null ? null : source.getStageName());
         this.controlFileName = controlFile.getFileName();
-        this.parentFileOrDirectory = controlFile.getParentFileOrDirectory();
+        this.parentZipFileOrDirectory = controlFile.getParentZipFileOrDirectory();
     }
 
     public ControlFileSource(Source source, String fileEntryName) {
         super(source == null ? null : source.getResourceId(), source == null ? null : source.getStageName());
         if (source instanceof ControlFileSource) {
             this.controlFileName = ((ControlFileSource) source).controlFileName;
-            this.parentFileOrDirectory = ((ControlFileSource) source).parentFileOrDirectory;
+            this.parentZipFileOrDirectory = ((ControlFileSource) source).parentZipFileOrDirectory;
         }
         this.fileEntryName = fileEntryName;
     }

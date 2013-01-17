@@ -105,6 +105,12 @@ deployDatabrowser()
   bundle exec cap team deploy -s subdomain=$NODE_NAME -S branch=$GITCOMMIT
 }
 
+buildApi()
+{
+  cd $WORKSPACE/sli
+  /jenkins/tools/Maven/bin/mvn -pl api -am -ff -P team -Dmaven.test.failure.ignore=false -Dsli.env=team -Dsli.dev.subdomain=$NODE_NAME clean install -DskipTests=true
+}
+
 
 
 
