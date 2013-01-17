@@ -84,6 +84,13 @@ deployAdmin()
   bundle exec cap team deploy -s subdomain=$NODE_NAME -S branch=$GITCOMMIT
 }
 
+deployAdminSB()
+{
+  cd $WORKSPACE/sli/admin-tools/admin-rails
+  bundle install --deployment
+  bundle exec cap team_sb deploy -s subdomain=$NODE_NAME -S branch=$GITCOMMIT
+}
+
 deployDatabrowser()
 {
   cd $WORKSPACE/sli/databrowser
