@@ -281,7 +281,19 @@ public class DefaultResourceService implements ResourceService {
         List<String> valueList = Arrays.asList(id.split(","));
 
         final ApiQuery apiQuery = resourceServiceHelper.getApiQuery(definition, requestURI);
-        
+
+        // remove schoolYears from query if it exists
+        NeutralCriteria targetCriteria = null;
+        for (NeutralCriteria criteria : apiQuery.getCriteria()) {
+            if (criteria.getKey().equals(ParameterConstants.SCHOOL_YEARS)) {
+                targetCriteria = criteria;
+                break;
+            }
+        }
+        if (targetCriteria != null) {
+            apiQuery.removeCriteria(targetCriteria);
+        }
+
         //Mongo blows up if we have multiple $in or equal criteria for the same key.
         //To avoid that case, if we do have duplicate keys, set the value for that
         //criteria to the intersection of the two critiera values
