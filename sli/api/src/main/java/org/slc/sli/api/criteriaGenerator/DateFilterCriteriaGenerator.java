@@ -19,9 +19,13 @@
 package org.slc.sli.api.criteriaGenerator;
 
 import com.sun.jersey.spi.container.ContainerRequest;
+import org.apache.commons.lang3.tuple.Pair;
 import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.domain.NeutralCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -38,21 +42,36 @@ public class DateFilterCriteriaGenerator {
     @Autowired
     EntityIdentifier entityIdentifier;
 
+    @Autowired
+    SessionRangeCalculator sessionRangeCalculator;
+
     private ThreadLocal<GranularAccessFilter> granularAccessFilterStore = new ThreadLocal<GranularAccessFilter>();
     public void generate(ContainerRequest request) {
-        //validate
-        //Extract date range using session
-        //Find appropriate entity to apply filter
-        entityIdentifier.findEntity(request.getPath());
-        builder().forEntity(entityIdentifier.getEntityName())
+
+        List<String> schoolYears = request.getQueryParameters().get(ParameterConstants.SCHOOL_YEARS);
+
+        // only process if there is a schoolYear query parameter
+        if (schoolYears != null && schoolYears.size() > 0) {
+            String schoolYearRange = schoolYears.get(0);
+
+            //Extract date range using session
+            SessionDateInfo sessionDateInfo = sessionRangeCalculator.findDateRange(schoolYearRange);
+
+            // Find appropriate entity to apply filter
+            entityIdentifier.findEntity(request.getPath());
+            builder().forEntity(entityIdentifier.getEntityName())
                 .withAttributes(entityIdentifier.getBeginDateAttribute(), entityIdentifier.getEndDateAttribute())
-                .startingFrom("")
-                .endingTo("")
+                .startingFrom(sessionDateInfo.getStartDate())
+                .endingTo(sessionDateInfo.getEndDate())
+                .withSessionIds(sessionDateInfo.getSessionIds())
+                .asSessionBasedQuery(false)
                 .build();
+        }
     }
     private DateFilterCriteriaBuilder builder() {
         return new DateFilterCriteriaBuilder();
     }
+
 
     private final class DateFilterCriteriaBuilder {
         private String entityName;
@@ -60,6 +79,8 @@ public class DateFilterCriteriaGenerator {
         private String endDate;
         private String beginDateAttribute;
         private String endDateAttribute;
+        private List<String> sessionIds;
+        private boolean isSessionBasedQuery;
 
         public DateFilterCriteriaBuilder forEntity(String entityName) {
             this.entityName = entityName;
@@ -78,6 +99,15 @@ public class DateFilterCriteriaGenerator {
             this.endDate = endDate;
             return this;
         }
+        public DateFilterCriteriaBuilder withSessionIds(List<String> sessionIds) {
+            this.sessionIds = sessionIds;
+            return this;
+        }
+        public DateFilterCriteriaBuilder asSessionBasedQuery(boolean isSessionBasedQuery) {
+            this.isSessionBasedQuery = isSessionBasedQuery;
+            return this;
+        }
+
 
         public void build() {
             GranularAccessFilter granularAccessFilter = new GranularAccessFilter();

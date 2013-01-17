@@ -17,6 +17,7 @@
 package org.slc.sli.api.criteriaGenerator;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -53,7 +54,8 @@ public class SessionRangeCalculator {
     
     @Autowired
     protected PagingRepositoryDelegate<Entity> repo;
-    
+
+
     /**
      * Finds the beginDate and endDate of the sessions which fall with the specified
      * school years (in the format "2005-2012")
@@ -61,14 +63,14 @@ public class SessionRangeCalculator {
      * @param schoolYearRange
      * @return
      */
-    public Pair<String, String> findDateRange(String schoolYearRange) {
+    public SessionDateInfo findDateRange(String schoolYearRange) {
         
         Pair<String, String> years = parseDateRange(schoolYearRange);
         
         Set<String> edOrgIds = edOrgHelper.getDirectEdorgs();
         
         Iterable<Entity> sessions = getSessions(years, edOrgIds);
-        
+
         return findMinMaxDates(sessions);
     }
     
@@ -103,15 +105,19 @@ public class SessionRangeCalculator {
         return sessions;
     }
     
-    private ImmutablePair<String, String> findMinMaxDates(Iterable<Entity> sessions) {
+    private SessionDateInfo findMinMaxDates(Iterable<Entity> sessions) {
         boolean sessionsLocated = false;
         String earliestDate = "9999";
         String latestDate = "0000";
-        
+
+        List<String> sessionIds = new ArrayList<String>();
+
         for (Entity e : sessions) {
             sessionsLocated = true;
             String beginDate = (String) e.getBody().get(BEGIN_DATE);
             String endDate = (String) e.getBody().get(END_DATE);
+
+            sessionIds.add(e.getEntityId());
             
             if (beginDate.compareTo(earliestDate) < 0) {
                 earliestDate = beginDate;
@@ -120,13 +126,17 @@ public class SessionRangeCalculator {
                 latestDate = endDate;
             }
         }
-        
+
+        Pair<String,String> dates;
+
         if (!sessionsLocated || "0000".equals(latestDate) || "9999".equals(earliestDate)) {
             // no session dates to filter on
-            return new ImmutablePair<String, String>("", "");
+            dates = new ImmutablePair<String, String>("", "");
         } else {
-            return new ImmutablePair<String, String>(earliestDate, latestDate);
+            dates = new ImmutablePair<String, String>(earliestDate, latestDate);
         }
+
+        return new SessionDateInfo(dates.getLeft(),dates.getRight(),sessionIds);
     }
     
 }
