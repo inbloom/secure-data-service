@@ -46,7 +46,7 @@ profileSwapAndPropGenSB()
   cd $WORKSPACE/sli
   sh profile_swap.sh $NODE_NAME
   cd config/scripts
-  ruby webapp-provision.rb ../config.in/canonical_config.yml sandbox ../properties/sli.properties
+  ruby webapp-provision.rb ../config.in/canonical_config.yml sandbox /opt/tomcat/conf/sli.properties
   cp $WORKSPACE/sli/data-access/dal/keyStore/ci* /opt/tomcat/encryption/ 
   cp $WORKSPACE/sli/common/common-encrypt/trust/* /opt/tomcat/trust/
 }
@@ -82,6 +82,13 @@ deployAdmin()
   cd $WORKSPACE/sli/admin-tools/admin-rails
   bundle install --deployment
   bundle exec cap team deploy -s subdomain=$NODE_NAME -S branch=$GITCOMMIT
+}
+
+deployAdminSB()
+{
+  cd $WORKSPACE/sli/admin-tools/admin-rails
+  bundle install --deployment
+  bundle exec cap team_sb deploy -s subdomain=$NODE_NAME -S branch=$GITCOMMIT
 }
 
 deployDatabrowser()
