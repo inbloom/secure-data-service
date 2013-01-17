@@ -29,6 +29,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestAttributes;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +51,9 @@ public class DateFilterCriteriaGenerator {
     @Autowired
     private SessionRangeCalculator sessionRangeCalculator;
 
-    private ThreadLocal<GranularAccessFilter> granularAccessFilterStore = new ThreadLocal<GranularAccessFilter>();
+    @Autowired
+    private GranularAccessFilterProvider granularAccessFilterProvider;
+
     public void generate(ContainerRequest request) {
 
         List<String> schoolYears = request.getQueryParameters().get(ParameterConstants.SCHOOL_YEARS);
@@ -68,13 +72,15 @@ public class DateFilterCriteriaGenerator {
             // [JS] Change to static builder?
             // This seems strange to me, since builders should be creating an object, but we are creating then throwing
             // away
-            builder().forEntity(entityIdentifier.getEntityName())
+            GranularAccessFilter filter = builder().forEntity(entityIdentifier.getEntityName())
                 .withDateAttributes(entityIdentifier.getBeginDateAttribute(), entityIdentifier.getEndDateAttribute())
                     .withSessionAttribute(entityIdentifier.getSessionAttribute())
                 .startingFrom(sessionDateInfo.getStartDate())
                 .endingTo(sessionDateInfo.getEndDate())
                 .withSessionIds(sessionDateInfo.getSessionIds())
                 .build();
+
+            granularAccessFilterProvider.storeGranularAccessFilter(filter);
         }
     }
     // [JS] Switch to static builder and remove this method
@@ -120,12 +126,11 @@ public class DateFilterCriteriaGenerator {
         }
 
 
-        public void build() {
+        public GranularAccessFilter build() {
             GranularAccessFilter granularAccessFilter = new GranularAccessFilter();
             NeutralQuery neutralQuery = new NeutralQuery();
             granularAccessFilter.setEntityName(entityName);
             granularAccessFilter.setNeutralQuery(neutralQuery);
-            granularAccessFilterStore.set(granularAccessFilter);
 
             if (StringUtils.isNotBlank(sessionAttribute)) {
                 NeutralCriteria sessionCriteria = new NeutralCriteria(sessionAttribute, NeutralCriteria.CRITERIA_IN, sessionIds);
@@ -141,8 +146,11 @@ public class DateFilterCriteriaGenerator {
                 neutralQuery.addCriteria(entityBeginDateCriteria);
                 neutralQuery.addOrQuery(entityEndOrQuery);
             }
+
+            return granularAccessFilter;
         }
     }
 }
+
 
 
