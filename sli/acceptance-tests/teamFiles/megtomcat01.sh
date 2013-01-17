@@ -35,7 +35,7 @@ git pull
 cd /opt/megatron/sli/build-tools/
 mvn clean package install
 #cp /opt/megatron/sli/sli/acceptance-tests/test/data/teamData/megtomcat01_application_fixture.json /opt/megatron/sli/sli/acceptance-tests/test/data/application_fixture.json
-#cp /opt/megatron/sli/sli/acceptance-tests/test/data/teamData/megtomcat01_realm_fixture.json /opt/megatron/sli/sli/acceptance-tests/test/data/realm_fixture.json
+cp /opt/megatron/sli/sli/acceptance-tests/test/data/teamData/megtomcat01_realm_fixture.json /opt/megatron/sli/sli/acceptance-tests/test/data/realm_fixture.json
 #cp /opt/megatron/sli/sli/acceptance-tests/test/data/teamData/megtomcat01_securityEvent_fixture.json /opt/megatron/sli/sli/acceptance-tests/test/data/securityEvent_fixture.json
 #cp /opt/megatron/sli/sli/acceptance-tests/test/features/utils/teamProps/megtomcat01_properties.yml /opt/megatron/sli/sli/acceptance-tests/test/features/utils/properties.yml
 #cp /opt/megatron/sli/sli/admin-tools/admin-rails/config/megtomcat01_admin_config.yml /opt/megatron/sli/sli/admin-tools/admin-rails/config/config.yml
@@ -46,8 +46,8 @@ cd /opt/megatron/sli/sli/acceptance-tests/test/data/
 sed -i.bk 's#\:8[0-9][0-9][0-9]/#/#g' application_fixture.json
 sed -i.bk2 's#lY83c5HmTPX#XY83c5HmTPX#g' application_fixture.json
 sed -i.bk3 's#local.slidev.org#megtomcat01.slidev.org#g' application_fixture.json
-sed -i.bk 's#\:8[0-9][0-9][0-9]/#/#g' realm_fixture.json
-sed -i.bk2 's#local.slidev.org#megtomcat01.slidev.org#g' realm_fixture.json
+#sed -i.bk 's#\:8[0-9][0-9][0-9]/#/#g' realm_fixture.json
+#sed -i.bk2 's#local.slidev.org#megtomcat01.slidev.org#g' realm_fixture.json
 sed -i.bk 's#\:8[0-9][0-9][0-9]/#/#g' securityEvent_fixture.json
 sed -i.bk2 's#local.slidev.org#megtomcat01.slidev.org#g' securityEvent_fixture.json
 cd /opt/megatron/sli/sli/databrowser/config/
