@@ -23,11 +23,13 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -111,10 +113,26 @@ public class DateFilterCriteriaGenerator {
 
         public void build() {
             GranularAccessFilter granularAccessFilter = new GranularAccessFilter();
-            NeutralCriteria neutralCriteria = new NeutralCriteria("");
+            NeutralQuery neutralQuery = new NeutralQuery();
             granularAccessFilter.setEntityName(entityName);
-            granularAccessFilter.setNeutralCriteria(neutralCriteria);
+            granularAccessFilter.setNeutralQuery(neutralQuery);
             granularAccessFilterStore.set(granularAccessFilter);
+
+            if (isSessionBasedQuery){
+                NeutralCriteria sessionCriteria = new NeutralCriteria("sessionId", NeutralCriteria.CRITERIA_IN, sessionIds);
+                neutralQuery.addCriteria(sessionCriteria);
+            }
+            else {
+                NeutralQuery entityEndOrQuery = new NeutralQuery();
+                entityEndOrQuery.addCriteria(new NeutralCriteria(endDateAttribute, NeutralCriteria.CRITERIA_GT, beginDate));
+                entityEndOrQuery.addCriteria(new NeutralCriteria(endDateAttribute, NeutralCriteria.CRITERIA_EXISTS, false));
+
+                NeutralCriteria entityBeginDateCriteria = new NeutralCriteria(beginDateAttribute, NeutralCriteria.CRITERIA_LT, endDate);
+
+                neutralQuery.addCriteria(entityBeginDateCriteria);
+                neutralQuery.addOrQuery(entityEndOrQuery);
+            }
+
         }
 
     }
