@@ -6,17 +6,26 @@ MAX_ARG_LENGTH = 1024
 def process_stats(start_time, end_time, stats):
     stack = [(None, None, [])]
     for oneStat in stats:
-        stype, ssub_type, sid, sval, args = (oneStat + [None])[:5]
+        # stype, ssub_type, sid, sval, args = (oneStat + [None])[:5]
+        stype, ssub_type, sid, sval, args = oneStat.split(":", 4)
+        sval = int(sval)
+        args = None if args == "null" else args 
+        sid = ".".join(sid.split(".")[-2:])
+
         if stype == "e": 
-            if ssub_type == "start":
+            if ssub_type == "s":
                 stack.append((sid, sval, []))
-            elif ssub_type == "end":
+            elif ssub_type == "e":
                 start_sid, start_val, sub_requests = stack.pop()
                 duration = sval - start_val 
                 if duration > 0:
                     stack[-1][2].append((start_sid, start_val-start_time, duration, args, sub_requests))
             else:
-                raise KeyError("Unknown subtype:" + ssub_type)
+                raise KeyError("Unknown stat subtype:" + ssub_type)
+        elif stype == "m":
+            stack[-1][2].append((sid, -1, sval, [], []))
+        else: 
+            raise KeyError("Unknow stat type: %s" % stype)
     d, d, result = stack.pop() 
     return result 
 
@@ -31,6 +40,7 @@ def get_testruns(col):
     return result
 
 def print_stats(stats, call_threshold_ms, indent="", uniq_types={}):
+    accumulated = {} 
     for oneStat in stats: 
         stat_id, stat_delta, stat_duration, stat_args, stat_subrequests = oneStat
         # if stat_args:
@@ -43,26 +53,26 @@ def print_stats(stats, call_threshold_ms, indent="", uniq_types={}):
         # if len(args_string) > 200: 
         #     import pdb; pdb.set_trace() 
         #     args_string = "Number of arguments:" + str(len(stat_args))
-        try: 
-            print "%s%s:%s: %s" % (indent + "    ", stat_delta, stat_duration, stat_id)
-        except:
-            import pdb; pdb.set_trace() 
         if stat_duration > call_threshold_ms: 
-            print indent + "    " + "  ---------"
-            print indent + "    " + "  | Args: |"
-            print indent + "    " + "  ---------"
-            for oneArg in stat_args: 
-                arg_type, arg_val = oneArg.split(":", 1)
-                arg_type = arg_type.rsplit(".", 1)[1]
-                arg_str = arg_type + ":" + arg_val
-                if len(arg_str) > MAX_ARG_LENGTH: 
-                    arg_str = arg_str[:MAX_ARG_LENGTH] + "..." + ("[length = %s]" % len(arg_str))
-                print indent + "    " + "  " + arg_str
-        print_stats(stat_subrequests, call_threshold_ms, indent + "    ", uniq_types)
-    # if indent == "":
-    #     print "Unique types:"
-    #     for k,v in uniq_types.iteritems():
-    #         print k, ":", sorted(v) 
+            print "%s%s: %s" % (indent + "    ", stat_duration, stat_id)
+            if False and stat_args:
+                print indent + "    " + "  ---------"
+                print indent + "    " + "  | Args: |"
+                print indent + "    " + "  ---------"
+                for oneArg in stat_args: 
+                    arg_type, arg_val = oneArg.split(":", 1)
+                    arg_type = arg_type.rsplit(".", 1)[1]
+                    arg_str = arg_type + ":" + arg_val
+                    if len(arg_str) > MAX_ARG_LENGTH: 
+                        arg_str = arg_str[:MAX_ARG_LENGTH] + "..." + ("[length = %s]" % len(arg_str))
+                    print indent + "    " + "  " + arg_str
+            print_stats(stat_subrequests, call_threshold_ms, indent + "    ", uniq_types)
+        else:
+            accumulated.setdefault(stat_id, []).append(stat_duration)
+    if accumulated: 
+        print indent + "    " + "Accumulated Fast Methods:"
+        for k, v in accumulated.iteritems():
+            print indent + "    " + "  %s : %s : %s" % (k, len(v), sum(v))
 
 def extract_by_testrun(testrun, col, req_threshold_ms):
     by_response_time = []
@@ -91,6 +101,17 @@ def print_slow_requests(slow_requests, call_threshold_ms):
         print_stats(stats, call_threshold_ms)
         print "-" * 60 
 
+def get_call_stats(requests, call_stats):
+    def recursive_call_stats(stats, call_stack):
+        for sid, delta, duration, args, subrequests in stats:
+            call_stack.append(sid)
+            call_stats.setdefault(tuple(call_stack), []).append(duration)
+            recursive_call_stats(subrequests, call_stack)
+            call_stack.pop()
+
+    for duration, url, stats in requests:
+        recursive_call_stats(stats, [])
+
 if __name__=="__main__":
     q = {}
     print "Connecting to: %s" % common.MONGO_HOST
@@ -115,5 +136,16 @@ if __name__=="__main__":
             slow_requests.sort() 
             print_slow_requests(slow_requests, call_threshold_ms)
 
+    call_stats = {} 
+    for testname, instances in testruns.iteritems():
+        for oneTestRun in instances:
+            all_requests, slow_requests = extract_by_testrun(oneTestRun, col, 0)
+            get_call_stats(slow_requests, call_stats)
 
+    acc_call_stats = [(k, len(v), sum(v)) for k,v in call_stats.iteritems() ]
+    acc_call_stats.sort(lambda a,b: cmp((a[0], a[2]), (b[0], b[2])))
 
+    print "-------------------"
+    print "Call statistics:"
+    for func_id, times, duration in acc_call_stats:
+        print "%9d : %5d : %7.2f : %s" % (duration, times, float(duration)/times, "->".join(func_id))

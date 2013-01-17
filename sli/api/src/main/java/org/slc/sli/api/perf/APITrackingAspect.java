@@ -40,6 +40,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.MongoStat;
+import org.slc.sli.dal.aspect.MongoTrackingAspect;
 
 /**
  * Tracks calls throught the API 
@@ -49,13 +50,18 @@ import org.slc.sli.dal.MongoStat;
 @Aspect
 @SuppressWarnings("PMD.MoreThanOneLogger")
 public class APITrackingAspect {
-
-    private boolean apiCallTracking;
+    
+    private static final Logger LOG = LoggerFactory.getLogger(MongoTrackingAspect.class);
 
     @Value("${sli.api.performance.tracking}")
-    public void setEnabled(String enableTracking) { 
-        apiCallTracking = Boolean.parseBoolean(enableTracking);
-    }
+    private String apiCallTracking;
+    
+//    public void setEnabled(String enableTracking) { 
+//        // apiCallTracking = Boolean.parseBoolean(enableTracking);
+//        boolean x = Boolean.parseBoolean(enableTracking);
+//        LOG.debug("XXXXXXXXXXXXXXXXXXXXXX  Enable value: " + x); 
+//        apiCallTracking = Boolean.parseBoolean(enableTracking);
+//    }
 
     @Autowired
     private MongoStat callTracker;
@@ -67,31 +73,42 @@ public class APITrackingAspect {
 //    @Around("call(* org.slc.sli.api.resources..*.*(..)) || call(* org.slc.sli.api.security.*(..)) || call(* org.slc.sli.api.service.*(..))")
     @Around("call(* org.slc.sli.api.resources..*.*(..))")
     public Object trackAPICalls(ProceedingJoinPoint pjp) throws Throwable {
-        if (apiCallTracking) { 
-            return trackCall(pjp);
+        if (Boolean.valueOf(apiCallTracking)) { 
+            return trackCallStartEnd(pjp);
         }
         else {
             return pjp.proceed();
         }
     }
     
-    private Object trackCall(ProceedingJoinPoint pjp) throws Throwable {
+    private Object trackCallStartEnd(ProceedingJoinPoint pjp) throws Throwable {
         Object result; 
         long start = System.currentTimeMillis();
-        callTracker.addEvent("start", pjp.getSignature().toString(), start, null);
+        callTracker.addEvent("s", pjp.getSignature().getDeclaringTypeName() + "." + pjp.getSignature().getName(), start, null);
         result = pjp.proceed();
         long end = System.currentTimeMillis(); 
 
-        // capture the arguments
-        List<String> args = null; 
-        if ((end - start) > 0) {
-            Object[] callArgs = pjp.getArgs(); 
-            args = new ArrayList<String>(callArgs.length); 
-            for(Object ca : callArgs) {
-                args.add((null == ca) ? null : ca.getClass().getName() + ":" + ca.toString()); 
-            }
+//        // capture the arguments
+//        List<String> args = null; 
+//        if ((end - start) > 0) {
+//            Object[] callArgs = pjp.getArgs(); 
+//            args = new ArrayList<String>(callArgs.length); 
+//            for(Object ca : callArgs) {
+//                args.add((null == ca) ? null : ca.getClass().getName() + ":" + ca.toString()); 
+//            }
+//        }
+        // we are not keeping the signature, because it's stored in the first event
+        callTracker.addEvent("e", "", end, null);
+        return result;
+    }
+
+    private Object trackCallTime(ProceedingJoinPoint pjp) throws Throwable {
+        long start = System.currentTimeMillis();
+        Object result = pjp.proceed();
+        long duration = System.currentTimeMillis() - start; 
+        if (duration > 0) { 
+            callTracker.addMetric("t", pjp.getSignature().toString(), duration);
         }
-        callTracker.addEvent("end", pjp.getSignature().toString(), end, args);
         return result;
     }
 }

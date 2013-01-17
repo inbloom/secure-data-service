@@ -133,17 +133,12 @@ public class MongoTrackingAspect {
     public Object trackDALCalls(ProceedingJoinPoint pjp) throws Throwable {
         return trackCalls(pjp); 
     }
-    
-    @Around("call(* org.slc.sli.api.resources.*(..)) || call(* org.slc.sli.api.security.*(..)) || call(* org.slc.sli.api.service.*(..))")
-    public Object trackAPICalls(ProceedingJoinPoint pjp) throws Throwable {
-        return trackCalls(pjp); 
-    }
-    
+        
     private Object trackCalls(ProceedingJoinPoint pjp) throws Throwable {
 
         Object result; 
         if (Boolean.valueOf(dbCallTracking)) {
-            dbCallTracker.addEvent("start", pjp.getSignature().toString(), System.currentTimeMillis(), null);
+            dbCallTracker.addEvent("s", pjp.getSignature().getDeclaringTypeName() + "." + pjp.getSignature().getName(), System.currentTimeMillis(), null);
             result = pjp.proceed();
             long end = System.currentTimeMillis(); 
             // capture the arguments
@@ -152,7 +147,7 @@ public class MongoTrackingAspect {
             for(Object ca : callArgs) {
                 args.add((null == ca) ? null : ca.getClass().getName() + ":" + ca.toString()); 
             }
-            dbCallTracker.addEvent("end", pjp.getSignature().toString(), end, args);
+            dbCallTracker.addEvent("e", "", end, args);
         }
         else {
             result = pjp.proceed(); 

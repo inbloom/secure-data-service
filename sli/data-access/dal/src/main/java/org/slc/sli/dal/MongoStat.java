@@ -37,7 +37,8 @@ public class MongoStat {
 
 
     private int dbHitCount;
-    private List<List<Object>> stats = new ArrayList<List<Object>>(10000); 
+    // private List<List<Object>> stats = new ArrayList<List<Object>>(10000); 
+    private List<String> stats = new ArrayList<String>(10000); 
     private String requestId; 
 
     public MongoStat(int dbHitCount) {
@@ -69,15 +70,16 @@ public class MongoStat {
     }
     
     public void addEvent(String eventType, String eventId, Long timeStamp, List<String> args) {
-        stats.add(Arrays.asList((Object) "e", eventType, eventId, timeStamp, args)); 
+        stats.add("e" + ":" + eventType + ":" + eventId + ":" + timeStamp + ":" + args); 
+        // stats.add(Arrays.asList((Object) "e", eventType, eventId, timeStamp, args)); 
     }
     
     public void addMetric(String metricType, String metricId, Long metric) {
-        stats.add(Arrays.asList((Object) "m", metricType, metricId, metric)); 
+        stats.add("m" + ":" + metricType + ":" + metricId + ":" + metric);  
     }
     
-    public List<List<Object > > getStats() {
-        return new ArrayList<List<Object>>(stats); 
+    public List<String> getStats() {
+        return stats; 
     }
     
     public String getRequestId() { 
