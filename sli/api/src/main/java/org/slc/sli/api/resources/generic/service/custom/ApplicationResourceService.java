@@ -16,6 +16,7 @@
 package org.slc.sli.api.resources.generic.service.custom;
 
 import org.slc.sli.api.resources.generic.service.DefaultResourceService;
+import org.slc.sli.api.resources.security.DelegationUtil;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
@@ -30,7 +31,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Resource service for application
@@ -49,6 +52,9 @@ public class ApplicationResourceService extends DefaultResourceService {
     @Autowired
     @Value("${sli.sandbox.enabled}")
     private boolean sandboxEnabled;
+    
+    @Autowired
+    private DelegationUtil delegation;
 
     @Override
     protected void addAdditionalCriteria(final NeutralQuery query) {
@@ -70,9 +76,15 @@ public class ApplicationResourceService extends DefaultResourceService {
             }
         } else if (!SecurityUtil.hasRight(Right.SLC_APP_APPROVE)) {  //realm admin, sees apps that they are either authorized or could be authorized
 
+            Set<String> edorgs = new HashSet<String>();
+            edorgs.add(principal.getEdOrgId());
+            if (SecurityUtil.getAllRights().contains(Right.EDORG_DELEGATE)) {   //Add an SEA admin's delegated LEAs
+                edorgs.addAll(delegation.getAppApprovalDelegateEdOrgs());
+            }
+            
             //know this is ugly, but having trouble getting or queries to work
             List<String> idList = new ArrayList<String>();
-            NeutralQuery newQuery = new NeutralQuery(new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.OPERATOR_EQUAL, principal.getEdOrgId()));
+            NeutralQuery newQuery = new NeutralQuery(new NeutralCriteria(AUTHORIZED_ED_ORGS, NeutralCriteria.CRITERIA_IN, edorgs));
             Iterable<String> ids = repo.findAllIds("application", newQuery);
             for (String id : ids) {
                 idList.add(id);

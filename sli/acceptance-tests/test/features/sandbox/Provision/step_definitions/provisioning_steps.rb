@@ -49,14 +49,6 @@ Then /^I should be denied access$/ do
   assert(@res.code == 403, "Return code was not expected: "+@res.code.to_s+" but expected 403")
 end
 
-Then /^I should see a top level ed org is created with "([^"]*)" is "([^"]*)"$/ do |key1, value1|
-uri="/v1/educationOrganizations"
-  uri=uri+"?"+URI.escape(key1)+"="+URI.escape(value1)
-  restHttpGet(uri)
-  assert(@res.length>0,"didnt see a top level ed org with #{key1} is #{value1}")
-  dataH=JSON.parse(@res.body)
-  @edorgId=dataH["id"]
-end
 
   
 

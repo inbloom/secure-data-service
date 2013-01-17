@@ -14,4 +14,55 @@ See the License for the specific language governing permissions and
 limitations under the License.
 }}
 {{#entity}}
+  <CourseTranscript>
+    <CourseAttemptResult>{{result}}</CourseAttemptResult>
+    <CreditsEarned>
+      <Credit>{{credits_earned}}</Credit>
+    </CreditsEarned>
+    {{#grade_level}}
+    <GradeLevelWhenTaken>{{grade_level}}</GradeLevelWhenTaken>
+    {{/grade_level}}
+    {{#final_letter_grade}}
+    <FinalLetterGradeEarned>{{final_letter_grade}}</FinalLetterGradeEarned>
+    {{/final_letter_grade}}
+    {{#final_numeric_grade}}
+    <FinalNumericGradeEarned>{{final_numeric_grade}}</FinalNumericGradeEarned>
+    {{/final_numeric_grade}}
+    <CourseReference>
+      <CourseIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>{{course_ed_org_id}}</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueCourseId>{{course_id}}</UniqueCourseId>
+      </CourseIdentity>
+    </CourseReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>{{ed_org_id}}</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StudentAcademicRecordReference>
+      <StudentAcademicRecordIdentity>
+        <StudentReference>
+          <StudentIdentity>
+            <StudentUniqueStateId>{{student_id}}</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        {{#session}}
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>{{edOrgId}}</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>{{name}}</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        {{/session}}
+      </StudentAcademicRecordIdentity>
+    </StudentAcademicRecordReference>
+  </CourseTranscript>
 {{/entity}}

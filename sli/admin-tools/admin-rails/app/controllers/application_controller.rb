@@ -59,7 +59,6 @@ class ApplicationController < ActionController::Base
   def callback
     redirect_to session[:entry_url] unless session[:entry_url].include? '/callback'
     return
-    #render :nothing => true
   end
 
   def current_url
@@ -149,12 +148,7 @@ class ApplicationController < ActionController::Base
 
   def get_tenant
     check = Check.get ""
-    # if APP_CONFIG["is_sandbox"]
-    #   return check["external_id"]
-    #return check["user_id"]
-    #  else
     return check["tenantId"]
-    # end
   end
 
 

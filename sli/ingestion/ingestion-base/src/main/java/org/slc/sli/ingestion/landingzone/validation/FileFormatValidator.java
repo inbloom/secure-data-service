@@ -17,7 +17,6 @@
 package org.slc.sli.ingestion.landingzone.validation;
 
 import org.slc.sli.ingestion.FileFormat;
-import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
@@ -28,14 +27,13 @@ import org.slc.sli.ingestion.validation.Validator;
 /**
  * File format validator.
  */
-public class FileFormatValidator implements Validator<FileEntryDescriptor> {
+public class FileFormatValidator implements Validator<IngestionFileEntry> {
 
     private static final String STAGE_NAME = "File Format Validation";
 
     @Override
-    public boolean isValid(FileEntryDescriptor item, AbstractMessageReport report, ReportStats reportStats,
+    public boolean isValid(IngestionFileEntry entry, AbstractMessageReport report, ReportStats reportStats,
             Source source) {
-        IngestionFileEntry entry = item.getFileItem();
         FileFormat format = entry.getFileFormat();
         if (format == null) {
             report.error(reportStats, source, BaseMessageCode.BASE_0005, entry.getFileName(), "format");

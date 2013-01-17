@@ -80,9 +80,7 @@ public class SmooksCallableTest {
                 .getResource("smooks/unitTestData/InterchangeStaffAssociation.xml").getPath();
         File fileToIngest = new File(filePath);
 
-        IngestionFileEntry fe = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_ATTENDANCE, filePath,
-                null, fileToIngest.getParent());
-        fe.setFile(fileToIngest);
+        IngestionFileEntry fe = new IngestionFileEntry(fileToIngest.getParentFile().getAbsolutePath(), FileFormat.EDFI_XML, FileType.XML_STUDENT_ATTENDANCE, fileToIngest.getName(), null);
         fe.setBatchJobId(batchJobId);
 
         Stage stage = new Stage();

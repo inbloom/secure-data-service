@@ -37,7 +37,6 @@ public enum BaseMessageCode implements MessageCode {
     BASE_0009,
     BASE_0010,
     BASE_0011,
-    BASE_0012,
     BASE_0013,
     BASE_0014,
     BASE_0015,

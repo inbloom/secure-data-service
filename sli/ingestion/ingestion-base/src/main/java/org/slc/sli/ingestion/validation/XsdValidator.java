@@ -17,7 +17,6 @@
 package org.slc.sli.ingestion.validation;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,26 +62,24 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
     private Map<String, Resource> xsd;
 
     @Override
-    public boolean isValid(IngestionFileEntry ingestionFileEntry, AbstractMessageReport report,
+    public boolean isValid(IngestionFileEntry entry, AbstractMessageReport report,
             ReportStats reportStats, Source source) {
 
         InputStream is = null;
         try {
+            is = entry.getFileStream();
 
-            is = validateXmlFile(ingestionFileEntry, report, reportStats);
-
-            return true;
-
+            return validateXmlFile(entry, is, report, reportStats);
         } catch (FileNotFoundException e) {
-            LOG.error("File not found: " + ingestionFileEntry.getFileName(), e);
-            report.error(reportStats, source, BaseMessageCode.BASE_0023, ingestionFileEntry.getFileName());
+            LOG.error("File not found: " + entry.getFileName(), e);
+            report.error(reportStats, source, BaseMessageCode.BASE_0023, entry.getFileName());
         } catch (IOException e) {
-            LOG.error("Problem reading file: " + ingestionFileEntry.getFileName(), e);
-            report.error(reportStats, source, BaseMessageCode.BASE_0024, ingestionFileEntry.getFileName());
+            LOG.error("Problem reading file: " + entry.getFileName(), e);
+            report.error(reportStats, source, BaseMessageCode.BASE_0024, entry.getFileName());
         } catch (SAXException e) {
             LOG.error("SAXException");
         } catch (Exception e) {
-            LOG.error("Error processing file " + ingestionFileEntry.getFileName(), e);
+            LOG.error("Error processing file " + entry.getFileName(), e);
         } finally {
             IOUtils.closeQuietly(is);
         }
@@ -90,29 +87,25 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
         return false;
     }
 
-    private InputStream validateXmlFile(IngestionFileEntry ingestionFileEntry, AbstractMessageReport report,
+    private boolean validateXmlFile(IngestionFileEntry entry, InputStream is, AbstractMessageReport report,
             ReportStats reportStats) throws SAXException, IOException {
 
-        File xmlFile = ingestionFileEntry.getFile();
-        if (xmlFile == null) {
+        if (!entry.isValid()) {
             throw new FileNotFoundException();
         }
 
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        Resource xsdResource = xsd.get(ingestionFileEntry.getFileType().getName());
+        Resource xsdResource = xsd.get(entry.getFileType().getName());
         Schema schema = schemaFactory.newSchema(xsdResource.getURL());
-
-        String sourceXml = ingestionFileEntry.getFile().getAbsolutePath();
-        InputStream is = new FileInputStream(sourceXml);
 
         javax.xml.validation.Validator validator = schema.newValidator();
         validator.setResourceResolver(new ExternalEntityResolver());
         validator.setErrorHandler(new XsdErrorHandler(report, reportStats));
 
-        javax.xml.transform.Source sc = new StreamSource(is, xmlFile.toURI().toASCIIString());
+        javax.xml.transform.Source sc = new StreamSource(is, entry.getFileName());
         validator.validate(sc);
 
-        return is;
+        return true;
     }
 
     @Override
@@ -186,7 +179,6 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
             if (report != null) {
                 String fullParsefilePathname = (ex.getSystemId() == null) ? "" : ex.getSystemId();
                 File parseFile = new File(fullParsefilePathname);
-                String publicId = (ex.getPublicId() == null) ? "" : ex.getPublicId();
 
                 Source source = new NeutralRecordSource(parseFile.getName(), STAGE_NAME, ex.getLineNumber(),
                         ex.getColumnNumber());

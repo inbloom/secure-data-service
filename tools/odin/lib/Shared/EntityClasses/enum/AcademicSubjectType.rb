@@ -117,4 +117,14 @@ class AcademicSubjectType
     subjects << :PHYSICAL_HEALTH_AND_SAFETY_EDUCATION << :SOCIAL_SCIENCES_AND_HISTORY
     subjects.flatten 
   end
+
+  def self.get_academic_subjects(grade)
+    if GradeLevelType.is_elementary_school_grade grade
+      return elementary
+    elsif GradeLevelType.is_middle_school_grade grade
+      return middle
+    elsif GradeLevelType.is_high_school_grade grade
+      return high
+    end
+  end
 end

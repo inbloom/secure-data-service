@@ -107,4 +107,8 @@ public interface BatchJobDAO {
 
     public MongoTemplate getMongoTemplate();
 
+    boolean updateFileEntryLatch(String batchJobId, String filename);
+
+    public boolean createFileLatch(String jobId, List<String> fileEntries);
+
 }
