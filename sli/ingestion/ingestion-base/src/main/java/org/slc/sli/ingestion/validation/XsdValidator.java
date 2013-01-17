@@ -67,8 +67,7 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
             ReportStats reportStats, Source source) {
 
         // we know more of our source
-        Source newsource = new XmlFileSource(entry.getFileName(),
-                (source == null ? null : source.getStageName()));
+        Source newsource = new XmlFileSource(source, entry.getFileName());
         InputStream is = null;
         try {
             is = entry.getFileStream();

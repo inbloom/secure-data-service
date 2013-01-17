@@ -555,26 +555,11 @@ public class JobReportingProcessor implements Processor {
     }
 
     private void cleanUpLZ(NewBatchJob job) {
-        boolean isZipFile = false;
-        for (ResourceEntry resourceEntry : job.getResourceEntries()) {
-            if (FileFormat.ZIP_FILE.getCode().equalsIgnoreCase(resourceEntry.getResourceFormat())) {
-                isZipFile = true;
-            }
-        }
-        if (isZipFile) {
             String sourceId = job.getSourceId();
             if (sourceId != null) {
                 File dir = new File(sourceId);
                 FileUtils.deleteQuietly(dir);
             }
-        } else {
-            for (ResourceEntry resourceEntry : job.getResourceEntries()) {
-                if (resourceEntry.getResourceFormat().equals(FileFormat.EDFI_XML.getCode())) {
-                    File xmlFile = new File(resourceEntry.getResourceName());
-                    FileUtils.deleteQuietly(xmlFile);
-                }
-            }
-        }
     }
 
     public void setCommandTopicUri(String commandTopicUri) {

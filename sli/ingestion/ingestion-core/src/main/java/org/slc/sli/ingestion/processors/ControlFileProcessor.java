@@ -47,6 +47,7 @@ import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.ControlFileSource;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.impl.JobSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
@@ -122,7 +123,7 @@ public class ControlFileProcessor implements Processor {
             aggregateBatchJobProperties(newJob, cf);
 
             ReportStats reportStats = new SimpleReportStats();
-            Source source = new JobSource(cf.getFileName(), BatchJobStageType.CONTROL_FILE_PROCESSOR.getName());
+            Source source = new ControlFileSource(cf.getFileName(), BatchJobStageType.CONTROL_FILE_PROCESSOR.getName());
 
             if ((newJob.getProperty(AttributeType.PURGE.getName()) == null)
                     && (newJob.getProperty(AttributeType.PURGE_KEEP_EDORGS.getName()) == null)) {

@@ -340,6 +340,7 @@ Scenario: Post a zip file and then post it again and make sure the updated date 
   And I find a(n) "student" record where "body.studentUniqueStateId" is equal to "100000000"
   And verify that "metaData.created" is unequal to "metaData.updated"
 
+@wip
 Scenario: Post an unzipped ctl file and make sure it is not processed
   Given I post "UnzippedControlFile.ctl" unzipped file as the payload of the ingestion job
   And the following collections are empty in datastore:
@@ -350,7 +351,7 @@ Scenario: Post an unzipped ctl file and make sure it is not processed
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job for file "UnzippedControlFile.ctl" is completed in database
   And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName               | count   |
      | student                      |   0     |
      | recordHash                   |   0     |

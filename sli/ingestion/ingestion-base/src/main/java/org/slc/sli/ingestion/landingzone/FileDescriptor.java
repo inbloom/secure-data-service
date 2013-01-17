@@ -31,18 +31,18 @@ public class FileDescriptor<T> implements Serializable {
     private static final long serialVersionUID = -2800997090364423334L;
 
     private T fileItem;
-    private String parentFileOrDirectory;
+    private String parentZipFileOrDirectory;
 
-    public FileDescriptor(T fileItem, String parentFileOrDirectory) {
+    public FileDescriptor(T fileItem, String parentZipFileOrDirectory) {
         this.fileItem = fileItem;
-        this.parentFileOrDirectory = parentFileOrDirectory;
+        this.parentZipFileOrDirectory = parentZipFileOrDirectory;
     }
 
     public T getFileItem() {
         return fileItem;
     }
 
-    public String getParentFileOrDirectory() {
-        return parentFileOrDirectory;
+    public String getParentZipFileOrDirectory() {
+        return parentZipFileOrDirectory;
     }
 }
