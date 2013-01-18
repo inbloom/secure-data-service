@@ -55,7 +55,7 @@ Scenario: Realm creation/editing should have validation
   And I should make the IDP URL not unique
   And I should click the "Save" button
   Then I should get 1 error
-
+@wip
 Scenario: Multi Realm creation
 Given I see the realms for "NC-KRYPTON"
 And the realm "Brand New Realm" will exist

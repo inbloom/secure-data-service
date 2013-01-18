@@ -60,6 +60,7 @@ class RealmManagementController < ApplicationController
       rescue ActiveResource::BadRequest => error
         @realm.errors.add(:uniqueIdentifier, "must be unique") if error.response.body.include? "unique"
         @realm.errors.add(:name, "must be unique") if error.response.body.include? "display"
+        @realm.errors.add(:idp, "must be unique") if error.response.body.include? "idp ids"
       end
       if success
         @realm = Realm.find(@realm.id)
@@ -86,6 +87,7 @@ class RealmManagementController < ApplicationController
       rescue ActiveResource::BadRequest => error
         @realm.errors.add(:uniqueIdentifier, "must be unique") if error.response.body.include? "unique"
         @realm.errors.add(:name, "must be unique") if error.response.body.include? "display"
+        @realm.errors.add(:idp, "must be unique") if error.response.body.include? "idp ids"
       end
       if success
         format.html { redirect_to realm_management_index_path, notice: 'Realm was successfully updated.' }
