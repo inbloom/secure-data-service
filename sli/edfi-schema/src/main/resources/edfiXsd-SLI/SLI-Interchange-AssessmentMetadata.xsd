@@ -13,7 +13,6 @@
 				<xs:element name="AssessmentFamily" type="AssessmentFamily"/>
 				<xs:element name="Assessment" type="SLC-Assessment"/>
 				<xs:element name="AssessmentPeriodDescriptor" type="AssessmentPeriodDescriptor"/>
-				<xs:element name="PerformanceLevelDescriptor" type="PerformanceLevelDescriptor"/>
 				<xs:element name="ObjectiveAssessment" type="SLC-ObjectiveAssessment"/>
 				<xs:element name="AssessmentItem" type="SLC-AssessmentItem"/>
 				<xs:element name="LearningObjective" type="SLC-LearningObjective"/>
@@ -22,4 +21,3 @@
 		</xs:complexType>
 	</xs:element>
 </xs:schema>
-

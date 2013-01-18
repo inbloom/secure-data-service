@@ -34,7 +34,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
@@ -44,7 +44,7 @@ import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.JobSource;
+import org.slc.sli.ingestion.reporting.impl.ProcessorSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 
@@ -63,8 +63,6 @@ public class PurgeProcessor implements Processor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(PurgeProcessor.class);
 
-    private static final String TENANT_ID = "tenantId";
-
     @Autowired
     private MongoTemplate mongoTemplate;
 
@@ -75,8 +73,6 @@ public class PurgeProcessor implements Processor {
     private AbstractMessageReport databaseMessageReport;
 
     private List<String> excludeCollections;
-
-    private Source source = null;
 
     private ReportStats reportStats = null;
 
@@ -108,7 +104,6 @@ public class PurgeProcessor implements Processor {
         String batchJobId = getBatchJobId(exchange);
         if (batchJobId != null) {
 
-            source = new JobSource(null, BATCH_JOB_STAGE.getName());
             reportStats = new SimpleReportStats();
 
             NewBatchJob newJob = null;
@@ -117,14 +112,11 @@ public class PurgeProcessor implements Processor {
 
                 TenantContext.setTenantId(newJob.getTenantId());
 
-                String tenantId = newJob.getProperty(TENANT_ID);
+                String tenantId = newJob.getTenantId();
                 if (tenantId == null) {
-
                     handleNoTenantId(batchJobId);
                 } else {
-
                     purgeForTenant(exchange, newJob, tenantId);
-
                 }
 
             } catch (Exception exception) {
@@ -222,7 +214,8 @@ public class PurgeProcessor implements Processor {
     }
 
     private void handleNoTenantId(String batchJobId) {
-        databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0035);
+        databaseMessageReport.error(reportStats, new ProcessorSource(BATCH_JOB_STAGE.getName()),
+                CoreMessageCode.CORE_0035);
     }
 
     private void handleProcessingExceptions(Exchange exchange, String batchJobId, Exception exception) {
@@ -230,13 +223,14 @@ public class PurgeProcessor implements Processor {
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         exchange.setProperty("purge.complete", "Errors encountered during purge process");
 
-        databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0036, exception.toString());
+        databaseMessageReport.error(reportStats, new ProcessorSource(BATCH_JOB_STAGE.getName()),
+                CoreMessageCode.CORE_0036, exception.toString());
     }
 
     private String getBatchJobId(Exchange exchange) {
         String batchJobId = null;
 
-        WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
+        RangedWorkNote workNote = exchange.getIn().getBody(RangedWorkNote.class);
         if (workNote != null) {
             batchJobId = workNote.getBatchJobId();
         }

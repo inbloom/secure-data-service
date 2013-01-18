@@ -28,7 +28,7 @@ public class ControlFileDescriptor extends FileDescriptor<ControlFile> implement
 
     private static final long serialVersionUID = 8497511830606948940L;
 
-    public ControlFileDescriptor(ControlFile fileItem, LandingZone landingZone) {
-        super(fileItem, landingZone);
+    public ControlFileDescriptor(ControlFile fileItem, String parentZipFileOrDirectory) {
+        super(fileItem, parentZipFileOrDirectory);
     }
 }

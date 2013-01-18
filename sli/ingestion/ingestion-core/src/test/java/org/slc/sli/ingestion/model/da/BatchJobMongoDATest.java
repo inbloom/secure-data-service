@@ -104,7 +104,7 @@ public class BatchJobMongoDATest {
 
     @Test
     public void testFindBatchJob() {
-        NewBatchJob job = new NewBatchJob(BATCHJOBID);
+        NewBatchJob job = new NewBatchJob(BATCHJOBID, "SLI");
 
         when(mockMongoTemplate.findOne((Query) any(), eq(NewBatchJob.class))).thenReturn(job);
 
@@ -456,5 +456,38 @@ public class BatchJobMongoDATest {
         // The timestamp on the recordHash should have changed after the second call, and the create time should be the same
         Assert.assertTrue(savedTimestamp < updatedTimestamp);
     }
+
+    @Test
+    public void testUpdateFileEntryWorkNote() {
+        DBObject obj1 = new BasicDBObject();
+        List<String> files1 = new ArrayList<String>();
+        files1.add("StudentProgram.xml");
+        obj1.put("files", files1);
+        DBObject obj2 = new BasicDBObject();
+        obj2.put("files", new ArrayList<String>());
+
+        DBCollection collection = Mockito.mock(DBCollection.class);
+        Mockito.when(mockMongoTemplate.getCollection("fileEntryLatch")).thenReturn(collection);
+        Mockito.when(collection.findAndModify(Mockito.any(DBObject.class), Mockito.any(DBObject.class), Mockito.any(DBObject.class),
+                Mockito.anyBoolean(), Mockito.any(DBObject.class), Mockito.anyBoolean(),Mockito.anyBoolean())).thenReturn(obj1, obj2);
+
+        boolean result =  mockBatchJobMongoDA.updateFileEntryLatch(BATCHJOBID, "StudentParent.xml");
+        Assert.assertFalse(result);
+
+        result =  mockBatchJobMongoDA.updateFileEntryLatch(BATCHJOBID, "StudentProgram.xml");
+        Assert.assertTrue(result);
+    }
+
+    public void testFileLatch() {
+        DBCollection collection = Mockito.mock(DBCollection.class);
+        Mockito.when(mockMongoTemplate.getCollection("fileEntryLatch")).thenReturn(collection);
+        Mockito.when(collection
+                .insert(Matchers.any(DBObject.class), Matchers.any(WriteConcern.class))).thenReturn(null);
+
+        List<String> fileEntries = new ArrayList<String>();
+        fileEntries.add("test1.xml");
+        fileEntries.add("test2.xml");
+        Assert.assertTrue(mockBatchJobMongoDA.createFileLatch(BATCHJOBID, fileEntries));
+   }
 
 }

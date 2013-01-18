@@ -32,6 +32,7 @@ class AssessmentMetadataGenerator < InterchangeGenerator
     @writers[ AssessmentFamily ] = EntityWriter.new("assessment_family.mustache")
     @writers[ Assessment ] = EntityWriter.new("assessment.mustache")
     @writers[ AssessmentItem ] = EntityWriter.new("assessment_item.mustache")
+    @writers[ LearningObjective ] = EntityWriter.new("learning_objective.mustache")
 
   end
 end

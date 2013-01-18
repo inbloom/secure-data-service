@@ -17,10 +17,15 @@ limitations under the License.
 =end
 class DeferredGarbageCollector
 
+  @@enabled = true
   @@call_time = Time.now
 
   def initialize(delay)
-    @delay = delay
+    if @@enabled
+      @delay = delay
+    else
+      @delay = 0
+    end
   end
 
   def start
@@ -34,5 +39,9 @@ class DeferredGarbageCollector
       GC.disable
       @@call_time = Time.now
     end
+  end
+
+  def self.disable
+    @@enabled = false
   end
 end

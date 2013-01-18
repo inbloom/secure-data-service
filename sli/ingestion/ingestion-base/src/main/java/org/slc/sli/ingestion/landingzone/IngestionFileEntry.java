@@ -16,14 +16,17 @@
 
 package org.slc.sli.ingestion.landingzone;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
+
+import org.apache.commons.io.FileUtils;
 
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.Resource;
-import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.ReportStats;
 
 /**
  * Represents an Ingestion File Entry which includes the file to ingest along with its
@@ -35,52 +38,23 @@ public class IngestionFileEntry implements Serializable, Resource {
     private static final long serialVersionUID = 8326156381009199389L;
 
     // Attributes
+    private String parentZipFileOrDirectory;
     private FileFormat fileFormat;
     private FileType fileType;
     private String fileName;
-    private File file;
-    private File neutralRecordFile;
-    private File deltaNeutralRecordFile;
     private String checksum;
-    private String topLevelLandingZonePath;
-    private String fileZipParent;
-
-    private AbstractMessageReport errorReport;
-
-    private ReportStats reportStats;
+    private boolean valid;
 
     // will only be set when this is added to a BatchJob
     private String batchJobId;
 
-    // Constructors
-    public IngestionFileEntry(FileFormat fileFormat, FileType fileType, String fileName, String checksum) {
-        this(fileFormat, fileType, fileName, checksum, null);
-    }
-
-    public IngestionFileEntry(FileFormat fileFormat, FileType fileType, String fileName, String checksum,
-            String topLevelLandingZonePath) {
+    public IngestionFileEntry(String parentZipFileOrDirectory, FileFormat fileFormat, FileType fileType, String fileName, String checksum) {
+        this.parentZipFileOrDirectory = parentZipFileOrDirectory;
         this.fileFormat = fileFormat;
         this.fileType = fileType;
         this.fileName = fileName;
         this.checksum = checksum;
-        this.topLevelLandingZonePath = topLevelLandingZonePath;
-    }
-
-    // Methods
-
-    /**
-     * @param reportStats
-     *            the reportStats to set
-     */
-    public void setReportStats(ReportStats reportStats) {
-        this.reportStats = reportStats;
-    }
-
-    /**
-     * @return the reportStats
-     */
-    public ReportStats getReportStats() {
-        return reportStats;
+        this.valid = true;
     }
 
     /**
@@ -141,25 +115,6 @@ public class IngestionFileEntry implements Serializable, Resource {
     }
 
     /**
-     * Set the Ingestion file.
-     *
-     * @param file
-     *            to set
-     */
-    public void setFile(File file) {
-        this.file = file;
-    }
-
-    /**
-     * Get the Ingestion file.
-     *
-     * @return file to obtain
-     */
-    public File getFile() {
-        return this.file;
-    }
-
-    /**
      * Set the Ingestion file checksum.
      *
      * @param checksum
@@ -178,22 +133,6 @@ public class IngestionFileEntry implements Serializable, Resource {
         return this.checksum;
     }
 
-    public File getNeutralRecordFile() {
-        return neutralRecordFile;
-    }
-
-    public void setNeutralRecordFile(File neutralRecordFile) {
-        this.neutralRecordFile = neutralRecordFile;
-    }
-
-    public File getDeltaNeutralRecordFile() {
-        return deltaNeutralRecordFile;
-    }
-
-    public void setDeltaNeutralRecordFile(File deltaNeutralRecordFile) {
-        this.deltaNeutralRecordFile = deltaNeutralRecordFile;
-    }
-
     public String getBatchJobId() {
         return batchJobId;
     }
@@ -202,47 +141,111 @@ public class IngestionFileEntry implements Serializable, Resource {
         this.batchJobId = batchJobId;
     }
 
-    /**
-     * @return the topLevelLandingZonePath
-     */
-    public String getTopLevelLandingZonePath() {
-        return topLevelLandingZonePath;
-    }
-
-    /**
-     * @param topLevelLandingZonePath
-     *            the topLevelLandingZonePath to set
-     */
-    public void setTopLevelLandingZonePath(String topLevelLandingZonePath) {
-        this.topLevelLandingZonePath = topLevelLandingZonePath;
-    }
-
-    /**
-     * @return the databaseMessageReport
-     */
-    public AbstractMessageReport getMessageReport() {
-        return errorReport;
-    }
-
-    /**
-     * @param databaseMessageReport
-     *            the databaseMessageReport to set
-     */
-    public void setMessageReport(AbstractMessageReport databaseMessageReport) {
-        this.errorReport = databaseMessageReport;
-    }
-
     @Override
     public String getResourceId() {
         return fileName;
     }
 
-    public String getFileZipParent() {
-        return fileZipParent;
+    public boolean isValid() {
+        return valid;
     }
 
-    public void setFileZipParent(String fileZipParent) {
-        this.fileZipParent = fileZipParent;
+    public void setValid(boolean valid) {
+        this.valid = valid;
     }
 
+    public String getParentZipFileOrDirectory() {
+        return parentZipFileOrDirectory;
+    }
+
+    public InputStream getFileStream() throws IOException {
+        File parentFile = new File(getParentZipFileOrDirectory());
+        if (parentFile.isDirectory()) {
+            return new BufferedInputStream(FileUtils.openInputStream(new File(parentFile, getFileName())));
+        } else {
+            return ZipFileUtil.getInputStreamForFile(parentFile, getFileName());
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((batchJobId == null) ? 0 : batchJobId.hashCode());
+        result = prime * result + ((checksum == null) ? 0 : checksum.hashCode());
+        result = prime * result + ((fileFormat == null) ? 0 : fileFormat.hashCode());
+        result = prime * result + ((fileName == null) ? 0 : fileName.hashCode());
+        result = prime * result + ((fileType == null) ? 0 : fileType.hashCode());
+        result = prime * result + ((parentZipFileOrDirectory == null) ? 0 : parentZipFileOrDirectory.hashCode());
+        result = prime * result + (valid ? 1231 : 1237);
+        return result;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        IngestionFileEntry other = (IngestionFileEntry) obj;
+        if (batchJobId == null) {
+            if (other.batchJobId != null) {
+                return false;
+            }
+        } else if (!batchJobId.equals(other.batchJobId)) {
+            return false;
+        }
+        if (checksum == null) {
+            if (other.checksum != null) {
+                return false;
+            }
+        } else if (!checksum.equals(other.checksum)) {
+            return false;
+        }
+        if (fileFormat != other.fileFormat) {
+            return false;
+        }
+        if (fileName == null) {
+            if (other.fileName != null) {
+                return false;
+            }
+        } else if (!fileName.equals(other.fileName)) {
+            return false;
+        }
+        if (fileType != other.fileType) {
+            return false;
+        }
+        if (parentZipFileOrDirectory == null) {
+            if (other.parentZipFileOrDirectory != null) {
+                return false;
+            }
+        } else if (!parentZipFileOrDirectory.equals(other.parentZipFileOrDirectory)) {
+            return false;
+        }
+        if (valid != other.valid) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return "IngestionFileEntry [parentZipFileOrDirectory=" + parentZipFileOrDirectory + ", fileFormat=" + fileFormat
+                + ", fileType=" + fileType + ", fileName=" + fileName + ", checksum=" + checksum + ", valid=" + valid
+                + ", batchJobId=" + batchJobId + "]";
+    }
 }

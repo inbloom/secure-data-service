@@ -21,19 +21,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
+import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.NeutralRecordSource;
-import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 
 /**
  * Modifies the LearningObjective to match the SLI datamodel.
@@ -99,11 +97,7 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
             if (objective != null && academicSubject != null && objectiveGradeLevel != null) {
                 if (learningObjectiveIdMap.containsKey(new LearningObjectiveId(objective, academicSubject,
                         objectiveGradeLevel))) {
-                    NeutralRecordSource source = new NeutralRecordSource(lo.getSourceFile(), BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
-                            lo.getVisitBeforeLineNumber(),
-                            lo.getVisitBeforeColumnNumber(),
-                            lo.getVisitAfterLineNumber(), lo.getVisitAfterColumnNumber());
-                    reportError(lo.getSourceFile(), source, CoreMessageCode.CORE_0037, objective, academicSubject,
+                    reportError(lo.getSourceFile(), new ElementSourceImpl(lo), CoreMessageCode.CORE_0037, objective, academicSubject,
                             objectiveGradeLevel);
                     continue;
                 }
@@ -163,11 +157,7 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
                     // add this entity to our NR working set
                     transformedLearningObjectives.add(childEntityNR);
                 } else {
-                    NeutralRecordSource source = new NeutralRecordSource(parentLO.getSourceFile(), BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
-                            parentLO.getVisitBeforeLineNumber(),
-                            parentLO.getVisitBeforeColumnNumber(),
-                            parentLO.getVisitAfterLineNumber(), parentLO.getVisitAfterColumnNumber());
-                    reportError(parentLO.getSourceFile(), source, CoreMessageCode.CORE_0034, objective, academicSubject,
+                    reportError(parentLO.getSourceFile(), new ElementSourceImpl(parentLO), CoreMessageCode.CORE_0034, objective, academicSubject,
                             objectiveGradeLevel);
                 }
             }
@@ -183,11 +173,7 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
         if (!childLo.getAttributes().containsKey(PARENT_LEARNING_OBJ_REF)) {
             childLo.getAttributes().put(PARENT_LEARNING_OBJ_REF, childLearningObjRefs);
         } else {
-            NeutralRecordSource source = new NeutralRecordSource(childLo.getSourceFile(), BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
-                    childLo.getVisitBeforeLineNumber(),
-                    childLo.getVisitBeforeColumnNumber(),
-                    childLo.getVisitAfterLineNumber(), childLo.getVisitAfterColumnNumber());
-            reportError(childLo.getSourceFile(), source, CoreMessageCode.CORE_0030, childLearningObjRefs.toString());
+            reportError(childLo.getSourceFile(), new ElementSourceImpl(childLo), CoreMessageCode.CORE_0030, childLearningObjRefs.toString());
         }
     }
 
@@ -203,11 +189,7 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
         if (childLearningStdRefs != null) {
             for (Map<String, Object> learnStdRef : childLearningStdRefs) {
                 if (learnStdRef == null) {
-                    NeutralRecordSource source = new NeutralRecordSource(parentLO.getSourceFile(), BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
-                            parentLO.getVisitBeforeLineNumber(),
-                            parentLO.getVisitBeforeColumnNumber(),
-                            parentLO.getVisitAfterLineNumber(), parentLO.getVisitAfterColumnNumber());
-                    reportError(parentLO.getSourceFile(), source, CoreMessageCode.CORE_0031,
+                    reportError(parentLO.getSourceFile(), new ElementSourceImpl(parentLO), CoreMessageCode.CORE_0031,
                             getByPath(LO_ID_CODE_PATH, parentLO.getAttributes()));
                 } else {
                     String idCode = getByPath(LS_ID_CODE_PATH, learnStdRef);

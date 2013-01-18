@@ -70,14 +70,11 @@ public class XsdValidatorTest {
     @Test
     public void testUnreadableXml() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudent-Unreadable.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION,
-                xmlFile.getAbsolutePath(), "");
-        ife.setFile(xmlFile);
+        IngestionFileEntry ife = new IngestionFileEntry(xmlFile.getParentFile().getAbsolutePath(),
+                FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION, xmlFile.getName(), "");
 
-        String batchJobId = "1234567-eieio";
         String resourceId = "theResourceId";
-        String stageName = "ConcurrentEdFiProcessor";
-        JobSource jobSource = new JobSource(resourceId, stageName);
+        JobSource jobSource = new JobSource(resourceId);
         ReportStats reportStats = new SimpleReportStats();
 
         xsdValidator.isValid(ife, memoryMessageReport, reportStats, jobSource);
@@ -87,16 +84,15 @@ public class XsdValidatorTest {
         List<String> errors = memoryMessageReport.getErrors();
 
         // Check StateOrganizationId content.
-        String errorMessage = String.format(FILE_IO_ERROR, ife.getFile().getAbsolutePath());
+        String errorMessage = String.format(FILE_IO_ERROR, ife.getFileName());
         Assert.assertTrue("Should see error for XML file reading problem", containsStringPartial(errors, errorMessage));
     }
 
     @Test
     public void staffAssociationInterchangeShouldBeValid() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStaffAssociation.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STAFF_ASSOCIATION,
-                xmlFile.getAbsolutePath(), "");
-        ife.setFile(xmlFile);
+        IngestionFileEntry ife = new IngestionFileEntry(xmlFile.getParentFile().getAbsolutePath(),
+                FileFormat.EDFI_XML, FileType.XML_STAFF_ASSOCIATION, xmlFile.getName(), "");
 
         ReportStats reportStats = new SimpleReportStats();
 
@@ -108,9 +104,8 @@ public class XsdValidatorTest {
     @Test
     public void studentAttendanceInterchangeShouldResultInWarning() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudentAttendance.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_ATTENDANCE,
-                xmlFile.getAbsolutePath(), "");
-        ife.setFile(xmlFile);
+        IngestionFileEntry ife = new IngestionFileEntry(xmlFile.getParentFile().getAbsolutePath(),
+                FileFormat.EDFI_XML, FileType.XML_STUDENT_ATTENDANCE, xmlFile.getName(), "");
 
         ReportStats reportStats = new SimpleReportStats();
 
@@ -129,9 +124,8 @@ public class XsdValidatorTest {
     @Test
     public void assessmentMetadataInterchangeShouldResultInWarning() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeAssessmentMetadata.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_ASSESSMENT_METADATA,
-                xmlFile.getAbsolutePath(), "");
-        ife.setFile(xmlFile);
+        IngestionFileEntry ife = new IngestionFileEntry(xmlFile.getParentFile().getAbsolutePath(),
+                FileFormat.EDFI_XML, FileType.XML_ASSESSMENT_METADATA, xmlFile.getName(), "");
 
         ReportStats reportStats = new SimpleReportStats();
 
@@ -150,9 +144,8 @@ public class XsdValidatorTest {
     @Test
     public void educationOrgCalendarInterchangeShouldResultInWarning() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeEducationOrgCalendar.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_EDUCATION_ORG_CALENDAR,
-                xmlFile.getAbsolutePath(), "");
-        ife.setFile(xmlFile);
+        IngestionFileEntry ife = new IngestionFileEntry(xmlFile.getParentFile().getAbsolutePath(),
+                FileFormat.EDFI_XML, FileType.XML_EDUCATION_ORG_CALENDAR, xmlFile.getName(), "");
 
         ReportStats reportStats = new SimpleReportStats();
 
@@ -171,9 +164,9 @@ public class XsdValidatorTest {
     @Test
     public void educationOrganizationInterchangeShouldBeValid() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeEducationOrganization.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_EDUCATION_ORGANIZATION,
-                xmlFile.getAbsolutePath(), "");
-        ife.setFile(xmlFile);
+        IngestionFileEntry ife = new IngestionFileEntry(xmlFile.getParentFile().getAbsolutePath(),
+                FileFormat.EDFI_XML, FileType.XML_EDUCATION_ORGANIZATION,
+                xmlFile.getName(), "");
 
         ReportStats reportStats = new SimpleReportStats();
 
@@ -185,9 +178,9 @@ public class XsdValidatorTest {
     @Test
     public void masterScheduleInterchangeShouldResultInWarning() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeMasterSchedule.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_MASTER_SCHEDULE,
-                xmlFile.getAbsolutePath(), "");
-        ife.setFile(xmlFile);
+        IngestionFileEntry ife = new IngestionFileEntry(xmlFile.getParentFile().getAbsolutePath(),
+                FileFormat.EDFI_XML, FileType.XML_MASTER_SCHEDULE,
+                xmlFile.getName(), "");
 
         ReportStats reportStats = new SimpleReportStats();
 
@@ -206,9 +199,9 @@ public class XsdValidatorTest {
     @Test
     public void studentAssessmentInterchangeShouldBeValid() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudentAssessment.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_ASSESSMENT,
-                xmlFile.getAbsolutePath(), "");
-        ife.setFile(xmlFile);
+        IngestionFileEntry ife = new IngestionFileEntry(xmlFile.getParentFile().getAbsolutePath(),
+                FileFormat.EDFI_XML, FileType.XML_STUDENT_ASSESSMENT,
+                xmlFile.getName(), "");
 
         ReportStats reportStats = new SimpleReportStats();
 
@@ -220,9 +213,9 @@ public class XsdValidatorTest {
     @Test
     public void studentDisciplineInterchangeShouldBeValid() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudentDiscipline.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_DISCIPLINE,
-                xmlFile.getAbsolutePath(), "");
-        ife.setFile(xmlFile);
+        IngestionFileEntry ife = new IngestionFileEntry(xmlFile.getParentFile().getAbsolutePath(),
+                FileFormat.EDFI_XML, FileType.XML_STUDENT_DISCIPLINE,
+                xmlFile.getName(), "");
 
         ReportStats reportStats = new SimpleReportStats();
 
@@ -234,9 +227,9 @@ public class XsdValidatorTest {
     @Test
     public void studentEnrollmentInterchangeShouldResultInWarning() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudentEnrollment.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_ENROLLMENT,
-                xmlFile.getAbsolutePath(), "");
-        ife.setFile(xmlFile);
+        IngestionFileEntry ife = new IngestionFileEntry(xmlFile.getParentFile().getAbsolutePath(),
+                FileFormat.EDFI_XML, FileType.XML_STUDENT_ENROLLMENT,
+                xmlFile.getName(), "");
 
         ReportStats reportStats = new SimpleReportStats();
 
@@ -255,9 +248,9 @@ public class XsdValidatorTest {
     @Test
     public void studentGradeInterchangeShouldResultInWarning() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudentGrade.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_GRADES,
-                xmlFile.getAbsolutePath(), "");
-        ife.setFile(xmlFile);
+        IngestionFileEntry ife = new IngestionFileEntry(xmlFile.getParentFile().getAbsolutePath(),
+                FileFormat.EDFI_XML, FileType.XML_STUDENT_GRADES,
+                xmlFile.getName(), "");
 
         ReportStats reportStats = new SimpleReportStats();
 
@@ -276,9 +269,9 @@ public class XsdValidatorTest {
     @Test
     public void studentProgramInterchangeShouldResultInWarning() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudentProgram.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_PROGRAM,
-                xmlFile.getAbsolutePath(), "");
-        ife.setFile(xmlFile);
+        IngestionFileEntry ife = new IngestionFileEntry(xmlFile.getParentFile().getAbsolutePath(),
+                FileFormat.EDFI_XML, FileType.XML_STUDENT_PROGRAM,
+                xmlFile.getName(), "");
 
         ReportStats reportStats = new SimpleReportStats();
 
@@ -297,9 +290,9 @@ public class XsdValidatorTest {
     @Test
     public void studentCohortInterchangeShouldResultInWarning() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudentCohort.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_COHORT,
-                xmlFile.getAbsolutePath(), "");
-        ife.setFile(xmlFile);
+        IngestionFileEntry ife = new IngestionFileEntry(xmlFile.getParentFile().getAbsolutePath(),
+                FileFormat.EDFI_XML, FileType.XML_STUDENT_COHORT,
+                xmlFile.getName(), "");
 
         ReportStats reportStats = new SimpleReportStats();
 
@@ -321,15 +314,17 @@ public class XsdValidatorTest {
                 return true;
             }
         }
+
+        Assert.assertEquals(expectedMessage, messages.toString());
         return false;
     }
 
     @Test
     public void testValidXml() throws IOException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudent-Valid.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION,
-                xmlFile.getAbsolutePath(), "");
-        ife.setFile(xmlFile);
+        IngestionFileEntry ife = new IngestionFileEntry(xmlFile.getParentFile().getAbsolutePath(),
+                FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION,
+                xmlFile.getName(), "");
 
         Assert.assertTrue(xsdValidator.isValid(ife, Mockito.mock(AbstractMessageReport.class),
                 Mockito.mock(ReportStats.class), null));
@@ -339,9 +334,9 @@ public class XsdValidatorTest {
     public void testInValidXml() throws IOException, SecurityException, NoSuchFieldException, IllegalArgumentException,
             IllegalAccessException {
         File xmlFile = IngestionTest.getFile("XsdValidation/InterchangeStudent-InValid.xml");
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION,
-                xmlFile.getAbsolutePath(), "");
-        ife.setFile(xmlFile);
+        IngestionFileEntry ife = new IngestionFileEntry(xmlFile.getParentFile().getAbsolutePath(),
+                FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION,
+                xmlFile.getName(), "");
 
         ReportStats reportStats = new SimpleReportStats();
 
@@ -359,13 +354,13 @@ public class XsdValidatorTest {
 
     @Test
     public void testXmlNotExists() {
-        IngestionFileEntry ife = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION,
+        IngestionFileEntry ife = new IngestionFileEntry("",
+                FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION,
                 "XsdValidation/NoFile.xml", "");
 
-        String batchJobId = "1234567-eieio";
         String resourceId = "theResourceId";
         String stageName = "ConcurrentEdFiProcessor";
-        JobSource jobSource = new JobSource(resourceId, stageName);
+        JobSource jobSource = new JobSource(resourceId);
         ReportStats reportStats = new SimpleReportStats();
 
         xsdValidator.isValid(ife, memoryMessageReport, reportStats, jobSource);

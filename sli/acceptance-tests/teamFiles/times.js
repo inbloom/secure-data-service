@@ -1,0 +1,1 @@
+db.newBatchJob.find({"resourceEntries.resourceId":"dataset.zip"},{"jobStartTimestamp":1,"jobStopTimestamp":1}).pretty()

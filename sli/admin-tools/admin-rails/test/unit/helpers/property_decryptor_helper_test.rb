@@ -20,52 +20,19 @@ require 'test_helper'
 class PropertyDecryptorHelperTest < ActionView::TestCase
     
     test "Should decrypt an encrypted string" do
-        puts "PropertyDecryptorHelperTest: encrption test"
+
     
         unencryptedString = "unencrypted string"
     
         #want to test something like
         encryptedResult = PropertyDecryptorHelper.encrypt(unencryptedString)
     
-        puts "Got encrypted result: " + encryptedResult
     
         decryptedResult = PropertyDecryptorHelper.decrypt(encryptedResult)
     
-        puts "Got decrypted result: " + decryptedResult
         
         assert_equal unencryptedString, decryptedResult
     
-        puts "encrypting stuff"
-    
-        puts "development"
-        puts "client_id: " + PropertyDecryptorHelper.encrypt("Eg6eseKRzN")
-        puts "client_secret: " + 
-        PropertyDecryptorHelper.encrypt( "FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF")
-    
-        puts "local-acceptance-tests"
-        puts "client_id: " + PropertyDecryptorHelper.encrypt("Eg6eseKRzN")
-        puts "client_secret: " + 
-        PropertyDecryptorHelper.encrypt( "FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF")
-    
-        puts "development_sb"
-        puts "client_id: " + PropertyDecryptorHelper.encrypt("Eg6eseKRzN")
-        puts "client_secret: " + 
-        PropertyDecryptorHelper.encrypt( "FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF")
-    
-        puts "team"
-        puts "client_id: " + PropertyDecryptorHelper.encrypt("OY6Nnukmn6")
-        puts "client_secret: " + 
-        PropertyDecryptorHelper.encrypt( "UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg")
-    
-        puts "team_sb"
-        puts "client_id: " + PropertyDecryptorHelper.encrypt("OY6Nnukmn6")
-        puts "client_secret: " + 
-        PropertyDecryptorHelper.encrypt( "UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg")
-    
-        puts "production"
-        puts "client_id: " + PropertyDecryptorHelper.encrypt("OY6Nnukmn6")
-        puts "client_secret: " + 
-        PropertyDecryptorHelper.encrypt( "UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg")
     
     end
 

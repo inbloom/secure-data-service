@@ -55,10 +55,8 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
-import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
-import org.slc.sli.ingestion.landingzone.LandingZone;
-import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -115,7 +113,7 @@ public class JobReportingProcessor implements Processor {
 
     @Override
     public void process(Exchange exchange) {
-        WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
+        RangedWorkNote workNote = exchange.getIn().getBody(RangedWorkNote.class);
 
         if (workNote == null || workNote.getBatchJobId() == null) {
             missingBatchJobIdError(exchange);
@@ -124,7 +122,7 @@ public class JobReportingProcessor implements Processor {
         }
     }
 
-    private void processJobReporting(Exchange exchange, WorkNote workNote) {
+    private void processJobReporting(Exchange exchange, RangedWorkNote workNote) {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
 
         String batchJobId = workNote.getBatchJobId();
@@ -210,8 +208,7 @@ public class JobReportingProcessor implements Processor {
         FileLock lock = null;
         FileChannel channel = null;
         try {
-            LandingZone landingZone = new LocalFileSystemLandingZone(new File(job.getTopLevelSourceId()));
-            File file = landingZone.getLogFile(job.getId());
+            File file = getLogFile(job);
             FileOutputStream outputStream = new FileOutputStream(file);
             channel = outputStream.getChannel();
             lock = channel.lock();
@@ -260,34 +257,29 @@ public class JobReportingProcessor implements Processor {
     private boolean writeErrorAndWarningReports(NewBatchJob job) {
         boolean hasErrors = false;
 
-        LandingZone landingZone = new LocalFileSystemLandingZone(new File(job.getTopLevelSourceId()));
         for (ResourceEntry resource : job.getResourceEntries()) {
-            String resourceId = resource.getResourceId();
-            boolean resourceHasErrors = writeErrors(job, landingZone, resourceId, FaultType.TYPE_ERROR,
-                    ERROR_FILE_TYPE, errorsCountPerInterchange);
-            if (resourceHasErrors) {
-                hasErrors = true;
-            }
-            writeErrors(job, landingZone, resourceId, FaultType.TYPE_WARNING, WARNING_FILE_TYPE,
-                    warningsCountPerInterchange);
+            hasErrors |= writeUserLog(job, resource, FaultType.TYPE_ERROR, errorsCountPerInterchange);
+
+            writeUserLog(job, resource, FaultType.TYPE_WARNING, warningsCountPerInterchange);
         }
 
         //It is possible that some errors dont have resourceId.
         //Reporting such errors.
-        hasErrors |= writeErrors(job, landingZone, null, FaultType.TYPE_ERROR,
-                ERROR_FILE_TYPE, errorsCountPerInterchange);
+        hasErrors |= writeUserLog(job, null, FaultType.TYPE_ERROR, errorsCountPerInterchange);
 
         return hasErrors;
     }
 
-    private boolean writeErrors(NewBatchJob job, LandingZone landingZone, String externalResourceId,
-            FaultType severity, String fileType, int errorsCountLimit) {
-        Iterable<Error> errors = batchJobDAO.getBatchJobErrors(job.getId(), externalResourceId, severity,
-                errorsCountLimit);
+    private boolean writeUserLog(NewBatchJob job, ResourceEntry resource, FaultType severity, int logRecordsLimit) {
+        String resourceId = resource != null ? resource.getResourceId() : null;
+
+        Iterable<Error> errors = batchJobDAO.getBatchJobErrors(job.getId(), resourceId, severity, logRecordsLimit);
+
         if (errors.iterator().hasNext()) {
             PrintWriter errorWriter = null;
             try {
-                errorWriter = getErrorWriter(fileType, job.getId(), externalResourceId, landingZone);
+                String fileType = FaultType.TYPE_ERROR.equals(severity) ? ERROR_FILE_TYPE : WARNING_FILE_TYPE;
+                errorWriter = getErrorWriter(fileType, job, resource);
                 for (Error error : errors) {
                     writeErrorLine(errorWriter, severity.getName(), error.getErrorDetail());
                 }
@@ -301,24 +293,41 @@ public class JobReportingProcessor implements Processor {
         return false;
     }
 
-    private PrintWriter getErrorWriter(String type, String batchJobId, String externalResourceId,
-            LandingZone landingZone) throws IOException {
-
-        // writer for job and stage level (non-resource specific) errors and warnings
-        String theExternalResourceId = externalResourceId;
-        if (theExternalResourceId == null) {
-            theExternalResourceId = JOB_STAGE_RESOURCE_ID;
-        }
-
+    private PrintWriter getErrorWriter(String type, NewBatchJob job, ResourceEntry resource) throws IOException {
         String errorFileName = null;
 
-        if (JOB_STAGE_RESOURCE_ID.equals(theExternalResourceId)) {
-            errorFileName = JOB_STAGE_RESOURCE_ID + "_" + type + "-" + batchJobId + ".log";
+        if (resource == null) {
+            errorFileName = JOB_STAGE_RESOURCE_ID + "_" + type + "-" + job.getId() + ".log";
         } else {
-            errorFileName = type + "." + theExternalResourceId + "-" + batchJobId + ".log";
+            errorFileName = type + "." + resource.getResourceId() + "-" + job.getId() + ".log";
         }
-        return new PrintWriter(new FileWriter(landingZone.createFile(errorFileName)));
 
+        return new PrintWriter(new FileWriter(createFile(job, errorFileName)));
+    }
+
+    /**
+     * Returns a java.io.File for a log file to be used to report BatchJob
+     * status/progress.  The file will be created if it does not yet exist.
+     *
+     * @return File object
+     */
+    public File getLogFile(NewBatchJob job) throws IOException {
+        String fileName = "job-" + job.getId() + ".log";
+        return createFile(job, fileName);
+    }
+
+    /**
+     * @param job
+     * @param fileName
+     * @return
+     * @throws IOException
+     */
+    public File createFile(NewBatchJob job, String fileName) throws IOException {
+        File f = FileUtils.getFile(job.getTopLevelSourceId(), fileName);
+        if (!f.exists()) {
+            f.createNewFile();
+        }
+        return f;
     }
 
     private void writeDuplicates(NewBatchJob job, PrintWriter jobReportWriter) {
@@ -469,7 +478,7 @@ public class JobReportingProcessor implements Processor {
         }
     }
 
-    private void performJobCleanup(Exchange exchange, WorkNote workNote, Stage stage, NewBatchJob job) {
+    private void performJobCleanup(Exchange exchange, RangedWorkNote workNote, Stage stage, NewBatchJob job) {
         if (job != null) {
             BatchJobUtils.completeStageAndJob(stage, job);
             batchJobDAO.saveBatchJob(job);
@@ -516,7 +525,7 @@ public class JobReportingProcessor implements Processor {
         audit(event);
     }
 
-    private void cleanupStagingDatabase(WorkNote workNote) {
+    private void cleanupStagingDatabase(RangedWorkNote workNote) {
         if ("true".equals(clearOnCompletion)) {
 
             neutralRecordMongoAccess.cleanupJob(workNote.getBatchJobId());
@@ -534,7 +543,7 @@ public class JobReportingProcessor implements Processor {
      * @param exchange
      * @param workNote
      */
-    private void broadcastFlushStats(Exchange exchange, WorkNote workNote) {
+    private void broadcastFlushStats(Exchange exchange, RangedWorkNote workNote) {
         try {
             ProducerTemplate template = new DefaultProducerTemplate(exchange.getContext());
             template.start();
@@ -546,26 +555,11 @@ public class JobReportingProcessor implements Processor {
     }
 
     private void cleanUpLZ(NewBatchJob job) {
-        boolean isZipFile = false;
-        for (ResourceEntry resourceEntry : job.getResourceEntries()) {
-            if (FileFormat.ZIP_FILE.getCode().equalsIgnoreCase(resourceEntry.getResourceFormat())) {
-                isZipFile = true;
-            }
-        }
-        if (isZipFile) {
             String sourceId = job.getSourceId();
             if (sourceId != null) {
                 File dir = new File(sourceId);
                 FileUtils.deleteQuietly(dir);
             }
-        } else {
-            for (ResourceEntry resourceEntry : job.getResourceEntries()) {
-                if (resourceEntry.getResourceFormat().equals(FileFormat.EDFI_XML.getCode())) {
-                    File xmlFile = new File(resourceEntry.getResourceName());
-                    FileUtils.deleteQuietly(xmlFile);
-                }
-            }
-        }
     }
 
     public void setCommandTopicUri(String commandTopicUri) {

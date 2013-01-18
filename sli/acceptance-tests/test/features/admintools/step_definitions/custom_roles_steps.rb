@@ -41,12 +41,20 @@ end
 Transform /roles "(.*?)"/ do |arg1|
   roles = ["Dummy"] if arg1 == "Dummy"
   roles = ["Educator"] if arg1 == "Educator"
+  roles = ["Leader"] if arg1 == "Leader"
+  roles = ["Aggregate Viewer"] if arg1 == "Aggregate Viewer"
+  roles = ["IT Administrator"] if arg1 == "IT Administrator"
+  roles = ["Dummy"] if arg1 == "New Custom"
   roles = [] if arg1 == "none"
   roles
 end
 
 When /^I navigate to the Custom Role Mapping Page$/ do
   @driver.get PropLoader.getProps['admintools_server_url']+"/custom_roles"
+end
+
+Then /^I am shown the custom roles page for "(.*?)"$/ do |arg1|
+    assertWithWait("Failed to be redirected to Role mapping page for realm #{arg1}")  {@driver.page_source.index("Custom Roles for #{arg1}") != nil}
 end
 
 Then /^I have navigated to my Custom Role Mapping Page$/ do
@@ -59,12 +67,15 @@ end
 
 When /^I click 'OK' on the warning message$/ do
   @driver.switch_to.alert.accept
-  sleep(3)
 end
 
 When /^I click on the Add Group button$/ do
   btn = @driver.find_element(:id, "addGroupButton")
   btn.click
+end
+
+When /^I navigate back to the realm listing page$/ do
+  @driver.find_element(:link_text, "Cancel").click
 end
 
 When /^I type the name "([^"]*)" in the Group name textbox$/ do |title|
@@ -78,21 +89,19 @@ end
 
 Then /^the group "([^"]*)" contains the (roles "[^"]*")$/ do |title, roles|
   group = @driver.find_element(:xpath, "//div[text()='#{title}']/../..")
+
+  assertWithWait("Expected #{roles.size} roles, but saw #{group.find_elements(:class, "role").size} in group #{title}") {group.find_elements(:class, "role").size == roles.size}
   roles.each do |role|
     group.find_elements(:xpath, "//span[text()='#{role}']")
   end
 end
 
 Then /^the group "([^"]*)" contains the (rights "[^"]*")$/ do |title, rights|
-  sleep 2
-  begin
-    group = @driver.find_element(:xpath, "//div[text()='#{title}']/../..")
-    rights.each do |right|
-      group.find_elements(:xpath, "//span[text()='#{right}']")
-    end
-  rescue Exception => e
-    puts @driver.page_source
-    raise e
+  group = @driver.find_element(:xpath, "//div[text()='#{title}']/../..")
+
+  assertWithWait("Expected #{rights.size} roles, but saw #{group.find_elements(:class, "right").size} in group #{title}") {group.find_elements(:class, "right").size == rights.size}
+  rights.each do |right|
+    group.find_elements(:xpath, "//span[text()='#{right}']")
   end
 end
 
@@ -106,9 +115,13 @@ When /^I hit the save button$/ do
   end
 end
 
+Then /^I am no longer in edit mode$/ do
+  # Use the presence of the Edit button as proof we are not in edit mode 
+  assertWithWait("Was not returned to viewing mode") {@driver.find_element(:xpath, "//button[text()='Edit']")}
+end
+
 Then /^I am informed that I must have at least one role and right in the group$/ do
   @driver.switch_to.alert.accept
-  #assertWithWait("Could not find an error message complaining about the role and right missing")  { @driver.find_element(:class, "alert-error").text.include?("Validation") }
 end
 
 When /^I add the right "([^"]*)" to the group "([^"]*)"$/ do |right, group|
@@ -129,13 +142,15 @@ When /^I create a new role <Role> to the group <Group> that allows <User> to acc
     step "I edit the group #{hash["Group"]}"
     step "I add the role #{hash["Role"]} to the group #{hash["Group"]}"
     step "I hit the save button"
-    #TODO add stuff to validate the new role is in the group
-    sleep(5)
+    step "I am no longer in edit mode"
     step "the user #{hash["User"]} in tenant \"IL\" can access the API with rights #{hash["Group"]}"
   end
 end
 
 Then /^the user "([^"]*)" in tenant "([^"]*)" can access the API with (rights "[^"]*")$/ do |user, tenant, rights|
+  # Wait two seconds for the API to catch up
+  sleep 2
+  
   # Login and get a session ID
   idpRealmLogin(user, user+"1234", tenant)
   assert(@sessionId != nil, "Session returned was nil")
@@ -156,13 +171,8 @@ Then /^the user "([^"]*)" in tenant "([^"]*)" can access the API with (rights "[
 end
 
 When /^I remove the right "([^"]*)" from the group "([^"]*)"$/ do |arg1, arg2|
-  # step "I edit the group \"#{arg2}\""
-  # Find the thing you want to delete
-  # group = @driver.find_element(:xpath, "//input[@id='editInput']/..")
-  # group.find_element(:xpath, "//span[text()='#{arg1}']/../span[@class='input-append']/button").click
-  
-  @driver.find_element(:id, "DELETE_" + arg1).click
-  sleep(5)
+  group = @driver.find_element(:xpath, "//div[text()='#{arg2}']/../..")
+  group.find_element(:id, "DELETE_" + arg1).click
 end
 
 When /^I remove the role <Role> from the group <Group> that denies <User> access to the API$/ do |table|
@@ -170,9 +180,9 @@ When /^I remove the role <Role> from the group <Group> that denies <User> access
   table.hashes.each do |hash|
     step "I edit the group #{hash["Group"]}"
     step "I remove the role #{hash["Role"]} from the group #{hash["Group"]}"
+    step "the group #{hash["Group"]} contains the roles #{hash["Group"]}"
     step "I hit the save button"
-    sleep(5)
-    #TODO add stuff to validate the role has been removed from the group
+    step "I am no longer in edit mode"
     step "the user #{hash["User"]} in tenant \"IL\" can access the API with rights \"none\""
   end
 end
@@ -190,28 +200,19 @@ Then /^I no longer see that mapping in the table$/ do
 end
 
 When /^I remove the role "([^"]*)" from the group "([^"]*)"$/ do |arg1, arg2|
-  # step "I edit the group \"#{arg2}\""
-  # Find the thing you want to delete
-  # @driver.find_element(:xpath, "//div[text()='#{arg1}']/../button").click
-  @driver.find_element(:id, "DELETE_" + arg1).click
-  sleep(5)
-
+  group = @driver.find_element(:xpath, "//div[text()='#{arg2}']/../..")
+  group.find_element(:id, "DELETE_" + arg1).click
 end
 
 When /^I edit the group "([^"]*)"$/ do |arg1|
   row = @driver.find_element(:xpath, "//div[text()='#{arg1}']/../..")
   row.find_element(:class, "rowEditToolEditButton").click
-
-  # @driver.find_element(:xpath, "//div[text()='#{arg1}']").click
-  # @driver.find_element(:id, "rowEditToolEditButton").click
 end
 
 When /^I remove the group "([^"]*)"$/ do |arg1|
   row = @driver.find_element(:xpath, "//div[text()='#{arg1}']/../..")
   row.find_element(:class, "rowEditToolDeleteButton").click
 
-  # @driver.find_element(:xpath, "//div[text()='#{arg1}']").click
-  # @driver.find_element(:id, "rowEditToolDeleteButton").click
   @driver.switch_to.alert.accept
 end
 
@@ -227,7 +228,6 @@ When /^I edit the rights for the group <Group> to include the duplicate right <R
   table.hashes.each do |hash|
     step "I edit the group #{hash["Group"]}"
     # Check that the duplicate right is not an available choice in the dropdown
-    # group = @driver.find_elements(:xpath, "//div[text()='#{hash["Group"]}']/../..")
     select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:id, "addRightSelect"))
     # select = Selenium::WebDriver::Support::Select.new(group.find_element(:tag_name, "select"))
     select.options.each do |option|
@@ -236,7 +236,6 @@ When /^I edit the rights for the group <Group> to include the duplicate right <R
     # Hit cancel to return to known state
     puts("Current right is #{hash['Right']} and group is #{hash['Group']}")
     step "I click the cancel button"
-    sleep(5)
   end
 end
 
@@ -269,6 +268,9 @@ When /^I click on the Reset Mapping button$/ do
 end
 
 Then /^the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves$/ do
+  # Why oh why does Jenkins hate me so, sleep to appease the CI Gods
+  sleep 2
+
   # Seach for two occurances of each of the default roles as elements of <td>s, one being client role other being default role 
   ["Educator","Leader","Aggregate Viewer","IT Administrator"].each do |role|
     results = @driver.find_elements(:xpath, "//td/div[text()='#{role}']")
@@ -283,10 +285,6 @@ end
 
 Then /^the save button is disabled$/ do
   assert(!@driver.find_element(:class, "rowEditToolSaveButton").enabled?, "Save button should be disabled")
-end
-
-Then /^I wait for 5 seconds$/ do
-  sleep(5)
 end
 
 Then /^the IT Administrator role is the only admin role$/ do
@@ -306,7 +304,6 @@ When /^I check the admin role box$/ do
 end
 
 Then /^the group "(.*?)" has the admin role box checked$/ do |title|
-  sleep 2
   group = @driver.find_element(:xpath, "//div[text()='#{title}']/../..")
   checkbox = group.find_element(:class, "isAdmin")
   puts("The group is #{group.text} and checked is #{checkbox.attribute("checked").inspect}")
@@ -314,6 +311,9 @@ Then /^the group "(.*?)" has the admin role box checked$/ do |title|
 end
 
 Then /^the user "(.*?)" in tenant "(.*?)" can access the API with adminUser "(.*?)"$/ do |user, tenant, adminChecked|
+  # Wait two seconds for the API to catch up
+  sleep 2
+
   # Login and get a session ID
   idpRealmLogin(user, user+"1234", tenant)
   assert(@sessionId != nil, "Session returned was nil")

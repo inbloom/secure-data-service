@@ -85,7 +85,7 @@ default:
     data-access: &DATA-ACCESS-DEFAULT
         # MongoDB Options (only used in data-access)
         sli.mongodb.database: sli
-        sli.mongodb.host: localhost
+        sli.mongodb.host: localhost:27017
         sli.mongodb.port: 27017
         sli.mongodb.user:
         sli.mongodb.pass:
@@ -177,8 +177,13 @@ default:
         # Pit (worker) nodes
         sli.ingestion.queue.pit.queueURI: seda:IngestionPit
         sli.ingestion.queue.pit.consumerQueueURI: seda:IngestionPit
-        sli.ingestion.queue.pit.concurrentConsumers: 5
+        sli.ingestion.queue.pit.concurrentConsumers: 30
         sli.ingestion.queue.pit.uriOptions:
+
+        # Xml file parser queue
+        sli.ingestion.queue.parser.queueURI: seda:IngestionParser
+        sli.ingestion.queue.parser.concurrentConsumers: 8
+        sli.ingestion.queue.parser.uriOptions:
 
         sli.ingestion.nodeType: standalone
         sli.ingestion.tenant.loadDefaultTenants: true
@@ -276,8 +281,8 @@ default:
         bootstrap.app.admin.authorized_for_all_edorgs: true
         bootstrap.app.admin.allowed_for_all_edorgs: true
         bootstrap.app.databrowser.template: applications/databrowser.json
-        bootstrap.app.databrowser.name: SLC Data Browser
-        bootstrap.app.databrowser.description: The SLC Data Browser allows developers and administrators to access all available information in the inBloom datastore.
+        bootstrap.app.databrowser.name: inBloom Data Browser
+        bootstrap.app.databrowser.description: The inBloom Data Browser allows developers and administrators to access all available information in the inBloom datastore.
         bootstrap.app.databrowser.version: 0.0
         bootstrap.app.databrowser.authorized_for_all_edorgs: false
         bootstrap.app.databrowser.allowed_for_all_edorgs: true
@@ -418,7 +423,7 @@ acceptance-tests:
 
         # Mongo DB Options
         sli.mongodb.database: sli
-        sli.mongodb.host: nxbuild.slidev.org
+        sli.mongodb.host: nxbuild.slidev.org:27017
         sli.mongodb.port: 27017
         #sli.mongodb.user =
         #sli.mongodb.pass =
@@ -462,8 +467,13 @@ acceptance-tests:
         # Pit (worker) nodes
         sli.ingestion.queue.pit.queueURI: activemq:queue:IngestionPit
         sli.ingestion.queue.pit.consumerQueueURI: txActivemq:queue:IngestionPit
-        sli.ingestion.queue.pit.concurrentConsumers: 5
+        sli.ingestion.queue.pit.concurrentConsumers: 30
         sli.ingestion.queue.pit.uriOptions: '&transferExchange=true'
+
+        # Xml file parser queue
+        sli.ingestion.queue.parser.queueURI: activemq:queue:IngestionParser
+        sli.ingestion.queue.parser.concurrentConsumers: 8
+        sli.ingestion.queue.parser.uriOptions:
 
         #Reference Schema reference check
         sli.ingestion.referenceSchema.referenceCheckEnabled: false
@@ -509,7 +519,7 @@ ci:
         # Mongo DB Options
 
         sli.mongodb.database: sli
-        sli.mongodb.host: testdal1.slidev.org
+        sli.mongodb.host: testdal1.slidev.org:27017
         sli.mongodb.port: 27017
         #sli.mongodb.user =
         #sli.mongodb.pass =
@@ -599,7 +609,7 @@ dev:
         # Set of substitution filters used for ci builds
         #
         sli.mongodb.database: sli
-        sli.mongodb.host: devdal1.slidev.org
+        sli.mongodb.host: devdal1.slidev.org:27017
         sli.mongodb.port: 27017
         #sli.mongodb.user =
         #sli.mongodb.pass =
@@ -694,7 +704,7 @@ devjuggernauts:
         # Set of substitution filters used for ci builds
         #
         sli.mongodb.database: sli
-        sli.mongodb.host: devjuggernauts.slidev.org
+        sli.mongodb.host: devjuggernauts.slidev.org:27017
         sli.mongodb.port: 27017
         #sli.mongodb.user =
         #sli.mongodb.pass =
@@ -783,7 +793,7 @@ devapp1:
         #
         # Mongo DB Options
         sli.mongodb.database: devapp1
-        sli.mongodb.host: devdal1.slidev.org
+        sli.mongodb.host: devdal1.slidev.org:27017
         sli.mongodb.port: 27017
         #sli.mongodb.user =
         #sli.mongodb.pass =
@@ -866,7 +876,7 @@ local:
         # Mongo DB Options
 
         sli.mongodb.database: sli
-        sli.mongodb.host: localhost
+        sli.mongodb.host: localhost:27017
         sli.mongodb.port: 27017
         sli.mongodb.user:
         sli.mongodb.pass:
@@ -1105,7 +1115,7 @@ team:
 
         # Mongo DB Options
         sli.mongodb.database: sli
-        sli.mongodb.host: localhost
+        sli.mongodb.host: localhost:27017
         sli.mongodb.port: 27017
         #sli.mongodb.user =
         #sli.mongodb.pass =
@@ -1154,8 +1164,13 @@ team:
         # Pit (worker) nodes
         sli.ingestion.queue.pit.queueURI: activemq:queue:ingestion.pit
         sli.ingestion.queue.pit.consumerQueueURI: txActivemq:queue:ingestion.pit
-        sli.ingestion.queue.pit.concurrentConsumers: 5
+        sli.ingestion.queue.pit.concurrentConsumers: 30
         sli.ingestion.queue.pit.uriOptions: '&transferExchange=true'
+
+        #Xml file parser queue
+        sli.ingestion.queue.parser.queueURI: activemq:queue:ingestion.parser
+        sli.ingestion.queue.parser.concurrentConsumers: 8
+        sli.ingestion.queue.parser.uriOptions:
 
         sli.ingestion.tenant.loadDefaultTenants: true
 
@@ -1239,7 +1254,7 @@ perf:
         # Set of substitution filters used for ci builds
         #
         sli.mongodb.database: sli_ing
-        sli.mongodb.host: igmongo.slidev.org
+        sli.mongodb.host: igmongo.slidev.org:27017
         sli.mongodb.port: 27017
         #sli.mongodb.user =
         #sli.mongodb.pass =
@@ -1294,7 +1309,7 @@ test-local:
 
         # Mongo DB Options
         sli.mongodb.database: unittest
-        sli.mongodb.host: localhost
+        sli.mongodb.host: localhost:27017
         sli.mongodb.port: 27017
         sli.mongodb.user:
         sli.mongodb.pass:
@@ -1325,7 +1340,7 @@ test-team:
         #
         # Mongo DB Options
         sli.mongodb.database: unittest
-        sli.mongodb.host: localhost
+        sli.mongodb.host: localhost:27017
         sli.mongodb.port: 27017
         sli.mongodb.user:
         sli.mongodb.pass:
@@ -1429,6 +1444,7 @@ nxteam:
         sli.ingestion.tenant.loadDefaultTenants: true
         sli.ingestion.queue.maestro.concurrentConsumers: 1
         sli.ingestion.queue.pit.concurrentConsumers: 30
+        sli.ingestion.queue.parser.concurrentConsumers: 8
         sli.ingestion.cache.type: inmemory
         sli.ingestion.cache.opTimeout: 100
         sli.ingestion.cache.servers: localhost:11211
@@ -1436,7 +1452,7 @@ nxteam:
 
     data-access: &DATA-ACCESS-NXTEAM
         <<: *DATA-ACCESS-TEAM
-        sli.mongodb.host: localhost
+        sli.mongodb.host: localhost:27017
         sli.mongodb.port: 27017
         sli.ingestion.staging.mongodb.host: localhost
         sli.ingestion.staging.mongodb.port: 27018

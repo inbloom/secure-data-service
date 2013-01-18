@@ -77,17 +77,24 @@ Before do
 
   if (INGESTION_MODE != 'remote')
     @batchConn.drop_database(INGESTION_BATCHJOB_DB_NAME)
-    ensureBatchJobIndexes(@batchConn) 
-
+    ensureBatchJobIndexes(@batchConn)
     puts "Dropped " + INGESTION_BATCHJOB_DB_NAME + " database"
   else
-    @batchDB = @batchConn.db(INGESTION_BATCHJOB_DB_NAME)
-    @recordHash = @batchDB.collection('recordHash')
-    @recordHash.remove("t" => PropLoader.getProps['tenant'])
-    @recordHash.remove("t" => PropLoader.getProps['sandbox_tenant'])
-
+    @tenant_conn = @conn.db(convertTenantIdToDbName(PropLoader.getProps['tenant']))
+    @recordHash = @tenant_conn.collection('recordHash')
+    @recordHash.remove()
+    @tenant_conn = @conn.db(convertTenantIdToDbName(PropLoader.getProps['sandbox_tenant']))
+    @recordHash = @tenant_conn.collection('recordHash')
+    @recordHash.remove()
     puts "Dropped recordHash for remote testing tenants"
   end
+
+  @tenant_conn = @conn.db(convertTenantIdToDbName('Midgar'))
+  @recordHash = @tenant_conn.collection('recordHash')
+  @recordHash.remove()
+  @tenant_conn = @conn.db(convertTenantIdToDbName('Hyrule'))
+  @recordHash = @tenant_conn.collection('recordHash')
+  @recordHash.remove()
 
   @mdb = @conn.db(INGESTION_DB_NAME)
   @tenantColl = @mdb.collection('tenant')
@@ -481,6 +488,10 @@ def initializeLandingZone(lz)
   end
 end
 
+def processUnzippedPayloadFile(file_name)
+  return file_name[0..-5]
+end
+
 def processPayloadFile(file_name)
   path_name = file_name[0..-5]
   file_name = file_name.split('/')[-1] if file_name.include? '/'
@@ -534,11 +545,7 @@ def processPayloadFile(file_name)
   new_ctl_file.close
   FileUtils.mv zip_dir + ctl_template + "-tmp", zip_dir + ctl_template
 
-  if ctl_template == "UnzippedControlFile.ctl"
-    FileUtils.cp_r zip_dir + '/.', @local_file_store_path
-  else
-    runShellCommand("zip -j #{@local_file_store_path}#{file_name} #{zip_dir}/*")
-  end
+  runShellCommand("zip -j #{@local_file_store_path}#{file_name} #{zip_dir}/*")
   FileUtils.rm_r zip_dir
 
   return file_name
@@ -762,9 +769,15 @@ Given /^I should see the number of warnings in warn log is no more than the warn
   verifyWarnCount(count)
 end
 
+Given /^I post "([^"]*)" unzipped file as the payload of the ingestion job$/ do |file_name|
+  @source_dir_name = processUnzippedPayloadFile file_name
+  @source_file_name = file_name
+end
+
 Given /^I post "([^"]*)" file as the payload of the ingestion job$/ do |file_name|
   @source_file_name = processPayloadFile file_name
 end
+
 Given /^I post "([^"]*)" zip file with folder as the payload of the ingestion job$/ do |file_name|
   @source_file_name = processZipWithFolder file_name
 end
@@ -1143,6 +1156,56 @@ When /^a batch job log (has|has not) been created$/ do |has_or_has_not|
   checkForBatchJobLog(@landing_zone_path, should_has_log) if !@hasNoLandingZone
 end
 
+When /^a batch job has completed successfully in the database$/ do
+   disable_NOTABLESCAN()
+   old_db = @db
+   @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
+   @entity_collection = @db.collection("newBatchJob")
+   intervalTime = 1
+   @maxTimeout ? @maxTimeout : @maxTimeout = 120
+   iters = (1.0*@maxTimeout/intervalTime).ceil
+   found = false
+     if (INGESTION_MODE == 'remote')
+       iters.times do |i|
+         @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedSuccessfully"]}}).count().to_s
+         if @entity_count.to_s == "1"
+           puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+           found = true
+           break
+         else
+           @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedWithErrors"]}}).count().to_s
+           if @entity_count.to_s == "1"
+                assert(false, "Batch Job completed with errors")
+           end
+           sleep(intervalTime)
+         end
+       end
+     else
+       sleep(5) # waiting to check job completion removes race condition (windows-specific)
+       iters.times do |i|
+         @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedSuccessfully"]}}).count().to_s
+         if @entity_count.to_s == "1"
+           puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+           found = true
+           break
+         else
+           @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedWithErrors"]}}).count().to_s
+           if @entity_count.to_s == "1"
+                assert(false, "Batch Job completed with errors")
+           end
+           sleep(intervalTime)
+         end
+       end
+     end
+     if found
+       assert(true, "")
+     else
+       assert(false, "Either batch log was never created, or it took more than #{@maxTimeout} seconds")
+     end
+     @db = old_db
+     enable_NOTABLESCAN()
+   end
+
 When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
   disable_NOTABLESCAN()
 
@@ -1277,6 +1340,36 @@ def checkForBatchJobLog(landing_zone, should_has_log = true)
   end
 end
 
+def scpUnzippedFilesToLandingZone(filename, dirname)
+  @source_path = @local_file_store_path + dirname
+  @destination_path = @landing_zone_path
+
+  puts "Source = " + @source_path
+  puts "Destination = " + @destination_path
+
+  assert(@destination_path != nil, "Destination path was nil")
+  assert(@source_path != nil, "Source path was nil")
+
+  file_path_list = Dir[@source_path + '/*.*'].select { |e| File.file?(e) }
+  file_list ||=[]
+  file_path_list.each { |e| file_list << File.basename(e.gsub("\\","/")) }
+  puts "Copying files " + file_list.join(", ") + " to landing zone."
+  if (INGESTION_MODE == 'remote')
+    Dir.foreach(@landing_zone_path) do |entry|
+      remoteLzCopy(@source_path + entry, @destination_path)
+    end
+  else
+    # copy file from local filesystem to landing zone
+    FileUtils.cp file_path_list, @destination_path
+  end
+
+  lz_file = @destination_path + filename
+  puts "ruby #{UPLOAD_FILE_SCRIPT} STOR #{lz_file} #{ACTIVEMQ_HOST}"
+  runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{lz_file} #{ACTIVEMQ_HOST}")
+
+  assert(true, "File Not Uploaded")
+end
+
 def scpFileToLandingZone(filename)
   @source_path = @local_file_store_path + filename
   @destination_path = @landing_zone_path + filename
@@ -1349,7 +1442,7 @@ end
 
 When /^ctl file is scp to ingestion landing zone$/ do
   puts "Copying ctl file at #{Time.now}"
-  scpFileToLandingZone @source_file_name
+  scpUnzippedFilesToLandingZone @source_file_name, @source_dir_name
 end
 
 When /^zip file is scp to ingestion landing zone with name "([^"]*)"$/ do |dest_file_name|
@@ -2643,11 +2736,17 @@ Then /^application "(.*?)" has "(.*?)" authorized edorgs$/ do |arg1, arg2|
 
 end
 
-Given /^I create a tenant set to preload data set "(.*?)"$/ do |dataSet|
-  step "I add a new tenant for \"TENANT\""
+Given /^I create a tenant set to preload data set "(.*?)" for tenant "(.*?)"$/ do |dataSet, tenant|
+  step "I add a new tenant for \"#{tenant}\""
   @newTenant["body"]["landingZone"][0]["preload"]={"files" => [dataSet], "status" => "ready"}
   @landing_zone_path = @newTenant["body"]["landingZone"][0]["path"]
   @tenantColl.save(@newTenant)
+end
+
+Given /^the tenant database "(.*?)" does not exist$/ do |tenant|
+    disable_NOTABLESCAN()
+    @conn.drop_database(convertTenantIdToDbName(tenant))
+    enable_NOTABLESCAN()
 end
 
 Then /^I should see either "(.*?)" or "(.*?)" following (.*?) in "(.*?)" file$/ do |content1, content2, logTag, logFile|

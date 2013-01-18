@@ -102,6 +102,7 @@ class WorldBuilder
     create_master_schedule
     create_assessments(begin_year, num_years)
     create_descriptors
+    create_learning_objectives
     create_work_orders
   end
 
@@ -498,7 +499,7 @@ class WorldBuilder
         session             = Hash.new
         session["term"]     = :YEAR_ROUND
         session["year"]     = year
-        session["name"]     = year.to_s + "-" + (year+1).to_s + " " + SchoolTerm.to_string(:YEAR_ROUND) + " session: " + state_organization_id
+        session["name"] = year.to_s + "-" + (year+1).to_s + " " + SchoolTerm.to_string(:YEAR_ROUND) + " session: " + state_organization_id.to_s
         session["interval"] = interval
         session["edOrgId"]  = state_organization_id
         @world["leas"][index]["sessions"] << session
@@ -760,6 +761,7 @@ class WorldBuilder
     create_master_schedule_work_orders
     create_staff_association_work_orders
     create_student_and_enrollment_work_orders
+    create_competency_level_descriptor_work_order
   end
 
   # writes ed-fi xml interchange: education organization entities:
@@ -1181,6 +1183,12 @@ class WorldBuilder
     generate_student_work_orders.each { |work_order| @queue.push_work_order(work_order) }
   end
 
+  def create_competency_level_descriptor_work_order
+    (@scenarioYAML["COMPETENCY_LEVEL_DESCRIPTORS"] or []).each_with_index{ |competency_level_descriptor|
+      @queue.push_work_order CompetencyLevelDescriptor.new(competency_level_descriptor['code_value'], competency_level_descriptor['description'], competency_level_descriptor['performance_base_conversion'])
+    }
+  end
+
   def create_assessments(begin_year, num_years)
     factory = AssessmentFactory.new(@scenarioYAML)
     (begin_year..(begin_year + num_years -1)).each{|year|
@@ -1199,6 +1207,16 @@ class WorldBuilder
     }
     (@scenarioYAML["DISCIPLINE_OPTIONS"] or []).each_with_index{ |discipline, index|
       @queue.push_work_order DisciplineDescriptor.new("DI#{index}", discipline['short'], discipline['desc'], sea['id'])
+    }
+  end
+
+  def create_learning_objectives
+    GradeLevelType.get_ordered_grades.each{|grade|
+      AcademicSubjectType.get_academic_subjects(grade).each {|academic_subject|
+        LearningObjective.build_learning_objectives((@scenarioYAML["NUM_LEARNING_OBJECTIVES_PER_SUBJECT_AND_GRADE"] or 2), AcademicSubjectType.to_string(academic_subject), GradeLevelType.to_string(grade)).each {|learning_objective|
+          @queue.push_work_order learning_objective
+        }
+      }
     }
   end
 

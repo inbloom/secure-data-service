@@ -287,7 +287,7 @@ public class SamlFederationResource {
         }
 
         debug("Authenticating user is an admin: " + isAdminRealm);
-        principal = users.locate(tenant, attributes.getFirst("userId"));
+        principal = users.locate(tenant, attributes.getFirst("userId"), attributes.getFirst("userType"));
         String userName = getUserNameFromEntity(principal.getEntity());
         if (userName != null) {
             principal.setName(userName);

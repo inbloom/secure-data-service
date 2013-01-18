@@ -23,10 +23,10 @@ And I enter "<CI_IDP_Redirect_URL>" in the IDP URL field
 And I enter "<CI_IDP_Redirect_URL>" in the Redirect Endpoint field
 And I should enter "RC-IL-Daybreak" into Realm Identifier
 And I should click the "Save" button
-Then I should be redirected back to the edit page
 And I switch to the iframe
 And I should receive a notice that the realm was successfully "created"
-And I should see that I am on the "Daybreak Test Realm" edit page
+Then I see the realms for "IL-DAYBREAK"
+And the realm "Daybreak Test Realm" will exist
 And I exit out of the iframe
 And I click on log out
 
@@ -39,7 +39,7 @@ Then I should be on Portal home page
 Then I should not see "inBloom Dashboards"
 And I click on Admin
 And I should be on the admin page
-And I should not see "SLC Data Browser"
+And I should not see "inBloom Data Browser"
 And I click on log out
 
 Scenario: App developer creates new Installed app and Full window web app
@@ -147,7 +147,7 @@ And it is colored "green"
 And the Approve button next to it is disabled
 And the Deny button next to it is enabled
 #Authorize the Databrowser
-And I see an application "SLC Data Browser" in the table
+And I see an application "inBloom Data Browser" in the table
 And in Status it says "Not Approved"
 And I click on the "Approve" button next to it
 And I am asked 'Do you really want this application to access the district's data'

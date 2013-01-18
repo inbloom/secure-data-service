@@ -1,11 +1,11 @@
-=Welcome to the SLC Databrowser!
+=Welcome to the inBloom Databrowser!
 
-In a nutshell, this application is used to traverse the SLC Api to see all of the data available to you.
+In a nutshell, this application is used to traverse the inBloom Api to see all of the data available to you.
 You can explore the data by clicking on the links that the Api shows, or you can even explicitly tell
 the Databrowser what part of the Api to visit.
 
 ==Configuration And Setup
-The SLC Databrowser is a fairly simple Ruby on Rails application, but there are a few customizations and
+The inBloom Databrowser is a fairly simple Ruby on Rails application, but there are a few customizations and
 configuration files to be aware of.
 
 Once you've prepped the Databrowser by installing the pre-requisite gems using bundler, you should take
@@ -13,10 +13,10 @@ a look in the +config/config.yml+ file. This file contains the most important ar
 find configuration on a per-environment basis.
 
 First and foremost, are the url to the Api, +callback+, +client_id+, and +client_secret+. The first is the url
-needed to actually access the SLC Api. Second, is the callback. You will want to replace everything before
-+/callback+ with the url to where you have the SLC Databrowser running. Finally the +client_id+ and
+needed to actually access the inBloom Api. Second, is the callback. You will want to replace everything before
++/callback+ with the url to where you have the inBloom Databrowser running. Finally the +client_id+ and
 client_secret are the two pieces of information you need to complete OAuth with this app. You can get these
-values by going through the application registration process with the SLC. Once you have completed these
+values by going through the application registration process with inBloom. Once you have completed these
 steps you can fill in the appropriate values. You'll also find we use an OAuth library to help with some
 of the internals. You can find it in the lib directory.
 

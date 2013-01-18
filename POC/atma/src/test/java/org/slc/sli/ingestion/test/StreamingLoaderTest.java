@@ -7,8 +7,6 @@ import javax.annotation.Resource;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.StopWatch;
@@ -23,7 +21,7 @@ import org.slc.sli.validation.EntityValidator;
 @ContextConfiguration(locations = { "/spring/ctx.xml", "/spring/db.xml" })
 public class StreamingLoaderTest {
 
-	public static final Logger LOG = LoggerFactory.getLogger(StreamingLoaderTest.class);
+	// public static final Logger LOG = LoggerFactory.getLogger(StreamingLoaderTest.class);
 
 	@Resource(name = "mongoEntityRepository")
 	private MongoEntityRepository repo;
@@ -64,7 +62,7 @@ public class StreamingLoaderTest {
 		sw.start();
 		sp.process(new FileReader("src/test/resources/xml/small/InterchangeSectionBig.xml"));
 		sw.stop();
-		LOG.info("Total time: "+sw.getTotalTimeMillis());
+		// LOG.info("Total time: "+sw.getTotalTimeMillis());
 	}
 
 	//@Test
@@ -74,20 +72,20 @@ public class StreamingLoaderTest {
 		sp.process(new FileReader("src/test/resources/xml/interchange.xml"));
 		sw.stop();
 
-		LOG.info(""+sw.getTotalTimeMillis());
+		// LOG.info(""+sw.getTotalTimeMillis());
 
 		sw = new StopWatch();
 		sw.start();
 		sp.process(new FileReader("src/test/resources/xml/interchange.xml"));
 		sw.stop();
 
-		LOG.info(""+sw.getTotalTimeMillis());
+		// LOG.info(""+sw.getTotalTimeMillis());
 
 		sw = new StopWatch();
 		sw.start();
 		sp.process(new FileReader("src/test/resources/xml/interchange.xml"));
 		sw.stop();
 
-		LOG.info(""+sw.getTotalTimeMillis());
+		// LOG.info(""+sw.getTotalTimeMillis());
 	}
 }

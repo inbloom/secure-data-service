@@ -43,7 +43,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.dal.NeutralRecordRepository;
 
@@ -77,7 +77,7 @@ public class LearningObjectiveTransformTest {
     public void init() throws IOException, NoSuchFieldException {
         MockitoAnnotations.initMocks(this);
 
-        WorkNote workNote = WorkNote.createSimpleWorkNote("batchJobId");
+        RangedWorkNote workNote = RangedWorkNote.createSimpleWorkNote("batchJobId");
         transform.setWorkNote(workNote);
 
         when(mongoAccess.getRecordRepository()).thenReturn(repo);

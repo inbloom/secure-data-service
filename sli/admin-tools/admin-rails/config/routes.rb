@@ -40,7 +40,6 @@ SLIAdmin::Application.routes.draw do
 
   resources :sessions
   resources :apps
-  resources :realms
   resources :custom_roles
   resources :home
   match '/apps/approve', :to => 'apps#approve'

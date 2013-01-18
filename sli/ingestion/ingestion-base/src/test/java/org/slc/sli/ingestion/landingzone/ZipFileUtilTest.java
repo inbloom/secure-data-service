@@ -64,16 +64,6 @@ public class ZipFileUtilTest {
     }
 
     @Test
-    public void testExtract() throws IOException {
-        // Verify file is zipped to correct extract target directory.
-        File zipFile = new File(ZIP_FILE_DIR, ZIP_FILE_WITH_NO_DIRS_NAME);
-        File targetDir = ZipFileUtil.extract(zipFile);
-        Assert.assertTrue("Zip extraction directory does not exist", targetDir.isDirectory());
-
-        assertTargetMatchesZip(targetDir, zipFile);
-    }
-
-    @Test
     public void testExtractTrue() throws IOException {
         // Verify target directory containing extracted zip files is created.
         File zipFile = new File(ZIP_FILE_DIR, ZIP_FILE_WITH_DIRS_NAME);
@@ -119,7 +109,7 @@ public class ZipFileUtilTest {
         ZipFileUtil.getInputStreamForFile(zipFile, "doesnotmatter");
     }
 
-    @Test
+    @Test(expected = FileNotFoundException.class)
     public void testTryNoFileInputStreamZip() throws IOException {
         File zipFile = new File(ZIP_FILE_DIR, ZIP_FILE_WITH_NO_DIRS_NAME);
 
@@ -127,8 +117,6 @@ public class ZipFileUtilTest {
 
         try {
             is = ZipFileUtil.getInputStreamForFile(zipFile, "doesnotexist");
-
-            Assert.assertNull(is);
         } finally {
             IOUtils.closeQuietly(is);
         }
@@ -155,32 +143,6 @@ public class ZipFileUtilTest {
             IOUtils.closeQuietly(xmlIs);
             FileUtils.deleteQuietly(zipCopy);
         }
-    }
-
-    @Test
-    public void testFindCtlFile() throws IOException {
-        // Create a target directory containing extracted zip files (including control file).
-        File zipFile = new File(ZIP_FILE_DIR, ZIP_FILE_WITH_NO_DIRS_NAME);
-        File targetDir = new File(ZIP_FILE_DIR, "FindCtlFileTest");
-        FileUtils.forceMkdir(targetDir);
-
-        // Verify control file is correctly identified in target directory.
-        ZipFileUtil.extract(zipFile, targetDir, true);
-        File expectedCtlFile = new File(targetDir, "MainControlFile.ctl");
-        File ctlFile = ZipFileUtil.findCtlFile(targetDir);
-        Assert.assertNotNull("Control not found", ctlFile);
-        Assert.assertEquals("Found control file does not match expected file", expectedCtlFile, ctlFile);
-    }
-
-    @Test
-    public void testNotFindCtlFile() throws IOException {
-        // Create a target directory containing no control files.
-        File targetDir = new File(ZIP_FILE_DIR, "NotFindCtlFileTest");
-        FileUtils.forceMkdir(targetDir);
-
-        // Verify control file file is not found in target directory.
-        File ctlFile = ZipFileUtil.findCtlFile(targetDir);
-        Assert.assertNull("Unexpected control file found", ctlFile);
     }
 
     @AfterClass

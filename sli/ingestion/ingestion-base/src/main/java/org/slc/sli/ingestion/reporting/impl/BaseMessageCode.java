@@ -33,23 +33,20 @@ public enum BaseMessageCode implements MessageCode {
     BASE_0005,
     BASE_0006,
     BASE_0007,
-    BASE_0008,
     BASE_0009,
     BASE_0010,
-    BASE_0011,
-    BASE_0012,
     BASE_0013,
     BASE_0014,
     BASE_0015,
     BASE_0016,
     BASE_0017,
     BASE_0018,
-    BASE_0019,
     BASE_0020,
     BASE_0021,
     BASE_0022,
     BASE_0023,
-    BASE_0024;
+    BASE_0024,
+    BASE_0025;
 
     @Override
     public String getCode() {

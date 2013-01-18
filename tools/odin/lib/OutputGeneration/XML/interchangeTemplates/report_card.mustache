@@ -56,6 +56,44 @@ limitations under the License.
       </GradeIdentity>
     </GradeReference>
     {{/grades}}
+    {{#student_competencies}}
+    <StudentCompetencyReference>
+      <StudentCompetencyIdentity>
+        {{#learning_objective}}
+        <LearningObjectiveReference>
+          <LearningObjectiveIdentity>
+            <Objective>{{objective}}</Objective>
+            <AcademicSubject>{{academic_subject}}</AcademicSubject>
+            <ObjectiveGradeLevel>{{objective_grade_level}}</ObjectiveGradeLevel>
+          </LearningObjectiveIdentity>
+        </LearningObjectiveReference>
+        {{/learning_objective}}
+        <CodeValue>{{code_value}}</CodeValue>
+        {{#student_section_association}}
+        <StudentSectionAssociationReference>
+          <StudentSectionAssociationIdentity>
+            <StudentReference>
+              <StudentIdentity>
+                <StudentUniqueStateId>{{student}}</StudentUniqueStateId>
+              </StudentIdentity>
+            </StudentReference>
+            <SectionReference>
+              <SectionIdentity>
+                <EducationalOrgReference>
+                  <EducationalOrgIdentity>
+                    <StateOrganizationId>{{ed_org_id}}</StateOrganizationId>
+                  </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>{{section}}</UniqueSectionCode>
+              </SectionIdentity>
+            </SectionReference>
+            <BeginDate>{{begin_date}}</BeginDate>
+          </StudentSectionAssociationIdentity>
+        </StudentSectionAssociationReference>
+        {{/student_section_association}}
+      </StudentCompetencyIdentity>
+    </StudentCompetencyReference>
+    {{/student_competencies}}
     <GPAGivenGradingPeriod>{{gpa_given_grading_period}}</GPAGivenGradingPeriod>
     <GPACumulative>{{gpa_cumulative}}</GPACumulative>
     <StudentReference>

@@ -393,21 +393,7 @@ public class ApplicationResourceTest {
         assertEquals(STATUS_NO_CONTENT, resource.put(uuid, app, uriInfo).getStatus());
 
     }
-/*
- * Copyright 2012 Shared Learning Collaborative, LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 
     @Test
     public void testSandboxAutoAuthorize() throws Exception {
@@ -418,6 +404,24 @@ public class ApplicationResourceTest {
         when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
         Response updated = unversionedResource.put(uuid, app, uriInfo);
         assertEquals(STATUS_NO_CONTENT, updated.getStatus());
+    }
+    
+    @Test
+    public void testSandboxUpdateShouldSanitizeBadEdorgIds() throws Exception {
+        resource.setAutoRegister(true);
+        resource.setSandboxEnabled(true);
+        injector.setDeveloperContext();
+        String uuid = createApp();
+        String edorgId = helper.generateEdorgWithParent(null).getEntityId();
+        String edorgId2 = helper.generateEdorgWithParent(null).getEntityId();
+        Map<String, Object> appBody = repo.findById("application", uuid).getBody();
+        appBody.put(ApplicationResource.AUTHORIZED_ED_ORGS, Arrays.asList(edorgId, edorgId2, "Waffles"));
+        EntityBody body = new EntityBody(appBody);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("http://some.net/api/rest/apps/" + uuid));
+        Response updated = resource.put(uuid, body, uriInfo);
+        assertEquals(STATUS_NO_CONTENT, updated.getStatus());
+        appBody = repo.findById("application", uuid).getBody();
+        assertEquals(((List) appBody.get(ApplicationResource.AUTHORIZED_ED_ORGS)).size(), 2);
     }
     
     @Test
