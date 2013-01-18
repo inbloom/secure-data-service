@@ -25,6 +25,7 @@ import javax.ws.rs.core.PathSegment;
 import com.sun.jersey.core.header.InBoundHeaders;
 import com.sun.jersey.spi.container.ContainerRequest;
 
+import org.slc.sli.api.constants.ResourceNames;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
@@ -41,6 +42,8 @@ public class EndpointMutator {
 
     private static final String POST = "POST";
     private static final String REQUESTED_PATH = "requestedPath";
+    private static final String VERSION_1_0 = "v1.0";
+    private static final String VERSION_1_1 = "v1.1";
 
     @Resource
     private UriMutator uriMutator;
@@ -72,9 +75,10 @@ public class EndpointMutator {
                 request.getProperties().put(REQUESTED_PATH, request.getPath());
             }
             MutatedContainer mutated = uriMutator.mutate(segments, parameters, user.getEntity());
-            String version = segments.get(0).getPath();
 
             if (mutated != null && mutated.isModified()) {
+
+                String version = getResourceVersion(segments, mutated);
 
                 if (mutated.getHeaders() != null) {
                     InBoundHeaders headers = new InBoundHeaders();
@@ -130,6 +134,25 @@ public class EndpointMutator {
      */
     protected boolean usingVersionedApi(List<PathSegment> segments) {
         return segments.get(0).getPath().startsWith(PathConstants.V);
+    }
+
+    /**
+     * Returns the version for a given resource endpoint.
+     * For the big six entities - all requests are rewritten to /search/resource,
+     * since search is not part of 1.0 we need to use the next available search version.
+     *
+     * @param segments
+     * @param mutated
+     * @return
+     */
+    protected String getResourceVersion(List<PathSegment> segments, MutatedContainer mutated) {
+        String version = segments.get(0).getPath();
+
+        if (mutated.getPath() != null && mutated.getPath().startsWith("/" + ResourceNames.SEARCH + "/") && VERSION_1_0.equals(version)) {
+            return VERSION_1_1;
+        }
+
+        return version;
     }
 
 }

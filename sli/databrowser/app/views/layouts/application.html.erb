@@ -12,16 +12,17 @@
         <div id="portal">
           <%= @header.gsub(/\[\$USER_NAME\$\]/, session[:full_name]).html_safe unless @header.nil? || session[:full_name].nil? %>
         </div>
-        <div class="left">
-          <h1><%=link_to "The inBloom Data Browser", :root%></h1>
-          <span><i>Navigate your data through the inBloom API.</i></span>
-        </div>
-        <div class="right">
-          <% if @header.nil? %>
-            <h4 style="display:inline;">Hello <%= session[:full_name] %> | <%= link_to 'Home', :root %> | <%= link_to 'Logout', '/logout'  %> </h4>
-          <% end %>
-          <div class="search">
-            <%= render 'entities/search'%>
+        <div class="pageTitle">
+          <div class="left">
+            <h1><%=link_to "data browser", :root%></h1>
+          </div>
+          <div class="right">
+            <% if @header.nil? %>
+              <h4 style="display:inline;">Hello <%= session[:full_name] %> | <%= link_to 'Home', :root %> | <%= link_to 'Logout', '/logout'  %> </h4>
+            <% end %>
+            <div class="search">
+              <%= render 'entities/search'%>
+            </div>
           </div>
         </div>
       </div>
@@ -37,10 +38,10 @@
     	</div>
     	<div id="left-bar">
     	</div>
-    	<div id="footer">
-          <%=  raw @footer unless @footer.nil? %>
-    	</div>
 	  </div>
-
+    <div class="clear"></div>
+    <div id="footer">
+        <%=  raw @footer unless @footer.nil? %>
+    </div>
   </body>
 </html>

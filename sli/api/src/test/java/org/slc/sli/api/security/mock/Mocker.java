@@ -20,26 +20,18 @@ package org.slc.sli.api.security.mock;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.web.client.RestTemplate;
-
 import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.security.resolve.impl.MongoUserLocator;
 import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.enums.Right;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 /**
  * Generates mocked objects for unit tests
@@ -47,9 +39,6 @@ import org.slc.sli.domain.enums.Right;
  * @author dkornishev
  */
 public class Mocker {
-
-    @Autowired
-    private static RolesToRightsResolver rolesToRightsResolver;
 
     public static final String MOCK_URL = "mock";
     public static final String VALID_TOKEN = "valid_token";
@@ -92,7 +81,6 @@ public class Mocker {
     public static final String INVALID_USER_ID = "~id->invalid";
     public static final String VALID_INTERNAL_ID = "id->internal->valid";
     public static final String INVALID_INTERNAL_ID = "~id->internal->invalid";
-    private static final String DEFAULT_REALM_ID = "dc=slidev,dc=net";
 
     public static RestTemplate mockRest() {
         RestTemplate rest = mock(RestTemplate.class);
@@ -114,33 +102,17 @@ public class Mocker {
         return rest;
     }
 
-    public static UserLocator getLocator() {
-        MongoUserLocator locator = Mockito.mock(MongoUserLocator.class);
-        Mockito.when(locator.locate(VALID_REALM, VALID_USER_ID)).thenReturn(new SLIPrincipal(VALID_INTERNAL_ID));
-        Mockito.when(locator.locate("SLI", VALID_USER_ID)).thenReturn(new SLIPrincipal(VALID_INTERNAL_ID));
-        Mockito.when(locator.locate("dc=slidev,dc=net", "demo")).thenReturn(new SLIPrincipal(VALID_INTERNAL_ID));
-        Mockito.when(locator.locate("SLI", "demo")).thenReturn(new SLIPrincipal(VALID_INTERNAL_ID));
-        locator.setRepo(getRepo());
-        return locator;
-    }
+	public static UserLocator getLocator() {
+		MongoUserLocator locator = Mockito.mock(MongoUserLocator.class);
+		Mockito.when(locator.locate(VALID_REALM, VALID_USER_ID, "")).thenReturn(new SLIPrincipal(VALID_INTERNAL_ID));
+		Mockito.when(locator.locate("SLI", VALID_USER_ID, "")).thenReturn(new SLIPrincipal(VALID_INTERNAL_ID));
+		Mockito.when(locator.locate("dc=slidev,dc=net", "demo", "")).thenReturn(new SLIPrincipal(VALID_INTERNAL_ID));
+		Mockito.when(locator.locate("SLI", "demo", "")).thenReturn(new SLIPrincipal(VALID_INTERNAL_ID));
+		locator.setRepo(getRepo());
+		return locator;
+	}
 
     private static Repository<Entity> getRepo() {
         return new MockRepo();
-    }
-
-    public static void setRolesToRightsResolver(RolesToRightsResolver rolesToRightsResolver) {
-
-        Mocker.rolesToRightsResolver = mock(RolesToRightsResolver.class);
-
-    }
-
-    private static RolesToRightsResolver getRolesToRightsResolver() {
-        Mocker.rolesToRightsResolver = mock(RolesToRightsResolver.class);
-        Set<GrantedAuthority> rights = new HashSet<GrantedAuthority>();
-        rights.add(Right.READ_GENERAL);
-        when(
-                rolesToRightsResolver.resolveRoles("42", DEFAULT_REALM_ID,
-                        Arrays.asList(new String[] { "IT Administrator", "parent", "teacher" }), false)).thenReturn(rights);
-        return rolesToRightsResolver;
     }
 }
