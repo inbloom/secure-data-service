@@ -23,10 +23,10 @@ And I enter "<CI_IDP_Redirect_URL>" in the IDP URL field
 And I enter "<CI_IDP_Redirect_URL>" in the Redirect Endpoint field
 And I should enter "RC-IL-Daybreak" into Realm Identifier
 And I should click the "Save" button
-Then I should be redirected back to the edit page
 And I switch to the iframe
 And I should receive a notice that the realm was successfully "created"
-And I should see that I am on the "Daybreak Test Realm" edit page
+Then I see the realms for "IL-DAYBREAK"
+And the realm "Daybreak Test Realm" will exist
 And I exit out of the iframe
 And I click on log out
 
