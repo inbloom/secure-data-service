@@ -56,9 +56,14 @@ public class ControlFileSource extends FileSource {
 
     @Override
     public String getUserFriendlyMessage() {
-        Object[] arguments = { getResourceId(), lineNumber, line };
         if (lineNumber > 0 && line != null) {
+            Object[] arguments = { getResourceId(), lineNumber, line };
             return MessageFormat.format("{0}:line-{1}:{2}", arguments);
+        } else if (controlFileName != null && controlFileName.length() > 0) {
+            return controlFileName;
+        } else if (fileEntryName != null && fileEntryName.length() > 0) {
+            Object[] arguments = { super.getUserFriendlyMessage(), fileEntryName };
+            return MessageFormat.format("{0}:{1}", arguments);
         } else {
             return super.getUserFriendlyMessage();
         }

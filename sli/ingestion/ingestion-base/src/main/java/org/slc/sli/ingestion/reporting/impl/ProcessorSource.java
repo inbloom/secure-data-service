@@ -29,4 +29,9 @@ public class ProcessorSource extends JobSource
         super(resourceId);
     }
 
+    @Override
+    public String getUserFriendlyMessage() {
+        return "InternalProcessing";
+    }
+
 }
