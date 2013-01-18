@@ -37,6 +37,13 @@ end
 
 Transform /^<([^"]*)>$/ do |human_readable_id|
   id = @newId if human_readable_id == "NEW ID"
+  # Entity list from scenario outlines
+  id = "b408d88e-8fd5-11e1-86ec-0021701f543f_idb40c0ce1-8fd5-11e1-86ec-0021701f543f_id,"
+    + "b408d88e-8fd5-11e1-86ec-0021701f543f_idb40de1a6-8fd5-11e1-86ec-0021701f543f_id,"
+    + "b408635d-8fd5-11e1-86ec-0021701f543f_idb40c5b02-8fd5-11e1-86ec-0021701f543f_id,"
+    + "b408635d-8fd5-11e1-86ec-0021701f543f_idb40d1e54-8fd5-11e1-86ec-0021701f543f_id,"
+    + "b408635d-8fd5-11e1-86ec-0021701f543f_idb40e2fc7-8fd5-11e1-86ec-0021701f543f_id"
+    if human_readable_id == "LIST-SCA-RROGERS"
   #return the translated value
   id
 end

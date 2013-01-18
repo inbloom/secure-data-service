@@ -1,5 +1,4 @@
 /*
- *
  * Copyright 2012 Shared Learning Collaborative, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.slc.sli.api.criteriaGenerator;
@@ -49,7 +47,6 @@ public class EntityIdentifier {
     private String request;
 
 
-
     // [JS] findXXXX methods shouldn't be void
     public EntityFilterInfo findEntity(String request) {
         this.request = request;
@@ -69,10 +66,9 @@ public class EntityIdentifier {
     private void populatePath(EntityFilterInfo entityFilterInfo, ClassType entityType, String resource) {
         if (populateDateAttributes(entityFilterInfo, entityType) || populateSessionAttribute(entityFilterInfo, entityType)) {
             entityFilterInfo.setEntityName(resource);
-        }
-        else {
+        } else {
             List<String> associations = modelProvider.getAssociatedDatedEntities(entityType);
-            for (String association: associations) {
+            for (String association : associations) {
                 // [JS] revisit this
                 if (request.toLowerCase().contains(association.toLowerCase())) {
                     populateDateAttributes(entityFilterInfo, modelProvider.getClassType(association));
@@ -110,21 +106,22 @@ public class EntityIdentifier {
     private boolean populateSessionAttribute(EntityFilterInfo entityFilterInfo, ClassType entityType) {
         for (AssociationEnd assoc : modelProvider.getAssociationEnds(entityType.getId())) {
             if (assoc.getName().equals("session")) {
-                entityFilterInfo.setSessionAttribute( assoc.getAssociatedAttributeName());
+                entityFilterInfo.setSessionAttribute(assoc.getAssociatedAttributeName());
             }
         }
-        return !(entityFilterInfo.getSessionAttribute()!=null && entityFilterInfo.getSessionAttribute().isEmpty());
+        return !(entityFilterInfo.getSessionAttribute() != null && entityFilterInfo.getSessionAttribute().isEmpty());
     }
 
 
     // [JS] Can one of these fail and the other succeed? If so, we may end up with an object in inconsistent state,
     // if beginDateAttribute && endDateAttribute are required
     private boolean populateDateAttributes(EntityFilterInfo entityFilterInfo, ClassType entityType) {
+        final boolean beginDateExists = entityType.getBeginDateAttribute() != null;
+        final boolean endDateExists = entityType.getEndDateAttribute() != null;
 
-        entityFilterInfo.setBeginDateAttribute((entityType.getBeginDateAttribute() != null) ? entityType.getBeginDateAttribute().getName() : "");
-        entityFilterInfo.setEndDateAttribute((entityType.getEndDateAttribute() != null) ? entityType.getEndDateAttribute().getName() : "");
+        entityFilterInfo.setBeginDateAttribute(beginDateExists ? entityType.getBeginDateAttribute().getName() : "");
+        entityFilterInfo.setEndDateAttribute(endDateExists ? entityType.getEndDateAttribute().getName() : "");
 
-        return !(entityFilterInfo.getBeginDateAttribute()!= null && entityFilterInfo.getBeginDateAttribute().isEmpty()
-                && entityFilterInfo.getEndDateAttribute()!= null && entityFilterInfo.getEndDateAttribute().isEmpty());
+        return (beginDateExists || endDateExists);
     }
 }

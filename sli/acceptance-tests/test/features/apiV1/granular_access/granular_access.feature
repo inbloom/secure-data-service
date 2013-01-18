@@ -11,44 +11,45 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     When I navigate to GET "/v1/<Entity URI>"
     Then I should receive a return code of 200
     And I should receive a collection of "<Count Without Range>" entities
-    Given parameter "schoolYears" is "2010-2011"
+    Given parameter "schoolYears" is "<School Years>"
     When I navigate to GET "/v1/<Entity URI>"
     Then I should receive a return code of 200
     And I should receive a collection of "<Count With Range>" entities
     And I should only find "<Entity List>" in the list of entities returned
     Examples:
-    # TODO: update the count with range and entity list
-    | Entity URI                              | Count Without Range | Count With Range | Entity List |
-    | attendances                             | 0                   | 99999            |             |
-    | courseOfferings                         | 0                   | 99999            |             |
-    | courseTranscripts                       | 0                   | 99999            |             |
-    | disciplineActions                       | 2                   | 99999            |             |
-    | disciplineIncidents                     | 0                   | 99999            |             |
-    | gradebookEntries                        | 0                   | 99999            |             |
-    | grades                                  | 0                   | 99999            |             |
-    | gradingPeriods                          | 0                   | 99999            |             |
-    | graduationPlans                         | 5                   | 99999            |             |
-    | programs                                | 2                   | 99999            |             |
-    | reportCards                             | 0                   | 99999            |             |
-    | sections                                | 0                   | 99999            |             |
-    | sessions                                | 0                   | 99999            |             |
-    | staff                                   | 4                   | 99999            |             |
-    | staffCohortAssociations                 | 2                   | 99999            |             |
-    | staffEducationOrgAssignmentAssociations | 1                   | 99999            |             |
-    | staffProgramAssociations                | 3                   | 99999            |             |
-    | studentAcademicRecords                  | 0                   | 99999            |             |
-    | studentAssessments                      | 0                   | 99999            |             |
-    | studentCohortAssociations               | 6                   | 99999            |             |
-    | studentCompetencies                     | 0                   | 99999            |             |
-    | studentDisciplineIncidentAssociations   | 0                   | 99999            |             |
-    | studentGradebookEntries                 | 0                   | 99999            |             |
-    | studentProgramAssociations              | 10                  | 99999            |             |
-    | studentSchoolAssociations               | 0                   | 99999            |             |
-    | studentSectionAssociations              | 0                   | 99999            |             |
-    | students                                | 0                   | 99999            |             |
-    | teacherSchoolAssociations               | 0                   | 99999            |             |
-    | teacherSectionAssociations              | 0                   | 99999            |             |
-    | teachers                                | 0                   | 99999            |             |
+    # 2009-2010: 2009-01-04 to 2010-12-16
+    # 2010-2011: 2010-01-04 to 2011-12-16
+    # 2011-2012: 2011-01-06 to 2012-06-31
+    | Entity URI                              | School Years | Count Without Range | Count With Range | Entity List                             |
+    | attendances                             | 2010-2011    | 0                   | 0                |                                         |
+    | courseOfferings                         | 2010-2011    | 0                   | 0                |                                         |
+    | courseTranscripts                       | 2010-2011    | 0                   | 0                |                                         |
+    | disciplineActions                       | 2010-2011    | 2                   | 0                |                                         |
+    | disciplineIncidents                     | 2010-2011    | 0                   | 0                |                                         |
+    | gradebookEntries                        | 2010-2011    | 0                   | 0                |                                         |
+    | grades                                  | 2010-2011    | 0                   | 0                |                                         |
+    | gradingPeriods                          | 2010-2011    | 0                   | 0                |                                         |
+    | programs                                | 2009-2010    | 2                   | 1                | 9b8cafdc-8fd5-11e1-86ec-0021701f543f_id |
+    | reportCards                             | 2010-2011    | 0                   | 0                |                                         |
+    | sections                                | 2010-2011    | 0                   | 0                |                                         |
+    | sessions                                | 2010-2011    | 0                   | 0                |                                         |
+    | staff                                   | 2010-2011    | 4                   | 4                | mabernathy,rrogers,mjohnson,ckoch       |
+    | staffCohortAssociations                 | 2009-2010    | 2                   | 0                |                                         |
+    | staffEducationOrgAssignmentAssociations | 2010-2011    | 1                   | 1                | c4d5d31b-001d-4573-b282-7e688a4676f9    |
+    | staffProgramAssociations                | 2009-2010    | 3                   | 1                | 971638e0-03a8-43df-b4d3-a577fa5ff59c    |
+    | studentAcademicRecords                  | 2010-2011    | 0                   | 0                |                                         |
+    | studentAssessments                      | 2010-2011    | 0                   | 0                |                                         |
+    | studentCohortAssociations               | 2009-2011    | 6                   | 5                | <LIST-SCA-RROGERS>                      |
+    | studentCompetencies                     | 2010-2011    | 0                   | 0                |                                         |
+    | studentDisciplineIncidentAssociations   | 2010-2011    | 0                   | 0                |                                         |
+    | studentGradebookEntries                 | 2010-2011    | 0                   | 0                |                                         |
+    | studentProgramAssociations              | 2009-2010    | 10                  | 0                |                                         |
+    | studentSchoolAssociations               | 2010-2011    | 0                   | 0                |                                         |
+    | studentSectionAssociations              | 2010-2011    | 0                   | 0                |                                         |
+    | students                                | 2010-2011    | 0                   | 0                |                                         |
+    | teacherSchoolAssociations               | 2010-2011    | 0                   | 0                |                                         |
+    | teacherSectionAssociations              | 2010-2011    | 0                   | 0                |                                         |
+    | teachers                                | 2010-2011    | 0                   | 0                |                                         |
 
   Scenario Outline: All data is returned within a specific school year range - teacher
     Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
@@ -56,44 +57,46 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     When I navigate to GET "/v1/<Entity URI>"
     Then I should receive a return code of 200
     And I should receive a collection of "<Count Without Range>" entities
-    Given parameter "schoolYears" is "2010-2011"
+    Given parameter "schoolYears" is "<School Years>"
     When I navigate to GET "/v1/<Entity URI>"
     Then I should receive a return code of 200
     And I should receive a collection of "<Count With Range>" entities
     And I should only find "<Entity List>" in the list of entities returned
     Examples:
+    # 2009-2010: 2009-01-04 to 2010-12-16
+    # 2010-2011: 2010-01-04 to 2011-12-16
+    # 2011-2012: 2011-01-06 to 2012-06-31
     # TODO: update the count with range and entity list
-    | Entity URI                              | Count Without Range | Count With Range | Entity List |
-    | attendances                             | 29                  | 99999            |             |
-    | courseOfferings                         | 39                  | 99999            |             |
-    | courseTranscripts                       | 2                   | 99999            |             |
-    | disciplineActions                       | 0                   | 99999            |             |
-    | disciplineIncidents                     | 0                   | 99999            |             |
-    | gradebookEntries                        | 3                   | 99999            |             |
-    | grades                                  | 0                   | 99999            |             |
-    | gradingPeriods                          | 2                   | 99999            |             |
-    | graduationPlans                         | 5                   | 99999            |             |
-    | programs                                | 0                   | 99999            |             |
-    | reportCards                             | 1                   | 99999            |             |
-    | sections                                | 4                   | 99999            |             |
-    | sessions                                | 9                   | 99999            |             |
-    | staff                                   | 1                   | 99999            |             |
-    | staffCohortAssociations                 | 0                   | 99999            |             |
-    | staffEducationOrgAssignmentAssociations | 1                   | 99999            |             |
-    | staffProgramAssociations                | 0                   | 99999            |             |
-    | studentAcademicRecords                  | 1                   | 99999            |             |
-    | studentAssessments                      | 3                   | 99999            |             |
-    | studentCohortAssociations               | 0                   | 99999            |             |
-    | studentCompetencies                     | 0                   | 99999            |             |
-    | studentDisciplineIncidentAssociations   | 0                   | 99999            |             |
-    | studentGradebookEntries                 | 4                   | 99999            |             |
-    | studentProgramAssociations              | 0                   | 99999            |             |
-    | studentSchoolAssociations               | 67                  | 99999            |             |
-    | studentSectionAssociations              | 31                  | 99999            |             |
-    | students                                | 31                  | 99999            |             |
-    | teacherSchoolAssociations               | 1                   | 99999            |             |
-    | teacherSectionAssociations              | 4                   | 99999            |             |
-    | teachers                                | 1                   | 99999            |             |
+    | Entity URI                              | School Years | Count Without Range | Count With Range | Entity List |
+    | attendances                             | 2010-2011    | 29                  | 99999            |             |
+    | courseOfferings                         | 2010-2011    | 39                  | 99999            |             |
+    | courseTranscripts                       | 2010-2011    | 2                   | 99999            |             |
+    | disciplineActions                       | 2010-2011    | 0                   | 0                |             |
+    | disciplineIncidents                     | 2010-2011    | 0                   | 0                |             |
+    | gradebookEntries                        | 2010-2011    | 3                   | 99999            |             |
+    | grades                                  | 2010-2011    | 0                   | 0                |             |
+    | gradingPeriods                          | 2010-2011    | 2                   | 99999            |             |
+    | programs                                | 2010-2011    | 0                   | 0                |             |
+    | reportCards                             | 2010-2011    | 1                   | 99999            |             |
+    | sections                                | 2010-2011    | 4                   | 99999            |             |
+    | sessions                                | 2010-2011    | 9                   | 99999            |             |
+    | staff                                   | 2010-2011    | 1                   | 99999            |             |
+    | staffCohortAssociations                 | 2010-2011    | 0                   | 0                |             |
+    | staffEducationOrgAssignmentAssociations | 2010-2011    | 1                   | 99999            |             |
+    | staffProgramAssociations                | 2010-2011    | 0                   | 0                |             |
+    | studentAcademicRecords                  | 2010-2011    | 1                   | 99999            |             |
+    | studentAssessments                      | 2010-2011    | 3                   | 99999            |             |
+    | studentCohortAssociations               | 2010-2011    | 0                   | 0                |             |
+    | studentCompetencies                     | 2010-2011    | 0                   | 0                |             |
+    | studentDisciplineIncidentAssociations   | 2010-2011    | 0                   | 0                |             |
+    | studentGradebookEntries                 | 2010-2011    | 4                   | 99999            |             |
+    | studentProgramAssociations              | 2010-2011    | 0                   | 0                |             |
+    | studentSchoolAssociations               | 2010-2011    | 67                  | 99999            |             |
+    | studentSectionAssociations              | 2010-2011    | 31                  | 99999            |             |
+    | students                                | 2010-2011    | 31                  | 99999            |             |
+    | teacherSchoolAssociations               | 2010-2011    | 1                   | 99999            |             |
+    | teacherSectionAssociations              | 2010-2011    | 4                   | 99999            |             |
+    | teachers                                | 2010-2011    | 1                   | 99999            |             |
 
   Scenario Outline: Time-insensitive entities
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
@@ -110,6 +113,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | competencyLevelDescriptors  |
     | courses                     |
     | educationOrganizations      |
+    | graduationPlans             |
     | home                        |
     | learningObjectives          |
     | learningStandards           |
@@ -136,7 +140,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     And I navigate to PUT "/studentSchoolAssociations/<NEW ID>"
     Then I should receive a return code of 204
     Given parameter "schoolYears" is "2009-2011"
-    And the session date range is "2009-09-06" to "2011-05-16"
+    And the session date range is "2009-01-04" to "2011-12-16"
     When I navigate to GET "/v1/studentSchoolAssociations/<NEW ID>"
     Then I should receive a return code of 200
     And I should receive a collection of "<Count>" entities
