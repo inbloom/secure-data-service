@@ -208,31 +208,31 @@ public class SliSchemaVersionValidatorTest {
         List<MigrationStrategy> strategies = sliSchemaVersionValidator.getMigrationStrategies("staff", 0, 2);
         assertEquals("Should match", 1, strategies.size());
         assertTrue("Should be true", strategies.get(0) instanceof  AddStrategy);
-        assertTrue("Should be true", checkEntiy(strategies.get(0).migrate(entity), "somefield", "somevalue"));
+        assertTrue("Should be true", checkEntity(strategies.get(0).migrate(entity), "somefield", "somevalue"));
 
         entity = new MongoEntity("staff", new HashMap<String, Object>());
         strategies = sliSchemaVersionValidator.getMigrationStrategies("staff", 0, 3);
         assertEquals("Should match", 2, strategies.size());
         assertTrue("Should be true", strategies.get(0) instanceof  AddStrategy);
-        assertTrue("Should be true", checkEntiy(strategies.get(0).migrate(entity), "somefield", "somevalue"));
+        assertTrue("Should be true", checkEntity(strategies.get(0).migrate(entity), "somefield", "somevalue"));
         assertTrue("Should be true", strategies.get(1) instanceof  AddStrategy);
-        assertTrue("Should be true", checkEntiy(strategies.get(1).migrate(entity), "favoriteColor", "yellow"));
+        assertTrue("Should be true", checkEntity(strategies.get(1).migrate(entity), "favoriteColor", "yellow"));
 
         entity = new MongoEntity("staff", new HashMap<String, Object>());
         strategies = sliSchemaVersionValidator.getMigrationStrategies("staff", 0, 4);
         assertEquals("Should match", 3, strategies.size());
         assertTrue("Should be true", strategies.get(0) instanceof  AddStrategy);
-        assertTrue("Should be true", checkEntiy(strategies.get(0).migrate(entity), "somefield", "somevalue"));
+        assertTrue("Should be true", checkEntity(strategies.get(0).migrate(entity), "somefield", "somevalue"));
         assertTrue("Should be true", strategies.get(1) instanceof  AddStrategy);
-        assertTrue("Should be true", checkEntiy(strategies.get(1).migrate(entity), "favoriteColor", "yellow"));
+        assertTrue("Should be true", checkEntity(strategies.get(1).migrate(entity), "favoriteColor", "yellow"));
         assertTrue("Should be true", strategies.get(2) instanceof  AddStrategy);
-        assertTrue("Should be true", checkEntiy(strategies.get(2).migrate(entity), "mascot", "red"));
+        assertTrue("Should be true", checkEntity(strategies.get(2).migrate(entity), "mascot", "red"));
 
         entity = new MongoEntity("staff", new HashMap<String, Object>());
         strategies = sliSchemaVersionValidator.getMigrationStrategies("staff", 3, 4);
         assertEquals("Should match", 1, strategies.size());
         assertTrue("Should be true", strategies.get(0) instanceof  AddStrategy);
-        assertTrue("Should be true", checkEntiy(strategies.get(0).migrate(entity), "mascot", "red"));
+        assertTrue("Should be true", checkEntity(strategies.get(0).migrate(entity), "mascot", "red"));
 
         strategies = sliSchemaVersionValidator.getMigrationStrategies("staff", 0, 1);
         assertEquals("Should match", 0, strategies.size());
@@ -241,12 +241,15 @@ public class SliSchemaVersionValidatorTest {
         strategies = sliSchemaVersionValidator.getMigrationStrategies("staff", 2, 4);
         assertEquals("Should match", 2, strategies.size());
         assertTrue("Should be true", strategies.get(0) instanceof  AddStrategy);
-        assertTrue("Should be true", checkEntiy(strategies.get(0).migrate(entity), "favoriteColor", "yellow"));
+        assertTrue("Should be true", checkEntity(strategies.get(0).migrate(entity), "favoriteColor", "yellow"));
         assertTrue("Should be true", strategies.get(1) instanceof  AddStrategy);
-        assertTrue("Should be true", checkEntiy(strategies.get(1).migrate(entity), "mascot", "red"));
+        assertTrue("Should be true", checkEntity(strategies.get(1).migrate(entity), "mascot", "red"));
+
+        strategies = sliSchemaVersionValidator.getMigrationStrategies("staff", 3, 1);
+        assertEquals("Should match", 0, strategies.size());
     }
 
-    private boolean checkEntiy(Entity entity, String key, String value) {
+    private boolean checkEntity(Entity entity, String key, String value) {
         String entityValue = (String) entity.getBody().get(key);
 
         return value.equals(entityValue);
