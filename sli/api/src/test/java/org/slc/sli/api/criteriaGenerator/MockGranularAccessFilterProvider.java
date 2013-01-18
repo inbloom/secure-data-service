@@ -16,13 +16,28 @@
 
 package org.slc.sli.api.criteriaGenerator;
 
+import org.springframework.stereotype.Component;
+
 /**
  * @author: sashton
  */
-public interface GranularAccessFilterProvider {
-    void storeGranularAccessFilter(GranularAccessFilter filter);
+@Component
+public class MockGranularAccessFilterProvider implements GranularAccessFilterProvider {
 
-    GranularAccessFilter getFilter();
+    private GranularAccessFilter filter;
 
-    boolean hasFilter();
+    @Override
+    public void storeGranularAccessFilter(GranularAccessFilter filter) {
+        this.filter = filter;
+    }
+
+    @Override
+    public GranularAccessFilter getFilter() {
+        return filter;
+    }
+
+    @Override
+    public boolean hasFilter() {
+        return filter != null;
+    }
 }

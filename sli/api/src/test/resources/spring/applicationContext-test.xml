@@ -53,6 +53,8 @@
             expression=".*AggregationLoader" />
             <context:exclude-filter type="regex"
             expression=".*NeutralSchemaValidator" />
+        <context:exclude-filter type="regex"
+            expression=".*DefaultGranularAccessFilterProvider" />
             <context:exclude-filter type="assignable"
             expression="org.slc.sli.api.model.ModelProvider" />
     </context:component-scan>

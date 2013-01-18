@@ -23,6 +23,8 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.constants.ResourceNames;
+import org.slc.sli.api.criteriaGenerator.GranularAccessFilter;
+import org.slc.sli.api.criteriaGenerator.GranularAccessFilterProvider;
 import org.slc.sli.api.model.ModelProvider;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.PreConditionFailedException;
@@ -80,6 +82,10 @@ public class DefaultResourceService implements ResourceService {
 
     @Autowired
     private ResourceServiceHelper resourceServiceHelper;
+
+    @Autowired
+    private GranularAccessFilterProvider granularAccessFilterProvider;
+
 
     public static final int MAX_MULTIPLE_UUIDS = 100;
 
@@ -152,6 +158,7 @@ public class DefaultResourceService implements ResourceService {
                 Iterable<EntityBody> entityBodies = null;
                 final ApiQuery apiQuery = resourceServiceHelper.getApiQuery(definition, requestURI);
                 addAdditionalCriteria(apiQuery);
+                addGranularAccessCriteria(definition, apiQuery);
 
                 if (getAllEntities) {
                     entityBodies = SecurityUtil.sudoRun(new SecurityUtil.SecurityTask<Iterable<EntityBody>>() {
@@ -282,6 +289,8 @@ public class DefaultResourceService implements ResourceService {
 
         final ApiQuery apiQuery = resourceServiceHelper.getApiQuery(definition, requestURI);
 
+        addGranularAccessCriteria(definition, apiQuery);
+
         // remove schoolYears from query if it exists
         NeutralCriteria targetCriteria = null;
         for (NeutralCriteria criteria : apiQuery.getCriteria()) {
@@ -363,6 +372,8 @@ public class DefaultResourceService implements ResourceService {
         String parentType = EmbeddedDocumentRelations.getParentEntityType(assocEntity.getType());
         if ((parentType != null) && baseEntity.getType().equals(parentType)) {
             final ApiQuery apiQuery = resourceServiceHelper.getApiQuery(baseEntity);
+
+            addGranularAccessCriteria(baseEntity, apiQuery);
             apiQuery.setLimit(0);
             apiQuery.addCriteria(new NeutralCriteria("_id", "in", valueList));
             apiQuery.setEmbeddedFields(Arrays.asList(assocEntity.getType()));
@@ -389,6 +400,9 @@ public class DefaultResourceService implements ResourceService {
             }
         } else {
             final ApiQuery apiQuery = resourceServiceHelper.getApiQuery(assocEntity);
+
+            addGranularAccessCriteria(assocEntity, apiQuery);
+
             apiQuery.setLimit(0);
             apiQuery.addCriteria(new NeutralCriteria(associationKey, "in", valueList));
             if (association.getResourceType().equals(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS)
@@ -416,6 +430,8 @@ public class DefaultResourceService implements ResourceService {
 
         List<EntityBody> entityBodyList;
         final ApiQuery finalApiQuery = resourceServiceHelper.getApiQuery(finalEntity, requestUri);
+
+        addGranularAccessCriteria(finalEntity, finalApiQuery);
 
         //Mongo blows up if we have multiple $in or equal criteria for the same key.
         //To avoid that case, if we do have duplicate keys, set the value for that
@@ -520,6 +536,24 @@ public class DefaultResourceService implements ResourceService {
         }
 
         return finalResults;
+    }
+
+
+    private void addGranularAccessCriteria(EntityDefinition entity, ApiQuery apiQuery) {
+
+        if (granularAccessFilterProvider.hasFilter()) {
+            GranularAccessFilter filter = granularAccessFilterProvider.getFilter();
+
+            if (entity.getType().equals(filter.getEntityName())) {
+                NeutralQuery dateQuery = filter.getNeutralQuery();
+                for (NeutralCriteria criteria : dateQuery.getCriteria()) {
+                    apiQuery.addCriteria(criteria);
+                }
+                for (NeutralQuery dateOrQuery : dateQuery.getOrQueries()) {
+                    apiQuery.addOrQuery(dateOrQuery);
+                }
+            }
+        }
     }
 
 }
