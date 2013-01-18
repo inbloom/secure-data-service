@@ -1,5 +1,4 @@
 /*
- *
  * Copyright 2012 Shared Learning Collaborative, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,13 +12,13 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.slc.sli.api.criteriaGenerator;
 
-import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -29,6 +28,16 @@ import org.slc.sli.domain.NeutralQuery;
 public class GranularAccessFilter {
     private String entityName;
     private NeutralQuery neutralQuery;
+
+    public List<String> getConnectedEntityList() {
+        return connectedEntityList;
+    }
+
+    public void setConnectedEntityList(List<String> connectedEntityList) {
+        this.connectedEntityList = connectedEntityList;
+    }
+
+    private List<String> connectedEntityList;
 
     public String getEntityName() {
         return entityName;
