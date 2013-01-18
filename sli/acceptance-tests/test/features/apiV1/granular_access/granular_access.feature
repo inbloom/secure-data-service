@@ -11,7 +11,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     When I navigate to GET "/v1/<Entity URI>"
     Then I should receive a return code of 200
     And I should receive a collection of "<Count Without Range>" entities
-    Given parameter "schoolYear" is "2010-2011"
+    Given parameter "schoolYears" is "2010-2011"
     When I navigate to GET "/v1/<Entity URI>"
     Then I should receive a return code of 200
     And I should receive a collection of "<Count With Range>" entities
@@ -56,7 +56,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     When I navigate to GET "/v1/<Entity URI>"
     Then I should receive a return code of 200
     And I should receive a collection of "<Count Without Range>" entities
-    Given parameter "schoolYear" is "2010-2011"
+    Given parameter "schoolYears" is "2010-2011"
     When I navigate to GET "/v1/<Entity URI>"
     Then I should receive a return code of 200
     And I should receive a collection of "<Count With Range>" entities
@@ -97,7 +97,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
 
   Scenario Outline: Time-insensitive entities
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
-    And parameter "schoolYear" is "2010-2011"
+    And parameter "schoolYears" is "2010-2011"
     And parameter "limit" is "0"
     When I navigate to GET "/v1/<Entity URI>"
     Then I should receive a return code of 400
@@ -135,7 +135,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     And I set the date "exitWithdrawDate" to "<Exit Date>"
     And I navigate to PUT "/studentSchoolAssociations/<NEW ID>"
     Then I should receive a return code of 204
-    Given parameter "schoolYear" is "2009-2011"
+    Given parameter "schoolYears" is "2009-2011"
     And the session date range is "2009-09-06" to "2011-05-16"
     When I navigate to GET "/v1/studentSchoolAssociations/<NEW ID>"
     Then I should receive a return code of 200
@@ -168,7 +168,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     When I set the date "endDate" to "<Exit Date>"
     And I navigate to PUT "/teacherSectionAssociations/<NEW ID>"
     Then I should receive a return code of 204
-    Given parameter "schoolYear" is "2009-2011"
+    Given parameter "schoolYears" is "2009-2011"
     And the session date range is "2009-09-06" to "2011-05-16"
     When I navigate to GET "/v1/teacherSectionAssociations/<NEW ID>"
     Then I should receive a return code of 200
@@ -184,21 +184,20 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
 
   Scenario: Provide a really wide school year range to "get everything"
     Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
-    And parameter "schoolYear" is "1900-2100"
+    And parameter "schoolYears" is "1900-2100"
     And parameter "limit" is "0"
     When I navigate to GET "/v1/studentSchoolAssociations"
     Then I should receive a return code of 200
-    # TODO: update the count for everything
-    And I should receive a collection of "" entities
-    Given parameter "schoolYear" is "2009-2010"
+    And I should receive a collection of "67" entities
+    Given parameter "schoolYears" is "2010-2011"
     When I navigate to GET "/v1/studentSchoolAssociations"
     Then I should receive a return code of 200
-    # TODO: update the count for 2009-2010
+    # TODO: update the count from above
     And I should receive a collection of "" entities
 
   Scenario Outline: Sad path - invalid date ranges
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
-    And parameter "schoolYear" is "<Range>"
+    And parameter "schoolYears" is "<Range>"
     When I navigate to GET "/v1/studentSectionAssociations"
     Then I should receive a return code of 400
     # TODO: update error message

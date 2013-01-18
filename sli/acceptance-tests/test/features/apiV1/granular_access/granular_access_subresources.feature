@@ -12,14 +12,14 @@ Feature: As an SLI API, I want to be able to provide granular access to data for
     When I GET the sub-resources that are time-sensitive
     Then I should receive a return code of 200 for all requests
     Then I should receive correct counts without date range
-    Given parameter "schoolYear" is "2010-2011"
+    Given parameter "schoolYears" is "2010-2011"
     When I GET the sub-resources that are time-sensitive
     Then I should receive a return code of 200 for all requests
     Then I should receive correct counts with date range
 
   Scenario: Applying date range on time-insensitive sub-resources
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
-    And parameter "schoolYear" is "2010-2011"
+    And parameter "schoolYears" is "2010-2011"
     And parameter "limit" is "0"
     When I GET the sub-resources that are time-insensitive
     Then I should receive a return code of 400 for all requests

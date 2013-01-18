@@ -107,6 +107,7 @@ end
 Then /^I delete the new "([^\"]*)" for the next test scenario$/ do |type|
   steps %Q{
     When I navigate to DELETE "/#{$type_to_uri[type]}/#{@newId}"
+    Then I should receive a return code of 204
   }
 end
 
