@@ -192,11 +192,10 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     When I navigate to GET "/v1/studentSchoolAssociations"
     Then I should receive a return code of 200
     And I should receive a collection of "67" entities
-    Given parameter "schoolYears" is "2010-2011"
+    Given parameter "schoolYears" is "2009-2010"
     When I navigate to GET "/v1/studentSchoolAssociations"
     Then I should receive a return code of 200
-    # TODO: update the count from above
-    And I should receive a collection of "" entities
+    And I should receive a collection of "36" entities
 
   Scenario Outline: Sad path - invalid date ranges
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
