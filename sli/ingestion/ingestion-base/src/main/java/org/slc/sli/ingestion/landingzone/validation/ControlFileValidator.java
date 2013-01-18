@@ -54,18 +54,17 @@ public class ControlFileValidator implements Validator<ControlFileDescriptor> {
         ControlFile controlFile = item.getFileItem();
 
         // we know more of our source
-        Source newsource = new ControlFileSource(source, controlFile);
         List<IngestionFileEntry> entries = controlFile.getFileEntries();
 
         if (entries.size() < 1) {
-            report.error(reportStats, newsource, BaseMessageCode.BASE_0003);
+            report.error(reportStats, new ControlFileSource(source.getResourceId(), controlFile), BaseMessageCode.BASE_0003);
 
             return false;
         }
 
         boolean isValid = true;
         for (IngestionFileEntry entry : entries) {
-            if (!isValid(entry, report, reportStats, newsource)) {
+            if (!isValid(entry, report, reportStats, source)) {
                 // remove the file from the entry since it did not pass the validation
                 entry.setValid(false);
                 isValid = false;
@@ -76,7 +75,7 @@ public class ControlFileValidator implements Validator<ControlFileDescriptor> {
         // then this is a case of 'no valid files in control file'
         // (i.e., SL_ERR_MSG8)
         if (!isValid && !reportStats.hasErrors()) {
-            report.error(reportStats, newsource, BaseMessageCode.BASE_0002);
+            report.error(reportStats, new ControlFileSource(source.getResourceId(), controlFile), BaseMessageCode.BASE_0002);
             return false;
         }
 

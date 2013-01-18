@@ -28,8 +28,8 @@ public class AggregatedSource extends JobSource {
 
     private List<JobSource> aggregatedJobSourceList = new ArrayList<JobSource>();
 
-    public AggregatedSource(String batchJobId, String resourceId, String stageName) {
-        super(resourceId, stageName);
+    public AggregatedSource(String resourceId) {
+        super(resourceId);
     }
 
     public void addSource(JobSource jobSource) {

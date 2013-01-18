@@ -123,11 +123,10 @@ public class ControlFileProcessor implements Processor {
             aggregateBatchJobProperties(newJob, cf);
 
             ReportStats reportStats = new SimpleReportStats();
-            Source source = new ControlFileSource(cf.getFileName(), BatchJobStageType.CONTROL_FILE_PROCESSOR.getName());
 
             if ((newJob.getProperty(AttributeType.PURGE.getName()) == null)
                     && (newJob.getProperty(AttributeType.PURGE_KEEP_EDORGS.getName()) == null)) {
-                if (validator.isValid(cfd, databaseMessageReport, reportStats, source)) {
+                if (validator.isValid(cfd, databaseMessageReport, reportStats, new ControlFileSource(cf.getFileName()))) {
                     createAndAddResourceEntries(newJob, cf);
                 } else {
                     boolean isZipFile = false;
@@ -137,7 +136,7 @@ public class ControlFileProcessor implements Processor {
                         }
                     }
                     if (!isZipFile) {
-                        databaseMessageReport.warning(reportStats, source, CoreMessageCode.CORE_0051);
+                        databaseMessageReport.warning(reportStats, new ControlFileSource(cf.getFileName()), CoreMessageCode.CORE_0051);
 
                     }
                 }

@@ -5,7 +5,6 @@ Given I am using odin data store
 
 Scenario: Post Odin Sample Data Set
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
-  And the tenant database for "Midgar" does not exist
   And I post "OdinSampleDataSet.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
      | collectionName                            |
@@ -99,18 +98,18 @@ Then I should see following map of entry counts in the corresponding collections
      | student                                  |                 10|
      | studentAcademicRecord                    |                 30|
      | studentAssessment                        |                180|
-     | studentCohortAssociation                 |                 36|
+     | studentCohortAssociation                 |                 21|
      | studentCompetency                        |                375|
      | studentCompetencyObjective               |                  0|
      | studentDisciplineIncidentAssociation     |                 75|
      | studentGradebookEntry                    |               1222|
      | studentParentAssociation                 |                 20|
-     | studentProgramAssociation                |                102|
+     | studentProgramAssociation                |                 79|
      | studentSchoolAssociation                 |                 30|
      | studentSectionAssociation                |                 75|
      | teacherSchoolAssociation                 |                 19|
      | teacherSectionAssociation                |                 75|
-    And I should see "Processed 7066 records." in the resulting batch job file
+    And I should see "Processed 7028 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
 
