@@ -84,7 +84,7 @@ public class ControlFileValidatorTest {
     public void noFileEntriesTest() {
         AbstractMessageReport report = new DummyMessageReport();
         ReportStats reportStats = new SimpleReportStats();
-        Source source = new JobSource(null, null);
+        Source source = new JobSource(null);
 
         boolean isValid = controlFileValidator.isValid(item, report, reportStats, source);
 
@@ -96,7 +96,7 @@ public class ControlFileValidatorTest {
     public void fileNotPresentTest() {
         AbstractMessageReport report = new DummyMessageReport();
         ReportStats reportStats = new SimpleReportStats();
-        Source source = new JobSource(null, null);
+        Source source = new JobSource(null);
 
         Mockito.when(entry.isValid()).thenReturn(false);
         fileEntries.add(entry);
@@ -128,7 +128,7 @@ public class ControlFileValidatorTest {
     public void fileNotValidTest() {
         AbstractMessageReport report = new DummyMessageReport();
         ReportStats reportStats = new SimpleReportStats();
-        Source source = new JobSource(null, null);
+        Source source = new JobSource(null);
 
         fileEntries.add(entry);
         Mockito.doReturn(false)
@@ -146,7 +146,7 @@ public class ControlFileValidatorTest {
     public void controlFileHasPath() {
         AbstractMessageReport report = new DummyMessageReport();
         ReportStats reportStats = new SimpleReportStats();
-        Source source = new JobSource(null, null);
+        Source source = new JobSource(null);
 
         Mockito.when(entry.getFileName()).thenReturn(path + fileName);
         fileEntries.add(entry);

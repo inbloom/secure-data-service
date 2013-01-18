@@ -15,6 +15,12 @@ task :adminWebTests => [:realmInit] do
   runTests("test/features/admintools")
 end
 
+desc "Run Admin Tool Smoke Tests"
+task :adminRealmTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/admintools/edit_realms.feature")
+end
+
 desc "Run custom Roles Tests"
 task :customRolesTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute

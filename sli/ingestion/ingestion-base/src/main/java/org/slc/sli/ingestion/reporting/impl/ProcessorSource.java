@@ -23,17 +23,15 @@ package org.slc.sli.ingestion.reporting.impl;
  */
 public class ProcessorSource extends JobSource
 {
-    private final String processorName;
 
-    public ProcessorSource(String resourceId, String stageName)
+    public ProcessorSource(String resourceId)
     {
-        super(resourceId, stageName);
-        this.processorName = stageName;
+        super(resourceId);
     }
 
     @Override
     public String getUserFriendlyMessage() {
-        return processorName == null ? "" : processorName;
+        return "InternalProcessing";
     }
 
 }

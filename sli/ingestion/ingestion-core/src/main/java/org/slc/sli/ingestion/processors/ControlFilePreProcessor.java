@@ -113,7 +113,7 @@ public class ControlFilePreProcessor implements Processor {
         ControlFileDescriptor controlFileDescriptor = null;
 
         ReportStats reportStats = new SimpleReportStats();
-        Source source = new ControlFileSource(controlFileName, BATCH_JOB_STAGE.getName());
+        Source source = new ControlFileSource(controlFileName);
 
         try {
             currentBatchJob = getBatchJob(batchJobId);

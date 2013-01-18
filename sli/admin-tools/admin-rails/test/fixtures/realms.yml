@@ -7,6 +7,7 @@
 one:
     id: "1"
     name: Shared Learning Initiative
+    edOrg: 
     regionId: http://slidev.org
     uniqueIdentifier: realm-one
     idp:
@@ -20,6 +21,7 @@ one:
 two:
     id: "2"
     name: Tardis
+    edOrg: "Waffles"
     regionId: http://timelords.com 
     uniqueIdentifier: realm-two
     idp: 

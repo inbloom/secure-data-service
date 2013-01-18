@@ -9,11 +9,8 @@ CompetencyLevelDescriptor                                  2
 Course                                                    50
 CourseOffering                                           100
 CourseTranscript                                        7500
-Diploma                                                    1
 DisciplineAction                                        4875
 DisciplineIncident                                      4875
-EducationServiceCenter                                     2
-FeederSchoolAssociation                                    2
 Grade                                                   2500
 GradebookEntry                                             1
 GradingPeriod                                             40
@@ -23,12 +20,10 @@ LearningStandard                                           3
 LocalEducationAgency                                       1
 ObjectiveAssessment                                        1
 Parent                                                   763
-PerformanceLevelDescriptor                                 2
 Program                                                   13
 ReportCard                                               500
 School                                                     5
 Section                                                  300
-ServiceDescriptor                                          4
 Session                                                   10
 Staff                                                     10
 StaffCohortAssociation                                   180
@@ -53,4 +48,5 @@ Teacher                                                   50
 TeacherSchoolAssociation                                  50
 TeacherSectionAssociation                                300
 ------------------------------------------------------------
-                                             Total:     45402
+                                             Total:     45391
+

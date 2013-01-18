@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.ingestion.reporting.ElementSource;
 
 /**
  * Adapter for Entity
@@ -29,7 +30,7 @@ import org.slc.sli.domain.Entity;
  * @author dduran
  *
  */
-public class NeutralRecordEntity implements Entity, Resource {
+public class NeutralRecordEntity implements Entity, Resource, ElementSource {
 
     private NeutralRecord neutralRecord;
     private long recordNumberInFile;
@@ -113,10 +114,17 @@ public class NeutralRecordEntity implements Entity, Resource {
         this.neutralRecord = neutralRecord;
     }
 
+    @Override
+    public String getElementType() {
+        return neutralRecord.getRecordType();
+    }
+
+    @Override
     public int getVisitBeforeLineNumber() {
         return neutralRecord.getVisitBeforeLineNumber();
     }
 
+    @Override
     public int getVisitBeforeColumnNumber() {
         return neutralRecord.getVisitBeforeColumnNumber();
     }

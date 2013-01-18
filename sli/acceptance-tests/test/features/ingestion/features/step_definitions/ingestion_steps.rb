@@ -1156,6 +1156,56 @@ When /^a batch job log (has|has not) been created$/ do |has_or_has_not|
   checkForBatchJobLog(@landing_zone_path, should_has_log) if !@hasNoLandingZone
 end
 
+When /^a batch job has completed successfully in the database$/ do
+   disable_NOTABLESCAN()
+   old_db = @db
+   @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
+   @entity_collection = @db.collection("newBatchJob")
+   intervalTime = 1
+   @maxTimeout ? @maxTimeout : @maxTimeout = 120
+   iters = (1.0*@maxTimeout/intervalTime).ceil
+   found = false
+     if (INGESTION_MODE == 'remote')
+       iters.times do |i|
+         @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedSuccessfully"]}}).count().to_s
+         if @entity_count.to_s == "1"
+           puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+           found = true
+           break
+         else
+           @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedWithErrors"]}}).count().to_s
+           if @entity_count.to_s == "1"
+                assert(false, "Batch Job completed with errors")
+           end
+           sleep(intervalTime)
+         end
+       end
+     else
+       sleep(5) # waiting to check job completion removes race condition (windows-specific)
+       iters.times do |i|
+         @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedSuccessfully"]}}).count().to_s
+         if @entity_count.to_s == "1"
+           puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+           found = true
+           break
+         else
+           @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedWithErrors"]}}).count().to_s
+           if @entity_count.to_s == "1"
+                assert(false, "Batch Job completed with errors")
+           end
+           sleep(intervalTime)
+         end
+       end
+     end
+     if found
+       assert(true, "")
+     else
+       assert(false, "Either batch log was never created, or it took more than #{@maxTimeout} seconds")
+     end
+     @db = old_db
+     enable_NOTABLESCAN()
+   end
+
 When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
   disable_NOTABLESCAN()
 
@@ -2686,11 +2736,17 @@ Then /^application "(.*?)" has "(.*?)" authorized edorgs$/ do |arg1, arg2|
 
 end
 
-Given /^I create a tenant set to preload data set "(.*?)"$/ do |dataSet|
-  step "I add a new tenant for \"TENANT\""
+Given /^I create a tenant set to preload data set "(.*?)" for tenant "(.*?)"$/ do |dataSet, tenant|
+  step "I add a new tenant for \"#{tenant}\""
   @newTenant["body"]["landingZone"][0]["preload"]={"files" => [dataSet], "status" => "ready"}
   @landing_zone_path = @newTenant["body"]["landingZone"][0]["path"]
   @tenantColl.save(@newTenant)
+end
+
+Given /^the tenant database "(.*?)" does not exist$/ do |tenant|
+    disable_NOTABLESCAN()
+    @conn.drop_database(convertTenantIdToDbName(tenant))
+    enable_NOTABLESCAN()
 end
 
 Then /^I should see either "(.*?)" or "(.*?)" following (.*?) in "(.*?)" file$/ do |content1, content2, logTag, logFile|

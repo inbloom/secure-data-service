@@ -28,6 +28,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
+import org.slc.sli.ingestion.FileEntryWorkNote;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.dal.NeutralRecordAccess;
@@ -82,42 +83,30 @@ public class EdFiProcessor implements Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
-        String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
-        if (batchJobId == null) {
+        FileEntryWorkNote feWorkNote = exchange.getIn().getBody(FileEntryWorkNote.class);
+        if (feWorkNote == null) {
             handleNoBatchJobIdInExchange(exchange);
         } else {
-            processEdFi(exchange, batchJobId);
+            processEdFi(exchange, feWorkNote);
         }
     }
 
-    private void processEdFi(Exchange exchange, String batchJobId) {
+    private void processEdFi(Exchange exchange, FileEntryWorkNote feWorkNote) {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
 
         NewBatchJob newJob = null;
+        String batchJobId = feWorkNote.getBatchJobId();
         try {
             newJob = batchJobDAO.findBatchJobById(batchJobId);
 
-            String tenantId = newJob.getTenantId();
-            TenantContext.setTenantId(tenantId);
-            TenantContext.setJobId(batchJobId);
-            TenantContext.setBatchProperties(newJob.getBatchProperties());
+            String tenantId = initTenantContext(newJob);
 
-            IngestionFileEntry fe = exchange.getIn().getBody(IngestionFileEntry.class);
-            if (!isJobResource(fe, newJob)) {
-                throw new FileNotFoundException("No match for file " + fe.getFileName() + " in batch job "
-                        + newJob.getId());
-            }
+            IngestionFileEntry fe = getIngestionFileEntry(feWorkNote, newJob);
+
             Metrics metrics = Metrics.newInstance(fe.getFileName());
             stage.addMetrics(metrics);
 
-            // Check for record hash purge option given
-            String rhMode = TenantContext.getBatchProperty(AttributeType.DUPLICATE_DETECTION.getName());
-            if ((null != rhMode)
-                    && (rhMode.equalsIgnoreCase(RecordHash.RECORD_HASH_MODE_DISABLE) || rhMode
-                            .equalsIgnoreCase(RecordHash.RECORD_HASH_MODE_RESET))) {
-                LOG.info("@duplicate-detection mode '" + rhMode + "' given: resetting recordHash");
-                batchJobDAO.removeRecordHashByTenant(tenantId);
-            }
+            potentiallyRemoveRecordHash(tenantId);
 
             indexStagingDB();
 
@@ -137,6 +126,35 @@ public class EdFiProcessor implements Processor {
                 batchJobDAO.saveBatchJob(newJob);
             }
         }
+    }
+
+    private IngestionFileEntry getIngestionFileEntry(FileEntryWorkNote feWorkNote, NewBatchJob newJob)
+            throws FileNotFoundException {
+        IngestionFileEntry fe = feWorkNote.getFileEntry();
+        if (!isJobResource(fe, newJob)) {
+            throw new FileNotFoundException("No match for file " + fe.getFileName() + " in batch job "
+                    + newJob.getId());
+        }
+        return fe;
+    }
+
+    private void potentiallyRemoveRecordHash(String tenantId) {
+        // Check for record hash purge option given
+        String rhMode = TenantContext.getBatchProperty(AttributeType.DUPLICATE_DETECTION.getName());
+        if ((null != rhMode)
+                && (rhMode.equalsIgnoreCase(RecordHash.RECORD_HASH_MODE_DISABLE) || rhMode
+                        .equalsIgnoreCase(RecordHash.RECORD_HASH_MODE_RESET))) {
+            LOG.info("@duplicate-detection mode '" + rhMode + "' given: resetting recordHash");
+            batchJobDAO.removeRecordHashByTenant(tenantId);
+        }
+    }
+
+    private String initTenantContext(NewBatchJob newJob) {
+        String tenantId = newJob.getTenantId();
+        TenantContext.setTenantId(tenantId);
+        TenantContext.setJobId(newJob.getId());
+        TenantContext.setBatchProperties(newJob.getBatchProperties());
+        return tenantId;
     }
 
     private void indexStagingDB() {
@@ -160,7 +178,8 @@ public class EdFiProcessor implements Processor {
         return false;
     }
 
-    private void processMetrics(Metrics metrics, IngestionFileEntry fe, FileProcessStatus fileProcessStatus, ReportStats rs) {
+    private void processMetrics(Metrics metrics, IngestionFileEntry fe, FileProcessStatus fileProcessStatus,
+            ReportStats rs) {
         metrics.setDuplicateCounts(fileProcessStatus.getDuplicateCounts());
         metrics.setRecordCount(fileProcessStatus.getTotalRecordCount());
         metrics.setErrorCount(rs.getErrorCount());
@@ -173,8 +192,8 @@ public class EdFiProcessor implements Processor {
 
         if (batchJobId != null) {
             ReportStats reportStats = new SimpleReportStats();
-            Source source = new ProcessorSource(null, BATCH_JOB_STAGE.getName());
-            databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0021, batchJobId,
+            databaseMessageReport.error(reportStats, new ProcessorSource(BATCH_JOB_STAGE.getName()),
+                    CoreMessageCode.CORE_0021, batchJobId,
                     exception.getMessage());
         }
     }

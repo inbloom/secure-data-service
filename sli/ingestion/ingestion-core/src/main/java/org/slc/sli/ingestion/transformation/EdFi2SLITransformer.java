@@ -21,19 +21,11 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessResourceFailureException;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.ingestion.BatchJobStage;
-import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.handler.Handler;
@@ -41,7 +33,7 @@ import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.NeutralRecordSource;
+import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
 import org.slc.sli.ingestion.transformation.normalization.ComplexKeyField;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
@@ -53,6 +45,12 @@ import org.slc.sli.validation.SchemaRepository;
 import org.slc.sli.validation.schema.AppInfo;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.slc.sli.validation.schema.NeutralSchema;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 
 /**
  * EdFi to SLI data transformation
@@ -102,11 +100,6 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             return Collections.emptyList();
         }
 
-        Source source = new NeutralRecordSource(item.getSourceFile(), BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
-                item.getRecordType(),
-                item.getVisitBeforeLineNumber(), item.getVisitBeforeColumnNumber(),
-                item.getVisitAfterLineNumber(), item.getVisitAfterColumnNumber());
-
         if (transformed != null && !transformed.isEmpty()) {
 
             for (SimpleEntity entity : transformed) {
@@ -119,7 +112,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                     matchEntity(entity, report, reportStats);
                 } catch (DataAccessResourceFailureException darfe) {
                     LOG.error("Exception in matchEntity", darfe);
-                    report.error(reportStats, source, CoreMessageCode.CORE_0046, darfe);
+                    report.error(reportStats, new ElementSourceImpl(item), CoreMessageCode.CORE_0046, darfe);
                 }
 
                 if (reportStats.hasErrors()) {
@@ -128,7 +121,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             }
         } else {
             LOG.error("EdFi2SLI Transform has resulted in either a null or empty list of transformed SimpleEntities.");
-            report.error(reportStats, source, CoreMessageCode.CORE_0047);
+            report.error(reportStats, new ElementSourceImpl(item), CoreMessageCode.CORE_0047);
         }
 
         return transformed;
@@ -205,10 +198,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
             for (String fieldName : e1.getNaturalKeys()) {
                 message.append("\n" + "       Field      " + fieldName);
             }
-            Source source = new NeutralRecordSource(entity.getResourceId(), getStageName(), entity.getType(),
-                    entity.getVisitBeforeLineNumber(), entity.getVisitBeforeColumnNumber(), entity.getVisitAfterLineNumber(),
-                    entity.getVisitAfterColumnNumber());
-            report.error(reportStats, source, CoreMessageCode.CORE_0010, entity.getType(),
+            report.error(reportStats, new ElementSourceImpl(entity), CoreMessageCode.CORE_0010, entity.getType(),
                     Long.toString(entity.getRecordNumber()), message.toString());
             return null;
         } catch (NoNaturalKeysDefinedException e) {
@@ -234,13 +224,10 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
     protected Query createEntityLookupQueryFromKeyFields(SimpleEntity entity, EntityConfig entityConfig,
             AbstractMessageReport report, ReportStats reportStats) {
         Query query = new Query();
-        Source source = new NeutralRecordSource(entity.getResourceId(), getStageName(), entity.getType(),
-                entity.getVisitBeforeLineNumber(), entity.getVisitBeforeColumnNumber(),
-                entity.getVisitAfterLineNumber(), entity.getVisitAfterColumnNumber());
 
         StringBuilder errorMessage = new StringBuilder("");
         if (entityConfig.getKeyFields() == null || entityConfig.getKeyFields().size() == 0) {
-            report.error(reportStats, source, CoreMessageCode.CORE_0011);
+            report.error(reportStats, new ElementSourceImpl(entity), CoreMessageCode.CORE_0011);
         } else {
             errorMessage.append("       Entity      " + entity.getType() + "\n" + "       Key Fields  "
                     + entityConfig.getKeyFields() + "\n");
@@ -293,7 +280,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
                         fieldValue));
             }
         } catch (Exception e) {
-            report.error(reportStats, source, CoreMessageCode.CORE_0012, errorMessage.toString());
+            report.error(reportStats, new ElementSourceImpl(entity), CoreMessageCode.CORE_0012, errorMessage.toString());
         }
 
         return query;

@@ -23,29 +23,25 @@ class CustomRolesController < ApplicationController
   # GET /realms
   # GET /realms.json
   def index
-    custom_role = CustomRole.find(:first)
-    if custom_role != nil
-      redirect_to  :action => "show", :id => custom_role.id
+    custom_role = CustomRole.all
+    if !custom_role.nil? and custom_role.size == 1
+      redirect_to  :action => "show", :id => custom_role[0].realmId
     else
-      message = (APP_CONFIG["is_sandbox"] ? "No custom roles exist.  First create a landing zone in the Provizion Landing Zone tool." :
-          "No custom roles exist.  First create a realm in the Realm Management tool.")
-      flash.now[:notice] = message
-      respond_to do |format|
-        format.html # index.html.erb
-      end
+      redirect_to realm_management_index_path
     end
   end
 
 
   # # GET /realms/1/
   def show
-    @custom_roles = CustomRole.find(params[:id])
+    @custom_roles = CustomRole.find(:first, :params => {"realmId" => params[:id]})
+    logger.debug {"Custom Roles: #{@custom_roles.to_json}"}
     @default_roles = CustomRole.defaults()
   end
 
   # # PUT /realms/1
   def update
-    @custom_roles = CustomRole.find(params[:id])
+    @custom_roles = CustomRole.find(:first, :params => {"realmId" => params[:id]})
     respond_to do |format|
       success = false
       errorMsg = ""
