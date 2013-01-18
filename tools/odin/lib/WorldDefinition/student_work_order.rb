@@ -155,12 +155,8 @@ class StudentWorkOrder
   private
 
   def parents(student)
-    if @scenario.include_entity? "Parent"
-      [:mom, :dad].map{|type|
-        [Parent.new(student, type), StudentParentAssociation.new(student, type)]}.flatten
-    else
-      []
-    end
+    [:mom, :dad].map{|type|
+      [Parent.new(student, type), StudentParentAssociation.new(student, type)]}.flatten
   end
 
   def per_year_info

@@ -1157,6 +1157,7 @@ When /^a batch job log (has|has not) been created$/ do |has_or_has_not|
 end
 
 When /^a batch job has completed successfully in the database$/ do
+   disable_NOTABLESCAN()
    old_db = @db
    @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
    @entity_collection = @db.collection("newBatchJob")

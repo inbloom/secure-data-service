@@ -110,6 +110,12 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         }
         Boolean isInstalled = (Boolean) app.getBody().get("installed");
 
+        String appRedirectUri = (String) app.getBody().get("redirect_uri");
+        if (!isInstalled && (appRedirectUri == null || appRedirectUri.trim().length() == 0)) {
+        	RuntimeException x = new RedirectMismatchException("No redirect_uri specified on non-installed app");
+        	error(x.getMessage());
+        	throw x;
+        }
         if (!isInstalled && redirectUri != null && !redirectUri.startsWith((String) app.getBody().get("redirect_uri"))) {
             RuntimeException x = new RedirectMismatchException("Invalid redirect_uri specified " + redirectUri);
             error(x.getMessage() + " expected " + app.getBody().get("redirect_uri"), x);
