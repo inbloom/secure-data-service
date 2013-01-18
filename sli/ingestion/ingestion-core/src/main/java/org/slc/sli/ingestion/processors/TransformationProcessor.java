@@ -164,8 +164,8 @@ public class TransformationProcessor implements Processor {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         LogUtil.error(LOG, "Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
-            Source source = new ProcessorSource(null, BATCH_JOB_STAGE.getName());
-            databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0027, exception.getMessage());
+            databaseMessageReport.error(reportStats, new ProcessorSource(BATCH_JOB_STAGE.getName()),
+                    CoreMessageCode.CORE_0027, exception.getMessage());
         }
     }
 

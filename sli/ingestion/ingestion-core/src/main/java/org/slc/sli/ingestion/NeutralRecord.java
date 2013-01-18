@@ -39,13 +39,14 @@ import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slc.sli.ingestion.reporting.ElementSource;
 
 /**
  * Container format to store any type of Ingestion data generically.
  *
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class NeutralRecord implements Cloneable, Resource {
+public class NeutralRecord implements Cloneable, Resource, ElementSource {
 
     private static final ObjectMapper MAPPER = new ObjectMapper();
 
@@ -320,6 +321,12 @@ public class NeutralRecord implements Cloneable, Resource {
         this.locationInSourceFile = locationInSourceFile;
     }
 
+    @Override
+    public String getElementType() {
+        return recordType;
+    }
+
+    @Override
     public int getVisitBeforeLineNumber() {
         return visitBeforeLineNumber;
     }
@@ -328,6 +335,7 @@ public class NeutralRecord implements Cloneable, Resource {
         this.visitBeforeLineNumber = visitBeforeLineNumber;
     }
 
+    @Override
     public int getVisitBeforeColumnNumber() {
         return visitBeforeColumnNumber;
     }

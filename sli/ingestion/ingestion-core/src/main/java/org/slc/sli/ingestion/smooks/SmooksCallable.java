@@ -134,12 +134,10 @@ public class SmooksCallable implements Callable<Boolean> {
             LogUtil.error(LOG,
                     "Error generating neutral record: Could not instantiate smooks, unable to read configuration file",
                     e);
-            Source source = new FileSource(fe.getResourceId(), BatchJobStageType.EDFI_PROCESSOR.getName());
-            messageReport.error(reportStats, source, CoreMessageCode.CORE_0053);
+            messageReport.error(reportStats, new FileSource(fe.getResourceId()), CoreMessageCode.CORE_0053);
         } catch (SAXException e) {
             LogUtil.error(LOG, "Could not instantiate smooks, problem parsing configuration file", e);
-            Source source = new FileSource(fe.getResourceId(), BatchJobStageType.EDFI_PROCESSOR.getName());
-            messageReport.error(reportStats, source, CoreMessageCode.CORE_0054);
+            messageReport.error(reportStats, new FileSource(fe.getResourceId()), CoreMessageCode.CORE_0054);
         }
     }
 
@@ -161,8 +159,7 @@ public class SmooksCallable implements Callable<Boolean> {
 
             } catch (SmooksException se) {
                 LogUtil.error(LOG, "smooks exception - encountered problem with " + fe.getFileName(), se);
-                Source source = new FileSource(fe.getResourceId(), BatchJobStageType.EDFI_PROCESSOR.getName());
-                messageReport.error(reportStats, source, CoreMessageCode.CORE_0055,
+                messageReport.error(reportStats, new FileSource(fe.getResourceId()), CoreMessageCode.CORE_0055,
                         fe.getFileName());
             }
         } finally {

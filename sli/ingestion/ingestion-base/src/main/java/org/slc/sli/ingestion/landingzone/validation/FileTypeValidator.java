@@ -44,9 +44,7 @@ public class FileTypeValidator implements Validator<IngestionFileEntry> {
         FileType fileType = entry.getFileType();
 
         if (fileType == null) {
-            // we know more of our source
-            Source newsource = new ControlFileSource(source, entry.getFileName());
-            report.error(reportStats, newsource, BaseMessageCode.BASE_0018, entry.getFileName(), "type");
+            report.error(reportStats, new ControlFileSource(source.getResourceId(), entry), BaseMessageCode.BASE_0018, entry.getFileName(), "type");
 
             return false;
         }

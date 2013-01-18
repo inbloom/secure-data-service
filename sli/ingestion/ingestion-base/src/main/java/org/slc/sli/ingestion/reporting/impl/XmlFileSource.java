@@ -15,7 +15,7 @@
  */
 package org.slc.sli.ingestion.reporting.impl;
 
-import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 
 /**
  * 
@@ -24,17 +24,12 @@ import org.slc.sli.ingestion.reporting.Source;
  */
 public class XmlFileSource extends FileSource
 {
-    private String xmlFileName;
+    private final String xmlFileName;
 
-    public XmlFileSource(Source source, String xmlFileName)
+    public XmlFileSource(IngestionFileEntry entry) 
     {
-        super(source == null ? null : source.getResourceId(), source == null ? null : source.getStageName());
-        this.xmlFileName = xmlFileName;
-    }
-
-    public XmlFileSource(String resourceId, String stageName) 
-    {
-        super(resourceId, stageName);
+        super(entry.getFileName());
+        this.xmlFileName = entry.getFileName();
     }
 
     @Override
