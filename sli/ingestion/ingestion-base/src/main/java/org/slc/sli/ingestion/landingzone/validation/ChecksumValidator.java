@@ -48,11 +48,8 @@ public class ChecksumValidator implements Validator<IngestionFileEntry> {
     public boolean isValid(IngestionFileEntry fe, AbstractMessageReport report, ReportStats reportStats,
             Source source) {
 
-        // we know more of our source
-        Source newsource = new ControlFileSource(source, fe.getFileName());
-
         if (StringUtils.isBlank(fe.getChecksum())) {
-            report.error(reportStats, newsource, BaseMessageCode.BASE_0007, fe.getFileName());
+            report.error(reportStats, new ControlFileSource(source.getResourceId(), fe), BaseMessageCode.BASE_0007, fe.getFileName());
 
             return false;
         }
@@ -76,7 +73,7 @@ public class ChecksumValidator implements Validator<IngestionFileEntry> {
             String[] args = { fe.getFileName(), actualMd5Hex, fe.getChecksum() };
             LOG.debug("File [{}] checksum ({}) does not match control file checksum ({}).", args);
 
-            report.error(reportStats, newsource, BaseMessageCode.BASE_0006, fe.getFileName());
+            report.error(reportStats, new ControlFileSource(source.getResourceId(), fe), BaseMessageCode.BASE_0006, fe.getFileName());
 
             return false;
         }

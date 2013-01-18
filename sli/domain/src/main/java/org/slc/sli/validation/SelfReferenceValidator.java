@@ -72,7 +72,7 @@ public class SelfReferenceValidator {
                         LOG.error(e.getMessage(), e);
                     }
                     errors.add(new ValidationError(ErrorType.SELF_REFERENCING_DATA, selfReferencePath,
-                            property, new String[] { "Reference to a seperate entity" }));
+                            property, new String[] { "Reference to a separate entity" }));
                     return false;
                 }
                 return true;

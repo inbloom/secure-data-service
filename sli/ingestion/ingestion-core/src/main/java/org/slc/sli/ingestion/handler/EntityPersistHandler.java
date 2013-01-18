@@ -23,30 +23,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.mongodb.MongoException;
-
 import org.apache.commons.beanutils.PropertyUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.NestedRuntimeException;
-import org.springframework.dao.DuplicateKeyException;
-
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
-import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.JobSource;
-import org.slc.sli.ingestion.reporting.impl.NeutralRecordSource;
+import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.transformation.normalization.ComplexKeyField;
 import org.slc.sli.ingestion.transformation.normalization.EntityConfig;
@@ -59,6 +47,15 @@ import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.schema.AppInfo;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.slc.sli.validation.schema.NeutralSchema;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.NestedRuntimeException;
+import org.springframework.dao.DuplicateKeyException;
+
+import com.mongodb.MongoException;
 
 /**
  * Handles the persisting of Entity objects
@@ -139,7 +136,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     }
 
     boolean update(String collectionName, Entity entity, List<Entity> failed, AbstractMessageReport report,
-            ReportStats reportStats, NeutralRecordSource nrSource) {
+            ReportStats reportStats, Source nrSource) {
         boolean res = false;
 
         try {
@@ -166,12 +163,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
         EntityConfig entityConfig = entityConfigurations.getEntityConfiguration(entities.get(0).getType());
 
         for (SimpleEntity entity : entities) {
-            NeutralRecordSource source = new NeutralRecordSource(entity.getResourceId(), getStageName(),
-                    entity.getType(), entity.getVisitBeforeLineNumber(), entity.getVisitBeforeColumnNumber(),
-                    entity.getVisitAfterLineNumber(), entity.getVisitAfterColumnNumber());
 
             if (entity.getEntityId() != null) {
-                update(collectionName, entity, failed, report, reportStats, source);
+                update(collectionName, entity, failed, report, reportStats, new ElementSourceImpl(entity));
             } else {
                 preMatchEntity(memory, entityConfig, report, entity, reportStats);
             }
@@ -179,16 +173,13 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
 
         for (Map.Entry<List<Object>, SimpleEntity> entry : memory.entrySet()) {
             SimpleEntity entity = entry.getValue();
-            NeutralRecordSource source = new NeutralRecordSource(entity.getResourceId(), getStageName(),
-                    entity.getType(), entity.getVisitBeforeLineNumber(), entity.getVisitBeforeColumnNumber(),
-                    entity.getVisitAfterLineNumber(), entity.getVisitAfterColumnNumber());
             LOG.debug("Processing: {}", entity.getType());
             try {
                 validator.validate(entity);
                 addTimestamps(entity);
                 queued.add(entity);
             } catch (EntityValidationException e) {
-                reportErrors(e.getValidationErrors(), entity, report, reportStats, source);
+                reportErrors(e.getValidationErrors(), entity, report, reportStats, new ElementSourceImpl(entity));
                 failed.add(entity);
             }
         }
@@ -206,11 +197,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             // Try to do individual upsert again for other exceptions
             for (Entity entity : queued) {
                 SimpleEntity simpleEntity = (SimpleEntity) entity;
-                NeutralRecordSource source = new NeutralRecordSource(simpleEntity.getResourceId(), getStageName(),
-                        simpleEntity.getType(), simpleEntity.getVisitBeforeLineNumber(),
-                        simpleEntity.getVisitBeforeColumnNumber(), simpleEntity.getVisitAfterLineNumber(),
-                        simpleEntity.getVisitAfterColumnNumber());
-                update(collectionName, entity, failed, report, reportStats, source);
+                update(collectionName, entity, failed, report, reportStats, new ElementSourceImpl(simpleEntity));
             }
         }
 
@@ -248,19 +235,13 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             AbstractMessageReport report, SimpleEntity entity, ReportStats reportStats) {
         List<String> keyFields = entityConfig.getKeyFields();
         ComplexKeyField complexField = entityConfig.getComplexKeyField();
-        NeutralRecordSource source = new NeutralRecordSource(entity.getResourceId(), getStageName(),
-                entity.getType(),
-                entity.getVisitBeforeLineNumber(),
-                entity.getVisitBeforeColumnNumber(),
-                entity.getVisitAfterLineNumber(),
-                entity.getVisitAfterColumnNumber());
         if (keyFields.size() > 0) {
             List<Object> keyValues = new ArrayList<Object>();
             for (String field : keyFields) {
                 try {
                     keyValues.add(PropertyUtils.getProperty(entity, field));
                 } catch (Exception e) {
-                    report.error(reportStats, source, CoreMessageCode.CORE_0008, null, field, entity.getType());
+                    report.error(reportStats, new ElementSourceImpl(entity), CoreMessageCode.CORE_0008, null, field, entity.getType());
                 }
 
                 if (complexField != null) {
@@ -269,7 +250,7 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
                     try {
                         keyValues.add(PropertyUtils.getProperty(entity, propertyString));
                     } catch (Exception e) {
-                        report.error(reportStats, source, CoreMessageCode.CORE_0052, null, field, entity.getType());
+                        report.error(reportStats, new ElementSourceImpl(entity), CoreMessageCode.CORE_0052, null, field, entity.getType());
                     }
                 }
 
@@ -353,16 +334,13 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
     @Override
     protected Entity doHandling(SimpleEntity item, AbstractMessageReport report, ReportStats reportStats,
             FileProcessStatus fileProcessStatus) {
-        Source source = new NeutralRecordSource(item.getResourceId(), getStageName(), item.getType(),
-                item.getVisitBeforeLineNumber(), item.getVisitBeforeColumnNumber(),
-                item.getVisitAfterLineNumber(), item.getVisitAfterColumnNumber());
         try {
             return persist(item);
         } catch (EntityValidationException ex) {
-            reportErrors(ex.getValidationErrors(), item, report, reportStats, source);
+            reportErrors(ex.getValidationErrors(), item, report, reportStats, new ElementSourceImpl(item));
         } catch (DuplicateKeyException ex) {
             reportWarnings(ex.getMostSpecificCause().getMessage(), item.getType(), item.getSourceFile(), report,
-                    reportStats, source);
+                    reportStats, new ElementSourceImpl(item));
         }
         return null;
     }

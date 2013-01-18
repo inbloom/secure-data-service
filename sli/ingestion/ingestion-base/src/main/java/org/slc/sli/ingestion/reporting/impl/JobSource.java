@@ -26,21 +26,14 @@ import org.slc.sli.ingestion.reporting.Source;
 public class JobSource implements Source {
 
     private String resourceId;
-    private String stageName;
 
-    public JobSource(String resourceId, String stageName) {
+    public JobSource(String resourceId) {
         this.resourceId = resourceId;
-        this.stageName = stageName;
     }
 
     @Override
     public String getResourceId() {
         return resourceId;
-    }
-
-    @Override
-    public String getStageName() {
-        return stageName;
     }
 
     @Override

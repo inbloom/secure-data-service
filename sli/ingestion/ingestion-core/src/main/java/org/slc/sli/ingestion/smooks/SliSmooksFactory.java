@@ -72,8 +72,7 @@ public class SliSmooksFactory implements BatchJobStage {
                     ingestionFileEntry.getBatchJobId(), ingestionFileEntry);
 
         } else {
-            Source source = new FileSource(ingestionFileEntry.getResourceId(), getStageName());
-            errorReport.error(reportStats, source, CoreMessageCode.CORE_0013, fileType);
+            errorReport.error(reportStats, new FileSource(ingestionFileEntry.getResourceId()), CoreMessageCode.CORE_0013, fileType);
             throw new IllegalArgumentException("File type not supported : " + fileType);
         }
     }

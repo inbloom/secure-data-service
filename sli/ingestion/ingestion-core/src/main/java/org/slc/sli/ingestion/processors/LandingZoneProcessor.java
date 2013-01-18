@@ -174,8 +174,7 @@ public class LandingZoneProcessor implements Processor {
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOG.error("LandingZoneProcessor: {} is not a zip file.", lzFileName);
         if (batchJobId != null) {
-            Source source = new DirectorySource(lzDirectoryPathName, lzFileName, LZ_STAGE.getName());
-            databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0058, lzFileName);
+            databaseMessageReport.error(reportStats, new DirectorySource(lzDirectoryPathName, lzFileName), CoreMessageCode.CORE_0058, lzFileName);
         }
     }
 

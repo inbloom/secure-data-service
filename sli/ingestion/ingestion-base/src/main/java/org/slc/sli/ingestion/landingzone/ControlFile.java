@@ -114,8 +114,7 @@ public class ControlFile extends IngestionFileEntry {
         }
 
         // line was not parse-able
-        Source source = new ControlFileSource(getFileName(), "Control File Parsing", lineNumber, line);
-        report.error(new SimpleReportStats(), source, BaseMessageCode.BASE_0016);
+        report.error(new SimpleReportStats(), new ControlFileSource(this, lineNumber, line), BaseMessageCode.BASE_0016);
         throw new SubmissionLevelException("line was not parseable");
     }
 

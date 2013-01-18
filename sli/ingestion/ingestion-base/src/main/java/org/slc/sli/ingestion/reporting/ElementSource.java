@@ -13,26 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.slc.sli.ingestion.reporting.impl;
+
+package org.slc.sli.ingestion.reporting;
 
 /**
  * 
  * @author slee
  *
  */
-public class DirectorySource extends JobSource
+public interface ElementSource extends BasicSource
 {
-    private final String directoryPath;
-
-    public DirectorySource(String directoryPath, String resourceId)
-    {
-        super(resourceId);
-        this.directoryPath = directoryPath;
-    }
-
-    @Override
-    public String getUserFriendlyMessage() {
-        return directoryPath == null ? "" : directoryPath;
-    }
+    int getVisitBeforeLineNumber();
+    int getVisitBeforeColumnNumber();
+    String getElementType();
 
 }

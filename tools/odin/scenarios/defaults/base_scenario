@@ -143,6 +143,7 @@ INCLUDE_PARENTS: true
 
 #discipline
 INCIDENTS_PER_SECTION: 2
+LIKELYHOOD_STUDENT_WAS_INVOLVED: .5
 BEHAVIORS: [
   { short: "Fighting", desc: "Fighting with another student", category: "School Violation" },
   { short: "Disruption", desc: "Disrupting class", category: "School Code of Conduct" },

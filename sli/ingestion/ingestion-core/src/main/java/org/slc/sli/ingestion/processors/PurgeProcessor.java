@@ -214,8 +214,8 @@ public class PurgeProcessor implements Processor {
     }
 
     private void handleNoTenantId(String batchJobId) {
-        Source source = new ProcessorSource(null, BATCH_JOB_STAGE.getName());
-        databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0035);
+        databaseMessageReport.error(reportStats, new ProcessorSource(BATCH_JOB_STAGE.getName()),
+                CoreMessageCode.CORE_0035);
     }
 
     private void handleProcessingExceptions(Exchange exchange, String batchJobId, Exception exception) {
@@ -223,8 +223,8 @@ public class PurgeProcessor implements Processor {
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         exchange.setProperty("purge.complete", "Errors encountered during purge process");
 
-        Source source = new ProcessorSource(null, BATCH_JOB_STAGE.getName());
-        databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0036, exception.toString());
+        databaseMessageReport.error(reportStats, new ProcessorSource(BATCH_JOB_STAGE.getName()),
+                CoreMessageCode.CORE_0036, exception.toString());
     }
 
     private String getBatchJobId(Exchange exchange) {
