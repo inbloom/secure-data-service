@@ -1,1 +1,1 @@
-db.newBatchJob.find({"resourceEntries.0.resourceId":"Day1_Run1.zip", "status":{"$in":["CompletedSuccessfully", "CompletedWithErrors"]}}).count()
+db.newBatchJob.find({"resourceEntries.0.resourceId":"dataset.zip", "status":{"$in":["CompletedSuccessfully", "CompletedWithErrors"]}}).count()
