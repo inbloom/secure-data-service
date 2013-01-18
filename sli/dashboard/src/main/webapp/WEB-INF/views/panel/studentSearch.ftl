@@ -25,7 +25,7 @@
 </form>
 
    <div class="banner-label">
-     DASHBOARD
+     dashboard
    </div>
 
 </div>

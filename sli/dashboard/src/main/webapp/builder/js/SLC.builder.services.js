@@ -167,11 +167,11 @@ angular.module('SLC.builder.sharedServices', ['ngResource'])
 			$rootScope.saveStatus = status;
 
 			if(status) {
-				$(".publish_button").removeAttr("disabled").addClass("btn-primary");
+				$(".publish_button").removeAttr("disabled").addClass("btn-info");
 				$(".restore_button").removeAttr("disabled");
 			}
 			else {
-				$(".publish_button").attr("disabled", "true").removeClass("btn-primary");
+				$(".publish_button").attr("disabled", "true").removeClass("btn-info");
 				$(".restore_button").attr("disabled", "true");
 			}
 		}

@@ -1,28 +1,28 @@
 development:
     #api_base: https://devapp1.slidev.org/api/rest/v1
     #api_base: https://nxbuild2.slidev.org/api/rest/v1
-    portal_url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter
+    portal_url: http://local.slidev.org:7000/headerfooter-portlet/api/secure/jsonws/headerfooter
     api_base: http://local.slidev.org:8080/api/rest/v1
     client_id: 2zhRrEXh8r
     client_secret: uOoKXLWihlz39EEQ7Uoqqc7TeogsnQnDAUs3HWYFouZFG5sk
     redirect_uri: http://local.slidev.org:3000/callback
 team:
-    portal_url: https://nxportal.slidev.org/portal/headerfooter-portlet/api/secure/jsonws/headerfooter
+    portal_url: http://local.slidev.org:7000/portal/headerfooter-portlet/api/secure/jsonws/headerfooter
     api_base: https://ci.slidev.org/api/rest/v1
     client_id: G9tjgDx1aL
     client_secret: GTV8WeZSuRz2kR3GKyHLjYmtRMeRspHJTFXv72SBj81OccS3
     redirect_uri: https://ci.slidev.org:2000/callback
 production:
-    portal_url: https://nxportal.slidev.org/portal/headerfooter-portlet/api/secure/jsonws/headerfooter
+    portal_url: http://local.slidev.org:7000/portal/headerfooter-portlet/api/secure/jsonws/headerfooter
     api_base: https://ci.slidev.org/api/rest/v1
     client_id: G9tjgDx1aL
     client_secret: GTV8WeZSuRz2kR3GKyHLjYmtRMeRspHJTFXv72SBj81OccS3
     redirect_uri: https://ci.slidev.org:2000/callback
 test:
-    portal_url: https://nxportal.slidev.org/portal/headerfooter-portlet/api/secure/jsonws/headerfooter
+    portal_url: http://local.slidev.org:7000/portal/headerfooter-portlet/api/secure/jsonws/headerfooter
     api_base: https://devapp1.slidev.org/api/rest/v1
 local-acceptance-tests:
-    portal_url: https://nxportal.slidev.org/portal/headerfooter-portlet/api/secure/jsonws/headerfooter
+    portal_url: http://local.slidev.org:7000/portal/headerfooter-portlet/api/secure/jsonws/headerfooter
     api_base: http://local.slidev.org:8080/api/rest/v1
     client_id: 2zhRrEXh8r
     client_secret: uOoKXLWihlz39EEQ7Uoqqc7TeogsnQnDAUs3HWYFouZFG5sk
