@@ -205,7 +205,7 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
                             @Override
                             public String getElementType()
                             {
-                                return null;
+                                return parseFile.getName();
                             }}
                 );
                 

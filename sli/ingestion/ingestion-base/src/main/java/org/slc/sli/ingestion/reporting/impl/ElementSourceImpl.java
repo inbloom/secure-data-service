@@ -6,39 +6,43 @@ import org.slc.sli.ingestion.reporting.ElementSource;
 
 public class ElementSourceImpl extends JobSource implements ElementSource
 {
-    private final ElementSource source;
+    private final int visitBeforeLineNumber;
+    private final int visitBeforeColumnNumber;
+    private final String elementType;
 
     public ElementSourceImpl(ElementSource source)
     {
         super(source.getResourceId());
-        this.source = source;
+        this.visitBeforeLineNumber = source.getVisitBeforeLineNumber();
+        this.visitBeforeColumnNumber = source.getVisitBeforeColumnNumber();
+        this.elementType = source.getElementType();
     }
 
     @Override
     public int getVisitBeforeLineNumber()
     {
-        return source.getVisitBeforeLineNumber();
+        return visitBeforeLineNumber;
     }
 
     @Override
     public int getVisitBeforeColumnNumber()
     {
-        return source.getVisitBeforeColumnNumber();
+        return visitBeforeColumnNumber;
     }
 
     @Override
     public String getElementType()
     {
-        return source.getElementType();
+        return elementType;
     }
 
     @Override
     public String getUserFriendlyMessage() {
-        Object[] arguments = { getElementType(), 
-                new Integer(getVisitBeforeLineNumber()), 
-                new Integer(getVisitBeforeColumnNumber())};
+        Object[] arguments = { elementType == null ? "Element" : elementType, 
+                new Integer(visitBeforeLineNumber), 
+                new Integer(visitBeforeColumnNumber)};
 
-        return MessageFormat.format("Element:" + "line-{1}," + "column-{2}", arguments);
+        return MessageFormat.format("{0}:" + "line-{1}," + "column-{2}", arguments);
     }
 
 }
