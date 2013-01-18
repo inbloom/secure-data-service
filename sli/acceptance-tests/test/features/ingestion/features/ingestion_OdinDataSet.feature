@@ -5,7 +5,6 @@ Given I am using odin data store
 
 Scenario: Post Odin Sample Data Set
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
-  And the tenant database for "Midgar" does not exist
   And I post "OdinSampleDataSet.zip" file as the payload of the ingestion job
   And the following collections are empty in datastore:
      | collectionName                            |
