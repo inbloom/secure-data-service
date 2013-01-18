@@ -62,14 +62,14 @@ public class DateFilterCriteriaGenerator {
 
             // Find appropriate entity to apply filter
             // [JS] refactor this so that findEntity isn't modifying the instance variable
-            entityIdentifier.findEntity(request.getPath());
+            EntityFilterInfo entityFilterInfo = entityIdentifier.findEntity(request.getPath());
 
             // [JS] Change to static builder?
             // This seems strange to me, since builders should be creating an object, but we are creating then throwing
             // away
-            builder().forEntity(entityIdentifier.getEntityName())
-                .withDateAttributes(entityIdentifier.getBeginDateAttribute(), entityIdentifier.getEndDateAttribute())
-                    .withSessionAttribute(entityIdentifier.getSessionAttribute())
+            builder().forEntity(entityFilterInfo.getEntityName())
+                .withDateAttributes(entityFilterInfo.getBeginDateAttribute(), entityFilterInfo.getEndDateAttribute())
+                    .withSessionAttribute(entityFilterInfo.getSessionAttribute())
                 .startingFrom(sessionDateInfo.getStartDate())
                 .endingTo(sessionDateInfo.getEndDate())
                 .withSessionIds(sessionDateInfo.getSessionIds())

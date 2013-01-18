@@ -23,9 +23,7 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.model.ModelProvider;
 import org.slc.sli.modeling.uml.AssociationEnd;
-import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
-import org.slc.sli.modeling.uml.TaggedValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -47,56 +45,27 @@ public class EntityIdentifier {
     @Autowired
     private EntityDefinitionStore entityDefinitionStore;
 
-    private String entityName;
-    private String beginDateAttribute;
-    private String endDateAttribute;
 
-    public String getSessionAttribute() {
-        return sessionAttribute;
-    }
-
-    private String sessionAttribute;
-
-    public String getEntityName() {
-        return entityName;
-    }
-
-    public void setEntityName(String entityName) {
-        this.entityName = entityName;
-    }
-
-    public String getBeginDateAttribute() {
-        return beginDateAttribute;
-    }
-
-    public void setBeginDateAttribute(String beginDateAttribute) {
-        this.beginDateAttribute = beginDateAttribute;
-    }
-
-    public String getEndDateAttribute() {
-        return endDateAttribute;
-    }
-
-    public void setEndDateAttribute(String endDateAttribute) {
-        this.endDateAttribute = endDateAttribute;
-    }
 
     // [JS] findXXXX methods shouldn't be void
-    public void findEntity(String request) {
+    public EntityFilterInfo findEntity(String request) {
+        EntityFilterInfo entityFilterInfo = new EntityFilterInfo();
         List<String> resources = Arrays.asList(request.split("/"));
         String resource = resources.get(resources.size() - 1);
         EntityDefinition definition = entityDefinitionStore.lookupByResourceName(resource);
         ClassType entityType = modelProvider.getClassType(StringUtils.capitalize(definition.getType()));
-        if (populateDateAttributes(entityType)) {
-            entityName = resource;
+        if (populateDateAttributes(entityFilterInfo, entityType) || populateSessionAttribute(entityFilterInfo, entityType)) {
+            entityFilterInfo.setEntityName(resource);
         }
         else {
+
             List<String> associations = modelProvider.getAssociatedDatedEntities(entityType);
             for (String association: associations) {
                 // [JS] revisit this
                 if (request.toLowerCase().contains(association.toLowerCase())) {
-                    populateDateAttributes(modelProvider.getClassType(association));
-                    entityName = request.substring(request.toLowerCase().indexOf(association.toLowerCase())).split("/")[0];
+                    populateDateAttributes(entityFilterInfo, modelProvider.getClassType(association));
+                    entityFilterInfo.setEntityName(request.substring(request.toLowerCase().indexOf(association.toLowerCase())).split("/")[0]);
+                    break;
                 }
             }
         }
@@ -104,25 +73,28 @@ public class EntityIdentifier {
 //        if (entityName.isEmpty() || beginDateAttribute.isEmpty() || endDateAttribute.isEmpty()) {
 //            throw new IllegalArgumentException("Cannot Identify execution path for uri " + request);
 //        }
+        return entityFilterInfo;
     }
 
-    private boolean populateSessionAttribute(ClassType entityType) {
+
+    private boolean populateSessionAttribute(EntityFilterInfo entityFilterInfo, ClassType entityType) {
         for (AssociationEnd assoc : modelProvider.getAssociationEnds(entityType.getId())) {
             if (assoc.getName().equals("session")) {
-                sessionAttribute = assoc.getAssociatedAttributeName();
+                entityFilterInfo.setSessionAttribute( assoc.getAssociatedAttributeName());
             }
         }
-        return !sessionAttribute.isEmpty();
+        return !(entityFilterInfo.getSessionAttribute()!=null && entityFilterInfo.getSessionAttribute().isEmpty());
     }
 
 
     // [JS] Can one of these fail and the other succeed? If so, we may end up with an object in inconsistent state,
     // if beginDateAttribute && endDateAttribute are required
-    private boolean populateDateAttributes(ClassType entityType) {
+    private boolean populateDateAttributes(EntityFilterInfo entityFilterInfo, ClassType entityType) {
 
-        beginDateAttribute = (entityType.getBeginDateAttribute() != null) ? entityType.getBeginDateAttribute().getName() : "";
-        endDateAttribute = (entityType.getEndDateAttribute() != null) ? entityType.getEndDateAttribute().getName() : "";
+        entityFilterInfo.setBeginDateAttribute((entityType.getBeginDateAttribute() != null) ? entityType.getBeginDateAttribute().getName() : "");
+        entityFilterInfo.setEndDateAttribute((entityType.getEndDateAttribute() != null) ? entityType.getEndDateAttribute().getName() : "");
 
-        return !(beginDateAttribute.isEmpty() && endDateAttribute.isEmpty());
+        return !(entityFilterInfo.getBeginDateAttribute()!= null && entityFilterInfo.getBeginDateAttribute().isEmpty()
+                && entityFilterInfo.getEndDateAttribute()!= null && entityFilterInfo.getEndDateAttribute().isEmpty());
     }
 }
