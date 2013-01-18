@@ -99,16 +99,7 @@ public class EntityIdentifier {
     }
 
     private String getEntityName(ClassType entityType) {
-        String typeName = StringUtils.uncapitalize(entityType.getName());
-        if (typeName.endsWith("y")) {
-            return typeName.substring(0, typeName.length() - 1).concat("ies");
-        } else if (typeName.endsWith("s")) {
-            return typeName;
-        } else if (typeName.equalsIgnoreCase("staff")) {
-            return typeName;
-        } else {
-            return typeName.concat("s");
-        }
+       return StringUtils.uncapitalize(entityType.getName());
     }
 
 

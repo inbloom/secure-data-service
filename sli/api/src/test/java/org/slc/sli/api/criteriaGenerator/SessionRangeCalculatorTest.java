@@ -16,8 +16,6 @@
 
 package org.slc.sli.api.criteriaGenerator;
 
-import java.util.*;
-
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Assert;
@@ -34,6 +32,8 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
+
+import java.util.*;
 
 /**
  * @author: sashton

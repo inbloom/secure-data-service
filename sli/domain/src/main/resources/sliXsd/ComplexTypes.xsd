@@ -2002,6 +2002,7 @@
 						<sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:beginDate>yes</sli:beginDate>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2013,6 +2014,7 @@
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:endDate>yes</sli:endDate>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2112,6 +2114,7 @@
 						<sli:ReadEnforcement><sli:allowedBy>READ_RESTRICTED</sli:allowedBy></sli:ReadEnforcement>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_RESTRICTED</sli:allowedBy></sli:WriteEnforcement>
 						<sli:naturalKey>true</sli:naturalKey>
+                        <sli:beginDate>yes</sli:beginDate>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2125,6 +2128,7 @@
 					<xs:appinfo>
 						<sli:ReadEnforcement><sli:allowedBy>READ_RESTRICTED</sli:allowedBy></sli:ReadEnforcement>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_RESTRICTED</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:endDate>yes</sli:endDate>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2232,6 +2236,7 @@
 						<sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:beginDate>yes</sli:beginDate>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2243,6 +2248,7 @@
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:endDate>yes</sli:endDate>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3673,6 +3679,7 @@
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:beginDate>yes</sli:beginDate>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3683,6 +3690,7 @@
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:endDate>yes</sli:endDate>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3752,6 +3760,7 @@
 						<sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:beginDate>yes</sli:beginDate>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3765,6 +3774,7 @@
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:endDate>yes</sli:endDate>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3992,6 +4002,7 @@
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:beginDate>yes</sli:beginDate>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4003,6 +4014,7 @@
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:endDate>yes</sli:endDate>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4250,6 +4262,7 @@
 						<sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:beginDate>yes</sli:beginDate>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4263,6 +4276,7 @@
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:endDate>yes</sli:endDate>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4344,6 +4358,7 @@
 						<sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:beginDate>yes</sli:beginDate>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4356,6 +4371,7 @@
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:endDate>yes</sli:endDate>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5268,6 +5284,7 @@
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:beginDate>yes</sli:beginDate>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -5280,6 +5297,7 @@
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:endDate>yes</sli:endDate>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6217,6 +6235,7 @@
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:beginDate>yes</sli:beginDate>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -6227,6 +6246,7 @@
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:endDate>yes</sli:endDate>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -8094,6 +8114,7 @@
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:beginDate>yes</sli:beginDate>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -8105,6 +8126,7 @@
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:endDate>yes</sli:endDate>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
