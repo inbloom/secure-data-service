@@ -74,9 +74,10 @@ public class EntityIdentifier {
             for (String association : associations) {
                 // [JS] revisit this
                 if (request.toLowerCase().contains(association.toLowerCase())) {
-                    populateDateAttributes(entityFilterInfo, modelProvider.getClassType(association));
-                    entityFilterInfo.setEntityName(request.substring(request.toLowerCase().indexOf(association.toLowerCase())).split("/")[0]);
-                    break;
+                    if (!populateDateAttributes(entityFilterInfo, modelProvider.getClassType(association))) {
+                        populateConnectionPath(entityFilterInfo, association);
+                    }
+                   break;
                 }
             }
 
