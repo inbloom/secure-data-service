@@ -21,6 +21,8 @@ package org.slc.sli.api.criteriaGenerator;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: pghosh
@@ -29,6 +31,16 @@ import org.slc.sli.domain.NeutralQuery;
 public class GranularAccessFilter {
     private String entityName;
     private NeutralQuery neutralQuery;
+
+    public List<String> getConnectedEntityList() {
+        return connectedEntityList;
+    }
+
+    public void setConnectedEntityList(List<String> connectedEntityList) {
+        this.connectedEntityList = connectedEntityList;
+    }
+
+    private List<String> connectedEntityList;
 
     public String getEntityName() {
         return entityName;

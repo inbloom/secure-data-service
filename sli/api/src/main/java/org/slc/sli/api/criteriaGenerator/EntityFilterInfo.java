@@ -18,6 +18,8 @@
 
 package org.slc.sli.api.criteriaGenerator;
 
+import java.util.List;
+
 /**
  * Created with IntelliJ IDEA.
  * User: pghosh
@@ -29,6 +31,15 @@ public class EntityFilterInfo {
     private String entityName;
     private String beginDateAttribute;
     private String endDateAttribute;
+    private List<String> connectingEntityList;
+
+    public List<String> getConnectingEntityList() {
+        return connectingEntityList;
+    }
+
+    public void setConnectingEntityList(List<String> connectingEntityList) {
+        this.connectingEntityList = connectingEntityList;
+    }
 
     public String getSessionAttribute() {
         return sessionAttribute;

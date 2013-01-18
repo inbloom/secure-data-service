@@ -71,6 +71,7 @@ public class DateFilterCriteriaGenerator {
             // This seems strange to me, since builders should be creating an object, but we are creating then throwing
             // away
             GranularAccessFilter filter = new DateFilterCriteriaBuilder().forEntity(entityFilterInfo.getEntityName())
+                    .connectedBy(entityFilterInfo.getConnectingEntityList())
                     .withDateAttributes(entityFilterInfo.getBeginDateAttribute(), entityFilterInfo.getEndDateAttribute())
                     .withSessionAttribute(entityFilterInfo.getSessionAttribute())
                     .startingFrom(sessionDateInfo.getStartDate())
@@ -90,10 +91,14 @@ public class DateFilterCriteriaGenerator {
         private String endDateAttribute;
         private String sessionAttribute;
         private Set<String> sessionIds;
-        private boolean isSessionBasedQuery;
+        private List<String> connectingEntityList;
 
         public DateFilterCriteriaBuilder forEntity(String entityName) {
             this.entityName = entityName;
+            return this;
+        }
+        public DateFilterCriteriaBuilder connectedBy(List<String> connectingEntityList) {
+            this.connectingEntityList = connectingEntityList;
             return this;
         }
         public DateFilterCriteriaBuilder withDateAttributes(String beginDateAttribute, String endDateAttribute) {
@@ -124,6 +129,7 @@ public class DateFilterCriteriaGenerator {
             NeutralQuery neutralQuery = new NeutralQuery();
             granularAccessFilter.setEntityName(entityName);
             granularAccessFilter.setNeutralQuery(neutralQuery);
+            granularAccessFilter.setConnectedEntityList(connectingEntityList);
 
             if (StringUtils.isNotBlank(sessionAttribute)) {
                 NeutralCriteria sessionCriteria = new NeutralCriteria(sessionAttribute, NeutralCriteria.CRITERIA_IN, sessionIds);
