@@ -57,8 +57,8 @@ describe "WorkOrderProcessor" do
   let(:scenario) {Scenario.new({'BEGIN_YEAR' => 2001, 'NUMBER_OF_YEARS' => 2, 
                     'ASSESSMENTS_TAKEN' => {'GRADE_WIDE_ASSESSMENTS' => 5}, 'ASSESSMENTS_PER_GRADE'=>3,
                     'ASSESSMENT_ITEMS_PER_ASSESSMENT' => {'GRADE_WIDE_ASSESSMENTS' => 3},
-                    'STUDENTS_PER_SECTION' => {'high' => 2, 'middle' => 2, 'elementary' => 2},
                     'INCIDENTS_PER_SECTION' => 1,
+                    'LIKELYHOOD_STUDENT_WAS_INVOLVED' => 0.5,
                     'INCLUDE_PARENTS' => true, 'COHORTS_PER_SCHOOL' => 4, 'PROBABILITY_STUDENT_IN_COHORT' => 1, 'DAYS_IN_COHORT' => 30,
                     'COMPETENCY_LEVEL_DESCRIPTORS' => competency_level_descriptors})}
   describe "#build" do
@@ -207,7 +207,10 @@ describe "WorkOrderProcessor" do
         # single incident association each year
         # This may requiring tweaking some ideas, the important part is that they get generated in some cases
         # but not in others
-        factory.discipline_incidents.should have(2).items
+        discipline_incident_count = factory.discipline_incidents.length
+        student_section_count = factory.section_associations.length
+        discipline_incident_count.should be > 0
+        discipline_incident_count.should be < student_section_count
       end
 
       it "will generate discipline actions for each incident" do

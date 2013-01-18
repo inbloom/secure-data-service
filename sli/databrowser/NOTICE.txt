@@ -2,7 +2,7 @@
 
 Copyright 2012 Shared Learning Collaborative, LLC
 
-This product includes software developed by SLC (http://www.slcedu.org/).
+This product includes software developed by inBloom (http://www.slcedu.org/).
 
 %% The following software may be included in this product: 
 activeresource-response. Use of any of this software is governed by the terms 

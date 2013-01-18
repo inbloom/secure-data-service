@@ -205,8 +205,8 @@ public class ConcurrentEdFiProcessor implements Processor, ApplicationContextAwa
 
         if (batchJobId != null) {
             ReportStats reportStats = new SimpleReportStats();
-            Source source = new ProcessorSource(null, BATCH_JOB_STAGE.getName());
-            databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0021, batchJobId, exception.getMessage());
+            databaseMessageReport.error(reportStats, new ProcessorSource(BATCH_JOB_STAGE.getName()),
+                    CoreMessageCode.CORE_0021, batchJobId, exception.getMessage());
         }
     }
 

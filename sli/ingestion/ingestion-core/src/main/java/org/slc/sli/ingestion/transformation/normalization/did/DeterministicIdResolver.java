@@ -37,7 +37,7 @@ import org.slc.sli.ingestion.NeutralRecordEntity;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.NeutralRecordSource;
+import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
 import org.slc.sli.ingestion.transformation.normalization.IdResolutionException;
 
 /**
@@ -235,10 +235,7 @@ public class DeterministicIdResolver implements BatchJobStage {
     private void handleException(NeutralRecordEntity entity, String sourceRefPath, String entityType,
             String referenceType, Exception e, AbstractMessageReport report, ReportStats reportStats) {
         LOG.error("Error accessing indexed bean property " + sourceRefPath + " for bean " + entityType, e);
-        NeutralRecordSource source = new NeutralRecordSource(entity.getResourceId(), getStageName(), entity.getType(),
-                entity.getVisitBeforeLineNumber(), entity.getVisitBeforeColumnNumber(), entity.getVisitAfterLineNumber(),
-                entity.getVisitAfterColumnNumber());
-        report.error(reportStats, source, CoreMessageCode.CORE_0009, entityType, referenceType, sourceRefPath);
+        report.error(reportStats, new ElementSourceImpl(entity), CoreMessageCode.CORE_0009, entityType, referenceType, sourceRefPath);
     }
 
     // function which, given reference type map (source object) and refConfig, return a did

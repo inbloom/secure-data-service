@@ -50,7 +50,7 @@ public abstract class AbstractIngestionHandler<T extends Resource, O> implements
         if (preValidators != null) {
             for (Validator<T> validator : preValidators) {
                 validator.isValid(item, report, reportStats,
-                        new JobSource(item.getResourceId(), validator.getStageName()));
+                        new JobSource(item.getResourceId()));
             }
         }
     }
@@ -59,7 +59,7 @@ public abstract class AbstractIngestionHandler<T extends Resource, O> implements
         if (postValidators != null) {
             for (Validator<T> validator : postValidators) {
                 validator.isValid(item, report, reportStats,
-                        new JobSource(item.getResourceId(), validator.getStageName()));
+                        new JobSource(item.getResourceId()));
             }
         }
     }

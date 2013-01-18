@@ -34,7 +34,7 @@ import org.slc.sli.ingestion.reporting.MessageCode;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.AggregatedSource;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.NeutralRecordSource;
+import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -158,11 +158,6 @@ public class ObjectiveAssessmentBuilder {
             Map<String, Object> record = objectiveAssessment.getValue().getAttributes();
             Map<String, Object> objectiveAssessmentToReturn = new HashMap<String, Object>();
             NeutralRecord neutralRecord = objectiveAssessment.getValue();
-            NeutralRecordSource source = new NeutralRecordSource(neutralRecord.getSourceFile(), BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
-                    neutralRecord.getRecordType(),
-                    neutralRecord.getVisitBeforeLineNumber(),
-                    neutralRecord.getVisitBeforeColumnNumber(),
-                    neutralRecord.getVisitAfterLineNumber(), neutralRecord.getVisitAfterColumnNumber());
 
             if (record.get(by).equals(objectiveAssessmentRef)) {
                 List<?> subObjectiveRefs = (List<?>) record.get(SUB_OBJECTIVE_REFS);
@@ -178,12 +173,12 @@ public class ObjectiveAssessmentBuilder {
                                 subObjectives.add(subAssessment);
                             } else {
                                 LOG.warn("Could not find objective assessment ref: {}", subObjectiveRef);
-                                reportWarnings(neutralRecord.getSourceFile(), source, CoreMessageCode.CORE_0043, subObjectiveRef);
+                                reportWarnings(neutralRecord.getSourceFile(), new ElementSourceImpl(neutralRecord), CoreMessageCode.CORE_0043, subObjectiveRef);
                             }
                         } else {
                             LOG.warn("Ignoring sub objective assessment {} since it is already in the hierarchy",
                                     subObjectiveRef);
-                            reportWarnings(neutralRecord.getSourceFile(), source, CoreMessageCode.CORE_0044, subObjectiveRef);
+                            reportWarnings(neutralRecord.getSourceFile(), new ElementSourceImpl(neutralRecord), CoreMessageCode.CORE_0044, subObjectiveRef);
                         }
                     }
                     objectiveAssessmentToReturn.put("objectiveAssessments", subObjectives);
@@ -286,16 +281,10 @@ public class ObjectiveAssessmentBuilder {
             String batchJobId = job.getId();
             Map<Object, NeutralRecord> objectiveAssessments = loadAllObjectiveAssessments(access, batchJobId);
             String sourceFile = objectiveAssessments.values().iterator().next().getSourceFile();
-            AggregatedSource source = new AggregatedSource(batchJobId, sourceFile,
-                    BatchJobStageType.TRANSFORMATION_PROCESSOR.getName());
+            AggregatedSource source = new AggregatedSource(sourceFile);
 
             for (NeutralRecord nr : objectiveAssessments.values()) {
-                NeutralRecordSource nrSource = new NeutralRecordSource(sourceFile, BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
-                        nr.getRecordType(),
-                        nr.getVisitBeforeLineNumber(),
-                        nr.getVisitBeforeColumnNumber(),
-                        nr.getVisitAfterLineNumber(), nr.getVisitAfterColumnNumber());
-                source.addSource(nrSource);
+                source.addSource(new ElementSourceImpl(nr));
             }
             reportWarnings(sourceFile, source, code, args);
         } catch (java.util.NoSuchElementException e) {
