@@ -36,6 +36,7 @@ end
 ###############################################################################
 
 Transform /^<([^"]*)>$/ do |human_readable_id|
+  id = human_readable_id
   id = @newId if human_readable_id == "NEW ID"
   # Entity list from scenario outlines
   id = ["b408d88e-8fd5-11e1-86ec-0021701f543f_idb40c0ce1-8fd5-11e1-86ec-0021701f543f_id",
@@ -43,25 +44,32 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
     "b408635d-8fd5-11e1-86ec-0021701f543f_idb40c5b02-8fd5-11e1-86ec-0021701f543f_id",
     "b408635d-8fd5-11e1-86ec-0021701f543f_idb40d1e54-8fd5-11e1-86ec-0021701f543f_id",
     "b408635d-8fd5-11e1-86ec-0021701f543f_idb40e2fc7-8fd5-11e1-86ec-0021701f543f_id"].join "," if human_readable_id == "LIST-SCA-RROGERS"
-  id = ["LCC2722GR1",
-    "LCC7800GR1",
-    "LCC8512GR1",
-    "LCC5279GR1",
-    "LCC8670GR1",
-    "LCC5005GR1",
-    "LCC1779GR1",
-    "LCC1214GR1",
-    "LCC2901GR1",
-    "LCC8391GR1",
-    "LCC2727GR1",
-    "LCC6850GR1",
-    "LCC4024GR1",
-    "LCC7332GR1",
-    "LCC8527GR1",
-    "LCC6660GR1",
-    "LCC1406GR1",
-    "LCC5901GR1",
+  id = ["LCC2722GR1", "LCC7800GR1", "LCC8512GR1", "LCC5279GR1", "LCC8670GR1", "LCC5005GR1",
+    "LCC1779GR1", "LCC1214GR1", "LCC2901GR1", "LCC8391GR1", "LCC2727GR1", "LCC6850GR1",
+    "LCC4024GR1", "LCC7332GR1", "LCC8527GR1", "LCC6660GR1", "LCC1406GR1", "LCC5901GR1",
     "LCC1737GR1"].join "," if human_readable_id == "LIST-CO-LINDAKIM"
+  id = ["Fall 2011 East Daybreak Junior High",
+    "Fall 2010 East Daybreak Junior High",
+    "Spring 2011 East Daybreak Junior High",
+    "Spring 2010 East Daybreak Junior High"].join "," if human_readable_id == "LIST-SESSION-LINDAKIM"
+  id = ["18b98c27-8496-40f8-98f7-eb9aeeeeaf0a", "e34c700c-88f7-4b83-b7f0-69f154e802bd",
+    "0f38f3ae-350b-481b-88ec-1444cfec6faa", "1be4dc69-3c66-4ffc-ad65-74e1a1f9c300",
+    "d056ef93-d686-4ca4-8b83-9201579da663", "6178df17-e275-406a-8b5d-4a3c089b0b9f",
+    "fccbdb5c-3146-4efc-a9d9-3fe6ab4bb6fb", "b5d95bef-9d5e-4afa-9b35-cbce37e5a8a7",
+    "322da7f4-063b-4c98-b3e5-8b9d9a74d96b", "1c681963-0b51-4b45-86ee-fa7b0b4dcfb2",
+    "2a73c0f5-adf2-4e5f-a8a9-3bac20cac02c", "5102d543-c6d4-495e-8195-a89891379efa",
+    "5fa8109b-d022-43c0-99fd-e1902da4045c", "5572abca-61da-49d0-ad54-0ad636e05cbb",
+    "ec2e4218-6483-4e9c-8954-0aecccfd4731", "e5091d2c-4b9a-47a4-88fd-cbb5277c16a7",
+    "2c008500-0dbb-4923-860d-9c275c0e1433", "bf2912b7-c9ba-4fe9-8663-987a64af9631",
+    "c4097288-2437-4b76-8ab1-f722663364a0", "5a8e6b60-71a7-4e67-a848-28b8f69068fc",
+    "9344c1d5-2ec1-4ce5-a701-63d1a592b022", "0580d61c-090a-4246-9c65-7f00d91978b3",
+    "0034787f-3d62-4973-b5d8-7923baade0ef", "bb8dd9e1-d3e2-49a8-a1f3-4b0336383040",
+    "0ba8dbea-54c9-40df-8b23-bac0e1c19290", "efd8557a-ee42-465a-bb7f-21884d069a8b",
+    "5e058b4a-2628-4e3b-bd56-254eb5142262", "2ee39d59-4dcf-4a5d-bfd7-726731c2241f",
+    "5f4f7b8d-86e5-4b27-9a0b-bcaa2bff890f", "9249a8ef-8c83-4c50-8f94-fbc12700e7f2",
+    "964f0c0c-e316-476a-9ae6-96711fbf6ed5", "925d3f23-001f-4173-883b-04cf04ed9ad4",
+    "e4358c4a-2ecd-4a68-b6d3-7f1cb5904282", "79b5a29a-0852-4d0b-8a85-0729849eed9f",
+    "80b9ffeb-e7c4-463d-afd1-6a38079ac77d", "af37dbe2-301f-4409-b6e9-b05e11989694"].join "," if human_readable_id == "LIST-SSA-LINDAKIM"
   #return the translated value
   id
 end
@@ -123,8 +131,8 @@ end
 Then /^I should only find "([^\"]*)" in the list of entities returned$/ do |list|
   count = list.empty? ? 0 : list.split(",").size
   assert(@result.size == count, "Expected #{count} entities from list, received #{@result.size} from response")
-  result_as_string = @result.join
   unless list.empty?
+    result_as_string = @result.join
     list.each do |item|
       assert(result_as_string.include? item, "Cannot find #{item} in the response")
     end
