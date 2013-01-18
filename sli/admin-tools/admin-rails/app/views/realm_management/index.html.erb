@@ -2,22 +2,31 @@
 	<%= notice %>
 </div>
 
-<h1>Edit Realms</h1>
+<h1>Realms for <%= @edorg %> </h1>
 
-<table>
+<table id="realms" class="table">
+  <thead>
   <tr>
-    <th></th>
-    <th></th>
+    <th><%= "Name" %></th>
+    <th><%= "Unique Identifier" %></th>
     <th></th>
   </tr>
+  </thead>
+  <tbody>
+  <% @realms.each do |realm| %>
+    <tr id='<%= realm.id %>'>
+      <td><%= realm.name %></td>
+      <td><%= realm.uniqueIdentifier %></td>
+      <td class="rowAction">
+        <%= link_to("Edit", edit_realm_management_path(realm), :class => "btn btn-primary") %>
+        <%= link_to("Custom Roles", custom_role_path(realm), :class => "btn btn-info") %> 
+        <%= link_to 'Delete Realm', realm_management_path(realm), :method => :delete, :remote => true, confirm: 'WARNING: DELETING REALM WILL PREVENT ANY USER ASSOCIATED WITH THIS REALM FROM AUTHENTICATING ON inBloom AND WILL RESET ROLE MAPPING. ARE YOU SURE?', :class => 'btn btn-danger' %>
 
-<% @realms.each do |realm| %>
-  <tr>
-    <td><%= link_to realm.name, edit_realm_management_path(realm) %></td>
-    <td><%= link_to 'Destroy', realm, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
 </table>
-
+<%= link_to "Add new", new_realm_management_path, :class => "btn btn-primary" %>
 <br />
 

@@ -16,7 +16,6 @@ limitations under the License.
 
 =end
 
-
 When /^I hit the realm editing URL$/ do
   @url = PropLoader.getProps['admintools_server_url'] + "/realm_management"
   @driver.get @url
@@ -35,23 +34,27 @@ When /^I should enter "([^"]*)" into the Display Name field$/ do |newRealmName|
 end
 
 Then /^I should enter "(.*?)" into IDP URL$/ do |url|
+  @driver.find_element(:name, 'realm[idp][id]').clear
   @driver.find_element(:name, 'realm[idp][id]').send_keys url
 end
 
 Then /^I should enter "(.*?)" into Redirect Endpoint$/ do |url|
+  @driver.find_element(:name, 'realm[idp][redirectEndpoint]').clear
   @driver.find_element(:name, 'realm[idp][redirectEndpoint]').send_keys url
 end
 
 Then /^I should enter "(.*?)" into Realm Identifier$/ do |identifier|
+  
+  @driver.find_element(:name, 'realm[uniqueIdentifier]').clear
   @driver.find_element(:name, 'realm[uniqueIdentifier]').send_keys identifier
 end
 
 When /^I should click the "([^"]*)" button$/ do |buttonText|
-  @driver.find_elements(:xpath, ".//input[@value='#{buttonText}']")[0].click
+  @driver.find_element(:xpath, ".//input[@value='#{buttonText}']").click
 end
 
-Then /^I should be redirected back to the edit page$/ do
-  #No code necessary
+Then /^I should be redirected back to the realm listing page$/ do
+  #No code necessary, this step is just to make Gherkin read happy
 end
 
 Then /^I should receive a notice that the realm was successfully "([^"]*)"$/ do |action|
@@ -64,9 +67,7 @@ Then /^I should receive a notice that the realm was successfully "([^"]*)"$/ do 
   end
 end
 
-
 When /^I should click the delete realm link$/ do
-  # links = @driver.find_elements(:xpath, ".//a[@data-method='delete']")
   element = @driver.find_element(:link_text, "Delete Realm")
   element.click
   @driver.switch_to.alert.accept
@@ -105,26 +106,23 @@ When /^I enter valid data into all fields$/ do
   @driver.find_element(:name, 'realm[uniqueIdentifier]').send_keys "Unique Identifier"
 end
 
-Then /^I should see that I am on the "([^"]*)" page$/ do |arg1|
-  pending # express the regexp above with the code you wish you had
+When /^I enter data into all fields for realm "([^"]*)"$/ do |realm|
+  @driver.find_element(:name, 'realm[name]').send_keys "#{realm} Realm"
+  @driver.find_element(:name, 'realm[idp][id]').send_keys "http://another.com/#{realm}"
+  @driver.find_element(:name, 'realm[idp][redirectEndpoint]').send_keys "http://another.com/#{realm}"
+  @driver.find_element(:name, 'realm[uniqueIdentifier]').send_keys "#{realm}_Identifier"
 end
 
 When /^I should remove all of the fields$/ do
   @driver.find_elements(:css, 'input[type="text"]').each {|field| field.clear}
 end
 
-
 Then /^I should get (\d+) errors$/ do |arg1|
   assert(arg1.to_i == @driver.find_element(:id, 'error_explanation').find_elements(:css, 'li').count, "We should have found #{arg1} validation errors")
 end
 
 Then /^I should not see any errors$/ do
-  begin
-    @driver.find_element(:id, 'error_explanation')
-    assert(false, "Shouldn't be any errors")
-  rescue
-    assert(true, "There shouldn't be any errors found")
-  end
+  assertWithWait("Shouldn't be any errors") { @driver.find_elements(:id, 'error_explanation').size == 0 }
 end
 
 Then /^I should make the unique identifier not unique$/ do
@@ -139,7 +137,52 @@ Then /^I should make the display name not unique$/ do
   @driver.find_element(:name, 'realm[name]').send_keys "Illinois Daybreak School District 4529"
 end
 
+Then /^I should make the IDP URL not unique$/ do
+  @driver.find_element(:name, 'realm[name]').clear
+  @driver.find_element(:name, 'realm[name]').send_keys "Brand New Realm"
+  @driver.find_element(:name, 'realm[idp][id]').clear
+  @driver.find_element(:name, 'realm[idp][id]').send_keys "http://delete.me.now:8080/idp"
+end
+
 Then /^I should get (\d+) error$/ do |arg1|
   step "I should get 1 errors"
 end
 
+When /^I click on the Cancel button$/ do
+  @driver.find_element(:link_text, "Cancel").click
+end
+
+When /^I click on the Add new realm button$/ do
+  @driver.find_element(:link_text, "Add new").click
+end
+
+When /^I see the realms for "([^"]*)"$/ do |uid|
+  title = (@driver.find_elements(:xpath, "//html/body/div/h1"))[0].text
+  assert(title == "Realms for #{uid}", "Page title not expected")
+end
+
+When /^I click the "(.*?)" edit button$/ do |arg1|
+  realm_row = @driver.find_element(:xpath, "//td[text()='#{arg1}']/..")
+  realm_row.find_element(:link, "Edit").click
+end
+
+When /^I click the "(.*?)" custom roles button$/ do |arg1|
+  realm_row = @driver.find_element(:xpath, "//td[text()='#{arg1}']/..")
+  realm_row.find_element(:link, "Custom Roles").click
+end
+
+When /^I click the "(.*?)" delete button and confirm deletion$/ do |arg1|
+  realm_row = @driver.find_element(:xpath, "//td[text()='#{arg1}']/..")
+  realm_row.find_element(:link, "Delete Realm").click
+  alert = @driver.switch_to().alert()
+  assert(alert.text.index("WARNING: DELETING REALM WILL PREVENT ANY USER ASSOCIATED WITH THIS REALM FROM AUTHENTICATING ON inBloom AND WILL RESET ROLE MAPPING") != nil, "Popup message was not expected")
+  alert.accept()
+end
+
+And /^the realm "(.*?)" will not exist$/ do |arg1|
+  assertWithWait("Realm #{arg1} was still found on page") {@driver.find_element(:id, "realms").text.index(arg1) == nil}
+end
+
+And /^the realm "(.*?)" will exist$/ do |arg1|
+  assertWithWait("Realm #{arg1} was not found on page") {@driver.find_element(:id, "realms").text.index(arg1) != nil}
+end

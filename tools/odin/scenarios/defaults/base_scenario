@@ -161,3 +161,8 @@ COMPETENCY_LEVEL_DESCRIPTORS: [
   { code_value: "Barely Competent", description: "Student understands some basic", performance_base_conversion: "Basic" },
   { code_value: "Competent", description: "Student understands basic and some intermediate material", performance_base_conversion: "Proficient" },
   { code_value: "Very Competent", description: "Student understands everything in subject", performance_base_conversion: "Advanced" }]
+
+ENTITY_BLACKLIST: [
+"BehaviorDescriptor",
+"DisciplineDescriptor",
+"BellSchedule"]

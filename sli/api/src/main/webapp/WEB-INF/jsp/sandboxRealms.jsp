@@ -75,7 +75,7 @@
 					<h3>Administer my Sandbox</h3>
 					<p>Administering your sandbox allows you to ingest test data, register applications, and manage accounts on your sandbox.</p>
 					<div class="buttonDiv">
-						<input type="submit" value="Next" id="adminLink" class="btn btn-primary"/>
+						<input type="submit" value="Next" id="adminLink" class="btn btn-info"/>
 					</div>	
 				</form:form>
 			</div>
@@ -91,7 +91,7 @@
 					<h3>Test Applications in my Sandbox</h3>
 					<p>The sandbox gives you a safe place to test your applications while you are developing them.</p>
 					<div class="buttonDiv">
-						<input type="submit" id="sandboxLink" value="Next" class="btn btn-primary"/>
+						<input type="submit" id="sandboxLink" value="Next" class="btn btn-info"/>
 					</div>
 				</form:form>
 			</div>

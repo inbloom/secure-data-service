@@ -248,7 +248,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
         // Make sure the user's district has authorized the use of this application
         SLIPrincipal principal = jsoner.convertValue(session.getBody().get("principal"), SLIPrincipal.class);
-        principal.setEntity(locator.locate(principal.getTenantId(), principal.getExternalId()).getEntity());
+        principal.setEntity(locator.locate(principal.getTenantId(), principal.getExternalId(), principal.getUserType()).getEntity());
         TenantContext.setTenantId(principal.getTenantId());
 
         List<String> authorizedAppIds = appValidator.getAuthorizedApps(principal);
@@ -342,7 +342,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                         SLIPrincipal principal = jsoner.convertValue(sessionEntity.getBody().get("principal"),
                                 SLIPrincipal.class);
                         TenantContext.setTenantId(principal.getTenantId());
-                        principal.setEntity(locator.locate(principal.getTenantId(), principal.getExternalId())
+                        principal.setEntity(locator.locate(principal.getTenantId(), principal.getExternalId(),principal.getUserType())
                                 .getEntity());
                         principal.setSessionId(sessionEntity.getEntityId());
                         Collection<GrantedAuthority> authorities = resolveAuthorities(principal.getTenantId(),

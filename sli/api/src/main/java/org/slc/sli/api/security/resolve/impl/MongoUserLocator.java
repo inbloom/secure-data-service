@@ -36,62 +36,67 @@ import org.springframework.stereotype.Component;
 
 /**
  * Attempts to locate a user in SLI mongo data-store
- *
+ * 
  * @author dkornishev
  */
 @Component
 public class MongoUserLocator implements UserLocator {
 
-    @Autowired
-    @Qualifier("validationRepo")
-    private Repository<Entity> repo;
-    
-    @Autowired
-    private EdOrgHelper edorgHelper;
+	@Autowired
+	@Qualifier("validationRepo")
+	private Repository<Entity> repo;
 
-    @Override
-    public SLIPrincipal locate(String tenantId, String externalUserId) {
-        info("Locating user {}@{}", externalUserId, tenantId);
-        SLIPrincipal user = new SLIPrincipal(externalUserId + "@" + tenantId);
-        user.setExternalId(externalUserId);
-        user.setTenantId(tenantId);
+	@Autowired
+	private EdOrgHelper edorgHelper;
 
-        NeutralQuery neutralQuery = new NeutralQuery();
-        neutralQuery.setOffset(0);
-        neutralQuery.setLimit(1);
-        neutralQuery.addCriteria(new NeutralCriteria("body.staffUniqueStateId", NeutralCriteria.OPERATOR_EQUAL, externalUserId, false));
+	@Override
+	public SLIPrincipal locate(String tenantId, String externalUserId, String userType) {
+		info("Locating user {}@{} of type", new Object[] { externalUserId, tenantId, userType });
+		SLIPrincipal user = new SLIPrincipal(externalUserId + "@" + tenantId);
+		user.setExternalId(externalUserId);
+		user.setTenantId(tenantId);
 
-        TenantContext.setTenantId(tenantId);
-        Iterable<Entity> staff = repo.findAll(EntityNames.STAFF, neutralQuery);
+		TenantContext.setTenantId(tenantId);
 
-        if (staff != null && staff.iterator().hasNext()) {
-            Entity entity = staff.iterator().next();
-            Set<String> edorgs = edorgHelper.getDirectEdorgs(entity);
-            if (edorgs.size() == 0) {
-                warn("User {} is not currently associated to a school/edorg", user.getId());
-                throw new AccessDeniedException("User is not currently associated to a school/edorg");
-            }
-            info("Matched user: {}@{} -> {}", new Object[] { externalUserId, tenantId, entity.getEntityId() });
-            user.setEntity(entity);
-        }
+		if (EntityNames.STUDENT.equals(userType)) {
+			NeutralQuery neutralQuery = new NeutralQuery(new NeutralCriteria("studentUniqueStateId", "=", externalUserId));
+			user.setEntity(repo.findOne(EntityNames.STUDENT, neutralQuery));
+		} else {
 
-        if (user.getEntity() == null) {
-            warn("Failed to locate user {} in the datastore", user.getId());
-            Entity entity = new MongoEntity("user", "-133", new HashMap<String, Object>(),
-                    new HashMap<String, Object>());
-            user.setEntity(entity);
-        }
+			NeutralQuery neutralQuery = new NeutralQuery();
+			neutralQuery.setOffset(0);
+			neutralQuery.setLimit(1);
+			neutralQuery.addCriteria(new NeutralCriteria("body.staffUniqueStateId", NeutralCriteria.OPERATOR_EQUAL, externalUserId, false));
 
-        return user;
-    }
+			Iterable<Entity> staff = repo.findAll(EntityNames.STAFF, neutralQuery);
 
-    /**
-     * Used by auto-wiring to set the entity repository.
-     *
-     * @param repo
-     *            repository to be used by mongo user locator.
-     */
-    public void setRepo(Repository<Entity> repo) {
-        this.repo = repo;
-    }
+			if (staff != null && staff.iterator().hasNext()) {
+				Entity entity = staff.iterator().next();
+				Set<String> edorgs = edorgHelper.getDirectEdorgs(entity);
+				if (edorgs.size() == 0) {
+					warn("User {} is not currently associated to a school/edorg", user.getId());
+					throw new AccessDeniedException("User is not currently associated to a school/edorg");
+				}
+				info("Matched user: {}@{} -> {}", new Object[] { externalUserId, tenantId, entity.getEntityId() });
+				user.setEntity(entity);
+			}
+		}
+
+		if (user.getEntity() == null) {
+			warn("Failed to locate user {} in the datastore", user.getId());
+			Entity entity = new MongoEntity("user", "-133", new HashMap<String, Object>(), new HashMap<String, Object>());
+			user.setEntity(entity);
+		}
+
+		return user;
+	}
+
+	/**
+	 * Used by auto-wiring to set the entity repository.
+	 * 
+	 * @param repo repository to be used by mongo user locator.
+	 */
+	public void setRepo(Repository<Entity> repo) {
+		this.repo = repo;
+	}
 }

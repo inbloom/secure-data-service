@@ -53,6 +53,10 @@ When /^I navigate to the Custom Role Mapping Page$/ do
   @driver.get PropLoader.getProps['admintools_server_url']+"/custom_roles"
 end
 
+Then /^I am shown the custom roles page for "(.*?)"$/ do |arg1|
+    assertWithWait("Failed to be redirected to Role mapping page for realm #{arg1}")  {@driver.page_source.index("Custom Roles for #{arg1}") != nil}
+end
+
 Then /^I have navigated to my Custom Role Mapping Page$/ do
   assertWithWait("Failed to be redirected to Role mapping page")  {@driver.page_source.index("Custom") != nil}
 end
@@ -68,6 +72,10 @@ end
 When /^I click on the Add Group button$/ do
   btn = @driver.find_element(:id, "addGroupButton")
   btn.click
+end
+
+When /^I navigate back to the realm listing page$/ do
+  @driver.find_element(:link_text, "Cancel").click
 end
 
 When /^I type the name "([^"]*)" in the Group name textbox$/ do |title|
