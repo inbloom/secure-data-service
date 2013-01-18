@@ -7298,6 +7298,7 @@
 						<sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:beginDate>yes</sli:beginDate>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7310,6 +7311,7 @@
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:endDate>yes</sli:endDate>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -8951,6 +8953,7 @@
 				<sli:CollectionType>reportCard</sli:CollectionType>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 				<sli:schemaVersion>1</sli:schemaVersion>
+                <sli:associatedDatedCollection>gradingPeriod</sli:associatedDatedCollection>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>

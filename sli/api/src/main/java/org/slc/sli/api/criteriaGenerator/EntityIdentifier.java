@@ -27,6 +27,7 @@ import org.slc.sli.modeling.uml.ClassType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -45,20 +46,31 @@ public class EntityIdentifier {
     @Autowired
     private EntityDefinitionStore entityDefinitionStore;
 
+    private String request;
+
 
 
     // [JS] findXXXX methods shouldn't be void
     public EntityFilterInfo findEntity(String request) {
+        this.request = request;
         EntityFilterInfo entityFilterInfo = new EntityFilterInfo();
         List<String> resources = Arrays.asList(request.split("/"));
         String resource = resources.get(resources.size() - 1);
         EntityDefinition definition = entityDefinitionStore.lookupByResourceName(resource);
         ClassType entityType = modelProvider.getClassType(StringUtils.capitalize(definition.getType()));
+        populatePath(entityFilterInfo, entityType, resource);
+
+        //Enable this once all entities have stamped in ComplextTypes.xsd
+//        if (entityName.isEmpty() || beginDateAttribute.isEmpty() || endDateAttribute.isEmpty()) {
+//            throw new IllegalArgumentException("Cannot Identify execution path for uri " + request);
+//        }
+        return entityFilterInfo;
+    }
+    private void populatePath(EntityFilterInfo entityFilterInfo, ClassType entityType, String resource) {
         if (populateDateAttributes(entityFilterInfo, entityType) || populateSessionAttribute(entityFilterInfo, entityType)) {
             entityFilterInfo.setEntityName(resource);
         }
         else {
-
             List<String> associations = modelProvider.getAssociatedDatedEntities(entityType);
             for (String association: associations) {
                 // [JS] revisit this
@@ -66,14 +78,32 @@ public class EntityIdentifier {
                     populateDateAttributes(entityFilterInfo, modelProvider.getClassType(association));
                     entityFilterInfo.setEntityName(request.substring(request.toLowerCase().indexOf(association.toLowerCase())).split("/")[0]);
                     break;
+                } else if (associations.size() == 1) {
+                    populateConnectionPath(entityFilterInfo, association);
                 }
             }
+
         }
-        //Enable this once all entities have stamped in ComplextTypes.xsd
-//        if (entityName.isEmpty() || beginDateAttribute.isEmpty() || endDateAttribute.isEmpty()) {
-//            throw new IllegalArgumentException("Cannot Identify execution path for uri " + request);
-//        }
-        return entityFilterInfo;
+    }
+
+    private void populateConnectionPath(EntityFilterInfo entityFilterInfo, String associatedEntityName) {
+        ClassType entityType = modelProvider.getClassType(associatedEntityName);
+        if (populateDateAttributes(entityFilterInfo, entityType) || populateSessionAttribute(entityFilterInfo, entityType)) {
+            entityFilterInfo.setEntityName(getEntityName(entityType));
+        } else {
+            if (entityFilterInfo.getConnectingEntityList() == null) {
+                entityFilterInfo.setConnectingEntityList(new ArrayList<String>());
+            }
+            entityFilterInfo.getConnectingEntityList().add(associatedEntityName);
+            List<String> associations = modelProvider.getAssociatedDatedEntities(entityType);
+            for (String association: associations) {
+                populateConnectionPath(entityFilterInfo, association);
+            }
+        }
+    }
+
+    private String getEntityName(ClassType entityType) {
+        return entityType.getName();
     }
 
 
