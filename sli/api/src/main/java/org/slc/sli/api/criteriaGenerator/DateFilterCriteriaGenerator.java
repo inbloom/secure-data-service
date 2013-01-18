@@ -69,12 +69,9 @@ public class DateFilterCriteriaGenerator {
             // [JS] refactor this so that findEntity isn't modifying the instance variable
             entityIdentifier.findEntity(request.getPath());
 
-            // [JS] Change to static builder?
-            // This seems strange to me, since builders should be creating an object, but we are creating then throwing
-            // away
-            GranularAccessFilter filter = builder().forEntity(entityIdentifier.getEntityName())
+            GranularAccessFilter filter = new DateFilterCriteriaBuilder().forEntity(entityIdentifier.getEntityName())
                 .withDateAttributes(entityIdentifier.getBeginDateAttribute(), entityIdentifier.getEndDateAttribute())
-                    .withSessionAttribute(entityIdentifier.getSessionAttribute())
+                .withSessionAttribute(entityIdentifier.getSessionAttribute())
                 .startingFrom(sessionDateInfo.getStartDate())
                 .endingTo(sessionDateInfo.getEndDate())
                 .withSessionIds(sessionDateInfo.getSessionIds())
@@ -83,13 +80,8 @@ public class DateFilterCriteriaGenerator {
             granularAccessFilterProvider.storeGranularAccessFilter(filter);
         }
     }
-    // [JS] Switch to static builder and remove this method
-    private DateFilterCriteriaBuilder builder() {
-        return new DateFilterCriteriaBuilder();
-    }
 
-
-    private final class DateFilterCriteriaBuilder {
+    private static final class DateFilterCriteriaBuilder {
         private String entityName;
         private String beginDate;
         private String endDate;
