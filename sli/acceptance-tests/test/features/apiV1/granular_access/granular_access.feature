@@ -67,36 +67,36 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     # 2010-2011: 2010-01-04 to 2011-12-16
     # 2011-2012: 2011-01-06 to 2012-06-31
     # TODO: update the count with range and entity list
-    | Entity URI                              | School Years | Count Without Range | Count With Range | Entity List |
-    | attendances                             | 2010-2011    | 29                  | 99999            |             |
-    | courseOfferings                         | 2010-2011    | 39                  | 99999            |             |
-    | courseTranscripts                       | 2010-2011    | 2                   | 99999            |             |
-    | disciplineActions                       | 2010-2011    | 0                   | 0                |             |
-    | disciplineIncidents                     | 2010-2011    | 0                   | 0                |             |
-    | gradebookEntries                        | 2010-2011    | 3                   | 99999            |             |
-    | grades                                  | 2010-2011    | 0                   | 0                |             |
-    | gradingPeriods                          | 2010-2011    | 2                   | 99999            |             |
-    | programs                                | 2010-2011    | 0                   | 0                |             |
-    | reportCards                             | 2010-2011    | 1                   | 99999            |             |
-    | sections                                | 2010-2011    | 4                   | 99999            |             |
-    | sessions                                | 2010-2011    | 9                   | 99999            |             |
-    | staff                                   | 2010-2011    | 1                   | 99999            |             |
-    | staffCohortAssociations                 | 2010-2011    | 0                   | 0                |             |
-    | staffEducationOrgAssignmentAssociations | 2010-2011    | 1                   | 99999            |             |
-    | staffProgramAssociations                | 2010-2011    | 0                   | 0                |             |
-    | studentAcademicRecords                  | 2010-2011    | 1                   | 99999            |             |
-    | studentAssessments                      | 2010-2011    | 3                   | 99999            |             |
-    | studentCohortAssociations               | 2010-2011    | 0                   | 0                |             |
-    | studentCompetencies                     | 2010-2011    | 0                   | 0                |             |
-    | studentDisciplineIncidentAssociations   | 2010-2011    | 0                   | 0                |             |
-    | studentGradebookEntries                 | 2010-2011    | 4                   | 99999            |             |
-    | studentProgramAssociations              | 2010-2011    | 0                   | 0                |             |
-    | studentSchoolAssociations               | 2010-2011    | 67                  | 99999            |             |
-    | studentSectionAssociations              | 2010-2011    | 31                  | 99999            |             |
-    | students                                | 2010-2011    | 31                  | 99999            |             |
-    | teacherSchoolAssociations               | 2010-2011    | 1                   | 99999            |             |
-    | teacherSectionAssociations              | 2010-2011    | 4                   | 99999            |             |
-    | teachers                                | 2010-2011    | 1                   | 99999            |             |
+    | Entity URI                              | School Years | Count Without Range | Count With Range | Entity List                          |
+    | attendances                             | 2010-2011    | 29                  | 1                | 530f0704-c240-4ed9-0a64-55c0308f91ee |
+    | courseOfferings                         | 2010-2011    | 39                  | 19               | <LIST-CO-LINDAKIM>                   |
+    | courseTranscripts                       | 2010-2011    | 2                   | 99999            |                                      |
+    | disciplineActions                       | 2010-2011    | 0                   | 0                |                                      |
+    | disciplineIncidents                     | 2010-2011    | 0                   | 0                |                                      |
+    | gradebookEntries                        | 2010-2011    | 3                   | 99999            |                                      |
+    | grades                                  | 2010-2011    | 0                   | 0                |                                      |
+    | gradingPeriods                          | 2010-2011    | 2                   | 99999            |                                      |
+    | programs                                | 2010-2011    | 0                   | 0                |                                      |
+    | reportCards                             | 2010-2011    | 1                   | 99999            |                                      |
+    | sections                                | 2010-2011    | 4                   | 99999            |                                      |
+    | sessions                                | 2010-2011    | 9                   | 99999            |                                      |
+    | staff                                   | 2010-2011    | 1                   | 99999            |                                      |
+    | staffCohortAssociations                 | 2010-2011    | 0                   | 0                |                                      |
+    | staffEducationOrgAssignmentAssociations | 2010-2011    | 1                   | 99999            |                                      |
+    | staffProgramAssociations                | 2010-2011    | 0                   | 0                |                                      |
+    | studentAcademicRecords                  | 2010-2011    | 1                   | 99999            |                                      |
+    | studentAssessments                      | 2010-2011    | 3                   | 99999            |                                      |
+    | studentCohortAssociations               | 2010-2011    | 0                   | 0                |                                      |
+    | studentCompetencies                     | 2010-2011    | 0                   | 0                |                                      |
+    | studentDisciplineIncidentAssociations   | 2010-2011    | 0                   | 0                |                                      |
+    | studentGradebookEntries                 | 2010-2011    | 4                   | 99999            |                                      |
+    | studentProgramAssociations              | 2010-2011    | 0                   | 0                |                                      |
+    | studentSchoolAssociations               | 2010-2011    | 67                  | 99999            |                                      |
+    | studentSectionAssociations              | 2010-2011    | 31                  | 99999            |                                      |
+    | students                                | 2010-2011    | 31                  | 99999            |                                      |
+    | teacherSchoolAssociations               | 2010-2011    | 1                   | 99999            |                                      |
+    | teacherSectionAssociations              | 2010-2011    | 4                   | 99999            |                                      |
+    | teachers                                | 2010-2011    | 1                   | 99999            |                                      |
 
   Scenario Outline: Time-insensitive entities
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"

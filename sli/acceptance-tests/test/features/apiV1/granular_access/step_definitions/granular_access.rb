@@ -38,12 +38,30 @@ end
 Transform /^<([^"]*)>$/ do |human_readable_id|
   id = @newId if human_readable_id == "NEW ID"
   # Entity list from scenario outlines
-  id = "b408d88e-8fd5-11e1-86ec-0021701f543f_idb40c0ce1-8fd5-11e1-86ec-0021701f543f_id,"
-    + "b408d88e-8fd5-11e1-86ec-0021701f543f_idb40de1a6-8fd5-11e1-86ec-0021701f543f_id,"
-    + "b408635d-8fd5-11e1-86ec-0021701f543f_idb40c5b02-8fd5-11e1-86ec-0021701f543f_id,"
-    + "b408635d-8fd5-11e1-86ec-0021701f543f_idb40d1e54-8fd5-11e1-86ec-0021701f543f_id,"
-    + "b408635d-8fd5-11e1-86ec-0021701f543f_idb40e2fc7-8fd5-11e1-86ec-0021701f543f_id"
-    if human_readable_id == "LIST-SCA-RROGERS"
+  id = ["b408d88e-8fd5-11e1-86ec-0021701f543f_idb40c0ce1-8fd5-11e1-86ec-0021701f543f_id",
+    "b408d88e-8fd5-11e1-86ec-0021701f543f_idb40de1a6-8fd5-11e1-86ec-0021701f543f_id",
+    "b408635d-8fd5-11e1-86ec-0021701f543f_idb40c5b02-8fd5-11e1-86ec-0021701f543f_id",
+    "b408635d-8fd5-11e1-86ec-0021701f543f_idb40d1e54-8fd5-11e1-86ec-0021701f543f_id",
+    "b408635d-8fd5-11e1-86ec-0021701f543f_idb40e2fc7-8fd5-11e1-86ec-0021701f543f_id"].join "," if human_readable_id == "LIST-SCA-RROGERS"
+  id = ["LCC2722GR1",
+    "LCC7800GR1",
+    "LCC8512GR1",
+    "LCC5279GR1",
+    "LCC8670GR1",
+    "LCC5005GR1",
+    "LCC1779GR1",
+    "LCC1214GR1",
+    "LCC2901GR1",
+    "LCC8391GR1",
+    "LCC2727GR1",
+    "LCC6850GR1",
+    "LCC4024GR1",
+    "LCC7332GR1",
+    "LCC8527GR1",
+    "LCC6660GR1",
+    "LCC1406GR1",
+    "LCC5901GR1",
+    "LCC1737GR1"].join "," if human_readable_id == "LIST-CO-LINDAKIM"
   #return the translated value
   id
 end
