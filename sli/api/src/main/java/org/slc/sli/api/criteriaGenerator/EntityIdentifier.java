@@ -68,14 +68,15 @@ public class EntityIdentifier {
             entityFilterInfo.setEntityName(resource);
         } else {
             List<String> associations = modelProvider.getAssociatedDatedEntities(entityType);
+            if (associations.size() == 1) {
+                populateConnectionPath(entityFilterInfo, associations.get(0));
+            }
             for (String association : associations) {
                 // [JS] revisit this
                 if (request.toLowerCase().contains(association.toLowerCase())) {
                     populateDateAttributes(entityFilterInfo, modelProvider.getClassType(association));
                     entityFilterInfo.setEntityName(request.substring(request.toLowerCase().indexOf(association.toLowerCase())).split("/")[0]);
                     break;
-                } else if (associations.size() == 1) {
-                    populateConnectionPath(entityFilterInfo, association);
                 }
             }
 
