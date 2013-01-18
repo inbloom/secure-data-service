@@ -74,9 +74,7 @@ public class EntityIdentifier {
             for (String association : associations) {
                 // [JS] revisit this
                 if (request.toLowerCase().contains(association.toLowerCase())) {
-                    if (!populateDateAttributes(entityFilterInfo, modelProvider.getClassType(association))) {
-                        populateConnectionPath(entityFilterInfo, association);
-                    }
+                    populateConnectionPath(entityFilterInfo, association);
                    break;
                 }
             }
@@ -101,7 +99,16 @@ public class EntityIdentifier {
     }
 
     private String getEntityName(ClassType entityType) {
-        return entityType.getName();
+        String typeName = StringUtils.uncapitalize(entityType.getName());
+        if (typeName.endsWith("y")) {
+            return typeName.substring(0, typeName.length() - 1).concat("ies");
+        } else if (typeName.endsWith("s")) {
+            return typeName;
+        } else if (typeName.equalsIgnoreCase("staff")) {
+            return typeName;
+        } else {
+            return typeName.concat("s");
+        }
     }
 
 
@@ -128,4 +135,5 @@ public class EntityIdentifier {
 
         return (beginDateExists || endDateExists);
     }
+
 }
