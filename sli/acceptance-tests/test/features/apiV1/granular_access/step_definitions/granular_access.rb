@@ -121,11 +121,13 @@ end
 ###############################################################################
 
 Then /^I should only find "([^\"]*)" in the list of entities returned$/ do |list|
-  count = list.split(",").size
+  count = list.empty? ? 0 : list.split(",").size
   assert(@result.size == count, "Expected #{count} entities from list, received #{@result.size} from response")
   result_as_string = @result.join
-  list.each do |item|
-    assert(result_as_string.include? item, "Cannot find #{item} in the response")
+  unless list.empty?
+    list.each do |item|
+      assert(result_as_string.include? item, "Cannot find #{item} in the response")
+    end
   end
 end
 
