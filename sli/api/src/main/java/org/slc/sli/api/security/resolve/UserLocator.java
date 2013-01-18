@@ -26,6 +26,6 @@ import org.slc.sli.api.security.SLIPrincipal;
  */
 public interface UserLocator {
 
-    public SLIPrincipal locate(String tenantId, String externalUserId);
+    public SLIPrincipal locate(String tenantId, String externalUserId, String userType);
 
 }

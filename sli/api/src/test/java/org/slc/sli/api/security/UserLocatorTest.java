@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.security;
 
 import java.util.HashMap;
@@ -41,61 +40,60 @@ import org.springframework.test.context.support.DependencyInjectionTestExecution
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
 /**
- *
+ * 
  * @author dkornishev
- *
+ * 
  */
 @Ignore
 // Needs to be reworked with new querying structure/MockRepo
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-@TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
-        DirtiesContextTestExecutionListener.class })
+@TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
 public class UserLocatorTest {
 
-    @Autowired
-    private MongoUserLocator locator;
-    
-    @Autowired
-    private ValidatorTestHelper helper;
+	@Autowired
+	private MongoUserLocator locator;
 
-    @Autowired
-    private Repository<Entity> repo;
+	@Autowired
+	private ValidatorTestHelper helper;
 
-    @Before
-    public void init() {
-        Map<String, Object> body = new HashMap<String, Object>();
-        body.put("staffUniqueStateId", Mocker.VALID_USER_ID);
-        repo.create("teacher", body);
-    }
+	@Autowired
+	private Repository<Entity> repo;
 
-    @Test
-    public void testUserFound() {
-        SLIPrincipal principal = this.locator.locate(Mocker.VALID_REALM, Mocker.VALID_USER_ID);
+	@Before
+	public void init() {
+		Map<String, Object> body = new HashMap<String, Object>();
+		body.put("staffUniqueStateId", Mocker.VALID_USER_ID);
+		repo.create("teacher", body);
+	}
 
-        Assert.assertNotNull(principal);
-    }
+	@Test
+	public void testUserFound() {
+		SLIPrincipal principal = this.locator.locate(Mocker.VALID_REALM, Mocker.VALID_USER_ID, "");
 
-    @Test
-    public void testuserNotFound() {
-        SLIPrincipal principal = this.locator.locate(Mocker.VALID_REALM, Mocker.INVALID_USER_ID);
+		Assert.assertNotNull(principal);
+	}
 
-        Assert.assertNull(principal);
-    }
+	@Test
+	public void testuserNotFound() {
+		SLIPrincipal principal = this.locator.locate(Mocker.VALID_REALM, Mocker.INVALID_USER_ID, "");
 
-    @Test
-    public void testGarbageInput() {
-        SLIPrincipal principal = this.locator.locate(null, null);
+		Assert.assertNull(principal);
+	}
 
-        Assert.assertNull(principal);
-    }
-    
-    @Test(expected = AccessDeniedException.class)
-    public void testFailsWithInvalidAssociation() {
-        Entity school = helper.generateEdorgWithParent(null);
-        helper.generateStaffEdorg(Mocker.VALID_USER_ID, school.getEntityId(), true);
-        SLIPrincipal principal = this.locator.locate(Mocker.VALID_REALM, Mocker.VALID_USER_ID);
-        
-        Assert.assertNull(principal);
-    }
+	@Test
+	public void testGarbageInput() {
+		SLIPrincipal principal = this.locator.locate(null, null, "");
+
+		Assert.assertNull(principal);
+	}
+
+	@Test(expected = AccessDeniedException.class)
+	public void testFailsWithInvalidAssociation() {
+		Entity school = helper.generateEdorgWithParent(null);
+		helper.generateStaffEdorg(Mocker.VALID_USER_ID, school.getEntityId(), true);
+		SLIPrincipal principal = this.locator.locate(Mocker.VALID_REALM, Mocker.VALID_USER_ID, "");
+
+		Assert.assertNull(principal);
+	}
 }

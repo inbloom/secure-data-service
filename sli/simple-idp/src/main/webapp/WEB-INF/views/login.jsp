@@ -71,7 +71,7 @@
 					</c:if>
 					<div class="control-group">
 						<div class="controls">
-							<input id="login_button" name="commit" type="submit" value="Sign in" class="btn btn-primary" />
+							<input id="login_button" name="commit" type="submit" value="Sign in" class="btn btn-info" />
 						</div>
 					</div>
 				</fieldset>

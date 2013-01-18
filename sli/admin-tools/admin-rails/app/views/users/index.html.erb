@@ -52,7 +52,7 @@
             <div class="btn-group">
                 <%@deleteButtonId = @elementIdPrefix + "_delete"%>
                 <%@editButtonId = @elementIdPrefix + "_edit"%>
-                                <%= link_to "Edit", "/users/#{user.uid}/edit", :method=> :get ,:class=>"btn btn-primary", :id => @editButtonId %> 
+                                <%= link_to "Edit", "/users/#{user.uid}/edit", :method=> :get ,:class=>"btn btn-info", :id => @editButtonId %> 
                             <% if @loginUserId == user.uid %> 
                                 <button id="<%= @elementIdPrefix%>_delete" type="button" class= "btn" disabled="disabled"><i class="icon-trash"></i></button>
                             <%else%>
@@ -70,5 +70,5 @@
 
 <br/>
 <div class="form-actions">
-    <%= link_to "Add User", "/users/new", :class => "btn btn-primary", :style => "color:white;"%>
+    <%= link_to "Add User", "/users/new", :class => "btn btn-info", :style => "color:white;"%>
 </div>

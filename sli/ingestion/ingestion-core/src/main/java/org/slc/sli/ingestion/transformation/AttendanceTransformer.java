@@ -28,15 +28,6 @@ import java.util.Set;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.dao.DuplicateKeyException;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
@@ -48,8 +39,16 @@ import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.AggregatedSource;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.NeutralRecordSource;
+import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
 import org.slc.sli.ingestion.smooks.SliDeltaManager;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
 
 /**
  * Transforms disjoint set of attendance events into cleaner set of {school year : list of
@@ -680,14 +679,9 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
 
     private Source getAggregatedSource() {
         String sourceFile = attendances.values().iterator().next().getSourceFile();
-        AggregatedSource source = new AggregatedSource(getBatchJobId(), sourceFile,
-                BatchJobStageType.TRANSFORMATION_PROCESSOR.getName());
+        AggregatedSource source = new AggregatedSource(sourceFile);
         for (NeutralRecord nr : attendances.values()) {
-            NeutralRecordSource nrSource = new NeutralRecordSource(sourceFile,
-                    BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(), nr.getRecordType(),
-                    nr.getVisitBeforeLineNumber(), nr.getVisitBeforeColumnNumber(),
-                    nr.getVisitAfterLineNumber(), nr.getVisitAfterColumnNumber());
-            source.addSource(nrSource);
+            source.addSource(new ElementSourceImpl(nr));
         }
         return source;
     }

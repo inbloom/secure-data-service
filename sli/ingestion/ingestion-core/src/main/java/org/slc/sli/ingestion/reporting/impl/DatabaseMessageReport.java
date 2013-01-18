@@ -69,7 +69,7 @@ public class DatabaseMessageReport extends AbstractMessageReport {
 
     private void persistFault(FaultType faultType, String message, Source source) {
         Error error = Error.createIngestionError(TenantContext.getJobId(), source.getResourceId(),
-                source.getStageName(), BatchJobUtils.getHostName(), BatchJobUtils.getHostAddress(), null,
+                "", BatchJobUtils.getHostName(), BatchJobUtils.getHostAddress(), null,
                 faultType.getName(), faultType.getName(), message);
 
         batchJobDAO.saveError(error);

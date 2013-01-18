@@ -49,7 +49,7 @@ public class FilePresenceValidatorTest {
 
         AbstractMessageReport mr = Mockito.spy(new DummyMessageReport());
 
-        Assert.assertFalse(v.isValid(fe, mr, new SimpleReportStats(), new JobSource("control", "")));
+        Assert.assertFalse(v.isValid(fe, mr, new SimpleReportStats(), new JobSource("control")));
 
         Mockito.verify(mr, Mockito.atLeastOnce()).error(Mockito.any(ReportStats.class),
                 Mockito.any(Source.class), Mockito.eq(BaseMessageCode.BASE_0004), Mockito.any(Object[].class));
@@ -63,7 +63,7 @@ public class FilePresenceValidatorTest {
 
         AbstractMessageReport mr = Mockito.spy(new DummyMessageReport());
 
-        Assert.assertFalse(v.isValid(fe, mr, new SimpleReportStats(), new JobSource("control", "")));
+        Assert.assertFalse(v.isValid(fe, mr, new SimpleReportStats(), new JobSource("control")));
 
         Mockito.verify(mr, Mockito.atLeastOnce()).error(Mockito.any(ReportStats.class),
                 Mockito.any(Source.class), Mockito.eq(BaseMessageCode.BASE_0001), Mockito.any(Object[].class));
@@ -79,7 +79,7 @@ public class FilePresenceValidatorTest {
 
         AbstractMessageReport mr = Mockito.spy(new DummyMessageReport());
 
-        Assert.assertTrue(v.isValid(fe, mr, new SimpleReportStats(), new JobSource("control", "")));
+        Assert.assertTrue(v.isValid(fe, mr, new SimpleReportStats(), new JobSource("control")));
 
         Mockito.verify(mr, Mockito.never()).error(Mockito.any(ReportStats.class),
                 Mockito.any(Source.class), Mockito.any(BaseMessageCode.class), Mockito.any(Object[].class));

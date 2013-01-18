@@ -23,9 +23,9 @@ package org.slc.sli.ingestion.reporting.impl;
 public class FileSource extends JobSource
 {
 
-    public FileSource(String resourceId, String stageName)
+    public FileSource(String resourceId)
     {
-        super(resourceId, stageName);
+        super(resourceId);
     }
 
 }

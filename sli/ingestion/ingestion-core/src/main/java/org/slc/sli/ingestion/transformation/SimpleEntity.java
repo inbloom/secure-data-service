@@ -23,12 +23,13 @@ import java.util.Map;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.Resource;
+import org.slc.sli.ingestion.reporting.ElementSource;
 
 /**
  * @author okrook
  *
  */
-public class SimpleEntity implements Entity, Resource {
+public class SimpleEntity implements Entity, Resource, ElementSource {
     private String type;
     private String entityId;
     private String stagedEntityId;
@@ -85,6 +86,12 @@ public class SimpleEntity implements Entity, Resource {
         this.recordNumber = recordNumber;
     }
 
+    @Override
+    public String getElementType() {
+        return type;
+    }
+
+    @Override
     public int getVisitBeforeLineNumber() {
         return visitBeforeLineNumber;
     }
@@ -93,6 +100,7 @@ public class SimpleEntity implements Entity, Resource {
         this.visitBeforeLineNumber = visitBeforeLineNumber;
     }
 
+    @Override
     public int getVisitBeforeColumnNumber() {
         return visitBeforeColumnNumber;
     }
