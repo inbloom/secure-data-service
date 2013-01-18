@@ -2743,6 +2743,12 @@ Given /^I create a tenant set to preload data set "(.*?)" for tenant "(.*?)"$/ d
   @tenantColl.save(@newTenant)
 end
 
+Given /^the tenant database "(.*?)" does not exist$/ do |tenant|
+    disable_NOTABLESCAN()
+    @conn.drop_database(convertTenantIdToDbName(tenant))
+    enable_NOTABLESCAN()
+end
+
 Then /^I should see either "(.*?)" or "(.*?)" following (.*?) in "(.*?)" file$/ do |content1, content2, logTag, logFile|
   found = false
   completeFileName = INGESTION_LOGS_DIRECTORY + '/' + 'ingestion.log'
