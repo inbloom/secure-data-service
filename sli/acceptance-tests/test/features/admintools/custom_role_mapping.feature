@@ -17,7 +17,7 @@ Then I have navigated to my Custom Role Mapping Page
 When I click on the Reset Mapping button
 And I got a warning message saying "Are you sure you want to reset the mappings to factory defaults? This will remove any custom defined roles!"
 When I click 'OK' on the warning message
-And I wait for 5 seconds
+Then I am no longer in edit mode
 Then the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves
 And the IT Administrator role is the only admin role
 
@@ -30,7 +30,8 @@ And I type the name "New Custom" in the Group name textbox
 When I add the right "READ_GENERAL" to the group "New Custom"   
 And I add the role "Dummy" to the group "New Custom"
 And I hit the save button
-Then the group "New Custom" contains the roles "Dummy"
+Then I am no longer in edit mode
+And the group "New Custom" contains the roles "Dummy"
 And the group "New Custom" contains the rights "Read General"
 
 @production
@@ -54,19 +55,12 @@ Then I have navigated to my Custom Role Mapping Page
 And the user "custom" in tenant "IL" can access the API with rights "Read General"
 And I edit the group "New Custom"
 When I add the right "WRITE_GENERAL" to the group "New Custom"
+And I check the admin role box
 And I hit the save button
-Then the group "New Custom" contains the rights "Read and Write General"
-And I wait for 5 seconds
+Then I am no longer in edit mode
+And the group "New Custom" contains the rights "Read and Write General"
 And the user "custom" in tenant "IL" can access the API with rights "Read and Write General"
-
-@production
-Scenario: Add admin flag to group
-When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
-Then I have navigated to my Custom Role Mapping Page
-And I edit the group "New Custom"
-When I check the admin role box
-And I hit the save button
-Then the group "New Custom" has the admin role box checked
+And the group "New Custom" has the admin role box checked
 
 @production
 Scenario: Remove rights from group
@@ -74,13 +68,13 @@ When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" l
 Then I have navigated to my Custom Role Mapping Page
 When I edit the group "New Custom"
 When I remove the right "WRITE_GENERAL" from the group "New Custom"
-And I hit the save button
 Then the group "New Custom" contains the rights "Read General"
-And I wait for 5 seconds
+And I hit the save button
+Then I am no longer in edit mode
+And the group "New Custom" contains the rights "Read General"
 And the user "custom" in tenant "IL" can access the API with rights "Read General"
 When I edit the group "New Custom"
 When I remove the right "READ_GENERAL" from the group "New Custom"
-#And I hit the save button
 Then I am informed that I must have at least one role and right in the group
 And the user "custom" in tenant "IL" can access the API with rights "Read General"
 
@@ -104,7 +98,6 @@ When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" l
 Then I have navigated to my Custom Role Mapping Page
 When I edit the group "New Custom"
 When I remove the role "Dummy" from the group "New Custom"
-#And I hit the save button
 Then I am informed that I must have at least one role and right in the group
 
 @production
@@ -160,6 +153,7 @@ And I type the name "New Custom" in the Group name textbox
 When I add the right "READ_GENERAL" to the group "New Custom"   
 And I add the role "Educator" to the group "New Custom"
 And I hit the save button
+Then I am no longer in edit mode
 Then the group "New Custom" contains the roles "Educator"
 And the group "New Custom" contains the rights "Read General"
 And the user "linda.kim" in tenant "developer-email" can access the API with rights "Read General"
@@ -172,14 +166,14 @@ Then I have navigated to my Custom Role Mapping Page
 When I edit the group "IT Administrator"
 When I add the right "AGGREGATE_WRITE" to the group "IT Administrator"   
 And I hit the save button
-And I wait for 5 seconds
+Then I am no longer in edit mode
 And the user "linda.kim" in tenant "sandboxadministrator" can access the API with rights "all defaults"
 And the user "linda.kim" in tenant "developer-email" can access the API with rights "Read General"
 When I click on the Reset Mapping button
 And I got a warning message saying "Are you sure you want to reset the mappings to factory defaults? This will remove any custom defined roles!"
 When I click 'OK' on the warning message
+Then I am no longer in edit mode
 Then the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves
 And the IT Administrator role is the only admin role
-And I wait for 5 seconds
 And the user "linda.kim" in tenant "sandboxadministrator" can access the API with rights "IT Administrator"
 And the user "linda.kim" in tenant "developer-email" can access the API with rights "Read General"

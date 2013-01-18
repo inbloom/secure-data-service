@@ -16,17 +16,16 @@
 
 package org.slc.sli.ingestion.landingzone.validation;
 
-import java.io.File;
 import java.util.List;
 
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
-import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
+import org.slc.sli.ingestion.reporting.impl.ControlFileSource;
 import org.slc.sli.ingestion.validation.Validator;
 
 /**
@@ -39,17 +38,13 @@ public class ControlFileValidator implements Validator<ControlFileDescriptor> {
 
     private static final String STAGE_NAME = "Control File Validation";
 
-    private List<Validator<FileEntryDescriptor>> ingestionFileValidators;
+    private List<Validator<IngestionFileEntry>> ingestionFileValidators;
 
-    private static boolean hasPathInName(String fileName) {
-        return (fileName.contains(File.separator) || fileName.contains("/"));
-    }
-
-    public List<Validator<FileEntryDescriptor>> getIngestionFileValidators() {
+    public List<Validator<IngestionFileEntry>> getIngestionFileValidators() {
         return ingestionFileValidators;
     }
 
-    public void setIngestionFileValidators(List<Validator<FileEntryDescriptor>> ingestionFileValidators) {
+    public void setIngestionFileValidators(List<Validator<IngestionFileEntry>> ingestionFileValidators) {
         this.ingestionFileValidators = ingestionFileValidators;
     }
 
@@ -58,52 +53,38 @@ public class ControlFileValidator implements Validator<ControlFileDescriptor> {
             Source source) {
         ControlFile controlFile = item.getFileItem();
 
+        // we know more of our source
         List<IngestionFileEntry> entries = controlFile.getFileEntries();
 
         if (entries.size() < 1) {
-
-            report.error(reportStats, source, BaseMessageCode.BASE_0003);
+            report.error(reportStats, new ControlFileSource(source.getResourceId(), controlFile), BaseMessageCode.BASE_0003);
 
             return false;
         }
 
         boolean isValid = true;
         for (IngestionFileEntry entry : entries) {
-
-            if (hasPathInName(entry.getFileName())) {
-                report.error(reportStats, source, BaseMessageCode.BASE_0004, entry.getFileName());
+            if (!isValid(entry, report, reportStats, source)) {
+                // remove the file from the entry since it did not pass the validation
+                entry.setValid(false);
                 isValid = false;
-            } else {
-
-                File file = item.getLandingZone().getFile(entry.getFileName());
-                if (file == null) {
-                    report.error(reportStats, source, BaseMessageCode.BASE_0001, entry.getFileName());
-                    isValid = false;
-                } else {
-                    entry.setFile(file);
-
-                    if (!isValid(new FileEntryDescriptor(entry, item.getLandingZone()), report, reportStats, source)) {
-                        // remove the file from the entry since it did not pass the validation
-                        entry.setFile(null);
-                        isValid = false;
-                    }
-                }
             }
         }
+
         // If all the entries failed and we haven't logged an error yet
         // then this is a case of 'no valid files in control file'
         // (i.e., SL_ERR_MSG8)
         if (!isValid && !reportStats.hasErrors()) {
-            report.error(reportStats, source, BaseMessageCode.BASE_0002);
+            report.error(reportStats, new ControlFileSource(source.getResourceId(), controlFile), BaseMessageCode.BASE_0002);
             return false;
         }
 
         return isValid;
     }
 
-    protected boolean isValid(FileEntryDescriptor item, AbstractMessageReport report, ReportStats reportStats,
+    protected boolean isValid(IngestionFileEntry item, AbstractMessageReport report, ReportStats reportStats,
             Source source) {
-        for (Validator<FileEntryDescriptor> validator : ingestionFileValidators) {
+        for (Validator<IngestionFileEntry> validator : ingestionFileValidators) {
             if (!validator.isValid(item, report, reportStats, source)) {
                 return false;
             }

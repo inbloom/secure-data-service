@@ -23,7 +23,7 @@ class DisciplineAction < BaseEntity
   attr_accessor :action_id, :disciplines, :date, :students, :incidents, :staff_id, :ed_org_id
 
   def initialize(student_id, ed_org_id, incident)
-    @action_id = incident.incident_identifier
+    @action_id = "#{incident.incident_identifier},#{student_id}"
     @disciplines = ["DI#{incident.index}"]
     @date = incident.date + 1
     @students = [student_id]

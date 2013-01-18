@@ -24,6 +24,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
+import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +35,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.NeutralRecordSource;
-import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 
 /**
  * Transformer for StudentAssessment entities.
@@ -119,10 +117,6 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : studentAssessments.entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
             Map<String, Object> attributes = neutralRecord.getAttributes();
-            NeutralRecordSource source = new NeutralRecordSource(neutralRecord.getSourceFile(), BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
-                    neutralRecord.getVisitBeforeLineNumber(),
-                    neutralRecord.getVisitBeforeColumnNumber(),
-                    neutralRecord.getVisitAfterLineNumber(), neutralRecord.getVisitAfterColumnNumber());
 
             String studentId = null;
             String administrationDate = null;
@@ -137,17 +131,17 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                         "studentId.StudentIdentity.StudentUniqueStateId");
             } catch (NoSuchMethodException e) {
                 LOG.warn("Unable to get StudentID within {} for StudentAssessment transform", attributes);
-                reportWarnings(neutralRecord.getSourceFile(), source, CoreMessageCode.CORE_0041, attributes);
+                reportWarnings(neutralRecord.getSourceFile(), new ElementSourceImpl(neutralRecord), CoreMessageCode.CORE_0041, attributes);
             } catch (Exception e) {
                 LOG.error("Exception occurred while retreiving student id", e);
-                reportError(neutralRecord.getSourceFile(), source, CoreMessageCode.CORE_0042, e.toString());
+                reportError(neutralRecord.getSourceFile(), new ElementSourceImpl(neutralRecord), CoreMessageCode.CORE_0042, e.toString());
             }
 
             try {
                 administrationDate = (String) attributes.get("administrationDate");
             } catch (ClassCastException e) {
                 LOG.error("Illegal value {} for administration date, must be a string");
-                reportError(neutralRecord.getSourceFile(), source, CoreMessageCode.CORE_0039, attributes.get("administrationDate"));
+                reportError(neutralRecord.getSourceFile(), new ElementSourceImpl(neutralRecord), CoreMessageCode.CORE_0039, attributes.get("administrationDate"));
             }
 
             try {
@@ -162,7 +156,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                 version = (Integer) assessmentIdentity.get(VERSION);
             } catch (Exception e) {
                 LOG.error("Unable to get key fields for StudentAssessment transform", e);
-                reportError(neutralRecord.getSourceFile(), source, CoreMessageCode.CORE_0040, e.toString());
+                reportError(neutralRecord.getSourceFile(), new ElementSourceImpl(neutralRecord), CoreMessageCode.CORE_0040, e.toString());
             }
 
             Map<String, Object> queryCriteria = new LinkedHashMap<String, Object>();
@@ -267,10 +261,6 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
 
                 String assessmentItemIdentificatonCode = (String) sai.getLocalParentIds().get(
                         "assessmentItemIdentificatonCode");
-                NeutralRecordSource source = new NeutralRecordSource(sai.getSourceFile(), BatchJobStageType.TRANSFORMATION_PROCESSOR.getName(),
-                        sai.getVisitBeforeLineNumber(),
-                        sai.getVisitBeforeColumnNumber(),
-                        sai.getVisitAfterLineNumber(), sai.getVisitAfterColumnNumber());
 
                 if (assessmentItemIdentificatonCode != null) {
                     Map<String, String> assessmentSearchPath = new HashMap<String, String>();
@@ -283,10 +273,10 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                         NeutralRecord assessmentItem = assessmentItems.iterator().next();
                         sai.getAttributes().put(ASSESSMENT_ITEM, assessmentItem.getAttributes());
                     } else {
-                        reportError(sai.getSourceFile(), source, CoreMessageCode.CORE_0032, assessmentItemIdentificatonCode);
+                        reportError(sai.getSourceFile(), new ElementSourceImpl(sai), CoreMessageCode.CORE_0032, assessmentItemIdentificatonCode);
                     }
                 } else {
-                    reportError(sai.getSourceFile(), source, CoreMessageCode.CORE_0033);
+                    reportError(sai.getSourceFile(), new ElementSourceImpl(sai), CoreMessageCode.CORE_0033);
                 }
 
                 studentAssessmentItems.add(sai.getAttributes());

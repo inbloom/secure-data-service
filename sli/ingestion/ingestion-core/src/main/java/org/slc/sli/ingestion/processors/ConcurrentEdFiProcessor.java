@@ -16,7 +16,6 @@
 
 package org.slc.sli.ingestion.processors;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -51,7 +50,7 @@ import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.JobSource;
+import org.slc.sli.ingestion.reporting.impl.ProcessorSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.service.IngestionExecutor;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
@@ -105,14 +104,14 @@ public class ConcurrentEdFiProcessor implements Processor, ApplicationContextAwa
     private void processEdFi(Exchange exchange, String batchJobId) {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
 
-        NewBatchJob newJob = null;
+        NewBatchJob currentJob = null;
         try {
-            newJob = batchJobDAO.findBatchJobById(batchJobId);
+            currentJob = batchJobDAO.findBatchJobById(batchJobId);
 
-            String tenantId = newJob.getTenantId();
+            String tenantId = currentJob.getTenantId();
             TenantContext.setTenantId(tenantId);
             TenantContext.setJobId(batchJobId);
-            TenantContext.setBatchProperties(newJob.getBatchProperties());
+            TenantContext.setBatchProperties(currentJob.getBatchProperties());
 
             // Check for record hash purge option given
             String rhMode = TenantContext.getBatchProperty(AttributeType.DUPLICATE_DETECTION.getName());
@@ -125,8 +124,7 @@ public class ConcurrentEdFiProcessor implements Processor, ApplicationContextAwa
 
             indexStagingDB();
 
-            List<IngestionFileEntry> fileEntryList = extractFileEntryList(batchJobId, newJob);
-            List<FutureTask<Boolean>> smooksFutureTaskList = processFilesInFuture(fileEntryList, newJob, stage);
+            List<FutureTask<Boolean>> smooksFutureTaskList = processJobInFuture(currentJob, stage);
             boolean anyErrorsProcessingFiles = aggregateFutureResults(smooksFutureTaskList);
 
             setExchangeHeaders(exchange, anyErrorsProcessingFiles);
@@ -134,9 +132,9 @@ public class ConcurrentEdFiProcessor implements Processor, ApplicationContextAwa
         } catch (Exception exception) {
             handleProcessingExceptions(exchange, batchJobId, exception);
         } finally {
-            if (newJob != null) {
-                BatchJobUtils.stopStageAndAddToJob(stage, newJob);
-                batchJobDAO.saveBatchJob(newJob);
+            if (currentJob != null) {
+                BatchJobUtils.stopStageAndAddToJob(stage, currentJob);
+                batchJobDAO.saveBatchJob(currentJob);
             }
         }
     }
@@ -149,16 +147,16 @@ public class ConcurrentEdFiProcessor implements Processor, ApplicationContextAwa
         neutralRecordMongoAccess.ensureIndexes();
     }
 
-    private List<FutureTask<Boolean>> processFilesInFuture(List<IngestionFileEntry> fileEntryList, NewBatchJob newJob,
-            Stage stage) {
+    private List<FutureTask<Boolean>> processJobInFuture(NewBatchJob job, Stage stage) {
+        List<IngestionFileEntry> fileEntryList = extractFileEntryList(job);
 
         List<FutureTask<Boolean>> smooksFutureTaskList = new ArrayList<FutureTask<Boolean>>(fileEntryList.size());
 
         for (IngestionFileEntry fe : fileEntryList) {
             XmlFileHandler xmlFileHandler = context.getBean("XmlFileHandler", XmlFileHandler.class);
 
-            Callable<Boolean> smooksCallable = new SmooksCallable(newJob, xmlFileHandler, fe, stage, batchJobDAO,
-                    sliSmooksFactory);
+            Callable<Boolean> smooksCallable = new SmooksCallable(job, xmlFileHandler, fe,
+                    databaseMessageReport, new SimpleReportStats(), stage, sliSmooksFactory);
             FutureTask<Boolean> smooksFutureTask = IngestionExecutor.execute(smooksCallable);
             smooksFutureTaskList.add(smooksFutureTask);
         }
@@ -178,10 +176,10 @@ public class ConcurrentEdFiProcessor implements Processor, ApplicationContextAwa
         return anyErrorsProcessingFiles;
     }
 
-    private List<IngestionFileEntry> extractFileEntryList(String batchJobId, NewBatchJob newJob) {
+    private List<IngestionFileEntry> extractFileEntryList(NewBatchJob job) {
         List<IngestionFileEntry> fileEntryList = new ArrayList<IngestionFileEntry>();
 
-        List<ResourceEntry> resourceList = newJob.getResourceEntries();
+        List<ResourceEntry> resourceList = job.getResourceEntries();
         for (ResourceEntry resource : resourceList) {
             if (FileFormat.EDFI_XML.getCode().equalsIgnoreCase(resource.getResourceFormat())) {
 
@@ -191,14 +189,8 @@ public class ConcurrentEdFiProcessor implements Processor, ApplicationContextAwa
                 String checksum = resource.getChecksum();
                 String zipParent = resource.getResourceZipParent();
 
-                String lzPath = resource.getTopLevelLandingZonePath();
-
-                IngestionFileEntry fe = new IngestionFileEntry(fileFormat, fileType, fileName, checksum, lzPath);
-                fe.setMessageReport(databaseMessageReport);
-                fe.setReportStats(new SimpleReportStats());
-                fe.setFile(new File(resource.getResourceName()));
-                fe.setBatchJobId(batchJobId);
-                fe.setFileZipParent(zipParent);
+                IngestionFileEntry fe = new IngestionFileEntry(zipParent, fileFormat, fileType, fileName, checksum);
+                fe.setBatchJobId(job.getId());
 
                 fileEntryList.add(fe);
             }
@@ -213,8 +205,8 @@ public class ConcurrentEdFiProcessor implements Processor, ApplicationContextAwa
 
         if (batchJobId != null) {
             ReportStats reportStats = new SimpleReportStats();
-            Source source = new JobSource(null, BATCH_JOB_STAGE.getName());
-            databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0021, batchJobId, exception.getMessage());
+            databaseMessageReport.error(reportStats, new ProcessorSource(BATCH_JOB_STAGE.getName()),
+                    CoreMessageCode.CORE_0021, batchJobId, exception.getMessage());
         }
     }
 

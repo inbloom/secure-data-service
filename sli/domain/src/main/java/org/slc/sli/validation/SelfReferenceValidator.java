@@ -65,14 +65,14 @@ public class SelfReferenceValidator {
                     try {
                         naturalKeys = naturalKeyExtractor.getNaturalKeys(entity);
                         if (naturalKeys != null && naturalKeys.size() > 0) {
-                            property = naturalKeys.values().iterator().next();
+                            property = naturalKeys.toString();
                         }
                     } catch (NoNaturalKeysDefinedException e) {
                         // Nothing can be done with the entity at this point,
                         LOG.error(e.getMessage(), e);
                     }
                     errors.add(new ValidationError(ErrorType.SELF_REFERENCING_DATA, selfReferencePath,
-                            property, new String[] { "Reference to a seperate entity" }));
+                            property, new String[] { "Reference to a separate entity" }));
                     return false;
                 }
                 return true;

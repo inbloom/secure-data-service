@@ -20,10 +20,10 @@ class User < SessionResource
   self.collection_name = "users"
   include ActiveModel::Validations
 
-  validates_presence_of :fullName, :email
-
-  #validates :email,:email=>true
-
+  validates_presence_of :email
+  validates :fullName, :presence => true, :length => { :maximum => 128 }
+  validates :tenant, :length => { :maximum => 160 }, :format => { :with => /^[-_a-zA-Z0-9]+[-_.@a-zA-Z0-9]*$/, :message => "should not contains spaces or special characters" }, :unless => "tenant.blank?"
+  validates :edorg, :length => { :maximum => 255 }, :unless => "edorg.blank?"
 
   schema do
     string  "uid"

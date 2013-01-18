@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 
 /**
@@ -44,7 +44,7 @@ public class AggregationPostProcessor implements Processor {
     public void process(Exchange exchange) throws Exception {
 
         LOG.info("Aggregation completed for current tier. Will now remove entities in tier from processing pool.");
-        WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
+        RangedWorkNote workNote = exchange.getIn().getBody(RangedWorkNote.class);
         String jobId = workNote.getBatchJobId();
         boolean isEmpty = batchJobDAO.removeAllPersistedStagedEntitiesFromJob(jobId);
 
@@ -54,7 +54,7 @@ public class AggregationPostProcessor implements Processor {
             LOG.info("Processing pool is now empty, continue out of orchestra routes.");
 
             exchange.getIn().setHeader("processedAllStagedEntities", true);
-            workNote = WorkNote.createSimpleWorkNote(jobId);
+            workNote = RangedWorkNote.createSimpleWorkNote(jobId);
             exchange.getIn().setBody(workNote);
         }
     }

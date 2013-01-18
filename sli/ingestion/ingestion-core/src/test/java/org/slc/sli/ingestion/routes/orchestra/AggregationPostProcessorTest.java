@@ -30,9 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.ingestion.WorkNote;
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 /**
 *
@@ -54,14 +52,10 @@ public class AggregationPostProcessorTest {
     public void testProcess() {
         Exchange preObject = new DefaultExchange(new DefaultCamelContext());
 
-        IngestionFileEntry entry = Mockito.mock(IngestionFileEntry.class);
-        NewBatchJob job = Mockito.mock(NewBatchJob.class);
-        job.addFile(entry);
-
         BatchJobDAO dao = Mockito.mock(BatchJobDAO.class);
         FINISHED_ENTITIES.add(RECORD_TYPE);
         Mockito.when(dao.removeAllPersistedStagedEntitiesFromJob(JOBID)).thenReturn(true);
-        WorkNote workNote = WorkNote.createSimpleWorkNote(JOBID);
+        RangedWorkNote workNote = RangedWorkNote.createSimpleWorkNote(JOBID);
         preObject.getIn().setBody(workNote);
 
         aggregationPostProcessor.setBatchJobDAO(dao);
@@ -72,7 +66,7 @@ public class AggregationPostProcessorTest {
             Assert.fail();
         }
 
-        Assert.assertEquals(workNote.getBatchJobId(), preObject.getIn().getBody(WorkNote.class).getBatchJobId());
+        Assert.assertEquals(workNote.getBatchJobId(), preObject.getIn().getBody(RangedWorkNote.class).getBatchJobId());
         Assert.assertEquals(true, preObject.getIn().getHeader("processedAllStagedEntities"));
 
     }

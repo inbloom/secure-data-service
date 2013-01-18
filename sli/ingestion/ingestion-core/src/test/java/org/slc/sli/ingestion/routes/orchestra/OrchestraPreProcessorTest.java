@@ -36,7 +36,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.dal.NeutralRecordRepository;
 
@@ -70,7 +70,7 @@ public class OrchestraPreProcessorTest {
 
         String testJobId = "test-id";
 
-        WorkNote workNote = WorkNote.createSimpleWorkNote(BATCHJOBID);
+        RangedWorkNote workNote = RangedWorkNote.createSimpleWorkNote(BATCHJOBID);
         //get a test tenantRecord
         Exchange ex = new DefaultExchange(new DefaultCamelContext());
         ex.getIn().setBody(workNote);

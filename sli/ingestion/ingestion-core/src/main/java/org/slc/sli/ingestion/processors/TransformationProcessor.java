@@ -28,7 +28,7 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.Job;
-import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -38,7 +38,7 @@ import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.JobSource;
+import org.slc.sli.ingestion.reporting.impl.ProcessorSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.transformation.TransformationFactory;
 import org.slc.sli.ingestion.transformation.Transmogrifier;
@@ -81,7 +81,7 @@ public class TransformationProcessor implements Processor {
      */
     @Override
     public void process(Exchange exchange) {
-        WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
+        RangedWorkNote workNote = exchange.getIn().getBody(RangedWorkNote.class);
 
         reportStats = new SimpleReportStats();
 
@@ -92,7 +92,7 @@ public class TransformationProcessor implements Processor {
         }
     }
 
-    private void processTransformations(WorkNote workNote, Exchange exchange) {
+    private void processTransformations(RangedWorkNote workNote, Exchange exchange) {
 
         Stage stage = initializeStage(workNote);
         String batchJobId = workNote.getBatchJobId();
@@ -117,7 +117,7 @@ public class TransformationProcessor implements Processor {
         }
     }
 
-    private void addMetricsToStage(WorkNote workNote, Stage stage) {
+    private void addMetricsToStage(RangedWorkNote workNote, Stage stage) {
         Metrics metrics = Metrics.newInstance(workNote.getIngestionStagedEntity().getCollectionNameAsStaged());
         NeutralQuery query = new NeutralQuery(0);
         query.addCriteria(new NeutralCriteria("creationTime", NeutralCriteria.CRITERIA_GTE, workNote.getRangeMinimum(),
@@ -131,7 +131,7 @@ public class TransformationProcessor implements Processor {
         stage.getMetrics().add(metrics);
     }
 
-    private Stage initializeStage(WorkNote workNote) {
+    private Stage initializeStage(RangedWorkNote workNote) {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
         stage.setProcessingInformation("stagedEntity="
                 + workNote.getIngestionStagedEntity().getCollectionNameAsStaged() + ", rangeMin="
@@ -146,7 +146,7 @@ public class TransformationProcessor implements Processor {
      * @param workNote
      * @param job
      */
-    void performDataTransformations(WorkNote workNote, Job job) {
+    void performDataTransformations(RangedWorkNote workNote, Job job) {
         LOG.info("performing data transformation BatchJob: {}", job.getId());
 
         Transmogrifier transmogrifier = transformationFactory.createTransmogrifier(workNote, job);
@@ -164,8 +164,8 @@ public class TransformationProcessor implements Processor {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         LogUtil.error(LOG, "Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
-            Source source = new JobSource(null, BATCH_JOB_STAGE.getName());
-            databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0027, exception.getMessage());
+            databaseMessageReport.error(reportStats, new ProcessorSource(BATCH_JOB_STAGE.getName()),
+                    CoreMessageCode.CORE_0027, exception.getMessage());
         }
     }
 

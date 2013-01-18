@@ -15,6 +15,8 @@
  */
 package org.slc.sli.ingestion.util;
 
+import static org.junit.Assert.assertNull;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -92,6 +94,9 @@ public class MongoCommanderTest {
         Mockito.when(db.getSisterDB(Matchers.anyString())).thenReturn(db);
         Mockito.when(db.getCollection("settings")).thenReturn(settings);
 
+        Mockito.when(res.ok()).thenReturn(true);
+        //Mockito.when(res.getErrorMessage()).thenReturn("Mocked error message");
+
         Mockito.when(assessmentCollection.getFullName()).thenReturn(dbName + ".assessment");
         Mockito.when(assessmentFamilyCollection.getFullName()).thenReturn(dbName + ".assessmentFamily");
         Mockito.when(assessmentItem.getFullName()).thenReturn(dbName + ".assessmentItem");
@@ -119,7 +124,8 @@ public class MongoCommanderTest {
 
     @Test
     public void testEnsureIndexes() {
-        MongoCommander.ensureIndexes("tenantDB_indexes.txt", dbName, mockedMongoTemplate);
+        String result = MongoCommander.ensureIndexes("tenantDB_indexes.txt", dbName, mockedMongoTemplate);
+        assertNull(result);
 
         for (String collection : shardCollections) {
             DBObject asskeys = new BasicDBObject();
@@ -131,7 +137,8 @@ public class MongoCommanderTest {
 
     @Test
     public void testEnsureSetIndexes() {
-        MongoCommander.ensureIndexes(indexes, dbName, mockedMongoTemplate);
+        String result = MongoCommander.ensureIndexes(indexes, dbName, mockedMongoTemplate);
+        assertNull(result);
 
         for (String collection : shardCollections) {
             DBObject asskeys = new BasicDBObject();
@@ -156,12 +163,13 @@ public class MongoCommanderTest {
 
         Mockito.when(db.command((DBObject) Matchers.any())).thenReturn(res);
         Mockito.when(res.get("shards")).thenReturn(listShards);
-        MongoCommander.preSplit(shardCollections, dbName, mockedMongoTemplate);
+        String result = MongoCommander.preSplit(shardCollections, dbName, mockedMongoTemplate);
+        assertNull(result);
 
         Mockito.verify(db, Mockito.times(1)).command(new BasicDBObject("enableSharding", dbName));
-        Mockito.verify(db, Mockito.times(1)).command(new BasicDBObject("listShards", 1));
+        Mockito.verify(db, Mockito.times(2)).command(new BasicDBObject("listShards", 1));
         //Verify total number of mongo command calls
-        Mockito.verify(db, Mockito.times(17)).command(Matchers.any(DBObject.class));
+        Mockito.verify(db, Mockito.times(11)).command(Matchers.any(DBObject.class));
 
         //For setBalancerState
         Mockito.verify(settings, Mockito.times(1)).update(Matchers.any(DBObject.class), Matchers.any(DBObject.class), Matchers.eq(true), Matchers.eq(false));

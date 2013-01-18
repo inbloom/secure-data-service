@@ -178,7 +178,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         LOG.info("Configuring node {} for node type {}", nodeInfo.getUUID(), nodeInfo.getNodeType());
 
         loggingMessageReport.setLogger(LOG);
-        Source source = new JobSource(null, null);
+        Source source = new JobSource(null);
         ReportStats reportStats = new SimpleReportStats();
         boolean indexValidated = systemValidator.isValid(null, loggingMessageReport, reportStats, source);
 

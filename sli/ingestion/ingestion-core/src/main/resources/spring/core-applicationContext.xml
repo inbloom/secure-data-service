@@ -70,8 +70,17 @@
 
   <bean id="xmlFileValidator" class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
 
-  <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler" />
+  <!-- This will go away upon completion of US5060 -->
+  <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler">
+    <property name="preValidators">
+      <util:list value-type="org.slc.sli.ingestion.validation.Validator">
+        <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+        <ref bean="xsdValidator" />
+      </util:list>
+    </property>
+  </bean>
 
+  <!-- This will go away upon completion of US4198 -->
   <bean id="XmlFileHandler" class="org.slc.sli.ingestion.handler.XmlFileHandler" scope="prototype">
     <property name="preValidators">
       <util:list value-type="org.slc.sli.ingestion.validation.Validator">
@@ -79,6 +88,10 @@
         <ref bean="xsdValidator" />
       </util:list>
     </property>
+  </bean>
+
+  <bean id="edFiProcessor" class="org.slc.sli.ingestion.processors.EdFiProcessor">
+    <property name="smooksFileHandler" ref="smooksFileHandler" />
   </bean>
 
   <bean id="persistenceProcessor" class="org.slc.sli.ingestion.processors.PersistenceProcessor">

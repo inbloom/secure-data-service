@@ -40,7 +40,6 @@ import org.slc.sli.ingestion.handler.XmlFileHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
-import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.service.IngestionExecutor;
 
 /**
@@ -61,9 +60,6 @@ public class SmooksCallableTest {
     SliSmooksFactory sliSmooksFactory;
 
     @Mock
-    private BatchJobDAO batchJobDAO;
-
-    @Mock
     private NewBatchJob newBatchJob;
 
     @Before
@@ -80,16 +76,14 @@ public class SmooksCallableTest {
                 .getResource("smooks/unitTestData/InterchangeStaffAssociation.xml").getPath();
         File fileToIngest = new File(filePath);
 
-        IngestionFileEntry fe = new IngestionFileEntry(FileFormat.EDFI_XML, FileType.XML_STUDENT_ATTENDANCE, filePath,
-                null, fileToIngest.getParent());
-        fe.setFile(fileToIngest);
+        IngestionFileEntry fe = new IngestionFileEntry(fileToIngest.getParentFile().getAbsolutePath(), FileFormat.EDFI_XML, FileType.XML_STUDENT_ATTENDANCE, fileToIngest.getName(), null);
         fe.setBatchJobId(batchJobId);
 
         Stage stage = new Stage();
 
         List<FutureTask<Boolean>> smooksOfTheFutureList = new ArrayList<FutureTask<Boolean>>();
         for (int i = 0; i < 3; i++) {
-            SmooksCallable smooksCallabe = new SmooksCallable(newBatchJob, xmlFileHandler, fe, stage, batchJobDAO, sliSmooksFactory);
+            SmooksCallable smooksCallabe = new SmooksCallable(newBatchJob, xmlFileHandler, fe, null, null, stage, sliSmooksFactory);
 
             FutureTask<Boolean> smooksOfTheFuture = IngestionExecutor.execute(smooksCallabe);
 

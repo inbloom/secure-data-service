@@ -9,14 +9,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000040</ProgramId>
+        <ProgramId>68</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2001-08-27</BeginDate>
     <EndDate>2002-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -28,90 +28,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000044</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2001-08-27</BeginDate>
-    <EndDate>2002-05-23</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>1</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000057</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2001-08-27</BeginDate>
-    <EndDate>2002-05-23</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>1</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000056</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2001-08-27</BeginDate>
-    <EndDate>2002-05-23</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>1</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000050</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2001-08-27</BeginDate>
-    <EndDate>2002-05-23</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>1</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000032</ProgramId>
+        <ProgramId>52</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2002-09-05</BeginDate>
     <EndDate>2003-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -123,14 +47,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000033</ProgramId>
+        <ProgramId>69</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2002-09-05</BeginDate>
     <EndDate>2003-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -142,26 +66,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000058</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2002-09-05</BeginDate>
-    <EndDate>2003-06-02</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>1</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000031</ProgramId>
+        <ProgramId>33</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2003-09-04</BeginDate>
@@ -180,14 +85,52 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000069</ProgramId>
+        <ProgramId>59</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2003-09-04</BeginDate>
     <EndDate>2004-05-31</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000000</StateOrganizationId>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>70</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <BeginDate>2003-09-04</BeginDate>
+    <EndDate>2004-05-31</EndDate>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>50</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <BeginDate>2003-09-04</BeginDate>
+    <EndDate>2004-05-31</EndDate>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -199,14 +142,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000017</ProgramId>
+        <ProgramId>55</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2001-08-27</BeginDate>
     <EndDate>2002-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -218,64 +161,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000051</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2001-08-27</BeginDate>
-    <EndDate>2002-05-23</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>2</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000050</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2001-08-27</BeginDate>
-    <EndDate>2002-05-23</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>2</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000053</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2001-08-27</BeginDate>
-    <EndDate>2002-05-23</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>2</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000021</ProgramId>
+        <ProgramId>15</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2002-09-05</BeginDate>
@@ -294,14 +180,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000051</ProgramId>
+        <ProgramId>66</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2002-09-05</BeginDate>
     <EndDate>2003-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -313,7 +199,26 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000013</ProgramId>
+        <ProgramId>56</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <BeginDate>2002-09-05</BeginDate>
+    <EndDate>2003-06-02</EndDate>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>2</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>29</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2003-09-04</BeginDate>
@@ -332,14 +237,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000059</ProgramId>
+        <ProgramId>19</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2003-09-04</BeginDate>
     <EndDate>2004-05-31</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
+        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -351,14 +256,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000056</ProgramId>
+        <ProgramId>70</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2003-09-04</BeginDate>
     <EndDate>2004-05-31</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -370,7 +275,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000015</ProgramId>
+        <ProgramId>27</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2001-08-27</BeginDate>
@@ -389,14 +294,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000019</ProgramId>
+        <ProgramId>66</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2001-08-27</BeginDate>
     <EndDate>2002-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -408,14 +313,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000070</ProgramId>
+        <ProgramId>50</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2001-08-27</BeginDate>
     <EndDate>2002-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000000</StateOrganizationId>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -427,14 +332,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000066</ProgramId>
+        <ProgramId>54</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2001-08-27</BeginDate>
     <EndDate>2002-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000000</StateOrganizationId>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -446,26 +351,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000059</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2001-08-27</BeginDate>
-    <EndDate>2002-05-23</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>3</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000013</ProgramId>
+        <ProgramId>23</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2002-09-05</BeginDate>
@@ -484,14 +370,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000012</ProgramId>
+        <ProgramId>69</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2002-09-05</BeginDate>
     <EndDate>2003-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -503,52 +389,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000051</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2002-09-05</BeginDate>
-    <EndDate>2003-06-02</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>3</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000066</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2002-09-05</BeginDate>
-    <EndDate>2003-06-02</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>3</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000050</ProgramId>
+        <ProgramId>43</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2003-09-04</BeginDate>
     <EndDate>2004-05-31</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
+        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -560,14 +408,33 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000067</ProgramId>
+        <ProgramId>53</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2003-09-04</BeginDate>
     <EndDate>2004-05-31</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000000</StateOrganizationId>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>3</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>67</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <BeginDate>2003-09-04</BeginDate>
+    <EndDate>2004-05-31</EndDate>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -579,7 +446,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000018</ProgramId>
+        <ProgramId>30</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2001-08-27</BeginDate>
@@ -598,7 +465,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000017</ProgramId>
+        <ProgramId>14</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2001-08-27</BeginDate>
@@ -617,14 +484,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000067</ProgramId>
+        <ProgramId>55</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2001-08-27</BeginDate>
     <EndDate>2002-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000000</StateOrganizationId>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -636,45 +503,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000070</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2001-08-27</BeginDate>
-    <EndDate>2002-05-23</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>4</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000052</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2001-08-27</BeginDate>
-    <EndDate>2002-05-23</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>4</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000048</ProgramId>
+        <ProgramId>39</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2002-09-05</BeginDate>
@@ -693,7 +522,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000042</ProgramId>
+        <ProgramId>44</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2002-09-05</BeginDate>
@@ -712,14 +541,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000052</ProgramId>
+        <ProgramId>68</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2002-09-05</BeginDate>
     <EndDate>2003-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -731,14 +560,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000055</ProgramId>
+        <ProgramId>59</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2002-09-05</BeginDate>
     <EndDate>2003-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -750,14 +579,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000068</ProgramId>
+        <ProgramId>57</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2002-09-05</BeginDate>
     <EndDate>2003-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000000</StateOrganizationId>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -769,14 +598,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000048</ProgramId>
+        <ProgramId>53</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2003-09-04</BeginDate>
     <EndDate>2004-05-31</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -788,223 +617,71 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000044</ProgramId>
+        <ProgramId>50</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2003-09-04</BeginDate>
     <EndDate>2004-05-31</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
   <StudentProgramAssociation>
     <StudentReference>
       <StudentIdentity>
-        <StudentUniqueStateId>4</StudentUniqueStateId>
+        <StudentUniqueStateId>5</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000051</ProgramId>
+        <ProgramId>56</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <BeginDate>2001-08-27</BeginDate>
+    <EndDate>2002-05-23</EndDate>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>5</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>69</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <BeginDate>2002-09-05</BeginDate>
+    <EndDate>2003-06-02</EndDate>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>5</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>54</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2003-09-04</BeginDate>
     <EndDate>2004-05-31</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>5</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000001</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2001-08-27</BeginDate>
-    <EndDate>2002-05-23</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>5</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000005</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2001-08-27</BeginDate>
-    <EndDate>2002-05-23</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>5</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000066</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2001-08-27</BeginDate>
-    <EndDate>2002-05-23</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>5</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000067</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2001-08-27</BeginDate>
-    <EndDate>2002-05-23</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>5</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000068</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2001-08-27</BeginDate>
-    <EndDate>2002-05-23</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>5</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000011</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2002-09-05</BeginDate>
-    <EndDate>2003-06-02</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>5</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000005</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2002-09-05</BeginDate>
-    <EndDate>2003-06-02</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>5</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000058</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2002-09-05</BeginDate>
-    <EndDate>2003-06-02</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>5</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000052</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2002-09-05</BeginDate>
-    <EndDate>2003-06-02</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>5</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000057</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2003-09-04</BeginDate>
-    <EndDate>2004-05-31</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -1016,14 +693,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000059</ProgramId>
+        <ProgramId>50</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2001-08-27</BeginDate>
     <EndDate>2002-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -1035,7 +712,26 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000002</ProgramId>
+        <ProgramId>67</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <BeginDate>2001-08-27</BeginDate>
+    <EndDate>2002-05-23</EndDate>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>6</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>1</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2002-09-05</BeginDate>
@@ -1054,11 +750,49 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000006</ProgramId>
+        <ProgramId>67</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2002-09-05</BeginDate>
     <EndDate>2003-06-02</EndDate>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>6</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>69</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <BeginDate>2002-09-05</BeginDate>
+    <EndDate>2003-06-02</EndDate>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>6</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>3</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <BeginDate>2003-09-04</BeginDate>
+    <EndDate>2004-05-31</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -1073,14 +807,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000067</ProgramId>
+        <ProgramId>10</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2002-09-05</BeginDate>
-    <EndDate>2003-06-02</EndDate>
+    <BeginDate>2003-09-04</BeginDate>
+    <EndDate>2004-05-31</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000000</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -1092,52 +826,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000050</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2002-09-05</BeginDate>
-    <EndDate>2003-06-02</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>6</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000052</ProgramId>
+        <ProgramId>59</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2003-09-04</BeginDate>
     <EndDate>2004-05-31</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>6</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000051</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2003-09-04</BeginDate>
-    <EndDate>2004-05-31</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -1149,7 +845,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000004</ProgramId>
+        <ProgramId>7</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2001-08-27</BeginDate>
@@ -1168,14 +864,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000056</ProgramId>
+        <ProgramId>11</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2001-08-27</BeginDate>
     <EndDate>2002-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -1187,14 +883,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000067</ProgramId>
+        <ProgramId>55</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2001-08-27</BeginDate>
     <EndDate>2002-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000000</StateOrganizationId>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -1206,14 +902,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000070</ProgramId>
+        <ProgramId>52</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2001-08-27</BeginDate>
     <EndDate>2002-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000000</StateOrganizationId>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -1225,7 +921,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000010</ProgramId>
+        <ProgramId>2</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2002-09-05</BeginDate>
@@ -1244,14 +940,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000056</ProgramId>
+        <ProgramId>7</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2002-09-05</BeginDate>
     <EndDate>2003-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -1263,14 +959,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000050</ProgramId>
+        <ProgramId>70</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2002-09-05</BeginDate>
     <EndDate>2003-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -1282,14 +978,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000070</ProgramId>
+        <ProgramId>67</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2002-09-05</BeginDate>
     <EndDate>2003-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000000</StateOrganizationId>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -1301,7 +997,26 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000005</ProgramId>
+        <ProgramId>58</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <BeginDate>2002-09-05</BeginDate>
+    <EndDate>2003-06-02</EndDate>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>7</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>5</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2003-09-04</BeginDate>
@@ -1320,204 +1035,33 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000069</ProgramId>
+        <ProgramId>70</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2003-09-04</BeginDate>
     <EndDate>2004-05-31</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000000</StateOrganizationId>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
   <StudentProgramAssociation>
     <StudentReference>
       <StudentIdentity>
-        <StudentUniqueStateId>8</StudentUniqueStateId>
+        <StudentUniqueStateId>7</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000009</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2001-08-27</BeginDate>
-    <EndDate>2002-05-23</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>8</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000002</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2001-08-27</BeginDate>
-    <EndDate>2002-05-23</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>8</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000069</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2001-08-27</BeginDate>
-    <EndDate>2002-05-23</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>8</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000055</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2001-08-27</BeginDate>
-    <EndDate>2002-05-23</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>8</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000006</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2002-09-05</BeginDate>
-    <EndDate>2003-06-02</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>8</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000001</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2002-09-05</BeginDate>
-    <EndDate>2003-06-02</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>8</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000054</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2002-09-05</BeginDate>
-    <EndDate>2003-06-02</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>8</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000056</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2002-09-05</BeginDate>
-    <EndDate>2003-06-02</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>8</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000068</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2002-09-05</BeginDate>
-    <EndDate>2003-06-02</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>8</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000011</ProgramId>
+        <ProgramId>58</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2003-09-04</BeginDate>
     <EndDate>2004-05-31</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -1529,14 +1073,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000069</ProgramId>
+        <ProgramId>68</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
-    <BeginDate>2003-09-04</BeginDate>
-    <EndDate>2004-05-31</EndDate>
+    <BeginDate>2001-08-27</BeginDate>
+    <EndDate>2002-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000000</StateOrganizationId>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -1548,14 +1092,90 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000059</ProgramId>
+        <ProgramId>70</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <BeginDate>2002-09-05</BeginDate>
+    <EndDate>2003-06-02</EndDate>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>8</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>55</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <BeginDate>2002-09-05</BeginDate>
+    <EndDate>2003-06-02</EndDate>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>8</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>54</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2003-09-04</BeginDate>
     <EndDate>2004-05-31</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>8</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>55</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <BeginDate>2003-09-04</BeginDate>
+    <EndDate>2004-05-31</EndDate>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>8</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>52</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <BeginDate>2003-09-04</BeginDate>
+    <EndDate>2004-05-31</EndDate>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -1567,7 +1187,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000010</ProgramId>
+        <ProgramId>10</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2001-08-27</BeginDate>
@@ -1586,7 +1206,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000008</ProgramId>
+        <ProgramId>8</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2001-08-27</BeginDate>
@@ -1605,14 +1225,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000069</ProgramId>
+        <ProgramId>51</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2001-08-27</BeginDate>
     <EndDate>2002-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000000</StateOrganizationId>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -1624,14 +1244,52 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000007</ProgramId>
+        <ProgramId>55</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <BeginDate>2001-08-27</BeginDate>
+    <EndDate>2002-05-23</EndDate>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>9</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>57</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <BeginDate>2001-08-27</BeginDate>
+    <EndDate>2002-05-23</EndDate>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
+  <StudentProgramAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>9</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>70</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2002-09-05</BeginDate>
     <EndDate>2003-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -1643,26 +1301,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000050</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2002-09-05</BeginDate>
-    <EndDate>2003-06-02</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>9</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000025</ProgramId>
+        <ProgramId>29</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2003-09-04</BeginDate>
@@ -1681,14 +1320,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000013</ProgramId>
+        <ProgramId>53</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2003-09-04</BeginDate>
     <EndDate>2004-05-31</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -1700,14 +1339,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000057</ProgramId>
+        <ProgramId>66</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2003-09-04</BeginDate>
     <EndDate>2004-05-31</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -1719,7 +1358,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000010</ProgramId>
+        <ProgramId>1</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2001-08-27</BeginDate>
@@ -1738,14 +1377,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000001</ProgramId>
+        <ProgramId>53</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2001-08-27</BeginDate>
     <EndDate>2002-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -1757,14 +1396,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000053</ProgramId>
+        <ProgramId>69</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2001-08-27</BeginDate>
     <EndDate>2002-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -1776,14 +1415,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000069</ProgramId>
+        <ProgramId>50</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2001-08-27</BeginDate>
     <EndDate>2002-05-23</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000000</StateOrganizationId>
+        <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -1795,26 +1434,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000050</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2001-08-27</BeginDate>
-    <EndDate>2002-05-23</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>10</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000030</ProgramId>
+        <ProgramId>19</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2002-09-05</BeginDate>
@@ -1833,14 +1453,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000057</ProgramId>
+        <ProgramId>67</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2002-09-05</BeginDate>
     <EndDate>2003-06-02</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>
@@ -1852,26 +1472,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000050</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2002-09-05</BeginDate>
-    <EndDate>2003-06-02</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>10</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000028</ProgramId>
+        <ProgramId>29</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2003-09-04</BeginDate>
@@ -1890,52 +1491,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <ProgramReference>
       <ProgramIdentity>
-        <ProgramId>prgm-0000000056</ProgramId>
+        <ProgramId>68</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
     <BeginDate>2003-09-04</BeginDate>
     <EndDate>2004-05-31</EndDate>
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>10</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000070</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2003-09-04</BeginDate>
-    <EndDate>2004-05-31</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>stte-0000000000</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </EducationOrganizationReference>
-  </StudentProgramAssociation>
-  <StudentProgramAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>10</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>prgm-0000000059</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <BeginDate>2003-09-04</BeginDate>
-    <EndDate>2004-05-31</EndDate>
-    <EducationOrganizationReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>locl-0000000000</StateOrganizationId>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
   </StudentProgramAssociation>

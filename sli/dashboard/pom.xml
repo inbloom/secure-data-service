@@ -1,375 +1,335 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
-	<modelVersion>4.0.0</modelVersion>
-
-	<parent>
-		<groupId>org.slc.sli</groupId>
-		<artifactId>sli</artifactId>
-		<version>1.0-SNAPSHOT</version>
-	</parent>
-
-	<artifactId>dashboard</artifactId>
-	<packaging>war</packaging>
-	<name>SLI Dashboard</name>
-
-	<properties>
-	    <spring.version>3.1.1.RELEASE</spring.version>
-	    <spring.security.version>3.0.6.RELEASE</spring.security.version>
-		<freemarker.version>2.3.18</freemarker.version>
-		<gson.version>2.0</gson.version>
-		<powermock.version>1.4.10</powermock.version>
-
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.slc.sli</groupId>
+        <artifactId>sli</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>dashboard</artifactId>
+    <packaging>war</packaging>
+    <name>SLI Dashboard</name>
+    <properties>
+        <spring.version>3.1.1.RELEASE</spring.version>
+        <spring.security.version>3.0.6.RELEASE</spring.security.version>
+        <freemarker.version>2.3.18</freemarker.version>
+        <gson.version>2.0</gson.version>
+        <powermock.version>1.4.10</powermock.version>
         <sli.home>${project.parent.basedir}</sli.home>
         <sli.conf>${sli.home}/config/properties/sli.properties</sli.conf>
         <sli.test.conf>${sli.home}/config/properties/sli-test.properties</sli.test.conf>
         <sli.encryption.properties>${sli.home}/data-access/dal/keyStore/ciEncryption.properties</sli.encryption.properties>
-	</properties>
-
-
-	<dependencies>
-		<!-- Servlet dependencies -->
-
+    </properties>
+    <dependencies>
+        <!-- Servlet dependencies -->
         <dependency>
             <groupId>commons-httpclient</groupId>
             <artifactId>commons-httpclient</artifactId>
             <version>3.1</version>
         </dependency>
-
         <dependency>
-	        <groupId>commons-lang</groupId>
-	        <artifactId>commons-lang</artifactId>
-	        <version>2.6</version>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
         </dependency>
-
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-		</dependency>
-	    <dependency>
-		    <groupId>joda-time</groupId>
-		    <artifactId>joda-time</artifactId>
-		    <version>2.1</version>
-	    </dependency>
-
-		<dependency>
-			<groupId>net.sf.ehcache</groupId>
-			<artifactId>ehcache-core</artifactId>
-			<version>2.5.2</version>
-		</dependency>
-
         <dependency>
-			<groupId>org.codehaus.jackson</groupId>
-			<artifactId>jackson-mapper-asl</artifactId>
-		</dependency>
-	    <dependency>
-	        <groupId>org.hibernate</groupId>
-	        <artifactId>hibernate-validator</artifactId>
-	    </dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache-core</artifactId>
+            <version>2.5.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+        </dependency>
         <!-- Power mock dependencies -->
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-module-junit4</artifactId>
-			<version>${powermock.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-api-easymock</artifactId>
-			<version>${powermock.version}</version>
-			<scope>test</scope>
-		</dependency>
-
-		<!-- Easy mock dependencies -->
-		<dependency>
-			<groupId>org.easymock</groupId>
-			<artifactId>easymock</artifactId>
-			<version>3.0</version>
-			<scope>test</scope>
-		</dependency>
-
-    <!-- SLI -->
-    <dependency>
-        <groupId>org.slc.sli.domain</groupId>
-        <artifactId>domain</artifactId>
-    </dependency>
-
-    <dependency>
-        <groupId>org.slc.sli.common</groupId>
-        <artifactId>sli-common</artifactId>
-    </dependency>
-
-    <dependency>
-        <groupId>org.slc.sli</groupId>
-        <artifactId>client-api</artifactId>
-    </dependency>
-
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-module-junit4</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-easymock</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- Easy mock dependencies -->
+        <dependency>
+            <groupId>org.easymock</groupId>
+            <artifactId>easymock</artifactId>
+            <version>3.0</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- SLI -->
+        <dependency>
+            <groupId>org.slc.sli.domain</groupId>
+            <artifactId>domain</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slc.sli.common</groupId>
+            <artifactId>sli-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slc.sli</groupId>
+            <artifactId>client-api</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.slc.sli</groupId>
             <artifactId>encryption-tool</artifactId>
         </dependency>
-
-		<!-- Freemarker -->
-		<dependency>
-			<groupId>org.freemarker</groupId>
-			<artifactId>freemarker</artifactId>
-			<version>${freemarker.version}</version>
-		</dependency>
-
+        <!-- Freemarker -->
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>${freemarker.version}</version>
+        </dependency>
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
         </dependency>
-
-		<!-- Google GSON dependency -->
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>${gson.version}</version>
-		</dependency>
-
-		<!-- Selenium dependency -->
-		<dependency>
-		    <groupId>org.seleniumhq.selenium</groupId>
-		    <artifactId>selenium-java</artifactId>
-	            <version>2.14.0</version>
-		    <exclusions>
-			<exclusion>
-				<groupId>com.google.guava</groupId>
-				<artifactId>guava</artifactId>
-			</exclusion>
-		    </exclusions>
-		    <scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.powermock</groupId>
-			<artifactId>powermock-api-mockito</artifactId>
-			<version>${powermock.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-
-		<!-- Spring AOP dependency -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-aop</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-
-		<!-- Spring Context dependency -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-
-		<!-- Spring Beans dependency -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-beans</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-
-		<!-- Spring Expression dependency -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-expression</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-
-		<!-- Spring Security dependency -->
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-			<version>${spring.security.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-config</artifactId>
-			<version>${spring.security.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-web</artifactId>
-			<version>${spring.security.version}</version>
-		</dependency>
-
-		<!-- Spring Test dependency -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-		    <groupId>org.scribe</groupId>
-		    <artifactId>scribe</artifactId>
-		    <version>1.3.0</version>
-		</dependency>
-	</dependencies>
-
-	<build>
-		<finalName>dashboard</finalName>
-
-		<resources>
+        <!-- Google GSON dependency -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${gson.version}</version>
+        </dependency>
+        <!-- Selenium dependency -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>2.14.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </exclusion>
+            </exclusions>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.powermock</groupId>
+            <artifactId>powermock-api-mockito</artifactId>
+            <version>${powermock.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!-- Spring AOP dependency -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!-- Spring Context dependency -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!-- Spring Beans dependency -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!-- Spring Expression dependency -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-expression</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!-- Spring Security dependency -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>${spring.security.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${spring.security.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${spring.security.version}</version>
+        </dependency>
+        <!-- Spring Test dependency -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.scribe</groupId>
+            <artifactId>scribe</artifactId>
+            <version>1.3.0</version>
+        </dependency>
+    </dependencies>
+    <build>
+        <finalName>dashboard</finalName>
+        <resources>
             <resource>
-                     <directory>src/main/resources</directory>
-                     <filtering>false</filtering>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
             </resource>
-			<resource>
-				<directory>src/main/webapp/WEB-INF</directory>
-				<includes>
-					<include>web.xml</include>
-				</includes>
-				<filtering>true</filtering>
-				<targetPath>${project.build.directory}</targetPath>
-			</resource>
-		</resources>
-                <testResources>
-                    <testResource>
-                        <directory>src/test/resources</directory>
-                        <filtering>true</filtering>
-                    </testResource>
-                </testResources>
+            <resource>
+                <directory>src/main/webapp/WEB-INF</directory>
+                <includes>
+                    <include>web.xml</include>
+                </includes>
+                <filtering>true</filtering>
+                <targetPath>${project.build.directory}</targetPath>
+            </resource>
+        </resources>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </testResource>
+        </testResources>
+        <defaultGoal>install</defaultGoal>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+            </plugin>
 
-		<defaultGoal>install</defaultGoal>
-
-
-		<plugins>
-	      <plugin>
-	        <groupId>net.alchim31.maven</groupId>
-	        <artifactId>yuicompressor-maven-plugin</artifactId>
-	        <executions>
-	          <execution>
-	            <goals>
-	              <goal>compress</goal>
-	            </goals>
-	            <phase>process-resources</phase>
-	          </execution>
-	        </executions>
-	        <configuration>
-	          <jswarn>false</jswarn>
-	          <nosuffix>true</nosuffix>
-	          <nomunge>true</nomunge>
-	          <aggregations>
-	            <aggregation>
-	                <removeIncluded>true</removeIncluded>
-
-	                <insertNewLine>true</insertNewLine>
-	                <output>${basedir}/target/dashboard/static/js/widgets.js</output>
-	                <includes>
-                        <include>**/widgets/license.js</include>
-	                    <include>**/widgets/SLC.loadingMask.js</include>
-	                    <include>**/widgets/grid/SLC.grid.tablegrid.js</include>
-	                    <include>**/widgets/grid/SLC.grid.repeatHeaderGrid.js</include>
-	                    <include>**/widgets/grid/SLC.grid.tree.js</include>
-	                    <include>**/widgets/grid/SLC.grid.fuelGauge.js</include>
-	                    <include>**/widgets/grid/SLC.grid.formatters.js</include>
-	                    <include>**/widgets/grid/SLC.grid.sorters.js</include>
-	                    <include>**/widgets/grid/SLC.grid.teardrop.js</include>
-	                    <include>**/widgets/grid/SLC.grid.cutPoints.js</include>
-	                </includes>
-	            </aggregation>
-	            <aggregation>
-	                <removeIncluded>true</removeIncluded>
-
-	                <insertNewLine>true</insertNewLine>
-	                <output>${basedir}/target/dashboard/static/js/SLC.js</output>
-	                <includes>
-                            <include>**/controller/license.js</include>
-	                    <include>**/controller/SLC.js</include>
-	                    <include>**/controller/SLC.dataProxy.js</include>
-	                    <include>**/controller/SLC.util.js</include>
-	                </includes>
-	            </aggregation>
-	            <aggregation>
-	                <removeIncluded>false</removeIncluded>
-
-	                <insertNewLine>true</insertNewLine>
-	                <output>${basedir}/target/dashboard/builder/js/builder.js</output>
-	                <includes>
-                            <include>**/license.js</include>
-	                    <include>**/SLC.builder.app.js</include>
-	                    <include>**/SLC.builder.controllers.js</include>
-	                    <include>**/SLC.builder.directives.js</include>
-	                    <include>**/SLC.builder.filters.js</include>
-	                    <include>**/SLC.builder.services.js</include>
-	                </includes>
-	            </aggregation>
-	          </aggregations>
-	        </configuration>
-	      </plugin>
-	        <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <executions>
-                        <execution>
-                            <id>attach-javadocs</id>
-                            <goals>
-                                <goal>jar</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-			<plugin>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.1.1</version>
-				<configuration>
-					<webXml>target/web.xml</webXml>
-					<warSourceExcludes>**/static/js/**/*.js</warSourceExcludes>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>maven-jetty-plugin</artifactId>
-				<version>${maven.jetty.version}</version>
-				<configuration>
-					<webXml>target/web.xml</webXml>
-					<scanIntervalSeconds>5</scanIntervalSeconds>
+            <plugin>
+                <groupId>net.alchim31.maven</groupId>
+                <artifactId>yuicompressor-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compress</goal>
+                        </goals>
+                        <phase>process-resources</phase>
+                    </execution>
+                </executions>
+                <configuration>
+                    <jswarn>false</jswarn>
+                    <nosuffix>true</nosuffix>
+                    <nomunge>true</nomunge>
+                    <aggregations>
+                        <aggregation>
+                            <removeIncluded>true</removeIncluded>
+                            <insertNewLine>true</insertNewLine>
+                            <output>${basedir}/target/dashboard/static/js/widgets.js</output>
+                            <includes>
+                                <include>**/widgets/license.js</include>
+                                <include>**/widgets/SLC.loadingMask.js</include>
+                                <include>**/widgets/grid/SLC.grid.tablegrid.js</include>
+                                <include>**/widgets/grid/SLC.grid.repeatHeaderGrid.js</include>
+                                <include>**/widgets/grid/SLC.grid.tree.js</include>
+                                <include>**/widgets/grid/SLC.grid.fuelGauge.js</include>
+                                <include>**/widgets/grid/SLC.grid.formatters.js</include>
+                                <include>**/widgets/grid/SLC.grid.sorters.js</include>
+                                <include>**/widgets/grid/SLC.grid.teardrop.js</include>
+                                <include>**/widgets/grid/SLC.grid.cutPoints.js</include>
+                            </includes>
+                        </aggregation>
+                        <aggregation>
+                            <removeIncluded>true</removeIncluded>
+                            <insertNewLine>true</insertNewLine>
+                            <output>${basedir}/target/dashboard/static/js/SLC.js</output>
+                            <includes>
+                                <include>**/controller/license.js</include>
+                                <include>**/controller/SLC.js</include>
+                                <include>**/controller/SLC.dataProxy.js</include>
+                                <include>**/controller/SLC.util.js</include>
+                            </includes>
+                        </aggregation>
+                        <aggregation>
+                            <removeIncluded>false</removeIncluded>
+                            <insertNewLine>true</insertNewLine>
+                            <output>${basedir}/target/dashboard/builder/js/builder.js</output>
+                            <includes>
+                                <include>**/license.js</include>
+                                <include>**/SLC.builder.app.js</include>
+                                <include>**/SLC.builder.controllers.js</include>
+                                <include>**/SLC.builder.directives.js</include>
+                                <include>**/SLC.builder.filters.js</include>
+                                <include>**/SLC.builder.services.js</include>
+                            </includes>
+                        </aggregation>
+                    </aggregations>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.1.1</version>
+                <configuration>
+                    <webXml>target/web.xml</webXml>
+                    <warSourceExcludes>**/static/js/**/*.js</warSourceExcludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>maven-jetty-plugin</artifactId>
+                <version>${maven.jetty.version}</version>
+                <configuration>
+                    <webXml>target/web.xml</webXml>
+                    <scanIntervalSeconds>5</scanIntervalSeconds>
                     <systemProperties>
-                      <systemProperty>
-                        <name>sli.conf</name>
-                        <value>${sli.conf}</value>
-                      </systemProperty>
-                      <systemProperty>
-                        <name>sli.encryption.properties</name>
-                        <value>${sli.encryption.properties}</value>
-                      </systemProperty>
-
-                      <systemProperty>
-                        <name>sli.encryption.keyStore</name>
-                        <value>${sli.home}/data-access/dal/keyStore/localKeystore.jks</value>
-                      </systemProperty>
-
-                      <systemProperty>
-                        <name>sli.env</name>
-                          <value>${sli.env}</value>
-                      </systemProperty>
-
+                        <systemProperty>
+                            <name>sli.conf</name>
+                            <value>${sli.conf}</value>
+                        </systemProperty>
+                        <systemProperty>
+                            <name>sli.encryption.properties</name>
+                            <value>${sli.encryption.properties}</value>
+                        </systemProperty>
+                        <systemProperty>
+                            <name>sli.encryption.keyStore</name>
+                            <value>${sli.home}/data-access/dal/keyStore/localKeystore.jks</value>
+                        </systemProperty>
+                        <systemProperty>
+                            <name>sli.env</name>
+                            <value>${sli.env}</value>
+                        </systemProperty>
                     </systemProperties>
-			         <connectors>
-			            <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
-			              <port>8888</port>
-			              <maxIdleTime>60000</maxIdleTime>
-			            </connector>
-			          </connectors>
-				</configuration>
-			</plugin>
-
-
-		</plugins>
-
-	</build>
-
+                    <connectors>
+                        <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+                            <port>8888</port>
+                            <maxIdleTime>60000</maxIdleTime>
+                        </connector>
+                    </connectors>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

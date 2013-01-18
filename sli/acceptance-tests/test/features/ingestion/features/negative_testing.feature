@@ -286,7 +286,7 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "CORE_0006" in the resulting error log file for "InterchangeEducationOrganization.xml"
   And I should see "SELF_REFERENCING_DATA" in the resulting error log file for "InterchangeEducationOrganization.xml"
   And I should see "parentEducationAgencyReference" in the resulting error log file for "InterchangeEducationOrganization.xml"
-  And I should see "IL-DAYBREAK" in the resulting error log file for "InterchangeEducationOrganization.xml"
+  And I should see "stateOrganizationId=IL-DAYBREAK" in the resulting error log file for "InterchangeEducationOrganization.xml"
 
 Scenario: Post a zip file containing attendance but no session data: Clean Database
 Given I post "Error_Report2.zip" file as the payload of the ingestion job
@@ -315,8 +315,8 @@ Then I should see following map of entry counts in the corresponding collections
      | attendance                   |   0     |
   And I should see "Processed 5 records." in the resulting batch job file
   And I should see "CORE_0028" in the resulting warning log file for "StudentAttendanceEvents.xml"
-#  And I should see "Element:line-4,column-21" in the resulting warning log file for "StudentAttendanceEvents.xml"
-#  And I should see "Element:line-16,column-21" in the resulting warning log file for "StudentAttendanceEvents.xml"
+  And I should see "attendance:line-4,column-21" in the resulting warning log file for "StudentAttendanceEvents.xml"
+  And I should see "attendance:line-16,column-21" in the resulting warning log file for "StudentAttendanceEvents.xml"
 
 Scenario: Post a zip file and then post it again and make sure the updated date changes but the created date stays the same
   Given I post "stringOrEnumContainsWhitespace.zip" file as the payload of the ingestion job
@@ -340,8 +340,9 @@ Scenario: Post a zip file and then post it again and make sure the updated date 
   And I find a(n) "student" record where "body.studentUniqueStateId" is equal to "100000000"
   And verify that "metaData.created" is unequal to "metaData.updated"
 
+@wip
 Scenario: Post an unzipped ctl file and make sure it is not processed
-  Given I post "UnzippedControlFile.ctl" file as the payload of the ingestion job
+  Given I post "UnzippedControlFile.ctl" unzipped file as the payload of the ingestion job
   And the following collections are empty in datastore:
         | collectionName              |
         | student                     |
@@ -350,9 +351,9 @@ Scenario: Post an unzipped ctl file and make sure it is not processed
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job for file "UnzippedControlFile.ctl" is completed in database
   And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName               | count   |
      | student                      |   0     |
      | recordHash                   |   0     |
   And I should see "Processed 0 records." in the resulting batch job file
-  And I should see "CORE_0022" in the resulting error log file for "UnzippedControlFile.ctl"
+  And I should see "CORE_0058" in the resulting error log file for "UnzippedControlFile.ctl"
