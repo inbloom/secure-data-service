@@ -31,7 +31,6 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -72,25 +71,23 @@ public class ControlFilePreProcessorTest {
     public void setup() throws IOException {
 
         MockitoAnnotations.initMocks(this);
-    }
-
-    
+    } 
 
     @Test
     public void testProcess() throws Exception {
         List<Stage> mockedStages = createFakeStages();
         Map<String, String> mockedProperties = createFakeBatchProperties();
         File fileForControlFile = new File(tmp_dir+filename);
-        WorkNote workNote = WorkNote.createSimpleWorkNote(BATCHJOBID);
+   
+        NewBatchJob mockedJob = new NewBatchJob(BATCHJOBID, "sourceId", "finished", 29, mockedProperties, mockedStages, null);
 
-        NewBatchJob mockedJob = new NewBatchJob();
         mockedJob.setBatchProperties(mockedProperties);
         mockedJob.setSourceId("sourceId");
         mockedJob.setStatus("finished");
         mockedJob.setTenantId(tenantId);
-
+ 
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
-        exchange.getIn().setBody(workNote, WorkNote.class);
+
         exchange.getIn().setBody(fileForControlFile, File.class);
         exchange.getIn().setHeader("BatchJobId", BATCHJOBID);       
 
@@ -105,11 +102,9 @@ public class ControlFilePreProcessorTest {
         controlFilePreProcessor.setTenantDA(mockedTenantDA);                
 
         controlFilePreProcessor.process(exchange);  
-
        
         Assert.assertEquals(1, mockedJob.getResourceEntries().size());
-        Assert.assertEquals(29, mockedJob.getTotalFiles());
-        Assert.assertEquals(BATCHJOBID, workNote.getBatchJobId());      
+        Assert.assertEquals(29, mockedJob.getTotalFiles());     
     }
 
     
