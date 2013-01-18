@@ -133,6 +133,13 @@ Then /^I should make the display name not unique$/ do
   @driver.find_element(:name, 'realm[name]').send_keys "Illinois Daybreak School District 4529"
 end
 
+Then /^I should make the IDP URL not unique$/ do
+  @driver.find_element(:name, 'realm[name]').clear
+  @driver.find_element(:name, 'realm[name]').send_keys "Brand New Realm"
+  @driver.find_element(:name, 'realm[idp][id]').clear
+  @driver.find_element(:name, 'realm[idp][id]').send_keys "http://delete.me.now:8080/idp"
+end
+
 Then /^I should get (\d+) error$/ do |arg1|
   step "I should get 1 errors"
 end
