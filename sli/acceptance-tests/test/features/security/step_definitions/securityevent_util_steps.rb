@@ -23,25 +23,26 @@ require 'mongo'
 require_relative '../../utils/sli_utils.rb'
 
 Given /^the sli securityEvent collection is empty/ do
-  securityEventCollection()
-  @coll.remove()
+  coll = securityEventCollection()
+  coll.remove()
 end
 
 Then /^a security event matching "([^"]*)" should be in the sli db$/ do |securityeventpattern|
-  search_string = securityeventpattern.to_s
-
-  securityEventCollection()
+  disable_NOTABLESCAN()
+  coll = securityEventCollection()
   
-  STDOUT.puts("Matching on " + securityeventpattern + "/" + search_string) if ENV['DEBUG']
-  secEventCount = coll.find({"body.logMessage" => /#{search_string}/}).count()
+  STDOUT.puts("Matching on " + securityeventpattern) if ENV['DEBUG']
+  secEventCount = coll.find({"body.logMessage" => /#{securityeventpattern}/}).count()
   STDOUT.puts("Found #{secEventCount} matching security events out of " + coll.count().to_s) if ENV['DEBUG']
   STDOUT.puts("Find one security event ") if ENV['DEBUG']
-  STDOUT.puts coll.find_one({"body.logMessage" => /#{search_string}/}).to_s if ENV['DEBUG']
+  STDOUT.puts coll.find_one({"body.logMessage" => /#{securityeventpattern}/}).to_s if ENV['DEBUG']
+#  STDOUT.puts coll.find({"body.logMessage" => /#{securityeventpattern}/}).to_a if ENV['DEBUG']
+  enable_NOTABLESCAN()
   assert(secEventCount > 0, "No security events were found with logMessage matching " + securityeventpattern)
 end
 
 def securityEventCollection
-  @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
-  @coll ||= @db.collection('securityEvent')
-  return @coll
+  db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
+  coll ||= db.collection('securityEvent')
+  return coll
 end
