@@ -1,5 +1,4 @@
 /*
- *
  * Copyright 2012 Shared Learning Collaborative, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,7 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
  */
 
 package org.slc.sli.api.criteriaGenerator;
@@ -72,24 +70,19 @@ public class DateFilterCriteriaGenerator {
             // [JS] Change to static builder?
             // This seems strange to me, since builders should be creating an object, but we are creating then throwing
             // away
-            GranularAccessFilter filter = builder().forEntity(entityFilterInfo.getEntityName())
-                .withDateAttributes(entityFilterInfo.getBeginDateAttribute(), entityFilterInfo.getEndDateAttribute())
+            GranularAccessFilter filter = new DateFilterCriteriaBuilder().forEntity(entityFilterInfo.getEntityName())
+                    .withDateAttributes(entityFilterInfo.getBeginDateAttribute(), entityFilterInfo.getEndDateAttribute())
                     .withSessionAttribute(entityFilterInfo.getSessionAttribute())
-                .startingFrom(sessionDateInfo.getStartDate())
-                .endingTo(sessionDateInfo.getEndDate())
-                .withSessionIds(sessionDateInfo.getSessionIds())
-                .build();
+                    .startingFrom(sessionDateInfo.getStartDate())
+                    .endingTo(sessionDateInfo.getEndDate())
+                    .withSessionIds(sessionDateInfo.getSessionIds())
+                    .build();
 
             granularAccessFilterProvider.storeGranularAccessFilter(filter);
         }
     }
-    // [JS] Switch to static builder and remove this method
-    private DateFilterCriteriaBuilder builder() {
-        return new DateFilterCriteriaBuilder();
-    }
 
-
-    private final class DateFilterCriteriaBuilder {
+    private static final class DateFilterCriteriaBuilder {
         private String entityName;
         private String beginDate;
         private String endDate;
