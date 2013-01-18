@@ -17,8 +17,7 @@
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.io.IOException;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -27,7 +26,24 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.ingestion.BatchJobStageType;
+import org.slc.sli.ingestion.BatchJobStatusType;
+import org.slc.sli.ingestion.FileFormat;
+import org.slc.sli.ingestion.RangedWorkNote;
+import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.ResourceEntry;
+import org.slc.sli.ingestion.model.Stage;
+import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.impl.DirectorySource;
+import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.tenant.TenantDA;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  *
@@ -38,35 +54,128 @@ import org.slc.sli.ingestion.tenant.TenantDA;
 public class LandingZoneProcessor implements Processor {
 
     private static final Logger LOG = LoggerFactory.getLogger(LandingZoneProcessor.class);
+    private static final String ZIP_EXTENSION = ".zip";
+    public static final BatchJobStageType LZ_STAGE = BatchJobStageType.LANDING_ZONE_PROCESSOR;
+    private static final String LZ_STAGE_DESC = "Validates landing zone and lz file name";
+    private static final String ERROR_MESSAGE = "Landing zone file is not a zip file: ";
 
     @Autowired
     private TenantDA tenantDA;
 
+    @Autowired
+    private BatchJobDAO batchJobDAO;
+
+    @Autowired
+    private AbstractMessageReport databaseMessageReport;
+
     @Override
     public void process(Exchange exchange) throws Exception {
-        // Verify that the landing zone is valid.
+        Stage stage = Stage.createAndStartStage(LZ_STAGE, LZ_STAGE_DESC);
+        String batchJobId = null;
+        ReportStats reportStats = new SimpleReportStats();
+
         File lzFile = exchange.getIn().getHeader("filePath", File.class);
+        boolean hasErrors = false;
+
+        // Verify that the landing zone is valid.
         String lzDirectoryPathName = lzFile.getParent();
-        boolean landingZoneIsValid = isLandingZoneValid(lzDirectoryPathName);
-        if (!landingZoneIsValid) {
+        if (!isValidLandingZone(lzDirectoryPathName)) {
+            hasErrors = true;
             LOG.error("LandingZoneProcessor: {} is not a valid landing zone.", lzDirectoryPathName);
+            reportStats.incError();  // Can't report, but note the error in the exchange header.
+        } else {
+            NewBatchJob newJob = createNewBatchJob(lzFile);
+            createResourceEntryAndAddToJob(lzFile, newJob);
+            TenantContext.setTenantId(newJob.getTenantId());
+            TenantContext.setJobId(newJob.getId());
+            batchJobId = newJob.getId();
+
+            // Verify that the landing zone file is a zip file.
+            String lzFileName = lzFile.getName();
+            if (!isZipFile(lzFileName)) {
+                hasErrors = true;
+                handleProcessingError(exchange, batchJobId, lzFileName, lzDirectoryPathName, reportStats);
+            }
+
+            BatchJobUtils.stopStageAndAddToJob(stage, newJob);
+            batchJobDAO.saveBatchJob(newJob);
         }
 
-        exchange.getIn().setBody(lzFile, File.class);
-        exchange.getIn().setHeader("hasErrors", !landingZoneIsValid);
-}
+        setExchangeBody(exchange, lzFile, reportStats, batchJobId);
+        exchange.getIn().setHeader("BatchJobId", batchJobId);
+        exchange.getIn().setHeader("hasErrors", hasErrors);
+    }
 
     /**
      * Determine if the landing zone is valid.
      *
      * @param lzDirectoryPathName
-     *        landing zone directory pathname.
+     *            Landing zone directory pathname.
+     *
+     * @return true if valid lz, false otherwise.
      */
-    private boolean isLandingZoneValid(String lzDirectoryPathName) {
-        boolean result = false;
-        result = tenantDA.getLzPaths().contains(lzDirectoryPathName);
+    private boolean isValidLandingZone(String lzDirectoryPathName) {
+        return tenantDA.getLzPaths().contains(lzDirectoryPathName);
+    }
 
-        return result;
+    /**
+     * Determine if the file is a zip file.
+     *
+     * @param lzFileName
+     *            Landing zone filename.
+     *
+     * @return true if zip file, false otherwise.
+     */
+    private boolean isZipFile(String lzFileName) {
+        return lzFileName.endsWith(ZIP_EXTENSION);
+    }
+
+    /**
+     * Create a new batch job.
+     *
+     * @param lzFile
+     *            Landing zone file.
+     *
+     * @return NewBatchJob
+     */
+    private NewBatchJob createNewBatchJob(File lzFile) {
+        String batchJobId = NewBatchJob.createId(lzFile.getName());
+        String tenantId = tenantDA.getTenantId(lzFile.getParent());
+
+        NewBatchJob newJob = new NewBatchJob(batchJobId, tenantId);
+        newJob.setStatus(BatchJobStatusType.RUNNING.getName());
+        newJob.setTopLevelSourceId(lzFile.getParentFile().getAbsolutePath());
+
+        LOG.info("Created job [{}]", newJob.getId());
+
+        return newJob;
+    }
+
+    private void createResourceEntryAndAddToJob(File lzFile, NewBatchJob newJob) throws IOException {
+        ResourceEntry resourceName = new ResourceEntry();
+        resourceName.setResourceName(lzFile.getCanonicalPath());
+        resourceName.setResourceId(lzFile.getName());
+        resourceName.setExternallyUploadedResourceId(lzFile.getName());
+        resourceName.setResourceFormat(FileFormat.ZIP_FILE.getCode());
+        newJob.getResourceEntries().add(resourceName);
+    }
+
+    private void setExchangeBody(Exchange exchange, File lzFile, ReportStats reportStats, String batchJobId) {
+        if (!reportStats.hasErrors() && lzFile != null) {
+            exchange.getIn().setBody(lzFile, File.class);
+        } else {
+            RangedWorkNote workNote = RangedWorkNote.createSimpleWorkNote(batchJobId);
+            exchange.getIn().setBody(workNote, RangedWorkNote.class);
+        }
+    }
+
+    private void handleProcessingError(Exchange exchange, String batchJobId, String lzFileName, String lzDirectoryPathName, ReportStats reportStats) {
+        exchange.getIn().setHeader("ErrorMessage", ERROR_MESSAGE + lzFileName);
+        exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
+        LOG.error("LandingZoneProcessor: {} is not a zip file.", lzFileName);
+        if (batchJobId != null) {
+            databaseMessageReport.error(reportStats, new DirectorySource(lzDirectoryPathName, lzFileName), CoreMessageCode.CORE_0058, lzFileName);
+        }
     }
 
 }

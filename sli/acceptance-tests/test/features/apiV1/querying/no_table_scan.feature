@@ -4,7 +4,7 @@ Feature: As an SLI application, I want to hit every resource to ensure that we a
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
       And format "application/vnd.slc+json"
       And parameter "<parameter>" is "<value>"
-      When I navigate to GET for each resource available 
+      When I navigate to GET for each resource available
       Then I should not encounter any table scans
     Examples:
       | parameter                | value             |
@@ -30,14 +30,14 @@ Feature: As an SLI application, I want to hit every resource to ensure that we a
       | includeCalculatedValues  | -1                |
       | includeAggregates        | -1                |
       # Renable this last step when /resource?x=y gets rewritten for Staff
-      #| foo                      | bar               | 
+      | foo                      | bar               |
 
   # Teacher context
   Scenario Outline:
     Given I am logged in using "cgrayadmin" "cgrayadmin1234" to realm "IL"
       And format "application/vnd.slc+json"
       And parameter "<parameter>" is "<value>"
-      When I navigate to GET for each resource available 
+      When I navigate to GET for each resource available
       Then I should not encounter any table scans
     Examples:
       | parameter                | value             |
@@ -63,4 +63,4 @@ Feature: As an SLI application, I want to hit every resource to ensure that we a
       | includeCalculatedValues  | -1                |
       | includeAggregates        | -1                |
       # Renable this last step when /resource?x=y gets rewritten for Teachers
-      #| foo                      | bar               | 
+      | foo                      | bar               |

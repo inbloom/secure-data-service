@@ -17,17 +17,20 @@
 package org.slc.sli.ingestion.landingzone.validation;
 
 import java.io.IOException;
+import java.io.InputStream;
 
+import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.slc.sli.ingestion.landingzone.FileEntryDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
+import org.slc.sli.ingestion.reporting.impl.ControlFileSource;
 import org.slc.sli.ingestion.validation.Validator;
 
 /**
@@ -36,29 +39,33 @@ import org.slc.sli.ingestion.validation.Validator;
  * @author okrook
  *
  */
-public class ChecksumValidator implements Validator<FileEntryDescriptor> {
+public class ChecksumValidator implements Validator<IngestionFileEntry> {
 
     private static final Logger LOG = LoggerFactory.getLogger(ChecksumValidator.class);
     private static final String STAGE_NAME = "File Checksum Validation";
 
     @Override
-    public boolean isValid(FileEntryDescriptor item, AbstractMessageReport report, ReportStats reportStats,
+    public boolean isValid(IngestionFileEntry fe, AbstractMessageReport report, ReportStats reportStats,
             Source source) {
-        IngestionFileEntry fe = item.getFileItem();
 
         if (StringUtils.isBlank(fe.getChecksum())) {
-            report.error(reportStats, source, BaseMessageCode.BASE_0007, fe.getFileName());
+            report.error(reportStats, new ControlFileSource(source.getResourceId(), fe), BaseMessageCode.BASE_0007, fe.getFileName());
 
             return false;
         }
 
         String actualMd5Hex;
 
+        InputStream is = null;
+
         try {
-            // and the attributes match
-            actualMd5Hex = item.getLandingZone().getMd5Hex(fe.getFile());
+            is = fe.getFileStream();
+
+            actualMd5Hex = DigestUtils.md5Hex(is);
         } catch (IOException e) {
             actualMd5Hex = null;
+        } finally {
+            IOUtils.closeQuietly(is);
         }
 
         if (!checksumsMatch(actualMd5Hex, fe.getChecksum())) {
@@ -66,7 +73,7 @@ public class ChecksumValidator implements Validator<FileEntryDescriptor> {
             String[] args = { fe.getFileName(), actualMd5Hex, fe.getChecksum() };
             LOG.debug("File [{}] checksum ({}) does not match control file checksum ({}).", args);
 
-            report.error(reportStats, source, BaseMessageCode.BASE_0006, fe.getFileName());
+            report.error(reportStats, new ControlFileSource(source.getResourceId(), fe), BaseMessageCode.BASE_0006, fe.getFileName());
 
             return false;
         }

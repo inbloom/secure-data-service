@@ -18,6 +18,8 @@ package org.slc.sli.dal.repository;
 
 import org.slc.sli.domain.Entity;
 
+import java.util.List;
+
 /**
  * Method for requesting that data in the given entity be validated but
  * that the entity not attempt to be retrieved for duplicate key checking.
@@ -28,4 +30,6 @@ import org.slc.sli.domain.Entity;
 public interface ValidationWithoutNaturalKeys {
     
     public boolean updateWithoutValidatingNaturalKeys(String entityType, Entity entity);
+
+    public List<Entity> insert(List<Entity> records, String collectionName);
 }

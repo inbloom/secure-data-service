@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require 'mongo'
 require 'rest-client'
 
@@ -9,7 +28,7 @@ require 'rest-client'
 @token = ""
 
 @pathToTestMap = {
-  "sli/api/" => ["api", "search-indexer", "jmeter"],
+  "sli/api/" => ["api", "search-indexer", "jmeter", "admin"],
   "sli/simple-idp" => ["api", "admin"],
   "sli/acceptance-tests/test/features/api" => ["api"],
   "sli/acceptance-tests/test/features/simple_idp" => ["api"],
@@ -28,7 +47,8 @@ require 'rest-client'
   "sli/acceptance-tests/test/features/dash" => ["dashboard"],
   "sli/databrowser" => ["databrowser"],
   "sli/acceptance-tests/test/features/databrowser" => ["databrowser"],
-  "tools/odin" => ["odin"],
+  "tools/odin" => ["odin", "jmeter"],
+  "test/features/odin" => ["odin", "jmeter"],
   "sli/search-indexer" => ["search-indexer"]
 }
 
@@ -117,8 +137,9 @@ def updateMongo(hash)
   conn = Mongo::Connection.new(@jenkinsHostname, @jenkinsMongoPort)
   db = conn.db("git_hash")
   coll = db['commit']
+  currTime = Time.new
 
-  coll.update({"_id" => "last_used_commit"}, {"$set" => {"commit_hash" => hash}})
+  coll.update({"_id" => "last_used_commit"}, {"$set" => {"commit_hash" => hash, "lastUpdate" => currTime}})
 end
 
 ##################### Main Methods #########################################

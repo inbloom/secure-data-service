@@ -67,13 +67,6 @@ public interface Job {
     List<IngestionFileEntry> getFiles();
 
     /**
-     *
-     * @param ingestionFileEntry
-     * @return
-     */
-    boolean addFile(IngestionFileEntry ingestionFileEntry);
-
-    /**
      * Return the tenantId for this job.
      *
      * @return

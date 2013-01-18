@@ -16,17 +16,18 @@
 
 package org.slc.sli.ingestion.landingzone;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
+import java.io.InputStream;
+import java.io.Reader;
+import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,112 +44,105 @@ import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
  * Represents control file information.
  *
  */
-public class ControlFile implements Serializable {
+public class ControlFile extends IngestionFileEntry {
 
     private static final long serialVersionUID = 3231739301361458948L;
     private static final Logger LOG = LoggerFactory.getLogger(ControlFile.class);
 
-    protected File file;
+    private static final Pattern FE_PATTERN = Pattern.compile("^([^\\s^,]+)\\,([^\\s^,]+)\\,([^,]+)\\,(\\w+)\\s*$");
+    private static final Pattern CE_PATTERN = Pattern.compile("^@(.*)$");
+
     protected List<IngestionFileEntry> fileEntries = new ArrayList<IngestionFileEntry>();
     protected Properties configProperties = new Properties();
 
-    public static ControlFile parse(File file, AbstractMessageReport report) throws IOException,
-            SubmissionLevelException {
-        return parse(file, null, report);
+    /**
+     * Constructor.
+     */
+    protected ControlFile(String parentZipFileOrDirectory, String fileName) {
+        super(parentZipFileOrDirectory, FileFormat.CONTROL_FILE, FileType.CONTROL, fileName, null);
     }
 
-    public static ControlFile parse(File file, LandingZone landingZone, AbstractMessageReport report)
+    public static ControlFile parse(String parentZipFileOrDirectory, String controlFileName, AbstractMessageReport report)
             throws IOException, SubmissionLevelException {
 
-        Scanner scanner = new Scanner(file);
-        Pattern fileItemPattern = Pattern.compile("^([^\\s^,]+)\\,([^\\s^,]+)\\,([^,]+)\\,(\\w+)\\s*$");
-        Matcher fileItemMatcher;
-        Pattern configItemPattern = Pattern.compile("^@(.*)$");
-        Matcher configItemMatcher;
-        String line;
-        FileFormat fileFormat;
-        FileType fileType;
-        int lineNumber = 0;
+        ControlFile cf = new ControlFile(parentZipFileOrDirectory, controlFileName);
 
-        String topLevelLandingZonePath = null;
-        if (landingZone != null) {
-            topLevelLandingZonePath = landingZone.getLZId();
-        }
+        cf.parse(report);
 
-        Properties configProperties = new Properties();
-        ArrayList<IngestionFileEntry> fileEntries = new ArrayList<IngestionFileEntry>();
+        return cf;
+    }
 
-        LOG.debug("parsing control file: {}", file);
+    public void parse(AbstractMessageReport report) throws IOException, SubmissionLevelException {
 
+        InputStream is = null;
         try {
-            while (scanner.hasNextLine()) {
+            is = getFileStream();
 
-                line = scanner.nextLine();
-                LOG.debug("scanned next line: {}", line);
+            List<String> lines = IOUtils.readLines(is);
 
-                fileItemMatcher = fileItemPattern.matcher(line);
-                if (fileItemMatcher.matches()) {
-                    fileFormat = FileFormat.findByCode(fileItemMatcher.group(1));
-                    fileType = FileType.findByNameAndFormat(fileItemMatcher.group(2), fileFormat);
-                    fileEntries.add(new IngestionFileEntry(fileFormat, fileType, fileItemMatcher.group(3),
-                            fileItemMatcher.group(4), topLevelLandingZonePath));
-                    lineNumber += 1;
-                    continue;
-                }
-
-                configItemMatcher = configItemPattern.matcher(line);
-                if (configItemMatcher.matches()) {
-                    configProperties.load(new ByteArrayInputStream(configItemMatcher.group(1).trim().getBytes()));
-                    LOG.info("Control file configuration loaded: {}", configItemMatcher.group(1).trim());
-                    lineNumber += 1;
-                    continue;
-                }
-
-                // blank lines are ignored silently, but stray marks are not
-                if (line.trim().length() > 0) {
-                    // line was not parseable
-                    lineNumber += 1;
-                    Source source = new ControlFileSource(file.getName(), "Control File Parsing", lineNumber, line);
-                    report.error(new SimpleReportStats(), source, BaseMessageCode.BASE_0016);
-                    throw new SubmissionLevelException("line was not parseable");
+            for (int i = 0; i < lines.size(); i++) {
+                String line = lines.get(i);
+                if (StringUtils.isNotBlank(line)) {
+                    parse(line, i, report);
                 }
             }
 
-            return new ControlFile(file, fileEntries, configProperties);
-
         } finally {
-            scanner.close();
+            IOUtils.closeQuietly(is);
         }
+    }
+
+    protected void parse(String line, int lineNumber, AbstractMessageReport report) throws IOException, SubmissionLevelException {
+        LOG.debug("scanned next line: {}", line);
+
+        IngestionFileEntry fe = parseAsFileEntry(line);
+        if (fe != null) {
+            fileEntries.add(fe);
+            return;
+        }
+
+        String ce = parseAsConfigEntry(line);
+        if (ce != null) {
+            Reader r = new StringReader(ce);
+            try {
+                configProperties.load(r);
+                LOG.info("Control file configuration loaded: {}", ce);
+                return;
+            } finally {
+                IOUtils.closeQuietly(r);
+            }
+        }
+
+        // line was not parse-able
+        report.error(new SimpleReportStats(), new ControlFileSource(this, lineNumber, line), BaseMessageCode.BASE_0016);
+        throw new SubmissionLevelException("line was not parseable");
+    }
+
+    private IngestionFileEntry parseAsFileEntry(String line) {
+        Matcher m = FE_PATTERN.matcher(line);
+        if (m.matches()) {
+            FileFormat fileFormat = FileFormat.findByCode(m.group(1));
+            FileType fileType = FileType.findByNameAndFormat(m.group(2), fileFormat);
+            return new IngestionFileEntry(getParentZipFileOrDirectory(), fileFormat, fileType, m.group(3), m.group(4));
+        }
+
+        return null;
+    }
+
+    private String parseAsConfigEntry(String line) {
+        Matcher m = CE_PATTERN.matcher(line);
+        if (m.matches()) {
+            return m.group(1).trim();
+        }
+
+        return null;
     }
 
     public List<IngestionFileEntry> getFileEntries() {
         return this.fileEntries;
     }
 
-    /**
-     * @param file
-     * @param fileEntries
-     * @param configProperties
-     */
-    protected ControlFile(File file, List<IngestionFileEntry> fileEntries, Properties configProperties) {
-        this.file = file;
-        this.fileEntries = fileEntries;
-        this.configProperties = configProperties;
-    }
-
     public Properties getConfigProperties() {
         return configProperties;
     }
-
-    public String getFileName() {
-        if (file != null) {
-            return file.getName();
-        }
-        return null;
-    }
-
-    public File getFile() {
-        return file;
-    }
-
 }

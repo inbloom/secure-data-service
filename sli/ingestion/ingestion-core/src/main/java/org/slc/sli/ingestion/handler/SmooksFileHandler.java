@@ -16,11 +16,10 @@
 
 package org.slc.sli.ingestion.handler;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.transform.stream.StreamSource;
 
@@ -32,13 +31,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
+import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.JobSource;
+import org.slc.sli.ingestion.reporting.impl.FileSource;
 import org.slc.sli.ingestion.smooks.SliSmooks;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
 import org.slc.sli.ingestion.smooks.SmooksEdFiVisitor;
@@ -50,66 +50,75 @@ import org.slc.sli.ingestion.smooks.SmooksEdFiVisitor;
  *
  */
 @Component
-public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> {
+public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEntry, FileProcessStatus> {
 
     private static final Logger LOG = LoggerFactory.getLogger(SmooksFileHandler.class);
-
-    private static final String STAGE_NAME = "Smooks File Parsing";
 
     @Autowired
     private SliSmooksFactory sliSmooksFactory;
 
     @Override
-    protected IngestionFileEntry doHandling(IngestionFileEntry item, AbstractMessageReport report,
+    protected FileProcessStatus doHandling(IngestionFileEntry item, AbstractMessageReport report,
             ReportStats reportStats, FileProcessStatus fileProcessStatus) {
-        Source source = new JobSource(item.getResourceId(), getStageName());
+        Source source = new FileSource(item.getResourceId());
+
         try {
-
             generateNeutralRecord(item, report, reportStats, source, fileProcessStatus);
-
         } catch (IOException e) {
             report.error(reportStats, source, CoreMessageCode.CORE_0016);
         } catch (SAXException e) {
             report.error(reportStats, source, CoreMessageCode.CORE_0017);
         }
 
-        return item;
+        return fileProcessStatus;
     }
 
     void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, AbstractMessageReport errorReport,
             ReportStats reportStats, Source source, FileProcessStatus fileProcessStatus) throws IOException,
             SAXException {
 
-        // create instance of Smooks (with visitors already added)
+        // Create instance of Smooks (with visitors already added).
         SliSmooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, errorReport, reportStats);
 
-        InputStream inputStream = new BufferedInputStream(new FileInputStream(ingestionFileEntry.getFile()));
+        InputStream inputStream = null;
+
         try {
+            inputStream = ingestionFileEntry.getFileStream();
+
             // filter fileEntry inputStream, converting into NeutralRecord entries as we go
             smooks.filterSource(new StreamSource(inputStream));
-            SmooksEdFiVisitor edFiVisitor = smooks.getSmooksEdFiVisitor();
-
-            int recordsPersisted = edFiVisitor.getRecordsPerisisted();
-            fileProcessStatus.setTotalRecordCount(recordsPersisted);
-
-            LOG.info("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
-                    ingestionFileEntry.getFileName());
+            populateRecordCountsFromSmooks(smooks, fileProcessStatus, ingestionFileEntry);
         } catch (SmooksException se) {
-            errorReport.error(reportStats, source, CoreMessageCode.CORE_0020, ingestionFileEntry.getFile().getName());
+            errorReport.error(reportStats, source, CoreMessageCode.CORE_0020, ingestionFileEntry.getFileName());
         } finally {
             IOUtils.closeQuietly(inputStream);
         }
     }
 
+    private void populateRecordCountsFromSmooks(SliSmooks smooks, FileProcessStatus fileProcessStatus,
+            IngestionFileEntry ingestionFileEntry) {
+
+        SmooksEdFiVisitor edFiVisitor = smooks.getSmooksEdFiVisitor();
+
+        int recordsPersisted = edFiVisitor.getRecordsPerisisted();
+        Map<String, Long> duplicateCounts = edFiVisitor.getDuplicateCounts();
+
+        fileProcessStatus.setTotalRecordCount(recordsPersisted);
+        fileProcessStatus.setDuplicateCounts(duplicateCounts);
+
+        LOG.debug("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
+                ingestionFileEntry.getFileName());
+    }
+
     @Override
-    protected List<IngestionFileEntry> doHandling(List<IngestionFileEntry> items, AbstractMessageReport report,
+    protected List<FileProcessStatus> doHandling(List<IngestionFileEntry> items, AbstractMessageReport report,
             ReportStats reportStats, FileProcessStatus fileProcessStatus) {
-        // TODO Auto-generated method stub
+        // Blank instantiation of this (never-called) method.
         return null;
     }
 
     @Override
     public String getStageName() {
-        return STAGE_NAME;
+        return BatchJobStageType.EDFI_PROCESSOR.getName();
     }
 }

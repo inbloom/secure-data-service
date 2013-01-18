@@ -31,7 +31,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.IngestionStagedEntity;
-import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 
@@ -60,12 +60,12 @@ public class WorkNoteSplitter {
      * @return list of WorkNotes that camel will iterate over, issuing each as a new message
      * @throws IllegalStateException
      */
-    public List<WorkNote> splitTransformationWorkNotes(Exchange exchange) {
+    public List<RangedWorkNote> splitTransformationWorkNotes(Exchange exchange) {
 
         Stage stage = Stage.createAndStartStage(BatchJobStageType.WORKNOTE_SPLITTER, BATCH_JOB_STAGE_DESC);
 
         String jobId = null;
-        List<WorkNote> workNoteList = null;
+        List<RangedWorkNote> workNoteList = null;
         try {
             jobId = exchange.getIn().getHeader("jobId").toString();
             TenantContext.setJobId(jobId);
@@ -83,8 +83,8 @@ public class WorkNoteSplitter {
         return workNoteList;
     }
 
-    private List<WorkNote> createNextTierWorkNotes(String jobId) {
-        List<WorkNote> workNoteList;
+    private List<RangedWorkNote> createNextTierWorkNotes(String jobId) {
+        List<RangedWorkNote> workNoteList;
         Set<IngestionStagedEntity> stagedEntities = batchJobDAO.getStagedEntitiesForJob(jobId);
 
         if (stagedEntities.size() == 0) {
@@ -98,14 +98,14 @@ public class WorkNoteSplitter {
         return workNoteList;
     }
 
-    private List<WorkNote> createWorkNotes(Set<IngestionStagedEntity> stagedEntities, String jobId) {
+    private List<RangedWorkNote> createWorkNotes(Set<IngestionStagedEntity> stagedEntities, String jobId) {
         LOG.info("creating WorkNotes for processable entities: {}", stagedEntities);
         List<Map<String, Object>> defaultPersistenceLatch = new ArrayList<Map<String, Object>>();
 
-        List<WorkNote> workNoteList = new ArrayList<WorkNote>();
+        List<RangedWorkNote> workNoteList = new ArrayList<RangedWorkNote>();
         for (IngestionStagedEntity stagedEntity : stagedEntities) {
 
-            List<WorkNote> workNotesForEntity = balancedTimestampSplitStrategy.splitForEntity(stagedEntity);
+            List<RangedWorkNote> workNotesForEntity = balancedTimestampSplitStrategy.splitForEntity(stagedEntity);
 
             batchJobDAO.createTransformationLatch(jobId, stagedEntity.getCollectionNameAsStaged(),
                     workNotesForEntity.size());
@@ -124,16 +124,16 @@ public class WorkNoteSplitter {
         return workNoteList;
     }
 
-    public List<WorkNote> splitPersistanceWorkNotes(Exchange exchange) {
-        WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
+    public List<RangedWorkNote> splitPersistanceWorkNotes(Exchange exchange) {
+        RangedWorkNote workNote = exchange.getIn().getBody(RangedWorkNote.class);
         IngestionStagedEntity stagedEntity = workNote.getIngestionStagedEntity();
-        List<WorkNote> workNoteList = new ArrayList<WorkNote>();
+        List<RangedWorkNote> workNoteList = new ArrayList<RangedWorkNote>();
 
         String jobId = exchange.getIn().getHeader("jobId").toString();
         TenantContext.setJobId(jobId);
 
         LOG.debug("Splitting out (pass-through) list of WorkNotes: {}", workNoteList);
-        List<WorkNote> workNotesForEntity = balancedTimestampSplitStrategy.splitForEntity(stagedEntity);
+        List<RangedWorkNote> workNotesForEntity = balancedTimestampSplitStrategy.splitForEntity(stagedEntity);
         batchJobDAO
                 .setPersistenceLatchCount(jobId, stagedEntity.getCollectionNameAsStaged(), workNotesForEntity.size());
 

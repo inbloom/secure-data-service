@@ -34,7 +34,6 @@ describe 'AssessmentMetadataGenerator' do
 
       generator.start()
 
-      puts assessment_family.to_yaml
       generator << assessment_family
 
       generator << assessment

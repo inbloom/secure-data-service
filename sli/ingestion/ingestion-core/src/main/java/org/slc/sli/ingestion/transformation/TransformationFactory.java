@@ -29,7 +29,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 import org.slc.sli.ingestion.Job;
-import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 
 /**
@@ -55,7 +55,7 @@ public class TransformationFactory implements ApplicationContextAware {
      * @param job
      * @return
      */
-    public Transmogrifier createTransmogrifier(WorkNote workNote, Job job) {
+    public Transmogrifier createTransmogrifier(RangedWorkNote workNote, Job job) {
         Set<String> collectionsToConsider = determineCollectionsToConsider(workNote);
         List<TransformationStrategy> transformationStrategies = deriveTransformsRequired(collectionsToConsider);
         return TransmogrifierImpl.createInstance(job, transformationStrategies, workNote);
@@ -78,7 +78,7 @@ public class TransformationFactory implements ApplicationContextAware {
         return transformationStrategies;
     }
 
-    private Set<String> determineCollectionsToConsider(WorkNote workNote) {
+    private Set<String> determineCollectionsToConsider(RangedWorkNote workNote) {
         Set<String> collectionsToConsider = null;
         if (workNote.getIngestionStagedEntity().getCollectionNameAsStaged() == null) {
 
