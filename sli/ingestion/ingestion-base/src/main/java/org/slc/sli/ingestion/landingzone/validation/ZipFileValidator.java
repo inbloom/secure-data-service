@@ -66,8 +66,6 @@ public class ZipFileValidator implements Validator<File> {
         long clockTimeout = System.currentTimeMillis() + zipfileTimeout;
 
         // we know more of our source
-        Source newsource = new ZipFileSource(zipFile.getName(),
-                (source == null ? null : source.getStageName()));
         LOG.info("Validating " + zipFile.getAbsolutePath());
 
         while (!done) {
@@ -81,7 +79,7 @@ public class ZipFileValidator implements Validator<File> {
                 while ((ze = zis.getNextEntry()) != null) {
 
                     if (isDirectory(ze)) {
-                        report.error(reportStats, newsource, BaseMessageCode.BASE_0010, zipFile.getName());
+                        report.error(reportStats, new ZipFileSource(zipFile), BaseMessageCode.BASE_0010, zipFile.getName());
                         return false;
                     }
 
@@ -92,14 +90,14 @@ public class ZipFileValidator implements Validator<File> {
 
                 // no manifest (.ctl file) found in the zip file
                 if (!isValid) {
-                    report.error(reportStats, newsource, BaseMessageCode.BASE_0009, zipFile.getName());
+                    report.error(reportStats, new ZipFileSource(zipFile), BaseMessageCode.BASE_0009, zipFile.getName());
                 }
 
                 done = true;
 
             } catch (UnsupportedZipFeatureException ex) {
                 // Unsupported compression method
-                report.error(reportStats, newsource, BaseMessageCode.BASE_0022, zipFile.getName());
+                report.error(reportStats, new ZipFileSource(zipFile), BaseMessageCode.BASE_0022, zipFile.getName());
                 done = true;
                 return false;
 
@@ -109,7 +107,7 @@ public class ZipFileValidator implements Validator<File> {
                 String message = zipFile.getAbsolutePath()
                         + " cannot be found. If the file is not processed, please resubmit.";
                 LOG.error(message, ex);
-                report.error(reportStats, newsource, BaseMessageCode.BASE_0020, zipFile.getName());
+                report.error(reportStats, new ZipFileSource(zipFile), BaseMessageCode.BASE_0020, zipFile.getName());
                 done = true;
                 return false;
 
@@ -117,7 +115,7 @@ public class ZipFileValidator implements Validator<File> {
                 LOG.warn("Caught IO exception processing " + zipFile.getAbsolutePath());
                 if (System.currentTimeMillis() >= clockTimeout) {
                     // error reading zip file
-                    report.error(reportStats, newsource, BaseMessageCode.BASE_0021, zipFile.getName());
+                    report.error(reportStats, new ZipFileSource(zipFile), BaseMessageCode.BASE_0021, zipFile.getName());
                     LOG.error("Unable to validate " + zipFile.getAbsolutePath(), ex);
                     done = true;
                     return false;

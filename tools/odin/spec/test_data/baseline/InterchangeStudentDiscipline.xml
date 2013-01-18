@@ -3065,7 +3065,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </Behaviors>
   </StudentDisciplineIncidentAssociation>
   <DisciplineAction>
-    <DisciplineActionIdentifier>1#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>1#0,1</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI1</CodeValue>
     </Disciplines>
@@ -3092,7 +3092,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>2#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>2#0,1</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI2</CodeValue>
     </Disciplines>
@@ -3119,7 +3119,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>3#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>3#0,1</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI0</CodeValue>
     </Disciplines>
@@ -3146,7 +3146,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>4#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>4#0,1</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI1</CodeValue>
     </Disciplines>
@@ -3173,7 +3173,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>5#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>5#0,1</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI2</CodeValue>
     </Disciplines>
@@ -3200,7 +3200,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>6#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>6#0,1</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI0</CodeValue>
     </Disciplines>
@@ -3227,7 +3227,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>7#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>7#0,1</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI1</CodeValue>
     </Disciplines>
@@ -3254,7 +3254,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>8#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>8#0,1</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI2</CodeValue>
     </Disciplines>
@@ -3281,7 +3281,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>13#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>13#0,1</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI1</CodeValue>
     </Disciplines>
@@ -3308,7 +3308,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>14#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>14#0,1</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI2</CodeValue>
     </Disciplines>
@@ -3335,7 +3335,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>15#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>15#0,1</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI0</CodeValue>
     </Disciplines>
@@ -3362,7 +3362,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>16#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>16#0,1</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI1</CodeValue>
     </Disciplines>
@@ -3389,7 +3389,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>25#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>25#0,2</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI1</CodeValue>
     </Disciplines>
@@ -3416,7 +3416,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>26#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>26#0,2</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI2</CodeValue>
     </Disciplines>
@@ -3443,7 +3443,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>27#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>27#0,2</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI0</CodeValue>
     </Disciplines>
@@ -3470,7 +3470,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>28#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>28#0,2</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI1</CodeValue>
     </Disciplines>
@@ -3497,7 +3497,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>41#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>41#0,2</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI2</CodeValue>
     </Disciplines>
@@ -3524,7 +3524,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>42#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>42#0,2</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI0</CodeValue>
     </Disciplines>
@@ -3551,7 +3551,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>43#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>43#0,2</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI1</CodeValue>
     </Disciplines>
@@ -3578,7 +3578,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>44#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>44#0,2</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI2</CodeValue>
     </Disciplines>
@@ -3605,7 +3605,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>49#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>49#0,2</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI1</CodeValue>
     </Disciplines>
@@ -3632,7 +3632,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>50#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>50#0,2</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI2</CodeValue>
     </Disciplines>
@@ -3659,7 +3659,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>51#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>51#0,2</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI0</CodeValue>
     </Disciplines>
@@ -3686,7 +3686,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>52#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>52#0,2</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI1</CodeValue>
     </Disciplines>
@@ -3713,7 +3713,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>29#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>29#0,3</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI2</CodeValue>
     </Disciplines>
@@ -3740,7 +3740,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>30#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>30#0,3</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI0</CodeValue>
     </Disciplines>
@@ -3767,7 +3767,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>31#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>31#0,3</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI1</CodeValue>
     </Disciplines>
@@ -3794,7 +3794,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>32#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>32#0,3</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI2</CodeValue>
     </Disciplines>
@@ -3821,7 +3821,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>37#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>37#0,3</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI1</CodeValue>
     </Disciplines>
@@ -3848,7 +3848,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>38#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>38#0,3</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI2</CodeValue>
     </Disciplines>
@@ -3875,7 +3875,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>39#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>39#0,3</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI0</CodeValue>
     </Disciplines>
@@ -3902,7 +3902,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>40#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>40#0,3</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI1</CodeValue>
     </Disciplines>
@@ -3929,7 +3929,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>21#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>21#0,3</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI0</CodeValue>
     </Disciplines>
@@ -3956,7 +3956,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>22#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>22#0,3</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI1</CodeValue>
     </Disciplines>
@@ -3983,7 +3983,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>23#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>23#0,3</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI2</CodeValue>
     </Disciplines>
@@ -4010,7 +4010,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>24#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>24#0,3</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI0</CodeValue>
     </Disciplines>
@@ -4037,7 +4037,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>33#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>33#0,4</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI0</CodeValue>
     </Disciplines>
@@ -4064,7 +4064,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>34#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>34#0,4</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI1</CodeValue>
     </Disciplines>
@@ -4091,7 +4091,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>35#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>35#0,4</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI2</CodeValue>
     </Disciplines>
@@ -4118,7 +4118,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>36#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>36#0,4</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI0</CodeValue>
     </Disciplines>
@@ -4145,7 +4145,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>9#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>9#0,4</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI0</CodeValue>
     </Disciplines>
@@ -4172,7 +4172,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>10#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>10#0,4</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI1</CodeValue>
     </Disciplines>
@@ -4199,7 +4199,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>11#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>11#0,4</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI2</CodeValue>
     </Disciplines>
@@ -4226,7 +4226,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>12#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>12#0,4</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI0</CodeValue>
     </Disciplines>
@@ -4253,7 +4253,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>17#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>17#0,4</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI2</CodeValue>
     </Disciplines>
@@ -4280,7 +4280,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>18#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>18#0,4</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI0</CodeValue>
     </Disciplines>
@@ -4307,7 +4307,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>19#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>19#0,4</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI1</CodeValue>
     </Disciplines>
@@ -4334,7 +4334,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>20#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>20#0,4</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI2</CodeValue>
     </Disciplines>
@@ -4361,7 +4361,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>61#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>61#0,5</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI1</CodeValue>
     </Disciplines>
@@ -4388,7 +4388,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>71#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>71#0,5</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI2</CodeValue>
     </Disciplines>
@@ -4415,7 +4415,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>75#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>75#0,5</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI0</CodeValue>
     </Disciplines>
@@ -4442,7 +4442,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>62#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>62#0,6</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI2</CodeValue>
     </Disciplines>
@@ -4469,7 +4469,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>70#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>70#0,6</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI1</CodeValue>
     </Disciplines>
@@ -4496,7 +4496,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>74#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>74#0,6</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI2</CodeValue>
     </Disciplines>
@@ -4523,7 +4523,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>63#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>63#0,7</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI0</CodeValue>
     </Disciplines>
@@ -4550,7 +4550,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>69#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>69#0,7</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI0</CodeValue>
     </Disciplines>
@@ -4577,7 +4577,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>73#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>73#0,7</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI1</CodeValue>
     </Disciplines>
@@ -4604,7 +4604,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>64#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>64#0,8</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI1</CodeValue>
     </Disciplines>
@@ -4631,7 +4631,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>68#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>68#0,8</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI2</CodeValue>
     </Disciplines>
@@ -4658,7 +4658,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>72#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>72#0,8</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI0</CodeValue>
     </Disciplines>
@@ -4685,7 +4685,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>65#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>65#0,9</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI2</CodeValue>
     </Disciplines>
@@ -4712,7 +4712,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>67#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>67#0,9</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI1</CodeValue>
     </Disciplines>
@@ -4739,7 +4739,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>57#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>57#0,9</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI0</CodeValue>
     </Disciplines>
@@ -4766,7 +4766,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>58#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>58#0,9</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI1</CodeValue>
     </Disciplines>
@@ -4793,7 +4793,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>59#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>59#0,9</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI2</CodeValue>
     </Disciplines>
@@ -4820,7 +4820,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>60#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>60#0,9</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI0</CodeValue>
     </Disciplines>
@@ -4847,7 +4847,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>66#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>66#0,10</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI0</CodeValue>
     </Disciplines>
@@ -4874,7 +4874,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>45#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>45#0,10</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI0</CodeValue>
     </Disciplines>
@@ -4901,7 +4901,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>46#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>46#0,10</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI1</CodeValue>
     </Disciplines>
@@ -4928,7 +4928,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>47#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>47#0,10</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI2</CodeValue>
     </Disciplines>
@@ -4955,7 +4955,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>48#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>48#0,10</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI0</CodeValue>
     </Disciplines>
@@ -4982,7 +4982,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>53#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>53#0,10</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI2</CodeValue>
     </Disciplines>
@@ -5009,7 +5009,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>54#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>54#0,10</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI0</CodeValue>
     </Disciplines>
@@ -5036,7 +5036,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>55#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>55#0,10</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI1</CodeValue>
     </Disciplines>
@@ -5063,7 +5063,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </ResponsibilitySchoolReference>
   </DisciplineAction>
   <DisciplineAction>
-    <DisciplineActionIdentifier>56#0</DisciplineActionIdentifier>
+    <DisciplineActionIdentifier>56#0,10</DisciplineActionIdentifier>
     <Disciplines>
       <CodeValue>DI2</CodeValue>
     </Disciplines>

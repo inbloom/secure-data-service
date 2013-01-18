@@ -38,13 +38,13 @@ footer { display: block; }
 
 body {
     color: #333333;
-    font-family: Arial,Helvetica,sans-serif;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 13px;
     line-height: 18px;
     margin: 0;
 }
 input {
-    font-family: Helvetica,Arial,sans-serif;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 13px;
 }
 
@@ -186,14 +186,13 @@ h6 {
     text-transform: uppercase;
 }
 h7 {
-    font-family: Arial,Helvetica,sans-serif;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 22px;
     font-style: normal;
-    font-weight: lighter;
 }
 .banner-label {
     color: #D8D8D8;
-    font-family: Arial,Helvetica,sans-serif;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 36px;
     font-weight: normal;
 }
@@ -214,7 +213,7 @@ h7 {
 
 .loader .message {
 	background: url("../images/loading.gif") no-repeat top center;
-	font: 12px Arial, Helvetica, sans-serif; 
+	font: 12px "Helvetica Neue", Helvetica, Arial, sans-serif; 
 	color: #424242; 
 	width: 460px;
 	margin: 165px auto 0 auto;
@@ -244,7 +243,7 @@ h7 {
 .ui-th-column, .ui-jqgrid .ui-jqgrid-htable th.ui-th-column, .ui-jqgrid .ui-jqgrid-htable th.ui-th-column-header {
     background: url("../images/ui-bg_glass_65_ffffff_1x400.png") repeat-x scroll 50% 50% #FFFFFF;
     border-bottom: 1px solid #CCCCCC; border-left: 0 solid #CCCCCC; border-right: 1px solid #CCCCCC; border-top: 0px solid #CCCCCC;
-    line-height: 18px;vertical-align: middle;color: #999999;font-weight: 100;font-size:13px;
+    line-height: 18px;vertical-align: middle;color: #999999;font-size:13px;
 }
 
 .ui-jqgrid-title {
@@ -1193,7 +1192,7 @@ text-decoration: none;
     height: 18px;
     width: 90px;
     color: white;
-    font-family: Arial, Helvica, sans-serif;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 13px;
     font-weight: bold;
     padding-top: 1px;
@@ -1308,7 +1307,7 @@ text-decoration: none;
     padding-top: 12px;
 	line-height: 28px;
     color: #D8D8D8;
-    font-family: Arial,Helvetica,sans-serif;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 36px;
     font-weight: normal;
 }
@@ -1321,14 +1320,14 @@ text-decoration: none;
     padding-left: 0;
     padding-top: 10px;
 	color: #999999;
-    font-family: Arial,Helvetica,sans-serif;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 13px;
     line-height: 18px;
     margin: 0 0 9px;
 }
 .error-advice p {
     color: #999999;
-    font-family: Arial,Helvetica,sans-serif;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     font-size: 13px;
     line-height: 18px;
     margin: 0 0 9px;

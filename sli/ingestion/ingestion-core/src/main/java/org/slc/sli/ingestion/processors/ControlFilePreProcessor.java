@@ -54,8 +54,8 @@ import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.ControlFileSource;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.JobSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.tenant.TenantDA;
 import org.slc.sli.ingestion.util.BatchJobUtils;
@@ -113,7 +113,7 @@ public class ControlFilePreProcessor implements Processor {
         ControlFileDescriptor controlFileDescriptor = null;
 
         ReportStats reportStats = new SimpleReportStats();
-        Source source = new JobSource(controlFileName, BATCH_JOB_STAGE.getName());
+        Source source = new ControlFileSource(controlFileName);
 
         try {
             currentBatchJob = getBatchJob(batchJobId);
@@ -138,9 +138,6 @@ public class ControlFilePreProcessor implements Processor {
             String id = "null";
             if (currentBatchJob != null) {
                 id = currentBatchJob.getId();
-                if (currentBatchJob.getResourceEntries().size() == 0) {
-                    databaseMessageReport.warning(reportStats, source, CoreMessageCode.CORE_0002);
-                }
             }
             handleExceptions(exchange, id, exception, reportStats, source);
         } catch (Exception exception) {

@@ -8,6 +8,7 @@ profileSwapAndPropGen
 
 sed -i "s/sli\.app\.buildTag/$BUILD_TAG/g" /opt/tomcat/conf/sli.properties
 
+startSearchIndexer
 
 processApps $APPSTODEPLOY
 

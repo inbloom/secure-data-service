@@ -38,8 +38,8 @@ import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.JobSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
+import org.slc.sli.ingestion.reporting.impl.ZipFileSource;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
@@ -84,11 +84,12 @@ public class ZipFileProcessor implements Processor {
         NewBatchJob newJob = null;
         ReportStats reportStats = null;
         String resourceId = null;
+        File zipFile = null;
 
         try {
             LOG.info("Received zip file: " + exchange.getIn());
 
-            File zipFile = exchange.getIn().getBody(File.class);
+            zipFile = exchange.getIn().getBody(File.class);
 
             newJob = batchJobDAO.findBatchJobById(batchJobId);
             FileResource zipFileResource = new FileResource(zipFile.getAbsolutePath());
@@ -109,7 +110,7 @@ public class ZipFileProcessor implements Processor {
 
             exchange.getIn().setBody(RangedWorkNote.createSimpleWorkNote(batchJobId));
         } catch (Exception exception) {
-            handleProcessingException(exchange, batchJobId, resourceId, exception, reportStats);
+            handleProcessingException(exchange, batchJobId, zipFile, exception, reportStats);
         } finally {
             if (newJob != null) {
                 BatchJobUtils.stopStageAndAddToJob(stage, newJob);
@@ -118,14 +119,13 @@ public class ZipFileProcessor implements Processor {
         }
     }
 
-    private void handleProcessingException(Exchange exchange, String batchJobId, String resourceId,
+    private void handleProcessingException(Exchange exchange, String batchJobId, File zipFile,
             Exception exception, ReportStats reportStats) {
         exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOG.error("Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
-            Source source = new JobSource(resourceId, BATCH_JOB_STAGE.getName());
-            databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0014, exception.toString());
+            databaseMessageReport.error(reportStats, new ZipFileSource(zipFile), CoreMessageCode.CORE_0014, exception.toString());
         }
     }
 

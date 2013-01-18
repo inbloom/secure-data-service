@@ -15,6 +15,8 @@
  */
 package org.slc.sli.ingestion.reporting.impl;
 
+import java.io.File;
+
 /**
  * 
  * @author slee
@@ -22,10 +24,17 @@ package org.slc.sli.ingestion.reporting.impl;
  */
 public class ZipFileSource extends FileSource
 {
+    private String zipFilePath;
 
-    public ZipFileSource(String resourceId, String stageName)
+    public ZipFileSource(File zipFile)
     {
-        super(resourceId, stageName);
+        super(zipFile.getName());
+        this.zipFilePath = zipFile.getPath();
+    }
+
+    @Override
+    public String getUserFriendlyMessage() {
+        return zipFilePath == null ? super.getUserFriendlyMessage() : zipFilePath;
     }
 
 }

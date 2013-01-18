@@ -38,7 +38,7 @@ public class IngestionFileEntry implements Serializable, Resource {
     private static final long serialVersionUID = 8326156381009199389L;
 
     // Attributes
-    private String parentFileOrDirectory;
+    private String parentZipFileOrDirectory;
     private FileFormat fileFormat;
     private FileType fileType;
     private String fileName;
@@ -48,8 +48,8 @@ public class IngestionFileEntry implements Serializable, Resource {
     // will only be set when this is added to a BatchJob
     private String batchJobId;
 
-    public IngestionFileEntry(String parentFileOrDirectory, FileFormat fileFormat, FileType fileType, String fileName, String checksum) {
-        this.parentFileOrDirectory = parentFileOrDirectory;
+    public IngestionFileEntry(String parentZipFileOrDirectory, FileFormat fileFormat, FileType fileType, String fileName, String checksum) {
+        this.parentZipFileOrDirectory = parentZipFileOrDirectory;
         this.fileFormat = fileFormat;
         this.fileType = fileType;
         this.fileName = fileName;
@@ -154,12 +154,12 @@ public class IngestionFileEntry implements Serializable, Resource {
         this.valid = valid;
     }
 
-    public String getParentFileOrDirectory() {
-        return parentFileOrDirectory;
+    public String getParentZipFileOrDirectory() {
+        return parentZipFileOrDirectory;
     }
 
     public InputStream getFileStream() throws IOException {
-        File parentFile = new File(getParentFileOrDirectory());
+        File parentFile = new File(getParentZipFileOrDirectory());
         if (parentFile.isDirectory()) {
             return new BufferedInputStream(FileUtils.openInputStream(new File(parentFile, getFileName())));
         } else {
@@ -179,7 +179,7 @@ public class IngestionFileEntry implements Serializable, Resource {
         result = prime * result + ((fileFormat == null) ? 0 : fileFormat.hashCode());
         result = prime * result + ((fileName == null) ? 0 : fileName.hashCode());
         result = prime * result + ((fileType == null) ? 0 : fileType.hashCode());
-        result = prime * result + ((parentFileOrDirectory == null) ? 0 : parentFileOrDirectory.hashCode());
+        result = prime * result + ((parentZipFileOrDirectory == null) ? 0 : parentZipFileOrDirectory.hashCode());
         result = prime * result + (valid ? 1231 : 1237);
         return result;
     }
@@ -226,11 +226,11 @@ public class IngestionFileEntry implements Serializable, Resource {
         if (fileType != other.fileType) {
             return false;
         }
-        if (parentFileOrDirectory == null) {
-            if (other.parentFileOrDirectory != null) {
+        if (parentZipFileOrDirectory == null) {
+            if (other.parentZipFileOrDirectory != null) {
                 return false;
             }
-        } else if (!parentFileOrDirectory.equals(other.parentFileOrDirectory)) {
+        } else if (!parentZipFileOrDirectory.equals(other.parentZipFileOrDirectory)) {
             return false;
         }
         if (valid != other.valid) {
@@ -244,7 +244,7 @@ public class IngestionFileEntry implements Serializable, Resource {
      */
     @Override
     public String toString() {
-        return "IngestionFileEntry [parentFileOrDirectory=" + parentFileOrDirectory + ", fileFormat=" + fileFormat
+        return "IngestionFileEntry [parentZipFileOrDirectory=" + parentZipFileOrDirectory + ", fileFormat=" + fileFormat
                 + ", fileType=" + fileType + ", fileName=" + fileName + ", checksum=" + checksum + ", valid=" + valid
                 + ", batchJobId=" + batchJobId + "]";
     }

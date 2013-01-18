@@ -62,17 +62,15 @@ public class ValidationController {
         ReportStats reportStats = new SimpleReportStats();
 
         if (path.isFile()) {
-            Source source = new FileSource(path.getName(), null);
             if (path.getName().endsWith(".ctl")) {
                 processControlFile(path.getParentFile().getAbsoluteFile(), path.getName(), reportStats);
             } else if (path.getName().endsWith(".zip")) {
                 processZip(path, reportStats);
             } else {
-                messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0001);
+                messageReport.error(reportStats, new FileSource(path.getName()), ValidationMessageCode.VALIDATION_0001);
             }
         } else {
-            Source source = new DirectorySource(path.getName(), null);
-            messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0015);
+            messageReport.error(reportStats, new DirectorySource(path.getPath(), path.getName()), ValidationMessageCode.VALIDATION_0015);
         }
     }
 
@@ -80,22 +78,20 @@ public class ValidationController {
         boolean isValid = false;
         for (IngestionFileEntry ife : cfile.getFileEntries()) {
             if (ife.isValid()) {
-                Source source = new XmlFileSource(ife.getFileName(), null);
-                messageReport.info(reportStats, source, ValidationMessageCode.VALIDATION_0002, ife.getFileName());
-                isValid = complexValidator.isValid(ife, messageReport, reportStats, source);
+                messageReport.info(reportStats, new XmlFileSource(ife), ValidationMessageCode.VALIDATION_0002, ife.getFileName());
+                isValid = complexValidator.isValid(ife, messageReport, reportStats, new XmlFileSource(ife));
                 if (!isValid) {
-                    messageReport.info(reportStats, source, ValidationMessageCode.VALIDATION_0003, ife.getFileName());
+                    messageReport.info(reportStats, new XmlFileSource(ife), ValidationMessageCode.VALIDATION_0003, ife.getFileName());
                     continue;
                 }
-                messageReport.info(reportStats, source, ValidationMessageCode.VALIDATION_0004, ife.getFileName());
+                messageReport.info(reportStats, new XmlFileSource(ife), ValidationMessageCode.VALIDATION_0004, ife.getFileName());
             }
         }
     }
 
     public void processZip(File zipFile, ReportStats reportStats) {
 
-        Source source = new ZipFileSource(zipFile.getName(), null);
-        messageReport.info(reportStats, source, ValidationMessageCode.VALIDATION_0005, zipFile.getAbsolutePath());
+        messageReport.info(reportStats, new ZipFileSource(zipFile), ValidationMessageCode.VALIDATION_0005, zipFile.getAbsolutePath());
 
         FileResource zipFileResource = new FileResource(zipFile.getAbsolutePath());
         String ctlFile = zipFileHandler.handle(zipFileResource, messageReport, reportStats);
@@ -104,11 +100,11 @@ public class ValidationController {
             processControlFile(zipFile, ctlFile, reportStats);
         }
 
-        messageReport.info(reportStats, source, ValidationMessageCode.VALIDATION_0006, zipFile.getAbsolutePath());
+        messageReport.info(reportStats, new ZipFileSource(zipFile), ValidationMessageCode.VALIDATION_0006, zipFile.getAbsolutePath());
     }
 
     public void processControlFile(File parentDirectoryOrZipFile, String ctlFile, ReportStats reportStats) {
-        Source source = new ControlFileSource(ctlFile, null);
+        Source source = new ControlFileSource(ctlFile);
         messageReport.info(reportStats, source, ValidationMessageCode.VALIDATION_0007, ctlFile);
 
         try {

@@ -40,10 +40,11 @@ import org.xml.sax.SAXParseException;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ElementSource;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
-import org.slc.sli.ingestion.reporting.impl.NeutralRecordSource;
+import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
 import org.slc.sli.ingestion.reporting.impl.XmlFileSource;
 
 /**
@@ -66,9 +67,6 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
     public boolean isValid(IngestionFileEntry entry, AbstractMessageReport report,
             ReportStats reportStats, Source source) {
 
-        // we know more of our source
-        Source newsource = new XmlFileSource(entry.getFileName(),
-                (source == null ? null : source.getStageName()));
         InputStream is = null;
         try {
             is = entry.getFileStream();
@@ -76,10 +74,10 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
             return validateXmlFile(entry, is, report, reportStats);
         } catch (FileNotFoundException e) {
             LOG.error("File not found: " + entry.getFileName(), e);
-            report.error(reportStats, newsource, BaseMessageCode.BASE_0023, entry.getFileName());
+            report.error(reportStats, new XmlFileSource(entry), BaseMessageCode.BASE_0023, entry.getFileName());
         } catch (IOException e) {
             LOG.error("Problem reading file: " + entry.getFileName(), e);
-            report.error(reportStats, newsource, BaseMessageCode.BASE_0024, entry.getFileName());
+            report.error(reportStats, new XmlFileSource(entry), BaseMessageCode.BASE_0024, entry.getFileName());
         } catch (SAXException e) {
             LOG.error("SAXException");
         } catch (Exception e) {
@@ -179,13 +177,38 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
          *
          * @return Error message returned by Ingestion
          */
-        private void reportWarning(SAXParseException ex) {
+        private void reportWarning(final SAXParseException ex) {
             if (report != null) {
                 String fullParsefilePathname = (ex.getSystemId() == null) ? "" : ex.getSystemId();
-                File parseFile = new File(fullParsefilePathname);
+                final File parseFile = new File(fullParsefilePathname);
 
-                Source source = new NeutralRecordSource(parseFile.getName(), STAGE_NAME, ex.getLineNumber(),
-                        ex.getColumnNumber());
+                Source source = new ElementSourceImpl(new ElementSource() {
+
+                            @Override
+                            public String getResourceId()
+                            {
+                                return parseFile.getName();
+                            }
+
+                            @Override
+                            public int getVisitBeforeLineNumber()
+                            {
+                                return ex.getLineNumber();
+                            }
+
+                            @Override
+                            public int getVisitBeforeColumnNumber()
+                            {
+                                return ex.getColumnNumber();
+                            }
+
+                            @Override
+                            public String getElementType()
+                            {
+                                return parseFile.getName();
+                            }}
+                );
+                
 
                 report.warning(reportStats, source, BaseMessageCode.BASE_0017, parseFile.getName(), ex.getMessage());
             }
