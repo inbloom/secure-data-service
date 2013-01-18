@@ -109,7 +109,9 @@ public class EntityIdentifier {
                 entityFilterInfo.setSessionAttribute(assoc.getAssociatedAttributeName());
             }
         }
-        return !(entityFilterInfo.getSessionAttribute() != null && entityFilterInfo.getSessionAttribute().isEmpty());
+        boolean isSessionAttributeFound = (entityFilterInfo.getSessionAttribute() != null ) &&
+                (!entityFilterInfo.getSessionAttribute().isEmpty());
+        return isSessionAttributeFound;
     }
 
 
