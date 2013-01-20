@@ -1162,7 +1162,7 @@ When /^a batch job has completed successfully in the database$/ do
    @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
    @entity_collection = @db.collection("newBatchJob")
    intervalTime = 1
-   @maxTimeout ? @maxTimeout : @maxTimeout = 300
+   @maxTimeout ? @maxTimeout : @maxTimeout = 600
    iters = (1.0*@maxTimeout/intervalTime).ceil
    found = false
      if (INGESTION_MODE == 'remote')
