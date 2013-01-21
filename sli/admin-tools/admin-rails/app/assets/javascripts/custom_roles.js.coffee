@@ -1,8 +1,10 @@
 defaultRights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "AGGREGATE_WRITE", "READ_PUBLIC"]
+selfRights = ["READ_SELF_RESTRICTED", "READ_SELF_GENERAL"]
 ROLE_COL = "td:eq(0)";
 RIGHT_COL = "td:eq(1)";
-ADMIN_COL = "td:eq(2)";
-EDIT_COL = "td:eq(3)";
+SELF_RIGHT_COL = "td:eq(2);"
+ADMIN_COL = "td:eq(3)";
+EDIT_COL = "td:eq(4)";
 
 jQuery ->
   unless initCustomRoleScripts?
@@ -24,7 +26,7 @@ jQuery ->
 
   #Wire up Add Role button
   $("#addGroupButton").click ->
-    newRow = $("<tr><td><div class='groupTitle'></div></td><td></td><td><input type='checkbox' class='isAdmin'></td><td></td></tr>")
+    newRow = $("<tr><td><div class='groupTitle'></div></td><td></td><td></td><td><input type='checkbox' class='isAdmin'></td><td></td></tr>")
     $("#custom_roles tbody").append(newRow)
 
     newRow.find(EDIT_COL).append($("#rowEditTool").clone().children())
@@ -217,7 +219,7 @@ getAllRoles = () ->
 populateTable = (data) ->
   $("#custom_roles tbody").children().remove()
   for role in data
-    newRow = $("<tr><td><div></div></td><td></td><td></td><td></td></tr>")
+    newRow = $("<tr><td><div></div></td><td></td><td></td><td></td><td></td></tr>")
     $("#custom_roles tbody").append(newRow)
 
     newRow.find(ROLE_COL).append($("<div class='groupTitle'></div>").text(role.groupTitle))
