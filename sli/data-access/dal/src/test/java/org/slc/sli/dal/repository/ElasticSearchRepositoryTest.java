@@ -22,8 +22,8 @@ import static org.junit.Assert.assertNull;
 
 import java.util.Map;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -99,7 +99,7 @@ public class ElasticSearchRepositoryTest {
         // check results
         ObjectMapper mapper = new ObjectMapper();
         JsonNode srbNode = mapper.readTree(srbStr);
-        assertEquals("matt", srbNode.get("bool").get("must").get(0).get("query_string").get("query").getTextValue());
+        assertEquals("matt", srbNode.get("bool").get("must").get(0).get("query_string").get("query").textValue());
 
      //   assertEquals("temptemp", srbNode.get("bool").get("must").get(1).get("bool").get("should").get(1).get("terms").get("temp").getElements().next().asText());
      //   assertEquals("1", srbNode.get("bool").get("must").get(1).get("should").get(1).get("bool").get("terms").get("test").getElements().next().asText());
@@ -124,7 +124,7 @@ public class ElasticSearchRepositoryTest {
         // check results
         ObjectMapper mapper = new ObjectMapper();
         JsonNode srbNode = mapper.readTree(srbStr);
-        assertEquals("ma", srbNode.get("query_string").get("query").getTextValue());
+        assertEquals("ma", srbNode.get("query_string").get("query").textValue());
     }
 
 }

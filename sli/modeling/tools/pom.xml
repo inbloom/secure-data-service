@@ -21,7 +21,6 @@
         <dependency>
             <groupId>org.apache.ws.commons.schema</groupId>
             <artifactId>XmlSchema</artifactId>
-            <version>${commons.schema.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -33,12 +32,10 @@
             <artifactId>mockito-all</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- StAX API -->
-        <dependency>
-            <groupId>stax</groupId>
-            <artifactId>stax-api</artifactId>
-            <version>1.0.1</version>
-        </dependency>
+        <!-- dependency>
+            <groupId>org.codehaus.woodstox</groupId>
+            <artifactId>woodstox-core-lgpl</artifactId>
+        </dependency -->
         <dependency>
             <groupId>org.slc.sli.modeling</groupId>
             <artifactId>uml</artifactId>
@@ -70,7 +67,6 @@
         <dependency>
             <groupId>net.sf.jopt-simple</groupId>
             <artifactId>jopt-simple</artifactId>
-            <version>4.3</version>
         </dependency>
     </dependencies>
 </project>

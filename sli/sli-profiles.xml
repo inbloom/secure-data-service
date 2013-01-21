@@ -1,0 +1,184 @@
+<?xml version="1.0"?>
+
+<!--
+  ~ /*
+  ~  * Copyright 2012-2013 Shared Learning Collaborative, LLC
+  ~  *
+  ~  * Licensed under the Apache License, Version 2.0 (the "License");
+  ~  * you may not use this file except in compliance with the License.
+  ~  * You may obtain a copy of the License at
+  ~  *
+  ~  * http://www.apache.org/licenses/LICENSE-2.0
+  ~  *
+  ~  * Unless required by applicable law or agreed to in writing, software
+  ~  * distributed under the License is distributed on an "AS IS" BASIS,
+  ~  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~  * See the License for the specific language governing permissions and
+  ~  * limitations under the License.
+  ~  */
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <!--
+       SLI POM Hierarchy description:
+          library-versions.xml          # contains version number constants for all dependant libraries.
+              + profiles.xml            # SLI maven profiles.
+                  + dependencies.xml    # Dependency and build plugin management.
+                      + pom.xml         # Main entry point for the full SLI build. Inherits properties from all
+                                        #     parent pom files.
+    -->
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.slc.sli</groupId>
+        <artifactId>sli-library-versions</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>sli-library-versions.xml</relativePath>
+    </parent>
+    <artifactId>sli-profiles</artifactId>
+    <packaging>pom</packaging>
+    <name>maven profiles</name>
+    <description>maven profiles</description>
+
+    <!-- Environment profiles. A profile encapsulates a set of properties and
+    filters for a particular build configuration. Per profile properties and
+    filters can be set at an individual project basis to specify variables used
+    within that environment. For example, specifying different database connection
+    strings for 'local' and 'ci' builds. From the command line, add the -P and
+    specify the profile name you want to use. If no profile is specified, the
+    'sli.env' value specified in the above properties section is used by default.
+    Note that this POM only defines what the profile name is and the 'sli.env'
+    value for that profile. It is up to individual projects to identify resources
+    required per profile. -->
+    <profiles>
+        <profile>
+            <id>with-emma</id>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <groupId>org.codehaus.</groupId>
+                            <artifactId>e</artifactId>
+                        </plugin>
+
+                    </plugins>
+                </pluginManagement>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>emma-maven-plugin</artifactId>
+                        <inherited>true</inherited>
+                        <version>1.0-alpha-3</version>
+                        <executions>
+                            <execution>
+                                <id>instrument</id>
+                                <phase>process-test-classes</phase>
+                                <goals>
+                                    <goal>instrument</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>${project.build.directory}/</outputDirectory>
+                                    <verbose>true</verbose>
+                                    <filters>
+                                        <!--from ingestion -->
+                                        <filter>-org.slc.sli.aspect.LoggerCarrierAspect</filter>
+                                        <!--from simple-idp -->
+                                        <filter>-org.slc.sli.sandbox.idp.aspect.LoggerCarrierAspect</filter>
+                                    </filters>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <!-- A local dev profile -->
+        <profile>
+            <id>local</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <sli.env>local</sli.env>
+                <sli.encryption.keyStore>${sli.home}/data-access/dal/keyStore/localKeyStore.jks
+                </sli.encryption.keyStore>
+                <sli.encryption.properties>${sli.home}/data-access/dal/keyStore/localEncryption.properties
+                </sli.encryption.properties>
+            </properties>
+        </profile>
+        <!-- Remote dev/demo database profile -->
+        <profile>
+            <id>dev</id>
+            <properties>
+                <sli.env>dev</sli.env>
+                <sli.encryption.keyStore>${sli.home}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
+                <sli.encryption.properties>${sli.home}/data-access/dal/keyStore/ciEncryption.properties
+                </sli.encryption.properties>
+            </properties>
+        </profile>
+        <!-- Profile to use during continuous integration -->
+        <profile>
+            <id>ci</id>
+            <properties>
+                <sli.env>ci</sli.env>
+                <sli.encryption.keyStore>${sli.home}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
+                <sli.encryption.properties>${sli.home}/data-access/dal/keyStore/ciEncryption.properties
+                </sli.encryption.properties>
+            </properties>
+        </profile>
+        <!-- Profile to use to deploy to stable build environment (currently devopenam2.slidev.org) -->
+        <profile>
+            <id>devapp1</id>
+            <properties>
+                <sli.env>devapp1</sli.env>
+                <sli.encryption.keyStore>${sli.home}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
+                <sli.encryption.properties>${sli.home}/data-access/dal/keyStore/ciEncryption.properties
+                </sli.encryption.properties>
+            </properties>
+        </profile>
+        <!-- Profile to use to deploy to acceptance test build environment -->
+        <profile>
+            <id>acceptance-tests</id>
+            <properties>
+                <sli.env>acceptance-tests</sli.env>
+                <!-- Use the ci keystore for now, we can always changes this later if necessary -->
+                <sli.encryption.keyStore>${sli.home}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
+                <sli.encryption.properties>${sli.home}/data-access/dal/keyStore/ciEncryption.properties
+                </sli.encryption.properties>
+            </properties>
+        </profile>
+        <!-- Profile to use to deploy to acceptance test build environment -->
+        <profile>
+            <id>nxbuild2</id>
+            <properties>
+                <sli.env>nxbuild2</sli.env>
+                <!-- Use the ci keystore for now, we can always changes this later if necessary -->
+                <sli.encryption.keyStore>${sli.home}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
+                <sli.encryption.properties>${sli.home}/data-access/dal/keyStore/ciEncryption.properties
+                </sli.encryption.properties>
+            </properties>
+        </profile>
+        <profile>
+            <id>team</id>
+            <properties>
+                <sli.env>team</sli.env>
+                <!-- Use the ci keystore for now, we can always changes this later if necessary -->
+                <sli.encryption.keyStore>${sli.home}/data-access/dal/keyStore/ciKeyStore.jks</sli.encryption.keyStore>
+                <sli.encryption.properties>${sli.home}/data-access/dal/keyStore/ciEncryption.properties
+                </sli.encryption.properties>
+            </properties>
+        </profile>
+        <profile>
+            <id>sandbox</id>
+            <properties>
+                <sli.env>sandbox</sli.env>
+                <sli.encryption.keyStore>${sli.home}/data-access/dal/keyStore/localKeyStore.jks
+                </sli.encryption.keyStore>
+                <sli.encryption.properties>${sli.home}/data-access/dal/keyStore/localEncryption.properties
+                </sli.encryption.properties>
+            </properties>
+        </profile>
+        <!-- Add additional profiles here. For example: integration, production,
+      multishard, ... -->
+    </profiles>
+</project>

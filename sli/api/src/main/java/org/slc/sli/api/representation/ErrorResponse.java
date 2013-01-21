@@ -20,7 +20,7 @@ package org.slc.sli.api.representation;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.codehaus.jackson.annotate.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Representation of an error message in response to issues encountered servicing API requests.
