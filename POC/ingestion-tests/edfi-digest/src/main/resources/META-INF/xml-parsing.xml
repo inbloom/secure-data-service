@@ -19,7 +19,7 @@
     <route id="fileReader">
         <from uri="file:/Users/okrook/lz/inbound?include=^.*\.xml$&amp;move=./.done/${file:onlyname}"/>
         <split streaming="true" parallelProcessing="true">
-            <ref>staxRecord</ref>
+            <ref>staxEntity</ref>
             <setHeader headerName="JMSXGroupSeq">
                 <header>CamelSplitIndex</header>
             </setHeader>
