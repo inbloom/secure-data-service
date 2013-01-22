@@ -26,7 +26,7 @@ import java.util.TreeSet;
 
 import javax.annotation.PostConstruct;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

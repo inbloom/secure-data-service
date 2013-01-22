@@ -26,4 +26,14 @@
     <module>tools</module>
     <module>docgen</module>
   </modules>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>stax</groupId>
+                <artifactId>stax-api</artifactId>
+                <version>${stax.api.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>
