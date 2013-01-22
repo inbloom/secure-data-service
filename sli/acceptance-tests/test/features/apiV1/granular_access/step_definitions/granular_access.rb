@@ -25,6 +25,7 @@ require_relative '../../querying/step_defs/no_table_scan_steps.rb'
 
 Before do
   $type_to_uri = {
+      "studentAssessment" => "studentAssessments",
       "studentSchoolAssociation" => "studentSchoolAssociations",
       "teacherSectionAssociation" => "teacherSectionAssociations"
   }
@@ -37,7 +38,8 @@ end
 
 Transform /^<([^"]*)>$/ do |human_readable_id|
   id = human_readable_id
-  id = @newId if human_readable_id == "NEW ID"
+  id = @newId                    if human_readable_id == "NEW ID"
+  id = get_all_ids_from_response if human_readable_id == "ALL IDs"
   # Entity list from scenario outlines
   id = ["b408d88e-8fd5-11e1-86ec-0021701f543f_idb40c0ce1-8fd5-11e1-86ec-0021701f543f_id",
     "b408d88e-8fd5-11e1-86ec-0021701f543f_idb40de1a6-8fd5-11e1-86ec-0021701f543f_id",
@@ -48,10 +50,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
     "LCC1779GR1", "LCC1214GR1", "LCC2901GR1", "LCC8391GR1", "LCC2727GR1", "LCC6850GR1",
     "LCC4024GR1", "LCC7332GR1", "LCC8527GR1", "LCC6660GR1", "LCC1406GR1", "LCC5901GR1",
     "LCC1737GR1"].join "," if human_readable_id == "LIST-CO-LINDAKIM"
-  id = ["Fall 2011 East Daybreak Junior High",
-    "Fall 2010 East Daybreak Junior High",
-    "Spring 2011 East Daybreak Junior High",
-    "Spring 2010 East Daybreak Junior High"].join "," if human_readable_id == "LIST-SESSION-LINDAKIM"
+  id = ["Fall 2010 East Daybreak Junior High",
+    "Spring 2011 East Daybreak Junior High"].join "," if human_readable_id == "LIST-SESSION-LINDAKIM"
   id = ["18b98c27-8496-40f8-98f7-eb9aeeeeaf0a", "e34c700c-88f7-4b83-b7f0-69f154e802bd",
     "0f38f3ae-350b-481b-88ec-1444cfec6faa", "1be4dc69-3c66-4ffc-ad65-74e1a1f9c300",
     "d056ef93-d686-4ca4-8b83-9201579da663", "6178df17-e275-406a-8b5d-4a3c089b0b9f",
@@ -80,6 +80,13 @@ end
 
 Given /^a new "([^\"]*)"$/ do |type|
   data = {
+      "studentAssessment" => {
+          "studentId"=> "fff656b2-5031-4897-b6b8-7b0f5769b482_id",
+          "assessmentId"=> "dd916592-7d7e-5d27-a87d-dfc7fcb757f6",
+          "administrationDate"=> "2011-10-01",
+          "administrationEndDate"=> "2012-01-01",
+          "retestIndicator"=> "1st Retest"
+      },
       "studentSchoolAssociation" => {
           "studentId" => "fff656b2-5031-4897-b6b8-7b0f5769b482_id", # Rafaela Coleson
           "schoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb", # South Daybreak Elementary
@@ -87,8 +94,8 @@ Given /^a new "([^\"]*)"$/ do |type|
           "entryDate" => "2010-09-01"
       },
       "teacherSectionAssociation" => {
-          "teacherId" => "67ed9078-431a-465e-adf7-c720d08ef512", # Linda Kim
-          "sectionId" => "392d1835-f372-4690-b221-7065db1aed33_id", # Phys-Ed 8A - Sec 6f08
+          "teacherId" => "bcfcc33f-f4a6-488f-baee-b92fbd062e8d", # Rebecca Braverman
+          "sectionId" => "224e86dd-1e00-45cf-a980-bd233cb9826b_id", # Writing 5A Sec 5f08
           "classroomPosition" => "Teacher of Record"
       }
   }
@@ -141,7 +148,7 @@ end
 
 Then /^I delete the new "([^\"]*)" for the next test scenario$/ do |type|
   steps %Q{
-    When I navigate to DELETE "/#{$type_to_uri[type]}/#{@newId}"
+    When I navigate to DELETE "/v1/#{$type_to_uri[type]}/#{@newId}"
     Then I should receive a return code of 204
   }
 end
@@ -213,4 +220,12 @@ def get_all_counts_from_file
     }
   end
   all_counts
+end
+
+def get_all_ids_from_response
+  ret = []
+  @results.each do |result|
+    ret << result["id"]
+  end
+  ret.join ","
 end
