@@ -27,15 +27,23 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.model.ModelProvider;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.modeling.uml.AssociationEnd;
 import org.slc.sli.modeling.uml.Attribute;
 import org.slc.sli.modeling.uml.ClassType;
+import org.slc.sli.modeling.uml.Identifier;
+import org.slc.sli.modeling.uml.TaggedValue;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static junit.framework.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 
@@ -60,6 +68,12 @@ public class EntityIdentifierTest {
     @Mock
     private EntityDefinitionStore entityDefinitionStore;
 
+    private static final String PROGRAM = "program";
+
+    private static final String SESSION = "session";
+
+        private static final String STAFF_PROGRAM_ASSOC = "staffProgramAssociation";
+
     @Before
     public void init() {
         MockitoAnnotations.initMocks(this);
@@ -67,25 +81,52 @@ public class EntityIdentifierTest {
 
 
     @Test
-    public void testFindEntity(){
+    public void testFindEntityWithBeginDate(){
         String request = "/educationOrganizations/id/sessions";
         EntityDefinition definition = mock(EntityDefinition.class);
-        ClassType entityClassType = mock(ClassType.class);
+        ClassType sessionClassType = mock(ClassType.class);
         Attribute attribute = mock(Attribute.class);
         Mockito.when(entityDefinitionStore.lookupByResourceName(anyString())).thenReturn(definition);
-        Mockito.when(definition.getType()).thenReturn("session");
-        Mockito.when(modelProvider.getClassType(anyString())).thenReturn(entityClassType);
-        Mockito.when(entityClassType.getBeginDateAttribute()).thenReturn(attribute);
+        Mockito.when(definition.getType()).thenReturn(SESSION);
+
+        Mockito.when(modelProvider.getClassType(anyString())).thenReturn(sessionClassType);
+        Mockito.when(sessionClassType.getBeginDateAttribute()).thenReturn(attribute);
         Mockito.when(attribute.getName()).thenReturn("beginDate");
 
         EntityFilterInfo entityFilterInfo = entityIdentifier.findEntity(request);
         assertFalse(entityFilterInfo.getBeginDateAttribute().isEmpty());
 
-//       request = "/staff/id/staffProgramAssociation/programs";
-//        entityFilterInfo = entityIdentifier.findEntity(request);
-//        assertEquals("staffProgramAssociatons", entityFilterInfo.getEntityName().isEmpty());
-//        assertEquals("sessionId", entityFilterInfo.getSessionAttribute());
+        //assertEquals("sessionId", entityFilterInfo.getSessionAttribute());
 
+
+    }
+
+    @Test
+    public void testFindEntityWithAssociatedEntity() {
+        String request = "/staff/id/staffProgramAssociation/programs";
+        ClassType programClass = mock(ClassType.class);
+        EntityDefinition definition = mock(EntityDefinition.class);
+        Attribute attribute = mock(Attribute.class);
+        ClassType staffProgramAssociation = mock(ClassType.class);
+
+        List<String> programAssocEntity = new ArrayList<String>();
+        programAssocEntity.add("staffProgramAssociation");
+        programAssocEntity.add("studentProgramAssociation");
+        Mockito.when(entityDefinitionStore.lookupByResourceName(anyString())).thenReturn(definition);
+        Mockito.when(definition.getType()).thenReturn(PROGRAM);
+        Mockito.when(modelProvider.getClassType(anyString())).thenReturn(programClass);
+        Mockito.when(modelProvider.getClassType(STAFF_PROGRAM_ASSOC)).thenReturn(staffProgramAssociation);
+        Mockito.when(programClass.getEndDateAttribute()).thenReturn(null);
+        Mockito.when(programClass.getBeginDateAttribute()).thenReturn(null);
+        Mockito.when(staffProgramAssociation.getEndDateAttribute()).thenReturn(attribute);
+        Mockito.when(staffProgramAssociation.getBeginDateAttribute()).thenReturn(attribute);
+        Mockito.when(staffProgramAssociation.getName()).thenReturn("StaffProgramAssociation");
+        Mockito.when(modelProvider.getAssociatedDatedEntities(any(ClassType.class))).thenReturn(programAssocEntity);
+        Mockito.when(modelProvider.getAssociationEnds(any(Identifier.class))).thenReturn(new ArrayList<AssociationEnd>());
+        Mockito.when(attribute.getName()).thenReturn("beginDate");
+
+        EntityFilterInfo entityFilterInfo = entityIdentifier.findEntity(request);
+        assertEquals("staffProgramAssociation", entityFilterInfo.getEntityName());
 
     }
 }
