@@ -123,7 +123,6 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | system/session              |
     | system/support              |
 
-    @test
   Scenario Outline: Different ways of overlapping the date range
     Given I am logged in using "akopel" "akopel1234" to realm "IL"
     And parameter "schoolYears" is "2009-2011"
@@ -156,7 +155,6 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | 2012-01-01 | 2012-05-01 | 59    | # Starts and ends after range ends                    |
     | 2012-01-01 | ?          | 59    | # Starts after range ends, ends unknown               |
 
-      @test
   Scenario Outline: Optional begin date - teacherSectionAssociation
     Given I am logged in using "akopel" "rrogers1234" to realm "IL"
     And parameter "schoolYears" is "2009-2011"
