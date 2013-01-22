@@ -54,8 +54,11 @@ public class EntityIdentifier {
         List<String> resources = Arrays.asList(request.split("/"));
         String resource = resources.get(resources.size() - 1);
         EntityDefinition definition = entityDefinitionStore.lookupByResourceName(resource);
-        ClassType entityType = modelProvider.getClassType(StringUtils.capitalize(definition.getType()));
-        populatePath(entityFilterInfo, entityType, resource);
+        if(definition != null) {
+            ClassType entityType = modelProvider.getClassType(StringUtils.capitalize(definition.getType()));
+            populatePath(entityFilterInfo, entityType, resource);
+        }
+
 
         //Enable this once all entities have stamped in ComplextTypes.xsd
 //        if (entityName.isEmpty() || beginDateAttribute.isEmpty() || endDateAttribute.isEmpty()) {
@@ -77,7 +80,7 @@ public class EntityIdentifier {
                 }
             }
 
-            if (entityNotIdentified) {
+            if (entityNotIdentified && (associations!=null) && !associations.isEmpty()) {
                 populateConnectionPath(entityFilterInfo, associations.get(0));
             }
         }
