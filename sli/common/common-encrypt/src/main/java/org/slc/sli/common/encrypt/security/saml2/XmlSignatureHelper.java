@@ -17,12 +17,10 @@
 
 package org.slc.sli.common.encrypt.security.saml2;
 
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.KeyException;
 import java.security.KeyStore;
@@ -55,11 +53,8 @@ import javax.xml.crypto.dsig.keyinfo.KeyInfoFactory;
 import javax.xml.crypto.dsig.keyinfo.X509Data;
 import javax.xml.crypto.dsig.spec.C14NMethodParameterSpec;
 import javax.xml.crypto.dsig.spec.TransformParameterSpec;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
+import javax.xml.transform.*;
 
-import org.jdom.output.XMLOutputter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -67,7 +62,6 @@ import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
 
 /**
  * Class used for signing XML documents.
@@ -122,7 +116,7 @@ public class XmlSignatureHelper {
      *            SAML assertion be signed.
      * @param privateKey
      *            Private key used to sign SAML assertion.
-     * @param publicKey
+     * @param certificate
      *            Public key used to sign SAML asserion.
      * @return w3c element representation of specified document.
      * @throws NoSuchAlgorithmException
@@ -257,61 +251,7 @@ public class XmlSignatureHelper {
         }
         return ks;
     }
-    
-    /**
-     * Stolen shamelessly from (with minor changes):
-     * http://google-apps-sso-sample.googlecode.com/svn/trunk/java/samlsource/src/util/Util.java.
-     * 
-     * Converts a JDOM Document to a W3 DOM document.
-     * 
-     * @param doc
-     *            JDOM Document
-     * @return W3 DOM Document if converted successfully, null otherwise
-     */
-    public Document convertDocumentToDocumentDom(org.jdom.Document doc) {
-        try {
-            XMLOutputter xmlOutputter = new XMLOutputter();
-            StringWriter elemStrWriter = new StringWriter();
-            xmlOutputter.output(doc, elemStrWriter);
-            byte[] xmlBytes = elemStrWriter.toString().getBytes();
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            dbf.setNamespaceAware(true);
-            return dbf.newDocumentBuilder().parse(new ByteArrayInputStream(xmlBytes));
-        } catch (IOException e) {
-            LOG.error("Error converting JDOM document to W3 DOM document: " + e.getMessage());
-        } catch (ParserConfigurationException e) {
-            LOG.error("Error converting JDOM document to W3 DOM document: " + e.getMessage());
-        } catch (SAXException e) {
-            LOG.error("Error converting JDOM document to W3 DOM document: " + e.getMessage());
-        }
-        return null;
-    }
-    
-    /**
-     * Stolen shamelessly from (with minor changes):
-     * http://google-apps-sso-sample.googlecode.com/svn/trunk/java/samlsource/src/util/Util.java.
-     * 
-     * Converts a jdom element to a w3c representation of the element.
-     * 
-     * @param element
-     *            jdom element to be converted.
-     * @return w3c representation of jdom element.
-     */
-    public Element convertElementToElementDom(org.jdom.Element element) {
-        return convertDocumentToDocumentDom(element.getDocument()).getDocumentElement();
-    }
-    
-    /**
-     * Converts a jdom element to a w3c representation of the element.
-     * 
-     * @param element
-     *            jdom element to be converted.
-     * @return w3c representation of jdom element.
-     */
-    public Element convertDocumentToElementDom(org.jdom.Document document) {
-        return convertDocumentToDocumentDom(document).getDocumentElement();
-    }
-    
+
     /**
      * Stolen shamelessly from (with minor changes):
      * http://google-apps-sso-sample.googlecode.com/svn/trunk/java/samlsource/src/util/

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:camel="http://camel.apache.org/schema/spring" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+  <bean id="staxRecord" class="org.apache.camel.component.stax.StAXBuilder"
+    factory-method="stax">
+    <constructor-arg index="0" value="org.ed_fi._0100.Student" />
+  </bean>
+
+  <bean id="staxEntity" class="test.camel.support.stax.StAXAntPathBuilder"
+    factory-method="stax">
+    <constructor-arg name="antPath" value="/Interchange*/*" />
+    <constructor-arg name="group" value="500" />
+  </bean>
+
+  <camelContext trace="false" xmlns="http://camel.apache.org/schema/spring">
+    <route id="fileReader">
+        <from uri="file:/Users/okrook/lz/inbound?include=^.*\.xml$&amp;move=./.done/${file:onlyname}"/>
+        <split streaming="true" parallelProcessing="true">
+            <ref>staxEntity</ref>
+            <setHeader headerName="JMSXGroupSeq">
+                <header>CamelSplitIndex</header>
+            </setHeader>
+            <setHeader headerName="JMSXGroupCount">
+                <header>CamelSplitSize</header>
+            </setHeader>
+            <to uri="seda:entityFeed"/>
+        </split>
+    </route>
+    <route id="staging">
+        <from uri="seda:entityFeed?concurrentConsumers=32&amp;blockWhenFull=true"/>
+        <log message="Batch of ${body.size}. Starts at Ln: ${body[0].getLineNumber} - Col: ${body[0].getColumnNumber}"/>
+        <stop/>
+    </route>
+</camelContext>
+
+</beans>
