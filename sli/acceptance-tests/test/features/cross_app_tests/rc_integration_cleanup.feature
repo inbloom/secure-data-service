@@ -19,7 +19,6 @@ Scenario:  LEA deletes realm
   Then I see the realms for "IL-DAYBREAK"
   When I click the "Daybreak Test Realm" delete button and confirm deletion
   And I switch to the iframe
-  And I should receive a notice that the realm was successfully "deleted"
   Then I see the realms for "IL-DAYBREAK"
   And I exit out of the iframe
   And I click on log out
