@@ -81,8 +81,8 @@ end
 Given /^a new "([^\"]*)"$/ do |type|
   data = {
       "studentSchoolAssociation" => {
-          "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378_id", # Daniela Cusimana
-          "schoolId" => "ec2e4218-6483-4e9c-8954-0aecccfd4731", # East Daybreak Junior High
+          "studentId" => "fff656b2-5031-4897-b6b8-7b0f5769b482_id", # Rafaela Coleson
+          "schoolId" => "a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb", # South Daybreak Elementary
           "entryGradeLevel" => "First grade",
           "entryDate" => "2010-09-01"
       },
@@ -133,8 +133,8 @@ Then /^I should only find "([^\"]*)" in the list of entities returned$/ do |list
   assert(@result.size == count, "Expected #{count} entities from list, received #{@result.size} from response")
   unless list.empty?
     result_as_string = @result.join
-    list.each do |item|
-      assert(result_as_string.include? item, "Cannot find #{item} in the response")
+    list.split(",").each do |item|
+      assert(result_as_string.include?(item), "Cannot find #{item} in the response")
     end
   end
 end
@@ -147,7 +147,7 @@ Then /^I delete the new "([^\"]*)" for the next test scenario$/ do |type|
 end
 
 Then /^the error message should say "([^\"]*)"$/ do |message|
-  assert(@result.to_s.include? message, "Cannot find the message in response body")
+  assert(@result.to_s.include?(message), "Cannot find the message in response body")
 end
 
 Then /^the error message should say "([^\"]*)" for all requests$/ do |message|
