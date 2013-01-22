@@ -3,86 +3,42 @@ package test.camel.support.zip;
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.RandomAccessFile;
 import java.util.Enumeration;
 import java.util.Iterator;
 
-import org.apache.camel.component.file.FileConsumer;
-import org.apache.camel.component.file.GenericFile;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipFile;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
-import org.springframework.util.StopWatch;
 
-public class ZipFileIterator implements Iterator<GenericFile<File>>, Closeable {
+import test.camel.support.ZipFileEntry;
 
-	private ZipFile zipFile;
-	private File unzipFolder;
-	private Enumeration<ZipArchiveEntry> zipEntries;
+public class ZipFileIterator implements Iterator<ZipFileEntry>, Closeable {
 
-	public ZipFileIterator(File file, String batchId) throws IOException {
-		this.zipFile = new ZipFile(file);
+    private String zipFilePath;
+    private ZipFile zipFile;
+    private Enumeration<ZipArchiveEntry> zipEntries;
 
-		this.unzipFolder = new File(file.getParent(), batchId);
-		FileUtils.forceMkdir(this.unzipFolder);
+    public ZipFileIterator(File file, String batchId) throws IOException {
+        this.zipFilePath = file.getAbsolutePath();
+        this.zipFile = new ZipFile(file);
+        zipEntries = this.zipFile.getEntries();
+    }
 
-		zipEntries = this.zipFile.getEntries();
-	}
+    public boolean hasNext() {
+        return zipEntries.hasMoreElements();
+    }
 
-	public boolean hasNext() {
-		return zipEntries.hasMoreElements();
-	}
+    public ZipFileEntry next() {
+        ZipArchiveEntry zipEntry = zipEntries.nextElement();
 
-	public GenericFile<File> next() {
-		ZipArchiveEntry zipEntry = zipEntries.nextElement();
+        return new ZipFileEntry(zipFilePath, zipEntry.getName());
+    }
 
-		StopWatch sw = new StopWatch(zipEntry.getName());
+    public void remove() {
+        throw new UnsupportedOperationException();
+    }
 
-		File fe = new File(unzipFolder, zipEntry.getName());
-
-		InputStream feStream = null;
-		RandomAccessFile raf = null;
-
-		try {
-			sw.start("Creating a file");
-			fe.createNewFile();
-			(raf = new RandomAccessFile(fe, "rw")).setLength(zipEntry.getSize());
-			sw.stop();
-
-			feStream = zipFile.getInputStream(zipEntry);
-
-			sw.start("Extracting");
-			FileUtils.copyInputStreamToFile(feStream, fe);
-			sw.stop();
-			
-			return null;
-
-			//return FileConsumer.asGenericFile(unzipFolder.getPath(), fe);
-		} catch (IOException e) {
-			IOUtils.closeQuietly(feStream);
-
-			IOUtils.closeQuietly(raf);
-
-			FileUtils.deleteQuietly(fe);
-
-			return null;
-		} finally {
-			IOUtils.closeQuietly(feStream);
-			
-			IOUtils.closeQuietly(raf);
-
-			System.out.print(sw.prettyPrint());
-		}
-	}
-
-	public void remove() {
-		throw new UnsupportedOperationException();
-	}
-
-	@Override
-	public void close() throws IOException {
-		zipFile.close();
-	}
+    @Override
+    public void close() throws IOException {
+        zipFile.close();
+    }
 }
