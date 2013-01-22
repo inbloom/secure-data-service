@@ -1,8 +1,10 @@
 package test.camel.support.stax;
 
 import java.io.IOException;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -16,19 +18,10 @@ import org.apache.camel.util.LRUCache;
 
 public class StAXAntPathJAXBIterator extends StAXAntPathIterator<List<?>> {
     private final String packageName = "org.ed_fi._0100";
-    private final JAXBContext jaxb;
-    private final Unmarshaller unmarshaller;
-    private LRUCache<String, Class<?>> classCache = new LRUCache<String, Class<?>>(1024);
+    private LRUCache<String, JAXBContext> classCache = new LRUCache<String, JAXBContext>(256);
 
     public StAXAntPathJAXBIterator(XMLEventReader reader, String antPath, int group) {
         super(reader, antPath, group);
-
-        try {
-            jaxb = JAXBContext.newInstance(packageName);
-            unmarshaller = jaxb.createUnmarshaller();
-        } catch (JAXBException e) {
-            throw new RuntimeException();
-        }
     }
 
     protected List<?> grabContent() throws XMLStreamException {
@@ -43,7 +36,9 @@ public class StAXAntPathJAXBIterator extends StAXAntPathIterator<List<?>> {
                     try {
                         String tagName = getReader().peek().asStartElement().getName().getLocalPart();
 
-                        answer = unmarshaller.unmarshal(getReader(), getClassByTagName(tagName));
+                        Map.Entry<Unmarshaller, Class<?>> entry = getUnmarshallerByTagName(tagName);
+
+                        answer = entry.getKey().unmarshal(getReader(), entry.getValue());
                         if (answer != null && answer.getClass() == JAXBElement.class) {
                             JAXBElement<?> jbe = (JAXBElement<?>) answer;
                             answer = jbe.getValue();
@@ -54,7 +49,8 @@ public class StAXAntPathJAXBIterator extends StAXAntPathIterator<List<?>> {
                         throw new RuntimeCamelException(e);
                     }
 
-                    entities.add(answer);
+                    answer = null;
+                    //entities.add(answer);
                 }
             });
 
@@ -68,21 +64,38 @@ public class StAXAntPathJAXBIterator extends StAXAntPathIterator<List<?>> {
         }
     }
 
-    private Class<?> getClassByTagName(String tagName) throws ClassNotFoundException {
+    private Map.Entry<Unmarshaller, Class<?>> getUnmarshallerByTagName(String tagName) throws ClassNotFoundException {
+        JAXBContext jaxb;
+
         if (classCache.containsKey(tagName)) {
-            return classCache.get(tagName);
+            jaxb = classCache.get(tagName);
+        } else {
+
+            try {
+                jaxb = JAXBContext.newInstance(packageName);
+            } catch (JAXBException e) {
+                throw new RuntimeCamelException(e);
+            }
+
+            synchronized (classCache) {
+                if (!classCache.containsKey(tagName)) {
+                    classCache.put(tagName, jaxb);
+                }
+            }
         }
 
         ClassLoader cl = Thread.currentThread().getContextClassLoader();
 
         Class<?> clazz = cl.loadClass(packageName + "." + tagName);
 
-        synchronized (classCache) {
-            if (!classCache.containsKey(tagName)) {
-                classCache.put(tagName, clazz);
-            }
+        Map.Entry<Unmarshaller, Class<?>> entry = null;
+
+        try {
+            entry = new AbstractMap.SimpleEntry<Unmarshaller, Class<?>>(jaxb.createUnmarshaller(), clazz);
+        } catch (JAXBException e) {
+            throw new RuntimeCamelException(e);
         }
 
-        return clazz;
+        return entry;
     }
 }

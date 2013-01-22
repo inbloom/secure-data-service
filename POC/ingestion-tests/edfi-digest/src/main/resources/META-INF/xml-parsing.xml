@@ -12,7 +12,7 @@
   <bean id="staxEntity" class="test.camel.support.stax.StAXAntPathBuilder"
     factory-method="stax">
     <constructor-arg name="antPath" value="/Interchange*/*" />
-    <constructor-arg name="group" value="100" />
+    <constructor-arg name="group" value="500" />
   </bean>
 
   <camelContext trace="false" xmlns="http://camel.apache.org/schema/spring">
