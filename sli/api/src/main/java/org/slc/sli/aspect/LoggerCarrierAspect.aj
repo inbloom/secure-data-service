@@ -85,13 +85,14 @@ public aspect LoggerCarrierAspect {
     public void LoggerCarrier.auditLog(SecurityEvent event) {
         LoggerFactory.getLogger("audit").info(event.toString());
     }
+    
 
     public void LoggerCarrier.audit(SecurityEvent event) {
-    	if(LoggerCarrierAspect.aspectOf().getMongoEntityRepository() != null) {
+    	Repository<Entity> mer= LoggerCarrierAspect.aspectOf().getMongoEntityRepository();
+    	if(mer != null) {
     		Map<String, Object> metadata = new HashMap<String, Object>();
     		metadata.put("tenantId", event.getTenantId());
-    		boolean isSystemCall = TenantContext.isSystemCall();
-    	    LoggerCarrierAspect.aspectOf().getMongoEntityRepository().create("securityEvent", event.getProperties(), metadata, "securityEvent");
+    	    mer.create("securityEvent", event.getProperties(), metadata, "securityEvent");
     	}
     }
 

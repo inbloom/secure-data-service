@@ -17,22 +17,44 @@
 
 package org.slc.sli.api.aspect;
 
+import static org.mockito.Mockito.mock; 
+import static org.mockito.Matchers.any; 
+import static org.mockito.Mockito.times; 
+import static org.mockito.Mockito.verify; 
+import static org.mockito.Mockito.mock; 
+import static org.mockito.Mockito.when; 
+import static org.mockito.Matchers.eq;
+
+import java.lang.management.ManagementFactory;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.reflections.Reflections;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.aspect.LoggerCarrier;
+import org.slc.sli.aspect.LoggerCarrierAspect;
+import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
+import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.StopWatch;
+
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
 /**
  * Tests that logging can be done via inter-type declared methods
  * 
@@ -42,6 +64,9 @@ import org.springframework.util.StopWatch;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class LoggingAspectTest {
+	
+	 private MongoEntityRepository mockedMongoEntityRepository;
+
 
     @Test
     public void testDebug() {
@@ -195,4 +220,35 @@ public class LoggingAspectTest {
                 / (float) numIters);
         info("AOP: {} AVG: {}", aop.getTotalTimeMillis(), aop.getTotalTimeMillis() / (float) numIters);
     }
+
+	private SecurityEvent createSecurityEvent() {
+		 List<String> userRoles = Collections.emptyList();
+		 SecurityEvent event = new SecurityEvent();
+		 event.setTenantId("Midgar");
+		 event.setUser("");
+		 event.setTargetEdOrg("");
+		 event.setActionUri("AppProcessing");
+		 event.setAppId("app");
+		 event.setOrigin("");
+		 event.setCredential("");
+		 event.setUserOrigin("");
+		 event.setTimeStamp(new Date());
+		 event.setProcessNameOrId(ManagementFactory.getRuntimeMXBean().getName());
+		 event.setClassName(this.getClass().getName());
+		 event.setLogLevel(LogLevelType.TYPE_INFO);
+		 event.setRoles(userRoles);
+		 event.setLogMessage("App process started.");
+		 return event;
+		 } 
+  
+	@Test 
+ 	public void testAudit() { 
+		 mockedMongoEntityRepository = mock(MongoEntityRepository.class);
+		 DBCollection mockedCollection = Mockito.mock(DBCollection.class);
+		 DB mockedDB = Mockito.mock(DB.class);
+		 SecurityEvent event = createSecurityEvent();
+		 LoggerCarrierAspect.aspectOf().setMongoEntityRepository(mockedMongoEntityRepository);
+		 when(mockedMongoEntityRepository.collectionExists("securityEvent")).thenReturn(false);
+		 audit(event);
+	}
 }
