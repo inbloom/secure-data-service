@@ -71,7 +71,9 @@ public class APITrackingAspect {
      */
     
 //    @Around("call(* org.slc.sli.api.resources..*.*(..)) || call(* org.slc.sli.api.security.*(..)) || call(* org.slc.sli.api.service.*(..))")
-    @Around("call(* org.slc.sli.api.resources..*.*(..))")
+//    @Around("call(* org.slc.sli.api.resources..*.*(..))")
+//    @Around("call(* org.slc.sli.api.resources..*.*(..))")
+    @Around("call(* org.slc.sli.api.security..*.*(..))")
     public Object trackAPICalls(ProceedingJoinPoint pjp) throws Throwable {
         if (Boolean.valueOf(apiCallTracking)) { 
             return trackCallStartEnd(pjp);
