@@ -1368,6 +1368,7 @@
 				<sli:CollectionType>section</sli:CollectionType>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 				<sli:schemaVersion>1</sli:schemaVersion>
+                <sli:associatedDatedCollection>courseOffering</sli:associatedDatedCollection>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
@@ -1990,6 +1991,8 @@
 						<sli:associationKey>true</sli:associationKey>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:associatedDatedCollection>studentCohortAssociation</sli:associatedDatedCollection>
+                        <sli:associatedDatedCollection>staffCohortAssociation</sli:associatedDatedCollection>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -2414,6 +2417,7 @@
 				<sli:CollectionType>staff</sli:CollectionType>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 				<sli:schemaVersion>1</sli:schemaVersion>
+                <sli:associatedDatedCollection>staffEducationOrgAssignmentAssociation</sli:associatedDatedCollection>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
@@ -2693,6 +2697,10 @@
 				<sli:RestrictedForLogging>true</sli:RestrictedForLogging>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 				<sli:schemaVersion>1</sli:schemaVersion>
+                <sli:associatedDatedCollection>studentSectionAssociation</sli:associatedDatedCollection>
+                <sli:associatedDatedCollection>studentProgramAssociation</sli:associatedDatedCollection>
+                <sli:associatedDatedCollection>studentSchoolAssociation</sli:associatedDatedCollection>
+                <sli:associatedDatedCollection>studentCohortAssociation</sli:associatedDatedCollection>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
@@ -3354,6 +3362,7 @@
 						<sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:beginDate>yes</sli:beginDate>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3366,6 +3375,7 @@
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:endDate>yes</sli:endDate>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3591,6 +3601,7 @@
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:associatedDatedCollection>studentAssessmentItem</sli:associatedDatedCollection>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -3824,6 +3835,7 @@
 				</sli:CollectionType>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 				<sli:schemaVersion>1</sli:schemaVersion>
+                <sli:associatedDatedCollection>disciplineIncident</sli:associatedDatedCollection>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
@@ -4038,6 +4050,9 @@
 			<xs:documentation>This entity holds the score and or performance
 				levels earned for an objective assessment by a student.
 			</xs:documentation>
+            <xs:appinfo>
+                <sli:associatedDatedCollection>studentAssessment</sli:associatedDatedCollection>
+            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element maxOccurs='unbounded' name='scoreResults'
@@ -4462,7 +4477,9 @@
 						<sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
-					</xs:appinfo>
+                        <sli:beginDate>yes</sli:beginDate>
+                        <sli:endDate>yes</sli:endDate>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name='entryGradeLevel' type='gradeLevelType'>
@@ -4612,6 +4629,7 @@
 				<sli:CollectionType>studentGradebookEntry</sli:CollectionType>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 				<sli:schemaVersion>1</sli:schemaVersion>
+                <sli:associatedDatedCollection>gradebookEntry</sli:associatedDatedCollection>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
@@ -4876,6 +4894,7 @@
 				<sli:CollectionType>courseTranscript</sli:CollectionType>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 				<sli:schemaVersion>1</sli:schemaVersion>
+                <sli:associatedDatedCollection>studentAcademicRecord</sli:associatedDatedCollection>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
@@ -5230,6 +5249,7 @@
 				<sli:CollectionType>teacherSectionAssociation</sli:CollectionType>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 				<sli:schemaVersion>1</sli:schemaVersion>
+                <sli:associatedDatedCollection>section</sli:associatedDatedCollection>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
@@ -5466,7 +5486,9 @@
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
-					</xs:appinfo>
+                        <sli:beginDate>yes</sli:beginDate>
+                        <sli:endDate>yes</sli:endDate>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs='0' name='disciplineActionLength'
@@ -7097,6 +7119,7 @@
 				<sli:CollectionType>grade</sli:CollectionType>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 				<sli:schemaVersion>1</sli:schemaVersion>
+                <sli:associatedDatedCollection>studentSectionAssociation</sli:associatedDatedCollection>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
@@ -7240,7 +7263,9 @@
 						<sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
-					</xs:appinfo>
+                        <sli:beginDate>yes</sli:beginDate>
+                        <sli:endDate>yes</sli:endDate>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element minOccurs='0' name='description' type='description'>
@@ -7431,6 +7456,7 @@
 				<sli:CollectionType>graduationPlan</sli:CollectionType>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 				<sli:schemaVersion>1</sli:schemaVersion>
+                <sli:associatedDatedCollection>studentSchoolAssociation</sli:associatedDatedCollection>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
@@ -8191,7 +8217,14 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name='date' type='xs:date' />
+			<xs:element name='date' type='xs:date'>
+                <xs:annotation>
+                    <xs:appinfo>
+                        <sli:beginDate>yes</sli:beginDate>
+                        <sli:endDate>yes</sli:endDate>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 			<xs:element name='event' type='attendanceEventCategoryType' />
 			<xs:element minOccurs='0' name='reason' type='attendanceEventReason' />
 		</xs:sequence>
@@ -8387,7 +8420,9 @@
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
-					</xs:appinfo>
+                        <sli:beginDate>yes</sli:beginDate>
+                        <sli:endDate>yes</sli:endDate>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name='incidentTime' type='xs:time'>
@@ -8644,7 +8679,9 @@
 						<sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
-					</xs:appinfo>
+                        <sli:beginDate>yes</sli:beginDate>
+                        <sli:endDate>yes</sli:endDate>
+                    </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name='educationOrganizationId' type='reference'>
