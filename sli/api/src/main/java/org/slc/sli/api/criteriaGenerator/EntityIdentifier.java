@@ -65,7 +65,7 @@ public class EntityIdentifier {
     }
     private void populatePath(EntityFilterInfo entityFilterInfo, ClassType entityType, String resource) {
         if (populateDateAttributes(entityFilterInfo, entityType) || populateSessionAttribute(entityFilterInfo, entityType)) {
-            entityFilterInfo.setEntityName(resource);
+            entityFilterInfo.setEntityName(getEntityName(entityType));
         } else {
             List<String> associations = modelProvider.getAssociatedDatedEntities(entityType);
             if (associations.size() == 1) {
