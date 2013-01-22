@@ -19,7 +19,7 @@ import org.apache.camel.util.LRUCache;
 
 public class StAXAntPathJAXBIterator extends StAXAntPathIterator<List<?>> {
     private final String packageName = "org.ed_fi._0100";
-    private LRUCache<String, JAXBContext> classCache = new LRUCache<String, JAXBContext>(256);
+    private static LRUCache<String, JAXBContext> classCache = new LRUCache<String, JAXBContext>(256);
 
     public StAXAntPathJAXBIterator(XMLEventReader reader, String antPath, int group) {
         super(reader, antPath, group);
