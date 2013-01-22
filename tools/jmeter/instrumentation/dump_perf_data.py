@@ -1,5 +1,6 @@
 import pymongo
 import common 
+import sys 
 
 MAX_ARG_LENGTH = 1024 
 
@@ -113,14 +114,15 @@ def get_call_stats(requests, call_stats):
         recursive_call_stats(stats, [])
 
 if __name__=="__main__":
+    mongo_host = sys.argv[1] if len(sys.argv) > 1 else common.MONGO_HOST
+    req_threshold_ms = int(sys.argv[2]) if len(sys.argv) > 2 else 50
+    call_threshold_ms = int(sys.argv[3]) if len(sys.argv) > 3 else 10 
+
     q = {}
-    print "Connecting to: %s" % common.MONGO_HOST
-    con = pymongo.Connection(common.MONGO_HOST)
+    print "Connecting to: %s" % mongo_host
+    con = pymongo.Connection(mongo_host)
     db = con[common.PERF_DB]
     col = db[common.PERF_COLLECTION]
-
-    req_threshold_ms = 100
-    call_threshold_ms = 10
 
     testruns = get_testruns(col)
     print "Found the following testruns:"
@@ -147,5 +149,9 @@ if __name__=="__main__":
 
     print "-------------------"
     print "Call statistics:"
+    prefix = acc_call_stats[0][0][0]
     for func_id, times, duration in acc_call_stats:
+        if func_id[0] != prefix:
+            print "-" * 60 
+            prefix = func_id[0]
         print "%9d : %5d : %7.2f : %s" % (duration, times, float(duration)/times, "->".join(func_id))
