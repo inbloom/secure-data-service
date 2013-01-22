@@ -67,7 +67,7 @@ public class SessionRangeCalculatorTest {
     public void shouldCatchInvalidDateRange() {
 
         List<String> invalidRanges = Arrays.asList("123-1234", "1234-123", "12345-1234", "1234-12345", "123A-1234",
-                "1234-123A", "12341234", "1234--1234");
+                "1234-123A", "12341234", "1234--1234", "2001-2001", "2001-2000");
 
         for (String range : invalidRanges) {
             try {

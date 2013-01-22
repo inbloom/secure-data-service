@@ -83,6 +83,11 @@ public class SessionRangeCalculator {
             // regex has already verified that these are integers
             String firstYear = (m.group(1));
             String lastYear = (m.group(2));
+
+            if (lastYear.compareTo(firstYear) <= 0){
+                // make sure lastYear comes strictly after firstYear
+                throw new QueryParseException("Invalid date range", schoolYearRange);
+            }
             
             return new ImmutablePair<String, String>(firstYear, lastYear);
         } else {
