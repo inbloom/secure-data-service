@@ -27,17 +27,18 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ParameterConstants;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
 
 /**
  * Utility class for constructing ed-org hierarchies for use in test classes.
@@ -70,9 +71,8 @@ public class EdOrgHelperTest {
      *   |  \
      *   |   school2 --> teacher1
      *  lea3 --> staff2
-     *   |
-     *   |
-     *  school3 --> teacher3
+     *   |  \
+     *   |   school3 --> teacher3
      */
 
     Entity staff1 = null;   //directly associated with lea1
@@ -93,7 +93,7 @@ public class EdOrgHelperTest {
 
     @Before
     public void setup() {
-        
+
         repo.deleteAll("educationOrganization", null);
         repo.deleteAll("staff", null);
 
@@ -268,7 +268,7 @@ public class EdOrgHelperTest {
         List<String> seas = helper.getSEAs(teacher3);
         assertTrue("teacher3 must see sea1", seas.contains(sea1.getEntityId()));
     }
-    
+
     @Test
     public void testParents() {
         List<String> edorgs = helper.getParentEdOrgs(school3);
@@ -276,13 +276,13 @@ public class EdOrgHelperTest {
         assertEquals(lea1.getEntityId(), edorgs.get(2));
         assertEquals(lea2.getEntityId(), edorgs.get(1));
         assertEquals(lea3.getEntityId(), edorgs.get(0));
-        assertEquals(4, edorgs.size());   
+        assertEquals(4, edorgs.size());
     }
-    
+
     @Test
     public void testParentsOfSea() {
         List<String> edorgs = helper.getParentEdOrgs(sea1);
-        assertEquals(0, edorgs.size());   
+        assertEquals(0, edorgs.size());
     }
 
 }
