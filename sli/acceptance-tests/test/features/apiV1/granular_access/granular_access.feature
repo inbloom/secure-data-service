@@ -201,3 +201,10 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | Range     | # Note                                |
     | 2011-2011 | # Same begin and end years            |
     | 2012-2009 | # Begin year is earlier than end year |
+
+  Scenario: Sad path - Date filtering does not work on 2-part uris
+    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+    And parameter "schoolYears" is "2009-2009"
+    When I navigate to GET "/v1/studentSectionAssociations/ceffbb26-1327-4313-9cfc-1c3afd38122e_id03143d0a-aacb-4e54-a945-ffb4061d00f5_id"
+    Then I should receive a return code of 400
+    And the error message should say "Error Parsing the Query: Date range filtering not allowed"
