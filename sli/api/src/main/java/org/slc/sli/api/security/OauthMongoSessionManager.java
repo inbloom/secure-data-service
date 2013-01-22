@@ -30,7 +30,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.tuple.Pair;
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slc.sli.api.security.oauth.ApplicationAuthorizationValidator;
 import org.slc.sli.api.security.oauth.OAuthAccessException;
 import org.slc.sli.api.security.oauth.OAuthAccessException.OAuthError;
@@ -110,6 +110,12 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         }
         Boolean isInstalled = (Boolean) app.getBody().get("installed");
 
+        String appRedirectUri = (String) app.getBody().get("redirect_uri");
+        if (!isInstalled && (appRedirectUri == null || appRedirectUri.trim().length() == 0)) {
+        	RuntimeException x = new RedirectMismatchException("No redirect_uri specified on non-installed app");
+        	error(x.getMessage());
+        	throw x;
+        }
         if (!isInstalled && redirectUri != null && !redirectUri.startsWith((String) app.getBody().get("redirect_uri"))) {
             RuntimeException x = new RedirectMismatchException("Invalid redirect_uri specified " + redirectUri);
             error(x.getMessage() + " expected " + app.getBody().get("redirect_uri"), x);
@@ -242,7 +248,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
         // Make sure the user's district has authorized the use of this application
         SLIPrincipal principal = jsoner.convertValue(session.getBody().get("principal"), SLIPrincipal.class);
-        principal.setEntity(locator.locate(principal.getTenantId(), principal.getExternalId()).getEntity());
+        principal.setEntity(locator.locate(principal.getTenantId(), principal.getExternalId(), principal.getUserType()).getEntity());
         TenantContext.setTenantId(principal.getTenantId());
 
         List<String> authorizedAppIds = appValidator.getAuthorizedApps(principal);
@@ -336,7 +342,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                         SLIPrincipal principal = jsoner.convertValue(sessionEntity.getBody().get("principal"),
                                 SLIPrincipal.class);
                         TenantContext.setTenantId(principal.getTenantId());
-                        principal.setEntity(locator.locate(principal.getTenantId(), principal.getExternalId())
+                        principal.setEntity(locator.locate(principal.getTenantId(), principal.getExternalId(),principal.getUserType())
                                 .getEntity());
                         principal.setSessionId(sessionEntity.getEntityId());
                         Collection<GrantedAuthority> authorities = resolveAuthorities(principal.getTenantId(),

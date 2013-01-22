@@ -50,12 +50,17 @@ describe "WorkOrderProcessor" do
 
   let(:config) {YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))}
   let(:prng) {Random.new(config['seed'])}
+  let(:competency_level_descriptors) {[
+      {'code_value' => 'Code Value 1', "description" => "Description 1"},
+      {'code_value' => 'Code Value 2', "description" => "Description 2"},
+  ]}
   let(:scenario) {Scenario.new({'BEGIN_YEAR' => 2001, 'NUMBER_OF_YEARS' => 2, 
                     'ASSESSMENTS_TAKEN' => {'GRADE_WIDE_ASSESSMENTS' => 5}, 'ASSESSMENTS_PER_GRADE'=>3,
                     'ASSESSMENT_ITEMS_PER_ASSESSMENT' => {'GRADE_WIDE_ASSESSMENTS' => 3},
-                    'STUDENTS_PER_SECTION' => {'high' => 2, 'middle' => 2, 'elementary' => 2},
                     'INCIDENTS_PER_SECTION' => 1,
-                    'INCLUDE_PARENTS' => true, 'COHORTS_PER_SCHOOL' => 4, 'PROBABILITY_STUDENT_IN_COHORT' => 1, 'DAYS_IN_COHORT' => 30})}
+                    'LIKELYHOOD_STUDENT_WAS_INVOLVED' => 0.5,
+                    'INCLUDE_PARENTS' => true, 'COHORTS_PER_SCHOOL' => 4, 'PROBABILITY_STUDENT_IN_COHORT' => 1, 'DAYS_IN_COHORT' => 30,
+                    'COMPETENCY_LEVEL_DESCRIPTORS' => competency_level_descriptors})}
   describe "#build" do
 
     let(:entity_queue) {EntityQueue.new}
@@ -125,7 +130,7 @@ describe "WorkOrderProcessor" do
       it "will generate StudentSchoolAssociations with the correct information" do
         factory.school_associations.each{|a|
           a.student.should eq 42
-          a.school.should eq "elem-0000000064"
+          a.school.should eq 64
         }
         factory.school_associations[0].start_date.year.should eq(2001)
         factory.school_associations[0].grade.should eq("Kindergarten")
@@ -136,15 +141,15 @@ describe "WorkOrderProcessor" do
       it "will generate StudentSectionAssociations with the correct information" do
         factory.section_associations.each{|a|
           a.student.should eq 42
-          a.ed_org_id.should eq "elem-0000000064"
+          a.ed_org_id.should eq 64
         }
         section_associations = factory.section_associations.group_by{|a| a.begin_date.year}
         section_associations[2001].count.should eq 2
-        section_associations[2001][0].section.should match(/sctn\-0000000042/)
-        section_associations[2001][1].section.should match(/sctn\-0000000045/)
+        section_associations[2001][0].section.should eq 42
+        section_associations[2001][1].section.should eq 45
         section_associations[2002].count.should eq 2
-        section_associations[2002][0].section.should match(/sctn\-0000000042/)
-        section_associations[2002][1].section.should match(/sctn\-0000000045/)
+        section_associations[2002][0].section.should eq 42
+        section_associations[2002][1].section.should eq 45
       end
 
       it "will generate StudentAssessments with the correct related assessment" do
@@ -165,7 +170,7 @@ describe "WorkOrderProcessor" do
       it "will generate correct cohort associations for the student" do
         factory.cohort_associations.each{|c|
           c.student.should eq 42
-          c.cohort.ed_org_id.should eq "elem-0000000064"
+          c.cohort.ed_org_id.should eq 64
           c.begin_date.should eq c.end_date - 30
         }
         factory.cohort_associations.group_by{|c| c.cohort.identifier}.each{|cohort, associations|
@@ -182,8 +187,11 @@ describe "WorkOrderProcessor" do
         }
       end
 
-      it "will generate the correct number of student competencies" do
+      it "will generate the correct number of student competencies with valid code values" do
         factory.student_competencies.should have(8).items
+        factory.student_competencies.each{|student_competency|
+          ["Code Value 1", "Code Value 2"].should include(student_competency.code_value)
+        }
       end
 
       it "will generate the correct student academic records" do
@@ -199,7 +207,10 @@ describe "WorkOrderProcessor" do
         # single incident association each year
         # This may requiring tweaking some ideas, the important part is that they get generated in some cases
         # but not in others
-        factory.discipline_incidents.should have(2).items
+        discipline_incident_count = factory.discipline_incidents.length
+        student_section_count = factory.section_associations.length
+        discipline_incident_count.should be > 0
+        discipline_incident_count.should be < student_section_count
       end
 
       it "will generate discipline actions for each incident" do
@@ -239,15 +250,15 @@ describe "WorkOrderProcessor" do
       it "will get enrollments for each school" do
         factory.students.should have(1).items
         factory.school_associations[0].start_date.year.should eq(2001)
-        factory.school_associations[0].school.should eq('elem-0000000064')
+        factory.school_associations[0].school.should eq(64)
         factory.school_associations[1].start_date.year.should eq(2002)
-        factory.school_associations[1].school.should eq('midl-0000000065')
+        factory.school_associations[1].school.should eq(65)
         factory.school_associations[2].start_date.year.should eq(2003)
-        factory.school_associations[2].school.should eq('midl-0000000065')
+        factory.school_associations[2].school.should eq(65)
         factory.school_associations[3].start_date.year.should eq(2004)
-        factory.school_associations[3].school.should eq('midl-0000000065')
+        factory.school_associations[3].school.should eq(65)
         factory.school_associations[4].start_date.year.should eq(2005)
-        factory.school_associations[4].school.should eq('high-0000000066')
+        factory.school_associations[4].school.should eq(66)
       end
 
       it "will put graduation plans on the school association iff the school is a high school" do

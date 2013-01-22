@@ -2,7 +2,8 @@
 Feature: Pre-loading of data for sandbox tenants - Ingestion component test
 
 Scenario: Preload Small Sample Data Set
-  Given I am using the tenant "TENANT-EDORG"
+  Given I am using the tenant "Brian"
+  And the tenant database "Brian" does not exist
   And the following collections are empty in datastore:
      | collectionName                            |
      | assessment                                |
@@ -53,7 +54,8 @@ Scenario: Preload Small Sample Data Set
      | teacher                                   |
      | teacherSchoolAssociation                  |
      | teacherSectionAssociation                 |
-   And I create a tenant set to preload data set "small"
+   And I create a tenant set to preload data set "small" for tenant "Brian"
+   And a batch job has completed successfully in the database
    And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
@@ -108,7 +110,10 @@ Then I should see following map of entry counts in the corresponding collections
 
 
 Scenario: Preload Medium Sample Data Set
-   Then I create a tenant set to preload data set "medium"
+   Given I am using the tenant "Sharon"
+   And the tenant database "Sharon" does not exist
+   Then I create a tenant set to preload data set "medium" for tenant "Sharon"
+   And a batch job has completed successfully in the database
    And a batch job log has been created
    And I should not see an error log file created
    And I should not see a warning log file created

@@ -26,6 +26,7 @@ import org.slc.sli.api.representation.Home;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import com.fasterxml.jackson.core.JsonGenerationException;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -45,7 +46,7 @@ public class ObjectXMLWriterTest {
         writer = new ObjectXMLWriter();
     }
 
-    @Test(expected = IOException.class)
+    @Test(expected = JsonGenerationException.class)
     public void testEntityNullCollection() throws IOException {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         EntityBody body = new EntityBody();
@@ -75,7 +76,7 @@ public class ObjectXMLWriterTest {
         assertTrue("Should match", value.indexOf("<name>") > 0);
     }
 
-    @Test(expected = IOException.class)
+    @Test(expected = IllegalArgumentException.class)
     public void testNullObject() throws IOException {
         EntityBody body = new EntityBody();
 

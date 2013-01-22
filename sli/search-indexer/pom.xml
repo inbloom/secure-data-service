@@ -1,60 +1,51 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <artifactId>sli</artifactId>
         <groupId>org.slc.sli</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-
     <artifactId>search-indexer</artifactId>
     <packaging>jar</packaging>
-
     <properties>
         <sli.home>${project.parent.basedir}</sli.home>
-        <spring.version>3.0.7.RELEASE</spring.version>
         <sli.conf>../config/properties/sli.properties</sli.conf>
     </properties>
-
     <dependencies>
-
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.6.4</version>
             <scope>compile</scope>
             <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.9</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.0.1</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>13.0.1</version>
         </dependency>
         <dependency>
             <groupId>commons-httpclient</groupId>
             <artifactId>commons-httpclient</artifactId>
-            <version>3.1</version>
+            <version>${commons.httpclient.version}</version>
         </dependency>
         <dependency>
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch</artifactId>
-            <version>0.19.9</version>
+            <version>${elasticsearch.version}</version>
         </dependency>
         <dependency>
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
-            <version>0.9.5</version>
+            <version>${org.reflections.version}</version>
         </dependency>
         <dependency>
             <groupId>org.slc.sli.common</groupId>
@@ -65,72 +56,60 @@
             <artifactId>domain</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-            <version>1.9.10</version>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.slc.sli.common</groupId>
             <artifactId>common-encrypt</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.slc.sli</groupId>
             <artifactId>encryption-tool</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.slc.sli.dal</groupId>
             <artifactId>dal</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
         <!-- Spring AOP dependency -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
         <!-- Spring Context dependency -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
         <!-- Spring Beans dependency -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
         <!-- Spring Expression dependency -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-expression</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context-support</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
@@ -146,17 +125,17 @@
         <dependency>
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-core</artifactId>
-            <version>5.7.0</version>
+            <version>${activemq.version}</version>
         </dependency>
         <dependency>
-	        <groupId>org.apache.xbean</groupId>
-	        <artifactId>xbean-spring</artifactId>
-	        <version>3.11.1</version>
+            <groupId>org.apache.xbean</groupId>
+            <artifactId>xbean-spring</artifactId>
+            <version>${spring.xbean.version}</version>
         </dependency>
         <dependency>
             <groupId>xstream</groupId>
             <artifactId>xstream</artifactId>
-            <version>1.2.2</version>
+            <version>${xstream.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -164,10 +143,10 @@
             <version>${spring.version}</version>
         </dependency>
         <dependency>
-			<groupId>janino</groupId>
-			<artifactId>janino</artifactId>
-			<version>2.5.10</version>
-		</dependency>
+            <groupId>janino</groupId>
+            <artifactId>janino</artifactId>
+            <version>${janino.version}</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -188,7 +167,7 @@
                                     </goals>
                                 </pluginExecutionFilter>
                                 <action>
-                                    <ignore />
+                                    <ignore/>
                                 </action>
                             </pluginExecution>
                         </pluginExecutions>

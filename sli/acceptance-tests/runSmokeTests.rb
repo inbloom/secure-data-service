@@ -62,6 +62,14 @@ Dir.mkdir(log_dir) unless File.exists?(log_dir)
 jetty_pattern=/Starting scanner at interval of 5 seconds/
 tomcat_pattern=/INFO: Starting Coyote HTTP\/1.1 on http-/
 
+`activemq restart`
+cwd = Dir.getwd
+Dir.chdir("#{dir}/config/scripts")
+`sh ./resetAllDbs.sh`
+Dir.chdir("#{dir}/search-indexer/scripts")
+`sh ./local_search_indexer.sh start`
+Dir.chdir(cwd)
+
 procs = [
 #  {name: 'MockZIS', port: 8087, dir: "#{dir}/sif/mock-zis", exec: "mvn -o jetty:run", pattern: jetty_pattern},
   {name: 'API', port: 8080, dir: "#{dir}/api", exec: "mvn -o jetty:run", pattern: jetty_pattern},

@@ -87,7 +87,6 @@ public class OplogConverter {
      * Convert OpLog entry to Entity for Delete
      *
      * @param oplogEntry
-     * @param type
      * @return
      */
     private static Map<String, Object> getEntityForDelete(Map<String, Object> oplogEntry) {

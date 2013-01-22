@@ -14,7 +14,7 @@
             <div class="show-{{checked}}">
                 <form>
                     <input type="text" class="pageName input-medium" ng-model="pageName" value="{{page.name}}" ng-focus="checked" required>
-                    <button class="btn btn-primary" ng-click="savePageTitle();" >Update</button>
+                    <button class="btn btn-info" ng-click="savePageTitle();" >Update</button>
                     <button class="btn" ng-click="cancelPageTitle();" >Cancel</button>
                 </form>
             </div>
@@ -26,7 +26,7 @@
                 </li>
             </ul>
             <div>
-                <button class="btn btn-primary btn-block" data-toggle="modal" ng-click="showPanels()" ><i class="icon-plus icon-white"></i> Add available panels</button>
+                <button class="btn btn-info btn-block" data-toggle="modal" ng-click="showPanels()" ><i class="icon-plus icon-white"></i> Add available panels</button>
             </div>
             <br/>
             <a ng-click="showPageConfig()">+ Show Page Source Code</a>
@@ -65,7 +65,7 @@
     <div class="modal-footer">
         <!--<button class="btn" data-toggle="modal" ng-click="addNewPanel()" id="addNewPanelBtn" ><i class="icon-plus"></i> Add new panel</button>-->
         <button class="btn simplemodal-close" data-dismiss="modal" tabindex="3">Cancel</button>
-        <button class="btn btn-primary" ng-click="addAvailPanels()"  tabindex="4">Add Panel(s)</button>
+        <button class="btn btn-info" ng-click="addAvailPanels()"  tabindex="4">Add Panel(s)</button>
     </div>
 </div>
 

@@ -16,7 +16,6 @@
 
 package org.slc.sli.ingestion.handler;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -35,12 +34,11 @@ import org.xml.sax.SAXException;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.landingzone.ZipFileUtil;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.JobSource;
+import org.slc.sli.ingestion.reporting.impl.FileSource;
 import org.slc.sli.ingestion.smooks.SliSmooks;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
 import org.slc.sli.ingestion.smooks.SmooksEdFiVisitor;
@@ -62,7 +60,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
     @Override
     protected FileProcessStatus doHandling(IngestionFileEntry item, AbstractMessageReport report,
             ReportStats reportStats, FileProcessStatus fileProcessStatus) {
-        Source source = new JobSource(item.getResourceId(), getStageName());
+        Source source = new FileSource(item.getResourceId());
 
         try {
             generateNeutralRecord(item, report, reportStats, source, fileProcessStatus);
@@ -79,21 +77,21 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
             ReportStats reportStats, Source source, FileProcessStatus fileProcessStatus) throws IOException,
             SAXException {
 
-        InputStream zais = ZipFileUtil.getInputStreamForFile(new File(ingestionFileEntry.getFileZipParent()),
-                ingestionFileEntry.getFileName());
-
         // Create instance of Smooks (with visitors already added).
         SliSmooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, errorReport, reportStats);
 
-        try {
-            // Filter fileEntry inputStream, converting into NeutralRecord entries as we go.
-            smooks.filterSource(new StreamSource(zais));
+        InputStream inputStream = null;
 
+        try {
+            inputStream = ingestionFileEntry.getFileStream();
+
+            // filter fileEntry inputStream, converting into NeutralRecord entries as we go
+            smooks.filterSource(new StreamSource(inputStream));
             populateRecordCountsFromSmooks(smooks, fileProcessStatus, ingestionFileEntry);
         } catch (SmooksException se) {
-            errorReport.error(reportStats, source, CoreMessageCode.CORE_0020, ingestionFileEntry.getFile().getName());
+            errorReport.error(reportStats, source, CoreMessageCode.CORE_0020, ingestionFileEntry.getFileName());
         } finally {
-            IOUtils.closeQuietly(zais);
+            IOUtils.closeQuietly(inputStream);
         }
     }
 

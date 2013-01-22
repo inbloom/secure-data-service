@@ -44,7 +44,7 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.io.IOUtils;
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
@@ -287,7 +287,7 @@ public class SamlFederationResource {
         }
 
         debug("Authenticating user is an admin: " + isAdminRealm);
-        principal = users.locate(tenant, attributes.getFirst("userId"));
+        principal = users.locate(tenant, attributes.getFirst("userId"), attributes.getFirst("userType"));
         String userName = getUserNameFromEntity(principal.getEntity());
         if (userName != null) {
             principal.setName(userName);

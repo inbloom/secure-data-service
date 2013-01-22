@@ -155,12 +155,8 @@ class StudentWorkOrder
   private
 
   def parents(student)
-    if @scenario.include_entity? "Parent"
-      [:mom, :dad].map{|type|
-        [Parent.new(student, type), StudentParentAssociation.new(student, type)]}.flatten
-    else
-      []
-    end
+    [:mom, :dad].map{|type|
+      [Parent.new(student, type), StudentParentAssociation.new(student, type)]}.flatten
   end
 
   def per_year_info
@@ -218,8 +214,7 @@ class StudentWorkOrder
     other_programs     = DataUtility.select_num_from_options(@rand, num_other_programs, programs)
     other_programs.each do |other_program|
       program_id = DataUtility.get_program_id(other_program[:id])
-      ed_org_id  = DataUtility.get_state_education_agency_id(other_program[:ed_org_id]) if other_program[:sponsor] == :STATE_EDUCATION_AGENCY
-      ed_org_id  = DataUtility.get_local_education_agency_id(other_program[:ed_org_id]) if other_program[:sponsor] == :LOCAL_EDUCATION_AGENCY
+      ed_org_id = other_program['ed_org_id']
       associations << StudentProgramAssociation.new(@id, program_id, ed_org_id, begin_date, end_date)
     end
     associations
@@ -249,7 +244,6 @@ class StudentWorkOrder
           code_values = [1, 2, 3] if code_values.empty?
           sections.each{|course_offering, available_sections|
             section    = available_sections[@id % available_sections.count]
-            index_in_section = ((@id + section[:id]) / available_sections.count) % @scenario['STUDENTS_PER_SECTION'][type.to_s]
             section_id = DataUtility.get_unique_section_id(section[:id])
             student_section_association = StudentSectionAssociation.new(@id, section_id, school_id, begin_date, grade)
             rval       << student_section_association
@@ -273,7 +267,7 @@ class StudentWorkOrder
               final_grades << final_grade
               rval << final_grade
             end
-            rval += addDisciplineEntities(section[:id], index_in_section, school_id, session)
+            rval += addDisciplineEntities(section[:id], school_id, session)
 
             academic_subject = AcademicSubjectType.to_string(academic_subjects[section[:id] % academic_subjects.size])
             num_objectives = (@scenario["NUM_LEARNING_OBJECTIVES_PER_SUBJECT_AND_GRADE"] or 2)
@@ -302,16 +296,17 @@ class StudentWorkOrder
     StudentAcademicRecord.new(@id, session, report_card)
   end
 
-  def addDisciplineEntities(section_id, index_in_section, school_id, session)
+  def addDisciplineEntities(section_id, school_id, session)
     num_incidents = @scenario['INCIDENTS_PER_SECTION'] || 0
-    if index_in_section < num_incidents
-      [
-        StudentDisciplineIncidentAssociation.new(@id, index_in_section, section_id, school_id),
-        DisciplineAction.new(@id, school_id, DisciplineIncident.new(index_in_section, section_id, school_id, nil, session['interval'], "Classroom"))
-      ]
-    else
-      []
-    end
+    likelyhood = @scenario['LIKELYHOOD_STUDENT_WAS_INVOLVED']
+    incidents = []
+    num_incidents.times {|i|
+      if @rand.rand < likelyhood.to_f
+        incidents << StudentDisciplineIncidentAssociation.new(@id, i, section_id, school_id)
+        incidents << DisciplineAction.new(@id, school_id, DisciplineIncident.new(i, section_id, school_id, nil, session['interval'], "Classroom"))
+      end
+    }
+    incidents
   end
 
   # creates a student gradebook entry, based on the input gradebook entry work order

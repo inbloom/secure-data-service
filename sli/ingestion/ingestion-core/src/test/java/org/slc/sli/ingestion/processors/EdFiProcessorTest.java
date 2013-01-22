@@ -41,6 +41,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import org.slc.sli.ingestion.FileEntryWorkNote;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.FileType;
@@ -98,7 +99,7 @@ public class EdFiProcessorTest {
         File zipFile = IngestionTest.getFile("fileLevelTestData/validXML/validXML.zip");
         File inputFile = new File("student.xml");
 
-        NewBatchJob mockedJob = new NewBatchJob(batchJobId);
+        NewBatchJob mockedJob = new NewBatchJob(batchJobId, "SLI");
         mockedJob.setTenantId("MyTenant");
         mockedJob.setBatchProperties(new HashMap<String, String>());
         mockedJob.setSourceId(zipFile.getParentFile().getCanonicalPath() + File.separator);
@@ -107,16 +108,15 @@ public class EdFiProcessorTest {
         Mockito.when(mockedBatchJobDAO.findBatchJobById(Matchers.eq(batchJobId))).thenReturn(mockedJob);
 
         // Create Ingestion File Entry.
-        IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML,
+        IngestionFileEntry inputFileEntry = new IngestionFileEntry(zipFile.getAbsolutePath(), FileFormat.EDFI_XML,
                 FileType.XML_STUDENT_PARENT_ASSOCIATION, inputFile.getName(), MD5.calculate(inputFile));
-        inputFileEntry.setFile(inputFile);
-        inputFileEntry.setFileZipParent(zipFile.getAbsolutePath());
         inputFileEntry.setBatchJobId(batchJobId);
+        FileEntryWorkNote fileEntryWorkNote = new FileEntryWorkNote(batchJobId, batchJobId, inputFileEntry);
         Mockito.when(
                 smooksFileHandler.handle(Matchers.eq(inputFileEntry), Matchers.any(AbstractMessageReport.class),
                         Matchers.any(SimpleReportStats.class))).thenReturn(new FileProcessStatus());
 
-        preObject.getIn().setBody(inputFileEntry);
+        preObject.getIn().setBody(fileEntryWorkNote);
 
         Exchange eObject = new DefaultExchange(new DefaultCamelContext());
 
@@ -146,7 +146,7 @@ public class EdFiProcessorTest {
         File inputFile = new File("student.xml");
         File noSuchFile = new File("noSuchFile.xml");
 
-        NewBatchJob mockedJob = new NewBatchJob(batchJobId);
+        NewBatchJob mockedJob = new NewBatchJob(batchJobId, "SLI");
         mockedJob.setSourceId(batchJobId);
         createResourceEntryAndAddToJob(zipFile, FileFormat.ZIP_FILE.getCode(), mockedJob);
         createResourceEntryAndAddToJob(inputFile, FileFormat.EDFI_XML.getCode(), mockedJob);
@@ -154,16 +154,16 @@ public class EdFiProcessorTest {
         Mockito.when(mockedBatchJobDAO.findBatchJobById(Matchers.eq(batchJobId))).thenReturn(mockedJob);
 
         // Create Ingestion File Entry.
-        IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML,
+        IngestionFileEntry inputFileEntry = new IngestionFileEntry(zipFile.getAbsolutePath(), FileFormat.EDFI_XML,
                 FileType.XML_STUDENT_PARENT_ASSOCIATION, noSuchFile.getName(), MD5.calculate(noSuchFile));
-        inputFileEntry.setFile(noSuchFile);
-        inputFileEntry.setFileZipParent(zipFile.getAbsolutePath());
         inputFileEntry.setBatchJobId(batchJobId);
+        FileEntryWorkNote fileEntryWorkNote = new FileEntryWorkNote(batchJobId, batchJobId, inputFileEntry);
+
         Mockito.when(
                 smooksFileHandler.handle(Matchers.eq(inputFileEntry), Matchers.any(AbstractMessageReport.class),
                         Matchers.any(SimpleReportStats.class))).thenReturn(new FileProcessStatus());
 
-        preObject.getIn().setBody(inputFileEntry);
+        preObject.getIn().setBody(fileEntryWorkNote);
 
         Exchange eObject = new DefaultExchange(new DefaultCamelContext());
 
@@ -193,7 +193,7 @@ public class EdFiProcessorTest {
         File inputFile = new File("student.xml");
 
         String batchJobId = NewBatchJob.createId("validXML.zip");
-        NewBatchJob mockedJob = new NewBatchJob(batchJobId);
+        NewBatchJob mockedJob = new NewBatchJob(batchJobId, "SLI");
         mockedJob.setSourceId(batchJobId);
         createResourceEntryAndAddToJob(zipFile, FileFormat.ZIP_FILE.getCode(), mockedJob);
         createResourceEntryAndAddToJob(inputFile, FileFormat.EDFI_XML.getCode(), mockedJob);
@@ -201,10 +201,8 @@ public class EdFiProcessorTest {
         Mockito.when(mockedBatchJobDAO.findBatchJobById(Matchers.eq(batchJobId))).thenReturn(mockedJob);
 
         // Create Ingestion File Entry.
-        IngestionFileEntry inputFileEntry = new IngestionFileEntry(FileFormat.EDFI_XML,
+        IngestionFileEntry inputFileEntry = new IngestionFileEntry(zipFile.getAbsolutePath(), FileFormat.EDFI_XML,
                 FileType.XML_STUDENT_PARENT_ASSOCIATION, inputFile.getName(), MD5.calculate(inputFile));
-        inputFileEntry.setFile(inputFile);
-        inputFileEntry.setFileZipParent(zipFile.getAbsolutePath());
         inputFileEntry.setBatchJobId(batchJobId);
         Mockito.when(
                 smooksFileHandler.handle(Matchers.eq(inputFileEntry), Matchers.any(AbstractMessageReport.class),

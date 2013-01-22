@@ -31,18 +31,18 @@ public class FileDescriptor<T> implements Serializable {
     private static final long serialVersionUID = -2800997090364423334L;
 
     private T fileItem;
-    private LandingZone landingZone;
+    private String parentZipFileOrDirectory;
 
-    public FileDescriptor(T fileItem, LandingZone landingZone) {
+    public FileDescriptor(T fileItem, String parentZipFileOrDirectory) {
         this.fileItem = fileItem;
-        this.landingZone = landingZone;
+        this.parentZipFileOrDirectory = parentZipFileOrDirectory;
     }
 
     public T getFileItem() {
         return fileItem;
     }
 
-    public LandingZone getLandingZone() {
-        return landingZone;
+    public String getParentZipFileOrDirectory() {
+        return parentZipFileOrDirectory;
     }
 }

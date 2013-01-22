@@ -19,10 +19,10 @@ limitations under the License.
 
 module GeneralRealmHelper
   def get_realm_to_redirect_to(userRealm)
-    realmToRedirectTo = nil
+    realmToRedirectTo = []
     realms = Realm.all
     realms.each do |realm|
-      realmToRedirectTo = realm if realm.edOrg.eql? userRealm and realm.edOrg != nil
+      realmToRedirectTo.push realm if realm.edOrg.eql? userRealm and realm.edOrg != nil
     end
     return realmToRedirectTo
   end

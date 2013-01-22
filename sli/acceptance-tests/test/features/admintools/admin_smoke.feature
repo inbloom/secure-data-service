@@ -72,20 +72,17 @@ And the Deny button next to it is enabled
 Scenario: Realm administrator operations
 Given I am a valid realm administrator
 When I authenticate on the realm editing tool
-#And I see pre-existing mappings
-#When I click on the Reset Mapping button
-#And I got warning message saying 'Are you sure you want to reset the role mappings?'
-#When I click 'OK'
-#Then the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves
-#And I no longer see the pre-existing mappings
-#When I hit the realm editing URL
+When I see the realms for "IL-SUNSET"
+And I click the "Illinois Sunset School District 4526" edit button
 And I should see that I am on the "Illinois Sunset School District 4526" edit page
 And I should enter "Smoke" into the Display Name field
 And I should click the "Save" button
-Then I should be redirected back to the edit page
+Then I see the realms for "IL-SUNSET"
+And the realm "Smoke" will exist
 And I should receive a notice that the realm was successfully "updated"
+And I click the "Smoke" edit button
 And I should see that I am on the "Smoke" edit page
 And I should enter "Illinois Sunset School District 4526" into the Display Name field
 And I should click the "Save" button
-Then I should be redirected back to the edit page
-
+Then I see the realms for "IL-SUNSET"
+And the realm "Illinois Sunset School District 4526" will exist

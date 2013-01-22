@@ -315,8 +315,8 @@ Then I should see following map of entry counts in the corresponding collections
      | attendance                   |   0     |
   And I should see "Processed 5 records." in the resulting batch job file
   And I should see "CORE_0028" in the resulting warning log file for "StudentAttendanceEvents.xml"
-#  And I should see "Element:line-4,column-21" in the resulting warning log file for "StudentAttendanceEvents.xml"
-#  And I should see "Element:line-16,column-21" in the resulting warning log file for "StudentAttendanceEvents.xml"
+  And I should see "attendance:line-4,column-21" in the resulting warning log file for "StudentAttendanceEvents.xml"
+  And I should see "attendance:line-16,column-21" in the resulting warning log file for "StudentAttendanceEvents.xml"
 
 Scenario: Post a zip file and then post it again and make sure the updated date changes but the created date stays the same
   Given I post "stringOrEnumContainsWhitespace.zip" file as the payload of the ingestion job
@@ -350,9 +350,9 @@ Scenario: Post an unzipped ctl file and make sure it is not processed
   And I am willing to wait upto 30 seconds for ingestion to complete
   And a batch job for file "UnzippedControlFile.ctl" is completed in database
   And a batch job log has been created
-Then I should see following map of entry counts in the corresponding collections:
+  Then I should see following map of entry counts in the corresponding collections:
      | collectionName               | count   |
      | student                      |   0     |
      | recordHash                   |   0     |
   And I should see "Processed 0 records." in the resulting batch job file
-  And I should see "CORE_0022" in the resulting error log file for "UnzippedControlFile.ctl"
+  And I should see "CORE_0058" in the resulting error log file for "UnzippedControlFile.ctl"

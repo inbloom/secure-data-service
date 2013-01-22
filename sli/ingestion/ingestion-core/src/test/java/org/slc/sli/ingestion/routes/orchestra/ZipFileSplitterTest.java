@@ -43,8 +43,8 @@ public class ZipFileSplitterTest {
     public void test() {
 
         List<IngestionFileEntry> files = new ArrayList<IngestionFileEntry>();
-        files.add(new IngestionFileEntry(null, null, "test1.xml", null));
-        files.add(new IngestionFileEntry(null, null, "test2.xml", null));
+        files.add(new IngestionFileEntry("/", null, null, "test1.xml", null));
+        files.add(new IngestionFileEntry("/", null, null, "test2.xml", null));
 
         Exchange exchange = Mockito.mock(Exchange.class);
         Message message = Mockito.mock(Message.class);

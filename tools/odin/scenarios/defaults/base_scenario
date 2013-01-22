@@ -143,6 +143,7 @@ INCLUDE_PARENTS: true
 
 #discipline
 INCIDENTS_PER_SECTION: 2
+LIKELYHOOD_STUDENT_WAS_INVOLVED: .5
 BEHAVIORS: [
   { short: "Fighting", desc: "Fighting with another student", category: "School Violation" },
   { short: "Disruption", desc: "Disrupting class", category: "School Code of Conduct" },
@@ -160,3 +161,8 @@ COMPETENCY_LEVEL_DESCRIPTORS: [
   { code_value: "Barely Competent", description: "Student understands some basic", performance_base_conversion: "Basic" },
   { code_value: "Competent", description: "Student understands basic and some intermediate material", performance_base_conversion: "Proficient" },
   { code_value: "Very Competent", description: "Student understands everything in subject", performance_base_conversion: "Advanced" }]
+
+ENTITY_BLACKLIST: [
+"BehaviorDescriptor",
+"DisciplineDescriptor",
+"BellSchedule"]

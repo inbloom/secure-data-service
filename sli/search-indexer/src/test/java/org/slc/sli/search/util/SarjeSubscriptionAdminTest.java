@@ -6,8 +6,8 @@ import java.util.List;
 
 import junit.framework.Assert;
 
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import org.junit.Before;
 import org.junit.Test;
 import org.slc.sli.search.config.IndexConfigStore;

@@ -24,63 +24,64 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
  * @author ablum
  *
  */
-public final class FileEntryWorkNote implements Serializable {
+public class FileEntryWorkNote extends SLIWorkNote implements Serializable {
+    private static final long serialVersionUID = 638837959304251101L;
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
-    private final String batchJobId;
     private final IngestionFileEntry fileEntry;
-    private final int batchSize;
 
-    public FileEntryWorkNote(String batchJobId, IngestionFileEntry fileEntry, int batchSize) {
-        this.batchJobId = batchJobId;
+    public FileEntryWorkNote(String batchJobId, String tenantId, IngestionFileEntry fileEntry) {
+        super(batchJobId, tenantId);
+
         this.fileEntry = fileEntry;
-        this.batchSize = batchSize;
-    }
-
-    /**
-     * Create a simple FileEntryWorkNote, note part of any batch.
-     *
-     * @param batchJobId
-     * @param ingestionStagedEntity
-     * @return
-     */
-    public static FileEntryWorkNote createSimpleWorkNote(String batchJobId) {
-        return new FileEntryWorkNote(batchJobId, null, 0);
-    }
-
-    public FileEntryWorkNote (String batchJob, IngestionFileEntry fileEntry) {
-        this.batchJobId = batchJob;
-        this.fileEntry = fileEntry;
-        this.batchSize = 0;
-    }
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((batchJobId == null) ? 0 : batchJobId.hashCode());
-        result = prime * result + batchSize;
-        result = prime * result + ((fileEntry == null) ? 0 : fileEntry.hashCode());
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "FileEntryWorkNote [batchJobId=" + batchJobId + ", batchSize=" + batchSize + ", ingestionFileEntry=" + "fileEntry]";
-    }
-
-    public String getBatchJobId() {
-        return batchJobId;
     }
 
     public IngestionFileEntry getFileEntry() {
         return fileEntry;
     }
 
-    public int getBatchSize() {
-        return batchSize;
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = super.hashCode();
+        result = prime * result + ((fileEntry == null) ? 0 : fileEntry.hashCode());
+        return result;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj)) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        FileEntryWorkNote other = (FileEntryWorkNote) obj;
+        if (fileEntry == null) {
+            if (other.fileEntry != null) {
+                return false;
+            }
+        } else if (!fileEntry.equals(other.fileEntry)) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+        return "FileEntryWorkNote [fileEntry=" + fileEntry + "]";
+    }
+
+
 }

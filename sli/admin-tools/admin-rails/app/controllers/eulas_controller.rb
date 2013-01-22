@@ -44,6 +44,15 @@ class EulasController < ApplicationController
         ApplicationHelper.remove_user_account session[:guuid]
         redirect_to APP_CONFIG['redirect_slc_url']
       end
+    rescue ApplicationHelper::EmailException => e
+      logger.error "Could not send email upon EULA acceptance for #{session[:guuid]}"
+      logger.error e.message
+      render :invalid_email
+      begin
+        APP_LDAP_CLIENT.delete_user(session[:guuid])
+      rescue Exception => f
+        logger.fatal "Could not delete user email account after failure: #{session[:guuid]}"
+      end
     rescue Exception => e
       logger.error e.message
       logger.error e.backtrace.join("\n")

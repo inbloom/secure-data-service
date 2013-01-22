@@ -49,7 +49,7 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.dal.NeutralRecordRepository;
 
@@ -88,7 +88,7 @@ public class AttendanceTransformerTest {
         transformer.setMongoEntityRepository(entityRepository);
         transformer.setBatchJobId(batchJobId);
         transformer.setJob(job);
-        transformer.setWorkNote(WorkNote.createSimpleWorkNote(batchJobId));
+        transformer.setWorkNote(RangedWorkNote.createSimpleWorkNote(batchJobId));
 
     }
 

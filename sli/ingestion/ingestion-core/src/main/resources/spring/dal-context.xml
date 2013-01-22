@@ -110,13 +110,6 @@
     <property name="sliMongo" ref="mongoTemplate" />
   </bean>
 
-  <mongo:db-factory id="mongoDbTenantFactory" dbname="${sli.mongodb.database}" host="${sli.mongodb.host}"
-    port="${sli.mongodb.port}" />
-
-  <bean id="tenantMongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate" depends-on="mongoTrackingAspect">
-    <constructor-arg type="org.springframework.data.mongodb.MongoDbFactory" ref="mongoDbTenantFactory" />
-  </bean>
-
   <bean class="org.slc.sli.aspect.LoggerCarrierAspect" factory-method="aspectOf">
     <property name="template" ref="mongoTemplate" />
   </bean>

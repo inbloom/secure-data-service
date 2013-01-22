@@ -35,6 +35,17 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import javax.annotation.PostConstruct;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.resources.generic.FivePartResource;
+import org.slc.sli.api.resources.generic.SixPartResource;
+import org.slc.sli.api.resources.generic.util.ResourceHelper;
+import org.slc.sli.api.resources.generic.util.ResourceTemplate;
+
 /**
  * Reads in different nameSpaced resource end points and loads them
  *

@@ -16,6 +16,7 @@ limitations under the License.
 
 =end
 
+require_relative 'spec_helper'
 require_relative '../lib/WorldDefinition/world_builder.rb'
 require_relative '../lib/OutputGeneration/XmlDataWriter.rb'
 require_relative '../lib/Shared/util.rb'
@@ -97,7 +98,7 @@ describe "WorldBuilder" do
         @queue.count(Staff).should eq(34)
       end
       it "staff association interchange will contain the correct number of staff education organization assignment associations" do
-        @queue.count(StaffEducationOrgAssignmentAssociation).should eq(102)
+        @queue.count(StaffEducationOrgAssignmentAssociation).should eq(120)
       end
 
       it "grade wide assessment work orders will be created for each grade and year" do
@@ -192,15 +193,14 @@ describe "WorldBuilder" do
         @queue.count(Staff).should eq(164)
       end
       it "staff association interchange will contain the correct number of staff education organization assignment associations" do
-        @queue.count(StaffEducationOrgAssignmentAssociation).should eq(@queue.count(Staff))
+        @queue.count(StaffEducationOrgAssignmentAssociation).should eq(@queue.count(Staff) + @queue.count(Teacher))
       end
       it "grade wide assessment work orders will be created for each grade and year" do
         @queue.count(GradeWideAssessmentWorkOrder).should eq(13)
       end
-      it "will generate each of the behavior descriptors" do
-        @queue.count(BehaviorDescriptor).should eq 3
+      it "will generate each of the competency level descriptors" do
+        @queue.count(CompetencyLevelDescriptor).should eq 4
       end
-
     end
   end
 

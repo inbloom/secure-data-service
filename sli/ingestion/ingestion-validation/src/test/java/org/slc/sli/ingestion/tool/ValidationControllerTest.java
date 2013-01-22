@@ -33,6 +33,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.handler.Handler;
 import org.slc.sli.ingestion.landingzone.ControlFile;
@@ -41,6 +42,7 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.JobSource;
 
 /**
  * Unit Tests for ValidationController
@@ -61,14 +63,20 @@ public class ValidationControllerTest {
     @Test
     public void testDoValidationCtlFile() throws NoSuchFieldException, IllegalAccessException, IOException {
         File ctlFile = Mockito.mock(File.class);
+        File ctlDirectory = Mockito.mock(File.class);
         Mockito.when(ctlFile.getName()).thenReturn("Test.ctl");
         Mockito.when(ctlFile.isFile()).thenReturn(true);
+        Mockito.when(ctlFile.getParentFile()).thenReturn(ctlDirectory);
+        Mockito.when(ctlDirectory.getAbsoluteFile()).thenReturn(ctlDirectory);
 
         ValidationController vc = Mockito.spy(validationController);
-        Mockito.doNothing().when(vc).processControlFile(ctlFile);
-        vc.doValidation(ctlFile);
-        Mockito.verify(vc, Mockito.atLeastOnce()).processControlFile(ctlFile);
+        Mockito.doNothing().when(vc).processControlFile(Mockito.eq(ctlDirectory),
+                Mockito.eq("Test.ctl"), Mockito.any(ReportStats.class));
 
+        vc.doValidation(ctlFile);
+
+        Mockito.verify(vc, Mockito.atLeastOnce()).processControlFile(Mockito.eq(ctlDirectory),
+                Mockito.eq("Test.ctl"), Mockito.any(ReportStats.class));
     }
 
     @Test
@@ -89,13 +97,15 @@ public class ValidationControllerTest {
     public void testDoValidationZipFile() throws NoSuchFieldException, IllegalAccessException, IOException {
         File zipFile = Mockito.mock(File.class);
         Mockito.when(zipFile.getName()).thenReturn("Test.zip");
+        Mockito.when(zipFile.getAbsolutePath()).thenReturn("/Test.zip");
         Mockito.when(zipFile.isFile()).thenReturn(true);
 
         ValidationController vc = Mockito.spy(validationController);
-        Mockito.doNothing().when(vc).processZip(zipFile);
-        vc.doValidation(zipFile);
-        Mockito.verify(vc, Mockito.atLeastOnce()).processZip(zipFile);
+        Mockito.doNothing().when(vc).processZip(Mockito.eq(zipFile), Mockito.any(ReportStats.class));
 
+        vc.doValidation(zipFile);
+
+        Mockito.verify(vc, Mockito.atLeastOnce()).processZip(Mockito.eq(zipFile), Mockito.any(ReportStats.class));
     }
 
     @Test
@@ -115,25 +125,27 @@ public class ValidationControllerTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testProcessZip() throws IOException, NoSuchFieldException, IllegalAccessException {
-        Handler<org.slc.sli.ingestion.Resource, File> handler = Mockito.mock(Handler.class);
+        Handler<org.slc.sli.ingestion.Resource, String> handler = Mockito.mock(Handler.class);
 
         ReportStats rs = Mockito.mock(ReportStats.class);
         Mockito.when(rs.hasErrors()).thenReturn(false);
 
         AbstractMessageReport messageReport = Mockito.mock(AbstractMessageReport.class);
 
-        PrivateAccessor.setField(validationController, "reportStats", rs);
         PrivateAccessor.setField(validationController, "messageReport", messageReport);
 
         File zipFile = (new ClassPathResource(zipFileName)).getFile();
         FileResource zipFileResource = new FileResource(zipFile.getAbsolutePath());
 
         ValidationController vc = Mockito.spy(validationController);
-        Mockito.doNothing().when(vc).processControlFile((FileResource) Mockito.any());
-        Mockito.doReturn(zipFile).when(handler).handle(zipFileResource, messageReport, rs);
+
+        Mockito.doNothing().when(vc).processControlFile(Mockito.any(FileResource.class),
+                Mockito.any(String.class), Mockito.any(ReportStats.class));
+
+        Mockito.doReturn(zipFile.getName()).when(handler).handle(zipFileResource, messageReport, rs);
 
         vc.setZipFileHandler(handler);
-        vc.processZip(zipFileResource);
+        vc.processZip(zipFileResource, rs);
         Mockito.verify(handler, Mockito.atLeastOnce()).handle(zipFileResource, messageReport, rs);
     }
 
@@ -141,7 +153,7 @@ public class ValidationControllerTest {
     @Test
     public void testProcessInvalidZip() throws IOException, NoSuchFieldException, IllegalAccessException {
 
-        Handler<org.slc.sli.ingestion.Resource, File> handler = Mockito.mock(Handler.class);
+        Handler<org.slc.sli.ingestion.Resource, String> handler = Mockito.mock(Handler.class);
 
         ReportStats reportStats = Mockito.mock(ReportStats.class);
         Mockito.when(reportStats.hasErrors()).thenReturn(true);
@@ -153,12 +165,11 @@ public class ValidationControllerTest {
 
         AbstractMessageReport messageReport = Mockito.mock(AbstractMessageReport.class);
 
-        PrivateAccessor.setField(validationController, "reportStats", reportStats);
         PrivateAccessor.setField(validationController, "messageReport", messageReport);
 
-        Mockito.doReturn(zipFile).when(handler).handle(zipFileResource, messageReport, reportStats);
-        vc.processZip(zipFileResource);
-        Mockito.verify(vc, Mockito.never()).processControlFile(zipFileResource);
+        Mockito.doReturn("Session1.ctl").when(handler).handle(zipFileResource, messageReport, reportStats);
+        vc.processZip(zipFileResource, reportStats);
+        Mockito.verify(vc, Mockito.never()).processControlFile(zipFileResource, "Session1.ctl", reportStats);
     }
 
     @Test
@@ -166,12 +177,8 @@ public class ValidationControllerTest {
         Resource xmlResource = new ClassPathResource("emptyXml/InterchangeStudent.xml");
         File xmlFile = xmlResource.getFile();
 
-        String fileName = "InterchangeStudent.xml";
-
-        IngestionFileEntry ife = Mockito.mock(IngestionFileEntry.class);
-        Mockito.when(ife.getFileName()).thenReturn(fileName);
-        Mockito.when(ife.getFile()).thenReturn(xmlFile);
-        Mockito.when(ife.getFileType()).thenReturn(FileType.XML_STUDENT_PARENT_ASSOCIATION);
+        IngestionFileEntry ife = new IngestionFileEntry(xmlFile.getParentFile().getAbsolutePath(),
+                FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION, xmlFile.getName(), "");
 
         List<IngestionFileEntry> fileEntries = new ArrayList<IngestionFileEntry>();
         fileEntries.add(ife);
@@ -182,9 +189,13 @@ public class ValidationControllerTest {
         AbstractMessageReport messageReport = Mockito.mock(AbstractMessageReport.class);
         PrivateAccessor.setField(validationController, "messageReport", messageReport);
 
-        validationController.processValidators(cfl);
+        ReportStats reportStats = Mockito.mock(ReportStats.class);
+        Mockito.when(reportStats.hasErrors()).thenReturn(true);
+
+        validationController.processValidators(cfl, reportStats);
+
         Mockito.verify(messageReport, Mockito.atLeastOnce()).info(Matchers.any(ReportStats.class),
-                Matchers.any(Source.class), Matchers.eq(ValidationMessageCode.VALIDATION_0003), Matchers.eq(fileName));
+                Matchers.any(Source.class), Matchers.eq(ValidationMessageCode.VALIDATION_0003), Matchers.eq(xmlFile.getName()));
     }
 
     @Test
@@ -192,11 +203,8 @@ public class ValidationControllerTest {
         Resource xmlResource = new ClassPathResource("test/InterchangeStudent.xml");
         File xmlFile = xmlResource.getFile();
 
-        String fileName = "InterchangeStudent.xml";
-        IngestionFileEntry ife = Mockito.mock(IngestionFileEntry.class);
-        Mockito.when(ife.getFileName()).thenReturn(fileName);
-        Mockito.when(ife.getFile()).thenReturn(xmlFile);
-        Mockito.when(ife.getFileType()).thenReturn(FileType.XML_STUDENT_PARENT_ASSOCIATION);
+        IngestionFileEntry ife = new IngestionFileEntry(xmlFile.getParentFile().getAbsolutePath(),
+                FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION, xmlFile.getName(), "");
 
         List<IngestionFileEntry> fileEntries = new ArrayList<IngestionFileEntry>();
         fileEntries.add(ife);
@@ -207,9 +215,12 @@ public class ValidationControllerTest {
         AbstractMessageReport messageReport = Mockito.mock(AbstractMessageReport.class);
         PrivateAccessor.setField(validationController, "messageReport", messageReport);
 
-        validationController.processValidators(cfl);
+        ReportStats reportStats = Mockito.mock(ReportStats.class);
+        Mockito.when(reportStats.hasErrors()).thenReturn(false);
+
+        validationController.processValidators(cfl, reportStats);
         Mockito.verify(messageReport, Mockito.atLeastOnce()).info(Matchers.any(ReportStats.class),
-                Matchers.any(Source.class), Matchers.eq(ValidationMessageCode.VALIDATION_0002), Matchers.eq(fileName));
+                Matchers.any(Source.class), Matchers.eq(ValidationMessageCode.VALIDATION_0002), Matchers.eq(xmlFile.getName()));
     }
 
     @Test
@@ -224,12 +235,12 @@ public class ValidationControllerTest {
 
         AbstractMessageReport messageReport = Mockito.mock(AbstractMessageReport.class);
 
-        PrivateAccessor.setField(validationController, "reportStats", reportStats);
         PrivateAccessor.setField(validationController, "messageReport", messageReport);
 
-        vc.processControlFile(ctlFile);
+        vc.processControlFile(ctlFile.getParentFile(), ctlFile.getName(), reportStats);
 
-        Mockito.verify(vc).processValidators(Mockito.any(ControlFile.class));
+        Mockito.verify(vc).processValidators(Mockito.any(ControlFile.class),
+                Mockito.any(ReportStats.class));
     }
 
     @Test
@@ -241,7 +252,10 @@ public class ValidationControllerTest {
         AbstractMessageReport messageReport = Mockito.mock(AbstractMessageReport.class);
         PrivateAccessor.setField(validationController, "messageReport", messageReport);
 
-        validationController.processControlFile(ctlFile);
+        ReportStats reportStats = Mockito.mock(ReportStats.class);
+        Mockito.when(reportStats.hasErrors()).thenReturn(false);
+
+        validationController.processControlFile(ctlFile.getParentFile(), ctlFile.getName(), reportStats);
 
         Mockito.verify(messageReport).error(Matchers.any(ReportStats.class),
                 Matchers.any(Source.class), Matchers.eq(ValidationMessageCode.VALIDATION_0010), Matchers.anyString());
