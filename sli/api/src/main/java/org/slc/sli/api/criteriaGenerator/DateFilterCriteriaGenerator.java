@@ -130,14 +130,21 @@ public class DateFilterCriteriaGenerator {
                 NeutralCriteria sessionCriteria = new NeutralCriteria(sessionAttribute, NeutralCriteria.CRITERIA_IN, sessionIds);
                 neutralQuery.addCriteria(sessionCriteria);
             } else {
-                NeutralQuery entityEndOrQuery = new NeutralQuery();
-                entityEndOrQuery.addCriteria(new NeutralCriteria(endDateAttribute, NeutralCriteria.CRITERIA_GT, beginDate));
-                entityEndOrQuery.addCriteria(new NeutralCriteria(endDateAttribute, NeutralCriteria.CRITERIA_EXISTS, false));
+                NeutralQuery entityEndDateQuery = new NeutralQuery();
+                entityEndDateQuery.addCriteria(new NeutralCriteria(endDateAttribute, NeutralCriteria.CRITERIA_GT, beginDate));
+
+                NeutralQuery entityEndDateExistsQuery = new NeutralQuery();
+                entityEndDateExistsQuery.addCriteria(new NeutralCriteria(endDateAttribute, NeutralCriteria.CRITERIA_EXISTS, false));
 
                 NeutralCriteria entityBeginDateCriteria = new NeutralCriteria(beginDateAttribute, NeutralCriteria.CRITERIA_LT, endDate);
 
                 neutralQuery.addCriteria(entityBeginDateCriteria);
-                neutralQuery.addOrQuery(entityEndOrQuery);
+                neutralQuery.addOrQuery(entityEndDateQuery);
+                neutralQuery.addOrQuery(entityEndDateExistsQuery);
+            }
+
+            if (StringUtils.isBlank(beginDate) || StringUtils.isBlank(endDate)) {
+                granularAccessFilter.setNoSessionsFoundForSchoolYear(true);
             }
 
             return granularAccessFilter;

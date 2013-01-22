@@ -26,8 +26,23 @@ import java.util.List;
  * Date: 1/15/13
  */
 public class GranularAccessFilter {
+
     private String entityName;
     private NeutralQuery neutralQuery;
+
+    /*
+    If no sessions are found, beginDate and endDate would be ""
+    This flag can be used to return early instead of querying mongo
+     */
+    private boolean noSessionsFoundForSchoolYear;
+
+    public boolean isNoSessionsFoundForSchoolYear() {
+        return noSessionsFoundForSchoolYear;
+    }
+
+    public void setNoSessionsFoundForSchoolYear(boolean noSessionsFoundForSchoolYear) {
+        this.noSessionsFoundForSchoolYear = noSessionsFoundForSchoolYear;
+    }
 
     public List<String> getConnectedEntityList() {
         return connectedEntityList;
