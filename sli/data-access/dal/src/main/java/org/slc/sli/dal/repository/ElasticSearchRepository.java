@@ -32,11 +32,11 @@ import com.mongodb.DBCollection;
 import com.mongodb.WriteResult;
 
 import org.apache.commons.codec.binary.Base64;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.core.type.TypeReference;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 import org.elasticsearch.action.search.SearchRequestBuilder;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
@@ -404,10 +404,10 @@ public class ElasticSearchRepository implements Repository<Entity> {
                 TypeReference<Map<String, Object>> tr = new TypeReference<Map<String, Object>>() {
                 };
                 // read the values from the json
-                String id = hitNode.get("_id").textValue();
-                String type = hitNode.get("_type").textValue();
+                String id = hitNode.get("_id").getTextValue();
+                String type = hitNode.get("_type").getTextValue();
                 JsonNode bodyNode = hitNode.get("_source");
-                Map<String, Object> body = objectMapper.readValue(bodyNode.traverse(), tr);
+                Map<String, Object> body = objectMapper.readValue(bodyNode, tr);
                 body.remove("context");
 
                 // create a return the search hit entity
@@ -433,7 +433,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
         static Set<String> fromMappingJson(HttpEntity<String> response) {
             try {
                 Set<String> set = new HashSet<String>();
-                Iterators.addAll(set, objectMapper.readTree(response.getBody()).elements().next().fieldNames());
+                Iterators.addAll(set, objectMapper.readTree(response.getBody()).getElements().next().getFieldNames());
                 return set;
             } catch (Exception t) {
                 LOG.error("Unable to get mappings from search engine", t);

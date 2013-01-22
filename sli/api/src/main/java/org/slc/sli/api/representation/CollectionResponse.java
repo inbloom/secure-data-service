@@ -19,8 +19,8 @@ package org.slc.sli.api.representation;
 
 import java.util.LinkedList;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Representation of a collection of entity references returned by the API.

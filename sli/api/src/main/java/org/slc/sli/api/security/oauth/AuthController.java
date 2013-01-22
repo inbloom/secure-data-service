@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang3.tuple.Pair;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slc.sli.api.init.RealmInitializer;
 import org.slc.sli.api.representation.OAuthAccessExceptionHandler;
 import org.slc.sli.api.security.OauthSessionManager;

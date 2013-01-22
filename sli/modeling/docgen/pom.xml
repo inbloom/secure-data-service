@@ -57,8 +57,13 @@
             <artifactId>xml</artifactId>
         </dependency>
         <dependency>
+            <groupId>stax</groupId>
+            <artifactId>stax-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>net.sf.jopt-simple</groupId>
             <artifactId>jopt-simple</artifactId>
+            <version>${jopt-simple.version}</version>
         </dependency>
     </dependencies>
 </project>
