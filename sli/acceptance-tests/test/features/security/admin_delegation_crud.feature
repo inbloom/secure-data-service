@@ -8,8 +8,8 @@ Feature: Admin delegation CRUD
      
 
 	Scenario: State administrator without access being denied update to application authorization
-      Given I am logged in using "iladmin" "iladmin1234" to realm "SLI"
-      And the sli securityEvent collection is empty
+      Given the sli securityEvent collection is empty
+      And I am logged in using "iladmin" "iladmin1234" to realm "SLI"
       When I do not have access to app authorizations for district "IL-SUNSET"
       Then I should update app authorizations for district "IL-SUNSET"
       And I should receive a return code of 403

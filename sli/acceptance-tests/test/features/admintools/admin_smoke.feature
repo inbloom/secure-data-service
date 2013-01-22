@@ -44,7 +44,8 @@ Then I am redirected to the Application Registration Tool page
 
 
 Scenario: LEA Administrator operations
-Given I am a valid district administrator
+Given the sli securityEvent collection is empty
+And I am a valid district administrator
 When I authenticate on the Admin Delegation Tool
 And I am redirected to the delegation page for my district
 And "Application Authorization" is unchecked
@@ -68,6 +69,7 @@ And the Status becomes "Approved"
 And it is colored "green"
 And the Approve button next to it is disabled
 And the Deny button next to it is enabled
+And a security event matching "^NOT ALLOWED" should be in the sli db
 
 Scenario: Realm administrator operations
 Given I am a valid realm administrator
