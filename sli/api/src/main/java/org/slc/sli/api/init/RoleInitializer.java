@@ -23,6 +23,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.security.roles.Role;
 import org.slc.sli.api.security.roles.RoleBuilder;
 import org.slc.sli.domain.Entity;
@@ -30,16 +34,13 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 
 /**
  * A simple initializing bean to initialize our Mongo instance with default roles.
- * 
+ *
  * IMPORTANT: If you add new SLI Administrative roles, make sure you set the admin flag to true.
  * Failure to do so can introduce a large security hole.
- * 
+ *
  * @author rlatta
  */
 @Component
@@ -48,8 +49,10 @@ public class RoleInitializer {
     public static final String AGGREGATE_VIEWER = "Aggregate Viewer";
     public static final String IT_ADMINISTRATOR = "IT Administrator";
     public static final String LEADER = "Leader";
+    public static final String STUDENT = "Student";
+    public static final String PARENT = "Parent";
     public static final String ROLES = "customRole";
-    
+
     public static final String LEA_ADMINISTRATOR = "LEA Administrator";
     public static final String SEA_ADMINISTRATOR = "SEA Administrator";
     public static final String APP_DEVELOPER = "Application Developer";
@@ -58,20 +61,20 @@ public class RoleInitializer {
     public static final String INGESTION_USER = "Ingestion User";
     public static final String SANDBOX_SLC_OPERATOR = "Sandbox SLC Operator";
     public static final String SANDBOX_ADMINISTRATOR = "Sandbox Administrator";
-    
+
     @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity> repository;
-    
+
     public void dropAndBuildRoles(String realmId) {
         dropRoles(realmId);
         buildRoles(realmId);
     }
-    
+
     public void dropRoles(String realmId) {
         NeutralQuery query = new NeutralQuery(0);
         query.addCriteria(new NeutralCriteria("realmId", "=", realmId));
-        
+
         Entity entity = repository.findOne(ROLES, query);
         if (entity != null) {
             repository.delete(ROLES, entity.getEntityId());
@@ -81,7 +84,7 @@ public class RoleInitializer {
         }
 
     }
-    
+
     public int buildRoles(String realmId) {
         if (realmId != null) {
             info("Building roles for realm: {}", new Object[] { realmId });
@@ -97,16 +100,17 @@ public class RoleInitializer {
         }
         return 0;
     }
-    
+
     public List<Map<String, Object>> getDefaultRoles() {
         List<Map<String, Object>> groups = new ArrayList<Map<String, Object>>();
         groups.add(buildRoleGroup(buildAggregate()));
         groups.add(buildRoleGroup(buildLeader()));
         groups.add(buildRoleGroup(buildIT()));
         groups.add(buildRoleGroup(buildEducator()));
+        groups.add(buildRoleGroup(buildStudent()));
         return groups;
     }
-    
+
     private Map<String, Object> buildRoleGroup(Role role) {
         Map<String, Object> group = new HashMap<String, Object>();
         group.put("groupTitle", role.getName());
@@ -115,7 +119,7 @@ public class RoleInitializer {
         group.put("isAdminRole", role.isAdmin());
         return group;
     }
-    
+
     private List<String> iterableToList(Set<String> original) {
         List<String> list = new ArrayList<String>();
         for (String authority : original) {
@@ -123,7 +127,7 @@ public class RoleInitializer {
         }
         return list;
     }
-    
+
     private Role buildAggregate() {
         info("Building Aggregate Viewer default role.");
         Role role = RoleBuilder.makeRole(AGGREGATE_VIEWER)
@@ -131,7 +135,7 @@ public class RoleInitializer {
         role.setAdmin(false);
         return role;
     }
-    
+
     private Role buildEducator() {
         info("Building Educator default role.");
         Role role = RoleBuilder.makeRole(EDUCATOR)
@@ -139,7 +143,7 @@ public class RoleInitializer {
         role.setAdmin(false);
         return role;
     }
-    
+
     private Role buildLeader() {
         info("Building Leader default role.");
         Role role = RoleBuilder
@@ -150,7 +154,7 @@ public class RoleInitializer {
         role.setAdmin(false);
         return role;
     }
-    
+
     private Role buildIT() {
         info("Building IT Administrator default role.");
         Role role = RoleBuilder
@@ -161,7 +165,15 @@ public class RoleInitializer {
         role.setAdmin(true);
         return role;
     }
-    
+
+    private Role buildStudent() {
+        info("Building Student default role.");
+        Role role = RoleBuilder.makeRole(STUDENT)
+                .addRights(new Right[] { Right.AGGREGATE_READ }).build();
+        role.setAdmin(true);
+        return role;
+    }
+
     public void setRepository(Repository<Entity> repository) {
         this.repository = repository;
     }
