@@ -31,7 +31,7 @@
     </route>
     <route id="staging">
         <from uri="seda:entityFeed?concurrentConsumers=32&amp;blockWhenFull=true"/>
-        <log message="Produced output: ${header.CamelSplitIndex} of ${header.CamelSplitSize}"/>
+        <log message="Batch of ${body.size}. Starts at Ln: ${body[0].getLineNumber} - Col: ${body[0].getColumnNumber}"/>
         <stop/>
     </route>
 </camelContext>
