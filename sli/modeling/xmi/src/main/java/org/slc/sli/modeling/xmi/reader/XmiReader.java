@@ -81,7 +81,7 @@ public class XmiReader {
     /**
      * A programmatic assertion that we have the reader positioned on the correct element.
      *
-     * @param expectLocalName
+     * @param name
      *            The local name that we expect.
      * @param reader
      *            The reader.
@@ -807,7 +807,8 @@ public class XmiReader {
     }
 
     public static final Model readModel(final String fileName) throws FileNotFoundException {
-        final InputStream istream = new BufferedInputStream(new FileInputStream(fileName));
+        final FileInputStream f = new FileInputStream(fileName);
+        final BufferedInputStream istream = new BufferedInputStream(f);
         try {
             return readModel(istream);
         } finally {
@@ -816,6 +817,7 @@ public class XmiReader {
     }
 
     protected static final Model readModel(final XMLStreamReader reader) throws XMLStreamException {
+
         assertName(XmiElementName.MODEL, reader);
         final Identifier id = getId(reader);
         final String name = getName(reader, null, XmiAttributeName.NAME);

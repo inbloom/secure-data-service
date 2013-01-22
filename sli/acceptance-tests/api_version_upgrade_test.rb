@@ -33,6 +33,9 @@ ARGV.options do |opts|
   opts.on(:REQUIRED, /.+/, '-B', '--new_branch', 'The branch to run the extracted test code on. Use current branch if omitted.') do |new_branch|
     @options[:new_branch] = new_branch
   end
+  opts.on(:REQUIRED, /.+/, '-e', '--env_var', 'Run the tests with these comma-separated environment variables. Defaults: TOGGLE_TABLESCANS,FORCE_COLOR.') do |env_var|
+    @options[:env_var] = env_var
+  end
   # opts.on(:REQUIRED, /.+/, '-t', '--task', Array, 'Comma-separated list of Rake tasks to execute. Use apiAndSecurityTests if omitted.') do |tasks|
   #   @options[:tasks] = tasks
   # end
@@ -63,6 +66,8 @@ def init
   @old_version = @options[:old_version]
   @old_branch = @options[:old_branch]
   @new_branch = @options[:new_branch]
+  @env_var = @options[:env_var] ? @options[:env_var].split(",") : ["TOGGLE_TABLESCANS", "FORCE_COLOR"]
+  @env_var.map! {|e| "#{e}=1"}
   # @rake_tasks = @options[:tasks] ? @options[:tasks].join(" ") : "apiAndSecurityTests"
   @rake_tasks = "apiAndSecurityTests"
   @ci = @options[:ci]
@@ -154,14 +159,14 @@ def run_test(tasks)
   puts "---- Run #{tasks}"
   Dir.chdir("#{@extract_dest}/acceptance-tests")
   run_cmd "bundle install"
-  run_cmd "bundle exec rake #{tasks} FORCE_COLOR=1 TOGGLE_TABLESCANS=1 FAILSLOW=1"
+  run_cmd "bundle exec rake #{tasks} #{@env_var.join " "}"
 end
 
 def clean_up
   puts "---- Clean up"
   FileUtils.rm_rf @extract_dest
   FileUtils.rm @test_code_package if @test_code_package
-  `kill #{@api_pid}` if @api_log
+  `kill #{@api_pid}` if @api_pid
 end
 
 def main
