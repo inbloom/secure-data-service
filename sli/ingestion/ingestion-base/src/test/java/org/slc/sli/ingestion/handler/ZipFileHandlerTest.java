@@ -50,7 +50,6 @@ public class ZipFileHandlerTest {
         ReportStats reportStats = new SimpleReportStats();
 
         String ctlFile = zipHandler.handle(zip, report, reportStats);
-
         Assert.assertFalse(reportStats.hasErrors());
         Assert.assertEquals("ControlFile.ctl", ctlFile);
     }

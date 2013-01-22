@@ -11,11 +11,6 @@
 		<xs:complexType>
 			<xs:choice maxOccurs="unbounded">
 				<xs:element name="StudentProgramAssociation" type="SLC-StudentProgramAssociation"/>
-				<xs:element name="StudentSpecialEdProgramAssociation" type="StudentSpecialEdProgramAssociation"/>
-				<xs:element name="RestraintEvent" type="RestraintEvent"/>
-				<xs:element name="StudentCTEProgramAssociation" type="StudentCTEProgramAssociation"/>
-				<xs:element name="StudentTitleIPartAProgramAssociation" type="StudentTitleIPartAProgramAssociation"/>
-				<xs:element name="ServiceDescriptor" type="ServiceDescriptor"/>
 			</xs:choice>
 		</xs:complexType>
 	</xs:element>

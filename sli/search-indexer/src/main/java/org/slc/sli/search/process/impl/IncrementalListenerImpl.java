@@ -19,8 +19,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.slc.sli.search.entity.IndexEntity;
 import org.slc.sli.search.entity.IndexEntity.Action;
 import org.slc.sli.search.process.IncrementalLoader;
@@ -52,7 +52,7 @@ public class IncrementalListenerImpl implements IncrementalLoader {
     /**
      * Process a message from the queue
      *
-     * @param opLog
+     * @param message
      */
     @Override
     public void process(String message) {
@@ -68,7 +68,7 @@ public class IncrementalListenerImpl implements IncrementalLoader {
     /**
      * Convert oplog message to an IndexEntity, based on the action type (insert, update, delete)
      *
-     * @param opLog
+     * @param opLogString
      * @return index entities
      * @throws Exception
      */

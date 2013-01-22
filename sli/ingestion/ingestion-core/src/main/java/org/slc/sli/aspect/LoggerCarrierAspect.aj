@@ -12,8 +12,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
 public aspect LoggerCarrierAspect {
-    
-    declare parents : (org.slc.sli.ingestion.processors.* &&
+	declare parents : (org.slc.sli.ingestion..* &&
             !java.lang.Enum+)  implements LoggerCarrier;
     
     private MongoTemplate template;

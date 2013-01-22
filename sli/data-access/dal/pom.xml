@@ -62,8 +62,8 @@
             <artifactId>mongo-java-driver</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-core-asl</artifactId>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -71,8 +71,8 @@
         </dependency>
         <!-- Jackson json -->
         <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
         </dependency>
         <!-- Persistence Framework -->
         <!-- spring data mongodb dependency -->
@@ -94,6 +94,11 @@
             <groupId>org.elasticsearch</groupId>
             <artifactId>elasticsearch</artifactId>
             <version>${elasticsearch.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.ws.commons.schema</groupId>
+            <artifactId>XmlSchema</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
     <properties>

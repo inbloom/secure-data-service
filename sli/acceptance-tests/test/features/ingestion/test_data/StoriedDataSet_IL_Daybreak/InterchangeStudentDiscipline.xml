@@ -1,292 +1,219 @@
-<?xml version="1.0" ?>
-<InterchangeStudentDiscipline xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../domain/src/main/resources/edfiXsd/Interchange-StudentDiscipline.xsd">
-    <BehaviorDescriptor>
-        <CodeValue>BEH01</CodeValue>
-        <ShortDescription>Disruption</ShortDescription>
-        <Description>Disruption of classroom order</Description>
-        <BehaviorCategory>State Offense</BehaviorCategory>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>IL</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-    </BehaviorDescriptor>
-    <BehaviorDescriptor>
-        <CodeValue>BEH02</CodeValue>
-        <ShortDescription>Tardiness</ShortDescription>
-        <Description>Chronic tardiness</Description>
-        <BehaviorCategory>School Violation</BehaviorCategory>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-    </BehaviorDescriptor>
-    <BehaviorDescriptor>
-        <CodeValue>BEH03</CodeValue>
-        <ShortDescription>Language</ShortDescription>
-        <Description>Using disrespectful language toward others</Description>
-        <BehaviorCategory>School Code of Conduct</BehaviorCategory>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-    </BehaviorDescriptor>
-    <DisciplineDescriptor>
-        <CodeValue>DIS01</CodeValue>
-        <ShortDescription>Detention 1hr</ShortDescription>
-        <Description>Students required to stay behind after school for 1 hour</Description>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>IL</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-    </DisciplineDescriptor>
-    <DisciplineDescriptor>
-        <CodeValue>DIS02</CodeValue>
-        <ShortDescription>Detention 2hrs</ShortDescription>
-        <Description>Students required to stay behind after school for 2 hours</Description>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>IL</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-    </DisciplineDescriptor>
-    <DisciplineDescriptor>
-        <CodeValue>DIS03</CodeValue>
-        <ShortDescription>Detention 3 hrs</ShortDescription>
-        <Description>Student required to stay behind after school for 3hours</Description>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>IL</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-    </DisciplineDescriptor>
-    <DisciplineDescriptor>
-        <CodeValue>DIS04</CodeValue>
-        <ShortDescription>Service</ShortDescription>
-        <Description>Student required to perform school service for 1 week</Description>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>IL</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-    </DisciplineDescriptor>
-    <DisciplineIncident>
-        <IncidentIdentifier>Disruption</IncidentIdentifier>
-        <IncidentDate>2011-02-01</IncidentDate>
-        <IncidentTime>15:23:02</IncidentTime>
-        <IncidentLocation>On School</IncidentLocation>
-        <ReporterDescription>Student</ReporterDescription>
-        <ReporterName>Gold Finger</ReporterName>
-        <Behaviors>
-            <CodeValue>BEH01</CodeValue>
-        </Behaviors>
-        <Weapons>
-            <Weapon>Club</Weapon>
-        </Weapons>
-        <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
-        <SchoolReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </SchoolReference>
-        <StaffReference>
-            <StaffIdentity>
-                <StaffUniqueStateId>sbantu</StaffUniqueStateId>
-            </StaffIdentity>
-        </StaffReference>
-    </DisciplineIncident>
-    <DisciplineIncident>
-        <IncidentIdentifier>Tardiness</IncidentIdentifier>
-        <IncidentDate>2011-09-06</IncidentDate>
-        <IncidentTime>10:22:00</IncidentTime>
-        <IncidentLocation>On School</IncidentLocation>
-        <ReporterDescription>Staff</ReporterDescription>
-        <ReporterName>Charles Gray</ReporterName>
-        <Behaviors>
-            <CodeValue>BEH02</CodeValue>
-        </Behaviors>
-        <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
-        <SchoolReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </SchoolReference>
-        <StaffReference>
-            <StaffIdentity>
-                <StaffUniqueStateId>sbantu</StaffUniqueStateId>
-            </StaffIdentity>
-        </StaffReference>
-    </DisciplineIncident>
-    <StudentDisciplineIncidentAssociation>
-        <StudentReference>
-            <StudentIdentity>
-                <StudentUniqueStateId>900000019</StudentUniqueStateId>
-            </StudentIdentity>
-        </StudentReference>
-        <DisciplineIncidentReference>
-            <DisciplineIncidentIdentity>
-                <IncidentIdentifier>Disruption</IncidentIdentifier>
-                <EducationalOrgReference>
-                    <EducationalOrgIdentity>
-                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-                    </EducationalOrgIdentity>
-                </EducationalOrgReference>
-            </DisciplineIncidentIdentity>
-        </DisciplineIncidentReference>
-        <StudentParticipationCode>Witness</StudentParticipationCode>
-        <Behaviors>
-            <CodeValue>BEH03</CodeValue>
-        </Behaviors>
-    </StudentDisciplineIncidentAssociation>
-    <StudentDisciplineIncidentAssociation>
-        <StudentReference>
-            <StudentIdentity>
-                <StudentUniqueStateId>900000018</StudentUniqueStateId>
-            </StudentIdentity>
-        </StudentReference>
-        <DisciplineIncidentReference>
-            <DisciplineIncidentIdentity>
-                <IncidentIdentifier>Disruption</IncidentIdentifier>
-                <EducationalOrgReference>
-                    <EducationalOrgIdentity>
-                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-                    </EducationalOrgIdentity>
-                </EducationalOrgReference>
-            </DisciplineIncidentIdentity>
-        </DisciplineIncidentReference>
-        <StudentParticipationCode>Victim</StudentParticipationCode>
-    </StudentDisciplineIncidentAssociation>
-    <StudentDisciplineIncidentAssociation>
-        <StudentReference>
-            <StudentIdentity>
-                <StudentUniqueStateId>900000016</StudentUniqueStateId>
-            </StudentIdentity>
-        </StudentReference>
-        <DisciplineIncidentReference>
-            <DisciplineIncidentIdentity>
-                <IncidentIdentifier>Disruption</IncidentIdentifier>
-                <EducationalOrgReference>
-                    <EducationalOrgIdentity>
-                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-                    </EducationalOrgIdentity>
-                </EducationalOrgReference>
-            </DisciplineIncidentIdentity>
-        </DisciplineIncidentReference>
-        <StudentParticipationCode>Perpetrator</StudentParticipationCode>
-        <Behaviors>
-            <CodeValue>BEH01</CodeValue>
-        </Behaviors>
-    </StudentDisciplineIncidentAssociation>
-    <StudentDisciplineIncidentAssociation>
-        <StudentReference>
-            <StudentIdentity>
-                <StudentUniqueStateId>900000017</StudentUniqueStateId>
-            </StudentIdentity>
-        </StudentReference>
-        <DisciplineIncidentReference>
-            <DisciplineIncidentIdentity>
-                <IncidentIdentifier>Tardiness</IncidentIdentifier>
-                <EducationalOrgReference>
-                    <EducationalOrgIdentity>
-                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-                    </EducationalOrgIdentity>
-                </EducationalOrgReference>
-            </DisciplineIncidentIdentity>
-        </DisciplineIncidentReference>
-        <StudentParticipationCode>Perpetrator</StudentParticipationCode>
-        <Behaviors>
-            <CodeValue>BEH02</CodeValue>
-        </Behaviors>
-    </StudentDisciplineIncidentAssociation>
-    <DisciplineAction>
-        <DisciplineActionIdentifier>cap0-lea0-sch1-da0</DisciplineActionIdentifier>
-        <Disciplines>
-            <Description>Suspension from school for a week</Description>
-        </Disciplines>
-        <Disciplines>
-            <Description>Suspension from school for 5 days</Description>
-        </Disciplines>
-        <DisciplineDate>2011-03-04</DisciplineDate>
-        <DisciplineActionLength>74</DisciplineActionLength>
-        <ActualDisciplineActionLength>64</ActualDisciplineActionLength>
-        <DisciplineActionLengthDifferenceReason>Term Modified By Mutual Agreement</DisciplineActionLengthDifferenceReason>
-        <StudentReference>
-            <StudentIdentity>
-                <StudentUniqueStateId>100000000</StudentUniqueStateId>
-            </StudentIdentity>
-        </StudentReference>
-        <StudentReference>
-            <StudentIdentity>
-                <StudentUniqueStateId>100000001</StudentUniqueStateId>
-            </StudentIdentity>
-        </StudentReference>
-        <DisciplineIncidentReference>
-            <DisciplineIncidentIdentity>
-                <IncidentIdentifier>Disruption</IncidentIdentifier>
-                <EducationalOrgReference>
-                    <EducationalOrgIdentity>
-                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-                    </EducationalOrgIdentity>
-                </EducationalOrgReference>
-            </DisciplineIncidentIdentity>
-        </DisciplineIncidentReference>
-        <StaffReference>
-            <StaffIdentity>
-                <StaffUniqueStateId>msmith</StaffUniqueStateId>
-            </StaffIdentity>
-        </StaffReference>
-        <ResponsibilitySchoolReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </ResponsibilitySchoolReference>
-        <AssignmentSchoolReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </AssignmentSchoolReference>
-    </DisciplineAction>
-    <DisciplineAction>
-        <DisciplineActionIdentifier>cap0-lea0-sch1-da1</DisciplineActionIdentifier>
-        <Disciplines>
-            <Description>Suspension from school for a week</Description>
-        </Disciplines>
-        <DisciplineDate>2011-04-04</DisciplineDate>
-        <DisciplineActionLength>74</DisciplineActionLength>
-        <ActualDisciplineActionLength>64</ActualDisciplineActionLength>
-        <DisciplineActionLengthDifferenceReason>Term Modified By Mutual Agreement</DisciplineActionLengthDifferenceReason>
-        <StudentReference>
-            <StudentIdentity>
-                <StudentUniqueStateId>100000002</StudentUniqueStateId>
-            </StudentIdentity>
-        </StudentReference>
-        <DisciplineIncidentReference>
-            <DisciplineIncidentIdentity>
-                <IncidentIdentifier>Tardiness</IncidentIdentifier>
-                <EducationalOrgReference>
-                    <EducationalOrgIdentity>
-                        <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-                    </EducationalOrgIdentity>
-                </EducationalOrgReference>
-            </DisciplineIncidentIdentity>
-        </DisciplineIncidentReference>
-        <StaffReference>
-            <StaffIdentity>
-                <StaffUniqueStateId>ckoch</StaffUniqueStateId>
-            </StaffIdentity>
-        </StaffReference>
-        <ResponsibilitySchoolReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </ResponsibilitySchoolReference>
-        <AssignmentSchoolReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Daybreak Central High</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </AssignmentSchoolReference>
-    </DisciplineAction>
+<?xml version="1.0"?>
+<InterchangeStudentDiscipline xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentDiscipline.xsd">
+	<DisciplineIncident>
+		<IncidentIdentifier>Disruption</IncidentIdentifier>
+		<IncidentDate>2011-02-01</IncidentDate>
+		<IncidentTime>15:23:02</IncidentTime>
+		<IncidentLocation>On School</IncidentLocation>
+		<ReporterDescription>Student</ReporterDescription>
+		<ReporterName>Gold Finger</ReporterName>
+		<Behaviors>
+			<CodeValue>BEH01</CodeValue>
+		</Behaviors>
+		<Weapons>
+			<Weapon>Club</Weapon>
+		</Weapons>
+		<ReportedToLawEnforcement>false</ReportedToLawEnforcement>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>sbantu</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+	</DisciplineIncident>
+	<DisciplineIncident>
+		<IncidentIdentifier>Tardiness</IncidentIdentifier>
+		<IncidentDate>2011-09-06</IncidentDate>
+		<IncidentTime>10:22:00</IncidentTime>
+		<IncidentLocation>On School</IncidentLocation>
+		<ReporterDescription>Staff</ReporterDescription>
+		<ReporterName>Charles Gray</ReporterName>
+		<Behaviors>
+			<CodeValue>BEH02</CodeValue>
+		</Behaviors>
+		<ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+		<SchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</SchoolReference>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>sbantu</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+	</DisciplineIncident>
+	<StudentDisciplineIncidentAssociation>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>900000019</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<DisciplineIncidentReference>
+			<DisciplineIncidentIdentity>
+				<IncidentIdentifier>Disruption</IncidentIdentifier>
+				<EducationalOrgReference>
+					<EducationalOrgIdentity>
+						<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+					</EducationalOrgIdentity>
+				</EducationalOrgReference>
+			</DisciplineIncidentIdentity>
+		</DisciplineIncidentReference>
+		<StudentParticipationCode>Witness</StudentParticipationCode>
+		<Behaviors>
+			<CodeValue>BEH03</CodeValue>
+		</Behaviors>
+	</StudentDisciplineIncidentAssociation>
+	<StudentDisciplineIncidentAssociation>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>900000018</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<DisciplineIncidentReference>
+			<DisciplineIncidentIdentity>
+				<IncidentIdentifier>Disruption</IncidentIdentifier>
+				<EducationalOrgReference>
+					<EducationalOrgIdentity>
+						<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+					</EducationalOrgIdentity>
+				</EducationalOrgReference>
+			</DisciplineIncidentIdentity>
+		</DisciplineIncidentReference>
+		<StudentParticipationCode>Victim</StudentParticipationCode>
+	</StudentDisciplineIncidentAssociation>
+	<StudentDisciplineIncidentAssociation>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>900000016</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<DisciplineIncidentReference>
+			<DisciplineIncidentIdentity>
+				<IncidentIdentifier>Disruption</IncidentIdentifier>
+				<EducationalOrgReference>
+					<EducationalOrgIdentity>
+						<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+					</EducationalOrgIdentity>
+				</EducationalOrgReference>
+			</DisciplineIncidentIdentity>
+		</DisciplineIncidentReference>
+		<StudentParticipationCode>Perpetrator</StudentParticipationCode>
+		<Behaviors>
+			<CodeValue>BEH01</CodeValue>
+		</Behaviors>
+	</StudentDisciplineIncidentAssociation>
+	<StudentDisciplineIncidentAssociation>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>900000017</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<DisciplineIncidentReference>
+			<DisciplineIncidentIdentity>
+				<IncidentIdentifier>Tardiness</IncidentIdentifier>
+				<EducationalOrgReference>
+					<EducationalOrgIdentity>
+						<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+					</EducationalOrgIdentity>
+				</EducationalOrgReference>
+			</DisciplineIncidentIdentity>
+		</DisciplineIncidentReference>
+		<StudentParticipationCode>Perpetrator</StudentParticipationCode>
+		<Behaviors>
+			<CodeValue>BEH02</CodeValue>
+		</Behaviors>
+	</StudentDisciplineIncidentAssociation>
+	<DisciplineAction>
+		<DisciplineActionIdentifier>cap0-lea0-sch1-da0</DisciplineActionIdentifier>
+		<Disciplines>
+			<Description>Suspension from school for a week</Description>
+		</Disciplines>
+		<Disciplines>
+			<Description>Suspension from school for 5 days</Description>
+		</Disciplines>
+		<DisciplineDate>2011-03-04</DisciplineDate>
+		<DisciplineActionLength>74</DisciplineActionLength>
+		<ActualDisciplineActionLength>64</ActualDisciplineActionLength>
+		<DisciplineActionLengthDifferenceReason>Term Modified By Mutual Agreement</DisciplineActionLengthDifferenceReason>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>100000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>100000001</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<DisciplineIncidentReference>
+			<DisciplineIncidentIdentity>
+				<IncidentIdentifier>Disruption</IncidentIdentifier>
+				<EducationalOrgReference>
+					<EducationalOrgIdentity>
+						<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+					</EducationalOrgIdentity>
+				</EducationalOrgReference>
+			</DisciplineIncidentIdentity>
+		</DisciplineIncidentReference>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>msmith</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<ResponsibilitySchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</ResponsibilitySchoolReference>
+		<AssignmentSchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</AssignmentSchoolReference>
+	</DisciplineAction>
+	<DisciplineAction>
+		<DisciplineActionIdentifier>cap0-lea0-sch1-da1</DisciplineActionIdentifier>
+		<Disciplines>
+			<Description>Suspension from school for a week</Description>
+		</Disciplines>
+		<DisciplineDate>2011-04-04</DisciplineDate>
+		<DisciplineActionLength>74</DisciplineActionLength>
+		<ActualDisciplineActionLength>64</ActualDisciplineActionLength>
+		<DisciplineActionLengthDifferenceReason>Term Modified By Mutual Agreement</DisciplineActionLengthDifferenceReason>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>100000002</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<DisciplineIncidentReference>
+			<DisciplineIncidentIdentity>
+				<IncidentIdentifier>Tardiness</IncidentIdentifier>
+				<EducationalOrgReference>
+					<EducationalOrgIdentity>
+						<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+					</EducationalOrgIdentity>
+				</EducationalOrgReference>
+			</DisciplineIncidentIdentity>
+		</DisciplineIncidentReference>
+		<StaffReference>
+			<StaffIdentity>
+				<StaffUniqueStateId>ckoch</StaffUniqueStateId>
+			</StaffIdentity>
+		</StaffReference>
+		<ResponsibilitySchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</ResponsibilitySchoolReference>
+		<AssignmentSchoolReference>
+			<EducationalOrgIdentity>
+				<StateOrganizationId>Daybreak Central High</StateOrganizationId>
+			</EducationalOrgIdentity>
+		</AssignmentSchoolReference>
+	</DisciplineAction>
 </InterchangeStudentDiscipline>

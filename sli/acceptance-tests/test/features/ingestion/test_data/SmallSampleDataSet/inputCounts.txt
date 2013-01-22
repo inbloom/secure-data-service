@@ -3,14 +3,12 @@ AssessmentFamily                                          37
 AssessmentItem                                             4
 AssessmentPeriodDescriptor                                 2
 AttendanceEvent                                         5550
-BehaviorDescriptor                                         3
 CalendarDate                                             556
 Cohort                                                     3
 Course                                                    95
 CourseOffering                                            95
 CourseTranscript                                         196
 DisciplineAction                                           2
-DisciplineDescriptor                                       4
 DisciplineIncident                                         2
 Grade                                                      4
 GradebookEntry                                            12
@@ -48,4 +46,5 @@ Teacher                                                    3
 TeacherSchoolAssociation                                   3
 TeacherSectionAssociation                                 11
 ------------------------------------------------------------
-                                             Total:     10207
+                                             Total:     10200
+
