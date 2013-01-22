@@ -45,6 +45,7 @@ import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.elasticsearch.search.query.FromParseElement;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
@@ -386,9 +387,8 @@ public class SamlFederationResource {
         String authorizationCode = (String) code.get("value");
         Object state = appSession.get("state");
 
-        SecurityEvent successfulLogin = securityEventBuilder.createSecurityEvent(this.getClass().getName(), uriInfo.getRequestUri(), "Logged in successfully!");
+        SecurityEvent successfulLogin = securityEventBuilder.createSecurityEvent(this.getClass().getName(), uriInfo.getRequestUri(), "");
         successfulLogin.setTenantId(principal.getTenantId());
-        successfulLogin.setUser(String.format("%s, %s %s", principal.getName(), principal.getFirstName(), principal.getLastName()));
         successfulLogin.setTargetEdOrg(principal.getEdOrg());
         successfulLogin.setOrigin(httpServletRequest.getRemoteHost()+ ":" + httpServletRequest.getRemotePort());
         successfulLogin.setCredential(authorizationCode);
@@ -396,6 +396,7 @@ public class SamlFederationResource {
         successfulLogin.setLogLevel(LogLevelType.TYPE_INFO);
         successfulLogin.setRoles(principal.getRoles());
 
+        String applicationDetails = null;
         if(appSession != null){
             String clientId = (String)appSession.get("clientId");
             if(clientId != null) {
@@ -407,17 +408,18 @@ public class SamlFederationResource {
                 if(application != null) {
                     Map<String, Object> body = application.getBody();
                     if (body != null) {
-                        String name        = (String) body.get("name");
-                        String createdBy   = (String) body.get("created_by");
-                        String description = (String) body.get("description");
-                        String appId = String.format("%s by %s. %s", name, createdBy, description);
-                        successfulLogin.setAppId(appId);
+                        String name                = (String) body.get("name");
+                        String createdBy           = (String) body.get("created_by");
+                        successfulLogin.setAppId(name+"," + clientId);
+                        applicationDetails         = String.format("%s by %s", name, createdBy);
                     }
                 }
             }
         }
+        successfulLogin.setUser(principal.getExternalId());
+        successfulLogin.setLogMessage(principal.getExternalId() + " from tenant " + tenant + " logged successfully into " + applicationDetails + ".");
 
-        audit(successfulLogin);
+                audit(successfulLogin);
 
         if (isInstalled) {
             Map<String, Object> resultMap = new HashMap<String, Object>();
