@@ -250,5 +250,6 @@ public class LoggingAspectTest {
 		 LoggerCarrierAspect.aspectOf().setMongoEntityRepository(mockedMongoEntityRepository);
 		 when(mockedMongoEntityRepository.collectionExists("securityEvent")).thenReturn(false);
 		 audit(event);
+		 Mockito.verify(mockedMongoEntityRepository, times(1)).create(any(String.class), any(Map.class),any(Map.class), any(String.class)); 
 	}
 }
