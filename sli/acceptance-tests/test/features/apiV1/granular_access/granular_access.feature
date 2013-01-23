@@ -184,10 +184,10 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | Entry Date | Exit Date  | Count | # Note                                                |
     | 2001-01-01 | 2008-01-01 | 0     | # Starts and ends before range begins                 |
     | 2001-01-01 | 2009-09-16 | 0     | # Ends on the same day the range begins               |
-    | 2001-01-01 | 2010-01-01 | 1     | # Starts before range begins, ends within range       |
+    | 2001-01-01 | 2010-10-01 | 1     | # Starts before range begins, ends within range       |
     | 2001-01-01 | 2012-01-01 | 1     | # Starts before range begins, ends after range ends   |
     | 2001-01-01 | ?          | 1     | # Starts before range begins, ends unknown            |
-    | 2009-12-01 | 2010-01-01 | 1     | # Completely within range                             |
+    | 2009-12-01 | 2010-10-01 | 1     | # Completely within range                             |
     | 2009-06-01 | 2012-01-01 | 1     | # Starts after range begins, ends after range ends    |
     | 2009-06-01 | ?          | 1     | # Starts after range begins, ends unknown             |
     | 2011-05-16 | 2012-01-01 | 0     | # Starts on the same day the range ends               |
