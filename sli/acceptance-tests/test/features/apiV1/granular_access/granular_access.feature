@@ -24,15 +24,15 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | Entity URI                              | School Years | Count Without Range | Count With Range | Entity List                             |
     | attendances                             | 2010-2011    | 0                   | 0                |                                         |
     | courseOfferings                         | 2010-2011    | 0                   | 0                |                                         |
-    | courseTranscripts                       | 2010-2011    | 0                   | 0                |                                         |
+    # | courseTranscripts                       | 2010-2011    | 0                   | 0                |                                         |
     | disciplineActions                       | 2010-2011    | 2                   | 0                |                                         |
     | disciplineIncidents                     | 2010-2011    | 0                   | 0                |                                         |
     | gradebookEntries                        | 2010-2011    | 0                   | 0                |                                         |
     | grades                                  | 2010-2011    | 0                   | 0                |                                         |
     | gradingPeriods                          | 2010-2011    | 0                   | 0                |                                         |
     | programs                                | 2009-2010    | 2                   | 1                | 9b8cafdc-8fd5-11e1-86ec-0021701f543f_id |
-#    | reportCards                             | 2010-2011    | 0                   | 0                |                                         |
-    | sections                                | 2010-2011    | 0                   | 0                |                                         |
+    # | reportCards                             | 2010-2011    | 0                   | 0                |                                         |
+    # | sections                                | 2010-2011    | 0                   | 0                |                                         |
     | sessions                                | 2010-2011    | 0                   | 0                |                                         |
     | staffCohortAssociations                 | 2009-2010    | 2                   | 0                |                                         |
     | staffEducationOrgAssignmentAssociations | 2010-2011    | 1                   | 1                | c4d5d31b-001d-4573-b282-7e688a4676f9    |
@@ -51,7 +51,6 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | teacherSectionAssociations              | 2010-2011    | 0                   | 0                |                                         |
     | teachers                                | 2010-2011    | 0                   | 0                |                                         |
 
-  @wip
   Scenario Outline: All data is returned within a specific school year range - teacher
     Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
     And parameter "limit" is "0"
@@ -69,16 +68,16 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     # 2011-2012: 2011-09-06 to 2012-06-31
     | Entity URI                              | School Years | Count Without Range | Count With Range | Entity List                                                                    |
     | attendances                             | 2010-2011    | 29                  | 1                | 530f0704-c240-4ed9-0a64-55c0308f91ee                                           |
-    | courseOfferings                         | 2010-2011    | 39                  | 19               | <LIST-CO-LINDAKIM>                                                             |
-    | courseTranscripts                       | 2010-2011    | 2                   | 1                | f11a2a30-d4fd-4400-ae18-353c00d581a2                                           |
+    | courseOfferings                         | 2010-2011    | 39                  | 12               | <LIST-CO-LINDAKIM>                                                             |
+#    | courseTranscripts                       | 2010-2011    | 2                   | 1                | f11a2a30-d4fd-4400-ae18-353c00d581a2                                           |
     | disciplineActions                       | 2010-2011    | 0                   | 0                |                                                                                |
     | disciplineIncidents                     | 2010-2011    | 0                   | 0                |                                                                                |
     | gradebookEntries                        | 2010-2011    | 3                   | 0                |                                                                                |
     | grades                                  | 2010-2011    | 0                   | 0                |                                                                                |
-    | gradingPeriods                          | 2010-2011    | 2                   | 1                | b40a7eb5-dd74-4666-a5b9-5c3f4425f130                                           |
+    | gradingPeriods                          | 2010-2011    | 2                   | 0                |                                                                                |
     | programs                                | 2010-2011    | 0                   | 0                |                                                                                |
 #    | reportCards                             | 2009-2010    | 1                   | 0                |                                                                                |
-    | sections                                | 2010-2011    | 4                   | 2                | Science 7A - Sec 5f10,8th Grade English - Sec 6                                |
+#    | sections                                | 2010-2011    | 4                   | 2                | Science 7A - Sec 5f10,8th Grade English - Sec 6                                |
     | sessions                                | 2010-2011    | 9                   | 2                | <LIST-SESSION-LINDAKIM>                                                        |
     | staffCohortAssociations                 | 2010-2011    | 0                   | 0                |                                                                                |
     | staffEducationOrgAssignmentAssociations | 2010-2011    | 1                   | 1                | 2c6face89f0c2854667310b46808e21156ed73cc_id                                    |
@@ -90,9 +89,9 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | studentDisciplineIncidentAssociations   | 2010-2011    | 0                   | 0                |                                                                                |
     | studentGradebookEntries                 | 2010-2011    | 4                   | 0                |                                                                                |
     | studentProgramAssociations              | 2010-2011    | 0                   | 0                |                                                                                |
-    | studentSchoolAssociations               | 2009-2010    | 67                  | 36               | <LIST-SSA-LINDAKIM>                                                            |
-    | studentSectionAssociations              | 2010-2011    | 31                  | 1                | 706ee3be-0dae-4e98-9525-f564e05aa388_idbac890d6-b580-4d9d-a0d4-8bce4e8d351a_id |
-    | students                                | 2010-2011    | 31                  | 1                | 453827070                                                                      |
+    | studentSchoolAssociations               | 2009-2010    | 67                  | 1                | 5738d251-dd0b-4734-9ea6-417ac9320a15_id                                        |
+    | studentSectionAssociations              | 2010-2012    | 31                  | 1                | 706ee3be-0dae-4e98-9525-f564e05aa388_idbac890d6-b580-4d9d-a0d4-8bce4e8d351a_id |
+    | students                                | 2010-2011    | 31                  | 0                |                                                                                |
     | teacherSchoolAssociations               | 2010-2011    | 1                   | 0                |                                                                                |
     | teacherSectionAssociations              | 2010-2011    | 4                   | 0                |                                                                                |
     | teachers                                | 2010-2011    | 1                   | 1                | linda.kim                                                                      |
@@ -157,7 +156,9 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | 2012-01-01 | 2012-05-01 | 2     | # Starts and ends after range ends                    |
     | 2012-01-01 | ?          | 2     | # Starts after range ends, ends unknown               |
 
+  @wip
   Scenario Outline: Optional begin date - teacherSectionAssociation
+    # Multiple hops to session
     Given I am logged in using "akopel" "akopel1234" to realm "IL"
     And parameter "schoolYears" is "2009-2011"
     And the session date range is "2009-09-06" to "2011-05-16"
@@ -203,7 +204,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | Range     | # Note                                |
     | 2011-2011 | # Same begin and end years            |
     | 2012-2009 | # Begin year is earlier than end year |
-
+@test
   Scenario: Sad path - Date filtering does not work on 2-part uris
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
     And parameter "schoolYears" is "2008-2009"
