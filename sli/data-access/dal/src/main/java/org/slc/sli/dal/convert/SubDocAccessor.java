@@ -286,10 +286,6 @@ public class SubDocAccessor {
             return MongoEntity.fromDBObject(dbObject);
         }
 
-        private boolean bulkUpdate(DBObject parentQuery, List<Entity> newEntities) {
-            return doUpdate(parentQuery, newEntities);
-        }
-
         public boolean create(Entity entity) {
             // return update(makeEntityId(entity), entity.getBody());
             DBObject parentQuery = getParentQuery(entity.getBody());
@@ -313,10 +309,6 @@ public class SubDocAccessor {
                     .ok();
         }
 
-        private boolean bulkCreate(DBObject parentQuery, List<Entity> entities) {
-            return bulkUpdate(parentQuery, entities);
-        }
-
         public boolean insert(List<Entity> entities) {
             ConcurrentMap<DBObject, List<Entity>> parentEntityMap = new ConcurrentHashMap<DBObject, List<Entity>>();
             for (Entity entity : entities) {
@@ -326,8 +318,7 @@ public class SubDocAccessor {
             }
             boolean result = true;
             for (Entry<DBObject, List<Entity>> entry : parentEntityMap.entrySet()) {
-                result &= bulkCreate(entry.getKey(), entry.getValue());
-                // result &= doUpdate(entry.getKey(), entry.getValue());
+                result &= doUpdate(entry.getKey(), entry.getValue());
             }
             return result;
         }
