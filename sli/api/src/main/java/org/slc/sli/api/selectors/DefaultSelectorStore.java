@@ -23,10 +23,10 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.apache.commons.io.IOUtils;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.node.ArrayNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -94,12 +94,12 @@ public class DefaultSelectorStore implements SelectorRepository {
         JsonNode element = mapper.readValue(fileAsString, JsonNode.class);
         if (element instanceof ArrayNode) {
             ArrayNode arrayNode = (ArrayNode) element;
-            Iterator<JsonNode> jsonNodeIterator = arrayNode.elements();
+            Iterator<JsonNode> jsonNodeIterator = arrayNode.getElements();
             while (jsonNodeIterator.hasNext()) {
                 JsonNode jsonNode = jsonNodeIterator.next();
                 try {
-                    String type = jsonNode.get(DEFAULT_SELECTOR_TYPE_KEY).textValue();
-                    String selectorString = jsonNode.get(DEFAULT_SELECTOR_VALUE_KEY).textValue();
+                    String type = jsonNode.get(DEFAULT_SELECTOR_TYPE_KEY).getTextValue();
+                    String selectorString = jsonNode.get(DEFAULT_SELECTOR_VALUE_KEY).getTextValue();
 
                     ClassType classType = modelProvider.getClassType(type);
                     SemanticSelector semanticSelector = selectorSemanticModel.parse(selectionConverter.convert(selectorString), classType);

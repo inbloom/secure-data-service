@@ -2,7 +2,6 @@ package test.camel.support.zip;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Iterator;
 
 import org.apache.camel.Exchange;

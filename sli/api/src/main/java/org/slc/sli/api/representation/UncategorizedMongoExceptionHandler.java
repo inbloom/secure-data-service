@@ -13,33 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 package org.slc.sli.api.representation;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import org.codehaus.jackson.JsonParseException;
+import org.springframework.data.mongodb.UncategorizedMongoDbException;
 import org.springframework.stereotype.Component;
 
 /**
- * Exception handler for SortingExceptions
- * 
- * @author Ryan Farris <rfarris@wgen.net>
- * 
+ * Handle connection issues to mongo
+ *
+ * @author nbrown
+ *
  */
 @Provider
 @Component
-public class JsonParseExceptionHandler implements ExceptionMapper<JsonParseException> {
-    
+public class UncategorizedMongoExceptionHandler implements ExceptionMapper<UncategorizedMongoDbException> {
+
     @Override
-    public Response toResponse(JsonParseException e) {
-        Response.Status errorStatus = Response.Status.BAD_REQUEST;
-        return Response.status(errorStatus)
-                .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(), e.getMessage()))
-                .build();
+    public Response toResponse(UncategorizedMongoDbException exception) {
+        Status errorStatus = Status.SERVICE_UNAVAILABLE;
+        return Response
+                .status(errorStatus)
+                .entity(new ErrorResponse(errorStatus.getStatusCode(), errorStatus.getReasonPhrase(),
+                        "Could not access database")).build();
     }
-    
+
 }
