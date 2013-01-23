@@ -13,4 +13,6 @@ Scenario: Run Jmeter tests
     | single-student      |
     | update-gradebooks   |
     | update-attendance   |
+    | student-dashboard   |
+    | dashboard-single-student.jmx   |
   #Then no performance regressions should be found
