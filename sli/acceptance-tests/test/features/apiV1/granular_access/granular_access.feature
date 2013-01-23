@@ -41,7 +41,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | studentCohortAssociations               | 2009-2011    | 0                   | 0                |                                                                                |
     | studentCompetencies                     | 2010-2011    | 0                   | 0                |                                                                                |
     | studentDisciplineIncidentAssociations   | 2010-2011    | 0                   | 0                |                                                                                |
-    | studentGradebookEntries                 | 2010-2011    | 1                   | 0                |                                                                                |
+#    | studentGradebookEntries                 | 2010-2011    | 1                   | 0                |                                                                                |
     | studentProgramAssociations              | 2009-2010    | 0                   | 0                |                                                                                |
     | studentSchoolAssociations               | 2008-2009    | 59                  | 4                | <LIST-SSA-AKOPEL>                                                              |
     | studentSectionAssociations              | 2010-2011    | 0                   | 0                |                                                                                |
@@ -86,7 +86,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | studentCohortAssociations               | 2010-2011    | 0                   | 0                |                                                                                |
     | studentCompetencies                     | 2010-2011    | 0                   | 0                |                                                                                |
     | studentDisciplineIncidentAssociations   | 2010-2011    | 0                   | 0                |                                                                                |
-    | studentGradebookEntries                 | 2010-2011    | 4                   | 0                |                                                                                |
+#    | studentGradebookEntries                 | 2010-2011    | 4                   | 0                |                                                                                |
     | studentProgramAssociations              | 2010-2011    | 0                   | 0                |                                                                                |
     | studentSchoolAssociations               | 2009-2010    | 67                  | 1                | 5738d251-dd0b-4734-9ea6-417ac9320a15_id                                        |
     | studentSectionAssociations              | 2010-2012    | 31                  | 1                | 706ee3be-0dae-4e98-9525-f564e05aa388_idbac890d6-b580-4d9d-a0d4-8bce4e8d351a_id |
@@ -122,6 +122,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | staff                       |
     | studentAcademicRecords      |
     | studentCompetencyObjectives |
+    | studentGradebookEntries     |
     | studentParentAssociations   |
     | system/session              |
     | system/support              |
@@ -155,6 +156,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | staff                       |
     | studentAcademicRecords      |
     | studentCompetencyObjectives |
+    | studentGradebookEntries     |
     | studentParentAssociations   |
     | system/session              |
     | system/support              |
