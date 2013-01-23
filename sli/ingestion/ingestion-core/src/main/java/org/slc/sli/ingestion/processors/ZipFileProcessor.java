@@ -36,7 +36,6 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
-import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.reporting.impl.ZipFileSource;
@@ -121,7 +120,6 @@ public class ZipFileProcessor implements Processor {
 
     private void handleProcessingException(Exchange exchange, String batchJobId, File zipFile,
             Exception exception, ReportStats reportStats) {
-        exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOG.error("Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
@@ -139,7 +137,6 @@ public class ZipFileProcessor implements Processor {
     }
 
     private void handleNoBatchJobIdInExchange(Exchange exchange) {
-        exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.ERROR.name());
         LOG.error("No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }

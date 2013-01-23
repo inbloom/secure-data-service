@@ -359,7 +359,6 @@ public class XsdValidatorTest {
                 "XsdValidation/NoFile.xml", "");
 
         String resourceId = "theResourceId";
-        String stageName = "ConcurrentEdFiProcessor";
         JobSource jobSource = new JobSource(resourceId);
         ReportStats reportStats = new SimpleReportStats();
 
