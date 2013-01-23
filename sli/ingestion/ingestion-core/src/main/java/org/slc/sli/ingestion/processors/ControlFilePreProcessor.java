@@ -44,6 +44,7 @@ import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.validation.IngestionException;
 import org.slc.sli.ingestion.landingzone.validation.SubmissionLevelException;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -231,6 +232,10 @@ public class ControlFilePreProcessor implements Processor {
         ControlFile controlFile = ControlFile.parse(batchJob.getSourceId(), controlFileName, databaseMessageReport);
 
         batchJob.setTotalFiles(controlFile.getFileEntries().size());
+
+        for(IngestionFileEntry fe : controlFile.getFileEntries()) {
+            fe.setBatchJobId(batchJob.getId());
+        }
 
         return controlFile;
     }
