@@ -19,6 +19,11 @@ local:
         stateAbbreviation: "NC"
   stateOrganizationId: "LOCAL"
 
+waffles:
+  id: 3
+  organizationCategories: ["Local Education Agency"]
+  nameOfInstitution: "Waffles District of Wafflenating"
+  stateOrganizationId: "Waffles"
 
 assoc_one:
   educationOrganizationParentId: 1
