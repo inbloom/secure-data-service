@@ -40,7 +40,8 @@ def get_testruns(col):
                 result.setdefault(testname, []).append(testrun)
     return result
 
-def print_stats(stats, call_threshold_ms, indent="", uniq_types={}):
+def print_stats(total_duration, stats, call_threshold_ms, indent="", uniq_types={}):
+    call_sum = 0 
     accumulated = {} 
     for oneStat in stats: 
         stat_id, stat_delta, stat_duration, stat_args, stat_subrequests = oneStat
@@ -67,13 +68,17 @@ def print_stats(stats, call_threshold_ms, indent="", uniq_types={}):
                     if len(arg_str) > MAX_ARG_LENGTH: 
                         arg_str = arg_str[:MAX_ARG_LENGTH] + "..." + ("[length = %s]" % len(arg_str))
                     print indent + "    " + "  " + arg_str
-            print_stats(stat_subrequests, call_threshold_ms, indent + "    ", uniq_types)
+            print_stats(total_duration, stat_subrequests, call_threshold_ms, indent + "    ", uniq_types)
         else:
             accumulated.setdefault(stat_id, []).append(stat_duration)
+        if indent == "":
+            call_sum += stat_duration
     if accumulated: 
         print indent + "    " + "Accumulated Fast Methods:"
         for k, v in accumulated.iteritems():
-            print indent + "    " + "  %s : %s : %s" % (k, len(v), sum(v))
+            print indent + "    " + "  %s : %s (ct) : %s (ms)" % (k, len(v), sum(v))
+    if indent == "":
+        print "%5.2f%% of ms accounted for." % ((float(call_sum)/total_duration)*100.0)
 
 def extract_by_testrun(testrun, col, req_threshold_ms):
     by_response_time = []
@@ -99,7 +104,7 @@ def print_slow_requests(slow_requests, call_threshold_ms):
     for entry in slow_requests:
         duration, url, stats = entry
         print "%s: %s" % (duration, url)
-        print_stats(stats, call_threshold_ms)
+        print_stats(duration, stats, call_threshold_ms)
         print "-" * 60 
 
 def get_call_stats(requests, call_stats):
