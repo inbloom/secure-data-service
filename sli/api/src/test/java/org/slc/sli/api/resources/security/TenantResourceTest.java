@@ -88,6 +88,7 @@ public class TenantResourceTest {
     private static final String TENANT_3 = "NY";
     private static final String ED_ORG_1 = "STANDARD-SEA";
     private static final String ED_ORG_2 = "Sunset";
+    private static final String MSDS_ED_ORG = "CAP0";
 
     @Autowired
     private Repository<Entity> repo;
@@ -375,9 +376,11 @@ public class TenantResourceTest {
     }
 
     @Test
-    public void testPreload() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, URISyntaxException {
+    public void testPreloadSmall() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, URISyntaxException {
         injector.setDeveloperContext();
-        String id = createLandingZone(new EntityBody(createTestEntity()));
+        Map<String, Object> entity = createTestEntity();
+        entity.remove(TenantResourceImpl.LZ_PRELOAD);
+        String id = createLandingZone(new EntityBody(entity));
         when(secUtil.getTenantId()).thenReturn(TENANT_1);
         tenantResource.setSandboxEnabled(true);
         when(uriInfo.getRequestUri()).thenReturn(new URI("/rest/tenants/" + id + "/preload"));
@@ -389,6 +392,28 @@ public class TenantResourceTest {
         @SuppressWarnings("unchecked")
         Map<String, Object> preload = (Map<String, Object>) landingZone.get("preload");
         assertEquals(Arrays.asList("small"), preload.get("files"));
+        assertEquals("ready", preload.get("status"));
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testPreloadMedium() throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, URISyntaxException {
+        injector.setDeveloperContext();
+        Map<String, Object> entity = createTestEntity();
+        entity.remove(TenantResourceImpl.LZ_PRELOAD);
+        ((List<Map<String,Object>>)entity.get(TenantResourceImpl.LZ)).get(0).put(TenantResourceImpl.LZ_EDUCATION_ORGANIZATION, MSDS_ED_ORG);
+        String id = createLandingZone(new EntityBody(entity));
+        when(secUtil.getTenantId()).thenReturn(TENANT_1);
+        tenantResource.setSandboxEnabled(true);
+        when(uriInfo.getRequestUri()).thenReturn(new URI("/rest/tenants/" + id + "/preload"));
+        Response r = tenantResource.preload(id, "medium", uriInfo);
+        assertEquals(Status.CREATED.getStatusCode(), r.getStatus());
+        Map<String, Object> e = repo.findById("tenant", id).getBody();
+        @SuppressWarnings("unchecked")
+        Map<String, Object> landingZone = ((List<Map<String, Object>>) e.get("landingZone")).get(0);
+        @SuppressWarnings("unchecked")
+        Map<String, Object> preload = (Map<String, Object>) landingZone.get("preload");
+        assertEquals(Arrays.asList("medium"), preload.get("files"));
         assertEquals("ready", preload.get("status"));
     }
 
