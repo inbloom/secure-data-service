@@ -54,7 +54,7 @@ def print_stats(stats, call_threshold_ms, indent="", uniq_types={}):
         # if len(args_string) > 200: 
         #     import pdb; pdb.set_trace() 
         #     args_string = "Number of arguments:" + str(len(stat_args))
-        if stat_duration > call_threshold_ms: 
+        if stat_duration >= call_threshold_ms: 
             print "%s%s: %s" % (indent + "    ", stat_duration, stat_id)
             if False and stat_args:
                 print indent + "    " + "  ---------"
