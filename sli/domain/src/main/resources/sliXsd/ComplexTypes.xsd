@@ -4478,7 +4478,6 @@
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
                         <sli:beginDate>yes</sli:beginDate>
-                        <sli:endDate>yes</sli:endDate>
                     </xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -4568,6 +4567,7 @@
 					<xs:appinfo>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                        <sli:endDate>yes</sli:endDate>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
