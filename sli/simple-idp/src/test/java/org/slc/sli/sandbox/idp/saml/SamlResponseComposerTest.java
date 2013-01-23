@@ -52,61 +52,64 @@ import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
-import org.slc.sli.common.encrypt.security.saml2.XmlSignatureHelper;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import org.slc.sli.common.encrypt.security.saml2.XmlSignatureHelper;
+
 /**
  * Unit tests
  */
 @RunWith(MockitoJUnitRunner.class)
 public class SamlResponseComposerTest {
-    
+
     @Mock
     XmlSignatureHelper sigHelper;
-    
+
     @InjectMocks
     SamlResponseComposer composer = new SamlResponseComposer();
-    
+
     static final String SAMLP_NS = "urn:oasis:names:tc:SAML:2.0:protocol";
     static final String SAML_NS = "urn:oasis:names:tc:SAML:2.0:assertion";
-    
+
     @Test
     public void testComposeResponse() throws NoSuchAlgorithmException, InvalidAlgorithmParameterException,
             KeyException, TransformerException, MarshalException, XMLSignatureException, SAXException, IOException,
             ParserConfigurationException {
-        
+
         Mockito.when(sigHelper.signSamlAssertion(Mockito.any(Document.class))).thenAnswer(new Answer<Document>() {
-            
+
             @Override
             public Document answer(InvocationOnMock invocation) throws Throwable {
                 return (Document) invocation.getArguments()[0];
             }
         });
-        
+
         Map<String, String> attributes = new HashMap<String, String>();
         attributes.put("userName", "User Name");
         attributes.put("tenant", "tenantId");
         attributes.put("edorg", "NC-edorg");
         attributes.put("adminRealm", "myrealm");
+        attributes.put("userType", "staff");
         String encodedXml = composer.componseResponse("dest", "issuer", "requestId", "userId", attributes,
                 Arrays.asList("role1", "role2"));
-        
+
         String xml = new String(Base64.decodeBase64(encodedXml), "UTF8");
-        
+
         Mockito.verify(sigHelper).signSamlAssertion(Mockito.any(Document.class));
-        
+
         DocumentBuilderFactory fact = DocumentBuilderFactory.newInstance();
         fact.setNamespaceAware(true);
         Document doc = fact.newDocumentBuilder().parse(new InputSource(new StringReader(xml)));
-        
+
         assertEquals("dest", doc.getDocumentElement().getAttribute("Destination"));
         assertEquals("requestId", doc.getDocumentElement().getAttribute("InResponseTo"));
         assertTrue(hasAttributeValue(doc, "userName", "User Name"));
         assertTrue(hasAttributeValue(doc, "userId", "userId"));
+        assertTrue(hasAttributeValue(doc, "userType", "staff"));
         assertTrue(hasAttributeValue(doc, "roles", "role1"));
         assertTrue(hasAttributeValue(doc, "roles", "role2"));
         assertTrue(hasAttributeValue(doc, "tenant", "tenantId"));
@@ -120,18 +123,18 @@ public class SamlResponseComposerTest {
         assertTrue(!xpathOne(doc, "/samlp:Response/@ID").getTextContent().equals("__RESPONSE_ID__"));
         assertTrue(!xpathOne(doc, "/samlp:Response/saml:Assertion/@ID").getTextContent().equals("__ASSERTION_ID__"));
         assertTrue(!xpathOne(doc, "/samlp:Response/@Destination").getTextContent().equals("__DESTINATION__"));
-        assertEquals("requestId", 
+        assertEquals("requestId",
                 xpathOne(doc, "/samlp:Response/saml:Assertion/saml:Subject/saml:SubjectConfirmation/saml:SubjectConfirmationData/@InResponseTo").getTextContent());
-        assertEquals("dest", 
+        assertEquals("dest",
                 xpathOne(doc, "/samlp:Response/saml:Assertion/saml:Subject/saml:SubjectConfirmation/saml:SubjectConfirmationData/@Recipient").getTextContent());
         String expDate = xpathOne(doc, "/samlp:Response/saml:Assertion/saml:Subject/saml:SubjectConfirmation/saml:SubjectConfirmationData/@NotOnOrAfter").getTextContent();
         DateTime dt = DateTime.parse(expDate);
-        
+
         //expiration is 10 minutes from the time it was generated, so let's make sure -9 is valid and -11 is not
         assertTrue(dt.minusMinutes(9).isAfterNow());
         assertTrue(dt.minusMinutes(11).isBeforeNow());
     }
-    
+
     private static boolean hasAttributeValue(Document doc, String attrType, String attrValue) {
         NodeList nodes = xpathList(doc, "/samlp:Response/saml:Assertion/saml:AttributeStatement/saml:Attribute[@Name='"
                 + attrType + "']/saml:AttributeValue");
@@ -143,14 +146,14 @@ public class SamlResponseComposerTest {
             }
         }
         return false;
-        
+
     }
-    
+
     private static NodeList xpathList(Document doc, String xpath) {
         try {
             XPath xpather = XPathFactory.newInstance().newXPath();
             xpather.setNamespaceContext(new NamespaceContext() {
-                
+
                 @Override
                 public String getNamespaceURI(String prefix) {
                     if ("samlp".equals(prefix)) {
@@ -160,12 +163,12 @@ public class SamlResponseComposerTest {
                     }
                     return null;
                 }
-                
+
                 @Override
                 public String getPrefix(String namespaceURI) {
                     return null;
                 }
-                
+
                 @SuppressWarnings("rawtypes")
                 @Override
                 public Iterator getPrefixes(String namespaceURI) {
@@ -179,7 +182,7 @@ public class SamlResponseComposerTest {
             throw new SamlProcessException(e);
         }
     }
-    
+
     private static Node xpathOne(Document doc, String xpath) {
         NodeList list = xpathList(doc, xpath);
         assertEquals(1, list.getLength());
