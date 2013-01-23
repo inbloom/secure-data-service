@@ -574,7 +574,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
     public boolean createFileLatch(String jobId, List<String> fileEntries) {
         try {
             final BasicDBObject latchObject = new BasicDBObject();
-            latchObject.put(JOB_ID, jobId);
+            latchObject.put(BATCHJOBID_FIELDNAME, jobId);
             latchObject.put(FILES, fileEntries);
 
             RetryMongoCommand retry = new RetryMongoCommand() {

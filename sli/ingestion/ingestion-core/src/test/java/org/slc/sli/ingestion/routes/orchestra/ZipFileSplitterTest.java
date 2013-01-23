@@ -26,10 +26,11 @@ import org.junit.Test;
 import org.mockito.Matchers;
 import org.mockito.Mockito;
 
+import org.slc.sli.ingestion.ControlFileWorkNote;
 import org.slc.sli.ingestion.FileEntryWorkNote;
+import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-
 /**
  * @author tke
  *
@@ -38,6 +39,8 @@ public class ZipFileSplitterTest {
 
     private ZipFileSplitter  zipFileSplitter = Mockito.mock(ZipFileSplitter.class);
     private BatchJobDAO batchJobDAO = Mockito.mock(BatchJobDAO.class);
+    ControlFileWorkNote controlFileWorkNote = Mockito.mock(ControlFileWorkNote.class);
+    ControlFile controlFile = Mockito.mock(ControlFile.class);
 
     @Test
     public void test() {
@@ -50,7 +53,10 @@ public class ZipFileSplitterTest {
         Message message = Mockito.mock(Message.class);
         Mockito.when(exchange.getIn()).thenReturn(message);
         Mockito.when(message.getHeader("jobId")).thenReturn("1");
-        Mockito.when(message.getBody(List.class)).thenReturn(files);
+        Mockito.when(message.getHeader("BatchJobId")).thenReturn("test");
+        Mockito.when(message.getBody()).thenReturn(controlFileWorkNote);
+        Mockito.when(controlFileWorkNote.getControlFile()).thenReturn(controlFile);
+        Mockito.when(controlFile.getFileEntries()).thenReturn(files);
 
         Mockito.doCallRealMethod().when(zipFileSplitter).splitZipFile(exchange);
         Mockito.doCallRealMethod().when(zipFileSplitter).setBatchJobDAO(Matchers.any(BatchJobDAO.class));
@@ -58,6 +64,7 @@ public class ZipFileSplitterTest {
 
         zipFileSplitter.setBatchJobDAO(batchJobDAO);
         List<FileEntryWorkNote> res = zipFileSplitter.splitZipFile(exchange);
+
 
         Assert.assertEquals(res.size(), 2);
     }
