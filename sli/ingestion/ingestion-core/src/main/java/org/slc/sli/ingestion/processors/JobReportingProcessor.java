@@ -55,7 +55,7 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
-import org.slc.sli.ingestion.RangedWorkNote;
+import org.slc.sli.ingestion.SLIWorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
@@ -113,7 +113,7 @@ public class JobReportingProcessor implements Processor {
 
     @Override
     public void process(Exchange exchange) {
-        RangedWorkNote workNote = exchange.getIn().getBody(RangedWorkNote.class);
+        SLIWorkNote workNote = exchange.getIn().getBody(SLIWorkNote.class);
 
         if (workNote == null || workNote.getBatchJobId() == null) {
             missingBatchJobIdError(exchange);
@@ -122,7 +122,7 @@ public class JobReportingProcessor implements Processor {
         }
     }
 
-    private void processJobReporting(Exchange exchange, RangedWorkNote workNote) {
+    private void processJobReporting(Exchange exchange, SLIWorkNote workNote) {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
 
         String batchJobId = workNote.getBatchJobId();
@@ -439,7 +439,6 @@ public class JobReportingProcessor implements Processor {
     }
 
     private void missingBatchJobIdError(Exchange exchange) {
-        exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOG.error("No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
@@ -478,7 +477,7 @@ public class JobReportingProcessor implements Processor {
         }
     }
 
-    private void performJobCleanup(Exchange exchange, RangedWorkNote workNote, Stage stage, NewBatchJob job) {
+    private void performJobCleanup(Exchange exchange, SLIWorkNote workNote, Stage stage, NewBatchJob job) {
         if (job != null) {
             BatchJobUtils.completeStageAndJob(stage, job);
             batchJobDAO.saveBatchJob(job);
@@ -525,7 +524,7 @@ public class JobReportingProcessor implements Processor {
         audit(event);
     }
 
-    private void cleanupStagingDatabase(RangedWorkNote workNote) {
+    private void cleanupStagingDatabase(SLIWorkNote workNote) {
         if ("true".equals(clearOnCompletion)) {
 
             neutralRecordMongoAccess.cleanupJob(workNote.getBatchJobId());
@@ -543,7 +542,7 @@ public class JobReportingProcessor implements Processor {
      * @param exchange
      * @param workNote
      */
-    private void broadcastFlushStats(Exchange exchange, RangedWorkNote workNote) {
+    private void broadcastFlushStats(Exchange exchange, SLIWorkNote workNote) {
         try {
             ProducerTemplate template = new DefaultProducerTemplate(exchange.getContext());
             template.start();

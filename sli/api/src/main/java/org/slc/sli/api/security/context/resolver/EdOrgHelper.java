@@ -18,12 +18,16 @@ package org.slc.sli.api.security.context.resolver;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
@@ -33,14 +37,12 @@ import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Contains helper methods for traversing the edorg hierarchy.
- * 
+ *
  * Assumptions it makes
- * 
+ *
  * <ul>
  * <li>SEAs, LEAs, and Schools are all edorgs with organizationCategories of 'State Education
  * Agency' 'Local Education Agency', and 'School' respectively.</li>
@@ -49,8 +51,8 @@ import org.springframework.stereotype.Component;
  * <li>SEAs don't have a parentEducationAgencyReference and therefore are always at the top of the
  * tree</li>
  * </ul>
- * 
- * 
+ *
+ *
  */
 @Component
 public class EdOrgHelper {
@@ -64,7 +66,7 @@ public class EdOrgHelper {
     /**
      * Traverse the edorg hierarchy and find all the SEAs the user is associated with, directly or
      * indirectly.
-     * 
+     *
      * @param user
      * @return a list of entity IDs
      */
@@ -83,12 +85,12 @@ public class EdOrgHelper {
 
     /**
      * Determine the district of the user.
-     * 
+     *
      * If the user is directly associated with an SEA, this is any LEA directly below the SEA. If
      * the user is directly
      * associated with an LEA, this is the top-most LEA i.e. the LEA directly associated with the
      * SEA.
-     * 
+     *
      * @param user
      * @return a list of entity IDs
      */
@@ -127,9 +129,9 @@ public class EdOrgHelper {
 
     /**
      * Get an ordered list of the parents of an edorg.
-     * 
+     *
      * The order of the list starts with the direct parent of the edorg and ends with the SEA
-     * 
+     *
      * @param edOrg
      * @return
      */
@@ -150,7 +152,7 @@ public class EdOrgHelper {
 
     /**
      * Walks the edorg hierarchy to get all schools
-     * 
+     *
      * @param principal
      * @return
      */
@@ -181,7 +183,7 @@ public class EdOrgHelper {
 
     /**
      * Finds schools directly associated to this user
-     * 
+     *
      * @param principal
      * @return
      */
@@ -199,7 +201,7 @@ public class EdOrgHelper {
 
         return schools;
     }
-    
+
     public List<String> getSubEdOrgHierarchy(Entity principal) {
         List<String> result = new ArrayList<String>();
         Set<String> directEdOrgs = getDirectEdorgs(principal);
@@ -213,7 +215,7 @@ public class EdOrgHelper {
 
     /**
      * Recursively returns the list of all child edorgs
-     * 
+     *
      * @param edOrgs
      * @return
      */
@@ -259,7 +261,7 @@ public class EdOrgHelper {
 
     /**
      * Get the collection of ed-orgs that will determine a user's security context
-     * 
+     *
      * @param principal
      * @return
      */
@@ -270,7 +272,7 @@ public class EdOrgHelper {
     /**
      * Will go through staffEdorgAssociations that are current and get the descendant
      * edorgs that you have.
-     * 
+     *
      * @return a set of the edorgs you are associated to and their children.
      */
     public Set<String> getStaffEdOrgLineage() {
@@ -285,7 +287,7 @@ public class EdOrgHelper {
 
     /**
      * Get current ed-org associations for a staff member
-     * 
+     *
      * @return
      */
     public Set<String> getStaffCurrentAssociatedEdOrgs() {
@@ -305,7 +307,23 @@ public class EdOrgHelper {
             edOrgIds.add((String) association.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
         }
         return edOrgIds;
-        
+    }
+
+    public Set<String> getStudentsCurrentAssociatedEdOrgs(Set<String> studentIds) {
+        Set<String> edOrgIds = new HashSet<String>();
+
+        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STUDENT_ID,
+                NeutralCriteria.CRITERIA_IN, studentIds));
+        Iterable<Entity> associations = repo.findAll(EntityNames.STUDENT_SCHOOL_ASSOCIATION, basicQuery);
+
+        if (associations != null) {
+            for (Entity association : associations) {
+                if (!isFieldExpired(association.getBody(), ParameterConstants.EXIT_WITHDRAW_DATE, false)) {
+                    edOrgIds.add((String) association.getBody().get(ParameterConstants.SCHOOL_ID));
+                }
+            }
+        }
+        return edOrgIds;
     }
 
     public boolean isFieldExpired(Map<String, Object> body, String fieldName, boolean useGracePeriod) {
@@ -342,19 +360,73 @@ public class EdOrgHelper {
         return false;
     }
 
+    /**
+     * Determines if the specified principal is of type 'teacher'.
+     *
+     * @param principal
+     *            Principal to check type for.
+     *
+     * @return True if the principal is of type 'teacher', false otherwise.
+     */
     private boolean isTeacher(Entity principal) {
         return principal.getType().equals(EntityNames.TEACHER);
     }
 
+    /**
+     * Determines if the specified principal is of type 'staff'.
+     *
+     * @param principal
+     *            Principal to check type for.
+     *
+     * @return True if the principal is of type 'staff', false otherwise.
+     */
     private boolean isStaff(Entity principal) {
         return principal.getType().equals(EntityNames.STAFF);
     }
-    
+
+    /**
+     * Determines if the specified principal is of type 'student'.
+     *
+     * @param principal
+     *            Principal to check type for.
+     *
+     * @return True if the principal is of type 'student', false otherwise.
+     */
+    private boolean isStudent(Entity principal) {
+        return principal.getType().equals(EntityNames.STUDENT);
+    }
+
+    /**
+     * Determines if the specified principal is of type 'parent'.
+     *
+     * @param principal
+     *            Principal to check type for.
+     *
+     * @return True if the principal is of type 'parent', false otherwise.
+     */
+    private boolean isParent(Entity principal) {
+        return principal.getType().equals(EntityNames.PARENT);
+    }
+
     public Set<String> getDirectEdorgs(Entity principal) {
-        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
-                NeutralCriteria.OPERATOR_EQUAL, principal.getEntityId()));
-        Iterable<Entity> tsas = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
+        if (isStaff(principal) || isTeacher(principal)) {
+            return getStaffDirectlyAssociatedEdorgs(principal);
+        } else if (isStudent(principal)) {
+            return getStudentsCurrentAssociatedEdOrgs(Collections.singleton(principal.getEntityId()));
+        } else if (isParent(principal)) {
+            // will need logic to get student -> parent associations
+            // assemble set of students that parent can see
+            // -> call getStudentCurrentAssociatedEdOrgs(Set<String> studentIds)
+        }
+
+        return new HashSet<String>();
+    }
+
+    private Set<String> getStaffDirectlyAssociatedEdorgs(Entity staff) {
         Set<String> edorgs = new HashSet<String>();
+        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
+                NeutralCriteria.OPERATOR_EQUAL, staff.getEntityId()));
+        Iterable<Entity> tsas = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
         for (Entity tsa : tsas) {
             if (!dateHelper.isFieldExpired(tsa.getBody(), ParameterConstants.END_DATE, false)) {
                 edorgs.add((String) tsa.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));

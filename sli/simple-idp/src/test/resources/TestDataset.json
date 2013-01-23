@@ -1,4 +1,4 @@
 [
-	{'userId': 'linda.kim', 'name':'Linda Kim', 'role':'Educator', 'association':'school'},
-	{'userId': 'rrogers', 'name':'Rick Rogers', 'role':'IT Administrator', 'association':'sea'}
+	{'userId': 'linda.kim', 'type':'Teacher', 'name':'Linda Kim', 'role':'Educator', 'association':'school'},
+	{'userId': 'rrogers', 'type':'Staff', 'name':'Rick Rogers', 'role':'IT Administrator', 'association':'sea'}
 ]

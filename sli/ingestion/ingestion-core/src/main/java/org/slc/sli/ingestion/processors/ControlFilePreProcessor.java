@@ -44,6 +44,7 @@ import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.validation.IngestionException;
 import org.slc.sli.ingestion.landingzone.validation.SubmissionLevelException;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -232,6 +233,10 @@ public class ControlFilePreProcessor implements Processor {
 
         batchJob.setTotalFiles(controlFile.getFileEntries().size());
 
+        for(IngestionFileEntry fe : controlFile.getFileEntries()) {
+            fe.setBatchJobId(batchJob.getId());
+        }
+
         return controlFile;
     }
 
@@ -249,7 +254,6 @@ public class ControlFilePreProcessor implements Processor {
     private void handleExceptions(Exchange exchange, String batchJobId, Exception exception, ReportStats reportStats,
             Source source) {
         exchange.getIn().setHeader("BatchJobId", batchJobId);
-        exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LogUtil.error(LOG, "Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
@@ -324,11 +328,11 @@ public class ControlFilePreProcessor implements Processor {
     public void setShardCollections(Set<String> shardCollections) {
         this.shardCollections = shardCollections;
     }
-    
+
     public void setBatchJobDAO(BatchJobDAO batchJobDAO) {
         this.batchJobDAO = batchJobDAO;
     }
-    
+
     public void setTenantDA(TenantDA tenantDA) {
     	this.tenantDA = tenantDA;
     }

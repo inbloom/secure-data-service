@@ -26,6 +26,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
+
 import org.slc.sli.sandbox.idp.service.DefaultUsersService.Dataset;
 import org.slc.sli.sandbox.idp.service.DefaultUsersService.DefaultUser;
 
@@ -34,23 +35,23 @@ import org.slc.sli.sandbox.idp.service.DefaultUsersService.DefaultUser;
  */
 @RunWith(MockitoJUnitRunner.class)
 public class DefaultUsersServiceTest {
-    
+
     DefaultUsersService service = new DefaultUsersService();
-    
+
     @Test
     public void testGetAvailableDatasets() {
         service.setDatasetList("one,List One,two,List Two");
         service.initDatasets();
-        
+
         List<Dataset> result = service.getAvailableDatasets();
         assertEquals(2, result.size());
-        
+
         assertEquals("List One",result.get(0).getDisplayName());
         assertEquals("one",result.get(0).getKey());
         assertEquals("List Two",result.get(1).getDisplayName());
         assertEquals("two",result.get(1).getKey());
     }
-    
+
     @Test
     public void testGetSmallDatasetUsers() throws IOException, JSONException {
         service.setDatasetList("TestDataset,The Test Dataset");
@@ -59,27 +60,28 @@ public class DefaultUsersServiceTest {
         List<DefaultUser> users = service.getUsers("TestDataset");
         assertNotNull(users);
         assertEquals(2, users.size());
-        
+
         DefaultUser lindaKim = users.get(0);
         DefaultUser rrogers = users.get(1);
         assertEquals("linda.kim", lindaKim.getUserId());
         assertEquals("Linda Kim", lindaKim.getName());
         assertEquals("Educator", lindaKim.getRole());
         assertEquals("school", lindaKim.getAssociation());
-        
+        assertEquals("Teacher", lindaKim.getType());
+
         assertEquals("rrogers", rrogers.getUserId());
         assertEquals("Rick Rogers", rrogers.getName());
         assertEquals("IT Administrator", rrogers.getRole());
         assertEquals("sea", rrogers.getAssociation());
+        assertEquals("Staff", rrogers.getType());
     }
-    
+
     @Test
     public void testGetUser() {
         service.setDatasetList("TestDataset,The Test Dataset");
         service.initDatasets();
         service.initUserLists();
         DefaultUser user = service.getUser("TestDataset", "linda.kim");
-        
         assertEquals("linda.kim", user.getUserId());
     }
 }
