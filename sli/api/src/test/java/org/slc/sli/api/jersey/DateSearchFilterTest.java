@@ -95,6 +95,27 @@ public class DateSearchFilterTest {
     }
 
     @Test(expected = QueryParseException.class)
+    public void shouldDisallowTwoPartUris() {
+
+        String requestPath = "v1.1/sessions/1234567";
+
+        ContainerRequest request = createRequest(requestPath, "schoolYears=2011-2012");
+
+        filter.filter(request);
+    }
+
+
+    @Test
+    public void shouldAllowTwoPartUrisWithoutDates() {
+
+        String requestPath = "v1.1/sessions/1234567";
+
+        ContainerRequest request = createRequest(requestPath, "");
+
+        filter.filter(request);
+    }
+
+    @Test(expected = QueryParseException.class)
     public void shouldDisallowExcludedUrisWithoutId() {
 
         String disallowedPath = "v1.1/educationOrganizations";

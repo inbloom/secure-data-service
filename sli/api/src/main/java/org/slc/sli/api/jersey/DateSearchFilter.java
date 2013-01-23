@@ -46,6 +46,12 @@ public class DateSearchFilter implements ContainerRequestFilter {
      */
     private final Pattern ID_REPLACEMENT_PATTERN = Pattern.compile("([^/]+/[^/]+/)[^/]+(/.*)");
 
+    /**
+     * A pattern which can be used to replace the id(s) in a URI with just {id}
+     * so that the uri can be looked up in a consistent manner
+     */
+    private final Pattern TWO_PART_URI_PATTERN = Pattern.compile("^[^/]+/[^/]+/[^/]+$");
+
     @Autowired
     private ResourceEndPoint resourceEndPoint;
 
@@ -56,9 +62,28 @@ public class DateSearchFilter implements ContainerRequestFilter {
         // so that the PostProcessFilter can process correctly
         request.getProperties().put("startTime", System.currentTimeMillis());
 
-        validateNotVersionOneZero(request);
-        validateDateSearchUri(request);
+        List<String> schoolYears = request.getQueryParameters().get(ParameterConstants.SCHOOL_YEARS);
+
+        // only check conditions if query parameter exists
+        if (schoolYears != null ){
+
+            validateNotVersionOneZero(request);
+            validateDateSearchUri(request);
+            validateNonTwoPartUri(request);
+        }
+
+
         return request;
+    }
+
+    private void validateNonTwoPartUri(ContainerRequest request) {
+        String requestPath = request.getPath();
+
+        Matcher m = TWO_PART_URI_PATTERN.matcher(requestPath);
+
+        if (m.find()){
+            throw new QueryParseException("Date range filtering not allowed", request.getPath());
+        }
     }
 
 
