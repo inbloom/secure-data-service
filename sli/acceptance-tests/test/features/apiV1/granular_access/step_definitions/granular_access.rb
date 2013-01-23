@@ -41,11 +41,10 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = @newId                    if human_readable_id == "NEW ID"
   id = get_all_ids_from_response if human_readable_id == "ALL IDs"
   # Entity list from scenario outlines
-  id = ["b408d88e-8fd5-11e1-86ec-0021701f543f_idb40c0ce1-8fd5-11e1-86ec-0021701f543f_id",
-    "b408d88e-8fd5-11e1-86ec-0021701f543f_idb40de1a6-8fd5-11e1-86ec-0021701f543f_id",
-    "b408635d-8fd5-11e1-86ec-0021701f543f_idb40c5b02-8fd5-11e1-86ec-0021701f543f_id",
-    "b408635d-8fd5-11e1-86ec-0021701f543f_idb40d1e54-8fd5-11e1-86ec-0021701f543f_id",
-    "b408635d-8fd5-11e1-86ec-0021701f543f_idb40e2fc7-8fd5-11e1-86ec-0021701f543f_id"].join "," if human_readable_id == "LIST-SCA-RROGERS"
+  id = ["af37dbe2-301f-4409-b6e9-b05e11989694",
+      "80b9ffeb-e7c4-463d-afd1-6a38079ac77d",
+      "79b5a29a-0852-4d0b-8a85-0729849eed9f",
+      "e4358c4a-2ecd-4a68-b6d3-7f1cb5904282"].join "," if human_readable_id == "LIST-SSA-AKOPEL"
   id = ["LCC1779GR1", "LCC1214GR1", "LCC2901GR1", "LCC8391GR1", "LCC2727GR1", "LCC6850GR1",
     "LCC4024GR1", "LCC7332GR1", "LCC8527GR1", "LCC6660GR1", "LCC1406GR1", "LCC5901GR1"].join "," if human_readable_id == "LIST-CO-LINDAKIM"
   id = ["Fall 2010 East Daybreak Junior High",
