@@ -45,7 +45,7 @@ http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/ac
 		</mongo:custom-converters>
 	</mongo:mapping-converter>
 	
-	<mongo:mongo id="searchMongo" host="${sli.mongodb.host}" port="${sli.mongodb.port}" />
+	<mongo:mongo id="searchMongo" replica-set="${sli.mongodb.host}"/>
 	
 	<bean id="mongoDbFactory" class="org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory">
 		<constructor-arg ref="searchMongo" />

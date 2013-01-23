@@ -408,7 +408,7 @@ for (var i = 0; i &lt; resp.length; i++) {
             <hashTree/>
           </hashTree>
         </hashTree>
-        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="GET SINGLE STUDENT DATA" enabled="true"/>
+        <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="GET SINGLE STUDENT DATA" enabled="false"/>
         <hashTree>
           <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Get Single-Student Attendance" enabled="true">
             <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
