@@ -5,7 +5,6 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
   Background: Use JSON format
     Given format "application/json"
 
-  @test
   Scenario Outline: All data is returned within a specific school year range - staff
     Given I am logged in using "akopel" "akopel1234" to realm "IL"
     And parameter "limit" is "0"
