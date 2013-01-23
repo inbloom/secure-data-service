@@ -181,6 +181,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     And I should receive a collection of "<Count>" entities
     And I delete the new "studentAssessment" for the next test scenario
     Examples:
+    # 2009-2010 (2009-09-16 to 2010-05-16) session does not exist for akopel
     | Entry Date | Exit Date  | Count | # Note                                                |
     | 2001-01-01 | 2008-01-01 | 0     | # Starts and ends before range begins                 |
     | 2001-01-01 | 2009-09-16 | 0     | # Ends on the same day the range begins               |
@@ -194,6 +195,9 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | 2011-05-16 | ?          | 0     | # Starts on the same day the range ends, ends unknown |
     | 2012-01-01 | 2012-05-01 | 0     | # Starts and ends after range ends                    |
     | 2012-01-01 | ?          | 0     | # Starts after range ends, ends unknown               |
+    | 2001-01-01 | 2009-10-01 | 0     | # Dates fall within a session that doesn't exist      |
+    | 2009-10-01 | 2010-01-01 | 0     | # Dates fall within a session that doesn't exist      |
+    | 2009-10-01 | 2010-09-01 | 0     | # Dates fall within a session that doesn't exist      |
 
   @wip
   Scenario Outline: Optional begin date - teacherSectionAssociation
