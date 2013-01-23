@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.api.aspect;
 
 import java.lang.reflect.Constructor;
@@ -90,9 +89,8 @@ public class LoggingAspectTest {
                     instance.warn(msg);
                     instance.warn(msg, param);
                     instance.error(msg, x);
-                    instance.error(msg, new Object[] {});
+                    instance.error(msg, new Object[] {});                  
                 }
-
             }
         }
         sw.stop();

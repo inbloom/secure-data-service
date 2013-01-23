@@ -329,4 +329,12 @@ public class ControlFilePreProcessor implements Processor {
     public void setShardCollections(Set<String> shardCollections) {
         this.shardCollections = shardCollections;
     }
+    
+    public void setBatchJobDAO(BatchJobDAO batchJobDAO) {
+        this.batchJobDAO = batchJobDAO;
+    }
+    
+    public void setTenantDA(TenantDA tenantDA) {
+    	this.tenantDA = tenantDA;
+    }
 }

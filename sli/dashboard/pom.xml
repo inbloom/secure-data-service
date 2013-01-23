@@ -187,6 +187,27 @@
             <artifactId>scribe</artifactId>
             <version>1.3.0</version>
         </dependency>
+        <!-- JSTL -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <version>1.2</version>
+        </dependency>
+
+        <!-- Java Servlet dependency -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jsp-api</artifactId>
+            <scope>provided</scope>
+            <version>2.0</version>
+        </dependency>
+
     </dependencies>
     <build>
         <finalName>dashboard</finalName>
