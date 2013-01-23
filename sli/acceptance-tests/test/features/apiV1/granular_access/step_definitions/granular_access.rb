@@ -84,6 +84,7 @@ Given /^a new "([^\"]*)"$/ do |type|
       }
   }
   @fields = data[type]
+  @entity_posted = type
 end
 
 Given /^the session date range is "([^\"]*)" to "([^\"]*)"$/ do |begin_date, end_date|
@@ -182,6 +183,14 @@ Then /^I should receive correct counts (with|without) date range$/ do |w|
       raise e.message
     end
   end
+end
+
+###############################################################################
+# AFTER AFTER AFTER AFTER AFTER AFTER AFTER AFTER AFTER AFTER AFTER AFTER AFTER
+###############################################################################
+
+After do
+  steps "When I navigate to DELETE \"/v1/#{$type_to_uri[@entity_posted]}/#{@newId}\"" if @newId
 end
 
 ###############################################################################
