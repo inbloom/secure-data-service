@@ -23,15 +23,16 @@ import static org.mockito.Mockito.when;
 import java.util.Collections;
 
 import org.mockito.Mockito;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
+
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.resolve.UserLocator;
 import org.slc.sli.api.security.resolve.impl.MongoUserLocator;
 import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
 
 /**
  * Generates mocked objects for unit tests
@@ -77,8 +78,11 @@ public class Mocker {
             + "userdetails.attribute.value=sunAMAuthAccountLockout\r\n" + "userdetails.attribute.value=top";
 
     public static final String VALID_REALM = "realm->valid";
-    public static final String VALID_USER_ID = "id->valid";
-    public static final String INVALID_USER_ID = "~id->invalid";
+    public static final String VALID_STAFF_ID = "id->valid";
+    public static final String INVALID_STAFF_ID = "~id->invalid";
+    public static final String VALID_STUDENT_UNIQUE_ID = "student1->valid";
+    public static final String INVALID_STUDENT_UNIQUE_ID = "~student1->invalid";
+    public static final String VALID_STUDENT_COPIED_ID = "id->valid";
     public static final String VALID_INTERNAL_ID = "id->internal->valid";
     public static final String INVALID_INTERNAL_ID = "~id->internal->invalid";
 
@@ -104,8 +108,8 @@ public class Mocker {
 
 	public static UserLocator getLocator() {
 		MongoUserLocator locator = Mockito.mock(MongoUserLocator.class);
-		Mockito.when(locator.locate(VALID_REALM, VALID_USER_ID, "")).thenReturn(new SLIPrincipal(VALID_INTERNAL_ID));
-		Mockito.when(locator.locate("SLI", VALID_USER_ID, "")).thenReturn(new SLIPrincipal(VALID_INTERNAL_ID));
+		Mockito.when(locator.locate(VALID_REALM, VALID_STAFF_ID, "")).thenReturn(new SLIPrincipal(VALID_INTERNAL_ID));
+		Mockito.when(locator.locate("SLI", VALID_STAFF_ID, "")).thenReturn(new SLIPrincipal(VALID_INTERNAL_ID));
 		Mockito.when(locator.locate("dc=slidev,dc=net", "demo", "")).thenReturn(new SLIPrincipal(VALID_INTERNAL_ID));
 		Mockito.when(locator.locate("SLI", "demo", "")).thenReturn(new SLIPrincipal(VALID_INTERNAL_ID));
 		locator.setRepo(getRepo());

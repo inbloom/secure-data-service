@@ -31,7 +31,6 @@ import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.nodes.IngestionNodeType;
 import org.slc.sli.ingestion.nodes.NodeInfo;
 import org.slc.sli.ingestion.processors.CommandProcessor;
-import org.slc.sli.ingestion.processors.ConcurrentEdFiProcessor;
 import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
 import org.slc.sli.ingestion.processors.EdFiProcessor;
@@ -78,9 +77,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Autowired
     private ControlFileProcessor ctlFileProcessor;
-
-    @Autowired
-    private ConcurrentEdFiProcessor concurrentEdFiProcessor;
 
     @Autowired
     private EdFiProcessor edFiProcessor;
