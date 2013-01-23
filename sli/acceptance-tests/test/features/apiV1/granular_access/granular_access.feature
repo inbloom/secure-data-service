@@ -108,6 +108,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | assessments                 |
     | cohorts                     |
     | competencyLevelDescriptor   |
+    | courseTranscripts           |
     | courses                     |
     | educationOrganizations      |
     | graduationPlans             |
@@ -118,6 +119,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | reportCards                 |
     | schools                     |
     | search                      |
+    | sections                    |
     | staff                       |
     | studentCompetencyObjectives |
     | studentParentAssociations   |
