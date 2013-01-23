@@ -70,13 +70,9 @@ public class APITrackingAspect {
      * Track calls in the various implementation of the Repository interface. 
      */
     
-//    @Around("call(* org.slc.sli.api.resources..*.*(..)) || call(* org.slc.sli.api.security.*(..)) || call(* org.slc.sli.api.service.*(..))")
-//    @Around("call(* org.slc.sli.api.resources..*.*(..))")
-//    @Around("call(* org.slc.sli.api.resources..*.*(..))")
-//    @Around("call(* org.slc.sli.api.selectors..*.*(..))")
-//    @Around("call(* org.slc.sli.api.validation..*.*(..))")
-    @Around("call(* org.slc.sli.api.security..*.*(..)) || call(* org.slc.sli.api.resources..*.*(..)) || call(* org.slc.sli.api.service..*.*(..))  || call(* org.slc.sli.api.selectors..*.*(..))  || call(* org.slc.sli.api.validation..*.*(..))")
-//    @Around("call(* org.slc.sli.api.resources..*.*(..)) || call(* org.slc.sli.api.security.*(..)) || call(* org.slc.sli.api.service.*(..))")
+    // note the following does not work for some reason. It compile, but fewer methods are called. 
+    // @Around("(call(* org.slc.sli.api.resources..*.*(..)) || call(* org.slc.sli.api.security..*(..)) || call(* org.slc.sli.api.service..*(..)) || call(* org.slc.sli.api.selectors..*(..))) && !this(APITrackingAspect) && !within(org..*Test) && !within(org..*MongoPerfRepository)")
+    @Around("(call(* org.slc.sli.api.resources..*.*(..)) || call(* org.slc.sli.api.security..*(..)) || call(* org.slc.sli.api.service..*(..))) && !this(APITrackingAspect) && !within(org..*Test) && !within(org..*MongoPerfRepository)")
     public Object trackAPICalls(ProceedingJoinPoint pjp) throws Throwable {
         if (Boolean.valueOf(apiCallTracking)) { 
             return trackCallStartEnd(pjp);
