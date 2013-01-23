@@ -22,6 +22,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.FileEntryWorkNote;
+import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 
 /**
@@ -41,11 +42,14 @@ public class FileEntryLatch {
 
         FileEntryWorkNote workNote = exchange.getIn().getBody(FileEntryWorkNote.class);
 
-        TenantContext.setJobId(workNote.getBatchJobId());
+        String batchJobId = workNote.getBatchJobId();
+        TenantContext.setJobId(batchJobId);
 
         if (batchJobDAO.updateFileEntryLatch(workNote.getBatchJobId(), workNote.getFileEntry().getFileName())) {
 
             exchange.getIn().setHeader("fileEntryLatchOpened", true);
+            RangedWorkNote wn = RangedWorkNote.createSimpleWorkNote(batchJobId);
+            exchange.getIn().setBody(wn, RangedWorkNote.class);
 
         }
     }

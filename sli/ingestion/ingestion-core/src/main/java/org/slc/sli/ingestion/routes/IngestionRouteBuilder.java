@@ -34,6 +34,7 @@ import org.slc.sli.ingestion.processors.CommandProcessor;
 import org.slc.sli.ingestion.processors.ConcurrentEdFiProcessor;
 import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
+import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.JobReportingProcessor;
 import org.slc.sli.ingestion.processors.LandingZoneProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
@@ -50,6 +51,7 @@ import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.routes.orchestra.AggregationPostProcessor;
 import org.slc.sli.ingestion.routes.orchestra.OrchestraPreProcessor;
 import org.slc.sli.ingestion.routes.orchestra.WorkNoteLatch;
+import org.slc.sli.ingestion.routes.orchestra.parsing.FileEntryLatch;
 import org.slc.sli.ingestion.tenant.TenantPopulator;
 import org.slc.sli.ingestion.validation.Validator;
 
@@ -79,6 +81,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Autowired
     private ConcurrentEdFiProcessor concurrentEdFiProcessor;
+
+    @Autowired
+    private EdFiProcessor edFiProcessor;
 
     @Autowired
     private PurgeProcessor purgeProcessor;
@@ -152,6 +157,15 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Value("${sli.ingestion.topic.command}")
     private String commandTopicUri;
 
+    @Value("${sli.ingestion.queue.parser.queueURI}")
+    private String parserQueue;
+
+    @Value("${sli.ingestion.queue.parser.concurrentConsumers}")
+    private String parserConsumers;
+
+    @Value("${sli.ingestion.queue.parser.uriOptions}")
+    private String parserUriOptions;
+
     @Value("${sli.ingestion.tenant.tenantPollingRepeatInterval}")
     private String tenantPollingRepeatInterval;
 
@@ -192,6 +206,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         String maestroConsumerQueueUri = maestroConsumerQueue + "?concurrentConsumers=" + maestroConsumers + maestroUriOptions;
         String pitNodeQueueUri = pitQueue + "?concurrentConsumers=" + pitConsumers + pitUriOptions;
         String pitConsumerNodeQueueUri = pitConsumerQueue + "?concurrentConsumers=" + pitConsumers + pitUriOptions;
+        String parserQueueUri = parserQueue + "?concurrentConsumers=" + parserConsumers + parserUriOptions;
 
         if (IngestionNodeType.MAESTRO.equals(nodeInfo.getNodeType())
                 || IngestionNodeType.STANDALONE.equals(nodeInfo.getNodeType())) {
@@ -205,7 +220,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
             buildLzDropFileRoute(landingZoneQueueUri, workItemQueueUri);
 
-            buildExtractionRoutes(workItemQueueUri);
+            buildExtractionRoutes(workItemQueueUri, parserQueueUri);
 
             buildMaestroRoutes(maestroConsumerQueueUri, pitNodeQueueUri);
 
@@ -265,6 +280,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
             .otherwise()
                 .log(LoggingLevel.INFO, "CamelRouting", "Pre-processed control file.")
                 .to(workItemQueueUri);
+
     }
 
     /**
@@ -327,7 +343,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
      *
      * @param workItemQueueUri
      */
-    private void buildExtractionRoutes(String workItemQueueUri) {
+    private void buildExtractionRoutes(String workItemQueueUri, String parserQueueUri) {
 
         // routeId: extraction
         from(workItemQueueUri).routeId("extraction").choice()
@@ -343,8 +359,20 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .process(purgeProcessor).to("direct:stop")
 
                 .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.CONTROL_FILE_PROCESSED.name()))
-                .log(LoggingLevel.INFO, "CamelRouting", "Routing to ConcurrentEdfiProcessor.")
-                .process(concurrentEdFiProcessor).to("direct:postExtract");
+                .log(LoggingLevel.INFO, "CamelRouting", "Routing to zipFileSplitter.")
+                .split().method("ZipFileSplitter", "splitZipFile")
+                .log(LoggingLevel.INFO, "CamemRoutring", "Zip file split").to(parserQueueUri);
+
+        from(parserQueueUri).routeId("edFiProcessor")
+            .log(LoggingLevel.INFO, "CamelRouting", "File entry received. Processing: ${body}")
+            .process(edFiProcessor).to("direct:fileEntryLatch");
+
+        // file entry Latch
+        from("direct:fileEntryLatch").routeId("fileEntryLatch")
+                .bean(this.lookup(FileEntryLatch.class))
+                .choice().when(header("fileENtryLatchOpened").isEqualTo(true))
+                    .log(LoggingLevel.INFO, "CamelRouting", "FileEntryWorkNote latch opened.")
+                    .to("direct:postExtract");
 
         // routeId: assembledJobs
         from("direct:assembledJobs").routeId("assembledJobs").choice().when(header(HAS_ERRORS).isEqualTo(true))

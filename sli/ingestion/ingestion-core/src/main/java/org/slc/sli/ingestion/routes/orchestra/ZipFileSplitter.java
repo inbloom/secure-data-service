@@ -25,10 +25,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.ingestion.BatchJobStageType;
+import org.slc.sli.ingestion.ControlFileWorkNote;
 import org.slc.sli.ingestion.FileEntryWorkNote;
+import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 
 /**
@@ -45,17 +45,16 @@ public class ZipFileSplitter {
     private BatchJobDAO batchJobDAO;
 
     public List<FileEntryWorkNote> splitZipFile(Exchange exchange) {
-
-        Stage stage = Stage.createAndStartStage(BatchJobStageType.ZIP_FILE_SPLITTER, ZIP_FILE_SPLITTER);
-
         String jobId = null;
         List<FileEntryWorkNote> fileEntryWorkNotes = null;
 
-        jobId = exchange.getIn().getHeader("jobId").toString();
+        jobId = exchange.getIn().getHeader("BatchJobId").toString();
         TenantContext.setJobId(jobId);
         LOG.info("splitting zip file for job {}", jobId);
 
-        List<IngestionFileEntry> fileEntries= exchange.getIn().getBody(List.class);
+        ControlFileWorkNote controlFileWorkNote = (ControlFileWorkNote)exchange.getIn().getBody();
+        ControlFile controlFile = controlFileWorkNote.getControlFile();
+        List<IngestionFileEntry> fileEntries = controlFile.getFileEntries();
         fileEntryWorkNotes = createWorkNotes(jobId, fileEntries);
 
         return fileEntryWorkNotes;
