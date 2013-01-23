@@ -42,7 +42,6 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
-import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.impl.ProcessorSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
@@ -219,7 +218,6 @@ public class PurgeProcessor implements Processor {
     }
 
     private void handleProcessingExceptions(Exchange exchange, String batchJobId, Exception exception) {
-        exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         exchange.setProperty("purge.complete", "Errors encountered during purge process");
 
@@ -238,7 +236,6 @@ public class PurgeProcessor implements Processor {
     }
 
     private void missingBatchJobIdError(Exchange exchange) {
-        exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOGGER.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }

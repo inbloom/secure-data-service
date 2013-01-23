@@ -27,8 +27,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.mongodb.MongoException;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.BatchJobStage;
@@ -48,7 +58,6 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
-import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.AggregatedSource;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
@@ -59,15 +68,6 @@ import org.slc.sli.ingestion.transformation.EdFi2SLITransformer;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.LogUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessResourceFailureException;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Component;
-
-import com.mongodb.MongoException;
 
 /**
  * Ingestion Persistence Processor.
@@ -559,7 +559,6 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
      *            camel exchange.
      */
     private void handleNoBatchJobIdInExchange(Exchange exchange) {
-        exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 
@@ -574,7 +573,6 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
      *            current batch job id.
      */
     private void handleProcessingExceptions(Exception exception, Exchange exchange, String batchJobId) {
-        exchange.getIn().setHeader("ErrorMessage", exception.toString());
         LogUtil.error(LOG, "Error persisting batch job " + batchJobId, exception);
 
         Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,
