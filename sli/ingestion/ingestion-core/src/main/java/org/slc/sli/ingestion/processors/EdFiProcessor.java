@@ -185,7 +185,6 @@ public class EdFiProcessor implements Processor {
     }
 
     private void handleProcessingExceptions(Exchange exchange, String batchJobId, Exception exception) {
-        exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.ERROR.name());
         LogUtil.error(LOG, "Error processing batch job " + batchJobId, exception);
 
@@ -207,7 +206,6 @@ public class EdFiProcessor implements Processor {
     }
 
     private void handleNoBatchJobIdInExchange(Exchange exchange) {
-        exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.ERROR.name());
         LOG.error("No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
