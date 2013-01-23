@@ -289,5 +289,27 @@ public class ModelProvider {
         entityType.setAssociatedDatedCollectionStore(associatedDatedEntities);
         return entityType.getAssociatedDatedCollectionStore();
     }
+    public String getFilterBeginDateOn(final  ClassType entityType) {
+        String date = "";
+        List<TaggedValue> taggedValues = entityType.getTaggedValues();
+        for (TaggedValue taggedValue : taggedValues) {
+            if (modelIndex.getTagDefinition(taggedValue.getTagDefinition()).getName().equals("dataStore.filterBeginDateOn")) {
+                date = taggedValue.getValue();
+            }
+        }
+        return date;
+    }
+
+    public String getFilterEndDateOn(final  ClassType entityType) {
+        String date = "";
+
+        List<TaggedValue> taggedValues = entityType.getTaggedValues();
+        for (TaggedValue taggedValue : taggedValues) {
+            if (modelIndex.getTagDefinition(taggedValue.getTagDefinition()).getName().equals("dataStore.filterEndDateOn")) {
+                date = taggedValue.getValue();
+            }
+        }
+        return date;
+    }
 }
 

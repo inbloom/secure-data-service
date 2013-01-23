@@ -98,6 +98,8 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
         tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_BEGIN_DATE, Occurs.ZERO, Occurs.ONE, host));
          tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_END_DATE, Occurs.ZERO, Occurs.ONE, host));
         tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_ASSOCIATED_DATED_COLLECTION, Occurs.ZERO, Occurs.ONE, host));
+        tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_FILTER_BEGIN_DATE_ON, Occurs.ZERO, Occurs.ONE, host));
+        tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_FILTER_END_DATE_ON, Occurs.ZERO, Occurs.ONE, host));
         return Collections.unmodifiableList(tagDefs);
     }
 
@@ -235,6 +237,12 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
                 } else if (SliMongoConstants.SLI_END_DATE.equals(name)) {
                     final Identifier tagDefinition = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_END_DATE);
                     taggedValues.add(new TaggedValue(SliUmlConstants.TAGDEF_END_DATE, tagDefinition));
+                } else if (SliMongoConstants.SLI_FILTER_BEGIN_DATE_ON.equals(name)) {
+                    final Identifier tagDefinition = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_FILTER_BEGIN_DATE_ON);
+                    taggedValues.add(new TaggedValue(stringValue(element.getChildNodes()), tagDefinition));
+                } else if (SliMongoConstants.SLI_FILTER_END_DATE_ON.equals(name)) {
+                    final Identifier tagDefinition = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_FILTER_END_DATE_ON);
+                    taggedValues.add(new TaggedValue(stringValue(element.getChildNodes()), tagDefinition));
                 } else if (!(SliMongoConstants.SLI_SCHEMA_VERSION.equals(name))) {
                     throw new AssertionError("Unexpected element in appinfo: " + name);
                 }

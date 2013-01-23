@@ -8170,6 +8170,8 @@
 				<sli:CollectionType>attendance</sli:CollectionType>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 				<sli:schemaVersion>1</sli:schemaVersion>
+                <sli:filterBeginDateOn>schoolYearAttendance.attendanceEvent.date</sli:filterBeginDateOn>
+                <sli:filterEndDateOn>schoolYearAttendance.attendanceEvent.date</sli:filterEndDateOn>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>

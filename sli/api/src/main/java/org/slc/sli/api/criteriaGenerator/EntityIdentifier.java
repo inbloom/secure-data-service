@@ -124,11 +124,13 @@ public class EntityIdentifier {
     private boolean populateDateAttributes(EntityFilterInfo entityFilterInfo, ClassType entityType) {
         final boolean beginDateExists = entityType.getBeginDateAttribute() != null;
         final boolean endDateExists = entityType.getEndDateAttribute() != null;
+        final String beginDateAttribute = (beginDateExists ? entityType.getBeginDateAttribute().getName() : modelProvider.getFilterBeginDateOn(entityType));
+        final String endDateAttribute = (endDateExists ? entityType.getEndDateAttribute().getName() : modelProvider.getFilterEndDateOn(entityType));
 
-        entityFilterInfo.setBeginDateAttribute(beginDateExists ? entityType.getBeginDateAttribute().getName() : "");
-        entityFilterInfo.setEndDateAttribute(endDateExists ? entityType.getEndDateAttribute().getName() : "");
+        entityFilterInfo.setBeginDateAttribute(beginDateAttribute);
+        entityFilterInfo.setEndDateAttribute(endDateAttribute);
 
-        return (beginDateExists || endDateExists);
+        return ((!beginDateAttribute.isEmpty()) || (!endDateAttribute.isEmpty()));
     }
 
 }
