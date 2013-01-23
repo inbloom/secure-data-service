@@ -136,31 +136,30 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     Then I should receive a return code of 400
     And the error message should say "Error Parsing the Query: Date range filtering not allowed"
   Examples:
-    | Entity URI                              |
-    | assessments                             |
-    | cohorts                                 |
-    | competencyLevelDescriptor               |
-    | courseTranscripts                       |
-    | courses                                 |
-    | educationOrganizations                  |
-    | graduationPlans                         |
-    | home                                    |
-    | learningObjectives                      |
-    | learningStandards                       |
-    | parents                                 |
-    | reportCards                             |
-    | schools                                 |
-    | search                                  |
-    | sections                                |
-    | staff                                   |
-    | staffEducationOrgAssignmentAssociations |
-    | studentAcademicRecords                  |
-    | studentCompetencyObjectives             |
-    | studentParentAssociations               |
-    | system/session                          |
-    | system/support                          |
-    | teacherSchoolAssociations               |
-    | teacherSectionAssociations              |
+    | Entity URI                  |
+    | assessments                 |
+    | cohorts                     |
+    | competencyLevelDescriptor   |
+    | courseTranscripts           |
+    | courses                     |
+    | educationOrganizations      |
+    | graduationPlans             |
+    | home                        |
+    | learningObjectives          |
+    | learningStandards           |
+    | parents                     |
+    | reportCards                 |
+    | schools                     |
+    | search                      |
+    | sections                    |
+    | staff                       |
+    | studentAcademicRecords      |
+    | studentCompetencyObjectives |
+    | studentParentAssociations   |
+    | system/session              |
+    | system/support              |
+    | teacherSchoolAssociations   |
+    | teacherSectionAssociations  |
 
   Scenario Outline: Different ways of overlapping the date range
     Given I am logged in using "akopel" "akopel1234" to realm "IL"
