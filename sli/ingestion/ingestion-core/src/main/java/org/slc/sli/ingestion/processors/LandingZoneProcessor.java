@@ -38,7 +38,6 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
-import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.impl.DirectorySource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
@@ -170,7 +169,6 @@ public class LandingZoneProcessor implements Processor {
     }
 
     private void handleProcessingError(Exchange exchange, String batchJobId, String lzFileName, String lzDirectoryPathName, ReportStats reportStats) {
-        exchange.getIn().setHeader("ErrorMessage", ERROR_MESSAGE + lzFileName);
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOG.error("LandingZoneProcessor: {} is not a zip file.", lzFileName);
         if (batchJobId != null) {

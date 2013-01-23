@@ -43,7 +43,6 @@ import org.springframework.util.ResourceUtils;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.slc.sli.ingestion.processors.ConcurrentEdFiProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
 
 /**
@@ -66,9 +65,6 @@ public class IngestionTest {
     // private ContextManager contextManager;
 
     @Autowired
-    private ConcurrentEdFiProcessor concurrentEdFiProcessor;
-
-    @Autowired
     private PersistenceProcessor persistenceProcessor;
 
     @Before
@@ -78,10 +74,6 @@ public class IngestionTest {
     // protected ContextManager getRepositoryFactory() {
     // return this.contextManager;
     // }
-
-    protected ConcurrentEdFiProcessor getEdFiProcessor() {
-        return this.concurrentEdFiProcessor;
-    }
 
     protected PersistenceProcessor getPersistenceProcessor() {
         return this.persistenceProcessor;
