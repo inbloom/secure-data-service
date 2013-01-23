@@ -586,6 +586,7 @@
     {
         "path": "/graduationPlans",
         "queryable": true,
+        "dateSearchDisallowed": true,
         "doc": "Represents the definition of a graduation plan. For detailed information, see the schema for the $$GraduationPlan$$ entity.",
         "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicDefaultResource"
     },
@@ -645,6 +646,7 @@
     {
       "path": "/staff",
       "queryable": true,
+      "dateSearchDisallowed": true,
       "doc": "Represents the definition of a staff resource. A staff is a person that is employed by an LEA or other educational unit engaged in student instruction. These persons are instructional-type staff members. A teacher is a staff member with additional properties. See the $$Teacher$$ resource for details. A staff is associated with a school, cohort and program through $$StaffEducationOrganizationAssociation$$, $$StaffCohortAssociation$$, and $$StaffProgramAssociation$$. For more details about the resources, see $$School$$, $$Cohort$$ and $$Program$$ resources. For detailed information, see the schema for $$Section$$ resources.  For this open ended URI, only current and directly associated entities are returned. For teachers and staff, this is /educationOrganizations/{IDs}/staffEducationOrgAssignmentAssociations/staff. {IDs} represents a list of Education Organization IDs to which the staff or teacher is currently associated.",
       "availableSince" : "v1.1",
       "subResources": [
