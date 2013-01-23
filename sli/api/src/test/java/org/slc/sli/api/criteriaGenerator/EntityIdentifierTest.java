@@ -123,6 +123,8 @@ public class EntityIdentifierTest {
         Mockito.when(modelProvider.getAssociatedDatedEntities(any(ClassType.class))).thenReturn(programAssocEntity);
         Mockito.when(modelProvider.getAssociationEnds(any(Identifier.class))).thenReturn(new ArrayList<AssociationEnd>());
         Mockito.when(attribute.getName()).thenReturn("beginDate");
+        Mockito.when(modelProvider.getFilterBeginDateOn(any(ClassType.class))).thenReturn("");
+        Mockito.when(modelProvider.getFilterEndDateOn(any(ClassType.class))).thenReturn("");
 
         EntityFilterInfo entityFilterInfo = entityIdentifier.findEntity(request);
         assertEquals("staffProgramAssociation", entityFilterInfo.getEntityName());

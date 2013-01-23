@@ -60,7 +60,7 @@ public void testDeclareTagDefinitions() throws Exception {
     Mockito.when(host.ensureTagDefinitionId(Matchers.anyString())).thenReturn(Identifier.random());
     List<TagDefinition> tagDefinitionList = pluginForSLI.declareTagDefinitions(host);
     Assert.assertNotNull(tagDefinitionList);
-    Assert.assertEquals(16, tagDefinitionList.size());
+    Assert.assertEquals(18, tagDefinitionList.size());
 } 
 
 /** 
