@@ -25,9 +25,11 @@ import java.io.InputStream;
 import java.text.MessageFormat;
 
 import javax.xml.stream.XMLEventReader;
+import javax.xml.stream.XMLStreamException;
 
 import org.apache.camel.Converter;
 import org.apache.camel.Exchange;
+import org.apache.camel.converter.jaxp.StaxConverter;
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.apache.commons.io.IOUtils;
@@ -71,7 +73,9 @@ public final class ZipFileEntryTypeConverter {
     }
 
     @Converter
-    public static XMLEventReader toXMLEventReader(ZipFileEntry zipFileEntry, Exchange exchange) {
-        return null;
+    public static XMLEventReader toXMLEventReader(ZipFileEntry zipFileEntry, Exchange exchange) throws XMLStreamException, IOException {
+        StaxConverter c = new StaxConverter();
+
+        return c.createXMLEventReader(toInputStream(zipFileEntry, exchange), exchange);
     }
 }
