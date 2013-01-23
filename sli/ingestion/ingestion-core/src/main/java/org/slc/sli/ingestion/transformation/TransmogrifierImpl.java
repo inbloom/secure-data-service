@@ -21,7 +21,7 @@ import java.util.Collections;
 import java.util.List;
 
 import org.slc.sli.ingestion.Job;
-import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.RangedWorkNote;
 
 /**
  * basic implementation of Transmogrifier
@@ -33,7 +33,7 @@ public final class TransmogrifierImpl implements Transmogrifier {
 
     private final Job job;
     private final List<TransformationStrategy> transformationStrategies;
-    private WorkNote workNote;
+    private RangedWorkNote workNote;
 
     // private constructor. use static factory method to create instances.
     private TransmogrifierImpl(Job job, List<TransformationStrategy> transformationStrategies) {
@@ -56,7 +56,7 @@ public final class TransmogrifierImpl implements Transmogrifier {
      * @param transformationStrategies set of transformation strategies to be executed.
      * @param workNote collection and range transformation strategy should act upon.
      */
-    private TransmogrifierImpl(Job job, List<TransformationStrategy> transformationStrategies, WorkNote workNote) {
+    private TransmogrifierImpl(Job job, List<TransformationStrategy> transformationStrategies, RangedWorkNote workNote) {
 
         this.job = job;
 
@@ -81,7 +81,7 @@ public final class TransmogrifierImpl implements Transmogrifier {
         return new TransmogrifierImpl(job, transformationStrategies);
     }
 
-    public static Transmogrifier createInstance(Job job, List<TransformationStrategy> transformationStrategies, WorkNote workNote) {
+    public static Transmogrifier createInstance(Job job, List<TransformationStrategy> transformationStrategies, RangedWorkNote workNote) {
         return new TransmogrifierImpl(job, transformationStrategies, workNote);
     }
 

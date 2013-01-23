@@ -8,14 +8,54 @@
  *= require dataTables/jquery.dataTables
  *= require_tree . 
 */
-#header { margin-bottom: 10px;padding-bottom:10px; border-bottom: 1px solid #999; height:140px;}
+html, body {
+    height: 100%;
+}
+#content a, #sli_footer a {
+    color: #0088CC !important;
+    text-decoration: none;
+    font-size: 14px !important;
+}
+
+#content a:hover, #sli_footer a:hover {
+    color: #005580 !important;
+    background: none !important;
+    text-decoration: underline;
+}
+input, select {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 13px;
+}
+select { padding: 2px 0;}
+.clear { clear: both; }
+.container { 
+	height: auto !important;
+    margin-bottom: 30px;
+    min-height: 100% !important;
+}
+#header { margin-bottom: 10px;padding-bottom:10px; }
+#header .search { margin: 18px 0 0 0 ;}
+.pageTitle h1 a { 
+	color: #D8D8D8;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 36px;
+    font-weight: normal;
+    text-decoration: none;
+}
+.pageTitle { border-bottom: solid 2px #000; height: 54px; margin: 0 25px;}
+.pageTitle h1 a:hover { background: none; }
 div.left {float: left;}
 div.right {float: right;}
-#footer {padding-top: 20px;}
+#footer {padding-top: 20px; bottom: auto !important;
+    clear: both;
+    height: 20px;
+    position: absolute !important;
+    width: 100%;
+}
 i {color: #AAA;}
 /*div.details {display:none;}*/
 /*dt, dd { margin: 0; padding: 0; } dt { float: left; margin-right: 0.3em; }*/
-#content { clear:both; margin-top: 20px; margin-right: 20px; margin-left: 20px;}
+#content { clear:both; margin-top: 20px; margin-right: 20px; margin-left: 25px;}
 .flash-notice { background-color: #A4E7A0; border: 1px solid #26722D; }
 .flash-error { background-color: #F0A8A8; border: 1px solid #900; }
 .flash-notice, .flash-error { width: 90%; margin: 0 auto 10px auto; padding: 5px; }
@@ -25,5 +65,17 @@ i {color: #AAA;}
 .flash-error a { border: 1px solid #900; color: #900; }
 .flash-notice a:hover, .flash-error a:hover { color: #333; border: 1px solid #333; }
 div#entities { padding-left: 3em; }
-div.value { padding-left: 3em; font-size: 14px; }
-span.key { font-size: 16px; }
+div.value { margin-left: 180px; font-size: 14px; margin-bottom: 10px; }
+div.key { width: 160px; font-size: 14px; clear: left; margin-bottom: 10px; font-weight: bold; }
+
+#entities .row {
+    width: 100%;
+    clear: both;
+}
+
+.row ul { 
+    list-style-type: none;
+    padding: 0;
+}
+
+

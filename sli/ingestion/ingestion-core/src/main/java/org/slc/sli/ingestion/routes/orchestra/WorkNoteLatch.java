@@ -22,7 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 
 /**
@@ -43,7 +43,7 @@ public class WorkNoteLatch {
 
         String messageType = exchange.getIn().getHeader("IngestionMessageType").toString();
 
-        WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
+        RangedWorkNote workNote = exchange.getIn().getBody(RangedWorkNote.class);
 
         TenantContext.setJobId(workNote.getBatchJobId());
 

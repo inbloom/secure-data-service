@@ -16,7 +16,7 @@ First and foremost, are the url to the Api, +callback+, +client_id+, and +client
 needed to actually access the inBloom Api. Second, is the callback. You will want to replace everything before
 +/callback+ with the url to where you have the inBloom Databrowser running. Finally the +client_id+ and
 client_secret are the two pieces of information you need to complete OAuth with this app. You can get these
-values by going through the application registration process with the inBloom. Once you have completed these
+values by going through the application registration process with inBloom. Once you have completed these
 steps you can fill in the appropriate values. You'll also find we use an OAuth library to help with some
 of the internals. You can find it in the lib directory.
 

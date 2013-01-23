@@ -179,12 +179,11 @@ saveData = (json) ->
 getJsonData = () ->
   data = []
   $("#custom_roles tr:gt(0)").each ->
-    groupName = $(@).find(ROLE_COL).find(".groupTitle").val()
-    if groupName == ""
+    groupName = $(@).find(ROLE_COL).find("#groupNameInput").val()
+    if !groupName
       groupName = $(@).find(ROLE_COL).find(".groupTitle").text()
-    #still in edit mode
-    if groupName == ""
-      groupName = $(@).find(ROLE_COL).find("#groupNameInput").val()
+    if !groupName
+      groupName = $(@).find(ROLE_COL).find(".groupTitle").val()
 
     roles = []
     $(@).find(ROLE_COL).find(".customLabel").each ->

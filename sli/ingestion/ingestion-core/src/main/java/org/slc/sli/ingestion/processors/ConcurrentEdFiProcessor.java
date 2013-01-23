@@ -50,7 +50,7 @@ import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.JobSource;
+import org.slc.sli.ingestion.reporting.impl.ProcessorSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.service.IngestionExecutor;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
@@ -124,8 +124,7 @@ public class ConcurrentEdFiProcessor implements Processor, ApplicationContextAwa
 
             indexStagingDB();
 
-            List<IngestionFileEntry> fileEntryList = extractFileEntryList(currentJob);
-            List<FutureTask<Boolean>> smooksFutureTaskList = processFilesInFuture(fileEntryList, currentJob, stage);
+            List<FutureTask<Boolean>> smooksFutureTaskList = processJobInFuture(currentJob, stage);
             boolean anyErrorsProcessingFiles = aggregateFutureResults(smooksFutureTaskList);
 
             setExchangeHeaders(exchange, anyErrorsProcessingFiles);
@@ -148,16 +147,16 @@ public class ConcurrentEdFiProcessor implements Processor, ApplicationContextAwa
         neutralRecordMongoAccess.ensureIndexes();
     }
 
-    private List<FutureTask<Boolean>> processFilesInFuture(List<IngestionFileEntry> fileEntryList, NewBatchJob newJob,
-            Stage stage) {
+    private List<FutureTask<Boolean>> processJobInFuture(NewBatchJob job, Stage stage) {
+        List<IngestionFileEntry> fileEntryList = extractFileEntryList(job);
 
         List<FutureTask<Boolean>> smooksFutureTaskList = new ArrayList<FutureTask<Boolean>>(fileEntryList.size());
 
         for (IngestionFileEntry fe : fileEntryList) {
             XmlFileHandler xmlFileHandler = context.getBean("XmlFileHandler", XmlFileHandler.class);
 
-            Callable<Boolean> smooksCallable = new SmooksCallable(newJob, xmlFileHandler, fe, stage, batchJobDAO,
-                    sliSmooksFactory);
+            Callable<Boolean> smooksCallable = new SmooksCallable(job, xmlFileHandler, fe,
+                    databaseMessageReport, new SimpleReportStats(), stage, sliSmooksFactory);
             FutureTask<Boolean> smooksFutureTask = IngestionExecutor.execute(smooksCallable);
             smooksFutureTaskList.add(smooksFutureTask);
         }
@@ -191,8 +190,6 @@ public class ConcurrentEdFiProcessor implements Processor, ApplicationContextAwa
                 String zipParent = resource.getResourceZipParent();
 
                 IngestionFileEntry fe = new IngestionFileEntry(zipParent, fileFormat, fileType, fileName, checksum);
-                fe.setMessageReport(databaseMessageReport);
-                fe.setReportStats(new SimpleReportStats());
                 fe.setBatchJobId(job.getId());
 
                 fileEntryList.add(fe);
@@ -208,8 +205,8 @@ public class ConcurrentEdFiProcessor implements Processor, ApplicationContextAwa
 
         if (batchJobId != null) {
             ReportStats reportStats = new SimpleReportStats();
-            Source source = new JobSource(null, BATCH_JOB_STAGE.getName());
-            databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0021, batchJobId, exception.getMessage());
+            databaseMessageReport.error(reportStats, new ProcessorSource(BATCH_JOB_STAGE.getName()),
+                    CoreMessageCode.CORE_0021, batchJobId, exception.getMessage());
         }
     }
 

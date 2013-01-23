@@ -11,12 +11,8 @@
 		<xs:complexType>
 			<xs:choice maxOccurs="unbounded">
 				<xs:element name="StateEducationAgency" type="SLC-StateEducationAgency"/>
-				<xs:element name="EducationServiceCenter" type="SLC-EducationServiceCenter"/>
-				<xs:element name="FeederSchoolAssociation" type="FeederSchoolAssociation"/>
 				<xs:element name="LocalEducationAgency" type="SLC-LocalEducationAgency"/>
 				<xs:element name="School" type="SLC-School"/>
-				<xs:element name="Location" type="Location"/>
-				<xs:element name="ClassPeriod" type="ClassPeriod"/>
 				<xs:element name="Course" type="SLC-Course"/>
 				<xs:element name="CompetencyLevelDescriptor" type="CompetencyLevelDescriptor"/>
 				<xs:element name="Program" type="SLC-Program"/>

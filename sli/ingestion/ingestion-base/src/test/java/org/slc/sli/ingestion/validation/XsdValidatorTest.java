@@ -74,8 +74,7 @@ public class XsdValidatorTest {
                 FileFormat.EDFI_XML, FileType.XML_STUDENT_PARENT_ASSOCIATION, xmlFile.getName(), "");
 
         String resourceId = "theResourceId";
-        String stageName = "ConcurrentEdFiProcessor";
-        JobSource jobSource = new JobSource(resourceId, stageName);
+        JobSource jobSource = new JobSource(resourceId);
         ReportStats reportStats = new SimpleReportStats();
 
         xsdValidator.isValid(ife, memoryMessageReport, reportStats, jobSource);
@@ -361,7 +360,7 @@ public class XsdValidatorTest {
 
         String resourceId = "theResourceId";
         String stageName = "ConcurrentEdFiProcessor";
-        JobSource jobSource = new JobSource(resourceId, stageName);
+        JobSource jobSource = new JobSource(resourceId);
         ReportStats reportStats = new SimpleReportStats();
 
         xsdValidator.isValid(ife, memoryMessageReport, reportStats, jobSource);

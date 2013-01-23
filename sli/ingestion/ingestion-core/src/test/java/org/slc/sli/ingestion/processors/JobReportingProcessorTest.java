@@ -30,7 +30,6 @@ import java.util.Map;
 import org.apache.camel.Exchange;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.impl.DefaultExchange;
-import org.apache.commons.io.FileUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -47,7 +46,7 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
-import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.dal.NeutralRecordRepository;
 import org.slc.sli.ingestion.model.Error;
@@ -103,7 +102,16 @@ public class JobReportingProcessorTest {
 
     @After
     public void tearDown() throws Exception {
-        FileUtils.deleteDirectory(tmpDir);
+        if (tmpDir.exists()) {
+            String[] files = tmpDir.list();
+            for (String temp : files) {
+                // construct the file structure
+                File fileToDelete = new File(tmpDir, temp);
+                fileToDelete.delete();
+            }
+
+            tmpDir.delete();
+        }
     }
 
     @Test
@@ -115,13 +123,12 @@ public class JobReportingProcessorTest {
         Map<String, String> mockedProperties = createFakeBatchProperties();
         NewBatchJob mockedJob = new NewBatchJob(BATCHJOBID, "192.168.59.11", "finished", 1, mockedProperties,
                 mockedStages, mockedResourceEntries);
-        mockedJob.setSourceId(TEMP_DIR);
         mockedJob.setTopLevelSourceId(TEMP_DIR);
 
         Iterable<Error> fakeErrorIterable = createFakeErrorIterable();
 
         // mock the WorkNote
-        WorkNote workNote = WorkNote.createSimpleWorkNote(BATCHJOBID);
+        RangedWorkNote workNote = RangedWorkNote.createSimpleWorkNote(BATCHJOBID);
 
         List<Stage> mockStages = new LinkedList<Stage>();
         List<Metrics> mockMetrics = new LinkedList<Metrics>();
@@ -137,7 +144,7 @@ public class JobReportingProcessorTest {
                 mockedBatchJobDAO.getBatchJobErrors(Matchers.eq(BATCHJOBID), Matchers.eq(RESOURCEID),
                         Matchers.eq(FaultType.TYPE_ERROR), Matchers.anyInt())).thenReturn(fakeErrorIterable);
         Mockito.when(
-                mockedBatchJobDAO.getBatchJobErrors(Matchers.eq(BATCHJOBID), (String)Matchers.isNull(),
+                mockedBatchJobDAO.getBatchJobErrors(Matchers.eq(BATCHJOBID), (String) Matchers.isNull(),
                         Matchers.eq(FaultType.TYPE_ERROR), Matchers.anyInt())).thenReturn(fakeErrorIterable);
 
         Mockito.when(
@@ -149,7 +156,7 @@ public class JobReportingProcessorTest {
 
         // create exchange
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
-        exchange.getIn().setBody(workNote, WorkNote.class);
+        exchange.getIn().setBody(workNote, RangedWorkNote.class);
 
         jobReportingProcessor.setBatchJobDAO(mockedBatchJobDAO);
         jobReportingProcessor.process(exchange);

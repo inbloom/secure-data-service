@@ -85,6 +85,7 @@
         <stax.api.version>1.0.1</stax.api.version>
         <jdom.version>1.1</jdom.version>
         <jopt-simple.version>4.3</jopt-simple.version>
+        <google.guava.version>13.0</google.guava.version>
     </properties>
     <!-- Environment profiles. A profile encapsulates a set of properties and
     filters for a particular build configuration. Per profile properties and
@@ -735,6 +736,12 @@
                 <groupId>net.sf.jopt-simple</groupId>
                 <artifactId>jopt-simple</artifactId>
                 <version>${jopt-simple.version}</version>
+            </dependency>
+            <!--  Google Guava (google collections) -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${google.guava.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

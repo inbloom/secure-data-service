@@ -29,6 +29,7 @@ import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
+import org.slc.sli.ingestion.reporting.impl.XmlFileSource;
 import org.slc.sli.ingestion.validation.Validator;
 
 /**
@@ -64,16 +65,16 @@ public class XmlFileValidator implements Validator<IngestionFileEntry> {
             is = entry.getFileStream();
 
             if (is.read() == -1) {
-                report.error(reportStats, source, BaseMessageCode.BASE_0015, entry.getFileName());
+                report.error(reportStats, new XmlFileSource(entry), BaseMessageCode.BASE_0015, entry.getFileName());
                 isEmpty = true;
             }
         } catch (FileNotFoundException e) {
             LOG.error("File not found: " + entry.getFileName(), e);
-            report.error(reportStats, source, BaseMessageCode.BASE_0013, entry.getFileName());
+            report.error(reportStats, new XmlFileSource(entry), BaseMessageCode.BASE_0013, entry.getFileName());
             isEmpty = true;
         } catch (IOException e) {
             LOG.error("Problem reading file: " + entry.getFileName());
-            report.error(reportStats, source, BaseMessageCode.BASE_0014, entry.getFileName());
+            report.error(reportStats, new XmlFileSource(entry), BaseMessageCode.BASE_0014, entry.getFileName());
             isEmpty = true;
         } finally {
             IOUtils.closeQuietly(is);

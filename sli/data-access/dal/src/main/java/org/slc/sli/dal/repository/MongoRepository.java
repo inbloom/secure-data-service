@@ -45,7 +45,6 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 
-
 /**
  * mongodb implementation of the repository interface that provides basic CRUD
  * and field query methods for all object classes.
@@ -84,7 +83,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
      *         The modified neutral query
      */
     protected NeutralQuery addDefaultQueryParams(NeutralQuery origQuery, String collectionName) {
-    	NeutralQuery query = origQuery == null ? new NeutralQuery() : origQuery;
+        NeutralQuery query = origQuery == null ? new NeutralQuery() : origQuery;
 
         // TODO: this is assuming that the staging db is the only non-sli db. remove all of this
         // eventually.
@@ -102,21 +101,22 @@ public abstract class MongoRepository<T> implements Repository<T> {
             }
 
             // make sure a criterion for tenantId has not already been added to this query
-//            boolean addCrit = true;
-//            List<NeutralCriteria> criteria = query.getCriteria();
-//            if (criteria != null) {
-//                ListIterator<NeutralCriteria> li = criteria.listIterator();
-//                while (li.hasNext()) {
-//                    if ("metaData.tenantId".equalsIgnoreCase(li.next().getKey())) {
-//                        addCrit = false;
-//                        break;
-//                    }
-//                }
-//            }
-//            // add the tenant ID if it's not already there
-//            if (addCrit) {
-//                query.prependCriteria(new NeutralCriteria("metaData.tenantId", "=", tenantId, false));
-//            }
+            // boolean addCrit = true;
+            // List<NeutralCriteria> criteria = query.getCriteria();
+            // if (criteria != null) {
+            // ListIterator<NeutralCriteria> li = criteria.listIterator();
+            // while (li.hasNext()) {
+            // if ("metaData.tenantId".equalsIgnoreCase(li.next().getKey())) {
+            // addCrit = false;
+            // break;
+            // }
+            // }
+            // }
+            // // add the tenant ID if it's not already there
+            // if (addCrit) {
+            // query.prependCriteria(new NeutralCriteria("metaData.tenantId", "=", tenantId,
+            // false));
+            // }
         }
         return query;
     }
@@ -188,6 +188,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     /**
      * Makes call to mongo template insert() function, and not save (which performs upsert).
      * Leverages batch insert functionality.
+     *
      * @param records
      *            Database records to be inserted.
      * @param collectionName
@@ -264,7 +265,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     @Override
     public Iterable<T> findAll(String collectionName, NeutralQuery origNeutralQuery) {
 
-    	NeutralQuery neutralQuery = origNeutralQuery == null ? new NeutralQuery() : origNeutralQuery;
+        NeutralQuery neutralQuery = origNeutralQuery == null ? new NeutralQuery() : origNeutralQuery;
 
         // Enforcing the tenantId query. The rationale for this is all CRUD
         // Operations should be restricted based on tenant.
@@ -278,13 +279,13 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
             return findAllAcrossTenants(collectionName, mongoQuery);
         } else {
-        // find and return an instance
-        return findAll(mongoQuery, collectionName);
+            // find and return an instance
+            return findAll(mongoQuery, collectionName);
         }
     }
 
     private Iterable<T> findAll(Query query, String collectionName) {
-    	guideIfTenantAgnostic(collectionName);
+        guideIfTenantAgnostic(collectionName);
         return template.find(query, getRecordClass(), collectionName);
     }
 
@@ -292,7 +293,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     @Override
     public Iterable<String> findAllIds(String collectionName, NeutralQuery origNeutralQuery) {
-    	NeutralQuery neutralQuery = origNeutralQuery == null ? new NeutralQuery() : origNeutralQuery;
+        NeutralQuery neutralQuery = origNeutralQuery == null ? new NeutralQuery() : origNeutralQuery;
         neutralQuery.setIncludeFieldString("_id");
 
         // Enforcing the tenantId query. The rationale for this is all CRUD
@@ -305,7 +306,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
         }
         return ids;
     }
-
 
     public Iterable<T> findAllByPaths(String collectionName, Map<String, String> paths, NeutralQuery neutralQuery) {
 
@@ -381,7 +381,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         // attempt upsert
         WriteResult result = upsert(query, update, collection);
         // insert goes through the encryption pipeline, so use the unencrypted record
-        if (result.getError() !=null) {
+        if (result.getError() != null) {
             LOG.error("Update/upsert on collection {} failed with error: {}", collection, result.getError());
             return false;
         }
@@ -496,7 +496,6 @@ public abstract class MongoRepository<T> implements Repository<T> {
         return deleted != null;
     }
 
-
     public void deleteAll(String collectionName) {
         // We decided that if TenantId is null, then we will search on blank.
         // This option may need to be revisted.
@@ -515,11 +514,10 @@ public abstract class MongoRepository<T> implements Repository<T> {
             LOG.debug("find objects in collection {} with total numbers is {}",
                     new Object[] { collectioName, results.size() });
         }
-     }
+    }
 
-
-	@Override
-	public void deleteAll(String collectionName, NeutralQuery query) {
+    @Override
+    public void deleteAll(String collectionName, NeutralQuery query) {
         this.addDefaultQueryParams(query, collectionName);
         Query convertedQuery = this.queryConverter.convert(collectionName, query);
         guideIfTenantAgnostic(collectionName);
@@ -548,7 +546,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     @Override
     @Deprecated
     public Iterable<T> findByQuery(String collectionName, Query origQuery, int skip, int max) {
-    	Query query = origQuery == null ? new Query() : origQuery;
+        Query query = origQuery == null ? new Query() : origQuery;
 
         query.skip(skip).limit(max);
 

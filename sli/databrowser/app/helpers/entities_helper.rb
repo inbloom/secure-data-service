@@ -117,7 +117,7 @@ module EntitiesHelper
       entity.each { |key, value|
         val_text = (key == 'links' || key == 'link') ? build_links(value) : display_entity(value)
         val_text = "&nbsp" if val_text.nil? || val_text.empty?
-        html << "<span class='key'>#{t(key)}:</span><div class='value'>#{val_text}</div>"
+        html << "<div class='row'><div class='key left'>#{t(key)}:</div><div class='value'>#{val_text}</div></div>"
       }
     elsif entity.is_a?(Array)
       entity.each { |item| html << display_entity(item) }

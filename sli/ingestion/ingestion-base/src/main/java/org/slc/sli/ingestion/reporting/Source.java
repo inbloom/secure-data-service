@@ -23,18 +23,7 @@ package org.slc.sli.ingestion.reporting;
  * @author okrook
  *
  */
-public interface Source {
-
-    /**
-     *
-     * @return the resource id associated with this Source.
-     */
-    String getResourceId();
-
-    /**
-     * @return the ingestion processing stage for this Source.
-     */
-    String getStageName();
+public interface Source extends BasicSource {
 
     /**
      *
