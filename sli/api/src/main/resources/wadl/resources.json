@@ -376,7 +376,7 @@
       "queryable": true,
       "doc": "Represents a person that is employed by an LEA or other educational unit engaged in student instruction. These persons are instructional-type staff members. In the data model, a teacher entity is a staff member with additional properties. For more information, see the schema for $$Teacher$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers and staff, this is /schools/{IDs}/teacherSchoolAssociations/teachers. {IDs} represents a list of school or education organization IDs to which the teacher or staff is currently associated.",
       "subResources": [
-        { "path": "/{id}/teacherSchoolAssociations" },
+        { "path": "/{id}/teacherSchoolAssociations", "dateSearchDisallowed": true },
         { "path": "/{id}/teacherSectionAssociations", "dateSearchDisallowed": true },
         { "path": "/{id}/teacherSectionAssociations/sections", "dateSearchDisallowed": true },
         { "path": "/{id}/teacherSchoolAssociations/schools", "dateSearchDisallowed": true },
@@ -427,6 +427,7 @@
     {
       "path": "/teacherSchoolAssociations",
       "queryable": true,
+      "dateSearchDisallowed": true,
       "doc": "This association indicates the school(s) to which a teacher provides instructional services to. For more information, see the schema for $$TeacherSchoolAssociation$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /teachers/{ID}/teacherSchoolAssociations. {ID} is the unique ID of the teacher or staff. For staff, this is /schools/{IDs}/teacherSchoolAssociations. {IDs} represents a list of school or education organization IDs to which the staff is currently associated.",
       "subResources": [
         { "path": "/{id}/teachers" },
@@ -627,8 +628,8 @@
       "subResources": [
         { "path": "/{id}/studentSchoolAssociations" },
         { "path": "/{id}/studentSchoolAssociations/students" },
-        { "path": "/{id}/teacherSchoolAssociations" },
-        { "path": "/{id}/teacherSchoolAssociations/teachers" }
+        { "path": "/{id}/teacherSchoolAssociations" , "dateSearchDisallowed": true},
+        { "path": "/{id}/teacherSchoolAssociations/teachers", "dateSearchDisallowed": true }
       ]
     },
     {
@@ -650,8 +651,8 @@
       "doc": "Represents the definition of a staff resource. A staff is a person that is employed by an LEA or other educational unit engaged in student instruction. These persons are instructional-type staff members. A teacher is a staff member with additional properties. See the $$Teacher$$ resource for details. A staff is associated with a school, cohort and program through $$StaffEducationOrganizationAssociation$$, $$StaffCohortAssociation$$, and $$StaffProgramAssociation$$. For more details about the resources, see $$School$$, $$Cohort$$ and $$Program$$ resources. For detailed information, see the schema for $$Section$$ resources.  For this open ended URI, only current and directly associated entities are returned. For teachers and staff, this is /educationOrganizations/{IDs}/staffEducationOrgAssignmentAssociations/staff. {IDs} represents a list of Education Organization IDs to which the staff or teacher is currently associated.",
       "availableSince" : "v1.1",
       "subResources": [
-        { "path": "/{id}/teacherSchoolAssociations" },
-        { "path": "/{id}/teacherSchoolAssociations/schools" },
+        { "path": "/{id}/teacherSchoolAssociations", "dateSearchDisallowed": true },
+        { "path": "/{id}/teacherSchoolAssociations/schools", "dateSearchDisallowed": true },
         { "path": "/{id}/teacherSectionAssociations", "dateSearchDisallowed": true },
         { "path": "/{id}/teacherSectionAssociations/sections", "dateSearchDisallowed": true }
       ]
