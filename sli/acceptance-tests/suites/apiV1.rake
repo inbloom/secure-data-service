@@ -2,6 +2,7 @@
 # API V1 tests start
 ############################################################
 
+desc "Run API V1 Granular Access Tests"
 task :apiV1GranularAccessTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/granular_access/")
