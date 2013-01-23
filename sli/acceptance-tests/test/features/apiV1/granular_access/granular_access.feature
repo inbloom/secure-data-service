@@ -130,7 +130,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     And the session date range is "2009-09-16" to "2011-05-16"
     When I navigate to GET "/v1/studentAssessments"
     Then I should receive a return code of 200
-    And I should receive a collection of "2" entities
+    And I should receive a collection of "0" entities
     Given a new "studentAssessment"
     When I set the date "administrationDate" to "<Entry Date>"
     And I set the date "administrationEndDate" to "<Exit Date>"
@@ -143,18 +143,18 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     And I delete the new "studentAssessment" for the next test scenario
     Examples:
     | Entry Date | Exit Date  | Count | # Note                                                |
-    | 2001-01-01 | 2008-01-01 | 2     | # Starts and ends before range begins                 |
-    | 2001-01-01 | 2009-09-16 | 2     | # Ends on the same day the range begins               |
-    | 2001-01-01 | 2010-01-01 | 3     | # Starts before range begins, ends within range       |
-    | 2001-01-01 | 2012-01-01 | 3     | # Starts before range begins, ends after range ends   |
-    | 2001-01-01 | ?          | 3     | # Starts before range begins, ends unknown            |
-    | 2009-12-01 | 2010-01-01 | 3     | # Completely within range                             |
-    | 2009-06-01 | 2012-01-01 | 3     | # Starts after range begins, ends after range ends    |
-    | 2009-06-01 | ?          | 3     | # Starts after range begins, ends unknown             |
-    | 2011-05-16 | 2012-01-01 | 2     | # Starts on the same day the range ends               |
-    | 2011-05-16 | ?          | 2     | # Starts on the same day the range ends, ends unknown |
-    | 2012-01-01 | 2012-05-01 | 2     | # Starts and ends after range ends                    |
-    | 2012-01-01 | ?          | 2     | # Starts after range ends, ends unknown               |
+    | 2001-01-01 | 2008-01-01 | 0     | # Starts and ends before range begins                 |
+    | 2001-01-01 | 2009-09-16 | 0     | # Ends on the same day the range begins               |
+    | 2001-01-01 | 2010-01-01 | 1     | # Starts before range begins, ends within range       |
+    | 2001-01-01 | 2012-01-01 | 1     | # Starts before range begins, ends after range ends   |
+    | 2001-01-01 | ?          | 1     | # Starts before range begins, ends unknown            |
+    | 2009-12-01 | 2010-01-01 | 1     | # Completely within range                             |
+    | 2009-06-01 | 2012-01-01 | 1     | # Starts after range begins, ends after range ends    |
+    | 2009-06-01 | ?          | 1     | # Starts after range begins, ends unknown             |
+    | 2011-05-16 | 2012-01-01 | 0     | # Starts on the same day the range ends               |
+    | 2011-05-16 | ?          | 0     | # Starts on the same day the range ends, ends unknown |
+    | 2012-01-01 | 2012-05-01 | 0     | # Starts and ends after range ends                    |
+    | 2012-01-01 | ?          | 0     | # Starts after range ends, ends unknown               |
 
   @wip
   Scenario Outline: Optional begin date - teacherSectionAssociation
@@ -204,7 +204,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | Range     | # Note                                |
     | 2011-2011 | # Same begin and end years            |
     | 2012-2009 | # Begin year is earlier than end year |
-@test
+
   Scenario: Sad path - Date filtering does not work on 2-part uris
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
     And parameter "schoolYears" is "2008-2009"
