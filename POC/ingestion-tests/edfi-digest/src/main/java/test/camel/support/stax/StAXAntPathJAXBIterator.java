@@ -12,45 +12,50 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.events.XMLEvent;
 
 import org.apache.camel.RuntimeCamelException;
 import org.apache.camel.util.LRUCache;
 
 public class StAXAntPathJAXBIterator extends StAXAntPathIterator<List<?>> {
     private final String packageName = "org.ed_fi._0100";
-    private LRUCache<String, JAXBContext> classCache = new LRUCache<String, JAXBContext>(256);
+    private static LRUCache<String, JAXBContext> classCache = new LRUCache<String, JAXBContext>(256);
 
     public StAXAntPathJAXBIterator(XMLEventReader reader, String antPath, int group) {
         super(reader, antPath, group);
     }
 
     protected List<?> grabContent() throws XMLStreamException {
-        final List<Object> entities = new ArrayList<Object>();
+        final List<EdFiEntity> entities = new ArrayList<EdFiEntity>();
 
         try {
             boolean retrieved = retrieveContent(new ContentRetriever() {
 
                 @Override
                 public void retrieve() throws XMLStreamException {
-                    Object answer;
+                    EdFiEntity entity;
                     try {
-                        String tagName = getReader().peek().asStartElement().getName().getLocalPart();
+                        XMLEvent currentEvent = getReader().peek();
+                        String tagName = currentEvent.asStartElement().getName().getLocalPart();
 
                         Map.Entry<Unmarshaller, Class<?>> entry = getUnmarshallerByTagName(tagName);
 
-                        answer = entry.getKey().unmarshal(getReader(), entry.getValue());
+                        getReader().peek().getLocation();
+
+                        Object answer = entry.getKey().unmarshal(getReader(), entry.getValue());
                         if (answer != null && answer.getClass() == JAXBElement.class) {
                             JAXBElement<?> jbe = (JAXBElement<?>) answer;
                             answer = jbe.getValue();
                         }
+
+                        entity = new EdFiEntity(currentEvent.getLocation(), answer);
                     } catch (JAXBException e) {
                         throw new RuntimeCamelException(e);
                     } catch (ClassNotFoundException e) {
                         throw new RuntimeCamelException(e);
                     }
 
-                    answer = null;
-                    //entities.add(answer);
+                    entities.add(entity);
                 }
             });
 

@@ -1,39 +1,73 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-  xmlns:camel="http://camel.apache.org/schema/spring" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:camel="http://camel.apache.org/schema/spring"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
-  <bean id="staxRecord" class="org.apache.camel.component.stax.StAXBuilder"
-    factory-method="stax">
+  <bean id="staxRecord" class="org.apache.camel.component.stax.StAXBuilder" factory-method="stax">
     <constructor-arg index="0" value="org.ed_fi._0100.Student" />
   </bean>
 
-  <bean id="staxEntity" class="test.camel.support.stax.StAXAntPathBuilder"
-    factory-method="stax">
+  <bean id="idGenerator" class="org.apache.camel.impl.JavaUuidGenerator" />
+
+  <bean id="staxEntity" class="test.camel.support.stax.StAXAntPathBuilder" factory-method="stax">
     <constructor-arg name="antPath" value="/Interchange*/*" />
     <constructor-arg name="group" value="500" />
   </bean>
 
+  <bean id="zipSplitter" class="test.camel.support.zip.ZipFileSplitterBuilder" factory-method="unzip" />
+
   <camelContext trace="false" xmlns="http://camel.apache.org/schema/spring">
     <route id="fileReader">
-        <from uri="file:/Users/okrook/lz/inbound?include=^.*\.xml$&amp;move=./.done/${file:onlyname}"/>
+      <from uri="txActivemq:queue:ingestion.landingZone?concurrentConsumers=32" />
+      <setHeader headerName="batchId">
+        <simple>${bean:idGenerator.generateUuid}</simple>
+      </setHeader>
+      <setBody>
+        <simple>${header.filePath}</simple>
+      </setBody>
+      <to uri="activemq:queue:zipFileProcess" />
+    </route>
+
+    <route id="zipSplitting">
+      <from uri="txActivemq:queue:zipFileProcess?concurrentConsumers=32" />
+      <convertBodyTo type="java.io.File" />
+      <log loggingLevel="INFO" message="Batch ${header.batchId}: Received a zip file - ${body.getName}" />
+      <split streaming="true" parallelProcessing="true">
+        <ref>zipSplitter</ref>
+        <to uri="activemq:queue:zipEntryProcess" />
+      </split>
+    </route>
+
+    <route id="fileParsing">
+      <from uri="txActivemq:queue:zipEntryProcess?concurrentConsumers=32" />
+      <setHeader headerName="fileEntry">
+        <simple>${body.getFileEntry}</simple>
+      </setHeader>
+      <filter>
+        <simple>${body.getFileEntry} regex '^.*\.xml$'</simple>
+        <log loggingLevel="INFO" message="Batch ${header.batchId}: Received a zip file entry - ${body.getFileEntry}" />
+        <convertBodyTo type="java.io.InputStream" />
         <split streaming="true" parallelProcessing="true">
-            <ref>staxEntity</ref>
-            <setHeader headerName="JMSXGroupSeq">
-                <header>CamelSplitIndex</header>
-            </setHeader>
-            <setHeader headerName="JMSXGroupCount">
-                <header>CamelSplitSize</header>
-            </setHeader>
-            <to uri="seda:entityFeed"/>
+          <ref>staxEntity</ref>
+          <setHeader headerName="JMSXGroupSeq">
+            <header>CamelSplitIndex</header>
+          </setHeader>
+          <setHeader headerName="JMSXGroupCount">
+            <header>CamelSplitSize</header>
+          </setHeader>
+          <to uri="seda:entityFeed" />
         </split>
+        <log message="Parsing is done for ${header.fileEntry}"/>
+      </filter>
     </route>
+
     <route id="staging">
-        <from uri="seda:entityFeed?concurrentConsumers=32&amp;blockWhenFull=true"/>
-        <log message="Produced output: ${header.CamelSplitIndex} of ${header.CamelSplitSize}"/>
-        <stop/>
+      <from uri="seda:entityFeed?concurrentConsumers=32" />
+      <log
+        message="File: ${header.fileEntry}, batch of ${body.size}. Starts at Ln: ${body[0].getLineNumber} - Col: ${body[0].getColumnNumber}" />
+      <stop />
     </route>
-</camelContext>
+  </camelContext>
 
 </beans>

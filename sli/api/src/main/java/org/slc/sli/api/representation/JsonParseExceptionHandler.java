@@ -21,7 +21,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
-import com.fasterxml.jackson.core.JsonParseException;
+import org.codehaus.jackson.JsonParseException;
 import org.springframework.stereotype.Component;
 
 /**

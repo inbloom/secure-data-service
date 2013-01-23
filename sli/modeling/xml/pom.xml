@@ -12,10 +12,17 @@
         <sli.home>${project.parent.parent.basedir}</sli.home>
     </properties>
     <dependencies>
+        <!-- Apache Commons IO Dependency -->
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>${commons.io.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- StAX API -->
+        <dependency>
+            <groupId>stax</groupId>
+            <artifactId>stax-api</artifactId>
+            <version>${stax.api.version}</version>
         </dependency>
     </dependencies>
 </project>

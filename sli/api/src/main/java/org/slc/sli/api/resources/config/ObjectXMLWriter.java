@@ -29,9 +29,9 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import com.fasterxml.jackson.xml.XmlMapper;
 
+import org.codehaus.jackson.map.SerializationConfig;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.resources.v1.HypermediaType;
@@ -67,9 +67,9 @@ public class ObjectXMLWriter implements MessageBodyWriter {
     public void writeTo(Object o, Class type, Type genericType, Annotation[] annotations, MediaType mediaType,
                         MultivaluedMap httpHeaders, OutputStream entityStream) throws IOException, WebApplicationException {
         XmlMapper xmlMapper = new XmlMapper();
-        xmlMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
-        xmlMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-        xmlMapper.configure(SerializationFeature.INDENT_OUTPUT, true);
+        xmlMapper.configure(SerializationConfig.Feature.WRITE_DATES_AS_TIMESTAMPS, false);
+        xmlMapper.configure(SerializationConfig.Feature.FAIL_ON_EMPTY_BEANS, false);
+        xmlMapper.configure(SerializationConfig.Feature.INDENT_OUTPUT, true);
         xmlMapper.writeValue(entityStream, o);
     }
 }
