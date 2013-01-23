@@ -10,9 +10,10 @@ import javax.jms.Message;
 import javax.jms.Session;
 import javax.jms.Topic;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import org.apache.commons.lang.builder.HashCodeBuilder;
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.DeserializationConfig;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slc.sli.search.config.IndexConfig;
 import org.slc.sli.search.config.IndexConfigStore;
 import org.slf4j.Logger;
@@ -48,7 +49,7 @@ public class SarjeSubscriptionAdmin {
     // topic oplog agents listen to for subscriptions
     private Topic subscriptionBroadcastTopic;
 
-    private final ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+    private final ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     private MongoOperations mongoTemplate;
 
     public void init() {

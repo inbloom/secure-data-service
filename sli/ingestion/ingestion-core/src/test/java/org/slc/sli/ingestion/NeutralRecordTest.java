@@ -18,7 +18,7 @@ package org.slc.sli.ingestion;
 
 import static org.junit.Assert.assertEquals;
 
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Test;
 
 /**

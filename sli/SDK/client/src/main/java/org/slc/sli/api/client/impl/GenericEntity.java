@@ -22,8 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.Link;
@@ -49,10 +49,8 @@ public class GenericEntity implements Entity {
      *
      * @param type
      *            Entity type for this entity.
-     * @param body
+     * @param data
      *            Map representing the entity's data.
-     * @param metadata
-     *            Map representing the entity's metadata.
      */
     public GenericEntity(final String type, final Map<String, Object> data) {
         this.type = type;

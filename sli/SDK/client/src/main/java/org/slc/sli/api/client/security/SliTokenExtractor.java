@@ -17,8 +17,8 @@
 
 package org.slc.sli.api.client.security;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.scribe.extractors.AccessTokenExtractor;
 import org.scribe.model.Token;
 import org.scribe.utils.Preconditions;

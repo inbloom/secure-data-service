@@ -28,7 +28,7 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyWriter;
 import javax.ws.rs.ext.Provider;
 
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slc.sli.api.representation.EntityResponse;
 import org.slc.sli.api.representation.Home;
 import org.slc.sli.api.resources.v1.HypermediaType;

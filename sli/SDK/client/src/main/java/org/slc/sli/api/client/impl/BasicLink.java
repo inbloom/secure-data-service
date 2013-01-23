@@ -19,9 +19,9 @@ package org.slc.sli.api.client.impl;
 
 import java.net.URL;
 
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import org.slc.sli.api.client.Link;
 import org.slc.sli.api.client.impl.transform.LinkDeserializer;

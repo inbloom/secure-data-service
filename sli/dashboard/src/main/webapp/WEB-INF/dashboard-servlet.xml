@@ -46,7 +46,7 @@
         <property name="suffix" value=".ftl"/>
 	<property name="contentType" value="text/html;charset=UTF-8"/>
     </bean>
-    
+
     <mvc:resources mapping="/builder/**" location="/builder/"/>
 
     <bean class="org.slc.sli.dashboard.util.DashboardExceptionResolver">
@@ -76,7 +76,7 @@
 
     <mvc:annotation-driven validator="validator" >
       <mvc:message-converters>
-          <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+          <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
                     <property name="objectMapper">
                         <bean id="jacksonObjectMapper" class="org.slc.sli.dashboard.web.util.JacksonObjectMapperWithOptions"/>
                     </property>

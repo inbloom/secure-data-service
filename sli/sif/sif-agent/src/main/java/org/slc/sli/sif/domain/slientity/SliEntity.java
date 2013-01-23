@@ -23,12 +23,12 @@ import java.util.ListIterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.type.TypeReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -78,8 +78,7 @@ public abstract class SliEntity {
     public Map<String, Object> createBody() {
         Map<String, Object> body = null;
         try {
-            body = MAPPER.
-                    readValue(this.json(), new TypeReference<Map<String, Object>>() {
+            body = MAPPER.readValue(this.json().traverse(), new TypeReference<Map<String, Object>>() {
             });
             clearNullValueKeys(body);
         } catch (JsonParseException e) {

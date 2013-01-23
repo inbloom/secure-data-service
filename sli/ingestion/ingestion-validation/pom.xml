@@ -57,6 +57,10 @@
           <artifactId>spring-webmvc</artifactId>
           <groupId>org.springframework</groupId>
         </exclusion>
+          <exclusion>
+              <artifactId>commons-logging</artifactId>
+              <groupId>commons-logging</groupId>
+          </exclusion>
       </exclusions>
     </dependency>
 
@@ -174,6 +178,7 @@
           <plugin>
             <groupId>org.eclipse.m2e</groupId>
             <artifactId>lifecycle-mapping</artifactId>
+            <version>${maven.lifecycle.version}</version>
             <configuration>
               <lifecycleMappingMetadata>
                 <pluginExecutions>

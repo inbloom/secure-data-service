@@ -17,11 +17,13 @@
 
 package org.slc.sli.dashboard.web.util;
 
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.annotate.JsonAutoDetect;
-import org.codehaus.jackson.map.DeserializationConfig;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.introspect.VisibilityChecker;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.databind.DeserializationConfig;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.introspect.VisibilityChecker;
 
 /**
  * A wrapper for jackson ObjectMapper with some useful features enabled
@@ -35,9 +37,9 @@ public class JacksonObjectMapperWithOptions extends ObjectMapper {
         this.getJsonFactory().setCharacterEscapes(new HTMLCharacterEscapes());
         configure(JsonParser.Feature.ALLOW_SINGLE_QUOTES, true);
         configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true);
-        configure(DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        configure(DeserializationConfig.Feature.CAN_OVERRIDE_ACCESS_MODIFIERS, true);
-        configure(DeserializationConfig.Feature.AUTO_DETECT_FIELDS, true);
+        configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        configure(MapperFeature.CAN_OVERRIDE_ACCESS_MODIFIERS, true);
+        configure(MapperFeature.AUTO_DETECT_FIELDS, true);
         setVisibilityChecker(VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY));
     }
 }

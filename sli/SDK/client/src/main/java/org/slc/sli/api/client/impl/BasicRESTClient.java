@@ -32,8 +32,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.exceptions.OAuthException;
 import org.scribe.model.OAuthConfig;
@@ -170,7 +170,7 @@ public class BasicRESTClient implements RESTClient {
         JsonNode obj = mapper.readTree(jsonText);
         if (obj.has("authenticated")) {
             JsonNode e = obj.get("authenticated");
-            if (e.getBooleanValue()) {
+            if (e.booleanValue()) {
                 return sessionToken;
             }
         }

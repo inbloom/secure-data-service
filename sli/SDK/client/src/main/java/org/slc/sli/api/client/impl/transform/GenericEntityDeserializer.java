@@ -26,18 +26,18 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonParser;
-import org.codehaus.jackson.map.DeserializationContext;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.deser.std.StdDeserializer;
-import org.codehaus.jackson.node.ArrayNode;
-import org.codehaus.jackson.node.BooleanNode;
-import org.codehaus.jackson.node.DoubleNode;
-import org.codehaus.jackson.node.IntNode;
-import org.codehaus.jackson.node.LongNode;
-import org.codehaus.jackson.node.NullNode;
-import org.codehaus.jackson.node.ObjectNode;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.BooleanNode;
+import com.fasterxml.jackson.databind.node.DoubleNode;
+import com.fasterxml.jackson.databind.node.IntNode;
+import com.fasterxml.jackson.databind.node.LongNode;
+import com.fasterxml.jackson.databind.node.NullNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.Link;
@@ -60,7 +60,7 @@ public class GenericEntityDeserializer extends StdDeserializer<GenericEntity> {
     private Map<String, Object> processObject(final ObjectNode obj) {
         Map<String, Object> rval = new HashMap<String, Object>();
         
-        Iterator<String> it = obj.getFieldNames();
+        Iterator<String> it = obj.fieldNames();
         
         while (it.hasNext()) {
             String key = it.next();
@@ -72,7 +72,7 @@ public class GenericEntityDeserializer extends StdDeserializer<GenericEntity> {
     }
     
     private Object processElement(final String key, final JsonNode element) {
-        Object rval = null;
+        Object rval;
         if (element instanceof ObjectNode) {
             Map<String, Object> r2 = processObject((ObjectNode) element);
             
@@ -105,7 +105,7 @@ public class GenericEntityDeserializer extends StdDeserializer<GenericEntity> {
     private List<Object> processArray(final String key, final ArrayNode asJsonArray) {
         List<Object> list = new LinkedList<Object>();
         
-        Iterator<JsonNode> it = asJsonArray.getElements();
+        Iterator<JsonNode> it = asJsonArray.elements();
         while (it.hasNext()) {
             list.add(processElement(key, it.next()));
         }
@@ -116,29 +116,29 @@ public class GenericEntityDeserializer extends StdDeserializer<GenericEntity> {
         Object val;
         
         if (prim instanceof BooleanNode) {
-            val = prim.getBooleanValue();
+            val = prim.booleanValue();
         } else if (prim instanceof DoubleNode) {
-            val = prim.getDoubleValue();
+            val = prim.doubleValue();
         } else if (prim instanceof IntNode) {
-            val = prim.getIntValue();
+            val = prim.intValue();
         } else if (prim instanceof LongNode) {
-            val = prim.getLongValue();
+            val = prim.longValue();
         } else {
-            val = prim.getTextValue();
+            val = prim.textValue();
         }
         return val;
     }
     
     @Override
     public GenericEntity deserialize(JsonParser parser, DeserializationContext context) throws IOException {
-        
-        ObjectMapper mapper = (ObjectMapper) parser.getCodec();
+
+        ObjectMapper mapper = new ObjectMapper();
         ObjectNode root = (ObjectNode) mapper.readTree(parser);
         
         String entityType = null;
         
         if (root.has(ENTITY_TYPE_KEY)) {
-            entityType = root.get(ENTITY_TYPE_KEY).getTextValue();
+            entityType = root.get(ENTITY_TYPE_KEY).textValue();
             root.remove(ENTITY_TYPE_KEY);
         }
         

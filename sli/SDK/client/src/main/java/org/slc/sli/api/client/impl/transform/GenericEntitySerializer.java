@@ -22,21 +22,21 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
-import org.codehaus.jackson.JsonGenerator;
-import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-import org.codehaus.jackson.map.SerializerProvider;
-import org.codehaus.jackson.map.ser.std.SerializerBase;
-import org.codehaus.jackson.map.ser.std.StdKeySerializer;
-import org.codehaus.jackson.node.ArrayNode;
-import org.codehaus.jackson.node.DoubleNode;
-import org.codehaus.jackson.node.IntNode;
-import org.codehaus.jackson.node.LongNode;
-import org.codehaus.jackson.node.NullNode;
-import org.codehaus.jackson.node.ObjectNode;
-import org.codehaus.jackson.node.POJONode;
-import org.codehaus.jackson.node.TextNode;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializer;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+import com.fasterxml.jackson.databind.node.DoubleNode;
+import com.fasterxml.jackson.databind.node.IntNode;
+import com.fasterxml.jackson.databind.node.LongNode;
+import com.fasterxml.jackson.databind.node.NullNode;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.POJONode;
+import com.fasterxml.jackson.databind.node.TextNode;
 
 import org.slc.sli.api.client.impl.GenericEntity;
 
@@ -49,13 +49,13 @@ import org.slc.sli.api.client.impl.GenericEntity;
  * omitted in the payload.
  * 
  */
-public class GenericEntitySerializer extends SerializerBase<GenericEntity> {
+public class GenericEntitySerializer extends StdSerializer<GenericEntity> {
     
     public static final String ENTITY_BODY_KEY = "body";
     public static final String ENTITY_LINKS_KEY = "links";
     public static final String ENTITY_METADATA_KEY = "metaData";
     
-    private static final SerializerBase<Object> DEFAULT = new StdKeySerializer();
+    private static final StdSerializer<Object> DEFAULT = new StdKeySerializer();
     private ObjectMapper mapper = new ObjectMapper();
     
     public GenericEntitySerializer() {
