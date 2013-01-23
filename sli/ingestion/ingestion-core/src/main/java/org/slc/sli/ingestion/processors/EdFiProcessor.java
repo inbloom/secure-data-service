@@ -44,7 +44,6 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
-import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.impl.ProcessorSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;

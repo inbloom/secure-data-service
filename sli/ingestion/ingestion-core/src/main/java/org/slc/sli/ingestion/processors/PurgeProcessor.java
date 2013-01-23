@@ -34,7 +34,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.RangedWorkNote;
+import org.slc.sli.ingestion.SLIWorkNote;
 import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
@@ -42,7 +42,6 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
-import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.impl.ProcessorSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
@@ -230,7 +229,7 @@ public class PurgeProcessor implements Processor {
     private String getBatchJobId(Exchange exchange) {
         String batchJobId = null;
 
-        RangedWorkNote workNote = exchange.getIn().getBody(RangedWorkNote.class);
+        SLIWorkNote workNote = exchange.getIn().getBody(SLIWorkNote.class);
         if (workNote != null) {
             batchJobId = workNote.getBatchJobId();
         }
