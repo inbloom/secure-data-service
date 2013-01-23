@@ -45,7 +45,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | studentProgramAssociations              | 2009-2010    | 0                   | 0                |                                                                                |
     | studentSchoolAssociations               | 2008-2009    | 59                  | 4                | <LIST-SSA-AKOPEL>                                                              |
     | studentSectionAssociations              | 2010-2011    | 0                   | 0                |                                                                                |
-    | students                                | 2010-2011    | 26                  | 1                | 5738d251-dd0b-4734-9ea6-417ac9320a15_id                                        |
+    | students                                | 2008-2009    | 26                  | 1                | 5738d251-dd0b-4734-9ea6-417ac9320a15_id                                        |
 #    | teacherSchoolAssociations               | 2010-2011    | 1                   | 0                |                                                                               |
 #    | teacherSectionAssociations              | 2010-2011    | 1                   | 0                |                                                                                |
     | teachers                                | 2010-2011    | 1                   | 1                | rbraverman                                                                     |
@@ -66,7 +66,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     # 2010-2011: 2010-09-06 to 2011-05-16
     # 2011-2012: 2011-09-06 to 2012-06-31
     | Entity URI                              | School Years | Count Without Range | Count With Range | Entity List                                                                    |
-    | attendances                             | 2010-2011    | 29                  | 1                | 530f0704-c240-4ed9-0a64-55c0308f91ee                                           |
+    | attendances                             | 2011-2012    | 29                  | 1                | 530f0704-c240-4ed9-0a64-55c0308f91ee                                           |
     | courseOfferings                         | 2010-2011    | 39                  | 12               | <LIST-CO-LINDAKIM>                                                             |
 #    | courseTranscripts                       | 2010-2011    | 2                   | 1                | f11a2a30-d4fd-4400-ae18-353c00d581a2                                           |
     | disciplineActions                       | 2010-2011    | 0                   | 0                |                                                                                |
@@ -88,7 +88,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | studentDisciplineIncidentAssociations   | 2010-2011    | 0                   | 0                |                                                                                |
 #    | studentGradebookEntries                 | 2010-2011    | 4                   | 0                |                                                                                |
     | studentProgramAssociations              | 2010-2011    | 0                   | 0                |                                                                                |
-    | studentSchoolAssociations               | 2009-2010    | 67                  | 1                | 5738d251-dd0b-4734-9ea6-417ac9320a15_id                                        |
+    | studentSchoolAssociations               | 2009-2010    | 67                  | 5                | <LIST-SSA-LINDAKIM>                                                            |
     | studentSectionAssociations              | 2010-2012    | 31                  | 1                | 706ee3be-0dae-4e98-9525-f564e05aa388_idbac890d6-b580-4d9d-a0d4-8bce4e8d351a_id |
     | students                                | 2010-2011    | 31                  | 0                |                                                                                |
 #    | teacherSchoolAssociations               | 2010-2011    | 1                   | 0                |                                                                                |
