@@ -35,10 +35,10 @@
         </dependency>
 
         <dependency>
-          <groupId>org.slc.sli.domain</groupId>
-          <artifactId>domain</artifactId>
-          <type>test-jar</type>
-          <scope>test</scope>
+            <groupId>org.slc.sli.domain</groupId>
+            <artifactId>domain</artifactId>
+            <type>test-jar</type>
+            <scope>test</scope>
         </dependency>
 
         <dependency>

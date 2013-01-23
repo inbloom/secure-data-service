@@ -25,6 +25,7 @@ import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
+import org.slc.sli.ingestion.reporting.impl.ControlFileSource;
 import org.slc.sli.ingestion.validation.Validator;
 
 /**
@@ -52,10 +53,11 @@ public class ControlFileValidator implements Validator<ControlFileDescriptor> {
             Source source) {
         ControlFile controlFile = item.getFileItem();
 
+        // we know more of our source
         List<IngestionFileEntry> entries = controlFile.getFileEntries();
 
         if (entries.size() < 1) {
-            report.error(reportStats, source, BaseMessageCode.BASE_0003);
+            report.error(reportStats, new ControlFileSource(source.getResourceId(), controlFile), BaseMessageCode.BASE_0003);
 
             return false;
         }
@@ -73,7 +75,7 @@ public class ControlFileValidator implements Validator<ControlFileDescriptor> {
         // then this is a case of 'no valid files in control file'
         // (i.e., SL_ERR_MSG8)
         if (!isValid && !reportStats.hasErrors()) {
-            report.error(reportStats, source, BaseMessageCode.BASE_0002);
+            report.error(reportStats, new ControlFileSource(source.getResourceId(), controlFile), BaseMessageCode.BASE_0002);
             return false;
         }
 

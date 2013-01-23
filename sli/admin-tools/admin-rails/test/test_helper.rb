@@ -49,6 +49,7 @@ class ActiveSupport::TestCase
     @ed_org_fixtures = load_fixture("education_organization")
     @account_managements_fixtures=load_fixture("account_managements")
     @admin_delegations_fixtures = load_fixture("admin_delegations")
+    @custom_roles_fixtures = load_fixture("custom_role")
     @user_fixtures = load_fixture("users")
 
     ActiveResource::HttpMock.respond_to do |mock|

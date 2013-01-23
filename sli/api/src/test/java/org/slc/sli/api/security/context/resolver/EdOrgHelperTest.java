@@ -17,27 +17,31 @@
 package org.slc.sli.api.security.context.resolver;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.constants.ParameterConstants;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
 
 /**
  * Utility class for constructing ed-org hierarchies for use in test classes.
@@ -65,14 +69,13 @@ public class EdOrgHelperTest {
      *   |  lea4
      *  lea1 --> staff1
      *   |  \
-     *   |   school1 --> teacher1
+     *   |   school1 --> teacher1, student1
      *  lea2 --> staff2
      *   |  \
-     *   |   school2 --> teacher1
+     *   |   school2 --> teacher2, student2
      *  lea3 --> staff2
-     *   |
-     *   |
-     *  school3 --> teacher3
+     *   |  \
+     *   |   school3 --> teacher3, student3
      */
 
     Entity staff1 = null;   //directly associated with lea1
@@ -90,96 +93,113 @@ public class EdOrgHelperTest {
     Entity teacher1 = null;
     Entity teacher2 = null;
     Entity teacher3 = null;
+    Entity student1 = null;
+    Entity student2 = null;
+    Entity student3 = null;
 
     @Before
     public void setup() {
-        
-        repo.deleteAll("educationOrganization", null);
-        repo.deleteAll("staff", null);
+
+        repo.deleteAll(EntityNames.EDUCATION_ORGANIZATION, null);
+        repo.deleteAll(EntityNames.STAFF, null);
+        repo.deleteAll(EntityNames.STUDENT, null);
+        repo.deleteAll(EntityNames.STUDENT_SCHOOL_ASSOCIATION, null);
 
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("staffUniqueStateId", "staff1");
-        staff1 = repo.create("staff", body);
+        staff1 = repo.create(EntityNames.STAFF, body);
 
         body = new HashMap<String, Object>();
         body.put("staffUniqueStateId", "staff2");
-        staff2 = repo.create("staff", body);
+        staff2 = repo.create(EntityNames.STAFF, body);
 
         body = new HashMap<String, Object>();
         body.put("staffUniqueStateId", "staff3");
-        staff3 = repo.create("staff", body);
+        staff3 = repo.create(EntityNames.STAFF, body);
 
         body = new HashMap<String, Object>();
         body.put("staffUniqueStateId", "staff4");
-        staff4 = repo.create("staff", body);
+        staff4 = repo.create(EntityNames.STAFF, body);
 
         body = new HashMap<String, Object>();
-        teacher1 = repo.create("teacher", body);
+        teacher1 = repo.create(EntityNames.TEACHER, body);
 
         body = new HashMap<String, Object>();
-        teacher2 = repo.create("teacher", body);
+        teacher2 = repo.create(EntityNames.TEACHER, body);
 
         body = new HashMap<String, Object>();
-        teacher3 = repo.create("teacher", body);
+        teacher3 = repo.create(EntityNames.TEACHER, body);
+
+        body = new HashMap<String, Object>();
+        body.put("studentUniqueStateId", "student1");
+        student1 = repo.create(EntityNames.STUDENT, body);
+
+        body = new HashMap<String, Object>();
+        body.put("studentUniqueStateId", "student2");
+        student2 = repo.create(EntityNames.STUDENT, body);
+
+        body = new HashMap<String, Object>();
+        body.put("studentUniqueStateId", "student3");
+        student3 = repo.create(EntityNames.STUDENT, body);
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("State Education Agency"));
-        sea1 = repo.create("educationOrganization", body);
+        sea1 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("Local Education Agency"));
         body.put("parentEducationAgencyReference", sea1.getEntityId());
-        lea1 = repo.create("educationOrganization", body);
+        lea1 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("Local Education Agency"));
         body.put("parentEducationAgencyReference", lea1.getEntityId());
-        lea2 = repo.create("educationOrganization", body);
+        lea2 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("Local Education Agency"));
         body.put("parentEducationAgencyReference", lea2.getEntityId());
-        lea3 = repo.create("educationOrganization", body);
+        lea3 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("Local Education Agency"));
         body.put("parentEducationAgencyReference", sea1.getEntityId());
-        lea4 = repo.create("educationOrganization", body);
+        lea4 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("School"));
         body.put("parentEducationAgencyReference", lea1.getEntityId());
-        school1 = repo.create("educationOrganization", body);
+        school1 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("School"));
         body.put("parentEducationAgencyReference", lea2.getEntityId());
-        school2 = repo.create("educationOrganization", body);
+        school2 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
 
         body = new HashMap<String, Object>();
         body.put("organizationCategories", Arrays.asList("School"));
         body.put("parentEducationAgencyReference", lea3.getEntityId());
-        school3 = repo.create("educationOrganization", body);
+        school3 = repo.create(EntityNames.EDUCATION_ORGANIZATION, body);
 
         body = new HashMap<String, Object>();
         body.put("educationOrganizationReference", lea1.getEntityId());
         body.put("staffReference", staff1.getEntityId());
-        repo.create("staffEducationOrganizationAssociation", body);
+        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, body);
 
         body = new HashMap<String, Object>();
         body.put("educationOrganizationReference", lea2.getEntityId());
         body.put("staffReference", staff2.getEntityId());
-        repo.create("staffEducationOrganizationAssociation", body);
+        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, body);
 
         body = new HashMap<String, Object>();
         body.put("educationOrganizationReference", lea3.getEntityId());
         body.put("staffReference", staff3.getEntityId());
-        repo.create("staffEducationOrganizationAssociation", body);
+        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, body);
 
         body = new HashMap<String, Object>();
         body.put("educationOrganizationReference", sea1.getEntityId());
         body.put("staffReference", staff4.getEntityId());
-        repo.create("staffEducationOrganizationAssociation", body);
+        repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, body);
 
         body = new HashMap<String, Object>();
         body.put(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, school1.getEntityId());
@@ -195,6 +215,24 @@ public class EdOrgHelperTest {
         body.put(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, school3.getEntityId());
         body.put(ParameterConstants.STAFF_REFERENCE, teacher3.getEntityId());
         repo.create(EntityNames.STAFF_ED_ORG_ASSOCIATION, body);
+
+        body = new HashMap<String, Object>();
+        body.put(ParameterConstants.STUDENT_ID, student1.getEntityId());
+        body.put(ParameterConstants.SCHOOL_ID, school1.getEntityId());
+        body.put("entryDate", new DateTime().minusDays(3));
+        repo.create(EntityNames.STUDENT_SCHOOL_ASSOCIATION, body);
+
+        body = new HashMap<String, Object>();
+        body.put(ParameterConstants.STUDENT_ID, student2.getEntityId());
+        body.put(ParameterConstants.SCHOOL_ID, school2.getEntityId());
+        body.put("entryDate", new DateTime().minusDays(3));
+        repo.create(EntityNames.STUDENT_SCHOOL_ASSOCIATION, body);
+
+        body = new HashMap<String, Object>();
+        body.put(ParameterConstants.STUDENT_ID, student3.getEntityId());
+        body.put(ParameterConstants.SCHOOL_ID, school3.getEntityId());
+        body.put("entryDate", new DateTime().minusDays(3));
+        repo.create(EntityNames.STUDENT_SCHOOL_ASSOCIATION, body);
     }
 
 
@@ -268,7 +306,7 @@ public class EdOrgHelperTest {
         List<String> seas = helper.getSEAs(teacher3);
         assertTrue("teacher3 must see sea1", seas.contains(sea1.getEntityId()));
     }
-    
+
     @Test
     public void testParents() {
         List<String> edorgs = helper.getParentEdOrgs(school3);
@@ -276,13 +314,39 @@ public class EdOrgHelperTest {
         assertEquals(lea1.getEntityId(), edorgs.get(2));
         assertEquals(lea2.getEntityId(), edorgs.get(1));
         assertEquals(lea3.getEntityId(), edorgs.get(0));
-        assertEquals(4, edorgs.size());   
+        assertEquals(4, edorgs.size());
     }
-    
+
     @Test
     public void testParentsOfSea() {
         List<String> edorgs = helper.getParentEdOrgs(sea1);
-        assertEquals(0, edorgs.size());   
+        assertEquals(0, edorgs.size());
     }
 
+    @Test
+    public void testStudent1() {
+        Set<String> edorgs = helper.getDirectEdorgs(student1);
+        assertEquals(1, edorgs.size());
+        assertTrue("student1 should see school1", edorgs.contains(school1.getEntityId()));
+        assertFalse("student1 should not see school2", edorgs.contains(school2.getEntityId()));
+        assertFalse("student1 should not see school3", edorgs.contains(school3.getEntityId()));
+    }
+
+    @Test
+    public void testStudent2() {
+        Set<String> edorgs = helper.getDirectEdorgs(student2);
+        assertEquals(1, edorgs.size());
+        assertFalse("student2 should not see school1", edorgs.contains(school1.getEntityId()));
+        assertTrue("student2 should see school2", edorgs.contains(school2.getEntityId()));
+        assertFalse("student2 should not see school3", edorgs.contains(school3.getEntityId()));
+    }
+
+    @Test
+    public void testStudent3() {
+        Set<String> edorgs = helper.getDirectEdorgs(student3);
+        assertEquals(1, edorgs.size());
+        assertFalse("student3 should not see school1", edorgs.contains(school1.getEntityId()));
+        assertFalse("student3 should not see school2", edorgs.contains(school2.getEntityId()));
+        assertTrue("student3 should see school3", edorgs.contains(school3.getEntityId()));
+    }
 }

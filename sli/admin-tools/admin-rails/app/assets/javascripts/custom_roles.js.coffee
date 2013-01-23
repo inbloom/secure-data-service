@@ -1,4 +1,4 @@
-defaultRights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "AGGREGATE_WRITE", "READ_PUBLIC"]
+defaultRights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "AGGREGATE_WRITE", "READ_PUBLIC", "WRITE_PUBLIC"]
 ROLE_COL = "td:eq(0)";
 RIGHT_COL = "td:eq(1)";
 ADMIN_COL = "td:eq(2)";
@@ -179,12 +179,11 @@ saveData = (json) ->
 getJsonData = () ->
   data = []
   $("#custom_roles tr:gt(0)").each ->
-    groupName = $(@).find(ROLE_COL).find(".groupTitle").val()
-    if groupName == ""
+    groupName = $(@).find(ROLE_COL).find("#groupNameInput").val()
+    if !groupName
       groupName = $(@).find(ROLE_COL).find(".groupTitle").text()
-    #still in edit mode
-    if groupName == ""
-      groupName = $(@).find(ROLE_COL).find("#groupNameInput").val()
+    if !groupName
+      groupName = $(@).find(ROLE_COL).find(".groupTitle").val()
 
     roles = []
     $(@).find(ROLE_COL).find(".customLabel").each ->

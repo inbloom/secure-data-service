@@ -19,6 +19,7 @@ package org.slc.sli.dal.versioning;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -119,7 +120,7 @@ public class SliSchemaVersionValidator {
             String entityType = entry.getKey();
             int newVersion = entry.getValue();
             
-            if (this.getMigrationStrategies(entityType, newVersion) == NO_STRATEGIES_DEFINED) {
+            if (this.getMigrationStrategies(entityType, 0, newVersion) == NO_STRATEGIES_DEFINED) {
                 LOG.warn("Migration of entity type [{}] to version [{}] is undefined", entry.getKey(), entry.getValue());
             }
         }
@@ -217,9 +218,10 @@ public class SliSchemaVersionValidator {
     protected Entity performMigration(String entityType, Entity entity, ValidationWithoutNaturalKeys repo,
                           String collectionName, boolean doUpdate) {
         int newVersionNumber = this.entityTypesBeingMigrated.get(entityType);
+        int entityVersionNumber = this.getEntityVersionNumber(entity);
 
         Entity localEntity = entity;
-        for (MigrationStrategy migrationStrategy : this.getMigrationStrategies(entityType, newVersionNumber)) {
+        for (MigrationStrategy migrationStrategy : this.getMigrationStrategies(entityType, entityVersionNumber, newVersionNumber)) {
             localEntity = migrationStrategy.migrate(localEntity);
         }
 
@@ -316,15 +318,22 @@ public class SliSchemaVersionValidator {
 
     }
 
-    protected List<MigrationStrategy> getMigrationStrategies(String entityType, int newVersionNumber) {
+    protected List<MigrationStrategy> getMigrationStrategies(String entityType, int entityVersionNumber, int newVersionNumber) {
 
         Map<Integer, List<MigrationStrategy>> entityMigrations = migrationStrategyMap.get(entityType);
+        List<MigrationStrategy> allStrategies = new LinkedList<MigrationStrategy>();
 
         if (entityMigrations != null) {
-            List<MigrationStrategy> strategies = entityMigrations.get(newVersionNumber);
+            for (int version = entityVersionNumber+1; version <= newVersionNumber; version++) {
+                List<MigrationStrategy> strategies = entityMigrations.get(version);
 
-            if (strategies != null) {
-                return strategies;
+                if (strategies != null) {
+                    allStrategies.addAll(strategies);
+                }
+            }
+
+            if (!allStrategies.isEmpty()) {
+                return allStrategies;
             }
         }
 

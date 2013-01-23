@@ -38,7 +38,7 @@ Before do
   @time = Time.now.strftime("%Y%m%d_%H%M%S")
   @testsRun = Array.new
 
-  #makeDirs([JMETER_JTL_ARCHIVE, JMETER_FAILED_JTL_ARCHIVE])
+  makeDirs([JMETER_JTL_ARCHIVE, JMETER_FAILED_JTL_ARCHIVE])
 end
 
 def makeDirs(dirs)
@@ -74,7 +74,8 @@ end
 def runTest(testName)
   jmxFileName = File.join(JMETER_JMX_PATH, testName + ".jmx")
   propertiesFileName = File.join(JMETER_JMX_PATH, PROPERTIES_FILE)
-  jMeterCommand = JMETER_BIN + " -n -t " + jmxFileName + " -q " + propertiesFileName
+  jtlFileName = testName + ".jtl"
+  jMeterCommand = JMETER_BIN + " -n -t " + jmxFileName + " -l " + jtlFileName + " -q " + propertiesFileName
   puts "executing: " + jMeterCommand
   system jMeterCommand
   parseJtlForRC(testName)

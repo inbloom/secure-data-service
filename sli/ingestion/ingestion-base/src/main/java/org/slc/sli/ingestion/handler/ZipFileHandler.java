@@ -24,8 +24,10 @@ import org.slc.sli.ingestion.landingzone.FileResource;
 import org.slc.sli.ingestion.landingzone.ZipFileUtil;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
 import org.slc.sli.ingestion.reporting.impl.JobSource;
+import org.slc.sli.ingestion.reporting.impl.ZipFileSource;
 
 /**
  * @author ablum
@@ -45,7 +47,8 @@ public class ZipFileHandler extends AbstractIngestionHandler<FileResource, Strin
         try {
             return ZipFileUtil.getControlFileName(zipFile);
         } catch (IOException e) {
-            report.error(reportStats, new JobSource(zipFile.getResourceId(), getStageName()), BaseMessageCode.BASE_0018, zipFile.getName());
+            // we know more of our source
+            report.error(reportStats, new ZipFileSource(zipFile), BaseMessageCode.BASE_0025, zipFile.getName());
         }
 
         return null;

@@ -119,6 +119,8 @@ public class OfflineToolTest {
         // Testing more than 1 input arguments
         reset();
         String[] args = new String[2];
+        args[0] = "First";
+        args[1] = "Second";
         PrivateAccessor.invoke(offlineTool, "start", new Class[]{args.getClass()}, new Object[]{args});
         Mockito.verify(messageReport, Mockito.times(1)).error(Matchers.any(ReportStats.class),
                 Matchers.any(Source.class), Matchers.eq(ValidationMessageCode.VALIDATION_0011), Matchers.eq("validationTool"));

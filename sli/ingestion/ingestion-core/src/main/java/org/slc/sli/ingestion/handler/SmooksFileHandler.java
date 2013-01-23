@@ -38,7 +38,7 @@ import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.JobSource;
+import org.slc.sli.ingestion.reporting.impl.FileSource;
 import org.slc.sli.ingestion.smooks.SliSmooks;
 import org.slc.sli.ingestion.smooks.SliSmooksFactory;
 import org.slc.sli.ingestion.smooks.SmooksEdFiVisitor;
@@ -60,7 +60,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
     @Override
     protected FileProcessStatus doHandling(IngestionFileEntry item, AbstractMessageReport report,
             ReportStats reportStats, FileProcessStatus fileProcessStatus) {
-        Source source = new JobSource(item.getResourceId(), getStageName());
+        Source source = new FileSource(item.getResourceId());
 
         try {
             generateNeutralRecord(item, report, reportStats, source, fileProcessStatus);

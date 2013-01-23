@@ -1,0 +1,168 @@
+common: &common
+    recaptcha_disable: true
+    terms_url: http://dev.slcedu.org/legal/terms-of-use
+    privacy_policy_url: http://dev.slcedu.org/legal/privacy
+    # See the runbook on how to create new reCaptcha keys if needed.
+    recaptcha_pub: 6LcKNNISAAAAABcaWTbWUFsmAGiIr97Gw7xOj4hs
+    recaptcha_priv: 6LcKNNISAAAAANwi1R1BY6SxJrYVv8oMimQ69Hfs
+    # update me when password policy changes
+    password_policy: ["password must satisfy password policy"]
+    support_email: support@slidev.org
+    redirect_slc_url: http://www.slcedu.org
+    email_sender_name_user_reg_app: Administrator
+    email_sender_address_user_reg_app: noreply@slidev.org
+    admin_realm: Shared Learning Collaborative
+    reset_password_lifespan: 86400
+    app_dev_documentation_link: http://dev.slcedu.org/getting-started
+    devslc_url: http://dev.slcedu.org
+
+sandbox: &sandbox
+    is_sandbox: true
+    auto_approve: true
+    maximum_user_count: 500
+    app_dev_documentation_link: http://dev.slcedu.org/getting-started/sandbox
+    sample_data_url: http://dev.slcedu.org
+
+ldap_default: &ldap_default
+    ldap_host: ldap.slidev.org
+    ldap_port: 389
+    ldap_use_ssl: false
+    ldap_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
+    ldap_pass: 59bdc807a0b83b9ad8bab0e5ba8a6ed5
+
+email_mon: &email_mon
+    email_sender_name: SLC Administrator
+    email_sender_address: ufhalhffhuwhelfjkdfhs@slidev.org
+    email_host: mon.slidev.org
+    email_port: 3000
+    email_username: 
+    email_password: 
+    email_tls: 
+
+email_rumbster: &email_rumbster
+    email_sender_name: SLI Administrator
+    email_sender_address: ufhalhffhuwhelfjkdfhs@slidev.org
+    email_host: 127.0.0.1
+    email_port: 2525
+
+development:
+    <<: *common
+    <<: *email_mon
+    <<: *ldap_default
+    api_base: http://devmegatron.slidev.org/api/rest
+    client_id: Eg6eseKRzN
+    client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
+    redirect_uri: http://devmegatron.slidev.org:3001/callback
+    ldap_base: ou=LocalNew,ou=DevTest,dc=slidev,dc=org
+    is_sandbox: false
+    auto_approve: false
+    email_replace_uri: http://devmegatron.slidev.org:3001
+    portal_url: https://rcportal.slidev.org/portal
+    rsa_key_dir: /var/tmp/.sftp/authorized_keys
+    tmp_dir: /tmp 
+    encryption_keyfile: /opt/megatron/sli/sli/data-access/dal/keyStore/localRailsKey
+    encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7
+
+local-acceptance-tests:
+    <<: *common
+    <<: *email_rumbster
+    <<: *ldap_default
+    api_base: http://devmegatron.slidev.org/api/rest
+    client_id: Eg6eseKRzN
+    client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
+    redirect_uri: http://devmegatron.slidev.org:3001/callback
+    ldap_base: ou=SLIAdmin,dc=slidev,dc=org
+    is_sandbox: false
+    auto_approve: false
+    email_replace_uri: http://devmegatron.slidev.org:2000
+    portal_url: https://rcportal.slidev.org/portal
+    rsa_key_dir: /var/tmp/.sftp/authorized_keys
+    tmp_dir: /tmp 
+    encryption_keyfile: /opt/megatron/sli/sli/data-access/dal/keyStore/localRailsKey
+    encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7
+    
+development_sb:
+    <<: *common
+    <<: *sandbox
+    <<: *email_mon
+    <<: *ldap_default
+    api_base: http://devmegatron.slidev.org/api/rest
+    client_id: Eg6eseKRzN
+    client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
+    redirect_uri: http://devmegatron.slidev.org:3001/callback
+    ldap_base: ou=LocalNew,ou=DevTest,dc=slidev,dc=org
+    email_replace_uri: http://devmegatron.slidev.org:3001
+    portal_url: https://rc2portal.slidev.org/portal
+    rsa_key_dir: /var/tmp/.sftp/authorized_keys
+    tmp_dir: /tmp 
+    encryption_keyfile: /opt/megatron/sli/sli/data-access/dal/keyStore/localRailsKey
+    encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7
+    
+team:
+    <<: *common
+    <<: *email_mon
+    <<: *ldap_default
+    api_base: https://ci.slidev.org/api/rest
+    client_id: OY6Nnukmn6
+    client_secret: UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg
+    redirect_uri: https://ci.slidev.org:2001/callback
+    ldap_base: ou=SLIAdmin,dc=slidev,dc=org
+    email_replace_uri: https://ci.slidev.org:2001
+    is_sandbox: false
+    auto_approve: false
+    portal_url: https://rcportal.slidev.org/portal
+    rsa_key_dir: /ingestion/.sftp/authorized_keys
+    tmp_dir: /tmp 
+    encryption_keyfile: /opt/megatron/sli/sli/data-access/dal/keyStore/localRailsKey
+    encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7
+    
+team_sb:
+    <<: *common
+    <<: *sandbox
+    <<: *email_mon
+    <<: *ldap_default
+    api_base: https://ci.slidev.org/api/rest
+    client_id: OY6Nnukmn6
+    client_secret: UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg
+    redirect_uri: https://ci.slidev.org:2001/callback
+    ldap_base: ou=SLIAdmin,dc=slidev,dc=org
+    email_replace_uri: https://ci.slidev.org:2001
+    portal_url: https://rc2portal.slidev.org/portal
+    rsa_key_dir: /ingestion/.sftp/authorized_keys
+    tmp_dir: /tmp 
+    encryption_keyfile: /opt/megatron/sli/sli/data-access/dal/keyStore/localRailsKey
+    encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7
+    
+test:
+    <<: *common
+    <<: *email_mon
+    <<: *ldap_default
+    api_base: https://devapp1.slidev.org/api/rest
+    ldap_base: ou=DevTest,dc=slidev,dc=org
+    is_sandbox: false
+    auto_approve: false
+    email_replace_uri: http://devmegatron.slidev.org:3001
+    portal_url: https://rcportal.slidev.org/portal
+    rsa_key_dir: /var/tmp/.sftp/authorized_keys
+    tmp_dir: /tmp 
+    encryption_keyfile: /opt/megatron/sli/sli/data-access/dal/keyStore/localRailsKey
+    encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7
+    
+production:
+    <<: *common
+    <<: *email_mon
+    <<: *ldap_default
+    api_base: https://ci.slidev.org/api/rest
+    client_id: OY6Nnukmn6
+    client_secret: UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg
+    redirect_uri: https://ci.slidev.org:2001/callback
+    ldap_base: ou=SLIAdmin,dc=slidev,dc=org
+    email_replace_uri: https://ci.slidev.org:2001
+    is_sandbox: false
+    auto_approve: false
+    portal_url: https://rcportal.slidev.org/portal
+    rsa_key_dir: /ingestion/.sftp/authorized_keys
+    tmp_dir: /tmp 
+    encryption_keyfile: /opt/megatron/sli/sli/data-access/dal/keyStore/localRailsKey
+    encryption_iv:  Ir\xBC\xBF\xB9\x9Dg 0\x1D\x11[v\x9B\x9B\xE7
+

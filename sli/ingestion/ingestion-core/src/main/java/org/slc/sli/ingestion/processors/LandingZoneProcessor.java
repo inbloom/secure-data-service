@@ -30,7 +30,7 @@ import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FileFormat;
-import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
@@ -38,9 +38,8 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
-import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.JobSource;
+import org.slc.sli.ingestion.reporting.impl.DirectorySource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.tenant.TenantDA;
 import org.slc.sli.ingestion.util.BatchJobUtils;
@@ -94,7 +93,7 @@ public class LandingZoneProcessor implements Processor {
             String lzFileName = lzFile.getName();
             if (!isZipFile(lzFileName)) {
                 hasErrors = true;
-                handleProcessingError(exchange, batchJobId, lzFileName, reportStats);
+                handleProcessingError(exchange, batchJobId, lzFileName, lzDirectoryPathName, reportStats);
             }
 
             BatchJobUtils.stopStageAndAddToJob(stage, newJob);
@@ -164,18 +163,16 @@ public class LandingZoneProcessor implements Processor {
         if (!reportStats.hasErrors() && lzFile != null) {
             exchange.getIn().setBody(lzFile, File.class);
         } else {
-            WorkNote workNote = WorkNote.createSimpleWorkNote(batchJobId);
-            exchange.getIn().setBody(workNote, WorkNote.class);
+            RangedWorkNote workNote = RangedWorkNote.createSimpleWorkNote(batchJobId);
+            exchange.getIn().setBody(workNote, RangedWorkNote.class);
         }
     }
 
-    private void handleProcessingError(Exchange exchange, String batchJobId, String lzFileName, ReportStats reportStats) {
-        exchange.getIn().setHeader("ErrorMessage", ERROR_MESSAGE + lzFileName);
+    private void handleProcessingError(Exchange exchange, String batchJobId, String lzFileName, String lzDirectoryPathName, ReportStats reportStats) {
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOG.error("LandingZoneProcessor: {} is not a zip file.", lzFileName);
         if (batchJobId != null) {
-            Source source = new JobSource(lzFileName, LZ_STAGE.getName());
-            databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0022, lzFileName);
+            databaseMessageReport.error(reportStats, new DirectorySource(lzDirectoryPathName, lzFileName), CoreMessageCode.CORE_0058, lzFileName);
         }
     }
 

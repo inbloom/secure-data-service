@@ -52,4 +52,12 @@ class EulasControllerTest < ActionController::TestCase
     Session.stubs(:valid?).returns(true)
     assert_nothing_raised { get :show }
   end
+
+  test "should delete user upon email failure" do
+    Eula.stubs(:accepted?).returns(true)
+    ApplicationHelper.expects(:send_user_verification_email).once().raises(ApplicationHelper::EmailException)
+    APP_LDAP_CLIENT.expects(:delete_user).once()
+    get :create
+    assert_template :invalid_email
+  end
 end

@@ -31,7 +31,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.MessageCode;
@@ -55,7 +55,7 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
 
     private String batchJobId;
     private Job job;
-    private WorkNote workNote;
+    private RangedWorkNote workNote;
 
     @Value("${sli.ingestion.totalRetries}")
     private int numberOfRetries;
@@ -77,7 +77,7 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
     }
 
     @Override
-    public void perform(Job job, WorkNote workNote) {
+    public void perform(Job job, RangedWorkNote workNote) {
         this.setJob(job);
         this.setBatchJobId(job.getId());
         this.setWorkNote(workNote);
@@ -127,7 +127,7 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
      *
      * @return Work Note containing information about collection and range to operate on.
      */
-    public WorkNote getWorkNote() {
+    public RangedWorkNote getWorkNote() {
         return workNote;
     }
 
@@ -137,7 +137,7 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
      * @param workNote
      *            Work Note containing information about collection and range to operate on.
      */
-    public void setWorkNote(WorkNote workNote) {
+    public void setWorkNote(RangedWorkNote workNote) {
         this.workNote = workNote;
     }
 
@@ -164,7 +164,7 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
     }
 
     public Iterable<NeutralRecord> getCollectionIterableFromDb(String collectionName) {
-        WorkNote jobWorkNote = getWorkNote();
+        RangedWorkNote jobWorkNote = getWorkNote();
 
         Query query = buildCreationTimeQuery(jobWorkNote);
 
@@ -223,7 +223,7 @@ public abstract class AbstractTransformationStrategy implements TransformationSt
      * @return Neutral Query used to find all records in the data store that were created within the
      *         specified range.
      */
-    private Query buildCreationTimeQuery(WorkNote note) {
+    private Query buildCreationTimeQuery(RangedWorkNote note) {
         Query query = new Query().limit(0);
         query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(note.getBatchJobId()));
 

@@ -33,7 +33,7 @@ public class DotPath implements Cloneable {
     }
     
     public DotPath(String path) {
-        this.path = (path  == null) ? new ArrayList<String>() : new ArrayList<String>(Arrays.asList(path.split(Constants.DOT_REGEX)));
+        this.path = (path == null) ? new ArrayList<String>() : new ArrayList<String>(Arrays.asList(path.split(Constants.DOT_REGEX)));
     }
     
     @Override
@@ -90,7 +90,11 @@ public class DotPath implements Cloneable {
 
     @Override
     public boolean equals(Object o) {
-        return path.equals(o);
+        if (!(o instanceof DotPath)) {
+            return false;
+        }
+        DotPath dp = (DotPath) o;
+        return dp.path.equals(this.path);
     }
 
     @Override

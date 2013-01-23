@@ -40,7 +40,6 @@ import org.slc.sli.ingestion.handler.XmlFileHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
-import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.service.IngestionExecutor;
 
 /**
@@ -59,9 +58,6 @@ public class SmooksCallableTest {
 
     @Autowired
     SliSmooksFactory sliSmooksFactory;
-
-    @Mock
-    private BatchJobDAO batchJobDAO;
 
     @Mock
     private NewBatchJob newBatchJob;
@@ -87,7 +83,7 @@ public class SmooksCallableTest {
 
         List<FutureTask<Boolean>> smooksOfTheFutureList = new ArrayList<FutureTask<Boolean>>();
         for (int i = 0; i < 3; i++) {
-            SmooksCallable smooksCallabe = new SmooksCallable(newBatchJob, xmlFileHandler, fe, stage, batchJobDAO, sliSmooksFactory);
+            SmooksCallable smooksCallabe = new SmooksCallable(newBatchJob, xmlFileHandler, fe, null, null, stage, sliSmooksFactory);
 
             FutureTask<Boolean> smooksOfTheFuture = IngestionExecutor.execute(smooksCallabe);
 

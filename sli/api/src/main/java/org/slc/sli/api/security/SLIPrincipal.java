@@ -58,6 +58,8 @@ public class SLIPrincipal implements Principal, Serializable {
     private Set<String> subEdOrgHierarchy;
     private String sandboxTenant;
     private boolean adminRealmAuthenticated;
+    private Entity entity;
+	private String userType;
 
     public String getSessionId() {
         return sessionId;
@@ -66,8 +68,6 @@ public class SLIPrincipal implements Principal, Serializable {
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
     }
-
-    private Entity entity;
 
     public SLIPrincipal() {
         // Empty default constructor is used in various places. 
@@ -262,4 +262,12 @@ public class SLIPrincipal implements Principal, Serializable {
     public void setAdminRealmAuthenticated(boolean adminRealmAuthenticated) {
         this.adminRealmAuthenticated = adminRealmAuthenticated;
     }
+
+    public void setUserType(String userType) {
+    	this.userType=userType;
+    }
+    
+	public String getUserType() {
+		return this.userType;
+	}
 }

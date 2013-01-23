@@ -175,8 +175,8 @@ When /^I have navigated to the <Page> of the Data Browser$/ do |table|
     assertWithWait("Failed to find '"+hash["Page"]+"' Link on page")  {@driver.find_element(:link_text, hash["Page"])}
     @driver.find_element(:link_text, hash["Page"]).click
     
-    assertWithWait("Failed to find 'Home' Link on page")  {@driver.find_element(:link_text, "The inBloom Data Browser")}
-    @driver.find_element(:link_text, "The inBloom Data Browser").click
+    assertWithWait("Failed to find 'Home' Link on page")  {@driver.find_element(:link_text, "data browser")}
+    @driver.find_element(:link_text, "data browser").click
 
     assertWithWait("Failed to be directed to Databrowser's Home page")  {@driver.page_source.include?("Listing Home")}
 

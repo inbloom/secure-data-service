@@ -69,7 +69,7 @@ end
 
 Then /^I am redirected to the dashboard home page$/ do
   #assertWithWait("Failed to be directed to Dashboards's LoS page")  {@driver.page_source.include?("dashboard")}
-  assertWithWait("Failed to be directed to Dashboards's LoS page") {@driver.find_element(:xpath, "/html/body/div/div[2]/div").text.include?("DASHBOARD")}  
+  assertWithWait("Failed to be directed to Dashboards's LoS page") {@driver.find_element(:xpath, "/html/body/div/div[2]/div").text.include?("dashboard")}  
 end
 
 When /^I navigate to the databrowser page$/ do

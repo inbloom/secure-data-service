@@ -15,6 +15,12 @@ task :adminWebTests => [:realmInit] do
   runTests("test/features/admintools")
 end
 
+desc "Run Admin Tool Smoke Tests"
+task :adminRealmTests => [:realmInit] do
+  Rake::Task["importSandboxData"].execute
+  runTests("test/features/admintools/edit_realms.feature")
+end
+
 desc "Run custom Roles Tests"
 task :customRolesTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
@@ -66,6 +72,7 @@ desc "Run Dataprowler Smoke Tests"
 task :databrowserSmokeTests do 
   @tags = ["~@wip", "@smoke", "~@sandbox"]
   runTests("test/features/databrowser/databrowser_simple_detail_view.feature")
+  runTests("test/features/databrowser/student_authentication.feature")
 end
 
 desc "Run Admin Tool Smoke Tests"

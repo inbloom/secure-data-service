@@ -21,12 +21,15 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.DirectorySource;
+import org.slc.sli.ingestion.reporting.impl.FileSource;
 import org.slc.sli.ingestion.reporting.impl.JobSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 
@@ -57,28 +60,27 @@ public class OfflineTool {
     // Number of arguments
     int inputArgumentCount;
 
-    private Source source = null;
-
     private ReportStats reportStats = null;
 
     private void start(String[] args) {
         LoggerUtil.logToConsole();
         File file = null;
 
-        source = new JobSource(null, null);
         reportStats = new SimpleReportStats();
 
         if ((args.length != inputArgumentCount)) {
+            Source source = new JobSource(StringUtils.join(args, ' '));
             messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0011, appName);
             messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0012, appName);
             return;
         } else {
             file = new File(args[0]);
             if (!file.exists()) {
-                messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0014, args[0]);
+                messageReport.error(reportStats, new FileSource(file.getName()), ValidationMessageCode.VALIDATION_0014, args[0]);
                 return;
             }
             if (file.isDirectory()) {
+                Source source = new DirectorySource(file.getPath(), file.getName());
                 messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0013);
                 messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0016, appName);
                 return;

@@ -41,9 +41,10 @@ import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FileFormat;
-import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.validation.IngestionException;
 import org.slc.sli.ingestion.landingzone.validation.SubmissionLevelException;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -54,8 +55,8 @@ import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.ControlFileSource;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.JobSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.tenant.TenantDA;
 import org.slc.sli.ingestion.util.BatchJobUtils;
@@ -113,7 +114,7 @@ public class ControlFilePreProcessor implements Processor {
         ControlFileDescriptor controlFileDescriptor = null;
 
         ReportStats reportStats = new SimpleReportStats();
-        Source source = new JobSource(controlFileName, BATCH_JOB_STAGE.getName());
+        Source source = new ControlFileSource(controlFileName);
 
         try {
             currentBatchJob = getBatchJob(batchJobId);
@@ -138,9 +139,6 @@ public class ControlFilePreProcessor implements Processor {
             String id = "null";
             if (currentBatchJob != null) {
                 id = currentBatchJob.getId();
-                if (currentBatchJob.getResourceEntries().size() == 0) {
-                    databaseMessageReport.warning(reportStats, source, CoreMessageCode.CORE_0002);
-                }
             }
             handleExceptions(exchange, id, exception, reportStats, source);
         } catch (Exception exception) {
@@ -212,8 +210,8 @@ public class ControlFilePreProcessor implements Processor {
         if (!reportStats.hasErrors() && controlFileDescriptor != null) {
             exchange.getIn().setBody(controlFileDescriptor, ControlFileDescriptor.class);
         } else {
-            WorkNote workNote = WorkNote.createSimpleWorkNote(batchJobId);
-            exchange.getIn().setBody(workNote, WorkNote.class);
+            RangedWorkNote workNote = RangedWorkNote.createSimpleWorkNote(batchJobId);
+            exchange.getIn().setBody(workNote, RangedWorkNote.class);
         }
     }
 
@@ -235,6 +233,10 @@ public class ControlFilePreProcessor implements Processor {
 
         batchJob.setTotalFiles(controlFile.getFileEntries().size());
 
+        for(IngestionFileEntry fe : controlFile.getFileEntries()) {
+            fe.setBatchJobId(batchJob.getId());
+        }
+
         return controlFile;
     }
 
@@ -252,7 +254,6 @@ public class ControlFilePreProcessor implements Processor {
     private void handleExceptions(Exchange exchange, String batchJobId, Exception exception, ReportStats reportStats,
             Source source) {
         exchange.getIn().setHeader("BatchJobId", batchJobId);
-        exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LogUtil.error(LOG, "Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
@@ -261,8 +262,8 @@ public class ControlFilePreProcessor implements Processor {
 
             // TODO: we should be creating WorkNote at the very first point of processing.
             // this will require some routing changes
-            WorkNote workNote = WorkNote.createSimpleWorkNote(batchJobId);
-            exchange.getIn().setBody(workNote, WorkNote.class);
+            RangedWorkNote workNote = RangedWorkNote.createSimpleWorkNote(batchJobId);
+            exchange.getIn().setBody(workNote, RangedWorkNote.class);
         }
     }
 
@@ -326,5 +327,13 @@ public class ControlFilePreProcessor implements Processor {
 
     public void setShardCollections(Set<String> shardCollections) {
         this.shardCollections = shardCollections;
+    }
+
+    public void setBatchJobDAO(BatchJobDAO batchJobDAO) {
+        this.batchJobDAO = batchJobDAO;
+    }
+
+    public void setTenantDA(TenantDA tenantDA) {
+    	this.tenantDA = tenantDA;
     }
 }

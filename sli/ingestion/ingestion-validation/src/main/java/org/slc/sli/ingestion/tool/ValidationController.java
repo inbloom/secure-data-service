@@ -29,8 +29,12 @@ import org.slc.sli.ingestion.landingzone.validation.SubmissionLevelException;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
-import org.slc.sli.ingestion.reporting.impl.JobSource;
+import org.slc.sli.ingestion.reporting.impl.ControlFileSource;
+import org.slc.sli.ingestion.reporting.impl.DirectorySource;
+import org.slc.sli.ingestion.reporting.impl.FileSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
+import org.slc.sli.ingestion.reporting.impl.XmlFileSource;
+import org.slc.sli.ingestion.reporting.impl.ZipFileSource;
 import org.slc.sli.ingestion.validation.ComplexValidator;
 import org.slc.sli.ingestion.validation.Validator;
 
@@ -56,51 +60,51 @@ public class ValidationController {
      */
     public void doValidation(File path) {
         ReportStats reportStats = new SimpleReportStats();
-        Source source = new JobSource(path.getName(), null);
 
         if (path.isFile()) {
             if (path.getName().endsWith(".ctl")) {
-                processControlFile(path.getParentFile().getAbsoluteFile(), path.getName(), reportStats, source);
+                processControlFile(path.getParentFile().getAbsoluteFile(), path.getName(), reportStats);
             } else if (path.getName().endsWith(".zip")) {
-                processZip(path, reportStats, source);
+                processZip(path, reportStats);
             } else {
-                messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0001);
+                messageReport.error(reportStats, new FileSource(path.getName()), ValidationMessageCode.VALIDATION_0001);
             }
         } else {
-            messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0015);
+            messageReport.error(reportStats, new DirectorySource(path.getPath(), path.getName()), ValidationMessageCode.VALIDATION_0015);
         }
     }
 
-    public void processValidators(ControlFile cfile, ReportStats reportStats, Source source) {
+    public void processValidators(ControlFile cfile, ReportStats reportStats) {
         boolean isValid = false;
         for (IngestionFileEntry ife : cfile.getFileEntries()) {
             if (ife.isValid()) {
-                messageReport.info(reportStats, source, ValidationMessageCode.VALIDATION_0002, ife.getFileName());
-                isValid = complexValidator.isValid(ife, messageReport, reportStats, source);
+                messageReport.info(reportStats, new XmlFileSource(ife), ValidationMessageCode.VALIDATION_0002, ife.getFileName());
+                isValid = complexValidator.isValid(ife, messageReport, reportStats, new XmlFileSource(ife));
                 if (!isValid) {
-                    messageReport.info(reportStats, source, ValidationMessageCode.VALIDATION_0003, ife.getFileName());
+                    messageReport.info(reportStats, new XmlFileSource(ife), ValidationMessageCode.VALIDATION_0003, ife.getFileName());
                     continue;
                 }
-                messageReport.info(reportStats, source, ValidationMessageCode.VALIDATION_0004, ife.getFileName());
+                messageReport.info(reportStats, new XmlFileSource(ife), ValidationMessageCode.VALIDATION_0004, ife.getFileName());
             }
         }
     }
 
-    public void processZip(File zipFile, ReportStats reportStats, Source source) {
+    public void processZip(File zipFile, ReportStats reportStats) {
 
-        messageReport.info(reportStats, source, ValidationMessageCode.VALIDATION_0005, zipFile.getAbsolutePath());
+        messageReport.info(reportStats, new ZipFileSource(zipFile), ValidationMessageCode.VALIDATION_0005, zipFile.getAbsolutePath());
 
         FileResource zipFileResource = new FileResource(zipFile.getAbsolutePath());
         String ctlFile = zipFileHandler.handle(zipFileResource, messageReport, reportStats);
 
         if (!reportStats.hasErrors()) {
-            processControlFile(zipFile, ctlFile, reportStats, source);
+            processControlFile(zipFile, ctlFile, reportStats);
         }
 
-        messageReport.info(reportStats, source, ValidationMessageCode.VALIDATION_0006, zipFile.getAbsolutePath());
+        messageReport.info(reportStats, new ZipFileSource(zipFile), ValidationMessageCode.VALIDATION_0006, zipFile.getAbsolutePath());
     }
 
-    public void processControlFile(File parentDirectoryOrZipFile, String ctlFile, ReportStats reportStats, Source source) {
+    public void processControlFile(File parentDirectoryOrZipFile, String ctlFile, ReportStats reportStats) {
+        Source source = new ControlFileSource(ctlFile);
         messageReport.info(reportStats, source, ValidationMessageCode.VALIDATION_0007, ctlFile);
 
         try {
@@ -110,7 +114,7 @@ public class ValidationController {
 
             controlFilevalidator.isValid(cfd, messageReport, reportStats, source);
 
-            processValidators(cfile, reportStats, source);
+            processValidators(cfile, reportStats);
         } catch (IOException e) {
             messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0008);
         } catch (SubmissionLevelException exception) {
