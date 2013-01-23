@@ -1,84 +1,98 @@
 [
   {
     "userId": "cgray",
+    "type": "staff",
     "name": "Charles Gray",
     "role": "Educator",
     "association": "Daybreak Central High"
   },
   {
     "userId": "linda.kim",
+    "type": "staff",
     "name": "Linda Kim",
     "role": "Educator",
     "association": "East Daybreak Junior High"
   },
   {
     "userId": "rbraverman",
+    "type": "staff",
     "name": "Rebecca Braverman",
     "role": "Educator",
     "association": "South Daybreak Elementary"
   },
   {
     "userId": "demo",
+    "type": "staff",
     "name": "Johnny Admin",
     "role": "IT Administrator",
     "association": "IL-DAYBREAK"
   },
   {
     "userId": "sampleUser",
+    "type": "staff",
     "name": "Billy Admin",
     "role": "IT Administrator",
     "association": ""
   },
   {
     "userId": "mgonzales",
+    "type": "staff",
     "name": "Maria Gonzales",
     "role": "Leader",
     "association": "South Daybreak Elementary"
   },
   {
     "userId": "akopel",
+    "type": "staff",
     "name": "Amy Kopel",
     "role": "IT Administrator",
     "association": "South Daybreak Elementary"
   },
   {
     "userId": "msmith",
+    "type": "staff",
     "name": "Mary Smith",
     "role": "Aggregate Viewer",
     "association": "South Daybreak Elementary"
   },
   {
     "userId": "ckoch",
+    "type": "staff",
     "name": "Christopher Koch",
     "role": "Leader",
     "association": "STANDARD-SEA"
   },
   {
     "userId": "rrogers",
+    "type": "staff",
     "name": "Rick Rogers",
     "role": "IT Administrator",
     "association": "STANDARD-SEA"
   },
   {
     "userId": "mjohnson",
+    "type": "staff",
     "name": "Michael Johnson",
     "role": "Aggregate Viewer",
     "association": "STANDARD-SEA"
   },
   {
     "userId": "sbantu",
+    "type": "staff",
     "name": "Susan Bantu",
     "role": "Leader",
     "association": "IL-DAYBREAK"
   },
   {
     "userId": "jstevenson",
+    "type": "staff",
     "name": "James Stevenson",
     "role": "IT Administrator",
     "association": "IL-DAYBREAK"
   },
   {
     "userId": "jjackson",
+    "type": "staff",
     "name": "Jack Jackson",
     "role": "Aggregate Viewer",
     "association": "IL-DAYBREAK"

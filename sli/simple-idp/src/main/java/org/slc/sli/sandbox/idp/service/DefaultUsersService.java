@@ -40,13 +40,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class DefaultUsersService {
     private static final Logger LOG = LoggerFactory.getLogger(DefaultUsersService.class);
-    
+
     @Value("${sli.simple-idp.sandbox.users}")
     private String datasetList;
-    
+
     private List<Dataset> datasets;
     private Map<String, List<DefaultUser>> userLists;
-    
+
     /**
      * For unit tests
      * @param datasetList
@@ -66,7 +66,7 @@ public class DefaultUsersService {
             }
         }
     }
-    
+
     @PostConstruct
     public void initUserLists(){
         userLists = new HashMap<String, List<DefaultUser>>();
@@ -77,7 +77,7 @@ public class DefaultUsersService {
             }
         }
     }
-    
+
     /**
      * Get the list of datasets that are configured
      * @return
@@ -85,14 +85,14 @@ public class DefaultUsersService {
     public List<Dataset> getAvailableDatasets() {
         return datasets;
     }
-    
+
     /**
      * Returns available default users for provided dataset
      */
     public List<DefaultUser> getUsers(String dataset) {
         return userLists.get(dataset);
     }
-    
+
     /**
      * Get the user info for the given userId in the given dataset
      * @param dataset
@@ -107,7 +107,7 @@ public class DefaultUsersService {
         }
         return null;
     }
-    
+
     private List<DefaultUser> buildUserList(String dataset){
         List<DefaultUser> users = new ArrayList<DefaultUser>();
         try {
@@ -117,9 +117,10 @@ public class DefaultUsersService {
                 JSONObject jsonUser = jsonArray.getJSONObject(i);
                 String userId = jsonUser.getString("userId");
                 String name = jsonUser.getString("name");
+                String type = jsonUser.getString("type");
                 String role = jsonUser.getString("role");
                 String association = jsonUser.getString("association");
-                DefaultUser user = new DefaultUser(userId, name, role, association);
+                DefaultUser user = new DefaultUser(userId, type, name, role, association);
                 users.add(user);
             }
         } catch (IOException e) {
@@ -129,18 +130,18 @@ public class DefaultUsersService {
         }
         return users;
     }
-    
+
     private String readFile(String file) throws IOException {
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream(file)));
             String line = null;
             StringBuilder stringBuilder = new StringBuilder();
-            
+
             while ((line = reader.readLine()) != null) {
                 stringBuilder.append(line);
             }
-            
+
             return stringBuilder.toString();
         } finally {
             if (reader != null) {
@@ -148,15 +149,15 @@ public class DefaultUsersService {
             }
         }
     }
-    
+
     /**
-     * Provided DataSets 
+     * Provided DataSets
      *
      */
     public static class Dataset {
         private String key;
         private String displayName;
-        
+
         public Dataset(String key, String displayName) {
             this.key = key;
             this.displayName = displayName;
@@ -169,35 +170,39 @@ public class DefaultUsersService {
         public String getDisplayName() {
             return displayName;
         }
-        
+
     }
 
     /**
      * DefaultUser information.
-     * 
      */
     public static class DefaultUser {
-        private String userId, name, role, association;
-        
-        public DefaultUser(String userId, String name, String role, String association) {
+        private String userId, type, name, role, association;
+
+        public DefaultUser(String userId, String type, String name, String role, String association) {
             this.userId = userId;
+            this.type = type;
             this.name = name;
             this.role = role;
             this.association = association;
         }
-        
+
         public String getName() {
             return name;
         }
-        
+
         public String getUserId() {
             return userId;
         }
-        
+
+        public String getType() {
+            return type;
+        }
+
         public String getRole() {
             return role;
         }
-        
+
         public String getAssociation() {
             return association;
         }
