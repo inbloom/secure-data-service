@@ -4,6 +4,16 @@
   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
+  <bean id="smooks" class="org.milyn.Smooks">
+    <constructor-arg type="java.lang.String" value="smooks-all-xml.xml" />
+  </bean>
+
+  <bean id="smooksProcessor" class="test.camel.support.smooks.SmooksProcessor">
+    <property name="group" value="500" />
+    <property name="smooks" ref="smooks" />
+    <property name="producer" ref="myTemplate" />
+  </bean>
+
   <bean id="staxRecord" class="org.apache.camel.component.stax.StAXBuilder" factory-method="stax">
     <constructor-arg index="0" value="org.ed_fi._0100.Student" />
   </bean>
@@ -18,6 +28,8 @@
   <bean id="zipSplitter" class="test.camel.support.zip.ZipFileSplitterBuilder" factory-method="unzip" />
 
   <camelContext trace="false" xmlns="http://camel.apache.org/schema/spring">
+    <template id="myTemplate" defaultEndpoint="seda:entityFeed"/>
+
     <route id="fileReader">
       <from uri="txActivemq:queue:ingestion.landingZone?concurrentConsumers=32" />
       <setHeader headerName="batchId">
@@ -48,6 +60,8 @@
         <simple>${body.getFileEntry} regex '^.*\.xml$'</simple>
         <log loggingLevel="INFO" message="Batch ${header.batchId}: Received a zip file entry - ${body.getFileEntry}" />
         <convertBodyTo type="java.io.InputStream" />
+        <bean ref="smooksProcessor" />
+        <!--
         <split streaming="true" parallelProcessing="true">
           <ref>staxEntity</ref>
           <setHeader headerName="JMSXGroupSeq">
@@ -57,7 +71,7 @@
             <header>CamelSplitSize</header>
           </setHeader>
           <to uri="seda:entityFeed" />
-        </split>
+        </split> -->
         <log message="Parsing is done for ${header.fileEntry}"/>
       </filter>
     </route>
@@ -65,7 +79,7 @@
     <route id="staging">
       <from uri="seda:entityFeed?concurrentConsumers=32" />
       <log
-        message="File: ${header.fileEntry}, batch of ${body.size}. Starts at Ln: ${body[0].getLineNumber} - Col: ${body[0].getColumnNumber}" />
+        message="File: ${header.fileEntry}, batch of ${body.size}. Starts at Ln: body[0].getLineNumber - Col: body[0].getColumnNumber" />
       <stop />
     </route>
   </camelContext>
