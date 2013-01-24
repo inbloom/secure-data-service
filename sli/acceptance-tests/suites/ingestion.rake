@@ -259,6 +259,11 @@ task :ingestionDupDetectTest do
   runTests("test/features/ingestion/features/ingestion_dupdetect.feature")
 end
 
+desc "Notification Test"
+task :ingestionNotification do
+  runTests("test/features/ingestion/features/ingestion_notification.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################
