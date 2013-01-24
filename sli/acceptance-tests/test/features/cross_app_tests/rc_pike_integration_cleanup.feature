@@ -39,12 +39,10 @@ Scenario:  LEA deletes realm
   Then I should be on the admin page
   And under System Tools, I click on "Manage Realm"
   And I switch to the iframe
-  And I should see that I am on the "Daybreak Test Realm" edit page
-  And I should click the delete realm link
+  Then I see the realms for "Daybreak School District 4529"
+  When I click the "Daybreak Test Realm" delete button and confirm deletion
   And I switch to the iframe
-  Then I should be redirected to a new realm page
-  And I should receive a notice that the realm was successfully "deleted"
-  And I should see that I am on the new realm page
+  Then I see the realms for "Daybreak School District 4529"
   And I exit out of the iframe
   And I click on log out
 
