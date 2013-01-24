@@ -6,13 +6,19 @@ import javax.mail.internet.*;
 import javax.activation.*;
 
 public class SendEmail {
-	   public void sendMail()
+	   
+//	   public String emailTo="";
+//	   public String emailFrom="";
+//	   public String emailSubject="";
+//	   public String emailBody="";
+	   
+	   public void sendMail(String to, String from, String subject, String body)
 	   {    
 	      // Recipient's email ID needs to be mentioned.
-	      String to = "lchen@wgen.net";
+	      //String to = "lchen@wgen.net";
 
 	      // Sender's email ID needs to be mentioned
-	      String from = "lchen@wgen.net";
+	      //String from = "lchen@wgen.net";
 
 	      // Assuming you are sending email from localhost
 	      String host = "mail.wgenhq.net";
@@ -38,10 +44,10 @@ public class SendEmail {
 	                                  new InternetAddress(to));
 
 	         // Set Subject: header field
-	         message.setSubject("This is the Hackathon!");
+	         message.setSubject(subject);
 
 	         // Now set the actual message
-	         message.setText("This is Hackathon and is very creative!");
+	         message.setText(body);
 
 	         // Send message
 	         Transport.send(message);
@@ -54,7 +60,7 @@ public class SendEmail {
 	   
 	   public static void main(String [] args){
 		   SendEmail se = new SendEmail(); 
-		   se.sendMail();
+		   se.sendMail("lchen@wgen.net","lchen@wgen.net","Hackathon","Hackathon is fun!");
 		   
 	   }
 
