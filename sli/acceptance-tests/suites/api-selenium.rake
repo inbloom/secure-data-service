@@ -72,6 +72,7 @@ desc "Run Dataprowler Smoke Tests"
 task :databrowserSmokeTests do 
   @tags = ["~@wip", "@smoke", "~@sandbox"]
   runTests("test/features/databrowser/databrowser_simple_detail_view.feature")
+  runTests("test/features/databrowser/student_authentication.feature")
 end
 
 desc "Run Admin Tool Smoke Tests"
