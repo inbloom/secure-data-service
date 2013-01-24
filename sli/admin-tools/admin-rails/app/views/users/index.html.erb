@@ -47,7 +47,7 @@
             <td id="<%= @elementIdPrefix%>_tenant"><%= user.tenant%></td>
         <% end %>
         <td id="<%= @elementIdPrefix%>_edorg"><% if user.edorg==nil|| user.edorg=="null"%><%else%><%=user.edorg%><%end%></td>
-        <td id="<%= @elementIdPrefix%>_date_created"><%= I18n.localize(user.get_create_time)%></td>
+        <td id="<%= @elementIdPrefix%>_date_created"><%= user.get_create_time.in_time_zone().strftime("%c %Z")%></td>
 		<td id="<%= @elementIdPrefix%>_actions" class="actions">
             <div class="btn-group">
                 <%@deleteButtonId = @elementIdPrefix + "_delete"%>
