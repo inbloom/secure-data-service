@@ -35,4 +35,5 @@ public interface LoggerCarrier {
     public void warn(String msg, Object... params);
     public void error(String msg, Throwable x);
     public void audit(SecurityEvent event);
+    public void auditLog(SecurityEvent event);
 }

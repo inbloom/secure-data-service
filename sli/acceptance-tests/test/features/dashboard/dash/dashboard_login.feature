@@ -7,17 +7,19 @@ Background:
 Given I have an open web browser
 Given that dashboard has been authorized for all ed orgs
 
- @RALLY_US200
+@integration @RALLY_US200 @RALLY_US5156
 Scenario: Valid user login
+Given the sli securityEvent collection is empty
 #hitting static URL
 When I access "/static/html/test.html"
 Then I can see "Static HTML page"
 When I navigate to the Dashboard home page
 Then I should be redirected to the Realm page
 When I select "Illinois Daybreak School District 4529" and click go
- And I was redirected to the "Simple" IDP Login page
- When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
+And I was redirected to the "Simple" IDP Login page
+When I submit the credentials "linda.kim" "linda.kim1234" for the "Simple" login page
 Then I should be redirected to the Dashboard landing page
+And a security event matching "linda.kim from tenant Midgar logged successfully into inBloom Dashboards by slcdeveloper." should be in the sli db
 #hitting denied URL
 When I access "/simon"
 Then I am informed that "the page that you were looking for could not be found"
