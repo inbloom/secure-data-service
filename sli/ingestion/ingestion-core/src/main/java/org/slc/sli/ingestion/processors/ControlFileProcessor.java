@@ -232,21 +232,7 @@ public class ControlFileProcessor implements Processor {
         String emailProp = newJob.getProperty(AttributeType.EMAIL_NOTIFY.getName());
         if (emailProp != null) {
             LOG.info("Matched @notify tag from control file parsing.");
-            List<String> emails = Arrays.asList(emailProp.split("\\s*,\\s*"));
-            StringBuilder emailStringBuilder = new StringBuilder();
-            for (String email : emails) {
-                if (EmailValidator.getInstance().isValid(email)) {
-                    emailStringBuilder.append(email);
-                    emailStringBuilder.append(",");
-                } else {
-                    LOG.error("Value '" + email + "' given for @notify is invalid: ignoring");
-                }
-            }
-            String validEmails = (emailStringBuilder.length() > 0 ? emailStringBuilder.substring(0, emailStringBuilder.length() - 1): "");
-            if (validEmails.length() > 0) {
-                exchange.getIn().setHeader(AttributeType.EMAIL_NOTIFY.name(), validEmails);
-            } else {
-                LOG.error("No valid emails found.");
+            exchange.getIn().setHeader(AttributeType.EMAIL_NOTIFY.name(), emailProp);
             }
         } else {
             LOG.info("Did not match @notify tag in control file.");
