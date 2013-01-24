@@ -233,7 +233,6 @@ public class ControlFileProcessor implements Processor {
         if (emailProp != null) {
             LOG.info("Matched @notify tag from control file parsing.");
             exchange.getIn().setHeader(AttributeType.EMAIL_NOTIFY.name(), emailProp);
-            }
         } else {
             LOG.info("Did not match @notify tag in control file.");
         }
