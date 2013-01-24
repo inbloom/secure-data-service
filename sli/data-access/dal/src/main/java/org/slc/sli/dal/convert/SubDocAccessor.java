@@ -229,20 +229,30 @@ public class SubDocAccessor {
             result &= template.getCollection(collection)
                     .update(parentQuery, buildPullObject(subEntities), false, false, WriteConcern.SAFE).getLastError()
                     .ok();
-            result &= template.getCollection(collection)
-                    .update(parentQuery, buildPushObject(subEntities), true, false, WriteConcern.SAFE).getLastError()
-                    .ok();
+            result &= doPush(parentQuery, subEntities);
             return result;
         }
 
-        private DBObject buildPullObject(List<Entity> subEntities) {
-            Set<String> existingIds = new HashSet<String>();
-            for (Entity entity : subEntities) {
-                if (entity.getEntityId() != null && !entity.getEntityId().isEmpty()) {
-                    existingIds.add(entity.getEntityId());
+        private boolean doPush(DBObject parentQuery, List<Entity> subEntities) {
+            DBObject query = new BasicDBObject(parentQuery.toMap());
+            query.putAll(new Query(Criteria.where(subField + "._id").nin(getSubDocDids(subEntities))).getQueryObject());
+            if (template.getCollection(collection)
+                    .update(query, buildPushObject(subEntities), true, false, WriteConcern.SAFE).getN() == 1) {
+                return true;
+            } else {
+                if (subEntities.size() > 1) {
+                    // try each subentity on its own before failing
+                    for (Entity entity : subEntities) {
+                        doPush(parentQuery, Arrays.asList(entity));
+                    }
                 }
+                return false;
             }
-            existingIds.addAll(getSubDocDids(subEntities));
+
+        }
+
+        private DBObject buildPullObject(List<Entity> subEntities) {
+            Set<String> existingIds = new HashSet<String>(getSubDocDids(subEntities));
             Query pullQuery = new Query(Criteria.where("_id").in(existingIds));
             Update update = new Update();
             update.pull(subField, pullQuery.getQueryObject());
@@ -492,6 +502,7 @@ public class SubDocAccessor {
             TenantContext.setIsSystemCall(false);
 
             CommandResult result = template.executeCommand(queryCommand);
+            @SuppressWarnings("unchecked")
             Iterator<DBObject> resultList = ((List<DBObject>) result.get("result")).iterator();
             if (resultList.hasNext()) {
                 return (Integer) (resultList.next().get("count"));
