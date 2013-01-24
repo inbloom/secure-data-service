@@ -92,16 +92,22 @@ class LandingZone
     Rails.logger.info "the tenant uuid is: #{result.attributes[:tenantUuid]}"
 
     if (APP_CONFIG['is_sandbox'] && sample_data_select != nil)
-      begin
         Rails.logger.info("start preload data to tenant uuid: #{result.attributes[:tenantUuid]}, with #{sample_data_select} sample data")
-        preload_result = OnBoarding.new.preload(result.attributes[:tenantUuid], sample_data_select)
-        Rails.logger.info("preload status code is: #{preload_result.code}")
-        if preload_result.code == 409
+        preload_result = nil
+        begin
+          preload_result = OnBoarding.new.preload(result.attributes[:tenantUuid], sample_data_select)
+        rescue ActiveResource::ResourceConflict
           isDuplicate = true
         end
-      rescue ActiveResource::ResourceConflict
-        isDuplicate = true
-      end
+
+        unless preload_result.nil? && preload_result.code.nil?
+          Rails.logger.info("preload status code is: #{preload_result.code}")
+          if preload_result.code == 409
+            isDuplicate = true
+          elsif preload_result.code >= 400
+            raise ProvisioningError.new "Problem occurred preloading dataset"
+          end
+        end
     end
 
     begin

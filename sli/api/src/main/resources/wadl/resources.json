@@ -4,11 +4,13 @@
     {
       "path": "/reportCards",
       "queryable": true,
+      "dateSearchDisallowed": true,
       "doc": "Represents the definition of a report card resource. A report card is an educational entity that represents the collection of student grades for courses taken during a grading period. For detailed information, see the schema for $$ReportCard$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/reportCards. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/reportCards. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated."
     },
     {
       "path": "/sections",
       "queryable": true,
+      "dateSearchDisallowed": true,
       "doc": "Represents the definition of a section resource. A section is an educational entity that represents a setting in which organized instruction of course content is provided to one or more students for a given period of time. See $$Course$$ resource for details. A section is associated with a student, teacher, and assessment through $$StudentSectionAssociation$$ and $$TeacherSectionAssociation$$. For more details about the resources, see $$Student$$, $$Teacher$$ and $$Assessment$$ resources. For detailed information, see the schema for $$Section$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /teachers/{ID}/teacherSectionAssociations/sections. {ID} is the unique ID of the teacher. For staff, this is /schools/{IDs}/sections. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated.",
       "resourceClass": "org.slc.sli.api.resources.generic.DefaultResource",
       "subResources": [
@@ -19,16 +21,16 @@
         { "path": "/{id}/studentSectionAssociations/studentCompetencies" },
         { "path": "/{id}/studentSectionAssociations/students" },
         { "path": "/{id}/studentSectionAssociations/students/attendances" },
-        { "path": "/{id}/studentSectionAssociations/students/courseTranscripts" },
-        { "path": "/{id}/studentSectionAssociations/students/reportCards" },
-        { "path": "/{id}/studentSectionAssociations/students/studentAcademicRecords" },
+        { "path": "/{id}/studentSectionAssociations/students/courseTranscripts", "dateSearchDisallowed": true },
+        { "path": "/{id}/studentSectionAssociations/students/reportCards", "dateSearchDisallowed": true },
+        { "path": "/{id}/studentSectionAssociations/students/studentAcademicRecords", "dateSearchDisallowed": true },
         { "path": "/{id}/studentSectionAssociations/students/studentAssessments" },
-        { "path": "/{id}/studentSectionAssociations/students/studentGradebookEntries" },
+        { "path": "/{id}/studentSectionAssociations/students/studentGradebookEntries", "dateSearchDisallowed": true },
         { "path": "/{id}/studentSectionAssociations/students/studentParentAssociations" },
         { "path": "/{id}/studentSectionAssociations/students/studentParentAssociations/parents" },
         { "path": "/{id}/studentSectionAssociations/students/studentSchoolAssociations" },
-        { "path": "/{id}/teacherSectionAssociations" },
-        { "path": "/{id}/teacherSectionAssociations/teachers" }
+        { "path": "/{id}/teacherSectionAssociations", "dateSearchDisallowed": true},
+        { "path": "/{id}/teacherSectionAssociations/teachers", "dateSearchDisallowed": true }
       ]
     },
     {
@@ -43,12 +45,14 @@
     {
       "path": "/courses",
       "queryable": true,
+      "dateSearchDisallowed": true,
       "doc": "Represents the organization of subject matter and related learning experiences provided for the instruction of students on a regular or systematic basis. This is similar to section except that a section is a specific instance of a course. For more information, see the schema for $$Course$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers and staff, this is /schools/{IDs}/courses. {IDs} represents a list of school or education organization IDs to which the teacher or staff is currently associated.",
       "subResources": [
-        { "path": "/{id}/courseOfferings" },
-        { "path": "/{id}/courseOfferings/sessions" },
+        { "path": "/{id}/courseOfferings", "dateSearchDisallowed": true },
+        { "path": "/{id}/courseOfferings/sessions", "dateSearchDisallowed": true },
         { 
           "path": "/{id}/courseTranscripts",
+          "dateSearchDisallowed": true,
           "deprecatedVersion": "1.0",
           "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
           "doc": "This URI, /courses/{id}/courseTranscripts, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{ids}/studentSectionAssociations/students/courseTranscripts (for teachers) or /schools/{ids}/studentSchoolAssociations/students/courseTranscripts (for staff) instead. These URIs are used internally instead of /courses/{id}/courseTranscripts, and will still be available after the deprecation period ends." 
@@ -58,6 +62,7 @@
     {
       "path": "/home",
       "queryable": false,
+      "dateSearchDisallowed": true,
       "doc": "Provides initial information for a user. This includes providing different links to self and associated resources.",
       "resourceClass": "org.slc.sli.api.resources.v1.HomeResource"
     },
@@ -69,6 +74,7 @@
         { 
           "path": "/{id}/reportCards",
           "deprecatedVersion": "1.0",
+          "dateSearchDisallowed": true,
           "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
           "doc": "This URI, /gradingPeriods/{id}/reportCards, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{id}/studentSectionAssociations/students/reportCards (for teachers) or /schools/{id}/studentSchoolAssociations/students/reportCards (for staff) instead. These URIs are used internally instead of /gradingPeriods/{id}/reportCards, and will still be available after the deprecation period ends."
         },
@@ -83,6 +89,7 @@
     {
       "path": "/cohorts",
       "queryable": true,
+      "dateSearchDisallowed": true,
       "doc": "Represents the definition of a cohort. A cohort is defined as a list of designated students for tracking, analysis, or intervention. For detailed information, see the schema for $$Cohort$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers and staff, this is /staff/{ID}/staffCohortAssociations/cohorts. {ID} is the unique ID of the teacher or staff.",
       "resourceClass": "org.slc.sli.api.resources.generic.DefaultResource",
       "subResources": [
@@ -97,17 +104,19 @@
       "queryable": true,
       "doc": "Represents the session resource. A session is the prescribed span of time when an education institution is open, instruction is provided, and students are under the direction and guidance of teachers and/or education institution administration. A session may be interrupted by one or more vacations. For detailed information, see the schema for $$Session$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers or staff, this is /educationOrganizations/{IDs}/sessions. {IDs} represents a list of the school or education organization IDs to which the teacher or staff is currently associated.",
       "subResources": [
-        { "path": "/{id}/courseOfferings" },
-        { "path": "/{id}/courseOfferings/courses" },
+        { "path": "/{id}/courseOfferings", "dateSearchDisallowed": true },
+        { "path": "/{id}/courseOfferings/courses", "dateSearchDisallowed": true },
         { 
           "path": "/{id}/studentAcademicRecords",
           "deprecatedVersion": "1.0",
+          "dateSearchDisallowed": true,
           "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
           "doc": "This URI, /sessions/{id}/sections, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{ids}/studentSectionAssociations/students/studentAcademicRecords (for teachers) or /schools/{id}/studentSchoolAssociations/students/studentAcademicRecords (for staff) instead. These URIs are used internally instead of /sessions/{id}/studentAcademicRecords, and will still be available after the deprecation period ends."
         },
         { 
           "path": "/{id}/sections",
           "deprecatedVersion": "1.0",
+          "dateSearchDisallowed": true,
           "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
           "doc": "This URI, /sessions/{id}/sections, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{ids} (for teachers) or /schools/{ids}/sections (for staff) instead. These URIs are used internally instead of /sessions/{id}/sections, and will still be available after the deprecation period ends."
         }
@@ -116,10 +125,11 @@
     {
       "path": "/courseTranscripts",
       "queryable": true,
+      "dateSearchDisallowed": true,
       "doc": "Represents the final record of a student's performance in their courses at the end of semester or school year. For more information, see the schema for $$CourseTranscript$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/courseTranscripts. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/courseTranscripts. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated.",
       "subResources": [
-        { "path": "/{id}/courses" },
-        { "path": "/{id}/students" }
+        { "path": "/{id}/courses", "dateSearchDisallowed": true },
+        { "path": "/{id}/students", "dateSearchDisallowed": true }
       ]
     },
     {
@@ -151,12 +161,14 @@
     {
       "path": "/studentGradebookEntries",
       "queryable": true,
+      "dateSearchDisallowed": true,
       "doc": "Represents a student's grade or competency level for a $$GradebookEntry$$. For detailed information, see the schema for $$StudentGradebookEntry$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/studentGradebookEntries. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/studentGradebookEntries. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated."
     },
     {
       "path": "/assessments",
       "doc": "Represents a tool, instrument, process, or exhibition composed of a systematic sampling of behavior for measuring a student's competence, knowledge, skills or behavior. An assessment can be used to measure differences in individuals or groups and changes in performance from one occasion to the next. For more information, see the schema for $$Assessment$$ resources. Caution: The assessment entity is public in the SLI API. Any metadata associated with an assessment can be viewed by anyone within the tenant to which the assessment belongs. However, please note that questions and answers for an assessment will not be displayed because these are not stored in the current data model.",
       "queryable": true,
+      "dateSearchDisallowed": true,
       "subResources": [
         { 
           "path": "/{id}/studentAssessments", 
@@ -166,10 +178,12 @@
         },
         {
             "path": "/{id}/learningStandards",
+            "dateSearchDisallowed": true,
             "resourceClass": "org.slc.sli.api.resources.generic.custom.AssessmentResource"
         },
         {
             "path": "/{id}/learningObjectives",
+            "dateSearchDisallowed": true,
             "resourceClass": "org.slc.sli.api.resources.generic.custom.AssessmentResource"
         }
       ]
@@ -186,45 +200,50 @@
     {
       "path": "/educationOrganizations",
       "queryable": true,
+      "dateSearchDisallowed": true,
       "doc": "Represents any public or private institution, organization, or agency that provides instructional or support services to students or staff at any level. Caution: The educationOrganizations entity is public in the SLI API. Any metadata associated with an educationOrganization can be viewed by anyone within the tenant to which the educationOrganization belongs. For more information, see the schema for $$EducationOrganization$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /teachers/{ID}/teacherSchoolAssociations/schools  and for staff, this is /staff/{ID}/staffEducationOrgAssignmentAssociations/educationOrganizations. {ID} is the unique ID of the teacher or staff.",
       "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicDefaultResource",
       "subResources": [
         { "path": "/{id}/staffEducationOrgAssignmentAssociations" },
         { "path": "/{id}/staffEducationOrgAssignmentAssociations/staff" },
-        { "path": "/{id}/graduationPlans" },
+        { "path": "/{id}/graduationPlans", "dateSearchDisallowed": true },
         { 
           "path": "/{id}/cohorts",
           "deprecatedVersion": "1.0",
+          "dateSearchDisallowed": true,
           "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
           "doc": "This URI, /educationOrganizations/{id}/cohorts, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /teachers/{id}/staffCohortAssociations/cohorts (for teachers) instead. This URI is used internally instead of /educationOrganizations/{id}/cohorts, and will still be available after the deprecation period ends."
         },
-        { "path": "/{id}/educationOrganizations" },
-        { "path": "/{id}/schools" },
-        { "path": "/{id}/courses" },
-        { "path": "/{id}/sessions" },
-        { "path": "/{id}/studentCompetencyObjectives" }
+        { "path": "/{id}/educationOrganizations", "dateSearchDisallowed": true },
+        { "path": "/{id}/schools", "dateSearchDisallowed": true },
+        { "path": "/{id}/courses", "dateSearchDisallowed": true },
+        { "path": "/{id}/sessions", "dateSearchDisallowed": true },
+        { "path": "/{id}/studentCompetencyObjectives", "dateSearchDisallowed": true }
       ]
     },
     {
       "path": "/teacherSectionAssociations",
       "queryable": true,
+      "dateSearchDisallowed": true,
       "doc": "Represents the class sections (see the $$Section$$ schema) to which a teacher (see the $$Teacher$$ schema) is assigned to. For more information, see the schema for $$TeacherSectionAssociation$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /teachers/{ID}/teacherSectionAssociations. {ID} is the unique ID of the teacher. For staff, this is /schools/{IDs}/teacherSchoolAssociations/teachers/teacherSectionAssociations. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated.",
       "subResources": [
-        { "path": "/{id}/teachers" },
-        { "path": "/{id}/sections" }
+        { "path": "/{id}/teachers", "dateSearchDisallowed": true },
+        { "path": "/{id}/sections", "dateSearchDisallowed": true }
       ]
     },
     {
       "path": "/schools",
       "queryable": true,
+      "dateSearchDisallowed": true,
       "doc": "This entity represents an educational organization that includes staff and students who participate in classes and educational activity groups. Caution: The schools entity is public in the SLI API. Any metadata associated with a school can be viewed by anyone within the tenant to which the school belongs. For more information, see the schema for $$School$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers or staff, this is /schools/{IDs}. {IDs} represents a list of the school IDs to which the teacher or staff is currently associated.",
       "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicDefaultResource",
       "subResources": [
-        { "path": "/{id}/teacherSchoolAssociations" },
-        { "path": "/{id}/teacherSchoolAssociations/teachers" },
+        { "path": "/{id}/teacherSchoolAssociations", "dateSearchDisallowed": true },
+        { "path": "/{id}/teacherSchoolAssociations/teachers", "dateSearchDisallowed": true },
         { 
           "path": "/{id}/teacherSchoolAssociations/teachers/teacherSectionAssociations",
           "deprecatedVersion": "1.0",
+          "dateSearchDisallowed": true,
           "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
           "doc": "This URI, /schools/{id}/teacherSchoolAssociations/teachers/teacherSectionAssociations, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /teachers/{id}/teacherSectionAssociations (for teachers) instead. This URI is used internally instead of /schools/{id}/teacherSchoolAssociations/teachers/teacherSectionAssociations, and will still be available after the deprecation period ends."
         },
@@ -249,18 +268,21 @@
         { 
           "path": "/{id}/studentSchoolAssociations/students/courseTranscripts",
           "deprecatedVersion": "1.0",
+          "dateSearchDisallowed": true,
           "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
           "doc": "This URI, /schools/{id}/studentSchoolAssociations/students/courseTranscripts, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{id}/studentSectionAssociations/students/courseTranscripts (for teachers) instead. This URI is used internally instead of /schools/{id}/studentSchoolAssociations/students/courseTranscripts, and will still be available after the deprecation period ends."
         },
         { 
           "path": "/{id}/studentSchoolAssociations/students/reportCards",
           "deprecatedVersion": "1.0",
+          "dateSearchDisallowed": true,
           "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
           "doc": "This URI, /schools/{id}/studentSchoolAssociations/students/reportCards, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{id}/studentSectionAssociations/students/reportCards (for teachers) instead. This URI is used internally instead of /schools/{id}/studentSchoolAssociations/students/reportCards, and will still be available after the deprecation period ends."
         },
         { 
           "path": "/{id}/studentSchoolAssociations/students/studentAcademicRecords",
           "deprecatedVersion": "1.0",
+          "dateSearchDisallowed": true,
           "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
           "doc": "This URI, /schools/{id}/studentSchoolAssociations/students/studentAcademicRecords, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{id}/studentSectionAssociations/students/studentAcademicRecords (for teachers) instead. This URI is used internally instead of /schools/{id}/studentSchoolAssociations/students/studentAcademicRecords, and will still be available after the deprecation period ends."
         },
@@ -273,6 +295,7 @@
         { 
           "path": "/{id}/studentSchoolAssociations/students/studentGradebookEntries",
           "deprecatedVersion": "1.0",
+          "dateSearchDisallowed": true,
           "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
           "doc": "This URI, /schools/{id}/studentSchoolAssociations/students/studentGradebookEntries, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{id}/studentSectionAssociations/students/studentGradebookEntries (for teachers) instead. This URI is used internally instead of /schools/{id}/studentSchoolAssociations/students/studentGradebookEntries, and will still be available after the deprecation period ends."
         },
@@ -288,9 +311,9 @@
           "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
           "doc": "This URI, /schools/{id}/studentSchoolAssociations/students/studentParentAssociations/parents, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/%s/studentSectionAssociations/students/studentParentAssociations/parents (for teachers) instead. This URI is used internally instead of /schools/{id}/studentSchoolAssociations/students/studentParentAssociations/parents, and will still be available after the deprecation period ends."           
         },
-        { "path": "/{id}/courseOfferings" },
-        { "path": "/{id}/courses" },
-        { "path": "/{id}/sessions" },
+        { "path": "/{id}/courseOfferings", "dateSearchDisallowed": true },
+        { "path": "/{id}/courses", "dateSearchDisallowed": true },
+        { "path": "/{id}/sessions", "dateSearchDisallowed": true },
         { "path": "/{id}/sessions/gradingPeriods" },
         { 
           "path": "/{id}/sections",
@@ -304,7 +327,7 @@
           "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
           "doc": "This URI, /schools/{id}/sections/gradebookEntries, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{id}/gradebookEntries (for teachers) instead. This URI is used internally instead of /schools/{id}/sections/gradebookEntries, and will still be available after the deprecation period ends."
          },
-        { "path": "/{id}/graduationPlans" },
+        { "path": "/{id}/graduationPlans", "dateSearchDisallowed": true },
         { 
           "path": "/{id}/sections/studentSectionAssociations",
           "deprecatedVersion": "1.0",
@@ -339,15 +362,17 @@
     {
       "path": "/learningStandards",
       "queryable": false,
+      "dateSearchDisallowed": true,
       "doc": "Represents a subelement of a learning objective consisting of a precise statement of the expectation of a student's proficiency. Caution: The learningStandards entity is public in the SLI API. Any metadata associated with a learningStandard can be viewed by anyone within the tenant to which the learningStandard belongs. For more information, see the schema for $$LearningStandard$$ resources."
     },
     {
       "path": "/parents",
       "queryable": true,
+      "dateSearchDisallowed": true,
       "doc": "Represents a parent or guardian of a student. For detailed information, see the schema for $$Parent$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/studentParentAssociations/parents. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/studentParentAssociations/parents. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated.",
       "subResources": [
-        { "path": "/{id}/studentParentAssociations" },
-        { "path": "/{id}/studentParentAssociations/students" }
+        { "path": "/{id}/studentParentAssociations", "dateSearchDisallowed": true },
+        { "path": "/{id}/studentParentAssociations/students", "dateSearchDisallowed": true }
       ]
     },
     {
@@ -355,10 +380,10 @@
       "queryable": true,
       "doc": "Represents a person that is employed by an LEA or other educational unit engaged in student instruction. These persons are instructional-type staff members. In the data model, a teacher entity is a staff member with additional properties. For more information, see the schema for $$Teacher$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers and staff, this is /schools/{IDs}/teacherSchoolAssociations/teachers. {IDs} represents a list of school or education organization IDs to which the teacher or staff is currently associated.",
       "subResources": [
-        { "path": "/{id}/teacherSchoolAssociations" },
-        { "path": "/{id}/teacherSectionAssociations" },
-        { "path": "/{id}/teacherSectionAssociations/sections" },
-        { "path": "/{id}/teacherSchoolAssociations/schools" },
+        { "path": "/{id}/teacherSchoolAssociations", "dateSearchDisallowed": true },
+        { "path": "/{id}/teacherSectionAssociations", "dateSearchDisallowed": true },
+        { "path": "/{id}/teacherSectionAssociations/sections", "dateSearchDisallowed": true },
+        { "path": "/{id}/teacherSchoolAssociations/schools", "dateSearchDisallowed": true },
         { "path": "/{id}/disciplineActions" },
         { "path": "/{id}/disciplineIncidents" },
         { "path": "/{id}/disciplineIncidents/studentDisciplineIncidentAssociations" },
@@ -369,22 +394,25 @@
     {
       "path": "/studentAcademicRecords",
       "queryable": true,
+      "dateSearchDisallowed": true,
       "doc": "Represents the cumulative record of academic achievements and the collection of student grades for the student at the end of a semester or school year. If you're looking for records for a particular course, use CourseTranscriptResource instead. For detailed information, see the schema for $$StudentAcademicRecord$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/studentAcademicRecords. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/studentAcademicRecords. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated."
     },
     {
       "path": "/learningObjectives",
       "queryable": false,
+      "dateSearchDisallowed": true,
       "doc": "Represents identified learning objectives for courses in specific grades. Caution: The learningObjectives entity is public in the SLI API. Any metadata associated with a learningObjective can be viewed by anyone within the tenant to which the learningObjective belongs. For more information, see the schema for $$LearningObjective$$ resources.",
       "subResources": [
         { 
           "path": "/{id}/studentCompetencies",
+          "dateSearchDisallowed": true,
           "deprecatedVersion": "1.0",
           "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
           "doc": "This URI, /learningObjectives/{id}/studentCompetencies, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{ids}/studentSectionAssociations/studentCompetencies (for teachers) instead. This URI is used internally instead of /learningObjectives/{id}/studentCompetencies, and will still be available after the deprecation period ends."
         },
-        { "path": "/{id}/learningStandards" },
-        { "path": "/{id}/parentLearningObjectives" },
-        { "path": "/{id}/childLearningObjectives" }
+        { "path": "/{id}/learningStandards", "dateSearchDisallowed": true },
+        { "path": "/{id}/parentLearningObjectives", "dateSearchDisallowed": true },
+        { "path": "/{id}/childLearningObjectives", "dateSearchDisallowed": true }
       ]
     },
     {
@@ -404,6 +432,7 @@
     {
       "path": "/teacherSchoolAssociations",
       "queryable": true,
+      "dateSearchDisallowed": true,
       "doc": "This association indicates the school(s) to which a teacher provides instructional services to. For more information, see the schema for $$TeacherSchoolAssociation$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /teachers/{ID}/teacherSchoolAssociations. {ID} is the unique ID of the teacher or staff. For staff, this is /schools/{IDs}/teacherSchoolAssociations. {IDs} represents a list of school or education organization IDs to which the staff is currently associated.",
       "subResources": [
         { "path": "/{id}/teachers" },
@@ -413,6 +442,7 @@
     {
       "path": "/staff",
       "queryable": true,
+      "dateSearchDisallowed": true,
       "doc": "Represents the definition of a staff resource. A staff is a person that is employed by an LEA or other educational unit engaged in student instruction. These persons are instructional-type staff members. A teacher is a staff member with additional properties. See the $$Teacher$$ resource for details. A staff is associated with a school, cohort and program through $$StaffEducationOrganizationAssociation$$, $$StaffCohortAssociation$$, and $$StaffProgramAssociation$$. For more details about the resources, see $$School$$, $$Cohort$$ and $$Program$$ resources. For detailed information, see the schema for $$Section$$ resources.  For this open ended URI, only current and directly associated entities are returned. For teachers and staff, this is /educationOrganizations/{IDs}/staffEducationOrgAssignmentAssociations/staff. {IDs} represents a list of Education Organization IDs to which the staff or teacher is currently associated.",
       "subResources": [
         { "path": "/{id}/disciplineActions" },
@@ -439,7 +469,7 @@
       "queryable": true,
       "doc": "Represents the competency assessed or evaluated for the student against a specific Learning Objective. For detailed information, see the schema for $$StudentCompetency$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/studentCompetencies . {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/sections/studentSectionAssociations/studentCompetencies. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated.",
       "subResources": [
-        { "path": "/{id}/reportCards" }
+        { "path": "/{id}/reportCards", "dateSearchDisallowed": true }
       ]
     },
     {
@@ -474,6 +504,7 @@
     {
       "path": "/competencyLevelDescriptor",
       "queryable": false,
+      "dateSearchDisallowed": true,
       "doc": "Defines various levels for assessed competencies. For more information, see the schema for $$CompetencyLevelDescriptor$$ resources."
     },
     {
@@ -488,6 +519,7 @@
     {
       "path": "/studentCompetencyObjectives",
       "queryable": false,
+      "dateSearchDisallowed": true,
       "doc": "Represents additional competencies for student achievement that are not associated with specific learning objectives (e.g., paying attention in class). For detailed information, see the schema for $$StudentCompetencyObjective$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers or staff, this is /educationOrganziations/{IDs}/studentCompetencyObjectives. {IDs} represents a list of the school or education organization IDs to which the teacher or staff is currently associated."
     },
     {
@@ -495,17 +527,18 @@
       "queryable": true,
       "doc": "Represents the association between a $$Student$$ and a $$DisciplineIncident$$. For more information, see the schema for $$StudentDisciplineIncidentAssociation$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers or staff, this is /staff/{ID}/disciplineIncidents/studentDisciplineIncidentAssociations. {ID} is the unique ID of the teacher or staff.",
       "subResources": [
-        { "path": "/{id}/students" },
+        { "path": "/{id}/students", "dateSearchDisallowed": true },
         { "path": "/{id}/disciplineIncidents" }
       ]
     },
     {
       "path": "/studentParentAssociations",
       "queryable": true,
+      "dateSearchDisallowed": true,
       "doc": "Represents the relationships between students and their parents, guardians, or caretakers. For more information, see the schema for $$StudentParentAssociation$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /sections/{IDs}/studentSectionAssociations/students/studentParentAssociations. {IDs} represents a list of section IDs to which the teacher is currently associated. For staff, this is /schools/{IDs}/studentSchoolAssociations/students/studentParentAssociations. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated.",
       "subResources": [
-        { "path": "/{id}/parents" },
-        { "path": "/{id}/students" }
+        { "path": "/{id}/parents", "dateSearchDisallowed": true },
+        { "path": "/{id}/students", "dateSearchDisallowed": true }
       ]
     },
     {
@@ -513,14 +546,15 @@
       "queryable": true,
       "doc": "Represents the course offering resource. A course offering represents the association of a $$Course$$ with a $$Session$$ during which the course is offered. For detailed information, see the schema for $$CourseOffering$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers or staff, this is /schools/{IDs}/courseOfferings. {IDs} represents a list of the school or education organization IDs to which the teacher or staff is currently associated.",
       "subResources": [
-        { "path": "/{id}/sessions" },
+        { "path": "/{id}/sessions", "dateSearchDisallowed": true },
         { 
           "path": "/{id}/sections",
           "deprecatedVersion": "1.0",
+          "dateSearchDisallowed": true, 
           "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
           "doc": "This URI, /courseOfferings/{id}/sections, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{ids} (for teachers) or /schools/{ids}/sections (for staff) instead. These URIs are used internally instead of /courseOfferings/{id}/sections, and will still be available after the deprecation period ends."
         },
-        { "path": "/{id}/courses" }
+        { "path": "/{id}/courses", "dateSearchDisallowed": true }
       ]
     },
     {
@@ -536,40 +570,43 @@
         { "path": "/{id}/studentProgramAssociations/programs" },
         { "path": "/{id}/studentAssessments" },
         { "path": "/{id}/studentCohortAssociations" },
-        { "path": "/{id}/courseTranscripts" },
-        { "path": "/{id}/studentParentAssociations" },
-        { "path": "/{id}/studentDisciplineIncidentAssociations" },
-        { "path": "/{id}/reportCards" },
-        { "path": "/{id}/studentParentAssociations/parents" },
+        { "path": "/{id}/courseTranscripts", "dateSearchDisallowed": true },
+        { "path": "/{id}/studentParentAssociations", "dateSearchDisallowed": true },
+        { "path": "/{id}/studentDisciplineIncidentAssociations", "dateSearchDisallowed": true },
+        { "path": "/{id}/reportCards", "dateSearchDisallowed": true },
+        { "path": "/{id}/studentParentAssociations/parents", "dateSearchDisallowed": true },
         { "path": "/{id}/studentProgramAssociations" },
         { "path": "/{id}/studentSchoolAssociations" },
         { "path": "/{id}/studentSectionAssociations" },
-        { "path": "/{id}/studentSectionAssociations/sections" },
+        { "path": "/{id}/studentSectionAssociations/sections", "dateSearchDisallowed": true },
         { "path": "/{id}/studentSchoolAssociations/schools" },
         { "path": "/{id}/studentAssessments/assessments" },
-        { "path": "/{id}/attendances" },
+        { "path": "/{id}/attendances", "dateSearchDisallowed": true },
         { "path": "/{id}/courseTranscripts/courses" },
         { "path": "/{id}/studentDisciplineIncidentAssociations/disciplineIncidents" },
         { "path": "/{id}/studentCohortAssociations/cohorts" }, 
         { "path": "/{id}/studentGradebookEntries" }, 
-        { "path": "/{id}/studentAcademicRecords"}
+        { "path": "/{id}/studentAcademicRecords", "dateSearchDisallowed": true}
       ]
     },
     {
         "path": "/graduationPlans",
         "queryable": true,
+        "dateSearchDisallowed": true,
         "doc": "Represents the definition of a graduation plan. For detailed information, see the schema for the $$GraduationPlan$$ entity.",
         "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicDefaultResource"
     },
     {
         "path": "/system/support",
         "queryable": true,
+        "dateSearchDisallowed": true,
         "doc": "This resource provides the basic contact information (E-Mail) of who to contact.",
         "resourceClass": "org.slc.sli.api.resources.SupportResource"
     },
     {
         "path": "/system/session",
         "queryable": true,
+        "dateSearchDisallowed": true,
         "doc": "System resource class for security session context.",
         "resourceClass": "org.slc.sli.api.resources.SecuritySessionResource"
     }
@@ -583,24 +620,27 @@
       "doc": "Provides search functionality for students, sections, and other entities.",
       "resourceClass": "org.slc.sli.api.search.resource.SearchResource",
       "queryable": true,
+      "dateSearchDisallowed": true,
       "availableSince" : "v1.1"
     },
     {
       "path": "/educationOrganizations",
       "queryable": true,
+      "dateSearchDisallowed": true,
       "doc": "Represents any public or private institution, organization, or agency that provides instructional or support services to students or staff at any level. Caution: The educationOrganizations entity is public in the SLI API. Any metadata associated with an educationOrganization can be viewed by anyone within the tenant to which the educationOrganization belongs. For more information, see the schema for $$EducationOrganization$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /teachers/{ID}/teacherSchoolAssociations/schools  and for staff, this is /staff/{ID}/staffEducationOrgAssignmentAssociations/educationOrganizations. {ID} is the unique ID of the teacher or staff.",
       "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicDefaultResource",
       "availableSince" : "v1.1",
       "subResources": [
         { "path": "/{id}/studentSchoolAssociations" },
         { "path": "/{id}/studentSchoolAssociations/students" },
-        { "path": "/{id}/teacherSchoolAssociations" },
-        { "path": "/{id}/teacherSchoolAssociations/teachers" }
+        { "path": "/{id}/teacherSchoolAssociations" , "dateSearchDisallowed": true},
+        { "path": "/{id}/teacherSchoolAssociations/teachers", "dateSearchDisallowed": true }
       ]
     },
     {
       "path": "/schools",
       "queryable": true,
+      "dateSearchDisallowed": true,
       "doc": "This entity represents an educational organization that includes staff and students who participate in classes and educational activity groups. Caution: The schools entity is public in the SLI API. Any metadata associated with a school can be viewed by anyone within the tenant to which the school belongs. For more information, see the schema for $$School$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers or staff, this is /schools/{IDs}. {IDs} represents a list of the school IDs to which the teacher or staff is currently associated.",
       "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicDefaultResource",
       "availableSince" : "v1.1",
@@ -612,13 +652,14 @@
     {
       "path": "/staff",
       "queryable": true,
+      "dateSearchDisallowed": true,
       "doc": "Represents the definition of a staff resource. A staff is a person that is employed by an LEA or other educational unit engaged in student instruction. These persons are instructional-type staff members. A teacher is a staff member with additional properties. See the $$Teacher$$ resource for details. A staff is associated with a school, cohort and program through $$StaffEducationOrganizationAssociation$$, $$StaffCohortAssociation$$, and $$StaffProgramAssociation$$. For more details about the resources, see $$School$$, $$Cohort$$ and $$Program$$ resources. For detailed information, see the schema for $$Section$$ resources.  For this open ended URI, only current and directly associated entities are returned. For teachers and staff, this is /educationOrganizations/{IDs}/staffEducationOrgAssignmentAssociations/staff. {IDs} represents a list of Education Organization IDs to which the staff or teacher is currently associated.",
       "availableSince" : "v1.1",
       "subResources": [
-        { "path": "/{id}/teacherSchoolAssociations" },
-        { "path": "/{id}/teacherSchoolAssociations/schools" },
-        { "path": "/{id}/teacherSectionAssociations" },
-        { "path": "/{id}/teacherSectionAssociations/sections" }
+        { "path": "/{id}/teacherSchoolAssociations", "dateSearchDisallowed": true },
+        { "path": "/{id}/teacherSchoolAssociations/schools", "dateSearchDisallowed": true },
+        { "path": "/{id}/teacherSectionAssociations", "dateSearchDisallowed": true },
+        { "path": "/{id}/teacherSectionAssociations/sections", "dateSearchDisallowed": true }
       ]
     },
     {
