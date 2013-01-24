@@ -16,8 +16,13 @@
 
 package org.slc.sli.ingestion.processors;
 
+import java.lang.String;
+import java.lang.StringBuilder;
 import java.util.Enumeration;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Arrays;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -25,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.apache.commons.validator.EmailValidator;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.aspect.MongoTrackingAspect;
@@ -225,16 +231,25 @@ public class ControlFileProcessor implements Processor {
 
         String emailProp = newJob.getProperty(AttributeType.EMAIL_NOTIFY.getName());
         if (emailProp != null) {
-            LOG.debug("Matched @notify tag from control file parsing.");
-            // Check it is a valid Internet Email address
-            boolean isValid = true;
-            if (isValid) {
-                exchange.getIn().setHeader(AttributeType.EMAIL_NOTIFY.name(), emailProp);
+            LOG.info("Matched @notify tag from control file parsing.");
+            List<String> emails = Arrays.asList(emailProp.split("\\s*,\\s*"));
+            StringBuilder emailStringBuilder = new StringBuilder();
+            for (String email : emails) {
+                if (EmailValidator.getInstance().isValid(email)) {
+                    emailStringBuilder.append(email);
+                    emailStringBuilder.append(",");
+                } else {
+                    LOG.error("Value '" + email + "' given for @notify is invalid: ignoring");
+                }
+            }
+            String validEmails = (emailStringBuilder.length() > 0 ? emailStringBuilder.substring(0, emailStringBuilder.length() - 1): "");
+            if (validEmails.length() > 0) {
+                exchange.getIn().setHeader(AttributeType.EMAIL_NOTIFY.name(), validEmails);
             } else {
-                LOG.error("Value '" + emailProp + "' given for @notify is invalid: ignoring");
+                LOG.error("No valid emails found.");
             }
         } else {
-            LOG.debug("Did not match @notify tag in control file.");
+            LOG.info("Did not match @notify tag in control file.");
         }
     }
 
