@@ -200,4 +200,31 @@ public class ControlFile extends IngestionFileEntry{
         return true;
     }
 
+    /* summaryString() */
+    public String summaryString() {
+    	String result = "";
+    	result += "SLI Batch Job Id:      '" + getBatchJobId() + "'\n";
+    	result += "Archive file:          '" + getParentZipFileOrDirectory() + "'\n";
+    	result += "Control file name:     '" + getFileName() + "'\n";
+
+    	int nprop = getConfigProperties().size();
+    	if ( nprop > 0 ) {
+			result += "@Properties given (" + Integer.toString(nprop) + "): " + getConfigProperties().toString() + "\n";
+		} else {
+			result += "No @properties given\n";
+		}
+
+    	List<IngestionFileEntry> fes = getFileEntries();
+    	int nfe = fes.size();
+    	if ( nfe > 0 ) {
+    		result += "Data file(s) given (" + Integer.toString(nfe) + "):\n";
+    		for ( IngestionFileEntry fe : fes ) {
+    			result += "\t" + fe.getFileName() + "\n";
+    		}
+    	}
+    	else {
+    		result += "NO FILES GIVEN\n";
+    	}
+    	return result;
+    }
 }
