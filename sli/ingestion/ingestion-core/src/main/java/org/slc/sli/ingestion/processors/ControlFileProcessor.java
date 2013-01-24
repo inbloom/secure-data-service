@@ -204,6 +204,20 @@ public class ControlFileProcessor implements Processor {
         } else {
             LOG.debug("Did not match @duplicate-detection tag in control file.");
         }
+
+        String emailProp = newJob.getProperty(AttributeType.EMAIL_NOTIFY.getName());
+        if (emailProp != null) {
+            LOG.debug("Matched @notify tag from control file parsing.");
+            // Check it is a valid Internet Email address
+            boolean isValid = true;
+            if (isValid) {
+                exchange.getIn().setHeader(AttributeType.EMAIL_NOTIFY.name(), emailProp);
+            } else {
+                LOG.error("Value '" + emailProp + "' given for @notify is invalid: ignoring");
+            }
+        } else {
+            LOG.debug("Did not match @notify tag in control file.");
+        }
     }
 
     private void setExchangeBody(Exchange exchange, ControlFile cf, String batchJobId) {

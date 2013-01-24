@@ -44,7 +44,10 @@ public enum AttributeType {
      *                with the side effect that all recordHash processing is skipped.  This is in
      *                turn useful for measuring the performance impact of recordHash processing.
      */
-    DUPLICATE_DETECTION("duplicate-detection");
+    DUPLICATE_DETECTION("duplicate-detection"),
+    
+    // Where to send Email notifications about the job progress
+    EMAIL_NOTIFY("notify");
 
     private String name;
 
