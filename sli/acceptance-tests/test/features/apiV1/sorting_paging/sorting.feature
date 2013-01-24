@@ -216,7 +216,7 @@ Scenario: Confirm default limit of 50 entities and ability to override
 
    When parameter "limit" is "0"
     And I navigate to GET "/v1/schools/ec2e4218-6483-4e9c-8954-0aecccfd4731/studentSchoolAssociations/students"
-   Then I should receive a collection with 62 elements
+   Then I should receive a collection with 63 elements
     And the a next link should not exist
 
 Scenario: Confirm limit only affects final segment of URL

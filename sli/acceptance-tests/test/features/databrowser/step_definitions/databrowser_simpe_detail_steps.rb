@@ -208,6 +208,14 @@ When /^I search for the identifier "([^\"]*)" in "([^\"]*)"$/ do |id, type|
   @driver.find_element(:xpath, "//input[@value=\"Search\"]").click
 end
 
+Then /^I should see "(.*?)" on the page$/ do |arg1|
+  assertWithWait("Failed to find #{arg1} on the page.")  {@driver.page_source.include?(arg1)}
+end
+
+Then /^I should not see "(.*?)" on the page$/ do |arg1|
+  assertWithWait("Found #{arg1} on the page when we shouldn't have.")  {!@driver.page_source.include?(arg1)}
+end
+
 Then /^I see a "(.*?)" alert box$/ do |arg1|
   flash = @driver.find_element(:css, 'div#alert')
   assert(!flash.nil?, "We should see an alert box")
