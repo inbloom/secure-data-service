@@ -1,0 +1,148 @@
+#Specify indexes for tenantDB here.
+#format:
+# collection,uniqueness,key1:order,key2:order...
+#
+#collection: name of the collection to be index
+#uniquenesss: specifies the uniqueness of the field.Can only be true of false
+#key:order: index key and order .
+
+# (collection,unique,indexKeys ...)
+# creationTime indexes for all collections
+
+# Low cardinality collections
+# approved 10/30 by Tony/Billy
+adminDelegation,false,body.localEdOrgId:1,body.appApprovalEnabled:1
+applicationAuthorization,false,body.appIds:1
+applicationAuthorization,false,body.authId:1,body.authType:1
+customRole,false,body.realmId:1
+customRole,false,metaData.tenantId:1,body.realmId:1
+custom_entities,false,metaData.entityId:1,metaData.clientId:1
+
+# Billy is investigating these
+
+# direct references, index on each direct reference
+# These indexes will be reviewed as part of US4658
+attendance,false,body.schoolId:1
+attendance,false,body.studentId:1
+cohort,false,body.educationOrgId:1
+cohort,false,studentCohortAssociation.body.studentId:1
+cohort,false,body.programId:1
+course,false,body.schoolId:1
+courseOffering,false,body.courseId:1
+courseOffering,false,body.schoolId:1
+courseOffering,false,body.sessionId:1
+courseTranscript,false,body.courseId:1
+courseTranscript,false,body.studentAcademicRecordId:1
+courseTranscript,false,body.studentId:1
+disciplineAction,false,body.assignmentSchoolId:1
+disciplineAction,false,body.disciplineIncidentId:1
+disciplineAction,false,body.responsibilitySchoolId:1
+disciplineAction,false,body.staffId:1
+disciplineAction,false,body.studentId:1
+disciplineIncident,false,body.schoolId:1
+disciplineIncident,false,body.staffId:1
+educationOrganization,false,body.parentEducationAgencyReference:1
+educationOrganization,false,body.programReference:1
+grade,false,body.gradePeriodId:1
+grade,false,body.studentSectionAssociationId:1
+graduationPlan,false,body.educationOrganizationId:1
+learningObjective,false,body.learningStandards:1
+learningObjective,false,body.parentLearningObjective:1
+reportCard,false,body.grades:1
+reportCard,false,body.gradingPeriodId:1
+reportCard,false,body.studentCompetencyId:1
+reportCard,false,body.studentId:1
+section,false,body.assessmentReferences:1
+section,false,body.courseOfferingId:1
+section,false,body.programReference:1
+section,false,body.schoolId:1
+section,false,body.sessionId:1
+session,false,body.gradingPeriodReference:1
+session,false,body.schoolId:1
+staffCohortAssociation,false,body.cohortId:1
+staffCohortAssociation,false,body.staffId:1
+staffEducationOrganizationAssociation,false,body.educationOrganizationReference:1
+staffEducationOrganizationAssociation,false,body.staffReference:1
+staffProgramAssociation,false,body.programId:1
+staffProgramAssociation,false,body.staffId:1
+studentAcademicRecord,false,body.reportCards:1
+studentAcademicRecord,false,body.sessionId:1
+studentAcademicRecord,false,body.studentId:1
+# studentAssessment is embedded into student
+student,false,studentAssessment.body.assessmentId:1
+studentCompetency,false,body.objectiveId.learningObjectiveId:1
+studentCompetency,false,body.objectiveId.studentCompetencyObjectiveId:1
+studentCompetency,false,body.studentSectionAssociationId:1
+studentCompetencyObjective,false,body.educationOrganizationId:1
+student,false,studentDisciplineIncidentAssociation.body.disciplineIncidentId:1
+studentGradebookEntry,false,body.gradebookEntryId:1
+studentGradebookEntry,false,body.sectionId:1
+studentGradebookEntry,false,body.studentId:1
+studentGradebookEntry,false,body.studentSectionAssociationId:1
+# studentParentAssociation is embedded into student
+student,false,studentParentAssociation.body.parentId:1
+# studentProgramAssociation is embedded into program
+program,false,studentProgramAssociation.body.educationOrganizationId:1
+program,false,studentProgramAssociation.body.studentId:1
+studentSchoolAssociation,false,body.graduationPlanId:1
+studentSchoolAssociation,false,body.schoolId:1
+studentSchoolAssociation,false,body.studentId:1
+# studentSectionAssociation is embedded into section
+section,false,studentSectionAssociation.body.studentId:1
+teacherSchoolAssociation,false,body.schoolId:1
+teacherSchoolAssociation,false,body.teacherId:1
+# teacherSectionAssociation is embedded into section
+section,false,teacherSectionAssociation.body.teacherId:1
+
+# Ingestion
+# These indexes are all used by ingestion and should be removed as part of reference resolution work
+# TONY - Need to tie these to reference resolution stories
+
+# US4388
+assessment,false,body.assessmentIdentificationCode:1
+# US4388
+assessment,false,body.assessmentPeriodDescriptor.codeValue:1
+# US4388
+assessment,false,body.assessmentTitle:1,body.academicSubject:1,body.gradeLevelAssessed:1
+calendarDate,false,body.date:1,body.calendarEvent:1
+course,false,body.courseCode.ID:1,body.courseCode.identificationSystem:1
+disciplineIncident,false,body.incidentIdentifier:1
+educationOrganization,false,body.stateOrganizationId:1
+# needs to be combined with next
+educationOrganization,false,body.educationOrgIdentificationCode:1
+educationOrganization,false,body.educationOrgIdentificationCode.ID:1
+gradingPeriod,false,body.gradingPeriodIdentity.schoolYear:1
+graduationPlan,false,body.graduationPlanType:1
+# needs to combined with next
+learningObjective,false,body.learningObjectiveId:1
+learningObjective,false,body.learningObjectiveId.identificationCode:1
+learningObjective,false,body.objective:1
+learningStandard,false,body.learningStandardId.identificationCode:1
+parent,false,body.parentUniqueStateId:1
+program,false,body.programId:1
+section,false,body.uniqueSectionCode:1
+session,false,body.sessionName:1
+student,false,body.studentUniqueStateId:1
+studentCompetency,false,metaData.externalId:1,metaData.studentUniqueStateId:1,metaData.uniqueSectionCode:1
+studentCompetencyObjective,false,body.studentCompetencyObjectiveId:1
+
+# Profiled
+# These indexes will be reviewed as part of US4658
+educationOrganization,false,body.parentEducationAgencyReference:1,type:1
+educationOrganization,false,type:1,body.nameOfInstitution:1
+gradingPeriod,false,body.beginDate:1
+staff,false,body.staffUniqueStateId:1
+staff,false,type:1
+
+
+#  TODO: Index to make querying acceptance tests pass - this is really bad!!
+reportCard,false,body.gpaCumulative:1
+
+# US4365
+student,false,cohort._id:1
+
+# DE2091, checked with Billy
+competencyLevelDescriptor,false,body.codeValue:1
+
+# US4602, checked with Billy.
+educationOrganization,false,body.organizationCategories:1
