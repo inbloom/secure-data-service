@@ -49,6 +49,7 @@ import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.dal.NeutralRecordRepository;
+import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -157,6 +158,7 @@ public class JobReportingProcessorTest {
         // create exchange
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
         exchange.getIn().setBody(workNote, RangedWorkNote.class);
+        exchange.getIn().setHeader(AttributeType.EMAIL_NOTIFY.name(), "testemail@test.test");
 
         jobReportingProcessor.setBatchJobDAO(mockedBatchJobDAO);
         jobReportingProcessor.process(exchange);
@@ -244,4 +246,5 @@ public class JobReportingProcessorTest {
         fakeStageList.add(s);
         return fakeStageList;
     }
+
 }

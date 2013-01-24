@@ -17,6 +17,7 @@
 package org.slc.sli.ingestion.processors;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -24,8 +25,10 @@ import java.io.PrintWriter;
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -57,6 +60,7 @@ import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.SLIWorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
+import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -136,6 +140,8 @@ public class JobReportingProcessor implements Processor {
             boolean hasErrors = writeErrorAndWarningReports(job);
 
             writeBatchJobReportFile(exchange, job, hasErrors);
+
+            handleNotifications(exchange, job);
 
         } catch (Exception e) {
             LOG.error("Exception encountered in JobReportingProcessor. ", e);
@@ -559,6 +565,51 @@ public class JobReportingProcessor implements Processor {
                 File dir = new File(sourceId);
                 FileUtils.deleteQuietly(dir);
             }
+    }
+
+    public void handleNotifications(Exchange exchange, NewBatchJob job) {
+
+        // Check for notify header
+        String distro = (String) exchange.getIn().getHeader(AttributeType.EMAIL_NOTIFY.name());
+        if ( null != distro && !distro.isEmpty()) {
+            File jobReportFile = null;
+            String notificationBody = null;
+            String notificationSubject = "InBloom ingestion job " + job.getId() + " for tenant " + job.getTenantId() + " completed ";
+
+            if (job.getStatus().equals(BatchJobStatusType.COMPLETED_SUCCESSFULLY.getName())) {
+                notificationSubject += "successfully";
+                notificationBody = "Job " + job.getId() + " completed successfully";  // default body
+            } else {
+                notificationSubject += "with errors";
+                notificationBody = "Job " + job.getId() + " completed with errors";  // default body
+            }
+
+            // Set body the the job report file if possible
+            try {
+                jobReportFile = getLogFile(job);
+                notificationBody = readFile(jobReportFile);
+            } catch (IOException e) {
+                LOG.warn("Unable to get job report information for job {}", job.getId());
+            }
+
+            // Send notification
+            // sendNotification(emailProp, notificationSubject, notificationBody);
+            LOG.debug("Emails: {}", distro);
+            LOG.debug("Notification subject: {}", notificationSubject);
+            LOG.debug("Notification body: {}", notificationBody);
+        }
+    }
+
+    private static String readFile(File file) throws IOException {
+        FileInputStream stream = new FileInputStream(file);
+        try {
+            FileChannel fc = stream.getChannel();
+            MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
+            /* Instead of using default, pass in a decoder. */
+            return Charset.defaultCharset().decode(bb).toString();
+        } finally {
+            stream.close();
+        }
     }
 
     public void setCommandTopicUri(String commandTopicUri) {
