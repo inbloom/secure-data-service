@@ -35,9 +35,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.CommandResult;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.WriteConcern;
+import com.mongodb.WriteResult;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentMatcher;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
@@ -45,24 +57,12 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.validation.NoNaturalKeysDefinedException;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.BasicDBObjectBuilder;
-import com.mongodb.CommandResult;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.WriteConcern;
-import com.mongodb.WriteResult;
 
 /**
  * Test for sub doc accessor
- * 
+ *
  * @author nbrown
- * 
+ *
  */
 public class SubDocAccessorTest {
 
@@ -91,6 +91,7 @@ public class SubDocAccessorTest {
         CommandResult countCR = mock(CommandResult.class);
         CommandResult countFailCR = mock(CommandResult.class);
         when(success.getLastError()).thenReturn(successCR);
+        when(success.getN()).thenReturn(1);
         when(successCR.ok()).thenReturn(true);
         when(successCR.get("value")).thenReturn("updated");
         when(failCR.get("value")).thenReturn(null);
@@ -103,7 +104,7 @@ public class SubDocAccessorTest {
         when(countCR.get("result")).thenReturn(l);
 
         when(countFailCR.get("result")).thenReturn(new ArrayList<DBObject>());
-        
+
         when(
                 sectionCollection.update(any(DBObject.class), any(DBObject.class), eq(false), eq(false),
                         eq(WriteConcern.SAFE))).thenReturn(success);
@@ -205,28 +206,37 @@ public class SubDocAccessorTest {
         MongoEntity entity = new MongoEntity("studentSectionAssociation", studentSectionAssociation);
 
         assertTrue(underTest.subDoc("studentSectionAssociation").create(entity));
-        verify(sectionCollection).update(eq(BasicDBObjectBuilder.start("_id", SECTION1).get()),
-                argThat(new ArgumentMatcher<DBObject>() {
+        verify(sectionCollection).update(argThat(new ArgumentMatcher<DBObject>() {
 
-                    @Override
-                    @SuppressWarnings("unchecked")
-                    public boolean matches(Object argument) {
-                        DBObject updateObject = (DBObject) argument;
-                        Map<String, Object> push = (Map<String, Object>) updateObject.get("$pushAll");
-                        if (push == null) {
-                            return false;
-                        }
-                        Collection<Object> toPush = push.values();
-                        if (toPush.size() != 1) {
-                            return false;
-                        }
-                        Object[] studentSectionsToPush = (Object[]) toPush.iterator().next();
-                        List<String> ssaIds = new ArrayList<String>(push.keySet());
-                        return ((Map<String, Map<String, Object>>) studentSectionsToPush[0]).get("body")
-                                .get("beginDate").equals(BEGINDATE)
-                                && ssaIds.get(0).equals("studentSectionAssociation");
-                    }
-                }), eq(true), eq(false), eq(WriteConcern.SAFE));
+            @Override
+            public boolean matches(Object argument) {
+                DBObject query = (DBObject) argument;
+                DBObject sectionQuery = (DBObject) query.get("studentSectionAssociation._id");
+                return query.get("_id").equals(SECTION1) && sectionQuery != null
+                        && sectionQuery.get("$nin").equals(Arrays.asList("subdocid"));
+            }
+
+        }), argThat(new ArgumentMatcher<DBObject>() {
+
+            @Override
+            @SuppressWarnings("unchecked")
+            public boolean matches(Object argument) {
+                DBObject updateObject = (DBObject) argument;
+                Map<String, Object> push = (Map<String, Object>) updateObject.get("$pushAll");
+                if (push == null) {
+                    return false;
+                }
+                Collection<Object> toPush = push.values();
+                if (toPush.size() != 1) {
+                    return false;
+                }
+                Object[] studentSectionsToPush = (Object[]) toPush.iterator().next();
+                List<String> ssaIds = new ArrayList<String>(push.keySet());
+                return ((Map<String, Map<String, Object>>) studentSectionsToPush[0]).get("body").get("beginDate")
+                        .equals(BEGINDATE)
+                        && ssaIds.get(0).equals("studentSectionAssociation");
+            }
+        }), eq(true), eq(false), eq(WriteConcern.SAFE));
 
     }
 
@@ -241,31 +251,49 @@ public class SubDocAccessorTest {
         ssa3.getBody().put("sectionId", SECTION2);
         assertTrue(underTest.subDoc("studentSectionAssociation").insert(Arrays.asList(ssa1, ssa2, ssa3)));
         // Test that fry gets enrolled in mathematics of wonton burrito meals
-        verify(sectionCollection).update(eq(BasicDBObjectBuilder.start("_id", SECTION2).get()),
-                argThat(new ArgumentMatcher<DBObject>() {
+        verify(sectionCollection).update(argThat(new ArgumentMatcher<DBObject>() {
 
-                    @Override
-                    @SuppressWarnings("unchecked")
-                    public boolean matches(Object argument) {
-                        DBObject updateObject = (DBObject) argument;
-                        Map<String, Object> push = (Map<String, Object>) updateObject.get("$pushAll");
-                        if (push == null) {
-                            return false;
-                        }
-                        Collection<Object> toPush = push.values();
-                        if (toPush.size() != 1) {
-                            return false;
-                        }
-                        Object[] studentSectionsToPush = (Object[]) toPush.iterator().next();
-                        List<String> ssaIds = new ArrayList<String>(push.keySet());
-                        return ((Map<String, Map<String, Object>>) studentSectionsToPush[0]).get("body")
-                                .get("beginDate").equals(BEGINDATE)
-                                && ssaIds.get(0).equals("studentSectionAssociation");
-                    }
-                }), eq(true), eq(false), eq(WriteConcern.SAFE));
+            @Override
+            public boolean matches(Object argument) {
+                DBObject query = (DBObject) argument;
+                DBObject sectionQuery = (DBObject) query.get("studentSectionAssociation._id");
+                return query.get("_id").equals(SECTION2) && sectionQuery != null
+                        && sectionQuery.get("$nin").equals(Arrays.asList("subdocid"));
+            }
+
+        }), argThat(new ArgumentMatcher<DBObject>() {
+
+            @Override
+            @SuppressWarnings("unchecked")
+            public boolean matches(Object argument) {
+                DBObject updateObject = (DBObject) argument;
+                Map<String, Object> push = (Map<String, Object>) updateObject.get("$pushAll");
+                if (push == null) {
+                    return false;
+                }
+                Collection<Object> toPush = push.values();
+                if (toPush.size() != 1) {
+                    return false;
+                }
+                Object[] studentSectionsToPush = (Object[]) toPush.iterator().next();
+                List<String> ssaIds = new ArrayList<String>(push.keySet());
+                return ((Map<String, Map<String, Object>>) studentSectionsToPush[0]).get("body").get("beginDate")
+                        .equals(BEGINDATE)
+                        && ssaIds.get(0).equals("studentSectionAssociation");
+            }
+        }), eq(true), eq(false), eq(WriteConcern.SAFE));
         // Test that both fry and gunther get enrolled in history of the 20th century
-        verify(sectionCollection).update(eq(BasicDBObjectBuilder.start("_id", SECTION1).get()),
-                argThat(new ArgumentMatcher<DBObject>() {
+        verify(sectionCollection).update(argThat(new ArgumentMatcher<DBObject>() {
+
+            @Override
+            public boolean matches(Object argument) {
+                DBObject query = (DBObject) argument;
+                DBObject sectionQuery = (DBObject) query.get("studentSectionAssociation._id");
+                return query.get("_id").equals(SECTION1) && sectionQuery != null
+                        && sectionQuery.get("$nin").equals(Arrays.asList("subdocid", "subdocid"));
+            }
+
+        }), argThat(new ArgumentMatcher<DBObject>() {
 
                     @Override
                     @SuppressWarnings("unchecked")
@@ -346,7 +374,7 @@ public class SubDocAccessorTest {
 
     @Test
     public void testFindAll() {
-        
+
         Query originalQuery = new Query(Criteria.where("_id").is("parent_idchild").and("someProperty").is("someValue"))
                 .skip(0).limit(1);
         List<Entity> entityResults = underTest.subDoc("studentSectionAssociation").findAll(originalQuery);

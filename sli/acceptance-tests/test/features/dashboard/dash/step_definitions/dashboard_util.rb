@@ -16,6 +16,7 @@ limitations under the License.
 
 =end
 require_relative '../../../utils/sli_utils.rb'
+require_relative '../../../security/step_definitions/securityevent_util_steps.rb'
 
 Given /^the district "([^\"]*)" has dissallowed use of the dashboard$/ do |district|
   disable_NOTABLESCAN()

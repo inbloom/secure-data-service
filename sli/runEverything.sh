@@ -1,9 +1,13 @@
+#!/bin/sh
+
 DIR=`pwd`
 mkdir -p everyLog
 cd everyLog; rm *.log
 LOGDIR=$DIR/everyLog
 
-export MAVEN_OPTS=-Xmx4096m
+if [ -z "$MAVEN_OPTS" ]; then
+  export MAVEN_OPTS=-Xmx4096m
+fi
 
 echo PWD: $DIR
 echo Starting API

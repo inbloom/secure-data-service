@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -404,6 +405,12 @@ public class MongoQueryConverter {
             Object value = neutralCriteria.getValue();
             Object originalValue = value;
             NeutralSchema fieldSchema = this.getFieldSchema(entitySchema, key);
+
+            if (ParameterConstants.SCHOOL_YEARS.equals(key)) {
+                // do not include schoolYears in the MongoQuery, it is handled elsewhere
+                continue;
+            }
+
 
             if (fieldSchema != null) {
                 if (!operator.equals("exists")) {

@@ -192,7 +192,7 @@ public class User {
     }
 
     private String toDateString(Date date) {
-        SimpleDateFormat simpleDataFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ssZ");
+        SimpleDateFormat simpleDataFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return simpleDataFormat.format(date);
     }
 

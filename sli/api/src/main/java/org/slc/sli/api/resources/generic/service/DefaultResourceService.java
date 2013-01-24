@@ -23,12 +23,15 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.constants.ResourceConstants;
 import org.slc.sli.api.constants.ResourceNames;
+import org.slc.sli.api.criteriaGenerator.GranularAccessFilter;
+import org.slc.sli.api.criteriaGenerator.GranularAccessFilterProvider;
 import org.slc.sli.api.model.ModelProvider;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.PreConditionFailedException;
 import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.representation.ServiceResponse;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
+import org.slc.sli.api.resources.util.InProcessDateQueryEvaluator;
 import org.slc.sli.api.selectors.LogicalEntity;
 import org.slc.sli.api.selectors.UnsupportedSelectorException;
 import org.slc.sli.api.service.EntityNotFoundException;
@@ -80,6 +83,12 @@ public class DefaultResourceService implements ResourceService {
 
     @Autowired
     private ResourceServiceHelper resourceServiceHelper;
+
+    @Autowired
+    private GranularAccessFilterProvider granularAccessFilterProvider;
+
+    @Autowired
+    private InProcessDateQueryEvaluator inProcessDateQueryEvaluator;
 
     public static final int MAX_MULTIPLE_UUIDS = 100;
 
@@ -149,35 +158,41 @@ public class DefaultResourceService implements ResourceService {
         return handle(resource, new ServiceLogic() {
             @Override
             public ServiceResponse run(final Resource resource, final EntityDefinition definition) {
-                Iterable<EntityBody> entityBodies = null;
-                final ApiQuery apiQuery = resourceServiceHelper.getApiQuery(definition, requestURI);
-                addAdditionalCriteria(apiQuery);
+                try {
+                    Iterable<EntityBody> entityBodies = null;
+                    final ApiQuery apiQuery = resourceServiceHelper.getApiQuery(definition, requestURI);
+                    addAdditionalCriteria(apiQuery);
+                    addGranularAccessCriteria(definition, apiQuery);
 
-                if (getAllEntities) {
-                    entityBodies = SecurityUtil.sudoRun(new SecurityUtil.SecurityTask<Iterable<EntityBody>>() {
+                    if (getAllEntities) {
+                        entityBodies = SecurityUtil.sudoRun(new SecurityUtil.SecurityTask<Iterable<EntityBody>>() {
 
-                        @Override
-                        public Iterable<EntityBody> execute() {
-                            Iterable<EntityBody> entityBodies = null;
-                            try {
-                                entityBodies = logicalEntity.getEntities(apiQuery, resource.getResourceType());
-                            } catch (UnsupportedSelectorException e) {
-                                entityBodies = definition.getService().list(apiQuery);
+                            @Override
+                            public Iterable<EntityBody> execute() {
+                                Iterable<EntityBody> entityBodies = null;
+                                try {
+                                    entityBodies = logicalEntity.getEntities(apiQuery, resource.getResourceType());
+                                } catch (UnsupportedSelectorException e) {
+                                    entityBodies = definition.getService().list(apiQuery);
+                                }
+
+                                return entityBodies;
                             }
-
-                            return entityBodies;
+                        });
+                    } else {
+                        try {
+                            entityBodies = logicalEntity.getEntities(apiQuery, resource.getResourceType());
+                        } catch (UnsupportedSelectorException e) {
+                            entityBodies = definition.getService().list(apiQuery);
                         }
-                    });
-                } else {
-                    try {
-                        entityBodies = logicalEntity.getEntities(apiQuery, resource.getResourceType());
-                    } catch (UnsupportedSelectorException e) {
-                        entityBodies = definition.getService().list(apiQuery);
                     }
-                }
-                long count = getEntityCount(definition, apiQuery);
+                    long count = getEntityCount(definition, apiQuery);
 
-                return new ServiceResponse((List<EntityBody>) entityBodies, count);
+                    return new ServiceResponse((List<EntityBody>) entityBodies, count);
+                } catch (NoGranularAccessDatesException e) {
+                    List<EntityBody> entityBodyList = Collections.emptyList();
+                    return new ServiceResponse(entityBodyList, 0);
+                }
             }
         });
     }
@@ -276,44 +291,51 @@ public class DefaultResourceService implements ResourceService {
             return getAssociatedEntities(base, base, id, resource, key, requestURI);
         }
 
-        final String associationKey = getConnectionKey(base, resource);
-        List<EntityBody> entityBodyList;
-        List<String> valueList = Arrays.asList(id.split(","));
-
-        final ApiQuery apiQuery = resourceServiceHelper.getApiQuery(definition, requestURI);
-        
-        //Mongo blows up if we have multiple $in or equal criteria for the same key.
-        //To avoid that case, if we do have duplicate keys, set the value for that
-        //criteria to the intersection of the two critiera values
-        boolean skipIn = false;
-        for (NeutralCriteria crit : apiQuery.getCriteria()) {
-            if (crit.getKey().equals(associationKey)
-                    && (crit.getOperator().equals(NeutralCriteria.CRITERIA_IN) || crit.getOperator().equals(NeutralCriteria.OPERATOR_EQUAL))) {
-                skipIn = true;
-                Set valueSet = new HashSet();
-                if (crit.getValue() instanceof Collection) {
-                    valueSet.addAll((Collection) crit.getValue());
-                } else {
-                    valueSet.add(crit.getValue());
-                }
-                valueSet.retainAll(valueList);
-                crit.setValue(valueSet);
-            }
-        }
-
-        if (!skipIn) {
-            apiQuery.addCriteria(new NeutralCriteria(associationKey, "in", valueList));
-        }
-        
-        
         try {
-            entityBodyList = logicalEntity.getEntities(apiQuery, definition.getResourceName());
-        } catch (final UnsupportedSelectorException e) {
-            entityBodyList = (List<EntityBody>) definition.getService().list(apiQuery);
-        }
+            final String associationKey = getConnectionKey(base, resource);
+            List<EntityBody> entityBodyList;
+            List<String> valueList = Arrays.asList(id.split(","));
 
-        long count = getEntityCount(definition, apiQuery);
-        return new ServiceResponse(entityBodyList, count);
+            final ApiQuery apiQuery = resourceServiceHelper.getApiQuery(definition, requestURI);
+
+            addGranularAccessCriteria(definition, apiQuery);
+
+            //Mongo blows up if we have multiple $in or equal criteria for the same key.
+            //To avoid that case, if we do have duplicate keys, set the value for that
+            //criteria to the intersection of the two critiera values
+            boolean skipIn = false;
+            for (NeutralCriteria crit : apiQuery.getCriteria()) {
+                if (crit.getKey().equals(associationKey)
+                        && (crit.getOperator().equals(NeutralCriteria.CRITERIA_IN) || crit.getOperator().equals(NeutralCriteria.OPERATOR_EQUAL))) {
+                    skipIn = true;
+                    Set valueSet = new HashSet();
+                    if (crit.getValue() instanceof Collection) {
+                        valueSet.addAll((Collection) crit.getValue());
+                    } else {
+                        valueSet.add(crit.getValue());
+                    }
+                    valueSet.retainAll(valueList);
+                    crit.setValue(valueSet);
+                }
+            }
+
+            if (!skipIn) {
+                apiQuery.addCriteria(new NeutralCriteria(associationKey, "in", valueList));
+            }
+
+
+            try {
+                entityBodyList = logicalEntity.getEntities(apiQuery, definition.getResourceName());
+            } catch (final UnsupportedSelectorException e) {
+                entityBodyList = (List<EntityBody>) definition.getService().list(apiQuery);
+            }
+
+            long count = getEntityCount(definition, apiQuery);
+            return new ServiceResponse(entityBodyList, count);
+        } catch (NoGranularAccessDatesException e) {
+            List<EntityBody> entityBodyList = Collections.emptyList();
+            return new ServiceResponse(entityBodyList, 0);
+        }
     }
 
     @Override
@@ -348,95 +370,109 @@ public class DefaultResourceService implements ResourceService {
         final String resourceKey = getConnectionKey(association, resource);
         String key = "_id";
 
-        String parentType = EmbeddedDocumentRelations.getParentEntityType(assocEntity.getType());
-        if ((parentType != null) && baseEntity.getType().equals(parentType)) {
-            final ApiQuery apiQuery = resourceServiceHelper.getApiQuery(baseEntity);
-            apiQuery.setLimit(0);
-            apiQuery.addCriteria(new NeutralCriteria("_id", "in", valueList));
-            apiQuery.setEmbeddedFields(Arrays.asList(assocEntity.getType()));
-
-            for (EntityBody entityBody : baseEntity.getService().list(apiQuery)) {
-                @SuppressWarnings("unchecked")
-                List<EntityBody> associations = (List<EntityBody>) entityBody.get(assocEntity.getType());
-
-                if (associations != null) {
-                    if (finalEntityReferencesAssociation(finalEntity, assocEntity, resourceKey)) {
-                        //if the finalEntity references the assocEntity
-                        for (EntityBody associationEntity : associations) {
-                            filteredIdList.add((String) associationEntity.get("id"));
-                        }
-                        key = resourceKey;
-                    } else {
-                        //otherwise the assocEntity references the finalEntity
-                        for (EntityBody associationEntity : associations) {
-                            filteredIdList.add((String) associationEntity.get(resourceKey));
-                        }
-                    }
-
-                }
-            }
-        } else {
-            final ApiQuery apiQuery = resourceServiceHelper.getApiQuery(assocEntity);
-            apiQuery.setLimit(0);
-            apiQuery.addCriteria(new NeutralCriteria(associationKey, "in", valueList));
-            if (association.getResourceType().equals(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS)
-                    && requestUri.getPath().matches("^/api/rest/[^/]+/schools/[^/]+/studentSchoolAssociations/students")) {
-                apiQuery.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.EXIT_WITHDRAW_DATE,
-                        NeutralCriteria.CRITERIA_EXISTS, false)));
-                apiQuery.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.EXIT_WITHDRAW_DATE,
-                        NeutralCriteria.CRITERIA_GTE, DateTime.now().toString(DateTimeFormat.forPattern("yyyy-MM-dd"))
-                )));
-            }
-
-            for (EntityBody entityBody : assocEntity.getService().list(apiQuery)) {
-                List<String> filteredIds = entityBody.getValues(resourceKey);
-                if ((filteredIds == null) || (filteredIds.isEmpty())) {
-                   key = resourceKey;
-                   filteredIdList.addAll(valueList);
-                   break;
-                } else {
-                    for (String filteredId : filteredIds) {
-                        filteredIdList.add(filteredId);
-                    }
-                }
-            }
-        }
-
-        List<EntityBody> entityBodyList;
-        final ApiQuery finalApiQuery = resourceServiceHelper.getApiQuery(finalEntity, requestUri);
-
-        //Mongo blows up if we have multiple $in or equal criteria for the same key.
-        //To avoid that case, if we do have duplicate keys, set the value for that
-        //criteria to the intersection of the two critiera values
-        boolean skipIn = false;
-        for (NeutralCriteria crit : finalApiQuery.getCriteria()) {
-            if (crit.getKey().equals(key)
-                    && (crit.getOperator().equals(NeutralCriteria.CRITERIA_IN) || crit.getOperator().equals(NeutralCriteria.OPERATOR_EQUAL))) {
-                skipIn = true;
-                Set valueSet = new HashSet();
-                if (crit.getValue() instanceof Collection) {
-                    valueSet.addAll((Collection) crit.getValue());
-                } else {
-                    valueSet.add(crit.getValue());
-                }
-                valueSet.retainAll(filteredIdList);
-                crit.setValue(valueSet);
-            }
-        }
-
-        if (!skipIn) {
-            finalApiQuery.addCriteria(new NeutralCriteria(key, "in", filteredIdList));
-        }
-
         try {
-            entityBodyList = logicalEntity.getEntities(finalApiQuery, finalEntity.getResourceName());
-        } catch (final UnsupportedSelectorException e) {
-            entityBodyList = (List<EntityBody>) finalEntity.getService().list(finalApiQuery);
+            String parentType = EmbeddedDocumentRelations.getParentEntityType(assocEntity.getType());
+            if ((parentType != null) && baseEntity.getType().equals(parentType)) {
+                final ApiQuery apiQuery = resourceServiceHelper.getApiQuery(baseEntity);
+
+                addGranularAccessCriteria(baseEntity, apiQuery);
+                apiQuery.setLimit(0);
+                apiQuery.addCriteria(new NeutralCriteria("_id", "in", valueList));
+                apiQuery.setEmbeddedFields(Arrays.asList(assocEntity.getType()));
+
+                for (EntityBody entityBody : baseEntity.getService().list(apiQuery)) {
+                    @SuppressWarnings("unchecked")
+                    List<EntityBody> associations = (List<EntityBody>) entityBody.get(assocEntity.getType());
+
+                    if (associations != null) {
+                        if (finalEntityReferencesAssociation(finalEntity, assocEntity, resourceKey)) {
+                            //if the finalEntity references the assocEntity
+                            for (EntityBody associationEntity : associations) {
+                                filteredIdList.add((String) associationEntity.get("id"));
+                            }
+                            key = resourceKey;
+                        } else {
+                            //otherwise the assocEntity references the finalEntity
+
+                            List<EntityBody> dateMatchedAssociations = filterAssociationEntitiesForDates(associations, assocEntity);
+
+                            for (EntityBody associationEntity : dateMatchedAssociations) {
+                                filteredIdList.add((String) associationEntity.get(resourceKey));
+                            }
+                        }
+                    }
+                }
+            } else {
+                final ApiQuery apiQuery = resourceServiceHelper.getApiQuery(assocEntity);
+
+                addGranularAccessCriteria(assocEntity, apiQuery);
+
+                apiQuery.setLimit(0);
+                apiQuery.addCriteria(new NeutralCriteria(associationKey, "in", valueList));
+                if (association.getResourceType().equals(ResourceNames.STUDENT_SCHOOL_ASSOCIATIONS)
+                        && requestUri.getPath().matches("^/api/rest/[^/]+/schools/[^/]+/studentSchoolAssociations/students")) {
+                    apiQuery.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.EXIT_WITHDRAW_DATE,
+                            NeutralCriteria.CRITERIA_EXISTS, false)));
+                    apiQuery.addOrQuery(new NeutralQuery(new NeutralCriteria(ParameterConstants.EXIT_WITHDRAW_DATE,
+                            NeutralCriteria.CRITERIA_GTE, DateTime.now().toString(DateTimeFormat.forPattern("yyyy-MM-dd"))
+                    )));
+                }
+
+                for (EntityBody entityBody : assocEntity.getService().list(apiQuery)) {
+                    List<String> filteredIds = entityBody.getValues(resourceKey);
+                    if ((filteredIds == null) || (filteredIds.isEmpty())) {
+                       key = resourceKey;
+                       filteredIdList.addAll(valueList);
+                       break;
+                    } else {
+                        for (String filteredId : filteredIds) {
+                            filteredIdList.add(filteredId);
+                        }
+                    }
+                }
+            }
+
+            List<EntityBody> entityBodyList;
+            final ApiQuery finalApiQuery = resourceServiceHelper.getApiQuery(finalEntity, requestUri);
+
+            addGranularAccessCriteria(finalEntity, finalApiQuery);
+
+            //Mongo blows up if we have multiple $in or equal criteria for the same key.
+            //To avoid that case, if we do have duplicate keys, set the value for that
+            //criteria to the intersection of the two critiera values
+            boolean skipIn = false;
+            for (NeutralCriteria crit : finalApiQuery.getCriteria()) {
+                if (crit.getKey().equals(key)
+                        && (crit.getOperator().equals(NeutralCriteria.CRITERIA_IN) || crit.getOperator().equals(NeutralCriteria.OPERATOR_EQUAL))) {
+                    skipIn = true;
+                    Set valueSet = new HashSet();
+                    if (crit.getValue() instanceof Collection) {
+                        valueSet.addAll((Collection) crit.getValue());
+                    } else {
+                        valueSet.add(crit.getValue());
+                    }
+                    valueSet.retainAll(filteredIdList);
+                    crit.setValue(valueSet);
+                }
+            }
+
+            if (!skipIn) {
+                finalApiQuery.addCriteria(new NeutralCriteria(key, "in", filteredIdList));
+            }
+
+            try {
+                entityBodyList = logicalEntity.getEntities(finalApiQuery, finalEntity.getResourceName());
+            } catch (final UnsupportedSelectorException e) {
+                entityBodyList = (List<EntityBody>) finalEntity.getService().list(finalApiQuery);
+            }
+
+            long count = getEntityCount(finalEntity, finalApiQuery);
+
+            return new ServiceResponse(entityBodyList, count);
+        } catch (NoGranularAccessDatesException e) {
+            List<EntityBody> entityBodyList = Collections.emptyList();
+            return new ServiceResponse(entityBodyList, 0);
         }
-
-        long count = getEntityCount(finalEntity, finalApiQuery);
-
-        return new ServiceResponse(entityBodyList, count);
     }
 
     private boolean finalEntityReferencesAssociation(EntityDefinition finalEntity, EntityDefinition assocEntity, String referenceField) {
@@ -508,6 +544,99 @@ public class DefaultResourceService implements ResourceService {
         }
 
         return finalResults;
+    }
+
+
+    private void addGranularAccessCriteria(EntityDefinition entity, ApiQuery apiQuery) throws NoGranularAccessDatesException {
+
+        if (granularAccessFilterProvider.hasFilter()) {
+            GranularAccessFilter filter = granularAccessFilterProvider.getFilter();
+
+            if (entity.getType().equals(filter.getEntityName())) {
+
+                if (filter.isNoSessionsFoundForSchoolYear()) {
+                    throw new NoGranularAccessDatesException();
+                }
+
+                NeutralQuery dateQuery = filter.getNeutralQuery();
+                for (NeutralCriteria criteria : dateQuery.getCriteria()) {
+                    apiQuery.addCriteria(criteria);
+                }
+                for (NeutralQuery dateOrQuery : dateQuery.getOrQueries()) {
+                    apiQuery.addOrQuery(dateOrQuery);
+                }
+            }
+        }
+    }
+
+    private List<EntityBody> filterAssociationEntitiesForDates(List<EntityBody> originalList, EntityDefinition assocEntity) {
+
+        if (granularAccessFilterProvider.hasFilter()) {
+            GranularAccessFilter filter = granularAccessFilterProvider.getFilter();
+
+            if (assocEntity.getType().equals(filter.getEntityName())) {
+                // need to filter in java, not using mongo query
+                NeutralQuery query = filter.getNeutralQuery();
+                List<EntityBody> resultList = new ArrayList<EntityBody>();
+
+                for (EntityBody entity : originalList){
+
+                    if(inProcessDateQueryEvaluator.entitySatisfiesDateQuery(entity,query)){
+                        resultList.add(entity);
+                    }
+                }
+
+                return resultList;
+            } else {
+                return originalList;
+            }
+        } else {
+            return originalList;
+        }
+    }
+
+
+    /**
+     * Determines whether a query matches an entity. This does NOT handle all operators,
+     * and it assumes that all the fields are strings. This is a minimal filter function
+     * that is used to apply the granular access query in Java in the case of embedded
+     * docs that are loaded in a batch. This is not intended to be a general purpose query
+     * handler.
+     *
+     * @param entity
+     * @param query
+     * @return
+     */
+    private boolean entitySatisfiesDateQuery(EntityBody entity, NeutralQuery query) {
+        for (NeutralCriteria andCriteria : query.getCriteria()) {
+            String fieldName = andCriteria.getKey();
+            String fieldValue = (String) entity.get(fieldName);
+            String operator = andCriteria.getOperator();
+
+
+            if (NeutralCriteria.CRITERIA_EXISTS.equals(operator)) {
+                boolean shouldExist = (Boolean) andCriteria.getValue();
+                Object actualValue = entity.get(fieldName);
+                if (shouldExist && actualValue == null) {
+                    return false;
+                }
+            } else {
+                String expectedValue = (String) andCriteria.getValue();
+                int comparison = fieldValue.compareTo(expectedValue);
+                if(NeutralCriteria.CRITERIA_LT.equals(operator)){
+
+                }
+            }
+
+        }
+        return true;
+    }
+
+    /**
+     * Indicates that for a valid granular access query, no sessions and hence
+     * no beginDate or endDate were found.
+     */
+    private class NoGranularAccessDatesException extends Exception {
     }
 
 }
