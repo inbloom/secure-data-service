@@ -33,6 +33,8 @@ public class ResourceEndPointTemplate {
     private String deprecatedVersion;
     private String deprecatedReason;
     private String availableSince;
+    private boolean dateSearchDisallowed;
+
 
     public String getDoc() {
         return doc;
@@ -96,5 +98,13 @@ public class ResourceEndPointTemplate {
 
     public void setQueryable(boolean queryable) {
         this.queryable = queryable;
+    }
+
+    public boolean isDateSearchDisallowed() {
+        return dateSearchDisallowed;
+    }
+
+    public void setDateSearchDisallowed(boolean dateSearchDisallowed) {
+        this.dateSearchDisallowed = dateSearchDisallowed;
     }
 }

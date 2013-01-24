@@ -38,4 +38,9 @@ public final class SliUmlConstants {
     public static final String TAGDEF_RESTRICTED_FOR_LOGGING = TAGDEF_PREFIX.concat("restrictedForLogging");
     public static final String TAGDEF_SECURITY_SPHERE = TAGDEF_PREFIX.concat("securitySphere");
     public static final String TAGDEF_ASSOCIATION_KEY = TAGDEF_PREFIX.concat("associationKey");
+    public static final String TAGDEF_BEGIN_DATE = TAGDEF_PREFIX.concat("beginDate");
+    public static final String TAGDEF_END_DATE = TAGDEF_PREFIX.concat("endDate");
+    public static final String TAGDEF_ASSOCIATED_DATED_COLLECTION = TAGDEF_PREFIX.concat("associatedDatedCollection");
+    public static final String TAGDEF_FILTER_BEGIN_DATE_ON = TAGDEF_PREFIX.concat("filterBeginDateOn");
+    public static final String TAGDEF_FILTER_END_DATE_ON = TAGDEF_PREFIX.concat("filterEndDateOn");
 }

@@ -24,7 +24,8 @@ import java.util.List;
  */
 public class ClassType extends ComplexType implements Navigable {
     private static final List<Attribute> EMPTY_ATTRIBUTE_LIST = Collections.emptyList();
-    
+    private static final String BEGIN_DATE = "dataStore.beginDate";
+    private static final String END_DATE = "dataStore.endDate";
     /**
      * Checks the invariant that either both ends are specified or both omitted.
      */
@@ -65,7 +66,29 @@ public class ClassType extends ComplexType implements Navigable {
     private final AssociationEnd lhs;
     
     private final AssociationEnd rhs;
-    
+    private Attribute beginDateAttribute;
+
+    private Attribute endDateAttribute;
+
+
+    public void setAssociatedDatedCollectionStore(List<String> associatedDatedCollectionStore) {
+        this.associatedDatedCollectionStore = associatedDatedCollectionStore;
+    }
+
+    private List<String> associatedDatedCollectionStore ;
+
+    public Attribute getBeginDateAttribute() {
+        return beginDateAttribute;
+    }
+
+    public Attribute getEndDateAttribute() {
+        return endDateAttribute;
+    }
+
+    public List<String> getAssociatedDatedCollectionStore() {
+        return associatedDatedCollectionStore;
+    }
+
     public ClassType(final AssociationEnd lhs, final AssociationEnd rhs) {
         this(Identifier.random(), "", lhs, rhs, EMPTY_TAGGED_VALUES);
     }
@@ -83,12 +106,24 @@ public class ClassType extends ComplexType implements Navigable {
         if (attributes == null) {
             throw new IllegalArgumentException("attributes");
         }
+
         checkAssociationEnds(lhs, rhs, !isClassType);
         this.isAbstract = isAbstract;
         this.attributes = Collections.unmodifiableList(new ArrayList<Attribute>(attributes));
         this.lhs = lhs;
         this.rhs = rhs;
         this.isClassType = isClassType;
+        for (Attribute attribute: this.attributes) {
+            List<TaggedValue> taggedValueList = attribute.getTaggedValues();
+            for (TaggedValue taggedValue: taggedValueList) {
+                if(taggedValue.getValue().equals(BEGIN_DATE)) {
+                    this.beginDateAttribute = attribute;
+                }
+                if(taggedValue.getValue().equals(END_DATE)) {
+                    this.endDateAttribute = attribute;
+                }
+            }
+        }
     }
     
     public ClassType(final Identifier id, final String name, final AssociationEnd lhs, final AssociationEnd rhs,
