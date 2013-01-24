@@ -116,15 +116,17 @@ public class ControlFileProcessor implements Processor {
             ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
 
             ControlFile cf = cfd.getFileItem();
-
+            cf.setBatchJobId(batchJobId);
             aggregateBatchJobProperties(newJob, cf);
 
             ReportStats reportStats = new SimpleReportStats();
 
+            boolean goodData = false;
             if ((newJob.getProperty(AttributeType.PURGE.getName()) == null)
                     && (newJob.getProperty(AttributeType.PURGE_KEEP_EDORGS.getName()) == null)) {
                 if (validator.isValid(cfd, databaseMessageReport, reportStats, new ControlFileSource(cf.getFileName()))) {
-                    createAndAddResourceEntries(newJob, cf);
+                	createAndAddResourceEntries(newJob, cf);
+                	goodData = true;
                 } else {
                     boolean isZipFile = false;
                     for (ResourceEntry resourceEntry : newJob.getResourceEntries()) {
@@ -140,6 +142,22 @@ public class ControlFileProcessor implements Processor {
             }
 
             setExchangeHeaders(exchange, newJob, reportStats);
+
+            // Notify about job start
+        	String distro = (String) exchange.getIn().getHeader(AttributeType.EMAIL_NOTIFY.name());
+        	if ( null != distro && !distro.isEmpty()) {
+        		String subject, body;
+        		if ( goodData ) {
+        			subject = "SLI Job started: " + cf.getBatchJobId();
+        			body = "The following ingestion files were received in good condition and are now being processesd:\n\n" + cf.summaryString();
+        		}
+        		else {
+        			subject = "SLI Job failed: " + cf.getBatchJobId();
+        			body = "There was a problem processing the job.  Please check the Landing Zone area for logs.";
+        		}
+            	LOG.info("FOOBIE WOULD SEND THIS EMAIL to '" + distro + "':\n\nSubject: " + subject + "\n" + body);
+        	}
+
             /*LOG.info("Control file is {}", cf.toString());
            exchange.getIn().setHeader("controlFile", cf);
 */
