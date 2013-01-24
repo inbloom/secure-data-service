@@ -42,6 +42,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = get_all_ids_from_response if human_readable_id == "ALL IDs"
   # Entity list from scenario outlines
   id = ["af37dbe2-301f-4409-b6e9-b05e11989694",
+        "265965e7-05b0-1034-908b-15114f4165b9",
       "80b9ffeb-e7c4-463d-afd1-6a38079ac77d",
       "79b5a29a-0852-4d0b-8a85-0729849eed9f",
       "e4358c4a-2ecd-4a68-b6d3-7f1cb5904282"].join "," if human_readable_id == "LIST-SSA-AKOPEL"

@@ -37,15 +37,15 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | staffEducationOrgAssignmentAssociations | 2010-2011    | 1                   | 1                | b1c40ccc-b466-8f3b-b3c7-7e13c2bc4d5a                                           |
     | staffProgramAssociations                | 2009-2010    | 0                   | 0                |                                                                                |
 #    | studentAcademicRecords                  | 2010-2011    | 1                   | 0                |                                                                               |
-    | studentAssessments                      | 2011-2012    | 2                   | 1                | 5738d251-dd0b-4734-9ea6-417ac9320a15_ide5e13e61-01aa-066b-efe0-710f7a0e8755_id |
+    | studentAssessments                      | 2011-2012    | 4                   | 2                | 5738c251-dd0b-4734-9ea6-417ac9320a15_ide5e13e61-01aa-066b-efe0-710f7a0e8755_id,5738d251-dd0b-4734-9ea6-417ac9320a15_ide5e13e61-01aa-066b-efe0-710f7a0e8755_id |
     | studentCohortAssociations               | 2009-2011    | 0                   | 0                |                                                                                |
     | studentCompetencies                     | 2010-2011    | 0                   | 0                |                                                                                |
     | studentDisciplineIncidentAssociations   | 2010-2011    | 0                   | 0                |                                                                                |
 #    | studentGradebookEntries                 | 2010-2011    | 1                   | 0                |                                                                                |
     | studentProgramAssociations              | 2009-2010    | 0                   | 0                |                                                                                |
-    | studentSchoolAssociations               | 2008-2009    | 59                  | 4                | <LIST-SSA-AKOPEL>                                                              |
+    | studentSchoolAssociations               | 2008-2009    | 62                  | 5                | <LIST-SSA-AKOPEL>                                                              |
     | studentSectionAssociations              | 2010-2011    | 0                   | 0                |                                                                                |
-    | students                                | 2008-2009    | 26                  | 1                | 5738d251-dd0b-4734-9ea6-417ac9320a15_id                                        |
+    | students                                | 2008-2009    | 26                  | 2                | 5738d251-dd0b-4734-9ea6-417ac9320a15_id,5738d251-dd0b-4734-9ea6-417ac9320a15_id                                        |
 #    | teacherSchoolAssociations               | 2010-2011    | 1                   | 0                |                                                                               |
 #    | teacherSectionAssociations              | 2010-2011    | 1                   | 0                |                                                                                |
     | teachers                                | 2010-2011    | 1                   | 1                | rbraverman                                                                     |
