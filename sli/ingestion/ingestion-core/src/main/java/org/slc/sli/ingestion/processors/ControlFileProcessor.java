@@ -16,13 +16,10 @@
 
 package org.slc.sli.ingestion.processors;
 
-import java.lang.String;
-import java.lang.StringBuilder;
 import java.util.Enumeration;
 import java.util.Map;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Arrays;
+
+import javax.mail.MessagingException;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -30,8 +27,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.apache.commons.validator.EmailValidator;
 
+import org.slc.sli.common.util.email.SendEmail;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.aspect.MongoTrackingAspect;
 import org.slc.sli.ingestion.BatchJobStageType;
@@ -152,6 +149,9 @@ public class ControlFileProcessor implements Processor {
             // Notify about job start
         	String distro = (String) exchange.getIn().getHeader(AttributeType.EMAIL_NOTIFY.name());
         	if ( null != distro && !distro.isEmpty()) {
+        		// TODO: take this from ingestion-specific property
+        		String fromAddr = "ingestion-support@sli-codeathon-contractor.org";
+
         		String subject, body;
         		if ( goodData ) {
         			subject = "SLI Job started: " + cf.getBatchJobId();
@@ -161,7 +161,13 @@ public class ControlFileProcessor implements Processor {
         			subject = "SLI Job failed: " + cf.getBatchJobId();
         			body = "There was a problem processing the job.  Please check the Landing Zone area for logs.";
         		}
-            	LOG.info("FOOBIE WOULD SEND THIS EMAIL to '" + distro + "':\n\nSubject: " + subject + "\n" + body);
+            	LOG.info("SENDING EMAIL to '" + distro + "':\n\nSubject: " + subject + "\n" + body);
+            	SendEmail se = new SendEmail();
+            	try {
+            		se.sendMail(distro, fromAddr, subject, body);
+            	} catch( MessagingException mex ) {
+            		LOG.warn("Failed sending Email to '" + distro + "'\n:" + mex.getMessage());
+            	}
         	}
 
             /*LOG.info("Control file is {}", cf.toString());
