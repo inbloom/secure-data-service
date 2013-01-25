@@ -20,8 +20,6 @@ public class SendEmail {
         properties = System.getProperties();
         // FIXME: take mail host from SLI-wide properties
         properties.setProperty("mail.smtp.host", "mail.wgenhq.net");
-        properties.setProperty("mail.user", "jsingh");
-        properties.setProperty("mail.password", "Water1815");
     }
 
     public void sendMail(String to, String from, String subject, String body) throws MessagingException {
