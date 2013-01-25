@@ -341,4 +341,16 @@ public class NewBatchJob implements Job {
         return zipResourceEntry;
     }
 
+    public long calculateElapsedTime() {
+        long elapsedTime = 0;
+
+        if (jobStopTimestamp != null && jobStopTimestamp.getTime() > jobStartTimestamp.getTime()) {
+            elapsedTime = jobStopTimestamp.getTime() - jobStartTimestamp.getTime();
+        } else {
+            elapsedTime = BatchJobUtils.getCurrentTimeStamp().getTime() - jobStartTimestamp.getTime();
+        }
+
+        return elapsedTime;
+    }
+
 }

@@ -38,6 +38,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
 
 import javax.mail.MessagingException;
 
@@ -594,7 +595,9 @@ public class JobReportingProcessor implements Processor {
             // Set body the the job report file if possible
             try {
                 jobReportFile = getLogFile(job);
-                notificationBody = readFile(jobReportFile);
+                notificationBody = "Elapsed time " + millisecsToReadableString(job.calculateElapsedTime()) + "\n"
+                        + "Contents of " + jobReportFile.getCanonicalPath() + ":\n"
+                        + readFile(jobReportFile);
             } catch (IOException e) {
                 LOG.warn("Unable to get job report information for job {}", job.getId());
             }
@@ -612,6 +615,13 @@ public class JobReportingProcessor implements Processor {
             }
 
         }
+    }
+
+    private static String millisecsToReadableString(long milliSeconds) {
+        long hours = TimeUnit.MILLISECONDS.toHours(milliSeconds);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(milliSeconds) - hours * 60;
+        long seconds = TimeUnit.MILLISECONDS.toSeconds(milliSeconds) - (TimeUnit.MILLISECONDS.toMinutes(milliSeconds) *60);
+        return String.format("%02d:%02d:%02d", hours, minutes, seconds);
     }
 
     private static String readFile(File file) throws IOException {
