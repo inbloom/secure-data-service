@@ -119,7 +119,7 @@ public class JobReportingProcessor implements Processor {
     @Value("${sli.ingestion.warningsCountPerInterchange}")
     private int warningsCountPerInterchange;
 
-    @Value("${sli.ingestion.notify.fromEmailAddress:ingestion-support@sli-codeathon-contractor.org}")
+    @Value("${sli.ingestion.notify.fromEmailAddress}")
     private String fromEmailAddress;
 
     @Override
