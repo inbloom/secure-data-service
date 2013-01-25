@@ -39,6 +39,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.mail.MessagingException;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.camel.ProducerTemplate;
@@ -51,6 +53,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.common.util.email.SendEmail;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.common.util.tenantdb.TenantContext;
@@ -114,6 +117,9 @@ public class JobReportingProcessor implements Processor {
 
     @Value("${sli.ingestion.warningsCountPerInterchange}")
     private int warningsCountPerInterchange;
+
+    @Value("${sli.ingestion.notify.fromEmailAddress:ingestion-support@sli-codeathon-contractor.org}")
+    private String fromEmailAddress;
 
     @Override
     public void process(Exchange exchange) {
@@ -568,6 +574,7 @@ public class JobReportingProcessor implements Processor {
     }
 
     public void handleNotifications(Exchange exchange, NewBatchJob job) {
+        SendEmail se = new SendEmail();
 
         // Check for notify header
         String distro = (String) exchange.getIn().getHeader(AttributeType.EMAIL_NOTIFY.name());
@@ -594,9 +601,16 @@ public class JobReportingProcessor implements Processor {
 
             // Send notification
             // sendNotification(emailProp, notificationSubject, notificationBody);
-            LOG.debug("Emails: {}", distro);
+            LOG.debug("Distro: {}", distro);
+            LOG.debug("From: {}", fromEmailAddress);
             LOG.debug("Notification subject: {}", notificationSubject);
             LOG.debug("Notification body: {}", notificationBody);
+            try {
+                se.sendMail(distro, fromEmailAddress, notificationSubject, notificationBody);
+            } catch (MessagingException e) {
+                LOG.error("Unable to send job report completion notification to {}: \n{}", distro, notificationBody);
+            }
+
         }
     }
 
