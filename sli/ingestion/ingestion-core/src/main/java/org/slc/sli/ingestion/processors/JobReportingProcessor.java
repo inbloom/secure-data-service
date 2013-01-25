@@ -581,7 +581,7 @@ public class JobReportingProcessor implements Processor {
         if ( null != distro && !distro.isEmpty()) {
             File jobReportFile = null;
             String notificationBody = null;
-            String notificationSubject = "InBloom ingestion job " + job.getId() + " for tenant " + job.getTenantId() + " completed ";
+            String notificationSubject = "InBloom ingestion completed ";
 
             if (job.getStatus().equals(BatchJobStatusType.COMPLETED_SUCCESSFULLY.getName())) {
                 notificationSubject += "successfully";

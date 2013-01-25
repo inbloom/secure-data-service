@@ -271,11 +271,11 @@ public class ControlFileProcessor implements Processor {
 
 			body += "At " + new Date().toString() + "\n";
 			if ( goodData ) {
-				subject += "SLI Job started: " + cf.getBatchJobId();
+				subject += "InBloom ingestion started successfully";
 				body += "The following ingestion files were received in good condition and are now being processesd:\n\n" + cf.summaryString();
 			}
 			else {
-				subject += "SLI Job failed: " + cf.getBatchJobId();
+				subject += "InBloom ingestion failed";
 				body += "There was a problem processing the job.  Please check the Landing Zone area for logs.";
 			}
 	    	LOG.info("SENDING EMAIL to '" + distro + "':\n\nSubject: " + subject + "\n" + body);
