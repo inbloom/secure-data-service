@@ -155,7 +155,7 @@ default:
         sli.ingestion.log.level: info
         
         #ingestion notify email
-        sli.ingestion.notify.fromEmailAddress: ingestion-support@sli-codeathon-contractor.org (to be used)
+        sli.ingestion.notify.fromEmailAddress: ingestion-support@sli-codeathon-contractor.org
 
 
         # ingestion queue definitions (only used in ingestion)
