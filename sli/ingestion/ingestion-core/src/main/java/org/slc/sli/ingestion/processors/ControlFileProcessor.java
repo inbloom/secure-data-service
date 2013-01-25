@@ -272,7 +272,7 @@ public class ControlFileProcessor implements Processor {
 			body += "At " + new Date().toString() + "\n";
 			if ( goodData ) {
 				subject += "InBloom ingestion started successfully";
-				body += "The following ingestion files were received in good condition and are now being processesd:\n\n" + cf.summaryString();
+				body += "The following ingestion files were received in good condition and are now being processed:\n\n" + cf.summaryString();
 			}
 			else {
 				subject += "InBloom ingestion failed";
