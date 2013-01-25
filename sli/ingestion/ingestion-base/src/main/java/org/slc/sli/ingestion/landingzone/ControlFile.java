@@ -203,7 +203,7 @@ public class ControlFile extends IngestionFileEntry{
     /* summaryString() */
     public String summaryString() {
     	String result = "";
-    	result += "SLI Batch Job Id:      '" + getBatchJobId() + "'\n";
+    	result += "InBloom Batch Job Id:  '" + getBatchJobId() + "'\n";
     	result += "Archive file:          '" + getParentZipFileOrDirectory() + "'\n";
     	result += "Control file name:     '" + getFileName() + "'\n";
 
