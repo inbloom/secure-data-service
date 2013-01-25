@@ -16,10 +16,9 @@
 
 package org.slc.sli.ingestion.processors;
 
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.Map;
-
-import javax.mail.MessagingException;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -147,32 +146,8 @@ public class ControlFileProcessor implements Processor {
             setExchangeHeaders(exchange, newJob, reportStats);
 
             // Notify about job start
-        	String distro = (String) exchange.getIn().getHeader(AttributeType.EMAIL_NOTIFY.name());
-        	if ( null != distro && !distro.isEmpty()) {
-        		// TODO: take this from ingestion-specific property
-        		String fromAddr = "ingestion-support@sli-codeathon-contractor.org";
+            notifyStart(exchange, cf, goodData);
 
-        		String subject, body;
-        		if ( goodData ) {
-        			subject = "SLI Job started: " + cf.getBatchJobId();
-        			body = "The following ingestion files were received in good condition and are now being processesd:\n\n" + cf.summaryString();
-        		}
-        		else {
-        			subject = "SLI Job failed: " + cf.getBatchJobId();
-        			body = "There was a problem processing the job.  Please check the Landing Zone area for logs.";
-        		}
-            	LOG.info("SENDING EMAIL to '" + distro + "':\n\nSubject: " + subject + "\n" + body);
-            	SendEmail se = new SendEmail();
-            	try {
-            		se.sendMail(distro, fromAddr, subject, body);
-            	} catch( MessagingException mex ) {
-            		LOG.warn("Failed sending Email to '" + distro + "'\n:" + mex.getMessage());
-            	}
-        	}
-
-            /*LOG.info("Control file is {}", cf.toString());
-           exchange.getIn().setHeader("controlFile", cf);
-*/
             setExchangeBody( exchange, cf,batchJobId);
         } catch (Exception exception) {
             handleExceptions(exchange, batchJobId, exception);
@@ -281,6 +256,34 @@ public class ControlFileProcessor implements Processor {
             batchProperties.put(key, element);
         }
         return batchProperties;
+    }
+
+    private void notifyStart(Exchange exchange, ControlFile cf, boolean goodData) {
+    	String distro = (String) exchange.getIn().getHeader(AttributeType.EMAIL_NOTIFY.name());
+		if ( null != distro && !distro.isEmpty()) {
+			// TODO: take this from ingestion-specific property
+			String fromAddr = "ingestion-support@sli-codeathon-contractor.org";
+
+			String subject = "";
+			String body = "";
+
+			subject += "At " + new Date().toString() + "\n";
+			if ( goodData ) {
+				subject = "SLI Job started: " + cf.getBatchJobId();
+				body = "The following ingestion files were received in good condition and are now being processesd:\n\n" + cf.summaryString();
+			}
+			else {
+				subject = "SLI Job failed: " + cf.getBatchJobId();
+				body = "There was a problem processing the job.  Please check the Landing Zone area for logs.";
+			}
+	    	LOG.info("SENDING EMAIL to '" + distro + "':\n\nSubject: " + subject + "\n" + body);
+	    	SendEmail se = new SendEmail();
+	    	try {
+	    		se.sendMail(distro, fromAddr, subject, body);
+	    	} catch( Exception ex ) {
+	    		LOG.warn("Failed sending Email to '" + distro + "'\n:" + ex.getMessage());
+	    	}
+		}
     }
 
 }
