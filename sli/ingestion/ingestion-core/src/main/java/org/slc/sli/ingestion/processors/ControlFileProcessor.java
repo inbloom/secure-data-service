@@ -72,6 +72,9 @@ public class ControlFileProcessor implements Processor {
 
     private static final String INGESTION_MESSAGE_TYPE = "IngestionMessageType";
 
+    @Value("${sli.ingestion.notify.fromEmailAddress:ingestion-support@sli-codeathon-contractor.org}")
+    private String fromEmailAddress;
+
     @Autowired
     private ControlFileValidator validator;
 
