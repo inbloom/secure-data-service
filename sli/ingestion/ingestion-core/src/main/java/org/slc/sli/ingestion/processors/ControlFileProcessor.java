@@ -27,6 +27,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.mail.internet.AddressException;
+import javax.mail.MessagingException;
 import org.slc.sli.common.util.email.SendEmail;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.aspect.MongoTrackingAspect;
@@ -262,19 +264,19 @@ public class ControlFileProcessor implements Processor {
     	String distro = (String) exchange.getIn().getHeader(AttributeType.EMAIL_NOTIFY.name());
 		if ( null != distro && !distro.isEmpty()) {
 			// TODO: take this from ingestion-specific property
-			String fromAddr = "ingestion-support@sli-codeathon-contractor.org";
+			String fromAddr = "ingestion-support@sli-fictitious-contractor.org";
 
 			String subject = "";
 			String body = "";
 
-			subject += "At " + new Date().toString() + "\n";
+			body += "At " + new Date().toString() + "\n";
 			if ( goodData ) {
-				subject = "SLI Job started: " + cf.getBatchJobId();
-				body = "The following ingestion files were received in good condition and are now being processesd:\n\n" + cf.summaryString();
+				subject += "SLI Job started: " + cf.getBatchJobId();
+				body += "The following ingestion files were received in good condition and are now being processesd:\n\n" + cf.summaryString();
 			}
 			else {
-				subject = "SLI Job failed: " + cf.getBatchJobId();
-				body = "There was a problem processing the job.  Please check the Landing Zone area for logs.";
+				subject += "SLI Job failed: " + cf.getBatchJobId();
+				body += "There was a problem processing the job.  Please check the Landing Zone area for logs.";
 			}
 	    	LOG.info("SENDING EMAIL to '" + distro + "':\n\nSubject: " + subject + "\n" + body);
 	    	SendEmail se = new SendEmail();
