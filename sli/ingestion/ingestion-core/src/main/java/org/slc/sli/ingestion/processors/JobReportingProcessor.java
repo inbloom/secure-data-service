@@ -608,7 +608,7 @@ public class JobReportingProcessor implements Processor {
             try {
                 se.sendMail(distro, fromEmailAddress, notificationSubject, notificationBody);
             } catch (MessagingException e) {
-                LOG.error("Unable to send job report completion notification to {}: \n{}", distro, notificationBody);
+                LOG.error("Unable to send job report completion notification to " + distro + " (" + e.getMessage() + "):\n" + notificationBody);
             }
 
         }
