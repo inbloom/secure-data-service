@@ -22,7 +22,7 @@ public class SendEmail {
     public SendEmail() {
         props = System.getProperties();
         // FIXME: take mail host from SLI-wide properties
-        properties.setProperty("mail.smtp.host", "mail.wgenhq.net");
+        props.setProperty("mail.smtp.host", "mail.wgenhq.net");
 
         //use gmail smtp
 //        Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
@@ -85,7 +85,7 @@ public class SendEmail {
 
     // Set up the To:, From:, and Subject: parts (but not the body)
     public MimeMessage setupMessage(String to, String from, String subject, String body) throws MessagingException, AddressException {
-    	Session session = Session.getDefaultInstance(properties);
+    	Session session = Session.getDefaultInstance(props);
         //gmail
 //        Session session = Session.getDefaultInstance(props,new javax.mail.Authenticator()
 //        {
