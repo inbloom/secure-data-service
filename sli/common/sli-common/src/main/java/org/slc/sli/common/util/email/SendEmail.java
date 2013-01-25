@@ -1,6 +1,9 @@
 package org.slc.sli.common.util.email;
 
+import java.lang.String;
+import java.lang.System;
 import java.util.*;
+import java.util.List;
 import javax.mail.*;
 import javax.mail.internet.*;
 import javax.activation.*;
@@ -11,44 +14,52 @@ import org.slf4j.LoggerFactory;
 
 public class SendEmail {
 
-	public void sendMail(String to, String from, String subject, String body) throws MessagingException
-	{    
-		// Assuming you are sending email from localhost
-		String host = "mail.wgenhq.net";
-		
-		// Get system properties
-		Properties properties = System.getProperties();
-		
-		// Setup mail server
-		// FIXME: take mail host from SLI-wide properties
-		properties.setProperty("mail.smtp.host", host);
-		
-		// Get the default Session object.
-		Session session = Session.getDefaultInstance(properties);
-		
-		// Create a default MimeMessage object.
-		MimeMessage message = new MimeMessage(session);
-		
-		// Set From: header field of the header.
-		message.setFrom(new InternetAddress(from));
-		
-		// Set To: header field of the header.
-		message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-		
-		// TODO: allow a Cc: or Bcc: to the system operator for Customer Support monitoring
-		
-		// Set Subject: header field
-		message.setSubject(subject);
-		
-		// Now set the actual message
-		message.setText(body);
-		
-		// Send message
-		Transport.send(message);
-	}	
-	   	
-	public static void main(String [] args) throws MessagingException {
-		SendEmail se = new SendEmail(); 
-		se.sendMail("lchen@wgen.net","lchen@wgen.net","Hackathon","Hackathon is fun!");
-	}
+    Properties properties;
+
+    public SendEmail() {
+        properties = System.getProperties();
+        // FIXME: take mail host from SLI-wide properties
+        properties.setProperty("mail.smtp.host", "mail.wgenhq.net");
+        properties.setProperty("mail.user", "jsingh");
+        properties.setProperty("mail.password", "Water1815");
+    }
+
+    public void sendMail(String to, String from, String subject, String body) throws MessagingException {
+        Session session = Session.getDefaultInstance(properties);
+        MimeMessage message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(from));
+        message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+        // TODO: allow a Cc: or Bcc: to the system operator for Customer Support monitoring
+        message.setSubject(subject);
+        message.setText(body);
+        Transport.send(message);
+    }
+
+    public void sendMailWithAttachment(String to, String from, String subject, String body, List<String> attachments) throws MessagingException {
+        Session session = Session.getDefaultInstance(properties);
+        MimeMessage message = new MimeMessage(session);
+        message.setFrom(new InternetAddress(from));
+        message.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+        // TODO: allow a Cc: or Bcc: to the system operator for Customer Support monitoring
+        message.setSubject(subject);
+        BodyPart messageBodyPart = new MimeBodyPart();
+        messageBodyPart.setText(body);
+        Multipart multipart = new MimeMultipart();
+        multipart.addBodyPart(messageBodyPart);
+        for (String attachment : attachments) {
+            messageBodyPart = new MimeBodyPart();
+            String filename = attachment;
+            DataSource source = new FileDataSource(filename);
+            messageBodyPart.setDataHandler(new DataHandler(source));
+            messageBodyPart.setFileName(filename);
+            multipart.addBodyPart(messageBodyPart);
+        }
+        message.setContent(multipart);
+        Transport.send(message);
+    }
+
+    public static void main(String[] args) throws MessagingException {
+        SendEmail se = new SendEmail();
+        se.sendMail("lchen@wgen.net", "lchen@wgen.net", "Hackathon", "Hackathon is fun!");
+    }
 }
