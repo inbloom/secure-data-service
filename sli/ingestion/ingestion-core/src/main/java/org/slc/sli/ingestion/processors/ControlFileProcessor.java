@@ -25,6 +25,7 @@ import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.mail.internet.AddressException;
@@ -72,6 +73,9 @@ public class ControlFileProcessor implements Processor {
     private static final String BATCH_JOB_STAGE_DESC = "Validates the control file";
 
     private static final String INGESTION_MESSAGE_TYPE = "IngestionMessageType";
+
+    @Value("${sli.ingestion.notify.fromEmailAddress:ingestion-support@sli-codeathon-contractor.org}")
+    private String fromEmailAddress;
 
     @Autowired
     private ControlFileValidator validator;
@@ -263,9 +267,6 @@ public class ControlFileProcessor implements Processor {
     private void notifyStart(Exchange exchange, ControlFile cf, boolean goodData) {
     	String distro = (String) exchange.getIn().getHeader(AttributeType.EMAIL_NOTIFY.name());
 		if ( null != distro && !distro.isEmpty()) {
-			// TODO: take this from ingestion-specific property
-			String fromAddr = "ingestion-support@sli-fictitious-contractor.org";
-
 			String subject = "";
 			String body = "";
 
@@ -281,7 +282,7 @@ public class ControlFileProcessor implements Processor {
 	    	LOG.info("SENDING EMAIL to '" + distro + "':\n\nSubject: " + subject + "\n" + body);
 	    	SendEmail se = new SendEmail();
 	    	try {
-	    		se.sendMail(distro, fromAddr, subject, body);
+	    		se.sendMail(distro, fromEmailAddress, subject, body);
 	    	} catch( Exception ex ) {
 	    		LOG.warn("Failed sending Email to '" + distro + "'\n:" + ex.getMessage());
 	    	}
