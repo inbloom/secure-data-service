@@ -29,6 +29,7 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -122,6 +123,9 @@ public class JobReportingProcessor implements Processor {
     @Value("${sli.ingestion.notify.fromEmailAddress}")
     private String fromEmailAddress;
 
+    @Value("${sli.ingestion.notify.attachErrors:true}")
+    private String attachErrors;
+
     @Override
     public void process(Exchange exchange) {
         SLIWorkNote workNote = exchange.getIn().getBody(SLIWorkNote.class);
@@ -144,11 +148,11 @@ public class JobReportingProcessor implements Processor {
             job = batchJobDAO.findBatchJobById(batchJobId);
             TenantContext.setTenantId(job.getTenantId());
 
-            boolean hasErrors = writeErrorAndWarningReports(job);
+            List<String> errorReports = writeErrorAndWarningReports(job);
 
-            writeBatchJobReportFile(exchange, job, hasErrors);
+            writeBatchJobReportFile(exchange, job, errorReports != null);
 
-            handleNotifications(exchange, job);
+            handleNotifications(exchange, job, errorReports);
 
         } catch (Exception e) {
             LOG.error("Exception encountered in JobReportingProcessor. ", e);
@@ -267,32 +271,41 @@ public class JobReportingProcessor implements Processor {
         }
     }
 
-    private boolean writeErrorAndWarningReports(NewBatchJob job) {
-        boolean hasErrors = false;
+    private List<String> writeErrorAndWarningReports(NewBatchJob job) {
+        List<String> errorReports = new ArrayList<String>();
+        String errorReport = null;
 
         for (ResourceEntry resource : job.getResourceEntries()) {
-            hasErrors |= writeUserLog(job, resource, FaultType.TYPE_ERROR, errorsCountPerInterchange);
+            errorReport = writeUserLog(job, resource, FaultType.TYPE_ERROR, errorsCountPerInterchange);
+            if (errorReport != null) {
+                errorReports.add(errorReport);
+            }
 
             writeUserLog(job, resource, FaultType.TYPE_WARNING, warningsCountPerInterchange);
         }
 
         //It is possible that some errors dont have resourceId.
         //Reporting such errors.
-        hasErrors |= writeUserLog(job, null, FaultType.TYPE_ERROR, errorsCountPerInterchange);
+        errorReport = writeUserLog(job, null, FaultType.TYPE_ERROR, errorsCountPerInterchange);
+        if (errorReport != null) {
+            errorReports.add(errorReport);
+        }
 
-        return hasErrors;
+        return errorReports;
     }
 
-    private boolean writeUserLog(NewBatchJob job, ResourceEntry resource, FaultType severity, int logRecordsLimit) {
+    private String writeUserLog(NewBatchJob job, ResourceEntry resource, FaultType severity, int logRecordsLimit) {
         String resourceId = resource != null ? resource.getResourceId() : null;
 
         Iterable<Error> errors = batchJobDAO.getBatchJobErrors(job.getId(), resourceId, severity, logRecordsLimit);
 
         if (errors.iterator().hasNext()) {
+            File file = null;
             PrintWriter errorWriter = null;
             try {
                 String fileType = FaultType.TYPE_ERROR.equals(severity) ? ERROR_FILE_TYPE : WARNING_FILE_TYPE;
-                errorWriter = getErrorWriter(fileType, job, resource);
+                file = createFile(job, determineErrorFileName(fileType, job, resource));
+                errorWriter = new PrintWriter(new FileWriter(file));
                 for (Error error : errors) {
                     writeErrorLine(errorWriter, severity.getName(), error.getErrorDetail());
                 }
@@ -301,12 +314,12 @@ public class JobReportingProcessor implements Processor {
             } finally {
                 IOUtils.closeQuietly(errorWriter);
             }
-            return true;
+            return file.getAbsolutePath();
         }
-        return false;
+        return null;
     }
 
-    private PrintWriter getErrorWriter(String type, NewBatchJob job, ResourceEntry resource) throws IOException {
+    private String determineErrorFileName(String type, NewBatchJob job, ResourceEntry resource) throws IOException {
         String errorFileName = null;
 
         if (resource == null) {
@@ -315,7 +328,7 @@ public class JobReportingProcessor implements Processor {
             errorFileName = type + "." + resource.getResourceId() + "-" + job.getId() + ".log";
         }
 
-        return new PrintWriter(new FileWriter(createFile(job, errorFileName)));
+        return errorFileName;
     }
 
     /**
@@ -574,7 +587,7 @@ public class JobReportingProcessor implements Processor {
             }
     }
 
-    public void handleNotifications(Exchange exchange, NewBatchJob job) {
+    public void handleNotifications(Exchange exchange, NewBatchJob job, List<String> errorReports) {
         SendEmail se = new SendEmail();
 
         // Check for notify header
@@ -609,7 +622,13 @@ public class JobReportingProcessor implements Processor {
             LOG.debug("Notification subject: {}", notificationSubject);
             LOG.debug("Notification body: {}", notificationBody);
             try {
-                se.sendMail(distro, fromEmailAddress, notificationSubject, notificationBody);
+                if (attachErrors.endsWith("true") && errorReports != null) {
+                    LOG.debug("Notification attachments: {}", errorReports.toString());
+                    se.sendMailWithAttachment(distro, fromEmailAddress, notificationSubject,
+                            notificationBody, errorReports);
+                } else {
+                    se.sendMail(distro, fromEmailAddress, notificationSubject, notificationBody);
+                }
             } catch (MessagingException e) {
                 LOG.error("Unable to send job report completion notification to " + distro + " (" + e.getMessage() + "):\n" + notificationBody);
             }
