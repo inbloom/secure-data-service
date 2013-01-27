@@ -808,6 +808,25 @@ Given /^I want to ingest locally provided data "([^"]*)" file as the payload of 
   @source_file_name = file_path
 end
 
+Given /^the following collections are empty in sli datastore:$/ do |table|
+    disable_NOTABLESCAN()
+    @db = @conn[INGESTION_DB_NAME]
+    puts "Clearing out collections in db " + @ingestion_db_name + " on " + INGESTION_DB_NAME
+    @result = "true"
+    table.hashes.map do |row|
+            @entity_collection = @db[row["collectionName"]]
+            @entity_collection.remove()           
+            puts "There are #{@entity_collection.count} records in collection " + row["collectionName"] + "."            
+            if @entity_collection.count.to_s != "0"
+                @result = "false"
+            end
+    end
+    assert(@result == "true", "Some collections were not cleared successfully.")
+    enable_NOTABLESCAN()
+end
+
+
+
 Given /^the following collections are empty in datastore:$/ do |table|
   disable_NOTABLESCAN()
   @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
@@ -1804,6 +1823,29 @@ Then /^I should see following map of entry counts in the corresponding collectio
 
   assert(@result == "true", "Some records didn't load successfully.")
   enable_NOTABLESCAN()
+end
+
+Then /^I should see following map of entry counts in the corresponding sli db collections:$/ do |table|
+disable_NOTABLESCAN()
+puts INGESTION_DB_NAME
+@db = @conn[INGESTION_DB_NAME]                                                                                                  
+@result = "true"
+
+                                                                                                    
+table.hashes.map do |row|
+  @entity_collection = @db.collection(row["collectionName"])
+  @entity_count = @entity_collection.count().to_i
+  puts @entity_count
+  puts "There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection"
+                                                                                                     
+  if @entity_count.to_s != row["count"].to_s
+    @result = "false"
+  end
+end
+
+                                                                                                    
+assert(@result == "true", "Some records didn't load successfully.")
+enable_NOTABLESCAN()
 end
 
 Then /^I should see following map of entry counts in the corresponding batch job db collections:$/ do |table|
