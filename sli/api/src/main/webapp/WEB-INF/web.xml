@@ -24,7 +24,7 @@
       </init-param>
       <init-param>
          <param-name>com.sun.jersey.spi.container.ContainerRequestFilters</param-name>
-         <param-value>org.slc.sli.api.jersey.VersionFilter, org.slc.sli.api.jersey.PreProcessFilter</param-value>
+         <param-value>org.slc.sli.api.jersey.VersionFilter, org.slc.sli.api.jersey.DateSearchFilter, org.slc.sli.api.jersey.PreProcessFilter</param-value>
       </init-param>
       <init-param>
          <param-name>com.sun.jersey.spi.container.ContainerResponseFilters</param-name>

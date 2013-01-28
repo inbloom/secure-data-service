@@ -44,7 +44,8 @@ Then I am redirected to the Application Registration Tool page
 
 
 Scenario: LEA Administrator operations
-Given I am a valid district administrator
+Given the sli securityEvent collection is empty
+And I am a valid district administrator
 When I authenticate on the Admin Delegation Tool
 And I am redirected to the delegation page for my district
 And "Application Authorization" is unchecked
@@ -68,21 +69,22 @@ And the Status becomes "Approved"
 And it is colored "green"
 And the Approve button next to it is disabled
 And the Deny button next to it is enabled
+And a security event matching "^ALLOWED" should be in the sli db
 
 Scenario: Realm administrator operations
 Given I am a valid realm administrator
 When I authenticate on the realm editing tool
-When I see the realms for "IL-SUNSET"
+When I see the realms for "Sunset School District 4526"
 And I click the "Illinois Sunset School District 4526" edit button
 And I should see that I am on the "Illinois Sunset School District 4526" edit page
 And I should enter "Smoke" into the Display Name field
 And I should click the "Save" button
-Then I see the realms for "IL-SUNSET"
+Then I see the realms for "Sunset School District 4526"
 And the realm "Smoke" will exist
 And I should receive a notice that the realm was successfully "updated"
 And I click the "Smoke" edit button
 And I should see that I am on the "Smoke" edit page
 And I should enter "Illinois Sunset School District 4526" into the Display Name field
 And I should click the "Save" button
-Then I see the realms for "IL-SUNSET"
+Then I see the realms for "Sunset School District 4526"
 And the realm "Illinois Sunset School District 4526" will exist

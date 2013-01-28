@@ -24,6 +24,7 @@ import org.slc.sli.modeling.uml.Identifier;
 import org.slc.sli.modeling.uml.Model;
 import org.slc.sli.modeling.uml.ModelElement;
 import org.slc.sli.modeling.uml.TagDefinition;
+import org.slc.sli.modeling.uml.TaggedValue;
 import org.slc.sli.modeling.uml.Type;
 import org.slc.sli.modeling.uml.index.DefaultModelIndex;
 import org.slc.sli.modeling.uml.index.ModelIndex;
@@ -37,6 +38,7 @@ import java.util.Set;
 
 /**
  * Provides information from the model about Associations and Attributes
+ *
  * @author jstokes
  */
 
@@ -106,7 +108,7 @@ public class ModelProvider {
         if (type == null) {
             throw new IllegalArgumentException("type");
         }
-        
+
         if (attributeName == null) {
             throw new IllegalArgumentException("attributeName");
         }
@@ -124,7 +126,7 @@ public class ModelProvider {
         if (type == null) {
             throw new IllegalArgumentException("type");
         }
-        
+
         if (attribute == null) {
             throw new IllegalArgumentException("attribute");
         }
@@ -271,6 +273,43 @@ public class ModelProvider {
         }
 
         return toType.equals(endType);
+    }
+
+    public List<String> getAssociatedDatedEntities(final ClassType entityType) {
+        List<String> associatedDatedEntities = entityType.getAssociatedDatedCollectionStore();
+        if (associatedDatedEntities == null) {
+            associatedDatedEntities = new ArrayList<String>();
+            List<TaggedValue> taggedValues = entityType.getTaggedValues();
+            for (TaggedValue taggedValue : taggedValues) {
+                if (modelIndex.getTagDefinition(taggedValue.getTagDefinition()).getName().equals("dataStore.associatedDatedCollection")) {
+                    associatedDatedEntities.add(taggedValue.getValue());
+                }
+            }
+        }
+        entityType.setAssociatedDatedCollectionStore(associatedDatedEntities);
+        return entityType.getAssociatedDatedCollectionStore();
+    }
+    public String getFilterBeginDateOn(final  ClassType entityType) {
+        String date = "";
+        List<TaggedValue> taggedValues = entityType.getTaggedValues();
+        for (TaggedValue taggedValue : taggedValues) {
+            if (modelIndex.getTagDefinition(taggedValue.getTagDefinition()).getName().equals("dataStore.filterBeginDateOn")) {
+                date = taggedValue.getValue();
+            }
+        }
+        return date;
+    }
+
+    public String getFilterEndDateOn(final  ClassType entityType) {
+        String date = "";
+
+        List<TaggedValue> taggedValues = entityType.getTaggedValues();
+        for (TaggedValue taggedValue : taggedValues) {
+            if (modelIndex.getTagDefinition(taggedValue.getTagDefinition()).getName().equals("dataStore.filterEndDateOn")) {
+                date = taggedValue.getValue();
+            }
+        }
+        return date;
     }
 }
 

@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.common.util.logging.LoggerCarrier;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -58,6 +59,7 @@ public aspect LoggerCarrierAspect {
             }
         }
         
+        TenantContext.setIsSystemCall(true);
         mongoTemplate.save(event);
         
         switch (event.getLogLevel()) {

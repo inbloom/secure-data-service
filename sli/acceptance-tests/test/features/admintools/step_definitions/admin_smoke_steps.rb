@@ -20,6 +20,7 @@ require "selenium-webdriver"
 require 'json'
 
 require_relative '../../utils/sli_utils.rb'
+require_relative '../../security/step_definitions/securityevent_util_steps.rb'
 require_relative '../../sandbox/AccountApproval/step_definitions/prod_sandbox_AccountApproval_Inteface_steps.rb'
 
 Given /^I am a valid SLC developer$/ do

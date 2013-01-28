@@ -58,7 +58,6 @@ public class TenantDBIndexValidator extends DbIndexValidator {
         boolean isValid = true;
         Set<MongoIndex> expectedIndexes = loadExpectedIndexes();
 
-        LOGGER.info("Validating indexes for tenant databases..");
         for (String tenantDb : tenantDbs) {
             LOGGER.info("Validating indexes for tenantDB:" + tenantDb);
             Set<MongoIndex> actualIndexes = loadIndexInfoFromDB(db.getSisterDB(tenantDb));

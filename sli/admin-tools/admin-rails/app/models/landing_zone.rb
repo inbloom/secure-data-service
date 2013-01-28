@@ -104,7 +104,7 @@ class LandingZone
           Rails.logger.info("preload status code is: #{preload_result.code}")
           if preload_result.code == 409
             isDuplicate = true
-          elsif preload_result.code == 403
+          elsif preload_result.code >= 400
             raise ProvisioningError.new "Problem occurred preloading dataset"
           end
         end

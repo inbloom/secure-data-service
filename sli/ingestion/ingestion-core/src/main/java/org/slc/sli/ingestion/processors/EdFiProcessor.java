@@ -31,7 +31,6 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FileEntryWorkNote;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileProcessStatus;
-import org.slc.sli.ingestion.dal.NeutralRecordAccess;
 import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
@@ -75,9 +74,6 @@ public class EdFiProcessor implements Processor {
     private BatchJobDAO batchJobDAO;
 
     @Autowired
-    private NeutralRecordAccess neutralRecordMongoAccess;
-
-    @Autowired
     private AbstractMessageReport databaseMessageReport;
 
     @Override
@@ -106,8 +102,6 @@ public class EdFiProcessor implements Processor {
             stage.addMetrics(metrics);
 
             potentiallyRemoveRecordHash(tenantId);
-
-            indexStagingDB();
 
             ReportStats rs = new SimpleReportStats();
 
@@ -154,14 +148,6 @@ public class EdFiProcessor implements Processor {
         TenantContext.setJobId(newJob.getId());
         TenantContext.setBatchProperties(newJob.getBatchProperties());
         return tenantId;
-    }
-
-    private void indexStagingDB() {
-        String jobId = TenantContext.getJobId();
-        String dbName = BatchJobUtils.jobIdToDbName(jobId);
-
-        LOG.info("Indexing staging db {} for job {}", dbName, jobId);
-        neutralRecordMongoAccess.ensureIndexes();
     }
 
     private boolean isJobResource(IngestionFileEntry fe, NewBatchJob newJob) {
