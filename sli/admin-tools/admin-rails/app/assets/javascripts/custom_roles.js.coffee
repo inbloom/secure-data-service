@@ -2,7 +2,7 @@ defaultRights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_REST
 selfRights = ["READ_SELF_RESTRICTED", "READ_SELF_GENERAL"]
 ROLE_COL = "td:eq(0)";
 RIGHT_COL = "td:eq(1)";
-SELF_RIGHT_COL = "td:eq(2);"
+SELF_RIGHT_COL = "td:eq(2)";
 ADMIN_COL = "td:eq(3)";
 EDIT_COL = "td:eq(4)";
 
@@ -93,6 +93,8 @@ editRow = (tr) ->
   populateRightComboBox(tr)
   tr.find(RIGHT_COL).prepend($("#addRightUi"))
   $("#addRightUi").fadeIn()
+  tr.find(SELF_RIGHT_COL).prepend($("#addSelfRightUi"))
+  $("#addSelfRightUi").fadeIn()
 
   #Give it a nice glow
   tr.find("td").addClass("highlight")
@@ -119,14 +121,22 @@ editRow = (tr) ->
 populateRightComboBox = (tr) ->
   #Add right combobox - only add rights that haven't already been used
   curRights = getRights(tr)
+  curSelfRights = getSelfRights(tr)
   $("#addRightUi option").each ->
     if ($(@).val() != "none")
       $(@).remove()
+
+#  $("#addSelfRightUi option").each ->
+#    if ($(@).val() != "none")
+#      $(@).remove()
 
   for right in defaultRights
     if (curRights.indexOf(right) < 0)
       $("#addRightUi select").append($("<option></option>").val(right).text(right))
 
+#  for right in selfRights
+#    if (curSelfRights.indexOf(right) < 0)
+#      $("#addSelfRightUi select").append($("<option></option>").val(right).text(right))
 
 wrapInputWithDeleteButton = (input, type, name) ->
   div = $('<span>').addClass("input-append")
@@ -203,6 +213,13 @@ getRights = (tr) ->
       rights.push($(@).text())
     return rights
 
+getSelfRights = (tr) ->
+#    rights = []
+#    tr.find(SELF_RIGHT_COL).find(".customLabel").each ->
+#      rights.push($(@).text())
+#    return rights
+  return null
+
 getRoles = (tr) ->
     roles = []
     tr.find(ROLE_COL).find(".customLabel").each ->
@@ -232,6 +249,7 @@ populateTable = (data) ->
     for right in role.rights
       newRow.find(RIGHT_COL).append(createLabel('right', right))
       newRow.find(RIGHT_COL).append(" ")
+
 
     newRow.find(ADMIN_COL).append("<input type='checkbox' class='isAdmin' disabled='true'>")
     if (role.isAdminRole)
