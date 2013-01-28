@@ -90,7 +90,7 @@ public class SendEmail {
         Session session = Session.getDefaultInstance(props,new javax.mail.Authenticator()
         {
             protected PasswordAuthentication getPasswordAuthentication()
-            { return new PasswordAuthentication("johnsingh1977@gmail.com","Queb1757");	}
+            { return new PasswordAuthentication("johnsingh1977@gmail.com","password");	}
         });
     	MimeMessage message = new MimeMessage(session);
     	message.setFrom(new InternetAddress(from));
