@@ -40,7 +40,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.ingestion.BatchJobStageType;
+import org.slc.sli.ingestion.FileFormat;
+import org.slc.sli.ingestion.IngestionTest;
+import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.tenant.TenantDA;
@@ -61,8 +65,7 @@ public class ControlFilePreProcessorTest {
 
     private static final String BATCHJOBID = "smallSample";
     private static final String tenantId = "Midgar";
-    private static String tmp_dir = "ctl_tmp/";
-    private static String filename = "test.ctl";
+
 
 
     @Mock
@@ -81,34 +84,38 @@ public class ControlFilePreProcessorTest {
     public void testProcess() throws Exception {
         List<Stage> mockedStages = createFakeStages();
         Map<String, String> mockedProperties = createFakeBatchProperties();
-        File fileForControlFile = new File(tmp_dir+filename);
 
-        NewBatchJob mockedJob = new NewBatchJob(BATCHJOBID, "sourceId", "finished", 29, mockedProperties, mockedStages, null);
+        NewBatchJob job = new NewBatchJob(BATCHJOBID, "sourceId", "finished", 29, mockedProperties, mockedStages, null);
 
-        mockedJob.setBatchProperties(mockedProperties);
-        mockedJob.setSourceId("sourceId");
-        mockedJob.setStatus("finished");
-        mockedJob.setTenantId(tenantId);
+        job.setBatchProperties(mockedProperties);
+        job.setSourceId("sourceId");
+        job.setStatus("finished");
+        job.setTenantId(tenantId);
+
+
+        ResourceEntry entry = new ResourceEntry();
+        File testZip = IngestionTest.getFile("ctl_tmp/test.zip");
+        entry.setResourceName(testZip.getAbsolutePath());
+        entry.setResourceFormat(FileFormat.ZIP_FILE.getCode());
+        job.addResourceEntry(entry);
+
+        WorkNote workNote = Mockito.mock(WorkNote.class);
+        Mockito.when(workNote.getBatchJobId()).thenReturn(BATCHJOBID);
 
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
 
-        exchange.getIn().setBody(fileForControlFile, File.class);
-        exchange.getIn().setHeader("BatchJobId", BATCHJOBID);
+        exchange.getIn().setBody(workNote);
 
-        Mockito.when(mockedBatchJobDAO.findBatchJobById(Matchers.eq(BATCHJOBID))).thenReturn(mockedJob);
-        File lzFile = new File(mockedJob.getTopLevelSourceId());
-        String lzPath = lzFile.getAbsolutePath();
-        String absolutePath = new File(lzPath).getAbsolutePath();
-        Mockito.when(mockedTenantDA.getTenantId(absolutePath)).thenReturn(tenantId);
-        Mockito.when(mockedTenantDA.tenantDbIsReady(tenantId)).thenReturn(true);
+        Mockito.when(mockedBatchJobDAO.findBatchJobById(Matchers.eq(BATCHJOBID))).thenReturn(job);
+
 
         controlFilePreProcessor.setBatchJobDAO(mockedBatchJobDAO);
         controlFilePreProcessor.setTenantDA(mockedTenantDA);
 
         controlFilePreProcessor.process(exchange);
 
-        Assert.assertEquals(1, mockedJob.getResourceEntries().size());
-        Assert.assertEquals(29, mockedJob.getTotalFiles());
+        Assert.assertEquals(2, job.getResourceEntries().size());
+        Assert.assertEquals(29, job.getTotalFiles());
     }
 
 

@@ -86,7 +86,6 @@ def parseJtlForRC(testName)
   rcMap = {}
   fileName = testName + ".jtl"
   puts "Loading #{fileName} xml into doc.."
-  puts "DEBUG: Looking in #{Dir.pwd}"
   doc = loadXML(fileName)
   testPassed = true
   doc.get_elements('//httpSample').each do |sample|
