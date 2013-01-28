@@ -40,9 +40,4 @@ public final class BatchJobManager {
         return batchJobDAO.isDryRun(jobId);
     }
 
-    public boolean isPurge(Exchange exchange) {
-        WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
-        String jobId = workNote.getBatchJobId();
-        return batchJobDAO.isPurge(jobId);
-    }
 }

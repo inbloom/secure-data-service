@@ -113,6 +113,4 @@ public interface BatchJobDAO {
 
     public boolean isDryRun(String jobId);
 
-    public boolean isPurge(String jobId);
-
 }
