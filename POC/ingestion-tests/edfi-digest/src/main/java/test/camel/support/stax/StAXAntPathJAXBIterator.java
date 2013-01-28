@@ -10,7 +10,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
 
@@ -18,11 +17,11 @@ import org.apache.camel.RuntimeCamelException;
 import org.apache.camel.util.LRUCache;
 
 public class StAXAntPathJAXBIterator extends StAXAntPathIterator<List<?>> {
-    private final String packageName = "org.ed_fi._0100";
     private static LRUCache<String, JAXBContext> classCache = new LRUCache<String, JAXBContext>(256);
 
-    public StAXAntPathJAXBIterator(XMLEventReader reader, String antPath, int group) {
-        super(reader, antPath, group);
+    private String packageName;
+
+    public StAXAntPathJAXBIterator() {
     }
 
     protected List<?> grabContent() throws XMLStreamException {
@@ -102,5 +101,9 @@ public class StAXAntPathJAXBIterator extends StAXAntPathIterator<List<?>> {
         }
 
         return entry;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
     }
 }

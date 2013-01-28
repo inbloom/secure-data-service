@@ -46,7 +46,7 @@ class User < SessionResource
   end
 
   def get_create_time
-    Time.parse(self.createTime)
+    Time.parse(self.createTime + "UTC")
   end
 
 end

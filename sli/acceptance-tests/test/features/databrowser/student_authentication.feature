@@ -15,8 +15,8 @@ Scenario: Åccess home page for student using Data Browser, then logout
   When I submit the credentials "carmen.ortiz" "carmen.ortiz1234" for the "Simple" login page
   Then I should be redirected to the Data Browser home page
   And I should see my available links labeled
-  # make call to /system/session/debug
-  # -> verify user name and user type
+  And I should navigate to "/entities/system/session/debug"
+  Then I should see "Carmen" on the page
   When I click on the Logout link
   And I am forced to reauthenticate to access the databrowser
 
@@ -30,6 +30,9 @@ Scenario: Login as Celeste Gray (student unique state id is equivalent to Charle
   When I submit the credentials "cegray" "cegray1234" for the "Simple" login page
   Then I should be redirected to the Data Browser home page
   And I should see my available links labeled
+  And I should navigate to "/entities/system/session/debug"
+  Then I should see "Celeste" on the page
+  Then I should not see "Charles" on the page
   And I should navigate to "/entities/teachers"
   Then I should see a message that I am forbidden
   When I click on the Logout link

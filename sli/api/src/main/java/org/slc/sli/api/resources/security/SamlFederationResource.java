@@ -45,6 +45,7 @@ import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.elasticsearch.search.query.FromParseElement;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
@@ -61,6 +62,7 @@ import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.representation.CustomStatus;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
@@ -123,6 +125,9 @@ public class SamlFederationResource {
     private HttpServletRequest httpServletRequest;
 
     private String metadata;
+
+    @Autowired
+    private SecurityEventBuilder securityEventBuilder;
 
     @SuppressWarnings("unused")
     @PostConstruct
@@ -385,6 +390,40 @@ public class SamlFederationResource {
 
         String authorizationCode = (String) code.get("value");
         Object state = appSession.get("state");
+
+        SecurityEvent successfulLogin = securityEventBuilder.createSecurityEvent(this.getClass().getName(), uriInfo.getRequestUri(), "");
+        successfulLogin.setTenantId(principal.getTenantId());
+        successfulLogin.setTargetEdOrg(principal.getEdOrg());
+        successfulLogin.setOrigin(httpServletRequest.getRemoteHost()+ ":" + httpServletRequest.getRemotePort());
+        successfulLogin.setCredential(authorizationCode);
+        successfulLogin.setUserOrigin(httpServletRequest.getRemoteHost()+ ":" + httpServletRequest.getRemotePort());
+        successfulLogin.setLogLevel(LogLevelType.TYPE_INFO);
+        successfulLogin.setRoles(principal.getRoles());
+
+        String applicationDetails = null;
+        if(appSession != null){
+            String clientId = (String)appSession.get("clientId");
+            if(clientId != null) {
+                NeutralQuery appQuery = new NeutralQuery();
+                appQuery.setOffset(0);
+                appQuery.setLimit(1);
+                appQuery.addCriteria(new NeutralCriteria("client_id", "=", clientId));
+                Entity application = repo.findOne("application", appQuery);
+                if(application != null) {
+                    Map<String, Object> body = application.getBody();
+                    if (body != null) {
+                        String name                = (String) body.get("name");
+                        String createdBy           = (String) body.get("created_by");
+                        successfulLogin.setAppId(name+"," + clientId);
+                        applicationDetails         = String.format("%s by %s", name, createdBy);
+                    }
+                }
+            }
+        }
+        successfulLogin.setUser(principal.getExternalId());
+        successfulLogin.setLogMessage(principal.getExternalId() + " from tenant " + tenant + " logged successfully into " + applicationDetails + ".");
+
+                audit(successfulLogin);
 
         if (isInstalled) {
             Map<String, Object> resultMap = new HashMap<String, Object>();

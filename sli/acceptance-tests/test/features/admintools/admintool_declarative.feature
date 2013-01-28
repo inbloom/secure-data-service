@@ -21,7 +21,7 @@ Then I am now authenticated to SLI IDP
 And I should be redirected to the default Admin Page
 And I should see following map of entry counts in the corresponding sli collections:
         | collectionName              | count |
-        | securityEvent               | 1     |
+        | securityEvent               | 2     |
 
 Scenario: Invalid SLI IDP user login to default Admin Page
  
