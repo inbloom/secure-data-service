@@ -85,7 +85,7 @@ end
 def parseJtlForRC(testName)
   rcMap = {}
   resultsFile = testName + ".jtl"
-  fileName = File.join(JMETER_JMX_PATH, resultsFile))
+  fileName = File.join(JMETER_JMX_PATH, resultsFile)
   puts "Loading #{fileName} xml into doc.."
   doc = loadXML(fileName)
   testPassed = true
