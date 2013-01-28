@@ -381,10 +381,6 @@ public final class WadlReader {
                     content.add(new DmProcessingInstruction(reader.getPITarget(), reader.getPIData()));
                     break;
                 }
-                case XMLStreamConstants.CDATA: {
-                    content.add(new DmText(reader.getText()));
-                    break;
-                }
                 default: {
                     throw new AssertionError(reader.getEventType());
                 }

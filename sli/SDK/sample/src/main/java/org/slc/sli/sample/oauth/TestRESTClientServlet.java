@@ -30,10 +30,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonProcessingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.node.ObjectNode;
 import org.slc.sli.api.client.RESTClient;
 import org.slc.sli.api.client.constants.ResourceNames;
 import org.slc.sli.api.client.impl.BasicClient;
@@ -125,8 +125,8 @@ public class TestRESTClientServlet extends HttpServlet {
         ObjectMapper mapper = new ObjectMapper();
         try {
             JsonNode jsonNode = mapper.readTree(studentBody);
-            if (jsonNode.path("name").path("lastSurname").textValue().equals("Christie")
-                    && jsonNode.path("name").path("firstName").textValue().equals("Monique")) {
+            if (jsonNode.path("name").path("lastSurname").getTextValue().equals("Christie")
+                    && jsonNode.path("name").path("firstName").getTextValue().equals("Monique")) {
                 return SUCCEED;
             }
         } catch (JsonProcessingException e) {
@@ -155,10 +155,10 @@ public class TestRESTClientServlet extends HttpServlet {
         try {
             
             JsonNode student = mapper.readTree(studentBody);
-            Iterator<JsonNode> it = student.path("address").elements();
+            Iterator<JsonNode> it = student.path("address").getElements();
             while (it.hasNext()) {
                 JsonNode address = it.next();
-                String streetNum = address.path("streetNumberName").textValue();
+                String streetNum = address.path("streetNumberName").getTextValue();
                 if ("817 Oakridge Farm Lane".equals(streetNum)) {
                     ((ObjectNode) address).put("streetNumberName", newAddress);
                 }
@@ -183,10 +183,10 @@ public class TestRESTClientServlet extends HttpServlet {
             response = client.getRequest(resourceURL);
             
             JsonNode student = mapper.readTree(response.readEntity(String.class));
-            Iterator<JsonNode> it = student.path("address").elements();
+            Iterator<JsonNode> it = student.path("address").getElements();
             while (it.hasNext()) {
                 JsonNode address = it.next();
-                String streetNum = address.path("streetNumberName").textValue();
+                String streetNum = address.path("streetNumberName").getTextValue();
                 if (newAddress.equals(streetNum)) {
                     return SUCCEED;
                 }
@@ -262,9 +262,9 @@ public class TestRESTClientServlet extends HttpServlet {
         try {
             
             JsonNode teachers = mapper.readTree(result);
-            Iterator<JsonNode> it = teachers.elements();
+            Iterator<JsonNode> it = teachers.getElements();
             JsonNode teacher = it.next();
-            String firstName = teacher.path("name").path("firstName").textValue();
+            String firstName = teacher.path("name").path("firstName").getTextValue();
             if ("Rick".equals(firstName)) {
                 return SUCCEED;
             }

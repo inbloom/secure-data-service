@@ -16,7 +16,7 @@
 
 package org.slc.sli.sif.domain.slientity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * Corresponding to the staffIdentificationCode defined in SLI schema.

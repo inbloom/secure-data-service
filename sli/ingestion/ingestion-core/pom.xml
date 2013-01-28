@@ -44,26 +44,12 @@
           <artifactId>hadoop-core</artifactId>
           <groupId>org.apache.hadoop</groupId>
         </exclusion>
-          <exclusion>
-              <artifactId>jackson-mapper-asl</artifactId>
-              <groupId>org.codehaus.jackson</groupId>
-          </exclusion>
-          <exclusion>
-              <artifactId>jackson-core-asl</artifactId>
-              <groupId>org.codehaus.jackson</groupId>
-          </exclusion>
       </exclusions>
     </dependency>
     <dependency>
       <groupId>org.apache.activemq</groupId>
       <artifactId>activemq-camel</artifactId>
       <version>5.6.0</version>
-        <exclusions>
-            <exclusion>
-                <artifactId>camel-jms</artifactId>
-                <groupId>org.apache.camel</groupId>
-            </exclusion>
-        </exclusions>
     </dependency>
     <dependency>
       <groupId>org.apache.activemq</groupId>
@@ -116,12 +102,6 @@
     <dependency>
       <groupId>org.slc.sli.common</groupId>
       <artifactId>sli-common</artifactId>
-        <exclusions>
-            <exclusion>
-                <artifactId>commons-lang</artifactId>
-                <groupId>commons-lang</groupId>
-            </exclusion>
-        </exclusions>
     </dependency>
 
     <!-- SLI - DAL -->
@@ -163,10 +143,6 @@
           <groupId>commons-logging</groupId>
           <artifactId>commons-logging</artifactId>
         </exclusion>
-          <exclusion>
-              <artifactId>xml-apis</artifactId>
-              <groupId>xml-apis</groupId>
-          </exclusion>
       </exclusions>
     </dependency>
 
@@ -246,17 +222,6 @@
       <groupId>org.aspectj</groupId>
       <artifactId>aspectjweaver</artifactId>
       <version>${aspectjweaver.version}</version>
-        <exclusions>
-            <exclusion>
-                <artifactId>aspectjweaver</artifactId>
-                <groupId>org.aspectj</groupId>
-            </exclusion>
-        </exclusions>
-    </dependency>
-
-    <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-beans</artifactId>
     </dependency>
 
     <dependency>
@@ -275,12 +240,6 @@
     <dependency>
       <groupId>commons-beanutils</groupId>
       <artifactId>commons-beanutils</artifactId>
-        <exclusions>
-            <exclusion>
-                <artifactId>commons-logging</artifactId>
-                <groupId>commons-logging</groupId>
-            </exclusion>
-        </exclusions>
     </dependency>
 
     <dependency>
@@ -292,12 +251,6 @@
       <groupId>commons-jexl</groupId>
       <artifactId>commons-jexl</artifactId>
       <version>${jexl.version}</version>
-        <exclusions>
-            <exclusion>
-                <artifactId>commons-logging</artifactId>
-                <groupId>commons-logging</groupId>
-            </exclusion>
-        </exclusions>
     </dependency>
 
     <dependency>
@@ -316,12 +269,6 @@
       <groupId>com.yammer.metrics</groupId>
       <artifactId>metrics-servlet</artifactId>
       <version>2.1.2</version>
-        <exclusions>
-            <exclusion>
-                <artifactId>jackson-mapper-asl</artifactId>
-                <groupId>org.codehaus.jackson</groupId>
-            </exclusion>
-        </exclusions>
     </dependency>
 
     <dependency>
@@ -332,12 +279,6 @@
     <dependency>
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-core</artifactId>
-        <exclusions>
-            <exclusion>
-                <artifactId>aspectjweaver</artifactId>
-                <groupId>org.aspectj</groupId>
-            </exclusion>
-        </exclusions>
     </dependency>
 
     <dependency>
@@ -352,15 +293,10 @@
 
     <!-- Jackson JSON Mapper -->
     <dependency>
-        <groupId>com.fasterxml.jackson.core</groupId>
-        <artifactId>jackson-databind</artifactId>
+      <groupId>org.codehaus.jackson</groupId>
+      <artifactId>jackson-mapper-asl</artifactId>
     </dependency>
 
-      <dependency>
-          <groupId>org.milyn</groupId>
-          <artifactId>milyn-smooks-json</artifactId>
-          <version>${milyn-smooks-json.version}</version>
-      </dependency>
   </dependencies>
 
   <build>

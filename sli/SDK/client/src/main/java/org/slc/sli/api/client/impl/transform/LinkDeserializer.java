@@ -20,12 +20,12 @@ package org.slc.sli.api.client.impl.transform;
 import java.io.IOException;
 import java.net.URL;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonParser;
+import org.codehaus.jackson.map.DeserializationContext;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.deser.std.StdDeserializer;
+import org.codehaus.jackson.node.ObjectNode;
 
 import org.slc.sli.api.client.Link;
 import org.slc.sli.api.client.impl.BasicLink;

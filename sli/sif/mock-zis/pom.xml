@@ -26,13 +26,7 @@
 		<dependency>
 			<groupId>org.slc.sli.common</groupId>
 			<artifactId>sli-common</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>commons-lang</artifactId>
-                    <groupId>commons-lang</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+		</dependency>
 		
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -80,13 +74,7 @@
 			<groupId>openadk</groupId>
 			<artifactId>openadk-library</artifactId>
 			<version>1.0.0</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>commons-logging</artifactId>
-                    <groupId>commons-logging</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+		</dependency>
 
 	</dependencies>
 

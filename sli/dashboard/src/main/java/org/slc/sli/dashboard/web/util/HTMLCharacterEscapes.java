@@ -17,8 +17,8 @@
 
 package org.slc.sli.dashboard.web.util;
 
-import com.fasterxml.jackson.core.SerializableString;
-import com.fasterxml.jackson.core.io.CharacterEscapes;
+import org.codehaus.jackson.SerializableString;
+import org.codehaus.jackson.io.CharacterEscapes;
 
 /**
  * Implementing CharaterEscapes and customizing HTML character escaping

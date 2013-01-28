@@ -15,6 +15,7 @@
  */
 package org.slc.sli.api.resources.generic.config;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slc.sli.api.resources.generic.FivePartResource;
 import org.slc.sli.api.resources.generic.SixPartResource;
 import org.slc.sli.api.resources.generic.util.ResourceHelper;
@@ -33,17 +34,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
-import javax.annotation.PostConstruct;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import org.slc.sli.api.resources.generic.FivePartResource;
-import org.slc.sli.api.resources.generic.SixPartResource;
-import org.slc.sli.api.resources.generic.util.ResourceHelper;
-import org.slc.sli.api.resources.generic.util.ResourceTemplate;
 
 /**
  * Reads in different nameSpaced resource end points and loads them
@@ -133,7 +123,7 @@ public class ResourceEndPoint {
 
     protected Map<String, String> buildEndPoints(String nameSpace, String resourcePath, ResourceEndPointTemplate template) {
         Map<String, String> resources = new HashMap<String, String>();
-        String fullPath =  nameSpace + resourcePath + template.getPath();
+        String fullPath = nameSpace + resourcePath + template.getPath();
 
         resources.put(fullPath, getResourceClass("/rest/" + fullPath, template));
 

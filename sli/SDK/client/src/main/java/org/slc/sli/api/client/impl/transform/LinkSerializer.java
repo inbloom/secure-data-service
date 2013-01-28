@@ -20,12 +20,12 @@ package org.slc.sli.api.client.impl.transform;
 import java.io.IOException;
 import java.lang.reflect.Type;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import com.fasterxml.jackson.databind.ser.std.StdKeySerializer;
+import org.codehaus.jackson.JsonGenerator;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.SerializerProvider;
+import org.codehaus.jackson.map.ser.std.SerializerBase;
+import org.codehaus.jackson.map.ser.std.StdKeySerializer;
 
 import org.slc.sli.api.client.Link;
 
@@ -34,13 +34,13 @@ import org.slc.sli.api.client.Link;
  * Tell Jackson how to serialize a Link type.
  * 
  */
-public class LinkSerializer extends StdSerializer<Link> {
+public class LinkSerializer extends SerializerBase<Link> {
     
     public LinkSerializer() {
         super(Link.class);
     }
     
-    private static final StdSerializer<Object> DEFAULT = new StdKeySerializer();
+    private static final SerializerBase<Object> DEFAULT = new StdKeySerializer();
     
     @Override
     public void serialize(Link link, JsonGenerator jgen, SerializerProvider provider) throws IOException {
