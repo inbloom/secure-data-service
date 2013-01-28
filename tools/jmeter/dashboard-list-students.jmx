@@ -631,7 +631,7 @@ for (var i = 0; i &lt; resp.length; i++) {
               <bytes>true</bytes>
             </value>
           </objProp>
-          <stringProp name="filename">list-attendance.jtl</stringProp>
+          <stringProp name="filename">dashboard-list-students.jtl</stringProp>
         </ResultCollector>
         <hashTree/>
         <HeaderManager guiclass="HeaderPanel" testclass="HeaderManager" testname="HTTP Header Manager" enabled="true">
