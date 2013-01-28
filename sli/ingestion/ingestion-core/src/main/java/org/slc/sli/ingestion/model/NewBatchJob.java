@@ -322,6 +322,7 @@ public class NewBatchJob implements Job {
                 if (fileType != null) {
                     IngestionFileEntry ingestionFileEntry = new IngestionFileEntry(resourceEntry.getResourceZipParent(), fileFormat, fileType,
                             resourceEntry.getResourceId(), resourceEntry.getChecksum());
+                    ingestionFileEntry.setBatchJobId(id);
                     ingestionFileEntries.add(ingestionFileEntry);
                 }
             }

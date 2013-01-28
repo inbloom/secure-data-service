@@ -53,6 +53,7 @@ public class ZipFileSplitter {
         List<FileEntryWorkNote> fileEntryWorkNotes = null;
 
         jobId = exchange.getIn().getHeader("BatchJobId").toString();
+
         TenantContext.setJobId(jobId);
         LOG.info("splitting zip file for job {}", jobId);
 
