@@ -73,7 +73,6 @@ public final class MongoCommander {
      */
     public static String ensureIndexes(Set<String> indexes, String db, MongoTemplate mongoTemplate) {
         if (indexes != null) {
-            LOG.info("Ensuring {} indexes for {} db", indexes.size(), db);
             DB dbConn = getDB(db, mongoTemplate);
 
             Set<MongoIndex> indexSet = indexSliFormatParser.parse(indexes);
