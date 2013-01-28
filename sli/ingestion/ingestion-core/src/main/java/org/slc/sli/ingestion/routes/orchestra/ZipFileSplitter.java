@@ -26,9 +26,11 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.FileEntryWorkNote;
+import org.slc.sli.ingestion.dal.NeutralRecordAccess;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
  * Splits the zip file, and generate a FileEntryWorkNote for each file
@@ -43,6 +45,9 @@ public class ZipFileSplitter {
     @Autowired
     private BatchJobDAO batchJobDAO;
 
+    @Autowired
+    private NeutralRecordAccess neutralRecordMongoAccess;
+
     public List<FileEntryWorkNote> splitZipFile(Exchange exchange) {
         String jobId = null;
         List<FileEntryWorkNote> fileEntryWorkNotes = null;
@@ -50,6 +55,8 @@ public class ZipFileSplitter {
         jobId = exchange.getIn().getHeader("BatchJobId").toString();
         TenantContext.setJobId(jobId);
         LOG.info("splitting zip file for job {}", jobId);
+
+        indexStagingDB();
 
         NewBatchJob newBatchJob = batchJobDAO.findBatchJobById(jobId);
         List<IngestionFileEntry> fileEntries = newBatchJob.getFiles();
@@ -75,6 +82,14 @@ public class ZipFileSplitter {
         batchJobDAO.createFileLatch(jobId, fileNames);
 
         return fileEntryWorkNotes;
+    }
+
+    private void indexStagingDB() {
+        String jobId = TenantContext.getJobId();
+        String dbName = BatchJobUtils.jobIdToDbName(jobId);
+
+        LOG.info("Indexing staging db {} for job {}", dbName, jobId);
+        neutralRecordMongoAccess.ensureIndexes();
     }
 
     /**
