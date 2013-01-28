@@ -25,7 +25,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.IngestionStagedEntity;
-import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.RecordHash;
@@ -112,7 +111,7 @@ public interface BatchJobDAO {
 
     public boolean createFileLatch(String jobId, List<String> fileEntries);
 
-    public boolean isDryRun(WorkNote workNote);
+    public boolean isDryRun(String jobId);
 
     public boolean isPurge(String jobId);
 

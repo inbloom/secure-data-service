@@ -27,7 +27,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.nodes.IngestionNodeType;
 import org.slc.sli.ingestion.nodes.NodeInfo;
 import org.slc.sli.ingestion.processors.CommandProcessor;
@@ -107,6 +106,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Autowired
     private TenantPopulator tenantPopulator;
+
+    @Autowired
+    private BatchJobManager batchJobManager;
 
     @Autowired
     private NodeInfo nodeInfo;
@@ -350,7 +352,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to ControlFileProcessor.").process(ctlFileProcessor)
                 .to("direct:assembledJobs")
 
-                .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.PURGE.name()))
+                .when()
+                .method(batchJobManager, "isPurge")
                 .log(LoggingLevel.INFO, "CamelRouting", "Purge command. Routing to PurgeProcessor.")
                 .process(purgeProcessor).to("direct:stop")
 
@@ -401,7 +404,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
                 .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.PERSIST_REQUEST.name()))
                 .choice()
-                .when(header(AttributeType.DRYRUN.getName()).isEqualTo(true))
+                .when()
+                    .method(batchJobManager, "isDryRun")
                     .log(LoggingLevel.INFO, "CamelRouting", "Dry-run specified. Routing back to Maestro.")
                     .to(maestroQueueUri)
                 .otherwise()
