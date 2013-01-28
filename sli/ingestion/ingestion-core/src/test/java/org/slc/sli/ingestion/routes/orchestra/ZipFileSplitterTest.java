@@ -59,9 +59,6 @@ public class ZipFileSplitterTest {
         Mockito.when(exchange.getIn()).thenReturn(message);
         Mockito.when(message.getHeader("jobId")).thenReturn(jobId);
         Mockito.when(message.getHeader("BatchJobId")).thenReturn(jobId);
-        Mockito.when(message.getBody()).thenReturn(controlFileWorkNote);
-        Mockito.when(controlFileWorkNote.getControlFile()).thenReturn(controlFile);
-        Mockito.when(controlFile.getFileEntries()).thenReturn(files);
 
         Mockito.doCallRealMethod().when(zipFileSplitter).splitZipFile(exchange);
         Mockito.doCallRealMethod().when(zipFileSplitter).setBatchJobDAO(Matchers.any(BatchJobDAO.class));
