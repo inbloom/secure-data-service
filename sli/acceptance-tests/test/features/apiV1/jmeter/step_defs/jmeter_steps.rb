@@ -84,9 +84,9 @@ end
 
 def parseJtlForRC(testName)
   rcMap = {}
-  fileName = testName + ".jtl"
+  resultsFile = testName + ".jtl"
+  fileName = File.join(JMETER_JMX_PATH, resultsFile))
   puts "Loading #{fileName} xml into doc.."
-  puts "DEBUG: Looking in #{Dir.pwd}"
   doc = loadXML(fileName)
   testPassed = true
   doc.get_elements('//httpSample').each do |sample|
