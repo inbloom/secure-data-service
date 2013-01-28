@@ -26,6 +26,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.FileEntryWorkNote;
+import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordAccess;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -52,7 +53,8 @@ public class ZipFileSplitter {
         String jobId = null;
         List<FileEntryWorkNote> fileEntryWorkNotes = null;
 
-        jobId = exchange.getIn().getHeader("BatchJobId").toString();
+        WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
+        jobId = workNote.getBatchJobId();
 
         TenantContext.setJobId(jobId);
         LOG.info("splitting zip file for job {}", jobId);
