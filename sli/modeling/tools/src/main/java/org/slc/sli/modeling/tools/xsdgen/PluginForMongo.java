@@ -177,7 +177,27 @@ public final class PluginForMongo implements Uml2XsdPlugin {
                     SliMongoConstants.SLI_ASSOCIATION_KEY.getNamespaceURI());
             xsw.characters(taggedValue.getValue());
             xsw.end();
-        } else {
+        } else if (SliUmlConstants.TAGDEF_BEGIN_DATE.equals(tagDefinition.getName())) {
+            xsw.begin("sli", SliMongoConstants.SLI_BEGIN_DATE.getLocalPart(), SliMongoConstants.SLI_BEGIN_DATE.getNamespaceURI());
+            xsw.characters(taggedValue.getValue());
+            xsw.end();
+        } else if (SliUmlConstants.TAGDEF_END_DATE.equals(tagDefinition.getName())) {
+            xsw.begin("sli", SliMongoConstants.SLI_END_DATE.getLocalPart(), SliMongoConstants.SLI_END_DATE.getNamespaceURI());
+            xsw.characters(taggedValue.getValue());
+            xsw.end();
+        } else if (SliUmlConstants.TAGDEF_FILTER_BEGIN_DATE_ON.equals(tagDefinition.getName())) {
+            xsw.begin("sli", SliMongoConstants.SLI_FILTER_BEGIN_DATE_ON.getLocalPart(), SliMongoConstants.SLI_FILTER_BEGIN_DATE_ON.getNamespaceURI());
+            xsw.characters(taggedValue.getValue());
+            xsw.end();
+        } else if (SliUmlConstants.TAGDEF_FILTER_END_DATE_ON.equals(tagDefinition.getName())) {
+            xsw.begin("sli", SliMongoConstants.SLI_FILTER_END_DATE_ON.getLocalPart(), SliMongoConstants.SLI_FILTER_END_DATE_ON.getNamespaceURI());
+            xsw.characters(taggedValue.getValue());
+            xsw.end();
+        }  else if (SliUmlConstants.TAGDEF_ASSOCIATED_DATED_COLLECTION.equals(tagDefinition.getName())) {
+            xsw.begin("sli", SliMongoConstants.SLI_ASSOCIATED_DATED_COLLECTION.getLocalPart(), SliMongoConstants.SLI_ASSOCIATED_DATED_COLLECTION.getNamespaceURI());
+            xsw.characters(taggedValue.getValue());
+            xsw.end();
+        }  else {
             throw new AssertionError(tagDefinition.getName());
         }
         xsw.end();
