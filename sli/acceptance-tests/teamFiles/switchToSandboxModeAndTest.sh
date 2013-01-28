@@ -29,7 +29,7 @@ cd /opt/megatron/sli/sli/config/scripts/
 sh resetAllDbs.sh
 cd /opt/megatron/sli/sli/admin-tools/admin-rails/
 bundle install --deployment
-bundle exec rails server -e development_sb -d
+bundle exec rails server -d
 cd /opt/megatron/sli/sli/databrowser/
 bundle install --deployment
 bundle exec rails server -d

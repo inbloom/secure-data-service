@@ -22,7 +22,6 @@ import java.io.IOException;
 import org.slc.sli.ingestion.Resource;
 import org.slc.sli.ingestion.handler.Handler;
 import org.slc.sli.ingestion.landingzone.ControlFile;
-import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.FileResource;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.validation.SubmissionLevelException;
@@ -50,7 +49,7 @@ public class ValidationController {
 
     private Validator<IngestionFileEntry> complexValidator;
 
-    private Validator<ControlFileDescriptor> controlFilevalidator;
+    private Validator<ControlFile> controlFilevalidator;
 
     private AbstractMessageReport messageReport;
 
@@ -110,9 +109,9 @@ public class ValidationController {
         try {
             ControlFile cfile = ControlFile.parse(parentDirectoryOrZipFile.getAbsolutePath(), ctlFile, messageReport);
 
-            ControlFileDescriptor cfd = new ControlFileDescriptor(cfile, parentDirectoryOrZipFile.getAbsolutePath());
+            //ControlFileDescriptor cfd = new ControlFileDescriptor(cfile, parentDirectoryOrZipFile.getAbsolutePath());
 
-            controlFilevalidator.isValid(cfd, messageReport, reportStats, source);
+            controlFilevalidator.isValid(cfile, messageReport, reportStats, source);
 
             processValidators(cfile, reportStats);
         } catch (IOException e) {
@@ -140,11 +139,11 @@ public class ValidationController {
         this.complexValidator = complexValidator;
     }
 
-    public Validator<ControlFileDescriptor> getControlFilevalidator() {
+    public Validator<ControlFile> getControlFilevalidator() {
         return controlFilevalidator;
     }
 
-    public void setControlFilevalidator(Validator<ControlFileDescriptor> controlFilevalidator) {
+    public void setControlFilevalidator(Validator<ControlFile> controlFilevalidator) {
         this.controlFilevalidator = controlFilevalidator;
     }
 
