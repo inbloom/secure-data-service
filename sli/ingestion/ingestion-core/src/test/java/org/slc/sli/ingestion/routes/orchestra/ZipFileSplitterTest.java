@@ -28,6 +28,7 @@ import org.mockito.Mockito;
 
 import org.slc.sli.ingestion.ControlFileWorkNote;
 import org.slc.sli.ingestion.FileEntryWorkNote;
+import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordAccess;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
@@ -59,6 +60,8 @@ public class ZipFileSplitterTest {
         Mockito.when(exchange.getIn()).thenReturn(message);
         Mockito.when(message.getHeader("jobId")).thenReturn(jobId);
         Mockito.when(message.getHeader("BatchJobId")).thenReturn(jobId);
+        Mockito.when(message.getBody(WorkNote.class)).thenReturn(controlFileWorkNote);
+        Mockito.when(controlFileWorkNote.getBatchJobId()).thenReturn(jobId);
 
         Mockito.doCallRealMethod().when(zipFileSplitter).splitZipFile(exchange);
         Mockito.doCallRealMethod().when(zipFileSplitter).setBatchJobDAO(Matchers.any(BatchJobDAO.class));
