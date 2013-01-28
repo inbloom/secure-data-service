@@ -45,7 +45,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | studentProgramAssociations              | 2009-2010    | 0                   | 0                |                                                                                |
     | studentSchoolAssociations               | 2008-2009    | 62                  | 5                | <LIST-SSA-AKOPEL>                                                              |
     | studentSectionAssociations              | 2010-2011    | 0                   | 0                |                                                                                |
-    | students                                | 2008-2009    | 26                  | 2                | 5738d251-dd0b-4734-9ea6-417ac9320a15_id,5738d251-dd0b-4734-9ea6-417ac9320a15_id                                        |
+    | students                                | 2008-2009    | 26                  | 2                | 5738c251-dd0b-4734-9ea6-417ac9320a15_id,5738d251-dd0b-4734-9ea6-417ac9320a15_id |
 #    | teacherSchoolAssociations               | 2010-2011    | 1                   | 0                |                                                                               |
 #    | teacherSectionAssociations              | 2010-2011    | 1                   | 0                |                                                                                |
     | teachers                                | 2010-2011    | 1                   | 1                | rbraverman                                                                     |

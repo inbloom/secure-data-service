@@ -16,6 +16,7 @@
 
 package org.slc.sli.dal.convert;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -34,6 +35,7 @@ import com.mongodb.CommandResult;
 import com.mongodb.DBObject;
 import com.mongodb.WriteConcern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -705,5 +707,20 @@ public class SubDocAccessor {
 
     public Location subDoc(String docType) {
         return locations.get(docType);
+    }
+
+    public static void main(String[] args) {
+        PrintStream output = System.out;
+        SubDocAccessor accessor = new SubDocAccessor(null, null, null);
+        ConcurrentMap<String, List<String>> collections = new ConcurrentHashMap<String, List<String>>();
+        for (Entry<String, Location> entry : accessor.locations.entrySet()) {
+            String type = entry.getKey();
+            String collectionName = entry.getValue().collection;
+            collections.putIfAbsent(collectionName, new ArrayList<String>());
+            collections.get(collectionName).add(type);
+        }
+        for (Entry<String, List<String>> entry : collections.entrySet()) {
+            output.println(entry.getKey() + ": " + StringUtils.join(entry.getValue().toArray(), ", "));
+        }
     }
 }
