@@ -28,7 +28,7 @@ git checkout -- /opt/megatron/sli/sli/acceptance-tests/test/data/securityEvent_f
 git checkout -- /opt/megatron/sli/sli/acceptance-tests/test/features/utils/properties.yml
 git checkout -- /opt/megatron/sli/sli/admin-tools/admin-rails/config/config.yml
 git checkout -- /opt/megatron/sli/sli/databrowser/config/config.yml
-set -e
+#set -e
 git fetch
 git checkout $branch
 git pull
