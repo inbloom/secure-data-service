@@ -109,4 +109,19 @@ public class ZipFileSplitter {
         this.batchJobDAO = batchJobDAO;
     }
 
+    /**
+     * @return the neutralRecordMongoAccess
+     */
+    public NeutralRecordAccess getNeutralRecordMongoAccess() {
+        return neutralRecordMongoAccess;
+    }
+
+    /**
+     * @param neutralRecordMongoAccess the neutralRecordMongoAccess to set
+     */
+    public void setNeutralRecordMongoAccess(NeutralRecordAccess neutralRecordMongoAccess) {
+        this.neutralRecordMongoAccess = neutralRecordMongoAccess;
+    }
+
+
 }
