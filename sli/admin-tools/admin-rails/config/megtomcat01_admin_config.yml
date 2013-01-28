@@ -75,7 +75,7 @@ local-acceptance-tests:
     is_sandbox: false
     auto_approve: false
     email_replace_uri: http://megtomcat01.slidev.org:2000
-    portal_url: https://rcportal.slidev.org/portal
+    portal_url: https://rcportal2.slidev.org/portal
     rsa_key_dir: /var/tmp/.sftp/authorized_keys
     tmp_dir: /tmp 
     encryption_keyfile: /opt/megatron/sli/sli/data-access/dal/keyStore/localRailsKey
