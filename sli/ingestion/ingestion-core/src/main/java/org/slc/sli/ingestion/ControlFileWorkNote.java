@@ -24,8 +24,8 @@ public class ControlFileWorkNote extends WorkNote {
     private static final long serialVersionUID = 7526472295622776147L;
     private ControlFile controlFile;
 
-    public ControlFileWorkNote(ControlFile cf, String batchJobId, String tenantId) {
-        super(batchJobId, tenantId);
+    public ControlFileWorkNote(ControlFile cf, String batchJobId, String tenantId, boolean hasErrors) {
+        super(batchJobId, tenantId, hasErrors);
         this.controlFile = cf;
     }
 

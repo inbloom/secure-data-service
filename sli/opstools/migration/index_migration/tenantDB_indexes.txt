@@ -21,143 +21,77 @@ custom_entities,false,metaData.entityId:1,metaData.clientId:1
 # Billy is investigating these
 
 # direct references, index on each direct reference
-# REMOVE - DE2536
+# These indexes will be reviewed as part of US4658
 attendance,false,body.schoolId:1
-# Look up attendance by student: /students/{id}/attendances
 attendance,false,body.studentId:1
-# Look up cohort by edorg: /educationOrganizations/{id}/cohorts
 cohort,false,body.educationOrgId:1
-# Look up studentCohortAssociation by student: /students/{id}/studentCohortAssociations
 cohort,false,studentCohortAssociation.body.studentId:1
-# REMOVE - DE2537
 cohort,false,body.programId:1
-# Look up course by school: /educationOrganizations/{id}/schools
 course,false,body.schoolId:1
-# Look up courseOffering by course: /courses/{id}/courseOfferings
 courseOffering,false,body.courseId:1
-# Look up courseOffering by school: /schools/{id}/courseOfferings
 courseOffering,false,body.schoolId:1
-# Look up courseOffering by session: /sessions/{id}/courseOfferings
 courseOffering,false,body.sessionId:1
-# Look up courseTranscript by course: /courses/{id}/courseTranscripts
 courseTranscript,false,body.courseId:1
-# REMOVE - DE2538
 courseTranscript,false,body.studentAcademicRecordId:1
-# Look up courseTranscript by student: /students/{id}/courseTranscripts
 courseTranscript,false,body.studentId:1
-# REMOVE - DE2539
 disciplineAction,false,body.assignmentSchoolId:1
-# REMOVE - DE2540
 disciplineAction,false,body.disciplineIncidentId:1
-# REMOVE - DE2541
 disciplineAction,false,body.responsibilitySchoolId:1
-# Look up disciplineAction by teacher: /teachers/{id}/disciplineActions
 disciplineAction,false,body.staffId:1
-# REMOVE - DE2542
 disciplineAction,false,body.studentId:1
-# REMOVE - DE2543
 disciplineIncident,false,body.schoolId:1
-# Look up disciplineIncident by teacher: /teachers/{id}/disciplineIncidents
 disciplineIncident,false,body.staffId:1
-# Used in heirarchy traversal
 educationOrganization,false,body.parentEducationAgencyReference:1
-educationOrganization,false,body.parentEducationAgencyReference:1,type:1
-# REMOVE - DE2544
 educationOrganization,false,body.programReference:1
-# Look up grade by gradingPeriod: /gradingPeriods/{id}/grades
 grade,false,body.gradePeriodId:1
-# REMOVE - DE2545
 grade,false,body.studentSectionAssociationId:1
-# Look up graduation play by edorg: /educationOrganizations/{id}/graduationPlans
 graduationPlan,false,body.educationOrganizationId:1
-# REMOVE - DE2546
 learningObjective,false,body.learningStandards:1
-# Learning objective traversal
 learningObjective,false,body.parentLearningObjective:1
-# REMOVE - DE2547
 reportCard,false,body.grades:1
-# Look up reportCard by gradingPeriod: /gradingPeriods/{id}/reportCards
 reportCard,false,body.gradingPeriodId:1
-# Look up reportCard by studentCompetency: /studentCompetencies/{id}/reportCards
 reportCard,false,body.studentCompetencyId:1
-# Look up reportCard by student: /students/{id}/reportCards
 reportCard,false,body.studentId:1
-# REMOVE - DEDE2548
 section,false,body.assessmentReferences:1
-# Look up section by courseOffering: /courseOfferings/{id}/sections
 section,false,body.courseOfferingId:1
-# REMOVE - DE2549
 section,false,body.programReference:1
-# Look up section by school: /schools/{id}/sections
 section,false,body.schoolId:1
-# Look up section by session: /sessions/{id}/sections
 section,false,body.sessionId:1
-# REMOVE - DE2550
 session,false,body.gradingPeriodReference:1
-# Look up session by school: /schools/{id}/sections
 session,false,body.schoolId:1
-# Look up staffCohortAssociation by cohort: /cohorts/{id}/staffCohortAssociations
 staffCohortAssociation,false,body.cohortId:1
-# Look up staffCohortAssociation by teacher: /teachers/{id}/staffCohortAssociations
 staffCohortAssociation,false,body.staffId:1
-# Look up staffEdorgAssoc by edorg: /educationOrganizations/{id}/staffEducationOrgAssignmentAssociations
 staffEducationOrganizationAssociation,false,body.educationOrganizationReference:1
-# Look up staffEdorgAssoc by staff : /staff/{id}/staffEducationOrgAssignmentAssociations
 staffEducationOrganizationAssociation,false,body.staffReference:1
-# Look up staffProgramAssoc by program: /programs/{id}/staffProgramAssociations
 staffProgramAssociation,false,body.programId:1
-# Look up staffProgramAssoc by staff: /staff/{id}/staffProgramAssociations
 staffProgramAssociation,false,body.staffId:1
-# REMOVE - DE2551
 studentAcademicRecord,false,body.reportCards:1
-# Look up studentAcademicRecord by session: /sessions/{id}/studentAcademicRecords
 studentAcademicRecord,false,body.sessionId:1
-# Look up studentAcademicRecord by student: /students/{id}/studentAcademicRecords
 studentAcademicRecord,false,body.studentId:1
 # studentAssessment is embedded into student
-# Look up studentAssessment by assessment: /assessments/{id}/studentAssessments
 student,false,studentAssessment.body.assessmentId:1
-# Look up studentCompetency by learningObjective: /learningObjectives/{id}/studentCompetencies
 studentCompetency,false,body.objectiveId.learningObjectiveId:1
-# REMOVE - DE2552
 studentCompetency,false,body.objectiveId.studentCompetencyObjectiveId:1
-# Look up studentCompetency by studentSectionAssoc: /studentSectionAssociations/{id}/studentCompetencies
 studentCompetency,false,body.studentSectionAssociationId:1
-# Look up studentCompetencyObjective by edorg: /educationOrganizations/{id}/studentCompetencyObjectives
 studentCompetencyObjective,false,body.educationOrganizationId:1
-# REMOVE - DE2553
 student,false,studentDisciplineIncidentAssociation.body.disciplineIncidentId:1
-# Look up studentGradebookEntry by gradebookEntry: /gradebookEntries/{id}/studentGradebookEntries
 studentGradebookEntry,false,body.gradebookEntryId:1
-# Look up studentGradebookEntry by section: /sections/{id}/studentGradebookEntries
 studentGradebookEntry,false,body.sectionId:1
-# Look up studentGradebookEntry by student: /students/{id}/studentGradebookEntries
 studentGradebookEntry,false,body.studentId:1
-# REMOVE - DE2554
 studentGradebookEntry,false,body.studentSectionAssociationId:1
 # studentParentAssociation is embedded into student
-# Look up studentParentAssoc by parent: /parents/{id}/studentParentAssociations
 student,false,studentParentAssociation.body.parentId:1
 # studentProgramAssociation is embedded into program
-# REMOVE - DE2555
 program,false,studentProgramAssociation.body.educationOrganizationId:1
-# Look up studentProgramAssoc by student: /students/{id}/studentProgramAssociations
 program,false,studentProgramAssociation.body.studentId:1
-# REMOVE - DE2556
 studentSchoolAssociation,false,body.graduationPlanId:1
-# Look up studentSchoolAssoc by school: /schools/{id}/studentSchoolAssociations
 studentSchoolAssociation,false,body.schoolId:1
-# Look up studentSchoolAssoc by student: /students/{id}/studentSchoolAssociations
 studentSchoolAssociation,false,body.studentId:1
 # studentSectionAssociation is embedded into section
-# Look up studentSectionAssoc by student: /students/{id}/studentSectionAssociations
 section,false,studentSectionAssociation.body.studentId:1
-# Look up teacherSchoolAssoc by school: /schools/{id}/teacherSchoolAssociations
 teacherSchoolAssociation,false,body.schoolId:1
-# Look up teacherSchoolAssoc by staff: /staff/{id}/teacherSchoolAssociations
 teacherSchoolAssociation,false,body.teacherId:1
 # teacherSectionAssociation is embedded into section
-# Look up teacherSectionAssoc by teacher: /teachers/{id}/teacherSectionAssociations
 section,false,teacherSectionAssociation.body.teacherId:1
 
 # Ingestion
@@ -193,15 +127,11 @@ studentCompetency,false,metaData.externalId:1,metaData.studentUniqueStateId:1,me
 studentCompetencyObjective,false,body.studentCompetencyObjectiveId:1
 
 # Profiled
-# REMOVE - DE2563
+# These indexes will be reviewed as part of US4658
 educationOrganization,false,body.parentEducationAgencyReference:1,type:1
-# Find school/edorg by name
 educationOrganization,false,type:1,body.nameOfInstitution:1
-# REMOVE - DE2557
 gradingPeriod,false,body.beginDate:1
-# Find staff/teacher by login
 staff,false,body.staffUniqueStateId:1
-# REMOVE - DE2559
 staff,false,type:1
 
 

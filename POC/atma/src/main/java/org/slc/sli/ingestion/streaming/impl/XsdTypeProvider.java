@@ -37,7 +37,7 @@ public class XsdTypeProvider implements TypeProvider {
 	@Value("file:${sli.conf}")
 	private Resource sliPropsFile;
 
-	private List<String> complexTypes = new ArrayList<String>();
+	private Map<String, Element> complexTypes = new HashMap<String, Element>();
 	private Map<String, String> typeMap = new HashMap<String, String>();
 
 	@PostConstruct
@@ -63,7 +63,7 @@ public class XsdTypeProvider implements TypeProvider {
 		Iterable<Element> complexTypes = doc.getDescendants(Filters.element("complexType", XS_NAMESPACE));
 
 		for (Element e : complexTypes) {
-			this.complexTypes.add(e.getAttributeValue("name"));
+			this.complexTypes.put(e.getAttributeValue("name"), e);
 		}
 
 		Iterable<Element> elements = doc.getDescendants(Filters.element("element", XS_NAMESPACE));
@@ -77,7 +77,24 @@ public class XsdTypeProvider implements TypeProvider {
 
 	@Override
 	public boolean isComplexType(String elementName) {
-		return this.complexTypes.contains(elementName) || this.complexTypes.contains(this.typeMap.get(elementName));
+		return this.complexTypes.containsKey(elementName) || this.complexTypes.containsKey(this.typeMap.get(elementName));
+	}
+	
+	@Override
+	public boolean existsInSchema(String parentName, String name) {
+		Element parent = getComplexElement(parentName);
+		
+		return parent.getChild(name) != null;
+	}
+
+	private Element getComplexElement(String parentName) {
+		Element parent = this.complexTypes.get(parentName);
+		
+		if(parent==null) {
+			parent = this.complexTypes.get(this.typeMap.get(parentName));
+		}
+		
+		return parent;
 	}
 
 	@Override

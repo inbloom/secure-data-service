@@ -27,6 +27,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -490,4 +491,42 @@ public class BatchJobMongoDATest {
         Assert.assertTrue(mockBatchJobMongoDA.createFileLatch(BATCHJOBID, fileEntries));
    }
 
+    @Test
+    public void testError(){
+    	Error error = new Error(null, null, null, null, null, null, new Date(), null, null, null);
+    	
+    	Assert.assertNotNull("BatchJobId should not be null!", error.getBatchJobId());
+    	Assert.assertNotNull("StageName should not be null", error.getStageName());
+    	Assert.assertNotNull("ResourceId should not be null", error.getResourceId());
+    	Assert.assertNotNull("SourceIp should not be null", error.getSourceIp());
+    	Assert.assertNotNull("Hostname should not be null", error.getHostname());
+    	Assert.assertNotNull("RecordIdentifier should not be null", error.getRecordIdentifier());
+    	Assert.assertNotNull("getSeverity should not be null", error.getSeverity());
+    	Assert.assertNotNull("ErrorType should not be null", error.getErrorType());
+    	Assert.assertNotNull("ErrorDetail should not be null", error.getErrorDetail());
+    	Assert.assertNotNull("Timestamp should not be null", error.getTimestamp());
+
+    	error.setBatchJobId(null);
+    	error.setStageName(null);
+    	error.setResourceId(null);
+    	error.setSourceIp(null);
+    	error.setHostname(null);
+    	error.setRecordIdentifier(null);
+    	error.setSeverity(null);
+    	error.setErrorType(null);
+    	error.setErrorDetail(null);
+    	error.setTimestamp(null);
+
+    	Assert.assertNotNull("BatchJobId should not be null!", error.getBatchJobId());
+    	Assert.assertNotNull("StageName should not be null", error.getStageName());
+    	Assert.assertNotNull("ResourceId should not be null", error.getResourceId());
+    	Assert.assertNotNull("SourceIp should not be null", error.getSourceIp());
+    	Assert.assertNotNull("Hostname should not be null", error.getHostname());
+    	Assert.assertNotNull("RecordIdentifier should not be null", error.getRecordIdentifier());
+    	Assert.assertNotNull("getSeverity should not be null", error.getSeverity());
+    	Assert.assertNotNull("ErrorType should not be null", error.getErrorType());
+    	Assert.assertNotNull("ErrorDetail should not be null", error.getErrorDetail());
+       	Assert.assertNotNull("Timestamp should not be null", error.getTimestamp());
+    } 
+    
 }
