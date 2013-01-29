@@ -131,7 +131,7 @@ public class SmooksFileHandlerTest {
         SliSmooks smooks = Mockito.mock(SliSmooks.class);
         SliSmooksFactory factory = Mockito.mock(SliSmooksFactory.class);
         Mockito.when(
-                factory.createInstance(Mockito.any(IngestionFileEntry.class), Mockito.any(AbstractMessageReport.class),
+                factory.createInstance(Mockito.any(IngestionFileEntry.class), Mockito.anyString(), Mockito.any(AbstractMessageReport.class),
                         Mockito.any(ReportStats.class))).thenReturn(smooks);
         PrivateAccessor.setField(smooksFileHandler, "sliSmooksFactory", factory);
 

@@ -154,6 +154,7 @@ public class LandingZoneProcessor implements Processor {
         resourceName.setResourceId(lzFile.getName());
         resourceName.setExternallyUploadedResourceId(lzFile.getName());
         resourceName.setResourceFormat(FileFormat.ZIP_FILE.getCode());
+        resourceName.setValid(true);
         newJob.getResourceEntries().add(resourceName);
     }
 

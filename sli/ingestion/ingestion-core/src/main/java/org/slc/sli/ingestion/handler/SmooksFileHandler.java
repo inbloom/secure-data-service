@@ -31,6 +31,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.xml.sax.SAXException;
 
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
@@ -78,7 +79,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
             SAXException {
 
         // Create instance of Smooks (with visitors already added).
-        SliSmooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, errorReport, reportStats);
+        SliSmooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, TenantContext.getJobId(), errorReport, reportStats);
 
         InputStream inputStream = null;
 

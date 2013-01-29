@@ -30,7 +30,6 @@ import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.handler.XmlFileHandler;
@@ -40,7 +39,6 @@ import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
-import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.impl.FileSource;
 import org.slc.sli.ingestion.util.LogUtil;
@@ -149,7 +147,8 @@ public class SmooksCallable implements Callable<Boolean> {
             zais = fe.getFileStream();
 
             // create instance of Smooks (with visitors already added)
-            SliSmooks smooks = sliSmooksFactory.createInstance(fe, messageReport, reportStats);
+            String jobId = TenantContext.getJobId();
+            SliSmooks smooks = sliSmooksFactory.createInstance(fe, jobId,messageReport, reportStats);
 
             try {
                 // filter fileEntry inputStream, converting into NeutralRecord entries as we go

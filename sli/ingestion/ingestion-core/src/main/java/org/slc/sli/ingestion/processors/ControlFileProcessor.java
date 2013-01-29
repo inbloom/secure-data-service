@@ -223,6 +223,7 @@ public class ControlFileProcessor implements Processor {
             resourceEntry.setChecksum(file.getChecksum());
             resourceEntry.setTopLevelLandingZonePath(newJob.getTopLevelSourceId());
             resourceEntry.setResourceZipParent(zipResource);
+            resourceEntry.setValid(file.isValid());
 
             newJob.getResourceEntries().add(resourceEntry);
         }
