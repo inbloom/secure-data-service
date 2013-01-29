@@ -17,20 +17,25 @@
 
 package org.slc.sli.api.resources.config;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.Response;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.slc.sli.api.representation.EntityBody;
 import org.springframework.test.context.ContextConfiguration;
-
-import java.io.IOException;
-
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Unit tests
@@ -43,15 +48,12 @@ import static org.junit.Assert.assertTrue;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class XMLMsgBodyReaderTest {
 
-    @InjectMocks
     private XMLMsgBodyReader reader = new XMLMsgBodyReader();
-
-    @Mock
-    private StAXMsgBodyReader staxReader;
 
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
+        reader.setStaxMsgBodyReader(new StAXMsgBodyReader());
     }
 
     @Test
@@ -60,5 +62,16 @@ public class XMLMsgBodyReaderTest {
 
         assertNotNull("Should not be null", body);
         assertTrue("Should be empty", body.isEmpty());
+    }
+
+    @Test
+    public void testBadXml() throws Exception {
+        try {
+            InputStream is = new ByteArrayInputStream("{\"test\":\"foo\"}".getBytes());
+            reader.readFrom(EntityBody.class, null, null, null, null, is);
+            fail("Should throw Exception because of invalid XML format");
+        } catch(WebApplicationException wae) {
+            assertEquals(Response.Status.BAD_REQUEST.getStatusCode(), wae.getResponse().getStatus());
+        }
     }
 }
