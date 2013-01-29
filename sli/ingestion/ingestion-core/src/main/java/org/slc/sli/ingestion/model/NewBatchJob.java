@@ -310,7 +310,7 @@ public class NewBatchJob implements Job {
     }
 
     @Override
-    public List<String> getFiles() {
+    public List<String> getResourceIds() {
         List<String> fileEntries = new ArrayList<String>();
 
         // create IngestionFileEntry items from eligible ResourceEntry items

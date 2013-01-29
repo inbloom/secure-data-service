@@ -21,8 +21,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.ingestion.FileEntryWorkNote;
 import org.slc.sli.ingestion.RangedWorkNote;
+import org.slc.sli.ingestion.ResourceEntryWorkNote;
+import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 
 /**
@@ -40,12 +42,15 @@ public class FileEntryLatch {
     public void receive(Exchange exchange) throws Exception {
         exchange.getIn().setHeader("fileEntryLatchOpened", false);
 
-        FileEntryWorkNote workNote = exchange.getIn().getBody(FileEntryWorkNote.class);
+        ResourceEntryWorkNote workNote = exchange.getIn().getBody(ResourceEntryWorkNote.class);
 
         String batchJobId = workNote.getBatchJobId();
         TenantContext.setJobId(batchJobId);
 
-        if (batchJobDAO.updateFileEntryLatch(workNote.getBatchJobId(), workNote.getFileEntry().getFileName())) {
+        NewBatchJob job = batchJobDAO.findBatchJobById(batchJobId);
+        ResourceEntry resourceEntry = job.getResourceEntry(workNote.getResourceId());
+
+        if (batchJobDAO.updateFileEntryLatch(workNote.getBatchJobId(), resourceEntry.getResourceName())) {
 
             exchange.getIn().setHeader("fileEntryLatchOpened", true);
             RangedWorkNote wn = RangedWorkNote.createSimpleWorkNote(batchJobId);

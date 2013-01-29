@@ -62,7 +62,7 @@ public interface Job {
      *
      * @return
      */
-    List<String> getFiles();
+    List<String> getResourceIds();
 
     /**
      * Return the tenantId for this job.

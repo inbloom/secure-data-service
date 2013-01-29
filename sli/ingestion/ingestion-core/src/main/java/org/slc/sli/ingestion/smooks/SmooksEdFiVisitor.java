@@ -23,27 +23,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.mongodb.MongoException;
+
 import org.milyn.container.ExecutionContext;
 import org.milyn.delivery.sax.SAXElement;
 import org.milyn.delivery.sax.SAXElementVisitor;
 import org.milyn.delivery.sax.SAXText;
 import org.milyn.delivery.sax.annotation.StreamResultWriter;
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.ResourceWriter;
-import org.slc.sli.ingestion.landingzone.AttributeType;
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.model.RecordHash;
-import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.ElementSource;
-import org.slc.sli.ingestion.reporting.ReportStats;
-import org.slc.sli.ingestion.reporting.Source;
-import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
-import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
-import org.slc.sli.ingestion.util.NeutralRecordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessResourceFailureException;
@@ -52,7 +38,21 @@ import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.data.mongodb.UncategorizedMongoDbException;
 import org.xml.sax.Locator;
 
-import com.mongodb.MongoException;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.ResourceWriter;
+import org.slc.sli.ingestion.landingzone.AttributeType;
+import org.slc.sli.ingestion.model.RecordHash;
+import org.slc.sli.ingestion.model.ResourceEntry;
+import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ElementSource;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
+import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
+import org.slc.sli.ingestion.util.NeutralRecordUtils;
 
 /**
  * Visitor that writes a neutral record or reports errors encountered.
@@ -75,7 +75,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLo
 
     private final String beanId;
     private final String batchJobId;
-    private final IngestionFileEntry fe;
+    private final ResourceEntry re;
     private Map<String, Integer> occurences;
     private Map<String, List<NeutralRecord>> queuedWrites;
     private int recordsPerisisted;
@@ -108,20 +108,20 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLo
     }
 
     private SmooksEdFiVisitor(String beanId, String batchJobId, AbstractMessageReport report,
-            ReportStats reportStats, IngestionFileEntry fe) {
+            ReportStats reportStats, ResourceEntry resourceEntry) {
         this.beanId = beanId;
         this.batchJobId = batchJobId;
         this.errorReport = report;
         this.reportStats = reportStats;
-        this.fe = fe;
+        this.re = resourceEntry;
         this.occurences = new HashMap<String, Integer>();
         this.recordsPerisisted = 0;
         this.queuedWrites = new HashMap<String, List<NeutralRecord>>();
     }
 
     public static SmooksEdFiVisitor createInstance(String beanId, String batchJobId, AbstractMessageReport report,
-            ReportStats reportStats, IngestionFileEntry fe) {
-        return new SmooksEdFiVisitor(beanId, batchJobId, report, reportStats, fe);
+            ReportStats reportStats, ResourceEntry resourceEntry) {
+        return new SmooksEdFiVisitor(beanId, batchJobId, report, reportStats, resourceEntry);
     }
 
     @Override
@@ -216,7 +216,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLo
     private NeutralRecord getProcessedNeutralRecord(ExecutionContext executionContext) {
         NeutralRecord neutralRecord = (NeutralRecord) executionContext.getBeanContext().getBean(beanId);
         neutralRecord.setBatchJobId(batchJobId);
-        neutralRecord.setSourceFile(fe == null ? "" : fe.getFileName());
+        neutralRecord.setSourceFile(re == null ? "" : re.getResourceName());
 
         if (this.occurences.containsKey(neutralRecord.getRecordType())) {
             int temp = this.occurences.get(neutralRecord.getRecordType()).intValue() + 1;
@@ -293,7 +293,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLo
     @Override
     public String getResourceId()
     {
-        return fe.getFileName();
+        return re.getResourceName();
     }
 
     @Override
@@ -313,7 +313,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLo
     {
         return currentElement.getName().getLocalPart();
     }
-    
+
     private SAXElement currentElement;
 
 }

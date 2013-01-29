@@ -70,7 +70,7 @@ public class BatchJobTest {
         // so we can verify its creationDate is accurate.
         Job job = BatchJob.createDefault();
 
-        ArrayList<String> files = (ArrayList<String>) job.getFiles();
+        ArrayList<String> files = (ArrayList<String>) job.getResourceIds();
         assertEquals(files.size(), 0);
 
         Job job2 = BatchJob.createDefault("TEST");

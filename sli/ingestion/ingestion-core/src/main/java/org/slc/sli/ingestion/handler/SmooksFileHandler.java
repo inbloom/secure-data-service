@@ -34,7 +34,7 @@ import org.xml.sax.SAXException;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FileProcessStatus;
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
@@ -51,7 +51,7 @@ import org.slc.sli.ingestion.smooks.SmooksEdFiVisitor;
  *
  */
 @Component
-public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEntry, FileProcessStatus> {
+public class SmooksFileHandler extends AbstractIngestionHandler<ResourceEntry, FileProcessStatus> {
 
     private static final Logger LOG = LoggerFactory.getLogger(SmooksFileHandler.class);
 
@@ -59,7 +59,7 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
     private SliSmooksFactory sliSmooksFactory;
 
     @Override
-    protected FileProcessStatus doHandling(IngestionFileEntry item, AbstractMessageReport report,
+    protected FileProcessStatus doHandling(ResourceEntry item, AbstractMessageReport report,
             ReportStats reportStats, FileProcessStatus fileProcessStatus) {
         Source source = new FileSource(item.getResourceId());
 
@@ -74,30 +74,30 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
         return fileProcessStatus;
     }
 
-    void generateNeutralRecord(IngestionFileEntry ingestionFileEntry, AbstractMessageReport errorReport,
+    void generateNeutralRecord(ResourceEntry resourceEntry, AbstractMessageReport errorReport,
             ReportStats reportStats, Source source, FileProcessStatus fileProcessStatus) throws IOException,
             SAXException {
 
         // Create instance of Smooks (with visitors already added).
-        SliSmooks smooks = sliSmooksFactory.createInstance(ingestionFileEntry, TenantContext.getJobId(), errorReport, reportStats);
+        SliSmooks smooks = sliSmooksFactory.createInstance(resourceEntry, TenantContext.getJobId(), errorReport, reportStats);
 
         InputStream inputStream = null;
 
         try {
-            inputStream = ingestionFileEntry.getFileStream();
+            inputStream = resourceEntry.getFileStream();
 
             // filter fileEntry inputStream, converting into NeutralRecord entries as we go
             smooks.filterSource(new StreamSource(inputStream));
-            populateRecordCountsFromSmooks(smooks, fileProcessStatus, ingestionFileEntry);
+            populateRecordCountsFromSmooks(smooks, fileProcessStatus, resourceEntry);
         } catch (SmooksException se) {
-            errorReport.error(reportStats, source, CoreMessageCode.CORE_0020, ingestionFileEntry.getFileName());
+            errorReport.error(reportStats, source, CoreMessageCode.CORE_0020, resourceEntry.getResourceName());
         } finally {
             IOUtils.closeQuietly(inputStream);
         }
     }
 
     private void populateRecordCountsFromSmooks(SliSmooks smooks, FileProcessStatus fileProcessStatus,
-            IngestionFileEntry ingestionFileEntry) {
+            ResourceEntry resourceEntry) {
 
         SmooksEdFiVisitor edFiVisitor = smooks.getSmooksEdFiVisitor();
 
@@ -108,13 +108,13 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
         fileProcessStatus.setDuplicateCounts(duplicateCounts);
 
         LOG.debug("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
-                ingestionFileEntry.getFileName());
+                resourceEntry.getResourceName());
     }
 
     @Override
-    protected List<FileProcessStatus> doHandling(List<IngestionFileEntry> items, AbstractMessageReport report,
+    protected List<FileProcessStatus> doHandling(List<ResourceEntry> items, AbstractMessageReport report,
             ReportStats reportStats, FileProcessStatus fileProcessStatus) {
-        // Blank instantiation of this (never-called) method.
+     // Blank instantiation of this (never-called) method.
         return null;
     }
 
@@ -122,4 +122,5 @@ public class SmooksFileHandler extends AbstractIngestionHandler<IngestionFileEnt
     public String getStageName() {
         return BatchJobStageType.EDFI_PROCESSOR.getName();
     }
+
 }

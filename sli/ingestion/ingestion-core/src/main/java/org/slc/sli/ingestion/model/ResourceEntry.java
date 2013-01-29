@@ -16,6 +16,15 @@
 
 package org.slc.sli.ingestion.model;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.apache.commons.io.FileUtils;
+
+import org.slc.sli.ingestion.landingzone.ZipFileUtil;
+
 /**
  * Model for ingestion file entries
  *
@@ -64,6 +73,15 @@ public final class ResourceEntry {
         this.errorCount = errorCount;
 
         this.valid = true;
+    }
+
+    public InputStream getFileStream() throws IOException {
+        File parentFile = new File(getExternallyUploadedResourceId());
+        if (parentFile.isDirectory()) {
+            return new BufferedInputStream(FileUtils.openInputStream(new File(parentFile, getResourceName())));
+        } else {
+            return ZipFileUtil.getInputStreamForFile(parentFile, getResourceName());
+        }
     }
 
     public String getResourceId() {

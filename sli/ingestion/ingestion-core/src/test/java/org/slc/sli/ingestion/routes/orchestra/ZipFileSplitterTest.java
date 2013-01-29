@@ -27,7 +27,7 @@ import org.mockito.Matchers;
 import org.mockito.Mockito;
 
 import org.slc.sli.ingestion.ControlFileWorkNote;
-import org.slc.sli.ingestion.FileEntryWorkNote;
+import org.slc.sli.ingestion.ResourceEntryWorkNote;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordAccess;
 import org.slc.sli.ingestion.landingzone.ControlFile;
@@ -67,11 +67,11 @@ public class ZipFileSplitterTest {
         Mockito.doCallRealMethod().when(zipFileSplitter).setNeutralRecordMongoAccess(neutralRecordMongoAccess);
         Mockito.when(batchJobDAO.createFileLatch(Matchers.anyString(), Matchers.any(List.class))).thenReturn(true);
         Mockito.when(batchJobDAO.findBatchJobById(Matchers.anyString())).thenReturn(newBatchJob);
-        Mockito.when(newBatchJob.getFiles()).thenReturn(files);
+        Mockito.when(newBatchJob.getResourceIds()).thenReturn(files);
 
         zipFileSplitter.setBatchJobDAO(batchJobDAO);
         zipFileSplitter.setNeutralRecordMongoAccess(neutralRecordMongoAccess);
-        List<FileEntryWorkNote> res = zipFileSplitter.splitZipFile(exchange);
+        List<ResourceEntryWorkNote> res = zipFileSplitter.splitZipFile(exchange);
 
         Mockito.verify(neutralRecordMongoAccess, Mockito.times(1)).ensureIndexes();
 

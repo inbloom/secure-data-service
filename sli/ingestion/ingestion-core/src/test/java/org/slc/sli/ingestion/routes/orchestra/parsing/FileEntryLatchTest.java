@@ -28,7 +28,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
-import org.slc.sli.ingestion.FileEntryWorkNote;
+import org.slc.sli.ingestion.ResourceEntryWorkNote;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
@@ -58,9 +58,9 @@ public class FileEntryLatchTest {
     public void testReceive() throws Exception {
         Exchange exchange =  new DefaultExchange(new DefaultCamelContext());
         IngestionFileEntry entry = new IngestionFileEntry("/", FileFormat.EDFI_XML, FileType.XML_STUDENT_PROGRAM, "fileName", "111");
-        FileEntryWorkNote workNote = new FileEntryWorkNote("batchJobId", "SLI", entry, false);
+        ResourceEntryWorkNote workNote = new ResourceEntryWorkNote("batchJobId", "SLI", entry, false);
 
-        exchange.getIn().setBody(workNote, FileEntryWorkNote.class);
+        exchange.getIn().setBody(workNote, ResourceEntryWorkNote.class);
 
         fileEntryLatch.receive(exchange);
 

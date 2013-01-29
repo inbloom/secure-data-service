@@ -22,19 +22,19 @@ import java.io.Serializable;
  * @author ablum
  *
  */
-public class FileEntryWorkNote extends WorkNote implements Serializable {
+public class ResourceEntryWorkNote extends WorkNote implements Serializable {
     private static final long serialVersionUID = 638837959304251101L;
 
-    private final String fileEntry;
+    private final String resourceId;
 
-    public FileEntryWorkNote(String batchJobId, String tenantId, String fileEntry, boolean hasErrors) {
+    public ResourceEntryWorkNote(String batchJobId, String tenantId, String resourceId, boolean hasErrors) {
         super(batchJobId, tenantId, hasErrors);
 
-        this.fileEntry = fileEntry;
+        this.resourceId = resourceId;
     }
 
-    public String getFileEntry() {
-        return fileEntry;
+    public String getResourceId() {
+        return resourceId;
     }
 
     /**
@@ -44,7 +44,7 @@ public class FileEntryWorkNote extends WorkNote implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = super.hashCode();
-        result = prime * result + ((fileEntry == null) ? 0 : fileEntry.hashCode());
+        result = prime * result + ((resourceId == null) ? 0 : resourceId.hashCode());
         return result;
     }
 
@@ -62,12 +62,12 @@ public class FileEntryWorkNote extends WorkNote implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        FileEntryWorkNote other = (FileEntryWorkNote) obj;
-        if (fileEntry == null) {
-            if (other.fileEntry != null) {
+        ResourceEntryWorkNote other = (ResourceEntryWorkNote) obj;
+        if (resourceId == null) {
+            if (other.resourceId != null) {
                 return false;
             }
-        } else if (!fileEntry.equals(other.fileEntry)) {
+        } else if (!resourceId.equals(other.resourceId)) {
             return false;
         }
         return true;
@@ -78,7 +78,7 @@ public class FileEntryWorkNote extends WorkNote implements Serializable {
      */
     @Override
     public String toString() {
-        return "FileEntryWorkNote [fileEntry=" + fileEntry + "]";
+        return "FileEntryWorkNote [fileEntry=" + resourceId + "]";
     }
 
 

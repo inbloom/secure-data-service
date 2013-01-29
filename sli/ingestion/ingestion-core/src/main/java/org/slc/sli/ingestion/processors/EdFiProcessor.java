@@ -17,7 +17,6 @@
 package org.slc.sli.ingestion.processors;
 
 import java.io.FileNotFoundException;
-import java.util.List;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
@@ -28,12 +27,10 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.FileEntryWorkNote;
-import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileProcessStatus;
+import org.slc.sli.ingestion.ResourceEntryWorkNote;
 import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.landingzone.AttributeType;
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.RecordHash;
@@ -68,7 +65,7 @@ public class EdFiProcessor implements Processor {
 
     private static final Logger LOG = LoggerFactory.getLogger(EdFiProcessor.class);
 
-    private AbstractIngestionHandler<IngestionFileEntry, FileProcessStatus> smooksFileHandler;
+    private AbstractIngestionHandler<ResourceEntry, FileProcessStatus> smooksFileHandler;
 
     @Autowired
     private BatchJobDAO batchJobDAO;
@@ -78,7 +75,7 @@ public class EdFiProcessor implements Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
-        FileEntryWorkNote feWorkNote = exchange.getIn().getBody(FileEntryWorkNote.class);
+        ResourceEntryWorkNote feWorkNote = exchange.getIn().getBody(ResourceEntryWorkNote.class);
         if (feWorkNote == null) {
             handleNoBatchJobIdInExchange(exchange);
         } else {
@@ -86,7 +83,7 @@ public class EdFiProcessor implements Processor {
         }
     }
 
-    private void processEdFi(Exchange exchange, FileEntryWorkNote feWorkNote) {
+    private void processEdFi(Exchange exchange, ResourceEntryWorkNote feWorkNote) {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
 
         NewBatchJob newJob = null;
@@ -96,9 +93,9 @@ public class EdFiProcessor implements Processor {
 
             String tenantId = initTenantContext(newJob);
 
-            IngestionFileEntry fe = getIngestionFileEntry(feWorkNote, newJob);
+            ResourceEntry re = getResourceEntry(feWorkNote, newJob);
 
-            Metrics metrics = Metrics.newInstance(fe.getFileName());
+            Metrics metrics = Metrics.newInstance(re.getResourceName());
             stage.addMetrics(metrics);
 
             potentiallyRemoveRecordHash(tenantId);
@@ -106,9 +103,9 @@ public class EdFiProcessor implements Processor {
             ReportStats rs = new SimpleReportStats();
 
             // Convert XML file to neutral records, and stage.
-            FileProcessStatus fileProcessStatus = smooksFileHandler.handle(fe, databaseMessageReport, rs);
+            FileProcessStatus fileProcessStatus = smooksFileHandler.handle(re, databaseMessageReport, rs);
 
-            processMetrics(metrics, fe, fileProcessStatus, rs);
+            processMetrics(metrics, fileProcessStatus, rs);
 
             setExchangeHeaders(exchange, rs.hasErrors());
         } catch (Exception exception) {
@@ -121,14 +118,11 @@ public class EdFiProcessor implements Processor {
         }
     }
 
-    private IngestionFileEntry getIngestionFileEntry(FileEntryWorkNote feWorkNote, NewBatchJob newJob)
+    private ResourceEntry getResourceEntry(ResourceEntryWorkNote reWorkNote, NewBatchJob job)
             throws FileNotFoundException {
-        IngestionFileEntry fe = feWorkNote.getFileEntry();
-        if (!isJobResource(fe, newJob)) {
-            throw new FileNotFoundException("No match for file " + fe.getFileName() + " in batch job "
-                    + newJob.getId());
-        }
-        return fe;
+        String resourceId = reWorkNote.getResourceId();
+        ResourceEntry re = job.getResourceEntry(resourceId);
+        return re;
     }
 
     private void potentiallyRemoveRecordHash(String tenantId) {
@@ -150,20 +144,8 @@ public class EdFiProcessor implements Processor {
         return tenantId;
     }
 
-    private boolean isJobResource(IngestionFileEntry fe, NewBatchJob newJob) {
-        List<ResourceEntry> resourceList = newJob.getResourceEntries();
-        for (ResourceEntry resource : resourceList) {
-            if (FileFormat.EDFI_XML.getCode().equalsIgnoreCase(resource.getResourceFormat())) {
-                String fileName = resource.getResourceId();
-                if (fe.getFileName().equals(fileName)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
 
-    private void processMetrics(Metrics metrics, IngestionFileEntry fe, FileProcessStatus fileProcessStatus,
+    private void processMetrics(Metrics metrics, FileProcessStatus fileProcessStatus,
             ReportStats rs) {
         metrics.setDuplicateCounts(fileProcessStatus.getDuplicateCounts());
         metrics.setRecordCount(fileProcessStatus.getTotalRecordCount());
@@ -196,7 +178,7 @@ public class EdFiProcessor implements Processor {
         LOG.error("No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 
-    public void setSmooksFileHandler(AbstractIngestionHandler<IngestionFileEntry, FileProcessStatus> smooksFileHandler) {
+    public void setSmooksFileHandler(AbstractIngestionHandler<ResourceEntry, FileProcessStatus> smooksFileHandler) {
         this.smooksFileHandler = smooksFileHandler;
     }
 

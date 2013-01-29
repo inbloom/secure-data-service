@@ -22,7 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.ingestion.FileProcessStatus;
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 
@@ -30,21 +30,21 @@ import org.slc.sli.ingestion.reporting.ReportStats;
  * @author tshewchuk
  *
  */
-public class XmlFileHandler extends AbstractIngestionHandler<IngestionFileEntry, IngestionFileEntry> {
+public class XmlFileHandler extends AbstractIngestionHandler<ResourceEntry, ResourceEntry> {
 
     public static final Logger LOG = LoggerFactory.getLogger(XmlFileHandler.class);
     private static final String STAGE_NAME = "XML File Processing";
 
     @Override
-    protected IngestionFileEntry doHandling(IngestionFileEntry fileEntry, AbstractMessageReport report,
+    protected ResourceEntry doHandling(ResourceEntry resourceEntry, AbstractMessageReport report,
             ReportStats reportStats, FileProcessStatus fileProcessStatus) {
         // We don't really do any handling here. This is just a placeholder for the XML file
         // validators.
-        return fileEntry;
+        return resourceEntry;
     }
 
     @Override
-    protected List<IngestionFileEntry> doHandling(List<IngestionFileEntry> items, AbstractMessageReport report,
+    protected List<ResourceEntry> doHandling(List<ResourceEntry> items, AbstractMessageReport report,
             ReportStats reportStats, FileProcessStatus fileProcessStatus) {
         // Blank instantiation of this (never-called) method.
         return null;

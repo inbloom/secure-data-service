@@ -20,7 +20,6 @@ import java.util.List;
 
 import org.slc.sli.ingestion.BatchJobStage;
 import org.slc.sli.ingestion.FileProcessStatus;
-import org.slc.sli.ingestion.Resource;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.impl.JobSource;
@@ -34,7 +33,7 @@ import org.slc.sli.ingestion.validation.Validator;
  * @param <T>
  * @param <O>
  */
-public abstract class AbstractIngestionHandler<T extends Resource, O> implements Handler<T, O>, BatchJobStage {
+public abstract class AbstractIngestionHandler<T, O> implements Handler<T, O>, BatchJobStage {
 
     List<? extends Validator<T>> preValidators;
 
@@ -50,7 +49,7 @@ public abstract class AbstractIngestionHandler<T extends Resource, O> implements
         if (preValidators != null) {
             for (Validator<T> validator : preValidators) {
                 validator.isValid(item, report, reportStats,
-                        new JobSource(item.getResourceId()));
+                        new JobSource(((JobSource) item).getResourceId()));
             }
         }
     }
@@ -59,7 +58,7 @@ public abstract class AbstractIngestionHandler<T extends Resource, O> implements
         if (postValidators != null) {
             for (Validator<T> validator : postValidators) {
                 validator.isValid(item, report, reportStats,
-                        new JobSource(item.getResourceId()));
+                        new JobSource(((JobSource) item).getResourceId()));
             }
         }
     }

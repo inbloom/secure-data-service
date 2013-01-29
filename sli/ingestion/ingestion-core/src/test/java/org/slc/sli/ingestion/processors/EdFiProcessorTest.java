@@ -42,7 +42,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.ingestion.FileEntryWorkNote;
+import org.slc.sli.ingestion.ResourceEntryWorkNote;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.FileType;
@@ -109,7 +109,7 @@ public class EdFiProcessorTest {
         IngestionFileEntry inputFileEntry = new IngestionFileEntry(zipFile.getAbsolutePath(), FileFormat.EDFI_XML,
                 FileType.XML_STUDENT_PARENT_ASSOCIATION, inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setBatchJobId(batchJobId);
-        FileEntryWorkNote fileEntryWorkNote = new FileEntryWorkNote(batchJobId, batchJobId, inputFileEntry, false);
+        ResourceEntryWorkNote fileEntryWorkNote = new ResourceEntryWorkNote(batchJobId, batchJobId, inputFileEntry, false);
         Mockito.when(
                 smooksFileHandler.handle(Matchers.eq(inputFileEntry), Matchers.any(AbstractMessageReport.class),
                         Matchers.any(SimpleReportStats.class))).thenReturn(new FileProcessStatus());
@@ -154,7 +154,7 @@ public class EdFiProcessorTest {
         IngestionFileEntry inputFileEntry = new IngestionFileEntry(zipFile.getAbsolutePath(), FileFormat.EDFI_XML,
                 FileType.XML_STUDENT_PARENT_ASSOCIATION, noSuchFile.getName(), MD5.calculate(noSuchFile));
         inputFileEntry.setBatchJobId(batchJobId);
-        FileEntryWorkNote fileEntryWorkNote = new FileEntryWorkNote(batchJobId, batchJobId, inputFileEntry, false);
+        ResourceEntryWorkNote fileEntryWorkNote = new ResourceEntryWorkNote(batchJobId, batchJobId, inputFileEntry, false);
 
         Mockito.when(
                 smooksFileHandler.handle(Matchers.eq(inputFileEntry), Matchers.any(AbstractMessageReport.class),

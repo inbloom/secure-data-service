@@ -25,7 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.ingestion.FileEntryWorkNote;
+import org.slc.sli.ingestion.ResourceEntryWorkNote;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordAccess;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -48,9 +48,9 @@ public class ZipFileSplitter {
     @Autowired
     private NeutralRecordAccess neutralRecordMongoAccess;
 
-    public List<FileEntryWorkNote> splitZipFile(Exchange exchange) {
+    public List<ResourceEntryWorkNote> splitZipFile(Exchange exchange) {
         String jobId = null;
-        List<FileEntryWorkNote> fileEntryWorkNotes = null;
+        List<ResourceEntryWorkNote> resourceEntryWorkNotes = null;
 
         WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
         jobId = workNote.getBatchJobId();
@@ -61,10 +61,10 @@ public class ZipFileSplitter {
         indexStagingDB();
 
         NewBatchJob newBatchJob = batchJobDAO.findBatchJobById(jobId);
-        List<String> fileEntries = newBatchJob.getFiles();
-        fileEntryWorkNotes = createWorkNotes(jobId, fileEntries, workNote.hasErrors());
+        List<String> resourceIds = newBatchJob.getResourceIds();
+        resourceEntryWorkNotes = createWorkNotes(jobId, resourceIds, workNote.hasErrors());
 
-        return fileEntryWorkNotes;
+        return resourceEntryWorkNotes;
     }
 
     /**
@@ -72,13 +72,13 @@ public class ZipFileSplitter {
      * @param zipFile
      * @return
      */
-    private List<FileEntryWorkNote> createWorkNotes (String jobId, List<String> fileEntries, boolean hasErrors) {
-        List<FileEntryWorkNote> fileEntryWorkNotes = new ArrayList<FileEntryWorkNote>();
+    private List<ResourceEntryWorkNote> createWorkNotes (String jobId, List<String> fileEntries, boolean hasErrors) {
+        List<ResourceEntryWorkNote> fileEntryWorkNotes = new ArrayList<ResourceEntryWorkNote>();
         List<String> fileNames = new ArrayList<String>();
 
         for (String fileEntry : fileEntries) {
             fileNames.add(fileEntry);
-            fileEntryWorkNotes.add(new FileEntryWorkNote(jobId, "SLI", fileEntry, hasErrors));
+            fileEntryWorkNotes.add(new ResourceEntryWorkNote(jobId, "SLI", fileEntry, hasErrors));
         }
 
         batchJobDAO.createFileLatch(jobId, fileNames);

@@ -117,8 +117,8 @@ public final class BatchJob implements Serializable, Job {
      * @see org.slc.sli.ingestion.Job#getFiles()
      */
     @Override
-    public List<IngestionFileEntry> getFiles() {
-        return files;
+    public List<String> getResourceIds() {
+        return null;
     }
 
     /**

@@ -33,9 +33,9 @@ import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.handler.XmlFileHandler;
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
@@ -57,17 +57,17 @@ public class SmooksCallable implements Callable<Boolean> {
 
     private final NewBatchJob job;
     private final XmlFileHandler handler;
-    private final IngestionFileEntry fe;
+    private final ResourceEntry re;
     private final Stage stage;
     private final AbstractMessageReport messageReport;
     private final ReportStats reportStats;
 
-    public SmooksCallable(NewBatchJob job, XmlFileHandler handler, IngestionFileEntry fe,
+    public SmooksCallable(NewBatchJob job, XmlFileHandler handler, ResourceEntry re,
             AbstractMessageReport messageReport, ReportStats reportStats,
             Stage stage, SliSmooksFactory sliSmooksFactory) {
         this.job = job;
         this.handler = handler;
-        this.fe = fe;
+        this.re = re;
         this.stage = stage;
         this.messageReport = messageReport;
         this.reportStats = reportStats;
@@ -84,8 +84,8 @@ public class SmooksCallable implements Callable<Boolean> {
         TenantContext.setTenantId(job.getTenantId());
         TenantContext.setBatchProperties(job.getBatchProperties());
 
-        LOG.info("Starting SmooksCallable for: " + fe.getFileName());
-        Metrics metrics = Metrics.newInstance(fe.getFileName());
+        LOG.info("Starting SmooksCallable for: " + re.getResourceName());
+        Metrics metrics = Metrics.newInstance(re.getResourceName());
         stage.addMetrics(metrics);
 
         FileProcessStatus fileProcessStatus = new FileProcessStatus();
@@ -95,7 +95,7 @@ public class SmooksCallable implements Callable<Boolean> {
 
         processMetrics(metrics, fileProcessStatus);
 
-        LOG.info("Finished SmooksCallable for: " + fe.getFileName());
+        LOG.info("Finished SmooksCallable for: " + re.getResourceName());
 
         TenantContext.setJobId(null);
         TenantContext.setTenantId(null);
@@ -105,14 +105,14 @@ public class SmooksCallable implements Callable<Boolean> {
 
     public void processFileEntry(FileProcessStatus fileProcessStatus) {
 
-        if (fe.getFileType() != null) {
-            FileFormat fileFormat = fe.getFileType().getFileFormat();
+        if (re.getResourceType() != null) {
+            FileFormat fileFormat = FileFormat.findByCode(re.getResourceFormat());
             if (fileFormat == FileFormat.EDFI_XML) {
 
                 doHandling(fileProcessStatus);
 
             } else {
-                throw new IllegalArgumentException("Unsupported file format: " + fe.getFileType().getFileFormat());
+                throw new IllegalArgumentException("Unsupported file format: " + FileFormat.findByCode(re.getResourceFormat()));
             }
         } else {
             throw new IllegalArgumentException("FileType was not provided.");
@@ -122,7 +122,7 @@ public class SmooksCallable implements Callable<Boolean> {
     private void doHandling(FileProcessStatus fileProcessStatus) {
         try {
 
-            handler.handle(fe, messageReport, reportStats);
+            handler.handle(re, messageReport, reportStats);
 
             if (!reportStats.hasErrors()) {
                 generateNeutralRecord(fileProcessStatus);
@@ -132,10 +132,10 @@ public class SmooksCallable implements Callable<Boolean> {
             LogUtil.error(LOG,
                     "Error generating neutral record: Could not instantiate smooks, unable to read configuration file",
                     e);
-            messageReport.error(reportStats, new FileSource(fe.getResourceId()), CoreMessageCode.CORE_0053);
+            messageReport.error(reportStats, new FileSource(re.getResourceId()), CoreMessageCode.CORE_0053);
         } catch (SAXException e) {
             LogUtil.error(LOG, "Could not instantiate smooks, problem parsing configuration file", e);
-            messageReport.error(reportStats, new FileSource(fe.getResourceId()), CoreMessageCode.CORE_0054);
+            messageReport.error(reportStats, new FileSource(re.getResourceId()), CoreMessageCode.CORE_0054);
         }
     }
 
@@ -144,22 +144,22 @@ public class SmooksCallable implements Callable<Boolean> {
         InputStream zais = null;
 
         try {
-            zais = fe.getFileStream();
+            zais = re.getFileStream();
 
             // create instance of Smooks (with visitors already added)
             String jobId = TenantContext.getJobId();
-            SliSmooks smooks = sliSmooksFactory.createInstance(fe, jobId,messageReport, reportStats);
+            SliSmooks smooks = sliSmooksFactory.createInstance(re, jobId,messageReport, reportStats);
 
             try {
                 // filter fileEntry inputStream, converting into NeutralRecord entries as we go
                 smooks.filterSource(new StreamSource(zais));
 
-                populateRecordCountsFromSmooks(smooks, fileProcessStatus, fe);
+                populateRecordCountsFromSmooks(smooks, fileProcessStatus, re);
 
             } catch (SmooksException se) {
-                LogUtil.error(LOG, "smooks exception - encountered problem with " + fe.getFileName(), se);
-                messageReport.error(reportStats, new FileSource(fe.getResourceId()), CoreMessageCode.CORE_0055,
-                        fe.getFileName());
+                LogUtil.error(LOG, "smooks exception - encountered problem with " + re.getResourceName(), se);
+                messageReport.error(reportStats, new FileSource(re.getResourceId()), CoreMessageCode.CORE_0055,
+                        re.getResourceName());
             }
         } finally {
             IOUtils.closeQuietly(zais);
@@ -167,7 +167,7 @@ public class SmooksCallable implements Callable<Boolean> {
     }
 
     private void populateRecordCountsFromSmooks(SliSmooks smooks, FileProcessStatus fileProcessStatus,
-            IngestionFileEntry ingestionFileEntry) {
+            ResourceEntry re2) {
 
         SmooksEdFiVisitor edFiVisitor = smooks.getSmooksEdFiVisitor();
 
@@ -178,7 +178,7 @@ public class SmooksCallable implements Callable<Boolean> {
         fileProcessStatus.setDuplicateCounts(duplicateCounts);
 
         LOG.debug("Parsed and persisted {} records to staging db from file: {}.", recordsPersisted,
-                ingestionFileEntry.getFileName());
+                re2.getResourceName());
     }
 
     private void processMetrics(Metrics metrics, FileProcessStatus fileProcessStatus) {
