@@ -355,8 +355,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to ControlFileProcessor.").process(ctlFileProcessor)
                 .to("direct:assembledJobs")
 
-                .when()
-                .method(batchJobManager, "isPurge")
+                .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.PURGE.name()))
                 .log(LoggingLevel.INFO, "CamelRouting", "Purge command. Routing to PurgeProcessor.")
                 .process(purgeProcessor).to("direct:stop")
 
