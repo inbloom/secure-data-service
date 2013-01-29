@@ -29,14 +29,7 @@ end
 
 Then /^a security event matching "([^"]*)" should be in the sli db$/ do |securityeventpattern|
   disable_NOTABLESCAN()
-  coll = securityEventCollection()
-  
-  STDOUT.puts("Matching on " + securityeventpattern) if ENV['DEBUG']
-  secEventCount = coll.find({"body.logMessage" => /#{securityeventpattern}/}).count()
-  STDOUT.puts("Found #{secEventCount} matching security events out of " + coll.count().to_s) if ENV['DEBUG']
-  STDOUT.puts("Find one security event ") if ENV['DEBUG']
-  STDOUT.puts coll.find_one({"body.logMessage" => /#{securityeventpattern}/}).to_s if ENV['DEBUG']
-#  STDOUT.puts coll.find({"body.logMessage" => /#{securityeventpattern}/}).to_a if ENV['DEBUG']
+  secEventCount = getMatchingSecEvents(securityeventpattern);
   enable_NOTABLESCAN()
   assert(secEventCount > 0, "No security events were found with logMessage matching " + securityeventpattern)
 end
@@ -46,3 +39,22 @@ def securityEventCollection
   coll ||= db.collection('securityEvent')
   return coll
 end
+
+def getMatchingSecEvents(securityeventpattern)
+    retryCount = 3;
+    securityEventCount = 0;
+    while retryCount > 0 do
+        coll = securityEventCollection()
+        retryCount = retryCount - 1
+        secEventCount = coll.find({"body.logMessage" => /#{securityeventpattern}/}).count()
+        break if secEventCount > 0
+        sleep (10)
+    end
+    puts "SecEvent retries left [" + retryCount.to_s + "]"
+    return secEventCount
+end
+
+
+
+
+
