@@ -38,6 +38,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.RangedWorkNote;
+import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 import org.slc.sli.ingestion.queues.MessageType;
 
@@ -68,8 +69,11 @@ public class WorkNoteSplitterTest {
     public void testSplitTransformationWorkNotes() {
         Exchange exchange = Mockito.mock(Exchange.class);
         Message message = Mockito.mock(Message.class);
+        WorkNote workNote = Mockito.mock(WorkNote.class);
+
+        Mockito.when(workNote.getBatchJobId()).thenReturn("1");
         Mockito.when(exchange.getIn()).thenReturn(message);
-        Mockito.when(message.getHeader("jobId")).thenReturn("1");
+        Mockito.when(message.getBody(WorkNote.class)).thenReturn(workNote);
 
         Set<IngestionStagedEntity> set = new HashSet<IngestionStagedEntity>();
         set.add(IngestionStagedEntity.createFromRecordType("student"));
@@ -91,8 +95,11 @@ public class WorkNoteSplitterTest {
     public void testIllegalStateException() {
         Exchange exchange = Mockito.mock(Exchange.class);
         Message message = Mockito.mock(Message.class);
+        WorkNote workNote = Mockito.mock(WorkNote.class);
+
+        Mockito.when(workNote.getBatchJobId()).thenReturn("1");
         Mockito.when(exchange.getIn()).thenReturn(message);
-        Mockito.when(message.getHeader("jobId")).thenReturn("1");
+        Mockito.when(message.getBody(WorkNote.class)).thenReturn(workNote);
 
         Set<IngestionStagedEntity> set = new HashSet<IngestionStagedEntity>();
         Mockito.when(mockBatchJobMongoDA.getStagedEntitiesForJob("1")).thenReturn(set);
@@ -105,12 +112,18 @@ public class WorkNoteSplitterTest {
 
         Exchange exchange = Mockito.mock(Exchange.class);
         Message message = Mockito.mock(Message.class);
+        WorkNote workNote = Mockito.mock(WorkNote.class);
+
         Mockito.when(exchange.getIn()).thenReturn(message);
+        Mockito.when(workNote.getBatchJobId()).thenReturn("1");
+        Mockito.when(message.getBody(WorkNote.class)).thenReturn(workNote);
+
         Mockito.when(message.getHeader("IngestionMessageType")).thenReturn(MessageType.PERSIST_REQUEST.name());
 
         Mockito.when(message.getBody(RangedWorkNote.class)).thenReturn(RangedWorkNote.createBatchedWorkNote("", IngestionStagedEntity.createFromRecordType("student"), 0, 0, 0, 0));
 
-        Mockito.when(message.getHeader("jobId")).thenReturn("1");
+
+
 
         List<RangedWorkNote> list = new ArrayList<RangedWorkNote>();
         list.add(RangedWorkNote.createBatchedWorkNote("", IngestionStagedEntity.createFromRecordType("student"), 0, 0, 0, 0));

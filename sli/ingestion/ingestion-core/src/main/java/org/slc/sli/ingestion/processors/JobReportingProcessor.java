@@ -440,7 +440,7 @@ public class JobReportingProcessor implements Processor {
 
     private void missingBatchJobIdError(Exchange exchange) {
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        LOG.error("No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+        LOG.error("No BatchJobId specified in " + this.getClass().getName() + " exchange message.");
     }
 
     private void writeInfoLine(PrintWriter jobReportWriter, String string) {
