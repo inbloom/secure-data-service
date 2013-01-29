@@ -212,14 +212,8 @@ getJsonData = () ->
     if !groupName
       groupName = $(@).find(ROLE_COL).find(".groupTitle").val()
 
-    roles = []
-    $(@).find(ROLE_COL).find(".customLabel").each ->
-      roles.push($(@).text())
-    rights = []
-    $(@).find(RIGHT_COL).find(".customLabel").each ->
-      rights.push($(@).text())
     isAdminRole = $(@).find(".isAdmin").prop("checked")
-    data.push({"groupTitle": groupName, "names": roles, "rights": rights, "isAdminRole": isAdminRole})
+    data.push({"groupTitle": groupName, "names": getRoles($(@)), "rights": getRights($(@)), "selfRights": getSelfRights($(@)), "isAdminRole": isAdminRole})
   return data
 
 getRights = (tr) ->
@@ -250,6 +244,7 @@ getAllRoles = () ->
 populateTable = (data) ->
   $("#custom_roles tbody").children().remove()
   for role in data
+    console.log(role)
     newRow = $("<tr><td><div></div></td><td></td><td></td><td></td><td></td></tr>")
     $("#custom_roles tbody").append(newRow)
 
@@ -264,6 +259,10 @@ populateTable = (data) ->
       newRow.find(RIGHT_COL).append(createLabel('right', right))
       newRow.find(RIGHT_COL).append(" ")
 
+    if (role.selfRights != null)
+      for selfRight in role.selfRights
+        newRow.find(SELF_RIGHT_COL).append(createLabel('right', right))
+        newRow.find(SELF_RIGHT_COL).append(" ")
 
     newRow.find(ADMIN_COL).append("<input type='checkbox' class='isAdmin' disabled='true'>")
     if (role.isAdminRole)

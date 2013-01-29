@@ -69,7 +69,7 @@
                 </xs:simpleType>
             </xs:element>
             
-            <xs:element name="selfRights" minOccurs="1" maxOccurs="unbounded">
+            <xs:element name="selfRights" minOccurs="0" maxOccurs="unbounded">
             	<xs:annotation>
                     <xs:documentation>
                     	A right to the user's own info.
