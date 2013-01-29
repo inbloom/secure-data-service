@@ -3,32 +3,54 @@
 PRG="$0"
 PRGDIR=`dirname "$PRG"`
 ROOT="$PRGDIR/.."
-DEFAULT_CHECK_SLI_CONF="$ROOT/../config/properties/sli.properties"
-DEFAULT_CHECK_KEYSTORE="$ROOT/../data-access/dal/keyStore/ciKeyStore.jks"
-DEFAULT_SEARCH_INDEXER_JAR="$ROOT/target/search-indexer-1.0-SNAPSHOT.jar"
-DEFAULT_MAX_MEMORY="1024m"
-DEFAULT_MIN_MEMORY="1024m"
-DEFAULT_REMOTE_COMMAND_PORT=10024
 
-SEARCH_INDEXER_OPT=""
-SEARCH_INDEXER_COMMAND_OPTIONS=""
+INDEXER_CONFIG="/etc/sysconfig/search-indexer"
 
-CHECK_SLI_CONF=0
-CHECK_KEYSTORE=0
-CHECK_SEARCH_INDEXER_TAR=0
 
-RUN_EXTRACT=0
-RUN_HELP=0
-RUN_STOP=0
-RUN_START=0
+# search indexer requires the following environment settings, it is recommended that the following settings be
+# stored in an external file such as "/etc/sysconfig/search-indexer" or any file specified by the indexerConfig 
+# setting.  If the file designated by the indexerConfig setting is present, the values in that file will be used
+# instead of the values designated here, as default.  It is important the if the indexerConfig file does exist, it 
+# must define all of the values below.
+function configure {
 
-REMOTE_COMMAND_PORT=0
+	CONFIG_SETTING="default"     # determine if custom settings are used as opposed to default
 
-SLI_CONF="sli.conf"
-SLI_ENCRYPTION_KEYSTORE="sli.encryption.keyStore"
+	if  [ -f ${INDEXER_CONFIG} ]
+	then
+		echo "Using custom environment settings."
+		. ${INDEXER_CONFIG}
+		CONFIG_SETTING="custom"     # determine if custom settings are used as opposed to default
+	else
+		echo "Using default environment settings."
+		DEFAULT_CHECK_SLI_CONF="$ROOT/../config/properties/sli.properties"
+		DEFAULT_CHECK_KEYSTORE="$ROOT/../data-access/dal/keyStore/ciKeyStore.jks"
+		DEFAULT_SEARCH_INDEXER_JAR="$ROOT/target/search-indexer-1.0-SNAPSHOT.jar"
+		DEFAULT_MAX_MEMORY="1024m"
+		DEFAULT_MIN_MEMORY="1024m"
+		DEFAULT_REMOTE_COMMAND_PORT=10024
 
-SEARCH_INDEXER_LOG="search-indexer.log"
+		SEARCH_INDEXER_OPT=""
+		SEARCH_INDEXER_COMMAND_OPTIONS=""
 
+		CHECK_SLI_CONF=0
+		CHECK_KEYSTORE=0
+		CHECK_SEARCH_INDEXER_TAR=0
+
+		RUN_EXTRACT=0
+		RUN_HELP=0
+		RUN_STOP=0
+		RUN_START=0
+
+		REMOTE_COMMAND_PORT=0
+
+		SLI_CONF="sli.conf"
+		SLI_ENCRYPTION_KEYSTORE="sli.encryption.keyStore"
+
+		SEARCH_INDEXER_LOG="search-indexer.log"
+
+	fi
+}
 
 function readOption {
    if [ ${1:0:2} == "-D" ]; then
@@ -86,7 +108,7 @@ function isJavaReady {
       if [ ${CHECK_SLI_CONF} == 0 ]; then
          CHECK_SLI_CONF=${DEFAULT_CHECK_SLI_CONF}
       fi
-      echo "Reading default ${SLI_CONF} [${DEFAULT_CHECK_SLI_CONF}]"
+      echo "Reading ${CONFIG_SETTING} ${SLI_CONF} [${DEFAULT_CHECK_SLI_CONF}]"
       if [ ! -f ${CHECK_SLI_CONF} ]; then
          echo "File does not exit '${CHECK_SLI_CONF}'"
          return 0
@@ -100,11 +122,11 @@ function isJavaReady {
       if [ ${CHECK_SLI_CONF} == 0 ]; then
          CHECK_SLI_CONF=${DEFAULT_CHECK_SLI_CONF}
       fi
-      echo "Reading default ${SLI_CONF} [${DEFAULT_CHECK_SLI_CONF}]"
+      echo "Reading ${CONFIG_SETTING} ${SLI_CONF} [${DEFAULT_CHECK_SLI_CONF}]"
       if [ ${CHECK_KEYSTORE} == 0 ]; then
          CHECK_KEYSTORE=${DEFAULT_CHECK_KEYSTORE}
       fi
-      echo "Reading default keyStore [${DEFAULT_CHECK_KEYSTORE}]"
+      echo "Reading ${CONFIG_SETTING} keyStore [${DEFAULT_CHECK_KEYSTORE}]"
       for FILE_LOCATION in "${CHECK_SLI_CONF}" "${CHECK_KEYSTORE}"
       do
          if [ ! -f ${FILE_LOCATION} ]; then
@@ -216,6 +238,7 @@ function run {
 #############
 # MAIN
 ############
+configure
 
 for OPT in $*
 do

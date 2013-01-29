@@ -28,7 +28,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -52,10 +51,10 @@ import org.slc.sli.domain.NeutralQuery;
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
         DirtiesContextTestExecutionListener.class })
 public class TeacherToEdOrgValidatorTest {
-    
+
     @Autowired
     private TeacherToEdOrgValidator validator;
-    
+
     @Autowired
     private ValidatorTestHelper helper;
 
@@ -66,7 +65,7 @@ public class TeacherToEdOrgValidatorTest {
     private PagingRepositoryDelegate<Entity> repo;
 
     Set<String> schoolIds;
-    
+
     Entity teacher;
 
     @Before
@@ -77,8 +76,7 @@ public class TeacherToEdOrgValidatorTest {
         List<String> roles = Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR);
 
         teacher = helper.generateTeacher();
-        injector.setCustomContext(user, fullName, "MERPREALM", roles, teacher, helper.ED_ORG_ID);
-
+        injector.setCustomContext(user, fullName, "MERPREALM", roles, teacher, ValidatorTestHelper.ED_ORG_ID);
         schoolIds = new HashSet<String>();
     }
 
@@ -86,7 +84,7 @@ public class TeacherToEdOrgValidatorTest {
     public void tearDown() throws Exception {
         repo.deleteAll(EntityNames.EDUCATION_ORGANIZATION, new NeutralQuery());
         repo.deleteAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, new NeutralQuery());
-
+        schoolIds.clear();
     }
 
     @Test
@@ -114,8 +112,9 @@ public class TeacherToEdOrgValidatorTest {
         Entity school = helper.generateEdorgWithParent(lea.getEntityId());
         helper.generateTeacherSchool(teacher.getEntityId(), school.getEntityId());
         schoolIds.add(school.getEntityId());
+        schoolIds.add(lea.getEntityId());
+        schoolIds.add(sea.getEntityId());
         assertTrue(validator.validate(EntityNames.SCHOOL, schoolIds));
-
     }
 
     @Test
@@ -141,6 +140,4 @@ public class TeacherToEdOrgValidatorTest {
         helper.generateTeacherSchool(teacher.getEntityId(), school.getEntityId());
         assertFalse(validator.validate(EntityNames.SCHOOL, schoolIds));
     }
-
-
 }
