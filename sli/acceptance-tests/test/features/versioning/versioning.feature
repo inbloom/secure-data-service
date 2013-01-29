@@ -20,7 +20,7 @@ Feature: Entity versioning and mock migration tests
     Then there should be 42 records in the "metaData" collection
     And "SARJE" field is "1" for all records
     And "mongo_sv" field is "1" for all records
-    And "dal_sv" field is "999999" for all records
+    And "dal_sv" field is "5" for all records
 
   # This test checks for mock fields added to a student
   @DB_MIGRATION_AFTER_UPVERSIONING
@@ -41,4 +41,13 @@ Feature: Entity versioning and mock migration tests
     When I navigate to POST "/<EDORG URI>"
     Then I should receive a return code of 201
     And I should receive an ID for the newly created entity
-    Then the entity should have a version of "999999" in the database
+    Then the entity should have a version of "5" in the database
+
+  @DB_MIGRATION_AFTER_UPVERSIONING
+  Scenario: API requests for an student get chained
+    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+    And format "application/vnd.slc+json"  
+    When I navigate to GET "/<STUDENT URI>/<STUDENT ID>"
+    Then "mascot" should be "pirates"
+    And "favoriteColor" should be "yellow"
+    And "somefield" should be "somevalue"

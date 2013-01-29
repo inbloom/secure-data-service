@@ -1,9 +1,15 @@
 #!/bin/sh
 if [ -z "$1" ]; then
+    echo "Dataset defaulted to SmallSampleDataSet.zip"
+    dataset="SmallSampleDataSet.zip"
+else
+    dataset=$1
+fi
+if [ -z "$2" ]; then
     echo "Branch defaulted to master"
     branch="master"
 else
-    branch=$1
+    branch=$2
 fi
 set -e
 cd /opt/megatron/sli/sli/
@@ -20,4 +26,4 @@ cd /opt/megatron/sli/sli/acceptance-tests/teamFiles/
 now=$(date +"%Y_%m_%d")
 filename="/opt/megatron/sli/sli/acceptance-tests/teamFiles/megtomcat01_logs/ingestion_performance_$now.log"
 echo "Starting automated performance testing, logging to $filename"
-nohup sh megtomcat01_ingestion_performance.sh $branch >> $filename &
+nohup sh megtomcat01_ingestion_performance.sh $dataset $branch >> $filename &

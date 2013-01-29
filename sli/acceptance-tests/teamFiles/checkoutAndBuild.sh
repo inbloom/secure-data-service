@@ -86,17 +86,17 @@ sh resetAllDbs.sh
 cd /opt/megatron/sli/sli/admin-tools/admin-rails/
 bundle install --deployment
 bundle exec rails server -d
-#cd /opt/megatron/sli/sli/databrowser/
+cd /opt/megatron/sli/sli/databrowser/
 #bundle install --deployment
-#bundle exec rails server -d
+bundle exec rails server -d
 #cd /opt/megatron/sli/tools/odin
 #bundle install --deployment
 #bundle exec rake test
 cd /opt/megatron/sli/sli/
-export M2_HOME=/usr/local/apache-maven/apache-maven-3.0.4
-export M2=$M2_HOME/bin
-export PATH=$M2:$PATH
-mvn -version
+#export M2_HOME=/usr/local/apache-maven/apache-maven-3.0.4
+#export M2=$M2_HOME/bin
+#export PATH=$M2:$PATH
+#mvn -version
 mvn clean package install -DskipTests -Dpmd.skip=true
 curl 'http://tomcat:s3cret@localhost/manager/text/deploy?path=/api&war=file:/opt/megatron/sli/sli/api/target/api.war'
 curl 'http://tomcat:s3cret@localhost/manager/text/deploy?path=/dashboard&war=file:/opt/megatron/sli/sli/dashboard/target/dashboard.war'
