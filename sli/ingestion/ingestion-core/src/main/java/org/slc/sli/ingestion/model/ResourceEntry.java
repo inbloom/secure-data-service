@@ -44,6 +44,8 @@ public final class ResourceEntry {
 
     private long errorCount;
 
+    private boolean valid;
+
     public ResourceEntry() {
         // mongoTemplate requires this constructor.
     }
@@ -60,6 +62,8 @@ public final class ResourceEntry {
         }
         this.recordCount = recordCount;
         this.errorCount = errorCount;
+
+        this.valid = true;
     }
 
     public String getResourceId() {
@@ -147,5 +151,13 @@ public final class ResourceEntry {
 
     public void setResourceZipParent(String resourceZipParent) {
         this.resourceZipParent = resourceZipParent;
+    }
+
+    public boolean isValid() {
+        return valid;
+    }
+
+    public void setValid(boolean valid) {
+        this.valid = valid;
     }
 }

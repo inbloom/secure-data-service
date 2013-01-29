@@ -284,6 +284,7 @@ public class ControlFilePreProcessor implements Processor {
         resourceEntry.setResourceZipParent(batchJob.getSourceId());
         resourceEntry.setResourceFormat(FileFormat.CONTROL_FILE.getCode());
         resourceEntry.setTopLevelLandingZonePath(batchJob.getTopLevelSourceId());
+        resourceEntry.setValid(true);
 
         batchJob.getResourceEntries().add(resourceEntry);
     }
