@@ -32,9 +32,9 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.ControlFileWorkNote;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
+import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.landingzone.ControlFile;
-import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.landingzone.validation.ControlFileValidator;
 import org.slc.sli.ingestion.model.Error;
@@ -88,13 +88,16 @@ public class ControlFileProcessor implements Processor {
 
     private void processUsingNewBatchJob(Exchange exchange) throws Exception {
 
-        String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
+        ControlFileWorkNote workNote = (ControlFileWorkNote) exchange.getIn().getBody(WorkNote.class);
+        String batchJobId = workNote.getBatchJobId();
+        ControlFile controlFile = workNote.getControlFile();
+
         if (batchJobId == null) {
 
             handleNoBatchJobIdInExchange(exchange);
         } else {
 
-            processControlFile(exchange, batchJobId);
+            processControlFile(exchange, batchJobId, controlFile);
         }
     }
 
@@ -103,53 +106,49 @@ public class ControlFileProcessor implements Processor {
         LOG.error("No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 
-    private void processControlFile(Exchange exchange, String batchJobId) {
+    private void processControlFile(Exchange exchange, String batchJobId, ControlFile controlFile) {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
 
-        NewBatchJob newJob = null;
+        NewBatchJob currentJob = null;
         try {
 
-            newJob = batchJobDAO.findBatchJobById(batchJobId);
-            TenantContext.setTenantId(newJob.getTenantId());
+            currentJob = batchJobDAO.findBatchJobById(batchJobId);
+            TenantContext.setTenantId(currentJob.getTenantId());
             TenantContext.setJobId(batchJobId);
 
-            ControlFileDescriptor cfd = exchange.getIn().getBody(ControlFileDescriptor.class);
-
-            ControlFile cf = cfd.getFileItem();
-
-            aggregateBatchJobProperties(newJob, cf);
+            aggregateBatchJobProperties(currentJob, controlFile);
 
             ReportStats reportStats = new SimpleReportStats();
 
-            if ((newJob.getProperty(AttributeType.PURGE.getName()) == null)
-                    && (newJob.getProperty(AttributeType.PURGE_KEEP_EDORGS.getName()) == null)) {
-                if (validator.isValid(cfd, databaseMessageReport, reportStats, new ControlFileSource(cf.getFileName()))) {
-                    createAndAddResourceEntries(newJob, cf);
+            if ((currentJob.getProperty(AttributeType.PURGE.getName()) == null)
+                    && (currentJob.getProperty(AttributeType.PURGE_KEEP_EDORGS.getName()) == null)) {
+                if (validator.isValid(controlFile, databaseMessageReport, reportStats, new ControlFileSource(controlFile.getFileName()))) {
+                    createAndAddResourceEntries(currentJob, controlFile);
                 } else {
                     boolean isZipFile = false;
-                    for (ResourceEntry resourceEntry : newJob.getResourceEntries()) {
+                    for (ResourceEntry resourceEntry : currentJob.getResourceEntries()) {
                         if (FileFormat.ZIP_FILE.getCode().equalsIgnoreCase(resourceEntry.getResourceFormat())) {
                             isZipFile = true;
                         }
                     }
                     if (!isZipFile) {
-                        databaseMessageReport.warning(reportStats, new ControlFileSource(cf.getFileName()), CoreMessageCode.CORE_0051);
+                        databaseMessageReport.warning(reportStats, new ControlFileSource(controlFile.getFileName()), CoreMessageCode.CORE_0051);
 
                     }
                 }
             }
 
-            setExchangeHeaders(exchange, newJob, reportStats);
+            setExchangeHeaders(exchange, currentJob, reportStats);
             /*LOG.info("Control file is {}", cf.toString());
            exchange.getIn().setHeader("controlFile", cf);
 */
-            setExchangeBody( exchange, cf,batchJobId);
+            setExchangeBody( exchange, currentJob);
         } catch (Exception exception) {
             handleExceptions(exchange, batchJobId, exception);
         } finally {
-            if (newJob != null) {
-                BatchJobUtils.stopStageAndAddToJob(stage, newJob);
-                batchJobDAO.saveBatchJob(newJob);
+            if (currentJob != null) {
+                BatchJobUtils.stopStageAndAddToJob(stage, currentJob);
+                batchJobDAO.saveBatchJob(currentJob);
             }
         }
     }
@@ -206,9 +205,9 @@ public class ControlFileProcessor implements Processor {
         }
     }
 
-    private void setExchangeBody(Exchange exchange, ControlFile cf, String batchJobId) {
-        ControlFileWorkNote workNote = new ControlFileWorkNote(cf,batchJobId, "");
-        exchange.getIn().setBody(workNote, ControlFileWorkNote.class);
+    private void setExchangeBody(Exchange exchange, NewBatchJob job) {
+        WorkNote workNote = new WorkNote(job.getId(), job.getTenantId());
+        exchange.getIn().setBody(workNote, WorkNote.class);
     }
 
     private void createAndAddResourceEntries(NewBatchJob newJob, ControlFile cf) {

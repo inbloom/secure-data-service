@@ -20,7 +20,7 @@ import org.slc.sli.ingestion.landingzone.ControlFile;
  * @author tke
  *
  */
-public class ControlFileWorkNote extends SLIWorkNote {
+public class ControlFileWorkNote extends WorkNote {
     private static final long serialVersionUID = 7526472295622776147L;
     private ControlFile controlFile;
 
