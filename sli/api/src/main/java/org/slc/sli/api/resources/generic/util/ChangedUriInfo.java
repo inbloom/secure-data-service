@@ -22,6 +22,7 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import com.sun.jersey.core.util.MultivaluedMapImpl;
+import com.sun.jersey.server.impl.application.WebApplicationContext;
 
 import java.net.URI;
 import java.util.List;
@@ -33,10 +34,22 @@ public class ChangedUriInfo implements UriInfo {
     
     private URI uri;
     private UriBuilder baseUriBuilder;
-    
-    public ChangedUriInfo(String uri, UriBuilder builder) {
+
+    public String getOriginalUri() {
+        return originalUri;
+    }
+
+    private String originalUri;
+    public static final String ORIGINAL_REQUEST_KEY = "original-request";
+
+    public ChangedUriInfo(String uri, UriInfo uriInfo) {
         this.uri = URI.create(uri);
-        this.baseUriBuilder = builder;
+        if (uriInfo != null) {
+            this.baseUriBuilder = uriInfo.getBaseUriBuilder();
+            if (uriInfo instanceof WebApplicationContext) {
+                originalUri = uriInfo.getBaseUri() + ((WebApplicationContext) uriInfo).getProperties().get(ORIGINAL_REQUEST_KEY).toString();
+            }
+        }
     }
     
     @Override
