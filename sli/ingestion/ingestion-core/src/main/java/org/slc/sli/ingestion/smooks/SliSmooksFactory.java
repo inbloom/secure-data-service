@@ -34,7 +34,6 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
-import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.impl.FileSource;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
@@ -61,7 +60,7 @@ public class SliSmooksFactory implements BatchJobStage {
 
     private Set<String> recordLevelDeltaEnabledEntities;
 
-    public SliSmooks createInstance(IngestionFileEntry ingestionFileEntry, AbstractMessageReport errorReport,
+    public SliSmooks createInstance(IngestionFileEntry ingestionFileEntry, String jobId, AbstractMessageReport errorReport,
             ReportStats reportStats) throws IOException, SAXException {
 
         FileType fileType = ingestionFileEntry.getFileType();
@@ -69,7 +68,7 @@ public class SliSmooksFactory implements BatchJobStage {
         if (sliSmooksConfig != null) {
 
             return createSmooksFromConfig(sliSmooksConfig, errorReport, reportStats,
-                    ingestionFileEntry.getBatchJobId(), ingestionFileEntry);
+                    jobId, ingestionFileEntry);
 
         } else {
             errorReport.error(reportStats, new FileSource(ingestionFileEntry.getResourceId()), CoreMessageCode.CORE_0013, fileType);
