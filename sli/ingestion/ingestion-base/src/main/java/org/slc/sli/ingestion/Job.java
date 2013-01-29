@@ -19,8 +19,6 @@ package org.slc.sli.ingestion;
 import java.util.List;
 import java.util.Set;
 
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-
 /**
  * Interface for batch jobs
  *
@@ -64,7 +62,7 @@ public interface Job {
      *
      * @return
      */
-    List<IngestionFileEntry> getFiles();
+    List<String> getFiles();
 
     /**
      * Return the tenantId for this job.

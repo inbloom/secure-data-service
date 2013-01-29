@@ -17,8 +17,6 @@ package org.slc.sli.ingestion;
 
 import java.io.Serializable;
 
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-
 /**
  * A unit of work for parsing orchestration, based on an IngestionFileEntry
  * @author ablum
@@ -27,15 +25,15 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 public class FileEntryWorkNote extends WorkNote implements Serializable {
     private static final long serialVersionUID = 638837959304251101L;
 
-    private final IngestionFileEntry fileEntry;
+    private final String fileEntry;
 
-    public FileEntryWorkNote(String batchJobId, String tenantId, IngestionFileEntry fileEntry, boolean hasErrors) {
+    public FileEntryWorkNote(String batchJobId, String tenantId, String fileEntry, boolean hasErrors) {
         super(batchJobId, tenantId, hasErrors);
 
         this.fileEntry = fileEntry;
     }
 
-    public IngestionFileEntry getFileEntry() {
+    public String getFileEntry() {
         return fileEntry;
     }
 

@@ -28,8 +28,6 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-
 /**
  * Unit tests for BatchJob functionality.
  *
@@ -72,7 +70,7 @@ public class BatchJobTest {
         // so we can verify its creationDate is accurate.
         Job job = BatchJob.createDefault();
 
-        ArrayList<IngestionFileEntry> files = (ArrayList<IngestionFileEntry>) job.getFiles();
+        ArrayList<String> files = (ArrayList<String>) job.getFiles();
         assertEquals(files.size(), 0);
 
         Job job2 = BatchJob.createDefault("TEST");

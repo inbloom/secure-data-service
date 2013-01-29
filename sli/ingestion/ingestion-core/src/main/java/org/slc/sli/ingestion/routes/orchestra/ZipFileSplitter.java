@@ -28,7 +28,6 @@ import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.FileEntryWorkNote;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordAccess;
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.util.BatchJobUtils;
@@ -62,7 +61,7 @@ public class ZipFileSplitter {
         indexStagingDB();
 
         NewBatchJob newBatchJob = batchJobDAO.findBatchJobById(jobId);
-        List<IngestionFileEntry> fileEntries = newBatchJob.getFiles();
+        List<String> fileEntries = newBatchJob.getFiles();
         fileEntryWorkNotes = createWorkNotes(jobId, fileEntries, workNote.hasErrors());
 
         return fileEntryWorkNotes;
@@ -73,12 +72,12 @@ public class ZipFileSplitter {
      * @param zipFile
      * @return
      */
-    private List<FileEntryWorkNote> createWorkNotes (String jobId, List<IngestionFileEntry> fileEntries, boolean hasErrors) {
+    private List<FileEntryWorkNote> createWorkNotes (String jobId, List<String> fileEntries, boolean hasErrors) {
         List<FileEntryWorkNote> fileEntryWorkNotes = new ArrayList<FileEntryWorkNote>();
         List<String> fileNames = new ArrayList<String>();
 
-        for (IngestionFileEntry fileEntry : fileEntries) {
-            fileNames.add(fileEntry.getFileName());
+        for (String fileEntry : fileEntries) {
+            fileNames.add(fileEntry);
             fileEntryWorkNotes.add(new FileEntryWorkNote(jobId, "SLI", fileEntry, hasErrors));
         }
 

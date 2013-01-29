@@ -310,8 +310,8 @@ public class NewBatchJob implements Job {
     }
 
     @Override
-    public List<IngestionFileEntry> getFiles() {
-        List<IngestionFileEntry> ingestionFileEntries = new ArrayList<IngestionFileEntry>();
+    public List<String> getFiles() {
+        List<String> fileEntries = new ArrayList<String>();
 
         // create IngestionFileEntry items from eligible ResourceEntry items
         for (ResourceEntry resourceEntry : resourceEntries) {
@@ -320,15 +320,12 @@ public class NewBatchJob implements Job {
 
                 FileType fileType = FileType.findByNameAndFormat(resourceEntry.getResourceType(), fileFormat);
                 if (fileType != null) {
-                    IngestionFileEntry ingestionFileEntry = new IngestionFileEntry(resourceEntry.getResourceZipParent(), fileFormat, fileType,
-                            resourceEntry.getResourceId(), resourceEntry.getChecksum());
-                    ingestionFileEntry.setBatchJobId(id);
-                    ingestionFileEntries.add(ingestionFileEntry);
+                    fileEntries.add(resourceEntry.getResourceId());
                 }
             }
         }
 
-        return ingestionFileEntries;
+        return fileEntries;
     }
 
     public ResourceEntry getZipResourceEntry() {

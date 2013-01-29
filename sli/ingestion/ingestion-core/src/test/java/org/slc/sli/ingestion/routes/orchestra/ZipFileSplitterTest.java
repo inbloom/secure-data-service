@@ -31,7 +31,6 @@ import org.slc.sli.ingestion.FileEntryWorkNote;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordAccess;
 import org.slc.sli.ingestion.landingzone.ControlFile;
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 /**
@@ -51,9 +50,9 @@ public class ZipFileSplitterTest {
     @Test
     public void test() {
 
-        List<IngestionFileEntry> files = new ArrayList<IngestionFileEntry>();
-        files.add(new IngestionFileEntry("/", null, null, "test1.xml", null));
-        files.add(new IngestionFileEntry("/", null, null, "test2.xml", null));
+        List<String> files = new ArrayList<String>();
+        files.add("test1.xml");
+        files.add("test2.xml");
 
         Exchange exchange = Mockito.mock(Exchange.class);
         Message message = Mockito.mock(Message.class);
