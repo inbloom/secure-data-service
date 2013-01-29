@@ -63,7 +63,7 @@ jetty_pattern=/Starting scanner at interval of 5 seconds/
 tomcat_pattern=/INFO: Starting Coyote HTTP\/1.1 on http-/
 
 `activemq start`
-`sh #{dir}/config/scripts/resetAllDbs.sh`
+`cd #{dir}/config/scripts/; sh resetAllDbs.sh`
 `sh #{dir}/search-indexer/scripts/local_search_indexer.sh start`
 
 procs = [
@@ -97,7 +97,7 @@ procs.each { |p|
 
 puts "\n\nStarting Smoke Tests\n"
 Dir.chdir "#{dir}/acceptance-tests"
-pid = Process.spawn('bundle exec rake smokeTests')
+pid = Process.spawn('bundle exec rake smokeTests TOGGLE_TABLESCANS=true')
 Process.wait(pid)
 
 #puts "signaling child processes to terminate"

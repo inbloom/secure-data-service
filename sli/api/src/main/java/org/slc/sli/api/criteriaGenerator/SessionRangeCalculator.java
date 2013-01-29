@@ -36,6 +36,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
+ * Determines the min and max dates of the available sessions
  * @author: sashton
  */
 @Component

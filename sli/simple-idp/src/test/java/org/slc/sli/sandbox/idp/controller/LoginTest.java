@@ -49,6 +49,7 @@ import org.slc.sli.sandbox.idp.service.SamlAssertionService;
 import org.slc.sli.sandbox.idp.service.SamlAssertionService.SamlAssertion;
 import org.slc.sli.sandbox.idp.service.UserService;
 import org.slc.sli.sandbox.idp.service.UserService.User;
+import org.slc.sli.sandbox.idp.service.UserTypeService;
 
 /**
  * Unit tests
@@ -71,6 +72,9 @@ public class LoginTest {
 
     @Mock
     RoleService roleService;
+
+    @Mock
+    UserTypeService typeService;
 
     @Mock
     DefaultUsersService defaultUserService;
@@ -237,6 +241,7 @@ public class LoginTest {
         List<String> roles = Arrays.asList("role1", "role2");
         Map<String, String> attributes = new HashMap<String, String>();
         attributes.put("Tenant", "mytenant");
+        attributes.put("userType", "staff");
         User user = new User("userId", roles, attributes);
         Mockito.when(httpSession.getAttribute("user_session_key")).thenReturn(user);
         Request reqInfo = Mockito.mock(Request.class);
@@ -260,6 +265,7 @@ public class LoginTest {
         List<String> roles = Arrays.asList("role1", "role2");
         Map<String, String> attributes = new HashMap<String, String>();
         attributes.put("Tenant", "mytenant");
+        attributes.put("userType", "staff");
         User user = new User("userId", roles, attributes);
         user.setImpersonationUser(new User("linda.kim", roles, null));
         Mockito.when(httpSession.getAttribute("user_session_key")).thenReturn(user);
@@ -285,6 +291,7 @@ public class LoginTest {
         List<String> roles = Arrays.asList("role1", "role2");
         Map<String, String> attributes = new HashMap<String, String>();
         attributes.put("Tenant", "mytenant");
+        attributes.put("userType", "admin");
         User user = new User("userId", roles, attributes);
         Mockito.when(httpSession.getAttribute("user_session_key")).thenReturn(user);
         Request reqInfo = Mockito.mock(Request.class);
@@ -304,6 +311,7 @@ public class LoginTest {
         List<String> roles = Arrays.asList("role1", "role2");
         Map<String, String> attributes = new HashMap<String, String>();
         attributes.put("Tenant", "mytenant");
+        attributes.put("userType", "admin");
         User user = new User("userId", roles, attributes);
         Mockito.when(httpSession.getAttribute("user_session_key")).thenReturn(user);
         Request reqInfo = Mockito.mock(Request.class);
@@ -382,6 +390,7 @@ public class LoginTest {
 
         HashMap<String, String> userAttributes = new HashMap<String, String>();
         userAttributes.put("userName", "Test Name");
+        userAttributes.put("userType", "staff");
         userAttributes.put("emailToken", "mockToken");
         userAttributes.put("tenant", "myTenant");
 
@@ -421,7 +430,7 @@ public class LoginTest {
         assertEquals(2, ((Collection) mov.getModel().get("test2")).size());
         Mockito.verify(httpSession, Mockito.times(1)).setAttribute("user_session_key", user);
 
-        mov = loginController.impersonate("SAMLRequest", "SLIAdmin", "impersonate", roles, null, null, null, true,
+        mov = loginController.impersonate("SAMLRequest", "SLIAdmin", "impersonate", roles, null, null, null, null, true,
                 httpSession, null);
 
         assertEquals("SAMLResponse", ((SamlAssertion) mov.getModel().get("samlAssertion")).getSamlResponse());
@@ -475,7 +484,7 @@ public class LoginTest {
         assertEquals("impersonate", mov.getViewName());
         Mockito.verify(httpSession, Mockito.times(1)).setAttribute("user_session_key", user);
 
-        mov = loginController.impersonate("SAMLRequest", "SLIAdmin", "impersonate.username", roles, null, null, null,
+        mov = loginController.impersonate("SAMLRequest", "SLIAdmin", "impersonate.username", roles, null, null, null, null,
                 true, httpSession, null);
 
         assertEquals("SAMLResponseForImpersonationUser",
@@ -520,7 +529,7 @@ public class LoginTest {
         SamlAssertion samlResponse = new SamlAssertion("redirect_uri", "SAMLResponse");
         Mockito.when(loginService.buildAssertion("impersonate", roles, attributes, reqInfo)).thenReturn(samlResponse);
 
-        ModelAndView mov = loginController.impersonate("SAMLRequest", "SLIAdmin", "impersonate", roles, null, null,
+        ModelAndView mov = loginController.impersonate("SAMLRequest", "SLIAdmin", "impersonate", roles, null, null, null,
                 null, true, httpSession, null);
 
         assertEquals("impersonate", mov.getViewName());
@@ -544,7 +553,7 @@ public class LoginTest {
         SamlAssertion samlResponse = new SamlAssertion("redirect_uri", "SAMLResponse");
         Mockito.when(loginService.buildAssertion("impersonate", roles, attributes, reqInfo)).thenReturn(samlResponse);
 
-        ModelAndView mov = loginController.impersonate("SAMLRequest", "SLIAdmin", "impersonate", roles, null, null,
+        ModelAndView mov = loginController.impersonate("SAMLRequest", "SLIAdmin", "impersonate", roles, null, null, null,
                 null, true, httpSession, null);
 
         assertEquals("Please select or enter one role to impersonate.", mov.getModel().get("errorMsg"));
@@ -576,7 +585,7 @@ public class LoginTest {
         DefaultUser defaultUser = new DefaultUser("dataset", "Teacher", "Dataset User", "role1", "school");
         Mockito.when(defaultUserService.getUser("dataset", "datasetUserId")).thenReturn(defaultUser);
 
-        ModelAndView mov = loginController.impersonate("SAMLRequest", "SLIAdmin", "impersonate", roles, null,
+        ModelAndView mov = loginController.impersonate("SAMLRequest", "SLIAdmin", "impersonate", roles, null, null,
                 "dataset", "datasetUserId", false, httpSession, null);
 
         assertEquals("SAMLResponse", ((SamlAssertion) mov.getModel().get("samlAssertion")).getSamlResponse());
@@ -586,6 +595,6 @@ public class LoginTest {
     @Test(expected = IllegalStateException.class)
     public void testImpersonationInProdMode() throws IllegalStateException {
         loginController.setSandboxImpersonationEnabled(false);
-        loginController.impersonate(null, null, null, null, null, null, null, false, httpSession, null);
+        loginController.impersonate(null, null, null, null, null, null, null, null, false, httpSession, null);
     }
 }
