@@ -132,7 +132,8 @@ public class TenantResourceImpl extends UnversionedResource implements TenantRes
     public static final String LZ_PRELOAD_FILES = "files";
     public static final String LZ_PRELOAD_STATUS = "status";
     public static final String LZ_PRELOAD_STATUS_READY = "ready";
-    public static final String LZ_PRELOAD_EDORG_ID = "STANDARD-SEA";
+    public static final String LZ_PRELOAD_EDORG_ID_SMALL = "STANDARD-SEA";
+    public static final String LZ_PRELOAD_EDORG_ID_MEDIUM = "CAP0";
 
     @Autowired
     public TenantResourceImpl(EntityDefinitionStore entityDefs) {
@@ -390,6 +391,11 @@ public class TenantResourceImpl extends UnversionedResource implements TenantRes
         EntityService service = store.lookupByResourceName(RESOURCE_NAME).getService();
         EntityBody entity = service.get(tenantId);
         String tenantName = (String) entity.get("tenantId");
+        
+        // These appear to be hardcoded to match the form values in the Admin application.
+        if (dataSet == null || !(dataSet.equals("small") || dataSet.equals("medium"))) {
+            return Response.status(Status.BAD_REQUEST).build();
+        }
 
         if (!isSandboxEnabled || !tenantName.equals(secUtil.getTenantId())) {
             EntityBody body = new EntityBody();
@@ -406,15 +412,24 @@ public class TenantResourceImpl extends UnversionedResource implements TenantRes
         if (landingZones == null || landingZones.isEmpty()) {
             return Response.status(Status.BAD_REQUEST).build();
         }
+        
+        String edOrgId = null;
+        if (dataSet.equals("small")) {
+            edOrgId = LZ_PRELOAD_EDORG_ID_SMALL;
+        } else if (dataSet.equals("medium")) {
+            edOrgId = LZ_PRELOAD_EDORG_ID_MEDIUM;
+        }
+        
+        
         for (Map<String, Object> landingZone : landingZones) {
-            if (((String) (landingZone.get("educationOrganization"))).equals(LZ_PRELOAD_EDORG_ID)) {
+            if (((String) (landingZone.get("educationOrganization"))).equals(edOrgId)) {
                 landingZone.put("preload", preload(Arrays.asList(dataSet)));
-                break;
+                service.update(tenantId, entity);
+                return Response.created(context.getAbsolutePathBuilder().path("jobstatus").build()).build();
             }
         }
 
-        service.update(tenantId, entity);
-        return Response.created(context.getAbsolutePathBuilder().path("jobstatus").build()).build();
+        return Response.status(Status.BAD_REQUEST).entity("No landing zone for EdOrg exists to preload data into. requested edOrg: " + edOrgId).build();
     }
 
     /**
