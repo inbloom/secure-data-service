@@ -27,7 +27,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.nodes.IngestionNodeType;
 import org.slc.sli.ingestion.nodes.NodeInfo;
 import org.slc.sli.ingestion.processors.CommandProcessor;
@@ -107,6 +106,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Autowired
     private TenantPopulator tenantPopulator;
+
+    @Autowired
+    private BatchJobManager batchJobManager;
 
     @Autowired
     private NodeInfo nodeInfo;
@@ -252,7 +254,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // routeId: processLandingZone
         from("direct:processLandingZone").routeId("processLandingZone")
             .process(landingZoneProcessor)
-            .choice().when(header(HAS_ERRORS).isEqualTo(true))
+            .choice().when()
+                .method(batchJobManager, "hasErrors")
                 .log(LoggingLevel.WARN, "CamelRouting", "Invalid landing zone detected.").to("direct:stop")
             .otherwise()
                 .log(LoggingLevel.INFO, "CamelRouting", "Landing zone is valid. Routing to ZipFileProcessor.")
@@ -261,7 +264,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // routeId: processZipFile
         from("direct:processZipFile").routeId("processZipFile")
             .process(zipFileProcessor)
-            .choice().when(header(HAS_ERRORS).isEqualTo(true))
+            .choice().when()
+                .method(batchJobManager, "hasErrors")
                 .log(LoggingLevel.WARN, "CamelRouting", "Invalid zip file detected.").to("direct:stop")
             .otherwise()
                 .log(LoggingLevel.INFO, "CamelRouting", "No errors in zip file. Routing to ControlFilePreProcessor.")
@@ -271,7 +275,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // routeId: processControlFilePre
         from("direct:processControlFilePre").routeId("processControlFilePre")
             .process(controlFilePreProcessor)
-            .choice().when(header(HAS_ERRORS).isEqualTo(true))
+            .choice().when()
+                .method(batchJobManager, "hasErrors")
                 .log(LoggingLevel.WARN, "CamelRouting", "Failed to pre-process control file.").to("direct:stop")
             .otherwise()
                 .log(LoggingLevel.INFO, "CamelRouting", "Pre-processed control file.")
@@ -371,7 +376,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                     .to("direct:postExtract");
 
         // routeId: assembledJobs
-        from("direct:assembledJobs").routeId("assembledJobs").choice().when(header(HAS_ERRORS).isEqualTo(true))
+        from("direct:assembledJobs").routeId("assembledJobs").choice().when()
+                .method(batchJobManager, "hasErrors")
                 .log(LoggingLevel.INFO, "CamelRouting", "Error in processing. Routing to stop.").to("direct:stop")
                 .otherwise().to(workItemQueueUri);
 
@@ -401,7 +407,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
                 .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.PERSIST_REQUEST.name()))
                 .choice()
-                .when(header(AttributeType.DRYRUN.getName()).isEqualTo(true))
+                .when()
+                    .method(batchJobManager, "isDryRun")
                     .log(LoggingLevel.INFO, "CamelRouting", "Dry-run specified. Routing back to Maestro.")
                     .to(maestroQueueUri)
                 .otherwise()

@@ -45,7 +45,6 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.IngestionStagedEntity;
-import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -601,22 +600,10 @@ public class BatchJobMongoDA implements BatchJobDAO {
     }
 
     @Override
-    public boolean isDryRun(WorkNote workNote) {
-        String jobId = workNote.getBatchJobId();
+    public boolean isDryRun(String jobId) {
         Map<String, String> batchProperties = getBatchProperties(jobId);
         for (Entry<String, String> property : batchProperties.entrySet()) {
             if(property.getKey().equals(AttributeType.DRYRUN.getName())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public boolean isPurge(String jobId) {
-        Map<String, String> batchProperties = getBatchProperties(jobId);
-        for (Entry<String, String> property : batchProperties.entrySet()) {
-            if(property.getKey().equals(AttributeType.PURGE.getName()) || property.getKey().equals(AttributeType.PURGE_KEEP_EDORGS.getName())) {
                 return true;
             }
         }
