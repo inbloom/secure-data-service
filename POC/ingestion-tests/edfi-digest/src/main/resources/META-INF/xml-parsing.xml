@@ -20,43 +20,49 @@
     <!-- <property name="producer" ref="myTemplate" /> -->
   </bean>
 
+  <bean id="staxProcessor" class="test.camel.support.stax.STaXWithValidationProcessor">
+    <property name="group" value="500" />
+    <property name="schema" value="classpath:edfiXsd-SLI/SLI-Ed-Fi-Core.xsd" />
+    <property name="producer" ref="myTemplate" />
+  </bean>
+
   <bean id="staxRecord" class="org.apache.camel.component.stax.StAXBuilder" factory-method="stax">
     <constructor-arg index="0" value="org.ed_fi._0100.Student" />
   </bean>
 
   <bean id="idGenerator" class="org.apache.camel.impl.JavaUuidGenerator" />
 
-  <bean id="abstractStaxIterator" class="test.camel.support.stax.StAXAntPathIterator" abstract="true">
+  <bean id="abstractStaxAntPathIterator" class="test.camel.support.stax.StAXAntPathIterator" abstract="true">
     <property name="antPath" value="/Interchange*/*" />
     <property name="groupBy" value="500" />
   </bean>
 
-  <bean id="stringStaxIterator" class="test.camel.support.stax.StAXAntPathStringIterator" parent="abstractStaxIterator"
+  <bean id="stringStaxIterator" class="test.camel.support.stax.StAXAntPathStringIterator" parent="abstractStaxAntPathIterator"
     scope="prototype" />
 
-  <bean id="byteStaxIterator" class="test.camel.support.stax.StAXAntPathBytesIterator" parent="abstractStaxIterator"
+  <bean id="byteStaxIterator" class="test.camel.support.stax.StAXAntPathBytesIterator" parent="abstractStaxAntPathIterator"
     scope="prototype" />
 
-  <bean id="fileStaxIterator" class="test.camel.support.stax.StAXAntPathFileIterator" parent="abstractStaxIterator"
+  <bean id="fileStaxIterator" class="test.camel.support.stax.StAXAntPathFileIterator" parent="abstractStaxAntPathIterator"
     scope="prototype">
     <property name="folder" value="/some/path/" />
     <property name="prefix" value="snippet" />
     <property name="suffix" value=".xml" />
   </bean>
 
-  <bean id="jaxbStaxIterator" class="test.camel.support.stax.StAXAntPathJAXBIterator" parent="abstractStaxIterator"
+  <bean id="jaxbStaxIterator" class="test.camel.support.stax.StAXAntPathJAXBIterator" parent="abstractStaxAntPathIterator"
     scope="prototype">
     <property name="packageName" value="org.ed_fi._0100" />
   </bean>
 
   <bean id="staxSplitter" class="test.camel.support.stax.StAXAntPathIteratorExpression">
-    <property name="iteratorBeanId" value="stringStaxIterator" />
+    <property name="iteratorBeanId" value="jaxbStaxIterator" />
   </bean>
 
   <bean id="zipSplitter" class="test.camel.support.zip.ZipFileSplitterBuilder" factory-method="unzip" />
 
   <camelContext trace="false" xmlns="http://camel.apache.org/schema/spring">
-    <!-- <template id="myTemplate" defaultEndpoint="seda:entityFeed"/> -->
+    <template id="myTemplate" defaultEndpoint="direct:logging"/>
 
     <route id="fileReader">
       <from uri="txActivemq:queue:ingestion.landingZone?concurrentConsumers=32" />
@@ -89,6 +95,8 @@
         <log loggingLevel="INFO" message="Batch ${header.batchId}: Received a zip file entry - ${body.getFileEntry}" />
         <convertBodyTo type="java.io.InputStream" />
         <!-- <bean ref="smooksProcessor" /> -->
+        <bean ref="staxProcessor" />
+        <!--
         <split streaming="true" parallelProcessing="true">
           <ref>staxSplitter</ref>
           <setHeader headerName="JMSXGroupSeq">
@@ -97,8 +105,9 @@
           <setHeader headerName="JMSXGroupCount">
             <header>CamelSplitSize</header>
           </setHeader>
-          <to uri="seda:logging" />
+          <to uri="direct:logging" />
         </split>
+        -->
         <log message="Batch ${header.batchId}: Parsing is done for ${header.fileEntry}" />
       </filter>
     </route>
@@ -130,9 +139,9 @@
     </route>
 
     <route id="logging">
-      <from uri="seda:logging?concurrentConsumers=32" />
+      <from uri="direct:logging" />
       <log
-        message="File: ${header.fileEntry}, batch of body.size. Starts at Ln: body[0].getLineNumber - Col: body[0].getColumnNumber" />
+        message="File: ${header.fileEntry}, batch of ${body.size}. Starts at Ln: body[0][line] - Col: body[0][column]" />
       <stop />
     </route>
 

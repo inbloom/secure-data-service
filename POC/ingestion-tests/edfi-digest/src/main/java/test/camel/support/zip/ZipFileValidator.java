@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 
+import org.apache.camel.CamelExchangeException;
 import org.apache.camel.Exchange;
-import org.apache.camel.InvalidPayloadException;
 import org.apache.camel.support.ExpressionAdapter;
 import org.apache.commons.compress.archivers.zip.ZipFile;
 
@@ -15,7 +15,7 @@ public class ZipFileValidator extends ExpressionAdapter {
 	public Object evaluate(Exchange exchange) {
 
 		ZipFile zipFile = null;
-		
+
 		try {
 			File file = exchange.getIn().getMandatoryBody(File.class);
 
@@ -34,7 +34,7 @@ public class ZipFileValidator extends ExpressionAdapter {
 					}
 				}
 			}
-		} catch (InvalidPayloadException e) {
+		} catch (CamelExchangeException e) {
 			exchange.setException(e);
 
 			return Boolean.FALSE;
