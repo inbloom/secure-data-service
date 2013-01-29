@@ -21,9 +21,8 @@ import org.slc.sli.domain.NeutralQuery;
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
- * User: pghosh
- * Date: 1/15/13
+ * Class to store the granular access filter details
+ * @author pghosh
  */
 public class GranularAccessFilter {
 

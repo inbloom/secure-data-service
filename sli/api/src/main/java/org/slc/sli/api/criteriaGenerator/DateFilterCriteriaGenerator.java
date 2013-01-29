@@ -28,9 +28,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Created with IntelliJ IDEA.
- * User: pghosh
- * Date: 1/15/13
+ * Creates the filter to apply for granular data access`
+ * @author pghosh
  */
 
 @Component
@@ -45,6 +44,10 @@ public class DateFilterCriteriaGenerator {
     @Autowired
     private GranularAccessFilterProvider granularAccessFilterProvider;
 
+    /**
+     * Generates the date filter based on the request
+     * @param request
+     */
     public void generate(ContainerRequest request) {
 
         List<String> schoolYears = request.getQueryParameters().get(ParameterConstants.SCHOOL_YEARS);
@@ -72,6 +75,10 @@ public class DateFilterCriteriaGenerator {
         }
     }
 
+    /**
+     * Builder class to create the date filter criteria
+     * @author pghosh
+     */
     private static final class DateFilterCriteriaBuilder {
         private String entityName;
         private String beginDate;
@@ -82,43 +89,76 @@ public class DateFilterCriteriaGenerator {
         private Set<String> sessionIds;
         private List<String> connectingEntityList;
 
+        /**
+         * @param entityName
+         * @return
+         */
         public DateFilterCriteriaBuilder forEntity(String entityName) {
             this.entityName = entityName;
             return this;
         }
 
+        /**
+         * @param connectingEntityList
+         * @return
+         */
         public DateFilterCriteriaBuilder connectedBy(List<String> connectingEntityList) {
             this.connectingEntityList = connectingEntityList;
             return this;
         }
 
+        /**
+         * @param beginDateAttribute
+         * @param endDateAttribute
+         * @return
+         */
         public DateFilterCriteriaBuilder withDateAttributes(String beginDateAttribute, String endDateAttribute) {
             this.beginDateAttribute = beginDateAttribute;
             this.endDateAttribute = endDateAttribute;
             return this;
         }
 
+        /**
+         * @param beginDate
+         * @return
+         */
         public DateFilterCriteriaBuilder startingFrom(String beginDate) {
             this.beginDate = beginDate;
             return this;
         }
 
+        /**
+         * @param endDate
+         * @return
+         */
         public DateFilterCriteriaBuilder endingTo(String endDate) {
             this.endDate = endDate;
             return this;
         }
 
+        /**
+         * @param sessionIds
+         * @return
+         */
         public DateFilterCriteriaBuilder withSessionIds(Set<String> sessionIds) {
             this.sessionIds = sessionIds;
             return this;
         }
 
+        /**
+         * @param sessionAttribute
+         * @return
+         */
         public DateFilterCriteriaBuilder withSessionAttribute(String sessionAttribute) {
             this.sessionAttribute = sessionAttribute;
             return this;
         }
 
 
+        /**
+         * Build the granular access filter
+         * @return
+         */
         public GranularAccessFilter build() {
             GranularAccessFilter granularAccessFilter = new GranularAccessFilter();
             NeutralQuery neutralQuery = new NeutralQuery();
