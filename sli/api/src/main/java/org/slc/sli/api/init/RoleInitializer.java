@@ -107,7 +107,6 @@ public class RoleInitializer {
         groups.add(buildRoleGroup(buildLeader()));
         groups.add(buildRoleGroup(buildIT()));
         groups.add(buildRoleGroup(buildEducator()));
-        groups.add(buildRoleGroup(buildStudent()));
         return groups;
     }
 
@@ -162,14 +161,6 @@ public class RoleInitializer {
                 .addRights(
                         new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ, Right.READ_GENERAL,
                                 Right.READ_RESTRICTED, Right.WRITE_PUBLIC, Right.WRITE_GENERAL, Right.WRITE_RESTRICTED }).build();
-        role.setAdmin(true);
-        return role;
-    }
-
-    private Role buildStudent() {
-        info("Building Student default role.");
-        Role role = RoleBuilder.makeRole(STUDENT)
-                .addRights(new Right[] { Right.AGGREGATE_READ }).build();
         role.setAdmin(true);
         return role;
     }
