@@ -133,7 +133,6 @@ public class ZipFileProcessor implements Processor {
 
     private void setExchangeHeaders(Exchange exchange, ReportStats reportStats) {
         if (reportStats.hasErrors()) {
-            exchange.getIn().setHeader("hasErrors", reportStats.hasErrors());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
         }
     }

@@ -270,7 +270,6 @@ public class ControlFilePreProcessor implements Processor {
 
     private void setExchangeHeaders(Exchange exchange, ReportStats reportStats) {
         if (reportStats.hasErrors()) {
-            exchange.getIn().setHeader("hasErrors", reportStats.hasErrors());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         } else {
             exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
