@@ -20,6 +20,7 @@ limitations under the License.
 require 'set'
 require 'digest'
 require 'ldapstorage'
+require 'securerandom'
 
 module ApprovalEngine
 
@@ -106,7 +107,7 @@ module ApprovalEngine
     @@storage = storage
     @@transition_action_config = transition_action_config
     @@is_sandbox = is_sandbox
-    @@email_secret = (0...32).map{rand(256).chr}.join
+    @@email_secret = SecureRandom.hex(32).encode("UTF-8")
     @@roles = is_sandbox ? SANDBOX_ROLES : PRODUCTION_ROLES
     @@auto_approve = auto_approve
   end
