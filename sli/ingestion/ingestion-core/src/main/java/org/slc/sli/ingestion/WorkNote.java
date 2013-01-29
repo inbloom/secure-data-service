@@ -29,6 +29,8 @@ public class WorkNote implements Serializable {
 
     private final String batchJobId;
     private final String tenantId;
+    private final boolean hasErrors;
+
 
     /**
      * Constructor for the class.
@@ -36,9 +38,10 @@ public class WorkNote implements Serializable {
      * @param batchJobId
      * @param tenantId
      */
-    public WorkNote(String batchJobId, String tenantId) {
+    public WorkNote(String batchJobId, String tenantId, boolean hasErrors) {
         this.batchJobId = batchJobId;
         this.tenantId = tenantId;
+        this.hasErrors = hasErrors;
     }
 
     /**
@@ -101,6 +104,13 @@ public class WorkNote implements Serializable {
             return false;
         }
         return true;
+    }
+
+    /**
+     * @return the hasErrors
+     */
+    public boolean hasErrors() {
+        return hasErrors;
     }
 
     /**

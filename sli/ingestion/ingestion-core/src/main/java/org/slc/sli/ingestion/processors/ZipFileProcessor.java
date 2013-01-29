@@ -110,7 +110,7 @@ public class ZipFileProcessor implements Processor {
             }
 
             setExchangeHeaders(exchange, reportStats);
-            setExchangeBody(exchange, currentJob);
+            setExchangeBody(exchange, currentJob, reportStats.hasErrors());
 
         } catch (Exception exception) {
             handleProcessingException(exchange, batchJobId, zipFile, exception, reportStats);
@@ -138,8 +138,8 @@ public class ZipFileProcessor implements Processor {
         }
     }
 
-    private void setExchangeBody(Exchange exchange, NewBatchJob job) {
-        WorkNote workNote = new WorkNote(job.getId(), job.getTenantId());
+    private void setExchangeBody(Exchange exchange, NewBatchJob job, boolean hasErrors) {
+        WorkNote workNote = new WorkNote(job.getId(), job.getTenantId(), hasErrors);
         exchange.getIn().setBody(workNote, WorkNote.class);
     }
 

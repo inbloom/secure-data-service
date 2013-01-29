@@ -63,7 +63,7 @@ public class ZipFileSplitter {
 
         NewBatchJob newBatchJob = batchJobDAO.findBatchJobById(jobId);
         List<IngestionFileEntry> fileEntries = newBatchJob.getFiles();
-        fileEntryWorkNotes = createWorkNotes(jobId, fileEntries);
+        fileEntryWorkNotes = createWorkNotes(jobId, fileEntries, workNote.hasErrors());
 
         return fileEntryWorkNotes;
     }
@@ -73,13 +73,13 @@ public class ZipFileSplitter {
      * @param zipFile
      * @return
      */
-    private List<FileEntryWorkNote> createWorkNotes (String jobId, List<IngestionFileEntry> fileEntries) {
+    private List<FileEntryWorkNote> createWorkNotes (String jobId, List<IngestionFileEntry> fileEntries, boolean hasErrors) {
         List<FileEntryWorkNote> fileEntryWorkNotes = new ArrayList<FileEntryWorkNote>();
         List<String> fileNames = new ArrayList<String>();
 
         for (IngestionFileEntry fileEntry : fileEntries) {
             fileNames.add(fileEntry.getFileName());
-            fileEntryWorkNotes.add(new FileEntryWorkNote(jobId, "SLI", fileEntry));
+            fileEntryWorkNotes.add(new FileEntryWorkNote(jobId, "SLI", fileEntry, hasErrors));
         }
 
         batchJobDAO.createFileLatch(jobId, fileNames);

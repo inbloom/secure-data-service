@@ -142,7 +142,7 @@ public class ControlFileProcessor implements Processor {
             /*LOG.info("Control file is {}", cf.toString());
            exchange.getIn().setHeader("controlFile", cf);
 */
-            setExchangeBody( exchange, currentJob);
+            setExchangeBody( exchange, currentJob, reportStats.hasErrors());
         } catch (Exception exception) {
             handleExceptions(exchange, batchJobId, exception);
         } finally {
@@ -170,14 +170,12 @@ public class ControlFileProcessor implements Processor {
         } else if ((newJob.getProperty(AttributeType.PURGE.getName()) != null)
                 || (newJob.getProperty(AttributeType.PURGE_KEEP_EDORGS.getName()) != null)) {
             exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.PURGE.name());
-            exchange.getIn().setHeader("batchJobId", newJob.getId());
         } else {
             exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.CONTROL_FILE_PROCESSED.name());
         }
 
         if (newJob.getProperty(AttributeType.DRYRUN.getName()) != null) {
             LOG.debug("Matched @dry-run tag from control file parsing.");
-            exchange.getIn().setHeader(AttributeType.DRYRUN.getName(), true);
         } else {
             LOG.debug("Did not match @dry-run tag in control file.");
         }
@@ -205,8 +203,8 @@ public class ControlFileProcessor implements Processor {
         }
     }
 
-    private void setExchangeBody(Exchange exchange, NewBatchJob job) {
-        WorkNote workNote = new WorkNote(job.getId(), job.getTenantId());
+    private void setExchangeBody(Exchange exchange, NewBatchJob job, boolean hasErrors) {
+        WorkNote workNote = new WorkNote(job.getId(), job.getTenantId(), hasErrors);
         exchange.getIn().setBody(workNote, WorkNote.class);
     }
 
