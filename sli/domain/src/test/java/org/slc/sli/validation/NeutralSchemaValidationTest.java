@@ -26,7 +26,7 @@ import java.io.FileReader;
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -491,8 +491,7 @@ public class NeutralSchemaValidationTest {
     private void readAndValidateFixtureData(String fixtureFile, String collection) throws Exception {
         BufferedReader reader = null;
         try {
-            String f = new java.io.File(fixtureFile).getAbsolutePath();
-            reader = new BufferedReader(new FileReader(f));
+            reader = new BufferedReader(new FileReader(fixtureFile));
             String school;
             while ((school = reader.readLine()) != null) {
                 ObjectMapper oRead = new ObjectMapper();

@@ -9,8 +9,7 @@
     8082 => "SimpleIDP",
     3000 => "Databrowser",
     3001 => "Admin Tools",
-    8081 => "Sample App",
-    10024 => "Search Indexer"
+    8081 => "Sample App"
 #    1337 => "SIF Agent"
 }.each do |key, value|
   processId = `lsof -P -i:#{key} -sTCP:LISTEN -t`

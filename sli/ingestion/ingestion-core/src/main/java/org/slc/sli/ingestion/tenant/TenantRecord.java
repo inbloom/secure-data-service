@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.codehaus.jackson.map.ObjectMapper;
 
 /**
  * Container class for Tenant data entries

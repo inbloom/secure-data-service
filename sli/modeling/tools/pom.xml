@@ -12,13 +12,16 @@
         <sli.home>${project.parent.parent.basedir}</sli.home>
     </properties>
     <dependencies>
+        <!-- Apache Commons IO Dependency -->
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
         </dependency>
+        <!-- Apache Commons XmlSchema Dependency -->
         <dependency>
             <groupId>org.apache.ws.commons.schema</groupId>
             <artifactId>XmlSchema</artifactId>
+            <version>${commons.schema.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -29,6 +32,12 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-all</artifactId>
             <scope>test</scope>
+        </dependency>
+        <!-- StAX API -->
+        <dependency>
+            <groupId>stax</groupId>
+            <artifactId>stax-api</artifactId>
+            <version>1.0.1</version>
         </dependency>
         <dependency>
             <groupId>org.slc.sli.modeling</groupId>
@@ -61,6 +70,7 @@
         <dependency>
             <groupId>net.sf.jopt-simple</groupId>
             <artifactId>jopt-simple</artifactId>
+            <version>4.3</version>
         </dependency>
     </dependencies>
 </project>

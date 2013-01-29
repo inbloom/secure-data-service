@@ -29,12 +29,12 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.core.type.TypeReference;
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.node.ArrayNode;
+import org.codehaus.jackson.node.ObjectNode;
+import org.codehaus.jackson.type.TypeReference;
 
 import org.slc.sli.api.client.Entity;
 import org.slc.sli.api.client.Link;
@@ -178,11 +178,11 @@ public class BasicClient implements SLIClient {
             try {
                 JsonNode element = mapper.readValue(response.readEntity(String.class), JsonNode.class);
                 if (element instanceof ArrayNode) {
-                    List<Entity> tmp = mapper.readValue(element.traverse(), new TypeReference<List<GenericEntity>>() {
+                    List<Entity> tmp = mapper.readValue(element, new TypeReference<List<GenericEntity>>() {
                     });
                     entities.addAll(tmp);
                 } else if (element instanceof ObjectNode) {
-                    Entity entity = mapper.readValue(element.traverse(), GenericEntity.class);
+                    Entity entity = mapper.readValue(element, GenericEntity.class);
                     entities.add(entity);
                 } else {
                     // not what was expected....
@@ -209,7 +209,7 @@ public class BasicClient implements SLIClient {
         if (response.getStatus() == Response.Status.OK.getStatusCode()) {
             try {
                 JsonNode element = mapper.readValue(response.readEntity(String.class), JsonNode.class);
-                Map<String, List<Link>> links = mapper.readValue(element.traverse(),
+                Map<String, List<Link>> links = mapper.readValue(element,
                         new TypeReference<Map<String, List<BasicLink>>>() {
                         });
                 home.getData().putAll(links);

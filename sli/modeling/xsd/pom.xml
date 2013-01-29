@@ -21,6 +21,12 @@
         <dependency>
             <groupId>org.apache.ws.commons.schema</groupId>
             <artifactId>XmlSchema</artifactId>
+            <version>${commons.schema.version}</version>
+        </dependency>
+        <!-- StAX API -->
+        <dependency>
+            <groupId>stax</groupId>
+            <artifactId>stax-api</artifactId>
         </dependency>
     </dependencies>
 </project>

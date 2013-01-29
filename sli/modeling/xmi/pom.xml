@@ -17,9 +17,16 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
         </dependency>
+        <!-- StAX API -->
+        <dependency>
+            <groupId>stax</groupId>
+            <artifactId>stax-api</artifactId>
+            <version>1.0.1</version>
+        </dependency>
         <dependency>
             <groupId>net.sf.jopt-simple</groupId>
             <artifactId>jopt-simple</artifactId>
+            <version>4.3</version>
         </dependency>
         <dependency>
             <groupId>org.slc.sli.modeling</groupId>

@@ -32,6 +32,7 @@ import javax.xml.transform.TransformerException;
 
 import junit.framework.Assert;
 
+import org.jdom.JDOMException;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -88,7 +89,7 @@ public class XmlSignatureHelperTest {
 
     @Ignore
     @Test
-    public void signSamlArtifactResolve() throws TransformerException, NoSuchAlgorithmException,
+    public void signSamlArtifactResolve() throws JDOMException, TransformerException, NoSuchAlgorithmException,
             InvalidAlgorithmParameterException, KeyException, MarshalException, XMLSignatureException,
             KeyStoreException, CertificateException {
         Document unsignedDocument = getDocument("artifact-resolve-unsigned.xml");

@@ -37,7 +37,7 @@ import java.util.Set;
 import javax.ws.rs.MessageProcessingException;
 import javax.ws.rs.core.Response;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Before;
 import org.junit.Test;
 

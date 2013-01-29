@@ -44,8 +44,8 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.io.IOUtils;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.elasticsearch.search.query.FromParseElement;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
@@ -117,10 +117,10 @@ public class SamlFederationResource {
     @Autowired
     @Value("${sli.sandbox.enabled}")
     private boolean sandboxEnabled;
-    
+
     @Autowired
     private RealmHelper realmHelper;
-    
+
     @Context
     private HttpServletRequest httpServletRequest;
 
@@ -256,10 +256,10 @@ public class SamlFederationResource {
         String sandboxTenant = null; //for developers coming from developer realm
         String realmTenant = (String) realm.getBody().get("tenantId");
         String samlTenant = attributes.getFirst("tenant");
-        
+
         Boolean isAdminRealm = (Boolean) realm.getBody().get("admin");
         isAdminRealm = (isAdminRealm != null) ? isAdminRealm : Boolean.FALSE;
-        
+
         Boolean isDevRealm = (Boolean) realm.getBody().get("developer");
         isDevRealm = (isDevRealm != null) ? isDevRealm : Boolean.FALSE;
         if (isAdminRealm && sandboxEnabled) {
@@ -271,12 +271,12 @@ public class SamlFederationResource {
             if (isAdminRealm){
                 tenant = null; //operator admin
             }else{
-                //impersonation login, require tenant in the saml 
+                //impersonation login, require tenant in the saml
                 if(samlTenant != null) {
                     tenant = samlTenant;
                 }else{
                     error("Attempted login by a user in sandbox mode but no tenant was specified in the saml message.");
-                    throw new AccessDeniedException("Invalid user configuration."); 
+                    throw new AccessDeniedException("Invalid user configuration.");
                 }
             }
         } else if(isAdminRealm){
@@ -285,7 +285,7 @@ public class SamlFederationResource {
         } else if (isDevRealm) {
             //Prod mode, developer login
             tenant = null;
-            sandboxTenant = samlTenant; 
+            sandboxTenant = samlTenant;
             samlTenant = null;
         } else {
             //regular IDP login
@@ -361,7 +361,7 @@ public class SamlFederationResource {
                         principal.getTenantId());
             }
         }
-        
+
         if (sandboxTenant != null && isDevRealm) {
             principal.setSandboxTenant(sandboxTenant);
         }

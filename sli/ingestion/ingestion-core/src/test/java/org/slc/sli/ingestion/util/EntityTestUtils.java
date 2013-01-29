@@ -38,7 +38,7 @@ import java.util.Set;
 
 import javax.xml.transform.stream.StreamSource;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Assert;
 import org.milyn.Smooks;
 import org.milyn.SmooksException;

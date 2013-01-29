@@ -10,7 +10,7 @@
     <packaging>war</packaging>
     <name>SLI Dashboard</name>
     <properties>
-        <spring.version>3.1.2.RELEASE</spring.version>
+        <spring.version>3.1.1.RELEASE</spring.version>
         <spring.security.version>3.0.6.RELEASE</spring.security.version>
         <freemarker.version>2.3.18</freemarker.version>
         <gson.version>2.0</gson.version>
@@ -33,6 +33,10 @@
             <version>2.6</version>
         </dependency>
         <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+        </dependency>
+        <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
             <version>2.1</version>
@@ -43,12 +47,8 @@
             <version>2.5.2</version>
         </dependency>
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -78,22 +78,10 @@
         <dependency>
             <groupId>org.slc.sli.domain</groupId>
             <artifactId>domain</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>commons-logging</artifactId>
-                    <groupId>commons-logging</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.slc.sli.common</groupId>
             <artifactId>sli-common</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>commons-lang</artifactId>
-                    <groupId>commons-lang</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.slc.sli</groupId>
@@ -128,14 +116,6 @@
                 <exclusion>
                     <groupId>com.google.guava</groupId>
                     <artifactId>guava</artifactId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>cglib-nodep</artifactId>
-                    <groupId>cglib</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>commons-logging</artifactId>
-                    <groupId>commons-logging</groupId>
                 </exclusion>
             </exclusions>
             <scope>test</scope>
@@ -185,34 +165,16 @@
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
             <version>${spring.security.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>spring-security-core</artifactId>
-                    <groupId>org.springframework.security</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-config</artifactId>
             <version>${spring.security.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>spring-security-core</artifactId>
-                    <groupId>org.springframework.security</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
             <version>${spring.security.version}</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>spring-security-core</artifactId>
-                    <groupId>org.springframework.security</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <!-- Spring Test dependency -->
         <dependency>
@@ -231,18 +193,21 @@
             <artifactId>jstl</artifactId>
             <version>1.2</version>
         </dependency>
+
         <!-- Java Servlet dependency -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
             <scope>provided</scope>
         </dependency>
+
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jsp-api</artifactId>
             <scope>provided</scope>
             <version>2.0</version>
         </dependency>
+
     </dependencies>
     <build>
         <finalName>dashboard</finalName>
@@ -272,10 +237,10 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>aspectj-maven-plugin</artifactId>
             </plugin>
+
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
                 <artifactId>yuicompressor-maven-plugin</artifactId>
-                <version>${maven.yuicompressor.version}</version>
                 <executions>
                     <execution>
                         <goals>
@@ -336,7 +301,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
-                <version>${maven.javadoc.version}</version>
                 <executions>
                     <execution>
                         <id>attach-javadocs</id>
@@ -348,7 +312,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
-                <version>${maven.war.version}</version>
+                <version>2.1.1</version>
                 <configuration>
                     <webXml>target/web.xml</webXml>
                     <warSourceExcludes>**/static/js/**/*.js</warSourceExcludes>

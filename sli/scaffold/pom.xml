@@ -19,56 +19,11 @@
       <groupId>org.slc.sli</groupId>
       <artifactId>api</artifactId>
       <classifier>classes</classifier>
-        <exclusions>
-            <exclusion>
-                <artifactId>asm</artifactId>
-                <groupId>asm</groupId>
-            </exclusion>
-            <exclusion>
-                <artifactId>jackson-core-asl</artifactId>
-                <groupId>org.codehaus.jackson</groupId>
-            </exclusion>
-            <exclusion>
-                <artifactId>jackson-mapper-asl</artifactId>
-                <groupId>org.codehaus.jackson</groupId>
-            </exclusion>
-            <exclusion>
-                <artifactId>jackson-jaxrs</artifactId>
-                <groupId>org.codehaus.jackson</groupId>
-            </exclusion>
-            <exclusion>
-                <artifactId>commons-logging</artifactId>
-                <groupId>commons-logging</groupId>
-            </exclusion>
-            <exclusion>
-                <artifactId>plexus-utils</artifactId>
-                <groupId>org.codehaus.plexus</groupId>
-            </exclusion>
-            <exclusion>
-                <artifactId>classworlds</artifactId>
-                <groupId>classworlds</groupId>
-            </exclusion>
-            <exclusion>
-                <artifactId>maven-plugin-api</artifactId>
-                <groupId>org.apache.maven</groupId>
-            </exclusion>
-        </exclusions>
     </dependency>
 
     <dependency>
       <groupId>org.slc.sli.domain</groupId>
       <artifactId>domain</artifactId>
-        <exclusions>
-            <exclusion>
-                <artifactId>commons-logging</artifactId>
-                <groupId>commons-logging</groupId>
-            </exclusion>
-        </exclusions>
-    </dependency>
-
-    <dependency>
-        <groupId>commons-io</groupId>
-        <artifactId>commons-io</artifactId>
     </dependency>
 
     <!-- Spring Core dependency -->
