@@ -17,6 +17,7 @@
 package org.slc.sli.api.criteriaGenerator;
 
 /**
+ * Provides access to a GranularAccessFilter.
  * @author: sashton
  */
 public interface GranularAccessFilterProvider {
