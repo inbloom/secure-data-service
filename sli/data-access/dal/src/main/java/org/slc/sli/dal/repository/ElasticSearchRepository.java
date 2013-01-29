@@ -16,7 +16,10 @@
 
 package org.slc.sli.dal.repository;
 
+import com.google.common.io.NullOutputStream;
+
 import java.io.IOException;
+import java.io.PrintStream;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -116,7 +119,14 @@ public class ElasticSearchRepository implements Repository<Entity> {
      * @throws Exception
      */
     public void init() throws Exception {
-        esClient = new TransportClient();
+        PrintStream stdout = System.out;
+        System.setOut(new PrintStream(new NullOutputStream())); 
+        try { 
+            esClient = new TransportClient();
+        }
+        finally {
+            System.setOut(stdout); 
+        }
     }
 
     /**
