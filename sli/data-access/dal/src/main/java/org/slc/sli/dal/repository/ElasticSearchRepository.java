@@ -119,6 +119,9 @@ public class ElasticSearchRepository implements Repository<Entity> {
      * @throws Exception
      */
     public void init() throws Exception {
+        // This is an ugly hack to prevent an exception to be written to 
+        // standard output by the elastic search package, when it cannot load the "snappy" library 
+        // TODO: remove this when elastic search removes snappy compression as a dependency. 
         PrintStream stdout = System.out;
         System.setOut(new PrintStream(new NullOutputStream())); 
         try { 
