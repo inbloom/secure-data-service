@@ -45,4 +45,9 @@ public final class BatchJobManager {
         String jobId = workNote.getBatchJobId();
         return batchJobDAO.isPurge(jobId);
     }
+
+    public boolean hasErrors(Exchange exchange) {
+        WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
+        return workNote.hasErrors();
+    }
 }

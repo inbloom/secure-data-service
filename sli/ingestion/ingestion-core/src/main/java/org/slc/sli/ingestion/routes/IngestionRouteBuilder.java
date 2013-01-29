@@ -254,7 +254,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // routeId: processLandingZone
         from("direct:processLandingZone").routeId("processLandingZone")
             .process(landingZoneProcessor)
-            .choice().when(header(HAS_ERRORS).isEqualTo(true))
+            .choice().when()
+                .method(batchJobManager, "hasErrors")
                 .log(LoggingLevel.WARN, "CamelRouting", "Invalid landing zone detected.").to("direct:stop")
             .otherwise()
                 .log(LoggingLevel.INFO, "CamelRouting", "Landing zone is valid. Routing to ZipFileProcessor.")
@@ -263,7 +264,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // routeId: processZipFile
         from("direct:processZipFile").routeId("processZipFile")
             .process(zipFileProcessor)
-            .choice().when(header(HAS_ERRORS).isEqualTo(true))
+            .choice().when()
+                .method(batchJobManager, "hasErrors")
                 .log(LoggingLevel.WARN, "CamelRouting", "Invalid zip file detected.").to("direct:stop")
             .otherwise()
                 .log(LoggingLevel.INFO, "CamelRouting", "No errors in zip file. Routing to ControlFilePreProcessor.")
@@ -273,7 +275,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         // routeId: processControlFilePre
         from("direct:processControlFilePre").routeId("processControlFilePre")
             .process(controlFilePreProcessor)
-            .choice().when(header(HAS_ERRORS).isEqualTo(true))
+            .choice().when()
+                .method(batchJobManager, "hasErrors")
                 .log(LoggingLevel.WARN, "CamelRouting", "Failed to pre-process control file.").to("direct:stop")
             .otherwise()
                 .log(LoggingLevel.INFO, "CamelRouting", "Pre-processed control file.")
@@ -374,7 +377,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                     .to("direct:postExtract");
 
         // routeId: assembledJobs
-        from("direct:assembledJobs").routeId("assembledJobs").choice().when(header(HAS_ERRORS).isEqualTo(true))
+        from("direct:assembledJobs").routeId("assembledJobs").choice().when()
+                .method(batchJobManager, "hasErrors")
                 .log(LoggingLevel.INFO, "CamelRouting", "Error in processing. Routing to stop.").to("direct:stop")
                 .otherwise().to(workItemQueueUri);
 

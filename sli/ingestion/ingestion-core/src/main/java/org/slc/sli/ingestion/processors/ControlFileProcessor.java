@@ -142,7 +142,7 @@ public class ControlFileProcessor implements Processor {
             /*LOG.info("Control file is {}", cf.toString());
            exchange.getIn().setHeader("controlFile", cf);
 */
-            setExchangeBody( exchange, currentJob);
+            setExchangeBody( exchange, currentJob, reportStats.hasErrors());
         } catch (Exception exception) {
             handleExceptions(exchange, batchJobId, exception);
         } finally {
@@ -205,8 +205,8 @@ public class ControlFileProcessor implements Processor {
         }
     }
 
-    private void setExchangeBody(Exchange exchange, NewBatchJob job) {
-        WorkNote workNote = new WorkNote(job.getId(), job.getTenantId());
+    private void setExchangeBody(Exchange exchange, NewBatchJob job, boolean hasErrors) {
+        WorkNote workNote = new WorkNote(job.getId(), job.getTenantId(), hasErrors);
         exchange.getIn().setBody(workNote, WorkNote.class);
     }
 
