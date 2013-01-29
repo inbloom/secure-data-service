@@ -261,7 +261,7 @@ populateTable = (data) ->
 
     if (role.selfRights != null)
       for selfRight in role.selfRights
-        newRow.find(SELF_RIGHT_COL).append(createLabel('right', right))
+        newRow.find(SELF_RIGHT_COL).append(createLabel('right', selfRight))
         newRow.find(SELF_RIGHT_COL).append(" ")
 
     newRow.find(ADMIN_COL).append("<input type='checkbox' class='isAdmin' disabled='true'>")
