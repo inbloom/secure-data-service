@@ -101,7 +101,6 @@ public class LandingZoneProcessor implements Processor {
         }
 
         setExchangeBody(exchange, reportStats, currentJob, hasErrors);
-        exchange.getIn().setHeader("hasErrors", hasErrors);
     }
 
     /**
@@ -164,7 +163,7 @@ public class LandingZoneProcessor implements Processor {
             workNote = new WorkNote(job.getId(), job.getTenantId(), hasErrors);
             exchange.getIn().setBody(workNote, WorkNote.class);
         } else {
-            workNote = new WorkNote(null, null, false);
+            workNote = new WorkNote(null, null, hasErrors);
         }
         exchange.getIn().setBody(workNote, WorkNote.class);
     }

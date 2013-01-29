@@ -40,8 +40,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.tenant.TenantDA;
+
 
 /**
  * Tests for LandingZoneProcessor
@@ -91,7 +93,7 @@ public class LandingZoneProcessorTest {
         landingZoneProcessor.process(exchange);
 
         // Check there is no error in the exchange.
-        assertFalse("Header on exchange should indicate success", (Boolean) exchange.getIn().getHeader("hasErrors"));
+        assertFalse("Header on exchange should indicate success", exchange.getIn().getBody(WorkNote.class).hasErrors());
     }
 
     /**
@@ -116,7 +118,7 @@ public class LandingZoneProcessorTest {
         landingZoneProcessor.process(exchange);
 
         // Check there is an error in the exchange.
-        assertTrue("Header on exchange should indicate failure", (Boolean) exchange.getIn().getHeader("hasErrors"));
+        assertTrue("Header on exchange should indicate failure", exchange.getIn().getBody(WorkNote.class).hasErrors());
     }
 
     /**
@@ -139,7 +141,7 @@ public class LandingZoneProcessorTest {
         landingZoneProcessor.process(exchange);
 
         // Check there is no error in the exchange.
-        assertTrue("Header on exchange should indicate failure", (Boolean) exchange.getIn().getHeader("hasErrors"));
+        assertTrue("Header on exchange should indicate failure", exchange.getIn().getBody(WorkNote.class).hasErrors());
     }
 
 }

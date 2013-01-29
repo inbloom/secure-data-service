@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2013 inBloom, Inc. and its affiliates.
+ * Copyright 2012 Shared Learning Collaborative, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,23 +15,14 @@
  */
 
 
-package org.slc.sli.api.client.util;
+package test.camel.support.stax;
 
 import java.util.Map;
 
 /**
- * Query parameters for requests to the SLI ReSTful API service. Parameters are encoded
- * and passed to the service with the request.
+ * @author okrook
  *
- * @author asaarela
  */
-public interface Query {
-
-    /**
-     * Get the query parameters associated with this query instance.
-     *
-     * @return map of query parameters.
-     */
-    public abstract Map<String, Object> getParameters();
-
+public interface ObjectReadyNotifier {
+    void objectIsReady(Map<String, Object> object);
 }
