@@ -49,6 +49,7 @@ import org.slc.sli.sandbox.idp.service.SamlAssertionService;
 import org.slc.sli.sandbox.idp.service.SamlAssertionService.SamlAssertion;
 import org.slc.sli.sandbox.idp.service.UserService;
 import org.slc.sli.sandbox.idp.service.UserService.User;
+import org.slc.sli.sandbox.idp.service.UserTypeService;
 
 /**
  * Unit tests
@@ -71,6 +72,9 @@ public class LoginTest {
 
     @Mock
     RoleService roleService;
+
+    @Mock
+    UserTypeService typeService;
 
     @Mock
     DefaultUsersService defaultUserService;
@@ -237,6 +241,7 @@ public class LoginTest {
         List<String> roles = Arrays.asList("role1", "role2");
         Map<String, String> attributes = new HashMap<String, String>();
         attributes.put("Tenant", "mytenant");
+        attributes.put("userType", "staff");
         User user = new User("userId", roles, attributes);
         Mockito.when(httpSession.getAttribute("user_session_key")).thenReturn(user);
         Request reqInfo = Mockito.mock(Request.class);
@@ -260,6 +265,7 @@ public class LoginTest {
         List<String> roles = Arrays.asList("role1", "role2");
         Map<String, String> attributes = new HashMap<String, String>();
         attributes.put("Tenant", "mytenant");
+        attributes.put("userType", "staff");
         User user = new User("userId", roles, attributes);
         user.setImpersonationUser(new User("linda.kim", roles, null));
         Mockito.when(httpSession.getAttribute("user_session_key")).thenReturn(user);
@@ -285,6 +291,7 @@ public class LoginTest {
         List<String> roles = Arrays.asList("role1", "role2");
         Map<String, String> attributes = new HashMap<String, String>();
         attributes.put("Tenant", "mytenant");
+        attributes.put("userType", "admin");
         User user = new User("userId", roles, attributes);
         Mockito.when(httpSession.getAttribute("user_session_key")).thenReturn(user);
         Request reqInfo = Mockito.mock(Request.class);
@@ -304,6 +311,7 @@ public class LoginTest {
         List<String> roles = Arrays.asList("role1", "role2");
         Map<String, String> attributes = new HashMap<String, String>();
         attributes.put("Tenant", "mytenant");
+        attributes.put("userType", "admin");
         User user = new User("userId", roles, attributes);
         Mockito.when(httpSession.getAttribute("user_session_key")).thenReturn(user);
         Request reqInfo = Mockito.mock(Request.class);
@@ -382,6 +390,7 @@ public class LoginTest {
 
         HashMap<String, String> userAttributes = new HashMap<String, String>();
         userAttributes.put("userName", "Test Name");
+        userAttributes.put("userType", "staff");
         userAttributes.put("emailToken", "mockToken");
         userAttributes.put("tenant", "myTenant");
 
