@@ -31,8 +31,14 @@ public class SliSchemaVersionValidatorProvider implements ApplicationContextAwar
 
     private ApplicationContext applicationContext;
 
+    private SliSchemaVersionValidator sliSchemaVersionValidator;
+
     public SliSchemaVersionValidator getSliSchemaVersionValidator() {
-        return applicationContext.getBean(SliSchemaVersionValidator.class);
+        if (sliSchemaVersionValidator == null) {
+            sliSchemaVersionValidator = applicationContext.getBean(SliSchemaVersionValidator.class);
+        }
+
+        return sliSchemaVersionValidator;
     }
 
     @Override
