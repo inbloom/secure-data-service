@@ -2,7 +2,7 @@
 <!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
 <InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../../../../../common/domain/src/main/resources/edfiXsd/Interchange-EducationOrganization.xsd">
 	<StateEducationAgency>
-		<StateOrganizationId>NY</StateOrganizationId>
+		<StateOrganizationId>NY-STATE-NYC</StateOrganizationId>
 		<NameOfInstitution>New York State Education System</NameOfInstitution>
 		<ShortNameOfInstitution>NYES</ShortNameOfInstitution>
 		<OrganizationCategories>
@@ -48,7 +48,7 @@
 		<LEACategory>Charter</LEACategory>
 		<StateEducationAgencyReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>NY</StateOrganizationId>
+				<StateOrganizationId>NY-STATE-NYC</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</StateEducationAgencyReference>
 	</LocalEducationAgency>
@@ -76,7 +76,7 @@
 		<LEACategory>Charter</LEACategory>
 		<StateEducationAgencyReference>
 			<EducationalOrgIdentity>
-				<StateOrganizationId>NY</StateOrganizationId>
+				<StateOrganizationId>NY-STATE-NYC</StateOrganizationId>
 			</EducationalOrgIdentity>
 		</StateEducationAgencyReference>
 	</LocalEducationAgency>

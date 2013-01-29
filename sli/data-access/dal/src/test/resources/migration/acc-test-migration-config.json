@@ -1,7 +1,7 @@
 {
     "entities":{
         "staff": {
-            "999999": [
+            "5": [
             {
                 "ADD": {
                     "fieldName": "favoriteSubject",
@@ -21,7 +21,7 @@
             }]
         },
         "teacher": {
-            "999999": [
+            "5": [
             {
                 "ADD": {
                     "fieldName": "favoriteSubject",
@@ -39,6 +39,26 @@
                     "newFieldName": "nameData"
                 }
             }]
+        },
+        "student": {
+          "3": [{
+            "ADD": {
+              "fieldName": "favoriteColor",
+              "defaultValue": "yellow"
+            }
+          }],
+          "4": [{
+            "ADD": {
+              "fieldName": "mascot",
+              "defaultValue": "pirates"
+            }
+          }],
+          "5": [{
+            "ADD": {
+              "fieldName": "somefield",
+              "defaultValue": "somevalue"
+            }
+          }]
         }
     }
 }

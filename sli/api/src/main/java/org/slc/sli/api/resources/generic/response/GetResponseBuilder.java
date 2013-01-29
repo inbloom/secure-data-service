@@ -26,6 +26,7 @@ import org.slc.sli.api.resources.generic.representation.Resource;
 import org.slc.sli.api.resources.generic.representation.ServiceResponse;
 import org.slc.sli.api.resources.generic.service.EntityDecorator;
 import org.slc.sli.api.resources.generic.service.ResourceService;
+import org.slc.sli.api.resources.generic.util.ChangedUriInfo;
 import org.slc.sli.api.resources.generic.util.ResourceMethod;
 import org.slc.sli.api.resources.generic.util.ResourceTemplate;
 import org.slc.sli.api.resources.v1.view.View;
@@ -188,6 +189,8 @@ public class GetResponseBuilder extends ResponseBuilder {
         if (context instanceof WebApplicationContext) {
             String originalUri = context.getBaseUri() + ((WebApplicationContext) context).getProperties().get(ORIGINAL_REQUEST_KEY).toString();
             return originalUri;
+        } else if (context instanceof ChangedUriInfo) {
+            return ((ChangedUriInfo)context).getOriginalUri();
         } else {
             return context.getRequestUri().toString();
         }

@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import com.mongodb.BasicDBObject;
@@ -44,6 +45,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.IngestionStagedEntity;
+import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.RecordHash;
@@ -595,5 +597,23 @@ public class BatchJobMongoDA implements BatchJobDAO {
             return false;
         }
         return true;
+    }
+
+    @Override
+    public boolean isDryRun(String jobId) {
+        Map<String, String> batchProperties = getBatchProperties(jobId);
+        for (Entry<String, String> property : batchProperties.entrySet()) {
+            if(property.getKey().equals(AttributeType.DRYRUN.getName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Map<String, String> getBatchProperties(String jobId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").is(jobId));
+        NewBatchJob job = batchJobMongoTemplate.findOne(query, NewBatchJob.class);
+        return job.getBatchProperties();
     }
 }

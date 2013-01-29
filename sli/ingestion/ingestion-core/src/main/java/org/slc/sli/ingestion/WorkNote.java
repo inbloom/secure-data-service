@@ -24,11 +24,13 @@ import java.io.Serializable;
  *
  * @author okrook
  */
-public class SLIWorkNote implements Serializable {
+public class WorkNote implements Serializable {
     private static final long serialVersionUID = 5462350263804401592L;
 
     private final String batchJobId;
     private final String tenantId;
+    private final boolean hasErrors;
+
 
     /**
      * Constructor for the class.
@@ -36,9 +38,10 @@ public class SLIWorkNote implements Serializable {
      * @param batchJobId
      * @param tenantId
      */
-    public SLIWorkNote(String batchJobId, String tenantId) {
+    public WorkNote(String batchJobId, String tenantId, boolean hasErrors) {
         this.batchJobId = batchJobId;
         this.tenantId = tenantId;
+        this.hasErrors = hasErrors;
     }
 
     /**
@@ -85,7 +88,7 @@ public class SLIWorkNote implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        SLIWorkNote other = (SLIWorkNote) obj;
+        WorkNote other = (WorkNote) obj;
         if (batchJobId == null) {
             if (other.batchJobId != null) {
                 return false;
@@ -101,6 +104,13 @@ public class SLIWorkNote implements Serializable {
             return false;
         }
         return true;
+    }
+
+    /**
+     * @return the hasErrors
+     */
+    public boolean hasErrors() {
+        return hasErrors;
     }
 
     /**

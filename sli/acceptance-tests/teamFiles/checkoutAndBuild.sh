@@ -86,9 +86,9 @@ sh resetAllDbs.sh
 cd /opt/megatron/sli/sli/admin-tools/admin-rails/
 bundle install --deployment
 bundle exec rails server -d
-#cd /opt/megatron/sli/sli/databrowser/
-#bundle install --deployment
-#bundle exec rails server -d
+cd /opt/megatron/sli/sli/databrowser/
+bundle install --deployment
+bundle exec rails server -d
 #cd /opt/megatron/sli/tools/odin
 #bundle install --deployment
 #bundle exec rake test

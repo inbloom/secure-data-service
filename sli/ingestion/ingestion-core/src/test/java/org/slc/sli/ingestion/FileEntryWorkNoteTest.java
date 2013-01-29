@@ -27,7 +27,7 @@ public class FileEntryWorkNoteTest {
 
     @Test
     public void testCreateSimpleWorkNote() {
-        FileEntryWorkNote workNote = new FileEntryWorkNote("batchJobId", "SLI", null);
+        FileEntryWorkNote workNote = new FileEntryWorkNote("batchJobId", "SLI", null, false);
         Assert.assertEquals("batchJobId", workNote.getBatchJobId());
         Assert.assertEquals(null, workNote.getFileEntry());
         Assert.assertEquals("SLI", workNote.getTenantId());

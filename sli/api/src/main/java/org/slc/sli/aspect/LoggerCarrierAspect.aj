@@ -88,12 +88,15 @@ public aspect LoggerCarrierAspect {
     
 
     public void LoggerCarrier.audit(SecurityEvent event) {
+        LoggerFactory.getLogger("audit").info(event.toString());
     	Repository<Entity> mer= LoggerCarrierAspect.aspectOf().getMongoEntityRepository();
     	if(mer != null) {
     		Map<String, Object> metadata = new HashMap<String, Object>();
     		metadata.put("tenantId", event.getTenantId());
     	    mer.create("securityEvent", event.getProperties(), metadata, "securityEvent");
-    	}
+    	} else {
+            LoggerFactory.getLogger("audit").info("[Could not log SecurityEvent to mongo!]");
+        }
     }
 
 }
