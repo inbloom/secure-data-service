@@ -44,7 +44,8 @@ public class RangedWorkNote extends WorkNote implements Serializable {
      */
     public RangedWorkNote(String batchJobId, IngestionStagedEntity ingestionStagedEntity, long startTime, long endTime,
             long recordsInRange, int batchSize) {
-        super(batchJobId, ""); //FIXME: Provide the tenantId
+        //We dont care about hasErrors field for RangeWorkNote
+        super(batchJobId, "",  false); //FIXME: Provide the tenantId
         this.ingestionStagedEntity = ingestionStagedEntity;
         this.startTime = startTime;
         this.endTime = endTime;

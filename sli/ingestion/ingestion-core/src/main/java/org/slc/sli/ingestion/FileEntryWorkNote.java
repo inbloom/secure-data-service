@@ -29,8 +29,8 @@ public class FileEntryWorkNote extends WorkNote implements Serializable {
 
     private final IngestionFileEntry fileEntry;
 
-    public FileEntryWorkNote(String batchJobId, String tenantId, IngestionFileEntry fileEntry) {
-        super(batchJobId, tenantId);
+    public FileEntryWorkNote(String batchJobId, String tenantId, IngestionFileEntry fileEntry, boolean hasErrors) {
+        super(batchJobId, tenantId, hasErrors);
 
         this.fileEntry = fileEntry;
     }

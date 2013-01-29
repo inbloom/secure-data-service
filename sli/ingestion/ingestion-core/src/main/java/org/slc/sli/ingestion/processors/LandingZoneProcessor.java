@@ -100,7 +100,7 @@ public class LandingZoneProcessor implements Processor {
             batchJobDAO.saveBatchJob(currentJob);
         }
 
-        setExchangeBody(exchange, reportStats, currentJob);
+        setExchangeBody(exchange, reportStats, currentJob, hasErrors);
         exchange.getIn().setHeader("hasErrors", hasErrors);
     }
 
@@ -158,13 +158,13 @@ public class LandingZoneProcessor implements Processor {
         newJob.getResourceEntries().add(resourceName);
     }
 
-    private void setExchangeBody(Exchange exchange, ReportStats reportStats, NewBatchJob job) {
+    private void setExchangeBody(Exchange exchange, ReportStats reportStats, NewBatchJob job, boolean hasErrors) {
         WorkNote workNote = null;
         if (job != null) {
-            workNote = new WorkNote(job.getId(), job.getTenantId());
+            workNote = new WorkNote(job.getId(), job.getTenantId(), hasErrors);
             exchange.getIn().setBody(workNote, WorkNote.class);
         } else {
-            workNote = new WorkNote(null, null);
+            workNote = new WorkNote(null, null, false);
         }
         exchange.getIn().setBody(workNote, WorkNote.class);
     }
