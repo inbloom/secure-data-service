@@ -19,16 +19,19 @@ package org.slc.sli.api.security.context.validator;
 import java.util.Arrays;
 import java.util.Set;
 
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.security.context.resolver.EdOrgHelper;
-import org.slc.sli.api.util.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 
+/**
+ * Validates the context of a teacher to see the requested set of education organizations.
+ * Returns true if the teacher member can see ALL of the entities, and false otherwise.
+ */
 @Component
 public class TeacherToEdOrgValidator extends AbstractContextValidator {
-    
+
     @Autowired
     EdOrgHelper helper;
 
@@ -46,7 +49,7 @@ public class TeacherToEdOrgValidator extends AbstractContextValidator {
         }
 
         Set<String> schools = getDirectEdorgs();
-        schools.addAll(helper.getDistricts(SecurityUtil.getSLIPrincipal().getEntity()));
+        schools.addAll(getEdorgLineage(schools));
         return schools.containsAll(ids);
     }
 
