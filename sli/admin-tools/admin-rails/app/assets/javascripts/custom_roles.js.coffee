@@ -12,7 +12,21 @@ jQuery ->
 
   populateTable(roles)
 
+  $("#addSelfRightUi button").click ->
+    console.log("Clicking the self button")
+    option = $('#addSelfRightUi option:selected')
+    if (option.val() == 'none')
+      return
+    text = option.text()
+    right = createLabel('right', text)
+    right = wrapInputWithDeleteButton(right, "span", text)
+    $("#addSelfRightUi").parent().append(right)
+    $("#addSelfRightUi").parent().append(" ")
+    populateRightComboBox($(@).parents("tr"))
+    enableSaveButtonIfPossible($(@).parents("tr"))
+
   $("#addRightUi button").click ->
+    console.log("The regular button clicked")
     option = $('#addRightUi option:selected')
     if (option.val() == 'none')
       return
@@ -23,6 +37,7 @@ jQuery ->
     $("#addRightUi").parent().append(" ")
     populateRightComboBox($(@).parents("tr"))
     enableSaveButtonIfPossible($(@).parents("tr"))
+
 
   #Wire up Add Role button
   $("#addGroupButton").click ->
@@ -126,17 +141,17 @@ populateRightComboBox = (tr) ->
     if ($(@).val() != "none")
       $(@).remove()
 
-#  $("#addSelfRightUi option").each ->
-#    if ($(@).val() != "none")
-#      $(@).remove()
+  $("#addSelfRightUi option").each ->
+    if ($(@).val() != "none")
+      $(@).remove()
 
   for right in defaultRights
     if (curRights.indexOf(right) < 0)
       $("#addRightUi select").append($("<option></option>").val(right).text(right))
 
-#  for right in selfRights
-#    if (curSelfRights.indexOf(right) < 0)
-#      $("#addSelfRightUi select").append($("<option></option>").val(right).text(right))
+  for right in selfRights
+    if (curSelfRights.indexOf(right) < 0)
+      $("#addSelfRightUi select").append($("<option></option>").val(right).text(right))
 
 wrapInputWithDeleteButton = (input, type, name) ->
   div = $('<span>').addClass("input-append")
@@ -214,11 +229,10 @@ getRights = (tr) ->
     return rights
 
 getSelfRights = (tr) ->
-#    rights = []
-#    tr.find(SELF_RIGHT_COL).find(".customLabel").each ->
-#      rights.push($(@).text())
-#    return rights
-  return null
+    rights = []
+    tr.find(SELF_RIGHT_COL).find(".customLabel").each ->
+      rights.push($(@).text())
+    return rights
 
 getRoles = (tr) ->
     roles = []
