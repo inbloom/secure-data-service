@@ -309,6 +309,11 @@ vars.put(&quot;gradebookEntryID&quot;, resp[0].id);
               <stringProp name="Header.name">Authorization</stringProp>
               <stringProp name="Header.value">Bearer ${__P(accessToken)}</stringProp>
             </elementProp>
+	    <elementProp name="" elementType="Header">
+	       <stringProp name="Header.name">x-request-id</stringProp>
+	       <stringProp name="Header.value">${__TestPlanName()}:${__P(accessToken)}</stringProp>
+	       </elementProp>
+
           </collectionProp>
         </HeaderManager>
         <hashTree/>

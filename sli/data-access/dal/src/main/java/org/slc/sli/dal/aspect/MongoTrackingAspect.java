@@ -17,7 +17,9 @@
 package org.slc.sli.dal.aspect;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
 import java.util.concurrent.ConcurrentHashMap;
@@ -78,7 +80,7 @@ public class MongoTrackingAspect {
         enabled = Boolean.valueOf(enabledConfig);
     }
 
-    public static boolean isEnabled() {
+    private static boolean isEnabled() {
         return enabled;
     }
 
@@ -98,7 +100,8 @@ public class MongoTrackingAspect {
             proceedAndTrack(pjp, mt.getDb().getName(), pjp.getSignature().getName(), collection, start, end);
         }
         if (Boolean.valueOf(dbCallTracking)) {
-            dbCallTracker.increamentHitCount();
+            dbCallTracker.incrementHitCount();
+            // dbCallTracker.addMetric("t", pjp.getSignature().toShortString(), end-start);
         }
 
         return result;
@@ -116,8 +119,41 @@ public class MongoTrackingAspect {
             proceedAndTrack(pjp, col.getDB().getName(), pjp.getSignature().getName(), col.getName(), start, end);
         }
         if (Boolean.valueOf(dbCallTracking)) {
-            dbCallTracker.increamentHitCount();
+            dbCallTracker.incrementHitCount();
+            // dbCallTracker.addMetric("t", pjp.getSignature().toShortString(), end-start);
         }
+        return result;
+    }
+        
+    /**
+     * Track calls in the various implementation of the Repository interface. 
+     */
+    
+    // Note: This is commented out, because it incurs overhead at runtime
+    // @Around("call(* org.slc.sli.domain.Repository+.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test) && !within(org..*MongoPerfRepository)")
+    public Object trackDALCalls(ProceedingJoinPoint pjp) throws Throwable {
+        return trackCalls(pjp); 
+    }
+        
+    private Object trackCalls(ProceedingJoinPoint pjp) throws Throwable {
+
+        Object result; 
+        if (Boolean.valueOf(dbCallTracking)) {
+            dbCallTracker.addEvent("s", pjp.getSignature().getDeclaringTypeName() + "." + pjp.getSignature().getName(), System.currentTimeMillis(), null);
+            result = pjp.proceed();
+            long end = System.currentTimeMillis(); 
+            // capture the arguments
+            Object[] callArgs = pjp.getArgs(); 
+            List<String> args = new ArrayList<String>(callArgs.length); 
+            for(Object ca : callArgs) {
+                args.add((null == ca) ? null : ca.getClass().getName() + ":" + ca.toString()); 
+            }
+            dbCallTracker.addEvent("e", "", end, args);
+        }
+        else {
+            result = pjp.proceed(); 
+        }
+
         return result;
     }
 
@@ -132,6 +168,9 @@ public class MongoTrackingAspect {
 
     private void trackCallStatistics(String db, String function, String collection, long start, long elapsed) {
         String jobId = TenantContext.getJobId();
+        if (jobId == null) {
+            LOG.debug("JOBID_NULL"); 
+        }
         if (jobId != null) {
             long trackingInt = Long.valueOf(trackingInterval) * 1000;
             if (trackingInt <= 0) {

@@ -62,6 +62,8 @@
 	
    <bean class="org.slc.sli.aspect.LoggerCarrierAspect" factory-method="aspectOf">
    </bean>
+  <bean id="apiTrackingAspect" class="org.slc.sli.api.perf.APITrackingAspect" factory-method="aspectOf">
+  </bean>	
 	
 	
 </beans>
