@@ -71,33 +71,42 @@ class SectionWorkOrderFactory
               @world[ed_org_type][ed_org_index]['sections'][year][grade][offering['id']] = [] 
               session = find_matching_session_for_school(school_id, offering)
               sections.each{ |section|
-                if teacher_does_not_exist_yet(section[:teacher]['id'])
-                  year_of = Date.today.year - DataUtility.select_random_from_options(@prng, (25..65).to_a)
-                  # keep :name => nil in work order --> Teacher entity class will lazily create name for teacher if its nil
-                  yielder << {:type=>Teacher, :id=>section[:teacher]['id'], :year=>year_of, :name=>section[:teacher]['name']}
-                end
-                teacher_id = section[:teacher]['id']
-                if !@teachers[school_id].include?(teacher_id)
-                  @teachers[school_id] << teacher_id
-                  yielder << {:type=>TeacherSchoolAssociation, 
-                    :id=>teacher_id,
-                    :school=>school_id, 
-                    :assignment=>:REGULAR_EDUCATION, 
-                    :grades=>[grade], 
-                    :subjects=>section[:teacher]['subjects']
-                  }
-
-                  # add staff -> education organization assignment association for current session (where teacher is associated to school)
-                  # -> this will eventually allow us to migrate teachers (even pre-requisite teachers) across education organizations as part of 
-                  #    the current simulation
-                  ed_org_associations = create_staff_ed_org_association_for_teacher(session, teacher_id, school_id, ed_org_type)
-                  ed_org_associations.each { |order| yielder << order }
-
-                  # add staff -> program associations (currently very random)
-                  # future implementations should be based off of a program catalog, OR more intelligence in reacting to students during simulation
-                  program_associations = create_staff_program_associations_for_teacher(session, teacher_id, ed_org["programs"])
-                  program_associations.each { |order| yielder << order }
-                end
+                teacher_id = 0
+                isFirstTeacherForSection = true
+                section[:section_teachers].each { |section_teacher|
+                  if teacher_does_not_exist_yet(section_teacher['id'])
+                    year_of = Date.today.year - DataUtility.select_random_from_options(@prng, (25..65).to_a)
+                    # keep :name => nil in work order --> Teacher entity class will lazily create name for teacher if its nil
+                    yielder << {:type=>Teacher, :id=>section_teacher['id'], :year=>year_of, :name=>section_teacher['name']}
+                  end
+                  teacher_id = section_teacher['id']
+                  if !@teachers[school_id].include?(teacher_id)
+                    @teachers[school_id] << teacher_id
+                    yielder << {:type=>TeacherSchoolAssociation, 
+                      :id=>teacher_id,
+                      :school=>school_id, 
+                      :assignment=>:REGULAR_EDUCATION, 
+                      :grades=>[grade], 
+                      :subjects=>section_teacher['subjects']
+                    }
+  
+                    # add staff -> education organization assignment association for current session (where teacher is associated to school)
+                    # -> this will eventually allow us to migrate teachers (even pre-requisite teachers) across education organizations as part of 
+                    #    the current simulation
+                    ed_org_associations = create_staff_ed_org_association_for_teacher(session, teacher_id, school_id, ed_org_type)
+                    ed_org_associations.each { |order| yielder << order }
+  
+                    # add staff -> program associations (currently very random)
+                    # future implementations should be based off of a program catalog, OR more intelligence in reacting to students during simulation
+                    program_associations = create_staff_program_associations_for_teacher(session, teacher_id, ed_org["programs"])
+                    program_associations.each { |order| yielder << order }
+                  end
+                  # A section can have multiple teachers, assign the first teacher to the section
+                  if isFirstTeacherForSection
+                    yielder << {:type=>TeacherSectionAssociation, :teacher=>teacher_id, :section=>section[:id], :school=>school_id, :position=>:TEACHER_OF_RECORD}
+                    isFirstTeacherForSection = false
+                  end
+                }
 
                 # generate gradebook entries here
                 # -> need session for interval (start date and end date of session)
@@ -113,7 +122,6 @@ class SectionWorkOrderFactory
                 gradebook_entries.each { |entry| yielder << entry }
 
                 yielder << {:type=>Section, :id=>section[:id], :edOrg=>school_id, :offering=>offering}
-                yielder << {:type=>TeacherSectionAssociation, :teacher=>teacher_id, :section=>section[:id], :school=>school_id, :position=>:TEACHER_OF_RECORD}
                 unless session.nil?
                   dates = session['interval']
                 else
@@ -191,21 +199,27 @@ class SectionWorkOrderFactory
       sections_for_this_offering  = []
 
       section_range.each do |section|
-        teacher = teachers.shift
-        if teacher.nil?
-          # need to create teacher
-          # use course offering to create teacher school association
-          @teacher_unique_state_id += 1
-          ed_org_id                = offering['ed_org_id']
-          teacher                  = create_teacher(type, DataUtility.get_teacher_unique_state_id(@teacher_unique_state_id), offering['grade'])          
-          added_teacher            = push_new_teacher_into_world(teacher, ed_org_id, type)
-          @log.warn "Failed to push teacher with id: #{teacher['id']} into world" if !added_teacher
-        end
+
+        section_teachers = []
+        teachers_per_section = DataUtility.rand_float_to_int(@prng, @scenario['TEACHERS_PER_SECTION'] || 1)
+        for t in 1..teachers_per_section
+          teacher = teachers.shift
+          if teacher.nil?
+            # need to create teacher
+            # use course offering to create teacher school association
+            @teacher_unique_state_id += 1
+            ed_org_id                = offering['ed_org_id']
+            teacher                  = create_teacher(type, DataUtility.get_teacher_unique_state_id(@teacher_unique_state_id), offering['grade'])          
+            added_teacher            = push_new_teacher_into_world(teacher, ed_org_id, type)
+            @log.warn "Failed to push teacher with id: #{teacher['id']} into world" if !added_teacher
+          end
+          section_teachers << teacher
+        end        
 
         # decrement the number of sections available to the current teacher and push them back onto the @world
         # -> this operation will push the teacher onto the end of the 'teachers' queue for the given education organization,
         #    so sections will be spread evenly across teachers
-        sections_for_this_offering << {:id=>section, :teacher=>teacher}
+        sections_for_this_offering << {:id=>section, :section_teachers=>section_teachers}
         if !teacher['num_sections'].nil?
           teacher['num_sections'] = teacher['num_sections'] - 1
           teachers << teacher if teacher['num_sections'] > 0
@@ -258,7 +272,7 @@ class SectionWorkOrderFactory
   # creates staff -> education organization assignment association for the teacher at the specified school, in the specified session
   def create_staff_ed_org_association_for_teacher(session, teacher_id, ed_org_id, type)
     associations = []
-    if !session.nil?
+    if !@scenario["HACK_NO_STAFF_EDORG_ASSOCIATIONS_EXCEPT_SEA"] && !session.nil?
       if ed_org_id.kind_of? Integer
         state_org_id = DataUtility.get_state_education_agency_id(ed_org_id) if type == "seas"
         state_org_id = DataUtility.get_local_education_agency_id(ed_org_id) if type == "leas"
@@ -284,17 +298,20 @@ class SectionWorkOrderFactory
   def create_staff_program_associations_for_teacher(session, teacher_id, programs)
     associations = []
     if !session.nil?
-      min          = @scenario["MINIMUM_NUM_PROGRAMS_PER_TEACHER"]
-      max          = @scenario["MAXIMUM_NUM_PROGRAMS_PER_TEACHER"]
-      interval     = session["interval"]
-      begin_date   = interval.get_begin_date
-      end_date     = interval.get_end_date
-      num_programs = DataUtility.select_random_from_options(@prng, (min..max).to_a)
-      my_programs  = DataUtility.select_num_from_options(@prng, num_programs, programs)
-      my_programs.each do |program|
-        access = DataUtility.select_random_from_options(@prng, [true, false])
-        program_id = DataUtility.get_program_id(program[:id])
-        associations << {:type=>StaffProgramAssociation, :staff=>teacher_id, :program=>program_id, :access=>access, :begin_date=>begin_date, :end_date=>end_date}
+      staff_program_associations_per_teacher = DataUtility.rand_float_to_int(@prng, @scenario["HACK_STAFF_PROGRAM_ASSOCIATIONS_FOR_TEACHER"] || 1)
+      for a in 1..staff_program_associations_per_teacher
+        min          = @scenario["MINIMUM_NUM_PROGRAMS_PER_TEACHER"]
+        max          = @scenario["MAXIMUM_NUM_PROGRAMS_PER_TEACHER"]
+        interval     = session["interval"]
+        begin_date   = interval.get_begin_date
+        end_date     = interval.get_end_date
+        num_programs = DataUtility.select_random_from_options(@prng, (min..max).to_a)
+        my_programs  = DataUtility.select_num_from_options(@prng, num_programs, programs)
+        my_programs.each do |program|
+          access = DataUtility.select_random_from_options(@prng, [true, false])
+          program_id = DataUtility.get_program_id(program[:id])
+          associations << {:type=>StaffProgramAssociation, :staff=>teacher_id, :program=>program_id, :access=>access, :begin_date=>begin_date, :end_date=>end_date}
+        end
       end
     end
     associations
