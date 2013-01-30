@@ -1,4 +1,3 @@
-@Hackathon
 Feature: Ingestion Notification
 
 Background: I have a landing zone route configured

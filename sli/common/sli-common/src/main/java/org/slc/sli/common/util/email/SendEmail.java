@@ -22,20 +22,7 @@ public class SendEmail {
     public SendEmail() {
         props = System.getProperties();
         // FIXME: take mail host from SLI-wide properties
-//        props.setProperty("mail.smtp.host", "mail.wgenhq.net");
-
-        //use gmail smtp
-        Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
-        props.setProperty("mail.transport.protocol", "smtp");
-        props.setProperty("mail.host", "smtp.gmail.com");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.port", "465");
-        props.put("mail.smtp.socketFactory.port", "465");
-        props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
-        props.put("mail.smtp.socketFactory.fallback", "false");
-        props.setProperty("mail.smtp.quitwait", "false");
-        props.setProperty("mail.debug", "true");
-
+        props.setProperty("mail.smtp.host", "localhost");
     }
 
     // Send a simple text message
@@ -85,13 +72,7 @@ public class SendEmail {
 
     // Set up the To:, From:, and Subject: parts (but not the body)
     public MimeMessage setupMessage(String to, String from, String subject, String body) throws MessagingException, AddressException {
-//    	Session session = Session.getDefaultInstance(props);
-        //gmail
-        Session session = Session.getDefaultInstance(props,new javax.mail.Authenticator()
-        {
-            protected PasswordAuthentication getPasswordAuthentication()
-            { return new PasswordAuthentication("johnsingh1977@gmail.com","password");	}
-        });
+    	Session session = Session.getDefaultInstance(props);
     	MimeMessage message = new MimeMessage(session);
     	message.setFrom(new InternetAddress(from));
     	message.addRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
@@ -106,6 +87,6 @@ public class SendEmail {
 
     public static void main(String[] args) throws MessagingException {
         SendEmail se = new SendEmail();
-        se.sendMail("lchen@wgen.net", "lchen@wgen.net", "Hackathon", "Hackathon is fun!");
+        se.sendMail("someone@somedomain.net", "someone@somedomain.net", "A test", "Email is fun!");
     }
 }
