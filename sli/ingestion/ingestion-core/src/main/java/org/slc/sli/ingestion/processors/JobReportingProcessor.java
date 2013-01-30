@@ -55,7 +55,7 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.BatchJobStatusType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
-import org.slc.sli.ingestion.RangedWorkNote;
+import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
@@ -113,7 +113,7 @@ public class JobReportingProcessor implements Processor {
 
     @Override
     public void process(Exchange exchange) {
-        RangedWorkNote workNote = exchange.getIn().getBody(RangedWorkNote.class);
+        WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
 
         if (workNote == null || workNote.getBatchJobId() == null) {
             missingBatchJobIdError(exchange);
@@ -122,7 +122,7 @@ public class JobReportingProcessor implements Processor {
         }
     }
 
-    private void processJobReporting(Exchange exchange, RangedWorkNote workNote) {
+    private void processJobReporting(Exchange exchange, WorkNote workNote) {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
 
         String batchJobId = workNote.getBatchJobId();
@@ -439,9 +439,8 @@ public class JobReportingProcessor implements Processor {
     }
 
     private void missingBatchJobIdError(Exchange exchange) {
-        exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        LOG.error("No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
+        LOG.error("No BatchJobId specified in " + this.getClass().getName() + " exchange message.");
     }
 
     private void writeInfoLine(PrintWriter jobReportWriter, String string) {
@@ -478,7 +477,7 @@ public class JobReportingProcessor implements Processor {
         }
     }
 
-    private void performJobCleanup(Exchange exchange, RangedWorkNote workNote, Stage stage, NewBatchJob job) {
+    private void performJobCleanup(Exchange exchange, WorkNote workNote, Stage stage, NewBatchJob job) {
         if (job != null) {
             BatchJobUtils.completeStageAndJob(stage, job);
             batchJobDAO.saveBatchJob(job);
@@ -525,7 +524,7 @@ public class JobReportingProcessor implements Processor {
         audit(event);
     }
 
-    private void cleanupStagingDatabase(RangedWorkNote workNote) {
+    private void cleanupStagingDatabase(WorkNote workNote) {
         if ("true".equals(clearOnCompletion)) {
 
             neutralRecordMongoAccess.cleanupJob(workNote.getBatchJobId());
@@ -543,7 +542,7 @@ public class JobReportingProcessor implements Processor {
      * @param exchange
      * @param workNote
      */
-    private void broadcastFlushStats(Exchange exchange, RangedWorkNote workNote) {
+    private void broadcastFlushStats(Exchange exchange, WorkNote workNote) {
         try {
             ProducerTemplate template = new DefaultProducerTemplate(exchange.getContext());
             template.start();
@@ -555,26 +554,11 @@ public class JobReportingProcessor implements Processor {
     }
 
     private void cleanUpLZ(NewBatchJob job) {
-        boolean isZipFile = false;
-        for (ResourceEntry resourceEntry : job.getResourceEntries()) {
-            if (FileFormat.ZIP_FILE.getCode().equalsIgnoreCase(resourceEntry.getResourceFormat())) {
-                isZipFile = true;
-            }
-        }
-        if (isZipFile) {
             String sourceId = job.getSourceId();
             if (sourceId != null) {
                 File dir = new File(sourceId);
                 FileUtils.deleteQuietly(dir);
             }
-        } else {
-            for (ResourceEntry resourceEntry : job.getResourceEntries()) {
-                if (resourceEntry.getResourceFormat().equals(FileFormat.EDFI_XML.getCode())) {
-                    File xmlFile = new File(resourceEntry.getResourceName());
-                    FileUtils.deleteQuietly(xmlFile);
-                }
-            }
-        }
     }
 
     public void setCommandTopicUri(String commandTopicUri) {

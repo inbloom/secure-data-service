@@ -58,11 +58,10 @@ import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
-import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.AggregatedSource;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.JobSource;
-import org.slc.sli.ingestion.reporting.impl.NeutralRecordSource;
+import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
+import org.slc.sli.ingestion.reporting.impl.ProcessorSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.smooks.SliDeltaManager;
 import org.slc.sli.ingestion.transformation.EdFi2SLITransformer;
@@ -240,14 +239,11 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
             ReportStats reportStatsForNrEntity = null;
 
             Iterable<NeutralRecord> records = null;
-            AggregatedSource source = new AggregatedSource(job.getId(), collectionNameAsStaged, stage.getStageName());
+            AggregatedSource source = new AggregatedSource(collectionNameAsStaged);
             try {
                 records = queryBatchFromDb(collectionToPersistFrom, job.getId(), workNote);
                 for (NeutralRecord nr : records) {
-                    NeutralRecordSource nrSource = new NeutralRecordSource(collectionNameAsStaged, stage.getStageName(),
-                            nr.getVisitBeforeLineNumber(), nr.getVisitBeforeColumnNumber(), nr.getVisitAfterLineNumber(),
-                            nr.getVisitAfterColumnNumber());
-                    source.addSource(nrSource);
+                    source.addSource(new ElementSourceImpl(nr));
                 }
             } catch (MongoException me) {
                 // Add collection name to job resources for later error reporting, if not already
@@ -336,9 +332,8 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
                 }
             }
         } catch (Exception e) {
-            Source source = new JobSource(collectionNameAsStaged, stage.getStageName());
-            databaseMessageReport.error(reportStatsForCollection, source, CoreMessageCode.CORE_0005,
-                    collectionNameAsStaged);
+            databaseMessageReport.error(reportStatsForCollection, new ProcessorSource(collectionNameAsStaged),
+                    CoreMessageCode.CORE_0005, collectionNameAsStaged);
             LogUtil.error(LOG, "Exception when attempting to ingest NeutralRecords in: " + collectionNameAsStaged, e);
         } finally {
             Iterator<Metrics> it = perFileMetrics.values().iterator();
@@ -492,10 +487,7 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
         List<SimpleEntity> transformed = transformer.handle(record, databaseMessageReport, reportStats);
 
         if (transformed == null || transformed.isEmpty()) {
-            NeutralRecordSource source = new NeutralRecordSource(record.getResourceId(), getStageName(),
-                    record.getVisitBeforeLineNumber(), record.getVisitBeforeColumnNumber(), record.getVisitAfterLineNumber(),
-                    record.getVisitAfterColumnNumber());
-            databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0004, record.getRecordType());
+            databaseMessageReport.error(reportStats, new ElementSourceImpl(record), CoreMessageCode.CORE_0004, record.getRecordType());
             return null;
         }
         transformed.get(0).setSourceFile(record.getSourceFile());
@@ -567,7 +559,6 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
      *            camel exchange.
      */
     private void handleNoBatchJobIdInExchange(Exchange exchange) {
-        exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         LOG.error("Error:", "No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }
 
@@ -582,7 +573,6 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
      *            current batch job id.
      */
     private void handleProcessingExceptions(Exception exception, Exchange exchange, String batchJobId) {
-        exchange.getIn().setHeader("ErrorMessage", exception.toString());
         LogUtil.error(LOG, "Error persisting batch job " + batchJobId, exception);
 
         Error error = Error.createIngestionError(batchJobId, null, BATCH_JOB_STAGE.getName(), null, null, null,

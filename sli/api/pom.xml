@@ -35,10 +35,10 @@
         </dependency>
 
         <dependency>
-          <groupId>org.slc.sli.domain</groupId>
-          <artifactId>domain</artifactId>
-          <type>test-jar</type>
-          <scope>test</scope>
+            <groupId>org.slc.sli.domain</groupId>
+            <artifactId>domain</artifactId>
+            <type>test-jar</type>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -275,7 +275,7 @@
                             <maxIdleTime>60000</maxIdleTime>
                             <!-- increase header buffer size to support our
                                 aggressive linking strategy -->
-                            <headerBufferSize>32768</headerBufferSize>
+                            <headerBufferSize>16384</headerBufferSize>
                         </connector>
                     </connectors>
                 </configuration>

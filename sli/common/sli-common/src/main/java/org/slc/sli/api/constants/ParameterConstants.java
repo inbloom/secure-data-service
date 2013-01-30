@@ -117,6 +117,11 @@ public class ParameterConstants {
     public static final String DEFAULT_INCLUDE_AGGREGATES = "false";
 
     /**
+     * Query parameter for date range filtering
+     */
+    public static final String SCHOOL_YEARS = "schoolYears";
+
+    /**
      * Optional Fields
      */
     public static final String OPTIONAL_FIELD_ASSESSMENTS = "assessments";

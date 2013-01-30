@@ -211,6 +211,11 @@ def ensureBatchJobIndexes(db_connection)
   @collection.save({ '_id' => " " })
   @collection.ensure_index([['t', 1]])
   @collection.remove({ '_id' => " " })
+    
+  @collection = @db["fileEntryLatch"]
+  @collection.save({'_id' => " "})
+  @collection.ensure_index([['batchJobId', 1]], :unique => true)
+  @collection.remove({'_id' => " "})
 end
 
 def initializeTenants()
@@ -803,6 +808,25 @@ Given /^I want to ingest locally provided data "([^"]*)" file as the payload of 
   @source_file_name = file_path
 end
 
+Given /^the following collections are empty in sli datastore:$/ do |table|
+    disable_NOTABLESCAN()
+    @db = @conn[INGESTION_DB_NAME]
+    puts "Clearing out collections in db " + @ingestion_db_name + " on " + INGESTION_DB_NAME
+    @result = "true"
+    table.hashes.map do |row|
+            @entity_collection = @db[row["collectionName"]]
+            @entity_collection.remove()           
+            puts "There are #{@entity_collection.count} records in collection " + row["collectionName"] + "."            
+            if @entity_collection.count.to_s != "0"
+                @result = "false"
+            end
+    end
+    assert(@result == "true", "Some collections were not cleared successfully.")
+    enable_NOTABLESCAN()
+end
+
+
+
 Given /^the following collections are empty in datastore:$/ do |table|
   disable_NOTABLESCAN()
   @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
@@ -1156,6 +1180,56 @@ When /^a batch job log (has|has not) been created$/ do |has_or_has_not|
   checkForBatchJobLog(@landing_zone_path, should_has_log) if !@hasNoLandingZone
 end
 
+When /^a batch job has completed successfully in the database$/ do
+   disable_NOTABLESCAN()
+   old_db = @db
+   @db   = @batchConn[INGESTION_BATCHJOB_DB_NAME]
+   @entity_collection = @db.collection("newBatchJob")
+   intervalTime = 1
+   @maxTimeout ? @maxTimeout : @maxTimeout = 600
+   iters = (1.0*@maxTimeout/intervalTime).ceil
+   found = false
+     if (INGESTION_MODE == 'remote')
+       iters.times do |i|
+         @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedSuccessfully"]}}).count().to_s
+         if @entity_count.to_s == "1"
+           puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+           found = true
+           break
+         else
+           @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedWithErrors"]}}).count().to_s
+           if @entity_count.to_s == "1"
+                assert(false, "Batch Job completed with errors")
+           end
+           sleep(intervalTime)
+         end
+       end
+     else
+       sleep(5) # waiting to check job completion removes race condition (windows-specific)
+       iters.times do |i|
+         @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedSuccessfully"]}}).count().to_s
+         if @entity_count.to_s == "1"
+           puts "Ingestion took approx. #{(i+1)*intervalTime} seconds to complete"
+           found = true
+           break
+         else
+           @entity_count = @entity_collection.find({"status" => {"$in" => ["CompletedWithErrors"]}}).count().to_s
+           if @entity_count.to_s == "1"
+                assert(false, "Batch Job completed with errors")
+           end
+           sleep(intervalTime)
+         end
+       end
+     end
+     if found
+       assert(true, "")
+     else
+       assert(false, "Either batch log was never created, or it took more than #{@maxTimeout} seconds")
+     end
+     @db = old_db
+     enable_NOTABLESCAN()
+   end
+
 When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
   disable_NOTABLESCAN()
 
@@ -1292,7 +1366,7 @@ end
 
 def scpUnzippedFilesToLandingZone(filename, dirname)
   @source_path = @local_file_store_path + dirname
-  @destination_path = @landing_zone_path + filename
+  @destination_path = @landing_zone_path
 
   puts "Source = " + @source_path
   puts "Destination = " + @destination_path
@@ -1300,17 +1374,22 @@ def scpUnzippedFilesToLandingZone(filename, dirname)
   assert(@destination_path != nil, "Destination path was nil")
   assert(@source_path != nil, "Source path was nil")
 
+  file_path_list = Dir[@source_path + '/*.*'].select { |e| File.file?(e) }
+  file_list ||=[]
+  file_path_list.each { |e| file_list << File.basename(e.gsub("\\","/")) }
+  puts "Copying files " + file_list.join(", ") + " to landing zone."
   if (INGESTION_MODE == 'remote')
     Dir.foreach(@landing_zone_path) do |entry|
       remoteLzCopy(@source_path + entry, @destination_path)
     end
   else
     # copy file from local filesystem to landing zone
-    FileUtils.cp_r @source_path + '/.', @destination_path
+    FileUtils.cp file_path_list, @destination_path
   end
 
-  puts "ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path} #{ACTIVEMQ_HOST}"
-  runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{@destination_path} #{ACTIVEMQ_HOST}")
+  lz_file = @destination_path + filename
+  puts "ruby #{UPLOAD_FILE_SCRIPT} STOR #{lz_file} #{ACTIVEMQ_HOST}"
+  runShellCommand("ruby #{UPLOAD_FILE_SCRIPT} STOR #{lz_file} #{ACTIVEMQ_HOST}")
 
   assert(true, "File Not Uploaded")
 end
@@ -1744,6 +1823,29 @@ Then /^I should see following map of entry counts in the corresponding collectio
 
   assert(@result == "true", "Some records didn't load successfully.")
   enable_NOTABLESCAN()
+end
+
+Then /^I should see following map of entry counts in the corresponding sli db collections:$/ do |table|
+disable_NOTABLESCAN()
+puts INGESTION_DB_NAME
+@db = @conn[INGESTION_DB_NAME]                                                                                                  
+@result = "true"
+
+                                                                                                    
+table.hashes.map do |row|
+  @entity_collection = @db.collection(row["collectionName"])
+  @entity_count = @entity_collection.count().to_i
+  puts @entity_count
+  puts "There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection"
+                                                                                                     
+  if @entity_count.to_s != row["count"].to_s
+    @result = "false"
+  end
+end
+
+                                                                                                    
+assert(@result == "true", "Some records didn't load successfully.")
+enable_NOTABLESCAN()
 end
 
 Then /^I should see following map of entry counts in the corresponding batch job db collections:$/ do |table|
@@ -2681,11 +2783,17 @@ Then /^application "(.*?)" has "(.*?)" authorized edorgs$/ do |arg1, arg2|
 
 end
 
-Given /^I create a tenant set to preload data set "(.*?)"$/ do |dataSet|
-  step "I add a new tenant for \"TENANT\""
+Given /^I create a tenant set to preload data set "(.*?)" for tenant "(.*?)"$/ do |dataSet, tenant|
+  step "I add a new tenant for \"#{tenant}\""
   @newTenant["body"]["landingZone"][0]["preload"]={"files" => [dataSet], "status" => "ready"}
   @landing_zone_path = @newTenant["body"]["landingZone"][0]["path"]
   @tenantColl.save(@newTenant)
+end
+
+Given /^the tenant database "(.*?)" does not exist$/ do |tenant|
+    disable_NOTABLESCAN()
+    @conn.drop_database(convertTenantIdToDbName(tenant))
+    enable_NOTABLESCAN()
 end
 
 Then /^I should see either "(.*?)" or "(.*?)" following (.*?) in "(.*?)" file$/ do |content1, content2, logTag, logFile|

@@ -19,14 +19,12 @@ package org.slc.sli.ingestion.landingzone.validation;
 import java.util.List;
 
 import org.slc.sli.ingestion.landingzone.ControlFile;
-import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
 import org.slc.sli.ingestion.reporting.impl.ControlFileSource;
-import org.slc.sli.ingestion.reporting.impl.XmlFileSource;
 import org.slc.sli.ingestion.validation.Validator;
 
 /**
@@ -35,7 +33,7 @@ import org.slc.sli.ingestion.validation.Validator;
  * @author okrook
  *
  */
-public class ControlFileValidator implements Validator<ControlFileDescriptor> {
+public class ControlFileValidator implements Validator<ControlFile> {
 
     private static final String STAGE_NAME = "Control File Validation";
 
@@ -50,17 +48,14 @@ public class ControlFileValidator implements Validator<ControlFileDescriptor> {
     }
 
     @Override
-    public boolean isValid(ControlFileDescriptor item, AbstractMessageReport report, ReportStats reportStats,
+    public boolean isValid(ControlFile controlFile, AbstractMessageReport report, ReportStats reportStats,
             Source source) {
-        ControlFile controlFile = item.getFileItem();
 
         // we know more of our source
-        Source newsource = new ControlFileSource(controlFile.getFileName(),
-                (source == null ? null : source.getStageName()));
         List<IngestionFileEntry> entries = controlFile.getFileEntries();
 
         if (entries.size() < 1) {
-            report.error(reportStats, newsource, BaseMessageCode.BASE_0003);
+            report.error(reportStats, new ControlFileSource(source.getResourceId(), controlFile), BaseMessageCode.BASE_0003);
 
             return false;
         }
@@ -78,7 +73,7 @@ public class ControlFileValidator implements Validator<ControlFileDescriptor> {
         // then this is a case of 'no valid files in control file'
         // (i.e., SL_ERR_MSG8)
         if (!isValid && !reportStats.hasErrors()) {
-            report.error(reportStats, newsource, BaseMessageCode.BASE_0002);
+            report.error(reportStats, new ControlFileSource(source.getResourceId(), controlFile), BaseMessageCode.BASE_0002);
             return false;
         }
 

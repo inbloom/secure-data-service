@@ -627,7 +627,8 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1CommaSeparatedListOrderTests,
                      :v1SelectorTests,
                      :longLivedSessionTests,
-                     :apiVersionTests] do
+                     :apiVersionTests,
+                     :apiV1GranularAccessTests] do
   displayFailureReport()
 end
 
@@ -683,6 +684,7 @@ task :databrowserTests => [:realmInit] do
   runTests("test/features/databrowser/ssp.feature")
   runTests("test/features/databrowser/databrowser_simple_detail_view.feature")
   runTests("test/features/databrowser/critical_auth_bugfix.feature")
+  runTests("test/features/databrowser/student_authentication.feature")
   displayFailureReport()
   if $SUCCESS
     puts "Completed All Tests"

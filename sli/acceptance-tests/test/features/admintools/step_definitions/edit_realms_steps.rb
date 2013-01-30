@@ -148,6 +148,10 @@ Then /^I should get (\d+) error$/ do |arg1|
   step "I should get 1 errors"
 end
 
+When /^I click on the Cancel button$/ do
+  @driver.find_element(:link_text, "Cancel").click
+end
+
 When /^I click on the Add new realm button$/ do
   @driver.find_element(:link_text, "Add new").click
 end

@@ -23,8 +23,8 @@ require_relative '../../simple_idp/step_definitions/MockIDP_steps.rb'
 ###############################################################################
 
 When /^I click and go back to Home$/ do
-  assertWithWait("Failed to find 'Home' Link on page")  {@driver.find_element(:link_text, "The inBloom Data Browser")}
-  @driver.find_element(:link_text, "The inBloom Data Browser").click
+  assertWithWait("Failed to find 'Home' Link on page")  {@driver.find_element(:link_text, "data browser")}
+  @driver.find_element(:link_text, "data browser").click
   assertWithWait("Failed to be directed to Databrowser's Home page")  {@driver.page_source.include?("Listing Home")}
 end
 

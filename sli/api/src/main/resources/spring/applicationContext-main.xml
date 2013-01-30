@@ -60,4 +60,8 @@
 		</property>
 	</bean>
 	
+   <bean class="org.slc.sli.aspect.LoggerCarrierAspect" factory-method="aspectOf">
+   </bean>
+	
+	
 </beans>

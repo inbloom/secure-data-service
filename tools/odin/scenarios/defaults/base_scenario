@@ -51,11 +51,15 @@ TWELFTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
 
 COURSES_ON_SEA: true
 
+# Number of teachers to generate for each section
+TEACHERS_PER_SECTION: 1
+
 # Staff Catalog location
 STAFF_CATALOG: scenarios/staff.json
 
 # Teacher to Section mapping
 MAX_SECTIONS_PER_TEACHER: {'elementary': 1, 'middle': 3, 'high': 5}
+TEACHERS_PER_SECTION: 1
 
 # Assessment information
 ASSESSMENTS_TAKEN: {GRADE_WIDE_ASSESSMENTS: 3}
@@ -137,12 +141,15 @@ COHORTS_PER_SCHOOL: 3
 DAYS_IN_COHORT: 90
 PROBABILITY_STUDENT_IN_COHORT: .3
 STAFF_HAVE_COHORT_ACCESS: true
+STAFF_COHORT_ASSOCIATION_PER_STAFF: 1
 
 #parents
 INCLUDE_PARENTS: true
+PARENTS_PER_STUDENT: 2
 
 #discipline
 INCIDENTS_PER_SECTION: 2
+LIKELYHOOD_STUDENT_WAS_INVOLVED: .5
 BEHAVIORS: [
   { short: "Fighting", desc: "Fighting with another student", category: "School Violation" },
   { short: "Disruption", desc: "Disrupting class", category: "School Code of Conduct" },
@@ -160,3 +167,28 @@ COMPETENCY_LEVEL_DESCRIPTORS: [
   { code_value: "Barely Competent", description: "Student understands some basic", performance_base_conversion: "Basic" },
   { code_value: "Competent", description: "Student understands basic and some intermediate material", performance_base_conversion: "Proficient" },
   { code_value: "Very Competent", description: "Student understands everything in subject", performance_base_conversion: "Advanced" }]
+
+ENTITY_BLACKLIST: [
+"BehaviorDescriptor",
+"DisciplineDescriptor",
+"BellSchedule"]
+
+# Settings specifically for matching cardinalities with the old Java tool, probably of
+# little use outside of that
+# Do not create StaffEdOrgAssociations except for SEA staff
+#HACK_NO_STAFF_EDORG_ASSOCIATIONS_EXCEPT_SEA: false
+# Change the number of StaffProgramAssociations created for teacher
+#HACK_STAFF_PROGRAM_ASSOCIATIONS_FOR_TEACHER: 1
+#HACK_SECTIONS_PER_STUDENT: 1
+# Limit the number of staff roles in an LEA to less than the default
+#HACK_MAX_LEA_ROLES: 999
+# Limit the number of staff roles in an SEA to less than the default
+#HACK_MAX_SCHOOL_ROLES: 999
+# Allow an LEA to have multiple sessions
+#HACK_SESSIONS_PER_LEA: 1
+# Only create CalendarDates for one session -- now entirely sure if this is a hack or if this is actually the correct behavior
+#HACK_ONLY_CALENDAR_DATES_FOR_ONE_SESSION: false
+#  Only create StaffEdOrgAssociations for SEA staff
+#HACK_NO_STAFF_EDORG_ASSOCIATIONS_EXCEPT_SEA: false
+# Only create CalendarDates for a percentage of the dates
+#HACK_PERCENTAGE_CALENDAR_DATES: 1

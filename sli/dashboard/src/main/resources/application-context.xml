@@ -30,7 +30,7 @@
 		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.1.xsd"
 >
-    <context:property-placeholder location="file:${sli.conf},file:${prop.location},file:${sli.encryption.properties}" ignore-resource-not-found="true" system-properties-mode="FALLBACK" />
+    <context:property-placeholder location="file:${sli.conf},file:${prop.location},file:${sli.encryption.properties}" ignore-resource-not-found="true" ignore-unresolvable="true" system-properties-mode="FALLBACK" />
 
     <bean id="systemProps" class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
         <property name="targetObject" value="#{@systemProperties}"/>
@@ -83,7 +83,7 @@
 
     <bean id="portalWSManager" class="org.slc.sli.dashboard.manager.impl.PortalWSManagerImpl">
         <property name="restClient" ref="restClient"/>
-        <property name="portalHeaderUrl" value="${portal.header.url}" />
+        <property name="portalHeaderUrl" value="${portal.header.url}"/>
 	<property name="portalFooterUrl" value="${portal.footer.url}" />
     </bean>
 

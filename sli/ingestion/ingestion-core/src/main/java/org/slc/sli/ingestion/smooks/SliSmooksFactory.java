@@ -36,7 +36,7 @@ import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.JobSource;
+import org.slc.sli.ingestion.reporting.impl.FileSource;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 
 /**
@@ -72,8 +72,7 @@ public class SliSmooksFactory implements BatchJobStage {
                     ingestionFileEntry.getBatchJobId(), ingestionFileEntry);
 
         } else {
-            Source source = new JobSource(ingestionFileEntry.getResourceId(), getStageName());
-            errorReport.error(reportStats, source, CoreMessageCode.CORE_0013, fileType);
+            errorReport.error(reportStats, new FileSource(ingestionFileEntry.getResourceId()), CoreMessageCode.CORE_0013, fileType);
             throw new IllegalArgumentException("File type not supported : " + fileType);
         }
     }

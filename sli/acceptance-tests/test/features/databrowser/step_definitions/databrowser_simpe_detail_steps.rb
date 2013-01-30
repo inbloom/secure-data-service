@@ -175,8 +175,8 @@ When /^I have navigated to the <Page> of the Data Browser$/ do |table|
     assertWithWait("Failed to find '"+hash["Page"]+"' Link on page")  {@driver.find_element(:link_text, hash["Page"])}
     @driver.find_element(:link_text, hash["Page"]).click
     
-    assertWithWait("Failed to find 'Home' Link on page")  {@driver.find_element(:link_text, "The inBloom Data Browser")}
-    @driver.find_element(:link_text, "The inBloom Data Browser").click
+    assertWithWait("Failed to find 'Home' Link on page")  {@driver.find_element(:link_text, "data browser")}
+    @driver.find_element(:link_text, "data browser").click
 
     assertWithWait("Failed to be directed to Databrowser's Home page")  {@driver.page_source.include?("Listing Home")}
 
@@ -206,6 +206,14 @@ When /^I search for the identifier "([^\"]*)" in "([^\"]*)"$/ do |id, type|
   @driver.find_element(:id, "search_id").clear
   @driver.find_element(:id, "search_id").send_keys id
   @driver.find_element(:xpath, "//input[@value=\"Search\"]").click
+end
+
+Then /^I should see "(.*?)" on the page$/ do |arg1|
+  assertWithWait("Failed to find #{arg1} on the page.")  {@driver.page_source.include?(arg1)}
+end
+
+Then /^I should not see "(.*?)" on the page$/ do |arg1|
+  assertWithWait("Found #{arg1} on the page when we shouldn't have.")  {!@driver.page_source.include?(arg1)}
 end
 
 Then /^I see a "(.*?)" alert box$/ do |arg1|

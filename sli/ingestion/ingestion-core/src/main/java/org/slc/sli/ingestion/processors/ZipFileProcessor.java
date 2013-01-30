@@ -27,19 +27,19 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.RangedWorkNote;
+import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.handler.ZipFileHandler;
 import org.slc.sli.ingestion.landingzone.FileResource;
 import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
-import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.JobSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
+import org.slc.sli.ingestion.reporting.impl.ZipFileSource;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
@@ -70,7 +70,10 @@ public class ZipFileProcessor implements Processor {
 
     @Override
     public void process(Exchange exchange) throws Exception {
-        String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
+        WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
+
+        String batchJobId = workNote.getBatchJobId();
+
         if (batchJobId == null) {
             handleNoBatchJobIdInExchange(exchange);
         } else {
@@ -81,65 +84,65 @@ public class ZipFileProcessor implements Processor {
     private void processZipFile(Exchange exchange, String batchJobId) throws Exception {
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
 
-        NewBatchJob newJob = null;
+        NewBatchJob currentJob = null;
         ReportStats reportStats = null;
-        String resourceId = null;
+        File zipFile = null;
 
         try {
             LOG.info("Received zip file: " + exchange.getIn());
 
-            File zipFile = exchange.getIn().getBody(File.class);
+            currentJob = batchJobDAO.findBatchJobById(batchJobId);
+            ResourceEntry zipResourceEntry = currentJob.getZipResourceEntry();
+            zipFile = new File(zipResourceEntry.getResourceName());
 
-            newJob = batchJobDAO.findBatchJobById(batchJobId);
+
             FileResource zipFileResource = new FileResource(zipFile.getAbsolutePath());
-            resourceId = zipFileResource.getResourceId();
 
-            TenantContext.setTenantId(newJob.getTenantId());
-            TenantContext.setJobId(newJob.getId());
+            TenantContext.setTenantId(currentJob.getTenantId());
+            TenantContext.setJobId(currentJob.getId());
 
             reportStats = new SimpleReportStats();
 
             String ctlFile = zipFileHandler.handle(zipFileResource, databaseMessageReport, reportStats);
 
             if (ctlFile != null) {
-                newJob.setSourceId(zipFile.getCanonicalPath());
+                currentJob.setSourceId(zipFile.getCanonicalPath());
             }
 
-            setExchangeHeaders(exchange, reportStats, newJob, ctlFile);
+            setExchangeHeaders(exchange, reportStats);
+            setExchangeBody(exchange, currentJob, reportStats.hasErrors());
 
-            exchange.getIn().setBody(RangedWorkNote.createSimpleWorkNote(batchJobId));
         } catch (Exception exception) {
-            handleProcessingException(exchange, batchJobId, resourceId, exception, reportStats);
+            handleProcessingException(exchange, batchJobId, zipFile, exception, reportStats);
         } finally {
-            if (newJob != null) {
-                BatchJobUtils.stopStageAndAddToJob(stage, newJob);
-                batchJobDAO.saveBatchJob(newJob);
+            if (currentJob != null) {
+                BatchJobUtils.stopStageAndAddToJob(stage, currentJob);
+                batchJobDAO.saveBatchJob(currentJob);
             }
         }
     }
 
-    private void handleProcessingException(Exchange exchange, String batchJobId, String resourceId,
+    private void handleProcessingException(Exchange exchange, String batchJobId, File zipFile,
             Exception exception, ReportStats reportStats) {
-        exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOG.error("Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
-            Source source = new JobSource(resourceId, BATCH_JOB_STAGE.getName());
-            databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0014, exception.toString());
+            databaseMessageReport.error(reportStats, new ZipFileSource(zipFile), CoreMessageCode.CORE_0014, exception.toString());
         }
     }
 
-    private void setExchangeHeaders(Exchange exchange, ReportStats reportStats, NewBatchJob newJob, String ctlFile) {
-        exchange.getIn().setHeader("BatchJobId", newJob.getId());
-        exchange.getIn().setHeader("ResourceId", ctlFile);
+    private void setExchangeHeaders(Exchange exchange, ReportStats reportStats) {
         if (reportStats.hasErrors()) {
-            exchange.getIn().setHeader("hasErrors", reportStats.hasErrors());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
         }
     }
 
+    private void setExchangeBody(Exchange exchange, NewBatchJob job, boolean hasErrors) {
+        WorkNote workNote = new WorkNote(job.getId(), job.getTenantId(), hasErrors);
+        exchange.getIn().setBody(workNote, WorkNote.class);
+    }
+
     private void handleNoBatchJobIdInExchange(Exchange exchange) {
-        exchange.getIn().setHeader("ErrorMessage", "No BatchJobId specified in exchange header.");
         exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.ERROR.name());
         LOG.error("No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
     }

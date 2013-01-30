@@ -1,360 +1,420 @@
 [
   {
     "userId": "CAP0-D0-HSch0-teacher1",
+    "type": "staff",
     "name": "Clinton Fitzpatrick",
     "role": "Educator",
     "association": "CAP0-D0-HSch0"
   },
   {
     "userId": "CAP0-D0-HSch0-teacher2",
+    "type": "staff",
     "name": "Ruben Harmon",
     "role": "Educator",
     "association": "CAP0-D0-HSch0"
   },
   {
     "userId": "CAP0-D0-HSch0-teacher3",
+    "type": "staff",
     "name": "Robert Pitts",
     "role": "Educator",
     "association": "CAP0-D0-HSch0"
   },
   {
     "userId": "CAP0-D0-HSch0-teacher4",
+    "type": "staff",
     "name": "Clarence Lang",
     "role": "Educator",
     "association": "CAP0-D0-HSch0"
   },
   {
     "userId": "CAP0-D0-HSch0-teacher5",
+    "type": "staff",
     "name": "Brandon Le",
     "role": "Educator",
     "association": "CAP0-D0-HSch0"
   },
   {
     "userId": "CAP0-D0-HSch0-teacher6",
+    "type": "staff",
     "name": "Ramona Lamb",
     "role": "Educator",
     "association": "CAP0-D0-HSch0"
   },
   {
     "userId": "CAP0-D0-HSch0-teacher7",
+    "type": "staff",
     "name": "Eduardo Larsen",
     "role": "Educator",
     "association": "CAP0-D0-HSch0"
   },
   {
     "userId": "CAP0-D0-HSch0-teacher8",
+    "type": "staff",
     "name": "Francisca Chandler",
     "role": "Educator",
     "association": "CAP0-D0-HSch0"
   },
   {
     "userId": "CAP0-D0-HSch0-teacher9",
+    "type": "staff",
     "name": "Hope Justice",
     "role": "Educator",
     "association": "CAP0-D0-HSch0"
   },
   {
     "userId": "CAP0-D0-HSch1-teacher0",
+    "type": "staff",
     "name": "Bill Wilcox",
     "role": "Educator",
     "association": "CAP0-D0-HSch1"
   },
   {
     "userId": "CAP0-D0-HSch1-teacher1",
+    "type": "staff",
     "name": "Miguel Phelps",
     "role": "Educator",
     "association": "CAP0-D0-HSch1"
   },
   {
     "userId": "CAP0-D0-HSch1-teacher2",
+    "type": "staff",
     "name": "Bridgette Schroeder",
     "role": "Educator",
     "association": "CAP0-D0-HSch1"
   },
   {
     "userId": "CAP0-D0-HSch1-teacher3",
+    "type": "staff",
     "name": "Brandon Valentine",
     "role": "Educator",
     "association": "CAP0-D0-HSch1"
   },
   {
     "userId": "CAP0-D0-HSch1-teacher4",
+    "type": "staff",
     "name": "Michele Livingston",
     "role": "Educator",
     "association": "CAP0-D0-HSch1"
   },
   {
     "userId": "CAP0-D0-HSch1-teacher5",
+    "type": "staff",
     "name": "Jimmie Silva",
     "role": "Educator",
     "association": "CAP0-D0-HSch1"
   },
   {
     "userId": "CAP0-D0-HSch1-teacher6",
+    "type": "staff",
     "name": "Kelly Christensen",
     "role": "Educator",
     "association": "CAP0-D0-HSch1"
   },
   {
     "userId": "CAP0-D0-HSch1-teacher7",
+    "type": "staff",
     "name": "Maryellen Santiago",
     "role": "Educator",
     "association": "CAP0-D0-HSch1"
   },
   {
     "userId": "CAP0-D0-HSch1-teacher8",
+    "type": "staff",
     "name": "Alyssa Gould",
     "role": "Educator",
     "association": "CAP0-D0-HSch1"
   },
   {
     "userId": "CAP0-D0-HSch1-teacher9",
+    "type": "staff",
     "name": "Florence Mcdonald",
     "role": "Educator",
     "association": "CAP0-D0-HSch1"
   },
   {
     "userId": "CAP0-D0-HSch2-teacher0",
+    "type": "staff",
     "name": "Jacob White",
     "role": "Educator",
     "association": "CAP0-D0-HSch2"
   },
   {
     "userId": "CAP0-D0-HSch2-teacher1",
+    "type": "staff",
     "name": "Luis Finley",
     "role": "Educator",
     "association": "CAP0-D0-HSch2"
   },
   {
     "userId": "CAP0-D0-HSch2-teacher2",
+    "type": "staff",
     "name": "Sherrie Malone",
     "role": "Educator",
     "association": "CAP0-D0-HSch2"
   },
   {
     "userId": "CAP0-D0-HSch2-teacher3",
+    "type": "staff",
     "name": "Kurt Jordan",
     "role": "Educator",
     "association": "CAP0-D0-HSch2"
   },
   {
     "userId": "CAP0-D0-HSch2-teacher4",
+    "type": "staff",
     "name": "Chasity Lindsay",
     "role": "Educator",
     "association": "CAP0-D0-HSch2"
   },
   {
     "userId": "CAP0-D0-HSch2-teacher5",
+    "type": "staff",
     "name": "Francis Vinson",
     "role": "Educator",
     "association": "CAP0-D0-HSch2"
   },
   {
     "userId": "CAP0-D0-HSch2-teacher6",
+    "type": "staff",
     "name": "Bernard Mitchell",
     "role": "Educator",
     "association": "CAP0-D0-HSch2"
   },
   {
     "userId": "CAP0-D0-HSch2-teacher7",
+    "type": "staff",
     "name": "Francisco Jackson",
     "role": "Educator",
     "association": "CAP0-D0-HSch2"
   },
   {
     "userId": "CAP0-D0-HSch2-teacher8",
+    "type": "staff",
     "name": "Rick Rowland",
     "role": "Educator",
     "association": "CAP0-D0-HSch2"
   },
   {
     "userId": "CAP0-D0-HSch2-teacher9",
+    "type": "staff",
     "name": "Luella Craig",
     "role": "Educator",
     "association": "CAP0-D0-HSch2"
   },
   {
     "userId": "CAP0-D0-HSch3-teacher0",
+    "type": "staff",
     "name": "Ernestine Frank",
     "role": "Educator",
     "association": "CAP0-D0-HSch3"
   },
   {
     "userId": "CAP0-D0-HSch3-teacher1",
+    "type": "staff",
     "name": "Karen Olsen",
     "role": "Educator",
     "association": "CAP0-D0-HSch3"
   },
   {
     "userId": "CAP0-D0-HSch3-teacher2",
+    "type": "staff",
     "name": "Amie Lowery",
     "role": "Educator",
     "association": "CAP0-D0-HSch3"
   },
   {
     "userId": "CAP0-D0-HSch3-teacher3",
+    "type": "staff",
     "name": "Christy Conner",
     "role": "Educator",
     "association": "CAP0-D0-HSch3"
   },
   {
     "userId": "CAP0-D0-HSch3-teacher4",
+    "type": "staff",
     "name": "Patsy Horton",
     "role": "Educator",
     "association": "CAP0-D0-HSch3"
   },
   {
     "userId": "CAP0-D0-HSch3-teacher5",
+    "type": "staff",
     "name": "Regina Franco",
     "role": "Educator",
     "association": "CAP0-D0-HSch3"
   },
   {
     "userId": "CAP0-D0-HSch3-teacher6",
+    "type": "staff",
     "name": "Samuel Spears",
     "role": "Educator",
     "association": "CAP0-D0-HSch3"
   },
   {
     "userId": "CAP0-D0-HSch3-teacher7",
+    "type": "staff",
     "name": "Allan Dominguez",
     "role": "Educator",
     "association": "CAP0-D0-HSch3"
   },
   {
     "userId": "CAP0-D0-HSch3-teacher8",
+    "type": "staff",
     "name": "Chad Adams",
     "role": "Educator",
     "association": "CAP0-D0-HSch3"
   },
   {
     "userId": "CAP0-D0-HSch3-teacher9",
+    "type": "staff",
     "name": "Ken Foley",
     "role": "Educator",
     "association": "CAP0-D0-HSch3"
   },
   {
     "userId": "CAP0-D0-HSch4-teacher0",
+    "type": "staff",
     "name": "Edwin Wallace",
     "role": "Educator",
     "association": "CAP0-D0-HSch4"
   },
   {
     "userId": "CAP0-D0-HSch4-teacher1",
+    "type": "staff",
     "name": "Jenna Manning",
     "role": "Educator",
     "association": "CAP0-D0-HSch4"
   },
   {
     "userId": "CAP0-D0-HSch4-teacher2",
+    "type": "staff",
     "name": "Ray Salazar",
     "role": "Educator",
     "association": "CAP0-D0-HSch4"
   },
   {
     "userId": "CAP0-D0-HSch4-teacher3",
+    "type": "staff",
     "name": "Glenda Daniel",
     "role": "Educator",
     "association": "CAP0-D0-HSch4"
   },
   {
     "userId": "CAP0-D0-HSch4-teacher4",
+    "type": "staff",
     "name": "Nicholas Mcfadden",
     "role": "Educator",
     "association": "CAP0-D0-HSch4"
   },
   {
     "userId": "CAP0-D0-HSch4-teacher5",
+    "type": "staff",
     "name": "Keri Solis",
     "role": "Educator",
     "association": "CAP0-D0-HSch4"
   },
   {
     "userId": "CAP0-D0-HSch4-teacher6",
+    "type": "staff",
     "name": "Lou Giles",
     "role": "Educator",
     "association": "CAP0-D0-HSch4"
   },
   {
     "userId": "CAP0-D0-HSch4-teacher7",
+    "type": "staff",
     "name": "Roger England",
     "role": "Educator",
     "association": "CAP0-D0-HSch4"
   },
   {
     "userId": "CAP0-D0-HSch4-teacher8",
+    "type": "staff",
     "name": "Darryl Joyce",
     "role": "Educator",
     "association": "CAP0-D0-HSch4"
   },
   {
     "userId": "CAP0-D0-HSch4-teacher9",
+    "type": "staff",
     "name": "Bettie Young",
     "role": "Educator",
     "association": "CAP0-D0-HSch4"
   },
   {
     "userId": "lroslin",
+    "type": "staff",
     "name": "Nathaniel Butler",
     "role": "Educator",
     "association": "CAP0-D0-HSch0"
   },
   {
     "userId": "CAP0-staff0",
+    "type": "staff",
     "name": "Paulette Tucker",
     "role": "Leader",
     "association": "CAP0"
   },
   {
     "userId": "CAP0-staff1",
+    "type": "staff",
     "name": "Francis Sharp",
     "role": "Leader",
     "association": "CAP0"
   },
   {
     "userId": "CAP0-staff2",
+    "type": "staff",
     "name": "Lucile Porter",
     "role": "Leader",
     "association": "CAP0"
   },
   {
     "userId": "CAP0-staff3",
+    "type": "staff",
     "name": "Hannah Wood",
     "role": "Leader",
     "association": "CAP0"
   },
   {
     "userId": "CAP0-staff4",
+    "type": "staff",
     "name": "Ruben Valencia",
     "role": "Leader",
     "association": "CAP0"
   },
   {
     "userId": "CAP0-staff5",
+    "type": "staff",
     "name": "Dan Richard",
     "role": "Leader",
     "association": "CAP0"
   },
   {
     "userId": "CAP0-staff6",
+    "type": "staff",
     "name": "Clifford Robbins",
     "role": "Leader",
     "association": "CAP0"
   },
   {
     "userId": "CAP0-staff7",
+    "type": "staff",
     "name": "Billie Richardson",
     "role": "Leader",
     "association": "CAP0"
   },
   {
     "userId": "CAP0-staff8",
+    "type": "staff",
     "name": "Rosemary Ayers",
     "role": "Leader",
     "association": "CAP0"
   },
   {
     "userId": "CAP0-staff9",
+    "type": "staff",
     "name": "Chasity Gutierrez",
     "role": "Leader",
     "association": "CAP0"

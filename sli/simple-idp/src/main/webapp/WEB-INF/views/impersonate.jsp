@@ -99,8 +99,8 @@ $(document).ready(function() {
 			<div id="impersonationModeDiv" class="row impersonate">
 				<div class="span5 offset1">
 	      		<div class="btn-group" data-toggle="buttons-radio">
-	      			<button type="button" class="btn btn-primary active" id="sampleUserBtn" onclick="showSampleUsers()">Use a Sample User</button>
-	      			<button type="button" class="btn btn-primary" id="manualUserBtn" onclick="showManualConfig()">Manually Specify a User</button>
+	      			<button type="button" class="btn btn-info active" id="sampleUserBtn" onclick="showSampleUsers()">Use a Sample User</button>
+	      			<button type="button" class="btn btn-info" id="manualUserBtn" onclick="showManualConfig()">Manually Specify a User</button>
 	      		</div>
 	      	</div><!-- end span8 offset4 -->
 	      </div> <!-- end row -->
@@ -136,7 +136,7 @@ $(document).ready(function() {
 				</c:forEach>
 				<div class="control-group">
 					<div class="controls">
-						<input id="sampleUserLoginButton" name="commit" type="submit" value="Test as this User" class="btn btn-primary" />
+						<input id="sampleUserLoginButton" name="commit" type="submit" value="Test as this User" class="btn btn-info" />
 					</div>
 				</div>
 			</form>
@@ -162,15 +162,24 @@ $(document).ready(function() {
 								<option value="${role.id}">${role.name}</option>
 							</c:forEach>
 						</select>
-	                         </div>
-	                         <div class="control-group top-gap">
-	                             <label for='customRoles' class="control-label">Or Custom Role</label>
-	                             <div class="controls"><input type="text" id="customRoles" name="customRoles" onchange="disableSelect();" /></div>
-	                         </div>
+                    </div>
+                    <div class="control-group top-gap">
+                        <label for='customRoles' class="control-label">Or Custom Role</label>
+                        <div class="controls"><input type="text" id="customRoles" name="customRoles" onchange="disableSelect();" /></div>
+                    </div>
+                    <label for="selected_type" class="control-label">With userType</label>
+                    <div class="controls">
+						<select id="selected_type" name="selected_type" class="input-xlarge ">
+	                              <option> </option>
+							<c:forEach items="${types}" var="type">
+								<option value="${type.id}">${type.name}</option>
+							</c:forEach>
+						</select>
+                    </div>
 				</div>
 				<div class="control-group">
 					<div class="controls">
-						<input id="manualUserLoginButton" name="commit" type="submit" value="Test as this User" class="btn btn-primary" />
+						<input id="manualUserLoginButton" name="commit" type="submit" value="Test as this User" class="btn btn-info" />
 					</div>
 				</div>
 			</form>

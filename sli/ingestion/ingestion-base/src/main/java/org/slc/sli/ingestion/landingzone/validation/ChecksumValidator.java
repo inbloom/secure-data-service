@@ -30,7 +30,7 @@ import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
-import org.slc.sli.ingestion.reporting.impl.XmlFileSource;
+import org.slc.sli.ingestion.reporting.impl.ControlFileSource;
 import org.slc.sli.ingestion.validation.Validator;
 
 /**
@@ -49,7 +49,7 @@ public class ChecksumValidator implements Validator<IngestionFileEntry> {
             Source source) {
 
         if (StringUtils.isBlank(fe.getChecksum())) {
-            report.error(reportStats, source, BaseMessageCode.BASE_0007, fe.getFileName());
+            report.error(reportStats, new ControlFileSource(source.getResourceId(), fe), BaseMessageCode.BASE_0007, fe.getFileName());
 
             return false;
         }
@@ -73,7 +73,7 @@ public class ChecksumValidator implements Validator<IngestionFileEntry> {
             String[] args = { fe.getFileName(), actualMd5Hex, fe.getChecksum() };
             LOG.debug("File [{}] checksum ({}) does not match control file checksum ({}).", args);
 
-            report.error(reportStats, source, BaseMessageCode.BASE_0006, fe.getFileName());
+            report.error(reportStats, new ControlFileSource(source.getResourceId(), fe), BaseMessageCode.BASE_0006, fe.getFileName());
 
             return false;
         }

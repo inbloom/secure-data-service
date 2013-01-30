@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:tx="http://www.springframework.org/schema/tx" xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+  xmlns:util="http://www.springframework.org/schema/util" xmlns:aop="http://www.springframework.org/schema/aop"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd
+        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd"
+  default-autowire="byName">
+ 
+   <!-- MONGODB CONFIG -->
+   <mongo:mongo id="sliMongo" replica-set="${sli.mongodb.host}">
+      <mongo:options connections-per-host="${sli.mongodb.connections}" auto-connect-retry="true" socket-timeout="600000" socket-keep-alive="true" slave-ok="false"/>
+   </mongo:mongo>
+
+  <bean id="sliMongoDbFactory" class="org.slc.sli.dal.repository.connection.TenantAwareMongoDbFactory">
+    <constructor-arg ref="sliMongo" />
+    <constructor-arg value="${sli.mongodb.database}" />
+  </bean>
+
+  <mongo:mapping-converter id="mappingConverter" base-package="org.slc.sli" db-factory-ref="sliMongoDbFactory">
+    <mongo:custom-converters>
+      <mongo:converter>
+        <bean class="org.slc.sli.dal.convert.EntityReadConverter" />
+      </mongo:converter>
+      <mongo:converter>
+        <bean class="org.slc.sli.dal.convert.EntityWriteConverter" />
+      </mongo:converter>
+    </mongo:custom-converters>
+  </mongo:mapping-converter>
+
+  <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate" depends-on="mongoTrackingAspect">
+    <constructor-arg ref="sliMongoDbFactory" />
+    <constructor-arg ref="mappingConverter" />
+    <!-- property name="slaveOk" value="false" / -->
+    <!-- <property name="writeConcern"> <util:constant static-field="com.mongodb.WriteConcern.SAFE"></util:constant> </property> -->
+  </bean>
+
+</beans>

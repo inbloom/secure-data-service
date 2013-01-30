@@ -27,10 +27,14 @@ import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
+import org.slc.sli.ingestion.reporting.impl.ControlFileSource;
 import org.slc.sli.ingestion.validation.Validator;
 
 /**
- * File Type validator.
+ * File Presence validator.
+ *
+ * Performs a test of the presence and that does not contain a folder in the path.
+ *
  *
  */
 public class FilePresenceValidator implements Validator<IngestionFileEntry> {
@@ -45,13 +49,13 @@ public class FilePresenceValidator implements Validator<IngestionFileEntry> {
         boolean valid = true;
 
         if (hasPathInName(entry.getFileName())) {
-            report.error(reportStats, source, BaseMessageCode.BASE_0004, entry.getFileName());
+            report.error(reportStats, new ControlFileSource(source.getResourceId(), entry), BaseMessageCode.BASE_0004, entry.getFileName());
             valid = false;
         } else {
             try {
                 is = entry.getFileStream();
             } catch (IOException e) {
-                report.error(reportStats, source, BaseMessageCode.BASE_0001, entry.getFileName());
+                report.error(reportStats, new ControlFileSource(source.getResourceId(), entry), BaseMessageCode.BASE_0001, entry.getFileName());
                 valid = false;
             } finally {
                 IOUtils.closeQuietly(is);

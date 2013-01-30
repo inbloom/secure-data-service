@@ -63,9 +63,11 @@ Then /^I should be on Portal home page$/ do
   assert(home.length == 1, "User is not on the portal home page. Current URL: " + @driver.current_url)
   if (@driver.page_source.include?("d_popup"))
     accept = @driver.find_element(:css, "[class*='aui-button-input-submit']")
+    puts accept.inspect
     puts "EULA is present"
     accept.click
-    sleep 2
+    #sleep 2
+    assertWithWait("EULA pop up did not get dismissed") { !@driver.page_source.include?("d_popup") }
   else
     puts "EULA has already been accepted"
   end

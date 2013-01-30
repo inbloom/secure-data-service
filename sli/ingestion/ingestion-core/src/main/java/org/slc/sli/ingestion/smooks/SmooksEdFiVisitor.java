@@ -23,13 +23,27 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.mongodb.MongoException;
-
 import org.milyn.container.ExecutionContext;
 import org.milyn.delivery.sax.SAXElement;
 import org.milyn.delivery.sax.SAXElementVisitor;
 import org.milyn.delivery.sax.SAXText;
 import org.milyn.delivery.sax.annotation.StreamResultWriter;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.ResourceWriter;
+import org.slc.sli.ingestion.landingzone.AttributeType;
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.model.RecordHash;
+import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ElementSource;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
+import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
+import org.slc.sli.ingestion.util.NeutralRecordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessResourceFailureException;
@@ -38,21 +52,7 @@ import org.springframework.dao.InvalidDataAccessResourceUsageException;
 import org.springframework.data.mongodb.UncategorizedMongoDbException;
 import org.xml.sax.Locator;
 
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
-import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.ResourceWriter;
-import org.slc.sli.ingestion.landingzone.AttributeType;
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.model.RecordHash;
-import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.ReportStats;
-import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.NeutralRecordSource;
-import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
-import org.slc.sli.ingestion.util.NeutralRecordUtils;
+import com.mongodb.MongoException;
 
 /**
  * Visitor that writes a neutral record or reports errors encountered.
@@ -61,7 +61,7 @@ import org.slc.sli.ingestion.util.NeutralRecordUtils;
  *
  */
 @StreamResultWriter
-public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLocatorHandler {
+public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLocatorHandler, ElementSource {
 
     // Logging
     private static final Logger LOG = LoggerFactory.getLogger(SmooksEdFiVisitor.class);
@@ -167,11 +167,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLo
 
             // Indicate Smooks Validation Failure
             if (errorReport != null) {
-                // TODO: kludge refactor needed
-                NeutralRecordSource nrSource = new NeutralRecordSource(fe.getFileName(), BatchJobStageType.EDFI_PROCESSOR.getName(),
-                        visitBeforeLineNumber, visitBeforeColumnNumber,
-                        visitAfterLineNumber, visitAfterColumnNumber);
-                errorReport.error(reportStats, nrSource, CoreMessageCode.CORE_0019, element.getName().toString());
+                errorReport.error(reportStats, new ElementSourceImpl(this), CoreMessageCode.CORE_0019, element.getName().toString());
             }
         }
     }
@@ -272,6 +268,7 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLo
     public void visitBefore(SAXElement element, ExecutionContext executionContext) {
         visitBeforeLineNumber = (locator == null ? -1 : locator.getLineNumber());
         visitBeforeColumnNumber = (locator == null ? -1 : locator.getColumnNumber());
+        currentElement = element;
     }
 
     @Override
@@ -292,5 +289,31 @@ public final class SmooksEdFiVisitor implements SAXElementVisitor, SliDocumentLo
     public void setDuplicateCounts(Map<String, Long> duplicateCounts) {
         this.duplicateCounts = duplicateCounts;
     }
+
+    @Override
+    public String getResourceId()
+    {
+        return fe.getFileName();
+    }
+
+    @Override
+    public int getVisitBeforeLineNumber()
+    {
+        return visitBeforeLineNumber;
+    }
+
+    @Override
+    public int getVisitBeforeColumnNumber()
+    {
+        return visitBeforeColumnNumber;
+    }
+
+    @Override
+    public String getElementType()
+    {
+        return currentElement.getName().getLocalPart();
+    }
+    
+    private SAXElement currentElement;
 
 }

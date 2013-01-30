@@ -44,7 +44,8 @@ Then I am redirected to the Application Registration Tool page
 
 
 Scenario: LEA Administrator operations
-Given I am a valid district administrator
+Given the sli securityEvent collection is empty
+And I am a valid district administrator
 When I authenticate on the Admin Delegation Tool
 And I am redirected to the delegation page for my district
 And "Application Authorization" is unchecked
@@ -68,24 +69,22 @@ And the Status becomes "Approved"
 And it is colored "green"
 And the Approve button next to it is disabled
 And the Deny button next to it is enabled
+#And a security event matching "^ALLOWED" should be in the sli db
 
 Scenario: Realm administrator operations
 Given I am a valid realm administrator
 When I authenticate on the realm editing tool
-#And I see pre-existing mappings
-#When I click on the Reset Mapping button
-#And I got warning message saying 'Are you sure you want to reset the role mappings?'
-#When I click 'OK'
-#Then the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves
-#And I no longer see the pre-existing mappings
-#When I hit the realm editing URL
+When I see the realms for "Sunset School District 4526 (IL-SUNSET)"
+And I click the "Illinois Sunset School District 4526" edit button
 And I should see that I am on the "Illinois Sunset School District 4526" edit page
 And I should enter "Smoke" into the Display Name field
 And I should click the "Save" button
-Then I should be redirected back to the edit page
+Then I see the realms for "Sunset School District 4526 (IL-SUNSET)"
+And the realm "Smoke" will exist
 And I should receive a notice that the realm was successfully "updated"
+And I click the "Smoke" edit button
 And I should see that I am on the "Smoke" edit page
 And I should enter "Illinois Sunset School District 4526" into the Display Name field
 And I should click the "Save" button
-Then I should be redirected back to the edit page
-
+Then I see the realms for "Sunset School District 4526 (IL-SUNSET)"
+And the realm "Illinois Sunset School District 4526" will exist

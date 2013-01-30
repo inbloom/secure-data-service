@@ -26,6 +26,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
+
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.Repository;
@@ -48,7 +49,6 @@ public class RoleInitializerTest {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void testAllRolesCreated() throws Exception {
         assertTrue(roleInitializer.buildRoles("myRealmId") == 4);
     }

@@ -31,19 +31,6 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.slc.sli.api.security.oauth.ApplicationAuthorizationValidator;
-import org.slc.sli.api.security.oauth.OAuthAccessException;
-import org.slc.sli.api.security.oauth.OAuthAccessException.OAuthError;
-import org.slc.sli.api.security.resolve.RolesToRightsResolver;
-import org.slc.sli.api.security.resolve.UserLocator;
-import org.slc.sli.common.util.datetime.DateTimeUtil;
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -57,10 +44,25 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.security.oauth.ApplicationAuthorizationValidator;
+import org.slc.sli.api.security.oauth.OAuthAccessException;
+import org.slc.sli.api.security.oauth.OAuthAccessException.OAuthError;
+import org.slc.sli.api.security.resolve.RolesToRightsResolver;
+import org.slc.sli.api.security.resolve.UserLocator;
+import org.slc.sli.common.util.datetime.DateTimeUtil;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.domain.enums.Right;
+
 /**
  * Manages SLI User/app sessions
  * Provides functionality to update existing session based on Oauth life-cycle stages
- * 
+ *
  * @author dkornishev
  */
 @Component
@@ -110,6 +112,12 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         }
         Boolean isInstalled = (Boolean) app.getBody().get("installed");
 
+        String appRedirectUri = (String) app.getBody().get("redirect_uri");
+        if (!isInstalled && (appRedirectUri == null || appRedirectUri.trim().length() == 0)) {
+        	RuntimeException x = new RedirectMismatchException("No redirect_uri specified on non-installed app");
+        	error(x.getMessage());
+        	throw x;
+        }
         if (!isInstalled && redirectUri != null && !redirectUri.startsWith((String) app.getBody().get("redirect_uri"))) {
             RuntimeException x = new RedirectMismatchException("Invalid redirect_uri specified " + redirectUri);
             error(x.getMessage() + " expected " + app.getBody().get("redirect_uri"), x);
@@ -169,7 +177,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
     /**
      * Verifies and makes active an app session. Provides the token for the app.
-     * 
+     *
      * @throws OAuthAccessException
      * @throws OAuthException
      */
@@ -242,7 +250,10 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
         // Make sure the user's district has authorized the use of this application
         SLIPrincipal principal = jsoner.convertValue(session.getBody().get("principal"), SLIPrincipal.class);
-        principal.setEntity(locator.locate(principal.getTenantId(), principal.getExternalId()).getEntity());
+        if (principal.getUserType() == null) {
+            principal.setUserType(EntityNames.STAFF);
+        }
+        principal.setEntity(locator.locate(principal.getTenantId(), principal.getExternalId(), principal.getUserType()).getEntity());
         TenantContext.setTenantId(principal.getTenantId());
 
         List<String> authorizedAppIds = appValidator.getAuthorizedApps(principal);
@@ -264,25 +275,25 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
     /**
      * Loads session referenced by the headers
-     * 
+     *
      * If there's a problem with the token, we embed a relevant {@link OAuth2Exception} in the auth's details field
-     * 
+     *
      * Per Oauth spec:
-     * 
+     *
      * If the protected resource request included an access token and failed
      * authentication, the resource server SHOULD include the "error"
      * attribute to provide the client with the reason why the access
      * request was declined.
-     * 
+     *
      * In addition, the resource server MAY include the
      * "error_description" attribute to provide developers a human-readable
      * explanation that is not meant to be displayed to end-users.
-     * 
+     *
      * If the request lacks any authentication information (e.g., the client
      * was unaware that authentication is necessary or attempted using an
      * unsupported authentication method), the resource server SHOULD NOT
      * include an error code or other error information.
-     * 
+     *
      * @param headers
      * @return
      */
@@ -298,31 +309,31 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                         "appSession");
                 for (Map<String, Object> session : sessions) {
                     if (session.get("token").equals(accessToken)) {
-                        
+
                         // Log that the long lived session is being used
                         Date createdOn;
                         if (sessionEntity.getMetaData().get("created").getClass() == String.class) {
                             String date = (String) sessionEntity.getMetaData().get("created");
-                            
+
                             if (date.contains("T")) {
                                 date = date.substring(0, date.indexOf("T"));
                             }
                             createdOn = DateTimeUtil.parseDateTime(date).toDate();
-                            
+
                         } else {
                             createdOn = (Date) sessionEntity.getMetaData().get("created");
                         }
                         Long hl = (Long) sessionEntity.getBody().get("hardLogout");
-                        
+
                         if (isLongLived(hl - createdOn.getTime())) {
                         	String displayToken = accessToken.substring(0, 6) + "......" + accessToken.substring(accessToken.length()-4, accessToken.length());
                             info("Using long-lived session {} belonging to app {}", displayToken,
                                     session.get("clientId"));
                         }
                         // ****
-                        
+
                         ClientToken token = new ClientToken((String) session.get("clientId"), null, null);
-                        
+
                         try {
                             // Spring doesn't provide a setter for the approved field (used by
                             // isAuthorized), so we set it the hard way
@@ -332,11 +343,13 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                         } catch (Exception e) {
                             error("Error processing authentication.  Anonymous context will be returned.", e);
                         }
-                        
+
                         SLIPrincipal principal = jsoner.convertValue(sessionEntity.getBody().get("principal"),
                                 SLIPrincipal.class);
                         TenantContext.setTenantId(principal.getTenantId());
-                        principal.setEntity(locator.locate(principal.getTenantId(), principal.getExternalId())
+                        // add logic here that checks principal.getUserType()
+                        // -> if nil, set to staff
+                        principal.setEntity(locator.locate(principal.getTenantId(), principal.getExternalId(),principal.getUserType())
                                 .getEntity());
                         principal.setSessionId(sessionEntity.getEntityId());
                         Collection<GrantedAuthority> authorities = resolveAuthorities(principal.getTenantId(),
@@ -345,7 +358,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                                 principal, accessToken, authorities);
                         userToken.setAuthenticated(true);
                         auth = new OAuth2Authentication(token, userToken);
-                        
+
                         // Extend the session
                         long previousExpire = (Long) sessionEntity.getBody().get("expiration");
                         // only update the expire time if it is within the next 5 minutes
@@ -359,7 +372,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                         }
                         // Purge expired sessions
                         purgeExpiredSessions();
-                        
+
                         break;
                     }
                 }
@@ -373,7 +386,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                 auth.setDetails(null);  //oauth spec says not to give detailed error information if token isn't included
             } else {
                 auth.setDetails(new OAuthAccessException(OAuthError.INVALID_TOKEN, "Authorization header must be of the form 'Bearer <token>'"));
-            } 
+            }
         }
         return auth;
     }
@@ -382,7 +395,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         if (authz == null || authz.isEmpty()) {
             return null;
         }
-        
+
         Matcher user = USER_AUTH.matcher(authz);
         if (user.find()) {
             String accessToken = user.group(1);
@@ -394,7 +407,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
     /**
      * Determines if the specified mongo id maps to a valid OAuth access token.
-     * 
+     *
      * @param mongoId
      *            id of the oauth session in mongo.
      * @return id of realm (valid session) or null (not a valid session).
@@ -490,7 +503,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
     /**
      * Sets the entity repository.
-     * 
+     *
      * @param repository
      *            New Entity Repository to be used.
      */
@@ -501,7 +514,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
     /**
      * Compares the provided number of milliseconds converted to minutes
      * against the configuration property
-     * 
+     *
      * @param actual
      * @return
      */

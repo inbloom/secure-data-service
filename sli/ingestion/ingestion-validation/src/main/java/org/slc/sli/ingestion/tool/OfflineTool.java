@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -68,26 +69,18 @@ public class OfflineTool {
         reportStats = new SimpleReportStats();
 
         if ((args.length != inputArgumentCount)) {
-            String arg = "";
-            for (String s : args) {
-                if (s != null && s.length() > 0) {
-                    s += ";";
-                }
-                arg += s;
-            }
-            Source source = new JobSource(arg, null);
+            Source source = new JobSource(StringUtils.join(args, ' '));
             messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0011, appName);
             messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0012, appName);
             return;
         } else {
             file = new File(args[0]);
             if (!file.exists()) {
-                Source source = new FileSource(file.getName(), null);
-                messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0014, args[0]);
+                messageReport.error(reportStats, new FileSource(file.getName()), ValidationMessageCode.VALIDATION_0014, args[0]);
                 return;
             }
             if (file.isDirectory()) {
-                Source source = new DirectorySource(file.getName(), null);
+                Source source = new DirectorySource(file.getPath(), file.getName());
                 messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0013);
                 messageReport.error(reportStats, source, ValidationMessageCode.VALIDATION_0016, appName);
                 return;

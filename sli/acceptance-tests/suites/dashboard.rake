@@ -105,6 +105,15 @@ task :localDashboardTests do
   Rake::Task["realmInitNoPeople"].invoke
   Rake::Task["importUnifiedData"].invoke
   Rake::Task["dashboardTests"].invoke
+  OTHER_TAGS = OTHER_TAGS+" --tags @integration"
+  Rake::Task["ingestionAcceptanceSdsTest"].execute
+  Rake::Task["dashboardSdsTests"].invoke
+  displayFailureReport()
+  if $SUCCESS
+    puts "Completed All Tests"
+  else
+    raise "Tests have failed"
+  end
 end
 
 desc "Run dashboard integration tests"

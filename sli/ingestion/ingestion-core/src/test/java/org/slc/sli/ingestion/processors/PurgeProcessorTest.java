@@ -39,6 +39,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.ingestion.RangedWorkNote;
+import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
@@ -79,7 +80,7 @@ public class PurgeProcessorTest {
         Exchange ex = Mockito.mock(Exchange.class);
         Message message = Mockito.mock(Message.class);
         Mockito.when(ex.getIn()).thenReturn(message);
-        Mockito.when(message.getBody(RangedWorkNote.class)).thenReturn(workNote);
+        Mockito.when(message.getBody(WorkNote.class)).thenReturn(workNote);
 
         NewBatchJob job = new NewBatchJob();
         Mockito.when(mockBatchJobDAO.findBatchJobById(BATCHJOBID)).thenReturn(job);
@@ -100,7 +101,7 @@ public class PurgeProcessorTest {
         Exchange ex = Mockito.mock(Exchange.class);
         Message message = Mockito.mock(Message.class);
         Mockito.when(ex.getIn()).thenReturn(message);
-        Mockito.when(message.getBody(RangedWorkNote.class)).thenReturn(workNote);
+        Mockito.when(message.getBody(WorkNote.class)).thenReturn(workNote);
 
         NewBatchJob job = new NewBatchJob();
         job.setTenantId("SLI");

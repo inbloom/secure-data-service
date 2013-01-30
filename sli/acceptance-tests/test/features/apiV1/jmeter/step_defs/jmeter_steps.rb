@@ -38,7 +38,7 @@ Before do
   @time = Time.now.strftime("%Y%m%d_%H%M%S")
   @testsRun = Array.new
 
-  #makeDirs([JMETER_JTL_ARCHIVE, JMETER_FAILED_JTL_ARCHIVE])
+  makeDirs([JMETER_JTL_ARCHIVE, JMETER_FAILED_JTL_ARCHIVE])
 end
 
 def makeDirs(dirs)
@@ -74,15 +74,18 @@ end
 def runTest(testName)
   jmxFileName = File.join(JMETER_JMX_PATH, testName + ".jmx")
   propertiesFileName = File.join(JMETER_JMX_PATH, PROPERTIES_FILE)
+  jtlFileName = testName + ".jtl"
   jMeterCommand = JMETER_BIN + " -n -t " + jmxFileName + " -q " + propertiesFileName
   puts "executing: " + jMeterCommand
   system jMeterCommand
+  puts "Parsing JTL file for #{testName}"
   parseJtlForRC(testName)
 end
 
 def parseJtlForRC(testName)
   rcMap = {}
   fileName = testName + ".jtl"
+  puts "Loading #{fileName} xml into doc.."
   doc = loadXML(fileName)
   testPassed = true
   doc.get_elements('//httpSample').each do |sample|

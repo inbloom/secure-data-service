@@ -16,6 +16,7 @@
 
 package org.slc.sli.ingestion.processors;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
@@ -40,10 +41,14 @@ import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.ingestion.BatchJobStageType;
+import org.slc.sli.ingestion.ControlFileWorkNote;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.RangedWorkNote;
+import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.landingzone.ZipFileUtil;
 import org.slc.sli.ingestion.landingzone.validation.IngestionException;
 import org.slc.sli.ingestion.landingzone.validation.SubmissionLevelException;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -54,8 +59,8 @@ import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.ControlFileSource;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.JobSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.tenant.TenantDA;
 import org.slc.sli.ingestion.util.BatchJobUtils;
@@ -103,26 +108,37 @@ public class ControlFilePreProcessor implements Processor {
 
         Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
 
-        String batchJobId = exchange.getIn().getHeader("BatchJobId", String.class);
-        String controlFileName = exchange.getIn().getHeader("ResourceId", String.class);
+        WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
+        String batchJobId = workNote.getBatchJobId();
+
+
         TenantContext.setJobId(batchJobId);
 
         // TODO handle invalid control file (user error)
         // TODO handle IOException or other system error
-        NewBatchJob currentBatchJob = null;
+        NewBatchJob currentJob = null;
         ControlFileDescriptor controlFileDescriptor = null;
 
         ReportStats reportStats = new SimpleReportStats();
-        Source source = new JobSource(controlFileName, BATCH_JOB_STAGE.getName());
+        Source source = null;
 
         try {
-            currentBatchJob = getBatchJob(batchJobId);
+            currentJob = batchJobDAO.findBatchJobById(batchJobId);
 
-            ControlFile controlFile = parseControlFile(currentBatchJob, controlFileName);
+            ResourceEntry zipResource = currentJob.getZipResourceEntry();
 
-            if (ensureTenantDbIsReady(currentBatchJob.getTenantId())) {
+            String controlFileName = ZipFileUtil.getControlFileName(new File(zipResource.getResourceName()));
 
-                controlFileDescriptor = new ControlFileDescriptor(controlFile, currentBatchJob.getSourceId());
+            source = new ControlFileSource(controlFileName);
+
+            TenantContext.setJobId(currentJob.getId());
+            TenantContext.setTenantId(currentJob.getTenantId());
+
+            ControlFile controlFile = parseControlFile(currentJob, controlFileName);
+
+            if (ensureTenantDbIsReady(currentJob.getTenantId())) {
+
+                controlFileDescriptor = new ControlFileDescriptor(controlFile, currentJob.getSourceId());
 
                 auditSecurityEvent(controlFile);
 
@@ -130,29 +146,26 @@ public class ControlFilePreProcessor implements Processor {
                 databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0001);
             }
 
-            setExchangeHeaders(exchange, currentBatchJob, reportStats);
+            setExchangeHeaders(exchange, reportStats);
 
-            setExchangeBody(exchange, controlFileDescriptor, reportStats, currentBatchJob.getId());
+            setExchangeBody(exchange, reportStats, controlFile, currentJob);
 
         } catch (SubmissionLevelException exception) {
             String id = "null";
-            if (currentBatchJob != null) {
-                id = currentBatchJob.getId();
-                if (currentBatchJob.getResourceEntries().size() == 0) {
-                    databaseMessageReport.warning(reportStats, source, CoreMessageCode.CORE_0002);
-                }
+            if (currentJob != null) {
+                id = currentJob.getId();
             }
             handleExceptions(exchange, id, exception, reportStats, source);
         } catch (Exception exception) {
             String id = "null";
-            if (currentBatchJob != null) {
-                id = currentBatchJob.getId();
+            if (currentJob != null) {
+                id = currentJob.getId();
             }
             handleExceptions(exchange, id, exception, reportStats, source);
         } finally {
-            if (currentBatchJob != null) {
-                BatchJobUtils.stopStageAndAddToJob(stage, currentBatchJob);
-                batchJobDAO.saveBatchJob(currentBatchJob);
+            if (currentJob != null) {
+                BatchJobUtils.stopStageAndAddToJob(stage, currentJob);
+                batchJobDAO.saveBatchJob(currentJob);
             }
         }
     }
@@ -207,23 +220,9 @@ public class ControlFilePreProcessor implements Processor {
         return null;
     }
 
-    private void setExchangeBody(Exchange exchange, ControlFileDescriptor controlFileDescriptor,
-            ReportStats reportStats, String batchJobId) {
-        if (!reportStats.hasErrors() && controlFileDescriptor != null) {
-            exchange.getIn().setBody(controlFileDescriptor, ControlFileDescriptor.class);
-        } else {
-            RangedWorkNote workNote = RangedWorkNote.createSimpleWorkNote(batchJobId);
-            exchange.getIn().setBody(workNote, RangedWorkNote.class);
-        }
-    }
-
-    private NewBatchJob getBatchJob(String batchJobId) {
-        NewBatchJob job = batchJobDAO.findBatchJobById(batchJobId);
-
-        TenantContext.setJobId(job.getId());
-        TenantContext.setTenantId(job.getTenantId());
-
-        return job;
+    private void setExchangeBody(Exchange exchange, ReportStats reportStats, ControlFile controlFile, NewBatchJob job) {
+            WorkNote workNote = new ControlFileWorkNote(controlFile, job.getId(), job.getTenantId(), reportStats.hasErrors());
+            exchange.getIn().setBody(workNote, ControlFileWorkNote.class);
     }
 
     private ControlFile parseControlFile(NewBatchJob batchJob, String controlFileName) throws IOException,
@@ -234,6 +233,10 @@ public class ControlFilePreProcessor implements Processor {
         ControlFile controlFile = ControlFile.parse(batchJob.getSourceId(), controlFileName, databaseMessageReport);
 
         batchJob.setTotalFiles(controlFile.getFileEntries().size());
+
+        for(IngestionFileEntry fe : controlFile.getFileEntries()) {
+            fe.setBatchJobId(batchJob.getId());
+        }
 
         return controlFile;
     }
@@ -252,7 +255,6 @@ public class ControlFilePreProcessor implements Processor {
     private void handleExceptions(Exchange exchange, String batchJobId, Exception exception, ReportStats reportStats,
             Source source) {
         exchange.getIn().setHeader("BatchJobId", batchJobId);
-        exchange.getIn().setHeader("ErrorMessage", exception.toString());
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LogUtil.error(LOG, "Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
@@ -266,10 +268,8 @@ public class ControlFilePreProcessor implements Processor {
         }
     }
 
-    private void setExchangeHeaders(Exchange exchange, NewBatchJob newJob, ReportStats reportStats) {
-        exchange.getIn().setHeader("BatchJobId", newJob.getId());
+    private void setExchangeHeaders(Exchange exchange, ReportStats reportStats) {
         if (reportStats.hasErrors()) {
-            exchange.getIn().setHeader("hasErrors", reportStats.hasErrors());
             exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         } else {
             exchange.getIn().setHeader("IngestionMessageType", MessageType.BATCH_REQUEST.name());
@@ -326,5 +326,13 @@ public class ControlFilePreProcessor implements Processor {
 
     public void setShardCollections(Set<String> shardCollections) {
         this.shardCollections = shardCollections;
+    }
+
+    public void setBatchJobDAO(BatchJobDAO batchJobDAO) {
+        this.batchJobDAO = batchJobDAO;
+    }
+
+    public void setTenantDA(TenantDA tenantDA) {
+    	this.tenantDA = tenantDA;
     }
 }

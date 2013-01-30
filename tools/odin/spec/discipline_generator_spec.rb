@@ -25,10 +25,8 @@ describe 'DisciplineGenerator' do
   let(:path) { File.join( "#{File.dirname(__FILE__)}/", "../generated/InterchangeStudentDiscipline.xml" ) }
   let(:interchange) { File.open( path, 'w')}
   let(:generator) { DisciplineGenerator.new(get_spec_scenario(), interchange) }
-  let(:behavior) { FactoryGirl.build(:behavior_descriptor) }
   let(:student_incident) { FactoryGirl.build(:student_discipline_incident_association) }
   let(:incident) { FactoryGirl.build(:discipline_incident) }
-  let(:discipline_descriptor) { FactoryGirl.build(:discipline_descriptor) }
   let(:discipline_action) { FactoryGirl.build(:discipline_action) }
 
   describe '<<' do
@@ -36,10 +34,8 @@ describe 'DisciplineGenerator' do
 
       generator.start()
 
-      generator << behavior
       generator << incident
       generator << student_incident
-      generator << discipline_descriptor
       generator << discipline_action
 
       generator.finalize()
