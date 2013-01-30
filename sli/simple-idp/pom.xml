@@ -89,6 +89,13 @@
             <artifactId>spring-data-mongodb</artifactId>
             <version>${springdata-mongodb-version}</version>
         </dependency>
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>2.2.2</version>
+        </dependency>
+    
+
     </dependencies>
     <build>
         <finalName>simple-idp</finalName>
