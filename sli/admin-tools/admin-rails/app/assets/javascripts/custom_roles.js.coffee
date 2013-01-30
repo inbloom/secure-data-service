@@ -259,7 +259,7 @@ populateTable = (data) ->
       newRow.find(RIGHT_COL).append(createLabel('right', right))
       newRow.find(RIGHT_COL).append(" ")
 
-    if (role.selfRights != null)
+    if (role.selfRights != null && role.selfRights != undefined)
       for selfRight in role.selfRights
         newRow.find(SELF_RIGHT_COL).append(createLabel('right', selfRight))
         newRow.find(SELF_RIGHT_COL).append(" ")
