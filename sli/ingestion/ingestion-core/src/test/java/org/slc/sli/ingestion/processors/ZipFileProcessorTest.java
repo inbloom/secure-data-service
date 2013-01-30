@@ -123,7 +123,7 @@ public class ZipFileProcessorTest {
         zipProc.process(preObject);
 
         Assert.assertNotNull(preObject.getIn().getBody());
-        Assert.assertTrue((Boolean) preObject.getIn().getHeader("hasErrors"));
+        Assert.assertTrue(preObject.getIn().getBody(WorkNote.class).hasErrors());
         Assert.assertEquals(preObject.getIn().getHeader("IngestionMessageType") , MessageType.BATCH_REQUEST.name());
     }
 

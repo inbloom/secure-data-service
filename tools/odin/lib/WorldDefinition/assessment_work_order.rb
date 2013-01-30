@@ -26,6 +26,7 @@ class AssessmentFactory
     @scenario = scenario
     @assessments_per_grade = @scenario['ASSESSMENTS_PER_GRADE']
     @item_counts = @scenario['ASSESSMENT_ITEMS_PER_ASSESSMENT']
+    @rand = Random.new(123456789)
   end
 
   #get a list of assessment work orders
@@ -43,7 +44,7 @@ class AssessmentFactory
   end
 
   def grade_wide_assessments(grade, year, family = nil)
-    item_count = @item_counts['GRADE_WIDE_ASSESSMENTS']
+    item_count = DataUtility.rand_float_to_int(@rand, @item_counts['GRADE_WIDE_ASSESSMENTS'])
     (1..@assessments_per_grade).map{|i|
       Assessment.new("#{year}-#{GradeLevelType.to_string(grade)} Assessment #{i}", year, grade, item_count, family)
     }

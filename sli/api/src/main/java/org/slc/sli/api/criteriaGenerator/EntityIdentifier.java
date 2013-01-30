@@ -30,9 +30,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
- * User: pghosh
- * Date: 1/15/13
+ * @author pghosh
+ * Identifies the entity to apply the date filter for the granular data access
  */
 
 @Component
@@ -47,7 +46,11 @@ public class EntityIdentifier {
     private String request;
 
 
-    // [JS] findXXXX methods shouldn't be void
+    /**
+     *Identifies the entity
+     * @param request
+     * @return
+     */
     public EntityFilterInfo findEntity(String request) {
         this.request = request;
         EntityFilterInfo entityFilterInfo = new EntityFilterInfo();
@@ -59,13 +62,19 @@ public class EntityIdentifier {
             populatePath(entityFilterInfo, entityType, resource);
         }
 
-
         //Enable this once all entities have stamped in ComplextTypes.xsd
 //        if (entityName.isEmpty() || beginDateAttribute.isEmpty() || endDateAttribute.isEmpty()) {
 //            throw new IllegalArgumentException("Cannot Identify execution path for uri " + request);
 //        }
         return entityFilterInfo;
     }
+
+    /**
+     * finds the filter details
+     * @param entityFilterInfo
+     * @param entityType
+     * @param resource
+     */
     private void populatePath(EntityFilterInfo entityFilterInfo, ClassType entityType, String resource) {
         if (populateDateAttributes(entityFilterInfo, entityType) || populateSessionAttribute(entityFilterInfo, entityType)) {
             entityFilterInfo.setEntityName(getEntityName(entityType));
@@ -86,6 +95,11 @@ public class EntityIdentifier {
         }
     }
 
+    /**
+     * Finds the path from the requested to date bearing entity recursively
+     * @param entityFilterInfo
+     * @param associatedEntityName
+     */
     private void populateConnectionPath(EntityFilterInfo entityFilterInfo, String associatedEntityName) {
         ClassType entityType = modelProvider.getClassType(associatedEntityName);
         if (populateDateAttributes(entityFilterInfo, entityType) || populateSessionAttribute(entityFilterInfo, entityType)) {
@@ -102,11 +116,22 @@ public class EntityIdentifier {
         }
     }
 
+    /**
+     * uncapitalize the entity name to match entity type
+     * @param entityType
+     * @return
+     */
     private String getEntityName(ClassType entityType) {
        return StringUtils.uncapitalize(entityType.getName());
     }
 
 
+    /**
+     * validates entity to check if they have sessionId as one of the attributes
+     * @param entityFilterInfo
+     * @param entityType
+     * @return
+     */
     private boolean populateSessionAttribute(EntityFilterInfo entityFilterInfo, ClassType entityType) {
         for (AssociationEnd assoc : modelProvider.getAssociationEnds(entityType.getId())) {
             if (assoc.getName().equals("session")) {
@@ -119,8 +144,12 @@ public class EntityIdentifier {
     }
 
 
-    // [JS] Can one of these fail and the other succeed? If so, we may end up with an object in inconsistent state,
-    // if beginDateAttribute && endDateAttribute are required
+    /**
+     * Checks the model to identify if the entity is time sensitive
+     * @param entityFilterInfo
+     * @param entityType
+     * @return
+     */
     private boolean populateDateAttributes(EntityFilterInfo entityFilterInfo, ClassType entityType) {
         final boolean beginDateExists = entityType.getBeginDateAttribute() != null;
         final boolean endDateExists = entityType.getEndDateAttribute() != null;

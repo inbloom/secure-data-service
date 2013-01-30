@@ -48,8 +48,6 @@ public class AggregationPostProcessor implements Processor {
         String jobId = workNote.getBatchJobId();
         boolean isEmpty = batchJobDAO.removeAllPersistedStagedEntitiesFromJob(jobId);
 
-        exchange.getIn().setHeader("jobId", jobId);
-
         if (isEmpty) {
             LOG.info("Processing pool is now empty, continue out of orchestra routes.");
 

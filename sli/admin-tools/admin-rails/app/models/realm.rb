@@ -30,7 +30,12 @@ class Realm < SessionResource
   def defaults_on_save
     self.admin = false
     #Default saml mapping
-    self.saml =  { "field" => [ { "clientName" => "roles", "sliName" => "roles", "transform" => "(.+)" }, { "clientName" => "userId", "sliName" => "userId", "transform" => "(.+)" }, { "clientName" => "userName", "sliName" => "userName", "transform" => "(.+)" } ] } if saml.nil?
+    self.saml =  { "field" => [ 
+      { "clientName" => "roles", "sliName" => "roles", "transform" => "(.+)" },
+      { "clientName" => "userId", "sliName" => "userId", "transform" => "(.+)" },
+      { "clientName" => "userType", "sliName" => "userType", "transform" => "(.+)" }, 
+      { "clientName" => "userName", "sliName" => "userName", "transform" => "(.+)" } 
+    ] } if saml.nil?
   end
 
   def idp_and_redirect_cannot_be_blank

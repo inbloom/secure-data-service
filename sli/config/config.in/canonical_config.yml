@@ -86,7 +86,6 @@ default:
         # MongoDB Options (only used in data-access)
         sli.mongodb.database: sli
         sli.mongodb.host: localhost:27017
-        sli.mongodb.port: 27017
         sli.mongodb.user:
         sli.mongodb.pass:
         sli.perf.mongodb.database: apiPerf
@@ -428,7 +427,6 @@ acceptance-tests:
         # Mongo DB Options
         sli.mongodb.database: sli
         sli.mongodb.host: nxbuild.slidev.org:27017
-        sli.mongodb.port: 27017
         #sli.mongodb.user =
         #sli.mongodb.pass =
 
@@ -524,7 +522,6 @@ ci:
 
         sli.mongodb.database: sli
         sli.mongodb.host: testdal1.slidev.org:27017
-        sli.mongodb.port: 27017
         #sli.mongodb.user =
         #sli.mongodb.pass =
 
@@ -614,7 +611,6 @@ dev:
         #
         sli.mongodb.database: sli
         sli.mongodb.host: devdal1.slidev.org:27017
-        sli.mongodb.port: 27017
         #sli.mongodb.user =
         #sli.mongodb.pass =
 
@@ -709,7 +705,6 @@ devjuggernauts:
         #
         sli.mongodb.database: sli
         sli.mongodb.host: devjuggernauts.slidev.org:27017
-        sli.mongodb.port: 27017
         #sli.mongodb.user =
         #sli.mongodb.pass =
 
@@ -798,7 +793,6 @@ devapp1:
         # Mongo DB Options
         sli.mongodb.database: devapp1
         sli.mongodb.host: devdal1.slidev.org:27017
-        sli.mongodb.port: 27017
         #sli.mongodb.user =
         #sli.mongodb.pass =
         sli.ingestion.staging.mongodb.database: is
@@ -881,7 +875,6 @@ local:
 
         sli.mongodb.database: sli
         sli.mongodb.host: localhost:27017
-        sli.mongodb.port: 27017
         sli.mongodb.user:
         sli.mongodb.pass:
         sli.perf.mongodb.database: apiPerf
@@ -1120,7 +1113,6 @@ team:
         # Mongo DB Options
         sli.mongodb.database: sli
         sli.mongodb.host: localhost:27017
-        sli.mongodb.port: 27017
         #sli.mongodb.user =
         #sli.mongodb.pass =
 
@@ -1259,7 +1251,6 @@ perf:
         #
         sli.mongodb.database: sli_ing
         sli.mongodb.host: igmongo.slidev.org:27017
-        sli.mongodb.port: 27017
         #sli.mongodb.user =
         #sli.mongodb.pass =
 
@@ -1314,7 +1305,6 @@ test-local:
         # Mongo DB Options
         sli.mongodb.database: unittest
         sli.mongodb.host: localhost:27017
-        sli.mongodb.port: 27017
         sli.mongodb.user:
         sli.mongodb.pass:
 
@@ -1345,7 +1335,6 @@ test-team:
         # Mongo DB Options
         sli.mongodb.database: unittest
         sli.mongodb.host: localhost:27017
-        sli.mongodb.port: 27017
         sli.mongodb.user:
         sli.mongodb.pass:
 
@@ -1457,7 +1446,6 @@ nxteam:
     data-access: &DATA-ACCESS-NXTEAM
         <<: *DATA-ACCESS-TEAM
         sli.mongodb.host: localhost:27017
-        sli.mongodb.port: 27017
         sli.ingestion.staging.mongodb.host: localhost
         sli.ingestion.staging.mongodb.port: 27018
         sli.ingestion.batchjob.mongodb.host: nxmongo5.slidev.org

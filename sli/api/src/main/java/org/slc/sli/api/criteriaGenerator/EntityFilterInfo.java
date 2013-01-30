@@ -19,11 +19,8 @@ package org.slc.sli.api.criteriaGenerator;
 import java.util.List;
 
 /**
- * Created with IntelliJ IDEA.
- * User: pghosh
- * Date: 1/17/13
- * Time: 3:58 PM
- * To change this template use File | Settings | File Templates.
+ * @author pghosh
+ * Class to hold the entity to filter on and the attributes for granular access date filter
  */
 public class EntityFilterInfo {
     private String entityName;

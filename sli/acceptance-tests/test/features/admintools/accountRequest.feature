@@ -43,3 +43,25 @@ Scenario: As an slc operator I want to check if a user accepted EULA
   And "Last Name" is "Alsop"
   And "Email" is "<USER_ACCOUNT_EMAIL>"
   And "Vendor" is "Acme Corp"
+
+@sandbox
+Scenario: As a user I request for a sandbox account while using random unicode characters
+  Given I go to the account registration page
+  And I go to the sandbox account registration page
+  And there is no registered account for "<USER_ACCOUNT>" in LDAP
+  When I fill out the field "First Name" as "Λance"
+  And I fill out the field "Last Name" as "Alsöp"
+  And I fill out the field "Vendor" as "⚔ Corp"
+  And I fill out the field "Email" as "<USER_ACCOUNT_EMAIL>"
+  And I fill out the field "Password" as "dummypswd123"
+  And I fill out the field "Confirmation" as "dummypswd123"
+  Then my password is shown as a series of dots
+  And when I click "Submit"
+  Then my field entries are validated
+  And I am redirected to a page with terms and conditions
+  And when I click "Accept"
+  Then I am directed to an acknowledgement page.
+  And an email verification link for "<USER_ACCOUNT>" is generated
+  When I visit "<VALID VERIFICATION LINK>"
+  Then I should see the text "Email Confirmed"
+  And I should see the text "You will be receiving an email with more information about your account."

@@ -376,13 +376,23 @@ class WorldBuilder
 
   # returns the list of default local education agency roles
   def get_default_local_education_agency_roles
-    [:ASSISTANT_SUPERINTENDENT, :LEA_ADMINISTRATIVE_SUPPORT_STAFF, :LEA_ADMINISTRATOR, :LEA_SPECIALIST, :LEA_SYSTEM_ADMINISTRATOR]
+    r = [:ASSISTANT_SUPERINTENDENT, :LEA_ADMINISTRATIVE_SUPPORT_STAFF, :LEA_ADMINISTRATOR, :LEA_SPECIALIST, :LEA_SYSTEM_ADMINISTRATOR]
+    max_lea_roles = DataUtility.rand_float_to_int(@prng, @scenarioYAML["HACK_MAX_LEA_ROLES"] || 999)
+    while max_lea_roles < r.length
+      r.pop
+    end
+    r
   end
   
   # returns the list of default school roles
   def get_default_school_roles
-    [:ASSISTANT_PRINCIPAL, :ATHLETIC_TRAINER, :HIGH_SCHOOL_COUNSELOR, :INSTRUCTIONAL_AIDE, :LIBRARIAN, :PRINCIPAL, :SCHOOL_ADMINISTRATOR, :SCHOOL_NURSE]
-  end  
+    r = [:ASSISTANT_PRINCIPAL, :ATHLETIC_TRAINER, :HIGH_SCHOOL_COUNSELOR, :INSTRUCTIONAL_AIDE, :LIBRARIAN, :PRINCIPAL, :SCHOOL_ADMINISTRATOR, :SCHOOL_NURSE]
+    max_school_roles = DataUtility.rand_float_to_int(@prng, @scenarioYAML["HACK_MAX_SCHOOL_ROLES"] || 999)
+    while max_school_roles < r.length
+      r.pop
+    end
+    r
+  end
 
   # creates staff members based on the specified roles and required staff members
   def create_staff_for_education_organization(roles, required)
@@ -493,6 +503,8 @@ class WorldBuilder
         state_organization_id = DataUtility.get_local_education_agency_id(edOrg["id"])
         end
         
+        sessions_per_lea = @scenarioYAML["HACK_SESSIONS_PER_LEA"] || 1
+        for s in 1..sessions_per_lea
         start_date = DateUtility.random_school_day_on_interval(@prng, Date.new(year, 8, 25), Date.new(year, 9, 10))
         interval   = DateInterval.create_using_start_and_num_days(@prng, start_date, 180)
 
@@ -503,6 +515,7 @@ class WorldBuilder
         session["interval"] = interval
         session["edOrgId"]  = state_organization_id
         @world["leas"][index]["sessions"] << session
+        end
       end
     end
 
@@ -818,6 +831,7 @@ class WorldBuilder
         ed_org_id = DataUtility.get_local_education_agency_id(ed_org["id"])
       end
       
+      isFirstSession = true
       sessions.each do |session|
         interval  = session["interval"]
         year      = session["year"]
@@ -843,8 +857,11 @@ class WorldBuilder
         end
 
         # write calendar date(s)
-        calendar_dates.each do |calendar_date|
-          @queue.push_work_order({:type=>CalendarDate, :date=>calendar_date["date"], :event => calendar_date["event"], :edOrgId => calendar_date["ed_org_id"]})
+        if !@scenarioYAML['HACK_ONLY_CALENDAR_DATES_FOR_ONE_SESSION'] || isFirstSession
+          calendar_dates.each do |calendar_date|
+            @queue.push_work_order({:type=>CalendarDate, :date=>calendar_date["date"], :event => calendar_date["event"], :edOrgId => calendar_date["ed_org_id"]})
+          end
+          isFirstSession = false
         end
       end
     end
@@ -926,8 +943,11 @@ class WorldBuilder
         staff = ed_org['staff'].cycle
         ed_org['sessions'].each{|session|
           WorldBuilder.cohorts(ed_org['id'], @scenarioYAML).each{|cohort|
-            @queue.push_work_order(
-              StaffCohortAssociation.new(staff.next['id'], cohort, @scenarioYAML['STAFF_HAVE_COHORT_ACCESS'], session['interval'].get_begin_date))
+            staff_cohort_association_per_staff = DataUtility.rand_float_to_int(@prng, @scenarioYAML['STAFF_COHORT_ASSOCIATION_PER_STAFF'] || 1)
+            for s in 1..staff_cohort_association_per_staff
+              @queue.push_work_order(
+                StaffCohortAssociation.new(staff.next['id'], cohort, @scenarioYAML['STAFF_HAVE_COHORT_ACCESS'], session['interval'].get_begin_date))
+            end
           }
         }
       }
@@ -947,7 +967,7 @@ class WorldBuilder
   # iterates through sessions, using begin and end date, to assemble staff -> education organization associations (assignment, not employment)
   # -> manipulates date interval of each session by 'offset' (subtracts offset from begin_date, adds offset to end_date)
   def create_staff_ed_org_associations_for_sessions(sessions, offset, member, ed_org_id, type)
-    if !sessions.nil? and sessions.size > 0
+    if (!@scenarioYAML["HACK_NO_STAFF_EDORG_ASSOCIATIONS_EXCEPT_SEA"] || (type == "seas")) && !sessions.nil? and sessions.size > 0
       sessions.each do |session|
         title = member["role"]
         if StaffClassificationType.to_symbol(title).nil?
@@ -1047,10 +1067,12 @@ class WorldBuilder
     end_date       = interval.get_end_date
     holidays       = interval.get_holidays
     (begin_date..end_date).step(1) do |date|
-      if holidays.include?(date)
-        calendar_dates << {"date" => date, "event" => :HOLIDAY, "ed_org_id" => ed_org_id}
-      else
-        calendar_dates << {"date" => date, "event" => :INSTRUCTIONAL_DAY, "ed_org_id" => ed_org_id} if date.wday != 0 and date.wday != 6
+      if DataUtility.rand_float_to_int(@prng, @scenarioYAML['HACK_PERCENTAGE_CALENDAR_DATES'] || 1) > 0
+        if holidays.include?(date)
+          calendar_dates << {"date" => date, "event" => :HOLIDAY, "ed_org_id" => ed_org_id}
+        else
+          calendar_dates << {"date" => date, "event" => :INSTRUCTIONAL_DAY, "ed_org_id" => ed_org_id} if date.wday != 0 and date.wday != 6
+        end
       end
     end
     calendar_dates

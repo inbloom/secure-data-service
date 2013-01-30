@@ -32,6 +32,7 @@ import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.RangedWorkNote;
+import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 
@@ -67,7 +68,7 @@ public class WorkNoteSplitter {
         String jobId = null;
         List<RangedWorkNote> workNoteList = null;
         try {
-            jobId = exchange.getIn().getHeader("jobId").toString();
+            jobId = exchange.getIn().getBody(WorkNote.class).getBatchJobId();
             TenantContext.setJobId(jobId);
             LOG.info("orchestrating splitting for job: {}", jobId);
 
@@ -129,7 +130,7 @@ public class WorkNoteSplitter {
         IngestionStagedEntity stagedEntity = workNote.getIngestionStagedEntity();
         List<RangedWorkNote> workNoteList = new ArrayList<RangedWorkNote>();
 
-        String jobId = exchange.getIn().getHeader("jobId").toString();
+        String jobId = exchange.getIn().getBody(WorkNote.class).getBatchJobId();
         TenantContext.setJobId(jobId);
 
         LOG.debug("Splitting out (pass-through) list of WorkNotes: {}", workNoteList);

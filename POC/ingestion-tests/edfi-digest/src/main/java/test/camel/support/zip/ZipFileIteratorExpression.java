@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 
+import org.apache.camel.CamelExchangeException;
 import org.apache.camel.Exchange;
-import org.apache.camel.InvalidPayloadException;
 import org.apache.camel.support.ExpressionAdapter;
 
 public class ZipFileIteratorExpression extends ExpressionAdapter {
@@ -19,7 +19,7 @@ public class ZipFileIteratorExpression extends ExpressionAdapter {
 			File zipFile = exchange.getIn().getMandatoryBody(File.class);
 
 			return createIterator(zipFile, batchId);
-		} catch (InvalidPayloadException e) {
+		} catch (CamelExchangeException e) {
 			exchange.setException(e);
 			return null;
 		} catch (IOException e) {
