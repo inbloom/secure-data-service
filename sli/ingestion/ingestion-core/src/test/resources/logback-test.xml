@@ -40,7 +40,7 @@
     </rollingPolicy>
   </appender>
 
-  <root level="OFF">
+  <root level="INFO">
     <appender-ref ref="Console" />
     <appender-ref ref="File" />
   </root>
