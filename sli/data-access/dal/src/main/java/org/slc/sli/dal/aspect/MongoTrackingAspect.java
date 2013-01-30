@@ -129,7 +129,8 @@ public class MongoTrackingAspect {
      * Track calls in the various implementation of the Repository interface. 
      */
     
-    @Around("call(* org.slc.sli.domain.Repository+.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test) && !within(org..*MongoPerfRepository)")
+    // Note: This is commented out, because it incurs overhead at runtime
+    // @Around("call(* org.slc.sli.domain.Repository+.*(..)) && !this(MongoTrackingAspect) && !within(org..*Test) && !within(org..*MongoPerfRepository)")
     public Object trackDALCalls(ProceedingJoinPoint pjp) throws Throwable {
         return trackCalls(pjp); 
     }

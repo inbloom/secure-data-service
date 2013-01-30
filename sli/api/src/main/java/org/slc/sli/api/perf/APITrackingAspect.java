@@ -69,10 +69,10 @@ public class APITrackingAspect {
     /**
      * Track calls in the various implementation of the Repository interface. 
      */
-    
-    // note the following does not work for some reason. It compile, but fewer methods are called. 
-    // @Around("(call(* org.slc.sli.api.resources..*.*(..)) || call(* org.slc.sli.api.security..*(..)) || call(* org.slc.sli.api.service..*(..)) || call(* org.slc.sli.api.selectors..*(..))) && !this(APITrackingAspect) && !within(org..*Test) && !within(org..*MongoPerfRepository)")
-    @Around("(call(* org.slc.sli.api.resources..*.*(..)) || call(* org.slc.sli.api.security..*(..)) || call(* org.slc.sli.api.service..*(..))) && !this(APITrackingAspect) && !within(org..*Test) && !within(org..*MongoPerfRepository)")
+
+    // Note: This is commented out, because it creates 1000+ point cuts, that are called even when 
+    // tracking is disabled.
+    // @Around("(call(* org.slc.sli.api.resources..*.*(..)) || call(* org.slc.sli.api.security..*(..)) || call(* org.slc.sli.api.service..*(..))) && !this(APITrackingAspect) && !within(org..*Test) && !within(org..*MongoPerfRepository)")
     public Object trackAPICalls(ProceedingJoinPoint pjp) throws Throwable {
         if (Boolean.valueOf(apiCallTracking)) { 
             return trackCallStartEnd(pjp);
