@@ -20,7 +20,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
- * This entity holds a student’s grade or competency level for a GradeBookEntry.
+ * This entity holds a student's grade or competency level for a GradeBookEntry.
  * 
  * <p>Java class for StudentGradebookEntry complex type.
  * 

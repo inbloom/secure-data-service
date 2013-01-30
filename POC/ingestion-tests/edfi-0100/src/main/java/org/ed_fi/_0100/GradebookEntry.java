@@ -19,7 +19,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 
 
 /**
- * This entity represents a teacher’s assignment, homework, or classroom assessment to be recorded in a gradebook.
+ * This entity represents a teacher's assignment, homework, or classroom assessment to be recorded in a gradebook.
  * 
  * <p>Java class for GradebookEntry complex type.
  * 
