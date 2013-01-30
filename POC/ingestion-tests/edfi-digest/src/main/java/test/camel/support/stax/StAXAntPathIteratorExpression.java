@@ -1,43 +1,46 @@
 package test.camel.support.stax;
 
-import java.util.Iterator;
-
 import javax.xml.stream.XMLEventReader;
 
+import org.apache.camel.CamelExchangeException;
 import org.apache.camel.Exchange;
-import org.apache.camel.InvalidPayloadException;
-import org.apache.camel.RuntimeCamelException;
-import org.apache.camel.core.xml.scan.AntPathMatcher;
 import org.apache.camel.support.ExpressionAdapter;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
-public class StAXAntPathIteratorExpression extends ExpressionAdapter {
-	private String antPath;
-	private int group;
+public class StAXAntPathIteratorExpression extends ExpressionAdapter implements ApplicationContextAware {
 
-	public StAXAntPathIteratorExpression(String antPath, int group) {
-		this.antPath = antPath;
-		this.group = group;
+    private ApplicationContext appContext;
+    private String iteratorBeanId;
 
-		if (!new AntPathMatcher().isPattern(antPath)) {
-			throw new RuntimeCamelException(
-					"Provided antPath argument is not a valid pattern");
-		}
-	}
+    public StAXAntPathIteratorExpression() {
+    }
 
-	public Object evaluate(Exchange exchange) {
-		try {
-			XMLEventReader reader = exchange.getIn().getMandatoryBody(
-					XMLEventReader.class);
+    public Object evaluate(Exchange exchange) {
+        try {
+            XMLEventReader reader = exchange.getIn().getMandatoryBody(XMLEventReader.class);
 
-			return createIterator(reader);
-		} catch (InvalidPayloadException e) {
-			exchange.setException(e);
-			return null;
-		}
-	}
+            return createIterator(reader);
+        } catch (CamelExchangeException e) {
+            exchange.setException(e);
+            return null;
+        }
+    }
 
-	private Iterator<?> createIterator(XMLEventReader reader) {
-		return new StAXAntPathJAXBIterator(reader, antPath, group);
-	}
+    private StAXAntPathIterator<?> createIterator(XMLEventReader reader) {
+        StAXAntPathIterator<?> it = appContext.getBean(iteratorBeanId, StAXAntPathIterator.class);
+        it.setReader(reader);
 
+        return it;
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.appContext = applicationContext;
+    }
+
+    public void setIteratorBeanId(String iteratorBeanId) {
+        this.iteratorBeanId = iteratorBeanId;
+    }
 }

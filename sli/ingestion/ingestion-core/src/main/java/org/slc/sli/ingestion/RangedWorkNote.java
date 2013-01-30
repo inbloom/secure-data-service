@@ -24,7 +24,7 @@ import java.io.Serializable;
  *
  * @author shalka
  */
-public class RangedWorkNote extends SLIWorkNote implements Serializable {
+public class RangedWorkNote extends WorkNote implements Serializable {
 
     private static final long serialVersionUID = 7526472295622776147L;
 
