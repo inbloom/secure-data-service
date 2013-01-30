@@ -21,7 +21,7 @@
   </bean>
 
   <bean id="staxProcessor" class="test.camel.support.stax.STaXWithValidationProcessor">
-    <property name="group" value="500" />
+    <property name="group" value="100" />
     <property name="schema" value="classpath:edfiXsd-SLI/SLI-Ed-Fi-Core.xsd" />
     <property name="producer" ref="myTemplate" />
   </bean>
@@ -40,6 +40,9 @@
   <bean id="stringStaxIterator" class="test.camel.support.stax.StAXAntPathStringIterator" parent="abstractStaxAntPathIterator"
     scope="prototype" />
 
+  <bean id="stringMapIterator" class="test.camel.support.stax.StAXAntPathMapIterator" parent="abstractStaxAntPathIterator"
+    scope="prototype" />
+
   <bean id="byteStaxIterator" class="test.camel.support.stax.StAXAntPathBytesIterator" parent="abstractStaxAntPathIterator"
     scope="prototype" />
 
@@ -56,7 +59,7 @@
   </bean>
 
   <bean id="staxSplitter" class="test.camel.support.stax.StAXAntPathIteratorExpression">
-    <property name="iteratorBeanId" value="jaxbStaxIterator" />
+    <property name="iteratorBeanId" value="stringMapIterator" />
   </bean>
 
   <bean id="zipSplitter" class="test.camel.support.zip.ZipFileSplitterBuilder" factory-method="unzip" />
@@ -95,8 +98,8 @@
         <log loggingLevel="INFO" message="Batch ${header.batchId}: Received a zip file entry - ${body.getFileEntry}" />
         <convertBodyTo type="java.io.InputStream" />
         <!-- <bean ref="smooksProcessor" /> -->
-        <bean ref="staxProcessor" />
-        <!--
+        <!-- <bean ref="staxProcessor" /> -->
+        <!-- -->
         <split streaming="true" parallelProcessing="true">
           <ref>staxSplitter</ref>
           <setHeader headerName="JMSXGroupSeq">
@@ -107,7 +110,7 @@
           </setHeader>
           <to uri="direct:logging" />
         </split>
-        -->
+        <!-- -->
         <log message="Batch ${header.batchId}: Parsing is done for ${header.fileEntry}" />
       </filter>
     </route>
