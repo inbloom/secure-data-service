@@ -20,65 +20,28 @@ package org.slc.sli.ingestion;
 import java.io.Serializable;
 
 /**
- * Unit of work, chunked by Maestro, to be executed by a member of the orchestra (pit).
+ * Unit of work, a structure that holds information about the work.
  *
- * @author shalka
+ * @author okrook
  */
-public final class WorkNote implements Serializable {
-
-    private static final long serialVersionUID = 7526472295622776147L;
+public class WorkNote implements Serializable {
+    private static final long serialVersionUID = 5462350263804401592L;
 
     private final String batchJobId;
-    private final IngestionStagedEntity ingestionStagedEntity;
-    private final long startTime;
-    private final long endTime;
-    private final long recordsInRange;
+    private final String tenantId;
+    private final boolean hasErrors;
 
-    private int batchSize;
 
     /**
-     * Default constructor for the WorkOrder class.
+     * Constructor for the class.
      *
      * @param batchJobId
-     * @param collection
-     * @param minimum
-     * @param maximum
+     * @param tenantId
      */
-    private WorkNote(String batchJobId, IngestionStagedEntity ingestionStagedEntity, long startTime, long endTime,
-            long recordsInRange, int batchSize) {
+    public WorkNote(String batchJobId, String tenantId, boolean hasErrors) {
         this.batchJobId = batchJobId;
-        this.ingestionStagedEntity = ingestionStagedEntity;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.recordsInRange = recordsInRange;
-        this.batchSize = batchSize;
-    }
-
-    /**
-     * Create a simple WorkNote, note part of any batch.
-     *
-     * @param batchJobId
-     * @param ingestionStagedEntity
-     * @return
-     */
-    public static WorkNote createSimpleWorkNote(String batchJobId) {
-        long now = System.currentTimeMillis();
-        return new WorkNote(batchJobId, null, now, now, 0L, 0);
-    }
-
-    /**
-     * Create a WorkNote that is a part of a batch of WorkNotes.
-     *
-     * @param batchJobId
-     * @param ingestionStagedEntity
-     * @param maximum
-     * @param minimum
-     * @param batchSize
-     * @return
-     */
-    public static WorkNote createBatchedWorkNote(String batchJobId, IngestionStagedEntity ingestionStagedEntity,
-            long startTime, long endTime, long recordsInRage, int batchSize) {
-        return new WorkNote(batchJobId, ingestionStagedEntity, startTime, endTime, recordsInRage, batchSize);
+        this.tenantId = tenantId;
+        this.hasErrors = hasErrors;
     }
 
     /**
@@ -91,68 +54,29 @@ public final class WorkNote implements Serializable {
     }
 
     /**
-     * Gets the staged entity.
+     * Gets the tenant id.
      *
-     * @return staged entity to perform work on.
+     * @return String representing tenant id.
      */
-    public IngestionStagedEntity getIngestionStagedEntity() {
-        return ingestionStagedEntity;
+    public String getTenantId() {
+        return tenantId;
     }
 
     /**
-     * Gets the minimum value of the index [inclusive] to perform work on.
-     *
-     * @return minimum index value.
+     * {@inheritDoc}
      */
-    public long getRangeMinimum() {
-        return startTime;
-    }
-
-    /**
-     * Gets the maximum value of the index [exclusive] to perform work on.
-     *
-     * @return maximum index value.
-     */
-    public long getRangeMaximum() {
-        return endTime;
-    }
-
-    /**
-     * The expected number of records that have:
-     * (creationTime >= rangeMinimum && creationTime < rangeMaximum)
-     *
-     * @return # records within range.
-     */
-    public long getRecordsInRange() {
-        return recordsInRange;
-    }
-
-    /**
-     * The size of the batch that this WorkNote may be a part of.
-     *
-     * @return
-     */
-    public int getBatchSize() {
-        return batchSize;
-    }
-
-    public void setBatchSize(int batchSize) {
-        this.batchSize = batchSize;
-    }
-
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((batchJobId == null) ? 0 : batchJobId.hashCode());
-        result = prime * result + batchSize;
-        result = prime * result + (int) (endTime ^ (endTime >>> 32));
-        result = prime * result + ((ingestionStagedEntity == null) ? 0 : ingestionStagedEntity.hashCode());
-        result = prime * result + (int) (recordsInRange ^ (recordsInRange >>> 32));
-        result = prime * result + (int) (startTime ^ (startTime >>> 32));
+        result = prime * result + ((tenantId == null) ? 0 : tenantId.hashCode());
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -172,33 +96,29 @@ public final class WorkNote implements Serializable {
         } else if (!batchJobId.equals(other.batchJobId)) {
             return false;
         }
-        if (batchSize != other.batchSize) {
-            return false;
-        }
-        if (endTime != other.endTime) {
-            return false;
-        }
-        if (ingestionStagedEntity == null) {
-            if (other.ingestionStagedEntity != null) {
+        if (tenantId == null) {
+            if (other.tenantId != null) {
                 return false;
             }
-        } else if (!ingestionStagedEntity.equals(other.ingestionStagedEntity)) {
-            return false;
-        }
-        if (recordsInRange != other.recordsInRange) {
-            return false;
-        }
-        if (startTime != other.startTime) {
+        } else if (!tenantId.equals(other.tenantId)) {
             return false;
         }
         return true;
     }
 
+    /**
+     * @return the hasErrors
+     */
+    public boolean hasErrors() {
+        return hasErrors;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String toString() {
-        return "WorkNote [batchJobId=" + batchJobId + ", ingestionStagedEntity=" + ingestionStagedEntity
-                + ", startTime=" + startTime + ", endTime=" + endTime + ", recordsInRange=" + recordsInRange
-                + ", batchSize=" + batchSize + "]";
+        return "SLIWorkNote [batchJobId=" + batchJobId + ", tenantId=" + tenantId + "]";
     }
 
 }

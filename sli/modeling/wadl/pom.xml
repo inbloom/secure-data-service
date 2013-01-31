@@ -1,67 +1,40 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-
-	<parent>
-		<groupId>org.slc.sli.modeling</groupId>
-		<artifactId>modeling</artifactId>
-		<version>1.0-SNAPSHOT</version>
-	</parent>
-
-	<artifactId>wadl</artifactId>
-	<name>WADL (Web Application Description Language)</name>
-
-	<properties>
-      <sli.home>${project.parent.parent.basedir}</sli.home>
-	</properties>
-
-	<dependencies>
-
-		<!-- Apache Commons IO Dependency -->
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-		</dependency>
-
-		<!-- Apache Commons Lang Dependency -->
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-		</dependency>
-
-		<!-- Apache Commons XmlSchema Dependency -->
-		<dependency>
-			<groupId>org.apache.ws.commons.schema</groupId>
-			<artifactId>XmlSchema</artifactId>
-			<version>${commons.schema.version}</version>
-		</dependency>
-
-		<!-- StAX API -->
-		<dependency>
-			<groupId>stax</groupId>
-			<artifactId>stax-api</artifactId>
-			<version>1.0.1</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.slc.sli.modeling</groupId>
-			<artifactId>uml</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slc.sli.modeling</groupId>
-			<artifactId>xml</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slc.sli.modeling</groupId>
-			<artifactId>rest</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slc.sli.modeling</groupId>
-			<artifactId>xdm</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slc.sli.modeling</groupId>
-			<artifactId>xmi</artifactId>
-		</dependency>
-	</dependencies>
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.slc.sli.modeling</groupId>
+        <artifactId>modeling</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <artifactId>wadl</artifactId>
+    <name>WADL (Web Application Description Language)</name>
+    <properties>
+        <sli.home>${project.parent.parent.basedir}</sli.home>
+    </properties>
+    <dependencies>
+        <!-- Apache Commons IO Dependency -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+        <!-- StAX API -->
+        <dependency>
+            <groupId>stax</groupId>
+            <artifactId>stax-api</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slc.sli.modeling</groupId>
+            <artifactId>xml</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slc.sli.modeling</groupId>
+            <artifactId>rest</artifactId>
+        </dependency>
+        <!--dependency>
+            <groupId>org.slc.sli.modeling</groupId>
+            <artifactId>xdm</artifactId>
+            <scope>runtime</scope>
+        </dependency-->
+    </dependencies>
 </project>

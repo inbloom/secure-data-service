@@ -59,30 +59,6 @@ public class TenantPopulator implements ResourceLoaderAware {
     private static final String PARENT_LZ_PATH_PLACEHOLDER = "<lzpath>";
 
     /**
-     * Add a specified tenantRecord to the tenant collection.
-     *
-     * @param tenantRecord
-     *            , the record to add to the collection.
-     * @param deriveIngestionFields
-     *            , whether to derive ingestion-specific fields.
-     */
-    public boolean addTenant(TenantRecord tenantRecord, boolean deriveIngestionFields) {
-        try {
-            String hostname = getHostname();
-
-            if (deriveIngestionFields) {
-                deriveTenantFields(tenantRecord, hostname);
-            }
-            tenantDA.insertTenant(tenantRecord);
-
-        } catch (Exception e) {
-            LOG.error("Exception adding tenant " + tenantRecord + " :", e);
-            return false;
-        }
-        return true;
-    }
-
-    /**
      * Populate the tenant data store with a default set of tenants.
      *
      */
@@ -180,28 +156,6 @@ public class TenantPopulator implements ResourceLoaderAware {
 
             String pathVal = lz.getPath();
             pathVal = pathVal.replaceFirst(PARENT_LZ_PATH_PLACEHOLDER, Matcher.quoteReplacement(parentLandingZoneDir));
-            lz.setPath(new File(pathVal).getAbsolutePath());
-        }
-    }
-
-    /**
-     *
-     * Derive and set ingestion specific fields:
-     * landingZone.ingestionServer and landingZone.path.
-     *
-     * @param tenant
-     *            record to be processed
-     * @param hostname
-     *            the hostname to be used in placeholder replacement
-     */
-    private void deriveTenantFields(TenantRecord tenant, String hostname) {
-        List<LandingZoneRecord> landingZones = tenant.getLandingZone();
-        for (LandingZoneRecord lz : landingZones) {
-            // override hostname field
-            lz.setIngestionServer(hostname);
-
-            // override path field
-            String pathVal = parentLandingZoneDir + "/" + tenant.getTenantId() + "-" + lz.getEducationOrganization();
             lz.setPath(new File(pathVal).getAbsolutePath());
         }
     }

@@ -24,7 +24,7 @@ import org.slc.sli.modeling.uml.Type;
 /**
  * Provides information required by an {@link Xsd2UmlPlugin}.
  */
-public interface Xsd2UmlPluginHost extends Xsd2UmlPlugin {
+public interface Xsd2UmlPluginHost {
 
     /**
      * Ensures that there is a tag definition for the specified name and obtains the identifier.
@@ -52,4 +52,11 @@ public interface Xsd2UmlPluginHost extends Xsd2UmlPlugin {
      * @return The type corresponding to the identifier.
      */
     Type getType(Identifier typeId);
+
+    /**
+     * Get the underlying plugin hosted by this instance.
+     *
+     * @return Xsd2UmlHostedPlugin plugin
+     */
+    Xsd2UmlHostedPlugin getPlugin();
 }

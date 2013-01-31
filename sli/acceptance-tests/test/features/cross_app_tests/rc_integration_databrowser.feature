@@ -15,7 +15,7 @@ Scenario: Login and logout
   And I should see Admin link
   And I click on Admin
   Then I should be on the admin page
-  And under System Tools, I click on "SLC Data Browser"
+  And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
   When I click on the Logout link
   And I am forced to reauthenticate to access the databrowser
@@ -26,7 +26,7 @@ Scenario: Navigate to home page from any page
   And I should see Admin link
   And I click on Admin
   Then I should be on the admin page
-  And under System Tools, I click on "SLC Data Browser"
+  And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
   And I should see my available links labeled
   And I have navigated to the <Page> of the Data Browser
@@ -42,7 +42,7 @@ Scenario: Associations List - Expand/Collapse between Simple View and Detail Vie
   And I should see Admin link
   And I click on Admin
   Then I should be on the admin page
-  And under System Tools, I click on "SLC Data Browser"
+  And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
   And I click on the "GetStaffProgramAssociations" link
   Then I am redirected to the associations list page
@@ -59,7 +59,7 @@ Scenario Outline: Entity Detail View
   And I should see Admin link
   And I click on Admin
   Then I should be on the admin page
-  And under System Tools, I click on "SLC Data Browser"
+  And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
   And I have navigated to the <Page> page of the Data Browser
   When I click on the row containing <Text>
@@ -77,7 +77,7 @@ Scenario: Click on Available Links associations and entities
   And I should see Admin link
   And I click on Admin
   Then I should be on the admin page
-  And under System Tools, I click on "SLC Data Browser"
+  And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
   And I have navigated to the "Me" page of the Data Browser
   Then I am redirected to the particular entity Detail View
@@ -90,7 +90,7 @@ Scenario: Get a Forbidden message when we access something that is forbidden
   And I should see Admin link
   And I click on Admin
   Then I should be on the admin page
-  And under System Tools, I click on "SLC Data Browser"
+  And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
   And I click on the "GetEducationOrganizations" link
   And I click on the "GetParentEducationOrganization" link
@@ -108,7 +108,7 @@ Scenario: Traverse Edorg Hiearchy from SEA down to LEA
   And I should see Admin link
   And I click on Admin
   Then I should be on the admin page
-  And under System Tools, I click on "SLC Data Browser"
+  And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
   When I click on the "GetEducationOrganizations" link
   Then I should be on the detailed page for an SEA
@@ -128,7 +128,7 @@ Scenario: Search by id
   And I should see Admin link
   And I click on Admin
   Then I should be on the admin page
-  And under System Tools, I click on "SLC Data Browser"
+  And under System Tools, I click on "inBloom Data Browser"
   Then I should be redirected to the Data Browser home page
   When I search for the identifier "<BRANDON SUZUKI UNIQUE ID>" in "students"
   Then I should see the text "Brandon"

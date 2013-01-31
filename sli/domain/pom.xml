@@ -1,112 +1,92 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <parent>
         <groupId>org.slc.sli</groupId>
         <artifactId>sli</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-
     <groupId>org.slc.sli.domain</groupId>
     <artifactId>domain</artifactId>
     <name>Core Entities</name>
-
     <properties>
-      <sli.home>${project.parent.basedir}</sli.home>
+        <sli.home>${project.parent.basedir}</sli.home>
     </properties>
-
     <dependencies>
-
-        <dependency>
-            <groupId>org.slc.sli.schema</groupId>
-            <artifactId>edfi-schema</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.slc.sli.common</groupId>
             <artifactId>sli-common</artifactId>
         </dependency>
-
-        <dependency>
-          <groupId>org.slc.sli.modeling</groupId>
-          <artifactId>tools</artifactId>
-          <version>${project.version}</version>
-        </dependency>
-
-        <!--  Apache Commons IO Dependency -->
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
-        </dependency>
-
         <!--  Apache Commons Lang Dependency -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
-
         <!--  Apache Commons XmlSchema Dependency -->
         <dependency>
             <groupId>org.apache.ws.commons.schema</groupId>
             <artifactId>XmlSchema</artifactId>
             <version>${commons.schema.version}</version>
         </dependency>
-
         <!--  Apache Commons BeanUtils Dependency -->
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
         </dependency>
-
         <!-- Spring Core dependency -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
         </dependency>
-
         <!-- Spring Context dependency -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-beans</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>stax</groupId>
+            <artifactId>stax-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-core-asl</artifactId>
+        </dependency>
         <!-- Spring Test dependency -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
         </dependency>
-
         <!-- Spring Security Core dependency -->
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-core</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-mongodb</artifactId>
             <version>${springdata-mongodb-version}</version>
         </dependency>
-
-        <!-- Codehaus Jackson JAX-RS dependency -->
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-jaxrs</artifactId>
-        </dependency>
-
     </dependencies>
-
     <build>
         <defaultGoal>install</defaultGoal>
-
-
         <plugins>
-
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>1.1</version>
+                <version>1.2.1</version>
                 <executions>
                     <execution>
                         <id>xmigen</id>
@@ -129,26 +109,93 @@
                         </configuration>
                     </execution>
                     <execution>
-                      <id>xsdgen</id>
-                      <goals><goal>java</goal></goals>
-                      <phase>generate-resources</phase>
-                      <configuration>
-                        <mainClass>org.slc.sli.modeling.tools.xsdgen.XsdGen</mainClass>
-                        <arguments>
-                          <argument>--outFolder</argument>
-                          <argument>${sli.home}/domain/src/main/resources/sliModel</argument>
-                          <argument>--plugInName</argument>
-                          <argument>org.slc.sli.modeling.tools.xsdgen.PluginForREST</argument>
-                          <argument>--xmiFile</argument>
-                          <argument>${sli.home}/domain/src/main/resources/sliModel/SLI.xmi</argument>
-                          <argument>--documentFile</argument>
-                          <argument>${sli.home}/domain/src/main/resources/sliModel/documents.xml</argument>
-                          <argument>--outFile</argument>
-                          <argument>SLI.xsd</argument>
-                        </arguments>
-                      </configuration>
+                        <id>xsdgen</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <mainClass>org.slc.sli.modeling.tools.xsdgen.XsdGen</mainClass>
+                            <arguments>
+                                <argument>--outFolder</argument>
+                                <argument>${sli.home}/domain/src/main/resources/sliModel</argument>
+                                <argument>--plugInName</argument>
+                                <argument>org.slc.sli.modeling.tools.xsdgen.PluginForREST</argument>
+                                <argument>--xmiFile</argument>
+                                <argument>${sli.home}/domain/src/main/resources/sliModel/SLI.xmi</argument>
+                                <argument>--documentFile</argument>
+                                <argument>${sli.home}/domain/src/main/resources/sliModel/documents.xml</argument>
+                                <argument>--outFile</argument>
+                                <argument>SLI.xsd</argument>
+                            </arguments>
+                        </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <includeProjectDependencies>false</includeProjectDependencies>
+                    <includePluginDependencies>true</includePluginDependencies>
+                    <executableDependency>
+                        <groupId>org.slc.sli.modeling</groupId>
+                        <artifactId>tools</artifactId>
+                    </executableDependency>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.slc.sli.modeling</groupId>
+                        <artifactId>psm</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.slc.sli.modeling</groupId>
+                        <artifactId>uml</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.slc.sli.modeling</groupId>
+                        <artifactId>xsd</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.slc.sli.modeling</groupId>
+                        <artifactId>xmi</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.slc.sli.modeling</groupId>
+                        <artifactId>wadl</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.slc.sli.modeling</groupId>
+                        <artifactId>tools</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.slc.sli.modeling</groupId>
+                        <artifactId>rest</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.slc.sli.modeling</groupId>
+                        <artifactId>xdm</artifactId>
+                        <version>${project.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>com.fasterxml.uuid</groupId>
+                        <artifactId>java-uuid-generator</artifactId>
+                        <version>${java-uuid.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>net.sf.jopt-simple</groupId>
+                        <artifactId>jopt-simple</artifactId>
+                        <version>${jopt-simple.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>stax</groupId>
+                        <artifactId>stax-api</artifactId>
+                        <version>${stax.api.version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.jvnet.jaxb2.maven2</groupId>
@@ -159,20 +206,16 @@
                 </executions>
                 <configuration>
                     <forceRegenerate>true</forceRegenerate>
-
                     <schemaDirectory>src/main/resources/xsd</schemaDirectory>
                     <schemaIncludes>
                         <include>Ed-Fi-Core.xsd</include>
                     </schemaIncludes>
-
                     <bindingDirectory>src/main/resources/xsd</bindingDirectory>
                     <bindingIncludes>
                         <include>Ed-Fi-Core.xjb</include>
                     </bindingIncludes>
-
                     <generateDirectory>src/main/java</generateDirectory>
                     <generatePackage>tmp.generated</generatePackage>
-
                     <extension>true</extension>
                     <args>
                         <arg>-Xxew</arg>
@@ -198,9 +241,8 @@
                             <goal>test-jar</goal>
                         </goals>
                     </execution>
-               </executions>
-           </plugin>
-
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>

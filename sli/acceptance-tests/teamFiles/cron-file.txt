@@ -1,0 +1,2 @@
+0 19 * * 0-4 sh /opt/megatron/sli/sli/acceptance-tests/teamFiles/megtomcat01_performance_testing_wrapper.sh 3M.zip master
+0 19 * * 5 sh /opt/megatron/sli/sli/acceptance-tests/teamFiles/megtomcat01_performance_testing_wrapper.sh 24M.zip master

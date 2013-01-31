@@ -27,11 +27,6 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -39,11 +34,17 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.domain.Entity;
+
 /**
  * Unit Tests
- * 
+ *
  * @author pwolf
- * 
+ *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -56,7 +57,7 @@ public class RealmHelperTest {
 
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
-    
+
     @Autowired
     private SecurityContextInjector injector;
 
@@ -87,7 +88,7 @@ public class RealmHelperTest {
     private Entity buildEdOrg(String stateOrgId, Entity parent, boolean isSEA) {
         return buildEdOrg(stateOrgId, parent, "foo", isSEA);
     }
-    
+
     private Entity buildEdOrg(String stateOrgId, Entity parent, String tenantId, boolean isSEA) {
         Map<String, Object> metaData = new HashMap<String, Object>();
         metaData.put("tenantId", tenantId);
@@ -111,7 +112,7 @@ public class RealmHelperTest {
     private Entity buildRealm(Entity edOrg) {
         return buildRealm(edOrg, "foo");
     }
-    
+
     private Entity buildRealm(Entity edOrg, String tenantId) {
         Map<String, Object> metaData = new HashMap<String, Object>();
 
@@ -212,7 +213,7 @@ public class RealmHelperTest {
         assertTrue(helper.isUserAllowedLoginToRealm(seaStaff, lea2Realm));
         assertFalse(helper.isUserAllowedLoginToRealm(seaStaff, lea3Realm));
     }
-    
+
     @Test
     public void testGetAssociatedRealmIsTenantSpecific() {
         Entity sea = buildEdOrg("SEA1", null, injector.TENANT_ID, true);

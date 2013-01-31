@@ -11,30 +11,11 @@
   <packaging>pom</packaging>
   <name>Common Projects</name>
   <description>Common Stuff</description>
-
   <properties>
       <sli.home>${project.parent.basedir}</sli.home>
   </properties>
-
   <modules>
-    <module>common-encrypt</module>
     <module>sli-common</module>
+    <module>common-encrypt</module>
   </modules>
-
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.slc.sli.common</groupId>
-        <artifactId>sli-common</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>${gson.version}</version>
-		</dependency>
-    </dependencies>
-  </dependencyManagement>
-
 </project>

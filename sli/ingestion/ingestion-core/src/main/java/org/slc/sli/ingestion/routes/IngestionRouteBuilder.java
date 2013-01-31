@@ -27,13 +27,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.nodes.IngestionNodeType;
 import org.slc.sli.ingestion.nodes.NodeInfo;
 import org.slc.sli.ingestion.processors.CommandProcessor;
-import org.slc.sli.ingestion.processors.ConcurrentEdFiProcessor;
 import org.slc.sli.ingestion.processors.ControlFilePreProcessor;
 import org.slc.sli.ingestion.processors.ControlFileProcessor;
+import org.slc.sli.ingestion.processors.EdFiProcessor;
 import org.slc.sli.ingestion.processors.JobReportingProcessor;
 import org.slc.sli.ingestion.processors.LandingZoneProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
@@ -50,6 +49,7 @@ import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.routes.orchestra.AggregationPostProcessor;
 import org.slc.sli.ingestion.routes.orchestra.OrchestraPreProcessor;
 import org.slc.sli.ingestion.routes.orchestra.WorkNoteLatch;
+import org.slc.sli.ingestion.routes.orchestra.parsing.FileEntryLatch;
 import org.slc.sli.ingestion.tenant.TenantPopulator;
 import org.slc.sli.ingestion.validation.Validator;
 
@@ -78,7 +78,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     private ControlFileProcessor ctlFileProcessor;
 
     @Autowired
-    private ConcurrentEdFiProcessor concurrentEdFiProcessor;
+    private EdFiProcessor edFiProcessor;
 
     @Autowired
     private PurgeProcessor purgeProcessor;
@@ -88,9 +88,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Autowired
     private TransformationProcessor transformationProcessor;
-
-/*    @Autowired
-    private ConcurrentXmlFileProcessor concurrentXmlFileProcessor;*/
 
     @Autowired
     private OrchestraPreProcessor orchestraPreProcessor;
@@ -109,6 +106,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Autowired
     private TenantPopulator tenantPopulator;
+
+    @Autowired
+    private BatchJobManager batchJobManager;
 
     @Autowired
     private NodeInfo nodeInfo;
@@ -155,6 +155,15 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Value("${sli.ingestion.topic.command}")
     private String commandTopicUri;
 
+    @Value("${sli.ingestion.queue.parser.queueURI}")
+    private String parserQueue;
+
+    @Value("${sli.ingestion.queue.parser.concurrentConsumers}")
+    private String parserConsumers;
+
+    @Value("${sli.ingestion.queue.parser.uriOptions}")
+    private String parserUriOptions;
+
     @Value("${sli.ingestion.tenant.tenantPollingRepeatInterval}")
     private String tenantPollingRepeatInterval;
 
@@ -181,7 +190,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         LOG.info("Configuring node {} for node type {}", nodeInfo.getUUID(), nodeInfo.getNodeType());
 
         loggingMessageReport.setLogger(LOG);
-        Source source = new JobSource(null, null);
+        Source source = new JobSource(null);
         ReportStats reportStats = new SimpleReportStats();
         boolean indexValidated = systemValidator.isValid(null, loggingMessageReport, reportStats, source);
 
@@ -195,6 +204,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         String maestroConsumerQueueUri = maestroConsumerQueue + "?concurrentConsumers=" + maestroConsumers + maestroUriOptions;
         String pitNodeQueueUri = pitQueue + "?concurrentConsumers=" + pitConsumers + pitUriOptions;
         String pitConsumerNodeQueueUri = pitConsumerQueue + "?concurrentConsumers=" + pitConsumers + pitUriOptions;
+        String parserQueueUri = parserQueue + "?concurrentConsumers=" + parserConsumers + parserUriOptions;
 
         if (IngestionNodeType.MAESTRO.equals(nodeInfo.getNodeType())
                 || IngestionNodeType.STANDALONE.equals(nodeInfo.getNodeType())) {
@@ -208,7 +218,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
             buildLzDropFileRoute(landingZoneQueueUri, workItemQueueUri);
 
-            buildExtractionRoutes(workItemQueueUri);
+            buildExtractionRoutes(workItemQueueUri, parserQueueUri);
 
             buildMaestroRoutes(maestroConsumerQueueUri, pitNodeQueueUri);
 
@@ -238,35 +248,40 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
         // routeId: lzDropFile
         from(landingZoneQueueUri).routeId("lzDropFile")
-            .log(LoggingLevel.INFO, "CamelRouting", "Landing Zone message detected.").process(landingZoneProcessor)
-            .choice().when(header(HAS_ERRORS).isEqualTo(true))
-                .to("direct:stop")
-            .otherwise()
-                .to("direct:processLzFile");
+            .log(LoggingLevel.INFO, "CamelRouting", "Landing Zone message detected. Routing to LandingZoneProcessor.")
+            .to("direct:processLandingZone");
 
-        // routeId: processLzFile
-        from("direct:processLzFile").routeId("processLzFile").log(LoggingLevel.INFO, "CamelRouting", "Landing Zone is valid.")
-            .choice().when(header("filePath").endsWith(".ctl"))
-                .log(LoggingLevel.INFO, "CamelRouting", "Control file detected. Routing to ControlFilePreProcessor.")
-                .process(controlFilePreProcessor)
-                .choice().when(header(HAS_ERRORS).isEqualTo(true))
-                    .to("direct:stop")
-                .otherwise()
-                    .to(workItemQueueUri).endChoice()
-            .when(header("filePath").endsWith(".zip"))
-                .log(LoggingLevel.INFO, "CamelRouting", "Zip file detected. Routing to ZipFileProcessor.")
-                .process(zipFileProcessor)
-                .choice().when(header(HAS_ERRORS).isEqualTo(true))
-                    .to("direct:stop")
-                .otherwise()
-                    .log(LoggingLevel.INFO, "CamelRouting", "No errors in zip file. Routing to ControlFilePreProcessor.")
-                    .process(controlFilePreProcessor)
-                        .choice().when(header(HAS_ERRORS).isEqualTo(true))
-                            .to("direct:stop")
-                        .otherwise()
-                            .to(workItemQueueUri).endChoice().endChoice()
+        // routeId: processLandingZone
+        from("direct:processLandingZone").routeId("processLandingZone")
+            .process(landingZoneProcessor)
+            .choice().when()
+                .method(batchJobManager, "hasErrors")
+                .log(LoggingLevel.WARN, "CamelRouting", "Invalid landing zone detected.").to("direct:stop")
             .otherwise()
-                .log(LoggingLevel.WARN, "CamelRouting", "Unknown file type detected.").to("direct:stop");
+                .log(LoggingLevel.INFO, "CamelRouting", "Landing zone is valid. Routing to ZipFileProcessor.")
+                .to("direct:processZipFile");
+
+        // routeId: processZipFile
+        from("direct:processZipFile").routeId("processZipFile")
+            .process(zipFileProcessor)
+            .choice().when()
+                .method(batchJobManager, "hasErrors")
+                .log(LoggingLevel.WARN, "CamelRouting", "Invalid zip file detected.").to("direct:stop")
+            .otherwise()
+                .log(LoggingLevel.INFO, "CamelRouting", "No errors in zip file. Routing to ControlFilePreProcessor.")
+                .to("direct:processControlFilePre");
+
+
+        // routeId: processControlFilePre
+        from("direct:processControlFilePre").routeId("processControlFilePre")
+            .process(controlFilePreProcessor)
+            .choice().when()
+                .method(batchJobManager, "hasErrors")
+                .log(LoggingLevel.WARN, "CamelRouting", "Failed to pre-process control file.").to("direct:stop")
+            .otherwise()
+                .log(LoggingLevel.INFO, "CamelRouting", "Pre-processed control file.")
+                .to(workItemQueueUri);
+
     }
 
     /**
@@ -329,7 +344,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
      *
      * @param workItemQueueUri
      */
-    private void buildExtractionRoutes(String workItemQueueUri) {
+    private void buildExtractionRoutes(String workItemQueueUri, String parserQueueUri) {
 
         // routeId: extraction
         from(workItemQueueUri).routeId("extraction").choice()
@@ -345,11 +360,24 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .process(purgeProcessor).to("direct:stop")
 
                 .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.CONTROL_FILE_PROCESSED.name()))
-                .log(LoggingLevel.INFO, "CamelRouting", "Routing to ConcurrentEdfiProcessor.")
-                .process(concurrentEdFiProcessor).to("direct:postExtract");
+                .log(LoggingLevel.INFO, "CamelRouting", "Routing to zipFileSplitter.")
+                .split().method("ZipFileSplitter", "splitZipFile")
+                .log(LoggingLevel.INFO, "CamemRoutring", "Zip file split").to(parserQueueUri);
+
+        from(parserQueueUri).routeId("edFiProcessor")
+            .log(LoggingLevel.INFO, "CamelRouting", "File entry received. Processing: ${body}")
+            .process(edFiProcessor).to("direct:fileEntryLatch");
+
+        // file entry Latch
+        from("direct:fileEntryLatch").routeId("fileEntryLatch")
+                .bean(this.lookup(FileEntryLatch.class))
+                .choice().when(header("fileENtryLatchOpened").isEqualTo(true))
+                    .log(LoggingLevel.INFO, "CamelRouting", "FileEntryWorkNote latch opened.")
+                    .to("direct:postExtract");
 
         // routeId: assembledJobs
-        from("direct:assembledJobs").routeId("assembledJobs").choice().when(header(HAS_ERRORS).isEqualTo(true))
+        from("direct:assembledJobs").routeId("assembledJobs").choice().when()
+                .method(batchJobManager, "hasErrors")
                 .log(LoggingLevel.INFO, "CamelRouting", "Error in processing. Routing to stop.").to("direct:stop")
                 .otherwise().to(workItemQueueUri);
 
@@ -379,7 +407,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
                 .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.PERSIST_REQUEST.name()))
                 .choice()
-                .when(header(AttributeType.DRYRUN.getName()).isEqualTo(true))
+                .when()
+                    .method(batchJobManager, "isDryRun")
                     .log(LoggingLevel.INFO, "CamelRouting", "Dry-run specified. Routing back to Maestro.")
                     .to(maestroQueueUri)
                 .otherwise()

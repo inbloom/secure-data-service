@@ -21,7 +21,6 @@ import static org.junit.Assert.assertTrue;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
-import java.io.PrintStream;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -47,10 +46,9 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileType;
-import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.dal.NeutralRecordRepository;
-import org.slc.sli.ingestion.landingzone.LocalFileSystemLandingZone;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -82,8 +80,6 @@ public class JobReportingProcessorTest {
     private static final String ERRORDETAIL = "errorDetail";
     private static final String NULLERRORDETAIL = "null errorDetail";
 
-    private static PrintStream printOut = new PrintStream(System.out);
-
     @InjectMocks
     JobReportingProcessor jobReportingProcessor = new JobReportingProcessor();
 
@@ -99,9 +95,8 @@ public class JobReportingProcessorTest {
     public void setUp() throws Exception {
         MockitoAnnotations.initMocks(this);
 
-        if (tmpDir.mkdirs()) {
-            printOut.println("Created temp directory " + tmpDir.getAbsolutePath());
-        }
+        tmpDir.mkdirs();
+
         jobReportingProcessor.setCommandTopicUri("seda:ingestion.command");
     }
 
@@ -109,14 +104,14 @@ public class JobReportingProcessorTest {
     public void tearDown() throws Exception {
         if (tmpDir.exists()) {
             String[] files = tmpDir.list();
-
             for (String temp : files) {
                 // construct the file structure
                 File fileToDelete = new File(tmpDir, temp);
                 fileToDelete.delete();
             }
+
+            tmpDir.delete();
         }
-        tmpDir.delete();
     }
 
     @Test
@@ -128,12 +123,12 @@ public class JobReportingProcessorTest {
         Map<String, String> mockedProperties = createFakeBatchProperties();
         NewBatchJob mockedJob = new NewBatchJob(BATCHJOBID, "192.168.59.11", "finished", 1, mockedProperties,
                 mockedStages, mockedResourceEntries);
-        mockedJob.setSourceId(TEMP_DIR);
+        mockedJob.setTopLevelSourceId(TEMP_DIR);
 
         Iterable<Error> fakeErrorIterable = createFakeErrorIterable();
 
         // mock the WorkNote
-        WorkNote workNote = WorkNote.createSimpleWorkNote(BATCHJOBID);
+        RangedWorkNote workNote = RangedWorkNote.createSimpleWorkNote(BATCHJOBID);
 
         List<Stage> mockStages = new LinkedList<Stage>();
         List<Metrics> mockMetrics = new LinkedList<Metrics>();
@@ -149,7 +144,7 @@ public class JobReportingProcessorTest {
                 mockedBatchJobDAO.getBatchJobErrors(Matchers.eq(BATCHJOBID), Matchers.eq(RESOURCEID),
                         Matchers.eq(FaultType.TYPE_ERROR), Matchers.anyInt())).thenReturn(fakeErrorIterable);
         Mockito.when(
-                mockedBatchJobDAO.getBatchJobErrors(Matchers.eq(BATCHJOBID), (String)Matchers.isNull(),
+                mockedBatchJobDAO.getBatchJobErrors(Matchers.eq(BATCHJOBID), (String) Matchers.isNull(),
                         Matchers.eq(FaultType.TYPE_ERROR), Matchers.anyInt())).thenReturn(fakeErrorIterable);
 
         Mockito.when(
@@ -161,11 +156,7 @@ public class JobReportingProcessorTest {
 
         // create exchange
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
-        exchange.getIn().setBody(workNote, WorkNote.class);
-
-        LocalFileSystemLandingZone tmpLz = new LocalFileSystemLandingZone(tmpDir);
-        // jobReportingProcessor.setLandingZone(tmpLz);
-        printOut.println("Writing to " + tmpLz.getDirectory().getAbsolutePath());
+        exchange.getIn().setBody(workNote, RangedWorkNote.class);
 
         jobReportingProcessor.setBatchJobDAO(mockedBatchJobDAO);
         jobReportingProcessor.process(exchange);

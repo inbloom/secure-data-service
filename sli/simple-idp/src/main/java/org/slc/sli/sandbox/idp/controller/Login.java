@@ -28,19 +28,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.slc.sli.common.util.logging.LogLevelType;
-import org.slc.sli.common.util.logging.LoggingUtils;
-import org.slc.sli.common.util.logging.SecurityEvent;
-import org.slc.sli.sandbox.idp.service.AuthRequestService;
-import org.slc.sli.sandbox.idp.service.AuthenticationException;
-import org.slc.sli.sandbox.idp.service.DefaultUsersService;
-import org.slc.sli.sandbox.idp.service.DefaultUsersService.Dataset;
-import org.slc.sli.sandbox.idp.service.DefaultUsersService.DefaultUser;
-import org.slc.sli.sandbox.idp.service.RoleService;
-import org.slc.sli.sandbox.idp.service.SamlAssertionService;
-import org.slc.sli.sandbox.idp.service.SamlAssertionService.SamlAssertion;
-import org.slc.sli.sandbox.idp.service.UserService;
-import org.slc.sli.sandbox.idp.service.UserService.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,12 +41,26 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import org.slc.sli.common.util.logging.LogLevelType;
+import org.slc.sli.common.util.logging.LoggingUtils;
+import org.slc.sli.common.util.logging.SecurityEvent;
+import org.slc.sli.sandbox.idp.service.AuthRequestService;
+import org.slc.sli.sandbox.idp.service.AuthenticationException;
+import org.slc.sli.sandbox.idp.service.DefaultUsersService;
+import org.slc.sli.sandbox.idp.service.DefaultUsersService.Dataset;
+import org.slc.sli.sandbox.idp.service.DefaultUsersService.DefaultUser;
+import org.slc.sli.sandbox.idp.service.RoleService;
+import org.slc.sli.sandbox.idp.service.SamlAssertionService;
+import org.slc.sli.sandbox.idp.service.SamlAssertionService.SamlAssertion;
+import org.slc.sli.sandbox.idp.service.UserService;
+import org.slc.sli.sandbox.idp.service.UserService.User;
+import org.slc.sli.sandbox.idp.service.UserTypeService;
+
 
 /**
  * Handles login form submissions.
  *
  * @author Ryan Farris <rfarris@wgen.net>
- *
  */
 @Controller
 public class Login {
@@ -73,6 +74,9 @@ public class Login {
     RoleService roleService;
 
     @Autowired
+    UserTypeService typeService;
+
+    @Autowired
     UserService userService;
 
     @Autowired
@@ -80,7 +84,7 @@ public class Login {
 
     @Autowired
     DefaultUsersService defaultUsersService;
-    
+
     @Value("${sli.simple-idp.sandboxImpersonationEnabled}")
     private boolean isSandboxImpersonationEnabled;
 
@@ -106,8 +110,8 @@ public class Login {
      */
     @RequestMapping(value = "/logout")
     public ModelAndView logout(@RequestParam(value="SAMLRequest", required=false) String encodedSamlRequest,
-            @RequestParam(value = "realm", required = false) String realm, 
-            @RequestParam(value = "developer", required = false) String developer, 
+            @RequestParam(value = "realm", required = false) String realm,
+            @RequestParam(value = "developer", required = false) String developer,
             HttpSession httpSession) {
         httpSession.removeAttribute(USER_SESSION_KEY);
         if(encodedSamlRequest!=null){
@@ -118,19 +122,19 @@ public class Login {
             return new ModelAndView("loggedOut");
         }
     }
-    
+
     /**
      * Loads required data and redirects to the login page view.
      *
      */
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView form(@RequestParam("SAMLRequest") String encodedSamlRequest,
-            @RequestParam(value = "realm", required = false) String realm, 
-            @RequestParam(value = "developer", required = false) String developer, 
+            @RequestParam(value = "realm", required = false) String realm,
+            @RequestParam(value = "developer", required = false) String developer,
             HttpSession httpSession) {
 
         AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm, developer);
-        
+
         User user = (User) httpSession.getAttribute(USER_SESSION_KEY);
 
         if (user != null){
@@ -139,7 +143,7 @@ public class Login {
                     if(user.getImpersonationUser() == null){
                         LOG.debug("Sandbox Login request with existing session (" + user.getUserId() + ") skipping authentication and automatically logging in admin using: " + user.getUserId());
                         user.getAttributes().put("isAdmin", "true");
-                        return handleNoAuthRequired(user, requestInfo, httpSession);   
+                        return handleNoAuthRequired(user, requestInfo, httpSession);
                     }else{
                         LOG.debug("Sandbox impersonation Login request with existing session (" + user.getUserId() + ") skipping authentication and impersonation and using: " + user.getImpersonationUser().getUserId());
                         return handleNoAuthRequired(user.getImpersonationUser(), requestInfo, httpSession);
@@ -167,7 +171,7 @@ public class Login {
         mav.addObject("SAMLRequest", encodedSamlRequest);
         return mav;
     }
-    
+
     private ModelAndView handleNoAuthRequired(User user, AuthRequestService.Request requestInfo, HttpSession httpSession){
         SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
                 user.getAttributes(), requestInfo);
@@ -175,7 +179,7 @@ public class Login {
         mav.addObject("samlAssertion", samlAssertion);
         return mav;
     }
-    
+
     private String buildSubTitle(String realm) {
         if(isSandboxImpersonationEnabled && sliAdminRealmName.equals(realm)){
             //sandbox login for developers
@@ -202,7 +206,7 @@ public class Login {
         mav.addObject("samlAssertion", samlAssertion);
         return mav;
     }
-    
+
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ModelAndView login(
             @RequestParam("user_id") String userId,
@@ -221,25 +225,25 @@ public class Login {
             try {
                 user = userService.authenticate(realm, userId, password);
                 if (shouldForcePasswordChange(user, realm)) {
-    
+
                     //create timestamp as part of resetKey for user
                     Date date = new Date();
                     Timestamp ts = new Timestamp(date.getTime());
-    
+
                     SecureRandom sRandom = new SecureRandom();
                     byte[] bytes = new byte[20];
                     sRandom.nextBytes(bytes);
-    
+
                     StringBuilder sb = new StringBuilder();
                     for (byte bt : bytes) { sb.append((char) bt); }
-    
+
                     String token = sb.toString() + user.getAttributes().get("mail");
-    
+
                     PasswordEncoder pe = new Md5PasswordEncoder();
                     String hashedToken = pe.encodePassword(token, null);
-    
+
                     String resetKey = hashedToken + "@" + (ts.getTime() / 1000);
-    
+
                     userService.updateUser(realm, user, resetKey, password);
                     ModelAndView mav = new ModelAndView("forcePasswordChange");
                     String resetUri = adminUrl + "/resetPassword";
@@ -256,7 +260,7 @@ public class Login {
                 mav.addObject("developer", developer);
                 mav.addObject("realm", realm);
                 mav.addObject("SAMLRequest", encodedSamlRequest);
-                
+
                 // if a user with this userId exists, get his info and roles/groups and
                 // log that information as a failed login attempt.
                 String edOrg = "UnknownEdOrg";
@@ -281,7 +285,7 @@ public class Login {
                 return mav;
             }
         }
-        
+
         httpSession.setAttribute(USER_SESSION_KEY, user);
         writeLoginSecurityEvent(true, user.getUserId(), user.getRoles(), user.getAttributes().get("edOrg"), user.getAttributes().get("tenant"), request);
 
@@ -293,11 +297,11 @@ public class Login {
             //otherwise it's either not sandbox mode or it's a mock realm in sandbox mode
             SamlAssertion samlAssertion = samlService.buildAssertion(user.getUserId(), user.getRoles(),
                     user.getAttributes(), requestInfo);
-            
+
             ModelAndView mav = new ModelAndView("post");
             mav.addObject("samlAssertion", samlAssertion);
             return mav;
-            
+
         }
     }
 
@@ -307,6 +311,7 @@ public class Login {
         mav.addObject("SAMLRequest", samlRequest);
         mav.addObject("impersonate_user", impersonateUserName);
         mav.addObject("roles", roleService.getAvailableRoles());
+        mav.addObject("types", typeService.getAvailableUserTypes());
         List<Dataset> datasets = defaultUsersService.getAvailableDatasets();
         mav.addObject("datasets", datasets);
         for(Dataset dataset : datasets){
@@ -323,12 +328,13 @@ public class Login {
             @RequestParam(value = "impersonate_user", required = false) String impersonateUser,
             @RequestParam(value = "selected_roles", required = false) List<String> roles,
             @RequestParam(value = "customRoles", required = false) String customRoles,
+            @RequestParam(value = "selected_type", required = false) String userType,
             @RequestParam(value = "datasets", required = false) String dataset,
             @RequestParam(value = "userList", required = false) String datasetUser,
             @RequestParam(value = "manualConfig", required = false) boolean manualConfig,
             HttpSession httpSession,
             HttpServletRequest request) throws IllegalStateException {
-        
+
         if (!isSandboxImpersonationEnabled){
             LOG.info("Attempted impersonation login when not in sandbox mode");
             throw new IllegalStateException("Impersonation not allowed.");
@@ -342,9 +348,9 @@ public class Login {
                 selectedRoles = customRolesList;
             }
         }
-        
+
         User impersonationUser = new User();
-        
+
         if(!manualConfig){
             DefaultUser defaultUser = defaultUsersService.getUser(dataset, datasetUser);
             if(defaultUser!=null){
@@ -352,19 +358,19 @@ public class Login {
                 impersonationUser.setRoles(Arrays.asList(defaultUser.getRole()));
             }
         }
-        
+
         if(impersonationUser.getUserId()==null){
             if (selectedRoles == null || selectedRoles.size() == 0) {
                 ModelAndView mav = buildImpersonationModelAndView(realm, encodedSamlRequest, impersonateUser);
                 mav.addObject("errorMsg", "Please select or enter one role to impersonate.");
                 return mav;
-            } 
+            }
             impersonationUser.setUserId(impersonateUser);
             impersonationUser.setRoles(selectedRoles);
         }
-        
+
         User user = (User) httpSession.getAttribute(USER_SESSION_KEY);
-        
+
         String tenant = user.getAttributes().get("tenant");
         if (tenant == null || tenant.length() == 0) {
             ModelAndView mav = buildImpersonationModelAndView(realm, encodedSamlRequest, impersonateUser);
@@ -373,8 +379,12 @@ public class Login {
         }
         impersonationUser.getAttributes().put("tenant", tenant);
 
+        if (userType != null) {
+            impersonationUser.getAttributes().put("userType", userType);
+        }
+
         user.setImpersonationUser(impersonationUser);
-        
+
         AuthRequestService.Request requestInfo = authRequestService.processRequest(encodedSamlRequest, realm, null);
         SamlAssertion samlAssertion = samlService.buildAssertion(impersonationUser.getUserId(), impersonationUser.getRoles(),
                 impersonationUser.getAttributes(), requestInfo);
@@ -387,7 +397,7 @@ public class Login {
         httpSession.removeAttribute("SAMLRequest");
         return mav;
     }
-    
+
     private void writeLoginSecurityEvent(boolean successful, String userId, List<String> roles, String edOrg,
             String tenant, HttpServletRequest request) {
         SecurityEvent event = new SecurityEvent();

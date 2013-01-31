@@ -26,6 +26,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
+import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.Provider;
 import javax.xml.stream.XMLStreamException;
@@ -51,6 +52,10 @@ public class XMLMsgBodyReader implements MessageBodyReader<EntityBody> {
     @Autowired
     private StAXMsgBodyReader reader;
 
+    protected void setStaxMsgBodyReader(StAXMsgBodyReader reader) {
+        this.reader = reader;
+    }
+    
     @Override
     public boolean isReadable(Class<?> type, Type genericType, Annotation[] annotations, MediaType mediaType) {
         return true;
@@ -66,7 +71,7 @@ public class XMLMsgBodyReader implements MessageBodyReader<EntityBody> {
             try {
                 body = reader.deserialize(entityStream);
             } catch (XMLStreamException e) {
-                throw new WebApplicationException(e);
+                throw new WebApplicationException(e, Response.Status.BAD_REQUEST);
             }
         } else {
             body = new EntityBody();

@@ -32,14 +32,13 @@ Scenario: All-in-one scenario
 	When I select section "8th Grade English - Sec 6"
 	And I view its section profile
 	Then I see a list of 28 students
-	When I enter "rudolph" into the "firstName" search box
+	When I enter "rudolph" into the student search box
 	And I click the search button
-	And I select school "Daybreak Central High"
-	And I search by clicking on the go button
-	Then "1" results are returned in the page
+	Then "2" results are returned in the page
 	And the search results include:
-	 |Student          |Grade    |School                     |
-	 |Rudolph Krinsky  |12       |Daybreak Central High      |
+	 |Student                   |Grade    |School                     |
+	 |Rudolph Sennett           |1        |South Daybreak Elementary  |
+	 |Rudolph Theodore Krinsky  |12       |Daybreak Central High      |
 	And I click on log out
     Then I should be redirected to the impersonation page
     And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in
@@ -137,7 +136,7 @@ Scenario: All-in-one scenario
 	When I click on "Attendance and Discipline" Tab
 	And the Attendance History in grid "1" has the following entries:
 	|Term         |School                     |Grade Level  |% Present  |Total Absences |Excused  |Unexcused  |Tardy  |
-	|2011-2012    |East Daybreak Junior High  |8            |95         |4              |4        |0          |0      |
+	|2011-2012    |East Daybreak Junior High  |8            |0          |0              |0        |0          |0      |
 	And the Attendance History in grid "2" has the following entries:
 	|Term         |School                     |Grade Level  |% Present  |Total Absences |Excused  |Unexcused  |Tardy  |
 	|2010-2011    |East Daybreak Junior High  |7            |0          |0              |0        |0          |0      |
@@ -167,23 +166,12 @@ Scenario: All-in-one scenario
 	And I select course "American Literature"
 	And I select section "Sec 145"
 	Then I see a list of 25 students
-	When I enter "Matt" into the "firstName" search box
+	When I enter "Matt" into the student search box
 	And I click the search button
-	When I look in the school drop-down
-	Then I see these values in the drop-down: "Daybreak Central High;East Daybreak Junior High;South Daybreak Elementary"
-	And I select school "Daybreak Central High"
-	And I search by clicking on the go button
-	Then "0" results are returned in the page
-	And I select school "South Daybreak Elementary"
-	And I search by clicking on the go button
-	Then "0" results are returned in the page
-	And I select school "East Daybreak Junior High" 
-	And I search by clicking on the go button
-	Then "1" results are returned in the page
 	And the search results include:
-	 |Student          |Grade    |School                     |
-	 |Matt Sollars     |8        |East Daybreak Junior High  |
-	And I click on student "Matt Sollars"
+	 |Student                 |Grade    |School                     |
+	 |Matt Joseph Sollars     |8        |East Daybreak Junior High  |
+	And I click on student "Matt Joseph Sollars"
 	And I view its student profile
 	And Student Enrollment History has the following entries:
 	|Year   |School                     |Gr|Entry Date |Entry Type                                                                 |Transfer |Withdraw Date|Withdraw Type      |

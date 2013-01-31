@@ -21,6 +21,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.slc.sli.api.criteriaGenerator.DateFilterCriteriaGenerator;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextValidator;
@@ -76,12 +77,16 @@ public class PreProcessFilter implements ContainerRequestFilter {
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
 
+    @Autowired
+    private DateFilterCriteriaGenerator criteriaGenerator;
+
     @Override
     public ContainerRequest filter(ContainerRequest request) {
         recordStartTime(request);
         validate(request);
         populateSecurityContext(request);
-        mongoStat.clear();
+//        mongoStat.clear();
+        mongoStat.startRequest();
 
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         principal.setSubEdOrgHierarchy(edOrgHelper.getSubEdOrgHierarchy(principal.getEntity()));
@@ -91,6 +96,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
         mutator.mutateURI(SecurityContextHolder.getContext().getAuthentication(), request);
         contextValidator.validateContextToUri(request, principal);
         translator.translate(request);
+        criteriaGenerator.generate(request);
         return request;
     }
 

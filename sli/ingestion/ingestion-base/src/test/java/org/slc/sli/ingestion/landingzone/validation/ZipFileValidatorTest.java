@@ -54,7 +54,7 @@ public class ZipFileValidatorTest {
     public void zipFileHasPath() throws FileNotFoundException {
         AbstractMessageReport report = new DummyMessageReport();
         ReportStats reportStats = new SimpleReportStats();
-        Source source = new JobSource(null, null);
+        Source source = new JobSource(null);
 
         file = IngestionTest.getFile("zip/ZipWithPath.zip");
         boolean isValid = zipFileValidator.isValid(file, report, reportStats, source);
@@ -66,7 +66,7 @@ public class ZipFileValidatorTest {
     public void noControlFile() throws FileNotFoundException {
         AbstractMessageReport report = new DummyMessageReport();
         ReportStats reportStats = new SimpleReportStats();
-        Source source = new JobSource(null, null);
+        Source source = new JobSource(null);
 
         file = IngestionTest.getFile("zip/NoControlFile.zip");
         boolean isValid = zipFileValidator.isValid(file, report, reportStats, source);

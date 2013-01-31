@@ -17,6 +17,7 @@
 package org.slc.sli.api.resources.generic.config;
 
 import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayInputStream;
@@ -127,6 +128,7 @@ public class ResourceEndPointTest {
                 "    \"resources\":[\n" +
                 "        {\n" +
                 "            \"path\":\"/schools\",\n" +
+                "            \"dateSearchDisallowed\":\"true\",\n" +
                 "            \"doc\":\"some school doc.\"\n" +
                 "        }]}]";
 
@@ -149,6 +151,9 @@ public class ResourceEndPointTest {
         assertEquals("Should match", 1, nameSpace.getResources().size());
         assertEquals("Should match", "/schools", nameSpace.getResources().get(0).getPath());
         assertEquals("Should match", "some school doc.", nameSpace.getResources().get(0).getDoc());
+
+        assertEquals("Should have one entry", 1, resourceEndPoint.getDateRangeDisallowedEndPoints().size());
+        assertTrue("Should match",  resourceEndPoint.getDateRangeDisallowedEndPoints().contains("v7.0/schools"));
     }
 
 

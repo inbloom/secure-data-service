@@ -74,15 +74,18 @@ end
 def runTest(testName)
   jmxFileName = File.join(JMETER_JMX_PATH, testName + ".jmx")
   propertiesFileName = File.join(JMETER_JMX_PATH, PROPERTIES_FILE)
+  jtlFileName = testName + ".jtl"
   jMeterCommand = JMETER_BIN + " -n -t " + jmxFileName + " -q " + propertiesFileName
   puts "executing: " + jMeterCommand
   system jMeterCommand
+  puts "Parsing JTL file for #{testName}"
   parseJtlForRC(testName)
 end
 
 def parseJtlForRC(testName)
   rcMap = {}
   fileName = testName + ".jtl"
+  puts "Loading #{fileName} xml into doc.."
   doc = loadXML(fileName)
   testPassed = true
   doc.get_elements('//httpSample').each do |sample|

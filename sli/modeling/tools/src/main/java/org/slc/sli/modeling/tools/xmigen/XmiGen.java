@@ -84,7 +84,7 @@ public final class XmiGen {
                     final File outLocation = new File(outFolder, outFile);
                     // The platform-specific model provides the implementation mappings.
                     final String plugInName = options.valueOf(plugInNameSpec);
-                    final Xsd2UmlPlugin plugIn = loadPlugIn(plugInName);
+                    final Xsd2UmlHostedPlugin plugIn = loadPlugIn(plugInName);
                     final XmlSchema schema = XsdReader.readSchema(xsdFile,
                             new ParentFileURIResolver(xsdFile.getParentFile()));
 
@@ -107,9 +107,9 @@ public final class XmiGen {
         }
     }
 
-    private static final Xsd2UmlPlugin loadPlugIn(final String name) throws ClassNotFoundException {
+    private static final Xsd2UmlHostedPlugin loadPlugIn(final String name) throws ClassNotFoundException {
         final Class<?> clazz = Class.forName(name);
-        final Class<? extends Xsd2UmlPlugin> factory = clazz.asSubclass(Xsd2UmlPlugin.class);
+        final Class<? extends Xsd2UmlHostedPlugin> factory = clazz.asSubclass(Xsd2UmlHostedPlugin.class);
         try {
             return factory.newInstance();
         } catch (final InstantiationException e) {

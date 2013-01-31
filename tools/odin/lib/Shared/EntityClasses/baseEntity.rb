@@ -30,6 +30,10 @@ class BaseEntity
     @@d
   end
 
+  def self.set_scenario(scenario)
+    @@scenario = scenario
+  end
+
   def choose(options)
     options[@rand.rand(options.size) - 1]
   end
@@ -52,12 +56,12 @@ class BaseEntity
     sum
   end
   
-  def bit_choose() 
-    rand(2) == 1
+  def bit_choose
+    @rand.rand(2) == 1
   end
 
-  def bit_choose()
-    @rand.rand(2) == 1
+  def optional?
+    (@@scenario['OPTIONAL_FIELD_LIKELYHOOD'] > 0) and (@rand.rand() < @@scenario['OPTIONAL_FIELD_LIKELYHOOD'])
   end
 
 end

@@ -68,7 +68,7 @@ Scenario: State Administrator gets access to app approval for one district
   And it is colored "green"
   And the Approve button next to it is disabled
   And the Deny button next to it is enabled
-	
+  And I see an application "Admin Delegation Test" in the table
 
  Scenario: LEA Super Administrator delegating access to security event logs
   Given I have an open web browser

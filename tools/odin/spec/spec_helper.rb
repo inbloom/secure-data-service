@@ -78,3 +78,4 @@ end
 BaseEntity.initializeDemographics(
     File.join( "#{File.dirname(__FILE__)}/", "../scenarios/defaults/demographics.yml"),
     File.join( "#{File.dirname(__FILE__)}/", "../scenarios/defaults/choices.yml"))
+BaseEntity.set_scenario(YAML.load_file("#{File.dirname(__FILE__)}/../scenarios/defaults/base_scenario"))

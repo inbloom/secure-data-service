@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camel="http://camel.apache.org/schema/spring"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+  <import resource="bean-context.xml" />
+
+  <camelContext id="maestro" xmlns="http://camel.apache.org/schema/spring">
+    <route id="entityProcessor">
+        <description>&lt;route id="fileReader"&gt;
+        &lt;from uri="file:/Users/okrook/lz/inbound?include=^.*\.xml$&amp;amp;move=./.done/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}"/&gt;
+        &lt;split streaming="true" parallelProcessing="true"&gt;
+            &lt;description&gt;&amp;lt;camel:setHeader headerName="JMSXGroupID"&amp;gt; &amp;lt;camel:simple&amp;gt;${file:absolute.path}&amp;lt;/camel:simple&amp;gt;
+          &amp;lt;/camel:setHeader&amp;gt; &amp;lt;camel:setHeader headerName="JMSXGroupSeq"&amp;gt; &amp;lt;camel:header&amp;gt;CamelSplitIndex&amp;lt;/camel:header&amp;gt;
+          &amp;lt;/camel:setHeader&amp;gt;&lt;/description&gt;
+            &lt;ref&gt;staxEntity&lt;/ref&gt;
+            &lt;to uri="seda:entityFeed"/&gt;
+        &lt;/split&gt;
+    &lt;/route&gt;</description>
+        <from uri="seda:entityFeed"/>
+        <to uri="activemq:queue:entityFeed"/>
+    </route>
+    <route id="FilePoller">
+        <from uri="file:/Users/okrook/lz/inbound?move=./.done/${file:onlyname}.${date:now:yyyyMMddHHmmssSSS}&amp;readLock=renamed&amp;maxMessagesPerPoll=10" id="filePolling">
+            <description/>
+        </from>
+        <pipeline>
+            <threads threadName="FileConsumer" maxPoolSize="10" poolSize="10">
+                <setHeader headerName="batchId">
+                    <simple>${bean:idGenerator.generateUuid}</simple>
+                </setHeader>
+                <choice>
+                    <when>
+                        <simple>${file:name.ext} == 'zip'</simple>
+                        <to uri="direct:zipFileProcess"/>
+                    </when>
+                    <when>
+                        <simple>${file:name.ext} == 'ctl'</simple>
+                        <to uri="direct:controlFileProcess"/>
+                    </when>
+                    <otherwise>
+                        <log logName="userLog" loggingLevel="ERROR" message="Batch ${header.batchId}: The ${file:name.ext} file type is not supported"/>
+                        <stop/>
+                    </otherwise>
+                </choice>
+            </threads>
+        </pipeline>
+    </route>
+    <route id="ControlFileProcessing">
+        <from uri="direct:controlFileProcess"/>
+        <log loggingLevel="INFO" message="Batch ${header.batchId}: Received a control file - ${body.fileName}"/>
+        <validate>
+            <ref>controlFileValidator</ref>
+        </validate>
+        <split>
+            <tokenize token="\n">\n</tokenize>
+            <choice>
+                <when>
+                    <simple>${body} regex '^@.*$'</simple>
+                    <log message="Batch ${header.batchId}: Property is found - ${body}"/>
+                </when>
+                <otherwise>
+                    <log message="Batch ${header.batchId}: File entry is found - ${body}"/>
+                </otherwise>
+            </choice>
+            <to uri="direct:end"/>
+        </split>
+    </route>
+    <route id="ZipFileProcessing">
+        <from uri="direct:zipFileProcess"/>
+        <log loggingLevel="INFO" message="Batch ${header.batchId}: Received a zip file - ${body.fileName}"/>
+        <validate>
+            <ref>zipFileValidator</ref>
+        </validate>
+        <split>
+            <ref>zipExtractor</ref>
+            <to uri="direct:zipEntryProcess"/>
+        </split>
+    </route>
+    <route id="ZipEntryProcessing">
+        <from uri="direct:zipEntryProcess"/>
+        <filter>
+            <simple>${body.fileName} regex '^.*\.ctl$'</simple>
+            <to uri="direct:controlFileProcess"/>
+        </filter>
+    </route>
+    <route>
+        <from uri="direct:end"/>
+        <choice>
+            <when>
+                <description>&lt;bean beanType="org.apache.commons.io.FileUtils" method="deleteDirectory"/&gt;</description>
+                <simple>${file:name.ext} == 'zip'</simple>
+                <setBody>
+                    <simple>${file:parent}/${header.batchId}</simple>
+                </setBody>
+                <convertBodyTo type="java.io.File"/>
+                <log loggingLevel="INFO" message="Batch ${header.batchId}: Cleaning up a temp folder ${body.absolutePath}"/>
+            </when>
+        </choice>
+    </route>
+</camelContext>
+
+</beans>

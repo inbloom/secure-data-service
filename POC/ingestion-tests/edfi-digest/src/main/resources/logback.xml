@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration scan="true" debug="false">
+
+  <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+    <file>/Users/okrook/lz/logs/output.log</file>
+
+    <encoder>
+      <pattern>%date %level [%thread] %logger{10} [%file:%line] %msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <logger name="org.apache.camel.component.mongodb.converters.MongoDbBasicConverters" level="OFF" />
+
+  <root level="info">
+    <appender-ref ref="FILE" />
+  </root>
+
+</configuration>

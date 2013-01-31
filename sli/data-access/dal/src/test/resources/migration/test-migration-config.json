@@ -7,6 +7,26 @@
                     "defaultValue": "yellow"
                 }            
             }]
+        },
+        "staff": {
+            "3": [{
+                "ADD": {
+                    "fieldName": "favoriteColor",
+                    "defaultValue": "yellow"
+                }
+            }],
+            "4": [{
+                "ADD": {
+                    "fieldName": "mascot",
+                    "defaultValue": "red"
+                }
+            }],
+            "2": [{
+                "ADD": {
+                    "fieldName": "somefield",
+                    "defaultValue": "somevalue"
+                }
+            }]
         }
     }
 }

@@ -23,6 +23,7 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+import org.slc.sli.api.security.oauth.OAuthAccessException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.stereotype.Component;
@@ -43,8 +44,17 @@ public class InsufficientAuthenticationHandler implements ExceptionMapper<Insuff
     @Override
     public Response toResponse(InsufficientAuthenticationException exception) {
         Status status = Response.Status.UNAUTHORIZED;
-
-        return Response.status(status).entity(new ErrorResponse(status.getStatusCode(), status.getReasonPhrase(), "Access DENIED: " + exception.getMessage())).header(HttpHeaders.WWW_AUTHENTICATE, this.authUrl).build();
+        String wwwAuthHeader = this.authUrl;
+        
+        //If we have an embedded OAuth exception, then put the error information in the www-auth header per oauth spec 
+        //http://tools.ietf.org/html/rfc6750 see sec 3
+        //Otherwise put the auth url in the header
+        if (exception.getCause() != null && exception.getCause() instanceof OAuthAccessException) {
+            OAuthAccessException oauthEx = (OAuthAccessException) exception.getCause();
+            wwwAuthHeader = "Bearer error=\"" + oauthEx.getType().toString() + "\", error_description=\"" + oauthEx.getMessage() + "\"";
+        }
+        return Response.status(status).entity(new ErrorResponse(status.getStatusCode(), status.getReasonPhrase(), 
+                "Access DENIED: " + exception.getMessage())).header(HttpHeaders.WWW_AUTHENTICATE, wwwAuthHeader).build();
     }
 
 }

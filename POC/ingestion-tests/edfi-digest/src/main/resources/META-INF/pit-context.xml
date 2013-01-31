@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camel="http://camel.apache.org/schema/spring"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+  http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+
+  <import resource="bean-context.xml" />
+
+  <!--
+    <camel:route id="idRefResolver">
+      <camel:from
+        uri="activemq:idRefResolution?destination.consumer.prefetchSize=50" />
+      <camel:stop />
+      <camel:to uri="activemq:idRefResolution" />
+    </camel:route>
+ --><camelContext id="pit" xmlns="http://camel.apache.org/schema/spring">
+    <route/>
+</camelContext>
+
+</beans>

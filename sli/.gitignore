@@ -24,3 +24,5 @@ api/src/main/resources/sli_shards.js
 
 config/scripts/vendor/*
 config/scripts/.bundle/*
+
+search-indexer/activemq-data

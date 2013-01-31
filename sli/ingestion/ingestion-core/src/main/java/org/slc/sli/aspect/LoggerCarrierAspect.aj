@@ -7,13 +7,13 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.common.util.logging.LoggerCarrier;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
 public aspect LoggerCarrierAspect {
-    
-    declare parents : (org.slc.sli.ingestion.processors.* &&
+	declare parents : (org.slc.sli.ingestion..* &&
             !java.lang.Enum+)  implements LoggerCarrier;
     
     private MongoTemplate template;
@@ -59,6 +59,7 @@ public aspect LoggerCarrierAspect {
             }
         }
         
+        TenantContext.setIsSystemCall(true);
         mongoTemplate.save(event);
         
         switch (event.getLogLevel()) {

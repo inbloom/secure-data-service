@@ -16,19 +16,45 @@
 
 package org.slc.sli.aspect;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.slc.sli.common.util.logging.SecurityEvent;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
+
 
 
 public aspect LoggerCarrierAspect {
 
     declare parents : (org.slc.sli.api..* && !java.lang.Enum+ && !org.slc.sli.api.util.SecurityUtil.SecurityTask+ && !org.slc.sli.api.util.PATCH && !org.slc.sli.api.security.RightsAllowed)  implements LoggerCarrier;
 
-    public void LoggerCarrier.debug(String msg) {
+    @Autowired
+    private Repository<Entity> mongoEntityRepository;
+
+	public void LoggerCarrier.debug(String msg) {
         LoggerFactory.getLogger(this.getClass()).debug(msg);
     }
 
-    public void LoggerCarrier.info(String msg) {
+
+
+	public Repository<Entity> getMongoEntityRepository() {
+		return mongoEntityRepository;
+	}
+
+
+
+	public void setMongoEntityRepository(Repository<Entity> mongoEntityRepository) {
+		this.mongoEntityRepository = mongoEntityRepository;
+	}
+
+
+
+	public void LoggerCarrier.info(String msg) {
         LoggerFactory.getLogger(this.getClass()).info(msg);
     }
 
@@ -47,16 +73,30 @@ public aspect LoggerCarrierAspect {
     public void LoggerCarrier.warn(String msg, Object... params) {
         LoggerFactory.getLogger(this.getClass()).warn(msg, params);
     }
-    
+
     public void LoggerCarrier.error(String msg, Object... params) {
-        LoggerFactory.getLogger(this.getClass()).error(msg, params);        
+        LoggerFactory.getLogger(this.getClass()).error(msg, params);
     }
 
     public void LoggerCarrier.error(String msg, Throwable x) {
         LoggerFactory.getLogger(this.getClass()).error(msg, x);
     }
 
-    public void LoggerCarrier.audit(SecurityEvent event) {
+    public void LoggerCarrier.auditLog(SecurityEvent event) {
         LoggerFactory.getLogger("audit").info(event.toString());
     }
+    
+
+    public void LoggerCarrier.audit(SecurityEvent event) {
+        LoggerFactory.getLogger("audit").info(event.toString());
+    	Repository<Entity> mer= LoggerCarrierAspect.aspectOf().getMongoEntityRepository();
+    	if(mer != null) {
+    		Map<String, Object> metadata = new HashMap<String, Object>();
+    		metadata.put("tenantId", event.getTenantId());
+    	    mer.create("securityEvent", event.getProperties(), metadata, "securityEvent");
+    	} else {
+            LoggerFactory.getLogger("audit").info("[Could not log SecurityEvent to mongo!]");
+        }
+    }
+
 }

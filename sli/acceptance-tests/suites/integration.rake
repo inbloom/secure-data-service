@@ -190,8 +190,8 @@ task :rcTests do
   Rake::Task["rcAppApprovalTests"].execute
   Rake::Task["rcDashboardTests"].execute
   Rake::Task["rcDataBrowserTests"].execute
-  Rake::Task["rcTenantPurgeTests"].execute
   Rake::Task["rcCleanUpTests"].execute
+  Rake::Task["rcTenantPurgeTests"].execute
 
   displayFailureReport()
   if $SUCCESS
@@ -208,6 +208,7 @@ task :rcSandboxTests do
   Rake::Task["rcDeleteSandboxLDAPUsers"].execute
   Rake::Task["rcSandboxAccountRequestTests"].execute
   Rake::Task["rcSandboxProvisionTests"].execute
+  Rake::Task["runSearchBulkExtract"].execute unless RUN_ON_RC
   Rake::Task["rcSandboxAppApprovalTests"].execute
   Rake::Task["rcSandboxDamtTests"].execute
   Rake::Task["rcSandboxDashboardTests"].execute

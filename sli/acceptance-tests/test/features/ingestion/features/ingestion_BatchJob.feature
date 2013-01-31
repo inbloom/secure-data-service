@@ -140,7 +140,7 @@ Then I should see following map of entry counts in the corresponding batch job d
   | error          | 1                   | severity                         | ERROR                                   |string      |
 
    And I should see "Processed 0 records." in the resulting batch job file
-   And I should see "ERROR  SmooksException encountered while filtering input: InterchangeEducationOrganization.xml" in the resulting error log file
+   And I should see "CORE_0020" in the resulting error log file
 
 Scenario: Post two zip files to different landing zones then see the batch jobs in the database: Clean Database
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"

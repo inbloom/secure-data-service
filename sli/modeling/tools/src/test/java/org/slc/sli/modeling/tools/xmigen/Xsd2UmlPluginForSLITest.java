@@ -60,7 +60,7 @@ public void testDeclareTagDefinitions() throws Exception {
     Mockito.when(host.ensureTagDefinitionId(Matchers.anyString())).thenReturn(Identifier.random());
     List<TagDefinition> tagDefinitionList = pluginForSLI.declareTagDefinitions(host);
     Assert.assertNotNull(tagDefinitionList);
-    Assert.assertEquals(13, tagDefinitionList.size());
+    Assert.assertEquals(18, tagDefinitionList.size());
 } 
 
 /** 
@@ -140,7 +140,7 @@ public void testIsAssociationEnd() throws Exception {
 public void testNameAssociation() throws Exception { 
     AssociationEnd associationEnd = Mockito.mock(AssociationEnd.class);
     Xsd2UmlPluginHost host = Mockito.mock(Xsd2UmlPluginHost.class);
-    Assert.assertTrue(pluginForSLI.nameAssociation(associationEnd, associationEnd, host).isEmpty());
+    Assert.assertTrue(pluginForSLI.nameAssociation(associationEnd, associationEnd, host.getPlugin()).isEmpty());
 } 
 
 /** 

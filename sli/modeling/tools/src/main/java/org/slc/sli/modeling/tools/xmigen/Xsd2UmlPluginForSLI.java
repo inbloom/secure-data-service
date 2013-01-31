@@ -95,6 +95,11 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
         tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_RESTRICTED_FOR_LOGGING, Occurs.ZERO, Occurs.ONE, host));
         tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_SECURITY_SPHERE, Occurs.ZERO, Occurs.ONE, host));
         tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_ASSOCIATION_KEY, Occurs.ZERO, Occurs.ONE, host));
+        tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_BEGIN_DATE, Occurs.ZERO, Occurs.ONE, host));
+         tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_END_DATE, Occurs.ZERO, Occurs.ONE, host));
+        tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_ASSOCIATED_DATED_COLLECTION, Occurs.ZERO, Occurs.ONE, host));
+        tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_FILTER_BEGIN_DATE_ON, Occurs.ZERO, Occurs.ONE, host));
+        tagDefs.add(makeTagDefinition(SliUmlConstants.TAGDEF_FILTER_END_DATE_ON, Occurs.ZERO, Occurs.ONE, host));
         return Collections.unmodifiableList(tagDefs);
     }
 
@@ -132,7 +137,7 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
     }
 
     @Override
-    public String nameAssociation(final AssociationEnd lhs, final AssociationEnd rhs, final Xsd2UmlPluginHost host) {
+    public String nameAssociation(final AssociationEnd lhs, final AssociationEnd rhs, final Xsd2UmlHostedPlugin host) {
         // DE1531: don't return a name for the association as it just adds unwanted <=> to the end documentation
         // return host.nameAssociation(lhs, rhs, host);
         return "";
@@ -161,6 +166,11 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
                 final QName name = new QName(namespace, localName);
                 if (SliMongoConstants.SLI_COLLECTION_NAME.equals(name)) {
                     final Identifier tagDefinition = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_COLLECTION_NAME);
+                    final String collectionName = nameFromSchemaTypeName(new QName(
+                            XmlTools.collapseWhitespace(stringValue(element.getChildNodes()))));
+                    taggedValues.add(new TaggedValue(collectionName, tagDefinition));
+                } else if (SliMongoConstants.SLI_ASSOCIATED_DATED_COLLECTION.equals(name)) {
+                    final Identifier tagDefinition = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_ASSOCIATED_DATED_COLLECTION);
                     final String collectionName = nameFromSchemaTypeName(new QName(
                             XmlTools.collapseWhitespace(stringValue(element.getChildNodes()))));
                     taggedValues.add(new TaggedValue(collectionName, tagDefinition));
@@ -221,6 +231,18 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
                 } else if (SliMongoConstants.SLI_ASSOCIATION_KEY.equals(name)) {
                     final Identifier tagDefinition = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_ASSOCIATION_KEY);
                     taggedValues.add(new TaggedValue("true", tagDefinition));
+                } else if (SliMongoConstants.SLI_BEGIN_DATE.equals(name)) {
+                    final Identifier tagDefinition = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_BEGIN_DATE);
+                    taggedValues.add(new TaggedValue(SliUmlConstants.TAGDEF_BEGIN_DATE, tagDefinition));
+                } else if (SliMongoConstants.SLI_END_DATE.equals(name)) {
+                    final Identifier tagDefinition = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_END_DATE);
+                    taggedValues.add(new TaggedValue(SliUmlConstants.TAGDEF_END_DATE, tagDefinition));
+                } else if (SliMongoConstants.SLI_FILTER_BEGIN_DATE_ON.equals(name)) {
+                    final Identifier tagDefinition = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_FILTER_BEGIN_DATE_ON);
+                    taggedValues.add(new TaggedValue(stringValue(element.getChildNodes()), tagDefinition));
+                } else if (SliMongoConstants.SLI_FILTER_END_DATE_ON.equals(name)) {
+                    final Identifier tagDefinition = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_FILTER_END_DATE_ON);
+                    taggedValues.add(new TaggedValue(stringValue(element.getChildNodes()), tagDefinition));
                 } else if (!(SliMongoConstants.SLI_SCHEMA_VERSION.equals(name))) {
                     throw new AssertionError("Unexpected element in appinfo: " + name);
                 }

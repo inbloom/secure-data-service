@@ -105,18 +105,6 @@ public final class BatchJob implements Serializable, Job {
     /*
      * (non-Javadoc)
      *
-     * @see org.slc.sli.ingestion.Job#addFile(org.slc.sli.ingestion.landingzone.IngestionFileEntry)
-     */
-    @Override
-    public boolean addFile(IngestionFileEntry ingestionFileEntry) {
-
-        ingestionFileEntry.setBatchJobId(id);
-        return files.add(ingestionFileEntry);
-    }
-
-    /*
-     * (non-Javadoc)
-     *
      * @see org.slc.sli.ingestion.Job#getCreationDate()
      */
     public Date getCreationDate() {

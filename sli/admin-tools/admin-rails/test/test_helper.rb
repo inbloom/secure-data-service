@@ -49,6 +49,7 @@ class ActiveSupport::TestCase
     @ed_org_fixtures = load_fixture("education_organization")
     @account_managements_fixtures=load_fixture("account_managements")
     @admin_delegations_fixtures = load_fixture("admin_delegations")
+    @custom_roles_fixtures = load_fixture("custom_role")
     @user_fixtures = load_fixture("users")
 
     ActiveResource::HttpMock.respond_to do |mock|
@@ -83,6 +84,7 @@ class ActiveSupport::TestCase
       mock.get "/api/rest/v1/educationOrganizations?parentEducationAgencyReference=2", {"Accept" => "application/json"}, [@ed_org_fixtures["state"], @ed_org_fixtures["local"]].to_json
       mock.get "/api/rest/v1/educationOrganizations/ID1", {"Accept" => "application/json"}, @ed_org_fixtures["local"].to_json
       mock.head "/api/rest/v1/educationOrganizations/ID1", {"Accept" => "application/json"}, @ed_org_fixtures["local"].to_json
+      mock.get "/api/rest/v1/educationOrganizations/?stateOrganizationId=Waffles", {"Accept" => "application/json"}, @ed_org_fixtures["waffles"].to_json
 
       #admin delegations
       mock.get "/api/rest/adminDelegation", {"Accept" => "application/json"}, [@admin_delegations_fixtures["one"]].to_json

@@ -1,3 +1,22 @@
+=begin
+
+Copyright 2012 Shared Learning Collaborative, LLC
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+=end
+
+
 require 'mongo'
 require 'rest-client'
 
@@ -9,27 +28,37 @@ require 'rest-client'
 @token = ""
 
 @pathToTestMap = {
-  "sli/api/" => ["api", "search-indexer", "jmeter"],
-  "sli/simple-idp" => ["api", "admin"],
   "sli/acceptance-tests/test/features/api" => ["api"],
-  "sli/acceptance-tests/test/features/simple_idp" => ["api"],
-  "sli/SDK" => ["api"],
+  "sli/acceptance-tests/test/features/simple_idp" => ["admin" , "databrowser"],
+  "sli/acceptance-tests/test/features/ingestion" => ["ingestion"],
+  "sli/acceptance-tests/test/features/admintools" => ["admin"],
+  "sli/acceptance-tests/test/features/databrowser" => ["databrowser"],
+  "sli/acceptance-tests/test/features/dash" => ["dashboard"],
+  "sli/acceptance-tests/test/features/odin" => ["odin", "jmeter"],
+  "sli/acceptance-tests/test/features/ingestion/features/ingestion_dashboardSadPath.feature" => ["ingestion", "dashboard"],
+  "sli/acceptance-tests/test/features/ingestion/test_data/DashboardSadPath_IL_Daybreak" => ["ingestion", "dashboard"],
+  "sli/acceptance-tests/test/features/ingestion/test_data/DashboardSadPath_IL_Sunset" => ["ingestion", "dashboard"],
+  "sli/acceptance-tests/test/features/ingestion/test_data/DashboardSadPath_NY" => ["ingestion", "dashboard"],
+  "sli/acceptance-tests/test/data/Midgar_data" => ["api", "databrowser"],
+  "sli/acceptance-tests/test/data/Hyrule_data" => ["api"],
+  "sli/acceptance-tests/test/data/unified_data" => ["dashboard"],
+  "sli/acceptance-tests/test/data/application_fixture.json" => ["api" , "admin"],
+  "sli/acceptance-tests/test/data/realm_fixture.json" => ["api" , "admin", "dashboard"],
+  "sli/acceptance-tests/test/data/oauth_authentication_tokens.json" => ["api"],
+  "sli/api/" => ["api", "search-indexer", "jmeter", "admin"],
+  "sli/simple-idp" => ["api", "admin"],
+  "sli/SDK" => ["admin", "dashboard"],
   "sli/data-access" => ["api", "ingestion"],
   "sli/domain" => ["api", "ingestion"],
-  "sli/acceptance-tests/test/features/ingestion" => ["ingestion"],
   "sli/ingestion/ingestion-core" => ["ingestion", "odin"],
   "sli/ingestion/ingestion-base" => ["ingestion", "odin"],
   "sli/ingestion/ingestion-validation" => ["ingestion"],
   "sli/ingestion/ingestion-service" => ["ingestion", "odin"],
-  "sli/acceptance-tests/test/features/ingestion" => ["ingestion"],
   "sli/admin-tools" => ["admin"],
-  "sli/acceptance-tests/test/features/admintools" => ["admin"],
   "sli/dashboard/src" => ["dashboard"],
-  "sli/acceptance-tests/test/features/dash" => ["dashboard"],
   "sli/databrowser" => ["databrowser"],
-  "sli/acceptance-tests/test/features/databrowser" => ["databrowser"],
-  "tools/odin" => ["odin"],
-  "sli/search-indexer" => ["search-indexer"]
+  "sli/search-indexer" => ["search-indexer"],
+  "tools/odin" => ["odin", "jmeter"]
 }
 
 @testIdToUrlMap = {
@@ -117,8 +146,9 @@ def updateMongo(hash)
   conn = Mongo::Connection.new(@jenkinsHostname, @jenkinsMongoPort)
   db = conn.db("git_hash")
   coll = db['commit']
+  currTime = Time.new
 
-  coll.update({"_id" => "last_used_commit"}, {"$set" => {"commit_hash" => hash}})
+  coll.update({"_id" => "last_used_commit"}, {"$set" => {"commit_hash" => hash, "lastUpdate" => currTime}})
 end
 
 ##################### Main Methods #########################################

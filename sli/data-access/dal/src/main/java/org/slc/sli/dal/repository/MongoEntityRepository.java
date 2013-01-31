@@ -61,7 +61,8 @@ import org.slc.sli.validation.schema.INaturalKeyExtractor;
  * @author Dong Liu dliu@wgen.net
  */
 
-public class MongoEntityRepository extends MongoRepository<Entity> implements InitializingBean, ValidationWithoutNaturalKeys {
+public class MongoEntityRepository extends MongoRepository<Entity> implements InitializingBean,
+        ValidationWithoutNaturalKeys {
 
     @Autowired
     private EntityValidator validator;
@@ -152,9 +153,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     private boolean isValidDbName(String tenantId) {
-        return tenantId != null && !"sli".equalsIgnoreCase(tenantId) && tenantId.length() > 0 && tenantId.indexOf(' ') == -1;
+        return tenantId != null && !"sli".equalsIgnoreCase(tenantId) && tenantId.length() > 0
+                && tenantId.indexOf(' ') == -1;
     }
-
 
     public Entity createWithRetries(final String type, final Map<String, Object> body,
             final Map<String, Object> metaData, final String collectionName, int noOfRetries) {
@@ -167,7 +168,6 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         };
         return (Entity) rc.executeOperation(noOfRetries);
     }
-
 
     @Override
     public Entity createWithRetries(final String type, final String id, final Map<String, Object> body,
@@ -229,7 +229,6 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     public Entity create(String type, Map<String, Object> body, Map<String, Object> metaData, String collectionName) {
         return internalCreate(type, null, body, metaData, collectionName);
     }
-
 
     /*
      * This method should be private, but is used via mockito in the tests, thus
@@ -437,8 +436,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Override
     public Iterable<String> findAllIds(String collectionName, NeutralQuery neutralQuery) {
         if (subDocs.isSubDoc(collectionName)) {
-        	NeutralQuery subDocNeutralQuery = neutralQuery == null ? new NeutralQuery() : neutralQuery;
-        	subDocNeutralQuery.setIncludeFieldString("_id");
+            NeutralQuery subDocNeutralQuery = neutralQuery == null ? new NeutralQuery() : neutralQuery;
+            subDocNeutralQuery.setIncludeFieldString("_id");
             addDefaultQueryParams(subDocNeutralQuery, collectionName);
             Query q = getQueryConverter().convert(collectionName, subDocNeutralQuery);
 
@@ -486,7 +485,6 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         return super.count(collectionName, query);
     }
 
-
     @Override
     public boolean doUpdate(String collectionName, NeutralQuery neutralQuery, Update update) {
         if (subDocs.isSubDoc(collectionName)) {
@@ -495,7 +493,6 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         }
         return super.doUpdate(collectionName, neutralQuery, update);
     }
-
 
     @Override
     public void deleteAll(String collectionName, NeutralQuery neutralQuery) {
@@ -518,7 +515,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     @Deprecated
     @MigrateEntityCollection
     public Iterable<Entity> findByQuery(String collectionName, Query origQuery, int skip, int max) {
-    	Query query = origQuery == null ? new Query() : origQuery;
+        Query query = origQuery == null ? new Query() : origQuery;
 
         query.skip(skip).limit(max);
 

@@ -6688,4 +6688,3754 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <MaxRawScore>10</MaxRawScore>
     <CorrectResponse>false</CorrectResponse>
 </AssessmentItem>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>First grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Second grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Third grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Fourth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Fifth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Sixth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Business and Marketing</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Business and Marketing</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Business and Marketing</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Business and Marketing</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Business and Marketing</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Engineering and Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Engineering and Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Engineering and Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Engineering and Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Engineering and Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>English Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>English Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>English Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>English Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>English Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Foreign Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Foreign Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Foreign Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Foreign Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Foreign Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Health Care Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Health Care Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Health Care Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Health Care Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Health Care Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Human Services</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Human Services</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Human Services</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Human Services</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Human Services</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Miscellaneous</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Miscellaneous</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Miscellaneous</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Miscellaneous</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Miscellaneous</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Social Sciences and History</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Social Sciences and History</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Social Sciences and History</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Social Sciences and History</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Social Sciences and History</AcademicSubject>
+    <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Business and Marketing</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Business and Marketing</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Business and Marketing</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Business and Marketing</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Business and Marketing</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Engineering and Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Engineering and Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Engineering and Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Engineering and Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Engineering and Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>English Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>English Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>English Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>English Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>English Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Foreign Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Foreign Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Foreign Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Foreign Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Foreign Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Health Care Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Health Care Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Health Care Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Health Care Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Health Care Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Human Services</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Human Services</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Human Services</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Human Services</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Human Services</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Miscellaneous</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Miscellaneous</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Miscellaneous</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Miscellaneous</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Miscellaneous</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Social Sciences and History</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Social Sciences and History</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Social Sciences and History</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Social Sciences and History</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Social Sciences and History</AcademicSubject>
+    <ObjectiveGradeLevel>Tenth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Business and Marketing</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Business and Marketing</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Business and Marketing</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Business and Marketing</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Business and Marketing</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Engineering and Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Engineering and Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Engineering and Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Engineering and Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Engineering and Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>English Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>English Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>English Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>English Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>English Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Foreign Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Foreign Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Foreign Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Foreign Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Foreign Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Health Care Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Health Care Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Health Care Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Health Care Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Health Care Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Human Services</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Human Services</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Human Services</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Human Services</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Human Services</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Miscellaneous</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Miscellaneous</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Miscellaneous</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Miscellaneous</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Miscellaneous</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Social Sciences and History</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Social Sciences and History</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Social Sciences and History</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Social Sciences and History</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Social Sciences and History</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Mathematics</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Science</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Social Studies</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Writing</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>ELA</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Critical Reading</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>English</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Business and Marketing</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Business and Marketing</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Business and Marketing</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Business and Marketing</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Business and Marketing</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Engineering and Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Engineering and Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Engineering and Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Engineering and Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Engineering and Technology</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>English Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>English Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>English Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>English Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>English Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Foreign Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Foreign Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Foreign Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Foreign Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Foreign Language and Literature</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Health Care Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Health Care Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Health Care Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Health Care Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Health Care Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Human Services</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Human Services</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Human Services</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Human Services</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Human Services</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Miscellaneous</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Miscellaneous</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Miscellaneous</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Miscellaneous</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Miscellaneous</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Physical, Health, and Safety Education</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 1</Objective>
+    <AcademicSubject>Social Sciences and History</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 2</Objective>
+    <AcademicSubject>Social Sciences and History</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 3</Objective>
+    <AcademicSubject>Social Sciences and History</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 4</Objective>
+    <AcademicSubject>Social Sciences and History</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
+  <LearningObjective>
+    <Objective>Generic Learning Objective 5</Objective>
+    <AcademicSubject>Social Sciences and History</AcademicSubject>
+    <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
+  </LearningObjective>
 </InterchangeAssessmentMetadata>

@@ -16,11 +16,11 @@
 
 package org.slc.sli.ingestion.landingzone.validation;
 
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +29,7 @@ import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
-import org.slc.sli.ingestion.util.LogUtil;
+import org.slc.sli.ingestion.reporting.impl.XmlFileSource;
 import org.slc.sli.ingestion.validation.Validator;
 
 /**
@@ -45,44 +45,39 @@ public class XmlFileValidator implements Validator<IngestionFileEntry> {
     private static final Logger LOG = LoggerFactory.getLogger(XmlFileValidator.class);
 
     @Override
-    public boolean isValid(IngestionFileEntry fileEntry, AbstractMessageReport report, ReportStats reportStats,
+    public boolean isValid(IngestionFileEntry entry, AbstractMessageReport report, ReportStats reportStats,
             Source source) {
         LOG.debug("validating xml...");
 
-        if (isEmptyOrUnreadable(fileEntry, report, reportStats, source)) {
+        if (isEmptyOrUnreadable(entry, report, reportStats, source)) {
             return false;
         }
 
         return true;
     }
 
-    private boolean isEmptyOrUnreadable(IngestionFileEntry fileEntry, AbstractMessageReport report,
+    private boolean isEmptyOrUnreadable(IngestionFileEntry entry, AbstractMessageReport report,
             ReportStats reportStats, Source source) {
         boolean isEmpty = false;
-        BufferedReader br = null;
 
+        InputStream is = null;
         try {
-            br = new BufferedReader(new FileReader(fileEntry.getFile()));
-            if (br.read() == -1) {
-                report.error(reportStats, source, BaseMessageCode.BASE_0015, fileEntry.getFileName());
+            is = entry.getFileStream();
+
+            if (is.read() == -1) {
+                report.error(reportStats, new XmlFileSource(entry), BaseMessageCode.BASE_0015, entry.getFileName());
                 isEmpty = true;
             }
         } catch (FileNotFoundException e) {
-            LOG.error("File not found: " + fileEntry.getFileName(), e);
-            report.error(reportStats, source, BaseMessageCode.BASE_0013, fileEntry.getFileName());
+            LOG.error("File not found: " + entry.getFileName(), e);
+            report.error(reportStats, new XmlFileSource(entry), BaseMessageCode.BASE_0013, entry.getFileName());
             isEmpty = true;
         } catch (IOException e) {
-            LOG.error("Problem reading file: " + fileEntry.getFileName());
-            report.error(reportStats, source, BaseMessageCode.BASE_0014, fileEntry.getFileName());
+            LOG.error("Problem reading file: " + entry.getFileName());
+            report.error(reportStats, new XmlFileSource(entry), BaseMessageCode.BASE_0014, entry.getFileName());
             isEmpty = true;
         } finally {
-            try {
-                if (br != null) {
-                    br.close();
-                }
-            } catch (IOException e) {
-                LogUtil.error(LOG, "Error closing buffered reader", e);
-            }
+            IOUtils.closeQuietly(is);
         }
 
         return isEmpty;

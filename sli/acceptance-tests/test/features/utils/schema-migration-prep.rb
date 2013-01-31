@@ -47,26 +47,36 @@ end
 
 
 def update_version_numbers(xsd)
-	# replace existing version numbers with 999999
-	upversioned_xsd = xsd.gsub(%r{<sli:schemaVersion>\d*</sli:schemaVersion>}, '<sli:schemaVersion>999999</sli:schemaVersion>')
+	# replace existing version numbers with 5
+	upversioned_xsd = xsd.gsub(%r{<sli:schemaVersion>\d*</sli:schemaVersion>}, '<sli:schemaVersion>5</sli:schemaVersion>')
 	return upversioned_xsd
 end
 
 
+#TODO - refactor to just insert the fields necessary by reading the config file
 def add_new_field(xsd)
 	# add new field to staff
-	insert_index = xsd.index("<xs:element name=\"staffUniqueStateId\" ")
-
-	new_schema_field = "<xs:element name=\"favoriteSubject\" type=\"xs:string\"/>\n"
+	insert_index = xsd.index("<xs:element name=\'staffUniqueStateId\' ")
+	new_schema_field = "<xs:element name=\'favoriteSubject\' type=\'xs:string\'/>\n"
 	xsd.insert(insert_index,new_schema_field)
+
+  # add fields to student
+  insert_index = xsd.index("<xs:element name=\'studentUniqueStateId\'")
+  new_schema_field = "<xs:element name=\'favoriteColor\' type=\'xs:string\'/>\n"
+	xsd.insert(insert_index,new_schema_field)
+  new_schema_field = "<xs:element name=\'mascot\' type=\'xs:string\'/>\n"
+	xsd.insert(insert_index,new_schema_field)
+  new_schema_field = "<xs:element name=\'somefield\' type=\'xs:string\'/>\n"
+	xsd.insert(insert_index,new_schema_field)
+
 	return xsd
 end
 
 
 def remove_field(xsd)
 
-	entity_index = xsd.index("<xs:element name=\"staffUniqueStateId\" ") 
-	begin_index = xsd.index("<xs:element name=\"sex\"",entity_index)
+	entity_index = xsd.index("<xs:element name=\'staffUniqueStateId\' ") 
+	begin_index = xsd.index("<xs:element name=\'sex\'",entity_index)
 	end_index = xsd.index("</xs:element>",begin_index) + "</xs:element>".length - 1
 
 	xsd.slice!(begin_index..end_index)
@@ -77,8 +87,8 @@ end
 
 def rename_field(xsd)
 
-	entity_index = xsd.index("<xs:element name=\"staffUniqueStateId\" ")
-	begin_index = xsd.index("\"name\"",entity_index)
+	entity_index = xsd.index("<xs:element name=\'staffUniqueStateId\' ")
+	begin_index = xsd.index("\'name\'",entity_index)
 
 	xsd[begin_index+1..begin_index+4] = "nameData"
 

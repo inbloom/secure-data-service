@@ -231,7 +231,7 @@ angular.module('SLC.builder.directives', ['SLC.builder.sharedServices'])
 					'<a href="" ng-click="select(pane)">{{pane.title}}</a>' +
 					'</li>' +
 					'<li class="addPageSection nonSortable">' +
-					'<button class="btn btn-primary" data-toggle="modal" ng-click="addPage()" >+</button>' +
+					'<button class="btn btn-info" data-toggle="modal" ng-click="addPage()" >+</button>' +
 					'</li>' +
 					'</ul>' +
 					'<div class="tab-content clearfix" ng-transclude></div>' +

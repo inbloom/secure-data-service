@@ -155,6 +155,7 @@ public class PathConstants {
 
     public static final String V1 = "v1";
     public static final String V = "v";
+    public static final String V1_0 = "v1.0";
     public static final String ID_PLACEHOLDER = "{id}";
     /** Main entry point for the SLI API ReSTful web service. */
     public static final String API_SERVER_PATH = "api/rest/v1";

@@ -2,7 +2,7 @@
 <InterchangeMasterSchedule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
 xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-MasterSchedule.xsd">
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000001</LocalCourseCode>
+    <LocalCourseCode>1</LocalCourseCode>
     <LocalCourseTitle>Kindergarten</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -26,12 +26,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000001</UniqueCourseId>
+        <UniqueCourseId>1</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000002</LocalCourseCode>
+    <LocalCourseCode>2</LocalCourseCode>
     <LocalCourseTitle>First grade</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -55,12 +55,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000002</UniqueCourseId>
+        <UniqueCourseId>2</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000003</LocalCourseCode>
+    <LocalCourseCode>3</LocalCourseCode>
     <LocalCourseTitle>Second grade</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -84,12 +84,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000003</UniqueCourseId>
+        <UniqueCourseId>3</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000004</LocalCourseCode>
+    <LocalCourseCode>4</LocalCourseCode>
     <LocalCourseTitle>Third grade</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -113,12 +113,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000004</UniqueCourseId>
+        <UniqueCourseId>4</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000005</LocalCourseCode>
+    <LocalCourseCode>5</LocalCourseCode>
     <LocalCourseTitle>Fourth grade</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -142,12 +142,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000005</UniqueCourseId>
+        <UniqueCourseId>5</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000006</LocalCourseCode>
+    <LocalCourseCode>6</LocalCourseCode>
     <LocalCourseTitle>Fifth grade</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -171,12 +171,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000006</UniqueCourseId>
+        <UniqueCourseId>6</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000007</LocalCourseCode>
+    <LocalCourseCode>7</LocalCourseCode>
     <LocalCourseTitle>Kindergarten</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -200,12 +200,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000001</UniqueCourseId>
+        <UniqueCourseId>1</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000008</LocalCourseCode>
+    <LocalCourseCode>8</LocalCourseCode>
     <LocalCourseTitle>First grade</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -229,12 +229,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000002</UniqueCourseId>
+        <UniqueCourseId>2</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000009</LocalCourseCode>
+    <LocalCourseCode>9</LocalCourseCode>
     <LocalCourseTitle>Second grade</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -258,12 +258,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000003</UniqueCourseId>
+        <UniqueCourseId>3</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000010</LocalCourseCode>
+    <LocalCourseCode>10</LocalCourseCode>
     <LocalCourseTitle>Third grade</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -287,12 +287,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000004</UniqueCourseId>
+        <UniqueCourseId>4</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000011</LocalCourseCode>
+    <LocalCourseCode>11</LocalCourseCode>
     <LocalCourseTitle>Fourth grade</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -316,12 +316,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000005</UniqueCourseId>
+        <UniqueCourseId>5</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000012</LocalCourseCode>
+    <LocalCourseCode>12</LocalCourseCode>
     <LocalCourseTitle>Fifth grade</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -345,12 +345,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000006</UniqueCourseId>
+        <UniqueCourseId>6</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000013</LocalCourseCode>
+    <LocalCourseCode>13</LocalCourseCode>
     <LocalCourseTitle>Kindergarten</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -374,12 +374,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000001</UniqueCourseId>
+        <UniqueCourseId>1</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000014</LocalCourseCode>
+    <LocalCourseCode>14</LocalCourseCode>
     <LocalCourseTitle>First grade</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -403,12 +403,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000002</UniqueCourseId>
+        <UniqueCourseId>2</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000015</LocalCourseCode>
+    <LocalCourseCode>15</LocalCourseCode>
     <LocalCourseTitle>Second grade</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -432,12 +432,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000003</UniqueCourseId>
+        <UniqueCourseId>3</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000016</LocalCourseCode>
+    <LocalCourseCode>16</LocalCourseCode>
     <LocalCourseTitle>Third grade</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -461,12 +461,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000004</UniqueCourseId>
+        <UniqueCourseId>4</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000017</LocalCourseCode>
+    <LocalCourseCode>17</LocalCourseCode>
     <LocalCourseTitle>Fourth grade</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -490,12 +490,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000005</UniqueCourseId>
+        <UniqueCourseId>5</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000018</LocalCourseCode>
+    <LocalCourseCode>18</LocalCourseCode>
     <LocalCourseTitle>Fifth grade</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -519,12 +519,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000006</UniqueCourseId>
+        <UniqueCourseId>6</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000019</LocalCourseCode>
+    <LocalCourseCode>19</LocalCourseCode>
     <LocalCourseTitle>Sixth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -548,12 +548,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000007</UniqueCourseId>
+        <UniqueCourseId>7</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000020</LocalCourseCode>
+    <LocalCourseCode>20</LocalCourseCode>
     <LocalCourseTitle>Sixth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -577,12 +577,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000008</UniqueCourseId>
+        <UniqueCourseId>8</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000021</LocalCourseCode>
+    <LocalCourseCode>21</LocalCourseCode>
     <LocalCourseTitle>Sixth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -606,12 +606,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000009</UniqueCourseId>
+        <UniqueCourseId>9</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000022</LocalCourseCode>
+    <LocalCourseCode>22</LocalCourseCode>
     <LocalCourseTitle>Sixth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -635,12 +635,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000010</UniqueCourseId>
+        <UniqueCourseId>10</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000023</LocalCourseCode>
+    <LocalCourseCode>23</LocalCourseCode>
     <LocalCourseTitle>Seventh grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -664,12 +664,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000011</UniqueCourseId>
+        <UniqueCourseId>11</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000024</LocalCourseCode>
+    <LocalCourseCode>24</LocalCourseCode>
     <LocalCourseTitle>Seventh grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -693,12 +693,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000012</UniqueCourseId>
+        <UniqueCourseId>12</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000025</LocalCourseCode>
+    <LocalCourseCode>25</LocalCourseCode>
     <LocalCourseTitle>Seventh grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -722,12 +722,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000013</UniqueCourseId>
+        <UniqueCourseId>13</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000026</LocalCourseCode>
+    <LocalCourseCode>26</LocalCourseCode>
     <LocalCourseTitle>Seventh grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -751,12 +751,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000014</UniqueCourseId>
+        <UniqueCourseId>14</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000027</LocalCourseCode>
+    <LocalCourseCode>27</LocalCourseCode>
     <LocalCourseTitle>Eighth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -780,12 +780,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000015</UniqueCourseId>
+        <UniqueCourseId>15</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000028</LocalCourseCode>
+    <LocalCourseCode>28</LocalCourseCode>
     <LocalCourseTitle>Eighth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -809,12 +809,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000016</UniqueCourseId>
+        <UniqueCourseId>16</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000029</LocalCourseCode>
+    <LocalCourseCode>29</LocalCourseCode>
     <LocalCourseTitle>Eighth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -838,12 +838,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000017</UniqueCourseId>
+        <UniqueCourseId>17</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000030</LocalCourseCode>
+    <LocalCourseCode>30</LocalCourseCode>
     <LocalCourseTitle>Eighth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -867,12 +867,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000018</UniqueCourseId>
+        <UniqueCourseId>18</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000031</LocalCourseCode>
+    <LocalCourseCode>31</LocalCourseCode>
     <LocalCourseTitle>Sixth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -896,12 +896,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000007</UniqueCourseId>
+        <UniqueCourseId>7</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000032</LocalCourseCode>
+    <LocalCourseCode>32</LocalCourseCode>
     <LocalCourseTitle>Sixth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -925,12 +925,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000008</UniqueCourseId>
+        <UniqueCourseId>8</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000033</LocalCourseCode>
+    <LocalCourseCode>33</LocalCourseCode>
     <LocalCourseTitle>Sixth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -954,12 +954,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000009</UniqueCourseId>
+        <UniqueCourseId>9</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000034</LocalCourseCode>
+    <LocalCourseCode>34</LocalCourseCode>
     <LocalCourseTitle>Sixth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -983,12 +983,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000010</UniqueCourseId>
+        <UniqueCourseId>10</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000035</LocalCourseCode>
+    <LocalCourseCode>35</LocalCourseCode>
     <LocalCourseTitle>Seventh grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1012,12 +1012,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000011</UniqueCourseId>
+        <UniqueCourseId>11</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000036</LocalCourseCode>
+    <LocalCourseCode>36</LocalCourseCode>
     <LocalCourseTitle>Seventh grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1041,12 +1041,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000012</UniqueCourseId>
+        <UniqueCourseId>12</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000037</LocalCourseCode>
+    <LocalCourseCode>37</LocalCourseCode>
     <LocalCourseTitle>Seventh grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1070,12 +1070,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000013</UniqueCourseId>
+        <UniqueCourseId>13</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000038</LocalCourseCode>
+    <LocalCourseCode>38</LocalCourseCode>
     <LocalCourseTitle>Seventh grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1099,12 +1099,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000014</UniqueCourseId>
+        <UniqueCourseId>14</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000039</LocalCourseCode>
+    <LocalCourseCode>39</LocalCourseCode>
     <LocalCourseTitle>Eighth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1128,12 +1128,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000015</UniqueCourseId>
+        <UniqueCourseId>15</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000040</LocalCourseCode>
+    <LocalCourseCode>40</LocalCourseCode>
     <LocalCourseTitle>Eighth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1157,12 +1157,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000016</UniqueCourseId>
+        <UniqueCourseId>16</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000041</LocalCourseCode>
+    <LocalCourseCode>41</LocalCourseCode>
     <LocalCourseTitle>Eighth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1186,12 +1186,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000017</UniqueCourseId>
+        <UniqueCourseId>17</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000042</LocalCourseCode>
+    <LocalCourseCode>42</LocalCourseCode>
     <LocalCourseTitle>Eighth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1215,12 +1215,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000018</UniqueCourseId>
+        <UniqueCourseId>18</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000043</LocalCourseCode>
+    <LocalCourseCode>43</LocalCourseCode>
     <LocalCourseTitle>Sixth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1244,12 +1244,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000007</UniqueCourseId>
+        <UniqueCourseId>7</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000044</LocalCourseCode>
+    <LocalCourseCode>44</LocalCourseCode>
     <LocalCourseTitle>Sixth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1273,12 +1273,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000008</UniqueCourseId>
+        <UniqueCourseId>8</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000045</LocalCourseCode>
+    <LocalCourseCode>45</LocalCourseCode>
     <LocalCourseTitle>Sixth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1302,12 +1302,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000009</UniqueCourseId>
+        <UniqueCourseId>9</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000046</LocalCourseCode>
+    <LocalCourseCode>46</LocalCourseCode>
     <LocalCourseTitle>Sixth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1331,12 +1331,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000010</UniqueCourseId>
+        <UniqueCourseId>10</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000047</LocalCourseCode>
+    <LocalCourseCode>47</LocalCourseCode>
     <LocalCourseTitle>Seventh grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1360,12 +1360,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000011</UniqueCourseId>
+        <UniqueCourseId>11</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000048</LocalCourseCode>
+    <LocalCourseCode>48</LocalCourseCode>
     <LocalCourseTitle>Seventh grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1389,12 +1389,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000012</UniqueCourseId>
+        <UniqueCourseId>12</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000049</LocalCourseCode>
+    <LocalCourseCode>49</LocalCourseCode>
     <LocalCourseTitle>Seventh grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1418,12 +1418,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000013</UniqueCourseId>
+        <UniqueCourseId>13</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000050</LocalCourseCode>
+    <LocalCourseCode>50</LocalCourseCode>
     <LocalCourseTitle>Seventh grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1447,12 +1447,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000014</UniqueCourseId>
+        <UniqueCourseId>14</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000051</LocalCourseCode>
+    <LocalCourseCode>51</LocalCourseCode>
     <LocalCourseTitle>Eighth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1476,12 +1476,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000015</UniqueCourseId>
+        <UniqueCourseId>15</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000052</LocalCourseCode>
+    <LocalCourseCode>52</LocalCourseCode>
     <LocalCourseTitle>Eighth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1505,12 +1505,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000016</UniqueCourseId>
+        <UniqueCourseId>16</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000053</LocalCourseCode>
+    <LocalCourseCode>53</LocalCourseCode>
     <LocalCourseTitle>Eighth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1534,12 +1534,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000017</UniqueCourseId>
+        <UniqueCourseId>17</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000054</LocalCourseCode>
+    <LocalCourseCode>54</LocalCourseCode>
     <LocalCourseTitle>Eighth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1563,12 +1563,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000018</UniqueCourseId>
+        <UniqueCourseId>18</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000055</LocalCourseCode>
+    <LocalCourseCode>55</LocalCourseCode>
     <LocalCourseTitle>Ninth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1592,12 +1592,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000019</UniqueCourseId>
+        <UniqueCourseId>19</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000056</LocalCourseCode>
+    <LocalCourseCode>56</LocalCourseCode>
     <LocalCourseTitle>Ninth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1621,12 +1621,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000020</UniqueCourseId>
+        <UniqueCourseId>20</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000057</LocalCourseCode>
+    <LocalCourseCode>57</LocalCourseCode>
     <LocalCourseTitle>Ninth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1650,12 +1650,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000021</UniqueCourseId>
+        <UniqueCourseId>21</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000058</LocalCourseCode>
+    <LocalCourseCode>58</LocalCourseCode>
     <LocalCourseTitle>Ninth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1679,12 +1679,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000022</UniqueCourseId>
+        <UniqueCourseId>22</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000059</LocalCourseCode>
+    <LocalCourseCode>59</LocalCourseCode>
     <LocalCourseTitle>Tenth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1708,12 +1708,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000023</UniqueCourseId>
+        <UniqueCourseId>23</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000060</LocalCourseCode>
+    <LocalCourseCode>60</LocalCourseCode>
     <LocalCourseTitle>Tenth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1737,12 +1737,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000024</UniqueCourseId>
+        <UniqueCourseId>24</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000061</LocalCourseCode>
+    <LocalCourseCode>61</LocalCourseCode>
     <LocalCourseTitle>Tenth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1766,12 +1766,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000025</UniqueCourseId>
+        <UniqueCourseId>25</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000062</LocalCourseCode>
+    <LocalCourseCode>62</LocalCourseCode>
     <LocalCourseTitle>Tenth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1795,12 +1795,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000026</UniqueCourseId>
+        <UniqueCourseId>26</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000063</LocalCourseCode>
+    <LocalCourseCode>63</LocalCourseCode>
     <LocalCourseTitle>Eleventh grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1824,12 +1824,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000027</UniqueCourseId>
+        <UniqueCourseId>27</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000064</LocalCourseCode>
+    <LocalCourseCode>64</LocalCourseCode>
     <LocalCourseTitle>Eleventh grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1853,12 +1853,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000028</UniqueCourseId>
+        <UniqueCourseId>28</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000065</LocalCourseCode>
+    <LocalCourseCode>65</LocalCourseCode>
     <LocalCourseTitle>Eleventh grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1882,12 +1882,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000029</UniqueCourseId>
+        <UniqueCourseId>29</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000066</LocalCourseCode>
+    <LocalCourseCode>66</LocalCourseCode>
     <LocalCourseTitle>Eleventh grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1911,12 +1911,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000030</UniqueCourseId>
+        <UniqueCourseId>30</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000067</LocalCourseCode>
+    <LocalCourseCode>67</LocalCourseCode>
     <LocalCourseTitle>Twelfth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1940,12 +1940,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000031</UniqueCourseId>
+        <UniqueCourseId>31</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000068</LocalCourseCode>
+    <LocalCourseCode>68</LocalCourseCode>
     <LocalCourseTitle>Twelfth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1969,12 +1969,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000032</UniqueCourseId>
+        <UniqueCourseId>32</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000069</LocalCourseCode>
+    <LocalCourseCode>69</LocalCourseCode>
     <LocalCourseTitle>Twelfth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -1998,12 +1998,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000033</UniqueCourseId>
+        <UniqueCourseId>33</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000070</LocalCourseCode>
+    <LocalCourseCode>70</LocalCourseCode>
     <LocalCourseTitle>Twelfth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2027,12 +2027,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000034</UniqueCourseId>
+        <UniqueCourseId>34</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000071</LocalCourseCode>
+    <LocalCourseCode>71</LocalCourseCode>
     <LocalCourseTitle>Ninth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2056,12 +2056,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000019</UniqueCourseId>
+        <UniqueCourseId>19</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000072</LocalCourseCode>
+    <LocalCourseCode>72</LocalCourseCode>
     <LocalCourseTitle>Ninth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2085,12 +2085,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000020</UniqueCourseId>
+        <UniqueCourseId>20</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000073</LocalCourseCode>
+    <LocalCourseCode>73</LocalCourseCode>
     <LocalCourseTitle>Ninth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2114,12 +2114,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000021</UniqueCourseId>
+        <UniqueCourseId>21</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000074</LocalCourseCode>
+    <LocalCourseCode>74</LocalCourseCode>
     <LocalCourseTitle>Ninth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2143,12 +2143,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000022</UniqueCourseId>
+        <UniqueCourseId>22</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000075</LocalCourseCode>
+    <LocalCourseCode>75</LocalCourseCode>
     <LocalCourseTitle>Tenth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2172,12 +2172,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000023</UniqueCourseId>
+        <UniqueCourseId>23</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000076</LocalCourseCode>
+    <LocalCourseCode>76</LocalCourseCode>
     <LocalCourseTitle>Tenth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2201,12 +2201,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000024</UniqueCourseId>
+        <UniqueCourseId>24</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000077</LocalCourseCode>
+    <LocalCourseCode>77</LocalCourseCode>
     <LocalCourseTitle>Tenth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2230,12 +2230,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000025</UniqueCourseId>
+        <UniqueCourseId>25</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000078</LocalCourseCode>
+    <LocalCourseCode>78</LocalCourseCode>
     <LocalCourseTitle>Tenth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2259,12 +2259,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000026</UniqueCourseId>
+        <UniqueCourseId>26</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000079</LocalCourseCode>
+    <LocalCourseCode>79</LocalCourseCode>
     <LocalCourseTitle>Eleventh grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2288,12 +2288,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000027</UniqueCourseId>
+        <UniqueCourseId>27</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000080</LocalCourseCode>
+    <LocalCourseCode>80</LocalCourseCode>
     <LocalCourseTitle>Eleventh grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2317,12 +2317,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000028</UniqueCourseId>
+        <UniqueCourseId>28</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000081</LocalCourseCode>
+    <LocalCourseCode>81</LocalCourseCode>
     <LocalCourseTitle>Eleventh grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2346,12 +2346,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000029</UniqueCourseId>
+        <UniqueCourseId>29</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000082</LocalCourseCode>
+    <LocalCourseCode>82</LocalCourseCode>
     <LocalCourseTitle>Eleventh grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2375,12 +2375,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000030</UniqueCourseId>
+        <UniqueCourseId>30</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000083</LocalCourseCode>
+    <LocalCourseCode>83</LocalCourseCode>
     <LocalCourseTitle>Twelfth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2404,12 +2404,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000031</UniqueCourseId>
+        <UniqueCourseId>31</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000084</LocalCourseCode>
+    <LocalCourseCode>84</LocalCourseCode>
     <LocalCourseTitle>Twelfth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2433,12 +2433,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000032</UniqueCourseId>
+        <UniqueCourseId>32</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000085</LocalCourseCode>
+    <LocalCourseCode>85</LocalCourseCode>
     <LocalCourseTitle>Twelfth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2462,12 +2462,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000033</UniqueCourseId>
+        <UniqueCourseId>33</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000086</LocalCourseCode>
+    <LocalCourseCode>86</LocalCourseCode>
     <LocalCourseTitle>Twelfth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2491,12 +2491,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000034</UniqueCourseId>
+        <UniqueCourseId>34</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000087</LocalCourseCode>
+    <LocalCourseCode>87</LocalCourseCode>
     <LocalCourseTitle>Ninth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2520,12 +2520,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000019</UniqueCourseId>
+        <UniqueCourseId>19</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000088</LocalCourseCode>
+    <LocalCourseCode>88</LocalCourseCode>
     <LocalCourseTitle>Ninth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2549,12 +2549,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000020</UniqueCourseId>
+        <UniqueCourseId>20</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000089</LocalCourseCode>
+    <LocalCourseCode>89</LocalCourseCode>
     <LocalCourseTitle>Ninth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2578,12 +2578,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000021</UniqueCourseId>
+        <UniqueCourseId>21</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000090</LocalCourseCode>
+    <LocalCourseCode>90</LocalCourseCode>
     <LocalCourseTitle>Ninth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2607,12 +2607,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000022</UniqueCourseId>
+        <UniqueCourseId>22</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000091</LocalCourseCode>
+    <LocalCourseCode>91</LocalCourseCode>
     <LocalCourseTitle>Tenth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2636,12 +2636,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000023</UniqueCourseId>
+        <UniqueCourseId>23</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000092</LocalCourseCode>
+    <LocalCourseCode>92</LocalCourseCode>
     <LocalCourseTitle>Tenth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2665,12 +2665,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000024</UniqueCourseId>
+        <UniqueCourseId>24</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000093</LocalCourseCode>
+    <LocalCourseCode>93</LocalCourseCode>
     <LocalCourseTitle>Tenth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2694,12 +2694,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000025</UniqueCourseId>
+        <UniqueCourseId>25</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000094</LocalCourseCode>
+    <LocalCourseCode>94</LocalCourseCode>
     <LocalCourseTitle>Tenth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2723,12 +2723,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000026</UniqueCourseId>
+        <UniqueCourseId>26</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000095</LocalCourseCode>
+    <LocalCourseCode>95</LocalCourseCode>
     <LocalCourseTitle>Eleventh grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2752,12 +2752,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000027</UniqueCourseId>
+        <UniqueCourseId>27</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000096</LocalCourseCode>
+    <LocalCourseCode>96</LocalCourseCode>
     <LocalCourseTitle>Eleventh grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2781,12 +2781,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000028</UniqueCourseId>
+        <UniqueCourseId>28</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000097</LocalCourseCode>
+    <LocalCourseCode>97</LocalCourseCode>
     <LocalCourseTitle>Eleventh grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2810,12 +2810,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000029</UniqueCourseId>
+        <UniqueCourseId>29</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000098</LocalCourseCode>
+    <LocalCourseCode>98</LocalCourseCode>
     <LocalCourseTitle>Eleventh grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2839,12 +2839,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000030</UniqueCourseId>
+        <UniqueCourseId>30</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000099</LocalCourseCode>
+    <LocalCourseCode>99</LocalCourseCode>
     <LocalCourseTitle>Twelfth grade Mathematics</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2868,12 +2868,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000031</UniqueCourseId>
+        <UniqueCourseId>31</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000100</LocalCourseCode>
+    <LocalCourseCode>100</LocalCourseCode>
     <LocalCourseTitle>Twelfth grade Science</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2897,12 +2897,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000032</UniqueCourseId>
+        <UniqueCourseId>32</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000101</LocalCourseCode>
+    <LocalCourseCode>101</LocalCourseCode>
     <LocalCourseTitle>Twelfth grade English</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2926,12 +2926,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000033</UniqueCourseId>
+        <UniqueCourseId>33</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <CourseOffering>
-    <LocalCourseCode>cofr-0000000102</LocalCourseCode>
+    <LocalCourseCode>102</LocalCourseCode>
     <LocalCourseTitle>Twelfth grade History</LocalCourseTitle>
     <SchoolReference>
       <EducationalOrgIdentity>
@@ -2955,19 +2955,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
             <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
-        <UniqueCourseId>crse-0000000034</UniqueCourseId>
+        <UniqueCourseId>34</UniqueCourseId>
       </CourseIdentity>
     </CourseReference>
   </CourseOffering>
   <Section>
-    <UniqueSectionCode>sctn-0000000001</UniqueSectionCode>
+    <UniqueSectionCode>1</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000055</LocalCourseCode>
+        <LocalCourseCode>55</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -3002,14 +3002,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000002</UniqueSectionCode>
+    <UniqueSectionCode>2</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000056</LocalCourseCode>
+        <LocalCourseCode>56</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -3044,14 +3044,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000003</UniqueSectionCode>
+    <UniqueSectionCode>3</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000057</LocalCourseCode>
+        <LocalCourseCode>57</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -3086,14 +3086,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000004</UniqueSectionCode>
+    <UniqueSectionCode>4</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000058</LocalCourseCode>
+        <LocalCourseCode>58</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -3128,14 +3128,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000005</UniqueSectionCode>
+    <UniqueSectionCode>5</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000075</LocalCourseCode>
+        <LocalCourseCode>75</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -3170,14 +3170,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000006</UniqueSectionCode>
+    <UniqueSectionCode>6</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000076</LocalCourseCode>
+        <LocalCourseCode>76</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -3212,14 +3212,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000007</UniqueSectionCode>
+    <UniqueSectionCode>7</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000077</LocalCourseCode>
+        <LocalCourseCode>77</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -3254,14 +3254,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000008</UniqueSectionCode>
+    <UniqueSectionCode>8</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000078</LocalCourseCode>
+        <LocalCourseCode>78</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -3296,14 +3296,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000009</UniqueSectionCode>
+    <UniqueSectionCode>9</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000071</LocalCourseCode>
+        <LocalCourseCode>71</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -3338,14 +3338,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000010</UniqueSectionCode>
+    <UniqueSectionCode>10</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000072</LocalCourseCode>
+        <LocalCourseCode>72</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -3380,14 +3380,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000011</UniqueSectionCode>
+    <UniqueSectionCode>11</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000073</LocalCourseCode>
+        <LocalCourseCode>73</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -3422,14 +3422,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000012</UniqueSectionCode>
+    <UniqueSectionCode>12</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000074</LocalCourseCode>
+        <LocalCourseCode>74</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -3464,14 +3464,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000013</UniqueSectionCode>
+    <UniqueSectionCode>13</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000095</LocalCourseCode>
+        <LocalCourseCode>95</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -3506,14 +3506,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000014</UniqueSectionCode>
+    <UniqueSectionCode>14</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000096</LocalCourseCode>
+        <LocalCourseCode>96</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -3548,14 +3548,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000015</UniqueSectionCode>
+    <UniqueSectionCode>15</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000097</LocalCourseCode>
+        <LocalCourseCode>97</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -3590,14 +3590,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000016</UniqueSectionCode>
+    <UniqueSectionCode>16</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000098</LocalCourseCode>
+        <LocalCourseCode>98</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -3632,14 +3632,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000017</UniqueSectionCode>
+    <UniqueSectionCode>17</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000091</LocalCourseCode>
+        <LocalCourseCode>91</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -3674,14 +3674,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000018</UniqueSectionCode>
+    <UniqueSectionCode>18</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000092</LocalCourseCode>
+        <LocalCourseCode>92</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -3716,14 +3716,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000019</UniqueSectionCode>
+    <UniqueSectionCode>19</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000093</LocalCourseCode>
+        <LocalCourseCode>93</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -3758,14 +3758,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000020</UniqueSectionCode>
+    <UniqueSectionCode>20</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000094</LocalCourseCode>
+        <LocalCourseCode>94</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -3800,14 +3800,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000021</UniqueSectionCode>
+    <UniqueSectionCode>21</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000087</LocalCourseCode>
+        <LocalCourseCode>87</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -3842,14 +3842,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000022</UniqueSectionCode>
+    <UniqueSectionCode>22</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000088</LocalCourseCode>
+        <LocalCourseCode>88</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -3884,14 +3884,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000023</UniqueSectionCode>
+    <UniqueSectionCode>23</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000089</LocalCourseCode>
+        <LocalCourseCode>89</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -3926,14 +3926,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000024</UniqueSectionCode>
+    <UniqueSectionCode>24</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000090</LocalCourseCode>
+        <LocalCourseCode>90</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -3968,14 +3968,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000025</UniqueSectionCode>
+    <UniqueSectionCode>25</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000019</LocalCourseCode>
+        <LocalCourseCode>19</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -4010,14 +4010,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000026</UniqueSectionCode>
+    <UniqueSectionCode>26</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000020</LocalCourseCode>
+        <LocalCourseCode>20</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -4052,14 +4052,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000027</UniqueSectionCode>
+    <UniqueSectionCode>27</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000021</LocalCourseCode>
+        <LocalCourseCode>21</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -4094,14 +4094,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000028</UniqueSectionCode>
+    <UniqueSectionCode>28</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000022</LocalCourseCode>
+        <LocalCourseCode>22</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -4136,14 +4136,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000029</UniqueSectionCode>
+    <UniqueSectionCode>29</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000023</LocalCourseCode>
+        <LocalCourseCode>23</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -4178,14 +4178,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000030</UniqueSectionCode>
+    <UniqueSectionCode>30</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000024</LocalCourseCode>
+        <LocalCourseCode>24</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -4220,14 +4220,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000031</UniqueSectionCode>
+    <UniqueSectionCode>31</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000025</LocalCourseCode>
+        <LocalCourseCode>25</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -4262,14 +4262,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000032</UniqueSectionCode>
+    <UniqueSectionCode>32</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000026</LocalCourseCode>
+        <LocalCourseCode>26</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -4304,14 +4304,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000033</UniqueSectionCode>
+    <UniqueSectionCode>33</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000027</LocalCourseCode>
+        <LocalCourseCode>27</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -4346,14 +4346,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000034</UniqueSectionCode>
+    <UniqueSectionCode>34</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000028</LocalCourseCode>
+        <LocalCourseCode>28</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -4388,14 +4388,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000035</UniqueSectionCode>
+    <UniqueSectionCode>35</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000029</LocalCourseCode>
+        <LocalCourseCode>29</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -4430,14 +4430,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000036</UniqueSectionCode>
+    <UniqueSectionCode>36</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000030</LocalCourseCode>
+        <LocalCourseCode>30</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -4472,14 +4472,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000037</UniqueSectionCode>
+    <UniqueSectionCode>37</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000039</LocalCourseCode>
+        <LocalCourseCode>39</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -4514,14 +4514,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000038</UniqueSectionCode>
+    <UniqueSectionCode>38</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000040</LocalCourseCode>
+        <LocalCourseCode>40</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -4556,14 +4556,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000039</UniqueSectionCode>
+    <UniqueSectionCode>39</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000041</LocalCourseCode>
+        <LocalCourseCode>41</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -4598,14 +4598,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000040</UniqueSectionCode>
+    <UniqueSectionCode>40</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000042</LocalCourseCode>
+        <LocalCourseCode>42</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -4640,14 +4640,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000041</UniqueSectionCode>
+    <UniqueSectionCode>41</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000035</LocalCourseCode>
+        <LocalCourseCode>35</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -4682,14 +4682,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000042</UniqueSectionCode>
+    <UniqueSectionCode>42</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000036</LocalCourseCode>
+        <LocalCourseCode>36</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -4724,14 +4724,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000043</UniqueSectionCode>
+    <UniqueSectionCode>43</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000037</LocalCourseCode>
+        <LocalCourseCode>37</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -4766,14 +4766,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000044</UniqueSectionCode>
+    <UniqueSectionCode>44</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000038</LocalCourseCode>
+        <LocalCourseCode>38</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -4808,14 +4808,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000045</UniqueSectionCode>
+    <UniqueSectionCode>45</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000031</LocalCourseCode>
+        <LocalCourseCode>31</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -4850,14 +4850,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000046</UniqueSectionCode>
+    <UniqueSectionCode>46</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000032</LocalCourseCode>
+        <LocalCourseCode>32</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -4892,14 +4892,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000047</UniqueSectionCode>
+    <UniqueSectionCode>47</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000033</LocalCourseCode>
+        <LocalCourseCode>33</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -4934,14 +4934,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000048</UniqueSectionCode>
+    <UniqueSectionCode>48</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000034</LocalCourseCode>
+        <LocalCourseCode>34</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -4976,14 +4976,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000049</UniqueSectionCode>
+    <UniqueSectionCode>49</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000051</LocalCourseCode>
+        <LocalCourseCode>51</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -5018,14 +5018,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000050</UniqueSectionCode>
+    <UniqueSectionCode>50</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000052</LocalCourseCode>
+        <LocalCourseCode>52</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -5060,14 +5060,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000051</UniqueSectionCode>
+    <UniqueSectionCode>51</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000053</LocalCourseCode>
+        <LocalCourseCode>53</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -5102,14 +5102,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000052</UniqueSectionCode>
+    <UniqueSectionCode>52</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000054</LocalCourseCode>
+        <LocalCourseCode>54</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -5144,14 +5144,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000053</UniqueSectionCode>
+    <UniqueSectionCode>53</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000047</LocalCourseCode>
+        <LocalCourseCode>47</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -5186,14 +5186,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000054</UniqueSectionCode>
+    <UniqueSectionCode>54</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000048</LocalCourseCode>
+        <LocalCourseCode>48</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -5228,14 +5228,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000055</UniqueSectionCode>
+    <UniqueSectionCode>55</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000049</LocalCourseCode>
+        <LocalCourseCode>49</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -5270,14 +5270,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000056</UniqueSectionCode>
+    <UniqueSectionCode>56</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000050</LocalCourseCode>
+        <LocalCourseCode>50</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -5312,14 +5312,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000057</UniqueSectionCode>
+    <UniqueSectionCode>57</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000043</LocalCourseCode>
+        <LocalCourseCode>43</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -5354,14 +5354,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000058</UniqueSectionCode>
+    <UniqueSectionCode>58</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000044</LocalCourseCode>
+        <LocalCourseCode>44</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -5396,14 +5396,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000059</UniqueSectionCode>
+    <UniqueSectionCode>59</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000045</LocalCourseCode>
+        <LocalCourseCode>45</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -5438,14 +5438,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000060</UniqueSectionCode>
+    <UniqueSectionCode>60</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000046</LocalCourseCode>
+        <LocalCourseCode>46</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -5480,56 +5480,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000061</UniqueSectionCode>
+    <UniqueSectionCode>61</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000001</LocalCourseCode>
-        <SessionReference>
-          <SessionIdentity>
-            <EducationalOrgReference>
-              <EducationalOrgIdentity>
-                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-              </EducationalOrgIdentity>
-            </EducationalOrgReference>
-            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
-          </SessionIdentity>
-        </SessionReference>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-            </EducationalOrgIdentity>
-          </EducationalOrgReference>
-        </CourseOfferingIdentity>
-    </CourseOfferingReference>
-    <SchoolReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </SchoolReference>
-    <SessionReference>
-      <SessionIdentity>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
-      </SessionIdentity>
-    </SessionReference>
-  </Section>
-  <Section>
-    <UniqueSectionCode>sctn-0000000062</UniqueSectionCode>
-    <SequenceOfCourse>1</SequenceOfCourse>
-    <EducationalEnvironment>Classroom</EducationalEnvironment>
-    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
-    <PopulationServed>Regular Students</PopulationServed>
-    <CourseOfferingReference>
-      <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000002</LocalCourseCode>
+        <LocalCourseCode>1</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -5564,14 +5522,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000063</UniqueSectionCode>
+    <UniqueSectionCode>62</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000003</LocalCourseCode>
+        <LocalCourseCode>2</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -5606,14 +5564,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000064</UniqueSectionCode>
+    <UniqueSectionCode>63</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000004</LocalCourseCode>
+        <LocalCourseCode>3</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -5648,14 +5606,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000065</UniqueSectionCode>
+    <UniqueSectionCode>64</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000005</LocalCourseCode>
+        <LocalCourseCode>4</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -5690,14 +5648,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000066</UniqueSectionCode>
+    <UniqueSectionCode>65</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000006</LocalCourseCode>
+        <LocalCourseCode>5</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -5732,14 +5690,56 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000067</UniqueSectionCode>
+    <UniqueSectionCode>66</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000012</LocalCourseCode>
+        <LocalCourseCode>6</LocalCourseCode>
+        <SessionReference>
+          <SessionIdentity>
+            <EducationalOrgReference>
+              <EducationalOrgIdentity>
+                <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+              </EducationalOrgIdentity>
+            </EducationalOrgReference>
+            <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+          </SessionIdentity>
+        </SessionReference>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+            </EducationalOrgIdentity>
+          </EducationalOrgReference>
+        </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>2001-2002 Year Round session: IL-DAYBREAK</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+  </Section>
+  <Section>
+    <UniqueSectionCode>67</UniqueSectionCode>
+    <SequenceOfCourse>1</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>12</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -5774,14 +5774,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000068</UniqueSectionCode>
+    <UniqueSectionCode>68</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000011</LocalCourseCode>
+        <LocalCourseCode>11</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -5816,14 +5816,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000069</UniqueSectionCode>
+    <UniqueSectionCode>69</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000010</LocalCourseCode>
+        <LocalCourseCode>10</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -5858,14 +5858,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000070</UniqueSectionCode>
+    <UniqueSectionCode>70</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000009</LocalCourseCode>
+        <LocalCourseCode>9</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -5900,14 +5900,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000071</UniqueSectionCode>
+    <UniqueSectionCode>71</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000008</LocalCourseCode>
+        <LocalCourseCode>8</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -5942,14 +5942,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000072</UniqueSectionCode>
+    <UniqueSectionCode>72</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000018</LocalCourseCode>
+        <LocalCourseCode>18</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -5984,14 +5984,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000073</UniqueSectionCode>
+    <UniqueSectionCode>73</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000017</LocalCourseCode>
+        <LocalCourseCode>17</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -6026,14 +6026,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000074</UniqueSectionCode>
+    <UniqueSectionCode>74</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000016</LocalCourseCode>
+        <LocalCourseCode>16</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>
@@ -6068,14 +6068,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SessionReference>
   </Section>
   <Section>
-    <UniqueSectionCode>sctn-0000000075</UniqueSectionCode>
+    <UniqueSectionCode>75</UniqueSectionCode>
     <SequenceOfCourse>1</SequenceOfCourse>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Face-to-face instruction</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
     <CourseOfferingReference>
       <CourseOfferingIdentity>
-        <LocalCourseCode>cofr-0000000015</LocalCourseCode>
+        <LocalCourseCode>15</LocalCourseCode>
         <SessionReference>
           <SessionIdentity>
             <EducationalOrgReference>

@@ -19,12 +19,12 @@ Scenario: App developer deletes installed app
   And I switch to the iframe
   Then I am redirected to the Application Registration Tool page
   Then I have clicked on the button 'Delete' for the application named "NotTheAppYoureLookingFor"
-  And I got warning message saying 'You are trying to remove this application from SLI. By doing so, you will prevent any active user to access it. Do you want to continue?'
+  And I got warning message saying 'You are trying to remove this application from inBloom. By doing so, you will prevent any active user to access it. Do you want to continue?'
   When I click 'Yes'
   And I switch to the iframe
   Then the application named "NotTheAppYoureLookingFor" is removed from the SLI
   Then I have clicked on the button 'Delete' for the application named "Schlemiel"
-  And I got warning message saying 'You are trying to remove this application from SLI. By doing so, you will prevent any active user to access it. Do you want to continue?'
+  And I got warning message saying 'You are trying to remove this application from inBloom. By doing so, you will prevent any active user to access it. Do you want to continue?'
   When I click 'Yes'
   And I switch to the iframe
   Then the application named "Schlemiel" is removed from the SLI

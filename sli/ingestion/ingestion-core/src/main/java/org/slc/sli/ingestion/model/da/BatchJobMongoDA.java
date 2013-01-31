@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import com.mongodb.BasicDBObject;
@@ -44,6 +45,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.IngestionStagedEntity;
+import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.model.Error;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.RecordHash;
@@ -78,6 +80,8 @@ public class BatchJobMongoDA implements BatchJobDAO {
     private static final String COUNT = "count";
     private static final String ENTITIES = "entities";
     private static final int DUP_KEY_CODE = 11000;
+    private static final String FILE_ENTRY_LATCH = "fileEntryLatch";
+    private static final String FILES = "files";
 
     @Value("${sli.ingestion.totalRetries}")
     private int numberOfRetries;
@@ -538,5 +542,78 @@ public class BatchJobMongoDA implements BatchJobDAO {
     @Override
     public MongoTemplate getMongoTemplate() {
         return sliMongo;
+    }
+
+    @Override
+    public boolean updateFileEntryLatch(String batchJobId, String filename) {
+        final BasicDBObject query = new BasicDBObject();
+        query.put(BATCHJOBID_FIELDNAME, batchJobId);
+
+        BasicDBObject files = new BasicDBObject("files", filename);
+        final BasicDBObject update = new BasicDBObject("$pull", files);
+        RetryMongoCommand retry = new RetryMongoCommand() {
+
+            @Override
+            public Object execute() {
+
+                return batchJobMongoTemplate.getCollection(FILE_ENTRY_LATCH).findAndModify(query, null, null, false,
+                        update, true, false);
+            }
+
+        };
+        DBObject fileEntryLatch = (DBObject) retry.executeOperation(numberOfRetries);
+
+        List<String> file = (List<String>) fileEntryLatch.get("files");
+
+        if (file == null || file.isEmpty() ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean createFileLatch(String jobId, List<String> fileEntries) {
+        try {
+            final BasicDBObject latchObject = new BasicDBObject();
+            latchObject.put(BATCHJOBID_FIELDNAME, jobId);
+            latchObject.put(FILES, fileEntries);
+
+            RetryMongoCommand retry = new RetryMongoCommand() {
+
+                @Override
+                public Object execute() {
+                    batchJobMongoTemplate.getCollection(FILE_ENTRY_LATCH).insert(latchObject, WriteConcern.SAFE);
+                    return null;
+                }
+            };
+
+            retry.executeOperation(numberOfRetries);
+
+        } catch (MongoException me) {
+            if (me.getCode() == DUP_KEY_CODE) {
+                LOG.debug(me.getMessage());
+            }
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public boolean isDryRun(String jobId) {
+        Map<String, String> batchProperties = getBatchProperties(jobId);
+        for (Entry<String, String> property : batchProperties.entrySet()) {
+            if(property.getKey().equals(AttributeType.DRYRUN.getName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Map<String, String> getBatchProperties(String jobId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("_id").is(jobId));
+        NewBatchJob job = batchJobMongoTemplate.findOne(query, NewBatchJob.class);
+        return job.getBatchProperties();
     }
 }

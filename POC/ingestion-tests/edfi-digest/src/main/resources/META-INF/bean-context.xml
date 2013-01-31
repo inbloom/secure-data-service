@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <bean id="uuidGenerator" class="org.apache.camel.impl.ActiveMQUuidGenerator" />
+
+  <bean id="staxEntity" class="test.camel.support.stax.StAXAntPathBuilder"
+    factory-method="stax">
+    <constructor-arg name="antPath" value="/Interchange*/*" />
+    <constructor-arg name="group" value="50" />
+  </bean>
+
+  <bean id="jmsConnectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory">
+    <property name="brokerURL" value="tcp://localhost:61616" />
+  </bean>
+  <!--
+  <bean id="cachedConnectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
+    <property name="targetConnectionFactory" ref="jmsConnectionFactory" />
+    <property name="sessionCacheSize" value="50" />
+  </bean>
+  -->
+  <bean id="pooledConnectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory" destroy-method="stop">
+    <property name="maxConnections" value="25" />
+    <property name="maximumActive" value="500" />
+    <property name="connectionFactory" ref="jmsConnectionFactory" />
+  </bean>
+
+  <bean id="jmsConfig" class="org.apache.camel.component.jms.JmsConfiguration">
+    <property name="connectionFactory" ref="pooledConnectionFactory" />
+    <property name="transacted" value="false" />
+    <property name="concurrentConsumers" value="50" />
+    <property name="cacheLevelName" value="CACHE_CONNECTION" />
+  </bean>
+
+  <bean id="jmsTxConfig" parent="jmsConfig">
+    <property name="transacted" value="true" />
+    <property name="transactionManager" ref="jmsTransactionManager"/>
+  </bean>
+
+  <bean id="activemq" class="org.apache.activemq.camel.component.ActiveMQComponent">
+    <property name="configuration" ref="jmsConfig" />
+  </bean>
+
+  <bean id="activemqTx" class="org.apache.activemq.camel.component.ActiveMQComponent">
+    <property name="configuration" ref="jmsTxConfig" />
+  </bean>
+
+  <bean id="jmsTransactionManager" class="org.springframework.jms.connection.JmsTransactionManager">
+    <property name="connectionFactory" ref="pooledConnectionFactory" />
+  </bean>
+
+  <bean id="damn" class="java.lang.Exception" />
+
+  <bean id="wait" class="test.WaitProcessor" />
+  
+  <bean id="idGenerator" class="org.apache.camel.impl.JavaUuidGenerator" />
+
+  <bean id="controlFileValidator" class="test.camel.support.ControlFileValidator" />
+
+  <bean id="zipFileValidator" class="test.camel.support.zip.ZipFileValidator" />
+
+  <bean id="zipExtractor" class="test.camel.support.zip.ZipFileSplitterBuilder"
+    factory-method="unzip">
+  </bean>
+  
+</beans>

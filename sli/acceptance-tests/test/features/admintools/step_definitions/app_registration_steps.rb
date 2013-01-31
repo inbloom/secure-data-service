@@ -409,7 +409,7 @@ When /^I click on the In Progress button$/ do
   ed_org = build_edorg("Some District", "developer-email@slidev.org", @mongo_ids.first, "WaffleDistrict", true)
   @mongo_ids << db.insert(ed_org)
   ed_org = build_edorg("Some School", "developer-email@slidev.org", @mongo_ids[1], "WaffleSchool", false)
-  @mongo_ids << db.insert(ed_org)
+  @mongo_ids << db.insert(ed_org, opts = {:safe => true})
   step 'I clicked on the button Edit for the application "NewApp"'
   db.remove()
 end

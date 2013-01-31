@@ -15,16 +15,17 @@ import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.XMLEvent;
 
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
+
 @Component
 public class StreamingLoader {
-	public static final Logger log = LoggerFactory.getLogger(StreamingLoader.class);
+	public static final Logger LOG = LoggerFactory.getLogger(StreamingLoader.class);
 
 	@Resource(name = "mongoEntityRepository")
 	private Repository<Entity> repo;
@@ -42,7 +43,9 @@ public class StreamingLoader {
 		XMLEventReader r = XMLInputFactory.newInstance().createXMLEventReader(reader);
 
 		XMLEvent root;
-		while ((root = r.nextEvent()).getEventType() != XMLEvent.START_ELEMENT);
+		while ((root = r.nextEvent()).getEventType() != XMLEvent.START_ELEMENT) {
+			;
+		}
 		String rootNodeName = extractName(root);
 
 		StopWatch sw = new StopWatch();
@@ -56,11 +59,11 @@ public class StreamingLoader {
 				sw.start();
 				repo.create(extractName(e), va.adapt(entity));
 				sw.stop();
-				log.debug("Saved entity: {}",extractName(e));
+				LOG.debug("Saved entity: {}",extractName(e));
 			}
 		}
 
-		log.info("Total mongo time:" + sw.getTotalTimeMillis());
+		LOG.info("Total mongo time:" + sw.getTotalTimeMillis());
 	}
 
 	@SuppressWarnings({ "unchecked", "serial" })
@@ -102,7 +105,7 @@ public class StreamingLoader {
 					result.put(a.getName().getLocalPart(), a.getValue());
 				}
 
-				log.debug("Processing: {}", elementName);
+				LOG.debug("Processing: {}", elementName);
 				if (tp.isComplexType(elementName)) {
 					result.put(elementName, parseMap(r, elementName));
 				} else {
@@ -122,7 +125,7 @@ public class StreamingLoader {
 
 		return result;
 	}
-	
+
 	private String extractName(XMLEvent e) {
 		String result = "";
 		if (e.getEventType() == XMLEvent.END_ELEMENT) {

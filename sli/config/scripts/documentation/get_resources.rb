@@ -4,6 +4,7 @@ require 'json'
 require 'rest-client'
 
 $namespace_files = {}
+$generated_ids = []
 
 # use $known_ids to tell the script to get a specific ID instead of the 1-part
 # URL. This is for the context re-writing.
@@ -257,10 +258,18 @@ end
 
 def print_response(namespace, endpoint, response)
   endpoint_id = "ex-" + namespace + endpoint.gsub("/", "-").gsub("{", "").gsub("}", "").gsub(".", "_")
-  url = $base_url_replace + "/" + namespace + endpoint
-  output = $template % [endpoint_id, endpoint, "GET " + url, response]
 
-  get_namespace_file(namespace).puts(output)
+  if !$generated_ids.include? endpoint_id
+    $generated_ids << endpoint_id
+
+    url = $base_url_replace + "/" + namespace + endpoint
+    output = $template % [endpoint_id, endpoint, "GET " + url, response]
+
+    get_namespace_file(namespace).puts(output)
+  else
+    $stderr.puts "Skipping previously generated endpoint: #{endpoint_id}"
+  end
+
 end
 
 

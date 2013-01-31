@@ -45,14 +45,24 @@ import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.elasticsearch.search.query.FromParseElement;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.representation.CustomStatus;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.api.security.resolve.RolesToRightsResolver;
 import org.slc.sli.api.security.resolve.UserLocator;
@@ -66,13 +76,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
 
 /**
  * Process SAML assertions
@@ -114,14 +117,17 @@ public class SamlFederationResource {
     @Autowired
     @Value("${sli.sandbox.enabled}")
     private boolean sandboxEnabled;
-    
+
     @Autowired
     private RealmHelper realmHelper;
-    
+
     @Context
     private HttpServletRequest httpServletRequest;
 
     private String metadata;
+
+    @Autowired
+    private SecurityEventBuilder securityEventBuilder;
 
     @SuppressWarnings("unused")
     @PostConstruct
@@ -250,10 +256,10 @@ public class SamlFederationResource {
         String sandboxTenant = null; //for developers coming from developer realm
         String realmTenant = (String) realm.getBody().get("tenantId");
         String samlTenant = attributes.getFirst("tenant");
-        
+
         Boolean isAdminRealm = (Boolean) realm.getBody().get("admin");
         isAdminRealm = (isAdminRealm != null) ? isAdminRealm : Boolean.FALSE;
-        
+
         Boolean isDevRealm = (Boolean) realm.getBody().get("developer");
         isDevRealm = (isDevRealm != null) ? isDevRealm : Boolean.FALSE;
         if (isAdminRealm && sandboxEnabled) {
@@ -265,12 +271,12 @@ public class SamlFederationResource {
             if (isAdminRealm){
                 tenant = null; //operator admin
             }else{
-                //impersonation login, require tenant in the saml 
+                //impersonation login, require tenant in the saml
                 if(samlTenant != null) {
                     tenant = samlTenant;
                 }else{
                     error("Attempted login by a user in sandbox mode but no tenant was specified in the saml message.");
-                    throw new AccessDeniedException("Invalid user configuration."); 
+                    throw new AccessDeniedException("Invalid user configuration.");
                 }
             }
         } else if(isAdminRealm){
@@ -279,7 +285,7 @@ public class SamlFederationResource {
         } else if (isDevRealm) {
             //Prod mode, developer login
             tenant = null;
-            sandboxTenant = samlTenant; 
+            sandboxTenant = samlTenant;
             samlTenant = null;
         } else {
             //regular IDP login
@@ -287,7 +293,7 @@ public class SamlFederationResource {
         }
 
         debug("Authenticating user is an admin: " + isAdminRealm);
-        principal = users.locate(tenant, attributes.getFirst("userId"));
+        principal = users.locate(tenant, attributes.getFirst("userId"), attributes.getFirst("userType"));
         String userName = getUserNameFromEntity(principal.getEntity());
         if (userName != null) {
             principal.setName(userName);
@@ -355,7 +361,7 @@ public class SamlFederationResource {
                         principal.getTenantId());
             }
         }
-        
+
         if (sandboxTenant != null && isDevRealm) {
             principal.setSandboxTenant(sandboxTenant);
         }
@@ -376,11 +382,48 @@ public class SamlFederationResource {
         ObjectMapper jsoner = new ObjectMapper();
         Map<String, Object> mapForm = jsoner.convertValue(principal, Map.class);
         mapForm.remove("entity");
+        if (!mapForm.containsKey("userType")) {
+            mapForm.put("userType", EntityNames.STAFF);
+        }
         session.getBody().put("principal", mapForm);
         sessionManager.updateSession(session);
 
         String authorizationCode = (String) code.get("value");
         Object state = appSession.get("state");
+
+        SecurityEvent successfulLogin = securityEventBuilder.createSecurityEvent(this.getClass().getName(), uriInfo.getRequestUri(), "");
+        successfulLogin.setTenantId(principal.getTenantId());
+        successfulLogin.setTargetEdOrg(principal.getEdOrg());
+        successfulLogin.setOrigin(httpServletRequest.getRemoteHost()+ ":" + httpServletRequest.getRemotePort());
+        successfulLogin.setCredential(authorizationCode);
+        successfulLogin.setUserOrigin(httpServletRequest.getRemoteHost()+ ":" + httpServletRequest.getRemotePort());
+        successfulLogin.setLogLevel(LogLevelType.TYPE_INFO);
+        successfulLogin.setRoles(principal.getRoles());
+
+        String applicationDetails = null;
+        if(appSession != null){
+            String clientId = (String)appSession.get("clientId");
+            if(clientId != null) {
+                NeutralQuery appQuery = new NeutralQuery();
+                appQuery.setOffset(0);
+                appQuery.setLimit(1);
+                appQuery.addCriteria(new NeutralCriteria("client_id", "=", clientId));
+                Entity application = repo.findOne("application", appQuery);
+                if(application != null) {
+                    Map<String, Object> body = application.getBody();
+                    if (body != null) {
+                        String name                = (String) body.get("name");
+                        String createdBy           = (String) body.get("created_by");
+                        successfulLogin.setAppId(name+"," + clientId);
+                        applicationDetails         = String.format("%s by %s", name, createdBy);
+                    }
+                }
+            }
+        }
+        successfulLogin.setUser(principal.getExternalId());
+        successfulLogin.setLogMessage(principal.getExternalId() + " from tenant " + tenant + " logged successfully into " + applicationDetails + ".");
+
+                audit(successfulLogin);
 
         if (isInstalled) {
             Map<String, Object> resultMap = new HashMap<String, Object>();

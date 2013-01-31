@@ -80,6 +80,9 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | courseTranscript                      |
         | teacherSchoolAssociation              |
         | teacherSectionAssociation             |
+  And the following collections are empty in sli datastore:
+        | collectionName                        |
+        | securityEvent                         |
   When zip file is scp to ingestion landing zone
   And a batch job for file "StoriedDataSet_IL_Daybreak.zip" is completed in database
 
@@ -125,6 +128,9 @@ Then I should see following map of entry counts in the corresponding collections
         | courseTranscript            | 196   |
         | teacherSchoolAssociation    | 3     |
         | teacherSectionAssociation   | 11    |
+   Then I should see following map of entry counts in the corresponding sli db collections:
+        | collectionName              | count |
+        | securityEvent               | 120   |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | assessment                  | 1                   | body.assessmentItem.0.correctResponse          | False            | string  |
@@ -663,7 +669,7 @@ Then I should see following map of entry counts in the corresponding collections
        | educationOrganization       | 1                   | body.stateOrganizationId | IL-SUNSET                  | string               |
        | educationOrganization       | 1                   | body.stateOrganizationId | IL                         | string               |
 
-    And I should see "Processed 342 records." in the resulting batch job file
+    And I should see "Processed 343 records." in the resulting batch job file
     #TODO - this test data generates a warn file
     #And I should not see a warning log file created
     And I should not see an error log file created
@@ -673,8 +679,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeEducationOrganization.xml records considered: 3" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records ingested successfully: 3" in the resulting batch job file
     And I should see "InterchangeEducationOrganization.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeEducationOrgCalendar.xml records considered: 2" in the resulting batch job file
-    And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 2" in the resulting batch job file
+    And I should see "InterchangeEducationOrgCalendar.xml records considered: 3" in the resulting batch job file
+    And I should see "InterchangeEducationOrgCalendar.xml records ingested successfully: 3" in the resulting batch job file
     And I should see "InterchangeEducationOrgCalendar.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records considered: 4" in the resulting batch job file
     And I should see "InterchangeMasterSchedule.xml records ingested successfully: 4" in the resulting batch job file
