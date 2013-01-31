@@ -168,9 +168,7 @@ public class MongoTrackingAspect {
 
     private void trackCallStatistics(String db, String function, String collection, long start, long elapsed) {
         String jobId = TenantContext.getJobId();
-        if (jobId == null) {
-            LOG.debug("JOBID_NULL"); 
-        }
+
         if (jobId != null) {
             long trackingInt = Long.valueOf(trackingInterval) * 1000;
             if (trackingInt <= 0) {
