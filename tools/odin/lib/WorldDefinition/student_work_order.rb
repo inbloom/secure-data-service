@@ -282,7 +282,7 @@ class StudentWorkOrder
                 student_competencies << student_competency
                 rval << student_competency
               }
-              rval << course_transcript(school_id, session, course_offering)
+              rval << course_transcript(school_id, session, course_offering, grade, final_grade)
             end
           }
           grading_period = GradingPeriod.new(:END_OF_YEAR, session['year'], session['interval'], session['edOrgId'], [])
@@ -295,8 +295,8 @@ class StudentWorkOrder
     rval
   end
 
-  def course_transcript(school_id, session, course_id)
-    CourseTranscript.new(@id, school_id, course_id, session)
+  def course_transcript(school_id, session, course_id, grade, final_grade)
+    CourseTranscript.new(@id, school_id, course_id, session, grade, final_grade)
   end
 
   def academic_record(report_card, session)

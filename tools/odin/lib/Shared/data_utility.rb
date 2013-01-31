@@ -53,7 +53,11 @@ class DataUtility
 
   # create course's unique id
   def self.get_course_unique_id(id)
-    id
+    if id.is_a? Hash
+      id["id"]
+    else
+      id 
+    end
   end
 
   # get course title
@@ -159,5 +163,5 @@ class DataUtility
     frac = f - f.floor
     return frac == 0 ? f : (frac < prng.rand  ? f.floor : f.floor + 1)
   end
-  
+
 end
