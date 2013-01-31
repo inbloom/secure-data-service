@@ -159,5 +159,21 @@ class DataUtility
     frac = f - f.floor
     return frac == 0 ? f : (frac < prng.rand  ? f.floor : f.floor + 1)
   end
-  
+
+  # translates the numeric grade into a letter grade
+  def self.get_letter_grade_from_number(number)
+    return "A+" if number >= 97
+    return "A"  if number >= 93
+    return "A-" if number >= 90
+    return "B+" if number >= 87
+    return "B"  if number >= 83
+    return "B-" if number >= 80
+    return "C+" if number >= 77
+    return "C"  if number >= 73
+    return "C-" if number >= 70
+    return "D+" if number >= 67
+    return "D"  if number >= 63
+    return "D-" if number >= 60
+    return "F"
+  end  
 end

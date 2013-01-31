@@ -21,7 +21,13 @@ limitations under the License.
     {{#number_grade}}
     <NumericGradeEarned>{{number_grade}}</NumericGradeEarned>
     {{/number_grade}}
+    {{#diagnostic}}
+    <DiagnosticStatement>{{diagnostic}}</DiagnosticStatement>
+    {{/diagnostic}}
     <GradeType>{{type}}</GradeType>
+    {{#performance}}
+    <PerformanceBaseConversion>{{performance_base}}</PerformanceBaseConversion>
+    {{/performance}}
     {{#student_section_association}}
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>

@@ -54912,7 +54912,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
     <NumericGradeEarned>73</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -54937,7 +54939,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
     <NumericGradeEarned>74</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -54962,7 +54966,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
     <NumericGradeEarned>76</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -54987,7 +54993,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
     <NumericGradeEarned>73</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55012,7 +55020,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
     <NumericGradeEarned>75</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55037,7 +55047,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
     <NumericGradeEarned>76</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55062,7 +55074,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>B-</LetterGradeEarned>
     <NumericGradeEarned>80</NumericGradeEarned>
+    <DiagnosticStatement>Student has Proficient understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Proficient</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55087,7 +55101,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
     <NumericGradeEarned>79</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55112,7 +55128,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>B-</LetterGradeEarned>
     <NumericGradeEarned>81</NumericGradeEarned>
+    <DiagnosticStatement>Student has Proficient understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Proficient</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55137,7 +55155,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
     <NumericGradeEarned>73</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55162,7 +55182,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
     <NumericGradeEarned>76</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55187,7 +55209,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
     <NumericGradeEarned>79</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55212,7 +55236,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
     <NumericGradeEarned>79</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55237,7 +55263,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
     <NumericGradeEarned>77</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55262,7 +55290,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
     <NumericGradeEarned>77</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55287,7 +55317,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C-</LetterGradeEarned>
     <NumericGradeEarned>71</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55312,7 +55344,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
     <NumericGradeEarned>78</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55337,7 +55371,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>B-</LetterGradeEarned>
     <NumericGradeEarned>80</NumericGradeEarned>
+    <DiagnosticStatement>Student has Proficient understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Proficient</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55362,7 +55398,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>B-</LetterGradeEarned>
     <NumericGradeEarned>80</NumericGradeEarned>
+    <DiagnosticStatement>Student has Proficient understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Proficient</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55387,7 +55425,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
     <NumericGradeEarned>79</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55412,7 +55452,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
     <NumericGradeEarned>74</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55437,7 +55479,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C-</LetterGradeEarned>
     <NumericGradeEarned>70</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55462,7 +55506,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
     <NumericGradeEarned>76</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55487,7 +55533,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
     <NumericGradeEarned>76</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55512,7 +55560,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
     <NumericGradeEarned>79</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55537,7 +55587,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C-</LetterGradeEarned>
     <NumericGradeEarned>72</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55562,7 +55614,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>B-</LetterGradeEarned>
     <NumericGradeEarned>80</NumericGradeEarned>
+    <DiagnosticStatement>Student has Proficient understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Proficient</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55587,7 +55641,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>B-</LetterGradeEarned>
     <NumericGradeEarned>82</NumericGradeEarned>
+    <DiagnosticStatement>Student has Proficient understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Proficient</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55612,7 +55668,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
     <NumericGradeEarned>78</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55637,7 +55695,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C-</LetterGradeEarned>
     <NumericGradeEarned>71</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55662,7 +55722,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
     <NumericGradeEarned>74</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55687,7 +55749,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C-</LetterGradeEarned>
     <NumericGradeEarned>72</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55712,7 +55776,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
     <NumericGradeEarned>79</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55737,7 +55803,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
     <NumericGradeEarned>79</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55762,7 +55830,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
     <NumericGradeEarned>77</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55787,7 +55857,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
     <NumericGradeEarned>74</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55812,7 +55884,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
     <NumericGradeEarned>79</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55837,7 +55911,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
     <NumericGradeEarned>79</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55862,7 +55938,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
     <NumericGradeEarned>76</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55887,7 +55965,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
     <NumericGradeEarned>73</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55912,7 +55992,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
     <NumericGradeEarned>76</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55937,7 +56019,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
     <NumericGradeEarned>77</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55962,7 +56046,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
     <NumericGradeEarned>76</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -55987,7 +56073,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
     <NumericGradeEarned>78</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -56012,7 +56100,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
     <NumericGradeEarned>74</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -56037,7 +56127,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
     <NumericGradeEarned>73</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -56062,7 +56154,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
     <NumericGradeEarned>76</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -56087,7 +56181,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
     <NumericGradeEarned>77</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -87554,7 +87650,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
     <NumericGradeEarned>79</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -87579,7 +87677,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
     <NumericGradeEarned>78</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -87604,7 +87704,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
     <NumericGradeEarned>74</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -87629,7 +87731,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>B-</LetterGradeEarned>
     <NumericGradeEarned>80</NumericGradeEarned>
+    <DiagnosticStatement>Student has Proficient understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Proficient</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -87654,7 +87758,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C-</LetterGradeEarned>
     <NumericGradeEarned>70</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -87679,7 +87785,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>B-</LetterGradeEarned>
     <NumericGradeEarned>81</NumericGradeEarned>
+    <DiagnosticStatement>Student has Proficient understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Proficient</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -87704,7 +87812,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C-</LetterGradeEarned>
     <NumericGradeEarned>72</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -87729,7 +87839,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
     <NumericGradeEarned>78</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -87754,7 +87866,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
     <NumericGradeEarned>79</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -87779,7 +87893,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C-</LetterGradeEarned>
     <NumericGradeEarned>71</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -87804,7 +87920,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
     <NumericGradeEarned>79</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -87829,7 +87947,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
     <NumericGradeEarned>73</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -87854,7 +87974,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
     <NumericGradeEarned>76</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -87879,7 +88001,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C-</LetterGradeEarned>
     <NumericGradeEarned>70</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -87904,7 +88028,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
     <NumericGradeEarned>78</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -87929,7 +88055,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
     <NumericGradeEarned>74</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -87954,7 +88082,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>B-</LetterGradeEarned>
     <NumericGradeEarned>80</NumericGradeEarned>
+    <DiagnosticStatement>Student has Proficient understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Proficient</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -87979,7 +88109,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C-</LetterGradeEarned>
     <NumericGradeEarned>70</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -88004,7 +88136,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
     <NumericGradeEarned>78</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -88029,7 +88163,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
     <NumericGradeEarned>78</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -88054,7 +88190,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C+</LetterGradeEarned>
     <NumericGradeEarned>77</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -88079,7 +88217,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
     <NumericGradeEarned>73</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -88104,7 +88244,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>B</LetterGradeEarned>
     <NumericGradeEarned>83</NumericGradeEarned>
+    <DiagnosticStatement>Student has Proficient understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Proficient</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -88129,7 +88271,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>B-</LetterGradeEarned>
     <NumericGradeEarned>80</NumericGradeEarned>
+    <DiagnosticStatement>Student has Proficient understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Proficient</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -88154,7 +88298,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>B-</LetterGradeEarned>
     <NumericGradeEarned>81</NumericGradeEarned>
+    <DiagnosticStatement>Student has Proficient understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Proficient</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -88179,7 +88325,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
     <NumericGradeEarned>74</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>
@@ -88204,7 +88352,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <Grade>
     <LetterGradeEarned>C</LetterGradeEarned>
     <NumericGradeEarned>74</NumericGradeEarned>
+    <DiagnosticStatement>Student has Basic understanding of subject.</DiagnosticStatement>
     <GradeType>Final</GradeType>
+    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
     <StudentSectionAssociationReference>
       <StudentSectionAssociationIdentity>
         <StudentReference>

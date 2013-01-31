@@ -370,7 +370,7 @@ class StudentWorkOrder
         numeric += (weight * average).floor
       end
     end
-    return Grade.new(get_letter_grade_from_number(numeric), numeric, :FINAL, get_student_section_association(school_id, section_id, session['interval'].get_begin_date))
+    return Grade.new(DataUtility.get_letter_grade_from_number(numeric), numeric, :FINAL, get_student_section_association(school_id, section_id, session['interval'].get_begin_date))
   end
 
   # translates the attributes for the student section association into a map (with values that mustache templates will recognize/expect)
@@ -381,25 +381,8 @@ class StudentWorkOrder
   # generates a grade (letter and numeric) for a student gradebook entry
   def get_grade_for_gradebook_entry
     number = DataUtility.select_random_from_options(@rand, (55..100).to_a)
-    letter = get_letter_grade_from_number(number)
+    letter = DataUtility.get_letter_grade_from_number(number)
     return letter, number
-  end
-
-  # translates the numeric grade into a letter grade
-  def get_letter_grade_from_number(number)
-    return "A+" if number >= 97
-    return "A"  if number >= 93
-    return "A-" if number >= 90
-    return "B+" if number >= 87
-    return "B"  if number >= 83
-    return "B-" if number >= 80
-    return "C+" if number >= 77
-    return "C"  if number >= 73
-    return "C-" if number >= 70
-    return "D+" if number >= 67
-    return "D"  if number >= 63
-    return "D-" if number >= 60
-    return "F"
   end
 
   def graduation_plan(school_type)
