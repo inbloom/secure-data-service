@@ -491,7 +491,8 @@ public class UriMutator {
                 || ResourceNames.LEARNINGSTANDARDS.equals(resource)
                 || ResourceNames.ASSESSMENTS.equals(resource)
                 || ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(resource)
-                || ResourceNames.STUDENT_COMPETENCY_OBJECTIVES.equals(resource)) {
+                || ResourceNames.STUDENT_COMPETENCY_OBJECTIVES.equals(resource)
+                || ResourceNames.SESSIONS.equals(resource)) {
             mutated.setPath("/" + ResourceNames.SEARCH + "/" + resource);
             Map<String, String> mutatedHeaders = new HashMap<String, String>();
             mutatedHeaders.put("Content-Type", "application/vnd.slc.search.full+json");
@@ -573,10 +574,7 @@ public class UriMutator {
             mutated.setPath(String.format("/teachers/%s/teacherSectionAssociations/sections", user.getEntityId()));
         } else if (ResourceNames.SCHOOLS.equals(resource)) {
             mutated.setPath(String.format("/teachers/%s/teacherSchoolAssociations/schools", user.getEntityId())); //teachers/id/teacherschoolassociations/schools
-        } else if (ResourceNames.SESSIONS.equals(resource)) {
-            mutated.setPath(String.format("/educationOrganizations/%s/sessions",
-                    StringUtils.join(edOrgHelper.getFilteredDirectEdorgs(user), ",")));
-        } else if (ResourceNames.STAFF.equals(resource)) {
+       }else if (ResourceNames.STAFF.equals(resource)) {
             mutated.setPath(String.format("/educationOrganizations/%s/staffEducationOrgAssignmentAssociations/staff",
                     StringUtils.join(edOrgHelper.getFilteredDirectEdorgs(user), ",")));
         } else if (ResourceNames.STAFF_COHORT_ASSOCIATIONS.equals(resource)) {
