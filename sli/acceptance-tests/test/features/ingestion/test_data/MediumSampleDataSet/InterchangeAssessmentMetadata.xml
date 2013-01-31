@@ -163,6 +163,14 @@
 				<IdentificationCode>lstd1</IdentificationCode>
 			</LearningStandardIdentity>
 		</LearningStandardReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>as0Title</AssessmentTitle>
+				<AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+				<GradeLevelAssessed>Adult Education</GradeLevelAssessed>
+				<Version>1</Version>
+			</AssessmentIdentity>
+		</AssessmentReference>
 	</ObjectiveAssessment>
 	<AssessmentPeriodDescriptor>
 		<CodeValue>apd0</CodeValue>

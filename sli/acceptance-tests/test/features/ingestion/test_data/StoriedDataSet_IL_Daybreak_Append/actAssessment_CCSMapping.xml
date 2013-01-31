@@ -79,6 +79,13 @@
                 <ObjectiveAssessmentIdentificationCode>ACT-English-Rhetorical</ObjectiveAssessmentIdentificationCode>
             </ObjectiveAssessmentIdentity>
         </ObjectiveAssessmentReference>
+        <AssessmentReference>
+                <AssessmentIdentity>
+                        <AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
     </ObjectiveAssessment>
     <ObjectiveAssessment>
         <IdentificationCode>ACT-English-Usage</IdentificationCode>
@@ -103,10 +110,24 @@
                 <ObjectiveAssessmentIdentificationCode>ACT-Math-Plane-Geometry</ObjectiveAssessmentIdentificationCode>
             </ObjectiveAssessmentIdentity>
         </ObjectiveAssessmentReference>
+        <AssessmentReference>
+                <AssessmentIdentity>
+                        <AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
     </ObjectiveAssessment>
     <ObjectiveAssessment>
         <IdentificationCode>ACT-Math-Pre-Algebra</IdentificationCode>
         <AssessmentItemReference/>
+        <AssessmentReference>
+                <AssessmentIdentity>
+                        <AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
     </ObjectiveAssessment>
     <ObjectiveAssessment>
         <IdentificationCode>ACT-Math-Algebra</IdentificationCode>
@@ -114,6 +135,13 @@
 		<AssessmentItemReference></AssessmentItemReference>
 		<AssessmentItemReference></AssessmentItemReference>
 -->
+        <AssessmentReference>
+                <AssessmentIdentity>
+                        <AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
     </ObjectiveAssessment>
     <ObjectiveAssessment>
         <IdentificationCode>ACT-Math-Plane-Geometry</IdentificationCode>
@@ -127,6 +155,13 @@
                 <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
+        <AssessmentReference>
+                <AssessmentIdentity>
+                        <AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
     </ObjectiveAssessment>
     <AssessmentItem>
 		<AssessmentReference>
@@ -229,6 +264,13 @@
                 <ObjectiveAssessmentIdentificationCode>ACT-Reading-Arts</ObjectiveAssessmentIdentificationCode>
             </ObjectiveAssessmentIdentity>
         </ObjectiveAssessmentReference>
+        <AssessmentReference>
+                <AssessmentIdentity>
+                        <AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
     </ObjectiveAssessment>
     <ObjectiveAssessment>
         <IdentificationCode>ACT-Reading-SocialStudies</IdentificationCode>
@@ -239,6 +281,13 @@
                 <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
+        <AssessmentReference>
+                <AssessmentIdentity>
+                        <AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
     </ObjectiveAssessment>
     <ObjectiveAssessment>
         <IdentificationCode>ACT-Reading-Arts</IdentificationCode>
@@ -249,11 +298,32 @@
                 <ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
+        <AssessmentReference>
+                <AssessmentIdentity>
+                        <AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
     </ObjectiveAssessment>
     <ObjectiveAssessment>
         <IdentificationCode>ACT-Science</IdentificationCode>
+        <AssessmentReference>
+                <AssessmentIdentity>
+                        <AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
     </ObjectiveAssessment>
     <ObjectiveAssessment>
         <IdentificationCode>ACT-Writing</IdentificationCode>
+        <AssessmentReference>
+                <AssessmentIdentity>
+                        <AssessmentTitle>ACT</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version>
+            </AssessmentIdentity>
+        </AssessmentReference>
     </ObjectiveAssessment>
 </InterchangeAssessmentMetadata>

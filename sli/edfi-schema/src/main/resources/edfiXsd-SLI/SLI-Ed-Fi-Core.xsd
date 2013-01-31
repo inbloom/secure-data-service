@@ -508,6 +508,7 @@
 					<xs:element name="LearningObjectiveReference" type="SLC-LearningObjectiveReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="LearningStandardReference" type="SLC-LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="ObjectiveAssessmentReference" type="SLC-ObjectiveAssessmentReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="AssessmentReference" type="SLC-AssessmentReferenceType"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
