@@ -156,6 +156,18 @@ public class ValidatorTestHelper {
     public String generateStudentAndStudentSchoolAssociation(String studentId, String schoolId, boolean isExpired) {
         return generateStudentAndStudentSchoolAssociation(studentId, schoolId, null, isExpired);
     }
+    
+    public Entity generateStudent() {
+        Map<String, Object> student = new HashMap<String, Object>();
+        student.put("studentUniqueStateId", "BLAH");
+        student.put("sex", "Female");
+        Map<String, Object> birthDate = new HashMap<String, Object>();
+        birthDate.put("birthDate", "2003-04-03");
+        student.put("birthData", birthDate);
+        student.put("hispanicLatinoEthnicity", false);
+        Entity entity = repo.create(EntityNames.STUDENT, student);
+        return entity;
+    }
 
     public String generateStudentAndStudentSchoolAssociation(String studentId, String schoolId,
             String graduationPlanId, boolean isExpired) {
@@ -189,7 +201,7 @@ public class ValidatorTestHelper {
         return createdStudentId;
     }
 
-    public String generateStudentSchoolAssociation(String studentId, String schoolId, String graduationPlanId,
+    public Entity generateStudentSchoolAssociation(String studentId, String schoolId, String graduationPlanId,
             boolean isExpired) {
         Map<String, Object> association = new HashMap<String, Object>();
         association.put(ParameterConstants.STUDENT_ID, studentId);
@@ -199,7 +211,7 @@ public class ValidatorTestHelper {
         association.put("graduationPlanId", graduationPlanId);
         expireStudentSchoolAssociation(isExpired, association);
         Entity created = repo.create(EntityNames.STUDENT_SCHOOL_ASSOCIATION, association);
-        return created.getEntityId();
+        return created;
     }
 
     private void expireStudentSchoolAssociation(boolean isExpired, Map<String, Object> body) {
@@ -363,7 +375,7 @@ public class ValidatorTestHelper {
         injector.setCustomContext(user, fullName, "DERPREALM", roles, entity, ED_ORG_ID);
     }
 
-    protected void resetRepo() throws Exception {
+    public void resetRepo() throws Exception {
         Field[] fields = EntityNames.class.getDeclaredFields();
 
         for (Field f : fields) {
