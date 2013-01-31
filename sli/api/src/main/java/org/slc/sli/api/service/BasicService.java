@@ -648,7 +648,10 @@ public class BasicService implements EntityService {
      */
     @SuppressWarnings("unchecked")
     private void checkAccess(Object right, String entityId) {
-
+    	if (isSelf(entityId)) {
+    		
+    	}
+    	
         // Check that user has the needed right(s)
         if (right instanceof Right) {
             checkRights((Right) right);
@@ -670,6 +673,12 @@ public class BasicService implements EntityService {
                 throw new AccessDeniedException("No association between the user and target entity");
             }
         }
+    }
+    
+    private boolean isSelf(String entityId) {
+    	SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
+    	String curId = principal.getEntity().getEntityId();
+    	return curId.equals(entityId);
     }
 
     /**

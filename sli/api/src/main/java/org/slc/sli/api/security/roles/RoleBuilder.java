@@ -57,13 +57,15 @@ public final class RoleBuilder {
     }
 
     public RoleBuilder addGrantedAuthorities(List<String> auths) {
-        for (String rightName : auths) {
-            try {
-                role.addRight(Right.valueOf(rightName));
-            } catch (IllegalArgumentException e) {
-                warn("No such right: {}", rightName);
-            }
-        }
+		if (auths != null) {
+			for (String rightName : auths) {
+				try {
+					role.addRight(Right.valueOf(rightName));
+				} catch (IllegalArgumentException e) {
+					warn("No such right: {}", rightName);
+				}
+			}
+		}
         return this;
     }
 
