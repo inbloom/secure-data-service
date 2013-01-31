@@ -26,6 +26,8 @@ import java.util.Stack;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
+import javax.xml.stream.events.Characters;
+import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 import javax.xml.stream.util.EventReaderDelegate;
 
@@ -54,21 +56,21 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
 
     Stack<Pair<String, Map<String, Object>>> complexTypeStack = new Stack<Pair<String, Map<String, Object>>>();
     String currentEntityName = null;
-    boolean currentEntityValid = true;
+    boolean currentEntityValid = false;
 
     public EdfiEventReaderDelegate(XMLEventReader reader) {
         super(reader);
     }
 
-    public EdfiEventReaderDelegate() {
-    }
+    public EdfiEventReaderDelegate() { }
 
     @Override
     public XMLEvent nextEvent() throws XMLStreamException {
         XMLEvent event = super.nextEvent();
+        String eventName = extractTagName(event);
 
-        String eventName = extractName(event);
-        if (!eventName.startsWith("interchange")) {
+
+        if (!eventName.startsWith("Interchange")) {
 
             if (complexTypeStack.isEmpty() && event.isStartElement()) {
                 initCurrentEntity(eventName);
@@ -87,70 +89,77 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
         return event;
     }
 
-    @SuppressWarnings("unchecked")
     private void parseEvent(XMLEvent e) throws XMLStreamException {
 
-        String eventName = extractName(e);
+        String eventName = extractTagName(e);
 
         if (e.isStartElement()) {
 
-            // dump attributes
-            Iterator<Attribute> it = e.asStartElement().getAttributes();
-            while (it.hasNext()) {
-                Attribute a = it.next();
-                complexTypeStack.peek().getRight().put(a.getName().getLocalPart(), a.getValue());
-            }
+            parseStartElement(e.asStartElement(), eventName);
 
-            // don't process for root entity element - we already pushed it in initCurrentEntity
-            if (!currentEntityName.equals(eventName)) {
-                String localName = e.asStartElement().getName().getLocalPart();
+        } else if (e.isCharacters()) {
 
-                if (tp.isComplexType(localName)) {
-                    Pair<String, Map<String, Object>> subElement = new ImmutablePair<String, Map<String, Object>>(
-                            eventName, new InnerMap());
-                    complexTypeStack.peek().getRight().put(eventName, subElement.getRight());
-                    complexTypeStack.push(subElement);
-                } else {
-                    String value = null;
-                    try {
-                        value = (String) tp.convertType(localName, getElementText());
-                    } catch (XMLStreamException xse) {
-                        // help in debugging things that don't parse out nicely
-                        value = "could not parse text";
-                    }
-                    complexTypeStack.peek().getRight().put(eventName, value);
-                }
-            }
+            parseCharacters(e.asCharacters());
+
         } else if (e.isEndElement() && eventName.equals(complexTypeStack.peek().getLeft())) {
 
-            if (complexTypeStack.size() > 1) {
-                complexTypeStack.pop();
-            } else if (complexTypeStack.size() == 1) {
-                // completed parsing an entity
-                Map<String, Object> entity = complexTypeStack.pop().getRight();
+            parseEndElement();
+        }
+    }
 
-                LOG.info("Parsed entity: {} - {}", currentEntityName, entity);
-                currentEntityName = null;
-            }
+    @SuppressWarnings("unchecked")
+    private void parseStartElement(StartElement e, String eventName) {
+        // dump attributes
+        Iterator<Attribute> it = e.getAttributes();
+        while (it.hasNext()) {
+            Attribute a = it.next();
+            complexTypeStack.peek().getRight().put(a.getName().getLocalPart(), a.getValue());
+        }
+
+        // don't process for root entity element - we already pushed it in initCurrentEntity
+        if (!currentEntityName.equals(eventName)) {
+            Pair<String, Map<String, Object>> subElement = new ImmutablePair<String, Map<String, Object>>(eventName,
+                    new InnerMap());
+            complexTypeStack.peek().getRight().put(eventName, subElement.getRight());
+            complexTypeStack.push(subElement);
+        }
+    }
+
+    private void parseCharacters(Characters characters) {
+        if (!characters.isIgnorableWhiteSpace() && !characters.isWhiteSpace()) {
+            String text = characters.getData();
+            complexTypeStack.peek().getRight().put("_value", text);
+        }
+    }
+
+    private void parseEndElement() {
+        if (complexTypeStack.size() > 1) {
+            complexTypeStack.pop();
+        } else if (complexTypeStack.size() == 1) {
+            // completed parsing an entity
+            Map<String, Object> entity = complexTypeStack.pop().getRight();
+
+            LOG.info("Parsed entity: {} - {}", currentEntityName, entity);
+            currentEntityName = null;
         }
     }
 
     @Override
     public void warning(SAXParseException exception) throws SAXException {
         LOG.warn("Warning: ", exception);
-        currentEntityValid = false;
+        // currentEntityValid = false;
     }
 
     @Override
     public void error(SAXParseException exception) throws SAXException {
-        LOG.error("Error: ", exception);
-        currentEntityValid = false;
+        // LOG.error("Error: ", exception);
+        // currentEntityValid = false;
     }
 
     @Override
     public void fatalError(SAXParseException exception) throws SAXException {
-        LOG.error("FatalError: ", exception);
-        currentEntityValid = false;
+        // LOG.error("FatalError: ", exception);
+        // currentEntityValid = false;
     }
 
     private void initCurrentEntity(String eventName) {
@@ -180,17 +189,14 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
         }
     }
 
-    private static String extractName(XMLEvent e) {
+    private static String extractTagName(XMLEvent e) {
         String result = "";
         if (e.isEndElement()) {
-            result = lowerCaseFirst(e.asEndElement().getName().getLocalPart());
+            result = e.asEndElement().getName().getLocalPart();
         } else if (e.isStartElement()) {
-            result = lowerCaseFirst(e.asStartElement().getName().getLocalPart());
+            result = e.asStartElement().getName().getLocalPart();
         }
         return result;
     }
 
-    private static String lowerCaseFirst(String string) {
-        return Character.toLowerCase(string.charAt(0)) + (string.length() > 1 ? string.substring(1) : "");
-    }
 }
