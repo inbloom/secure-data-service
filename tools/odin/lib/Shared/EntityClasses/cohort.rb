@@ -21,9 +21,11 @@ require_relative "baseEntity.rb"
 # creates cohort
 class Cohort < BaseEntity
   attr_accessor :identifier, :description, :type, :scope, :subject, :ed_org_id, :programs
-  def initialize(id, ed_org_id, opts = {})
+  def initialize(id, ed_org_id, classification, program_id_count, opts = {})
     @identifier = id
     @ed_org_id = ed_org_id
+    @classification = classification
+    @program_id_count = program_id_count
     @opts = opts
   end
 
@@ -52,6 +54,11 @@ class Cohort < BaseEntity
               "Statewide"]))
     @subject = (@opts[:subject] or nil)
     @programs = (@opts[:programs] or [])
+
+    if(optional? && @subject.nil? && @programs.empty? && !@classification.nil? && !@program_id_count.nil?)
+      @subject = AcademicSubjectType.to_string(choose(AcademicSubjectType.send(@classification)))
+      @programs = [rand(@program_id_count)]
+    end
     self
   end
 
