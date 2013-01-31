@@ -64,4 +64,8 @@ class BaseEntity
     @rand.rand(2) == 1
   end
 
+  def optional?()
+    @rand.rand() > @@scenario['OPTIONAL_FIELD_LIKELYHOOD']
+  end
+
 end
