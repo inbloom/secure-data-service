@@ -37,9 +37,7 @@ public class MongoStat {
 
 
     private int dbHitCount;
-    // private List<List<Object>> stats = new ArrayList<List<Object>>(10000); 
     private List<String> stats = new ArrayList<String>(10000); 
-    private String requestId; 
 
     public MongoStat(int dbHitCount) {
         this.dbHitCount = dbHitCount;
@@ -63,9 +61,8 @@ public class MongoStat {
         dbHitCount++;
     }
     
-    public void startRequest(String reqestId) { 
+    public void startRequest() { 
         dbHitCount = 0; 
-        requestId = requestId;
         stats.clear();   
     }
     
@@ -80,9 +77,5 @@ public class MongoStat {
     
     public List<String> getStats() {
         return stats; 
-    }
-    
-    public String getRequestId() { 
-        return requestId; 
-    }
+    }    
 }
