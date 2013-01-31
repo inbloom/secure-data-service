@@ -80,6 +80,9 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | courseTranscript                      |
         | teacherSchoolAssociation              |
         | teacherSectionAssociation             |
+  And the following collections are empty in sli datastore:
+        | collectionName                        |
+        | securityEvent                         |
   When zip file is scp to ingestion landing zone
   And a batch job for file "StoriedDataSet_IL_Daybreak.zip" is completed in database
 
@@ -125,6 +128,9 @@ Then I should see following map of entry counts in the corresponding collections
         | courseTranscript            | 196   |
         | teacherSchoolAssociation    | 3     |
         | teacherSectionAssociation   | 11    |
+   Then I should see following map of entry counts in the corresponding sli db collections:
+        | collectionName              | count |
+        | securityEvent               | 120   |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
        | assessment                  | 1                   | body.assessmentItem.0.correctResponse          | False            | string  |

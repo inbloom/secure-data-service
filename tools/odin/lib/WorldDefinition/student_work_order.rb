@@ -155,8 +155,12 @@ class StudentWorkOrder
   private
 
   def parents(student)
-    [:mom, :dad].map{|type|
-      [Parent.new(student, type), StudentParentAssociation.new(student, type)]}.flatten
+    parents_per_student = DataUtility.rand_float_to_int(@rand, @scenario['PARENTS_PER_STUDENT'] || 2)
+    unless parents_per_student == 0
+      pp = parents_per_student > 1 ? [:mom, :dad] : [:mom]
+      pp.map{|type|
+        [Parent.new(student, type), StudentParentAssociation.new(student, type)]}.flatten
+    end
   end
 
   def per_year_info
@@ -243,40 +247,43 @@ class StudentWorkOrder
           code_values = (@scenario["COMPETENCY_LEVEL_DESCRIPTORS"] or []).collect{|competency_level_descriptor| competency_level_descriptor['code_value']}
           code_values = [1, 2, 3] if code_values.empty?
           sections.each{|course_offering, available_sections|
-            section    = available_sections[@id % available_sections.count]
-            section_id = DataUtility.get_unique_section_id(section[:id])
-            student_section_association = StudentSectionAssociation.new(@id, section_id, school_id, begin_date, grade)
-            rval       << student_section_association
-
-            unless @gradebook_factory.nil? or section[:gbe].nil?
-              grades = {}
-              section[:gbe].each do |type, gbe_num|
-                grades[type] = []
-                gbe_orders   = @gradebook_factory.generate_entries_of_type(session, section, type, gbe_num)
-                unless gbe_orders.size == gbe_num
-                  @log.warn "section: #{section} calls for #{gbe_num} gbes (type:#{type}) --> actually created #{gbe_orders.size} gbe orders"
+            sections_per_student = DataUtility.rand_float_to_int(@rand, @scenario['HACK_SECTIONS_PER_STUDENT'] || 1)
+            for sps in 1..sections_per_student
+              section    = available_sections[@id % available_sections.count]
+              section_id = DataUtility.get_unique_section_id(section[:id])
+              student_section_association = StudentSectionAssociation.new(@id, section_id, school_id, begin_date, grade)
+              rval       << student_section_association
+  
+              unless @gradebook_factory.nil? or section[:gbe].nil?
+                grades = {}
+                section[:gbe].each do |type, gbe_num|
+                  grades[type] = []
+                  gbe_orders   = @gradebook_factory.generate_entries_of_type(session, section, type, gbe_num)
+                  unless gbe_orders.size == gbe_num
+                    @log.warn "section: #{section} calls for #{gbe_num} gbes (type:#{type}) --> actually created #{gbe_orders.size} gbe orders"
+                  end
+                  gbe_orders.each do |gbe_order|
+                    sgbe         = get_student_gradebook_entry(gbe_order, school_id, section_id, session)
+                    grades[type] << sgbe.numeric_grade_earned
+                    rval         << sgbe
+                  end
                 end
-                gbe_orders.each do |gbe_order|
-                  sgbe         = get_student_gradebook_entry(gbe_order, school_id, section_id, session)
-                  grades[type] << sgbe.numeric_grade_earned
-                  rval         << sgbe
-                end
+                # compute final grade using breakdown --> need to look up breakdown from @scenario
+                final_grade = get_student_final_grade(grade, grades, school_id, section_id, session)
+                final_grades << final_grade
+                rval << final_grade
               end
-              # compute final grade using breakdown --> need to look up breakdown from @scenario
-              final_grade = get_student_final_grade(grade, grades, school_id, section_id, session)
-              final_grades << final_grade
-              rval << final_grade
+              rval += addDisciplineEntities(section[:id], school_id, session)
+  
+              academic_subject = AcademicSubjectType.to_string(academic_subjects[section[:id] % academic_subjects.size])
+              num_objectives = (@scenario["NUM_LEARNING_OBJECTIVES_PER_SUBJECT_AND_GRADE"] or 2)
+              LearningObjective.build_learning_objectives(num_objectives, academic_subject, GradeLevelType.to_string(grade)).each {|learning_objective|
+                student_competency = StudentCompetency.new(code_values[(section[:id] + @id) % code_values.size], learning_objective, student_section_association)
+                student_competencies << student_competency
+                rval << student_competency
+              }
+              rval << course_transcript(school_id, session, course_offering)
             end
-            rval += addDisciplineEntities(section[:id], school_id, session)
-
-            academic_subject = AcademicSubjectType.to_string(academic_subjects[section[:id] % academic_subjects.size])
-            num_objectives = (@scenario["NUM_LEARNING_OBJECTIVES_PER_SUBJECT_AND_GRADE"] or 2)
-            LearningObjective.build_learning_objectives(num_objectives, academic_subject, GradeLevelType.to_string(grade)).each {|learning_objective|
-              student_competency = StudentCompetency.new(code_values[(section[:id] + @id) % code_values.size], learning_objective, student_section_association)
-              student_competencies << student_competency
-              rval << student_competency
-            }
-            rval << course_transcript(school_id, session, course_offering)
           }
           grading_period = GradingPeriod.new(:END_OF_YEAR, session['year'], session['interval'], session['edOrgId'], [])
           report_card = ReportCard.new(@id, final_grades, grading_period, student_competencies)

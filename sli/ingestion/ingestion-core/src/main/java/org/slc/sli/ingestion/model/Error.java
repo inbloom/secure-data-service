@@ -32,25 +32,25 @@ import org.slc.sli.ingestion.util.BatchJobUtils;
 public final class Error {
 
     @Indexed
-    private String batchJobId;
+    private String batchJobId = "";
 
-    private String stageName;
+    private String stageName = "";
 
-    private String resourceId;
+    private String resourceId = "";
 
-    private String sourceIp;
+    private String sourceIp = "";
 
-    private String hostname;
+    private String hostname = "";
 
-    private String recordIdentifier;
+    private String recordIdentifier = "";
 
-    private Date timestamp;
+    private Date timestamp = new Date();
 
-    private String severity;
+    private String severity = "";
 
-    private String errorType;
+    private String errorType = "";
 
-    private String errorDetail;
+    private String errorDetail = "";
 
     public Error() {
         // Mongo requires this
@@ -58,16 +58,16 @@ public final class Error {
 
     public Error(String batchJobId, String stageName, String resourceId, String sourceIp, String hostname,
             String recordIdentifier, Date timestamp, String severity, String errorType, String errorDetail) {
-        this.batchJobId = batchJobId;
-        this.stageName = stageName;
-        this.resourceId = resourceId;
-        this.sourceIp = sourceIp;
-        this.hostname = hostname;
-        this.recordIdentifier = recordIdentifier;
-        this.timestamp = new Date(timestamp.getTime());
-        this.severity = severity;
-        this.errorType = errorType;
-        this.errorDetail = errorDetail;
+        this.setBatchJobId(batchJobId);
+        this.setStageName(stageName);
+        this.setResourceId(resourceId);
+        this.setSourceIp(sourceIp);
+        this.setHostname(hostname);
+        this.setRecordIdentifier(recordIdentifier);
+        this.setTimestamp(timestamp);
+        this.setSeverity(severity);
+        this.setErrorType(errorType);
+        this.setErrorDetail(errorDetail);
     }
 
     // TODO: too many params. refactor.
@@ -97,7 +97,9 @@ public final class Error {
     }
 
     public void setBatchJobId(String batchJobId) {
-        this.batchJobId = batchJobId;
+    	if(batchJobId != null) {
+    		this.batchJobId = batchJobId;
+    	}
     }
 
     public String getStageName() {
@@ -105,7 +107,9 @@ public final class Error {
     }
 
     public void setStageName(String stageName) {
-        this.stageName = stageName;
+    	if(stageName != null) {
+    		this.stageName = stageName;
+    	}
     }
 
     public String getResourceId() {
@@ -113,7 +117,9 @@ public final class Error {
     }
 
     public void setResourceId(String resourceId) {
-        this.resourceId = resourceId;
+    	if(resourceId != null) {
+            this.resourceId = resourceId;
+        }
     }
 
     public String getSourceIp() {
@@ -121,7 +127,9 @@ public final class Error {
     }
 
     public void setSourceIp(String sourceIp) {
-        this.sourceIp = sourceIp;
+    	if(sourceIp != null){
+    		this.sourceIp = sourceIp;
+    	}
     }
 
     public String getHostname() {
@@ -129,7 +137,9 @@ public final class Error {
     }
 
     public void setHostname(String hostname) {
-        this.hostname = hostname;
+    	if(hostname != null){
+    		this.hostname = hostname;
+    	}
     }
 
     public String getRecordIdentifier() {
@@ -137,7 +147,9 @@ public final class Error {
     }
 
     public void setRecordIdentifier(String recordIdentifier) {
-        this.recordIdentifier = recordIdentifier;
+    	if(recordIdentifier != null){
+    		this.recordIdentifier = recordIdentifier;
+    	}
     }
 
     public Date getTimestamp() {
@@ -145,7 +157,9 @@ public final class Error {
     }
 
     public void setTimestamp(Date timestamp) {
-        this.timestamp = new Date(timestamp.getTime());
+    	if(timestamp != null){
+    		this.timestamp = new Date(timestamp.getTime());
+    	}
     }
 
     public String getSeverity() {
@@ -153,7 +167,9 @@ public final class Error {
     }
 
     public void setSeverity(String severity) {
-        this.severity = severity;
+    	if(severity != null){
+    		this.severity = severity;
+    	}
     }
 
     public String getErrorType() {
@@ -161,7 +177,9 @@ public final class Error {
     }
 
     public void setErrorType(String errorType) {
-        this.errorType = errorType;
+    	if(errorType != null){
+    		this.errorType = errorType;
+    	}
     }
 
     public String getErrorDetail() {
@@ -169,7 +187,9 @@ public final class Error {
     }
 
     public void setErrorDetail(String errorDetail) {
-        this.errorDetail = errorDetail;
+    	if(errorDetail != null){
+    		this.errorDetail = errorDetail;
+    	}
     }
 
 }

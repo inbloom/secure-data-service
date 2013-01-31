@@ -24,13 +24,13 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
  * @author ablum
  *
  */
-public class FileEntryWorkNote extends SLIWorkNote implements Serializable {
+public class FileEntryWorkNote extends WorkNote implements Serializable {
     private static final long serialVersionUID = 638837959304251101L;
 
     private final IngestionFileEntry fileEntry;
 
-    public FileEntryWorkNote(String batchJobId, String tenantId, IngestionFileEntry fileEntry) {
-        super(batchJobId, tenantId);
+    public FileEntryWorkNote(String batchJobId, String tenantId, IngestionFileEntry fileEntry, boolean hasErrors) {
+        super(batchJobId, tenantId, hasErrors);
 
         this.fileEntry = fileEntry;
     }

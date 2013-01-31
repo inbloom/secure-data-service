@@ -111,4 +111,6 @@ public interface BatchJobDAO {
 
     public boolean createFileLatch(String jobId, List<String> fileEntries);
 
+    public boolean isDryRun(String jobId);
+
 }

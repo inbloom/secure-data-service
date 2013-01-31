@@ -152,4 +152,12 @@ class DataUtility
     end
     subset
   end
+  
+  #given a float, choose either the floor or ceiling value
+  #for example, if f=2.7, 2 will be returned 70 of the time and 3 will be returned 30% of the time
+  def self.rand_float_to_int(prng, f)
+    frac = f - f.floor
+    return frac == 0 ? f : (frac < prng.rand  ? f.floor : f.floor + 1)
+  end
+  
 end

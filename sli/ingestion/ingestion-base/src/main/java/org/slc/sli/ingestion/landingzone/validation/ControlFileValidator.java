@@ -19,7 +19,6 @@ package org.slc.sli.ingestion.landingzone.validation;
 import java.util.List;
 
 import org.slc.sli.ingestion.landingzone.ControlFile;
-import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
@@ -34,7 +33,7 @@ import org.slc.sli.ingestion.validation.Validator;
  * @author okrook
  *
  */
-public class ControlFileValidator implements Validator<ControlFileDescriptor> {
+public class ControlFileValidator implements Validator<ControlFile> {
 
     private static final String STAGE_NAME = "Control File Validation";
 
@@ -49,9 +48,8 @@ public class ControlFileValidator implements Validator<ControlFileDescriptor> {
     }
 
     @Override
-    public boolean isValid(ControlFileDescriptor item, AbstractMessageReport report, ReportStats reportStats,
+    public boolean isValid(ControlFile controlFile, AbstractMessageReport report, ReportStats reportStats,
             Source source) {
-        ControlFile controlFile = item.getFileItem();
 
         // we know more of our source
         List<IngestionFileEntry> entries = controlFile.getFileEntries();

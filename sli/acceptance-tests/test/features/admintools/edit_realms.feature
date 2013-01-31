@@ -6,20 +6,20 @@ Scenario: Mega Multi Realm Test
   Given I have an open web browser
    When I hit the realm editing URL
   And I was redirected to the "Simple" IDP Login page
-  And I submit the credentials "fakerealmadmin" "fakerealmadmin1234" for the "Simple" login page
+  And I submit the credentials "nyadmin" "nyadmin1234" for the "Simple" login page
 #Scenario: Realm administrator editing an existing realm
-    When I see the realms for "NC-KRYPTON"
-    And I click the "Fake Realm" edit button
-    Then I should see that I am on the "Fake Realm" edit page
+    When I see the realms for "New York State Education System (NY-STATE-NYC)"
+    And I click the "New York Realm" edit button
+    Then I should see that I am on the "New York Realm" edit page
     And I should enter "Edited Fake" into the Display Name field
     And I should click the "Save" button
     Then I should be redirected back to the realm listing page
     And I should receive a notice that the realm was successfully "updated"
-    And I see the realms for "NC-KRYPTON"
+    And I see the realms for "New York State Education System (NY-STATE-NYC)"
     And the realm "Edited Fake" will exist
 #Scenario: Realm Administrator deleting a existing realm
   When I click the "Edited Fake" delete button and confirm deletion
-  Then I see the realms for "NC-KRYPTON"
+  Then I see the realms for "New York State Education System (NY-STATE-NYC)"
   And the realm "Fake Realm" will not exist
 #Scenario: Realm Administrator creating a new realm with none existing
  When I hit the realm editing URL
@@ -29,7 +29,7 @@ Scenario: Mega Multi Realm Test
   And I should click the "Save" button
   Then I should be redirected back to the realm listing page
   And I should receive a notice that the realm was successfully "created"
-  And I see the realms for "NC-KRYPTON"
+  And I see the realms for "New York State Education System (NY-STATE-NYC)"
   And the realm "Brand New Realm" will exist
 #Scenario: Realm creation/editing should have validation
   When I click the "Brand New Realm" edit button
@@ -52,7 +52,7 @@ Scenario: Mega Multi Realm Test
   Then I should get 1 error
   And I click on the Cancel button
 #Scenario: Multi Realm creation
-Given I see the realms for "NC-KRYPTON"
+Given I see the realms for "New York State Education System (NY-STATE-NYC)"
 And the realm "Brand New Realm" will exist
 # Create realm #2
 When I click on the Add new realm button
@@ -62,7 +62,7 @@ When I enter data into all fields for realm "Chicken"
 And I should click the "Save" button
 Then I should be redirected back to the realm listing page
 And I should receive a notice that the realm was successfully "created"
-And I see the realms for "NC-KRYPTON"
+And I see the realms for "New York State Education System (NY-STATE-NYC)"
 And the realm "Brand New Realm" will exist
 And the realm "Chicken Realm" will exist
 # Create realm #3
@@ -73,13 +73,13 @@ When I enter data into all fields for realm "Pork"
 And I should click the "Save" button
 Then I should be redirected back to the realm listing page
 And I should receive a notice that the realm was successfully "created"
-And I see the realms for "NC-KRYPTON"
+And I see the realms for "New York State Education System (NY-STATE-NYC)"
 And the realm "Brand New Realm" will exist
 And the realm "Chicken Realm" will exist
 And the realm "Pork Realm" will exist
 # Check custom role endpoint goes to relam listing when more than one realm present
 When I navigate to the Custom Role Mapping Page
-Then I see the realms for "NC-KRYPTON"
+Then I see the realms for "New York State Education System (NY-STATE-NYC)"
 When I click the "Brand New Realm" custom roles button
 Then I am shown the custom roles page for "Brand New Realm"
 And the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves
@@ -93,7 +93,7 @@ Then I am no longer in edit mode
 And the group "Brand New Role" contains the roles "Dummy"
 And the group "Brand New Role" contains the rights "Read General"
 When I navigate back to the realm listing page
-Then I see the realms for "NC-KRYPTON"
+Then I see the realms for "New York State Education System (NY-STATE-NYC)"
 When I click the "Chicken Realm" custom roles button
 Then I am shown the custom roles page for "Chicken Realm"
 And the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves
@@ -106,7 +106,7 @@ Then I am no longer in edit mode
 And the group "Chicken Role" contains the roles "Dummy"
 And the group "Chicken Role" contains the rights "Read General"
 When I navigate back to the realm listing page
-Then I see the realms for "NC-KRYPTON"
+Then I see the realms for "New York State Education System (NY-STATE-NYC)"
 When I click the "Chicken Realm" delete button and confirm deletion
 And the realm "Brand New Realm" will exist
 And the realm "Pork Realm" will exist
@@ -115,6 +115,6 @@ When I click the "Pork Realm" custom roles button
 Then I am shown the custom roles page for "Pork Realm"
 And the Leader, Educator, Aggregate Viewer and IT Administrator roles are now only mapped to themselves
 When I navigate back to the realm listing page
-Then I see the realms for "NC-KRYPTON"
+Then I see the realms for "New York State Education System (NY-STATE-NYC)"
 When I click the "Brand New Realm" custom roles button
 Then I am shown the custom roles page for "Brand New Realm"

@@ -1,19 +1,56 @@
-# Overrides for base_scenario properties
-STUDENT_COUNT: 310000
+#
+# This scenario replicates the cardinalities from the Java data generation tool
+# for the 3M data set
+#
+#STUDENT_COUNT: 3170
+#STUDENT_COUNT: 31696
+STUDENT_COUNT: 316960
+
 NUMBER_OF_YEARS: 1
 beginYear: 2012
+PARENTS_PER_STUDENT: 1.52
 # Number of students per section for each school type
-STUDENTS_PER_SECTION: {'elementary': 8, 'middle': 8, 'high': 8}
+STUDENTS_PER_SECTION: {'elementary': 25, 'middle': 25, 'high': 25}
 AVERAGE_ELEMENTARY_SCHOOL_NUM_STUDENTS: 280
 AVERAGE_MIDDLE_SCHOOL_NUM_STUDENTS: 280
 AVERAGE_HIGH_SCHOOL_NUM_STUDENTS: 280
 AVERAGE_NUM_STUDENTS_THRESHOLD: 0.50
+INCLUDE_PARENTS: true
 
 AVERAGE_SCHOOLS_THRESHOLD: 0.20
 ASSESSMENTS_TAKEN: {GRADE_WIDE_ASSESSMENTS: 2}
 ASSESSMENTS_PER_GRADE: 1
-ASSESSMENT_ITEMS_PER_ASSESSMENT: {GRADE_WIDE_ASSESSMENTS: 1}
+ASSESSMENT_ITEMS_PER_ASSESSMENT: {GRADE_WIDE_ASSESSMENTS: 0.5}
 COHORTS_PER_SCHOOL: 3
+HACK_SESSIONS_PER_LEA: 9
+
+MAX_SECTIONS_PER_TEACHER: {'elementary': 1, 'middle': 1, 'high': 1}
+TEACHERS_PER_SECTION: 3.75
+HACK_SECTIONS_PER_STUDENT: 0.38
+HACK_MAX_LEA_ROLES: 1
+HACK_MAX_SCHOOL_ROLES: 1
+STAFF_COHORT_ASSOCIATION_PER_STAFF: 2
+HACK_STAFF_PROGRAM_ASSOCIATIONS_FOR_TEACHER: 0.3
+HACK_NO_STAFF_EDORG_ASSOCIATIONS_EXCEPT_SEA: true
+HACK_ONLY_CALENDAR_DATES_FOR_ONE_SESSION: true
+HACK_PERCENTAGE_CALENDAR_DATES: 0.1
+
+SIXTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
+SEVENTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
+EIGHTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
+NINTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
+TENTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
+ELEVENTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
+TWELFTH_GRADE_COURSES: [ "Mathematics", "Science" , "English", "History" ]
+COURSES_ON_SEA: false
+
+# Average number of programs available per education organization type
+AVERAGE_NUM_PROGRAMS: {'seas': 1, 'leas': 1, 'elementary': 1, 'middle': 1, 'high': 1}
+AVERAGE_NUM_PROGRAMS_THRESHOLD: 0.25
+MINIMUM_NUM_PROGRAMS_PER_STAFF_MEMBER: 2
+MAXIMUM_NUM_PROGRAMS_PER_STAFF_MEMBER: 6
+MINIMUM_NUM_PROGRAMS_PER_TEACHER: 1
+MAXIMUM_NUM_PROGRAMS_PER_TEACHER: 3
 
 ENTITY_WHITELIST: [
 "Assessment",

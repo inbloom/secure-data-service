@@ -47,7 +47,6 @@ import org.slc.sli.ingestion.FileFormat;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.IngestionTest;
-import org.slc.sli.ingestion.dal.NeutralRecordAccess;
 import org.slc.sli.ingestion.handler.SmooksFileHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.NewBatchJob;
@@ -78,9 +77,6 @@ public class EdFiProcessorTest {
 
     @Mock
     private BatchJobDAO mockedBatchJobDAO;
-
-    @Mock
-    private NeutralRecordAccess neutralRecordMongoAccess;
 
     private static final String INGESTION_MESSAGE_TYPE = "IngestionMessageType";
     private static final String ERROR_MESSAGE = "ErrorMessage";
@@ -113,7 +109,7 @@ public class EdFiProcessorTest {
         IngestionFileEntry inputFileEntry = new IngestionFileEntry(zipFile.getAbsolutePath(), FileFormat.EDFI_XML,
                 FileType.XML_STUDENT_PARENT_ASSOCIATION, inputFile.getName(), MD5.calculate(inputFile));
         inputFileEntry.setBatchJobId(batchJobId);
-        FileEntryWorkNote fileEntryWorkNote = new FileEntryWorkNote(batchJobId, batchJobId, inputFileEntry);
+        FileEntryWorkNote fileEntryWorkNote = new FileEntryWorkNote(batchJobId, batchJobId, inputFileEntry, false);
         Mockito.when(
                 smooksFileHandler.handle(Matchers.eq(inputFileEntry), Matchers.any(AbstractMessageReport.class),
                         Matchers.any(SimpleReportStats.class))).thenReturn(new FileProcessStatus());
@@ -129,7 +125,6 @@ public class EdFiProcessorTest {
 
         edFiProcessor.process(eObject);
 
-        Mockito.verify(neutralRecordMongoAccess, Mockito.times(1)).ensureIndexes();
         assertNull("Should not return with errors", eObject.getIn().getHeader("hasErrors"));
         assertEquals("Mismatched message type", MessageType.DATA_TRANSFORMATION.name(),
                 eObject.getIn().getHeader(INGESTION_MESSAGE_TYPE));
@@ -159,7 +154,7 @@ public class EdFiProcessorTest {
         IngestionFileEntry inputFileEntry = new IngestionFileEntry(zipFile.getAbsolutePath(), FileFormat.EDFI_XML,
                 FileType.XML_STUDENT_PARENT_ASSOCIATION, noSuchFile.getName(), MD5.calculate(noSuchFile));
         inputFileEntry.setBatchJobId(batchJobId);
-        FileEntryWorkNote fileEntryWorkNote = new FileEntryWorkNote(batchJobId, batchJobId, inputFileEntry);
+        FileEntryWorkNote fileEntryWorkNote = new FileEntryWorkNote(batchJobId, batchJobId, inputFileEntry, false);
 
         Mockito.when(
                 smooksFileHandler.handle(Matchers.eq(inputFileEntry), Matchers.any(AbstractMessageReport.class),
@@ -176,7 +171,6 @@ public class EdFiProcessorTest {
 
         edFiProcessor.process(eObject);
 
-        Mockito.verify(neutralRecordMongoAccess, Mockito.never()).ensureIndexes();
         assertNull("Should not return with errors", eObject.getIn().getHeader("hasErrors"));
         assertEquals("Mismatched message type", MessageType.ERROR.name(),
                 eObject.getIn().getHeader(INGESTION_MESSAGE_TYPE));
@@ -218,7 +212,6 @@ public class EdFiProcessorTest {
 
         edFiProcessor.process(eObject);
 
-        Mockito.verify(neutralRecordMongoAccess, Mockito.never()).ensureIndexes();
         assertNull("Should not return with errors", eObject.getIn().getHeader("hasErrors"));
         assertEquals("Mismatched message type", MessageType.ERROR.name(),
                 eObject.getIn().getHeader(INGESTION_MESSAGE_TYPE));

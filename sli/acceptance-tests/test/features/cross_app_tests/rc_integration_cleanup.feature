@@ -16,10 +16,10 @@ Scenario:  LEA deletes realm
   Then I should be on the admin page
   And under System Tools, I click on "Manage Realm"
   And I switch to the iframe
-  Then I see the realms for "IL-DAYBREAK"
+  Then I see the realms for "Daybreak School District 4529 (IL-DAYBREAK)"
   When I click the "Daybreak Test Realm" delete button and confirm deletion
   And I switch to the iframe
-  Then I see the realms for "IL-DAYBREAK"
+  Then I see the realms for "Daybreak School District 4529 (IL-DAYBREAK)"
   And I exit out of the iframe
   And I click on log out
 

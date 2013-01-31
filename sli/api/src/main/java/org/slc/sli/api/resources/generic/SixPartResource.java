@@ -53,7 +53,7 @@ public class SixPartResource extends GenericResource {
         String newUri = String.format("/rest/%s/%s/%s/%s/%s", segments.toArray());
         String queryString = getEncodedQueryParameters(uriInfo.getRequestUri().getQuery());
         info("Executing: " + newUri + queryString);
-        Response res = four.get(new ChangedUriInfo(newUri + queryString, uriInfo.getBaseUriBuilder()), ids);
+        Response res = four.get(new ChangedUriInfo(newUri + queryString, uriInfo), ids);
         return res;
     }
 }

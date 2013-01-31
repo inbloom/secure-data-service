@@ -162,11 +162,20 @@ $(document).ready(function() {
 								<option value="${role.id}">${role.name}</option>
 							</c:forEach>
 						</select>
-	                         </div>
-	                         <div class="control-group top-gap">
-	                             <label for='customRoles' class="control-label">Or Custom Role</label>
-	                             <div class="controls"><input type="text" id="customRoles" name="customRoles" onchange="disableSelect();" /></div>
-	                         </div>
+                    </div>
+                    <div class="control-group top-gap">
+                        <label for='customRoles' class="control-label">Or Custom Role</label>
+                        <div class="controls"><input type="text" id="customRoles" name="customRoles" onchange="disableSelect();" /></div>
+                    </div>
+                    <label for="selected_type" class="control-label">With userType</label>
+                    <div class="controls">
+						<select id="selected_type" name="selected_type" class="input-xlarge ">
+	                              <option> </option>
+							<c:forEach items="${types}" var="type">
+								<option value="${type.id}">${type.name}</option>
+							</c:forEach>
+						</select>
+                    </div>
 				</div>
 				<div class="control-group">
 					<div class="controls">

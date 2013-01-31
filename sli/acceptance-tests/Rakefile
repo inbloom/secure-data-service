@@ -428,6 +428,8 @@ task :appInit do
   setFixture("applicationAuthorization", "applicationAuthorization_fakedev_fixture.json")
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "chaos_mokey_org")
   setFixture("applicationAuthorization", "applicationAuthorization_chaos_fixture.json")
+  DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Security")
+  setFixture("applicationAuthorization", "applicationAuthorization_secured_fixture.json")
 
   DB_NAME = convertTenantIdToDbName(ENV['DB_NAME'] ? ENV['DB_NAME'] : "Midgar")
   setFixture("userSession", "oauth_authentication_tokens.json")
@@ -627,7 +629,8 @@ task :apiV1Tests => [:apiV1EntityTests,
                      :v1CommaSeparatedListOrderTests,
                      :v1SelectorTests,
                      :longLivedSessionTests,
-                     :apiVersionTests] do
+                     :apiVersionTests,
+                     :apiV1GranularAccessTests] do
   displayFailureReport()
 end
 

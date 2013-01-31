@@ -25,7 +25,7 @@ And I should enter "RC-IL-Daybreak" into Realm Identifier
 And I should click the "Save" button
 And I switch to the iframe
 And I should receive a notice that the realm was successfully "created"
-Then I see the realms for "IL-DAYBREAK"
+Then I see the realms for "Daybreak School District 4529 (IL-DAYBREAK)"
 And the realm "Daybreak Test Realm" will exist
 And I exit out of the iframe
 And I click on log out

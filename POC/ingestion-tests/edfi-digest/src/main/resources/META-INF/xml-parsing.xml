@@ -4,20 +4,69 @@
   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
+  <bean id="myDb" class="com.mongodb.Mongo">
+    <!-- <constructor-arg index="0" value="192.168.1.111" /> -->
+    <constructor-arg index="0" value="127.0.0.1" />
+    <constructor-arg index="1" value="27017" />
+  </bean>
+
+  <bean id="smooks" class="org.milyn.Smooks">
+    <constructor-arg type="java.lang.String" value="smooks-all-xml.xml" />
+  </bean>
+
+  <bean id="smooksProcessor" class="test.camel.support.smooks.SmooksProcessor">
+    <property name="group" value="500" />
+    <property name="smooks" ref="smooks" />
+    <!-- <property name="producer" ref="myTemplate" /> -->
+  </bean>
+
+  <bean id="staxProcessor" class="test.camel.support.stax.STaXWithValidationProcessor">
+    <property name="group" value="100" />
+    <property name="schema" value="classpath:edfiXsd-SLI/SLI-Ed-Fi-Core.xsd" />
+    <property name="producer" ref="myTemplate" />
+  </bean>
+
   <bean id="staxRecord" class="org.apache.camel.component.stax.StAXBuilder" factory-method="stax">
     <constructor-arg index="0" value="org.ed_fi._0100.Student" />
   </bean>
 
   <bean id="idGenerator" class="org.apache.camel.impl.JavaUuidGenerator" />
 
-  <bean id="staxEntity" class="test.camel.support.stax.StAXAntPathBuilder" factory-method="stax">
-    <constructor-arg name="antPath" value="/Interchange*/*" />
-    <constructor-arg name="group" value="500" />
+  <bean id="abstractStaxAntPathIterator" class="test.camel.support.stax.StAXAntPathIterator" abstract="true">
+    <property name="antPath" value="/Interchange*/*" />
+    <property name="groupBy" value="500" />
+  </bean>
+
+  <bean id="stringStaxIterator" class="test.camel.support.stax.StAXAntPathStringIterator" parent="abstractStaxAntPathIterator"
+    scope="prototype" />
+
+  <bean id="stringMapIterator" class="test.camel.support.stax.StAXAntPathMapIterator" parent="abstractStaxAntPathIterator"
+    scope="prototype" />
+
+  <bean id="byteStaxIterator" class="test.camel.support.stax.StAXAntPathBytesIterator" parent="abstractStaxAntPathIterator"
+    scope="prototype" />
+
+  <bean id="fileStaxIterator" class="test.camel.support.stax.StAXAntPathFileIterator" parent="abstractStaxAntPathIterator"
+    scope="prototype">
+    <property name="folder" value="/some/path/" />
+    <property name="prefix" value="snippet" />
+    <property name="suffix" value=".xml" />
+  </bean>
+
+  <bean id="jaxbStaxIterator" class="test.camel.support.stax.StAXAntPathJAXBIterator" parent="abstractStaxAntPathIterator"
+    scope="prototype">
+    <property name="packageName" value="org.ed_fi._0100" />
+  </bean>
+
+  <bean id="staxSplitter" class="test.camel.support.stax.StAXAntPathIteratorExpression">
+    <property name="iteratorBeanId" value="stringMapIterator" />
   </bean>
 
   <bean id="zipSplitter" class="test.camel.support.zip.ZipFileSplitterBuilder" factory-method="unzip" />
 
   <camelContext trace="false" xmlns="http://camel.apache.org/schema/spring">
+    <template id="myTemplate" defaultEndpoint="direct:logging"/>
+
     <route id="fileReader">
       <from uri="txActivemq:queue:ingestion.landingZone?concurrentConsumers=32" />
       <setHeader headerName="batchId">
@@ -48,26 +97,57 @@
         <simple>${body.getFileEntry} regex '^.*\.xml$'</simple>
         <log loggingLevel="INFO" message="Batch ${header.batchId}: Received a zip file entry - ${body.getFileEntry}" />
         <convertBodyTo type="java.io.InputStream" />
+        <!-- <bean ref="smooksProcessor" /> -->
+        <!-- <bean ref="staxProcessor" /> -->
+        <!-- -->
         <split streaming="true" parallelProcessing="true">
-          <ref>staxEntity</ref>
+          <ref>staxSplitter</ref>
           <setHeader headerName="JMSXGroupSeq">
             <header>CamelSplitIndex</header>
           </setHeader>
           <setHeader headerName="JMSXGroupCount">
             <header>CamelSplitSize</header>
           </setHeader>
-          <to uri="seda:entityFeed" />
+          <to uri="direct:logging" />
         </split>
-        <log message="Parsing is done for ${header.fileEntry}"/>
+        <!-- -->
+        <log message="Batch ${header.batchId}: Parsing is done for ${header.fileEntry}" />
       </filter>
     </route>
 
     <route id="staging">
-      <from uri="seda:entityFeed?concurrentConsumers=32" />
-      <log
-        message="File: ${header.fileEntry}, batch of ${body.size}. Starts at Ln: ${body[0].getLineNumber} - Col: ${body[0].getColumnNumber}" />
+      <from uri="direct:staging" />
+      <split streaming="true" parallelProcessing="true">
+        <simple>${body}</simple>
+        <setHeader headerName="CamelMongoDbDatabase">
+          <simple>${header.batchId}-${body.getEntity.getClass.getSimpleName}</simple>
+        </setHeader>
+        <to
+          uri="mongodb:myDb?database=some&amp;collection=entity&amp;dynamicity=true&amp;operation=insert&amp;writeConcern=SAFE" />
+      </split>
       <stop />
     </route>
+
+    <route id="bluk_staging">
+      <from uri="direct:bulk_staging" />
+      <setHeader headerName="CamelMongoDbDatabase">
+        <header>batchId</header>
+      </setHeader>
+      <setHeader headerName="CamelMongoDbCollection">
+        <simple>${body.getClass.getName}</simple>
+      </setHeader>
+      <to
+        uri="mongodb:myDb?database=some&amp;collection=some&amp;dynamicity=true&amp;operation=insert&amp;writeConcern=SAFE" />
+      <stop />
+    </route>
+
+    <route id="logging">
+      <from uri="direct:logging" />
+      <log
+        message="File: ${header.fileEntry}, batch of ${body.size}. Starts at Ln: body[0][line] - Col: body[0][column]" />
+      <stop />
+    </route>
+
   </camelContext>
 
 </beans>

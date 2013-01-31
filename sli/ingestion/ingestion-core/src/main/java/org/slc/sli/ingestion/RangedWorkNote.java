@@ -24,7 +24,7 @@ import java.io.Serializable;
  *
  * @author shalka
  */
-public class RangedWorkNote extends SLIWorkNote implements Serializable {
+public class RangedWorkNote extends WorkNote implements Serializable {
 
     private static final long serialVersionUID = 7526472295622776147L;
 
@@ -44,7 +44,8 @@ public class RangedWorkNote extends SLIWorkNote implements Serializable {
      */
     public RangedWorkNote(String batchJobId, IngestionStagedEntity ingestionStagedEntity, long startTime, long endTime,
             long recordsInRange, int batchSize) {
-        super(batchJobId, ""); //FIXME: Provide the tenantId
+        //We dont care about hasErrors field for RangeWorkNote
+        super(batchJobId, "",  false); //FIXME: Provide the tenantId
         this.ingestionStagedEntity = ingestionStagedEntity;
         this.startTime = startTime;
         this.endTime = endTime;

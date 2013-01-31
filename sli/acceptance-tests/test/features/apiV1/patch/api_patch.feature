@@ -24,11 +24,13 @@ Background: Logged in as IT Admin James Stevenson
     When I navigate to GET "/studentSectionAssociations/<STUDENT SECTION ASSOCIATION ID 1>"
     Then I should receive a return code of 200
     And "homeroomIndicator" should be "false"
+    And "beginDate" should be "1998-08-14"
     When I change the field "homeroomIndicator" to "true"
     And I navigate to PATCH "/studentSectionAssociations/<STUDENT SECTION ASSOCIATION ID 1>"
     Then I should receive a return code of 204
     When I navigate to GET "/studentSectionAssociations/<STUDENT SECTION ASSOCIATION ID 1>"
     And "homeroomIndicator" should be "true"
+    And "beginDate" should be "1998-08-14"
     
     Scenario: Sad path - some fields in the partial update are invalid for sub doc
     When I navigate to GET "/studentSectionAssociations/<STUDENT SECTION ASSOCIATION ID 2>"
