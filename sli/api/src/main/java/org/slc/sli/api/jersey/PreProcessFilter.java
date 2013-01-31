@@ -86,7 +86,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
         validate(request);
         populateSecurityContext(request);
 //        mongoStat.clear();
-        mongoStat.startRequest("");
+        mongoStat.startRequest();
 
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         principal.setSubEdOrgHierarchy(edOrgHelper.getSubEdOrgHierarchy(principal.getEntity()));

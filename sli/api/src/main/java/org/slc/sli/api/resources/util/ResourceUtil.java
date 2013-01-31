@@ -94,8 +94,8 @@ public class ResourceUtil {
                 + "objectiveAssessment.assessmentItem.learningStandards" + LINK, BLANK);
         LINK_NAMES.put(ResourceNames.LEARNINGSTANDARDS + ResourceNames.ASSESSMENTS
                 + "objectiveAssessment.objectiveAssessments.assessmentItem.learningStandards" + LINK, BLANK);
-        LINK_NAMES.put(ResourceNames.LEARNINGSTANDARDS + ResourceNames.ASSESSMENTS
-                + "assessmentItem.learningStandards" + LINK, BLANK);
+        LINK_NAMES.put(ResourceNames.LEARNINGSTANDARDS + ResourceNames.ASSESSMENTS + "assessmentItem.learningStandards"
+                + LINK, BLANK);
         LINK_NAMES.put(ResourceNames.LEARNINGOBJECTIVES + ResourceNames.ASSESSMENTS
                 + "objectiveAssessment.objectiveAssessments.learningObjectives" + LINK, BLANK);
         LINK_NAMES.put(ResourceNames.LEARNINGOBJECTIVES + ResourceNames.ASSESSMENTS
@@ -285,20 +285,28 @@ public class ResourceUtil {
 
                 AssociationDefinition assoc = (AssociationDefinition) definition;
                 if (assoc.getSourceEntity().getStoredCollectionName().equals(defn.getStoredCollectionName())) {
-                    links.add(new EmbeddedLink(assoc.getRelNameFromSource(), getURI(uriInfo, getApiVersion(uriInfo),
-                            defn.getResourceName(), id, PathConstants.TEMP_MAP.get(assoc.getResourceName())).toString()));
-
-                    links.add(new EmbeddedLink(assoc.getHoppedTargetLink(), getURI(uriInfo, getApiVersion(uriInfo),
-                            defn.getResourceName(), id, PathConstants.TEMP_MAP.get(assoc.getResourceName()),
-                            assoc.getTargetEntity().getResourceName()).toString()));
+                    String relNameFromSource = assoc.getRelNameFromSource();
+                    if (relNameFromSource != null) {
+                        links.add(new EmbeddedLink(relNameFromSource, getURI(uriInfo, getApiVersion(uriInfo),
+                                defn.getResourceName(), id, assoc.getResourceName()).toString()));
+                        if (assoc.getHoppedTargetLink() != null) {
+                            links.add(new EmbeddedLink(assoc.getHoppedTargetLink(), getURI(uriInfo,
+                                    getApiVersion(uriInfo), defn.getResourceName(), id, assoc.getResourceName(),
+                                    assoc.getTargetEntity().getResourceName()).toString()));
+                        }
+                    }
 
                 } else if (assoc.getTargetEntity().getStoredCollectionName().equals(defn.getStoredCollectionName())) {
-                    links.add(new EmbeddedLink(assoc.getRelNameFromTarget(), getURI(uriInfo, getApiVersion(uriInfo),
-                            defn.getResourceName(), id, PathConstants.TEMP_MAP.get(assoc.getResourceName())).toString()));
-
-                    links.add(new EmbeddedLink(assoc.getHoppedSourceLink(), getURI(uriInfo, getApiVersion(uriInfo),
-                            defn.getResourceName(), id, PathConstants.TEMP_MAP.get(assoc.getResourceName()),
-                            assoc.getSourceEntity().getResourceName()).toString()));
+                    String relNameFromTarget = assoc.getRelNameFromTarget();
+                    if (relNameFromTarget != null) {
+                        links.add(new EmbeddedLink(relNameFromTarget, getURI(uriInfo, getApiVersion(uriInfo),
+                                defn.getResourceName(), id, assoc.getResourceName()).toString()));
+                        if (assoc.getHoppedSourceLink() != null) {
+                            links.add(new EmbeddedLink(assoc.getHoppedSourceLink(), getURI(uriInfo,
+                                    getApiVersion(uriInfo), defn.getResourceName(), id, assoc.getResourceName(),
+                                    assoc.getSourceEntity().getResourceName()).toString()));
+                        }
+                    }
                 }
             } else {
                 // loop through all reference fields, display as ? links
@@ -308,7 +316,7 @@ public class ResourceUtil {
 
                     if (!linkName.isEmpty()) {
                         links.add(new EmbeddedLink(linkName, getURI(uriInfo, getApiVersion(uriInfo),
-                                PathConstants.TEMP_MAP.get(definition.getResourceName())).toString()
+                                definition.getResourceName()).toString()
                                 + "?" + referenceFieldName + "=" + id));
                     }
 
@@ -383,7 +391,8 @@ public class ResourceUtil {
 
     private static List<EmbeddedLink> getEmbeddedReferences(String[] keys, ReferenceSchema ref, EntityDefinition defn,
             Map<String, Object> entityBody, UriInfo uri, EntityDefinitionStore defnStore) {
-        return getEmbeddedReferences("", Arrays.asList(keys), defnStore.lookupByEntityType(ref.getEntityType()).getResourceName(), defn.getSchema(), entityBody, uri);
+        return getEmbeddedReferences("", Arrays.asList(keys), defnStore.lookupByEntityType(ref.getEntityType())
+                .getResourceName(), defn.getSchema(), entityBody, uri);
     }
 
     private static List<EmbeddedLink> getEmbeddedReferences(String prefix, List<String> keys, String resourceName,

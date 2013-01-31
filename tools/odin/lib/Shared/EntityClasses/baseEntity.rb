@@ -56,15 +56,11 @@ class BaseEntity
     sum
   end
   
-  def bit_choose() 
-    rand(2) == 1
-  end
-
-  def bit_choose()
+  def bit_choose
     @rand.rand(2) == 1
   end
 
-  def optional?()
+  def optional?
     (@@scenario['OPTIONAL_FIELD_LIKELYHOOD'] > 0) and (@rand.rand() < @@scenario['OPTIONAL_FIELD_LIKELYHOOD'])
   end
 

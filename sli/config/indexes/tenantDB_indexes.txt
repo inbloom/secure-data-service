@@ -21,8 +21,6 @@ custom_entities,false,metaData.entityId:1,metaData.clientId:1
 # Billy is investigating these
 
 # direct references, index on each direct reference
-# REMOVE - DE2536
-attendance,false,body.schoolId:1
 # Look up attendance by student: /students/{id}/attendances
 attendance,false,body.studentId:1
 # Look up cohort by edorg: /educationOrganizations/{id}/cohorts
@@ -45,8 +43,6 @@ courseTranscript,false,body.courseId:1
 courseTranscript,false,body.studentAcademicRecordId:1
 # Look up courseTranscript by student: /students/{id}/courseTranscripts
 courseTranscript,false,body.studentId:1
-# REMOVE - DE2539
-disciplineAction,false,body.assignmentSchoolId:1
 # REMOVE - DE2540
 disciplineAction,false,body.disciplineIncidentId:1
 # REMOVE - DE2541
@@ -55,13 +51,10 @@ disciplineAction,false,body.responsibilitySchoolId:1
 disciplineAction,false,body.staffId:1
 # REMOVE - DE2542
 disciplineAction,false,body.studentId:1
-# REMOVE - DE2543
-disciplineIncident,false,body.schoolId:1
 # Look up disciplineIncident by teacher: /teachers/{id}/disciplineIncidents
 disciplineIncident,false,body.staffId:1
 # Used in heirarchy traversal
 educationOrganization,false,body.parentEducationAgencyReference:1
-educationOrganization,false,body.parentEducationAgencyReference:1,type:1
 # REMOVE - DE2544
 educationOrganization,false,body.programReference:1
 # Look up grade by gradingPeriod: /gradingPeriods/{id}/grades
@@ -70,12 +63,8 @@ grade,false,body.gradePeriodId:1
 grade,false,body.studentSectionAssociationId:1
 # Look up graduation play by edorg: /educationOrganizations/{id}/graduationPlans
 graduationPlan,false,body.educationOrganizationId:1
-# REMOVE - DE2546
-learningObjective,false,body.learningStandards:1
 # Learning objective traversal
 learningObjective,false,body.parentLearningObjective:1
-# REMOVE - DE2547
-reportCard,false,body.grades:1
 # Look up reportCard by gradingPeriod: /gradingPeriods/{id}/reportCards
 reportCard,false,body.gradingPeriodId:1
 # Look up reportCard by studentCompetency: /studentCompetencies/{id}/reportCards
@@ -108,8 +97,6 @@ staffEducationOrganizationAssociation,false,body.staffReference:1
 staffProgramAssociation,false,body.programId:1
 # Look up staffProgramAssoc by staff: /staff/{id}/staffProgramAssociations
 staffProgramAssociation,false,body.staffId:1
-# REMOVE - DE2551
-studentAcademicRecord,false,body.reportCards:1
 # Look up studentAcademicRecord by session: /sessions/{id}/studentAcademicRecords
 studentAcademicRecord,false,body.sessionId:1
 # Look up studentAcademicRecord by student: /students/{id}/studentAcademicRecords
@@ -119,8 +106,6 @@ studentAcademicRecord,false,body.studentId:1
 student,false,studentAssessment.body.assessmentId:1
 # Look up studentCompetency by learningObjective: /learningObjectives/{id}/studentCompetencies
 studentCompetency,false,body.objectiveId.learningObjectiveId:1
-# REMOVE - DE2552
-studentCompetency,false,body.objectiveId.studentCompetencyObjectiveId:1
 # Look up studentCompetency by studentSectionAssoc: /studentSectionAssociations/{id}/studentCompetencies
 studentCompetency,false,body.studentSectionAssociationId:1
 # Look up studentCompetencyObjective by edorg: /educationOrganizations/{id}/studentCompetencyObjectives
@@ -139,8 +124,6 @@ studentGradebookEntry,false,body.studentSectionAssociationId:1
 # Look up studentParentAssoc by parent: /parents/{id}/studentParentAssociations
 student,false,studentParentAssociation.body.parentId:1
 # studentProgramAssociation is embedded into program
-# REMOVE - DE2555
-program,false,studentProgramAssociation.body.educationOrganizationId:1
 # Look up studentProgramAssoc by student: /students/{id}/studentProgramAssociations
 program,false,studentProgramAssociation.body.studentId:1
 # REMOVE - DE2556
@@ -193,20 +176,10 @@ studentCompetency,false,metaData.externalId:1,metaData.studentUniqueStateId:1,me
 studentCompetencyObjective,false,body.studentCompetencyObjectiveId:1
 
 # Profiled
-# REMOVE - DE2563
-educationOrganization,false,body.parentEducationAgencyReference:1,type:1
 # Find school/edorg by name
 educationOrganization,false,type:1,body.nameOfInstitution:1
-# REMOVE - DE2557
-gradingPeriod,false,body.beginDate:1
 # Find staff/teacher by login
 staff,false,body.staffUniqueStateId:1
-# REMOVE - DE2559
-staff,false,type:1
-
-
-#  TODO: Index to make querying acceptance tests pass - this is really bad!!
-reportCard,false,body.gpaCumulative:1
 
 # US4365
 student,false,cohort._id:1

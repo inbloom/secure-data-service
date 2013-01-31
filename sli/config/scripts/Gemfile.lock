@@ -4,13 +4,13 @@ GEM
     activesupport (3.2.9)
       i18n (~> 0.6)
       multi_json (~> 1.0)
-    bson (1.8.0)
+    bson (1.8.2)
       activesupport
-    bson_ext (1.8.0)
-      bson (~> 1.8.0)
+    bson_ext (1.8.2)
+      bson (~> 1.8.2)
     i18n (0.6.1)
-    mongo (1.8.0)
-      bson (~> 1.8.0)
+    mongo (1.8.2)
+      bson (~> 1.8.2)
     multi_json (1.4.0)
 
 PLATFORMS
