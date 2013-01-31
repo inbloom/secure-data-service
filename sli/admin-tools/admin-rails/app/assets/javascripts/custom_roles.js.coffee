@@ -129,6 +129,7 @@ editRow = (tr) ->
   #Add delete button to each role name
   tr.find(ROLE_COL).find(".roleLabel").each -> wrapInputWithDeleteButton($(@), "div", groupName)
   tr.find(RIGHT_COL).find(".roleLabel").each -> wrapInputWithDeleteButton($(@), "span", groupName)
+  tr.find(SELF_RIGHT_COL).find(".roleLabel").each -> wrapInputWithDeleteButton($(@), "span", groupName)
 
 populateRightComboBox = (tr) ->
   #Add right combobox - only add rights that haven't already been used
