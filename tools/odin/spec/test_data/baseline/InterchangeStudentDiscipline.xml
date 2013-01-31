@@ -6,9 +6,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2002-05-19</IncidentDate>
     <IncidentTime>10:01:33</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Student</ReporterDescription>
+    <ReporterName>Reported Student Name</ReporterName>
     <Behaviors>
       <CodeValue>BE1</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Code of Conduct">
+      <SecondaryBehavior>SBE1</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Unknown</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -25,9 +34,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2002-04-07</IncidentDate>
     <IncidentTime>15:30:52</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Parent</ReporterDescription>
+    <ReporterName>Reported Parent Name</ReporterName>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Offense">
+      <SecondaryBehavior>SBE2</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Other Sharp Objects</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-2#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -44,9 +63,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2002-01-14</IncidentDate>
     <IncidentTime>08:15:19</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Parent</ReporterDescription>
+    <ReporterName>Reported Parent Name</ReporterName>
     <Behaviors>
       <CodeValue>BE0</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Law Crime">
+      <SecondaryBehavior>SBE0</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>None</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-3#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -63,9 +92,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2002-04-03</IncidentDate>
     <IncidentTime>12:01:41</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Student</ReporterDescription>
+    <ReporterName>Reported Student Name</ReporterName>
     <Behaviors>
       <CodeValue>BE1</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Violation">
+      <SecondaryBehavior>SBE1</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Other Object</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-4#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -82,9 +121,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2003-02-28</IncidentDate>
     <IncidentTime>09:33:20</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Staff</ReporterDescription>
+    <ReporterName>Reported Staff Name</ReporterName>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Violation">
+      <SecondaryBehavior>SBE2</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Club</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-5#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -101,9 +150,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2003-03-29</IncidentDate>
     <IncidentTime>08:52:17</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Parent</ReporterDescription>
+    <ReporterName>Reported Parent Name</ReporterName>
     <Behaviors>
       <CodeValue>BE0</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Law Crime">
+      <SecondaryBehavior>SBE0</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Substance Used as Weapon</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -120,9 +178,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2003-04-07</IncidentDate>
     <IncidentTime>14:00:18</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Student</ReporterDescription>
+    <ReporterName>Reported Student Name</ReporterName>
     <Behaviors>
       <CodeValue>BE1</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Offense">
+      <SecondaryBehavior>SBE1</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Unknown</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-7#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -139,9 +207,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2003-02-27</IncidentDate>
     <IncidentTime>09:28:28</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Parent</ReporterDescription>
+    <ReporterName>Reported Parent Name</ReporterName>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Violation">
+      <SecondaryBehavior>SBE2</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Illegal Knife</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-8#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -158,9 +236,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2003-02-09</IncidentDate>
     <IncidentTime>09:35:46</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Staff</ReporterDescription>
+    <ReporterName>Reported Staff Name</ReporterName>
     <Behaviors>
       <CodeValue>BE0</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Law Crime">
+      <SecondaryBehavior>SBE0</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Illegal Knife</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -177,9 +264,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2002-09-13</IncidentDate>
     <IncidentTime>14:28:40</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Staff</ReporterDescription>
+    <ReporterName>Reported Staff Name</ReporterName>
     <Behaviors>
       <CodeValue>BE1</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Law Crime">
+      <SecondaryBehavior>SBE1</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Other</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -196,9 +292,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2003-01-11</IncidentDate>
     <IncidentTime>10:45:55</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Other</ReporterDescription>
+    <ReporterName>Reported Other Name</ReporterName>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Law Crime">
+      <SecondaryBehavior>SBE2</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Other Sharp Objects</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -215,9 +320,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2003-02-19</IncidentDate>
     <IncidentTime>10:46:24</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Parent</ReporterDescription>
+    <ReporterName>Reported Parent Name</ReporterName>
     <Behaviors>
       <CodeValue>BE0</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Law Crime">
+      <SecondaryBehavior>SBE0</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Substance Used as Weapon</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -234,9 +348,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2003-12-30</IncidentDate>
     <IncidentTime>14:45:49</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Staff</ReporterDescription>
+    <ReporterName>Reported Staff Name</ReporterName>
     <Behaviors>
       <CodeValue>BE1</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Violation">
+      <SecondaryBehavior>SBE1</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Substance Used as Weapon</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-13#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -253,9 +377,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2003-12-17</IncidentDate>
     <IncidentTime>14:56:23</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Parent</ReporterDescription>
+    <ReporterName>Reported Parent Name</ReporterName>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Offense">
+      <SecondaryBehavior>SBE2</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Unknown</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -272,9 +405,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2004-04-19</IncidentDate>
     <IncidentTime>15:31:06</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Staff</ReporterDescription>
+    <ReporterName>Reported Staff Name</ReporterName>
     <Behaviors>
       <CodeValue>BE0</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Offense">
+      <SecondaryBehavior>SBE0</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Other Sharp Objects</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-15#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -291,9 +434,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2004-02-05</IncidentDate>
     <IncidentTime>09:58:07</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Student</ReporterDescription>
+    <ReporterName>Reported Student Name</ReporterName>
     <Behaviors>
       <CodeValue>BE1</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Law Crime">
+      <SecondaryBehavior>SBE1</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Club</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-16#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -310,9 +463,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2003-10-13</IncidentDate>
     <IncidentTime>10:04:20</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Student</ReporterDescription>
+    <ReporterName>Reported Student Name</ReporterName>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Violation">
+      <SecondaryBehavior>SBE2</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Substance Used as Weapon</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-17#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -329,9 +492,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2004-05-02</IncidentDate>
     <IncidentTime>08:47:18</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Staff</ReporterDescription>
+    <ReporterName>Reported Staff Name</ReporterName>
     <Behaviors>
       <CodeValue>BE0</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Code of Conduct">
+      <SecondaryBehavior>SBE0</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>None</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-18#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -348,9 +521,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2003-11-21</IncidentDate>
     <IncidentTime>09:57:32</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Staff</ReporterDescription>
+    <ReporterName>Reported Staff Name</ReporterName>
     <Behaviors>
       <CodeValue>BE1</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Offense">
+      <SecondaryBehavior>SBE1</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>None</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -367,9 +549,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2003-12-18</IncidentDate>
     <IncidentTime>08:13:04</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Student</ReporterDescription>
+    <ReporterName>Reported Student Name</ReporterName>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Law Crime">
+      <SecondaryBehavior>SBE2</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Substance Used as Weapon</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-20#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -386,9 +578,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2003-09-14</IncidentDate>
     <IncidentTime>13:08:55</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Student</ReporterDescription>
+    <ReporterName>Reported Student Name</ReporterName>
     <Behaviors>
       <CodeValue>BE0</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Violation">
+      <SecondaryBehavior>SBE0</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>None</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-21#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -405,9 +607,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2004-04-11</IncidentDate>
     <IncidentTime>12:33:19</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Student</ReporterDescription>
+    <ReporterName>Reported Student Name</ReporterName>
     <Behaviors>
       <CodeValue>BE1</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Violation">
+      <SecondaryBehavior>SBE1</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Other Object</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-22#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -424,9 +636,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2004-05-17</IncidentDate>
     <IncidentTime>11:34:08</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Staff</ReporterDescription>
+    <ReporterName>Reported Staff Name</ReporterName>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Code of Conduct">
+      <SecondaryBehavior>SBE2</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Firearm</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-23#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -443,9 +665,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2004-01-25</IncidentDate>
     <IncidentTime>09:02:12</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Staff</ReporterDescription>
+    <ReporterName>Reported Staff Name</ReporterName>
     <Behaviors>
       <CodeValue>BE0</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Law Crime">
+      <SecondaryBehavior>SBE0</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Substance Used as Weapon</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-24#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -462,9 +694,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2001-11-12</IncidentDate>
     <IncidentTime>13:10:50</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Student</ReporterDescription>
+    <ReporterName>Reported Student Name</ReporterName>
     <Behaviors>
       <CodeValue>BE1</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Code of Conduct">
+      <SecondaryBehavior>SBE1</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Other</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -481,9 +722,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2001-09-06</IncidentDate>
     <IncidentTime>10:18:55</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Parent</ReporterDescription>
+    <ReporterName>Reported Parent Name</ReporterName>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Violation">
+      <SecondaryBehavior>SBE2</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Other Sharp Objects</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-26#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -500,9 +751,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2001-09-28</IncidentDate>
     <IncidentTime>12:15:59</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Staff</ReporterDescription>
+    <ReporterName>Reported Staff Name</ReporterName>
     <Behaviors>
       <CodeValue>BE0</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Law Crime">
+      <SecondaryBehavior>SBE0</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Non-Illegal Knife</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-27#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -519,9 +780,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2001-11-24</IncidentDate>
     <IncidentTime>10:45:24</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Student</ReporterDescription>
+    <ReporterName>Reported Student Name</ReporterName>
     <Behaviors>
       <CodeValue>BE1</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Law Crime">
+      <SecondaryBehavior>SBE1</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Non-Illegal Knife</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -538,9 +808,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2001-12-30</IncidentDate>
     <IncidentTime>10:36:22</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Student</ReporterDescription>
+    <ReporterName>Reported Student Name</ReporterName>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Offense">
+      <SecondaryBehavior>SBE2</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Non-Illegal Knife</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-29#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -557,9 +837,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2002-03-24</IncidentDate>
     <IncidentTime>09:50:25</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Other</ReporterDescription>
+    <ReporterName>Reported Other Name</ReporterName>
     <Behaviors>
       <CodeValue>BE0</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Violation">
+      <SecondaryBehavior>SBE0</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Substance Used as Weapon</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-30#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -576,9 +866,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2001-12-29</IncidentDate>
     <IncidentTime>13:41:16</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Other</ReporterDescription>
+    <ReporterName>Reported Other Name</ReporterName>
     <Behaviors>
       <CodeValue>BE1</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Offense">
+      <SecondaryBehavior>SBE1</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Club</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -595,9 +894,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2002-03-09</IncidentDate>
     <IncidentTime>08:30:02</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Student</ReporterDescription>
+    <ReporterName>Reported Student Name</ReporterName>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Code of Conduct">
+      <SecondaryBehavior>SBE2</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>None</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-32#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -614,9 +923,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2002-04-05</IncidentDate>
     <IncidentTime>15:45:04</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Student</ReporterDescription>
+    <ReporterName>Reported Student Name</ReporterName>
     <Behaviors>
       <CodeValue>BE0</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Offense">
+      <SecondaryBehavior>SBE0</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Other</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -633,9 +951,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2002-01-06</IncidentDate>
     <IncidentTime>12:32:25</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Parent</ReporterDescription>
+    <ReporterName>Reported Parent Name</ReporterName>
     <Behaviors>
       <CodeValue>BE1</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Law Crime">
+      <SecondaryBehavior>SBE1</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Club</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-34#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -652,9 +980,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2001-12-28</IncidentDate>
     <IncidentTime>11:18:22</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Parent</ReporterDescription>
+    <ReporterName>Reported Parent Name</ReporterName>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Offense">
+      <SecondaryBehavior>SBE2</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Substance Used as Weapon</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -671,9 +1008,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2001-10-30</IncidentDate>
     <IncidentTime>11:19:25</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Student</ReporterDescription>
+    <ReporterName>Reported Student Name</ReporterName>
     <Behaviors>
       <CodeValue>BE0</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Law Crime">
+      <SecondaryBehavior>SBE0</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Firearm</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-36#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -690,9 +1037,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2003-04-25</IncidentDate>
     <IncidentTime>09:26:41</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Staff</ReporterDescription>
+    <ReporterName>Reported Staff Name</ReporterName>
     <Behaviors>
       <CodeValue>BE1</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Law Crime">
+      <SecondaryBehavior>SBE1</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Other Object</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-37#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -709,9 +1066,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2002-11-02</IncidentDate>
     <IncidentTime>10:04:02</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Staff</ReporterDescription>
+    <ReporterName>Reported Staff Name</ReporterName>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Violation">
+      <SecondaryBehavior>SBE2</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Illegal Knife</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -728,9 +1094,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2003-02-04</IncidentDate>
     <IncidentTime>08:21:06</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Other</ReporterDescription>
+    <ReporterName>Reported Other Name</ReporterName>
     <Behaviors>
       <CodeValue>BE0</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Violation">
+      <SecondaryBehavior>SBE0</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Other</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -747,9 +1122,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2003-01-23</IncidentDate>
     <IncidentTime>09:25:07</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Staff</ReporterDescription>
+    <ReporterName>Reported Staff Name</ReporterName>
     <Behaviors>
       <CodeValue>BE1</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Code of Conduct">
+      <SecondaryBehavior>SBE1</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Non-Illegal Knife</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -766,9 +1150,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2003-02-26</IncidentDate>
     <IncidentTime>14:37:46</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Parent</ReporterDescription>
+    <ReporterName>Reported Parent Name</ReporterName>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Offense">
+      <SecondaryBehavior>SBE2</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>None</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -785,9 +1178,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2002-11-16</IncidentDate>
     <IncidentTime>13:47:50</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Staff</ReporterDescription>
+    <ReporterName>Reported Staff Name</ReporterName>
     <Behaviors>
       <CodeValue>BE0</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Violation">
+      <SecondaryBehavior>SBE0</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Illegal Knife</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-42#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -804,9 +1207,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2003-04-06</IncidentDate>
     <IncidentTime>11:55:11</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Staff</ReporterDescription>
+    <ReporterName>Reported Staff Name</ReporterName>
     <Behaviors>
       <CodeValue>BE1</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Law Crime">
+      <SecondaryBehavior>SBE1</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Illegal Knife</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -823,9 +1235,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2002-11-27</IncidentDate>
     <IncidentTime>13:24:38</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Parent</ReporterDescription>
+    <ReporterName>Reported Parent Name</ReporterName>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Code of Conduct">
+      <SecondaryBehavior>SBE2</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Firearm</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-44#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -842,9 +1264,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2002-11-07</IncidentDate>
     <IncidentTime>10:38:38</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Parent</ReporterDescription>
+    <ReporterName>Reported Parent Name</ReporterName>
     <Behaviors>
       <CodeValue>BE0</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Code of Conduct">
+      <SecondaryBehavior>SBE0</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Substance Used as Weapon</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -861,9 +1292,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2003-03-26</IncidentDate>
     <IncidentTime>15:40:03</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Parent</ReporterDescription>
+    <ReporterName>Reported Parent Name</ReporterName>
     <Behaviors>
       <CodeValue>BE1</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Violation">
+      <SecondaryBehavior>SBE1</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Other Sharp Objects</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-46#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -880,9 +1321,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2003-03-17</IncidentDate>
     <IncidentTime>10:31:51</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Student</ReporterDescription>
+    <ReporterName>Reported Student Name</ReporterName>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Code of Conduct">
+      <SecondaryBehavior>SBE2</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Non-Illegal Knife</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-47#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -899,9 +1350,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2003-01-11</IncidentDate>
     <IncidentTime>08:20:18</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Student</ReporterDescription>
+    <ReporterName>Reported Student Name</ReporterName>
     <Behaviors>
       <CodeValue>BE0</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Offense">
+      <SecondaryBehavior>SBE0</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Other Sharp Objects</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-48#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -918,9 +1379,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2004-02-05</IncidentDate>
     <IncidentTime>09:24:19</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Parent</ReporterDescription>
+    <ReporterName>Reported Parent Name</ReporterName>
     <Behaviors>
       <CodeValue>BE1</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Violation">
+      <SecondaryBehavior>SBE1</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Unknown</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -937,9 +1407,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2004-03-28</IncidentDate>
     <IncidentTime>13:23:09</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Staff</ReporterDescription>
+    <ReporterName>Reported Staff Name</ReporterName>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Law Crime">
+      <SecondaryBehavior>SBE2</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Other Object</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-50#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -956,9 +1436,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2004-01-17</IncidentDate>
     <IncidentTime>12:13:24</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Other</ReporterDescription>
+    <ReporterName>Reported Other Name</ReporterName>
     <Behaviors>
       <CodeValue>BE0</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Violation">
+      <SecondaryBehavior>SBE0</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Club</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -975,9 +1464,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2004-02-23</IncidentDate>
     <IncidentTime>09:01:31</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Staff</ReporterDescription>
+    <ReporterName>Reported Staff Name</ReporterName>
     <Behaviors>
       <CodeValue>BE1</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Law Crime">
+      <SecondaryBehavior>SBE1</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Knife</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-52#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -994,9 +1493,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2004-03-20</IncidentDate>
     <IncidentTime>11:51:12</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Student</ReporterDescription>
+    <ReporterName>Reported Student Name</ReporterName>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Law Crime">
+      <SecondaryBehavior>SBE2</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Other Object</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-53#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -1013,9 +1522,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2003-11-26</IncidentDate>
     <IncidentTime>15:35:50</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Other</ReporterDescription>
+    <ReporterName>Reported Other Name</ReporterName>
     <Behaviors>
       <CodeValue>BE0</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Violation">
+      <SecondaryBehavior>SBE0</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Other</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-54#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -1032,9 +1551,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2003-10-11</IncidentDate>
     <IncidentTime>09:05:06</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Other</ReporterDescription>
+    <ReporterName>Reported Other Name</ReporterName>
     <Behaviors>
       <CodeValue>BE1</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Code of Conduct">
+      <SecondaryBehavior>SBE1</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Other Object</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-55#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -1051,9 +1580,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2004-01-20</IncidentDate>
     <IncidentTime>15:31:26</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Parent</ReporterDescription>
+    <ReporterName>Reported Parent Name</ReporterName>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Violation">
+      <SecondaryBehavior>SBE2</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Non-Illegal Knife</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -1070,9 +1608,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2003-11-28</IncidentDate>
     <IncidentTime>10:37:00</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Student</ReporterDescription>
+    <ReporterName>Reported Student Name</ReporterName>
     <Behaviors>
       <CodeValue>BE0</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Code of Conduct">
+      <SecondaryBehavior>SBE0</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Club</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-57#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -1089,9 +1637,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2004-04-01</IncidentDate>
     <IncidentTime>13:43:20</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Other</ReporterDescription>
+    <ReporterName>Reported Other Name</ReporterName>
     <Behaviors>
       <CodeValue>BE1</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Offense">
+      <SecondaryBehavior>SBE1</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>None</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -1108,9 +1665,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2004-04-25</IncidentDate>
     <IncidentTime>13:10:15</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Student</ReporterDescription>
+    <ReporterName>Reported Student Name</ReporterName>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Code of Conduct">
+      <SecondaryBehavior>SBE2</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>None</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -1127,9 +1693,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2004-03-18</IncidentDate>
     <IncidentTime>11:11:07</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Staff</ReporterDescription>
+    <ReporterName>Reported Staff Name</ReporterName>
     <Behaviors>
       <CodeValue>BE0</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Law Crime">
+      <SecondaryBehavior>SBE0</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Substance Used as Weapon</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-60#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
@@ -1146,9 +1722,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2001-11-19</IncidentDate>
     <IncidentTime>08:16:12</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Parent</ReporterDescription>
+    <ReporterName>Reported Parent Name</ReporterName>
     <Behaviors>
       <CodeValue>BE1</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Code of Conduct">
+      <SecondaryBehavior>SBE1</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Other Sharp Objects</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -1165,9 +1750,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2002-02-06</IncidentDate>
     <IncidentTime>10:24:27</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Student</ReporterDescription>
+    <ReporterName>Reported Student Name</ReporterName>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Law Crime">
+      <SecondaryBehavior>SBE2</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Knife</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-62#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -1184,9 +1779,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2001-11-23</IncidentDate>
     <IncidentTime>08:44:36</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Other</ReporterDescription>
+    <ReporterName>Reported Other Name</ReporterName>
     <Behaviors>
       <CodeValue>BE0</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Violation">
+      <SecondaryBehavior>SBE0</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Unknown</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-63#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -1203,9 +1808,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2001-12-18</IncidentDate>
     <IncidentTime>13:07:40</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Staff</ReporterDescription>
+    <ReporterName>Reported Staff Name</ReporterName>
     <Behaviors>
       <CodeValue>BE1</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Offense">
+      <SecondaryBehavior>SBE1</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Illegal Knife</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-64#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -1222,9 +1837,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2001-11-27</IncidentDate>
     <IncidentTime>09:57:34</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Other</ReporterDescription>
+    <ReporterName>Reported Other Name</ReporterName>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Violation">
+      <SecondaryBehavior>SBE2</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Knife</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -1241,9 +1865,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2001-10-16</IncidentDate>
     <IncidentTime>08:27:02</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Staff</ReporterDescription>
+    <ReporterName>Reported Staff Name</ReporterName>
     <Behaviors>
       <CodeValue>BE0</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Law Crime">
+      <SecondaryBehavior>SBE0</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Club</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-66#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -1260,9 +1894,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2002-10-25</IncidentDate>
     <IncidentTime>14:56:25</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Student</ReporterDescription>
+    <ReporterName>Reported Student Name</ReporterName>
     <Behaviors>
       <CodeValue>BE1</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Law Crime">
+      <SecondaryBehavior>SBE1</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Non-Illegal Knife</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-67#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -1279,9 +1923,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2002-09-17</IncidentDate>
     <IncidentTime>10:04:30</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Other</ReporterDescription>
+    <ReporterName>Reported Other Name</ReporterName>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Law Crime">
+      <SecondaryBehavior>SBE2</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Unknown</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-68#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -1298,9 +1952,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2003-04-14</IncidentDate>
     <IncidentTime>12:27:34</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Other</ReporterDescription>
+    <ReporterName>Reported Other Name</ReporterName>
     <Behaviors>
       <CodeValue>BE0</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Law Crime">
+      <SecondaryBehavior>SBE0</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Non-Illegal Knife</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-69#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -1317,9 +1981,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2002-10-30</IncidentDate>
     <IncidentTime>14:04:47</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Staff</ReporterDescription>
+    <ReporterName>Reported Staff Name</ReporterName>
     <Behaviors>
       <CodeValue>BE1</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Violation">
+      <SecondaryBehavior>SBE1</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Other</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-70#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -1336,9 +2010,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2003-04-23</IncidentDate>
     <IncidentTime>08:52:49</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Staff</ReporterDescription>
+    <ReporterName>Reported Staff Name</ReporterName>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Law Crime">
+      <SecondaryBehavior>SBE2</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Other Sharp Objects</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -1355,9 +2038,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2004-02-26</IncidentDate>
     <IncidentTime>08:02:44</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Student</ReporterDescription>
+    <ReporterName>Reported Student Name</ReporterName>
     <Behaviors>
       <CodeValue>BE0</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Code of Conduct">
+      <SecondaryBehavior>SBE0</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Club</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -1374,9 +2066,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2004-05-21</IncidentDate>
     <IncidentTime>11:37:52</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Parent</ReporterDescription>
+    <ReporterName>Reported Parent Name</ReporterName>
     <Behaviors>
       <CodeValue>BE1</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Violation">
+      <SecondaryBehavior>SBE1</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Non-Illegal Knife</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-73#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -1393,9 +2095,19 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2004-03-11</IncidentDate>
     <IncidentTime>13:28:02</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Other</ReporterDescription>
+    <ReporterName>Reported Other Name</ReporterName>
     <Behaviors>
       <CodeValue>BE2</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Offense">
+      <SecondaryBehavior>SBE2</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Substance Used as Weapon</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>true</ReportedToLawEnforcement>
+    <CaseNumber>case-74#0</CaseNumber>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -1412,9 +2124,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <IncidentDate>2003-12-13</IncidentDate>
     <IncidentTime>10:30:34</IncidentTime>
     <IncidentLocation>Classroom</IncidentLocation>
+    <ReporterDescription>Staff</ReporterDescription>
+    <ReporterName>Reported Staff Name</ReporterName>
     <Behaviors>
       <CodeValue>BE0</CodeValue>
     </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="School Code of Conduct">
+      <SecondaryBehavior>SBE0</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Illegal Knife</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>false</ReportedToLawEnforcement>
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>

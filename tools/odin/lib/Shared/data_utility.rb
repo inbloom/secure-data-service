@@ -143,14 +143,14 @@ class DataUtility
   # randomly selects a subset of the specified 'choices' that will have size equal to the specified number of choices
   # -> if num is larger than size of choices, choices array will be returned (no error condition raised)
   def self.select_num_from_options(prng, num, choices)
-    return []      if choices.nil?
+    return []      if choices.nil? || num < 1
     return choices if num >= choices.size
-    subset = []
+    subset = Set.new
     while subset.size < num
       choice = select_random_from_options(prng, choices)
-      subset << choice unless subset.include?(choice)
+      subset << choice
     end
-    subset
+    subset.to_a
   end
   
   #given a float, choose either the floor or ceiling value
