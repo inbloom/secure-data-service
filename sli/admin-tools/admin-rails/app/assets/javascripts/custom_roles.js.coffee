@@ -5,7 +5,6 @@ RIGHT_COL = "td:eq(1)";
 SELF_RIGHT_COL = "td:eq(2)";
 ADMIN_COL = "td:eq(3)";
 EDIT_COL = "td:eq(4)";
-
 jQuery ->
   unless initCustomRoleScripts?
     return
@@ -13,7 +12,6 @@ jQuery ->
   populateTable(roles)
 
   $("#addSelfRightUi button").click ->
-    console.log("Clicking the self button")
     option = $('#addSelfRightUi option:selected')
     if (option.val() == 'none')
       return
@@ -26,7 +24,6 @@ jQuery ->
     enableSaveButtonIfPossible($(@).parents("tr"))
 
   $("#addRightUi button").click ->
-    console.log("The regular button clicked")
     option = $('#addRightUi option:selected')
     if (option.val() == 'none')
       return
@@ -244,7 +241,6 @@ getAllRoles = () ->
 populateTable = (data) ->
   $("#custom_roles tbody").children().remove()
   for role in data
-    console.log(role)
     newRow = $("<tr><td><div></div></td><td></td><td></td><td></td><td></td></tr>")
     $("#custom_roles tbody").append(newRow)
 
