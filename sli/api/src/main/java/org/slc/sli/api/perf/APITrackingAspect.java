@@ -56,13 +56,6 @@ public class APITrackingAspect {
     @Value("${sli.api.performance.tracking}")
     private String apiCallTracking;
     
-//    public void setEnabled(String enableTracking) { 
-//        // apiCallTracking = Boolean.parseBoolean(enableTracking);
-//        boolean x = Boolean.parseBoolean(enableTracking);
-//        LOG.debug("XXXXXXXXXXXXXXXXXXXXXX  Enable value: " + x); 
-//        apiCallTracking = Boolean.parseBoolean(enableTracking);
-//    }
-
     @Autowired
     private MongoStat callTracker;
         
@@ -89,15 +82,16 @@ public class APITrackingAspect {
         result = pjp.proceed();
         long end = System.currentTimeMillis(); 
 
-//        // capture the arguments
-//        List<String> args = null; 
-//        if ((end - start) > 0) {
-//            Object[] callArgs = pjp.getArgs(); 
-//            args = new ArrayList<String>(callArgs.length); 
-//            for(Object ca : callArgs) {
-//                args.add((null == ca) ? null : ca.getClass().getName() + ":" + ca.toString()); 
-//            }
-//        }
+        // The following captures the arguments and records them, this is very expensive in terms 
+        // of database use 
+        //        List<String> args = null; 
+        //        if ((end - start) > 0) {
+        //            Object[] callArgs = pjp.getArgs(); 
+        //            args = new ArrayList<String>(callArgs.length); 
+        //            for(Object ca : callArgs) {
+        //                args.add((null == ca) ? null : ca.getClass().getName() + ":" + ca.toString()); 
+        //            }
+        //        }
         // we are not keeping the signature, because it's stored in the first event
         callTracker.addEvent("e", "", end, null);
         return result;

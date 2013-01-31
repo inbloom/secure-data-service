@@ -59,28 +59,6 @@ public class PostProcessFilter implements ContainerResponseFilter {
     private DateTimeFormatter dateFormatter = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd").toFormatter();
     private  DateTimeFormatter timeFormatter = new DateTimeFormatterBuilder().appendPattern("HH:mm:ss.SSSZ").toFormatter();
     
-//    private static LinkedBlockingQueue<Map<String, Object>> writeQueue =  new LinkedBlockingQueue<Map<String, Object>>();
-//    private static Thread writeThread; 
-//        
-//    static {
-//        writeThread = new Thread(new Runnable() {
-//            public void run() {
-//                while(true) {
-//                    try {
-//                        if (null != perfRepo) {
-//                          Map<String, Object> body = writeQueue.take();
-//                          perfRepo.create("apiResponse", body, "apiResponse");
-//                        }
-//                        else {
-//                            Thread.sleep(100); 
-//                        }
-//                    } catch (InterruptedException ignore) {} 
-//                }
-//            }
-//        });
-//        writeThread.start();
-//    }
-
     @Autowired
     private SecurityCachingStrategy securityCachingStrategy;
 
@@ -169,7 +147,6 @@ public class PostProcessFilter implements ContainerResponseFilter {
                 }
             }
         }
-        logIntoDb = true; 
 
         if (logIntoDb) {
             String endPoint = "/" + uri.get("resource");
@@ -196,14 +173,15 @@ public class PostProcessFilter implements ContainerResponseFilter {
             body.put("id", uri.get("id"));
             body.put("parameters", request.getQueryParameters());
             body.put("Date", dateFormatter.print(new DateTime(System.currentTimeMillis())));
-            body.put("startTime", startTime); 
-//            body.put("startTime", timeFormatter.print(new DateTime(startTime)));
-//            body.put("endTime", timeFormatter.print(new DateTime(System.currentTimeMillis())));
+            body.put("startTime", startTime);
+            // Note: Currently the start and end times are recorded in ms since the epoch. 
+            //       here is how they were formatted in the past 
+            //  body.put("startTime", timeFormatter.print(new DateTime(startTime)));
+            //  body.put("endTime", timeFormatter.print(new DateTime(System.currentTimeMillis())));
             body.put("endTime", endTime);
             body.put("responseTime", String.valueOf(elapsed));
             body.put("dbHitCount", mongoStat.getDbHitCount());
             body.put("stats", mongoStat.getStats()); 
-            // perfRepo.setWriteConcern(WriteConcern.SAFE.toString()); 
             perfRepo.create("apiResponse", body, "apiResponse");
         }
 
