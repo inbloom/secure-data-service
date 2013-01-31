@@ -405,5 +405,37 @@
 				}
 			}
 		}
+	},
+    	"session": {
+		"fields": [
+			"body.schoolYear",
+			"body.sessionName",
+            "body.endDate",
+            "body.beginDate",
+            "body.schoolId"
+		],
+		"append": {
+			"body.context.schoolId": {
+				"value": "ALL"
+			}
+		},
+		"mapping": {
+			"session": {
+				"_timestamp": {
+					"enabled": true
+				},
+				"properties": {
+					"context": {
+						"include_in_all": false,
+						"properties": {
+							"schoolId": {
+								"type": "string",
+								"index": "not_analyzed"
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 }
