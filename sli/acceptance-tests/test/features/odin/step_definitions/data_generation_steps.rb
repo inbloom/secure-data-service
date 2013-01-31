@@ -45,7 +45,7 @@ end
 When /^I generate the jmeter api performance data set in the (.*?) directory$/ do |gen_dir|
   @gen_path = "#{@odin_working_path}#{gen_dir}/"
   puts "Calling generate function for jmeter api performance scenario"
-  generate("jmeter_api_performance")
+  generate("jmeter_api_performance")   
 end
 
 When /^I zip generated data under filename (.*?) to the new (.*?) directory$/ do |zip_file, new_dir|

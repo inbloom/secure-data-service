@@ -173,6 +173,9 @@ ENTITY_BLACKLIST: [
 "DisciplineDescriptor",
 "BellSchedule"]
 
+#likelyhood for random optional fields most people don't care about
+OPTIONAL_FIELD_LIKELYHOOD: 0.0
+
 # Settings specifically for matching cardinalities with the old Java tool, probably of
 # little use outside of that
 # Do not create StaffEdOrgAssociations except for SEA staff
