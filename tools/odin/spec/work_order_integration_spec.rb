@@ -1,6 +1,6 @@
 =begin
 
-Copyright 2012 Shared Learning Collaborative, LLC
+Copyright 2012-2013 inBloom, Inc. and its affiliates.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -60,7 +60,8 @@ describe "WorkOrderProcessor" do
                     'INCIDENTS_PER_SECTION' => 1,
                     'LIKELYHOOD_STUDENT_WAS_INVOLVED' => 0.5,
                     'INCLUDE_PARENTS' => true, 'COHORTS_PER_SCHOOL' => 4, 'PROBABILITY_STUDENT_IN_COHORT' => 1, 'DAYS_IN_COHORT' => 30,
-                    'COMPETENCY_LEVEL_DESCRIPTORS' => competency_level_descriptors})}
+                    'COMPETENCY_LEVEL_DESCRIPTORS' => competency_level_descriptors,
+                    'OPTIONAL_FIELD_LIKELYHOOD' => 1})}
   describe "#build" do
 
     let(:entity_queue) {EntityQueue.new}

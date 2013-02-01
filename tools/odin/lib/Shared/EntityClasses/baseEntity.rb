@@ -1,6 +1,6 @@
 =begin
 
-Copyright 2012 Shared Learning Collaborative, LLC
+Copyright 2012-2013 inBloom, Inc. and its affiliates.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -34,12 +34,26 @@ class BaseEntity
     @@scenario = scenario
   end
 
+  def rand(num)
+    @rand.rand(num)
+  end
+
   def choose(options)
     options[@rand.rand(options.size) - 1]
   end
 
   def wChoose(distribution)
     r = @rand.rand weight_total(distribution)
+    distribution.each do |element, weight|
+      if r < weight
+      return element
+      end
+      r -= weight
+    end
+  end
+
+  def wChooseUsingRand(prng, distribution)
+    r = prng.rand weight_total(distribution)
     distribution.each do |element, weight|
       if r < weight
       return element

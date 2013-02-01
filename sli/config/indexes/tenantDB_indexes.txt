@@ -27,8 +27,6 @@ attendance,false,body.studentId:1
 cohort,false,body.educationOrgId:1
 # Look up studentCohortAssociation by student: /students/{id}/studentCohortAssociations
 cohort,false,studentCohortAssociation.body.studentId:1
-# REMOVE - DE2537
-cohort,false,body.programId:1
 # Look up course by school: /educationOrganizations/{id}/schools
 course,false,body.schoolId:1
 # Look up courseOffering by course: /courses/{id}/courseOfferings

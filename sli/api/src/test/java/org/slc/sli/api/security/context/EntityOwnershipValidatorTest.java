@@ -1,3 +1,18 @@
+/*
+ * Copyright 2013 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.slc.sli.api.security.context;
 
 import java.util.Arrays;
@@ -105,42 +120,257 @@ public class EntityOwnershipValidatorTest {
         Assert.assertTrue(validator.canAccess(student));
     }
     
+    @Test
+    public void testStudentSchoolAssociation() {
+        Entity student = helper.generateStudent();
+        Entity ssa = helper.generateStudentSchoolAssociation(student.getEntityId(), otherEdorg.getEntityId(), "", false);
+        Assert.assertFalse(validator.canAccess(ssa));
+        ssa = helper.generateStudentSchoolAssociation(student.getEntityId(), myEdOrg.getEntityId(), "", false);
+        Assert.assertTrue(validator.canAccess(student));
+    }
+    
+    @Test
+    public void testStudentSectionAssoc() {
+        Entity student = helper.generateStudent();
+        helper.generateStudentSchoolAssociation(student.getEntityId(), otherEdorg.getEntityId(), "", false);
+        Entity section = helper.generateSection(otherEdorg.getEntityId());
+        Entity ssa = helper.generateSSA(student.getEntityId(), section.getEntityId(), false);
+        Assert.assertFalse(validator.canAccess(ssa));
+        
+        section = helper.generateSection(myEdOrg.getEntityId());
+        helper.generateStudentSchoolAssociation(student.getEntityId(), myEdOrg.getEntityId(), "", false);
+        ssa = helper.generateSSA(student.getEntityId(), section.getEntityId(), false);
+        Assert.assertTrue(validator.canAccess(ssa));
+    }
+    
+    @Test
+    public void testGrade() {
+        Entity student = helper.generateStudent();
+        helper.generateStudentSchoolAssociation(student.getEntityId(), otherEdorg.getEntityId(), "", false);
+        Entity section = helper.generateSection(otherEdorg.getEntityId());
+        Entity ssa = helper.generateSSA(student.getEntityId(), section.getEntityId(), false);
+        Entity grade = helper.generateGrade(ssa.getEntityId());
+        Assert.assertFalse(validator.canAccess(grade));
+        
+        section = helper.generateSection(myEdOrg.getEntityId());
+        helper.generateStudentSchoolAssociation(student.getEntityId(), myEdOrg.getEntityId(), "", false);
+        ssa = helper.generateSSA(student.getEntityId(), section.getEntityId(), false);
+        grade = helper.generateGrade(ssa.getEntityId());
+        Assert.assertTrue(validator.canAccess(grade));
+    }
+    
+    @Test
+    public void testAttendance() {
+        Entity att = helper.generateAttendance("blah", otherEdorg.getEntityId());
+        Assert.assertFalse(validator.canAccess(att));
+        att = helper.generateAttendance("blah", myEdOrg.getEntityId());
+        Assert.assertTrue(validator.canAccess(att));
+    }
+    
+    @Test
+    public void testCohort() {
+        Entity cohort = helper.generateCohort(otherEdorg.getEntityId());
+        Assert.assertFalse(validator.canAccess(cohort));
+        cohort = helper.generateCohort(myEdOrg.getEntityId());
+        Assert.assertTrue(validator.canAccess(cohort));
+    }
+    
+    @Test
+    public void testCourse() {
+        Entity course = helper.generateCourse(otherEdorg.getEntityId());
+        Assert.assertFalse(validator.canAccess(course));
+        course = helper.generateCourse(myEdOrg.getEntityId());
+        Assert.assertTrue(validator.canAccess(course));
+    }
+    
+    @Test
+    public void testCourseOffering() {
+        Entity offering = helper.generateCourseOffering(otherEdorg.getEntityId());
+        Assert.assertFalse(validator.canAccess(offering));
+        offering = helper.generateCourseOffering(myEdOrg.getEntityId());
+        Assert.assertTrue(validator.canAccess(offering));
+    }
+    
+    @Test
+    public void testDisciplineIncident() {
+        Entity di = helper.generateDisciplineIncident(otherEdorg.getEntityId());
+        Assert.assertFalse(validator.canAccess(di));
+        di = helper.generateDisciplineIncident(myEdOrg.getEntityId());
+        Assert.assertTrue(validator.canAccess(di));
+    }
+    
+    @Test
+    public void testGraduationPlan() {
+        Entity gp = helper.generateGraduationPlan(otherEdorg.getEntityId());
+        Assert.assertFalse(validator.canAccess(gp));
+        gp = helper.generateGraduationPlan(myEdOrg.getEntityId());
+        Assert.assertTrue(validator.canAccess(gp));
+    }
+    
+    @Test
+    public void testParent() {
+        Entity student = helper.generateStudent();
+        Entity ssa = helper.generateStudentSchoolAssociation(student.getEntityId(), otherEdorg.getEntityId(), "", false);
+        Entity parent = helper.generateParent();
+        helper.generateStudentParentAssoc(student.getEntityId(), parent.getEntityId());
+        Assert.assertFalse(validator.canAccess(parent));
+        ssa = helper.generateStudentSchoolAssociation(student.getEntityId(), myEdOrg.getEntityId(), "", false);
+        Assert.assertTrue(validator.canAccess(student));
+    }
+    
+    @Test
+    public void testStudentParentAssoc() {
+        Entity student = helper.generateStudent();
+        Entity ssa = helper.generateStudentSchoolAssociation(student.getEntityId(), otherEdorg.getEntityId(), "", false);
+        Entity parent = helper.generateParent();
+        Entity spa = helper.generateStudentParentAssoc(student.getEntityId(), parent.getEntityId());
+        Assert.assertFalse(validator.canAccess(spa));
+        ssa = helper.generateStudentSchoolAssociation(student.getEntityId(), myEdOrg.getEntityId(), "", false);
+        Assert.assertTrue(validator.canAccess(spa));
+    }
+    
+    @Test
+    public void testSection() {
+        Entity sec = helper.generateSection(otherEdorg.getEntityId());
+        Assert.assertFalse(validator.canAccess(sec));
+        sec = helper.generateSection(myEdOrg.getEntityId());
+        Assert.assertTrue(validator.canAccess(sec));
+    }
+    
+    @Test
+    public void testSession() {
+        Entity session = helper.generateSession(otherEdorg.getEntityId(), null);
+        Assert.assertFalse(validator.canAccess(session));
+        session = helper.generateSession(myEdOrg.getEntityId(), null);
+        Assert.assertTrue(validator.canAccess(session));
+    }
+    
+    @Test
+    public void testStaff() {
+        Entity staff = helper.generateStaff();
+        helper.generateStaffEdorg(staff.getEntityId(), otherEdorg.getEntityId(), false);
+        Assert.assertFalse(validator.canAccess(staff));
+        helper.generateStaffEdorg(staff.getEntityId(), myEdOrg.getEntityId(), false);
+        Assert.assertTrue(validator.canAccess(staff));
+    }
+    
+    @Test
+    public void testStaffEdOrg() {
+        Entity staff = helper.generateStaff();
+        Entity staffEdorg = helper.generateStaffEdorg(staff.getEntityId(), otherEdorg.getEntityId(), false);
+        Assert.assertFalse(validator.canAccess(staffEdorg));
+        staffEdorg = helper.generateStaffEdorg(staff.getEntityId(), myEdOrg.getEntityId(), false);
+        Assert.assertTrue(validator.canAccess(staffEdorg));
+    }
+    
+    @Test
+    public void testStaffCohort() {
+        Entity staff = helper.generateStaff();
+        helper.generateStaffEdorg(staff.getEntityId(), otherEdorg.getEntityId(), false);
+        Entity staffCohort = helper.generateStaffCohort(staff.getEntityId(), "cohortId", false, true);
+        Assert.assertFalse(validator.canAccess(staffCohort));
+        helper.generateStaffEdorg(staff.getEntityId(), myEdOrg.getEntityId(), false);
+        Assert.assertTrue(validator.canAccess(staffCohort));
+    }
+    
+    @Test
+    public void testStaffProgram() {
+        Entity staff = helper.generateStaff();
+        helper.generateStaffEdorg(staff.getEntityId(), otherEdorg.getEntityId(), false);
+        Entity staffProgram = helper.generateStaffProgram(staff.getEntityId(), "programId", false, true);
+        Assert.assertFalse(validator.canAccess(staffProgram));
+        helper.generateStaffEdorg(staff.getEntityId(), myEdOrg.getEntityId(), false);
+        Assert.assertTrue(validator.canAccess(staffProgram));
+    }
+    
+    @Test
+    public void testStudentCohortAssoc() {
+        Entity student = helper.generateStudent();
+        Entity ssa = helper.generateStudentSchoolAssociation(student.getEntityId(), otherEdorg.getEntityId(), "", false);
+        Entity cohort = helper.generateCohort(otherEdorg.getEntityId());
+        Entity studentCohort = helper.generateStudentCohort(student.getEntityId(), cohort.getEntityId(), false);
+        Assert.assertFalse(validator.canAccess(studentCohort));
+        ssa = helper.generateStudentSchoolAssociation(student.getEntityId(), myEdOrg.getEntityId(), "", false);
+        Assert.assertTrue(validator.canAccess(studentCohort));
+    }
+    
+    @Test
+    public void testStudentCompetency() {
+        Entity student = helper.generateStudent();
+        helper.generateStudentSchoolAssociation(student.getEntityId(), otherEdorg.getEntityId(), "", false);
+        Entity section = helper.generateSection(otherEdorg.getEntityId());
+        Entity ssa = helper.generateSSA(student.getEntityId(), section.getEntityId(), false);
+        Entity comp = helper.generateStudentCompetency(ssa.getEntityId(), "objid");
+        Assert.assertFalse(validator.canAccess(comp));
+        
+        section = helper.generateSection(myEdOrg.getEntityId());
+        helper.generateStudentSchoolAssociation(student.getEntityId(), myEdOrg.getEntityId(), "", false);
+        ssa = helper.generateSSA(student.getEntityId(), section.getEntityId(), false);
+        comp = helper.generateStudentCompetency(ssa.getEntityId(), "objid");
+        Assert.assertTrue(validator.canAccess(ssa));
+    }
+    
+    @Test
+    public void testStudentCompObj() {
+        Entity obj = helper.generateStudentCompetencyObjective(otherEdorg.getEntityId());
+        Assert.assertFalse(validator.canAccess(obj));
+        obj = helper.generateStudentCompetencyObjective(myEdOrg.getEntityId());
+        Assert.assertTrue(validator.canAccess(obj));
+    }
+    
+    @Test
+    public void testStudentDiscIncAssoc() {
+        Entity student = helper.generateStudent();
+        helper.generateStudentSchoolAssociation(student.getEntityId(), otherEdorg.getEntityId(), "", false);
+        Entity discIncAssoc = helper.generateStudentDisciplineIncidentAssociation(student.getEntityId(), "dicpId");
+        Assert.assertFalse(validator.canAccess(discIncAssoc));
+        helper.generateStudentSchoolAssociation(student.getEntityId(), myEdOrg.getEntityId(), "", false);
+        Assert.assertTrue(validator.canAccess(discIncAssoc));
+    }
+    
+    @Test
+    public void testStudentProgramAssoc() {
+        Entity spa = helper.generateStudentProgram("studentId", "programId", otherEdorg.getEntityId(), false);
+        Assert.assertFalse(validator.canAccess(spa));
+        spa = helper.generateStudentProgram("studentId", "programId", myEdOrg.getEntityId(), false);
+        Assert.assertTrue(validator.canAccess(spa));
+    }
+    
+    @Test
+    public void testTeacherSectionAssoc() {
+        Entity staff = helper.generateStaff();
+        helper.generateStaffEdorg(staff.getEntityId(), otherEdorg.getEntityId(), false);
+        Entity staffSection = helper.generateTSA(staff.getEntityId(), "sectionId", false);
+        Assert.assertFalse(validator.canAccess(staffSection));
+        helper.generateStaffEdorg(staff.getEntityId(), myEdOrg.getEntityId(), false);
+        Assert.assertTrue(validator.canAccess(staffSection));
+    }
+    
+    @Test
+    public void testTeacherSchoolAssoc() {
+        Entity tsa = helper.generateTeacherSchool("teacherId", otherEdorg.getEntityId());
+        Assert.assertFalse(validator.canAccess(tsa));
+        tsa = helper.generateTeacherSchool("teacherId", myEdOrg.getEntityId());
+        Assert.assertTrue(validator.canAccess(tsa));
+    }
+    
+    @Test
+    public void testTeacher() {
+        Entity teacher = helper.generateTeacher();
+        helper.generateTeacherSchool(teacher.getEntityId(), otherEdorg.getEntityId());
+        Assert.assertFalse(validator.canAccess(teacher));
+        helper.generateTeacherSchool(teacher.getEntityId(), myEdOrg.getEntityId());
+        Assert.assertTrue(validator.canAccess(teacher));
+    }
     
     /*
-     *         typeToReference.put(EntityNames.STUDENT_SCHOOL_ASSOCIATION, new Reference(EntityNames.STUDENT_SCHOOL_ASSOCIATION, EntityNames.EDUCATION_ORGANIZATION, ParameterConstants.SCHOOL_ID, Reference.RefType.LEFT_TO_RIGHT));
-        typeToReference.put(EntityNames.GRADE, new Reference(EntityNames.GRADE, EntityNames.STUDENT_SECTION_ASSOCIATION, ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID, Reference.RefType.LEFT_TO_RIGHT));
-        typeToReference.put(EntityNames.STUDENT_SECTION_ASSOCIATION, new Reference(EntityNames.STUDENT_SECTION_ASSOCIATION, EntityNames.STUDENT, ParameterConstants.STUDENT_ID, Reference.RefType.LEFT_TO_RIGHT));
-        typeToReference.put(EntityNames.ATTENDANCE, new Reference(EntityNames.ATTENDANCE, EntityNames.SCHOOL, ParameterConstants.SCHOOL_ID, Reference.RefType.LEFT_TO_RIGHT));
-        typeToReference.put(EntityNames.COHORT, new Reference(EntityNames.COHORT, EntityNames.EDUCATION_ORGANIZATION, "educationOrgId", Reference.RefType.LEFT_TO_RIGHT));
-        typeToReference.put(EntityNames.COURSE, new Reference(EntityNames.COURSE, EntityNames.SCHOOL, ParameterConstants.SCHOOL_ID, Reference.RefType.LEFT_TO_RIGHT));
-        typeToReference.put(EntityNames.COURSE_OFFERING, new Reference(EntityNames.COURSE_OFFERING, EntityNames.SCHOOL, ParameterConstants.SCHOOL_ID, Reference.RefType.LEFT_TO_RIGHT));
         typeToReference.put(EntityNames.COURSE_TRANSCRIPT, new Reference(EntityNames.COURSE_TRANSCRIPT, EntityNames.COURSE, ParameterConstants.COURSE_ID, Reference.RefType.LEFT_TO_RIGHT));
-        typeToReference.put(EntityNames.DISCIPLINE_INCIDENT, new Reference(EntityNames.DISCIPLINE_INCIDENT, EntityNames.SCHOOL, ParameterConstants.SCHOOL_ID, Reference.RefType.LEFT_TO_RIGHT));
         typeToReference.put(EntityNames.DISCIPLINE_ACTION, new Reference(EntityNames.DISCIPLINE_ACTION, EntityNames.SCHOOL, "responsibilitySchoolId", Reference.RefType.LEFT_TO_RIGHT));
         typeToReference.put(EntityNames.GRADEBOOK_ENTRY, new Reference(EntityNames.GRADEBOOK_ENTRY, EntityNames.SECTION, ParameterConstants.SECTION_ID, Reference.RefType.LEFT_TO_RIGHT));
-        typeToReference.put(EntityNames.GRADUATION_PLAN, new Reference(EntityNames.GRADUATION_PLAN, EntityNames.EDUCATION_ORGANIZATION, ParameterConstants.EDUCATION_ORGANIZATION_ID, Reference.RefType.LEFT_TO_RIGHT));
-        typeToReference.put(EntityNames.PARENT, new Reference(EntityNames.PARENT, EntityNames.STUDENT_PARENT_ASSOCIATION, ParameterConstants.PARENT_ID, Reference.RefType.RIGHT_TO_LEFT));
         typeToReference.put(EntityNames.REPORT_CARD, new Reference(EntityNames.REPORT_CARD, EntityNames.STUDENT, ParameterConstants.STUDENT_ID, Reference.RefType.LEFT_TO_RIGHT));
-        typeToReference.put(EntityNames.SECTION, new Reference(EntityNames.SECTION, EntityNames.SCHOOL, ParameterConstants.SCHOOL_ID, Reference.RefType.LEFT_TO_RIGHT));
-        typeToReference.put(EntityNames.SESSION, new Reference(EntityNames.SESSION, EntityNames.SCHOOL, ParameterConstants.SCHOOL_ID, Reference.RefType.LEFT_TO_RIGHT));
-        typeToReference.put(EntityNames.STAFF, new Reference(EntityNames.STAFF, EntityNames.STAFF_ED_ORG_ASSOCIATION, ParameterConstants.STAFF_REFERENCE, Reference.RefType.RIGHT_TO_LEFT));
-        typeToReference.put(EntityNames.STAFF_ED_ORG_ASSOCIATION, new Reference(EntityNames.STAFF_ED_ORG_ASSOCIATION, EntityNames.EDUCATION_ORGANIZATION, ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, Reference.RefType.LEFT_TO_RIGHT));
-        typeToReference.put(EntityNames.STAFF_COHORT_ASSOCIATION, new Reference(EntityNames.STAFF_COHORT_ASSOCIATION, EntityNames.STAFF, ParameterConstants.STAFF_ID, Reference.RefType.LEFT_TO_RIGHT));
-        typeToReference.put(EntityNames.STAFF_PROGRAM_ASSOCIATION, new Reference(EntityNames.STAFF_PROGRAM_ASSOCIATION, EntityNames.STAFF, ParameterConstants.STAFF_ID, Reference.RefType.LEFT_TO_RIGHT));
         typeToReference.put(EntityNames.STUDENT_ACADEMIC_RECORD, new Reference(EntityNames.STUDENT_ACADEMIC_RECORD, EntityNames.STUDENT, ParameterConstants.STUDENT_ID, Reference.RefType.LEFT_TO_RIGHT));
         typeToReference.put(EntityNames.STUDENT_ASSESSMENT, new Reference(EntityNames.STUDENT_ASSESSMENT, EntityNames.STUDENT, ParameterConstants.STUDENT_ID, Reference.RefType.LEFT_TO_RIGHT));
-        typeToReference.put(EntityNames.STUDENT_COHORT_ASSOCIATION, new Reference(EntityNames.STUDENT_COHORT_ASSOCIATION, EntityNames.STUDENT, ParameterConstants.STUDENT_ID, Reference.RefType.LEFT_TO_RIGHT));
-        typeToReference.put(EntityNames.STUDENT_COMPETENCY, new Reference(EntityNames.STUDENT_COMPETENCY, EntityNames.STUDENT_SECTION_ASSOCIATION, ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID, Reference.RefType.LEFT_TO_RIGHT));
-        typeToReference.put(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, new Reference(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, EntityNames.EDUCATION_ORGANIZATION, ParameterConstants.EDUCATION_ORGANIZATION_ID, Reference.RefType.LEFT_TO_RIGHT));
-        typeToReference.put(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, new Reference(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, EntityNames.STUDENT, ParameterConstants.STUDENT_ID, Reference.RefType.LEFT_TO_RIGHT));
-        typeToReference.put(EntityNames.STUDENT_PARENT_ASSOCIATION, new Reference(EntityNames.STUDENT_PARENT_ASSOCIATION, EntityNames.STUDENT, ParameterConstants.STUDENT_ID, Reference.RefType.LEFT_TO_RIGHT));
         typeToReference.put(EntityNames.STUDENT_GRADEBOOK_ENTRY, new Reference(EntityNames.STUDENT_GRADEBOOK_ENTRY, EntityNames.GRADEBOOK_ENTRY, ParameterConstants.GRADEBOOK_ENTRY_ID, Reference.RefType.LEFT_TO_RIGHT));
-        typeToReference.put(EntityNames.STUDENT_PROGRAM_ASSOCIATION, new Reference(EntityNames.STUDENT_PROGRAM_ASSOCIATION, EntityNames.EDUCATION_ORGANIZATION, ParameterConstants.EDUCATION_ORGANIZATION_ID, Reference.RefType.LEFT_TO_RIGHT));
-        typeToReference.put(EntityNames.TEACHER_SECTION_ASSOCIATION, new Reference(EntityNames.TEACHER_SECTION_ASSOCIATION, EntityNames.STAFF, ParameterConstants.TEACHER_ID, Reference.RefType.LEFT_TO_RIGHT));
-        typeToReference.put(EntityNames.TEACHER_SCHOOL_ASSOCIATION, new Reference(EntityNames.TEACHER_SCHOOL_ASSOCIATION, EntityNames.SCHOOL, ParameterConstants.SCHOOL_ID, Reference.RefType.LEFT_TO_RIGHT));
-        typeToReference.put(EntityNames.TEACHER, new Reference(EntityNames.TEACHER, EntityNames.STAFF_ED_ORG_ASSOCIATION, ParameterConstants.STAFF_REFERENCE, Reference.RefType.RIGHT_TO_LEFT));
-        //typeToReference.put(EntityNames.STUDENT_GRADEBOOK_ENTRY, new Reference(EntityNames.STUDENT_GRADEBOOK_ENTRY, EntityNames.GRADEBOOK_ENTRY, ParameterConstants.GRADEBOOK_ENTRY_ID, Reference.RefType.LEFT_TO_RIGHT));
-        publicEntities = new HashSet<String>(Arrays.asList(
      */
 
 

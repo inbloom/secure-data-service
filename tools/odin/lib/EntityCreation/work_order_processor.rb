@@ -1,6 +1,6 @@
 =begin
 
-Copyright 2012 Shared Learning Collaborative, LLC
+Copyright 2012-2013 inBloom, Inc. and its affiliates.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@ class WorkOrderProcessor
   # uses the snapshot of the 'world' to generate student work orders
   def self.generate_work_orders(world, scenario, prng)
     section_factory = SectionWorkOrderFactory.new(world, scenario, prng)
-    student_factory = StudentWorkOrderFactory.new(world, scenario, section_factory)
+    student_factory = StudentWorkOrderFactory.new(world, scenario, section_factory, nil)
     Enumerator.new do |y|
       world.each{|type, edOrgs|
         edOrgs.each{|edOrg|

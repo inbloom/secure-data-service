@@ -1,3 +1,18 @@
+/*
+ * Copyright 2013 Shared Learning Collaborative, LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.slc.sli.api.security.context;
 
 import java.util.Arrays;
@@ -62,7 +77,7 @@ public class EntityOwnershipValidator {
     @SuppressWarnings({ "serial", "unused" })
     @PostConstruct
     private void init() {
-        //studentSectionAssociationId->studentId->student
+
         typeToReference.put(EntityNames.STUDENT, new Reference(EntityNames.STUDENT, EntityNames.STUDENT_SCHOOL_ASSOCIATION, ParameterConstants.STUDENT_ID, Reference.RefType.RIGHT_TO_LEFT));
         typeToReference.put(EntityNames.STUDENT_SCHOOL_ASSOCIATION, new Reference(EntityNames.STUDENT_SCHOOL_ASSOCIATION, EntityNames.EDUCATION_ORGANIZATION, ParameterConstants.SCHOOL_ID, Reference.RefType.LEFT_TO_RIGHT));
         typeToReference.put(EntityNames.GRADE, new Reference(EntityNames.GRADE, EntityNames.STUDENT_SECTION_ASSOCIATION, ParameterConstants.STUDENT_SECTION_ASSOCIATION_ID, Reference.RefType.LEFT_TO_RIGHT));
@@ -96,7 +111,7 @@ public class EntityOwnershipValidator {
         typeToReference.put(EntityNames.TEACHER_SECTION_ASSOCIATION, new Reference(EntityNames.TEACHER_SECTION_ASSOCIATION, EntityNames.STAFF, ParameterConstants.TEACHER_ID, Reference.RefType.LEFT_TO_RIGHT));
         typeToReference.put(EntityNames.TEACHER_SCHOOL_ASSOCIATION, new Reference(EntityNames.TEACHER_SCHOOL_ASSOCIATION, EntityNames.SCHOOL, ParameterConstants.SCHOOL_ID, Reference.RefType.LEFT_TO_RIGHT));
         typeToReference.put(EntityNames.TEACHER, new Reference(EntityNames.TEACHER, EntityNames.STAFF_ED_ORG_ASSOCIATION, ParameterConstants.STAFF_REFERENCE, Reference.RefType.RIGHT_TO_LEFT));
-        //typeToReference.put(EntityNames.STUDENT_GRADEBOOK_ENTRY, new Reference(EntityNames.STUDENT_GRADEBOOK_ENTRY, EntityNames.GRADEBOOK_ENTRY, ParameterConstants.GRADEBOOK_ENTRY_ID, Reference.RefType.LEFT_TO_RIGHT));
+
         publicEntities = new HashSet<String>(Arrays.asList(
                 EntityNames.ASSESSMENT,
                 EntityNames.COMPETENCY_LEVEL_DESCRIPTOR,
@@ -105,7 +120,9 @@ public class EntityOwnershipValidator {
                 EntityNames.LEARNING_OBJECTIVE,
                 EntityNames.LEARNING_STANDARD,
                 EntityNames.PROGRAM,
-                EntityNames.GRADING_PERIOD
+                EntityNames.GRADING_PERIOD,
+                "stateEducationAgency",
+                "localEducationAgency"
                 ));
 
     }
@@ -130,19 +147,6 @@ public class EntityOwnershipValidator {
         return false;
     }
 
-    private Set<String> lookupEdorgs(Iterable<Entity> entities, String entityType) {
-        Set<String> edorgs = null;
-        if (entityType.equals(EntityNames.EDUCATION_ORGANIZATION) || entityType.equals(EntityNames.SCHOOL) 
-                || entityType.equals("stateEducationAgency") || entityType.equals("localEducationAgency")) {
-            edorgs = new HashSet<String>();
-            for (Entity entity : entities) {
-                edorgs.add(entity.getEntityId());
-            }
-        } else {
-            edorgs = lookupEdorgsForNonEdorgEntities(entities, entityType);
-        }
-        return edorgs;
-    }
 
 
     /**
@@ -151,33 +155,41 @@ public class EntityOwnershipValidator {
      * @param entityType
      * @return a Set of edorg IDs
      */
-    private Set<String> lookupEdorgsForNonEdorgEntities(Iterable<Entity> entities, String entityType) {
+    private Set<String> lookupEdorgs(Iterable<Entity> entities, String entityType) {
         Set<String> edorgs = new HashSet<String>();
         Reference ref = typeToReference.get(entityType);
-        if (ref == null) {
+        if (ref == null) {         
             warn("Cannot handle ownership for entity type {}.", entityType);
             throw new RuntimeException("No ownership for " + entityType);
         }
-
-        for (Entity entity : entities) {
-            EntityDefinition definition = store.lookupByEntityType(ref.toType);
-            String collectionName = definition.getStoredCollectionName();
-            String critField = null;
-            String critValue = null;
-            if (ref.type == Reference.RefType.LEFT_TO_RIGHT) {
-                critField = ParameterConstants.ID;
-                critValue = (String) entity.getBody().get(ref.refField);
-            } else { //RIGHT_TO_LEFT
-                critField = ref.refField;
-                critValue = entity.getEntityId();
+        
+        if (ref.toType.equals(EntityNames.SCHOOL) || ref.toType.equals(EntityNames.EDUCATION_ORGANIZATION)) {
+            //No need to do an actual mongo lookup since we have the IDs we need
+            for (Entity entity : entities) {
+                edorgs.add((String) entity.getBody().get(ref.refField));
             }
-
-            Iterable<Entity> ents = repo.findAll(collectionName, new NeutralQuery(new NeutralCriteria(critField, "=", critValue)));
-            if (ents.iterator().hasNext()) {
-                Set<String> toAdd = lookupEdorgs(ents, collectionName);
-                edorgs.addAll(toAdd);
-            } else {
-                warn("Could not find a matching {} where {} is {}.", collectionName, critField, critValue);
+        } else {
+        
+            for (Entity entity : entities) {
+                EntityDefinition definition = store.lookupByEntityType(ref.toType);
+                String collectionName = definition.getStoredCollectionName();
+                String critField = null;
+                String critValue = null;
+                if (ref.type == Reference.RefType.LEFT_TO_RIGHT) {
+                    critField = ParameterConstants.ID;
+                    critValue = (String) entity.getBody().get(ref.refField);
+                } else { //RIGHT_TO_LEFT
+                    critField = ref.refField;
+                    critValue = entity.getEntityId();
+                }
+    
+                Iterable<Entity> ents = repo.findAll(collectionName, new NeutralQuery(new NeutralCriteria(critField, "=", critValue)));
+                if (ents.iterator().hasNext()) {
+                    Set<String> toAdd = lookupEdorgs(ents, collectionName);
+                    edorgs.addAll(toAdd);
+                } else {
+                    warn("Could not find a matching {} where {} is {}.", collectionName, critField, critValue);
+                }
             }
         }
 
