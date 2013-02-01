@@ -60,7 +60,8 @@ describe "WorkOrderProcessor" do
                     'INCIDENTS_PER_SECTION' => 1,
                     'LIKELYHOOD_STUDENT_WAS_INVOLVED' => 0.5,
                     'INCLUDE_PARENTS' => true, 'COHORTS_PER_SCHOOL' => 4, 'PROBABILITY_STUDENT_IN_COHORT' => 1, 'DAYS_IN_COHORT' => 30,
-                    'COMPETENCY_LEVEL_DESCRIPTORS' => competency_level_descriptors})}
+                    'COMPETENCY_LEVEL_DESCRIPTORS' => competency_level_descriptors,
+                    'OPTIONAL_FIELD_LIKELYHOOD' => 1})}
   describe "#build" do
 
     let(:entity_queue) {EntityQueue.new}
