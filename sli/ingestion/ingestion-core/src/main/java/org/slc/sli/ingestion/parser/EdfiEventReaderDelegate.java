@@ -201,7 +201,7 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
         }
     }
 
-    private final static class EdfiType {
+    private static final class EdfiType {
         private final String name;
         private final String xsdType;
 
