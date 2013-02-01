@@ -1121,7 +1121,7 @@ class WorldBuilder
         else
           title = grade + " " + course["title"]
         end
-        @queue.push_work_order({:type => Course, :id => id, :title => title, :edOrgId => edOrgId})
+        @queue.push_work_order({:type => Course, :id => id, :grade => grade, :title => title, :edOrgId => edOrgId})
       end
     end
   end
