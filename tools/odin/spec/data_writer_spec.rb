@@ -79,7 +79,7 @@ describe "DataWriter" do
 
       it "will store a course in-memory" do
         @writer.get_entity_count(Course).should eq(0)
-        @writer << Course.new(1, "title", 1)
+        @writer << Course.new(1, "Fifth grade", "title", 1)
         @writer.get_entity_count(Course).should_not be_nil
         @writer.get_entity_count(Course).should eq(1)
       end
@@ -193,7 +193,7 @@ describe "DataWriter" do
 
     it "will store a course in-memory" do
       @writer.get_entity_count(Course).should eq(0)
-      @writer << Course.new(1, "title", 1)
+      @writer << Course.new(1, "Fifth grade", "title", 1)
       @writer.get_entity_count(Course).should_not be_nil
       @writer.get_entity_count(Course).should eq(1)
     end
