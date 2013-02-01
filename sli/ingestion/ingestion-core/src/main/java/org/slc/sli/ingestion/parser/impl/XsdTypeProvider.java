@@ -170,7 +170,6 @@ public class XsdTypeProvider implements TypeProvider {
         return type;
     }
 
-    @Override
     public void audit(SecurityEvent event) {
         // TODO Auto-generated method stub
 
