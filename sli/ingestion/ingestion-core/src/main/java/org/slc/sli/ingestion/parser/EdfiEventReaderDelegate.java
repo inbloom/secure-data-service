@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.Characters;
@@ -60,19 +59,12 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
     String currentEntityName = null;
     boolean currentEntityValid = false;
 
-    public EdfiEventReaderDelegate(XMLEventReader reader) {
-        super(reader);
-    }
-
-    public EdfiEventReaderDelegate() {
-    }
-
     @Override
     public XMLEvent nextEvent() throws XMLStreamException {
         XMLEvent event = super.nextEvent();
         String eventName = extractTagName(event);
 
-        if (eventName.startsWith("Interchange")) {
+        if (interchange == null && eventName.startsWith("Interchange")) {
             interchange = eventName;
         } else {
 
@@ -217,6 +209,12 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
             this.name = name;
             this.xsdType = xsdType;
         }
+
+        @Override
+        public String toString() {
+            return "<name=" + name + ", xsdType=" + xsdType + ">";
+        }
+
     }
 
 }
