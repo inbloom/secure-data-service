@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.Characters;
@@ -59,13 +58,6 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
     Stack<Pair<EdfiType, Map<String, Object>>> complexTypeStack = new Stack<Pair<EdfiType, Map<String, Object>>>();
     String currentEntityName = null;
     boolean currentEntityValid = false;
-
-    public EdfiEventReaderDelegate(XMLEventReader reader) {
-        super(reader);
-    }
-
-    public EdfiEventReaderDelegate() {
-    }
 
     @Override
     public XMLEvent nextEvent() throws XMLStreamException {
@@ -209,7 +201,7 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
         }
     }
 
-    private final static class EdfiType {
+    private static final class EdfiType {
         private final String name;
         private final String xsdType;
 
