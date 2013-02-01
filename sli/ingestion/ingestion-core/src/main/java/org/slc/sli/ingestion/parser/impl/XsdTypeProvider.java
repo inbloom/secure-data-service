@@ -15,6 +15,7 @@
  */
 package org.slc.sli.ingestion.parser.impl;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
@@ -70,16 +71,19 @@ public class XsdTypeProvider implements TypeProvider {
         String curdir = System.getProperty("user.dir");
 
         String schemaLocation = sliProps.getProperty("sli.poc.atma.schema");
-        parseEdfiSchema(schemaLocation);
+        parseEdfiSchema(new File(schemaLocation));
 
         parseInterchangeSchemas(sliProps);
     }
 
-    private void parseEdfiSchema(String schemaLocation) throws JDOMException, IOException {
+    private void parseEdfiSchema(File schemaFile) throws JDOMException, IOException {
         SAXBuilder b = new SAXBuilder();
-        Document doc = b.build(new FileInputStream(schemaLocation));
+        Document doc = b.build(new FileInputStream(schemaFile));
+
         for (Element xsInclude : doc.getDescendants(Filters.element("include", XS_NAMESPACE))) {
-            parseEdfiSchema(xsInclude.getAttributeValue("schemaLocation"));
+            String inclSchemaLocation = xsInclude.getAttributeValue("schemaLocation");
+            File path = new File(schemaFile.getParent(), inclSchemaLocation);
+            parseEdfiSchema(path);
         }
 
         parseComplexTypes(doc);
