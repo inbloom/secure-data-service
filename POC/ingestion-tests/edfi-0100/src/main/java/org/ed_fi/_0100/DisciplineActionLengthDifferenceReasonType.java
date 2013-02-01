@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlType;
  *     &lt;enumeration value="Term Decreased Due To Extenuating Health-Related Circumstances"/>
  *     &lt;enumeration value="Student Withdrew From School"/>
  *     &lt;enumeration value="School Year Ended"/>
- *     &lt;enumeration value="Continuation Of Previous YearÕs Disciplinary Action Assignment"/>
+ *     &lt;enumeration value="Continuation Of Previous Year's Disciplinary Action Assignment"/>
  *     &lt;enumeration value="Term Modified By Placement Program Due To Student Behavior While In The Placement"/>
  *     &lt;enumeration value="Other"/>
  *   &lt;/restriction>

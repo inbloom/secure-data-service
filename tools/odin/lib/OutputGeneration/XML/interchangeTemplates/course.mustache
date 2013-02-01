@@ -20,19 +20,59 @@ limita tions under the License.
     <CourseCode IdentificationSystem="School course code">
       <ID>{{id}}</ID>
     </CourseCode>
+    {{#course_level}}
+    <CourseLevel>{{level}}</CourseLevel>
+    <CourseLevelCharacteristics>
+    <CourseLevelCharacteristic>{{level_char}}</CourseLevelCharacteristic>
+    </CourseLevelCharacteristics>
+    {{/course_level}}
+    {{#grades_offered}}
+    <GradesOffered>
+    <GradeLevel>{{grades_offered}}</GradeLevel>
+    </GradesOffered>
+    {{/grades_offered}}
+    {{#subject_area}}
+    <SubjectArea>{{subject_area}}</SubjectArea>
+    {{/subject_area}}
+    {{#description}}
+    <CourseDescription>{{description}}</CourseDescription>
+    {{/description}}
     <DateCourseAdopted>2000-06-19</DateCourseAdopted>
     <HighSchoolCourseRequirement>false</HighSchoolCourseRequirement>
+    {{#gpa_appl}}
+    <CourseGPAApplicability>{{gpa_appl}}</CourseGPAApplicability>
+    {{/gpa_appl}}
+    {{#defined_by}}
+    <CourseDefinedBy>{{defined_by}}</CourseDefinedBy>
+    {{/defined_by}}
     <MinimumAvailableCredit>
       <Credit>3</Credit>
     </MinimumAvailableCredit>
     <MaximumAvailableCredit>
       <Credit>3</Credit>
     </MaximumAvailableCredit>
+    {{#career_path}}
+    <CareerPathway>{{career_path}}</CareerPathway>
+    {{/career_path}}
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>{{edOrg}}</StateOrganizationId>
       </EducationalOrgIdentity>
     </EducationOrganizationReference>
+    {{#learning_objectives}}
+    <LearningObjectiveReference>
+    <LearningObjectiveIdentity>
+    <Objective>{{objective}}</Objective>
+    <AcademicSubject>{{academic_subject}}</AcademicSubject>
+    <ObjectiveGradeLevel>{{objective_grade_level}}</ObjectiveGradeLevel>
+    </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    {{/learning_objectives}}
+    {{#competency_levels}}
+    <CompetencyLevels>
+    <CodeValue>{{.}}</CodeValue>
+    </CompetencyLevels>
+    {{/competency_levels}}
     <UniqueCourseId>{{id}}</UniqueCourseId>
   </Course>
 {{/entity}}

@@ -34,12 +34,26 @@ class BaseEntity
     @@scenario = scenario
   end
 
+  def rand(num)
+    @rand.rand(num)
+  end
+
   def choose(options)
     options[@rand.rand(options.size) - 1]
   end
 
   def wChoose(distribution)
     r = @rand.rand weight_total(distribution)
+    distribution.each do |element, weight|
+      if r < weight
+      return element
+      end
+      r -= weight
+    end
+  end
+
+  def wChooseUsingRand(prng, distribution)
+    r = prng.rand weight_total(distribution)
     distribution.each do |element, weight|
       if r < weight
       return element
@@ -56,12 +70,12 @@ class BaseEntity
     sum
   end
   
-  def bit_choose() 
-    rand(2) == 1
+  def bit_choose
+    @rand.rand(2) == 1
   end
 
-  def bit_choose()
-    @rand.rand(2) == 1
+  def optional?
+    (@@scenario['OPTIONAL_FIELD_LIKELYHOOD'] > 0) and (@rand.rand() < @@scenario['OPTIONAL_FIELD_LIKELYHOOD'])
   end
 
 end

@@ -23,6 +23,7 @@ import java.security.Principal;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -62,6 +63,7 @@ public class SLIPrincipal implements Principal, Serializable {
     private Entity entity;
 	private String userType;
 	private Collection<GrantedAuthority> selfRights;
+	private Set<String> authorizingEdOrgs;
 
     public String getSessionId() {
         return sessionId;
@@ -73,9 +75,11 @@ public class SLIPrincipal implements Principal, Serializable {
 
     public SLIPrincipal() {
         // Empty default constructor is used in various places. 
+        authorizingEdOrgs = new HashSet<String>();
     }
 
     public SLIPrincipal(String id) {
+        this();
         this.id = id;
     }
 
@@ -279,4 +283,17 @@ public class SLIPrincipal implements Principal, Serializable {
 	public Collection<GrantedAuthority> getSelfRights() {
 		return this.selfRights;
 	}
+	/**
+	 * These are edorgs that have authorized the app that the user is currently logged into.
+	 * 
+	 * The set contains ids of both the authorizing LEA and any sub-LEAs or schools within the LEA.
+	 * @return
+	 */
+    public Set<String> getAuthorizingEdOrgs() {
+        return authorizingEdOrgs;
+    }
+
+    public void setAuthorizingEdOrgs(Set<String> authorizingEdOrgs) {
+        this.authorizingEdOrgs = authorizingEdOrgs;
+    }
 }

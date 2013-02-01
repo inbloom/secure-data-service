@@ -357,6 +357,10 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                         
                         Collection<GrantedAuthority> authorities = resolveAuthorities(principal.getTenantId(),
                                 principal.getRealm(), principal.getRoles(), principal.isAdminRealmAuthenticated(), false);
+                        
+                        if (!principal.isAdminRealmAuthenticated()) {
+                            principal.setAuthorizingEdOrgs(appValidator.getAuthorizingEdOrgsForApp(token.getClientId()));
+                        }
                         PreAuthenticatedAuthenticationToken userToken = new PreAuthenticatedAuthenticationToken(
                                 principal, accessToken, authorities);
                         userToken.setAuthenticated(true);

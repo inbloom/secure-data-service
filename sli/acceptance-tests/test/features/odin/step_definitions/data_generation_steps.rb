@@ -86,6 +86,8 @@ Given /^the tenant is '([^\']*)'$/ do |tenant_id|
 end
 
 Then /^the sli\-verify script completes successfully$/ do
+  disable_NOTABLESCAN()
   results = `bundle exec ruby #{@odin_working_path}sli-verify.rb #{@tenant_id} #{@manifest}`
   assert(results.include?("All expected entities found\n"), "verification script failed, results are #{results}")
+  enable_NOTABLESCAN
 end

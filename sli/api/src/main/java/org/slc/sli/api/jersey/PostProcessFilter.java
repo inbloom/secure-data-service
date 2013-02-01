@@ -18,7 +18,11 @@
 package org.slc.sli.api.jersey;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.LinkedBlockingQueue;
 
+import com.mongodb.BasicDBList;
+import com.mongodb.WriteConcern;
 import com.sun.jersey.api.uri.UriTemplate;
 import com.sun.jersey.spi.container.ContainerRequest;
 import com.sun.jersey.spi.container.ContainerResponse;
@@ -54,14 +58,14 @@ public class PostProcessFilter implements ContainerResponseFilter {
     private static final int LONG_REQUEST = 1000;
     private DateTimeFormatter dateFormatter = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd").toFormatter();
     private  DateTimeFormatter timeFormatter = new DateTimeFormatterBuilder().appendPattern("HH:mm:ss.SSSZ").toFormatter();
-
+    
     @Autowired
     private SecurityCachingStrategy securityCachingStrategy;
 
     @Autowired
     @Qualifier("performanceRepo")
-    private Repository<Entity> perfRepo;
-
+    private Repository<Entity> perfRepo;    
+    
     @Value("${sli.application.buildTag}")
     private String buildTag;
 
@@ -119,9 +123,10 @@ public class PostProcessFilter implements ContainerResponseFilter {
     }
     private void logApiDataToDb(ContainerRequest request, ContainerResponse response) {
         long startTime = (Long) request.getProperties().get("startTime");
-        long elapsed = System.currentTimeMillis() - startTime;
+        long endTime = System.currentTimeMillis(); 
+        long elapsed = endTime - startTime;
 
-        HashMap<String, Object> body = new HashMap<String, Object>();
+        Map<String, Object> body = new HashMap<String, Object>();
 
         //extract parameters from the request URI
         String requestURL = request.getRequestUri().toString();
@@ -154,6 +159,11 @@ public class PostProcessFilter implements ContainerResponseFilter {
                     endPoint += "/" + uri.get("associateEntity");
                 }
             }
+            
+            String reqId = request.getHeaderValue("x-request-id");
+            if (null != reqId) {
+                body.put("reqid", reqId); 
+            }
 
             body.put("url", requestURL.replace(serverUrl, "/"));
             body.put("method", request.getMethod());
@@ -163,10 +173,15 @@ public class PostProcessFilter implements ContainerResponseFilter {
             body.put("id", uri.get("id"));
             body.put("parameters", request.getQueryParameters());
             body.put("Date", dateFormatter.print(new DateTime(System.currentTimeMillis())));
-            body.put("startTime", timeFormatter.print(new DateTime(startTime)));
-            body.put("endTime", timeFormatter.print(new DateTime(System.currentTimeMillis())));
+            body.put("startTime", startTime);
+            // Note: Currently the start and end times are recorded in ms since the epoch. 
+            //       here is how they were formatted in the past 
+            //  body.put("startTime", timeFormatter.print(new DateTime(startTime)));
+            //  body.put("endTime", timeFormatter.print(new DateTime(System.currentTimeMillis())));
+            body.put("endTime", endTime);
             body.put("responseTime", String.valueOf(elapsed));
             body.put("dbHitCount", mongoStat.getDbHitCount());
+            body.put("stats", mongoStat.getStats()); 
             perfRepo.create("apiResponse", body, "apiResponse");
         }
 
