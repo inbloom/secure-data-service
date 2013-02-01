@@ -19,7 +19,6 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Table;
-import com.sun.jersey.spi.container.ContainerRequest;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -32,8 +31,8 @@ import org.elasticsearch.node.NodeBuilder;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
-import org.slc.sli.api.criteriaGenerator.DefaultGranularAccessFilterProvider;
 import org.slc.sli.api.criteriaGenerator.GranularAccessFilter;
+import org.slc.sli.api.criteriaGenerator.GranularAccessFilterProvider;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.PreConditionFailedException;
 import org.slc.sli.api.resources.generic.representation.Resource;
@@ -106,7 +105,7 @@ public class SearchResourceService {
     private ContextValidator contextValidator;
 
     @Autowired
-    DefaultGranularAccessFilterProvider granularAccessFilterProvider;
+    GranularAccessFilterProvider granularAccessFilterProvider;
 
     private EntityDefinition searchEntityDefinition;
 

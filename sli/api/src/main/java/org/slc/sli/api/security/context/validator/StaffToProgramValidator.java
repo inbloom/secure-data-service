@@ -16,10 +16,6 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.util.SecurityUtil;
@@ -27,6 +23,10 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.stereotype.Component;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Decides if given user has access to given program

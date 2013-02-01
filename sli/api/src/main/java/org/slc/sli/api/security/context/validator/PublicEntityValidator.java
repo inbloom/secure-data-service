@@ -16,12 +16,12 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import org.slc.sli.api.constants.EntityNames;
+import org.springframework.stereotype.Component;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.slc.sli.api.constants.EntityNames;
-import org.springframework.stereotype.Component;
 
 /**
  * Validates the context of a staff/teacher member to see the requested set of non-transitive public

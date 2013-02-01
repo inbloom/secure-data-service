@@ -751,7 +751,7 @@ public class UriMutator {
             String ids = StringUtils.join(edOrgHelper.getFilteredDirectEdorgs(user), ",");
             mutated.setPath(String.format("/schools/%s/sections", ids));
        }  else if (ResourceNames.STAFF.equals(resource)) {
-            String ids = StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",");
+            String ids = StringUtils.join(edOrgHelper.getFilteredDirectEdorgs(user), ",");
             mutated.setPath(String.format("/educationOrganizations/%s/staffEducationOrgAssignmentAssociations/staff",
                     ids));
         } else if (ResourceNames.STAFF_COHORT_ASSOCIATIONS.equals(resource)) {

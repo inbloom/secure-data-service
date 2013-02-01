@@ -227,11 +227,11 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     And parameter "limit" is "0"
     When I navigate to GET "/v1/sessions"
     Then I should receive a return code of 200
-    And I should receive a collection of "9" entities
+    And I should receive a collection of "29" entities
     Given parameter "schoolYears" is "2010-2011"
     When I navigate to GET "/v1/sessions"
     Then I should receive a return code of 200
-    And I should receive a collection of "2" entities
+    And I should receive a collection of "8" entities
 
   Scenario Outline: Sad path - invalid date ranges
     Given I am logged in using "akopel" "akopel1234" to realm "IL"

@@ -15,11 +15,6 @@
  */
 package org.slc.sli.api.security.context.validator;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -28,6 +23,11 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Validate grading periods.
@@ -40,8 +40,6 @@ public class TeacherToGradingPeriodValidator extends AbstractContextValidator {
     
     @Autowired PagingRepositoryDelegate<Entity> repo;
     
-    @Autowired
-    TeacherToSessionValidator sessionValidator;
 
 	@Override
 	public boolean canValidate(String entityType, boolean isTransitive) {
