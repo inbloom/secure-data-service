@@ -19,9 +19,9 @@ limitations under the License.
     <IncidentDate>{{date}}</IncidentDate>
     <IncidentTime>{{time}}</IncidentTime>
     <IncidentLocation>{{location}}</IncidentLocation>
-    {{#reporter_description}}
-    <ReporterDescription>{{reporter_description}}</ReporterDescription>
-    {{/reporter_description}}
+    {{#reporter_desc}}
+    <ReporterDescription>{{reporter_desc}}</ReporterDescription>
+    {{/reporter_desc}}
     {{#reporter_name}}
     <ReporterName>{{reporter_name}}</ReporterName>
     {{/reporter_name}}
@@ -30,23 +30,33 @@ limitations under the License.
       <CodeValue>{{.}}</CodeValue>
     </Behaviors>
     {{/behaviors}}
+    {{#sec_behaviors}}
+    <SecondaryBehaviors BehaviorCategory="{{type}}">
+      <SecondaryBehavior>{{sec_behavior}}</SecondaryBehavior>
+    </SecondaryBehaviors>
+    {{/sec_behaviors}}
     {{#weapons}}
     <Weapons>
       <Weapon>{{.}}</Weapon>
     </Weapons>
     {{/weapons}}
-    {{#reported_to_law_enforcement}}
-    <ReportedToLawEnforcement>{{reported_to_law_enformcement}}</ReportedToLawEnforcement>
-    {{/reported_to_law_enforcement}}
+    {{#reported}}
+    <ReportedToLawEnforcement>{{reported}}</ReportedToLawEnforcement>
+    {{/reported}}
+    {{#case_number}}
+    <CaseNumber>{{case_number}}</CaseNumber>
+    {{/case_number}}
     <SchoolReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>{{school_id}}</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
+    {{#staff_id}}
     <StaffReference>
       <StaffIdentity>
         <StaffUniqueStateId>{{staff_id}}</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
+    {{/staff_id}}
   </DisciplineIncident>
 {{/entity}}

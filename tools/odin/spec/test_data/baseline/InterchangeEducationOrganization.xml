@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
-                                  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
+xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
   <StateEducationAgency>
     <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
     <NameOfInstitution>STANDARD-SEA (State Education Agency)</NameOfInstitution>
@@ -1315,17 +1315,101 @@
   </Program>
   <LocalEducationAgency>
     <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-    <NameOfInstitution>School District IL-DAYBREAK</NameOfInstitution>
+    <EducationOrgIdentificationCode IdentificationSystem="SEA">
+      <ID>IL-DAYBREAK</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>IL-DAYBREAK School District</NameOfInstitution>
+    <ShortNameOfInstitution>IL-DAYBREAK LEA</ShortNameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>Local Education Agency</OrganizationCategory>
     </OrganizationCategories>
     <Address>
-      <StreetNumberName>123 Street</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>00000</PostalCode>
+      <StreetNumberName>689 Braeburn Lane</StreetNumberName>
+      <City>New York</City>
+      <StateAbbreviation>NY</StateAbbreviation>
+      <PostalCode>10292</PostalCode>
     </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(351) 555-7066</TelephoneNumber>
+    </Telephone>
+    <WebSite>http://fake.local-education-agency.org.fake/fake</WebSite>
+    <OperationalStatus>Changed Agency</OperationalStatus>
+    <AccountabilityRatings>
+      <RatingTitle>2001 rating: IL-DAYBREAK</RatingTitle>
+      <Rating>High Advanced</Rating>
+      <RatingDate>2001-07-08</RatingDate>
+      <SchoolYear>2001-2002</SchoolYear>
+      <RatingOrganization>STANDARD-SEA</RatingOrganization>
+      <RatingProgram>AEIS</RatingProgram>
+    </AccountabilityRatings>
+    <AccountabilityRatings>
+      <RatingTitle>2002 rating: IL-DAYBREAK</RatingTitle>
+      <Rating>Low Unsatisfactory</Rating>
+      <RatingDate>2002-05-05</RatingDate>
+      <SchoolYear>2002-2003</SchoolYear>
+      <RatingOrganization>STANDARD-SEA</RatingOrganization>
+      <RatingProgram>AEIS</RatingProgram>
+    </AccountabilityRatings>
+    <AccountabilityRatings>
+      <RatingTitle>2003 rating: IL-DAYBREAK</RatingTitle>
+      <Rating>High Satisfactory</Rating>
+      <RatingDate>2003-12-30</RatingDate>
+      <SchoolYear>2003-2004</SchoolYear>
+      <RatingOrganization>STANDARD-SEA</RatingOrganization>
+      <RatingProgram>AEIS</RatingProgram>
+    </AccountabilityRatings>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>50</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>51</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>52</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>53</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>54</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>55</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>56</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>57</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>58</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>59</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
     <LEACategory>Independent</LEACategory>
+    <CharterStatus>Open Enrollment</CharterStatus>
     <StateEducationAgencyReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
@@ -1334,17 +1418,81 @@
   </LocalEducationAgency>
   <LocalEducationAgency>
     <StateOrganizationId>5</StateOrganizationId>
-    <NameOfInstitution>School District 5</NameOfInstitution>
+    <EducationOrgIdentificationCode IdentificationSystem="SEA">
+      <ID>5</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>5 School District</NameOfInstitution>
+    <ShortNameOfInstitution>5 LEA</ShortNameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>Local Education Agency</OrganizationCategory>
     </OrganizationCategories>
     <Address>
-      <StreetNumberName>123 Street</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>00000</PostalCode>
+      <StreetNumberName>797 West Blvd</StreetNumberName>
+      <City>New York</City>
+      <StateAbbreviation>NY</StateAbbreviation>
+      <PostalCode>10292</PostalCode>
     </Address>
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>(850) 555-0519</TelephoneNumber>
+    </Telephone>
+    <WebSite>http://fake.local-education-agency.org.fake/fake</WebSite>
+    <OperationalStatus>Added</OperationalStatus>
+    <AccountabilityRatings>
+      <RatingTitle>2001 rating: 5</RatingTitle>
+      <Rating>Mid Satisfactory</Rating>
+      <RatingDate>2001-01-24</RatingDate>
+      <SchoolYear>2001-2002</SchoolYear>
+      <RatingOrganization>STANDARD-SEA</RatingOrganization>
+      <RatingProgram>AEIS</RatingProgram>
+    </AccountabilityRatings>
+    <AccountabilityRatings>
+      <RatingTitle>2002 rating: 5</RatingTitle>
+      <Rating>High Unsatisfactory</Rating>
+      <RatingDate>2002-08-15</RatingDate>
+      <SchoolYear>2002-2003</SchoolYear>
+      <RatingOrganization>STANDARD-SEA</RatingOrganization>
+      <RatingProgram>AEIS</RatingProgram>
+    </AccountabilityRatings>
+    <AccountabilityRatings>
+      <RatingTitle>2003 rating: 5</RatingTitle>
+      <Rating>High Advanced</Rating>
+      <RatingDate>2003-04-01</RatingDate>
+      <SchoolYear>2003-2004</SchoolYear>
+      <RatingOrganization>STANDARD-SEA</RatingOrganization>
+      <RatingProgram>AEIS</RatingProgram>
+    </AccountabilityRatings>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>60</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>61</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>62</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>63</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>64</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>65</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
     <LEACategory>Independent</LEACategory>
+    <CharterStatus>Open Enrollment</CharterStatus>
     <StateEducationAgencyReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
@@ -1371,12 +1519,12 @@
       <TelephoneNumber>(917)-555-0212</TelephoneNumber>
     </Telephone>
     <GradesOffered>
-      <GradeLevel>Kindergarten</GradeLevel>
-      <GradeLevel>First grade</GradeLevel>
-      <GradeLevel>Second grade</GradeLevel>
-      <GradeLevel>Third grade</GradeLevel>
-      <GradeLevel>Fourth grade</GradeLevel>
-      <GradeLevel>Fifth grade</GradeLevel>
+        <GradeLevel>Kindergarten</GradeLevel>
+        <GradeLevel>First grade</GradeLevel>
+        <GradeLevel>Second grade</GradeLevel>
+        <GradeLevel>Third grade</GradeLevel>
+        <GradeLevel>Fourth grade</GradeLevel>
+        <GradeLevel>Fifth grade</GradeLevel>
     </GradesOffered>
     <SchoolCategories>
       <SchoolCategory>Elementary School</SchoolCategory>
@@ -1407,9 +1555,9 @@
       <TelephoneNumber>(917)-555-0212</TelephoneNumber>
     </Telephone>
     <GradesOffered>
-      <GradeLevel>Sixth grade</GradeLevel>
-      <GradeLevel>Seventh grade</GradeLevel>
-      <GradeLevel>Eighth grade</GradeLevel>
+        <GradeLevel>Sixth grade</GradeLevel>
+        <GradeLevel>Seventh grade</GradeLevel>
+        <GradeLevel>Eighth grade</GradeLevel>
     </GradesOffered>
     <SchoolCategories>
       <SchoolCategory>Middle School</SchoolCategory>
@@ -1440,10 +1588,10 @@
       <TelephoneNumber>(917)-555-0212</TelephoneNumber>
     </Telephone>
     <GradesOffered>
-      <GradeLevel>Ninth grade</GradeLevel>
-      <GradeLevel>Tenth grade</GradeLevel>
-      <GradeLevel>Eleventh grade</GradeLevel>
-      <GradeLevel>Twelfth grade</GradeLevel>
+        <GradeLevel>Ninth grade</GradeLevel>
+        <GradeLevel>Tenth grade</GradeLevel>
+        <GradeLevel>Eleventh grade</GradeLevel>
+        <GradeLevel>Twelfth grade</GradeLevel>
     </GradesOffered>
     <SchoolCategories>
       <SchoolCategory>High School</SchoolCategory>
@@ -1455,23 +1603,23 @@
     </LocalEducationAgencyReference>
   </School>
   <CompetencyLevelDescriptor>
-    <CodeValue>Incompetent</CodeValue>
-    <Description>Student does not understand anything</Description>
-    <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+      <CodeValue>Incompetent</CodeValue>
+      <Description>Student does not understand anything</Description>
+      <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
   </CompetencyLevelDescriptor>
   <CompetencyLevelDescriptor>
-    <CodeValue>Barely Competent</CodeValue>
-    <Description>Student understands some basic</Description>
-    <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
+      <CodeValue>Barely Competent</CodeValue>
+      <Description>Student understands some basic</Description>
+      <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
   </CompetencyLevelDescriptor>
   <CompetencyLevelDescriptor>
-    <CodeValue>Competent</CodeValue>
-    <Description>Student understands basic and some intermediate material</Description>
-    <PerformanceBaseConversion>Proficient</PerformanceBaseConversion>
+      <CodeValue>Competent</CodeValue>
+      <Description>Student understands basic and some intermediate material</Description>
+      <PerformanceBaseConversion>Proficient</PerformanceBaseConversion>
   </CompetencyLevelDescriptor>
   <CompetencyLevelDescriptor>
-    <CodeValue>Very Competent</CodeValue>
-    <Description>Student understands everything in subject</Description>
-    <PerformanceBaseConversion>Advanced</PerformanceBaseConversion>
+      <CodeValue>Very Competent</CodeValue>
+      <Description>Student understands everything in subject</Description>
+      <PerformanceBaseConversion>Advanced</PerformanceBaseConversion>
   </CompetencyLevelDescriptor>
 </InterchangeEducationOrganization>

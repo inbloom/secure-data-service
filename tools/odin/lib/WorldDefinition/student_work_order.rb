@@ -276,7 +276,7 @@ class StudentWorkOrder
                 final_grades << final_grade
                 rval << final_grade
               end
-              rval += addDisciplineEntities(section[:id], school_id, session)
+              rval += addDisciplineEntities(section[:id], school_id, session, year)
   
               academic_subject = AcademicSubjectType.to_string(academic_subjects[section[:id] % academic_subjects.size])
               num_objectives = (@scenario["NUM_LEARNING_OBJECTIVES_PER_SUBJECT_AND_GRADE"] or 2)
@@ -306,17 +306,49 @@ class StudentWorkOrder
     StudentAcademicRecord.new(@id, session, report_card)
   end
 
-  def addDisciplineEntities(section_id, school_id, session)
+  def addDisciplineEntities(section_id, school_id, session, year)
     num_incidents = @scenario['INCIDENTS_PER_SECTION'] || 0
     likelyhood = @scenario['LIKELYHOOD_STUDENT_WAS_INVOLVED']
     incidents = []
     num_incidents.times {|i|
       if @rand.rand < likelyhood.to_f
+        school    = @plan[year][:school]
         incidents << StudentDisciplineIncidentAssociation.new(@id, i, section_id, school_id)
-        incidents << DisciplineAction.new(@id, school_id, DisciplineIncident.new(i, section_id, school_id, nil, session['interval'], "Classroom"))
+        incidents << DisciplineAction.new(@id, school_id, DisciplineIncident.new(i, section_id, school_id, get_random_staff_members(@rand, school), session['interval'], "Classroom"))
       end
     }
     incidents
+  end
+
+  def get_random_staff_members(random, school)
+    members = []
+    unless school['staff'].nil? || school['teachers'].nil?
+      staff          = school['staff'] 
+      teachers       = school['teachers']
+      staff_involved = Set.new
+      teach_involved = Set.new
+
+      # get random number of staff members
+      # actually pick random number of staff members --> add to 'members'
+      num_staff = DataUtility.select_random_from_options(random, (0..2).to_a)
+      num_staff = staff.size if staff && num_staff > staff.size
+      while staff_involved.size < num_staff
+        member         = DataUtility.select_random_from_options(random, staff)
+        staff_involved << DataUtility.get_staff_unique_state_id(member['id'])
+      end
+
+      # get random number of teachers
+      # actually pick random number of teachers --> add to 'members'
+      num_teach = DataUtility.select_random_from_options(random, (0..2).to_a)
+      num_teach = teachers.size if teachers && num_teach > teachers.size
+      while teach_involved.size < num_teach
+        teacher        = DataUtility.select_random_from_options(random, teachers)
+        teach_involved << DataUtility.get_teacher_unique_state_id(teacher['id'])
+      end
+      members << staff_involved.to_a
+      members << teach_involved.to_a 
+    end    
+    members.flatten
   end
 
   # creates a student gradebook entry, based on the input gradebook entry work order
@@ -341,7 +373,7 @@ class StudentWorkOrder
         numeric += (weight * average).floor
       end
     end
-    return Grade.new(get_letter_grade_from_number(numeric), numeric, :FINAL, get_student_section_association(school_id, section_id, session['interval'].get_begin_date))
+    return Grade.new(DataUtility.get_letter_grade_from_number(numeric), numeric, :FINAL, get_student_section_association(school_id, section_id, session['interval'].get_begin_date))
   end
 
   # translates the attributes for the student section association into a map (with values that mustache templates will recognize/expect)
@@ -352,25 +384,8 @@ class StudentWorkOrder
   # generates a grade (letter and numeric) for a student gradebook entry
   def get_grade_for_gradebook_entry
     number = DataUtility.select_random_from_options(@rand, (55..100).to_a)
-    letter = get_letter_grade_from_number(number)
+    letter = DataUtility.get_letter_grade_from_number(number)
     return letter, number
-  end
-
-  # translates the numeric grade into a letter grade
-  def get_letter_grade_from_number(number)
-    return "A+" if number >= 97
-    return "A"  if number >= 93
-    return "A-" if number >= 90
-    return "B+" if number >= 87
-    return "B"  if number >= 83
-    return "B-" if number >= 80
-    return "C+" if number >= 77
-    return "C"  if number >= 73
-    return "C-" if number >= 70
-    return "D+" if number >= 67
-    return "D"  if number >= 63
-    return "D-" if number >= 60
-    return "F"
   end
 
   def graduation_plan(school_type)

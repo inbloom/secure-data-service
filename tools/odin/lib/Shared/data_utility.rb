@@ -147,14 +147,14 @@ class DataUtility
   # randomly selects a subset of the specified 'choices' that will have size equal to the specified number of choices
   # -> if num is larger than size of choices, choices array will be returned (no error condition raised)
   def self.select_num_from_options(prng, num, choices)
-    return []      if choices.nil?
+    return []      if choices.nil? || num < 1
     return choices if num >= choices.size
-    subset = []
+    subset = Set.new
     while subset.size < num
       choice = select_random_from_options(prng, choices)
-      subset << choice unless subset.include?(choice)
+      subset << choice
     end
-    subset
+    subset.to_a
   end
   
   #given a float, choose either the floor or ceiling value
@@ -164,4 +164,20 @@ class DataUtility
     return frac == 0 ? f : (frac < prng.rand  ? f.floor : f.floor + 1)
   end
 
+  # translates the numeric grade into a letter grade
+  def self.get_letter_grade_from_number(number)
+    return "A+" if number >= 97
+    return "A"  if number >= 93
+    return "A-" if number >= 90
+    return "B+" if number >= 87
+    return "B"  if number >= 83
+    return "B-" if number >= 80
+    return "C+" if number >= 77
+    return "C"  if number >= 73
+    return "C-" if number >= 70
+    return "D+" if number >= 67
+    return "D"  if number >= 63
+    return "D-" if number >= 60
+    return "F"
+  end  
 end

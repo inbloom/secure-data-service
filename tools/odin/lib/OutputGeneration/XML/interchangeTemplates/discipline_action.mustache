@@ -28,9 +28,9 @@ limitations under the License.
     {{#actual_length}}
     <ActualDisciplineActionLength>{{actual_length}}</ActualDisciplineActionLength>
     {{/actual_length}}
-    {{#diff_reason}}
+    {{#length_diff_rsn}}
     <DisciplineActionLengthDifferenceReason>{{diff_reason}}</DisciplineActionLengthDifferenceReason>
-    {{/diff_reason}}
+    {{/length_diff_rsn}}
     {{#students}}
     <StudentReference>
       <StudentIdentity>
@@ -44,30 +44,30 @@ limitations under the License.
         <IncidentIdentifier>{{incident_identifier}}</IncidentIdentifier>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>{{ed_org_id}}</StateOrganizationId>
+            <StateOrganizationId>{{resp_ed_org_id}}</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
       </DisciplineIncidentIdentity>
     </DisciplineIncidentReference>
     {{/incidents}}
-    {{#staff_id}}
+    {{#staff_members}}
     <StaffReference>
       <StaffIdentity>
-        <StaffUniqueStateId>{{staff_id}}</StaffUniqueStateId>
+        <StaffUniqueStateId>{{.}}</StaffUniqueStateId>
       </StaffIdentity>
     </StaffReference>
-    {{/staff_id}}
+    {{/staff_members}}
     <ResponsibilitySchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>{{ed_org_id}}</StateOrganizationId>
+        <StateOrganizationId>{{resp_ed_org_id}}</StateOrganizationId>
       </EducationalOrgIdentity>
     </ResponsibilitySchoolReference>
-    {{#assignment_school}}
+    {{#asgn_ed_org_id}}
     <AssignmentSchoolReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>{{assignment_school}}</StateOrganizationId>
+        <StateOrganizationId>{{asgn_ed_org_id}}</StateOrganizationId>
       </EducationalOrgIdentity>
     </AssignmentSchoolReference>
-    {{/assignment_school}}
+    {{/asgn_ed_org_id}}
   </DisciplineAction>
 {{/entity}}
