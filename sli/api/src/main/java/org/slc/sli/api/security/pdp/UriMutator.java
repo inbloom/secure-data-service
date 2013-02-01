@@ -691,7 +691,8 @@ public class UriMutator {
                 || ResourceNames.LEARNINGSTANDARDS.equals(resource)
                 || ResourceNames.ASSESSMENTS.equals(resource)
                 || ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(resource)
-                || ResourceNames.STUDENT_COMPETENCY_OBJECTIVES.equals(resource)) {
+                || ResourceNames.STUDENT_COMPETENCY_OBJECTIVES.equals(resource)
+                || ResourceNames.SESSIONS.equals(resource)) {
             mutated.setPath("/" + ResourceNames.SEARCH + "/" + resource);
             Map<String, String> mutatedHeaders = new HashMap<String, String>();
             mutatedHeaders.put("Content-Type", "application/vnd.slc.search.full+json");
@@ -749,16 +750,8 @@ public class UriMutator {
         } else if (ResourceNames.SECTIONS.equals(resource)) {
             String ids = StringUtils.join(edOrgHelper.getFilteredDirectEdorgs(user), ",");
             mutated.setPath(String.format("/schools/%s/sections", ids));
-        } else if (ResourceNames.SESSIONS.equals(resource)) {
-            if (mutated.getQueryParameters().contains(ParameterConstants.SCHOOL_ID)) {
-                return formQueryBasedOnParameter("/educationOrganizations/%s/sessions", mutated.getQueryParameters(),
-                        ParameterConstants.SCHOOL_ID);
-            } else {
-                mutated.setPath(String.format("/educationOrganizations/%s/sessions",
-                        StringUtils.join(edOrgHelper.getFilteredDirectEdorgs(user), ",")));
-            }
-        } else if (ResourceNames.STAFF.equals(resource)) {
-            String ids = StringUtils.join(edOrgHelper.getFilteredDirectEdorgs(user), ",");
+       }  else if (ResourceNames.STAFF.equals(resource)) {
+            String ids = StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",");
             mutated.setPath(String.format("/educationOrganizations/%s/staffEducationOrgAssignmentAssociations/staff",
                     ids));
         } else if (ResourceNames.STAFF_COHORT_ASSOCIATIONS.equals(resource)) {

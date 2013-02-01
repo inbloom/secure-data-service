@@ -228,7 +228,7 @@ Examples:
 | "program"               | "programs"                | 1     |/staff/@ids/staffProgramAssociations/programs|                                           
 | "school"                | "schools"                 | 2     |/teachers/@ids/teacherSchoolAssociations/schools|                                                                              
 | "section"               | "sections"                | 2     |/teachers/@ids/teacherSectionAssociations/sections|                                                                  
-| "session"               | "sessions"                | 6     |/educationOrganizations/@ids/sessions|                                                                  
+| "session"               | "sessions"                | 29    |/search/sessions|
 | "staff"                 | "staff"                   | 6     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|              
 | "student"               | "students"                | 25    |/sections/@ids/studentSectionAssociations/students|                                        
 | "studentAcademicRecord" | "studentAcademicRecords"  | 2     |/sections/@ids/studentSectionAssociations/students/studentAcademicRecords|                 

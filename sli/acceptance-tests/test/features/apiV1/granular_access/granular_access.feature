@@ -32,7 +32,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | programs                                | 2009-2010    | 0                   | 0                |                                                                                |
 #    | reportCards                             | 2010-2011    | 0                   | 0                |                                                                               |
 #    | sections                                | 2010-2011    | 0                   | 0                |                                                                               |
-    | sessions                                | 2010-2011    | 7                   | 1                | e19cd46a-e50d-4157-a2b4-68d06f328058                                           |
+    | sessions                                | 2010-2011    | 29                   | 3                | e19cd46a-e50d-4157-a2b4-68d06f328058,377c734f-7c15-455f-9209-ac15b3118236,e100045b-25b3-41d6-9f1c-cd86db18eb68                                          |
     | staffCohortAssociations                 | 2009-2010    | 0                   | 0                |                                                                                |
     | staffEducationOrgAssignmentAssociations | 2010-2011    | 1                   | 1                | b1c40ccc-b466-8f3b-b3c7-7e13c2bc4d5a                                           |
     | staffProgramAssociations                | 2009-2010    | 0                   | 0                |                                                                                |
@@ -77,7 +77,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | programs                                | 2010-2011    | 0                   | 0                |                                                                                |
 #    | reportCards                             | 2009-2010    | 1                   | 0                |                                                                                |
 #    | sections                                | 2010-2011    | 4                   | 2                | Science 7A - Sec 5f10,8th Grade English - Sec 6                                |
-    | sessions                                | 2010-2011    | 9                   | 2                | <LIST-SESSION-LINDAKIM>                                                        |
+    | sessions                                | 2010-2011    | 29                   | 8                | <LIST-SESSION-LINDAKIM>                                                        |
     | staffCohortAssociations                 | 2010-2011    | 0                   | 0                |                                                                                |
 #    | staffEducationOrgAssignmentAssociations | 2010-2011    | 1                   | 1                | 2c6face89f0c2854667310b46808e21156ed73cc_id                                    |
     | staffProgramAssociations                | 2010-2011    | 0                   | 0                |                                                                                |
