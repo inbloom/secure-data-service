@@ -36,7 +36,7 @@ end
 
 def securityEventCollection
   db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
-  coll ||= db.collection('securityEvent')
+  coll ||= db.collection('securityEvent', opts = {:safe => true})
   return coll
 end
 
