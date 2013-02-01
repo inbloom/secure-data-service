@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Shared Learning Collaborative, LLC
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,8 +20,7 @@ import org.junit.Test;
 import org.slc.sli.modeling.xmi.comp.XmiMappingConstants;
 
 /**
- * JUnit test for 
- * XmiMappingConstants class.
+ * JUnit test for XmiMappingConstants class.
  */
 public class XmiMappingConstantsTest {
 
