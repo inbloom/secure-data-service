@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Shared Learning Collaborative, LLC
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -213,6 +213,14 @@ public class ValidatorTestHelper {
         Entity created = repo.create(EntityNames.STUDENT_SCHOOL_ASSOCIATION, association);
         return created;
     }
+    
+    public Entity generateAttendance(String studentId, String schoolId) {
+        Map<String, Object> att = new HashMap<String, Object>();
+        att.put(ParameterConstants.STUDENT_ID, studentId);
+        att.put(ParameterConstants.SCHOOL_ID, schoolId);
+        Entity created = repo.create(EntityNames.ATTENDANCE, att);
+        return created;
+    }
 
     private void expireStudentSchoolAssociation(boolean isExpired, Map<String, Object> body) {
         if (isExpired) {
@@ -303,11 +311,11 @@ public class ValidatorTestHelper {
         return repo.create(EntityNames.DISCIPLINE_INCIDENT, diBody);
     }
 
-    public void generateStudentDisciplineIncidentAssociation(String studentId, String disciplineId) {
+    public Entity generateStudentDisciplineIncidentAssociation(String studentId, String disciplineId) {
         Map<String, Object> sdia = new HashMap<String, Object>();
         sdia.put(ParameterConstants.STUDENT_ID, studentId);
         sdia.put(ParameterConstants.DISCIPLINE_INCIDENT_ID, disciplineId);
-        repo.create(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, sdia);
+        return repo.create(EntityNames.STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION, sdia);
     }
 
     public Entity generateSession(String schoolId, List<String> gradingPeriodRefs) {
@@ -362,6 +370,20 @@ public class ValidatorTestHelper {
         grade.put("studentSectionAssociationId", studentSectionAssociationId);
         grade.put("objectiveId", objectiveId);
         return repo.create(EntityNames.STUDENT_COMPETENCY, grade);
+    }
+    
+    public Entity generateParent() {
+        Map<String, Object> parent = new HashMap<String, Object>();
+        parent.put(ParameterConstants.PARENT_UNIQUE_STATE_ID, "PARENT_ID");
+        parent.put("name", "Mama Cass");
+        return repo.create(EntityNames.PARENT, parent);
+    }
+    
+    public Entity generateStudentParentAssoc(String studentId, String parentId) {
+        Map<String, Object> parent = new HashMap<String, Object>();
+        parent.put(ParameterConstants.PARENT_ID, parentId);
+        parent.put(ParameterConstants.STUDENT_ID, studentId);
+        return repo.create(EntityNames.STUDENT_PARENT_ASSOCIATION, parent);
     }
 
     protected void setUpTeacherContext() {
