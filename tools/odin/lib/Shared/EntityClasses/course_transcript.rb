@@ -38,11 +38,11 @@ class CourseTranscript < BaseEntity
     @session = session
 
     if (optional?)
-      @credits_attempted = @credits_earned
+      @credits_attempted = @result == "Pass" ? @credits_earned : 3
       @additional_credits_earned = 0
       @grade_level = GradeLevelType.to_string(grade)
       @method_credit_earned = MethodCreditEarnedType.to_string(:CLASSROOM_CREDIT)
-      @final_numeric_grade = final_grade && final_grade.number_grade ? final_grade.number_grade : 85
+      @final_numeric_grade = final_grade && final_grade.number_grade ? final_grade.number_grade : 87
       @final_letter_grade = final_grade && final_grade.letter_grade ? final_grade.letter_grade : "B+"
       @course_repeat_code = CourseRepeatCodeType.to_string(:REPEAT_COUNTED)
     end
