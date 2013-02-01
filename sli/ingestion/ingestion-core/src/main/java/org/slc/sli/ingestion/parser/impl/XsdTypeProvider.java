@@ -16,6 +16,7 @@
 package org.slc.sli.ingestion.parser.impl;
 
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -24,6 +25,7 @@ import javax.annotation.PostConstruct;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
+import org.jdom2.JDOMException;
 import org.jdom2.Namespace;
 import org.jdom2.filter.Filters;
 import org.jdom2.input.SAXBuilder;
@@ -52,7 +54,7 @@ public class XsdTypeProvider implements TypeProvider {
     private Map<String, Element> complexTypes = new HashMap<String, Element>();
     private Map<String, String> typeMap = new HashMap<String, String>();
 
-    private Map<String, Map<String, String>> interchangeMap  = new HashMap<String, Map<String, String>>();
+    private Map<String, Map<String, String>> interchangeMap = new HashMap<String, Map<String, String>>();
 
     @PostConstruct
     @SuppressWarnings("unused")
@@ -68,25 +70,27 @@ public class XsdTypeProvider implements TypeProvider {
         String curdir = System.getProperty("user.dir");
 
         String schemaLocation = sliProps.getProperty("sli.poc.atma.schema");
-        FileInputStream schemaStream = new FileInputStream(schemaLocation);
-        if (null == schemaStream) {
-            throw new Exception("Cannot open XSD schema '" + schemaLocation + "'"); // NOPMD POC
+        parseEdfiSchema(schemaLocation);
+
+        parseInterchangeSchemas(sliProps);
+    }
+
+    private void parseEdfiSchema(String schemaLocation) throws JDOMException, IOException {
+        SAXBuilder b = new SAXBuilder();
+        Document doc = b.build(new FileInputStream(schemaLocation));
+        for (Element xsInclude : doc.getDescendants(Filters.element("include", XS_NAMESPACE))) {
+            parseEdfiSchema(xsInclude.getAttributeValue("schemaLocation"));
         }
 
-        SAXBuilder b = new SAXBuilder();
-        Document doc = b.build(schemaStream);
+        parseComplexTypes(doc);
+    }
 
+    private void parseComplexTypes(Document doc) {
         Iterable<Element> complexTypes = doc.getDescendants(Filters.element("complexType", XS_NAMESPACE));
         for (Element e : complexTypes) {
             this.complexTypes.put(e.getAttributeValue("name"), e);
         }
-
         buildXsdElementsMap(doc, typeMap);
-
-        FileInputStream interchangeStream = new FileInputStream(sliProps.getProperty("sli.poc.atma.assessment"));
-        interchangeMap.put("InterchangeAssessmentMetadata", new HashMap<String, String>());
-        buildXsdElementsMap(b.build(interchangeStream), interchangeMap.get("InterchangeAssessmentMetadata"));
-
     }
 
     private void buildXsdElementsMap(Document doc, Map<String, String> map) {
@@ -97,6 +101,13 @@ public class XsdTypeProvider implements TypeProvider {
         }
     }
 
+    private void parseInterchangeSchemas(Properties sliProps) throws JDOMException, IOException {
+        FileInputStream interchangeStream = new FileInputStream(sliProps.getProperty("sli.poc.atma.assessment"));
+        interchangeMap.put("InterchangeAssessmentMetadata", new HashMap<String, String>());
+        SAXBuilder b = new SAXBuilder();
+        buildXsdElementsMap(b.build(interchangeStream), interchangeMap.get("InterchangeAssessmentMetadata"));
+    }
+
     @Override
     public String getTypeFromInterchange(String interchange, String eventName) {
         return interchangeMap.get(interchange).get(eventName);
@@ -104,7 +115,7 @@ public class XsdTypeProvider implements TypeProvider {
 
     @Override
     public String getTypeFromParentType(String xsdType, String eventName) {
-        return getType(getComplexElement(eventName).getChild(eventName));
+        return getType(getComplexElement(xsdType).getChild(eventName));
     }
 
     @Override
