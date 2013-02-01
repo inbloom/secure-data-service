@@ -62,43 +62,34 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
     @Override
     public XMLEvent nextEvent() throws XMLStreamException {
         XMLEvent event = super.nextEvent();
-        String eventName = extractTagName(event);
 
-        if (interchange == null && eventName.startsWith("Interchange")) {
-            interchange = eventName;
-        } else {
+        try {
+            String eventName = extractTagName(event);
+            if (interchange != null) {
+                parseInterchangeEvent(event, eventName);
 
-            if (complexTypeStack.isEmpty() && event.isStartElement()) {
-                initCurrentEntity(eventName);
+            } else if (eventName.startsWith("Interchange")) {
+                interchange = eventName;
             }
-
-            if (currentEntityValid) {
-                parseEvent(event);
-
-            } else if (eventName.equals(currentEntityName) && event.isEndElement()) {
-                LOG.info("Entity had validation problems: {}", currentEntityName);
-                complexTypeStack.removeAllElements();
-                currentEntityName = null;
-            }
+        } catch (Exception e) {
+            LOG.error("Error parsing.", e);
         }
         return event;
     }
 
-    private void parseEvent(XMLEvent e) throws XMLStreamException {
+    private void parseInterchangeEvent(XMLEvent event, String eventName) throws XMLStreamException {
 
-        String eventName = extractTagName(e);
+        if (complexTypeStack.isEmpty() && event.isStartElement()) {
+            initCurrentEntity(eventName);
+        }
 
-        if (e.isStartElement()) {
+        if (!complexTypeStack.isEmpty()) {
+            if (currentEntityValid) {
+                parseEntityEvent(event, eventName);
 
-            parseStartElement(e.asStartElement(), eventName);
-
-        } else if (e.isCharacters()) {
-
-            parseCharacters(e.asCharacters());
-
-        } else if (e.isEndElement() && eventName.equals(complexTypeStack.peek().getLeft().name)) {
-
-            parseEndElement();
+            } else if (eventName.equals(currentEntityName) && event.isEndElement()) {
+                endOfInvalidEntity();
+            }
         }
     }
 
@@ -109,22 +100,49 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
         currentEntityValid = true;
     }
 
-    @SuppressWarnings("unchecked")
+    private void parseEntityEvent(XMLEvent e, String eventName) throws XMLStreamException {
+
+        if (e.isStartElement()) {
+            parseStartElement(e.asStartElement(), eventName);
+
+        } else if (e.isCharacters()) {
+            parseCharacters(e.asCharacters());
+
+        } else if (e.isEndElement() && eventName.equals(complexTypeStack.peek().getLeft().name)) {
+            parseEndElement();
+        }
+    }
+
+    private void endOfInvalidEntity() {
+        LOG.info("Entity had validation problems: {}", currentEntityName);
+        complexTypeStack.removeAllElements();
+        currentEntityName = null;
+    }
+
     private void parseStartElement(StartElement e, String eventName) {
         // don't process for root entity element - we already pushed it in initCurrentEntity
         if (!currentEntityName.equals(eventName)) {
-            String xsdType = tp.getTypeFromParentType(complexTypeStack.peek().getLeft().xsdType, eventName);
-            Pair<EdfiType, Map<String, Object>> subElement = createElementEntry(eventName, xsdType);
-            complexTypeStack.peek().getRight().put(eventName, subElement.getRight());
-            complexTypeStack.push(subElement);
+            newEventToStack(eventName);
         }
 
-        // dump attributes
+        parseEventAttributes(e);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void parseEventAttributes(StartElement e) {
         Iterator<Attribute> it = e.getAttributes();
         while (it.hasNext()) {
             Attribute a = it.next();
             complexTypeStack.peek().getRight().put(a.getName().getLocalPart(), a.getValue());
         }
+    }
+
+    private void newEventToStack(String eventName) {
+        String xsdType = tp.getTypeFromParentType(complexTypeStack.peek().getLeft().xsdType, eventName);
+        Pair<EdfiType, Map<String, Object>> subElement = createElementEntry(eventName, xsdType);
+
+        complexTypeStack.peek().getRight().put(eventName, subElement.getRight());
+        complexTypeStack.push(subElement);
     }
 
     private void parseCharacters(Characters characters) {
@@ -150,19 +168,19 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
     @Override
     public void warning(SAXParseException exception) throws SAXException {
         LOG.warn("Warning: ", exception);
-        // currentEntityValid = false;
+        currentEntityValid = false;
     }
 
     @Override
     public void error(SAXParseException exception) throws SAXException {
-        // LOG.error("Error: ", exception);
-        // currentEntityValid = false;
+        LOG.error("Error: ", exception);
+        currentEntityValid = false;
     }
 
     @Override
     public void fatalError(SAXParseException exception) throws SAXException {
-        // LOG.error("FatalError: ", exception);
-        // currentEntityValid = false;
+        LOG.error("FatalError: ", exception);
+        currentEntityValid = false;
     }
 
     private Pair<EdfiType, Map<String, Object>> createElementEntry(String eventName, String xsdType) {
@@ -214,7 +232,5 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
         public String toString() {
             return "<name=" + name + ", xsdType=" + xsdType + ">";
         }
-
     }
-
 }
