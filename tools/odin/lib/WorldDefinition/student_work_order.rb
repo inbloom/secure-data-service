@@ -29,7 +29,7 @@ require_relative 'world_builder'
 
 # student work order factory creates student work orders
 class StudentWorkOrderFactory
-  def initialize(world, scenario, section_factory)
+  def initialize(world, scenario, section_factory, program_id_count)
     $stdout.sync = true
     @log         = Logger.new($stdout)
 
@@ -42,6 +42,7 @@ class StudentWorkOrderFactory
     @gradebook_entry_factory = GradebookEntryFactory.new(@scenario)
     @graduation_plans = GraduationPlanFactory.new(sea['id'], @scenario).build unless sea.nil?
     @section_factory = section_factory
+    @program_id_count = program_id_count
   end
 
   def generate_work_orders(edOrg, yielder)
@@ -62,7 +63,8 @@ class StudentWorkOrderFactory
                                              attendance_factory: @attendance_factory,
                                              gradebook_factory: @gradebook_entry_factory,
                                              graduation_plans: @graduation_plans,
-                                             section_factory: @section_factory)
+                                             section_factory: @section_factory,
+                                             program_id_count: @program_id_count)
         }
       }
     end
@@ -145,6 +147,7 @@ class StudentWorkOrder
     @graduation_plans = opts[:graduation_plans]
     @section_factory = opts[:section_factory]
     @plan = opts[:plan]
+    @program_id_count = opts[:program_id_count]
   end
 
   def build
@@ -423,7 +426,7 @@ class StudentWorkOrder
   end
 
   def generate_cohorts(school, school_type, session)
-    cohorts = WorldBuilder.cohorts(DataUtility.get_school_id(school, school_type), @scenario)
+    cohorts = WorldBuilder.cohorts(DataUtility.get_school_id(school, school_type), @scenario, AcademicSubjectType.send(school_type), @program_id_count)
     cohorts.map{|cohort|
       prob = @scenario['PROBABILITY_STUDENT_IN_COHORT'].to_f
       if(@rand.rand < prob)

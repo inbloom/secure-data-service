@@ -21,3 +21,4 @@ status=`mongo ingestion_batch_job < times.js | awk {'print $3'} | awk 'NR==7'`
 let diff2=( `date +%s -d $end_date`-`date +%s -d $start_date` )
 echo "$dataset - Day N run took $diff2 seconds, starting at $start_date and finishing on $end_date GMT with status $status"
 echo "$dataset - Day N run took $diff2 seconds, starting at $start_date and finishing on $end_date GMT with status $status" >> megtomcat01_logs/auto_perf_results.log
+mongodump --db ingestion_batch_job -o "megtomcat01_logs/mongodumps/$end_date"

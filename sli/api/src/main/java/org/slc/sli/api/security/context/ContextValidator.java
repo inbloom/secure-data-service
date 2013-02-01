@@ -62,6 +62,8 @@ public class ContextValidator implements ApplicationContextAware {
 
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
+    @Autowired
+    private EntityOwnershipValidator ownership;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -172,7 +174,11 @@ public class ContextValidator implements ApplicationContextAware {
                         && SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(ent.getEntityId())) {
                     debug("Entity is themselves: id {} of type {}", ent.getEntityId(), ent.getType());
                 } else {
-                    idsToValidate.add(ent.getEntityId());
+                    if (ownership.canAccess(ent)) {
+                        idsToValidate.add(ent.getEntityId());
+                    } else {
+                        throw new AccessDeniedException("Access to " + ent.getEntityId() + " is not authorized");
+                    }
                 }
             }
 

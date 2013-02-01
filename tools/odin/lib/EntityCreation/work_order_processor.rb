@@ -27,7 +27,7 @@ class WorkOrderProcessor
   # uses the snapshot of the 'world' to generate student work orders
   def self.generate_work_orders(world, scenario, prng)
     section_factory = SectionWorkOrderFactory.new(world, scenario, prng)
-    student_factory = StudentWorkOrderFactory.new(world, scenario, section_factory)
+    student_factory = StudentWorkOrderFactory.new(world, scenario, section_factory, nil)
     Enumerator.new do |y|
       world.each{|type, edOrgs|
         edOrgs.each{|edOrg|

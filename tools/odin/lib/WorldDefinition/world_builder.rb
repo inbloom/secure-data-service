@@ -814,7 +814,7 @@ class WorldBuilder
         @queue.push_work_order({ :type => School, :id => edOrg["id"], :parent => edOrg["parent"], :classification => classification, :programs => get_program_ids(edOrg["programs"])})
         create_program_work_orders(edOrg["programs"])
         create_course_work_orders(edOrg['id'], edOrg["courses"] || [])
-        create_cohorts DataUtility.get_school_id(edOrg['id'], classification)
+        create_cohorts DataUtility.get_school_id(edOrg['id'], classification), classification
       }
     }
   end
@@ -946,7 +946,7 @@ class WorldBuilder
       @world[type].each{|ed_org|
         staff = ed_org['staff'].cycle
         ed_org['sessions'].each{|session|
-          WorldBuilder.cohorts(ed_org['id'], @scenarioYAML).each{|cohort|
+          WorldBuilder.cohorts(ed_org['id'], @scenarioYAML, AcademicSubjectType.send(type), @unique_program_id).each{|cohort|
             staff_cohort_association_per_staff = DataUtility.rand_float_to_int(@prng, @scenarioYAML['STAFF_COHORT_ASSOCIATION_PER_STAFF'] || 1)
             for s in 1..staff_cohort_association_per_staff
               @queue.push_work_order(
@@ -1125,7 +1125,7 @@ class WorldBuilder
         else
           title = grade + " " + course["title"]
         end
-        @queue.push_work_order({:type => Course, :id => id, :title => title, :edOrgId => edOrgId})
+        @queue.push_work_order({:type => Course, :id => id, :grade => grade, :title => title, :edOrgId => edOrgId})
       end
     end
   end
@@ -1150,15 +1150,15 @@ class WorldBuilder
     program_ids
   end
 
-  def create_cohorts(ed_org)
-    WorldBuilder.cohorts(ed_org, @scenarioYAML).each{ |cohort|
+  def create_cohorts(ed_org, classification)
+    WorldBuilder.cohorts(ed_org, @scenarioYAML, classification, @unique_program_id).each{ |cohort|
       @queue.push_work_order(cohort)
     }
   end
 
-  def self.cohorts(ed_org, scenario)
+  def self.cohorts(ed_org, scenario, classification, program_id_count)
     (1..(scenario['COHORTS_PER_SCHOOL'] or 0)).map{ |i|
-      Cohort.new(i, ed_org, scope: "School")
+      Cohort.new(i, ed_org, classification, program_id_count, scope: "School")
     }
   end
 
@@ -1185,7 +1185,7 @@ class WorldBuilder
   # -> section work orders drive creation of students
   def generate_student_work_orders
     section_factory = SectionWorkOrderFactory.new(@world, @scenarioYAML, @prng)
-    student_factory = StudentWorkOrderFactory.new(@world, @scenarioYAML, section_factory)
+    student_factory = StudentWorkOrderFactory.new(@world, @scenarioYAML, section_factory, @unique_program_id)
     Enumerator.new do |yielder|
       # needs to be in this order for boundary students
       # -> if an elementary school student graduates to middle school, we need to guarantee that the
