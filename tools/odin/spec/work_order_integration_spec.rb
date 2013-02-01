@@ -54,14 +54,15 @@ describe "WorkOrderProcessor" do
       {'code_value' => 'Code Value 1', "description" => "Description 1"},
       {'code_value' => 'Code Value 2', "description" => "Description 2"},
   ]}
-  let(:scenario) {Scenario.new({'BEGIN_YEAR' => 2001, 'NUMBER_OF_YEARS' => 2, 
+  let(:scenario_opts) {{'BEGIN_YEAR' => 2001, 'NUMBER_OF_YEARS' => 2, 
                     'ASSESSMENTS_TAKEN' => {'GRADE_WIDE_ASSESSMENTS' => 5}, 'ASSESSMENTS_PER_GRADE'=>3,
                     'ASSESSMENT_ITEMS_PER_ASSESSMENT' => {'GRADE_WIDE_ASSESSMENTS' => 3},
                     'INCIDENTS_PER_SECTION' => 1,
                     'LIKELYHOOD_STUDENT_WAS_INVOLVED' => 0.5,
                     'INCLUDE_PARENTS' => true, 'COHORTS_PER_SCHOOL' => 4, 'PROBABILITY_STUDENT_IN_COHORT' => 1, 'DAYS_IN_COHORT' => 30,
                     'COMPETENCY_LEVEL_DESCRIPTORS' => competency_level_descriptors,
-                    'OPTIONAL_FIELD_LIKELYHOOD' => 1})}
+                    'OPTIONAL_FIELD_LIKELYHOOD' => 1}}
+  let(:scenario) {Scenario.new(scenario_opts)}
   describe "#build" do
 
     let(:entity_queue) {EntityQueue.new}
@@ -98,6 +99,8 @@ describe "WorkOrderProcessor" do
     before { work_order_queue.factory(factory, entity_queue) }
 
     context 'With a simple work order' do
+      before { BaseEntity.set_scenario(YAML.load_file("#{File.dirname(__FILE__)}/../scenarios/defaults/base_scenario").merge!(scenario_opts))}
+
       let(:assessment_factory) {AssessmentFactory.new(scenario)}
       let(:section_factory) {double('SectionWorkOrderFactory', :sections => {{'id' => 1} => [{:id => 42}, {:id => 43}, {:id => 44}], {'id' => 2} => [{:id => 45}, {:id => 46}, {:id => 47}]})}
       
@@ -224,6 +227,7 @@ describe "WorkOrderProcessor" do
         transcripts.each{|t|
           t.student_id.should eq 42
           t.ed_org_id.should eq DataUtility.get_elementary_school_id 64
+          t.method_credit_earned.should eq "Classroom credit"
         }
       end
     end
