@@ -119,7 +119,15 @@ public class XsdTypeProvider implements TypeProvider {
 
     @Override
     public String getTypeFromParentType(String xsdType, String eventName) {
-        return getType(getComplexElement(xsdType).getChild(eventName));
+        Element parentElement = getComplexElement(xsdType);
+        if (parentElement != null) {
+            for (Element e : parentElement.getDescendants(Filters.element("element", XS_NAMESPACE))) {
+                if (e.getAttributeValue("name").equals(eventName)) {
+                    return e.getAttributeValue("type");
+                }
+            }
+        }
+        return null;
     }
 
     @Override
@@ -135,28 +143,28 @@ public class XsdTypeProvider implements TypeProvider {
     }
 
     private Element getComplexElement(String parentName) {
-        Element parent = this.complexTypes.get(parentName);
+        Element parent = complexTypes.get(parentName);
         if (parent == null) {
-            parent = this.complexTypes.get(this.typeMap.get(parentName));
+            parent = complexTypes.get(typeMap.get(parentName));
         }
         return parent;
     }
 
     @Override
     public Object convertType(String typeName, String value) {
-        String type = this.typeMap.get(typeName);
-
         Object result = value;
-        if (type.equals("xs:date")) {
-            result = value;
-        } else if (type.equals("xs:boolean")) {
-            result = Boolean.parseBoolean(value);
-        } else if (type.equals("xs:double")) {
-            result = Double.parseDouble(value);
-        } else if (type.equals("xs:int")) {
-            result = Integer.parseInt(value);
+        if (typeName != null && typeMap.get(typeName) != null) {
+            String type = typeMap.get(typeName);
+            if (type.equals("xs:date")) {
+                result = value;
+            } else if (type.equals("xs:boolean")) {
+                result = Boolean.parseBoolean(value);
+            } else if (type.equals("xs:double")) {
+                result = Double.parseDouble(value);
+            } else if (type.equals("xs:int")) {
+                result = Integer.parseInt(value);
+            }
         }
-
         return result;
     }
 
