@@ -21,7 +21,7 @@ When zip file is scp to ingestion landing zone
      | collectionName              | count |
      | student                     | 2     |
      | educationOrganization       | 8     |
-     | applicationAuthorization    | 3     |
+     | applicationAuthorization    | 4     |
    And I check to find if record is in collection:
      | collectionName   | expectedRecordCount | searchParameter             | searchValue             | searchType           |
      | student          | 1                   | body.studentUniqueStateId   | 530425896               | string               |
@@ -48,7 +48,7 @@ When I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
       | collectionName              | count |
       | student                     | 0     |
       | educationOrganization       | 8     |
-      | applicationAuthorization    | 3     |
+      | applicationAuthorization    | 4     |
    And the following collections counts are the same:
      | collectionName           |
      | application              |
@@ -73,7 +73,7 @@ When zip file is scp to ingestion landing zone
      | collectionName              | count |
      | student                     | 2     |
      | educationOrganization       | 8     |
-     | applicationAuthorization    | 3     |
+     | applicationAuthorization    | 4     |
    And I check to find if record is in collection:
      | collectionName   | expectedRecordCount | searchParameter             | searchValue             | searchType           |
      | student          | 1                   | body.studentUniqueStateId   | 530425896               | string               |
