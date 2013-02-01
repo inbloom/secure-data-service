@@ -20,7 +20,8 @@ import org.junit.Test;
 import org.slc.sli.modeling.xmi.comp.XmiMappingConstants;
 
 /**
- * JUnit test for XmiMappingConstants class.
+ * JUnit test for 
+ * XmiMappingConstants class.
  */
 public class XmiMappingConstantsTest {
 
