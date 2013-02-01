@@ -58,7 +58,7 @@ public class EdfiEventReaderDelegateTest {
         System.setProperty("javax.xml.parsers.SAXParserFactory",
                 "com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl");
 
-        String schemaLocation = "/Users/dduran/work/SLI/sli/edfi-schema/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd";
+        String schemaLocation = "/Users/dduran/work/SLI/sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-AssessmentMetadata.xsd";
         Schema schema = getSchema(schemaLocation);
 
         String xmlLocation = "/Users/dduran/work/SLI/sli/acceptance-tests/test/features/ingestion/test_data/MediumSampleDataSet/InterchangeAssessmentMetadata.xml";
