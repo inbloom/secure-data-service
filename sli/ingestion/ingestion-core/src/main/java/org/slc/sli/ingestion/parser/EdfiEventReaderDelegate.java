@@ -96,7 +96,7 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
 
             parseCharacters(e.asCharacters());
 
-        } else if (e.isEndElement() && eventName.equals(complexTypeStack.peek().getLeft())) {
+        } else if (e.isEndElement() && eventName.equals(complexTypeStack.peek().getLeft().name)) {
 
             parseEndElement();
         }
@@ -111,19 +111,19 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
 
     @SuppressWarnings("unchecked")
     private void parseStartElement(StartElement e, String eventName) {
-        // dump attributes
-        Iterator<Attribute> it = e.getAttributes();
-        while (it.hasNext()) {
-            Attribute a = it.next();
-            complexTypeStack.peek().getRight().put(a.getName().getLocalPart(), a.getValue());
-        }
-
         // don't process for root entity element - we already pushed it in initCurrentEntity
         if (!currentEntityName.equals(eventName)) {
             String xsdType = tp.getTypeFromParentType(complexTypeStack.peek().getLeft().xsdType, eventName);
             Pair<EdfiType, Map<String, Object>> subElement = createElementEntry(eventName, xsdType);
             complexTypeStack.peek().getRight().put(eventName, subElement.getRight());
             complexTypeStack.push(subElement);
+        }
+
+        // dump attributes
+        Iterator<Attribute> it = e.getAttributes();
+        while (it.hasNext()) {
+            Attribute a = it.next();
+            complexTypeStack.peek().getRight().put(a.getName().getLocalPart(), a.getValue());
         }
     }
 
