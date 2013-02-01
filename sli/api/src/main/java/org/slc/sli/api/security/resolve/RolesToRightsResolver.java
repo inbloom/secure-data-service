@@ -45,5 +45,5 @@ public interface RolesToRightsResolver {
      * @param roleNames
      * @return
      */
-    public Set<GrantedAuthority> resolveRoles(String tenantId, String realmId, List<String> roleNames, boolean isAdminRealm);
+    public Set<GrantedAuthority> resolveRoles(String tenantId, String realmId, List<String> roleNames, boolean isAdminRealm, boolean getSelfRights);
 }

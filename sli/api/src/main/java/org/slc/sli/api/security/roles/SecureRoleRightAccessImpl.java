@@ -169,8 +169,9 @@ public class SecureRoleRightAccessImpl implements RoleRightAccess {
                             if (roleNames.contains(roleName)) {
                                 List<String> rights = (List<String>) role.get("rights");
                                 List<String> selfRights = (List<String>) role.get("selfRights");
+
                                 RoleBuilder roleBuilder = RoleBuilder.makeRole(roleName).addGrantedAuthorities(rights); 
-                                roleBuilder.addGrantedAuthorities(selfRights);
+                                roleBuilder.addSelfGrantedAuthorities(selfRights);
                                 Role mainRole = roleBuilder.build();
 
                                 mainRole.setAdmin(isAdmin);

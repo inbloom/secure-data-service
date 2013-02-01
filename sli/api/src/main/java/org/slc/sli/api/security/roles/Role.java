@@ -29,6 +29,7 @@ import org.springframework.security.core.GrantedAuthority;
 public class Role {
     private String name;
     private Set<GrantedAuthority> rights = new HashSet<GrantedAuthority>();
+    private Set<GrantedAuthority> selfRights = new HashSet<GrantedAuthority>();
     private boolean admin = false;
 
     public Role(String name) {
@@ -61,6 +62,18 @@ public class Role {
 
     public void addRight(GrantedAuthority right) {
         rights.add(right);
+    }
+    
+    public boolean hasSelfRight(Right right) {
+        return selfRights.contains(right);
+    }
+
+    public Set<GrantedAuthority> getSelfRights() {
+        return selfRights;
+    }
+
+    public void addSelfRight(GrantedAuthority right) {
+    	selfRights.add(right);
     }
 
     public void setAdmin(boolean admin) {

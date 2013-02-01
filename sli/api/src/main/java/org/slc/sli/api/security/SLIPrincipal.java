@@ -17,9 +17,6 @@
 
 package org.slc.sli.api.security;
 
-import org.slc.sli.domain.Entity;
-import org.springframework.stereotype.Component;
-
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.security.Principal;
@@ -30,6 +27,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+
+import org.slc.sli.domain.Entity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.stereotype.Component;
 
 /**
  * Attribute holder for SLI Principal
@@ -60,6 +61,7 @@ public class SLIPrincipal implements Principal, Serializable {
     private boolean adminRealmAuthenticated;
     private Entity entity;
 	private String userType;
+	private Collection<GrantedAuthority> selfRights;
 
     public String getSessionId() {
         return sessionId;
@@ -269,5 +271,12 @@ public class SLIPrincipal implements Principal, Serializable {
     
 	public String getUserType() {
 		return this.userType;
+	}
+	
+	public void setSelfRights(Collection<GrantedAuthority> auths) {
+		this.selfRights = auths;
+	}
+	public Collection<GrantedAuthority> getSelfRights() {
+		return this.selfRights;
 	}
 }

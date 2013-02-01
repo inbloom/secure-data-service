@@ -52,24 +52,24 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
     private Repository<Entity> repo;
 
     @Override
-    public Set<GrantedAuthority> resolveRoles(String tenantId, String realmId, List<String> roleNames, boolean isAdminRealm) {
+    public Set<GrantedAuthority> resolveRoles(String tenantId, String realmId, List<String> roleNames, boolean isAdminRealm, boolean getSelfRights) {
         Set<GrantedAuthority> auths = null;
         
         Collection<Role> roles = mapRoles(tenantId, realmId, roleNames, isAdminRealm);
         Entity realm = findRealm(realmId);
         for (Role role : roles) {
             if (auths ==  null) {
-                auths = new HashSet<GrantedAuthority>(role.getRights());
+                auths = getNeededRights(role, getSelfRights);
             } else {
                 if (isAdminRealm || isDeveloperRealm(realm)) {
-                    auths.addAll(role.getRights());
+                    auths.addAll(getNeededRights(role, getSelfRights));
                 } else {
                     //When the user is coming from a federated realm this prevents the user from getting
                     //a right they shouldn't.  If the user is in more than one district with different roles
                     //they should get only the rights that are in all their roles. This could prevent the user from
                     //getting a right that they need but more importantly it keeps them from having a right that
                     //they shouldn't have. - DE1679
-                    auths.retainAll(role.getRights());
+                    auths.retainAll(getNeededRights(role, getSelfRights));
                 }
             }
         }
@@ -106,6 +106,14 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
             }
         });
         
+    }
+    
+    private Set<GrantedAuthority> getNeededRights(Role role, boolean isSelf) {
+    	if (isSelf) {
+    		return role.getSelfRights();
+    	} else {
+    		return role.getRights();
+    	}
     }
 
     @Override

@@ -123,7 +123,7 @@ public class BasicService implements EntityService {
 
     @Override
     public long count(NeutralQuery neutralQuery) {
-        checkRights(readRight);
+        checkRights(readRight, false);
         checkFieldAccess(neutralQuery);
 
         return getRepo().count(collectionName, neutralQuery);
@@ -138,7 +138,7 @@ public class BasicService implements EntityService {
      */
     @Override
     public Iterable<String> listIds(final NeutralQuery neutralQuery) {
-        checkRights(readRight);
+        checkRights(readRight, false);
         checkFieldAccess(neutralQuery);
 
         NeutralQuery nq = neutralQuery;
@@ -171,7 +171,7 @@ public class BasicService implements EntityService {
     }
 
     private void checkAllRights(Set<Right> neededRights, boolean isWrite) {
-        Collection<GrantedAuthority> auths = getAuths();
+        Collection<GrantedAuthority> auths = getAuths(false);
 
         if (auths.contains(Right.FULL_ACCESS)) {
             debug("User has full access");
@@ -321,7 +321,7 @@ public class BasicService implements EntityService {
             return Collections.emptyList();
         }
 
-        checkRights(readRight);
+        checkRights(readRight, false);
         checkFieldAccess(neutralQuery);
 
         List<String> idList = new ArrayList<String>();
@@ -356,7 +356,7 @@ public class BasicService implements EntityService {
 
     @Override
     public Iterable<EntityBody> list(NeutralQuery neutralQuery) {
-        checkRights(readRight);
+        checkRights(readRight, false);
         checkFieldAccess(neutralQuery);
 
         Collection<Entity> entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
@@ -376,7 +376,7 @@ public class BasicService implements EntityService {
 
     @Override
     public boolean exists(String id) {
-        checkRights(readRight);
+        checkRights(readRight, isSelf(id));
 
         boolean exists = false;
         NeutralQuery query = new NeutralQuery();
@@ -648,13 +648,9 @@ public class BasicService implements EntityService {
      */
     @SuppressWarnings("unchecked")
     private void checkAccess(Object right, String entityId) {
-    	if (isSelf(entityId)) {
-    		
-    	}
-    	
         // Check that user has the needed right(s)
         if (right instanceof Right) {
-            checkRights((Right) right);
+            checkRights((Right) right, isSelf(entityId));
         } else if (Set.class.isAssignableFrom(right.getClass())) {
             checkAllRights((Set<Right>) right, true);
         } else {
@@ -697,7 +693,7 @@ public class BasicService implements EntityService {
         return found != null;
     }
 
-    private void checkRights(final Right neededRight) {
+    private void checkRights(final Right neededRight, boolean isSelf) {
         Right nRight = neededRight;
 
         // anonymous access is always granted
@@ -715,7 +711,7 @@ public class BasicService implements EntityService {
             }
         }
 
-        Collection<GrantedAuthority> auths = getAuths();
+        Collection<GrantedAuthority> auths = getAuths(isSelf);
 
         if (auths.contains(Right.FULL_ACCESS)) {
             debug("User has full access");
@@ -726,14 +722,19 @@ public class BasicService implements EntityService {
         }
     }
 
-    private Collection<GrantedAuthority> getAuths() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (readRight != Right.ANONYMOUS_ACCESS) {
-            SecurityUtil.ensureAuthenticated();
-        }
-        return auth.getAuthorities();
+    private Collection<GrantedAuthority> getAuths(boolean isSelf) {
+    	if (isSelf) {
+    		SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
+    		return principal.getSelfRights();
+    	} else {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            if (readRight != Right.ANONYMOUS_ACCESS) {
+                SecurityUtil.ensureAuthenticated();
+            }
+            return auth.getAuthorities();
+    	}
     }
-
+    
     /**
      * Removes fields user isn't entitled to see
      *

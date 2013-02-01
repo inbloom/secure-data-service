@@ -249,7 +249,7 @@ public class SecurityContextInjector {
                 .sudoRun(new SecurityUtil.SecurityTask<Set<GrantedAuthority>>() {
                     @Override
                     public Set<GrantedAuthority> execute() {
-                        return finalResolver.resolveRoles(principal.getTenantId(), principal.getRealm(), principal.getRoles(), isAdminRealm);
+                        return finalResolver.resolveRoles(principal.getTenantId(), principal.getRealm(), principal.getRoles(), isAdminRealm, false);
                     }
                 });
 
