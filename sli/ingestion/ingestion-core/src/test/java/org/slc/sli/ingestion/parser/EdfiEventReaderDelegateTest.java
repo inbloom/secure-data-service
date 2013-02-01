@@ -31,9 +31,12 @@ import javax.xml.validation.Validator;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.StopWatch;
 import org.xml.sax.SAXException;
 
 /**
@@ -45,6 +48,8 @@ import org.xml.sax.SAXException;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class EdfiEventReaderDelegateTest {
 
+    public static final Logger LOG = LoggerFactory.getLogger(EdfiEventReaderDelegateTest.class);
+
     @Autowired
     EdfiEventReaderDelegate edfiReader;
 
@@ -53,15 +58,20 @@ public class EdfiEventReaderDelegateTest {
         System.setProperty("javax.xml.parsers.SAXParserFactory",
                 "com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl");
 
-        String schemaLocation = "/Users/dduran/work/SLI/sli/edfi-schema/src/main/resources/edfiXsd/Interchange-StudentEnrollment.xsd";
+        String schemaLocation = "/Users/dduran/work/SLI/sli/edfi-schema/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd";
         Schema schema = getSchema(schemaLocation);
 
-        String xmlLocation = "/Users/dduran/work/SLI/sli/acceptance-tests/test/features/ingestion/test_data/MediumSampleDataSet/InterchangeStudentEnrollment.xml";
-        EdfiEventReaderDelegate edfiReader = getReader(xmlLocation);
+        String xmlLocation = "/Users/dduran/work/SLI/sli/acceptance-tests/test/features/ingestion/test_data/MediumSampleDataSet/InterchangeAssessmentMetadata.xml";
+        EdfiEventReaderDelegate edfiReader = createReader(xmlLocation);
 
         Validator validator = schema.newValidator();
         validator.setErrorHandler(edfiReader);
+
+        StopWatch sw = new StopWatch();
+        sw.start();
         validator.validate(new StAXSource(edfiReader));
+        sw.stop();
+        LOG.info("Total validation/parsing time:" + sw.getTotalTimeMillis());
     }
 
     private Schema getSchema(String schemaLocation) throws SAXException {
@@ -71,7 +81,7 @@ public class EdfiEventReaderDelegateTest {
         return schema;
     }
 
-    private EdfiEventReaderDelegate getReader(String xmlLocation) throws FileNotFoundException, XMLStreamException,
+    private EdfiEventReaderDelegate createReader(String xmlLocation) throws FileNotFoundException, XMLStreamException,
             FactoryConfigurationError {
 
         XMLEventReader reader = XMLInputFactory.newInstance().createXMLEventReader(new FileInputStream(xmlLocation));

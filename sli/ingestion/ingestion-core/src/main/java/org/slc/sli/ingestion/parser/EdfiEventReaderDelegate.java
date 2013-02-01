@@ -54,7 +54,9 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
     @Autowired
     private TypeProvider tp;
 
-    Stack<Pair<String, Map<String, Object>>> complexTypeStack = new Stack<Pair<String, Map<String, Object>>>();
+    private String interchange;
+
+    Stack<Pair<EdfiType, Map<String, Object>>> complexTypeStack = new Stack<Pair<EdfiType, Map<String, Object>>>();
     String currentEntityName = null;
     boolean currentEntityValid = false;
 
@@ -62,22 +64,23 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
         super(reader);
     }
 
-    public EdfiEventReaderDelegate() { }
+    public EdfiEventReaderDelegate() {
+    }
 
     @Override
     public XMLEvent nextEvent() throws XMLStreamException {
         XMLEvent event = super.nextEvent();
         String eventName = extractTagName(event);
 
-
-        if (!eventName.startsWith("Interchange")) {
+        if (eventName.startsWith("Interchange")) {
+            interchange = eventName;
+        } else {
 
             if (complexTypeStack.isEmpty() && event.isStartElement()) {
                 initCurrentEntity(eventName);
             }
 
             if (currentEntityValid) {
-
                 parseEvent(event);
 
             } else if (eventName.equals(currentEntityName) && event.isEndElement()) {
@@ -107,6 +110,13 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
         }
     }
 
+    private void initCurrentEntity(String eventName) {
+        String xsdType = tp.getTypeFromInterchange(interchange, eventName);
+        complexTypeStack.push(createElementEntry(eventName, xsdType));
+        currentEntityName = eventName;
+        currentEntityValid = true;
+    }
+
     @SuppressWarnings("unchecked")
     private void parseStartElement(StartElement e, String eventName) {
         // dump attributes
@@ -118,8 +128,8 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
 
         // don't process for root entity element - we already pushed it in initCurrentEntity
         if (!currentEntityName.equals(eventName)) {
-            Pair<String, Map<String, Object>> subElement = new ImmutablePair<String, Map<String, Object>>(eventName,
-                    new InnerMap());
+            String xsdType = tp.getTypeFromParentType(complexTypeStack.peek().getLeft().xsdType, eventName);
+            Pair<EdfiType, Map<String, Object>> subElement = createElementEntry(eventName, xsdType);
             complexTypeStack.peek().getRight().put(eventName, subElement.getRight());
             complexTypeStack.push(subElement);
         }
@@ -128,7 +138,8 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
     private void parseCharacters(Characters characters) {
         if (!characters.isIgnorableWhiteSpace() && !characters.isWhiteSpace()) {
             String text = characters.getData();
-            complexTypeStack.peek().getRight().put("_value", text);
+            Object convertedValue = tp.convertType(complexTypeStack.peek().getLeft().xsdType, text);
+            complexTypeStack.peek().getRight().put("_value", convertedValue);
         }
     }
 
@@ -162,10 +173,19 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
         // currentEntityValid = false;
     }
 
-    private void initCurrentEntity(String eventName) {
-        complexTypeStack.push(new ImmutablePair<String, Map<String, Object>>(eventName, new InnerMap()));
-        currentEntityName = eventName;
-        currentEntityValid = true;
+    private Pair<EdfiType, Map<String, Object>> createElementEntry(String eventName, String xsdType) {
+        EdfiType edfiType = new EdfiType(eventName, xsdType);
+        return new ImmutablePair<EdfiType, Map<String, Object>>(edfiType, new InnerMap());
+    }
+
+    private static String extractTagName(XMLEvent e) {
+        String result = "";
+        if (e.isEndElement()) {
+            result = e.asEndElement().getName().getLocalPart();
+        } else if (e.isStartElement()) {
+            result = e.asStartElement().getName().getLocalPart();
+        }
+        return result;
     }
 
     @SuppressWarnings({ "unchecked", "serial" })
@@ -189,14 +209,14 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
         }
     }
 
-    private static String extractTagName(XMLEvent e) {
-        String result = "";
-        if (e.isEndElement()) {
-            result = e.asEndElement().getName().getLocalPart();
-        } else if (e.isStartElement()) {
-            result = e.asStartElement().getName().getLocalPart();
+    private final static class EdfiType {
+        private final String name;
+        private final String xsdType;
+
+        public EdfiType(String name, String xsdType) {
+            this.name = name;
+            this.xsdType = xsdType;
         }
-        return result;
     }
 
 }

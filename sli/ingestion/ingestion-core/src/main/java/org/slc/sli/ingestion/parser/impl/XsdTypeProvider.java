@@ -46,52 +46,65 @@ public class XsdTypeProvider implements TypeProvider {
 
     private static final Namespace XS_NAMESPACE = Namespace.getNamespace("xs", "http://www.w3.org/2001/XMLSchema");
 
-    // private String schemaLocation = "sliXsd-R1/ComplexTypes-R1.xsd"; // FIXME, should be a
-    // property
-
     @Value("file:${sli.conf}")
     private Resource sliPropsFile;
 
     private Map<String, Element> complexTypes = new HashMap<String, Element>();
     private Map<String, String> typeMap = new HashMap<String, String>();
 
+    private Map<String, Map<String, String>> interchangeMap  = new HashMap<String, Map<String, String>>();
+
     @PostConstruct
     @SuppressWarnings("unused")
     private void init() throws Exception {
-        System.setProperty("javax.xml.parsers.SAXParserFactory", "com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl");
+        System.setProperty("javax.xml.parsers.SAXParserFactory",
+                "com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl");
 
         Properties sliProps = PropertiesLoaderUtils.loadProperties(sliPropsFile);
         if (null == sliProps) {
             throw new Exception("Cannot load properties from props file '" + sliPropsFile + "' == ${sli.conf}"); // NOPMD
-                                                                                                                 // POC
-                                                                                                                 // code
         }
 
-        // FIXME: file name from properties should be relative to SLI home dir not the current dir
         String curdir = System.getProperty("user.dir");
+
         String schemaLocation = sliProps.getProperty("sli.poc.atma.schema");
-        // InputStream schemaStream = ClassLoader.getSystemResourceAsStream(schemaLocation);
         FileInputStream schemaStream = new FileInputStream(schemaLocation);
         if (null == schemaStream) {
             throw new Exception("Cannot open XSD schema '" + schemaLocation + "'"); // NOPMD POC
-                                                                                    // code
         }
 
         SAXBuilder b = new SAXBuilder();
         Document doc = b.build(schemaStream);
-        Iterable<Element> complexTypes = doc.getDescendants(Filters.element("complexType", XS_NAMESPACE));
 
+        Iterable<Element> complexTypes = doc.getDescendants(Filters.element("complexType", XS_NAMESPACE));
         for (Element e : complexTypes) {
             this.complexTypes.put(e.getAttributeValue("name"), e);
         }
 
-        Iterable<Element> elements = doc.getDescendants(Filters.element("element", XS_NAMESPACE));
+        buildXsdElementsMap(doc, typeMap);
 
+        FileInputStream interchangeStream = new FileInputStream(sliProps.getProperty("sli.poc.atma.assessment"));
+        interchangeMap.put("InterchangeAssessmentMetadata", new HashMap<String, String>());
+        buildXsdElementsMap(b.build(interchangeStream), interchangeMap.get("InterchangeAssessmentMetadata"));
+
+    }
+
+    private void buildXsdElementsMap(Document doc, Map<String, String> map) {
+        Iterable<Element> elements = doc.getDescendants(Filters.element("element", XS_NAMESPACE));
         for (Element e : elements) {
             String type = getType(e);
-
-            this.typeMap.put(e.getAttributeValue("name"), type);
+            map.put(e.getAttributeValue("name"), type);
         }
+    }
+
+    @Override
+    public String getTypeFromInterchange(String interchange, String eventName) {
+        return interchangeMap.get(interchange).get(eventName);
+    }
+
+    @Override
+    public String getTypeFromParentType(String xsdType, String eventName) {
+        return getType(getComplexElement(eventName).getChild(eventName));
     }
 
     @Override
@@ -103,23 +116,20 @@ public class XsdTypeProvider implements TypeProvider {
     @Override
     public boolean existsInSchema(String parentName, String name) {
         Element parent = getComplexElement(parentName);
-
         return parent.getChild(name) != null;
     }
 
     private Element getComplexElement(String parentName) {
         Element parent = this.complexTypes.get(parentName);
-
         if (parent == null) {
             parent = this.complexTypes.get(this.typeMap.get(parentName));
         }
-
         return parent;
     }
 
     @Override
-    public Object convertType(String elementName, String value) {
-        String type = this.typeMap.get(elementName);
+    public Object convertType(String typeName, String value) {
+        String type = this.typeMap.get(typeName);
 
         Object result = value;
         if (type.equals("xs:date")) {
@@ -133,15 +143,6 @@ public class XsdTypeProvider implements TypeProvider {
         }
 
         return result;
-    }
-
-    /**
-     * Determines if given field is a reference type
-     */
-    @Override
-    public boolean isReference(String elementName) {
-        return this.typeMap.get(elementName).equals("reference");
-
     }
 
     /**
@@ -174,4 +175,11 @@ public class XsdTypeProvider implements TypeProvider {
         // TODO Auto-generated method stub
 
     }
+
+    @Override
+    public boolean isReference(String elementName) {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
 }
