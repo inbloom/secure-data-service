@@ -159,3 +159,16 @@ Scenario: Verify the sli verification script confirms everything ingested correc
     Given the edfi manifest that was generated in the 'generated' directory
     And the tenant is 'Midgar'
     Then the sli-verify script completes successfully
+
+Scenario: Verify the course optioinal fields is ingested correctly
+    And I check to find if record is in collection:
+     | collectionName              | expectedRecordCount | searchParameter                          | searchValue                                     | searchType           |
+     | course                      | 14                  | body.courseLevel                         |Honors                                           | string               |
+     | course                      | 2                   | body.courseLevelCharacteristics          |Magnet                                           | string               |
+     | course                      | 1                   | body.gradesOffered                       |First grade                                      | string               |
+     | course                      | 3                   | body.subjectArea                         |Reading                                          | string               |
+     | course                      | 1                   | body.courseDescription                   |this is a course for First grade                 | string               |
+     | course                      | 9                   | body.courseGPAApplicability              |Not Applicable                                   | string               |
+     | course                      | 12                  | body.courseDefinedBy                     |School                                           | string               |
+     | course                      | 14                  | body.careerPathway                       |Science, Technology, Engineering and Mathematics | string               |
+
