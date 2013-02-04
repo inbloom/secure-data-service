@@ -59,7 +59,8 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
         Entity realm = findRealm(realmId);
         for (Role role : roles) {
             if (auths ==  null) {
-                auths = getNeededRights(role, getSelfRights);
+                auths = new HashSet<GrantedAuthority>();
+                auths.addAll(getNeededRights(role, getSelfRights));
             } else {
                 if (isAdminRealm || isDeveloperRealm(realm)) {
                     auths.addAll(getNeededRights(role, getSelfRights));
@@ -84,10 +85,6 @@ public class DefaultRolesToRightsResolver implements RolesToRightsResolver {
         return valueOf(realm, "developer");
     }
     
-    private boolean isAdminRealm(final Entity realm) {
-        return valueOf(realm, "admin");
-    }
-
     private boolean valueOf(final Entity realm, final String field) {
         
         if (realm != null && realm.getBody() != null) {
