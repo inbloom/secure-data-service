@@ -32,7 +32,7 @@ public class IndexValidatorExecutor {
 
 		boolean indexValidated = systemValidator.isValid(null,
 				loggingMessageReport, reportStats, source);
-		indexValidated = false;
+
 		if (!indexValidated) {
 			throw new RuntimeException(
 					"Indexes could not be verified, check the index file configurations are set");
