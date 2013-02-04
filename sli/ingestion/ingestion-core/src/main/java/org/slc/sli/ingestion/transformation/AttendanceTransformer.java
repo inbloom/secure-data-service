@@ -28,19 +28,6 @@ import java.util.Set;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.common.util.datetime.DateTimeUtil;
-import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.reporting.Source;
-import org.slc.sli.ingestion.reporting.impl.AggregatedSource;
-import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
-import org.slc.sli.ingestion.smooks.SliDeltaManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +36,19 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.common.util.datetime.DateTimeUtil;
+import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.AggregatedSource;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
+import org.slc.sli.ingestion.smooks.SliDeltaManager;
 
 /**
  * Transforms disjoint set of attendance events into cleaner set of {school year : list of
@@ -62,21 +62,31 @@ import org.springframework.stereotype.Component;
 public class AttendanceTransformer extends AbstractTransformationStrategy {
     private static final Logger LOG = LoggerFactory.getLogger(AttendanceTransformer.class);
 
-    private static final String ATTENDANCE = "attendance";
-    private static final String ATTENDANCE_EVENT = "attendanceEvent";
-    private static final String ATTENDANCE_EVENT_REASON = "attendanceEventReason";
-    private static final String ATTENDANCE_TRANSFORMED = ATTENDANCE + "_transformed";
-
     private static final String STATE_ORGANIZATION_ID = "StateOrganizationId";
     private static final String EDUCATIONAL_ORG_ID = "EducationalOrgIdentity";
+    private static final String EDORG_ID = EDUCATIONAL_ORG_ID + "." + STATE_ORGANIZATION_ID;
+
+    private static final String ATTENDANCE = "attendance";
+    private static final String ATTENDANCE_EVENT = "attendanceEvent";
+    private static final String ATTENDANCE_EVENT_REASON = "AttendanceEventReason";
+    private static final String ATTENDANCE_TRANSFORMED = ATTENDANCE + "_transformed";
+    private static final String ATTENDANCE_EVENT_DATE = "EventDate";
+    private static final String ATTENDANCE_EVENT_CATEGORY = "AttendanceEventCategory";
+    private static final String ATTENDANCE_SCHOOL_ID = "SchoolReference." + EDORG_ID;
+
     private static final String SCHOOL = "school";
     private static final String SCHOOL_ID = "schoolId";
-    private static final String SCHOOL_YEAR = "schoolYear";
+    private static final String SCHOOL_YEAR = "SchoolYear";
     private static final String STUDENT_ID = "studentId";
     private static final String SESSION = "session";
+    private static final String SESSION_SHOOL_ID = "EducationOrganizationReference." + EDORG_ID;
+    private static final String SESSION_BEGINDATE = "BeginDate";
+    private static final String SESSION_ENDDATE = "EndDate";
     private static final String STUDENT_SCHOOL_ASSOCIATION = "studentSchoolAssociation";
     private static final String DATE = "date";
     private static final String EVENT = "event";
+    private static final String REASON = "reason";
+    private static final String STUDENT_UNIQUE_STATE_ID = "StudentReference.StudentIdentity.StudentUniqueStateId";
     private static final String RECORDHASHDATA = SliDeltaManager.RECORDHASH_DATA;
 
     private int numAttendancesIngested = 0;
@@ -120,7 +130,6 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
     public void transform() {
         LOG.info("Transforming attendance data");
 
-        Map<String, List<Map<String, Object>>> studentAttendanceEvents = new HashMap<String, List<Map<String, Object>>>();
         Map<Pair<String, String>, List<Map<String, Object>>> studentSchoolAttendanceEvents = new HashMap<Pair<String, String>, List<Map<String, Object>>>();
 
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : attendances.entrySet()) {
@@ -132,8 +141,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
 
             String studentId = null;
             try {
-                studentId = (String) PropertyUtils.getNestedProperty(attributes,
-                        "StudentReference.StudentIdentity.StudentUniqueStateId");
+                studentId = (String) PropertyUtils.getNestedProperty(attributes, STUDENT_UNIQUE_STATE_ID);
             } catch (IllegalAccessException e) {
                 LOG.error("Failed to extract StudentUniqueStateId from attendance entity", e);
                 super.reportError(attendances.values().iterator().next().getSourceFile(), getAggregatedSource(),
@@ -148,98 +156,54 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                         CoreMessageCode.CORE_0057, e.toString());
             }
 
-            if (attributes.containsKey(SCHOOL_ID)) {
-                Object stateOrganizationId = attributes.get(SCHOOL_ID);
-                if (stateOrganizationId instanceof String) {
-                    String schoolId = (String) stateOrganizationId;
-                    List<Map<String, Object>> events = new ArrayList<Map<String, Object>>();
+            String stateOrganizationId = (String) getProperty(attributes, ATTENDANCE_SCHOOL_ID);
 
-                    if (studentSchoolAttendanceEvents.containsKey(Pair.of(studentId, schoolId))) {
-                        events = studentSchoolAttendanceEvents.get(Pair.of(studentId, schoolId));
-                    }
-
-                    Map<String, Object> event = new HashMap<String, Object>();
-                    String eventDate = (String) attributes.get("eventDate");
-                    String eventCategory = (String) attributes.get("attendanceEventCategory");
-                    event.put(DATE, eventDate);
-                    event.put(EVENT, eventCategory);
-                    if (attributes.containsKey(ATTENDANCE_EVENT_REASON)) {
-                        String eventReason = (String) attributes.get(ATTENDANCE_EVENT_REASON);
-                        event.put("reason", eventReason);
-                    }
-                    event.put(RECORDHASHDATA, recordHashData);  // include data for record level
-                                                               // delta hash processing
-                    events.add(event);
-                    studentSchoolAttendanceEvents.put(Pair.of(studentId, schoolId), events);
-                }
-            } else {
+            if (stateOrganizationId != null) {
+                String schoolId = stateOrganizationId;
                 List<Map<String, Object>> events = new ArrayList<Map<String, Object>>();
 
-                if (studentAttendanceEvents.containsKey(studentId)) {
-                    events = studentAttendanceEvents.get(studentId);
+                if (studentSchoolAttendanceEvents.containsKey(Pair.of(studentId, schoolId))) {
+                    events = studentSchoolAttendanceEvents.get(Pair.of(studentId, schoolId));
                 }
 
                 Map<String, Object> event = new HashMap<String, Object>();
-                String eventDate = (String) attributes.get("eventDate");
-                String eventCategory = (String) attributes.get("attendanceEventCategory");
+                String eventDate = (String) attributes.get(ATTENDANCE_EVENT_DATE);
+                String eventCategory = (String) attributes.get(ATTENDANCE_EVENT_CATEGORY);
                 event.put(DATE, eventDate);
                 event.put(EVENT, eventCategory);
                 if (attributes.containsKey(ATTENDANCE_EVENT_REASON)) {
                     String eventReason = (String) attributes.get(ATTENDANCE_EVENT_REASON);
-                    event.put("reason", eventReason);
+                    event.put(REASON, eventReason);
                 }
-                event.put(RECORDHASHDATA, recordHashData);  // include metadata for record level
-                                                           // delta hash updating
+                event.put(RECORDHASHDATA, recordHashData);  // include data for record level
+                                                           // delta hash processing
                 events.add(event);
-                studentAttendanceEvents.put(studentId, events);
+                studentSchoolAttendanceEvents.put(Pair.of(studentId, schoolId), events);
             }
         }
 
-        if (studentSchoolAttendanceEvents.size() > 0) {
-            LOG.info("Discovered {} student-school associations from attendance events",
-                    studentSchoolAttendanceEvents.size());
-            for (Map.Entry<Pair<String, String>, List<Map<String, Object>>> entry : studentSchoolAttendanceEvents
-                    .entrySet()) {
-                Pair<String, String> studentSchoolPair = entry.getKey();
-                List<Map<String, Object>> attendance = entry.getValue();
-                String studentId = studentSchoolPair.getLeft();
-                String schoolId = studentSchoolPair.getRight();
-                transformAndPersistAttendanceEvents(studentId, schoolId, attendance);
-            }
-        }
 
-        if (studentAttendanceEvents.size() > 0) {
-            LOG.info("Discovered {} students from attendance events that need school mappings",
-                    studentAttendanceEvents.size());
-            for (Map.Entry<String, List<Map<String, Object>>> entry : studentAttendanceEvents.entrySet()) {
-                String studentId = entry.getKey();
-                List<Map<String, Object>> attendance = entry.getValue();
-                List<NeutralRecord> schools = getSchoolsForStudent(studentId);
-                if (schools.size() == 0) {
-                    LOG.error("Student with id: {} is not associated to any schools.", studentId);
-                    super.reportWarnings(attendances.values().iterator().next().getSourceFile(), getAggregatedSource(),
-                            CoreMessageCode.CORE_0049, studentId);
-                } else if (schools.size() > 1) {
-                    LOG.error("Student with id: {} is associated to more than one school.", studentId);
-                    super.reportWarnings(attendances.values().iterator().next().getSourceFile(), getAggregatedSource(),
-                            CoreMessageCode.CORE_0050, studentId);
-                } else {
-                    NeutralRecord school = schools.get(0);
-                    String schoolId = (String) school.getAttributes().get("stateOrganizationId");
-                    transformAndPersistAttendanceEvents(studentId, schoolId, attendance);
+            if (studentSchoolAttendanceEvents.size() > 0) {
+                LOG.info("Discovered {} student-school associations from attendance events",
+                        studentSchoolAttendanceEvents.size());
+                for (Map.Entry<Pair<String, String>, List<Map<String, Object>>> entry : studentSchoolAttendanceEvents
+                        .entrySet()) {
+                    Pair<String, String> studentSchoolPair = entry.getKey();
+                    List<Map<String, Object>> attendance = entry.getValue();
+                    String attendanceStudentId = studentSchoolPair.getLeft();
+                    String schoolId = studentSchoolPair.getRight();
+                    transformAndPersistAttendanceEvents(attendanceStudentId, schoolId, attendance);
                 }
             }
 
-        }
+            long numAttendance = attendances.size();
+            if (numAttendance != numAttendancesIngested) {
+                long remainingAttendances = numAttendance - numAttendancesIngested;
+                super.reportWarnings(attendances.values().iterator().next().getSourceFile(), getAggregatedSource(),
+                        CoreMessageCode.CORE_0028, Long.toString(remainingAttendances));
+            }
 
-        long numAttendance = attendances.size();
-        if (numAttendance != numAttendancesIngested) {
-            long remainingAttendances = numAttendance - numAttendancesIngested;
-            super.reportWarnings(attendances.values().iterator().next().getSourceFile(), getAggregatedSource(),
-                    CoreMessageCode.CORE_0028, Long.toString(remainingAttendances));
-        }
-
-        LOG.info("Finished transforming attendance data");
+            LOG.info("Finished transforming attendance data");
     }
 
     /**
@@ -408,53 +372,6 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         return record;
     }
 
-    /**
-     * Gets all schools associated with the specified student.
-     *
-     * @param studentId
-     *            StudentUniqueStateId for student.
-     * @return List of Neutral Records representing schools.
-     */
-    private List<NeutralRecord> getSchoolsForStudent(String studentId) {
-        List<NeutralRecord> schools = new ArrayList<NeutralRecord>();
-
-        Query query = new Query().limit(0);
-        query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
-        query.addCriteria(Criteria.where("body.studentId").is(studentId));
-
-        Iterable<NeutralRecord> associations = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(
-                STUDENT_SCHOOL_ASSOCIATION, query);
-
-        if (associations != null) {
-            List<String> schoolIds = new ArrayList<String>();
-            for (NeutralRecord association : associations) {
-                Map<String, Object> associationAttributes = association.getAttributes();
-                String schoolId = (String) associationAttributes.get(SCHOOL_ID);
-                schoolIds.add(schoolId);
-            }
-
-            Query schoolQuery = new Query().limit(0);
-            schoolQuery.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
-            schoolQuery.addCriteria(Criteria.where("body.stateOrganizationId").in(schoolIds));
-
-            Iterable<NeutralRecord> queriedSchools = getNeutralRecordMongoAccess().getRecordRepository()
-                    .findAllByQuery(SCHOOL, schoolQuery);
-
-            if (queriedSchools != null) {
-                Iterator<NeutralRecord> itr = queriedSchools.iterator();
-                NeutralRecord record = null;
-                while (itr.hasNext()) {
-                    record = itr.next();
-                    schools.add(record);
-                }
-            }
-        }
-        if (schools.size() == 0) {
-            schools.addAll(getSchoolsForStudentFromSLI(studentId));
-        }
-        return schools;
-    }
-
     private List<NeutralRecord> getSchoolsForStudentFromSLI(String studentUniqueStateId) {
         List<NeutralRecord> schools = new ArrayList<NeutralRecord>();
 
@@ -514,7 +431,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         Map<Object, NeutralRecord> sessions = new HashMap<Object, NeutralRecord>();
         Query query = new Query().limit(0);
         query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
-        query.addCriteria(Criteria.where("body.schoolId").is(edOrgId));
+        query.addCriteria(Criteria.where("body." + SESSION_SHOOL_ID).is(edOrgId));
 
         Iterable<NeutralRecord> queriedSessions = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(
                 SESSION, query);
@@ -553,7 +470,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
     private String getParentEdOrg(String edOrgId) {
         Query schoolQuery = new Query().limit(1);
         schoolQuery.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
-        schoolQuery.addCriteria(Criteria.where("body.stateOrganizationId").is(edOrgId));
+        schoolQuery.addCriteria(Criteria.where("body." + STATE_ORGANIZATION_ID).is(edOrgId));
 
         Iterable<NeutralRecord> queriedSchool = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(
                 SCHOOL, schoolQuery);
@@ -634,8 +551,8 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             NeutralRecord sessionRecord = session.getValue();
             Map<String, Object> sessionAttributes = sessionRecord.getAttributes();
             String schoolYear = (String) sessionAttributes.get(SCHOOL_YEAR);
-            DateTime sessionBegin = DateTimeUtil.parseDateTime((String) sessionAttributes.get("beginDate"));
-            DateTime sessionEnd = DateTimeUtil.parseDateTime((String) sessionAttributes.get("endDate"));
+            DateTime sessionBegin = DateTimeUtil.parseDateTime((String) sessionAttributes.get(SESSION_BEGINDATE));
+            DateTime sessionEnd = DateTimeUtil.parseDateTime((String) sessionAttributes.get(SESSION_ENDDATE));
 
             List<Map<String, Object>> events = new ArrayList<Map<String, Object>>();
 
@@ -776,7 +693,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         }
 
         for (Map<String, Object> yearAttendance : schoolYearAttendance) {
-            String schoolYear = (String) yearAttendance.get(SCHOOL_YEAR);
+            String schoolYear = (String) yearAttendance.get("schoolYear");
             List<Map<String, Object>> attendanceEvent = (List<Map<String, Object>>) yearAttendance
                     .get(ATTENDANCE_EVENT);
             if (attendanceEvent.size() > 0) {
@@ -849,10 +766,10 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         res.addAll(first);
         Set<String> sessions = new HashSet<String>();
         for (NeutralRecord record : first) {
-            sessions.add((String) record.getAttributes().get("sessionName"));
+            sessions.add((String) record.getAttributes().get("SessionName"));
         }
         for (NeutralRecord record : second) {
-            String sKey = (String) record.getAttributes().get("sessionName");
+            String sKey = (String) record.getAttributes().get("SessionName");
             if (!sessions.contains(sKey)) {
                 sessions.add(sKey);
                 res.add(record);
