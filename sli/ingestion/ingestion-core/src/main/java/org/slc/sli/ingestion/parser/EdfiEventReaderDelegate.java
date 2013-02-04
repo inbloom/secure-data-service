@@ -63,6 +63,12 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
     public XMLEvent nextEvent() throws XMLStreamException {
         XMLEvent event = super.nextEvent();
 
+        parseXmlEvent(event);
+
+        return event;
+    }
+
+    private void parseXmlEvent(XMLEvent event) {
         try {
             String eventName = extractTagName(event);
             if (interchange != null) {
@@ -74,7 +80,6 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
         } catch (Exception e) {
             LOG.error("Error parsing.", e);
         }
-        return event;
     }
 
     private void parseInterchangeEvent(XMLEvent event, String eventName) throws XMLStreamException {
@@ -128,6 +133,14 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
         parseEventAttributes(e);
     }
 
+    private void newEventToStack(String eventName) {
+        String xsdType = tp.getTypeFromParentType(complexTypeStack.peek().getLeft().xsdType, eventName);
+        Pair<EdfiType, Map<String, Object>> subElement = createElementEntry(eventName, xsdType);
+
+        complexTypeStack.peek().getRight().put(eventName, subElement.getRight());
+        complexTypeStack.push(subElement);
+    }
+
     @SuppressWarnings("unchecked")
     private void parseEventAttributes(StartElement e) {
         Iterator<Attribute> it = e.getAttributes();
@@ -135,14 +148,6 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
             Attribute a = it.next();
             complexTypeStack.peek().getRight().put(a.getName().getLocalPart(), a.getValue());
         }
-    }
-
-    private void newEventToStack(String eventName) {
-        String xsdType = tp.getTypeFromParentType(complexTypeStack.peek().getLeft().xsdType, eventName);
-        Pair<EdfiType, Map<String, Object>> subElement = createElementEntry(eventName, xsdType);
-
-        complexTypeStack.peek().getRight().put(eventName, subElement.getRight());
-        complexTypeStack.push(subElement);
     }
 
     private void parseCharacters(Characters characters) {
