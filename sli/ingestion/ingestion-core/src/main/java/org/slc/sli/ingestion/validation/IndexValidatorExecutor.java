@@ -37,6 +37,15 @@ public class IndexValidatorExecutor {
 			throw new RuntimeException(
 					"Indexes could not be verified, check the index file configurations are set");
 		}
-
+	}
+	
+	public void setValidator(Validator<?> systemValidator)
+	{
+		this.systemValidator = systemValidator;
+	}
+	
+	public void setLoggingMessageReport(LoggingMessageReport loggingMessageReport)
+	{
+		this.loggingMessageReport = loggingMessageReport;
 	}
 }
