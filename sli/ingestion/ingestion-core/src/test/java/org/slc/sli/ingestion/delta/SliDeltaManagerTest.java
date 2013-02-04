@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.slc.sli.ingestion.smooks;
+package org.slc.sli.ingestion.delta;
 import static org.mockito.Matchers.any;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -34,12 +36,15 @@ import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.delta.SliDeltaManager;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
+import org.slc.sli.ingestion.transformation.normalization.did.DidNaturalKey;
+import org.slc.sli.ingestion.transformation.normalization.did.DidSchemaParser;
 
 /**
  * Tests for SliDeltaManager
@@ -57,6 +62,8 @@ public class SliDeltaManagerTest {
     private DeterministicUUIDGeneratorStrategy mockDIdStrategy;
     @Mock
     private DeterministicIdResolver mockDidResolver;
+    @Mock
+    private DidSchemaParser didSchemaParser;
 
     private static final String RECORD_DID = "theRecordId";
 
@@ -85,6 +92,9 @@ public class SliDeltaManagerTest {
 
         // Return hash._id when we generate Did for this record
         Mockito.when(mockDIdStrategy.generateId(any(NaturalKeyDescriptor.class))).thenReturn(RECORD_DID);
+
+        Mockito.when(mockDidResolver.getDidSchemaParser()).thenReturn(didSchemaParser);
+        Mockito.when(didSchemaParser.getNaturalKeys()).thenReturn(createNaturalKeyMap());
 
         // Simulate a record being ingested the first time - should return false
         Assert.assertFalse(SliDeltaManager.isPreviouslyIngested(originalRecord, mockBatchJobMongoDA, mockDIdStrategy, mockDidResolver, errorReport, reportStats));
@@ -133,6 +143,10 @@ public class SliDeltaManagerTest {
 
         // Return hash._id when we generate Did for this record
         Mockito.when(mockDIdStrategy.generateId(any(NaturalKeyDescriptor.class))).thenReturn(RECORD_DID);
+
+        Mockito.when(mockDidResolver.getDidSchemaParser()).thenReturn(didSchemaParser);
+        Mockito.when(didSchemaParser.getNaturalKeys()).thenReturn(createNaturalKeyMap());
+
 
         // Simulate a record being ingested the first time - should return false
         Assert.assertFalse(SliDeltaManager.isPreviouslyIngested(originalRecord, mockBatchJobMongoDA, mockDIdStrategy, mockDidResolver, errorReport, reportStats));
@@ -194,5 +208,35 @@ public class SliDeltaManagerTest {
         originalRecord.getAttributes().put("key3", "value3");
         originalRecord.getAttributes().put("commonAttrib1", "commonAttrib1_value");
         return originalRecord;
+    }
+
+    private Map<String, List<DidNaturalKey>> createNaturalKeyMap() {
+        Map<String, List<DidNaturalKey>> naturalKeysMap = new HashMap<String, List<DidNaturalKey>>();
+        List<DidNaturalKey> keys = new ArrayList<DidNaturalKey>();
+
+        DidNaturalKey key1 = new DidNaturalKey();
+        key1.setNaturalKeyName("key1");
+        key1.setOptional(false);
+
+        DidNaturalKey key2 = new DidNaturalKey();
+        key2.setNaturalKeyName("key2");
+        key2.setOptional(false);
+
+        DidNaturalKey key3 = new DidNaturalKey();
+        key3.setNaturalKeyName("key3");
+        key3.setOptional(true);
+
+        DidNaturalKey key4 = new DidNaturalKey();
+        key4.setNaturalKeyName("key4");
+        key4.setOptional(true);
+
+        keys.add(key1);
+        keys.add(key2);
+        keys.add(key3);
+        keys.add(key4);
+
+        naturalKeysMap.put("recordType", keys);
+
+        return naturalKeysMap;
     }
 }

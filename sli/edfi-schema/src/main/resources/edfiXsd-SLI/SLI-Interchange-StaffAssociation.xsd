@@ -10,9 +10,9 @@
 		</xs:annotation>
 		<xs:complexType>
 			<xs:choice maxOccurs="unbounded">
-				<xs:element name="Staff" type="Staff"/>
+				<xs:element name="Staff" type="SLC-Staff"/>
 				<xs:element name="StaffEducationOrgAssignmentAssociation" type="SLC-StaffEducationOrgAssignmentAssociation"/>
-				<xs:element name="Teacher" type="Teacher"/>
+				<xs:element name="Teacher" type="SLC-Teacher"/>
 				<xs:element name="TeacherSchoolAssociation" type="SLC-TeacherSchoolAssociation"/>
 				<xs:element name="TeacherSectionAssociation" type="SLC-TeacherSectionAssociation"/>
 				<xs:element name="StaffProgramAssociation" type="SLC-StaffProgramAssociation"/>

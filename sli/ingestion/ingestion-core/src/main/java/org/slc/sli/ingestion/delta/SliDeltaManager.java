@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-package org.slc.sli.ingestion.smooks;
+package org.slc.sli.ingestion.delta;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.StringTokenizer;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.codec.digest.DigestUtils;
@@ -39,6 +38,7 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
+import org.slc.sli.ingestion.transformation.normalization.did.DidNaturalKey;
 import org.slc.sli.validation.NaturalKeyValidationException;
 import org.slc.sli.validation.NoNaturalKeysDefinedException;
 
@@ -94,12 +94,8 @@ public final class SliDeltaManager {
         // however after attempting this is was determined there are non-trivial dependencies
         // in the existing ingestion pipeline in transformation and quite possibly other areas
         // that still depend on non-dId resolved reference structures.
-        // 2. DE2261 The natural key fields should be mapped deterministically from the
-        // "source of truth" rather than smooks-all-xml.
-        // This is problematic right now since the current "source of truth" is the SLI schema which
-        // does not match up
-        // to neutral record fields here which are based on SLI-Ed-Fi.
-        Map<String, String> naturalKeys = new HashMap<String, String>();
+
+        Map<String, String> populatedNaturalKeys = new HashMap<String, String>();
 
         NeutralRecord neutralRecordResolved = null;
 
@@ -116,8 +112,12 @@ public final class SliDeltaManager {
 
         // Calculate DiD using natural key values (that are references) in their Did form
         try {
-            populateNaturalKeys(neutralRecordResolved, naturalKeys);
-            NaturalKeyDescriptor nkd = new NaturalKeyDescriptor(naturalKeys, tenantId, sliEntityType, null);
+            Map<String, List<DidNaturalKey>> naturalKeysMap = didResolver.getDidSchemaParser().getNaturalKeys();
+
+            List<DidNaturalKey> naturalKeys = naturalKeysMap.get(neutralRecordResolved.getRecordType());
+            populatedNaturalKeys = populateNaturalKeyValues(neutralRecordResolved, naturalKeys);
+
+            NaturalKeyDescriptor nkd = new NaturalKeyDescriptor(populatedNaturalKeys, tenantId, sliEntityType, null);
 
             String recordId = dIdStrategy.generateId(nkd);
 
@@ -158,50 +158,32 @@ public final class SliDeltaManager {
         return isPrevIngested;
     }
 
-    private static void populateNaturalKeys(NeutralRecord n, Map<String, String> naturalKeys)
-            throws NoNaturalKeysDefinedException {
-        addFieldsToNaturalKeysImpl(n, naturalKeys, MapUtils.getString(n.getMetaData(), NRKEYVALUEFIELDNAMES), false);
-        addFieldsToNaturalKeysImpl(n, naturalKeys, MapUtils.getString(n.getMetaData(), OPTIONALNRKEYVALUEFIELDNAMES),
-                true);
-    }
+    private static Map<String, String> populateNaturalKeyValues(NeutralRecord neutralRecord, List<DidNaturalKey> naturalKeys) throws NoNaturalKeysDefinedException {
 
-    private static void addFieldsToNaturalKeysImpl(NeutralRecord n, Map<String, String> naturalKeys, String fieldNames,
-            boolean optional) throws NoNaturalKeysDefinedException {
+        Map<String, String> populatedNaturalKeys = new HashMap<String, String>();
 
-        String recordType = n.getRecordType();
+        for(DidNaturalKey naturalKey : naturalKeys) {
+            String fieldName = naturalKey.getNaturalKeyName();
 
-        // TODO: this needs cleanup
-        if (fieldNames == null) {
-            if (optional) {
-                return;
-            } else {
-                throw new NoNaturalKeysDefinedException("A mapping for \"" + NRKEYVALUEFIELDNAMES
-                        + "\" in smooks-all-xml needs to be added for \"" + recordType + "\"");
-            }
-        }
-        StringTokenizer fieldNameTokenizer = new StringTokenizer(fieldNames, ",");
-        while (fieldNameTokenizer.hasMoreElements()) {
-            String fieldName = (String) fieldNameTokenizer.nextElement();
-            // TODO: Use NaturalKeyExtractor or an impl of the interface once we annotate
-            // SLC-Ed-Fi.xml
             Object value = null;
             try {
-                value = PropertyUtils.getProperty(n.getAttributes(), fieldName);
+                value = PropertyUtils.getProperty(neutralRecord.getAttributes(), fieldName);
             } catch (IllegalAccessException e) {
-                handleFieldAccessException(fieldName, n, optional);
+                handleFieldAccessException(fieldName, neutralRecord, naturalKey.isOptional());
             } catch (InvocationTargetException e) {
-                handleFieldAccessException(fieldName, n, optional);
+                handleFieldAccessException(fieldName, neutralRecord, naturalKey.isOptional());
             } catch (NoSuchMethodException e) {
-                handleFieldAccessException(fieldName, n, optional);
+                handleFieldAccessException(fieldName, neutralRecord, naturalKey.isOptional());
             }
             String strValue = "";
             if (value != null) {
                 strValue = value.toString();
             } else {
-                handleFieldAccessException(fieldName, n, optional);
+                handleFieldAccessException(fieldName, neutralRecord, naturalKey.isOptional());
             }
-            naturalKeys.put(fieldName, strValue);
+            populatedNaturalKeys.put(fieldName, strValue);
         }
+        return populatedNaturalKeys;
     }
 
     private static void handleFieldAccessException(String fieldName, NeutralRecord n, boolean optional) {
