@@ -70,6 +70,439 @@
 
   <bean id="xmlFileValidator" class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
 
+  <bean id="smooksAssessmentMetadata" class="org.slc.sli.ingestion.smooks.SliSmooks">
+    <constructor-arg type="java.lang.String" value="smooks_conf/smooks-all-xml.xml" />
+  </bean>
+  <bean id="parseAssessmentMetadata" class="org.slc.sli.ingestion.handler.SmooksParseHandler">
+    <property name="group" value="500" />
+    <property name="targetSelector" value="/InterchangeAssessmentMetadata/*" />
+    <property name="targetSelectors">
+              <list>
+                <value>${smooks.targetselector.xml.assessment}</value>
+                <value>${smooks.targetselector.xml.objective.assessment}</value>
+                <value>${smooks.targetselector.xml.assessment.item}</value>
+                <value>${smooks.targetselector.xml.assessmentFamily}</value>
+                <value>${smooks.targetselector.xml.learningObjective}</value>
+                <value>InterchangeAssessmentMetadata/AssessmentPeriodDescriptor</value>
+                <value>InterchangeAssessmentMetadata/LearningStandard</value>
+              </list>
+    </property>
+    <property name="smooks" ref="smooksAssessmentMetadata" />
+    <property name="producer" ref="stagingProcessorTemplate" />
+    <property name="beanId" value="${smooks.config.bean.id}" />
+    <property name="nrMongoStagingWriter" ref="neutralRecordMongoAccess" />
+    <property name="batchJobDAO" ref="batchJobMongoDA" />
+    <property name="dIdStrategy" ref="deterministicUUIDGeneratorStrategy" />
+    <property name="dIdResolver" ref="deterministicIdResolver" />
+    <property name="recordLevelDeltaEnabledEntities" ref="recordLvlHashNeutralRecordTypes" />
+    <property name="preValidators">
+      <util:list value-type="org.slc.sli.ingestion.validation.Validator">
+        <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+        <ref bean="xsdValidator" />
+      </util:list>
+    </property>
+  </bean>
+  <bean id="ichAssessmentMetadata" class="org.slc.sli.ingestion.processors.SmooksProcessor">
+    <property name="smooksParseHandler" ref="parseAssessmentMetadata" />
+  </bean>
+
+  <bean id="smooksStudentAttendance" class="org.slc.sli.ingestion.smooks.SliSmooks">
+    <constructor-arg type="java.lang.String" value="smooks_conf/smooks-all-xml.xml" />
+  </bean>
+  <bean id="parseStudentAttendance" class="org.slc.sli.ingestion.handler.SmooksParseHandler">
+    <property name="group" value="500" />
+    <property name="targetSelector" value="/InterchangeStudentAttendance/*" />
+    <property name="targetSelectors">
+              <list>
+                <value>${smooks.targetselector.xml.attendance}</value>
+              </list>
+    </property>
+    <property name="smooks" ref="smooksStudentAttendance" />
+    <property name="producer" ref="stagingProcessorTemplate" />
+    <property name="beanId" value="${smooks.config.bean.id}" />
+    <property name="nrMongoStagingWriter" ref="neutralRecordMongoAccess" />
+    <property name="batchJobDAO" ref="batchJobMongoDA" />
+    <property name="dIdStrategy" ref="deterministicUUIDGeneratorStrategy" />
+    <property name="dIdResolver" ref="deterministicIdResolver" />
+    <property name="recordLevelDeltaEnabledEntities" ref="recordLvlHashNeutralRecordTypes" />
+    <property name="preValidators">
+      <util:list value-type="org.slc.sli.ingestion.validation.Validator">
+        <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+        <ref bean="xsdValidator" />
+      </util:list>
+    </property>
+  </bean>
+  <bean id="ichStudentAttendance" class="org.slc.sli.ingestion.processors.SmooksProcessor">
+    <property name="smooksParseHandler" ref="parseStudentAttendance" />
+  </bean>
+
+  <bean id="smooksEducationOrganization" class="org.slc.sli.ingestion.smooks.SliSmooks">
+    <constructor-arg type="java.lang.String" value="smooks_conf/smooks-all-xml.xml" />
+  </bean>
+  <bean id="parseEducationOrganization" class="org.slc.sli.ingestion.handler.SmooksParseHandler">
+    <property name="group" value="500" />
+    <property name="targetSelector" value="/InterchangeEducationOrganization/*" />
+    <property name="targetSelectors">
+              <list>
+                <value>${smooks.targetselector.xml.school}</value>
+                <value>${smooks.targetselector.xml.stateEducationAgency}</value>
+                <value>${smooks.targetselector.xml.localEducationAgency}</value>
+                <value>${smooks.targetselector.xml.course}</value>
+                <value>${smooks.targetselector.xml.program}</value>
+                <value>${smooks.targetselector.xml.competencyLevelDescriptorEdOrg}</value>
+              </list>
+    </property>
+    <property name="smooks" ref="smooksEducationOrganization" />
+    <property name="producer" ref="stagingProcessorTemplate" />
+    <property name="beanId" value="${smooks.config.bean.id}" />
+    <property name="nrMongoStagingWriter" ref="neutralRecordMongoAccess" />
+    <property name="batchJobDAO" ref="batchJobMongoDA" />
+    <property name="dIdStrategy" ref="deterministicUUIDGeneratorStrategy" />
+    <property name="dIdResolver" ref="deterministicIdResolver" />
+    <property name="recordLevelDeltaEnabledEntities" ref="recordLvlHashNeutralRecordTypes" />
+    <property name="preValidators">
+      <util:list value-type="org.slc.sli.ingestion.validation.Validator">
+        <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+        <ref bean="xsdValidator" />
+      </util:list>
+    </property>
+  </bean>
+  <bean id="ichEducationOrganization" class="org.slc.sli.ingestion.processors.SmooksProcessor">
+    <property name="smooksParseHandler" ref="parseEducationOrganization" />
+  </bean>
+
+  <bean id="smooksEducationOrgCalendar" class="org.slc.sli.ingestion.smooks.SliSmooks">
+    <constructor-arg type="java.lang.String" value="smooks_conf/smooks-all-xml.xml" />
+  </bean>
+  <bean id="parseEducationOrgCalendar" class="org.slc.sli.ingestion.handler.SmooksParseHandler">
+    <property name="group" value="500" />
+    <property name="targetSelector" value="/InterchangeEducationOrgCalendar/*" />
+    <property name="targetSelectors">
+              <list>
+                <value>${smooks.targetselector.xml.session}</value>
+                <value>${smooks.targetselector.xml.gradingPeriod}</value>
+                <value>${smooks.targetselector.xml.calendarDate}</value>
+              </list>
+    </property>
+    <property name="smooks" ref="smooksEducationOrgCalendar" />
+    <property name="producer" ref="stagingProcessorTemplate" />
+    <property name="beanId" value="${smooks.config.bean.id}" />
+    <property name="nrMongoStagingWriter" ref="neutralRecordMongoAccess" />
+    <property name="batchJobDAO" ref="batchJobMongoDA" />
+    <property name="dIdStrategy" ref="deterministicUUIDGeneratorStrategy" />
+    <property name="dIdResolver" ref="deterministicIdResolver" />
+    <property name="recordLevelDeltaEnabledEntities" ref="recordLvlHashNeutralRecordTypes" />
+    <property name="preValidators">
+      <util:list value-type="org.slc.sli.ingestion.validation.Validator">
+        <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+        <ref bean="xsdValidator" />
+      </util:list>
+    </property>
+  </bean>
+  <bean id="ichEducationOrgCalendar" class="org.slc.sli.ingestion.processors.SmooksProcessor">
+    <property name="smooksParseHandler" ref="parseEducationOrgCalendar" />
+  </bean>
+
+  <bean id="smooksStudentCohort" class="org.slc.sli.ingestion.smooks.SliSmooks">
+    <constructor-arg type="java.lang.String" value="smooks_conf/smooks-all-xml.xml" />
+  </bean>
+  <bean id="parseStudentCohort" class="org.slc.sli.ingestion.handler.SmooksParseHandler">
+    <property name="group" value="500" />
+    <property name="targetSelector" value="/InterchangeStudentCohort/*" />
+    <property name="targetSelectors">
+                <list>
+                  <value>${smooks.targetselector.xml.cohort}</value>
+                  <value>${smooks.targetselector.xml.student.cohort}</value>
+                  <value>${smooks.targetselector.xml.staff.cohort}</value>
+                </list>
+    </property>
+    <property name="smooks" ref="smooksStudentCohort" />
+    <property name="producer" ref="stagingProcessorTemplate" />
+    <property name="beanId" value="${smooks.config.bean.id}" />
+    <property name="nrMongoStagingWriter" ref="neutralRecordMongoAccess" />
+    <property name="batchJobDAO" ref="batchJobMongoDA" />
+    <property name="dIdStrategy" ref="deterministicUUIDGeneratorStrategy" />
+    <property name="dIdResolver" ref="deterministicIdResolver" />
+    <property name="recordLevelDeltaEnabledEntities" ref="recordLvlHashNeutralRecordTypes" />
+    <property name="preValidators">
+      <util:list value-type="org.slc.sli.ingestion.validation.Validator">
+        <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+        <ref bean="xsdValidator" />
+      </util:list>
+    </property>
+  </bean>
+  <bean id="ichStudentCohort" class="org.slc.sli.ingestion.processors.SmooksProcessor">
+    <property name="smooksParseHandler" ref="parseStudentCohort" />
+  </bean>
+
+  <bean id="smooksStudentDiscipline" class="org.slc.sli.ingestion.smooks.SliSmooks">
+    <constructor-arg type="java.lang.String" value="smooks_conf/smooks-all-xml.xml" />
+  </bean>
+  <bean id="parseStudentDiscipline" class="org.slc.sli.ingestion.handler.SmooksParseHandler">
+    <property name="group" value="500" />
+    <property name="targetSelector" value="/InterchangeStudentDiscipline/*" />
+    <property name="targetSelectors">
+                <list>
+                  <value>${smooks.targetselector.xml.disciplineIncident}</value>
+                  <value>${smooks.targetselector.xml.disciplineAction}</value>
+                  <value>${smooks.targetselector.xml.student.disciplineIncident}</value>
+                </list>
+    </property>
+    <property name="smooks" ref="smooksStudentDiscipline" />
+    <property name="producer" ref="stagingProcessorTemplate" />
+    <property name="beanId" value="${smooks.config.bean.id}" />
+    <property name="nrMongoStagingWriter" ref="neutralRecordMongoAccess" />
+    <property name="batchJobDAO" ref="batchJobMongoDA" />
+    <property name="dIdStrategy" ref="deterministicUUIDGeneratorStrategy" />
+    <property name="dIdResolver" ref="deterministicIdResolver" />
+    <property name="recordLevelDeltaEnabledEntities" ref="recordLvlHashNeutralRecordTypes" />
+    <property name="preValidators">
+      <util:list value-type="org.slc.sli.ingestion.validation.Validator">
+        <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+        <ref bean="xsdValidator" />
+      </util:list>
+    </property>
+  </bean>
+  <bean id="ichStudentDiscipline" class="org.slc.sli.ingestion.processors.SmooksProcessor">
+    <property name="smooksParseHandler" ref="parseStudentDiscipline" />
+  </bean>
+
+  <bean id="smooksStudentEnrollment" class="org.slc.sli.ingestion.smooks.SliSmooks">
+    <constructor-arg type="java.lang.String" value="smooks_conf/smooks-all-xml.xml" />
+  </bean>
+  <bean id="parseStudentEnrollment" class="org.slc.sli.ingestion.handler.SmooksParseHandler">
+    <property name="group" value="500" />
+    <property name="targetSelector" value="/InterchangeStudentEnrollment/*" />
+    <property name="targetSelectors">
+              <list>
+                <value>${smooks.targetselector.xml.student.school}</value>
+                <value>${smooks.targetselector.xml.student.section}</value>
+                <value>${smooks.targetselector.xml.student.graduationPlan}</value>
+              </list>
+    </property>
+    <property name="smooks" ref="smooksStudentEnrollment" />
+    <property name="producer" ref="stagingProcessorTemplate" />
+    <property name="beanId" value="${smooks.config.bean.id}" />
+    <property name="nrMongoStagingWriter" ref="neutralRecordMongoAccess" />
+    <property name="batchJobDAO" ref="batchJobMongoDA" />
+    <property name="dIdStrategy" ref="deterministicUUIDGeneratorStrategy" />
+    <property name="dIdResolver" ref="deterministicIdResolver" />
+    <property name="recordLevelDeltaEnabledEntities" ref="recordLvlHashNeutralRecordTypes" />
+    <property name="preValidators">
+      <util:list value-type="org.slc.sli.ingestion.validation.Validator">
+        <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+        <ref bean="xsdValidator" />
+      </util:list>
+    </property>
+  </bean>
+  <bean id="ichStudentEnrollment" class="org.slc.sli.ingestion.processors.SmooksProcessor">
+    <property name="smooksParseHandler" ref="parseStudentEnrollment" />
+  </bean>
+
+  <bean id="smooksMasterSchedule" class="org.slc.sli.ingestion.smooks.SliSmooks">
+    <constructor-arg type="java.lang.String" value="smooks_conf/smooks-all-xml.xml" />
+  </bean>
+  <bean id="parseMasterSchedule" class="org.slc.sli.ingestion.handler.SmooksParseHandler">
+    <property name="group" value="500" />
+    <property name="targetSelector" value="/InterchangeMasterSchedule/*" />
+    <property name="targetSelectors">
+              <list>
+                <value>${smooks.targetselector.xml.section}</value>
+                <value>${smooks.targetselector.xml.courseOffering}</value>
+              </list>
+    </property>
+    <property name="smooks" ref="smooksMasterSchedule" />
+    <property name="producer" ref="stagingProcessorTemplate" />
+    <property name="beanId" value="${smooks.config.bean.id}" />
+    <property name="nrMongoStagingWriter" ref="neutralRecordMongoAccess" />
+    <property name="batchJobDAO" ref="batchJobMongoDA" />
+    <property name="dIdStrategy" ref="deterministicUUIDGeneratorStrategy" />
+    <property name="dIdResolver" ref="deterministicIdResolver" />
+    <property name="recordLevelDeltaEnabledEntities" ref="recordLvlHashNeutralRecordTypes" />
+    <property name="preValidators">
+      <util:list value-type="org.slc.sli.ingestion.validation.Validator">
+        <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+        <ref bean="xsdValidator" />
+      </util:list>
+    </property>
+  </bean>
+  <bean id="ichMasterSchedule" class="org.slc.sli.ingestion.processors.SmooksProcessor">
+    <property name="smooksParseHandler" ref="parseMasterSchedule" />
+  </bean>
+
+  <bean id="smooksStaffAssociation" class="org.slc.sli.ingestion.smooks.SliSmooks">
+    <constructor-arg type="java.lang.String" value="smooks_conf/smooks-all-xml.xml" />
+  </bean>
+  <bean id="parseStaffAssociation" class="org.slc.sli.ingestion.handler.SmooksParseHandler">
+    <property name="group" value="500" />
+    <property name="targetSelector" value="/InterchangeStaffAssociation/*" />
+    <property name="targetSelectors">
+              <list>
+                <value>${smooks.targetselector.xml.teacher}</value>
+                <value>${smooks.targetselector.xml.teacher.section}</value>
+                <value>${smooks.targetselector.xml.teacher.school}</value>
+                <value>${smooks.targetselector.xml.staff}</value>
+                <value>${smooks.targetselector.xml.staff.ed.org.assignment}</value>
+                <value>${smooks.targetselector.xml.staff.program.association}</value>
+              </list>
+    </property>
+    <property name="smooks" ref="smooksStaffAssociation" />
+    <property name="producer" ref="stagingProcessorTemplate" />
+    <property name="beanId" value="${smooks.config.bean.id}" />
+    <property name="nrMongoStagingWriter" ref="neutralRecordMongoAccess" />
+    <property name="batchJobDAO" ref="batchJobMongoDA" />
+    <property name="dIdStrategy" ref="deterministicUUIDGeneratorStrategy" />
+    <property name="dIdResolver" ref="deterministicIdResolver" />
+    <property name="recordLevelDeltaEnabledEntities" ref="recordLvlHashNeutralRecordTypes" />
+    <property name="preValidators">
+      <util:list value-type="org.slc.sli.ingestion.validation.Validator">
+        <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+        <ref bean="xsdValidator" />
+      </util:list>
+    </property>
+  </bean>
+  <bean id="ichStaffAssociation" class="org.slc.sli.ingestion.processors.SmooksProcessor">
+    <property name="smooksParseHandler" ref="parseStaffAssociation" />
+  </bean>
+
+  <bean id="smooksStudentAssessment" class="org.slc.sli.ingestion.smooks.SliSmooks">
+    <constructor-arg type="java.lang.String" value="smooks_conf/smooks-all-xml.xml" />
+  </bean>
+  <bean id="parseStudentAssessment" class="org.slc.sli.ingestion.handler.SmooksParseHandler">
+    <property name="group" value="500" />
+    <property name="targetSelector" value="/InterchangeStudentAssessment/*" />
+    <property name="targetSelectors">
+              <list>
+                <value>${smooks.targetselector.xml.student.assessment}</value>
+                <value>${smooks.targetselector.xml.student.objective.assessment}</value>
+                <value>${smooks.targetselector.xml.student.assessment.item}</value>
+              </list>
+    </property>
+    <property name="smooks" ref="smooksStudentAssessment" />
+    <property name="producer" ref="stagingProcessorTemplate" />
+    <property name="beanId" value="${smooks.config.bean.id}" />
+    <property name="nrMongoStagingWriter" ref="neutralRecordMongoAccess" />
+    <property name="batchJobDAO" ref="batchJobMongoDA" />
+    <property name="dIdStrategy" ref="deterministicUUIDGeneratorStrategy" />
+    <property name="dIdResolver" ref="deterministicIdResolver" />
+    <property name="recordLevelDeltaEnabledEntities" ref="recordLvlHashNeutralRecordTypes" />
+    <property name="preValidators">
+      <util:list value-type="org.slc.sli.ingestion.validation.Validator">
+        <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+        <ref bean="xsdValidator" />
+      </util:list>
+    </property>
+  </bean>
+  <bean id="ichStudentAssessment" class="org.slc.sli.ingestion.processors.SmooksProcessor">
+    <property name="smooksParseHandler" ref="parseStudentAssessment" />
+  </bean>
+
+  <bean id="smooksStudentGrade" class="org.slc.sli.ingestion.smooks.SliSmooks">
+    <constructor-arg type="java.lang.String" value="smooks_conf/smooks-all-xml.xml" />
+  </bean>
+  <bean id="parseStudentGrade" class="org.slc.sli.ingestion.handler.SmooksParseHandler">
+    <property name="group" value="500" />
+    <property name="targetSelector" value="/InterchangeStudentGrade/*" />
+    <property name="targetSelectors">
+              <list>
+                <value>${smooks.targetselector.xml.studentCompetencyObjective}</value>
+                <value>${smooks.targetselector.xml.student.gradebookEntry}</value>
+                <value>${smooks.targetselector.xml.student.courseTranscript}</value>
+                <value>${smooks.targetselector.xml.student.studentGradebookEntry}</value>
+                <value>${smooks.targetselector.xml.student.studentAcademicRecord}</value>
+                <value>${smooks.targetselector.xml.grade}</value>
+                <value>${smooks.targetselector.xml.reportCard}</value>
+                <value>${smooks.targetselector.xml.studentCompetency}</value>
+                <value>${smooks.targetselector.xml.competencyLevelDescriptorStudentGrade}</value>
+                 <value>InterchangeStudentGrade/LearningObjective</value>
+              </list>
+    </property>
+    <property name="smooks" ref="smooksStudentGrade" />
+    <property name="producer" ref="stagingProcessorTemplate" />
+    <property name="beanId" value="${smooks.config.bean.id}" />
+    <property name="nrMongoStagingWriter" ref="neutralRecordMongoAccess" />
+    <property name="batchJobDAO" ref="batchJobMongoDA" />
+    <property name="dIdStrategy" ref="deterministicUUIDGeneratorStrategy" />
+    <property name="dIdResolver" ref="deterministicIdResolver" />
+    <property name="recordLevelDeltaEnabledEntities" ref="recordLvlHashNeutralRecordTypes" />
+    <property name="preValidators">
+      <util:list value-type="org.slc.sli.ingestion.validation.Validator">
+        <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+        <ref bean="xsdValidator" />
+      </util:list>
+    </property>
+  </bean>
+  <bean id="ichStudentGrade" class="org.slc.sli.ingestion.processors.SmooksProcessor">
+    <property name="smooksParseHandler" ref="parseStudentGrade" />
+  </bean>
+
+  <bean id="smooksStudentParent" class="org.slc.sli.ingestion.smooks.SliSmooks">
+    <constructor-arg type="java.lang.String" value="smooks_conf/smooks-all-xml.xml" />
+  </bean>
+  <bean id="parseStudentParent" class="org.slc.sli.ingestion.handler.SmooksParseHandler">
+    <property name="group" value="500" />
+    <property name="targetSelector" value="/InterchangeStudentParent/*" />
+    <property name="targetSelectors">
+                <list>
+                  <value>${smooks.targetselector.xml.student.parent.student}</value>
+                  <value>${smooks.targetselector.xml.student.parent.parent}</value>
+                  <value>${smooks.targetselector.xml.student.parent.association}</value>
+                </list>
+    </property>
+    <property name="smooks" ref="smooksStudentParent" />
+    <property name="producer" ref="stagingProcessorTemplate" />
+    <property name="beanId" value="${smooks.config.bean.id}" />
+    <property name="nrMongoStagingWriter" ref="neutralRecordMongoAccess" />
+    <property name="batchJobDAO" ref="batchJobMongoDA" />
+    <property name="dIdStrategy" ref="deterministicUUIDGeneratorStrategy" />
+    <property name="dIdResolver" ref="deterministicIdResolver" />
+    <property name="recordLevelDeltaEnabledEntities" ref="recordLvlHashNeutralRecordTypes" />
+    <property name="preValidators">
+      <util:list value-type="org.slc.sli.ingestion.validation.Validator">
+        <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+        <ref bean="xsdValidator" />
+      </util:list>
+    </property>
+  </bean>
+  <bean id="ichStudentParent" class="org.slc.sli.ingestion.processors.SmooksProcessor">
+    <property name="smooksParseHandler" ref="parseStudentParent" />
+  </bean>
+
+  <bean id="smooksStudentProgram" class="org.slc.sli.ingestion.smooks.SliSmooks">
+    <constructor-arg type="java.lang.String" value="smooks_conf/smooks-all-xml.xml" />
+  </bean>
+  <bean id="parseStudentProgram" class="org.slc.sli.ingestion.handler.SmooksParseHandler">
+    <property name="group" value="500" />
+    <property name="targetSelector" value="/InterchangeStudentProgram/*" />
+    <property name="targetSelectors">
+                <list>
+                  <value>${smooks.targetselector.xml.student.program.association}</value>
+                </list>
+    </property>
+    <property name="smooks" ref="smooksStudentProgram" />
+    <property name="producer" ref="stagingProcessorTemplate" />
+    <property name="beanId" value="${smooks.config.bean.id}" />
+    <property name="nrMongoStagingWriter" ref="neutralRecordMongoAccess" />
+    <property name="batchJobDAO" ref="batchJobMongoDA" />
+    <property name="dIdStrategy" ref="deterministicUUIDGeneratorStrategy" />
+    <property name="dIdResolver" ref="deterministicIdResolver" />
+    <property name="recordLevelDeltaEnabledEntities" ref="recordLvlHashNeutralRecordTypes" />
+    <property name="preValidators">
+      <util:list value-type="org.slc.sli.ingestion.validation.Validator">
+        <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+        <ref bean="xsdValidator" />
+      </util:list>
+    </property>
+  </bean>
+  <bean id="ichStudentProgram" class="org.slc.sli.ingestion.processors.SmooksProcessor">
+    <property name="smooksParseHandler" ref="parseStudentProgram" />
+  </bean>
+
+  <bean id="stagingProcessor" class="org.slc.sli.ingestion.processors.StagingProcessor">
+    <property name="nrMongoStagingWriter" ref="neutralRecordMongoAccess" />
+  </bean>
+
+ 
   <!-- This will go away upon completion of US5060 -->
   <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler">
     <property name="preValidators">

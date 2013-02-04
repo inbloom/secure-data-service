@@ -27,6 +27,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.ingestion.FileFormat;
+import org.slc.sli.ingestion.FileType;
+import org.slc.sli.ingestion.IngestionFileEntryLatch;
 import org.slc.sli.ingestion.nodes.IngestionNodeType;
 import org.slc.sli.ingestion.nodes.NodeInfo;
 import org.slc.sli.ingestion.processors.CommandProcessor;
@@ -37,6 +40,8 @@ import org.slc.sli.ingestion.processors.JobReportingProcessor;
 import org.slc.sli.ingestion.processors.LandingZoneProcessor;
 import org.slc.sli.ingestion.processors.PersistenceProcessor;
 import org.slc.sli.ingestion.processors.PurgeProcessor;
+import org.slc.sli.ingestion.processors.SmooksProcessor;
+import org.slc.sli.ingestion.processors.StagingProcessor;
 import org.slc.sli.ingestion.processors.TenantProcessor;
 import org.slc.sli.ingestion.processors.TransformationProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
@@ -76,6 +81,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Autowired
     private ControlFileProcessor ctlFileProcessor;
+
+    @Autowired
+    private StagingProcessor stagingProcessor;
 
     @Autowired
     private EdFiProcessor edFiProcessor;
@@ -173,6 +181,8 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     private static final String HAS_ERRORS = "hasErrors";
 
     private static final String INGESTION_MESSAGE_TYPE = "IngestionMessageType";
+
+    private static final String FILE_ENTRY_FILE_TYPE = "FileEntryWorkNoteFileType";
 
     @Autowired
     private LoggingMessageReport loggingMessageReport;
@@ -364,8 +374,68 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .split().method("ZipFileSplitter", "splitZipFile")
                 .log(LoggingLevel.INFO, "CamemRoutring", "Zip file split").to(parserQueueUri);
 
-        from(parserQueueUri).routeId("edFiProcessor")
-            .log(LoggingLevel.INFO, "CamelRouting", "File entry received. Processing: ${body}")
+        from(parserQueueUri).routeId("smooksProcessor")
+                .bean(this.lookup(IngestionFileEntryLatch.class))
+                .choice()
+                .when(header(FILE_ENTRY_FILE_TYPE).isEqualTo(FileType.XML_ASSESSMENT_METADATA.getName()))
+                    .log(LoggingLevel.INFO, "CamelRouting", "Parsing file type: ${body.getFileEntry.getFileType}")
+                    .beanRef("ichAssessmentMetadata")
+                    .to("direct:fileEntryLatch")
+                .when(header(FILE_ENTRY_FILE_TYPE).isEqualTo(FileType.XML_STUDENT_ATTENDANCE.getName()))
+                    .log(LoggingLevel.INFO, "CamelRouting", "Parsing file type: ${body.getFileEntry.getFileType}")
+                    .beanRef("ichStudentAttendance")
+                    .to("direct:fileEntryLatch")
+                .when(header(FILE_ENTRY_FILE_TYPE).isEqualTo(FileType.XML_EDUCATION_ORGANIZATION.getName()))
+                    .log(LoggingLevel.INFO, "CamelRouting", "Parsing file type: ${body.getFileEntry.getFileType}")
+                    .beanRef("ichEducationOrganization")
+                    .to("direct:fileEntryLatch")
+                .when(header(FILE_ENTRY_FILE_TYPE).isEqualTo(FileType.XML_EDUCATION_ORG_CALENDAR.getName()))
+                    .log(LoggingLevel.INFO, "CamelRouting", "Parsing file type: ${body.getFileEntry.getFileType}")
+                    .beanRef("ichEducationOrgCalendar")
+                    .to("direct:fileEntryLatch")
+                .when(header(FILE_ENTRY_FILE_TYPE).isEqualTo(FileType.XML_MASTER_SCHEDULE.getName()))
+                    .log(LoggingLevel.INFO, "CamelRouting", "Parsing file type: ${body.getFileEntry.getFileType}")
+                    .beanRef("ichMasterSchedule")
+                    .to("direct:fileEntryLatch")
+                .when(header(FILE_ENTRY_FILE_TYPE).isEqualTo(FileType.XML_STAFF_ASSOCIATION.getName()))
+                    .log(LoggingLevel.INFO, "CamelRouting", "Parsing file type: ${body.getFileEntry.getFileType}")
+                    .beanRef("ichStaffAssociation")
+                    .to("direct:fileEntryLatch")
+                .when(header(FILE_ENTRY_FILE_TYPE).isEqualTo(FileType.XML_STUDENT_ASSESSMENT.getName()))
+                    .log(LoggingLevel.INFO, "CamelRouting", "Parsing file type: ${body.getFileEntry.getFileType}")
+                    .beanRef("ichStudentAssessment")
+                    .to("direct:fileEntryLatch")
+                .when(header(FILE_ENTRY_FILE_TYPE).isEqualTo(FileType.XML_STUDENT_COHORT.getName()))
+                    .log(LoggingLevel.INFO, "CamelRouting", "Parsing file type: ${body.getFileEntry.getFileType}")
+                    .beanRef("ichStudentCohort")
+                    .to("direct:fileEntryLatch")
+                .when(header(FILE_ENTRY_FILE_TYPE).isEqualTo(FileType.XML_STUDENT_DISCIPLINE.getName()))
+                    .log(LoggingLevel.INFO, "CamelRouting", "Parsing file type: ${body.getFileEntry.getFileType}")
+                    .beanRef("ichStudentDiscipline")
+                    .to("direct:fileEntryLatch")
+                .when(header(FILE_ENTRY_FILE_TYPE).isEqualTo(FileType.XML_STUDENT_ENROLLMENT.getName()))
+                    .log(LoggingLevel.INFO, "CamelRouting", "Parsing file type: ${body.getFileEntry.getFileType}")
+                    .beanRef("ichStudentEnrollment")
+                    .to("direct:fileEntryLatch")
+                .when(header(FILE_ENTRY_FILE_TYPE).isEqualTo(FileType.XML_STUDENT_GRADES.getName()))
+                    .log(LoggingLevel.INFO, "CamelRouting", "Parsing file type: ${body.getFileEntry.getFileType}")
+                    .beanRef("ichStudentGrade")
+                    .to("direct:fileEntryLatch")
+                .when(header(FILE_ENTRY_FILE_TYPE).isEqualTo(FileType.XML_STUDENT_PARENT_ASSOCIATION.getName()))
+                    .log(LoggingLevel.INFO, "CamelRouting", "Parsing file type: ${body.getFileEntry.getFileType}")
+                    .beanRef("ichStudentParent")
+                    .to("direct:fileEntryLatch")
+                .when(header(FILE_ENTRY_FILE_TYPE).isEqualTo(FileType.XML_STUDENT_PROGRAM.getName()))
+                    .log(LoggingLevel.INFO, "CamelRouting", "Parsing file type: ${body.getFileEntry.getFileType}")
+                    .beanRef("ichStudentProgram")
+                    .to("direct:fileEntryLatch");
+
+        from("direct:stagingProcessor").routeId("stagingProcessor")
+            .log(LoggingLevel.INFO, "CamelRouting", "Record enties received. ")
+            .process(stagingProcessor).to("direct:fileEntryLatch");
+
+        from("direct:edFiProcessor").routeId("edFiProcessor")
+            .log(LoggingLevel.INFO, "CamelRouting", "File entry received. Processing: \n${body.getFileEntry.getFileType}\n${body}")
             .process(edFiProcessor).to("direct:fileEntryLatch");
 
         // file entry Latch
