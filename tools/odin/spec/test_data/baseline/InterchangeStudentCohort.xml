@@ -648,7 +648,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <CohortReference>
       <CohortIdentity>
-        <CohortIdentifier>2</CohortIdentifier>
+        <CohortIdentifier>3</CohortIdentifier>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
             <StateOrganizationId>Daybreak Central High</StateOrganizationId>
@@ -656,8 +656,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         </EducationalOrgReference>
       </CohortIdentity>
     </CohortReference>
-    <BeginDate>2001-08-27</BeginDate>
-    <EndDate>2001-11-25</EndDate>
+    <BeginDate>2003-09-04</BeginDate>
+    <EndDate>2003-12-03</EndDate>
   </StudentCohortAssociation>
   <StudentCohortAssociation>
     <StudentReference>
@@ -705,35 +705,16 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <CohortReference>
       <CohortIdentity>
-        <CohortIdentifier>3</CohortIdentifier>
+        <CohortIdentifier>2</CohortIdentifier>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
-            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
+            <StateOrganizationId>Daybreak Central High</StateOrganizationId>
           </EducationalOrgIdentity>
         </EducationalOrgReference>
       </CohortIdentity>
     </CohortReference>
-    <BeginDate>2001-08-27</BeginDate>
-    <EndDate>2001-11-25</EndDate>
-  </StudentCohortAssociation>
-  <StudentCohortAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>4</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <CohortReference>
-      <CohortIdentity>
-        <CohortIdentifier>1</CohortIdentifier>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-      </CohortIdentity>
-    </CohortReference>
-    <BeginDate>2001-08-27</BeginDate>
-    <EndDate>2001-11-25</EndDate>
+    <BeginDate>2003-09-04</BeginDate>
+    <EndDate>2003-12-03</EndDate>
   </StudentCohortAssociation>
   <StudentCohortAssociation>
     <StudentReference>
@@ -751,8 +732,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         </EducationalOrgReference>
       </CohortIdentity>
     </CohortReference>
-    <BeginDate>2002-09-05</BeginDate>
-    <EndDate>2002-12-04</EndDate>
+    <BeginDate>2003-09-04</BeginDate>
+    <EndDate>2003-12-03</EndDate>
   </StudentCohortAssociation>
   <StudentCohortAssociation>
     <StudentReference>
@@ -770,27 +751,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         </EducationalOrgReference>
       </CohortIdentity>
     </CohortReference>
-    <BeginDate>2002-09-05</BeginDate>
-    <EndDate>2002-12-04</EndDate>
-  </StudentCohortAssociation>
-  <StudentCohortAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>5</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <CohortReference>
-      <CohortIdentity>
-        <CohortIdentifier>3</CohortIdentifier>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-      </CohortIdentity>
-    </CohortReference>
-    <BeginDate>2001-08-27</BeginDate>
-    <EndDate>2001-11-25</EndDate>
+    <BeginDate>2003-09-04</BeginDate>
+    <EndDate>2003-12-03</EndDate>
   </StudentCohortAssociation>
   <StudentCohortAssociation>
     <StudentReference>
@@ -808,8 +770,27 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         </EducationalOrgReference>
       </CohortIdentity>
     </CohortReference>
-    <BeginDate>2003-09-04</BeginDate>
-    <EndDate>2003-12-03</EndDate>
+    <BeginDate>2001-08-27</BeginDate>
+    <EndDate>2001-11-25</EndDate>
+  </StudentCohortAssociation>
+  <StudentCohortAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>6</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <CohortReference>
+      <CohortIdentity>
+        <CohortIdentifier>2</CohortIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </CohortIdentity>
+    </CohortReference>
+    <BeginDate>2002-09-05</BeginDate>
+    <EndDate>2002-12-04</EndDate>
   </StudentCohortAssociation>
   <StudentCohortAssociation>
     <StudentReference>
@@ -909,7 +890,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <StudentCohortAssociation>
     <StudentReference>
       <StudentIdentity>
-        <StudentUniqueStateId>7</StudentUniqueStateId>
+        <StudentUniqueStateId>8</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
     <CohortReference>
@@ -922,27 +903,8 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         </EducationalOrgReference>
       </CohortIdentity>
     </CohortReference>
-    <BeginDate>2003-09-04</BeginDate>
-    <EndDate>2003-12-03</EndDate>
-  </StudentCohortAssociation>
-  <StudentCohortAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>8</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <CohortReference>
-      <CohortIdentity>
-        <CohortIdentifier>1</CohortIdentifier>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-      </CohortIdentity>
-    </CohortReference>
-    <BeginDate>2002-09-05</BeginDate>
-    <EndDate>2002-12-04</EndDate>
+    <BeginDate>2001-08-27</BeginDate>
+    <EndDate>2001-11-25</EndDate>
   </StudentCohortAssociation>
   <StudentCohortAssociation>
     <StudentReference>
@@ -972,25 +934,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <CohortReference>
       <CohortIdentity>
         <CohortIdentifier>1</CohortIdentifier>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-      </CohortIdentity>
-    </CohortReference>
-    <BeginDate>2003-09-04</BeginDate>
-    <EndDate>2003-12-03</EndDate>
-  </StudentCohortAssociation>
-  <StudentCohortAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>8</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <CohortReference>
-      <CohortIdentity>
-        <CohortIdentifier>3</CohortIdentifier>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
             <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -1028,6 +971,25 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </StudentReference>
     <CohortReference>
       <CohortIdentity>
+        <CohortIdentifier>2</CohortIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </CohortIdentity>
+    </CohortReference>
+    <BeginDate>2001-08-27</BeginDate>
+    <EndDate>2001-11-25</EndDate>
+  </StudentCohortAssociation>
+  <StudentCohortAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>10</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <CohortReference>
+      <CohortIdentity>
         <CohortIdentifier>1</CohortIdentifier>
         <EducationalOrgReference>
           <EducationalOrgIdentity>
@@ -1057,43 +1019,5 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </CohortReference>
     <BeginDate>2002-09-05</BeginDate>
     <EndDate>2002-12-04</EndDate>
-  </StudentCohortAssociation>
-  <StudentCohortAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>10</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <CohortReference>
-      <CohortIdentity>
-        <CohortIdentifier>1</CohortIdentifier>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-      </CohortIdentity>
-    </CohortReference>
-    <BeginDate>2003-09-04</BeginDate>
-    <EndDate>2003-12-03</EndDate>
-  </StudentCohortAssociation>
-  <StudentCohortAssociation>
-    <StudentReference>
-      <StudentIdentity>
-        <StudentUniqueStateId>10</StudentUniqueStateId>
-      </StudentIdentity>
-    </StudentReference>
-    <CohortReference>
-      <CohortIdentity>
-        <CohortIdentifier>2</CohortIdentifier>
-        <EducationalOrgReference>
-          <EducationalOrgIdentity>
-            <StateOrganizationId>East Daybreak Junior High</StateOrganizationId>
-          </EducationalOrgIdentity>
-        </EducationalOrgReference>
-      </CohortIdentity>
-    </CohortReference>
-    <BeginDate>2003-09-04</BeginDate>
-    <EndDate>2003-12-03</EndDate>
   </StudentCohortAssociation>
 </InterchangeStudentCohort>
