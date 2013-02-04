@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeEducationOrganization xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 Interchange-EducationOrganization.xsd">
+
   
+  <!-- Illustrative use of DELETE -->
   <DbOperation Action="DELETE" Cascade="true">
 
     <EducationOrgReference>
@@ -28,6 +30,51 @@
       </LocationIdentity>
     </LocationReference>
 
+  </DbOperation>
+
+
+  <!-- Illustrative use of MOVE -->
+  <DbOperation ActionType="MOVE">
+    
+    <!-- Ed-Fi domain data follows... -->
+    
+    <!-- For MOVE, all we need the (old) key information to identify -->
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>1234678</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    
+    <!-- ... followed by the new data, which may change the key -->
+    <Student>
+      <StudentUniqueStateId>98765432</StudentUniqueStateId>
+      <Name>
+        <FirstName>Jessie</FirstName>
+        <MiddleName>Kory</MiddleName>
+        <LastSurname>Mcgowan</LastSurname>
+      </Name>
+      <Sex>Male</Sex>
+      <BirthData>
+        <BirthDate>1988-01-12</BirthDate>
+      </BirthData>
+      <Address AddressType="Home">
+        <StreetNumberName>960 Marks Ct</StreetNumberName>
+        <City>New York</City>
+        <StateAbbreviation>NY</StateAbbreviation>
+        <PostalCode>10292</PostalCode>
+      </Address>
+      <ElectronicMail EmailAddressType="Home/Personal">
+        <EmailAddress>2895@fakemail.com</EmailAddress>
+      </ElectronicMail>
+      <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+      <Race>
+        <RacialCategory>Asian</RacialCategory>
+      </Race>
+      <SchoolFoodServicesEligibility>Full price</SchoolFoodServicesEligibility>
+      <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+      <LoginId>2895@fakemail.com</LoginId>
+    </Student>
+    
   </DbOperation>
   
 </InterchangeEducationOrganization>
