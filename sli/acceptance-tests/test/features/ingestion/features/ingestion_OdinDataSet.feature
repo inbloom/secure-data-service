@@ -171,4 +171,9 @@ Scenario: Verify the course optioinal fields is ingested correctly
      | course                      | 9                   | body.courseGPAApplicability              |Not Applicable                                   | string               |
      | course                      | 12                  | body.courseDefinedBy                     |School                                           | string               |
      | course                      | 14                  | body.careerPathway                       |Science, Technology, Engineering and Mathematics | string               |
-
+     | courseTranscript            | 12                  | body.gradeLevelWhenTaken                 |Seventh grade                                    | string               |
+     | courseTranscript            | 26                  | body.finalLetterGradeEarned              |C+                                               | string               |
+     | courseTranscript            | 75                  | body.courseRepeatCode                    |RepeatCounted                                    | string               |
+     | courseTranscript            | 75                  | body.methodCreditEarned                  |Classroom credit                                 | string               |
+     | courseTranscript            | 75                  | body.creditsAttempted.credit             |3                                                | integer              |
+     | courseTranscript            | 7                   | body.finalNumericGradeEarned             |80                                               | integer              |
