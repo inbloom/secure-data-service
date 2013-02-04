@@ -521,7 +521,7 @@ public class UriMutator {
                         ParameterConstants.SECTION_ID);
             } else {
                 String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
-                mutated.setPath(String.format("/sections/%s/studentSectionAssociations/students/courseTranscripts",
+                mutated.setPath(String.format("/sections/%s/studentSectionAssociations/students/studentAcademicRecords/courseTranscripts",
                         ids));
             }
         } else if (ResourceNames.DISCIPLINE_ACTIONS.equals(resource)) {
