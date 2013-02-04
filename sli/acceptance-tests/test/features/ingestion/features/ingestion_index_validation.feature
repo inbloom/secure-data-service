@@ -18,12 +18,22 @@ And I should see "All records processed successfully." in the resulting batch jo
 
 @wip
 Scenario: Ingestion for existing tenant, sli index validation fail
-#Mess Up Tenant DB indexes
+Then the following collections are missing indexes in sli datastore
+| collectionName              | indexes           |
+| learningObjective           | body.learningObjectiveId  |
+| learningObjective           | body.objective            |
+| section                     | body.assessmentReferences |
+| section                     | body.courseOfferingId     |
 And I post "noRecord.zip" file as the payload of the ingestion job 
 When zip file is scp to ingestion landing zone 
 And a batch job for file "noRecord.zip" is completed in database 
 And I should see "Index Validation Error" in the resulting error log file
-#Recover Tenant DB indexes
+Then the following collections rebuild indexes in sli datastore
+| collectionName              | indexes           |
+| learningObjective           | body.learningObjectiveId  |
+| learningObjective           | body.objective            |
+| section                     | body.assessmentReferences |
+| section                     | body.courseOfferingId     |
 And I post "tenant.zip" file as the payload of the ingestion job 
 When zip file is scp to ingestion landing zone 
 And a batch job for file "tenant.zip" is completed in database 
@@ -31,12 +41,34 @@ And I should see "All records processed successfully." in the resulting batch jo
 
 @wip
 Scenario: Ingestion for existing tenant, both sli and ingestion_batch_job index validation fail
-#Mess Up Tenant DB indexes
+Then the following collections are missing indexes in sli datastore
+| collectionName              | indexes           |
+| learningObjective           | body.learningObjectiveId  |
+| learningObjective           | body.objective            |
+| section                     | body.assessmentReferences |
+| section                     | body.courseOfferingId     |
+Then the following collections are missing indexes in ingestion_batch_job datastore
+| collectionName              | indexes           |
+| persistenceLatch            | syncStage                 |
+| persistenceLatch            | jobId                     |
+| transformationLatch         | syncStage                 |
+| transformationLatch         | recordType                |
 And I post "noRecord.zip" file as the payload of the ingestion job 
 When zip file is scp to ingestion landing zone 
 And a batch job for file "noRecord.zip" is completed in database 
 And I should see "Index Validation Error" in the resulting error log file
-#Recover Tenant DB indexes
+Then the following collections rebuild indexes in sli datastore
+| collectionName              | indexes           |
+| learningObjective           | body.learningObjectiveId  |
+| learningObjective           | body.objective            |
+| section                     | body.assessmentReferences |
+| section                     | body.courseOfferingId     |
+Then the following collections rebuild indexes in ingestion_batch_job datastore
+| collectionName              | indexes           |
+| persistenceLatch            | syncStage                 |
+| persistenceLatch            | jobId                     |
+| transformationLatch         | syncStage                 |
+| transformationLatch         | recordType                |
 And I post "tenant.zip" file as the payload of the ingestion job 
 When zip file is scp to ingestion landing zone 
 And a batch job for file "tenant.zip" is completed in database 
@@ -44,12 +76,22 @@ And I should see "All records processed successfully." in the resulting batch jo
 
 @wip
 Scenario: Ingestion for existing tenant, ingestion_batch_job index validation fail
-#Mess Up Tenant DB indexes
+Then the following collections are missing indexes in ingestion_batch_job datastore
+| collectionName              | indexes           |
+| persistenceLatch            | syncStage                 |
+| persistenceLatch            | jobId                     |
+| transformationLatch         | syncStage                 |
+| transformationLatch         | recordType                |
 And I post "noRecord.zip" file as the payload of the ingestion job 
 When zip file is scp to ingestion landing zone 
 And a batch job for file "noRecord.zip" is completed in database 
 And I should see "Index Validation Error" in the resulting error log file
-#Recover Tenant DB indexes
+Then the following collections rebuild indexes in ingestion_batch_job datastore
+| collectionName              | indexes           |
+| persistenceLatch            | syncStage                 |
+| persistenceLatch            | jobId                     |
+| transformationLatch         | syncStage                 |
+| transformationLatch         | recordType                |
 And I post "tenant.zip" file as the payload of the ingestion job 
 When zip file is scp to ingestion landing zone 
 And a batch job for file "tenant.zip" is completed in database 
