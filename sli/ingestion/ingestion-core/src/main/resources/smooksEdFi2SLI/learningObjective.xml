@@ -23,22 +23,22 @@
     </jb:bean>
 
     <jb:bean beanId="learningObjectiveBody" class="java.util.HashMap" createOnElement="attributes">
-        <jb:wiring property="learningObjectiveId" beanIdRef="learningObjective_learningObjectiveId" />
-        <jb:value property="objective" data="attributes objective" />
-        <jb:value property="description" data="attributes description"/>
-        <jb:value property="academicSubject" data="attributes academicSubject" />
-        <jb:value property="objectiveGradeLevel" data="attributes objectiveGradeLevel" />
-        <jb:wiring property="learningStandards" beanIdRef="learningObjective_learningStandards" />
+        <jb:wiring property="learningObjectiveId" beanIdRef="LearningObjectiveId" />
+        <jb:value property="objective" data="attributes Objective _value" />
+        <jb:value property="description" data="attributes Description _value"/>
+        <jb:value property="academicSubject" data="attributes AcademicSubject _value" />
+        <jb:value property="objectiveGradeLevel" data="attributes ObjectiveGradeLevel _value" />
+        <jb:wiring property="learningStandards" beanIdRef="LearningStandards" />
         <jb:value property="parentLearningObjective" data="attributes LearningObjectiveReference" />
     </jb:bean>
 
-    <jb:bean beanId="learningObjective_learningStandards" class="java.util.ArrayList" createOnElement="attributes">
-        <jb:value data="attributes learningStandardReference element" />
+    <jb:bean beanId="LearningStandards" class="java.util.ArrayList" createOnElement="attributes LearningStandardReference">
+        <jb:value data="attributes LearningStandardReference element" />
     </jb:bean>
 
-    <jb:bean beanId="learningObjective_learningObjectiveId" class="java.util.HashMap" createOnElement="attributes learningObjectiveId">
-        <jb:value data="attributes learningObjectiveId identificationCode" />
-        <jb:value data="attributes learningObjectiveId contentStandardName" />
+    <jb:bean beanId="LearningObjectiveId" class="java.util.HashMap" createOnElement="attributes LearningObjectiveId">
+        <jb:value property="identificationCode" data="attributes LearningObjectiveId IdentificationCode _value" />
+        <jb:value property="contentStandardName" data="attributes LearningObjectiveId ContentStandardName _value" />
     </jb:bean>
 
 </smooks-resource-list>

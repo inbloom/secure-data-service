@@ -24,31 +24,20 @@
 
 
   <jb:bean beanId="teacherSchoolAssociationBody" class="java.util.HashMap" createOnElement="attributes">
-    <!-- TeacherReference -->
     <jb:value property="teacherId" data="attributes TeacherReference" />
-
-    <!-- SchoolReference -->
     <jb:value property="schoolId" data="attributes SchoolReference" />
-
-    <!-- ProgramAssignment -->
-    <jb:value property="programAssignment" data="attributes programAssignment" />
-
-    <!-- InstructionGradeLevels -->
+    <jb:value property="programAssignment" data="attributes ProgramAssignment _value" />
     <jb:wiring property="instructionalGradeLevels" beanIdRef="GradeLevelsTypeArray" />
-
-    <!-- AcademicSubjects -->
     <jb:wiring property="academicSubjects" beanIdRef="AcademicSubjectsTypeArray" />
 
   </jb:bean>
 
-  <!--Gradelevels -->
   <jb:bean beanId="GradeLevelsTypeArray" class="java.util.ArrayList" createOnElement="attributes">
-    <jb:value data="instructionalGradeLevels element" />
+    <jb:value data="InstructionalGradeLevels element _value" />
   </jb:bean>
 
-  <!--AcademicSubjects -->
   <jb:bean beanId="AcademicSubjectsTypeArray" class="java.util.ArrayList" createOnElement="attributes">
-    <jb:value data="academicSubjects element" />
+    <jb:value data="AcademicSubjects element _value" />
   </jb:bean>
 
 </smooks-resource-list>

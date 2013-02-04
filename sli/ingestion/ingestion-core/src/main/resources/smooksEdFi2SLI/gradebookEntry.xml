@@ -25,10 +25,10 @@
 
   <jb:bean beanId="gradebookEntryBody" class="java.util.HashMap"
            createOnElement="attributes">
+    <jb:value property="gradebookEntryType" data="attributes GradebookEntryType _value" />
+    <jb:value property="description" data="attributes Description _value"/>
+    <jb:value property="dateAssigned" data="attributes DateAssigned _value" />
     <jb:value property="sectionId" data="attributes SectionReference" />
-    <jb:value property="description" data="attributes description"/>
-    <jb:value property="dateAssigned" data="attributes dateAssigned" />
-    <jb:value property="gradebookEntryType" data="attributes gradebookEntryType" />
     <jb:value property="gradingPeriodId" data="attributes GradingPeriodReference" />
   </jb:bean>
 

@@ -24,16 +24,11 @@
 
   <jb:bean beanId="staffEducationOrganizationAssociationBody" class="java.util.HashMap" createOnElement="attributes">
     <jb:value property="staffReference" data="attributes StaffReference" />
-
     <jb:value property="educationOrganizationReference" data="attributes EducationOrganizationReference" />
-
-    <jb:value property="beginDate" data="attributes beginDate" />
-
-    <jb:value property="endDate" data="attributes endDate" />
-
-    <jb:value property="staffClassification" data="attributes staffClassification"/>
-
-    <jb:value property="positionTitle" data="attributes positionTitle"/>
+    <jb:value property="staffClassification" data="attributes StaffClassification _value"/>
+    <jb:value property="positionTitle" data="attributes PositionTitle _value"/>
+    <jb:value property="beginDate" data="attributes BeginDate _value" />
+    <jb:value property="endDate" data="attributes EndDate _value" />
   </jb:bean>
 
 </smooks-resource-list>

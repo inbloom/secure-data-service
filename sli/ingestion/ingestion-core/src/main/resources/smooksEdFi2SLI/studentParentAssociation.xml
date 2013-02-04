@@ -25,12 +25,12 @@
     <jb:bean beanId="studentParentAssociationBody" class="java.util.HashMap" createOnElement="attributes">
         <jb:value property="studentId" data="attributes StudentReference"/>
         <jb:value property="parentId" data="attributes ParentReference" />
-        <jb:value property="relation" data="attributes relation" />
-        <jb:value property="livesWith" data="attributes livesWith" decoder="Boolean" />
-        <jb:value property="primaryContactStatus" data="attributes primaryContactStatus" decoder="Boolean" />
-        <jb:value property="emergencyContactStatus" data="attributes emergencyContactStatus" decoder="Boolean" />
-        <jb:value property="contactPriority" data="attributes contactPriority" decoder="Integer" />
-        <jb:value property="contactRestrictions" data="attributes contactRestrictions" />
+        <jb:value property="relation" data="attributes Relation _value" />
+        <jb:value property="primaryContactStatus" data="attributes PrimaryContactStatus _value" decoder="Boolean" />
+        <jb:value property="livesWith" data="attributes LivesWith _value" decoder="Boolean" />
+        <jb:value property="emergencyContactStatus" data="attributes EmergencyContactStatus _value" decoder="Boolean" />
+        <jb:value property="contactPriority" data="attributes ContactPriority _value" decoder="Integer" />
+        <jb:value property="contactRestrictions" data="attributes ContactRestrictions _value" />
     </jb:bean>
 
 </smooks-resource-list>

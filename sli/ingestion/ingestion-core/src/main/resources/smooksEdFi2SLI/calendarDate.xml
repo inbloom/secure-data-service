@@ -25,8 +25,8 @@
 
     <jb:bean beanId="calendarDateBody" class="java.util.HashMap"
              createOnElement="attributes">
-        <jb:value property="date" data="attributes date" />
-        <jb:value property="calendarEvent" data="attributes calendarEvent" />
+        <jb:value property="date" data="attributes Date _value" />
+        <jb:value property="calendarEvent" data="attributes CalendarEvent _value" />
         <jb:value property="educationOrganizationId" data="attributes EducationOrgReference"/>
     </jb:bean>
 

@@ -17,34 +17,25 @@
     <jb:wiring beanIdRef="studentCompetency" />
   </jb:bean>
 
-  <!-- Start StudentCompetency mapping -->
   <jb:bean beanId="studentCompetency" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
     <jb:expression property="type">'studentCompetency'</jb:expression>
-    <jb:wiring property="metaData" beanIdRef="studentCompetencyMeta" />
     <jb:wiring property="body" beanIdRef="studentCompetencyBody" />
   </jb:bean>
 
-  <jb:bean beanId="studentCompetencyMeta" class="java.util.HashMap" createOnElement="attributes">
-    <jb:value property="externalId" data="attributes studentCompetencyId" />
-    <jb:value property="studentUniqueStateId" data="attributes studentId" />
-    <jb:value property="uniqueSectionCode" data="attributes uniqueSectionCode" />
-  </jb:bean>
-
   <jb:bean beanId="studentCompetencyBody" class="java.util.HashMap" createOnElement="attributes">
-    <jb:wiring property="competencyLevel" beanIdRef="CompetencyLevel" />
-    <jb:value property="diagnosticStatement" data="attributes diagnosticStatement" />
     <jb:wiring property="objectiveId" beanIdRef="studentCompetencyObjectiveId" />
+    <jb:wiring property="competencyLevel" beanIdRef="CompetencyLevel" />
+    <jb:value property="diagnosticStatement" data="attributes DiagnosticStatement _value" />
     <jb:value property="studentSectionAssociationId" data="attributes StudentSectionAssociationReference" />
   </jb:bean>
 
-  <jb:bean beanId="CompetencyLevel" class="java.util.HashMap" createOnElement="attributes competencyLevel">
-    <jb:value property="codeValue" data="competencyLevel codeValue" />
-    <jb:value property="description" data="competencyLevel description" />
+  <jb:bean beanId="CompetencyLevel" class="java.util.HashMap" createOnElement="attributes CompetencyLevel">
+    <jb:value property="codeValue" data="CompetencyLevel CodeValue _value" />
+    <jb:value property="description" data="CompetencyLevel Description _value" />
   </jb:bean>
 
     <jb:bean beanId="studentCompetencyObjectiveId" class="java.util.HashMap" createOnElement="attributes">
         <jb:value property="learningObjectiveId" data="attributes LearningObjectiveReference"/>
-        <!-- <jb:value property="objective" data="attributes objectiveId objective"/> -->
         <jb:value property="studentCompetencyObjectiveId" data="attributes StudentCompetencyObjectiveReference"/>
     </jb:bean>
 
