@@ -41,17 +41,14 @@ import org.slc.sli.ingestion.processors.TenantProcessor;
 import org.slc.sli.ingestion.processors.TransformationProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
 import org.slc.sli.ingestion.queues.MessageType;
-import org.slc.sli.ingestion.reporting.ReportStats;
-import org.slc.sli.ingestion.reporting.Source;
-import org.slc.sli.ingestion.reporting.impl.JobSource;
 import org.slc.sli.ingestion.reporting.impl.LoggingMessageReport;
-import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.routes.orchestra.AggregationPostProcessor;
 import org.slc.sli.ingestion.routes.orchestra.OrchestraPreProcessor;
 import org.slc.sli.ingestion.routes.orchestra.WorkNoteLatch;
 import org.slc.sli.ingestion.routes.orchestra.parsing.FileEntryLatch;
 import org.slc.sli.ingestion.tenant.TenantPopulator;
-import org.slc.sli.ingestion.validation.Validator;
+import org.slc.sli.ingestion.validation.IndexValidatorExecutor;
+
 
 
 /**
@@ -111,10 +108,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     private BatchJobManager batchJobManager;
 
     @Autowired
-    private NodeInfo nodeInfo;
-
+    private IndexValidatorExecutor indexValidatorExecutor;
+    
     @Autowired
-    private Validator<?> systemValidator;
+    private NodeInfo nodeInfo;
 
     @Value("${sli.ingestion.queue.workItem.queueURI}")
     private String workItemQueue;
@@ -190,13 +187,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
         LOG.info("Configuring node {} for node type {}", nodeInfo.getUUID(), nodeInfo.getNodeType());
 
         loggingMessageReport.setLogger(LOG);
-        Source source = new JobSource(null);
-        ReportStats reportStats = new SimpleReportStats();
-        boolean indexValidated = systemValidator.isValid(null, loggingMessageReport, reportStats, source);
-
-        if (!indexValidated) {
-            LOG.error("Indexes could not be verified, check the index file configurations are set");
-        }
 
         String landingZoneQueueUri = landingZoneQueue + "?concurrentConsumers=" + landingZoneConsumers;
         String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + workItemConsumers;
