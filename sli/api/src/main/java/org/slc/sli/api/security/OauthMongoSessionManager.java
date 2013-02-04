@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Shared Learning Collaborative, LLC
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -354,6 +354,10 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                         principal.setSessionId(sessionEntity.getEntityId());
                         Collection<GrantedAuthority> authorities = resolveAuthorities(principal.getTenantId(),
                                 principal.getRealm(), principal.getRoles(), principal.isAdminRealmAuthenticated());
+                        
+                        if (!principal.isAdminRealmAuthenticated()) {
+                            principal.setAuthorizingEdOrgs(appValidator.getAuthorizingEdOrgsForApp(token.getClientId()));
+                        }
                         PreAuthenticatedAuthenticationToken userToken = new PreAuthenticatedAuthenticationToken(
                                 principal, accessToken, authorities);
                         userToken.setAuthenticated(true);

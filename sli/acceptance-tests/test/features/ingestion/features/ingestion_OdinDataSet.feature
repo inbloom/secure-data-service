@@ -62,54 +62,7 @@ When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
-     | assessment                               |                 78|
-     | attendance                               |                 14|
-     | calendarDate                             |               1161|
-     | cohort                                   |                  9|
-     | competencyLevelDescriptor                |                  4|
-     | course                                   |                 34|
-     | courseOffering                           |                102|
-     | courseSectionAssociation                 |                  0|
-     | courseTranscript                         |                 75|
-     | disciplineAction                         |                 75|
-     | disciplineIncident                       |                 75|
-     | educationOrganization                    |                  6|
-     | educationOrganizationAssociation         |                  0|
-     | educationOrganizationSchoolAssociation   |                  0|
-     | grade                                    |                 75|
-     | gradebookEntry                           |               1222|
-     | gradingPeriod                            |                  6|
-     | graduationPlan                           |                  3|
-     | learningObjective                        |                750|
-     | learningStandard                         |                  0|
-     | parent                                   |                 20|
-     | program                                  |                 70|
-     | reportCard                               |                 30|
-     | schoolSessionAssociation                 |                  0|
-     | section                                  |                 75|
-     | sectionAssessmentAssociation             |                  0|
-     | sectionSchoolAssociation                 |                  0|
-     | session                                  |                  6|
-     | sessionCourseAssociation                 |                  0|
-     | staff                                    |                 69|
-     | staffCohortAssociation                   |                 27|
-     | staffEducationOrganizationAssociation    |                169|
-     | staffProgramAssociation                  |                662|
      | student                                  |                 10|
-     | studentAcademicRecord                    |                 30|
-     | studentAssessment                        |                180|
-     | studentCohortAssociation                 |                 21|
-     | studentCompetency                        |                375|
-     | studentCompetencyObjective               |                  0|
-     | studentDisciplineIncidentAssociation     |                 75|
-     | studentGradebookEntry                    |               1222|
-     | studentParentAssociation                 |                 20|
-     | studentProgramAssociation                |                 79|
-     | studentSchoolAssociation                 |                 30|
-     | studentSectionAssociation                |                 75|
-     | teacherSchoolAssociation                 |                 19|
-     | teacherSectionAssociation                |                 75|
-    And I should see "Processed 7028 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
 
@@ -160,32 +113,14 @@ Scenario: Verify entities in student were ingested correctly: Populated Database
 Scenario: Verify specific staff document for Rebecca Braverman ingested correctly: Populated Database
   When I can find a "staff" with "body.teacherUniqueStateId" "rbraverman" in tenant db "Midgar"
     Then the "staff" entity "type" should be "teacher"
-# we should only be testing what's in the staff catalog, not the information below
-#    And the "staff" entity "body.race" should be "White"
-#    And the "staff" entity "body.highlyQualifiedTeacher" should be "true"
-#    And the "staff" entity "body.sex" should be "Female"  
-#    And the "staff" entity "body.highestLevelOfEducationCompleted" should be "Doctorate"
-#    And the "staff" entity "body.birthDate" should be "1959-07-22" 
 
 Scenario: Verify specific staff document for Charles Gray ingested correctly: Populated Database
   When I can find a "staff" with "body.teacherUniqueStateId" "cgray" in tenant db "Midgar"
     Then the "staff" entity "type" should be "teacher"
-# we should only be testing what's in the staff catalog, not the information below
-#    And the "staff" entity "body.race" should be "White"
-#    And the "staff" entity "body.highlyQualifiedTeacher" should be "true"
-#    And the "staff" entity "body.sex" should be "Male"  
-#    And the "staff" entity "body.highestLevelOfEducationCompleted" should be "Doctorate" 
-#    And the "staff" entity "body.birthDate" should be "1952-04-22" 
 
 Scenario: Verify specific staff document for Linda Kim ingested correctly: Populated Database
   When I can find a "staff" with "body.teacherUniqueStateId" "linda.kim" in tenant db "Midgar"
     Then the "staff" entity "type" should be "teacher"
-# we should only be testing what's in the staff catalog, not the information below
-#    And the "staff" entity "body.race" should be "White"
-#    And the "staff" entity "body.highlyQualifiedTeacher" should be "true"
-#    And the "staff" entity "body.sex" should be "Female"  
-#    And the "staff" entity "body.highestLevelOfEducationCompleted" should be "No Degree" 
-#    And the "staff" entity "body.birthDate" should be "1970-08-04" 
     
 Scenario: Verify superdoc studentSchoolAssociation references ingested correctly: Populated Database
   When Examining the studentSchoolAssociation collection references
@@ -224,3 +159,27 @@ Scenario: Verify the sli verification script confirms everything ingested correc
     Given the edfi manifest that was generated in the 'generated' directory
     And the tenant is 'Midgar'
     Then the sli-verify script completes successfully
+
+Scenario: Verify the course optional fields is ingested correctly
+    And I check to find if record is in collection:
+     | collectionName              | expectedRecordCount | searchParameter                          | searchValue                                     | searchType           |
+     | course                      | 14                  | body.courseLevel                         |Honors                                           | string               |
+     | course                      | 2                   | body.courseLevelCharacteristics          |Magnet                                           | string               |
+     | course                      | 1                   | body.gradesOffered                       |First grade                                      | string               |
+     | course                      | 3                   | body.subjectArea                         |Reading                                          | string               |
+     | course                      | 1                   | body.courseDescription                   |this is a course for First grade                 | string               |
+     | course                      | 9                   | body.courseGPAApplicability              |Not Applicable                                   | string               |
+     | course                      | 12                  | body.courseDefinedBy                     |School                                           | string               |
+     | course                      | 14                  | body.careerPathway                       |Science, Technology, Engineering and Mathematics | string               |
+     | courseTranscript            | 12                  | body.gradeLevelWhenTaken                 |Seventh grade                                    | string               |
+     | courseTranscript            | 26                  | body.finalLetterGradeEarned              |C+                                               | string               |
+     | courseTranscript            | 75                  | body.courseRepeatCode                    |RepeatCounted                                    | string               |
+     | courseTranscript            | 75                  | body.methodCreditEarned                  |Classroom credit                                 | string               |
+     | courseTranscript            | 75                  | body.creditsAttempted.credit             |3                                                | integer              |
+     | courseTranscript            | 7                   | body.finalNumericGradeEarned             |80                                               | integer              |
+     | cohort                      | 3                   | body.academicSubject                     |Science                                          | string               |
+     | cohort                      | 2                   | body.academicSubject                     |ELA                                              | string               |
+     | cohort                      | 4                   | body.academicSubject                     |Critical Reading                                 | string               |
+     | cohort                      | 3                   | body.programId                           |b494b23e0fdea3bf78054358e40dd26e1967e39a_id      | string               |
+     | cohort                      | 3                   | body.programId                           |2aeae297ceb4ba201a8fb645dbc9101c9b9356c1_id      | string               |
+     | cohort                      | 3                   | body.programId                           |9a1178633e9c0bc5ca092150d6e385af21feb812_id      | string               |

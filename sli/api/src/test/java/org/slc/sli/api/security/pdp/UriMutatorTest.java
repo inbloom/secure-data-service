@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Shared Learning Collaborative, LLC
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -84,8 +84,8 @@ public class UriMutatorTest {
         when(sectionHelper.getTeachersSections(teacher)).thenReturn(Arrays.asList("section123"));
 
         edOrgHelper = mock(EdOrgHelper.class);
-        when(edOrgHelper.getDirectEdorgs(teacher)).thenReturn(new HashSet<String>(Arrays.asList("school123")));
-        when(edOrgHelper.getDirectEdorgs(staff)).thenReturn(new HashSet<String>(Arrays.asList("edOrg123")));
+        when(edOrgHelper.getFilteredDirectEdorgs(teacher)).thenReturn(new HashSet<String>(Arrays.asList("school123")));
+        when(edOrgHelper.getFilteredDirectEdorgs(staff)).thenReturn(new HashSet<String>(Arrays.asList("edOrg123")));
 
         mutator.setSectionHelper(sectionHelper);
         mutator.setEdOrgHelper(edOrgHelper);

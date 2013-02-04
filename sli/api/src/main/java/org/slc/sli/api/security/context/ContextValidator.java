@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Shared Learning Collaborative, LLC
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -62,6 +62,8 @@ public class ContextValidator implements ApplicationContextAware {
 
     @Autowired
     private PagingRepositoryDelegate<Entity> repo;
+    @Autowired
+    private EntityOwnershipValidator ownership;
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -172,7 +174,11 @@ public class ContextValidator implements ApplicationContextAware {
                         && SecurityUtil.getSLIPrincipal().getEntity().getEntityId().equals(ent.getEntityId())) {
                     debug("Entity is themselves: id {} of type {}", ent.getEntityId(), ent.getType());
                 } else {
-                    idsToValidate.add(ent.getEntityId());
+                    if (ownership.canAccess(ent)) {
+                        idsToValidate.add(ent.getEntityId());
+                    } else {
+                        throw new AccessDeniedException("Access to " + ent.getEntityId() + " is not authorized");
+                    }
                 }
             }
 

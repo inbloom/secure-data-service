@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Shared Learning Collaborative, LLC
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,8 +15,6 @@
  */
 package org.slc.sli.api.resources.generic.representation;
 
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.ws.rs.core.UriInfo;
@@ -45,31 +43,17 @@ public class HateoasLink {
     @Autowired
     private EntityDefinitionStore entityDefinitionStore;
 
-    private List<String> disallowedLinks = Arrays.asList(".+/assessments/.+/studentAssessments/students",
-            ".+/courses/.+/courseStranscripts/students");
-
     public List<EntityBody> add(final String resource, List<EntityBody> entities, final UriInfo uriInfo) {
 
         EntityDefinition baseDefinition = entityDefinitionStore.lookupByResourceName(resource);
         EntityDefinition definition;
 
         for (EntityBody entity : entities) {
-            
+
             // if this is a wrapper entity, get the definition from the type of the entity itself
             definition = baseDefinition.wrapperEntity() ? entityDefinitionStore.lookupByEntityType((String) entity
                     .get("entityType")) : baseDefinition;
             List<EmbeddedLink> links = ResourceUtil.getLinks(entityDefinitionStore, definition, entity, uriInfo);
-
-            Iterator<EmbeddedLink> it = links.iterator();
-            while (it.hasNext()) {
-                EmbeddedLink l = it.next();
-                for (String deny : disallowedLinks) {
-                    if (l.getHref().matches(deny)) {
-                        info("URI: {} matches removed endpoint {}.  Removing", l.getHref(), deny);
-                        it.remove();
-                    }
-                }
-            }
 
             if (!links.isEmpty()) {
                 entity.put(ResourceConstants.LINKS, links);

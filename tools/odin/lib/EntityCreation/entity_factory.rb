@@ -1,6 +1,6 @@
 =begin
 
-Copyright 2012 Shared Learning Collaborative, LLC
+Copyright 2012-2013 inBloom, Inc. and its affiliates.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -60,7 +60,7 @@ class EntityFactory
           rval << CourseOffering.new(work_order[:id], work_order[:title], work_order[:edOrgId], work_order[:session], work_order[:course])
 
         when [Course]
-          rval << Course.new(work_order[:id], work_order[:title], work_order[:edOrgId])
+          rval << Course.new(work_order[:id], work_order[:grade], work_order[:title], work_order[:edOrgId])
 
         when [Section]
           rval << Section.new(work_order[:id], work_order[:edOrg], work_order[:offering])

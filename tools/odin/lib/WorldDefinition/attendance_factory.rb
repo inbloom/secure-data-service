@@ -1,6 +1,6 @@
 =begin
 
-Copyright 2012 Shared Learning Collaborative, LLC
+Copyright 2012-2013 inBloom, Inc. and its affiliates.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ class AttendanceFactory
   # over the interval of dates specified by the 'session'
   # -> type refers to education organization type (elementary, middle, or high school)
   # -> type is required to perform lookup on daily attendance percentages breakdown (for absence and tardiness)
-  def generate_attendance_events(prng, student, ed_org_id, session, type)
+  def generate_attendance_events(prng, student, ed_org_id, session, type, student_section_association)
     absent, tardy     = get_absent_and_tardy_percentages(type)
     attendance_events = []
     unless session.nil?
@@ -62,7 +62,8 @@ class AttendanceFactory
         next if DateUtility.is_weekend_day(current_date) or is_holiday(current_date, holidays)
         category = DataUtility.select_random_from_options(prng, events)
         reason   = get_attendance_event_reason(category) if category != :PRESENT
-        attendance_events << AttendanceEvent.new(student, ed_org_id, current_date, category, reason) unless category == :PRESENT and exceptions_only
+        attendance_events << AttendanceEvent.new(prng.seed, student, ed_org_id, current_date, category, student_section_association,
+                                                 session, reason) unless category == :PRESENT and exceptions_only
       end
     end
     attendance_events

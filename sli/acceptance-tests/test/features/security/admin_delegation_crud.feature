@@ -13,7 +13,7 @@ Feature: Admin delegation CRUD
       When I do not have access to app authorizations for district "IL-SUNSET"
       Then I should update app authorizations for district "IL-SUNSET"
       And I should receive a return code of 403
-#     And a security event matching "^Access Denied" should be in the sli db
+     And a security event matching "^Access Denied" should be in the sli db
 
   Scenario: District administrator updating admin delegation 	
     Given I am logged in using "sunsetadmin" "sunsetadmin1234" to realm "SLI"
@@ -29,7 +29,7 @@ Feature: Admin delegation CRUD
      And I should save the old app authorizations for "IL-SUNSET"
      Then I should update app authorizations for district "IL-SUNSET" 
      And I should receive a return code of 204
-#    And a security event matching "^NOT ALLOWED" should be in the sli db
+    And a security event matching "^NOT ALLOWED" should be in the sli db
 
 	Scenario: State administrator with access updating one application authorization
      And I am logged in using "iladmin" "iladmin1234" to realm "SLI"

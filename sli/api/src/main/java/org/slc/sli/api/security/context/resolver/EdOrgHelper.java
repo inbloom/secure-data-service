@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Shared Learning Collaborative, LLC
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.api.security.context.EntityOwnershipValidator;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.security.context.validator.DateHelper;
 import org.slc.sli.api.util.SecurityUtil;
@@ -62,6 +63,8 @@ public class EdOrgHelper {
 
     @Autowired
     protected DateHelper dateHelper;
+    @Autowired
+    protected EntityOwnershipValidator ownership;
 
     /**
      * Traverse the edorg hierarchy and find all the SEAs the user is associated with, directly or
@@ -148,6 +151,10 @@ public class EdOrgHelper {
             }
         }
         return toReturn;
+    }
+    
+    public Entity byId(String edOrgId) {
+        return repo.findById(EntityNames.EDUCATION_ORGANIZATION, edOrgId);
     }
 
     /**
@@ -309,7 +316,7 @@ public class EdOrgHelper {
         return edOrgIds;
     }
 
-    public Set<String> getStudentsCurrentAssociatedEdOrgs(Set<String> studentIds) {
+    public Set<String> getStudentsCurrentAssociatedEdOrgs(Set<String> studentIds, boolean filterByOwnership) {
         Set<String> edOrgIds = new HashSet<String>();
 
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STUDENT_ID,
@@ -318,8 +325,10 @@ public class EdOrgHelper {
 
         if (associations != null) {
             for (Entity association : associations) {
-                if (!isFieldExpired(association.getBody(), ParameterConstants.EXIT_WITHDRAW_DATE, false)) {
-                    edOrgIds.add((String) association.getBody().get(ParameterConstants.SCHOOL_ID));
+                if (!filterByOwnership || ownership.canAccess(association)) {
+                    if (!isFieldExpired(association.getBody(), ParameterConstants.EXIT_WITHDRAW_DATE, false)) {
+                        edOrgIds.add((String) association.getBody().get(ParameterConstants.SCHOOL_ID));
+                    }
                 }
             }
         }
@@ -410,9 +419,9 @@ public class EdOrgHelper {
 
     public Set<String> getDirectEdorgs(Entity principal) {
         if (isStaff(principal) || isTeacher(principal)) {
-            return getStaffDirectlyAssociatedEdorgs(principal);
+            return getStaffDirectlyAssociatedEdorgs(principal, false);
         } else if (isStudent(principal)) {
-            return getStudentsCurrentAssociatedEdOrgs(Collections.singleton(principal.getEntityId()));
+            return getStudentsCurrentAssociatedEdOrgs(Collections.singleton(principal.getEntityId()), false);
         } else if (isParent(principal)) {
             // will need logic to get student -> parent associations
             // assemble set of students that parent can see
@@ -421,15 +430,30 @@ public class EdOrgHelper {
 
         return new HashSet<String>();
     }
+    
+    public Set<String> getFilteredDirectEdorgs(Entity principal) {
+        if (isStaff(principal) || isTeacher(principal)) {
+            return getStaffDirectlyAssociatedEdorgs(principal, true);
+        } else if (isStudent(principal)) {
+            return getStudentsCurrentAssociatedEdOrgs(Collections.singleton(principal.getEntityId()), true);
+        } else if (isParent(principal)) {
+            // will need logic to get student -> parent associations
+            // assemble set of students that parent can see
+            // -> call getStudentCurrentAssociatedEdOrgs(Set<String> studentIds)
+        }
 
-    private Set<String> getStaffDirectlyAssociatedEdorgs(Entity staff) {
+        return new HashSet<String>();
+    }
+    private Set<String> getStaffDirectlyAssociatedEdorgs(Entity staff, boolean filterByOwnership) {
         Set<String> edorgs = new HashSet<String>();
         NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_REFERENCE,
                 NeutralCriteria.OPERATOR_EQUAL, staff.getEntityId()));
         Iterable<Entity> tsas = repo.findAll(EntityNames.STAFF_ED_ORG_ASSOCIATION, basicQuery);
         for (Entity tsa : tsas) {
-            if (!dateHelper.isFieldExpired(tsa.getBody(), ParameterConstants.END_DATE, false)) {
-                edorgs.add((String) tsa.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
+            if (!filterByOwnership || ownership.canAccess(tsa)) {
+                if (!dateHelper.isFieldExpired(tsa.getBody(), ParameterConstants.END_DATE, false)) {
+                    edorgs.add((String) tsa.getBody().get(ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE));
+                }
             }
         }
         return edorgs;

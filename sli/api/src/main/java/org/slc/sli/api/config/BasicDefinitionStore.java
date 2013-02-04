@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Shared Learning Collaborative, LLC
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -175,7 +175,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
 
         AssociationDefinition studentAssessment = factory.makeAssoc("studentAssessment", "studentAssessments")
                 .exposeAs(ResourceNames.STUDENT_ASSESSMENTS).storeAs("studentAssessment")
-                .from(student, "getStudent", "getStudents").to(assessment, "getAssessment", "getAssessments")
+                .from(student, "getStudent", null).to(assessment, "getAssessment", "getAssessments")
                 .calledFromSource("getStudentAssessments").calledFromTarget("getStudentAssessments").build();
         addDefinition(studentAssessment);
 
@@ -225,7 +225,7 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
 
         AssociationDefinition courseTranscript = factory.makeAssoc("courseTranscript", "courseTranscripts")
                 .exposeAs(ResourceNames.COURSE_TRANSCRIPTS).storeAs("courseTranscript")
-                .from(student, "getStudent", "getStudents").to(course, "getCourse", "getCourses")
+                .from(student, "getStudent", null).to(course, "getCourse", "getCourses")
                 .calledFromSource("getCourseTranscripts").calledFromTarget("getCourseTranscripts").build();
         addDefinition(courseTranscript);
 

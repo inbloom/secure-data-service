@@ -1,6 +1,6 @@
 =begin
 
-Copyright 2012 Shared Learning Collaborative, LLC
+Copyright 2012-2013 inBloom, Inc. and its affiliates.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -34,6 +34,10 @@ class BaseEntity
     @@scenario = scenario
   end
 
+  def rand(num)
+    @rand.rand(num)
+  end
+
   def choose(options)
     options[@rand.rand(options.size) - 1]
   end
@@ -56,12 +60,12 @@ class BaseEntity
     sum
   end
   
-  def bit_choose() 
-    rand(2) == 1
+  def bit_choose
+    @rand.rand(2) == 1
   end
 
-  def bit_choose()
-    @rand.rand(2) == 1
+  def optional?
+    (@@scenario['OPTIONAL_FIELD_LIKELYHOOD'] > 0) and (@rand.rand() < @@scenario['OPTIONAL_FIELD_LIKELYHOOD'])
   end
 
 end

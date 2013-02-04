@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Shared Learning Collaborative, LLC
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,10 +22,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
@@ -33,6 +29,9 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 /**
  * Determines which applications a given user is authorized to use based on
@@ -170,5 +169,29 @@ public class ApplicationAuthorizationValidator {
         return toReturn;
     }
 
+    public Set<String> getAuthorizingEdOrgsForApp(String clientId) {
+        
+        //This is called before the SLIPrincipal has been set, so use TenantContext to get tenant rather than SLIPrincipal on SecurityContext
+        Entity app = repo.findOne("application", new NeutralQuery(new NeutralCriteria("client_id", "=", clientId)));
+        
+        NeutralQuery appAuthCollQuery = new NeutralQuery();
+        appAuthCollQuery.addCriteria(new NeutralCriteria("appIds", "=", app.getEntityId()));
+        appAuthCollQuery.addCriteria(new NeutralCriteria("authType", "=", "EDUCATION_ORGANIZATION"));
+        Set<String> leas = new HashSet<String>();
+        Iterable<Entity> authsContainingApp = repo.findAll("applicationAuthorization", appAuthCollQuery);
+        for (Entity ent : authsContainingApp) {
+            leas.add((String) ent.getBody().get("authId"));
+        }
+        
+        leas.addAll(helper.getChildEdOrgs(leas));
+        
+        //Add SEAs
+        for (Entity ent : authsContainingApp) {
+            String edOrg = (String) ent.getBody().get("authId");
+            leas.addAll(helper.getParentEdOrgs(helper.byId(edOrg)));
+        }
+        
+        return leas;
+    }
 
 }

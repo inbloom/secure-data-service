@@ -1,3 +1,5 @@
 cats_with_lasers.png
 dummy_placeholder.png
 *.jtl
+.bundle
+vendor

@@ -1,6 +1,6 @@
 =begin
 
-Copyright 2012 Shared Learning Collaborative, LLC
+Copyright 2012-2013 inBloom, Inc. and its affiliates.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -65,15 +65,28 @@ class WorkOrderQueue
     @work_orders.pop()
   end
 
+  def get_work_orders(work_order_type)
+    orders = []
+    @work_orders.each do |order|
+      if(is_type(order, work_order_type))
+         orders << order
+      end
+    end
+    orders
+  end
+
   def count(work_order_type)
     count = 0
     @work_orders.each do |order|
-      if (order.kind_of? work_order_type) or 
-        (order.kind_of? Hash and order[:type].to_s == work_order_type.to_s)
+      if (is_type(order, work_order_type))
         count += 1
       end
     end
     count
+  end
+
+  def is_type(order, order_type)
+    return ((order.kind_of? order_type) or (order.kind_of? Hash and order[:type].to_s == order_type.to_s))
   end
 
   def empty?
