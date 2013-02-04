@@ -97,7 +97,7 @@ procs.each { |p|
 
 puts "\n\nStarting Smoke Tests\n"
 Dir.chdir "#{dir}/acceptance-tests"
-pid = Process.spawn('bundle exec rake smokeTests TOGGLE_TABLESCANS=true')
+pid = Process.spawn('bundle exec rake smokeTests')
 Process.wait(pid)
 
 #puts "signaling child processes to terminate"
