@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Properties;
 
@@ -47,7 +48,25 @@ import org.slc.sli.ingestion.parser.TypeProvider;
 @Component
 public class XsdTypeProvider implements TypeProvider {
 
+    private static final String SCHEMA_DIR_PROPERTY = "sli.edfi.schema.dir";
+
     private static final Namespace XS_NAMESPACE = Namespace.getNamespace("xs", "http://www.w3.org/2001/XMLSchema");
+    private static final String XS_DATE = "xs:date";
+    private static final String XS_BOOLEAN = "xs:boolean";
+    private static final String XS_DOUBLE = "xs:double";
+    private static final String XS_INT = "xs:int";
+
+    private static final String INTERCHANGE = "interchange";
+    private static final String INCLUDE = "include";
+    private static final String SCHEMA_LOCATION = "schemaLocation";
+    private static final String COMPLEX_TYPE = "complexType";
+    private static final String NAME = "name";
+    private static final String TYPE = "type";
+    private static final String ELEMENT = "element";
+    private static final String SIMPLETYPE = "simpleType";
+    private static final String RESTRICTION = "restriction";
+    private static final String BASE = "base";
+    private static final String SCHEMA = "schema";
 
     @Value("file:${sli.conf}")
     private Resource sliPropsFile;
@@ -68,48 +87,65 @@ public class XsdTypeProvider implements TypeProvider {
             throw new Exception("Cannot load properties from props file '" + sliPropsFile + "' == ${sli.conf}"); // NOPMD
         }
 
-        String curdir = System.getProperty("user.dir");
+        File schemaDir = new File(sliProps.getProperty(SCHEMA_DIR_PROPERTY));
+        if (schemaDir.isDirectory()) {
+            SAXBuilder b = new SAXBuilder();
 
-        String schemaLocation = sliProps.getProperty("sli.poc.atma.schema");
-        parseEdfiSchema(new File(schemaLocation));
+            for (File schemaFile : schemaDir.listFiles()) {
 
-        parseInterchangeSchemas(sliProps);
+                if (schemaFile.getName().toLowerCase().indexOf(INTERCHANGE) != -1) {
+
+                    parseInterchangeSchemas(schemaFile, b);
+                } else {
+
+                    parseEdfiSchema(schemaFile, b);
+                }
+            }
+        }
     }
 
-    private void parseEdfiSchema(File schemaFile) throws JDOMException, IOException {
-        SAXBuilder b = new SAXBuilder();
+    private void parseEdfiSchema(File schemaFile, SAXBuilder b) throws JDOMException, IOException {
         Document doc = b.build(new FileInputStream(schemaFile));
 
-        for (Element xsInclude : doc.getDescendants(Filters.element("include", XS_NAMESPACE))) {
-            String inclSchemaLocation = xsInclude.getAttributeValue("schemaLocation");
-            File path = new File(schemaFile.getParent(), inclSchemaLocation);
-            parseEdfiSchema(path);
+        for (Element xsInclude : doc.getDescendants(Filters.element(INCLUDE, XS_NAMESPACE))) {
+            String inclSchemaLocation = xsInclude.getAttributeValue(SCHEMA_LOCATION);
+            File includedSchemaFile = new File(schemaFile.getParent(), inclSchemaLocation);
+            parseEdfiSchema(includedSchemaFile, b);
         }
 
         parseComplexTypes(doc);
     }
 
     private void parseComplexTypes(Document doc) {
-        Iterable<Element> complexTypes = doc.getDescendants(Filters.element("complexType", XS_NAMESPACE));
+        Iterable<Element> complexTypes = doc.getDescendants(Filters.element(COMPLEX_TYPE, XS_NAMESPACE));
         for (Element e : complexTypes) {
-            this.complexTypes.put(e.getAttributeValue("name"), e);
+            this.complexTypes.put(e.getAttributeValue(NAME), e);
         }
         buildXsdElementsMap(doc, typeMap);
     }
 
     private void buildXsdElementsMap(Document doc, Map<String, String> map) {
-        Iterable<Element> elements = doc.getDescendants(Filters.element("element", XS_NAMESPACE));
+        Iterable<Element> elements = doc.getDescendants(Filters.element(ELEMENT, XS_NAMESPACE));
         for (Element e : elements) {
             String type = getType(e);
-            map.put(e.getAttributeValue("name"), type);
+            map.put(e.getAttributeValue(NAME), type);
         }
     }
 
-    private void parseInterchangeSchemas(Properties sliProps) throws JDOMException, IOException {
-        FileInputStream interchangeStream = new FileInputStream(sliProps.getProperty("sli.poc.atma.assessment"));
-        interchangeMap.put("InterchangeAssessmentMetadata", new HashMap<String, String>());
-        SAXBuilder b = new SAXBuilder();
-        buildXsdElementsMap(b.build(interchangeStream), interchangeMap.get("InterchangeAssessmentMetadata"));
+    private void parseInterchangeSchemas(File schemaFile, SAXBuilder b) throws JDOMException, IOException {
+        Document doc = b.build(new FileInputStream(schemaFile));
+
+        // get interchange element name and build map for it
+
+        Iterator<Element> schemaIter = doc.getDescendants(Filters.element(SCHEMA, XS_NAMESPACE)).iterator();
+        if (schemaIter.hasNext()) {
+            Element interchangeElement = schemaIter.next().getChild(ELEMENT, XS_NAMESPACE);
+
+            Map<String, String> interchangeElementMap = new HashMap<String, String>();
+            interchangeMap.put(interchangeElement.getAttributeValue(NAME), interchangeElementMap);
+
+            buildXsdElementsMap(doc, interchangeElementMap);
+        }
     }
 
     @Override
@@ -121,9 +157,9 @@ public class XsdTypeProvider implements TypeProvider {
     public String getTypeFromParentType(String xsdType, String eventName) {
         Element parentElement = getComplexElement(xsdType);
         if (parentElement != null) {
-            for (Element e : parentElement.getDescendants(Filters.element("element", XS_NAMESPACE))) {
-                if (e.getAttributeValue("name").equals(eventName)) {
-                    return e.getAttributeValue("type");
+            for (Element e : parentElement.getDescendants(Filters.element(ELEMENT, XS_NAMESPACE))) {
+                if (e.getAttributeValue(NAME).equals(eventName)) {
+                    return e.getAttributeValue(TYPE);
                 }
             }
         }
@@ -155,13 +191,13 @@ public class XsdTypeProvider implements TypeProvider {
         Object result = value;
         if (typeName != null && typeMap.get(typeName) != null) {
             String type = typeMap.get(typeName);
-            if (type.equals("xs:date")) {
+            if (type.equals(XS_DATE)) {
                 result = value;
-            } else if (type.equals("xs:boolean")) {
+            } else if (type.equals(XS_BOOLEAN)) {
                 result = Boolean.parseBoolean(value);
-            } else if (type.equals("xs:double")) {
+            } else if (type.equals(XS_DOUBLE)) {
                 result = Double.parseDouble(value);
-            } else if (type.equals("xs:int")) {
+            } else if (type.equals(XS_INT)) {
                 result = Integer.parseInt(value);
             }
         }
@@ -177,16 +213,16 @@ public class XsdTypeProvider implements TypeProvider {
      * @return variable type if available
      */
     private String getType(Element e) {
-        String type = e.getAttributeValue("type");
+        String type = e.getAttributeValue(TYPE);
 
         if (type == null) {
-            Element simple = e.getChild("simpleType", XS_NAMESPACE);
+            Element simple = e.getChild(SIMPLETYPE, XS_NAMESPACE);
 
             if (simple != null) {
-                Element restriction = simple.getChild("restriction", XS_NAMESPACE);
+                Element restriction = simple.getChild(RESTRICTION, XS_NAMESPACE);
 
                 if (restriction != null) {
-                    type = restriction.getAttributeValue("base");
+                    type = restriction.getAttributeValue(BASE);
                 }
             }
         }
