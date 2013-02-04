@@ -354,10 +354,11 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                         Collection<GrantedAuthority> selfAuthorities = resolveAuthorities(principal.getTenantId(),
                                 principal.getRealm(), principal.getRoles(), principal.isAdminRealmAuthenticated(), true);
                         principal.setSelfRights(selfAuthorities);
+                        debug("Granted self rights - {}", selfAuthorities);
                         
                         Collection<GrantedAuthority> authorities = resolveAuthorities(principal.getTenantId(),
                                 principal.getRealm(), principal.getRoles(), principal.isAdminRealmAuthenticated(), false);
-                        
+                        debug("Granted regular rights - {}", authorities);
                         if (!principal.isAdminRealmAuthenticated()) {
                             principal.setAuthorizingEdOrgs(appValidator.getAuthorizingEdOrgsForApp(token.getClientId()));
                         }

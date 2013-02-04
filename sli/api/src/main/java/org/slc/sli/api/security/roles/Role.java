@@ -17,6 +17,7 @@
 
 package org.slc.sli.api.security.roles;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -90,6 +91,6 @@ public class Role {
     }
 
     public String toString() {
-        return name;
+        return name + ": " + rights;
     }
 }
