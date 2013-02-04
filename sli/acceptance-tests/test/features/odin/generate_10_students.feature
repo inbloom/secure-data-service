@@ -4,7 +4,7 @@ Feature: Generate sample data using Odin data generator
 Given I am using the odin working directory
 
 Scenario: Generate a small 10 student data set using Odin generate tool
-  When I generate the 10 student data set in the generated directory
+  When I generate the 10 student data set with optional fields on in the generated directory
   And I zip generated data under filename OdinSampleDataSet.zip to the new OdinSampleDataSet directory
   And I copy generated data to the new OdinSampleDataSet directory
   Then I should see generated file <File>

@@ -30,10 +30,10 @@ end
 ############################################################
 # STEPS: WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN WHEN
 ############################################################
-When /^I generate the 10 student data set in the (.*?) directory$/ do |gen_dir|
+When /^I generate the 10 student data set with optional fields on in the (.*?) directory$/ do |gen_dir|
   @gen_path = "#{@odin_working_path}#{gen_dir}/"
   puts "Calling generate function for 10 students scenario"
-  generate("10students")
+  generate("10students_optional")
 end
 
 When /^I generate the 10001 student data set in the (.*?) directory$/ do |gen_dir|

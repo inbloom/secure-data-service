@@ -1,6 +1,6 @@
 =begin
 
-Copyright 2012 Shared Learning Collaborative, LLC
+Copyright 2012-2013 inBloom, Inc. and its affiliates.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -65,7 +65,7 @@ describe "DataWriter" do
 
       it "will store a local education agency in-memory" do
         @writer.get_entity_count(LocalEducationAgency).should eq(0)
-        @writer << LocalEducationAgency.new(@random, 2, 1)
+        @writer << LocalEducationAgency.new(2, 1, @random)
         @writer.get_entity_count(LocalEducationAgency).should_not be_nil
         @writer.get_entity_count(LocalEducationAgency).should eq(1)
       end
@@ -179,7 +179,7 @@ describe "DataWriter" do
 
     it "will store a local education agency in-memory" do
       @writer.get_entity_count(LocalEducationAgency).should eq(0)
-      @writer << LocalEducationAgency.new(@random, 2, 1)
+      @writer << LocalEducationAgency.new(2, 1, @random)
       @writer.get_entity_count(LocalEducationAgency).should_not be_nil
       @writer.get_entity_count(LocalEducationAgency).should eq(1)
     end
@@ -215,4 +215,42 @@ describe "DataWriter" do
       @writer.get_entity_count(Session).should eq(1)
     end
   end
+
+ #  context "with a writer that contains a blacklist" do
+ #    let(:scenario) {{'ENTITY_BLACKLIST' => ['Teacher']}}
+ #    let(:writer) {DataWriter.new(scenario)}
+
+ #    it "will not store entities that are blacklisted" do
+ #      writer.get_entity_count(Teacher).should eq(0)
+ #      writer << Teacher.new(3, 1971)
+ #      writer << [Teacher.new(3, 1971)]
+ #      writer.get_entity_count(Teacher).should eq(0)
+ #    end
+
+ #    it "will store entities that are not blacklisted" do
+ #      writer.get_entity_count(Staff).should eq(0)
+ #      writer << Staff.new(1, 1969)
+ #      writer << [Staff.new(1, 1969)]
+ #      writer.get_entity_count(Staff).should eq(2)
+ #    end
+ #  end
+
+ # context "with a writer that contains a whitelist" do
+ #    let(:scenario) {{'ENTITY_WHITELIST' => ['Teacher']}}
+ #    let(:writer) {DataWriter.new(scenario)}
+
+ #    it "will store entities that are whitelisted" do
+ #      writer.get_entity_count(Teacher).should eq(0)
+ #      writer << Teacher.new(3, 1971)
+ #      writer << [Teacher.new(3, 1971)]
+ #      writer.get_entity_count(Teacher).should eq(2)
+ #    end
+
+ #    it "will not store entities that are not whitelisted" do
+ #      writer.get_entity_count(Staff).should eq(0)
+ #      writer << Staff.new(1, 1969)
+ #      writer << [Staff.new(1, 1969)]
+ #      writer.get_entity_count(Staff).should eq(0)
+ #    end
+ #  end
 end
