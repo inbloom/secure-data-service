@@ -24,10 +24,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
-import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +31,11 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
+
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
+import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 
 /**
  * Transformer for StudentAssessment entities.
@@ -52,12 +53,14 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     private static final String STUDENT_ASSESSMENT_TRANSFORMED = "studentAssessment_transformed";
     private static final String STUDENT_OBJECTIVE_ASSESSMENT = "studentObjectiveAssessment";
     private static final String STUDENT_ASSESSMENT_ITEM = "studentAssessmentItem";
-    private static final String STUDENT_ASSESSMENT_REF = "studentAssessmentRef";
+    private static final String STUDENT_ASSESSMENT_REF = "StudentAssessmentRef";
     private static final String STUDENT_ASSESSMENT_REFERENCE = "studentAssessmentReference";
     private static final String OBJECTIVE_ASSESSMENT_REFERENCE = "objectiveAssessmentRef";
     private static final String STUDENT_ASSESSMENT_ITEMS_FIELD = "studentAssessmentItems";
-    private static final String STUDENT_ASSESSMENT_REFERENCE_ADMINISTRATION_DATE = "studentAssessmentReference.administrationDate";
-    private static final String STUDENT_ASSESSMENT_REFERENCE_STUDENT = "studentAssessmentReference.studentReference.studentUniqueStateId";
+    private static final String STUDENT_ASSESSMENT_REFERENCE_ADMINISTRATION_DATE = "StudentAssessmentReference.StudentAssessmentIdentity.AdministrationDate";
+    private static final String STUDENT_ASSESSMENT_REFERENCE_STUDENT = "StudentAssessmentReference.StudentAssessmentIdentity.StudentReference.StudentIdentity.StudentUniqueStateId";
+    private static final String STUDENT_REF_UNIQUESTATEID = "StudentReference.StudentIdentity.StudentUniqueStateId";
+    private static final String ASSESSMENT_REF_IDENTITY = "AssessmentReference.AssessmentIdentity";
 
     private static final String LOCAL_PARENT_IDS = "localParentIds.";
     private static final String BODY = "body.";
@@ -68,10 +71,14 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     private static final String VERSION = "Version";
     private static final String ASSESSMENT_ITEM = "assessmentItem";
 
-    private static final String STUDENT_ASSESSMENT_REFERENCE_ASSESSMENT_TITLE = "studentAssessmentReference.assessmentReference.assessmentTitle";
-    private static final String STUDENT_ASSESSMENT_REFERENCE_ACADEMIC_SUBJECT = "studentAssessmentReference.assessmentReference.academicSubject";
-    private static final String STUDENT_ASSESSMENT_REFERENCE_GRADE_LEVEL_ASSESSED = "studentAssessmentReference.assessmentReference.gradeLevelAssessed";
-    private static final String STUDENT_ASSESSMENT_REFERENCE_VERSION = "studentAssessmentReference.assessmentReference.version";
+    private static final String STUDENT_ASSESSMENT_REFERENCE_ASSESSMENT_TITLE = "StudentAssessmentReference.StudentAssessmentIdentity.AssessmentReference.AssessmentIdentity.AssessmentTitle";
+    private static final String STUDENT_ASSESSMENT_REFERENCE_ACADEMIC_SUBJECT = "StudentAssessmentReference.StudentAssessmentIdentity.AssessmentReference.AssessmentIdentity.AcademicSubject";
+    private static final String STUDENT_ASSESSMENT_REFERENCE_GRADE_LEVEL_ASSESSED = "StudentAssessmentReference.StudentAssessmentIdentity.AssessmentReference.AssessmentIdentity.GradeLevelAssessed";
+    private static final String STUDENT_ASSESSMENT_REFERENCE_VERSION = "StudentAssessmentReference.StudentAssessmentIdentity.AssessmentReference.AssessmentIdentity.Version";
+
+    private static final String ASSESSMENTITEM_REF_ID_CODE = "AssessmentItemReference.AssessmentItemIdentity.AssessmentItemIdentificationCode";
+    private static final String STUDENT_REF_ID_CODE = "StudentAssessmentReference.StudentAssessmentIdentity.StudentReference.StudentIdentity.StudentUniqueStateId";
+    private static final String STUDENTASSESSMENT_REF_ID_CODE = "StudentAssessmentReference.StudentAssessmentIdentity.AdministrationDate";
 
     private Map<Object, NeutralRecord> studentAssessments;
     private List<NeutralRecord> transformedStudentAssessments;
@@ -127,8 +134,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
             Integer version = null;
 
             try {
-                studentId = (String) PropertyUtils.getNestedProperty(attributes,
-                        "studentId.StudentIdentity.StudentUniqueStateId");
+                studentId = (String) PropertyUtils.getNestedProperty(attributes, STUDENT_REF_UNIQUESTATEID);
             } catch (NoSuchMethodException e) {
                 LOG.warn("Unable to get StudentID within {} for StudentAssessment transform", attributes);
                 reportWarnings(neutralRecord.getSourceFile(), new ElementSourceImpl(neutralRecord), CoreMessageCode.CORE_0041, attributes);
@@ -138,7 +144,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
             }
 
             try {
-                administrationDate = (String) attributes.get("administrationDate");
+                administrationDate = (String) attributes.get("AdministrationDate");
             } catch (ClassCastException e) {
                 LOG.error("Illegal value {} for administration date, must be a string");
                 reportError(neutralRecord.getSourceFile(), new ElementSourceImpl(neutralRecord), CoreMessageCode.CORE_0039, attributes.get("administrationDate"));
@@ -146,9 +152,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
 
             try {
                 @SuppressWarnings("unchecked")
-                Map<String, Object> assessment = (Map<String, Object>) attributes.get("assessmentId");
-                @SuppressWarnings("unchecked")
-                Map<String, Object> assessmentIdentity = (Map<String, Object>) assessment.get("AssessmentIdentity");
+                Map<String, Object> assessmentIdentity = (Map<String, Object>) getProperty(attributes, ASSESSMENT_REF_IDENTITY);
 
                 assessmentTitle = (String) assessmentIdentity.get(ASSESSMENT_TITLE);
                 academicSubject = (String) assessmentIdentity.get(ACADEMIC_SUBJECT);
@@ -250,7 +254,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
         query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
 
         for (Map.Entry<String, Object> entry : queryCriteria.entrySet()) {
-            query.addCriteria(Criteria.where(LOCAL_PARENT_IDS + entry.getKey()).is(entry.getValue()));
+            query.addCriteria(Criteria.where(entry.getKey()).is(entry.getValue()));
         }
 
         Iterable<NeutralRecord> sassItems = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(
@@ -259,8 +263,8 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
         if (sassItems != null) {
             for (NeutralRecord sai : sassItems) {
 
-                String assessmentItemIdentificatonCode = (String) sai.getLocalParentIds().get(
-                        "assessmentItemIdentificatonCode");
+                String assessmentItemIdentificatonCode = (String) getProperty(sai.getAttributes(),
+                        ASSESSMENTITEM_REF_ID_CODE);
 
                 if (assessmentItemIdentificatonCode != null) {
                     Map<String, String> assessmentSearchPath = new HashMap<String, String>();
@@ -284,4 +288,5 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
         }
         return studentAssessmentItems;
     }
+
 }

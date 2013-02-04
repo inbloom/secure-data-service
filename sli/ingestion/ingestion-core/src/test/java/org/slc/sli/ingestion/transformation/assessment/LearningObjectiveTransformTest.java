@@ -93,6 +93,7 @@ public class LearningObjectiveTransformTest {
     @SuppressWarnings("unchecked")
     @Test
     public void testPerform() {
+        String parentLO = "ParentLearningObjectiveReference";
         NeutralRecord root = createNeutralRecord("root", "csn-0", "root objective", "academic subject", "fifth grade");
         NeutralRecord child1 = createNeutralRecord("child1", "csn-1", "child objective 1", "academic subject",
                 "fifth grade");
@@ -111,9 +112,9 @@ public class LearningObjectiveTransformTest {
         transform.perform(job);
 
         Map<String, Object> child1Parent = (Map<String, Object>) child1.getAttributes().get(
-                "LearningObjectiveReference");
+                parentLO);
         Map<String, Object> grandChildParent = (Map<String, Object>) grandChild1.getAttributes().get(
-                "LearningObjectiveReference");
+                parentLO);
 
         Assert.assertEquals("root objective",
                 ((Map<String, Object>) child1Parent.get("LearningObjectiveIdentity")).get("Objective"));
@@ -136,9 +137,9 @@ public class LearningObjectiveTransformTest {
         nr.setLocalParentIds(new HashMap<String, Object>());
         setAtPath(nr.getAttributes(), LearningObjectiveTransform.LO_ID_CODE_PATH, objectiveId);
         setAtPath(nr.getAttributes(), LearningObjectiveTransform.LO_CONTENT_STANDARD_NAME_PATH, contentStandardName);
-        setAtPath(nr.getAttributes(), "objective", objective);
-        setAtPath(nr.getAttributes(), "academicSubject", subject);
-        setAtPath(nr.getAttributes(), "objectiveGradeLevel", grade);
+        setAtPath(nr.getAttributes(), "Objective", objective);
+        setAtPath(nr.getAttributes(), "AcademicSubject", subject);
+        setAtPath(nr.getAttributes(), "ObjectiveGradeLevel", grade);
         setAtPath(nr.getAttributes(), LearningObjectiveTransform.LEARNING_OBJ_REFS,
                 new ArrayList<Map<String, Object>>());
         return nr;
@@ -149,9 +150,9 @@ public class LearningObjectiveTransformTest {
         List<Map<String, Object>> childRefs = (List<Map<String, Object>>) parent.getAttributes().get(
                 LearningObjectiveTransform.LEARNING_OBJ_REFS);
         Map<String, Object> map = new HashMap<String, Object>();
-        setAtPath(map, "Objective", child.getAttributes().get("objective"));
-        setAtPath(map, "AcademicSubject", child.getAttributes().get("academicSubject"));
-        setAtPath(map, "ObjectiveGradeLevel", child.getAttributes().get("objectiveGradeLevel"));
+        setAtPath(map, "Objective", child.getAttributes().get("Objective"));
+        setAtPath(map, "AcademicSubject", child.getAttributes().get("AcademicSubject"));
+        setAtPath(map, "ObjectiveGradeLevel", child.getAttributes().get("ObjectiveGradeLevel"));
         Map<String, Object> identity = new HashMap<String, Object>();
         identity.put("LearningObjectiveIdentity", map);
         childRefs.add(identity);

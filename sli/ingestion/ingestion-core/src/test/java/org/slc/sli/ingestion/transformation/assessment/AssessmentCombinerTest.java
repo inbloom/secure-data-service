@@ -290,7 +290,7 @@ public class AssessmentCombinerTest {
     @Test
     public void testGetAssessmentItem() throws Throwable {
         NeutralRecord assessment = buildTestAssessmentNeutralRecord();
-        assessment.setAttributeField("objectiveAssessmentRefs", null);
+        assessment.setAttributeField("ObjectiveAssessmentReference", null);
         Map<Object, NeutralRecord> assessmentsMap = new HashMap<Object, NeutralRecord>();
         assessmentsMap.put(assessment.getLocalId(), assessment);
         PrivateAccessor.setField(combiner, "assessments", assessmentsMap);
@@ -311,8 +311,8 @@ public class AssessmentCombinerTest {
     @Test
     public void testNoAssessmentItems() throws Throwable {
         NeutralRecord assessment = buildTestAssessmentNeutralRecord();
-        assessment.setAttributeField("objectiveAssessmentRefs", null);
-        assessment.setAttributeField("assessmentItem", new ArrayList<NeutralRecord>());
+        assessment.setAttributeField("ObjectiveAssessmentReference", null);
+        assessment.setAttributeField("AssessmentItemReference", new ArrayList<NeutralRecord>());
         Map<Object, NeutralRecord> assessmentsMap = new HashMap<Object, NeutralRecord>();
         assessmentsMap.put(assessment.getLocalId(), assessment);
         PrivateAccessor.setField(combiner, "assessments", assessmentsMap);
@@ -322,7 +322,7 @@ public class AssessmentCombinerTest {
         List<NeutralRecord> transformedList = (List<NeutralRecord>) PrivateAccessor.getField(combiner, "transformedAssessments");
         assertTrue(transformedList.size() > 0);
         NeutralRecord transformed = transformedList.get(0);
-        assertTrue(!transformed.getAttributes().containsKey("assessmentItem"));
+        assertTrue(!transformed.getAttributes().containsKey("AssessmentItemReference"));
     }
 
     @SuppressWarnings("unchecked")
@@ -330,61 +330,63 @@ public class AssessmentCombinerTest {
 
         NeutralRecord assessment = new NeutralRecord();
         assessment.setRecordType("assessment");
-        assessment.setAttributeField("assessmentTitle", "assessmentTitle");
+        assessment.setAttributeField("AssessmentTitle", "assessmentTitle");
         assessment.setAttributeField("parentAssessmentFamilyId", "606L1");
 
         List<Map<String, Object>> assessmentIdentificationCodeList = new ArrayList<Map<String, Object>>();
         Map<String, Object> assessmentIdentificationCode1 = new HashMap<String, Object>();
         assessmentIdentificationCode1.put("ID", "202A1");
-        assessmentIdentificationCode1.put("identificationSystem", "School");
-        assessmentIdentificationCode1.put("assigningOrganizationCode", "assigningOrganizationCode");
+        assessmentIdentificationCode1.put("IdentificationSystem", "School");
+        assessmentIdentificationCode1.put("AssigningOrganizationCode", "assigningOrganizationCode");
         Map<String, Object> assessmentIdentificationCode2 = new HashMap<String, Object>();
         assessmentIdentificationCode2.put("ID", "303A1");
-        assessmentIdentificationCode2.put("identificationSystem", "State");
-        assessmentIdentificationCode2.put("assigningOrganizationCode", "assigningOrganizationCode2");
+        assessmentIdentificationCode2.put("IdentificationSystem", "State");
+        assessmentIdentificationCode2.put("AssigningOrganizationCode", "assigningOrganizationCode2");
         assessmentIdentificationCodeList.add(assessmentIdentificationCode1);
         assessmentIdentificationCodeList.add(assessmentIdentificationCode2);
-        assessment.setAttributeField("assessmentIdentificationCode", assessmentIdentificationCodeList);
+        assessment.setAttributeField("AssessmentIdentificationCode", assessmentIdentificationCodeList);
 
-        assessment.setAttributeField("assessmentCategory", "Achievement test");
-        assessment.setAttributeField("academicSubject", "English");
-        assessment.setAttributeField("gradeLevelAssessed", "Adult Education");
-        assessment.setAttributeField("lowestGradeLevelAssessed", "Early Education");
+        assessment.setAttributeField("AssessmentCategory", "Achievement test");
+        assessment.setAttributeField("AcademicSubject", "English");
+        assessment.setAttributeField("GradeLevelAssessed", "Adult Education");
+        assessment.setAttributeField("LowestGradeLevelAssessed", "Early Education");
 
         List<Map<String, Object>> assessmentPerformanceLevelList = new ArrayList<Map<String, Object>>();
         Map<String, Object> assessmentPerformanceLevel1 = new HashMap<String, Object>();
-        assessmentPerformanceLevel1.put("maximumScore", "1600");
-        assessmentPerformanceLevel1.put("minimumScore", "2400");
-        assessmentPerformanceLevel1.put("assessmentReportingMethod", "C-scaled scores");
+        assessmentPerformanceLevel1.put("MaximumScore", "1600");
+        assessmentPerformanceLevel1.put("MinimumScore", "2400");
+        assessmentPerformanceLevel1.put("AssessmentReportingMethod", "C-scaled scores");
         Map<String, Object> performanceLevelDescriptor1 = new HashMap<String, Object>();
-        performanceLevelDescriptor1.put("description", "description1");
-        assessmentPerformanceLevel1.put("performanceLevelDescriptor", performanceLevelDescriptor1);
+        performanceLevelDescriptor1.put("Description", "description1");
+        assessmentPerformanceLevel1.put("PerformanceLevelDescriptor", performanceLevelDescriptor1);
 
         Map<String, Object> assessmentPerformanceLevel2 = new HashMap<String, Object>();
-        assessmentPerformanceLevel2.put("maximumScore", "1800");
-        assessmentPerformanceLevel2.put("minimumScore", "2600");
-        assessmentPerformanceLevel2.put("assessmentReportingMethod", "ACT score");
+        assessmentPerformanceLevel2.put("MaximumScore", "1800");
+        assessmentPerformanceLevel2.put("MinimumScore", "2600");
+        assessmentPerformanceLevel2.put("AssessmentReportingMethod", "ACT score");
         Map<String, Object> performanceLevelDescriptor2 = new HashMap<String, Object>();
-        performanceLevelDescriptor2.put("description", "description2");
-        assessmentPerformanceLevel2.put("performanceLevelDescriptor", performanceLevelDescriptor2);
+        performanceLevelDescriptor2.put("Description", "description2");
+        assessmentPerformanceLevel2.put("PerformanceLevelDescriptor", performanceLevelDescriptor2);
 
         assessmentPerformanceLevelList.add(assessmentPerformanceLevel1);
         assessmentPerformanceLevelList.add(assessmentPerformanceLevel2);
-        assessment.setAttributeField("assessmentPerformanceLevel", assessmentPerformanceLevelList);
+        assessment.setAttributeField("AssessmentPerformanceLevel", assessmentPerformanceLevelList);
 
-        assessment.setAttributeField("contentStandard", "SAT");
-        assessment.setAttributeField("assessmentForm", "assessmentForm");
-        assessment.setAttributeField("version", "1");
-        assessment.setAttributeField("revisionDate", "1999-01-01");
-        assessment.setAttributeField("maxRawScore", "2400");
-        assessment.setAttributeField("nomenclature", "nomenclature");
+        assessment.setAttributeField("ContentStandard", "SAT");
+        assessment.setAttributeField("AssessmentForm", "assessmentForm");
+        assessment.setAttributeField("Version", "1");
+        assessment.setAttributeField("RevisionDate", "1999-01-01");
+        assessment.setAttributeField("MaxRawScore", "2400");
+        assessment.setAttributeField("Nomenclature", "nomenclature");
 
-        assessment.setAttributeField("periodDescriptorRef", PERIOD_DESCRIPTOR_CODE_VALUE);
-        assessment.setAttributeField("objectiveAssessmentRefs", Arrays.asList(OBJ1_ID, OBJ2_ID));
+        assessment.setAttributeField("PeriodDescriptorRef", PERIOD_DESCRIPTOR_CODE_VALUE);
+        assessment.setAttributeField("ObjectiveAssessmentRefs", Arrays.asList(OBJ1_ID, OBJ2_ID));
 
         Map<String, Object> item = new HashMap<String, Object>();
-        item.put("identificationCode", ASS_ITEM_ID_1);
-        assessment.setAttributeField("assessmentItem", Arrays.asList(item));
+        Map<String, Object> temp = new HashMap<String, Object>();
+        temp.put("AssessmentItemIdentificationCode", ASS_ITEM_ID_1);
+        item.put("AssessmentItemIdentity", temp);
+        assessment.setAttributeField("AssessmentItemReference", Arrays.asList(item));
 
         return assessment;
     }
@@ -480,3 +482,4 @@ public class AssessmentCombinerTest {
     }
 
 }
+

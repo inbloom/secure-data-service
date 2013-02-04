@@ -58,7 +58,12 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     private static final String ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
     private static final String ASSESSMENT_TRANSFORMED = "assessment_transformed";
     private static final String ASSESSMENT_ITEM = "assessmentItem";
-    private static final String PARENT_ASSESSMENT_FAMILY_TITLE = "parentAssessmentFamilyTitle";
+    private static final String ASSESSMENTITEM_REFERENCE = "AssessmentItemReference";
+    private static final String VALUE = "_value";
+    private static final String PARENT_ASSESSMENT_FAMILY_TITLE = "AssessmentFamilyReference.AssessmentFamilyIdentity.AssessmentFamilyTitle";
+    private static final String OBJECTIVE_ASSESSMENT_REFERENCE = "ObjectiveAssessmentReference";
+    private static final String OBJECTIVE_ASSESSMENT_IDENTIFICATION_CODE = "ObjectiveAssessmentIdentity.ObjectiveAssessmentIdentificationCode";
+    private static final String ASSESSMENTITEM_IDENTIFICATION_CODE = "AssessmentItemIdentity.AssessmentItemIdentificationCode" ;
 
     @Autowired
     private ObjectiveAssessmentBuilder builder;
@@ -103,15 +108,27 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
 
             // get the key of parent
             Map<String, Object> attrs = neutralRecord.getAttributes();
-            String parentFamilyTitle = (String) attrs.remove(PARENT_ASSESSMENT_FAMILY_TITLE);
+            //String parentFamilyTitle = (String) attrs.remove(PARENT_ASSESSMENT_FAMILY_TITLE);
+            String parentFamilyTitle = (String) getProperty(attrs, PARENT_ASSESSMENT_FAMILY_TITLE);
+            attrs.remove("AssessmentFamilyReference");
             String familyHierarchyName = getAssocationFamilyMap(parentFamilyTitle, new HashMap<String, Map<String, Object>>(), "");
             attrs.put("assessmentFamilyHierarchyName", familyHierarchyName);
 
             @SuppressWarnings("unchecked")
-            List<String> objectiveAssessmentRefs = (List<String>) attrs.get("objectiveAssessmentRefs");
-            attrs.remove("objectiveAssessmentRefs");
+            List<Map<String, Object>> objectiveAssessments = (List<Map<String, Object>>) attrs.get(OBJECTIVE_ASSESSMENT_REFERENCE);
+            List<String> objectiveAssessmentRefs = new ArrayList<String>();
+
+            if(objectiveAssessments != null){
+                for(Map<String, Object> objectiveAssessment : objectiveAssessments ) {
+                    String res = (String) getProperty(objectiveAssessment, OBJECTIVE_ASSESSMENT_IDENTIFICATION_CODE);
+                    if(res != null) {
+                        objectiveAssessmentRefs.add(res);
+                    }
+                }
+            }
+            attrs.remove(OBJECTIVE_ASSESSMENT_REFERENCE);
             List<Map<String, Object>> familyObjectiveAssessments = new ArrayList<Map<String, Object>>();
-            if (objectiveAssessmentRefs != null && !(objectiveAssessmentRefs.isEmpty())) {
+            if (!(objectiveAssessmentRefs.isEmpty())) {
                 for (String objectiveAssessmentRef : objectiveAssessmentRefs) {
                     Map<String, Object> objectiveAssessment = builder.getObjectiveAssessment(
                             getNeutralRecordMongoAccess(), getJob(), objectiveAssessmentRef);
@@ -129,11 +146,11 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
                 attrs.put("objectiveAssessment", familyObjectiveAssessments);
             }
 
-            if (attrs.containsKey(ASSESSMENT_ITEM)) {
+            if (attrs.containsKey(ASSESSMENTITEM_REFERENCE)) {
                 @SuppressWarnings("unchecked")
-                List<Map<String, Object>> items = (List<Map<String, Object>>) attrs.get(ASSESSMENT_ITEM);
+                List<Map<String, Object>> items = (List<Map<String, Object>>) attrs.get(ASSESSMENTITEM_REFERENCE);
                 if (items == null || items.size() == 0) {
-                    attrs.remove(ASSESSMENT_ITEM);
+                    attrs.remove(ASSESSMENTITEM_REFERENCE);
                 } else {
                     List<Map<String, Object>> assessmentItems = getAssessmentItems(items);
                     if (assessmentItems != null) {
@@ -157,8 +174,9 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
         List<String> identificationCodes = new ArrayList<String>();
         // build in clause
         for (Map<String, Object> item : itemReferences) {
-            if (item.containsKey("identificationCode")) {
-                identificationCodes.add((String) item.get("identificationCode"));
+            String identificationCode = (String) getProperty(item, ASSESSMENTITEM_IDENTIFICATION_CODE);
+            if (identificationCode != null) {
+                identificationCodes.add(identificationCode);
             }
         }
 
@@ -167,7 +185,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
                 LOG.debug("query for assessmentItems: {}", identificationCodes);
             }
             NeutralQuery constraint = new NeutralQuery();
-            constraint.addCriteria(new NeutralCriteria("identificationCode", NeutralCriteria.CRITERIA_IN,
+            constraint.addCriteria(new NeutralCriteria(ASSESSMENTITEM_IDENTIFICATION_CODE, NeutralCriteria.CRITERIA_IN,
                     identificationCodes));
             NeutralRecordRepository repo = getNeutralRecordMongoAccess().getRecordRepository();
             Iterable<NeutralRecord> records = repo.findAllForJob(ASSESSMENT_ITEM, constraint);
@@ -188,7 +206,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     private Map<String, Object> getAssessmentPeriodDescriptor(String assessmentPeriodDescriptorRef) {
         Query query = new Query().limit(0);
         query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
-        query.addCriteria(Criteria.where("body.codeValue").is(assessmentPeriodDescriptorRef));
+        query.addCriteria(Criteria.where("body.CodeValue").is(assessmentPeriodDescriptorRef));
 
         Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(
                 ASSESSMENT_PERIOD_DESCRIPTOR, query);

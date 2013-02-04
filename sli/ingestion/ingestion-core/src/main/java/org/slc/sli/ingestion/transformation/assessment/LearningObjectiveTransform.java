@@ -21,6 +21,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -28,10 +33,6 @@ import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 /**
  * Modifies the LearningObjective to match the SLI datamodel.
@@ -47,15 +48,15 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
 
     public static final String LEARNING_OBJECTIVE = "learningObjective";
     public static final String LEARNING_OBJECTIVE_TRANSFORMED = "learningObjective_transformed";
-    public static final String ID_CODE = "identificationCode";
-    public static final String CONTENT_STANDARD_NAME = "contentStandardName";
-    public static final String LO_ID_CODE_PATH = "learningObjectiveId." + ID_CODE;
-    public static final String LO_CONTENT_STANDARD_NAME_PATH = "learningObjectiveId." + CONTENT_STANDARD_NAME;
+    public static final String ID_CODE = "IdentificationCode";
+    public static final String CONTENT_STANDARD_NAME = "ContentStandardName";
+    public static final String LO_ID_CODE_PATH = "LearningObjectiveId." + ID_CODE;
+    public static final String LO_CONTENT_STANDARD_NAME_PATH = "LearningObjectiveId." + CONTENT_STANDARD_NAME;
     public static final String LS_ID_CODE_PATH = ID_CODE;
-    public static final String LS_CONTENT_STANDARD_NAME_PATH = "learningStandardId." + CONTENT_STANDARD_NAME;
-    public static final String LEARNING_OBJ_REFS = "learningObjectiveRefs";
-    public static final String LEARNING_STD_REFS = "learningStandardRefs";
-    public static final String PARENT_LEARNING_OBJ_REF = "LearningObjectiveReference";
+    public static final String LS_CONTENT_STANDARD_NAME_PATH = "LearningStandardIdentity." + CONTENT_STANDARD_NAME;
+    public static final String LEARNING_OBJ_REFS = "LearningObjectiveReference";
+    public static final String LEARNING_STD_REFS = "LearningStandardReference";
+    public static final String PARENT_LEARNING_OBJ_REF = "ParentLearningObjectiveReference";
     public static final String LOCAL_ID_OBJECTIVE_ID = "parentObjectiveId";
     public static final String LOCAL_ID_LEARNING_STANDARDS = "childLearningStandards";
 
@@ -91,9 +92,9 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
 
         for (NeutralRecord lo : learningObjectives) {
             Map<String, Object> attributes = lo.getAttributes();
-            String objective = getByPath("objective", attributes);
-            String academicSubject = getByPath("academicSubject", attributes);
-            String objectiveGradeLevel = getByPath("objectiveGradeLevel", attributes);
+            String objective = getByPath("Objective", attributes);
+            String academicSubject = getByPath("AcademicSubject", attributes);
+            String objectiveGradeLevel = getByPath("ObjectiveGradeLevel", attributes);
             if (objective != null && academicSubject != null && objectiveGradeLevel != null) {
                 if (learningObjectiveIdMap.containsKey(new LearningObjectiveId(objective, academicSubject,
                         objectiveGradeLevel))) {
@@ -120,9 +121,9 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
         Map<String, Object> parentLearningObjRefs = new HashMap<String, Object>();
 
         Map<String, Object> learningObjIdentity = new HashMap<String, Object>();
-        learningObjIdentity.put("Objective", getByPath("objective", attributes));
-        learningObjIdentity.put("AcademicSubject", getByPath("academicSubject", attributes));
-        learningObjIdentity.put("ObjectiveGradeLevel", getByPath("objectiveGradeLevel", attributes));
+        learningObjIdentity.put("Objective", getByPath("Objective", attributes));
+        learningObjIdentity.put("AcademicSubject", getByPath("AcademicSubject", attributes));
+        learningObjIdentity.put("ObjectiveGradeLevel", getByPath("ObjectiveGradeLevel", attributes));
         parentLearningObjRefs.put("LearningObjectiveIdentity", learningObjIdentity);
 
         for (Map<String, Object> childLORef : childLearningObjRefs) {
@@ -139,10 +140,10 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
             } else {
                 // try sli db
                 NeutralQuery query = new NeutralQuery();
-                query.addCriteria(new NeutralCriteria("objective", NeutralCriteria.OPERATOR_EQUAL, objective));
-                query.addCriteria(new NeutralCriteria("academicSubject", NeutralCriteria.OPERATOR_EQUAL,
+                query.addCriteria(new NeutralCriteria("Objective", NeutralCriteria.OPERATOR_EQUAL, objective));
+                query.addCriteria(new NeutralCriteria("AcademicSubject", NeutralCriteria.OPERATOR_EQUAL,
                         academicSubject));
-                query.addCriteria(new NeutralCriteria("objectiveGradeLevel", NeutralCriteria.OPERATOR_EQUAL,
+                query.addCriteria(new NeutralCriteria("ObjectiveGradeLevel", NeutralCriteria.OPERATOR_EQUAL,
                         objectiveGradeLevel));
 
                 Entity childEntity = getMongoEntityRepository().findOne("learningObjective", query);
