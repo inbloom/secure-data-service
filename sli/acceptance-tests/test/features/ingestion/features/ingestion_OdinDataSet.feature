@@ -62,54 +62,7 @@ When zip file is scp to ingestion landing zone
   And a batch job log has been created
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
-     | assessment                               |                 78|
-     | attendance                               |                 14|
-     | calendarDate                             |               1161|
-     | cohort                                   |                  9|
-     | competencyLevelDescriptor                |                  4|
-     | course                                   |                 34|
-     | courseOffering                           |                102|
-     | courseSectionAssociation                 |                  0|
-     | courseTranscript                         |                 75|
-     | disciplineAction                         |                 75|
-     | disciplineIncident                       |                 75|
-     | educationOrganization                    |                  6|
-     | educationOrganizationAssociation         |                  0|
-     | educationOrganizationSchoolAssociation   |                  0|
-     | grade                                    |                 75|
-     | gradebookEntry                           |               1270|
-     | gradingPeriod                            |                  6|
-     | graduationPlan                           |                  3|
-     | learningObjective                        |                750|
-     | learningStandard                         |                  0|
-     | parent                                   |                 20|
-     | program                                  |                 70|
-     | reportCard                               |                 30|
-     | schoolSessionAssociation                 |                  0|
-     | section                                  |                 75|
-     | sectionAssessmentAssociation             |                  0|
-     | sectionSchoolAssociation                 |                  0|
-     | session                                  |                  6|
-     | sessionCourseAssociation                 |                  0|
-     | staff                                    |                 70|
-     | staffCohortAssociation                   |                 27|
-     | staffEducationOrganizationAssociation    |                170|
-     | staffProgramAssociation                  |                676|
      | student                                  |                 10|
-     | studentAcademicRecord                    |                 30|
-     | studentAssessment                        |                180|
-     | studentCohortAssociation                 |                 24|
-     | studentCompetency                        |                375|
-     | studentCompetencyObjective               |                  0|
-     | studentDisciplineIncidentAssociation     |                 75|
-     | studentGradebookEntry                    |               1270|
-     | studentParentAssociation                 |                 20|
-     | studentProgramAssociation                |                 88|
-     | studentSchoolAssociation                 |                 30|
-     | studentSectionAssociation                |                 75|
-     | teacherSchoolAssociation                 |                 20|
-     | teacherSectionAssociation                |                 75|
-    And I should see "Processed 7153 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
 
@@ -206,3 +159,21 @@ Scenario: Verify the sli verification script confirms everything ingested correc
     Given the edfi manifest that was generated in the 'generated' directory
     And the tenant is 'Midgar'
     Then the sli-verify script completes successfully
+
+Scenario: Verify the course optioinal fields is ingested correctly
+    And I check to find if record is in collection:
+     | collectionName              | expectedRecordCount | searchParameter                          | searchValue                                     | searchType           |
+     | course                      | 14                  | body.courseLevel                         |Honors                                           | string               |
+     | course                      | 2                   | body.courseLevelCharacteristics          |Magnet                                           | string               |
+     | course                      | 1                   | body.gradesOffered                       |First grade                                      | string               |
+     | course                      | 3                   | body.subjectArea                         |Reading                                          | string               |
+     | course                      | 1                   | body.courseDescription                   |this is a course for First grade                 | string               |
+     | course                      | 9                   | body.courseGPAApplicability              |Not Applicable                                   | string               |
+     | course                      | 12                  | body.courseDefinedBy                     |School                                           | string               |
+     | course                      | 14                  | body.careerPathway                       |Science, Technology, Engineering and Mathematics | string               |
+     | courseTranscript            | 12                  | body.gradeLevelWhenTaken                 |Seventh grade                                    | string               |
+     | courseTranscript            | 26                  | body.finalLetterGradeEarned              |C+                                               | string               |
+     | courseTranscript            | 75                  | body.courseRepeatCode                    |RepeatCounted                                    | string               |
+     | courseTranscript            | 75                  | body.methodCreditEarned                  |Classroom credit                                 | string               |
+     | courseTranscript            | 75                  | body.creditsAttempted.credit             |3                                                | integer              |
+     | courseTranscript            | 7                   | body.finalNumericGradeEarned             |80                                               | integer              |

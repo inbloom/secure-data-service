@@ -15,12 +15,14 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
-
 require_relative 'spec_helper'
 require_relative '../lib/WorldDefinition/world_builder.rb'
 require_relative '../lib/OutputGeneration/XmlDataWriter.rb'
 require_relative '../lib/Shared/util.rb'
 require_relative '../lib/EntityCreation/work_order_queue.rb'
+require_relative '../lib/OutputGeneration/DataWriter.rb'
+require_relative '../lib/EntityCreation/entity_factory.rb'
+require_relative '../lib/Shared/EntityClasses/course.rb'
 
 # specifications for the world builder
 describe "WorldBuilder" do
@@ -29,13 +31,15 @@ describe "WorldBuilder" do
       # generate the data once
       before(:all) do
         configYAML   = YAML.load_file(File.join(File.dirname(__FILE__),'../config.yml'))
-        scenarioYAML = load_scenario("10students", configYAML)
+        scenarioYAML = load_scenario("10students_optional", configYAML)
         rand         = Random.new(configYAML['seed'])
         @queue        = WorkOrderQueue.new
         @pre_requisites = {:seas => {}, :leas => {}, :elementary => {}, :middle => {}, :high => {}}
         @builder      = WorldBuilder.new(rand, scenarioYAML, @queue, @pre_requisites)
+        BaseEntity.set_scenario(scenarioYAML)
         @world = @builder.build
-  	  end
+        @factory = EntityFactory.new(rand)
+      end
 
       it "education organization interchange will contain a single state education agency" do
         @world["seas"].length.should eq(1)
@@ -69,6 +73,23 @@ describe "WorldBuilder" do
         end
         count.should eq(34)
         @queue.count(Course).should eq(34)
+        course_entity = @factory.create(((@queue.get_work_orders(Course)))[0])[0]
+
+        #verify course entity optional field is generated
+        course_entity.nil?.should be false
+        course_entity.course_level[:level].should eq("Honors")
+        course_entity.course_level[:level_char].should eq("Other")
+        course_entity.grades_offered.should eq("Kindergarten")
+        course_entity.subject_area.should eq("Mathematics")
+        course_entity.description.should eq("this is a course for Kindergarten")
+        course_entity.gpa_appl.should eq("Applicable")
+        course_entity.defined_by.should eq("SEA")
+        course_entity.career_path.should eq("Science, Technology, Engineering and Mathematics")
+        course_entity.learning_objectives[0].objective.should eq("Generic Learning Objective 1")
+        course_entity.learning_objectives[0].academic_subject.should eq("Mathematics")
+        course_entity.learning_objectives[0].objective_grade_level.should eq("Kindergarten")
+        course_entity.competency_levels[0].should eq("Incompetent")
+
       end
       it "education organization interchange will contain the correct number of programs" do
         @queue.count(Program).should eq(62)
@@ -107,6 +128,13 @@ describe "WorldBuilder" do
 
       it "will create the configured number of cohorts for each school" do
         @queue.count(Cohort).should eq(9)
+
+        # check that optional fields are generated
+        @queue.get_work_orders(Cohort).each{|cohort|
+          cohort_entity = @factory.create(cohort)
+          cohort_entity.subject.should_not be_nil
+          cohort_entity.programs.should have_at_least(1).items
+        }
       end
 
       it "will associate a staff member for each cohort for each year" do

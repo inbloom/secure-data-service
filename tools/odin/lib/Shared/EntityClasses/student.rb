@@ -17,8 +17,6 @@ limitations under the License.
 =end
 
 require_relative 'baseEntity'
-
-# creates student
 class Student < BaseEntity
 
   attr_accessor :id, :year_of, :rand, :sex, :firstName, :middleName, :lastName, :suffix,
