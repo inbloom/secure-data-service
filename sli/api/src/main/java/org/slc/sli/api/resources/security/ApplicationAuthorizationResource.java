@@ -18,6 +18,8 @@
 package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -59,6 +61,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
+import com.google.common.collect.Sets;
+import com.mongodb.util.Hash;
+
 /**
  *
  */
@@ -88,10 +93,8 @@ public class ApplicationAuthorizationResource {
     public static final String RESOURCE_NAME = "applicationAuthorization";
 
     public static final String UUID = "uuid";
-    public static final String AUTH_ID = "authId";
-    public static final String AUTH_TYPE = "authType";
-    public static final String EDORG_AUTH_TYPE = "EDUCATION_ORGANIZATION";
-    public static final String APP_IDS = "appIds";
+    public static final String APP_ID = "applicationId";
+    public static final String EDORG_IDS = "edorgs";
     public static final String STATE_ORGANIZATION_ID = "stateOrganizationId";
     public static final String NAME_OF_INSTITUTION = "nameOfInstitution";
     public static final String CLIENT_ID = "clientId";
@@ -121,7 +124,6 @@ public class ApplicationAuthorizationResource {
         if (uuid != null) {
             EntityBody entityBody = service.get(uuid);
             if (entityBody != null) {
-                verifyAccess((String) entityBody.get(AUTH_ID), null);
                 return Response.status(Status.OK).entity(entityBody).build();
             }
         }
@@ -131,10 +133,27 @@ public class ApplicationAuthorizationResource {
     @POST
     @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE })
     public Response createAuthorization(EntityBody newAppAuth, @Context final UriInfo uriInfo) {
-        verifyAccess((String) newAppAuth.get(AUTH_ID), null);
+
+
+        //make sure we don't already have an entry for this app
+        Iterable<EntityBody> existingAuths = service.list(new NeutralQuery(new NeutralCriteria(APP_ID, "=", newAppAuth.get(APP_ID))));
+        if (existingAuths.iterator().hasNext()) {
+            EntityBody body = new EntityBody();
+            body.put("message", "ApplicationAuthorization for the application already exists.");
+            return Response.status(Status.BAD_REQUEST).entity(body).build();
+        }
+
+        //Make sure the app exists
+        Entity appEnt = repo.findOne("application", new NeutralQuery(new NeutralCriteria("_id", "=", newAppAuth.get(APP_ID))));
+        if (appEnt != null) {
+            EntityBody body = new EntityBody();
+            body.put("message", "Cannot create application authorization for application that does not exist.");
+            return Response.status(Status.BAD_REQUEST).entity(body).build();
+        }
+
+        verifyAccess((Collection<String>) newAppAuth.get(EDORG_IDS));
 
         String uuid = service.create(newAppAuth);
-        logChanges(uriInfo, null, newAppAuth);
         String uri = uriToString(uriInfo) + "/" + uuid;
         return Response.status(Status.CREATED).header("Location", uri).build();
     }
@@ -145,69 +164,39 @@ public class ApplicationAuthorizationResource {
     public Response updateAuthorization(@PathParam(UUID) String uuid, EntityBody auth, @Context final UriInfo uriInfo) {
 
         EntityBody oldAuth = service.get(uuid);
-        String oldTenant = TenantContext.getTenantId();
-        verifyAccess((String) oldAuth.get(AUTH_ID), oldTenant);
 
-        if (!oldAuth.get(AUTH_ID).equals(auth.get(AUTH_ID))) {
+        if (!oldAuth.get(APP_ID).equals(auth.get(APP_ID))) {
             EntityBody body = new EntityBody();
-            body.put("message", "authId is read only");
+            body.put("message", "applicationId is read only");
             return Response.status(Status.BAD_REQUEST).entity(body).build();
         }
 
-        if (!oldAuth.get(AUTH_TYPE).equals(auth.get(AUTH_TYPE))) {
-            EntityBody body = new EntityBody();
-            body.put("message", "authType is read only");
-            return Response.status(Status.BAD_REQUEST).entity(body).build();
-        }
+        // Ensure uniqeness accross all edorgs
+        List<String> edorgs = (List) auth.get(EDORG_IDS);
+        Set<String> unique = new LinkedHashSet<String>(edorgs);
+        edorgs = new ArrayList<String>(unique);
+        auth.put(EDORG_IDS, edorgs);
+
+        Set<String> oldEdorgs = new HashSet((List<String>) oldAuth.get(EDORG_IDS));
         
-        // Ensure uniqeness accross all apps
-        List<String> apps = (List) auth.get(APP_IDS);
-        Set<String> unique = new LinkedHashSet<String>(apps);
-        apps = new ArrayList<String>(unique);
-        auth.put(APP_IDS, apps);
-
+        //symmetric difference is both the items that are unique to either list, e.g. what's been added and removed
+        Set<String> delta = Sets.symmetricDifference(unique, oldEdorgs);
+        verifyAccess(delta);
         boolean status = service.update(uuid, auth);
-        if (status) { // if the entity was changed
-            logChanges(uriInfo, oldAuth, auth);
-        }
         if (status) {
             return Response.status(Status.NO_CONTENT).build();
         }
         return Response.status(Status.BAD_REQUEST).build();
     }
 
+
     @GET
     @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE })
     public Response getAuthorizations(@Context UriInfo info) {
-        List<Map<String, Object>> results = new ArrayList<Map<String, Object>>();
-        String edOrgId = SecurityUtil.getEdOrgId();
-
-        if (SecurityUtil.hasRight(Right.EDORG_APP_AUTHZ)) {
-            if (edOrgId != null) {
-                NeutralQuery query = new NeutralQuery();
-                query.addCriteria(new NeutralCriteria(AUTH_TYPE, "=", EDORG_AUTH_TYPE));
-                query.addCriteria(new NeutralCriteria(AUTH_ID, "=", edOrgId));
-                Entity ent = repo.findOne(RESOURCE_NAME, query);
-                if (ent != null) {
-                    ent.getBody().put("link", uriToString(info) + "/" + ent.getEntityId());
-                    ent.getBody().put("id", ent.getEntityId());
-                    results.add(ent.getBody());
-                }
-            }
-        } else if (SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
-            List<String> delegateEdOrgs = delegationUtil.getAppApprovalDelegateEdOrgs();
-            for (String curEdOrg : delegateEdOrgs) {
-                NeutralQuery finalQuery = new NeutralQuery();
-                finalQuery.addCriteria(new NeutralCriteria(AUTH_TYPE, "=", EDORG_AUTH_TYPE));
-                finalQuery.addCriteria(new NeutralCriteria(AUTH_ID, "=", curEdOrg));
-                Entity ent = repo.findOne(RESOURCE_NAME, finalQuery);
-                if (ent != null) {
-                    ent.getBody().put("link", uriToString(info) + "/" + ent.getEntityId());
-                    ent.getBody().put("id", ent.getEntityId());
-                    results.add(ent.getBody());
-                }
-            }
-
+        Iterable<EntityBody> ents = service.list(new NeutralQuery());
+        List<EntityBody> results = new ArrayList<EntityBody>();
+        for (EntityBody body : ents) {
+            results.add(body);
         }
         return Response.status(Status.OK).entity(results).build();
     }
@@ -216,125 +205,13 @@ public class ApplicationAuthorizationResource {
         return uri.getBaseUri() + uri.getPath().replaceAll("/$", "");
     }
 
-    private void verifyAccess(String appAuthEdOrgId, String tenantId) throws AccessDeniedException {
-        String edOrgId = SecurityUtil.getEdOrgId();
-        String usersTenant = SecurityUtil.getTenantId();
+    private void verifyAccess(Collection<String> edOrgs) throws AccessDeniedException {
+       // String edOrgId = SecurityUtil.getEdOrgId();
 
-        if (edOrgId == null) {
-            throw new EntityNotFoundException("No EdOrg exists on principal.");
-        }
-
-        if (tenantId != null && !tenantId.equals(usersTenant)) {
-            throw new AccessDeniedException("User cannot modify application authorizations outside of their tenant");
-        }
-
-        List<String> delegateEdOrgs = delegationUtil.getAppApprovalDelegateEdOrgs();
-        if (!appAuthEdOrgId.equals(edOrgId) && !delegateEdOrgs.contains(appAuthEdOrgId)) {
-            throw new AccessDeniedException("User can only access " + edOrgId);
-        }
-    }
-
-    private void logChanges(UriInfo uriInfo, EntityBody oldAppAuth, EntityBody newAppAuth) {
-        String oldEdOrgId = "";
-        String newEdOrgId = "";
-        if (oldAppAuth != null && oldAppAuth.get(AUTH_ID) != null) {
-            oldEdOrgId = (String) oldAppAuth.get(AUTH_ID);
-        }
-        if (newAppAuth != null && newAppAuth.get(AUTH_ID) != null) {
-            newEdOrgId = (String) newAppAuth.get(AUTH_ID);
-        }
-
-        List<Object> oldApprovedAppIds = new ArrayList<Object>();
-        List<Object> newApprovedAppIds = new ArrayList<Object>();
-        if (oldAppAuth != null && oldAppAuth.get(APP_IDS) != null) {
-            oldApprovedAppIds = (List<Object>) oldAppAuth.get(APP_IDS);
-        }
-        if (newAppAuth != null && newAppAuth.get(APP_IDS) != null) {
-            newApprovedAppIds = (List<Object>) newAppAuth.get(APP_IDS);
-        }
-
-        Set<Pair<String, String>> older = new HashSet<Pair<String, String>>();
-        for (Object appId : oldApprovedAppIds) {
-            older.add(Pair.of(oldEdOrgId, (String) appId));
-        }
-
-        Set<Pair<String, String>> newer = new HashSet<Pair<String, String>>();
-        for (Object appId : newApprovedAppIds) {
-            newer.add(Pair.of(newEdOrgId, (String) appId));
-        }
-
-        Set<Pair<String, String>> added = new HashSet<Pair<String, String>>(newer);
-        added.removeAll(older);
-        Set<Pair<String, String>> deleted = new HashSet<Pair<String, String>>(older);
-        deleted.removeAll(newer);
-
-        logSecurityEvent(uriInfo, added, true);
-        logSecurityEvent(uriInfo, deleted, false);
-    }
-
-    private void logSecurityEvent(UriInfo uriInfo, Set<Pair<String, String>> edOrgApps, boolean added) {
-        for (Pair<String, String> edOrgApp : edOrgApps) {
-            String stateId = edOrgApp.getLeft();
-            String appId = edOrgApp.getRight();
-            String edOrgId = null;
-
-            EntityBody edOrg = null;
-            EntityBody app = null;
-            try {
-                Iterable<String> edorgIds = edOrgService.listIds(new NeutralQuery(new NeutralCriteria(
-                        STATE_ORGANIZATION_ID, "=", stateId)));
-                if (edorgIds != null && edorgIds.iterator().hasNext()) {
-                    edOrgId = edorgIds.iterator().next();
-                    edOrg = edOrgService.get(edOrgId);
-                }
-            } catch (AccessDeniedException e) {
-                info("No access to EdOrg[" + edOrgId + "].Omitting in Security ");
-            }
-            try {
-                app = applicationService.get(appId);
-            } catch (AccessDeniedException e) {
-                info("No access to Application[" + appId + "].Omitting in Security ");
-            } catch (EntityNotFoundException e) {
-                info("Could not find application [" + appId + "]. Omitting in Security ");
-            }
-            String stateOrganizationId = "";
-            String nameOfInstitution = "";
-            if (edOrg != null) {
-                if (edOrg.get(STATE_ORGANIZATION_ID) != null) {
-                    stateOrganizationId = (String) edOrg.get(STATE_ORGANIZATION_ID);
-                }
-                if (edOrg.get(NAME_OF_INSTITUTION) != null) {
-                    nameOfInstitution = (String) edOrg.get(NAME_OF_INSTITUTION);
-                }
-            }
-
-            String clientId = null;
-            String name = null;
-            String description = null;
-            if (app != null) {
-                if (app.get(CLIENT_ID) != null) {
-                    clientId = (String) app.get(CLIENT_ID);
-                }
-                if (app.get(NAME) != null) {
-                    name = (String) app.get(NAME);
-                }
-                if (app.get(DESCRIPTION) != null) {
-                    description = (String) app.get(DESCRIPTION);
-                }
-            }
-
-            if (added) {
-                audit(securityEventBuilder.createSecurityEvent(ApplicationAuthorizationResource.class.getName(),
-                        uriInfo.getRequestUri(), "ALLOWED [" + appId + ", " + name + ", " + description + "] by Client [" + clientId
-                                + "] " + "TO ACCESS [" + edOrgId + ", " + stateOrganizationId + ", "
-                                + nameOfInstitution + "]"));
-            } else {
-                audit(securityEventBuilder.createSecurityEvent(ApplicationAuthorizationResource.class.getName(),
-                        uriInfo.getRequestUri(), "NOT ALLOWED [" + appId + ", " + name + ", " + description + "] by Client ["
-                                + clientId + "] " + "TO ACCESS [" + edOrgId + ", " + stateOrganizationId + ", "
-                                + nameOfInstitution + "]"));
-            }
-        }
+        //List<String> delegateEdOrgs = delegationUtil.getAppApprovalDelegateEdOrgs();
+        //  if (!appAuthEdOrgId.equals(edOrgId) && !delegateEdOrgs.contains(appAuthEdOrgId)) {
+        //     throw new AccessDeniedException("User can only access " + edOrgId);
+        //  }
     }
 
 }
