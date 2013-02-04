@@ -112,7 +112,7 @@ public class PublicEntityValidatorTest {
         assertTrue(validator.canValidate(EntityNames.LEARNING_STANDARD, false));
 
         // Next, check that it does not return true for non-public entities
-        assertFalse(validator.canValidate(EntityNames.COURSE, true));
+        assertFalse(validator.canValidate(EntityNames.COHORT, true));
       
     }
 

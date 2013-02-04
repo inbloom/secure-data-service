@@ -22,13 +22,13 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     # 2011-2012: 2011-09-06 to 2011-12-16
     | Entity URI                              | School Years | Count Without Range | Count With Range | Entity List                                                                    |
     | attendances                             | 2010-2011    | 2                   | 0                |                                                                                |
-    | courseOfferings                         | 2010-2011    | 28                  | 1                | LCC1149GR1                                                                     |
+    | courseOfferings                         | 2010-2011    | 138                  | 1                | LCC1149GR1                                                                     |
 #    | courseTranscripts                       | 2010-2011    | 0                   | 0                |                                                                               |
     | disciplineActions                       | 2010-2011    | 0                   | 0                |                                                                                |
     | disciplineIncidents                     | 2010-2011    | 0                   | 0                |                                                                                |
     | gradebookEntries                        | 2010-2011    | 0                   | 0                |                                                                                |
     | grades                                  | 2010-2011    | 0                   | 0                |                                                                                |
-    | gradingPeriods                          | 2010-2011    | 1                   | 0                |                                                                                |
+    | gradingPeriods                          | 2010-2011    | 2                   | 0                |                                                                                |
     | programs                                | 2009-2010    | 0                   | 0                |                                                                                |
 #    | reportCards                             | 2010-2011    | 0                   | 0                |                                                                               |
 #    | sections                                | 2010-2011    | 0                   | 0                |                                                                               |
@@ -67,7 +67,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     # 2011-2012: 2011-09-06 to 2012-06-31
     | Entity URI                              | School Years | Count Without Range | Count With Range | Entity List                                                                    |
     | attendances                             | 2011-2012    | 29                  | 1                | 530f0704-c240-4ed9-0a64-55c0308f91ee                                           |
-    | courseOfferings                         | 2010-2011    | 39                  | 12               | <LIST-CO-LINDAKIM>                                                             |
+    | courseOfferings                         | 2010-2011    | 138                  | 12               | <LIST-CO-LINDAKIM>                                                             |
 #    | courseTranscripts                       | 2010-2011    | 2                   | 1                | f11a2a30-d4fd-4400-ae18-353c00d581a2                                           |
     | disciplineActions                       | 2010-2011    | 0                   | 0                |                                                                                |
     | disciplineIncidents                     | 2010-2011    | 0                   | 0                |                                                                                |

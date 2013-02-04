@@ -37,7 +37,10 @@ public class PublicEntityValidator extends AbstractContextValidator {
             EntityNames.LEARNING_OBJECTIVE, 
             EntityNames.LEARNING_STANDARD, 
             EntityNames.COMPETENCY_LEVEL_DESCRIPTOR,
-            EntityNames.SESSION));
+            EntityNames.SESSION,
+            EntityNames.COURSE_OFFERING,
+            EntityNames.GRADING_PERIOD,
+            EntityNames.COURSE));
 
     @Override
     public boolean canValidate(String entityType, boolean through) {

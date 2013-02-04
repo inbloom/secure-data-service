@@ -509,13 +509,7 @@ public class UriMutator {
             }
         } else if (ResourceNames.COHORTS.equals(resource)) {
             mutated.setPath(String.format("/staff/%s/staffCohortAssociations/cohorts", user.getEntityId()));
-        } else if (ResourceNames.COURSES.equals(resource)) {
-            mutated.setPath(String.format("/schools/%s/courses",
-                    StringUtils.join(edOrgHelper.getFilteredDirectEdorgs(user), ",")));
-        } else if (ResourceNames.COURSE_OFFERINGS.equals(resource)) {
-            mutated.setPath(String.format("/schools/%s/courseOfferings",
-                    StringUtils.join(edOrgHelper.getFilteredDirectEdorgs(user), ",")));
-        } else if (ResourceNames.COURSE_TRANSCRIPTS.equals(resource)) {
+        }  else if (ResourceNames.COURSE_TRANSCRIPTS.equals(resource)) {
             if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
                 return formQueryBasedOnParameter(
                         "/sections/%s/studentSectionAssociations/students/courseTranscripts", mutatedParameters,
@@ -539,9 +533,6 @@ public class UriMutator {
                 String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
                 mutated.setPath(String.format("/sections/%s/studentSectionAssociations/grades", ids));
             }
-        } else if (ResourceNames.GRADING_PERIODS.equals(resource)) {
-            mutated.setPath(String.format("/schools/%s/sessions/gradingPeriods",
-                    StringUtils.join(edOrgHelper.getFilteredDirectEdorgs(user), ",")));
         } else if (ResourceNames.GRADEBOOK_ENTRIES.equals(resource)) {
             if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
                 return formQueryBasedOnParameter("/sections/%s/gradebookEntries", mutatedParameters,
@@ -711,12 +702,6 @@ public class UriMutator {
 
         } else if (ResourceNames.COHORTS.equals(resource)) {
             mutated.setPath(String.format("/staff/%s/staffCohortAssociations/cohorts", user.getEntityId()));
-        } else if (ResourceNames.COURSES.equals(resource)) {
-            mutated.setPath(String.format("/schools/%s/courses",
-                    StringUtils.join(edOrgHelper.getFilteredDirectEdorgs(user), ",")));
-        } else if (ResourceNames.COURSE_OFFERINGS.equals(resource)) {
-            mutated.setPath(String.format("/schools/%s/courseOfferings",
-                    StringUtils.join(edOrgHelper.getFilteredDirectEdorgs(user), ",")));
         } else if (ResourceNames.COURSE_TRANSCRIPTS.equals(resource)) {
             String ids = StringUtils.join(edOrgHelper.getFilteredDirectEdorgs(user), ",");
             mutated.setPath(String.format("/schools/%s/studentSchoolAssociations/students/courseTranscripts", ids));
@@ -730,9 +715,6 @@ public class UriMutator {
         } else if (ResourceNames.GRADES.equals(resource)) {
             String ids = StringUtils.join(edOrgHelper.getFilteredDirectEdorgs(user), ",");
             mutated.setPath(String.format("/schools/%s/sections/studentSectionAssociations/grades", ids));
-        } else if (ResourceNames.GRADING_PERIODS.equals(resource)) {
-            mutated.setPath(String.format("/schools/%s/sessions/gradingPeriods",
-                    StringUtils.join(edOrgHelper.getFilteredDirectEdorgs(user), ",")));
         } else if (ResourceNames.GRADEBOOK_ENTRIES.equals(resource)) {
             mutated.setPath(String.format("/schools/%s/sections/gradebookEntries",
                     StringUtils.join(edOrgHelper.getFilteredDirectEdorgs(user), ",")));
