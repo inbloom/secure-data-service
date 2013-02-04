@@ -220,7 +220,7 @@ function run {
 
 		if [ -n ${SEARCH_INDEXER_LOG_DIR:=""} ]; then
 			if [ ! -d ${SEARCH_INDEXER_LOG_DIR} ]; then
-				mkdir -p ${SEARCH_INDEXER_LOG_DIR} 2>> ${SEARCH_INDEXER_LOG}
+				mkdir -p ${SEARCH_INDEXER_LOG_DIR} 
 				if [ $? != 0 ]
 				then
 					echo "Failed to create logs directory ${SEARCH_INDEXER_LOG_DIR}"
