@@ -237,6 +237,21 @@ public class TenantMongoDA implements TenantDA {
     }
 
     @Override
+    public void unsetTenantReadyFlag(String tenantId){
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria(TENANT_ID, "=", tenantId));
+
+        Update update = new Update();
+        update.unset(TENANT_READY_FIELD);
+
+        try {
+            TenantContext.setIsSystemCall(true);
+            entityRepository.doUpdate(TENANT, query, update);
+        } finally {
+            TenantContext.setIsSystemCall(false);
+        }
+    }
+
+    @Override
     public boolean updateAndAquireOnboardingLock(String tenantId) {
 
         NeutralQuery query = new NeutralQuery();
@@ -254,6 +269,7 @@ public class TenantMongoDA implements TenantDA {
         }
 
     }
+
 
     @Override
     public void removeInvalidTenant(String lzPath) {
