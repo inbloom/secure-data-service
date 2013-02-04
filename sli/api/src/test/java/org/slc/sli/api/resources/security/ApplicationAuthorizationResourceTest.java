@@ -110,22 +110,6 @@ public class ApplicationAuthorizationResourceTest {
     }
     
     @Test
-    public void testGoodCreate() {
-        setupAuth("MY-DISTRICT");
-        EntityBody auth = getNewAppAuth("MY-DISTRICT");
-        Response resp = resource.createAuthorization(auth, uriInfo);
-        assertEquals(STATUS_CREATED, resp.getStatus());
-    }
-
-    @Test(expected = AccessDeniedException.class)
-    public void testBadCreate() {   //authId doesn't match principal
-        setupAuth("MY-DISTRICT");
-        EntityBody auth = getNewAppAuth("OTHER-DISTRICT");
-        Mockito.when(delegationUtil.getAppApprovalDelegateEdOrgs()).thenReturn(new ArrayList<String>());
-        Response resp = resource.createAuthorization(auth, uriInfo);
-    }
-
-    @Test
     public void testGoodUpdate() {
         setupAuth("MY-DISTRICT");
         EntityBody auth = getNewAppAuth("MY-DISTRICT");

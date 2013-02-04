@@ -18,17 +18,15 @@
 package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.ws.rs.GET;
-import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -38,18 +36,14 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import org.apache.commons.lang3.tuple.Pair;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
-import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.RightsAllowed;
-import org.slc.sli.api.security.SecurityEventBuilder;
-import org.slc.sli.api.service.EntityNotFoundException;
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
-import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -58,11 +52,7 @@ import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
-
-import com.google.common.collect.Sets;
-import com.mongodb.util.Hash;
 
 /**
  *
@@ -79,20 +69,16 @@ public class ApplicationAuthorizationResource {
     @Autowired
     @Qualifier("validationRepo")
     Repository<Entity> repo;
-
+    
     @Autowired
-    private SecurityEventBuilder securityEventBuilder;
+    private EdOrgHelper helper;
 
-    @Autowired
-    private DelegationUtil delegationUtil;
 
     private EntityService service;
-    private EntityService applicationService;
-    private EntityService edOrgService;
+
 
     public static final String RESOURCE_NAME = "applicationAuthorization";
 
-    public static final String UUID = "uuid";
     public static final String APP_ID = "applicationId";
     public static final String EDORG_IDS = "edorgs";
     public static final String STATE_ORGANIZATION_ID = "stateOrganizationId";
@@ -108,110 +94,127 @@ public class ApplicationAuthorizationResource {
     public void init() {
         EntityDefinition def = store.lookupByResourceName(RESOURCE_NAME);
         service = def.getService();
-
-        EntityDefinition appDef = store.lookupByResourceName(RESOURCE_APPLICATION);
-        applicationService = appDef.getService();
-
-        EntityDefinition edOrgDef = store.lookupByResourceName(ResourceNames.EDUCATION_ORGANIZATIONS);
-        edOrgService = edOrgDef.getService();
     }
 
     @GET
-    @Path("{" + UUID + "}")
+    @Path("{appId}")
     @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE })
-    public Response getAuthorization(@PathParam(UUID) String uuid) {
-
-        if (uuid != null) {
-            EntityBody entityBody = service.get(uuid);
-            if (entityBody != null) {
-                return Response.status(Status.OK).entity(entityBody).build();
+    public Response getAuthorization(@PathParam("appId") String appId) {
+        
+        EntityBody appAuth = getAppAuth(appId);
+        if (appAuth == null) {
+            //See if this is an actual app
+            Entity appEntity = repo.findOne("application", new NeutralQuery(new NeutralCriteria("_id", "=", appId)));
+            if (appEntity == null) {
+                return Response.status(Status.NOT_FOUND).build();
+            } else {
+                HashMap<String, Object> entity = new HashMap<String, Object>();
+                entity.put("appId", appId);
+                entity.put("authorized", false);
+                return Response.status(Status.OK).entity(entity).build();
             }
+        } else {
+            HashMap<String, Object> entity = new HashMap<String, Object>();
+            entity.put("appId", appId);
+            List edOrgs = (List) appAuth.get("edorgs");
+            entity.put("authorized", edOrgs.contains(SecurityUtil.getEdOrgId()));
+            return Response.status(Status.OK).entity(entity).build();
         }
-        return Response.status(Status.NOT_FOUND).build();
+        
     }
-
-    @POST
-    @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE })
-    public Response createAuthorization(EntityBody newAppAuth, @Context final UriInfo uriInfo) {
-
-
-        //make sure we don't already have an entry for this app
-        Iterable<EntityBody> existingAuths = service.list(new NeutralQuery(new NeutralCriteria(APP_ID, "=", newAppAuth.get(APP_ID))));
-        if (existingAuths.iterator().hasNext()) {
-            EntityBody body = new EntityBody();
-            body.put("message", "ApplicationAuthorization for the application already exists.");
-            return Response.status(Status.BAD_REQUEST).entity(body).build();
+    
+    private EntityBody getAppAuth(String appId) {
+        Iterable<EntityBody> appAuths = service.list(new NeutralQuery(new NeutralCriteria("applicationId", "=", appId)));
+        for (EntityBody auth : appAuths) {
+            return auth;
         }
-
-        //Make sure the app exists
-        Entity appEnt = repo.findOne("application", new NeutralQuery(new NeutralCriteria("_id", "=", newAppAuth.get(APP_ID))));
-        if (appEnt != null) {
-            EntityBody body = new EntityBody();
-            body.put("message", "Cannot create application authorization for application that does not exist.");
-            return Response.status(Status.BAD_REQUEST).entity(body).build();
-        }
-
-        verifyAccess((Collection<String>) newAppAuth.get(EDORG_IDS));
-
-        String uuid = service.create(newAppAuth);
-        String uri = uriToString(uriInfo) + "/" + uuid;
-        return Response.status(Status.CREATED).header("Location", uri).build();
+        return null;
     }
 
     @PUT
-    @Path("{" + UUID + "}")
+    @Path("{appId}")
     @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE })
-    public Response updateAuthorization(@PathParam(UUID) String uuid, EntityBody auth, @Context final UriInfo uriInfo) {
-
-        EntityBody oldAuth = service.get(uuid);
-
-        if (!oldAuth.get(APP_ID).equals(auth.get(APP_ID))) {
-            EntityBody body = new EntityBody();
-            body.put("message", "applicationId is read only");
-            return Response.status(Status.BAD_REQUEST).entity(body).build();
+    public Response updateAuthorization(@PathParam("appId") String appId, EntityBody auth, @Context final UriInfo uriInfo) {
+        if (!auth.containsKey("authorized")) {
+            return Response.status(Status.BAD_REQUEST).build();
         }
-
-        // Ensure uniqeness accross all edorgs
-        List<String> edorgs = (List) auth.get(EDORG_IDS);
-        Set<String> unique = new LinkedHashSet<String>(edorgs);
-        edorgs = new ArrayList<String>(unique);
-        auth.put(EDORG_IDS, edorgs);
-
-        Set<String> oldEdorgs = new HashSet((List<String>) oldAuth.get(EDORG_IDS));
         
-        //symmetric difference is both the items that are unique to either list, e.g. what's been added and removed
-        Set<String> delta = Sets.symmetricDifference(unique, oldEdorgs);
-        verifyAccess(delta);
-        boolean status = service.update(uuid, auth);
-        if (status) {
+        EntityBody existingAuth = getAppAuth(appId);
+        if (existingAuth == null) {
+            //See if this is an actual app
+            Entity appEntity = repo.findOne("application", new NeutralQuery(new NeutralCriteria("_id", "=", appId)));
+            if (appEntity == null) {
+                return Response.status(Status.NOT_FOUND).build();
+            } else {
+                if (((Boolean) auth.get("authorized")).booleanValue()) { //being set to true. if false, there's no work to be done
+                    //We don't have an appauth entry for this app, so create one
+                    EntityBody body = new EntityBody();
+                    body.put("applicationId", appId);
+                    ArrayList<String> edorgs = new ArrayList<String>();
+                    edorgs.add(SecurityUtil.getEdOrgId());
+                    edorgs.addAll(getParentEdorgs());
+                    edorgs.addAll(getChildEdorgs());
+                    body.put("edorgs", edorgs);
+                    service.create(body);
+                }
+                return Response.status(Status.NO_CONTENT).build();
+            }
+        } else {
+            List<String> edorgs = (List<String>) existingAuth.get("edorgs");
+            Set<String> edorgsCopy = new HashSet<String>(edorgs);
+            if (((Boolean) auth.get("authorized")).booleanValue()) {
+                edorgsCopy.add(SecurityUtil.getEdOrgId());
+                edorgsCopy.addAll(getParentEdorgs());
+                edorgsCopy.addAll(getChildEdorgs());
+            } else {
+                edorgsCopy.remove(SecurityUtil.getEdOrgId());
+                edorgsCopy.removeAll(getParentEdorgs());
+                edorgsCopy.removeAll(getChildEdorgs());
+            }
+            existingAuth.put("edorgs", new ArrayList(edorgsCopy));
+            service.update((String) existingAuth.get("id"), existingAuth);
             return Response.status(Status.NO_CONTENT).build();
         }
-        return Response.status(Status.BAD_REQUEST).build();
     }
 
+    List<String> getParentEdorgs() {
+        return helper.getParentEdOrgs(helper.byId(SecurityUtil.getEdOrgId()));
+    }
 
+    Set<String> getChildEdorgs() {
+        return helper.getChildEdOrgs(Arrays.asList(SecurityUtil.getEdOrgId()));
+    }
+    
     @GET
     @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE })
     public Response getAuthorizations(@Context UriInfo info) {
-        Iterable<EntityBody> ents = service.list(new NeutralQuery());
-        List<EntityBody> results = new ArrayList<EntityBody>();
+        Iterable<Entity> appQuery = repo.findAll("application", new NeutralQuery());
+        Map<String, Entity> allApps = new HashMap<String, Entity>();
+        for (Entity ent : appQuery) {
+            allApps.put(ent.getEntityId(), ent);
+        }
+        
+        Iterable<EntityBody> ents = service.list(new NeutralQuery(new NeutralCriteria("edorgs", "=", SecurityUtil.getEdOrgId())));
+        
+        List<Map> results = new ArrayList<Map>();
         for (EntityBody body : ents) {
-            results.add(body);
+            HashMap<String, Object> entity = new HashMap<String, Object>();
+            String appId = (String) body.get("applicationId");
+            entity.put("appId", appId);
+            entity.put("authorized", true);
+            results.add(entity);
+            allApps.remove(appId);
+        }
+        for (Map.Entry<String, Entity> entry : allApps.entrySet()) {
+            List<String> approvedEdorgs = (List<String>) entry.getValue().getBody().get("authorized_ed_orgs");
+            if (approvedEdorgs != null && approvedEdorgs.contains(SecurityUtil.getEdOrgId())) {
+                HashMap<String, Object> entity = new HashMap<String, Object>();
+                entity.put("appId", entry.getKey());
+                entity.put("authorized", false);
+                results.add(entity);
+            }
         }
         return Response.status(Status.OK).entity(results).build();
-    }
-
-    private static String uriToString(UriInfo uri) {
-        return uri.getBaseUri() + uri.getPath().replaceAll("/$", "");
-    }
-
-    private void verifyAccess(Collection<String> edOrgs) throws AccessDeniedException {
-       // String edOrgId = SecurityUtil.getEdOrgId();
-
-        //List<String> delegateEdOrgs = delegationUtil.getAppApprovalDelegateEdOrgs();
-        //  if (!appAuthEdOrgId.equals(edOrgId) && !delegateEdOrgs.contains(appAuthEdOrgId)) {
-        //     throw new AccessDeniedException("User can only access " + edOrgId);
-        //  }
     }
 
 }
