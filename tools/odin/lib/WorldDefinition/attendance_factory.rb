@@ -62,7 +62,7 @@ class AttendanceFactory
         next if DateUtility.is_weekend_day(current_date) or is_holiday(current_date, holidays)
         category = DataUtility.select_random_from_options(prng, events)
         reason   = get_attendance_event_reason(category) if category != :PRESENT
-        attendance_events << AttendanceEvent.new(student, ed_org_id, current_date, category, student_section_association,
+        attendance_events << AttendanceEvent.new(prng.seed, student, ed_org_id, current_date, category, student_section_association,
                                                  session, reason) unless category == :PRESENT and exceptions_only
       end
     end

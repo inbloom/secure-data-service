@@ -27,7 +27,7 @@ class AttendanceEvent < BaseEntity
   attr_accessor :event_date, :type, :category, :reason, :environment, :student, :ed_org_id,
                 :section_reference, :session_reference
 
-  def initialize(student, ed_org_id, event_date, event_category, student_section_association = nil,
+  def initialize(seed, student, ed_org_id, event_date, event_category, student_section_association = nil,
                  session = nil, reason = nil, event_type = :DAILY_ATTENDANCE, environment = :CLASSROOM)
     @student     = student
     @ed_org_id   = ed_org_id
@@ -36,11 +36,11 @@ class AttendanceEvent < BaseEntity
     @category    = event_category
     @reason      = reason
     @environment = environment
-    @rand = Random.new(@student)
+    @rand = Random.new(seed)
 
     if (optional?) 
       @session_reference = session["name"] unless session.nil?
-      valid_sections = student_section_association.select {|x| x.ed_org_id == @ed_org_id}
+      valid_sections = student_section_association.select {|x| x.ed_org_id == @ed_org_id}  unless student_section_association.nil?
       @section_reference = valid_sections[0].section if (valid_sections && valid_sections.size > 0)
     end
   end
