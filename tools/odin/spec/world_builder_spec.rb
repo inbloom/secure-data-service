@@ -128,6 +128,13 @@ describe "WorldBuilder" do
 
       it "will create the configured number of cohorts for each school" do
         @queue.count(Cohort).should eq(9)
+
+        # check that optional fields are generated
+        @queue.get_work_orders(Cohort).each{|cohort|
+          cohort_entity = @factory.create(cohort)
+          cohort_entity.subject.should_not be_nil
+          cohort_entity.programs.should have_at_least(1).items
+        }
       end
 
       it "will associate a staff member for each cohort for each year" do
