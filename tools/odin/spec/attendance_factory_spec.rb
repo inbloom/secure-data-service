@@ -21,6 +21,7 @@ require 'date'
 require_relative 'spec_helper'
 require_relative '../lib/WorldDefinition/attendance_factory'
 require_relative '../lib/Shared/EntityClasses/attendance_event'
+require_relative '../lib/Shared/EntityClasses/studentSectionAssociation'
 require_relative '../lib/Shared/EntityClasses/session'
 require_relative '../lib/Shared/EntityClasses/enum/SchoolTerm'
 require_relative '../lib/Shared/date_interval'
@@ -38,7 +39,7 @@ describe "AttendanceFactory" do
     }} 
   }
   let(:interval) { DateInterval.create_using_start_and_end_dates(random, start_date, end_date) }
-  let(:session) { {"interval" => interval} }
+  let(:session) { {"interval" => interval, "name" => "Spring test session"} }
   let(:factory) { AttendanceFactory.new(scenario) }
 
   describe "#attendances" do
@@ -133,6 +134,24 @@ describe "AttendanceFactory" do
         holiday_events = events.select {|event| session['interval'].get_holidays.include?(event.event_date) }
         holiday_events.size.should eq 0
       end
+    end
+  end
+
+  describe "when optional fields support is enabled" do
+    let(:optional_fields) {{'OPTIONAL_FIELD_LIKELYHOOD' => 1}}
+    let(:section_association) {[StudentSectionAssociation.new("student123", "10", "edorg123", nil, "Fifth grade")]}
+    before { BaseEntity.set_scenario(YAML.load_file("#{File.dirname(__FILE__)}/../scenarios/defaults/base_scenario").merge!(optional_fields))}
+
+    it "will generate session reference" do
+      scenario['EXCEPTION_ONLY_ATTENDANCE'] = false
+      attendances = factory.generate_attendance_events(random, "student123", "edorg123", session, "elementary", nil)
+      attendances[0].session_reference.should eq "Spring test session"
+    end
+
+    it "will generate section reference" do
+      scenario['EXCEPTION_ONLY_ATTENDANCE'] = false
+      attendances = factory.generate_attendance_events(random, "student123", "edorg123", session, "elementary", section_association)
+      attendances[0].section_reference.should eq "10"
     end
   end
 
