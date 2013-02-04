@@ -1315,101 +1315,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <LocalEducationAgency>
     <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-    <EducationOrgIdentificationCode IdentificationSystem="SEA">
-      <ID>IL-DAYBREAK</ID>
-    </EducationOrgIdentificationCode>
-    <NameOfInstitution>IL-DAYBREAK School District</NameOfInstitution>
-    <ShortNameOfInstitution>IL-DAYBREAK LEA</ShortNameOfInstitution>
+    <NameOfInstitution>School District IL-DAYBREAK</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>Local Education Agency</OrganizationCategory>
     </OrganizationCategories>
     <Address>
-      <StreetNumberName>689 Braeburn Lane</StreetNumberName>
-      <City>New York</City>
-      <StateAbbreviation>NY</StateAbbreviation>
-      <PostalCode>10292</PostalCode>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
     </Address>
-    <Telephone InstitutionTelephoneNumberType="Main">
-      <TelephoneNumber>(351) 555-7066</TelephoneNumber>
-    </Telephone>
-    <WebSite>http://fake.local-education-agency.org.fake/fake</WebSite>
-    <OperationalStatus>Changed Agency</OperationalStatus>
-    <AccountabilityRatings>
-      <RatingTitle>2001 rating: IL-DAYBREAK</RatingTitle>
-      <Rating>High Advanced</Rating>
-      <RatingDate>2001-07-08</RatingDate>
-      <SchoolYear>2001-2002</SchoolYear>
-      <RatingOrganization>STANDARD-SEA</RatingOrganization>
-      <RatingProgram>AEIS</RatingProgram>
-    </AccountabilityRatings>
-    <AccountabilityRatings>
-      <RatingTitle>2002 rating: IL-DAYBREAK</RatingTitle>
-      <Rating>Low Unsatisfactory</Rating>
-      <RatingDate>2002-05-05</RatingDate>
-      <SchoolYear>2002-2003</SchoolYear>
-      <RatingOrganization>STANDARD-SEA</RatingOrganization>
-      <RatingProgram>AEIS</RatingProgram>
-    </AccountabilityRatings>
-    <AccountabilityRatings>
-      <RatingTitle>2003 rating: IL-DAYBREAK</RatingTitle>
-      <Rating>High Satisfactory</Rating>
-      <RatingDate>2003-12-30</RatingDate>
-      <SchoolYear>2003-2004</SchoolYear>
-      <RatingOrganization>STANDARD-SEA</RatingOrganization>
-      <RatingProgram>AEIS</RatingProgram>
-    </AccountabilityRatings>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>50</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>51</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>52</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>53</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>54</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>55</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>56</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>57</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>58</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>59</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
     <LEACategory>Independent</LEACategory>
-    <CharterStatus>Open Enrollment</CharterStatus>
     <StateEducationAgencyReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
@@ -1418,81 +1334,17 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </LocalEducationAgency>
   <LocalEducationAgency>
     <StateOrganizationId>5</StateOrganizationId>
-    <EducationOrgIdentificationCode IdentificationSystem="SEA">
-      <ID>5</ID>
-    </EducationOrgIdentificationCode>
-    <NameOfInstitution>5 School District</NameOfInstitution>
-    <ShortNameOfInstitution>5 LEA</ShortNameOfInstitution>
+    <NameOfInstitution>School District 5</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>Local Education Agency</OrganizationCategory>
     </OrganizationCategories>
     <Address>
-      <StreetNumberName>797 West Blvd</StreetNumberName>
-      <City>New York</City>
-      <StateAbbreviation>NY</StateAbbreviation>
-      <PostalCode>10292</PostalCode>
+      <StreetNumberName>123 Street</StreetNumberName>
+      <City>Chicago</City>
+      <StateAbbreviation>IL</StateAbbreviation>
+      <PostalCode>00000</PostalCode>
     </Address>
-    <Telephone InstitutionTelephoneNumberType="Main">
-      <TelephoneNumber>(850) 555-0519</TelephoneNumber>
-    </Telephone>
-    <WebSite>http://fake.local-education-agency.org.fake/fake</WebSite>
-    <OperationalStatus>Added</OperationalStatus>
-    <AccountabilityRatings>
-      <RatingTitle>2001 rating: 5</RatingTitle>
-      <Rating>Mid Satisfactory</Rating>
-      <RatingDate>2001-01-24</RatingDate>
-      <SchoolYear>2001-2002</SchoolYear>
-      <RatingOrganization>STANDARD-SEA</RatingOrganization>
-      <RatingProgram>AEIS</RatingProgram>
-    </AccountabilityRatings>
-    <AccountabilityRatings>
-      <RatingTitle>2002 rating: 5</RatingTitle>
-      <Rating>High Unsatisfactory</Rating>
-      <RatingDate>2002-08-15</RatingDate>
-      <SchoolYear>2002-2003</SchoolYear>
-      <RatingOrganization>STANDARD-SEA</RatingOrganization>
-      <RatingProgram>AEIS</RatingProgram>
-    </AccountabilityRatings>
-    <AccountabilityRatings>
-      <RatingTitle>2003 rating: 5</RatingTitle>
-      <Rating>High Advanced</Rating>
-      <RatingDate>2003-04-01</RatingDate>
-      <SchoolYear>2003-2004</SchoolYear>
-      <RatingOrganization>STANDARD-SEA</RatingOrganization>
-      <RatingProgram>AEIS</RatingProgram>
-    </AccountabilityRatings>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>60</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>61</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>62</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>63</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>64</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
-    <ProgramReference>
-      <ProgramIdentity>
-        <ProgramId>65</ProgramId>
-      </ProgramIdentity>
-    </ProgramReference>
     <LEACategory>Independent</LEACategory>
-    <CharterStatus>Open Enrollment</CharterStatus>
     <StateEducationAgencyReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
