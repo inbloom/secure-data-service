@@ -24,9 +24,11 @@ require_relative 'enum/EducationalEnvironmentType'
 # creates attendance event
 class AttendanceEvent < BaseEntity
 
-  attr_accessor :event_date, :type, :category, :reason, :environment, :student, :ed_org_id
+  attr_accessor :event_date, :type, :category, :reason, :environment, :student, :ed_org_id,
+                :section_reference, :session_reference
 
-  def initialize(student, ed_org_id, event_date, event_category, reason = nil, event_type = :DAILY_ATTENDANCE, environment = :CLASSROOM)
+  def initialize(student, ed_org_id, event_date, event_category, student_section_association = nil,
+                 session = nil, reason = nil, event_type = :DAILY_ATTENDANCE, environment = :CLASSROOM)
     @student     = student
     @ed_org_id   = ed_org_id
     @event_date  = event_date
@@ -34,6 +36,13 @@ class AttendanceEvent < BaseEntity
     @category    = event_category
     @reason      = reason
     @environment = environment
+    @rand = Random.new(@student)
+
+    if (optional?) 
+      @session_reference = session["name"] unless session.nil?
+      valid_sections = student_section_association.select {|x| x.ed_org_id == @ed_org_id}
+      @section_reference = valid_sections[0].section if (valid_sections && valid_sections.size > 0)
+    end
   end
 
   def type_str
@@ -47,4 +56,5 @@ class AttendanceEvent < BaseEntity
   def environment_str
     EducationalEnvironmentType.to_string(@environment)
   end
+
 end
