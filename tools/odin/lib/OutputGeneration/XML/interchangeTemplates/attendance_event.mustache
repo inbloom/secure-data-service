@@ -32,5 +32,29 @@ limitations under the License.
         <StateOrganizationId>{{ed_org_id}}</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
+    {{#session_reference}}
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>{{ed_org_id}}</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>{{.}}</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    {{/session_reference}}
+    {{#section_reference}}
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>{{ed_org_id}}</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>{{.}}</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    {{/section_reference}}
   </AttendanceEvent>
 {{/entity}}

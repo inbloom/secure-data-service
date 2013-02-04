@@ -48,7 +48,7 @@ describe "AttendanceFactory" do
         scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['absent'] = 0
         scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['tardy']  = 0
         
-        events = factory.generate_attendance_events(random, "student123", "school123", session, "elementary")
+        events = factory.generate_attendance_events(random, "student123", "school123", session, "elementary", nil)
         present_events = events.select {|event| event.category == :PRESENT }
         absent_events  = events.select {|event| event.category == :ABSENT or event.category == :EXCUSED_ABSENCE or event.category == :UNEXCUSED_ABSENCE }
         
@@ -62,7 +62,7 @@ describe "AttendanceFactory" do
         scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['absent'] = 0
         scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['tardy']  = 0
 
-        events = factory.generate_attendance_events(random, "student123", "school123", session, "elementary")
+        events = factory.generate_attendance_events(random, "student123", "school123", session, "elementary", nil)
         holiday_events = events.select {|event| event.event_date == Date.new(2012, 12, 24) or event.event_date == Date.new(2012, 12, 25) }
         events.size.should eq 8
         holiday_events.size.should eq 0
@@ -75,7 +75,7 @@ describe "AttendanceFactory" do
         scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['absent'] = 0
         scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['tardy']  = 0
 
-        events = factory.generate_attendance_events(random, "student123", "school123", session, "elementary")
+        events = factory.generate_attendance_events(random, "student123", "school123", session, "elementary", nil)
         events.size.should eq 0
       end
     end
@@ -86,7 +86,7 @@ describe "AttendanceFactory" do
         scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['absent'] = 100
         scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['tardy']  = 0
         
-        events = factory.generate_attendance_events(random, "student123", "school123", session, "elementary")
+        events = factory.generate_attendance_events(random, "student123", "school123", session, "elementary", nil)
         present_events = events.select {|event| event.category == :PRESENT }
         absent_events  = events.select {|event| event.category == :ABSENT or event.category == :EXCUSED_ABSENCE or event.category == :UNEXCUSED_ABSENCE }
         
@@ -100,7 +100,7 @@ describe "AttendanceFactory" do
         scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['absent'] = 100
         scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['tardy']  = 0
         
-        events = factory.generate_attendance_events(random, "student123", "school123", session, "elementary")
+        events = factory.generate_attendance_events(random, "student123", "school123", session, "elementary", nil)
         holiday_events = events.select {|event| event.event_date == Date.new(2012, 12, 24) or event.event_date == Date.new(2012, 12, 25) }
         events.size.should eq 8
         holiday_events.size.should eq 0
@@ -117,7 +117,7 @@ describe "AttendanceFactory" do
       }
       let(:interval) { DateInterval.create_using_start_and_num_days(random, start_date, 100) }
       let(:session)  { {"interval" => interval} }
-      let(:events)   { factory.generate_attendance_events(random, "student123", "school123", session, "elementary") }
+      let(:events)   { factory.generate_attendance_events(random, "student123", "school123", session, "elementary", nil) }
       
       it "will produce attendance event work orders that match the breakdown" do
         events.size.should eq 100
@@ -140,19 +140,19 @@ describe "AttendanceFactory" do
     describe "--> failing to find a property" do
       it "(exception-only attendance property) will exit with an argument error exception" do
         scenario['EXCEPTION_ONLY_ATTENDANCE'] = nil
-        expect { factory.generate_attendance_events(random, "student123", "school123", session, "elementary") }.to raise_exception(ArgumentError)
+        expect { factory.generate_attendance_events(random, "student123", "school123", session, "elementary", nil) }.to raise_exception(ArgumentError)
       end
 
       it "(daily attendance percentages: tardy property) will exit with an argument error exception" do
         scenario['DAILY_ATTENDANCE_PERCENTAGES']['elementary']['tardy'] = nil
-        expect { factory.generate_attendance_events(random, "student123", "school123", session, "elementary") }.to raise_exception(ArgumentError)
+        expect { factory.generate_attendance_events(random, "student123", "school123", session, "elementary", nil) }.to raise_exception(ArgumentError)
       end
     end
 
     describe "--> failing to specify a session" do
       it "will return an empty array" do
         scenario['EXCEPTION_ONLY_ATTENDANCE'] = false
-        factory.generate_attendance_events(random, "student123", "school123", nil, "elementary").should be_empty
+        factory.generate_attendance_events(random, "student123", "school123", nil, "elementary", nil).should be_empty
       end
     end
   end
