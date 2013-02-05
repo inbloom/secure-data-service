@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Shared Learning Collaborative, LLC
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,6 +26,8 @@ import java.util.Set;
 
 import javax.xml.transform.stream.StreamSource;
 
+import com.mongodb.MongoException;
+
 import org.apache.camel.ProducerTemplate;
 import org.apache.commons.io.IOUtils;
 import org.milyn.Smooks;
@@ -34,29 +36,6 @@ import org.milyn.container.ExecutionContext;
 import org.milyn.delivery.sax.SAXElement;
 import org.milyn.delivery.sax.SAXVisitAfter;
 import org.milyn.delivery.sax.SAXVisitBefore;
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
-import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.FileEntryWorkNote;
-import org.slc.sli.ingestion.FileProcessStatus;
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.ResourceWriter;
-import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
-import org.slc.sli.ingestion.landingzone.AttributeType;
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.model.RecordHash;
-import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.ElementSource;
-import org.slc.sli.ingestion.reporting.ReportStats;
-import org.slc.sli.ingestion.reporting.Source;
-import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
-import org.slc.sli.ingestion.reporting.impl.FileSource;
-import org.slc.sli.ingestion.smooks.SliDeltaManager;
-import org.slc.sli.ingestion.smooks.SliDocumentLocatorHandler;
-import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
-import org.slc.sli.ingestion.util.NeutralRecordUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,10 +47,32 @@ import org.springframework.stereotype.Component;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 
-import com.mongodb.MongoException;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
+import org.slc.sli.ingestion.BatchJobStageType;
+import org.slc.sli.ingestion.FileEntryWorkNote;
+import org.slc.sli.ingestion.FileProcessStatus;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.ResourceWriter;
+import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
+import org.slc.sli.ingestion.delta.SliDeltaManager;
+import org.slc.sli.ingestion.landingzone.AttributeType;
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.model.RecordHash;
+import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.ElementSource;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
+import org.slc.sli.ingestion.reporting.impl.FileSource;
+import org.slc.sli.ingestion.smooks.SliDocumentLocatorHandler;
+import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
+import org.slc.sli.ingestion.util.NeutralRecordUtils;
 
 /**
- * 
+ *
  * @author slee
  *
  */
@@ -151,7 +152,7 @@ public class SmooksParseHandler extends AbstractIngestionHandler<IngestionFileEn
             // extract FileEntryWorkNote from the envelope
             String owner = fe.getFileType().getName();
             Map<String, Object> envelope = fe.getEnvelopeByOwner(owner);
-            
+
             if (envelope.containsKey("headers")) {
                 headers.set( (Map<String, Object>) envelope.get("headers") );
             }
@@ -186,7 +187,7 @@ public class SmooksParseHandler extends AbstractIngestionHandler<IngestionFileEn
         visitAfterColumnNumber = (locator == null ? -1 : locator.getColumnNumber());
 
         Throwable terminationError = executionContext.getTerminationError();
-        if (terminationError == null) {            
+        if (terminationError == null) {
             NeutralRecord neutralRecord = getProcessedNeutralRecord(executionContext);
 
             if (neutralRecord == null) {
@@ -303,9 +304,9 @@ public class SmooksParseHandler extends AbstractIngestionHandler<IngestionFileEn
                 map.get(recordType).addAll(entry.getValue());
                 LOG.info("Sending {} records of type {} ", entry.getValue().size(), entry.getKey());
                 queuedWrites.get().get(entry.getKey()).clear();
-            }            
+            }
         }
-        
+
         if (map.size() > 0 ) {
             FileEntryWorkNote fn = feWorkNote.get();
             fn.setQueuedRecords(map);
