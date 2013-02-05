@@ -81,7 +81,7 @@
 		<xs:annotation>
 			<xs:documentation>AttendanceEvent record with key fields: StudentReference (StudentUniqueStateId), SchoolReference (StateOrganizationId) and EventDate. Made SchoolReference required. Changed types of StudentReference, SchoolReference, SessionReference and SectionReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
-				<sli:recordType>attendance</sli:recordType>
+				<sli:recordType>attendanceEvent</sli:recordType>
 				<sli:naturalKeys>StudentReference,StateOrganizationId,EventDate,AttendanceEventCategory</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
@@ -1037,7 +1037,7 @@
 		<xs:annotation>
 			<xs:documentation>StaffEducationOrganizationAssociation with key fields: StaffReference (StaffUniqueStateId), EducationOrganizationReference (StateOrganizationId), StaffClassification and BeginDate. Changed types of StaffReference and EducationOrganizationReference to SLC reference types. </xs:documentation>
 			<xs:appinfo>
-				<sli:recordType>staffEducationOrganizationAssociation</sli:recordType>
+				<sli:recordType>staffEducationOrgAssignmentAssociation</sli:recordType>
 				<sli:naturalKeys>EducationOrganizationReference,StaffReference,StaffClassification,BeginDate</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>

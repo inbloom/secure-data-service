@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion;
 
 import java.util.Arrays;
@@ -38,39 +37,39 @@ import java.util.Set;
  */
 public enum EdfiEntity {
 
-    SELF("self", Collections.<EdfiEntity>emptyList()),
+    SELF("self", Collections.<EdfiEntity> emptyList()),
 
     ASSESSMENT_FAMILY("assessmentFamily", Arrays.asList(SELF)),
 
-    CALENDAR_DATE("calendarDate", Collections.<EdfiEntity>emptyList()),
+    CALENDAR_DATE("calendarDate", Collections.<EdfiEntity> emptyList()),
 
-    CLASS_PERIOD("classPeriod", Collections.<EdfiEntity>emptyList()),
+    CLASS_PERIOD("classPeriod", Collections.<EdfiEntity> emptyList()),
 
-    LEARNING_STANDARD("learningStandard", Collections.<EdfiEntity>emptyList()),
+    LEARNING_STANDARD("learningStandard", Collections.<EdfiEntity> emptyList()),
 
-    LOCATION("location", Collections.<EdfiEntity>emptyList()),
+    LOCATION("location", Collections.<EdfiEntity> emptyList()),
 
-    PARENT("parent", Collections.<EdfiEntity>emptyList()),
+    PARENT("parent", Collections.<EdfiEntity> emptyList()),
 
-    PROGRAM("program", Collections.<EdfiEntity>emptyList()),
+    PROGRAM("program", Collections.<EdfiEntity> emptyList()),
 
-    STAFF("staff", Collections.<EdfiEntity>emptyList()),
+    STAFF("staff", Collections.<EdfiEntity> emptyList()),
 
-    STUDENT("student", Collections.<EdfiEntity>emptyList()),
+    STUDENT("student", Collections.<EdfiEntity> emptyList()),
 
-    TEACHER("teacher", Collections.<EdfiEntity>emptyList()),
+    TEACHER("teacher", Collections.<EdfiEntity> emptyList()),
 
-    BELL_SCHEDULE("bellSchedule", Collections.<EdfiEntity>emptyList()),
+    BELL_SCHEDULE("bellSchedule", Collections.<EdfiEntity> emptyList()),
 
-    COMPETENCY_LEVEL_DESCRIPTOR("competencyLevelDescriptor", Collections.<EdfiEntity>emptyList()),
+    COMPETENCY_LEVEL_DESCRIPTOR("competencyLevelDescriptor", Collections.<EdfiEntity> emptyList()),
 
-    CREDENTIAL_FIELD_DESCRIPTOR("credentialFieldDescriptor", Collections.<EdfiEntity>emptyList()),
+    CREDENTIAL_FIELD_DESCRIPTOR("credentialFieldDescriptor", Collections.<EdfiEntity> emptyList()),
 
-    PERFORMANCE_LEVEL_DESCRIPTOR("performanceLevelDescriptor", Collections.<EdfiEntity>emptyList()),
+    PERFORMANCE_LEVEL_DESCRIPTOR("performanceLevelDescriptor", Collections.<EdfiEntity> emptyList()),
 
-    SERVICE_DESCRIPTOR("serviceDescriptor", Collections.<EdfiEntity>emptyList()),
+    SERVICE_DESCRIPTOR("serviceDescriptor", Collections.<EdfiEntity> emptyList()),
 
-    ASSESSMENT_PERIOD_DESCRIPTOR("assessmentPeriodDescriptor", Collections.<EdfiEntity>emptyList()),
+    ASSESSMENT_PERIOD_DESCRIPTOR("assessmentPeriodDescriptor", Collections.<EdfiEntity> emptyList()),
 
     ACADEMIC_WEEK("academicWeek", Arrays.asList(EdfiEntity.CALENDAR_DATE)),
 
@@ -83,14 +82,13 @@ public enum EdfiEntity {
     LOCAL_EDUCATION_AGENCY("localEducationAgency", Arrays.asList(STATE_EDUCATION_AGENCY, EDUCATION_SERVICE_CENTER,
             PROGRAM, SELF)),
 
-    SCHOOL("school", Arrays.asList(STATE_EDUCATION_AGENCY, LOCAL_EDUCATION_AGENCY,
-            CLASS_PERIOD, SELF)),
+    SCHOOL("school", Arrays.asList(STATE_EDUCATION_AGENCY, LOCAL_EDUCATION_AGENCY, CLASS_PERIOD, SELF)),
 
     GRADUATION_PLAN("graduationPlan", Arrays.asList(STATE_EDUCATION_AGENCY, LOCAL_EDUCATION_AGENCY,
             EDUCATION_SERVICE_CENTER, SCHOOL)),
 
-    GRADING_PERIOD("gradingPeriod", Arrays.asList(CALENDAR_DATE, STATE_EDUCATION_AGENCY,
-            LOCAL_EDUCATION_AGENCY, EDUCATION_SERVICE_CENTER, SCHOOL)),
+    GRADING_PERIOD("gradingPeriod", Arrays.asList(CALENDAR_DATE, STATE_EDUCATION_AGENCY, LOCAL_EDUCATION_AGENCY,
+            EDUCATION_SERVICE_CENTER, SCHOOL)),
 
     DIPLOMA("diploma", Arrays.asList(SCHOOL)),
 
@@ -132,14 +130,16 @@ public enum EdfiEntity {
 
     COURSE_OFFERING("courseOffering", Arrays.asList(SCHOOL, SESSION, COURSE)),
 
-    DISCIPLINE_ACTION("disciplineAction", Arrays.asList(STUDENT, DISCIPLINE_INCIDENT, STAFF, SCHOOL, STUDENT_SCHOOL_ASSOCIATION)),
+    DISCIPLINE_ACTION("disciplineAction", Arrays.asList(STUDENT, DISCIPLINE_INCIDENT, STAFF, SCHOOL,
+            STUDENT_SCHOOL_ASSOCIATION)),
 
     STUDENT_DISCIPLINE_INCIDENT_ASSOCIATION("studentDisciplineIncidentAssociation", Arrays.asList(STUDENT,
             DISCIPLINE_INCIDENT)),
 
     SECTION("section", Arrays.asList(COURSE_OFFERING, SCHOOL, SESSION, LOCATION, CLASS_PERIOD, PROGRAM)),
 
-    STUDENT_SECTION_ASSOCIATION("studentSectionAssociation", Arrays.asList(STUDENT, SECTION, STUDENT_SCHOOL_ASSOCIATION)),
+    STUDENT_SECTION_ASSOCIATION("studentSectionAssociation", Arrays
+            .asList(STUDENT, SECTION, STUDENT_SCHOOL_ASSOCIATION)),
 
     ASSESSMENT("assessment", Arrays.asList(ASSESSMENT_ITEM, OBJECTIVE_ASSESSMENT, ASSESSMENT_FAMILY, SECTION)),
 
@@ -152,13 +152,16 @@ public enum EdfiEntity {
 
     GRADE("grade", Arrays.asList(GRADING_PERIOD, STUDENT_SCHOOL_ASSOCIATION, STUDENT_SECTION_ASSOCIATION)),
 
-    REPORT_CARD("reportCard", Arrays.asList(GRADE, STUDENT_COMPETENCY, STUDENT, GRADING_PERIOD, STUDENT_SCHOOL_ASSOCIATION)),
+    REPORT_CARD("reportCard", Arrays.asList(GRADE, STUDENT_COMPETENCY, STUDENT, GRADING_PERIOD,
+            STUDENT_SCHOOL_ASSOCIATION)),
 
     STUDENT_ASSESSMENT("studentAssessment", Arrays.asList(STUDENT, ASSESSMENT, STUDENT_SCHOOL_ASSOCIATION)),
 
-    STUDENT_ACADEMIC_RECORD("studentAcademicRecord", Arrays.asList(STUDENT, SESSION, REPORT_CARD, DIPLOMA, STUDENT_SCHOOL_ASSOCIATION)),
+    STUDENT_ACADEMIC_RECORD("studentAcademicRecord", Arrays.asList(STUDENT, SESSION, REPORT_CARD, DIPLOMA,
+            STUDENT_SCHOOL_ASSOCIATION)),
 
-    STUDENT_OBJECTIVE_ASSESSMENT("studentObjectiveAssessment", Arrays.asList(OBJECTIVE_ASSESSMENT, STUDENT_ASSESSMENT, STUDENT_SCHOOL_ASSOCIATION)),
+    STUDENT_OBJECTIVE_ASSESSMENT("studentObjectiveAssessment", Arrays.asList(OBJECTIVE_ASSESSMENT, STUDENT_ASSESSMENT,
+            STUDENT_SCHOOL_ASSOCIATION)),
 
     COURSE_TRANSCRIPT("courseTranscript", Arrays.asList(STUDENT_ACADEMIC_RECORD, STATE_EDUCATION_AGENCY,
             EDUCATION_SERVICE_CENTER, LOCAL_EDUCATION_AGENCY, SCHOOL, COURSE, STUDENT_SCHOOL_ASSOCIATION)),
@@ -202,14 +205,6 @@ public enum EdfiEntity {
             STATE_EDUCATION_AGENCY, EDUCATION_SERVICE_CENTER, LOCAL_EDUCATION_AGENCY, SCHOOL));
 
     // *******************************************************************************************************
-    private static final Map<String, EdfiEntity> ALIAS = new HashMap<String, EdfiEntity>();
-
-    static {
-        ALIAS.put("studentGradebookEntry", STUDENT_GRADEBOOK_ENTRY);
-        ALIAS.put("attendance", ATTENDANCE_EVENT);
-        ALIAS.put("staffEducationOrganizationAssociation", STAFF_EDUCATION_ORG_ASSIGNMENT_ASSOCIATION);
-        ALIAS.put("courseTranscript", COURSE_TRANSCRIPT);
-    }
 
     /**
      * Removes entities which have parent entities in the same set
@@ -240,7 +235,7 @@ public enum EdfiEntity {
 
     private EdfiEntity(String entityName, List<EdfiEntity> needs) {
         this.entityName = entityName;
-        this.neededEntities = needs.isEmpty() ? Collections.<EdfiEntity>emptySet() : new HashSet<EdfiEntity>(needs);
+        this.neededEntities = needs.isEmpty() ? Collections.<EdfiEntity> emptySet() : new HashSet<EdfiEntity>(needs);
     }
 
     public String getEntityName() {
@@ -267,14 +262,11 @@ public enum EdfiEntity {
 
     public static EdfiEntity fromEntityName(String entityName) {
 
-        EdfiEntity found = ALIAS.get(entityName);
-
-        if (found == null) {
-            for (EdfiEntity edfiEntity : values()) {
-                if (edfiEntity.entityName.equals(entityName)) {
-                    found = edfiEntity;
-                    break;
-                }
+        EdfiEntity found = null;
+        for (EdfiEntity edfiEntity : values()) {
+            if (edfiEntity.entityName.equals(entityName)) {
+                found = edfiEntity;
+                break;
             }
         }
         return found;
