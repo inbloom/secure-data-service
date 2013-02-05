@@ -55,10 +55,11 @@ class Cohort < BaseEntity
     @subject = (@opts[:subject] or nil)
     @programs = (@opts[:programs] or [])
 
-    if(optional? && @subject.nil? && @programs.empty? && !@classification.nil? && !@program_id_count.nil?)
-      @subject = AcademicSubjectType.to_string(choose(AcademicSubjectType.send(@classification)))
-      @programs = [rand(@program_id_count)]
+    # optional field support
+    if (@subject.nil? && @programs.empty? && !@classification.nil? && !@program_id_count.nil?)
+      optional { @subject = AcademicSubjectType.to_string(choose(AcademicSubjectType.send(@classification))) }
     end
+    optional { @programs = [rand(@program_id_count)] }
     self
   end
 

@@ -10,9 +10,9 @@ GEM
       activesupport (= 3.0.0)
     activesupport (3.0.0)
     addressable (2.3.2)
-    bson (1.6.4)
-    bson_ext (1.6.4)
-      bson (~> 1.6.4)
+    bson (1.8.2)
+    bson_ext (1.8.2)
+      bson (~> 1.8.2)
     builder (3.0.0)
     childprocess (0.3.6)
       ffi (~> 1.0, >= 1.0.6)
@@ -51,8 +51,8 @@ GEM
     mime-types (1.19)
     minimization (0.2.1)
       text-table (~> 1.2)
-    mongo (1.6.4)
-      bson (~> 1.6.4)
+    mongo (1.8.2)
+      bson (~> 1.8.2)
     multi_json (1.5.0)
     multipart-post (1.1.5)
     mustache (0.99.4)
@@ -146,7 +146,7 @@ DEPENDENCIES
   ffi (= 1.0.9)
   java_properties
   json (= 1.6.2)
-  mongo
+  mongo (= 1.8.2)
   mustache
   net-ldap
   net-sftp
