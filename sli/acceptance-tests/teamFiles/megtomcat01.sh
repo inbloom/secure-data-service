@@ -1,6 +1,7 @@
 #!/bin/sh
 sh checkoutAndBuild.sh $1
 cd /opt/megatron/sli/sli/acceptance-tests/
+export LANG=en_US.UTF-8
 bundle install --deployment
 Xvfb :4 -screen 0 1024x768x24 >/dev/null 2>&1 &
 export DISPLAY=:4.0
