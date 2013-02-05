@@ -1,0 +1,76 @@
+{{!
+Copyright 2012-2013 inBloom, Inc. and its affiliates.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+}}
+{{#entity}}
+    <StudentObjectiveAssessment>
+        <ScoreResults AssessmentReportingMethod="{{assessment_reporting_method}}">
+            <Result>{{result}}</Result>
+        </ScoreResults>
+        <StudentAssessmentReference>
+            <StudentAssessmentIdentity>
+                <AdministrationDate>{{administration_date}}</AdministrationDate>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>{{student_unique_state_id}}</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <AssessmentReference>
+                    <AssessmentIdentity>
+                        <AssessmentTitle>{{assessment_title}}</AssessmentTitle>
+                        <GradeLevelAssessed>{{grade_level_assessed}}</GradeLevelAssessed>
+                        <Version>{{version}}</Version>
+                    </AssessmentIdentity>
+                </AssessmentReference>
+            </StudentAssessmentIdentity>
+        </StudentAssessmentReference>
+        <ObjectiveAssessmentReference>
+            <ObjectiveAssessmentIdentity>
+                <ObjectiveAssessmentIdentificationCode>{{objective_assessment}}</ObjectiveAssessmentIdentificationCode>
+            </ObjectiveAssessmentIdentity>
+        </ObjectiveAssessmentReference>
+    </StudentObjectiveAssessment>
+{{/entity}}
+
+	<xs:complexType name="StudentObjectiveAssessment">
+		<xs:annotation>
+			<xs:documentation>This entity holds the score and or performance levels earned for an objective assessment by a student.</xs:documentation>
+		</xs:annotation>
+		<xs:complexContent>
+			<xs:extension base="ComplexObjectType">
+				<xs:sequence>
+					<xs:element name="ScoreResults" type="ScoreResult" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>A meaningful score or statistical expression of the performance of an individual. The results can be expressed as a number, percentile, range, level, etc.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="PerformanceLevels" type="PerformanceLevelDescriptorReferenceType" minOccurs="0" maxOccurs="unbounded">
+						<xs:annotation>
+							<xs:documentation>The performance level(s) achieved for the objective assessment.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="StudentAssessmentReference" type="StudentAssessmentReferenceType">
+						<xs:annotation>
+							<xs:documentation>Link of the objective scores the overall scores for a student's specific test administration.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element name="ObjectiveAssessmentReference" type="ObjectiveAssessmentReferenceType">
+						<xs:annotation>
+							<xs:documentation>Reference to the test objective that is being measured by the objective-level assessment.</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>

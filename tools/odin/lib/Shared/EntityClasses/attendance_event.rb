@@ -37,12 +37,14 @@ class AttendanceEvent < BaseEntity
     @reason      = reason
     @environment = environment
     @rand = Random.new(seed)
-
-    if (optional?) 
-      @session_reference = session["name"] unless session.nil?
+    
+    #optional field support
+    optional {@session_reference = session["name"] unless session.nil?} 
+    optional {
       valid_sections = student_section_association.select {|x| x.ed_org_id == @ed_org_id}  unless student_section_association.nil?
       @section_reference = valid_sections[0].section if (valid_sections && valid_sections.size > 0)
-    end
+    }
+
   end
 
   def type_str

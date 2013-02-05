@@ -37,15 +37,13 @@ class CourseTranscript < BaseEntity
     @course_ed_org_id = (@@scenario['COURSES_ON_SEA'] && session['edOrgId']) || school_id
     @session = session
 
-    if (optional?)
-      @credits_attempted = @result == "Pass" ? @credits_earned : 3
-      @additional_credits_earned = 0
-      @grade_level = GradeLevelType.to_string(grade)
-      @method_credit_earned = MethodCreditEarnedType.to_string(:CLASSROOM_CREDIT)
-      @final_numeric_grade = final_grade && final_grade.number_grade ? final_grade.number_grade : 87
-      @final_letter_grade = final_grade && final_grade.letter_grade ? final_grade.letter_grade : "B+"
-      @course_repeat_code = CourseRepeatCodeType.to_string(:REPEAT_COUNTED)
-    end
+    # optional field support
+    optional { @credits_attempted = @result == "Pass" ? @credits_earned : 3 }
+    optional { @additional_credits_earned = 0 }
+    optional { @grade_level = GradeLevelType.to_string(grade) }
+    optional { @method_credit_earned = MethodCreditEarnedType.to_string(:CLASSROOM_CREDIT) }
+    optional { @final_numeric_grade = final_grade && final_grade.number_grade ? final_grade.number_grade : 87 }
+    optional { @final_letter_grade = final_grade && final_grade.letter_grade ? final_grade.letter_grade : "B+" }
+    optional { @course_repeat_code = CourseRepeatCodeType.to_string(:REPEAT_COUNTED) }
   end
-
 end
