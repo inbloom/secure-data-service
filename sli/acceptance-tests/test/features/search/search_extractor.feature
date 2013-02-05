@@ -5,7 +5,7 @@ Scenario:  Data Extraction
 Given I import into tenant collection
 Given I send a command to start the extractor to extract "Midgar" now
 Given I send a command to start the extractor to extract "Hyrule" now
-Given Indexer should have "124" entities
+Given Indexer should have "119" entities
 And I flush the Indexer
 And I search in Elastic Search for "matt" in tenant "Midgar"
 And "1" hit is returned
