@@ -41,6 +41,10 @@
     <jb:value property="limitedEnglishProficiency" data="attributes LimitedEnglishProficiency _value" />
     <jb:wiring property="languages" beanIdRef="Languages" />
     <jb:wiring property="homeLanguages" beanIdRef="HomeLanguages" />
+    <jb:wiring property="disabilities" beanIdRef="Disabilities" />
+    <jb:wiring property="section504Disabilities" beanIdRef="Section504Disabilities" />
+    <jb:value property="displacementStatus" data="attributes DisplacementStatus _value" />
+    <jb:wiring property="programParticipations" beanIdRef="ProgramParticipations" />
     
     <jb:value property="loginId" data="attributes LoginId _value" />
   </jb:bean>
@@ -132,9 +136,9 @@
     </jb:bean>
     <jb:bean beanId="StudentCharacteristic" class="java.util.HashMap" createOnElement="attributes StudentCharacteristics element">
         <jb:value property="characteristic" data="attributes StudentCharacteristics element Characteristic _value" />
-        <jb:value property="beginDate" data="attributes StudentCharacteristics element beginDate _value" />
-        <jb:value property="endDate" data="attributes StudentCharacteristics element endDate _value" />
-        <jb:value property="designatedBy" data="attributes StudentCharacteristics element designatedBy _value" />
+        <jb:value property="beginDate" data="attributes StudentCharacteristics element BeginDate _value" />
+        <jb:value property="endDate" data="attributes StudentCharacteristics element EndDate _value" />
+        <jb:value property="designatedBy" data="attributes StudentCharacteristics element DesignatedBy _value" />
     </jb:bean>
     
     <jb:bean beanId="Languages" class="java.util.ArrayList"  createOnElement="attributes Languages">
@@ -143,5 +147,28 @@
     
     <jb:bean beanId="HomeLanguages" class="java.util.ArrayList"  createOnElement="attributes HomeLanguages">
         <jb:value data="attributes HomeLanguage element _value" />
+    </jb:bean>
+    
+    <jb:bean beanId="Disabilities" class="java.util.ArrayList"  createOnElement="attributes Disabilities">
+        <jb:wiring beanIdRef="Disability" />
+    </jb:bean>
+    <jb:bean beanId="Disability" class="java.util.HashMap" createOnElement="attributes Disabilities element">
+        <jb:value property="disability" data="attributes Disabilities element Disability _value" />
+        <jb:value property="disabilityDiagnosis" data="attributes Disabilities element DisabilityDiagnosis _value" />
+        <jb:value property="orderOfDisability" data="attributes Disabilities element OrderOfDisability _value" />
+    </jb:bean>
+    
+    <jb:bean beanId="Section504Disabilities" class="java.util.ArrayList"  createOnElement="attributes Section504Disabilities">
+        <jb:value data="attributes Section504Disabilities element _value" />
+    </jb:bean>
+    
+    <jb:bean beanId="ProgramParticipations" class="java.util.ArrayList"  createOnElement="attributes ProgramParticipations">
+        <jb:wiring beanIdRef="ProgramParticipation" />
+    </jb:bean>
+    <jb:bean beanId="ProgramParticipation" class="java.util.HashMap" createOnElement="attributes ProgramParticipations element">
+        <jb:value property="program" data="attributes ProgramParticipations element Program _value" />
+        <jb:value property="beginDate" data="attributes ProgramParticipations element BeginDate _value" />
+        <jb:value property="endDate" data="attributes ProgramParticipations element EndDate _value" />
+        <jb:value property="designatedBy" data="attributes ProgramParticipations element DesignatedBy _value" />
     </jb:bean>
 </smooks-resource-list>
