@@ -86,7 +86,7 @@ public final class RoleBuilder {
 		if (auths != null) {
 			for (String rightName : auths) {
 				try {
-					role.addRight(Right.valueOf(rightName));
+					role.addSelfRight(Right.valueOf(rightName));
 				} catch (IllegalArgumentException e) {
 					warn("No such right: {}", rightName);
 				}

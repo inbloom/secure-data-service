@@ -136,6 +136,7 @@ public class SecuritySessionResource {
             sessionDetails.put("external_id", principal.getExternalId());
             sessionDetails.put("email", getUserEmail(principal));
             sessionDetails.put("rights", SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+            sessionDetails.put("selfRights", principal.getSelfRights());
             sessionDetails.put("isAdminUser", principal.isAdminUser());
             sessionDetails.put("userType", principal.getEntity().getType());
             
