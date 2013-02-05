@@ -82,7 +82,9 @@
 
   <bean id="messageSource" parent="coreMessageSource" />
 
-  <camelContext xmlns="http://camel.apache.org/schema/spring" />
+  <camelContext xmlns="http://camel.apache.org/schema/spring">
+    <template id="stagingProcessorTemplate" defaultEndpoint="direct:stagingProcessor"/>
+  </camelContext>
 
   <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler" />
 
