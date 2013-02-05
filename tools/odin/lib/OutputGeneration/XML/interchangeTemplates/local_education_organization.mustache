@@ -16,21 +16,85 @@ limitations under the License.
 {{#entity}}
   <LocalEducationAgency>
     <StateOrganizationId>{{state_org_id}}</StateOrganizationId>
-    <NameOfInstitution>School District {{state_org_id}}</NameOfInstitution>
+    {{#ed_org_id_code}}
+    <EducationOrgIdentificationCode IdentificationSystem="SEA">
+      <ID>{{ed_org_id_code}}</ID>
+    </EducationOrgIdentificationCode>
+    {{/ed_org_id_code}}
+    <NameOfInstitution>{{state_org_id}} School District</NameOfInstitution>
+    {{#short_name}}
+    <ShortNameOfInstitution>{{short_name}}</ShortNameOfInstitution>
+    {{/short_name}}
     <OrganizationCategories>
       <OrganizationCategory>Local Education Agency</OrganizationCategory>
     </OrganizationCategories>
+    {{#address}}
     <Address>
-      <StreetNumberName>123 Street</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>00000</PostalCode>
+      <StreetNumberName>{{line_one}}</StreetNumberName>
+      <City>{{city}}</City>
+      <StateAbbreviation>{{state}}</StateAbbreviation>
+      <PostalCode>{{postal_code}}</PostalCode>
     </Address>
+    {{/address}}
+    {{#telephone}}
+    <Telephone InstitutionTelephoneNumberType="Main">
+      <TelephoneNumber>{{telephone}}</TelephoneNumber>
+    </Telephone>
+    {{/telephone}}
+    {{#website}}
+    <WebSite>{{website}}</WebSite>
+    {{/website}}
+    {{#op_status}}
+    <OperationalStatus>{{op_status_type}}</OperationalStatus>
+    {{/op_status}}
+    {{#accountability}}
+    <AccountabilityRatings>
+      <RatingTitle>{{title}}</RatingTitle>
+      <Rating>{{rating}}</Rating>
+      <RatingDate>{{date}}</RatingDate>
+      <SchoolYear>{{year}}</SchoolYear>
+      <RatingOrganization>{{rating_org}}</RatingOrganization>
+      <RatingProgram>{{program}}</RatingProgram>
+    </AccountabilityRatings>
+    {{/accountability}}
+    {{#programs}}
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>{{.}}</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    {{/programs}}
+    {{#ed_org_peers}}
+    <EducationOrganizationPeerReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>{{.}}</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationPeerReference>
+    {{/ed_org_peers}}
     <LEACategory>Independent</LEACategory>
+    {{#charter_status}}
+    <CharterStatus>{{charter_status_type}}</CharterStatus>
+    {{/charter_status}}
+    {{#lea_parent_id}}
+    <LocalEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>{{lea_parent_id}}</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </LocalEducationAgencyReference>
+    {{/lea_parent_id}}
+    {{#esc_parent_id}}
+    <EducationServiceCenterReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>{{esc_parent_id}}</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationServiceCenterReference>
+    {{/esc_parent_id}}
+    {{#sea_parent_id}}
     <StateEducationAgencyReference>
       <EducationalOrgIdentity>
-        <StateOrganizationId>{{parent_id}}</StateOrganizationId>
+        <StateOrganizationId>{{sea_parent_id}}</StateOrganizationId>
       </EducationalOrgIdentity>
     </StateEducationAgencyReference>
+    {{/sea_parent_id}}
   </LocalEducationAgency>
 {{/entity}}
