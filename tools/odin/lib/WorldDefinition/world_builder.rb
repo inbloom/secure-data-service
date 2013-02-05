@@ -1,6 +1,6 @@
 =begin
 
-Copyright 2012 Shared Learning Collaborative, LLC
+Copyright 2012-2013 inBloom, Inc. and its affiliates.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -785,10 +785,6 @@ class WorldBuilder
   # - [not yet implemented] Program
   def create_education_organization_work_orders
     # write state education agencies
-    begin_year   = @scenarioYAML["BEGIN_YEAR"]
-    num_years    = @scenarioYAML["NUMBER_OF_YEARS"]
-    school_years = (begin_year..(begin_year+num_years-1)).to_a.sort
-    
     @world["seas"].each do |edOrg|
       ed_org_id = ""
       if edOrg["id"].kind_of? String
@@ -804,7 +800,7 @@ class WorldBuilder
 
     # write local education agencies
     @world["leas"].each       { |edOrg|
-      @queue.push_work_order({ :type => LocalEducationAgency, :id => edOrg["id"], :parent => edOrg["parent"], :programs => get_program_ids(edOrg["programs"]), :years => school_years })
+      @queue.push_work_order({ :type => LocalEducationAgency, :id => edOrg["id"], :parent => edOrg["parent"], :programs => get_program_ids(edOrg["programs"]) })
       create_program_work_orders(edOrg["programs"])
     }
 

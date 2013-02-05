@@ -1,6 +1,6 @@
 *Offline Validation Tool* 
 
-Copyright 2012 Shared Learning Collaborative, LLC
+Copyright 2012-2013 inBloom, Inc. and its affiliates.
 
 This product includes software developed by SLC (http://www.slcedu.org/).
 

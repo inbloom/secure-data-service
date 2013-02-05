@@ -1,6 +1,6 @@
 =begin
 
-Copyright 2012 Shared Learning Collaborative, LLC
+Copyright 2012-2013 inBloom, Inc. and its affiliates.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -203,7 +203,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "schoolYear" => "2011-2012",
     "term" => "Spring Semester",
     "beginDate" => "2012-01-01",
-    "endDate" => "2012-06-31",
+    "endDate" => "2012-06-30",
     "totalInstructionalDays" => 80,
     "gradingPeriodReference" => ["b40a7eb5-dd74-4666-a5b9-5c3f4425f130"],
     "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"

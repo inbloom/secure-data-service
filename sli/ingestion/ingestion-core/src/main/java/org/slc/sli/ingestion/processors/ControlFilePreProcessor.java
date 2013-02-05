@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Shared Learning Collaborative, LLC
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -96,6 +96,8 @@ public class ControlFilePreProcessor implements Processor {
     @Autowired
     private AbstractMessageReport databaseMessageReport;
 
+    private enum TenantStatus {TENANT_READY, TENANT_NOT_READY, TENANT_SPINUP_FAILED}
+
     /**
      * @see org.apache.camel.Processor#process(org.apache.camel.Exchange)
      */
@@ -136,14 +138,17 @@ public class ControlFilePreProcessor implements Processor {
 
             ControlFile controlFile = parseControlFile(currentJob, controlFileName);
 
-            if (ensureTenantDbIsReady(currentJob.getTenantId())) {
+            TenantStatus status = ensureTenantDbIsReady(currentJob.getTenantId());
+            if (status == TenantStatus.TENANT_READY) {
 
                 controlFileDescriptor = new ControlFileDescriptor(controlFile, currentJob.getSourceId());
 
                 auditSecurityEvent(controlFile);
 
-            } else {
+            } else if(status == TenantStatus.TENANT_NOT_READY){
                 databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0001);
+            } else {
+                databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0059);
             }
 
             setExchangeHeaders(exchange, reportStats);
@@ -170,27 +175,33 @@ public class ControlFilePreProcessor implements Processor {
         }
     }
 
-    protected boolean ensureTenantDbIsReady(String tenantId) {
+    protected TenantStatus ensureTenantDbIsReady(String tenantId) {
 
         if (tenantDA.tenantDbIsReady(tenantId)) {
 
             LOG.info("Tenant db for {} is flagged as 'ready'.", tenantId);
-            return true;
+            return TenantStatus.TENANT_READY;
 
         } else {
 
             LOG.info("Tenant db for {} is not flagged as 'ready'. Running spin up scripts now.", tenantId);
             boolean onboardingLockIsAcquired = tenantDA.updateAndAquireOnboardingLock(tenantId);
-            boolean isNowReady = false;
+            TenantStatus isNowReady = TenantStatus.TENANT_NOT_READY;
 
             if (onboardingLockIsAcquired) {
 
                 String result = runDbSpinUpScripts(tenantId);
                 if (result != null) {
+                    //Unset isReady field so that future run of the spinup script works
+                    tenantDA.unsetTenantReadyFlag(tenantId);
+                    isNowReady = TenantStatus.TENANT_SPINUP_FAILED;
                     LOG.error("Spinup scripts failed for {}, not setting tenant as ready", tenantId);
                 } else {
-                    isNowReady = tenantDA.tenantDbIsReady(tenantId);
-                    LOG.info("Tenant ready flag for {} now marked: {}", tenantId, isNowReady);
+                    boolean ready = tenantDA.tenantDbIsReady(tenantId);
+                    if(ready){
+                        isNowReady = TenantStatus.TENANT_READY;
+                    }
+                    LOG.info("Tenant ready flag for {} now marked: {}", tenantId, ready);
                 }
             }
 

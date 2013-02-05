@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Shared Learning Collaborative, LLC
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -112,7 +112,7 @@ public class PublicEntityValidatorTest {
         assertTrue(validator.canValidate(EntityNames.LEARNING_STANDARD, false));
 
         // Next, check that it does not return true for non-public entities
-        assertFalse(validator.canValidate(EntityNames.COURSE, true));
+        assertFalse(validator.canValidate(EntityNames.COHORT, true));
       
     }
 

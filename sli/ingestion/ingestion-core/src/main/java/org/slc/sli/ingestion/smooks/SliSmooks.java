@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Shared Learning Collaborative, LLC
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -98,6 +98,7 @@ public class SliSmooks extends Smooks implements SliDocumentLocatorHandler {
      * A SmooksEdFiVisitor that has been initialized and added.
      */
     private SmooksEdFiVisitor edFiVisitor;
+    private SliDocumentLocatorHandler documentLocatorHandler;
 
     /**
      * Public Default Constructor.
@@ -151,6 +152,9 @@ public class SliSmooks extends Smooks implements SliDocumentLocatorHandler {
     public SmooksResourceConfiguration addVisitor(Visitor visitor, String targetSelector, String targetSelectorNS) {
         if (visitor instanceof SmooksEdFiVisitor) {
             edFiVisitor = (SmooksEdFiVisitor) visitor;
+        }
+        if (visitor instanceof SliDocumentLocatorHandler) {
+            documentLocatorHandler = (SliDocumentLocatorHandler) visitor;
         }
         return super.addVisitor(visitor, targetSelector, targetSelectorNS);
     }
@@ -268,8 +272,8 @@ public class SliSmooks extends Smooks implements SliDocumentLocatorHandler {
 
     @Override
     public final void setDocumentLocator(final Locator locator) {
-        if (edFiVisitor instanceof SliDocumentLocatorHandler) {
-            ((SliDocumentLocatorHandler) edFiVisitor).setDocumentLocator(locator);
+        if (documentLocatorHandler != null) {
+            documentLocatorHandler.setDocumentLocator(locator);
         }
     }
 

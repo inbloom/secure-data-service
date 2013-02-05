@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Shared Learning Collaborative, LLC
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +27,7 @@ import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.NeutralCriteria;
@@ -168,7 +169,10 @@ public class ElasticSearchQueryConverter {
     }
 
     public QueryBuilder getQuery(NeutralCriteria criteria) {
-        return this.operationMap.get(criteria.getOperator()).getQuery(criteria);
+        if(this.operationMap.containsKey(criteria.getOperator())) {
+            return this.operationMap.get(criteria.getOperator()).getQuery(criteria);
+        }
+        return null;
     }
 
     /**
@@ -185,10 +189,20 @@ public class ElasticSearchQueryConverter {
             BoolQueryBuilder bqb = QueryBuilders.boolQuery();
             // set query criteria
             for (NeutralCriteria criteria : query.getCriteria()) {
-                bqb.must(getQuery(criteria));
+                if (ParameterConstants.SCHOOL_YEARS.equals(criteria.getKey())) {
+                    // do not include schoolYears in the elastic Search, it is handled elsewhere
+                    continue;
+                }
+                QueryBuilder queryBuilder = getQuery(criteria);
+                if(queryBuilder != null) {
+                    bqb.must(queryBuilder);
+                }
             }
             for (NeutralQuery nq : query.getOrQueries()) {
-                bqb.should(getQuery(nq));
+                QueryBuilder queryBuilder = getQuery(nq);
+                if( null != queryBuilder) {
+                    bqb.should(queryBuilder);
+                }
             }
             return bqb;
         }

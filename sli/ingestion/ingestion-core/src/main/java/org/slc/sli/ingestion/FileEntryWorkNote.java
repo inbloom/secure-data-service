@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Shared Learning Collaborative, LLC
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,9 @@
 package org.slc.sli.ingestion;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 
@@ -28,6 +31,7 @@ public class FileEntryWorkNote extends WorkNote implements Serializable {
     private static final long serialVersionUID = 638837959304251101L;
 
     private final IngestionFileEntry fileEntry;
+    private Map<String, List<NeutralRecord>> queuedRecords = new HashMap<String, List<NeutralRecord>>();
 
     public FileEntryWorkNote(String batchJobId, String tenantId, IngestionFileEntry fileEntry, boolean hasErrors) {
         super(batchJobId, tenantId, hasErrors);
@@ -48,6 +52,18 @@ public class FileEntryWorkNote extends WorkNote implements Serializable {
         int result = super.hashCode();
         result = prime * result + ((fileEntry == null) ? 0 : fileEntry.hashCode());
         return result;
+    }
+
+    public Map<String, List<NeutralRecord>> getQueuedRecords() {
+        return queuedRecords;
+    }
+
+    public void setQueuedRecords(Map<String, List<NeutralRecord>> queuedRecords) {
+        this.queuedRecords = queuedRecords;
+    }
+
+    public void clearQueuedRecords() {
+        this.queuedRecords.clear();
     }
 
     /**

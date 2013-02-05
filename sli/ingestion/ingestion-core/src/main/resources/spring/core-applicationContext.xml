@@ -70,6 +70,11 @@
 
   <bean id="xmlFileValidator" class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
 
+  <bean id="stagingProcessor" class="org.slc.sli.ingestion.processors.StagingProcessor">
+    <property name="nrMongoStagingWriter" ref="neutralRecordMongoAccess" />
+  </bean>
+
+ 
   <!-- This will go away upon completion of US5060 -->
   <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler">
     <property name="preValidators">

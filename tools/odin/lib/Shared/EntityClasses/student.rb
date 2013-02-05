@@ -1,6 +1,6 @@
 =begin
 
-Copyright 2012 Shared Learning Collaborative, LLC
+Copyright 2012-2013 inBloom, Inc. and its affiliates.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,8 +17,6 @@ limitations under the License.
 =end
 
 require_relative 'baseEntity'
-
-# creates student
 class Student < BaseEntity
 
   attr_accessor :id, :year_of, :rand, :sex, :firstName, :middleName, :lastName, :suffix,
