@@ -19,6 +19,7 @@ package org.slc.sli.dal.repository;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -210,6 +211,12 @@ public class ElasticSearchQueryConverter {
 
     @SuppressWarnings("unchecked")
     private static String[] getTermTokens(Object value) {
-        return (value instanceof List) ? ((List<String>) value).toArray(new String[0]) : ((String) value).split(",");
+        if (value instanceof List) {
+            return ((List<String>) value).toArray(new String[0]);
+        } else if (value instanceof HashSet) {
+            return ((HashSet<String>) value).toArray(new String[]{});
+
+        }
+            return ((String) value).split(",");
     }
 }

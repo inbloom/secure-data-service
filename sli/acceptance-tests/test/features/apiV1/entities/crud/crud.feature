@@ -217,7 +217,7 @@ Examples:
 | "assessment"            | "assessments"             | 17    |/search/assessments|                                                                            
 | "attendance"            | "attendances"             | 3     |/sections/@ids/studentSectionAssociations/students/attendances|
 | "cohort"                | "cohorts"                 | 4     |/staff/@ids/staffCohortAssociations/cohorts|
-| "course"                | "courses"                 | 91    |/courses|
+| "course"                | "courses"                 | 91    |/search/courses|
 | "disciplineAction"      | "disciplineActions"       | 0     |/staff/@ids/disciplineActions|                                                           
 | "disciplineIncident"    | "disciplineIncidents"     | 0     |/staff/@ids/disciplineIncidents|                                                         
 | "school"                | "educationOrganizations"  | 2     |/teachers/@ids/teacherSchoolAssociations/schools|              
@@ -236,7 +236,7 @@ Examples:
 | "teacher"               | "teachers"                | 3     |/schools/@ids/teacherSchoolAssociations/teachers|                                        
 | "grade"                 | "grades"                  | 1     |/sections/@ids/studentSectionAssociations/grades|
 | "studentCompetency"     | "studentCompetencies"     | 2     |/sections/@ids/studentSectionAssociations/studentCompetencies|
-| "gradingPeriod"         | "gradingPeriods"          | 2     |/gradingPeriods|                                                   
+| "gradingPeriod"         | "gradingPeriods"          | 2     |/search/gradingPeriods|
 | "reportCard"            | "reportCards"             | 3     |/sections/@ids/studentSectionAssociations/students/reportCards|
 | "studentCompetencyObjective" | "studentCompetencyObjectives" | 0 |/search/studentCompetencyObjectives    |
 
