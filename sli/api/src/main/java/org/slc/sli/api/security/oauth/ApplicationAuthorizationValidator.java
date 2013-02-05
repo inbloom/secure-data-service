@@ -169,11 +169,19 @@ public class ApplicationAuthorizationValidator {
         return toReturn;
     }
 
+    /**
+     * Return a list of edorgs authorized to use the app, or null if the application is approved for all edorgs
+     * @param clientId
+     * @return
+     */
     public Set<String> getAuthorizingEdOrgsForApp(String clientId) {
         
         //This is called before the SLIPrincipal has been set, so use TenantContext to get tenant rather than SLIPrincipal on SecurityContext
         Entity app = repo.findOne("application", new NeutralQuery(new NeutralCriteria("client_id", "=", clientId)));
-        
+        if (isAuthorizedForAllEdorgs(app)) {
+            debug("App {} is authorized for all edorgs", clientId);
+            return null;
+        }
         NeutralQuery appAuthCollQuery = new NeutralQuery();
         appAuthCollQuery.addCriteria(new NeutralCriteria("appIds", "=", app.getEntityId()));
         appAuthCollQuery.addCriteria(new NeutralCriteria("authType", "=", "EDUCATION_ORGANIZATION"));
@@ -192,6 +200,10 @@ public class ApplicationAuthorizationValidator {
         }
         
         return leas;
+    }
+    
+    private boolean isAuthorizedForAllEdorgs(Entity app) {
+        return app.getBody().get("authorized_for_all_edorgs") != null && (Boolean) app.getBody().get("authorized_for_all_edorgs");
     }
 
 }
