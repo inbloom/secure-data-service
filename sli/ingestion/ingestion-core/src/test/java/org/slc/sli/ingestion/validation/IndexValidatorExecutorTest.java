@@ -39,7 +39,7 @@ public class IndexValidatorExecutorTest {
         } catch(RuntimeException e) {
         	assertNotNull(e.getMessage());        
         }
-//        Mockito.verify(mockedSystemValidator, times(1)).isValid(anyObject(), any(AbstractMessageReport.class), any(ReportStats.class), any(Source.class));      
+//      Mockito.verify(mockedSystemValidator, times(1)).isValid(anyObject(), any(AbstractMessageReport.class), any(ReportStats.class), any(Source.class));      
     }
 
 }
