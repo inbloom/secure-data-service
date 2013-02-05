@@ -20,10 +20,10 @@ AMQSERVER=$4
 CHROOTDIR=`/usr/bin/getent passwd ${USERNAME} | /usr/bin/cut -d ":" -f 6`
 
 # Ensure file is a valid zip file in user's home directory before sending.
-if [ "${FILESPEC}" = "/`basename ${FILESPEC}`" ] && \
+if [ "${FILESPEC}" = "/`basename \"${FILESPEC}\"`" ] && \
    [ "`echo ${FILESPEC} | awk -F . '{if (NF > 1) print $NF}'`" = "zip" ] && \
    [ -n "`echo ${FILESPEC} | awk -F . '{if (NF > 1) print $(NF - 1)}'`" ] && \
-   ( zip -T ${CHROOTDIR}${FILESPEC} >/dev/null )
+   ( zip -T ${CHROOTDIR}"${FILESPEC}" >/dev/null )
 then
   exec ${PUBLISH} ${FTPCOMMAND} ${CHROOTDIR}${FILESPEC} ${AMQSERVER}
 else

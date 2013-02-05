@@ -1,6 +1,6 @@
 =begin
 
-Copyright 2012 Shared Learning Collaborative, LLC
+Copyright 2012-2013 inBloom, Inc. and its affiliates.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ describe "StudentAttendanceGenerator" do
   let(:scenario) {{}}
   let(:output) {StringIO.new('', 'w')}
   let(:generator) {StudentAttendanceGenerator.new(scenario, output)}
-  let(:event) {AttendanceEvent.new("student123", "school123", Date.new(2012, 12, 20), :ABSENT, "excused: sick")}
+  let(:event) {AttendanceEvent.new(100, "student123", "school123", Date.new(2012, 12, 20), :ABSENT, nil, nil, "excused: sick")}
   describe "<<" do
     it "will output an Attendance Event to ed-fi xml interchange" do
       generator.start

@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Shared Learning Collaborative, LLC
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,6 +32,8 @@ public enum BatchJobStageType {
     CONTROL_FILE_PROCESSOR("ControlFileProcessor"),
     PURGE_PROCESSOR("PurgeProcessor"),
     EDFI_PROCESSOR("EdFiProcessor"),
+    SMOOKS_PROCESSOR("SmooksProcessor"),
+    STAGING_PROCESSOR("StagingProcessor"),
     WORKNOTE_SPLITTER("WorkNoteSplitter"),
     TRANSFORMATION_PROCESSOR("TransformationProcessor"),
     PERSISTENCE_PROCESSOR("PersistenceProcessor"),

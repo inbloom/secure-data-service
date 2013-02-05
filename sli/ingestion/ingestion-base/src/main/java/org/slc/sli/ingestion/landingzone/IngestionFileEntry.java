@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Shared Learning Collaborative, LLC
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,6 +21,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 
@@ -44,6 +46,7 @@ public class IngestionFileEntry implements Serializable, Resource {
     private String fileName;
     private String checksum;
     private boolean valid;
+    private final Map<String, Map<String, Object>> envelopes = new HashMap<String, Map<String, Object>>();
 
     // will only be set when this is added to a BatchJob
     private String batchJobId;
@@ -156,6 +159,14 @@ public class IngestionFileEntry implements Serializable, Resource {
 
     public String getParentZipFileOrDirectory() {
         return parentZipFileOrDirectory;
+    }
+
+    public Map<String, Object> getEnvelopeByOwner(String owner) {
+        return envelopes.get(owner);
+    }
+
+    public void setEnvelopeByOwner(String owner, Map<String, Object> envelope) {
+        this.envelopes.put(owner, envelope);
     }
 
     public InputStream getFileStream() throws IOException {

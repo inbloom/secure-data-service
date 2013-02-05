@@ -1,6 +1,6 @@
 =begin
 
-Copyright 2012 Shared Learning Collaborative, LLC
+Copyright 2012-2013 inBloom, Inc. and its affiliates.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -39,7 +39,7 @@ class EntityFactory
           rval << StateEducationAgency.new(@prnd, work_order[:id], work_order[:programs])
 
         when [LocalEducationAgency]
-          rval << LocalEducationAgency.new(@prnd, work_order[:id], work_order[:parent], work_order[:programs], work_order[:years])
+          rval << LocalEducationAgency.new(@prnd, work_order[:id], work_order[:parent], work_order[:programs])
 
         when [School]
           rval << School.new(work_order[:id], work_order[:parent], work_order[:classification], work_order[:programs])

@@ -38,7 +38,7 @@ Background: Nothing yet
     | schools                     | school                     | 0               |
     | students                    | student                    | 0               |
     | studentSectionAssociations  | studentSectionAssociation  | 0               |
-    | courseOfferings             | courseOffering             | 0               |
+    | courseOfferings             | courseOffering             | 138             |
 
 Scenario: Getting response from POST - Create (school)
   Given a valid XML document for a new school entity

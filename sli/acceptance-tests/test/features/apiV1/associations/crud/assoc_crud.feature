@@ -124,7 +124,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
 
     Examples:
       | ASSOC TYPE                             | ASSOC URI                                | COUNT | REWRITE URI |
-      | courseOffering                         | courseOfferings                          | 0     | "/schools/@ids/courseOfferings" |
+      | courseOffering                         | courseOfferings                          | 138   | "/courseOfferings" |
       | staffCohortAssociation                 | staffCohortAssociations                  | 2     | "/staff/@ids/staffCohortAssociations" |
       | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | 1     | "/staff/@ids/staffEducationOrgAssignmentAssociations" |
       | staffProgramAssociation                | staffProgramAssociations                 | 3     | "/staff/@ids/staffProgramAssociations" |
@@ -158,7 +158,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
 
     Examples:
       | ASSOC TYPE                             | ASSOC URI                                | COUNT | REWRITE URI |
-      | courseOffering                         | courseOfferings                          | 39    | "/schools/@ids/courseOfferings" |
+      | courseOffering                         | courseOfferings                          | 138   | "/courseOfferings" |
       | staffCohortAssociation                 | staffCohortAssociations                  | 0     | "/staff/@ids/staffCohortAssociations" |
       | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | 1     | "/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations" |
       | staffProgramAssociation                | staffProgramAssociations                 | 0     | "/staff/@ids/staffProgramAssociations" |
@@ -223,7 +223,6 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
 
     Examples:
       | ASSOC TYPE                             | ASSOC URI                                | ASSOC ID FOR UPDATE                    | UPDATE FIELD             | NEW VALUE              | END POINT 1 FIELD     | END POINT 2 FIELD              | INACCESSIBLE END POINT 1 ID            | INACCESSIBLE END POINT 2 ID            |
-      | courseOffering                         | courseOfferings                          | <b360e8e8-54d1-4b00-952a-b817f91035ed> | localCourseCode          | LCCGR2                 | sessionId             | courseId                       | <389b0caa-dcd2-4e84-93b7-daa4a6e9b18e> | <e31f7583-417e-4c42-bd55-0bbe7518edf8> |
       | staffCohortAssociation                 | staffCohortAssociations                  | <b4e31b1a-8e55-8803-722c-14d8087c0712> | beginDate                | 2011-02-01             | staffId               | cohortId                       | <04f708bc-928b-420d-a440-f1592a5d1073> | <b1bd3db6-d020-4651-b1b8-a8dba688d9e1> |
       | staffEducationOrganizationAssociation  | staffEducationOrgAssignmentAssociations  | <0966614a-6c5d-4345-b451-7ec991823ac5> | beginDate                | 2011-02-15             | staffReference        | educationOrganizationReference | <04f708bc-928b-420d-a440-f1592a5d1073> | <b2c6e292-37b0-4148-bf75-c98a2fcc905f> |
       | staffProgramAssociation                | staffProgramAssociations                 | <9bf7591b-8fd5-11e1-86ec-0021701f543f> | endDate                  | 2012-02-01             | staffId               | programId                      | <04f708bc-928b-420d-a440-f1592a5d1073> | <9e909dfc-ba61-406d-bbb4-c953e8946f8b_id> |

@@ -1,6 +1,6 @@
 =begin
 
-Copyright 2012 Shared Learning Collaborative, LLC
+Copyright 2012-2013 inBloom, Inc. and its affiliates.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -219,6 +219,40 @@ describe "Odin" do
     end
   end
 
+  context "generate 10 students scenario with optional fields turned on" do
+    before(:all) {
+    odin = Odin.new
+    odin.generate("10students_optional")
+    @docs = xml_to_doc
+    }
+
+    describe "#baseline" do
+      it "will generate optional fields for course" do
+        edorg_doc =  @docs["InterchangeEducationOrganization"].root
+        course_count = edorg_doc.xpath("//*[local-name()='Course']").count
+        learningObjectiveRefs = edorg_doc.xpath("//*[local-name()='LearningObjectiveReference']")
+        competencyLevelRefs = edorg_doc.xpath("//*[local-name()='CompetencyLevels']")
+        #verify each course entity has 5 learningObjective ref
+        learningObjectiveRefs.count.should eq(course_count*5)
+        
+        #verify each course entity has 4 competency leve ref
+        competencyLevelRefs.count.should eq(course_count*4)
+
+      end
+
+      it "will generate optional fields for attendance" do
+        attendance_doc = @docs['InterchangeAttendance'].root
+        attendanceEvent_count = attendance_doc.xpath("//*[local-name()='AttendanceEvent']").count
+        sessionRefs = attendance_doc.xpath("//*[local-name()='SessionReference']")
+        sectionRefs = attendance_doc.xpath("//*[local-name()='SectionReference']")
+
+        #verify every attendanceEvent will have one sessionRef and sectionRef
+        sessionRefs.count.should eq(attendanceEvent_count)
+        sectionRefs.count.should eq(attendanceEvent_count)
+      end
+    end
+  end
+
 end
 
 def read_interchanges
@@ -229,4 +263,15 @@ end
 
 def count_entities(interchanges, entity)
   interchanges.map{|i| i.select{|l| l.match("<#{entity}>$")}.count}.inject(:+)
+end
+
+def xml_to_doc
+  docs = {}
+    for f in Dir.entries(File.new "#{File.dirname(__FILE__)}/../generated") do
+      if (f.end_with?(".xml"))
+        doc = Nokogiri.XML( File.open( File.new "#{File.dirname(__FILE__)}/../generated/#{f}" ) )
+        docs[File.basename(f,".xml")] = doc
+      end
+    end
+   docs
 end

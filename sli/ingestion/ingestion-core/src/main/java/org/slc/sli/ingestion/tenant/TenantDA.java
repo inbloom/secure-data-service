@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Shared Learning Collaborative, LLC
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -63,6 +63,13 @@ public interface TenantDA {
      * @return whether the lock was acquired
      */
     boolean updateAndAquireOnboardingLock(String tenantId);
+
+    /**
+     * Unset the isReady field for this tenant.
+     * @param tenantId
+     * @return
+     */
+    void unsetTenantReadyFlag(String tenantId);
 
     /**
      * Remove tenant with invalid characters in the landing zone path from the tenant collection

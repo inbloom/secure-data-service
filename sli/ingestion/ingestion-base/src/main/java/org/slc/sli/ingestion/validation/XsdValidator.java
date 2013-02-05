@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Shared Learning Collaborative, LLC
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Map;
 
 import javax.xml.XMLConstants;
 import javax.xml.transform.stream.StreamSource;
@@ -46,6 +45,7 @@ import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
 import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
 import org.slc.sli.ingestion.reporting.impl.XmlFileSource;
+import org.slc.sli.ingestion.util.XsdSelector;
 
 /**
  * Validates the xml file against an xsd. Returns false if there is any error else it will always
@@ -60,8 +60,6 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
 
     private static final Logger LOG = LoggerFactory.getLogger(XsdValidator.class);
     private static final String STAGE_NAME = "XSD Validation";
-
-    private Map<String, Resource> xsd;
 
     @Override
     public boolean isValid(IngestionFileEntry entry, AbstractMessageReport report,
@@ -97,7 +95,7 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
         }
 
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        Resource xsdResource = xsd.get(entry.getFileType().getName());
+        Resource xsdResource = XsdSelector.provideXsdResource(entry);
         Schema schema = schemaFactory.newSchema(xsdResource.getURL());
 
         javax.xml.validation.Validator validator = schema.newValidator();
@@ -113,14 +111,6 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
     @Override
     public String getStageName() {
         return STAGE_NAME;
-    }
-
-    public Map<String, Resource> getXsd() {
-        return xsd;
-    }
-
-    public void setXsd(Map<String, Resource> xsd) {
-        this.xsd = xsd;
     }
 
     /**
@@ -208,7 +198,7 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
                                 return parseFile.getName();
                             }}
                 );
-                
+
 
                 report.warning(reportStats, source, BaseMessageCode.BASE_0017, parseFile.getName(), ex.getMessage());
             }

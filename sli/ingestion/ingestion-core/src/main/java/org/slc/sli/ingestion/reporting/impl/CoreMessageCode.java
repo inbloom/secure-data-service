@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Shared Learning Collaborative, LLC
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -76,7 +76,8 @@ public enum CoreMessageCode implements MessageCode {
     CORE_0055,
     CORE_0056,
     CORE_0057,
-    CORE_0058;
+    CORE_0058,
+    CORE_0059;
 
     @Override
     public String getCode() {

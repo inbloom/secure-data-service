@@ -7,7 +7,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>68</Result>
+    <Result>85</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -27,7 +27,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>57</Result>
+    <Result>70</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -47,7 +47,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>82</Result>
+    <Result>2</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -67,7 +67,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>96</Result>
+    <Result>76</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -87,7 +87,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>13</Result>
+    <Result>91</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -107,7 +107,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>10</Result>
+    <Result>21</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -127,7 +127,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>21</Result>
+    <Result>11</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -147,7 +147,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>58</Result>
+    <Result>22</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -167,7 +167,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>16</Result>
+    <Result>6</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -187,7 +187,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>92</Result>
+    <Result>96</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -207,7 +207,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>37</Result>
+    <Result>14</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -227,7 +227,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>11</Result>
+    <Result>87</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -247,7 +247,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>43</Result>
+    <Result>96</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -267,7 +267,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>24</Result>
+    <Result>58</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -287,7 +287,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>16</Result>
+    <Result>82</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -307,7 +307,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>96</Result>
+    <Result>34</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -327,7 +327,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>96</Result>
+    <Result>30</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -347,7 +347,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>41</Result>
+    <Result>57</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -358,6 +358,66 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <AssessmentIdentity>
           <AssessmentTitle>2003-Eleventh grade Assessment 2</AssessmentTitle>
           <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-08-28</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>52</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>2</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-Sixth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-08-29</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>74</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>2</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-Sixth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-08-30</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>72</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>2</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-Sixth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
       </AssessmentIdentity>
   </AssessmentReference>
 </StudentAssessment>
@@ -376,7 +436,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentReference>
   <AssessmentReference>
       <AssessmentIdentity>
-          <AssessmentTitle>2001-Sixth grade Assessment 1</AssessmentTitle>
+          <AssessmentTitle>2001-Sixth grade Assessment 2</AssessmentTitle>
           <GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
       </AssessmentIdentity>
   </AssessmentReference>
@@ -396,7 +456,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentReference>
   <AssessmentReference>
       <AssessmentIdentity>
-          <AssessmentTitle>2001-Sixth grade Assessment 1</AssessmentTitle>
+          <AssessmentTitle>2001-Sixth grade Assessment 2</AssessmentTitle>
           <GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
       </AssessmentIdentity>
   </AssessmentReference>
@@ -416,66 +476,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentReference>
   <AssessmentReference>
       <AssessmentIdentity>
-          <AssessmentTitle>2001-Sixth grade Assessment 1</AssessmentTitle>
-          <GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2001-08-28</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>96</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>2</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2001-Sixth grade Assessment 2</AssessmentTitle>
-          <GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2001-08-29</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>16</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>2</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2001-Sixth grade Assessment 2</AssessmentTitle>
-          <GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2001-08-30</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>55</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>2</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
           <AssessmentTitle>2001-Sixth grade Assessment 2</AssessmentTitle>
           <GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
       </AssessmentIdentity>
@@ -483,6 +483,46 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentAssessment>
 <StudentAssessment>
   <AdministrationDate>2002-09-06</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>30</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>2</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Seventh grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2002-09-07</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>82</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>2</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Seventh grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2002-09-08</AdministrationDate>
   <AdministrationLanguage>English</AdministrationLanguage>
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
@@ -502,7 +542,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </AssessmentReference>
 </StudentAssessment>
 <StudentAssessment>
-  <AdministrationDate>2002-09-07</AdministrationDate>
+  <AdministrationDate>2002-09-06</AdministrationDate>
   <AdministrationLanguage>English</AdministrationLanguage>
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
@@ -516,13 +556,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentReference>
   <AssessmentReference>
       <AssessmentIdentity>
-          <AssessmentTitle>2002-Seventh grade Assessment 1</AssessmentTitle>
+          <AssessmentTitle>2002-Seventh grade Assessment 2</AssessmentTitle>
           <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
       </AssessmentIdentity>
   </AssessmentReference>
 </StudentAssessment>
 <StudentAssessment>
-  <AdministrationDate>2002-09-08</AdministrationDate>
+  <AdministrationDate>2002-09-07</AdministrationDate>
   <AdministrationLanguage>English</AdministrationLanguage>
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
@@ -536,13 +576,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentReference>
   <AssessmentReference>
       <AssessmentIdentity>
-          <AssessmentTitle>2002-Seventh grade Assessment 1</AssessmentTitle>
+          <AssessmentTitle>2002-Seventh grade Assessment 2</AssessmentTitle>
           <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
       </AssessmentIdentity>
   </AssessmentReference>
 </StudentAssessment>
 <StudentAssessment>
-  <AdministrationDate>2002-09-06</AdministrationDate>
+  <AdministrationDate>2002-09-08</AdministrationDate>
   <AdministrationLanguage>English</AdministrationLanguage>
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
@@ -562,52 +602,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </AssessmentReference>
 </StudentAssessment>
 <StudentAssessment>
-  <AdministrationDate>2002-09-07</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>80</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>2</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2002-Seventh grade Assessment 2</AssessmentTitle>
-          <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2002-09-08</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>17</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>2</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2002-Seventh grade Assessment 2</AssessmentTitle>
-          <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
   <AdministrationDate>2003-09-05</AdministrationDate>
   <AdministrationLanguage>English</AdministrationLanguage>
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>25</Result>
+    <Result>55</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -627,7 +627,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>52</Result>
+    <Result>39</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -647,7 +647,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>90</Result>
+    <Result>67</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -663,6 +663,46 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentAssessment>
 <StudentAssessment>
   <AdministrationDate>2003-09-05</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>75</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>2</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2003-Eighth grade Assessment 2</AssessmentTitle>
+          <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2003-09-06</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>93</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>2</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2003-Eighth grade Assessment 2</AssessmentTitle>
+          <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2003-09-07</AdministrationDate>
   <AdministrationLanguage>English</AdministrationLanguage>
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
@@ -682,106 +722,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </AssessmentReference>
 </StudentAssessment>
 <StudentAssessment>
-  <AdministrationDate>2003-09-06</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>84</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>2</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2003-Eighth grade Assessment 2</AssessmentTitle>
-          <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2003-09-07</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>32</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>2</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2003-Eighth grade Assessment 2</AssessmentTitle>
-          <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2001-08-28</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>60</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>3</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2001-Seventh grade Assessment 1</AssessmentTitle>
-          <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2001-08-29</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>88</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>3</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2001-Seventh grade Assessment 1</AssessmentTitle>
-          <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2001-08-30</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>55</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>3</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2001-Seventh grade Assessment 1</AssessmentTitle>
-          <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
   <AdministrationDate>2001-08-28</AdministrationDate>
   <AdministrationLanguage>English</AdministrationLanguage>
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
@@ -796,7 +736,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentReference>
   <AssessmentReference>
       <AssessmentIdentity>
-          <AssessmentTitle>2001-Seventh grade Assessment 2</AssessmentTitle>
+          <AssessmentTitle>2001-Seventh grade Assessment 1</AssessmentTitle>
           <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
       </AssessmentIdentity>
   </AssessmentReference>
@@ -816,7 +756,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentReference>
   <AssessmentReference>
       <AssessmentIdentity>
-          <AssessmentTitle>2001-Seventh grade Assessment 2</AssessmentTitle>
+          <AssessmentTitle>2001-Seventh grade Assessment 1</AssessmentTitle>
           <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
       </AssessmentIdentity>
   </AssessmentReference>
@@ -828,6 +768,66 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
     <Result>10</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>3</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-Seventh grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-08-28</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>80</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>3</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-Seventh grade Assessment 2</AssessmentTitle>
+          <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-08-29</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>76</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>3</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-Seventh grade Assessment 2</AssessmentTitle>
+          <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-08-30</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>68</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -967,7 +967,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>28</Result>
+    <Result>30</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -987,7 +987,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>78</Result>
+    <Result>60</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1007,7 +1007,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>19</Result>
+    <Result>95</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1027,7 +1027,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>38</Result>
+    <Result>63</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1043,166 +1043,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentAssessment>
 <StudentAssessment>
   <AdministrationDate>2003-09-06</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>8</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>3</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2003-Ninth grade Assessment 2</AssessmentTitle>
-          <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2003-09-07</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>53</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>3</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2003-Ninth grade Assessment 2</AssessmentTitle>
-          <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2001-08-28</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>68</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>4</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2001-Eighth grade Assessment 1</AssessmentTitle>
-          <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2001-08-29</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>62</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>4</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2001-Eighth grade Assessment 1</AssessmentTitle>
-          <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2001-08-30</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>59</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>4</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2001-Eighth grade Assessment 1</AssessmentTitle>
-          <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2001-08-28</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>3</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>4</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2001-Eighth grade Assessment 2</AssessmentTitle>
-          <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2001-08-29</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>4</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>4</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2001-Eighth grade Assessment 2</AssessmentTitle>
-          <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2001-08-30</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>39</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>4</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2001-Eighth grade Assessment 2</AssessmentTitle>
-          <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2002-09-06</AdministrationDate>
   <AdministrationLanguage>English</AdministrationLanguage>
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
@@ -1211,138 +1051,38 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
-      <StudentUniqueStateId>4</StudentUniqueStateId>
+      <StudentUniqueStateId>3</StudentUniqueStateId>
     </StudentIdentity>
   </StudentReference>
   <AssessmentReference>
       <AssessmentIdentity>
-          <AssessmentTitle>2002-Ninth grade Assessment 1</AssessmentTitle>
+          <AssessmentTitle>2003-Ninth grade Assessment 2</AssessmentTitle>
           <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
       </AssessmentIdentity>
   </AssessmentReference>
 </StudentAssessment>
 <StudentAssessment>
-  <AdministrationDate>2002-09-07</AdministrationDate>
+  <AdministrationDate>2003-09-07</AdministrationDate>
   <AdministrationLanguage>English</AdministrationLanguage>
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>78</Result>
+    <Result>35</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
-      <StudentUniqueStateId>4</StudentUniqueStateId>
+      <StudentUniqueStateId>3</StudentUniqueStateId>
     </StudentIdentity>
   </StudentReference>
   <AssessmentReference>
       <AssessmentIdentity>
-          <AssessmentTitle>2002-Ninth grade Assessment 1</AssessmentTitle>
+          <AssessmentTitle>2003-Ninth grade Assessment 2</AssessmentTitle>
           <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
       </AssessmentIdentity>
   </AssessmentReference>
 </StudentAssessment>
 <StudentAssessment>
-  <AdministrationDate>2002-09-08</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>16</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>4</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2002-Ninth grade Assessment 1</AssessmentTitle>
-          <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2002-09-06</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>77</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>4</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2002-Ninth grade Assessment 2</AssessmentTitle>
-          <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2002-09-07</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>74</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>4</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2002-Ninth grade Assessment 2</AssessmentTitle>
-          <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2002-09-08</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>20</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>4</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2002-Ninth grade Assessment 2</AssessmentTitle>
-          <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2003-09-05</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>90</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>4</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2003-Tenth grade Assessment 1</AssessmentTitle>
-          <GradeLevelAssessed>Tenth grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2003-09-06</AdministrationDate>
+  <AdministrationDate>2001-08-28</AdministrationDate>
   <AdministrationLanguage>English</AdministrationLanguage>
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
@@ -1356,6 +1096,266 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentReference>
   <AssessmentReference>
       <AssessmentIdentity>
+          <AssessmentTitle>2001-Eighth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-08-29</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>13</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-Eighth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-08-30</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>0</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-Eighth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-08-28</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>10</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-Eighth grade Assessment 2</AssessmentTitle>
+          <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-08-29</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>7</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-Eighth grade Assessment 2</AssessmentTitle>
+          <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-08-30</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>63</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-Eighth grade Assessment 2</AssessmentTitle>
+          <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2002-09-06</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>0</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Ninth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2002-09-07</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>85</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Ninth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2002-09-08</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>28</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Ninth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2002-09-06</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>73</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Ninth grade Assessment 2</AssessmentTitle>
+          <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2002-09-07</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>73</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Ninth grade Assessment 2</AssessmentTitle>
+          <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2002-09-08</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>4</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Ninth grade Assessment 2</AssessmentTitle>
+          <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2003-09-05</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>8</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2003-Tenth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Tenth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2003-09-06</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>26</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>4</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
           <AssessmentTitle>2003-Tenth grade Assessment 1</AssessmentTitle>
           <GradeLevelAssessed>Tenth grade</GradeLevelAssessed>
       </AssessmentIdentity>
@@ -1367,7 +1367,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>70</Result>
+    <Result>71</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1407,7 +1407,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>72</Result>
+    <Result>87</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1427,7 +1427,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>92</Result>
+    <Result>43</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1447,7 +1447,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>62</Result>
+    <Result>7</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1467,7 +1467,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>27</Result>
+    <Result>76</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1487,7 +1487,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>30</Result>
+    <Result>15</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1503,6 +1503,26 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentAssessment>
 <StudentAssessment>
   <AdministrationDate>2001-08-28</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>53</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>5</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-Kindergarten Assessment 2</AssessmentTitle>
+          <GradeLevelAssessed>Kindergarten</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-08-29</AdministrationDate>
   <AdministrationLanguage>English</AdministrationLanguage>
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
@@ -1522,32 +1542,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </AssessmentReference>
 </StudentAssessment>
 <StudentAssessment>
-  <AdministrationDate>2001-08-29</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>7</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>5</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2001-Kindergarten Assessment 2</AssessmentTitle>
-          <GradeLevelAssessed>Kindergarten</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
   <AdministrationDate>2001-08-30</AdministrationDate>
   <AdministrationLanguage>English</AdministrationLanguage>
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>76</Result>
+    <Result>27</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1567,7 +1567,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>89</Result>
+    <Result>5</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1587,7 +1587,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>57</Result>
+    <Result>26</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1607,7 +1607,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>17</Result>
+    <Result>41</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1627,7 +1627,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>94</Result>
+    <Result>83</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1643,26 +1643,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentAssessment>
 <StudentAssessment>
   <AdministrationDate>2002-09-07</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>64</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>5</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2002-First grade Assessment 2</AssessmentTitle>
-          <GradeLevelAssessed>First grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2002-09-08</AdministrationDate>
   <AdministrationLanguage>English</AdministrationLanguage>
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
@@ -1682,12 +1662,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </AssessmentReference>
 </StudentAssessment>
 <StudentAssessment>
-  <AdministrationDate>2003-09-05</AdministrationDate>
+  <AdministrationDate>2002-09-08</AdministrationDate>
   <AdministrationLanguage>English</AdministrationLanguage>
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>21</Result>
+    <Result>75</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1696,98 +1676,118 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentReference>
   <AssessmentReference>
       <AssessmentIdentity>
-          <AssessmentTitle>2003-Second grade Assessment 1</AssessmentTitle>
-          <GradeLevelAssessed>Second grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2003-09-06</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>8</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>5</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2003-Second grade Assessment 1</AssessmentTitle>
-          <GradeLevelAssessed>Second grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2003-09-07</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>31</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>5</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2003-Second grade Assessment 1</AssessmentTitle>
-          <GradeLevelAssessed>Second grade</GradeLevelAssessed>
+          <AssessmentTitle>2002-First grade Assessment 2</AssessmentTitle>
+          <GradeLevelAssessed>First grade</GradeLevelAssessed>
       </AssessmentIdentity>
   </AssessmentReference>
 </StudentAssessment>
 <StudentAssessment>
   <AdministrationDate>2003-09-05</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>47</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>5</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2003-Second grade Assessment 2</AssessmentTitle>
-          <GradeLevelAssessed>Second grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2003-09-06</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>77</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>5</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2003-Second grade Assessment 2</AssessmentTitle>
-          <GradeLevelAssessed>Second grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2003-09-07</AdministrationDate>
   <AdministrationLanguage>English</AdministrationLanguage>
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
     <Result>78</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>5</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2003-Second grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Second grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2003-09-06</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>82</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>5</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2003-Second grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Second grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2003-09-07</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>66</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>5</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2003-Second grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Second grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2003-09-05</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>98</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>5</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2003-Second grade Assessment 2</AssessmentTitle>
+          <GradeLevelAssessed>Second grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2003-09-06</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>98</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>5</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2003-Second grade Assessment 2</AssessmentTitle>
+          <GradeLevelAssessed>Second grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2003-09-07</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>84</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1803,46 +1803,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentAssessment>
 <StudentAssessment>
   <AdministrationDate>2001-08-28</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>75</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>6</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2001-First grade Assessment 1</AssessmentTitle>
-          <GradeLevelAssessed>First grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2001-08-29</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>77</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>6</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2001-First grade Assessment 1</AssessmentTitle>
-          <GradeLevelAssessed>First grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2001-08-30</AdministrationDate>
   <AdministrationLanguage>English</AdministrationLanguage>
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
@@ -1862,12 +1822,52 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </AssessmentReference>
 </StudentAssessment>
 <StudentAssessment>
-  <AdministrationDate>2001-08-28</AdministrationDate>
+  <AdministrationDate>2001-08-29</AdministrationDate>
   <AdministrationLanguage>English</AdministrationLanguage>
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
     <Result>26</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>6</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-First grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>First grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-08-30</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>33</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>6</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-First grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>First grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-08-28</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>68</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1907,7 +1907,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>68</Result>
+    <Result>8</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1927,7 +1927,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>94</Result>
+    <Result>85</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -1943,26 +1943,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentAssessment>
 <StudentAssessment>
   <AdministrationDate>2002-09-07</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>26</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>6</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2002-Second grade Assessment 1</AssessmentTitle>
-          <GradeLevelAssessed>Second grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2002-09-08</AdministrationDate>
   <AdministrationLanguage>English</AdministrationLanguage>
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
@@ -1982,12 +1962,32 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </AssessmentReference>
 </StudentAssessment>
 <StudentAssessment>
+  <AdministrationDate>2002-09-08</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>39</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>6</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Second grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Second grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
   <AdministrationDate>2002-09-06</AdministrationDate>
   <AdministrationLanguage>English</AdministrationLanguage>
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>91</Result>
+    <Result>11</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2007,7 +2007,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>2</Result>
+    <Result>86</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2027,7 +2027,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>2</Result>
+    <Result>38</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2047,7 +2047,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>18</Result>
+    <Result>94</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2067,7 +2067,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>70</Result>
+    <Result>48</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2087,7 +2087,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>72</Result>
+    <Result>1</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2107,7 +2107,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>4</Result>
+    <Result>16</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2127,7 +2127,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>8</Result>
+    <Result>65</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2147,7 +2147,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>62</Result>
+    <Result>9</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2407,7 +2407,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>67</Result>
+    <Result>41</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2427,7 +2427,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>4</Result>
+    <Result>83</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2447,7 +2447,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>7</Result>
+    <Result>34</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2467,7 +2467,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>58</Result>
+    <Result>63</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2487,7 +2487,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>2</Result>
+    <Result>74</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2507,7 +2507,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>39</Result>
+    <Result>68</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2527,7 +2527,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>13</Result>
+    <Result>60</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2547,7 +2547,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>9</Result>
+    <Result>49</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2567,7 +2567,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>61</Result>
+    <Result>74</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2587,7 +2587,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>15</Result>
+    <Result>27</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2607,7 +2607,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>93</Result>
+    <Result>13</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2627,7 +2627,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>98</Result>
+    <Result>9</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2647,7 +2647,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>20</Result>
+    <Result>86</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2667,7 +2667,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>5</Result>
+    <Result>0</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2677,6 +2677,66 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AssessmentReference>
       <AssessmentIdentity>
           <AssessmentTitle>2002-Fourth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2002-09-08</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>6</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>8</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Fourth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2002-09-06</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>20</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>8</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Fourth grade Assessment 2</AssessmentTitle>
+          <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2002-09-07</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>5</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>8</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Fourth grade Assessment 2</AssessmentTitle>
           <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
       </AssessmentIdentity>
   </AssessmentReference>
@@ -2696,66 +2756,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentReference>
   <AssessmentReference>
       <AssessmentIdentity>
-          <AssessmentTitle>2002-Fourth grade Assessment 1</AssessmentTitle>
-          <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2002-09-06</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>1</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>8</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2002-Fourth grade Assessment 2</AssessmentTitle>
-          <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2002-09-07</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>81</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>8</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2002-Fourth grade Assessment 2</AssessmentTitle>
-          <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2002-09-08</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>14</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>8</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
           <AssessmentTitle>2002-Fourth grade Assessment 2</AssessmentTitle>
           <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
       </AssessmentIdentity>
@@ -2763,6 +2763,46 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentAssessment>
 <StudentAssessment>
   <AdministrationDate>2003-09-05</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>75</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>8</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2003-Fifth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2003-09-06</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>74</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>8</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2003-Fifth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2003-09-07</AdministrationDate>
   <AdministrationLanguage>English</AdministrationLanguage>
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
@@ -2782,7 +2822,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </AssessmentReference>
 </StudentAssessment>
 <StudentAssessment>
-  <AdministrationDate>2003-09-06</AdministrationDate>
+  <AdministrationDate>2003-09-05</AdministrationDate>
   <AdministrationLanguage>English</AdministrationLanguage>
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
@@ -2796,13 +2836,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentReference>
   <AssessmentReference>
       <AssessmentIdentity>
-          <AssessmentTitle>2003-Fifth grade Assessment 1</AssessmentTitle>
+          <AssessmentTitle>2003-Fifth grade Assessment 2</AssessmentTitle>
           <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
       </AssessmentIdentity>
   </AssessmentReference>
 </StudentAssessment>
 <StudentAssessment>
-  <AdministrationDate>2003-09-07</AdministrationDate>
+  <AdministrationDate>2003-09-06</AdministrationDate>
   <AdministrationLanguage>English</AdministrationLanguage>
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
@@ -2816,13 +2856,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentReference>
   <AssessmentReference>
       <AssessmentIdentity>
-          <AssessmentTitle>2003-Fifth grade Assessment 1</AssessmentTitle>
+          <AssessmentTitle>2003-Fifth grade Assessment 2</AssessmentTitle>
           <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
       </AssessmentIdentity>
   </AssessmentReference>
 </StudentAssessment>
 <StudentAssessment>
-  <AdministrationDate>2003-09-05</AdministrationDate>
+  <AdministrationDate>2003-09-07</AdministrationDate>
   <AdministrationLanguage>English</AdministrationLanguage>
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
@@ -2842,52 +2882,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </AssessmentReference>
 </StudentAssessment>
 <StudentAssessment>
-  <AdministrationDate>2003-09-06</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>20</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>8</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2003-Fifth grade Assessment 2</AssessmentTitle>
-          <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2003-09-07</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>92</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>8</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2003-Fifth grade Assessment 2</AssessmentTitle>
-          <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
   <AdministrationDate>2001-08-28</AdministrationDate>
   <AdministrationLanguage>English</AdministrationLanguage>
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>12</Result>
+    <Result>93</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2907,7 +2907,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>18</Result>
+    <Result>62</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2927,7 +2927,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>86</Result>
+    <Result>12</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2947,7 +2947,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>56</Result>
+    <Result>18</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -2967,7 +2967,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>1</Result>
+    <Result>86</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3127,7 +3127,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>92</Result>
+    <Result>75</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3147,7 +3147,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>27</Result>
+    <Result>42</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3167,7 +3167,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>99</Result>
+    <Result>22</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3187,7 +3187,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>6</Result>
+    <Result>26</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3207,7 +3207,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>88</Result>
+    <Result>82</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3227,7 +3227,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>68</Result>
+    <Result>90</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3247,66 +3247,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>36</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>10</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2001-Fifth grade Assessment 1</AssessmentTitle>
-          <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2001-08-29</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>16</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>10</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2001-Fifth grade Assessment 1</AssessmentTitle>
-          <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2001-08-30</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>11</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>10</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2001-Fifth grade Assessment 1</AssessmentTitle>
-          <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
-  <AdministrationDate>2001-08-28</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
     <Result>54</Result>
   </ScoreResults>
   <StudentReference>
@@ -3316,7 +3256,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentReference>
   <AssessmentReference>
       <AssessmentIdentity>
-          <AssessmentTitle>2001-Fifth grade Assessment 2</AssessmentTitle>
+          <AssessmentTitle>2001-Fifth grade Assessment 1</AssessmentTitle>
           <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
       </AssessmentIdentity>
   </AssessmentReference>
@@ -3336,7 +3276,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentReference>
   <AssessmentReference>
       <AssessmentIdentity>
-          <AssessmentTitle>2001-Fifth grade Assessment 2</AssessmentTitle>
+          <AssessmentTitle>2001-Fifth grade Assessment 1</AssessmentTitle>
           <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
       </AssessmentIdentity>
   </AssessmentReference>
@@ -3356,6 +3296,66 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentReference>
   <AssessmentReference>
       <AssessmentIdentity>
+          <AssessmentTitle>2001-Fifth grade Assessment 1</AssessmentTitle>
+          <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-08-28</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>33</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>10</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-Fifth grade Assessment 2</AssessmentTitle>
+          <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-08-29</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>72</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>10</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2001-Fifth grade Assessment 2</AssessmentTitle>
+          <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2001-08-30</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>78</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>10</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
           <AssessmentTitle>2001-Fifth grade Assessment 2</AssessmentTitle>
           <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
       </AssessmentIdentity>
@@ -3367,7 +3367,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>59</Result>
+    <Result>63</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3387,7 +3387,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>2</Result>
+    <Result>59</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3407,7 +3407,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>30</Result>
+    <Result>2</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3423,6 +3423,26 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
 </StudentAssessment>
 <StudentAssessment>
   <AdministrationDate>2002-09-06</AdministrationDate>
+  <AdministrationLanguage>English</AdministrationLanguage>
+  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+  <RetestIndicator>Primary Administration</RetestIndicator>
+  <ScoreResults AssessmentReportingMethod="Scale score">
+    <Result>30</Result>
+  </ScoreResults>
+  <StudentReference>
+    <StudentIdentity>
+      <StudentUniqueStateId>10</StudentUniqueStateId>
+    </StudentIdentity>
+  </StudentReference>
+  <AssessmentReference>
+      <AssessmentIdentity>
+          <AssessmentTitle>2002-Sixth grade Assessment 2</AssessmentTitle>
+          <GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
+      </AssessmentIdentity>
+  </AssessmentReference>
+</StudentAssessment>
+<StudentAssessment>
+  <AdministrationDate>2002-09-07</AdministrationDate>
   <AdministrationLanguage>English</AdministrationLanguage>
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
@@ -3442,7 +3462,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </AssessmentReference>
 </StudentAssessment>
 <StudentAssessment>
-  <AdministrationDate>2002-09-07</AdministrationDate>
+  <AdministrationDate>2002-09-08</AdministrationDate>
   <AdministrationLanguage>English</AdministrationLanguage>
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
@@ -3462,32 +3482,12 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </AssessmentReference>
 </StudentAssessment>
 <StudentAssessment>
-  <AdministrationDate>2002-09-08</AdministrationDate>
-  <AdministrationLanguage>English</AdministrationLanguage>
-  <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-  <RetestIndicator>Primary Administration</RetestIndicator>
-  <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>70</Result>
-  </ScoreResults>
-  <StudentReference>
-    <StudentIdentity>
-      <StudentUniqueStateId>10</StudentUniqueStateId>
-    </StudentIdentity>
-  </StudentReference>
-  <AssessmentReference>
-      <AssessmentIdentity>
-          <AssessmentTitle>2002-Sixth grade Assessment 2</AssessmentTitle>
-          <GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
-      </AssessmentIdentity>
-  </AssessmentReference>
-</StudentAssessment>
-<StudentAssessment>
   <AdministrationDate>2003-09-05</AdministrationDate>
   <AdministrationLanguage>English</AdministrationLanguage>
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>2</Result>
+    <Result>99</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3507,7 +3507,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>15</Result>
+    <Result>32</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3527,7 +3527,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>41</Result>
+    <Result>23</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3547,7 +3547,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>71</Result>
+    <Result>87</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3567,7 +3567,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>97</Result>
+    <Result>47</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>
@@ -3587,7 +3587,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   <AdministrationEnvironment>Classroom</AdministrationEnvironment>
   <RetestIndicator>Primary Administration</RetestIndicator>
   <ScoreResults AssessmentReportingMethod="Scale score">
-    <Result>51</Result>
+    <Result>56</Result>
   </ScoreResults>
   <StudentReference>
     <StudentIdentity>

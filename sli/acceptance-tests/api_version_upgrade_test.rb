@@ -1,6 +1,6 @@
 =begin
 
-Copyright 2012 Shared Learning Collaborative, LLC
+Copyright 2012-2013 inBloom, Inc. and its affiliates.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -23,7 +23,7 @@ require 'timeout'
 
 @options = {}
 ARGV.options do |opts|
-  opts.banner = "Usage:\n  > ruby #{$0} -b <old_branch> [-v <old_version>] [-B <new_branch>] [-c] [-h]"
+  opts.banner = "Usage:\n  > ruby #{$0} -b <old_branch> [-v <old_version>] [-B <new_branch>] [-e <env_vars>] [-c] [-h]"
   opts.on(:REQUIRED, /.+/, '-b', '--old_branch (required)', 'The branch to extract the test code from (prior version).') do |old_branch|
     @options[:old_branch] = old_branch
   end
@@ -62,7 +62,8 @@ def init
                       "opstools",
                       "admin-tools/approval",
                       "ingestion/ingestion-validation/target/",
-                      "api/src/main/resources/wadl/"]
+                      "api/src/main/resources/wadl/",
+                      "ingestion/ingestion-core/src/main/resources/tenants/"]
   @old_version = @options[:old_version]
   @old_branch = @options[:old_branch]
   @new_branch = @options[:new_branch]
@@ -71,6 +72,12 @@ def init
   # @rake_tasks = @options[:tasks] ? @options[:tasks].join(" ") : "apiAndSecurityTests"
   @rake_tasks = "apiAndSecurityTests"
   @ci = @options[:ci]
+
+  scripts_loc = "#{@sli_workspace}/opstools/migration"
+  @migrations = [
+      "bundle exec ruby #{scripts_loc}/67to68TeacherSchoolDenormalizer.rb",
+      "bundle exec ruby #{scripts_loc}/69WritePublicRoleMigration.rb localhost:27017"
+  ]
 end
 
 def run_cmd(cmd)
@@ -117,9 +124,19 @@ def unpackage_test_code(dest)
 end
 
 def replace_api_version(version)
-  puts "---- Replace API versions in URLs with \"#{@old_version}\" in test code"
+  puts "---- Replace API versions in URLs with \"#{version}\" in test code"
   Dir[File.join("#{@extract_dest}/acceptance-tests/test/features", "**", "*.{rb,feature}")].each do |f|
-    text = File.read(f).gsub(/v\d+\.?\d*/, "#{@old_version}")
+    temp_text = File.read(f).gsub(/v\d\.?\d*(?!_resources)/, version)
+    text = ""
+    replace_next_line = false
+    temp_text.each_line do |line|
+      if replace_next_line
+        line = "  version = (expectedUri.include? \"/search\") ? \"v1.1\" : \"#{version}\"\n"
+        replace_next_line = false
+      end
+      replace_next_line = true if line.include? "Then /^uri was rewritten to"
+      text += "#{line}"
+    end
     File.open(f, "w") do |f|
       f.write text
     end
@@ -148,10 +165,20 @@ def start_api
   end
 end
 
-def copy_new_custom_roles
-  puts "---- Replace custom role fixtures"
-  Dir["#{@sli_workspace}/acceptance-tests/test/data/customRole*.json"].each do |f|
-    FileUtils.cp(f, "#{@extract_dest}/acceptance-tests/test/data/")
+def insert_migration_scripts
+  puts "---- Run migration scripts"
+  Dir.chdir "#{@sli_workspace}/acceptance-tests"
+  run_cmd "bundle exec rake loadDefaultIngestionTenants"
+  gemfile_lock = "#{@extract_dest}/acceptance-tests/Gemfile.lock"
+  text = File.read(gemfile_lock).gsub(/mongo .+/, "mongo (1.8.0)")
+  File.open(gemfile_lock, "w") do |f|
+    f.write text
+  end
+  text_to_insert = @migrations.map { |m| "sh \"#{m}\"" }.join "\n"
+  rakefile = "#{@extract_dest}/acceptance-tests/Rakefile"
+  text = File.read(rakefile).gsub(/def runTests\(testDirPath\)/, "def runTests(testDirPath)\n#{text_to_insert}")
+  File.open(rakefile, "w") do |f|
+    f.write text
   end
 end
 
@@ -177,8 +204,8 @@ def main
     build_sli unless @ci
     unpackage_test_code @extract_dest
     replace_api_version @old_version if @old_version
+    insert_migration_scripts
     start_api unless @ci
-    copy_new_custom_roles
     run_test @rake_tasks
   rescue Exception => e
     puts e.message
