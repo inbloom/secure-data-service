@@ -37,6 +37,7 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.logging.SecurityEvent;
+import org.slc.sli.ingestion.parser.EdfiType;
 import org.slc.sli.ingestion.parser.TypeProvider;
 
 /**
@@ -154,12 +155,17 @@ public class XsdTypeProvider implements TypeProvider {
     }
 
     @Override
-    public String getTypeFromParentType(String xsdType, String eventName) {
+    public EdfiType getTypeFromParentType(String xsdType, String eventName) {
         Element parentElement = getComplexElement(xsdType);
-        if (parentElement != null) {
+        if (parentElement != null && eventName != null) {
+
+            int numLists = 0;
             for (Element e : parentElement.getDescendants(Filters.element(ELEMENT, XS_NAMESPACE))) {
                 if (e.getAttributeValue(NAME).equals(eventName)) {
-                    return e.getAttributeValue(TYPE);
+                    if ("unbounded".equals(e.getAttributeValue("maxOccurs"))) {
+                        numLists++;
+                    }
+                    return new XsdEdfiType(eventName, e.getAttributeValue(TYPE), numLists);
                 }
             }
         }

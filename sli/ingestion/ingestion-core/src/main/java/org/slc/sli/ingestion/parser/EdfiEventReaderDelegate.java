@@ -40,6 +40,8 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
+import org.slc.sli.ingestion.parser.impl.XsdEdfiType;
+
 /**
  *
  * @author dduran
@@ -100,7 +102,7 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
 
     private void initCurrentEntity(String eventName) {
         String xsdType = tp.getTypeFromInterchange(interchange, eventName);
-        complexTypeStack.push(createElementEntry(eventName, xsdType));
+        complexTypeStack.push(createElementEntry(new XsdEdfiType(eventName, xsdType, 0)));
         currentEntityName = eventName;
         currentEntityValid = true;
     }
@@ -113,7 +115,7 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
         } else if (e.isCharacters()) {
             parseCharacters(e.asCharacters());
 
-        } else if (e.isEndElement() && eventName.equals(complexTypeStack.peek().getLeft().name)) {
+        } else if (e.isEndElement() && eventName.equals(complexTypeStack.peek().getLeft().getName())) {
             parseEndElement();
         }
     }
@@ -133,11 +135,19 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
         parseEventAttributes(e);
     }
 
+    @SuppressWarnings("unchecked")
     private void newEventToStack(String eventName) {
-        String xsdType = tp.getTypeFromParentType(complexTypeStack.peek().getLeft().xsdType, eventName);
-        Pair<EdfiType, Map<String, Object>> subElement = createElementEntry(eventName, xsdType);
+        EdfiType typeMeta = tp.getTypeFromParentType(complexTypeStack.peek().getLeft().getType(), eventName);
 
-        complexTypeStack.peek().getRight().put(eventName, subElement.getRight());
+        Pair<EdfiType, Map<String, Object>> subElement = createElementEntry(typeMeta);
+
+        Object mapValue = subElement.getRight();
+        if (typeMeta.numLists() > 0 && complexTypeStack.peek().getRight().get(eventName) == null) {
+            // initial list
+            mapValue = new ArrayList<Object>(Arrays.asList(mapValue));
+        }
+
+        complexTypeStack.peek().getRight().put(eventName, mapValue);
         complexTypeStack.push(subElement);
     }
 
@@ -153,7 +163,7 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
     private void parseCharacters(Characters characters) {
         if (!characters.isIgnorableWhiteSpace() && !characters.isWhiteSpace()) {
             String text = characters.getData();
-            Object convertedValue = tp.convertType(complexTypeStack.peek().getLeft().xsdType, text);
+            Object convertedValue = tp.convertType(complexTypeStack.peek().getLeft().getType(), text);
             complexTypeStack.peek().getRight().put("_value", convertedValue);
         }
     }
@@ -188,8 +198,7 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
         currentEntityValid = false;
     }
 
-    private Pair<EdfiType, Map<String, Object>> createElementEntry(String eventName, String xsdType) {
-        EdfiType edfiType = new EdfiType(eventName, xsdType);
+    private Pair<EdfiType, Map<String, Object>> createElementEntry(EdfiType edfiType) {
         return new ImmutablePair<EdfiType, Map<String, Object>>(edfiType, new InnerMap());
     }
 
@@ -208,8 +217,8 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
         @Override
         public Object put(String key, Object value) {
             Object result;
-            if (this.containsKey(key)) {
-                Object stored = this.get(key);
+            Object stored = this.get(key);
+            if (stored != null) {
                 if (List.class.isAssignableFrom(stored.getClass())) {
                     List<Object> storage = (List<Object>) stored;
                     storage.add(value);
@@ -221,21 +230,6 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
                 result = super.put(key, value);
             }
             return result;
-        }
-    }
-
-    private static final class EdfiType {
-        private final String name;
-        private final String xsdType;
-
-        public EdfiType(String name, String xsdType) {
-            this.name = name;
-            this.xsdType = xsdType;
-        }
-
-        @Override
-        public String toString() {
-            return "<name=" + name + ", xsdType=" + xsdType + ">";
         }
     }
 }

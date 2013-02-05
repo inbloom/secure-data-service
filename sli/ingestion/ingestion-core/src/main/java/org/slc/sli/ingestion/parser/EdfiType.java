@@ -13,22 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.slc.sli.ingestion.parser;
 
 /**
  *
+ * @author dduran
+ *
  */
-public interface TypeProvider {
-    public boolean isComplexType(String elementName);
+public interface EdfiType {
 
-    public boolean isReference(String elementName);
+    String getType();
 
-    public Object convertType(String elementName, String value);
+    int numLists();
 
-    boolean existsInSchema(String parentName, String name);
+    String getName();
 
-    public String getTypeFromInterchange(String interchange, String eventName);
-
-    public EdfiType getTypeFromParentType(String xsdType, String eventName);
 }
