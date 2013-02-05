@@ -31,6 +31,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -52,6 +53,7 @@ import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 
 /**
@@ -72,6 +74,9 @@ public class ApplicationAuthorizationResource {
     
     @Autowired
     private EdOrgHelper helper;
+    
+    @Autowired
+    private DelegationUtil delegation;
 
 
     private EntityService service;
@@ -81,14 +86,6 @@ public class ApplicationAuthorizationResource {
 
     public static final String APP_ID = "applicationId";
     public static final String EDORG_IDS = "edorgs";
-    public static final String STATE_ORGANIZATION_ID = "stateOrganizationId";
-    public static final String NAME_OF_INSTITUTION = "nameOfInstitution";
-    public static final String CLIENT_ID = "clientId";
-    public static final String NAME = "name";
-    public static final String DESCRIPTION = "description";
-
-    public static final String RESOURCE_APPLICATION = "apps";
-    public static final String RESOURCE_EDORG = "educationOrganization";
 
     @PostConstruct
     public void init() {
@@ -99,7 +96,7 @@ public class ApplicationAuthorizationResource {
     @GET
     @Path("{appId}")
     @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE })
-    public Response getAuthorization(@PathParam("appId") String appId) {
+    public Response getAuthorization(@PathParam("appId") String appId, @QueryParam("edorg") String edorg) {
         
         EntityBody appAuth = getAppAuth(appId);
         if (appAuth == null) {
@@ -116,8 +113,8 @@ public class ApplicationAuthorizationResource {
         } else {
             HashMap<String, Object> entity = new HashMap<String, Object>();
             entity.put("appId", appId);
-            List edOrgs = (List) appAuth.get("edorgs");
-            entity.put("authorized", edOrgs.contains(SecurityUtil.getEdOrgId()));
+            List<String> edOrgs = (List<String>) appAuth.get("edorgs");
+            entity.put("authorized", edOrgs.contains(edorg));
             return Response.status(Status.OK).entity(entity).build();
         }
         
@@ -134,11 +131,13 @@ public class ApplicationAuthorizationResource {
     @PUT
     @Path("{appId}")
     @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE })
-    public Response updateAuthorization(@PathParam("appId") String appId, EntityBody auth, @Context final UriInfo uriInfo) {
+    public Response updateAuthorization(@PathParam("appId") String appId, EntityBody auth, @QueryParam("edorg") String edorg) {
         if (!auth.containsKey("authorized")) {
             return Response.status(Status.BAD_REQUEST).build();
         }
         
+        String myEdorg = validateEdOrg(edorg);
+
         EntityBody existingAuth = getAppAuth(appId);
         if (existingAuth == null) {
             //See if this is an actual app
@@ -151,9 +150,9 @@ public class ApplicationAuthorizationResource {
                     EntityBody body = new EntityBody();
                     body.put("applicationId", appId);
                     ArrayList<String> edorgs = new ArrayList<String>();
-                    edorgs.add(SecurityUtil.getEdOrgId());
-                    edorgs.addAll(getParentEdorgs());
-                    edorgs.addAll(getChildEdorgs());
+                    edorgs.add(myEdorg);
+                    edorgs.addAll(getParentEdorgs(myEdorg));
+                    edorgs.addAll(getChildEdorgs(myEdorg));
                     body.put("edorgs", edorgs);
                     service.create(body);
                 }
@@ -163,38 +162,42 @@ public class ApplicationAuthorizationResource {
             List<String> edorgs = (List<String>) existingAuth.get("edorgs");
             Set<String> edorgsCopy = new HashSet<String>(edorgs);
             if (((Boolean) auth.get("authorized")).booleanValue()) {
-                edorgsCopy.add(SecurityUtil.getEdOrgId());
-                edorgsCopy.addAll(getParentEdorgs());
-                edorgsCopy.addAll(getChildEdorgs());
+                edorgsCopy.add(myEdorg);
+                edorgsCopy.addAll(getParentEdorgs(myEdorg));
+                edorgsCopy.addAll(getChildEdorgs(myEdorg));
             } else {
-                edorgsCopy.remove(SecurityUtil.getEdOrgId());
-                edorgsCopy.removeAll(getParentEdorgs());
-                edorgsCopy.removeAll(getChildEdorgs());
+                edorgsCopy.remove(myEdorg);
+                edorgsCopy.removeAll(getChildEdorgs(myEdorg));
+                
+                if (edorgsCopy.size() == 1) {   //Only SEA for this tenant is left
+                    edorgsCopy.removeAll(getParentEdorgs(myEdorg));
+                }
             }
-            existingAuth.put("edorgs", new ArrayList(edorgsCopy));
+            existingAuth.put("edorgs", new ArrayList<String>(edorgsCopy));
             service.update((String) existingAuth.get("id"), existingAuth);
             return Response.status(Status.NO_CONTENT).build();
         }
     }
 
-    List<String> getParentEdorgs() {
-        return helper.getParentEdOrgs(helper.byId(SecurityUtil.getEdOrgId()));
+    List<String> getParentEdorgs(String rootEdorg) {
+        return helper.getParentEdOrgs(helper.byId(rootEdorg));
     }
 
-    Set<String> getChildEdorgs() {
-        return helper.getChildEdOrgs(Arrays.asList(SecurityUtil.getEdOrgId()));
+    Set<String> getChildEdorgs(String rootEdorg) {
+        return helper.getChildEdOrgs(Arrays.asList(rootEdorg));
     }
     
     @GET
     @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE })
-    public Response getAuthorizations(@Context UriInfo info) {
+    public Response getAuthorizations(@Context UriInfo info, @QueryParam("edorg") String edorg) {
+        String myEdorg = validateEdOrg(edorg);
         Iterable<Entity> appQuery = repo.findAll("application", new NeutralQuery());
         Map<String, Entity> allApps = new HashMap<String, Entity>();
         for (Entity ent : appQuery) {
             allApps.put(ent.getEntityId(), ent);
         }
         
-        Iterable<EntityBody> ents = service.list(new NeutralQuery(new NeutralCriteria("edorgs", "=", SecurityUtil.getEdOrgId())));
+        Iterable<EntityBody> ents = service.list(new NeutralQuery(new NeutralCriteria("edorgs", "=", myEdorg)));
         
         List<Map> results = new ArrayList<Map>();
         for (EntityBody body : ents) {
@@ -207,7 +210,7 @@ public class ApplicationAuthorizationResource {
         }
         for (Map.Entry<String, Entity> entry : allApps.entrySet()) {
             List<String> approvedEdorgs = (List<String>) entry.getValue().getBody().get("authorized_ed_orgs");
-            if (approvedEdorgs != null && approvedEdorgs.contains(SecurityUtil.getEdOrgId())) {
+            if (approvedEdorgs != null && approvedEdorgs.contains(myEdorg)) {
                 HashMap<String, Object> entity = new HashMap<String, Object>();
                 entity.put("appId", entry.getKey());
                 entity.put("authorized", false);
@@ -215,6 +218,16 @@ public class ApplicationAuthorizationResource {
             }
         }
         return Response.status(Status.OK).entity(results).build();
+    }
+
+    private String validateEdOrg(String edorg) {
+        if (edorg == null) {
+            return SecurityUtil.getEdOrgId();
+        }
+        if (!edorg.equals(SecurityUtil.getEdOrgId()) && !delegation.getAppApprovalDelegateEdOrgs().contains(edorg) ) {
+            throw new AccessDeniedException("Cannot perform authorizations for edorg " + edorg);
+        }
+        return edorg;
     }
 
 }

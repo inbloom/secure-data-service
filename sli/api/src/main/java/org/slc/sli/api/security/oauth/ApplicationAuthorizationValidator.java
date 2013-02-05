@@ -60,7 +60,7 @@ public class ApplicationAuthorizationValidator {
      */
     @SuppressWarnings("unchecked")
     public boolean isAuthorizedForApp(Entity app, SLIPrincipal principal) {
-        
+
         if (principal.isAdminRealmAuthenticated()) {
             return isAdminVisible(app);
         } else {
@@ -103,10 +103,19 @@ public class ApplicationAuthorizationValidator {
         return value != null && value.booleanValue();
     }
 
-   public Set<String> getAuthorizingEdOrgsForApp(String clientId) {
-        
+    /**
+     * Return a list of edorgs authorized to use the app, or null if the application is approved for all edorgs
+     * @param clientId
+     * @return
+     */
+    public Set<String> getAuthorizingEdOrgsForApp(String clientId) {
         //This is called before the SLIPrincipal has been set, so use TenantContext to get tenant rather than SLIPrincipal on SecurityContext
         Entity app = repo.findOne("application", new NeutralQuery(new NeutralCriteria("client_id", "=", clientId)));
+        
+        if (isAuthorizedForAllEdorgs(app)) {
+            debug("App {} is authorized for all edorgs", clientId);
+            return null;
+        }
         
         NeutralQuery appAuthCollQuery = new NeutralQuery(new NeutralCriteria("applicationId", "=", app.getEntityId()));
         Entity authEntry = repo.findOne("applicationAuthorization", appAuthCollQuery);
@@ -116,4 +125,9 @@ public class ApplicationAuthorizationValidator {
             return new HashSet<String>();
         }
     }
+
+    private boolean isAuthorizedForAllEdorgs(Entity app) {
+        return app.getBody().get("authorized_for_all_edorgs") != null && (Boolean) app.getBody().get("authorized_for_all_edorgs");
+    }
+
 }
