@@ -16,16 +16,32 @@
 package org.slc.sli.ingestion.parser;
 
 /**
+ * Describes an Edfi element type.
  *
  * @author dduran
  *
  */
 public interface EdfiType {
 
+    /**
+     * The type of the element as defined in the XSD.
+     *
+     * @return String value of type.
+     */
     String getType();
 
-    int numLists();
-
+    /**
+     * The name of the element as described in the XSD parent type.
+     *
+     * @return String value of name.
+     */
     String getName();
+
+    /**
+     * Whether this element is unbounded.
+     *
+     * @return <code>true</code> if the element should be represented as a list.
+     */
+    boolean isList();
 
 }

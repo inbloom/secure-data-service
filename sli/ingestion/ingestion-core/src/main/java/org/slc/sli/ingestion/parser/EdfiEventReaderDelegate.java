@@ -43,6 +43,11 @@ import org.xml.sax.SAXParseException;
 import org.slc.sli.ingestion.parser.impl.XsdEdfiType;
 
 /**
+ * A reader delegate that will intercept an XML Validator's calls to nextEvent() and build the
+ * document into a Map of Maps data structure.
+ *
+ * Additionally, the class implements ErrorHandler so
+ * that the parsing of a specific entity can be aware of validation errors.
  *
  * @author dduran
  *
@@ -50,10 +55,10 @@ import org.slc.sli.ingestion.parser.impl.XsdEdfiType;
 @Component
 public class EdfiEventReaderDelegate extends EventReaderDelegate implements ErrorHandler {
 
-    public static final Logger LOG = LoggerFactory.getLogger(EdfiEventReaderDelegate.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EdfiEventReaderDelegate.class);
 
     @Autowired
-    private TypeProvider tp;
+    private TypeProvider typeProvider;
 
     private String interchange;
 
@@ -79,7 +84,7 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
             } else if (eventName.startsWith("Interchange")) {
                 interchange = eventName;
             }
-        } catch (Exception e) {
+        } catch (XMLStreamException e) {
             LOG.error("Error parsing.", e);
         }
     }
@@ -101,8 +106,8 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
     }
 
     private void initCurrentEntity(String eventName) {
-        String xsdType = tp.getTypeFromInterchange(interchange, eventName);
-        complexTypeStack.push(createElementEntry(new XsdEdfiType(eventName, xsdType, 0)));
+        String xsdType = typeProvider.getTypeFromInterchange(interchange, eventName);
+        complexTypeStack.push(createElementEntry(new XsdEdfiType(eventName, xsdType)));
         currentEntityName = eventName;
         currentEntityValid = true;
     }
@@ -127,23 +132,21 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
     }
 
     private void parseStartElement(StartElement e, String eventName) {
-        // don't process for root entity element - we already pushed it in initCurrentEntity
         if (!currentEntityName.equals(eventName)) {
+            // don't process for root entity element - we already pushed it in initCurrentEntity
             newEventToStack(eventName);
         }
 
         parseEventAttributes(e);
     }
 
-    @SuppressWarnings("unchecked")
     private void newEventToStack(String eventName) {
-        EdfiType typeMeta = tp.getTypeFromParentType(complexTypeStack.peek().getLeft().getType(), eventName);
+        EdfiType typeMeta = typeProvider.getTypeFromParentType(complexTypeStack.peek().getLeft().getType(), eventName);
 
         Pair<EdfiType, Map<String, Object>> subElement = createElementEntry(typeMeta);
 
         Object mapValue = subElement.getRight();
-        if (typeMeta.numLists() > 0 && complexTypeStack.peek().getRight().get(eventName) == null) {
-            // initial list
+        if (typeMeta.isList() && complexTypeStack.peek().getRight().get(eventName) == null) {
             mapValue = new ArrayList<Object>(Arrays.asList(mapValue));
         }
 
@@ -163,7 +166,7 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
     private void parseCharacters(Characters characters) {
         if (!characters.isIgnorableWhiteSpace() && !characters.isWhiteSpace()) {
             String text = characters.getData();
-            Object convertedValue = tp.convertType(complexTypeStack.peek().getLeft().getType(), text);
+            Object convertedValue = typeProvider.convertType(complexTypeStack.peek().getLeft().getType(), text);
             complexTypeStack.peek().getRight().put("_value", convertedValue);
         }
     }
@@ -176,8 +179,23 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
             Map<String, Object> entity = complexTypeStack.pop().getRight();
 
             LOG.info("Parsed entity: {} - {}", currentEntityName, entity);
+
             currentEntityName = null;
         }
+    }
+
+    private Pair<EdfiType, Map<String, Object>> createElementEntry(EdfiType edfiType) {
+        return new ImmutablePair<EdfiType, Map<String, Object>>(edfiType, new InnerMap());
+    }
+
+    private static String extractTagName(XMLEvent e) {
+        String result = "";
+        if (e.isEndElement()) {
+            result = e.asEndElement().getName().getLocalPart();
+        } else if (e.isStartElement()) {
+            result = e.asStartElement().getName().getLocalPart();
+        }
+        return result;
     }
 
     @Override
@@ -196,20 +214,6 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
     public void fatalError(SAXParseException exception) throws SAXException {
         LOG.error("FatalError: ", exception);
         currentEntityValid = false;
-    }
-
-    private Pair<EdfiType, Map<String, Object>> createElementEntry(EdfiType edfiType) {
-        return new ImmutablePair<EdfiType, Map<String, Object>>(edfiType, new InnerMap());
-    }
-
-    private static String extractTagName(XMLEvent e) {
-        String result = "";
-        if (e.isEndElement()) {
-            result = e.asEndElement().getName().getLocalPart();
-        } else if (e.isStartElement()) {
-            result = e.asStartElement().getName().getLocalPart();
-        }
-        return result;
     }
 
     @SuppressWarnings({ "unchecked", "serial" })

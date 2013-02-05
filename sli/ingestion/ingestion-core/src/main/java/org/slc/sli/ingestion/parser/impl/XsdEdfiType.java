@@ -18,7 +18,7 @@ package org.slc.sli.ingestion.parser.impl;
 import org.slc.sli.ingestion.parser.EdfiType;
 
 /**
- *
+ * Basic implementation of EdfiType
  * @author dduran
  *
  */
@@ -26,18 +26,18 @@ public final class XsdEdfiType implements EdfiType {
 
     final String name;
     final String type;
-    final int numLists;
+    final boolean isList;
 
     public XsdEdfiType(String name, String type) {
         this.name = name;
         this.type = type;
-        numLists = 0;
+        isList = false;
     }
 
-    public XsdEdfiType(String name, String type, int numLists) {
+    public XsdEdfiType(String name, String type, boolean isList) {
         this.name = name;
         this.type = type;
-        this.numLists = numLists;
+        this.isList = isList;
     }
 
     @Override
@@ -46,8 +46,8 @@ public final class XsdEdfiType implements EdfiType {
     }
 
     @Override
-    public int numLists() {
-        return numLists;
+    public boolean isList() {
+        return isList;
     }
 
     @Override
@@ -57,7 +57,7 @@ public final class XsdEdfiType implements EdfiType {
 
     @Override
     public String toString() {
-        return "XsdTypeMeta [type=" + type + ", numLists=" + numLists + ", name=" + name + "]";
+        return "<name=" + name + ", type=" + type + ", isList=" + isList + ">";
     }
 
 }
