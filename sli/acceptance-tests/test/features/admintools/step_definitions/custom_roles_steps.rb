@@ -303,27 +303,6 @@ Then /^the group "(.*?)" has the admin role box checked$/ do |title|
   assert(checkbox.attribute("checked") == "true", "The admin checkbox for group #{title} is not checked")
 end
 
-Then /^the user "(.*?)" in tenant "(.*?)" can access the API with adminUser "(.*?)"$/ do |user, tenant, adminChecked|
-  # Wait two seconds for the API to catch up
-  sleep 2
-
-  # Login and get a session ID
-  idpRealmLogin(user, user+"1234", tenant)
-  assert(@sessionId != nil, "Session returned was nil")
-  
-  # Make a call to Session debug and look that we are authenticated
-  restHttpGet("/system/session/debug", "application/json")
-  assert(@res != nil, "Response from rest-client GET is nil")
-  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
-  result = JSON.parse(@res.body)
-  assert(result != nil, "Result of JSON parsing is nil")
-
-  puts("The result is #{result.inspect}")
-  puts("\nand the thing is #{result["authentication"]["principal"]["adminUser"].class}")
-  adminChecked = adminChecked == "true" ? true : false
-  assert(result["authentication"]["authenticated"] == true, "User "+user+" did not successfully authenticate to SLI")
-  assert(result["authentication"]["principal"]["adminUser"] == adminChecked, "User's admin status is not #{adminChecked}")
-end
 
 When /^the user "(.*?)" in tenant "(.*?)" tries to update the "(.*?)" for (user ".*?") to "(.*?)"$/ do |user, tenant, field, updateUser, newValue|
     # Login and get a session ID
