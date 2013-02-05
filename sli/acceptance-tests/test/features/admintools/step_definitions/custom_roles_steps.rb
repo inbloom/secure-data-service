@@ -34,6 +34,9 @@ Transform /rights "(.*?)"/ do |arg1|
   rights = ["READ_GENERAL"] if arg1 == "Read General"
   rights = ["READ_GENERAL", "WRITE_GENERAL"] if arg1 == "Read and Write General"
   rights = ["READ_GENERAL", "READ_PUBLIC", "READ_AGGREGATE"] if arg1 == "Read General Public and Aggregate"
+  rights = ["READ_RESTRICTED", "WRITE_GENERAL", "WRITE_RESTRICTED"] if arg1 == "Read Restricted, Write Restricted and Write General"
+  rights = ["READ_GENERAL", "READ_RESTRICTED", "WRITE_GENERAL", "WRITE_RESTRICTED"] if arg1 == "Read General, Read Restricted, Write Restricted and Write General"
+
   rights = [] if arg1 == "none"
   rights
 end
@@ -47,6 +50,13 @@ Transform /roles "(.*?)"/ do |arg1|
   roles = ["Dummy"] if arg1 == "New Custom"
   roles = [] if arg1 == "none"
   roles
+end
+
+Transform /user "(.*?)"/ do |user|
+  result = "teachers/e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b" if user == "cgray"
+  result = "teachers/e9ca4497-e1e5-4fc4-ac7b-24badbad998b" if user == "stweed"
+  result = "staff/527406fd-0f6c-43b7-9dab-fab504c87c7f" if user == "jvasquez"
+  result
 end
 
 When /^I navigate to the Custom Role Mapping Page$/ do
@@ -150,24 +160,7 @@ end
 Then /^the user "([^"]*)" in tenant "([^"]*)" can access the API with (rights "[^"]*")$/ do |user, tenant, rights|
   # Wait two seconds for the API to catch up
   sleep 2
-  
-  # Login and get a session ID
-  idpRealmLogin(user, user+"1234", tenant)
-  assert(@sessionId != nil, "Session returned was nil")
-  
-  # Make a call to Session debug and look that we are authenticated
-  restHttpGet("/system/session/debug", "application/json")
-  assert(@res != nil, "Response from rest-client GET is nil")
-  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
-  result = JSON.parse(@res.body)
-  assert(result != nil, "Result of JSON parsing is nil")
-
-  # Validate the user has expected rights
-  assert(result["authentication"]["authenticated"] == true, "User "+user+" did not successfully authenticate to SLI")
-  assert(result["authentication"]["authorities"].size == rights.size, "User "+user+" was granted #{result["authentication"]["authorities"].size} permissions but expected #{rights.size}")
-  rights.each do |right|
-    assert(result["authentication"]["authorities"].include?(right), "User "+user+" was not granted #{right} permissions")
-  end
+  checkRights(user, tenant, rights, false)
 end
 
 When /^I remove the right "([^"]*)" from the group "([^"]*)"$/ do |arg1, arg2|
@@ -330,5 +323,65 @@ Then /^the user "(.*?)" in tenant "(.*?)" can access the API with adminUser "(.*
   adminChecked = adminChecked == "true" ? true : false
   assert(result["authentication"]["authenticated"] == true, "User "+user+" did not successfully authenticate to SLI")
   assert(result["authentication"]["principal"]["adminUser"] == adminChecked, "User's admin status is not #{adminChecked}")
+end
+
+When /^the user "(.*?)" in tenant "(.*?)" tries to update the "(.*?)" for (user ".*?") to "(.*?)"$/ do |user, tenant, field, updateUser, newValue|
+    # Login and get a session ID
+  idpRealmLogin(user, user+"1234", tenant)
+  assert(@sessionId != nil, "Session returned was nil")
+  restHttpGet("/v1/" + updateUser)
+  result = JSON.parse(@res.body)
+  assert(result != nil, "Result of JSON parsing is nil")
+  result["name"][field] = newValue
+  updatedData = prepareData("application/json", result)
+  restHttpPut("/v1/" + updateUser, updatedData, "application/json")
+end
+
+Then /^I add the self right "(.*?)" to the group "(.*?)"$/ do |right, group|
+  select = Selenium::WebDriver::Support::Select.new(@driver.find_element(:id, "addSelfRightSelect"))
+  select.select_by(:text, right)
+  @driver.find_element(:id, "addSelfRightButton").click
+end
+
+Then /^the user "(.*?)" in tenant "(.*?)" can access the API with self (rights "[^"]*")$/ do |user, tenant, rights|
+  sleep(2)
+  checkRights(user, tenant, rights, true)
+end
+
+def checkRights(user, tenant, rights, isSelf) 
+    # Login and get a session ID
+  idpRealmLogin(user, user+"1234", tenant)
+  assert(@sessionId != nil, "Session returned was nil")
+  
+  # Make a call to Session debug and look that we are authenticated
+  restHttpGet("/system/session/debug", "application/json")
+  assert(@res != nil, "Response from rest-client GET is nil")
+  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
+  result = JSON.parse(@res.body)
+  assert(result != nil, "Result of JSON parsing is nil")
+
+  if (isSelf)
+    actualRights = result["authentication"]["principal"]["selfRights"]
+  else
+    actualRights = result["authentication"]["authorities"]
+  end
+  
+  puts("The actual rights are #{actualRights.inspect}")
+  
+  # Validate the user has expected rights
+  assert(result["authentication"]["authenticated"] == true, "User "+user+" did not successfully authenticate to SLI")
+  assert(actualRights.size == rights.size, "User "+user+" was granted #{actualRights.size} permissions but expected #{rights.size}")
+  rights.each do |right|
+    assert(actualRights.include?(right), "User "+user+" was not granted #{right} permissions")
+  end
+end
+
+Then /^I should see that the "(.*?)" for user "(.*?)" is "(.*?)"$/ do |field, user, value|
+  restHttpGet("/v1/teachers/e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b")
+  result = JSON.parse(@res.body)
+  assert(@res != nil, "Response from rest-client GET is nil")
+  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
+  assert(result["name"][field] == value, "Expected the #{field} to be #{value}, was #{result["name"][field]}")  
+
 end
 
