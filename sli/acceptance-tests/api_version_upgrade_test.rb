@@ -23,7 +23,7 @@ require 'timeout'
 
 @options = {}
 ARGV.options do |opts|
-  opts.banner = "Usage:\n  > ruby #{$0} -b <old_branch> [-v <old_version>] [-B <new_branch>] [-c] [-h]"
+  opts.banner = "Usage:\n  > ruby #{$0} -b <old_branch> [-v <old_version>] [-B <new_branch>] [-e <env_vars>] [-c] [-h]"
   opts.on(:REQUIRED, /.+/, '-b', '--old_branch (required)', 'The branch to extract the test code from (prior version).') do |old_branch|
     @options[:old_branch] = old_branch
   end
@@ -124,9 +124,19 @@ def unpackage_test_code(dest)
 end
 
 def replace_api_version(version)
-  puts "---- Replace API versions in URLs with \"#{@old_version}\" in test code"
+  puts "---- Replace API versions in URLs with \"#{version}\" in test code"
   Dir[File.join("#{@extract_dest}/acceptance-tests/test/features", "**", "*.{rb,feature}")].each do |f|
-    text = File.read(f).gsub(/v\d\.?\d*(?!_resources)/, version)
+    temp_text = File.read(f).gsub(/v\d\.?\d*(?!_resources)/, version)
+    text = ""
+    replace_next_line = false
+    temp_text.each_line do |line|
+      if replace_next_line
+        line = "  version = (expectedUri.include? \"/search\") ? \"v1.1\" : \"#{version}\"\n"
+        replace_next_line = false
+      end
+      replace_next_line = true if line.include? "Then /^uri was rewritten to"
+      text += "#{line}"
+    end
     File.open(f, "w") do |f|
       f.write text
     end
@@ -157,7 +167,7 @@ end
 
 def insert_migration_scripts
   puts "---- Run migration scripts"
-  Dir.chdir "#{@extract_dest}/acceptance-tests"
+  Dir.chdir "#{@sli_workspace}/acceptance-tests"
   run_cmd "bundle exec rake loadDefaultIngestionTenants"
   gemfile_lock = "#{@extract_dest}/acceptance-tests/Gemfile.lock"
   text = File.read(gemfile_lock).gsub(/mongo .+/, "mongo (1.8.0)")

@@ -178,6 +178,7 @@ public class SearchResourceService {
             }
             criteria = new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, entityMap.row(type).keySet());
             query.addCriteria(criteria);
+            query.setOffset(0);
             Iterables.addAll(fullEntities, resourceHelper.getEntityDefinitionByType(type).getService().list(query));
         }
         return fullEntities;
