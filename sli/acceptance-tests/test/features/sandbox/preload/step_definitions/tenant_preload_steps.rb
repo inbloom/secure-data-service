@@ -44,8 +44,12 @@ create_tenant(tenantId)
 end
 
 Given /^There is a EdOrg with stateOrganizationId "(.*?)" in mongo$/ do |edorgId|
+  disable_NOTABLESCAN()
+
   create_edorg(edorgId)
   @edorgId = edorgId
+
+  enable_NOTABLESCAN()
 end
 
 Given /^the tenant has a landing zone path for this edorg$/ do
@@ -79,7 +83,7 @@ tenant_entity = {
 end
 
 def create_edorg (edorgId)
-edorg_entity = {
+  edorg_entity = {
       "_id" => "2012fy-a82073df-b9ba-11e1-a6ba-68a86d3e2222",
       "type" => "educationOrganization",
       "body" => {
