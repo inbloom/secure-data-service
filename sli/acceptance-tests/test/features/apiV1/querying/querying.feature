@@ -1,7 +1,7 @@
 @RALLY_US210
 Feature: Querying the API to receive subsets of results
- 
 
+  @wip
 Scenario Outline: Confirm ability to use all API query operators with different data type
   Given I am logged in using <username> <password> to realm "NY"
     And format "application/json;charset=utf-8"

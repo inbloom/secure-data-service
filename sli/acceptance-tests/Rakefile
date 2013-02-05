@@ -1191,6 +1191,7 @@ task :importSandboxMidgarData do
     "grade" => "Midgar_data/grade_fixture.json",
     "studentCompetency" => "Midgar_data/studentCompetency_fixture.json",
     "gradingPeriod" => "Midgar_data/gradingPeriod_fixture.json",
+    "adminDelegation" => "Midgar_data/adminDelegation_fixture.json",
     "reportCard" => "Midgar_data/reportCard_fixture.json",
     "graduationPlan" => "Midgar_data/graduationPlan_fixture.json",
     "studentCompetencyObjective" => "Midgar_data/studentCompetencyObjective_fixture.json",

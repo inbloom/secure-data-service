@@ -66,27 +66,28 @@
       "doc": "Provides initial information for a user. This includes providing different links to self and associated resources.",
       "resourceClass": "org.slc.sli.api.resources.v1.HomeResource"
     },
-    {
-      "path": "/gradingPeriods",
-      "queryable": true,
-      "doc": "Represents the time span for which grades are reported. For detailed information, see the schema for $$GradingPeriod$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers or staff, this is /schools/{IDs}/sessions/gradingPeriods. {IDs} represents a list of the school or education organization IDs to which the teacher or staff is currently associated.",
-      "subResources": [
-        { 
-          "path": "/{id}/reportCards",
-          "deprecatedVersion": "1.0",
-          "dateSearchDisallowed": true,
-          "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
-          "doc": "This URI, /gradingPeriods/{id}/reportCards, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{id}/studentSectionAssociations/students/reportCards (for teachers) or /schools/{id}/studentSchoolAssociations/students/reportCards (for staff) instead. These URIs are used internally instead of /gradingPeriods/{id}/reportCards, and will still be available after the deprecation period ends."
-        },
-        { 
-          "path": "/{id}/grades",
-          "deprecatedVersion": "1.0",
-          "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
-          "doc": "This URI, /gradingPeriods/{id}/grades, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{id}/studentSectionAssociations/grades (for teachers) or /schools/{id}/sections/studentSectionAssociations/grades (for staff) instead. These URIs are used internally instead of /gradingPeriods/{id}/grades, and will still be available after the deprecation period ends."
-        }
-      ]
-    },
-    {
+      {
+          "path": "/gradingPeriods",
+          "queryable": true,
+          "doc": "Represents the time span for which grades are reported. For detailed information, see the schema for $$GradingPeriod$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers or staff, this is /schools/{IDs}/sessions/gradingPeriods. {IDs} represents a list of the school or education organization IDs to which the teacher or staff is currently associated.",
+          "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicDefaultResource",
+          "subResources": [
+              {
+                  "path": "/{id}/reportCards",
+                  "deprecatedVersion": "1.0",
+                  "dateSearchDisallowed": true,
+                  "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
+                  "doc": "This URI, /gradingPeriods/{id}/reportCards, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{id}/studentSectionAssociations/students/reportCards (for teachers) or /schools/{id}/studentSchoolAssociations/students/reportCards (for staff) instead. These URIs are used internally instead of /gradingPeriods/{id}/reportCards, and will still be available after the deprecation period ends."
+              },
+              {
+                  "path": "/{id}/grades",
+                  "deprecatedVersion": "1.0",
+                  "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
+                  "doc": "This URI, /gradingPeriods/{id}/grades, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{id}/studentSectionAssociations/grades (for teachers) or /schools/{id}/sections/studentSectionAssociations/grades (for staff) instead. These URIs are used internally instead of /gradingPeriods/{id}/grades, and will still be available after the deprecation period ends."
+              }
+          ]
+      },
+      {
       "path": "/cohorts",
       "queryable": true,
       "dateSearchDisallowed": true,
@@ -543,10 +544,11 @@
     },
     {
       "path": "/courseOfferings",
-      "queryable": true,
-      "doc": "Represents the course offering resource. A course offering represents the association of a $$Course$$ with a $$Session$$ during which the course is offered. For detailed information, see the schema for $$CourseOffering$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers or staff, this is /schools/{IDs}/courseOfferings. {IDs} represents a list of the school or education organization IDs to which the teacher or staff is currently associated.",
-      "subResources": [
-        { "path": "/{id}/sessions", "dateSearchDisallowed": true },
+        "queryable": true,
+        "doc": "Represents the course offering resource. A course offering represents the association of a $$Course$$ with a $$Session$$ during which the course is offered. For detailed information, see the schema for $$CourseOffering$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers or staff, this is /schools/{IDs}/courseOfferings. {IDs} represents a list of the school or education organization IDs to which the teacher or staff is currently associated.",
+        "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicDefaultResource",
+        "subResources": [
+            { "path": "/{id}/sessions", "dateSearchDisallowed": true },
         { 
           "path": "/{id}/sections",
           "deprecatedVersion": "1.0",
