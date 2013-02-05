@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <bean id="xsdEntityResolved" class="org.springframework.beans.factory.xml.ResourceEntityResolver">
+    <constructor-arg type="org.springframework.core.io.ResourceLoader">
+      <bean class="org.springframework.core.io.DefaultResourceLoader"></bean>
+    </constructor-arg>
+  </bean>
+
+  <bean id="SLI-Interchange-AssessmentMetadata" class="test.camel.support.stax.XsdSchemaParser" init-method="init">
+    <property name="schemaFile" value="classpath://edfiXsd-SLI/SLI-Interchange-AssessmentMetadata.xsd" />
+    <property name="entityResolver" ref="xsdEntityResolved" />
+  </bean>
+
+</beans>

@@ -4,6 +4,8 @@
   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
        http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
 
+  <import resource="xsd-parser.xml" />
+
   <bean id="myDb" class="com.mongodb.Mongo">
     <!-- <constructor-arg index="0" value="192.168.1.111" /> -->
     <constructor-arg index="0" value="127.0.0.1" />
@@ -65,7 +67,7 @@
   <bean id="zipSplitter" class="test.camel.support.zip.ZipFileSplitterBuilder" factory-method="unzip" />
 
   <camelContext trace="false" xmlns="http://camel.apache.org/schema/spring">
-    <template id="myTemplate" defaultEndpoint="direct:logging"/>
+    <template id="myTemplate" defaultEndpoint="direct:logging" />
 
     <route id="fileReader">
       <from uri="txActivemq:queue:ingestion.landingZone?concurrentConsumers=32" />
@@ -143,8 +145,7 @@
 
     <route id="logging">
       <from uri="direct:logging" />
-      <log
-        message="File: ${header.fileEntry}, batch of ${body.size}. Starts at Ln: body[0][line] - Col: body[0][column]" />
+      <log message="File: ${header.fileEntry}, batch of ${body.size}. Starts at Ln: body[0][line] - Col: body[0][column]" />
       <stop />
     </route>
 

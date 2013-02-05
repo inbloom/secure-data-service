@@ -38,6 +38,7 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
+import org.apache.camel.RuntimeCamelException;
 import org.apache.camel.util.AntPathMatcher;
 import org.springframework.core.io.Resource;
 import org.xml.sax.ErrorHandler;
@@ -93,6 +94,9 @@ public class XmlParser extends EventReaderDelegate implements ErrorHandler {
             return;
         }
 
+        if (currentObjects.size() != 1) {
+            throw new RuntimeCamelException("Unexpected notification request");
+        }
         notifier.objectIsReady(currentObjects.peek());
     }
 
