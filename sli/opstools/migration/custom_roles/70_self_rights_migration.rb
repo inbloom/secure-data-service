@@ -38,6 +38,9 @@ host_port = ARGV[0].strip.split(":")
 mongodb   = Mongo::Connection.new(host_port[0], host_port[1].to_i, :pool_size => 10, :pool_timeout => 25, :safe => {:wtimeout => 500})
 databases = mongodb.database_names
 databases.each do |database|
+  # skip these databases --> won't have customRole collection
+  next if ['admin', 'config', 'ingestion_batch_job', 'sli', 'local'].include?(database)
+
   @log.info "Adding self rights for custom roles in db: #{database}"
   db               = mongodb.db(database)
   custom_roles     = db.collection('customRole')
