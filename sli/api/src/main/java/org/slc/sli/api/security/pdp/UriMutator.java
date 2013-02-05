@@ -492,7 +492,10 @@ public class UriMutator {
                 || ResourceNames.ASSESSMENTS.equals(resource)
                 || ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(resource)
                 || ResourceNames.STUDENT_COMPETENCY_OBJECTIVES.equals(resource)
-                || ResourceNames.SESSIONS.equals(resource)) {
+                || ResourceNames.SESSIONS.equals(resource)
+                || ResourceNames.COURSES.equals(resource)
+                || ResourceNames.COURSE_OFFERINGS.equals(resource)
+                || ResourceNames.GRADING_PERIODS.equals(resource)) {
             mutated.setPath("/" + ResourceNames.SEARCH + "/" + resource);
             Map<String, String> mutatedHeaders = new HashMap<String, String>();
             mutatedHeaders.put("Content-Type", "application/vnd.slc.search.full+json");
@@ -683,7 +686,10 @@ public class UriMutator {
                 || ResourceNames.ASSESSMENTS.equals(resource)
                 || ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS.equals(resource)
                 || ResourceNames.STUDENT_COMPETENCY_OBJECTIVES.equals(resource)
-                || ResourceNames.SESSIONS.equals(resource)) {
+                || ResourceNames.SESSIONS.equals(resource)
+                || ResourceNames.COURSES.equals(resource)
+                || ResourceNames.COURSE_OFFERINGS.equals(resource)
+                || ResourceNames.GRADING_PERIODS.equals(resource)) {
             mutated.setPath("/" + ResourceNames.SEARCH + "/" + resource);
             Map<String, String> mutatedHeaders = new HashMap<String, String>();
             mutatedHeaders.put("Content-Type", "application/vnd.slc.search.full+json");
