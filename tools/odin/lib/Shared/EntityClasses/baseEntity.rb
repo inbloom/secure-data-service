@@ -52,6 +52,16 @@ class BaseEntity
     end
   end
 
+  def wChooseUsingRand(prng, distribution)
+    r = prng.rand weight_total(distribution)
+    distribution.each do |element, weight|
+      if r < weight
+      return element
+      end
+      r -= weight
+    end
+  end
+
   def weight_total(distribution)
     sum = 0
     distribution.each do |_, weight|
