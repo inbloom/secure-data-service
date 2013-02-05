@@ -5,7 +5,6 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
   Background: Use JSON format
     Given format "application/json"
 
-  @wip
   Scenario Outline: All data is returned within a specific school year range - staff
     Given I am logged in using "akopel" "akopel1234" to realm "IL"
     And parameter "limit" is "0"
@@ -51,7 +50,6 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
 #    | teacherSectionAssociations              | 2010-2011    | 1                   | 0                |                                                                                |
     | teachers                                | 2010-2011    | 1                   | 1                | rbraverman                                                                     |
 
-  @wip
   Scenario Outline: All data is returned within a specific school year range - teacher
     Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
     And parameter "limit" is "0"
@@ -97,7 +95,6 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
 #    | teacherSectionAssociations              | 2010-2011    | 4                   | 0                |                                                                                |
     | teachers                                | 2010-2011    | 1                   | 1                | linda.kim                                                                      |
 
-  @wip
   Scenario Outline: Time-insensitive entities - staff
     Given I am logged in using "akopel" "akopel1234" to realm "IL"
     And parameter "schoolYears" is "2010-2011"
@@ -132,7 +129,6 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | teacherSchoolAssociations   |
     | teacherSectionAssociations  |
 
-  @wip
   Scenario Outline: Time-insensitive entities - teacher
     Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
     And parameter "schoolYears" is "2010-2011"
@@ -167,7 +163,6 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | teacherSchoolAssociations   |
     | teacherSectionAssociations  |
 
-  @wip
   Scenario Outline: Different ways of overlapping the date range
     Given I am logged in using "akopel" "akopel1234" to realm "IL"
     And parameter "schoolYears" is "2009-2011"
@@ -226,7 +221,6 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | 2012-01-01 | 1     | # Starts unknown, ends after range ends                 |
     | ?          | 0     | # Starts unknown, ends unknown                          |
 
-  @wip
   Scenario: Provide a really wide school year range to "get everything"
     Given I am logged in using "linda.kim" "linda.kim1234" to realm "IL"
     And parameter "schoolYears" is "1900-2100"
@@ -238,7 +232,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     When I navigate to GET "/v1/sessions"
     Then I should receive a return code of 200
     And I should receive a collection of "8" entities
-  @wip
+
   Scenario Outline: Sad path - invalid date ranges
     Given I am logged in using "akopel" "akopel1234" to realm "IL"
     And parameter "schoolYears" is "<Range>"
@@ -249,7 +243,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | Range     | # Note                                |
     | 2011-2011 | # Same begin and end years            |
     | 2012-2009 | # Begin year is earlier than end year |
-  @wip
+
   Scenario: Sad path - Date filtering does not work on 2-part uris
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
     And parameter "schoolYears" is "2008-2009"

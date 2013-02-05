@@ -1,6 +1,5 @@
 Feature: As an SLI application, I want to hit every resource to ensure that we are not causing table scans.
 
-  @wip
   Scenario Outline:
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
       And format "application/vnd.slc+json"
@@ -34,7 +33,6 @@ Feature: As an SLI application, I want to hit every resource to ensure that we a
       | foo                      | bar               |
 
   # Teacher context
-  @wip
   Scenario Outline:
     Given I am logged in using "cgrayadmin" "cgrayadmin1234" to realm "IL"
       And format "application/vnd.slc+json"
