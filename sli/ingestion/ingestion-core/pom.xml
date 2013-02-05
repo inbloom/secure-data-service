@@ -30,10 +30,10 @@
   </properties>
 
   <dependencies>
-	<dependency>
-       <groupId>org.reflections</groupId>
-       <artifactId>reflections</artifactId>
-       <version>0.9.5</version>
+    <dependency>
+      <groupId>org.reflections</groupId>
+      <artifactId>reflections</artifactId>
+      <version>0.9.5</version>
     </dependency>
     <dependency>
       <groupId>org.apache.activemq</groupId>
@@ -61,6 +61,12 @@
       <groupId>commons-collections</groupId>
       <artifactId>commons-collections</artifactId>
       <version>3.2.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jdom</groupId>
+      <artifactId>jdom</artifactId>
+      <version>2.0.2</version>
     </dependency>
 
     <!-- Ingestion Base -->
