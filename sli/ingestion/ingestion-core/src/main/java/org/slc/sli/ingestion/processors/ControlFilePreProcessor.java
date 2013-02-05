@@ -21,19 +21,19 @@ import java.io.IOException;
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.annotation.Resource;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.slc.sli.ingestion.reporting.impl.*;
+import org.slc.sli.ingestion.validation.indexes.TenantDBIndexValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.logging.LogLevelType;
@@ -59,9 +59,6 @@ import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
-import org.slc.sli.ingestion.reporting.impl.ControlFileSource;
-import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.tenant.TenantDA;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.LogUtil;
@@ -95,6 +92,12 @@ public class ControlFilePreProcessor implements Processor {
 
     @Autowired
     private AbstractMessageReport databaseMessageReport;
+
+    @Autowired
+    private TenantDBIndexValidator tenantDBIndexValidator;
+
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     /**
      * @see org.apache.camel.Processor#process(org.apache.camel.Exchange)
@@ -146,9 +149,15 @@ public class ControlFilePreProcessor implements Processor {
                 databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0001);
             }
 
-            setExchangeHeaders(exchange, reportStats);
+            //Check indexes only after BatchJob is saved so that we have a record of this job in db
+            Source indicesSource = new JobSource(currentJob.getSourceId());
+            String tenantDbName = TenantIdToDbName.convertTenantIdToDbName(currentJob.getTenantId());
 
+            boolean indicesOK = tenantDBIndexValidator.isValid(mongoTemplate.getDb() , Arrays.asList(tenantDbName), databaseMessageReport, reportStats, indicesSource);
+
+            setExchangeHeaders(exchange, reportStats);
             setExchangeBody(exchange, reportStats, controlFile, currentJob);
+
 
         } catch (SubmissionLevelException exception) {
             String id = "null";

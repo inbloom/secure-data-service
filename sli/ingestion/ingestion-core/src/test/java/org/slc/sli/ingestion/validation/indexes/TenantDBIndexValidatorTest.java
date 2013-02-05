@@ -123,6 +123,8 @@ public class TenantDBIndexValidatorTest {
     public void test() throws IllegalArgumentException, IllegalAccessException, SecurityException, NoSuchFieldException {
         tenantDBIndexValidator.setTenantDA(tenantDA);
 
+        Mockito.doCallRealMethod().when(tenantDBIndexValidator).isValid(Matchers.any(DB.class), Matchers.any(List.class), Matchers.any(AbstractMessageReport.class), Matchers.any(ReportStats.class), Matchers.any(Source.class));
+
         AbstractMessageReport report = Mockito.mock(AbstractMessageReport.class);
         ReportStats reportStats = Mockito.mock(ReportStats.class);
         Source source = Mockito.mock(Source.class);
