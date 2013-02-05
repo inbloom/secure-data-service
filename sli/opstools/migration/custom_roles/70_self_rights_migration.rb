@@ -43,7 +43,6 @@ databases.each do |database|
   custom_roles     = db.collection('customRole')
   custom_role_docs = custom_roles.find({})
   custom_role_docs.each do |custom_role_doc|
-    @log.debug " - original doc is #{custom_role_doc.inspect}"
     roles = custom_role_doc["body"]["roles"]
     roles.each do |role|
       if role["groupTitle"] == "Educator"
@@ -52,8 +51,7 @@ databases.each do |database|
         role["selfRights"] = ["READ_GENERAL", "READ_RESTRICTED"]
       end
     end
-    custom_roles.remove({"_id" => doc["_id"]})
-    @log.debug "The doc we're about to insert is #{doc.inspect}"
-    custom_roles.insert(doc)
+    custom_roles.remove({"_id" => custom_role_doc["_id"]})
+    custom_roles.insert(custom_role_doc)
   end
 end
