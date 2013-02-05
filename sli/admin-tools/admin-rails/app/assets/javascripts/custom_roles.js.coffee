@@ -148,7 +148,7 @@ populateRightComboBox = (tr) ->
       $("#addRightUi select").append($("<option></option>").val(right).text(right))
 
   for right in selfRights
-    if (curSelfRights.indexOf(right) < 0)
+    if (curSelfRights.indexOf(right) < 0 and curRights.indexOf(right) < 0)
       $("#addSelfRightUi select").append($("<option></option>").val(right).text(right))
 
 wrapInputWithDeleteButton = (input, type, name) ->
