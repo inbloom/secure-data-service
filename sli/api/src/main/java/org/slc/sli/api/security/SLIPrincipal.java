@@ -280,9 +280,11 @@ public class SLIPrincipal implements Principal, Serializable {
 	public void setSelfRights(Collection<GrantedAuthority> auths) {
 		this.selfRights = auths;
 	}
+	
 	public Collection<GrantedAuthority> getSelfRights() {
 		return this.selfRights;
 	}
+	
 	/**
 	 * These are edorgs that have authorized the app that the user is currently logged into.
 	 * 

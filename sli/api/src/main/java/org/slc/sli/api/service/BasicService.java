@@ -156,7 +156,7 @@ public class BasicService implements EntityService {
 
         // if service does not allow anonymous write access, check user rights
         if (writeRight != Right.ANONYMOUS_ACCESS) {
-            checkAllRights(determineWriteAccess(content, ""), true);
+            checkAllRights(determineWriteAccess(content, ""), true, false);
         }
 
         checkReferences(content);
@@ -170,8 +170,8 @@ public class BasicService implements EntityService {
         return entityId;
     }
 
-    private void checkAllRights(Set<Right> neededRights, boolean isWrite) {
-        Collection<GrantedAuthority> auths = getAuths(false);
+    private void checkAllRights(Set<Right> neededRights, boolean isWrite, boolean isSelf) {
+        Collection<GrantedAuthority> auths = getAuths(isSelf);
 
         if (auths.contains(Right.FULL_ACCESS)) {
             debug("User has full access");
@@ -206,7 +206,7 @@ public class BasicService implements EntityService {
 
     @Override
     public boolean update(String id, EntityBody content) {
-        debug("Updating {} in {}", id, collectionName);
+        debug("Updating {} in {} with {}", id, collectionName, SecurityUtil.getSLIPrincipal());
 
         if (writeRight != Right.ANONYMOUS_ACCESS) {
             checkAccess(determineWriteAccess(content, ""), id);
@@ -652,7 +652,7 @@ public class BasicService implements EntityService {
         if (right instanceof Right) {
             checkRights((Right) right, isSelf(entityId));
         } else if (Set.class.isAssignableFrom(right.getClass())) {
-            checkAllRights((Set<Right>) right, true);
+            checkAllRights((Set<Right>) right, true, isSelf(entityId));
         } else {
             throw new IllegalArgumentException("Passed right wasn't a right or a list of rights");
         }
@@ -723,16 +723,18 @@ public class BasicService implements EntityService {
     }
 
     private Collection<GrantedAuthority> getAuths(boolean isSelf) {
+    	Collection<GrantedAuthority> result = new HashSet<GrantedAuthority>();
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (readRight != Right.ANONYMOUS_ACCESS) {
+            SecurityUtil.ensureAuthenticated();
+        }
+        result.addAll(auth.getAuthorities());
+
     	if (isSelf) {
     		SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
-    		return principal.getSelfRights();
-    	} else {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            if (readRight != Right.ANONYMOUS_ACCESS) {
-                SecurityUtil.ensureAuthenticated();
-            }
-            return auth.getAuthorities();
-    	}
+    		result.addAll(principal.getSelfRights());
+    	} 
+    	return result;
     }
     
     /**
