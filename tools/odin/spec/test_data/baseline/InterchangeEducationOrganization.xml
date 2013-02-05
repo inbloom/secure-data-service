@@ -1324,28 +1324,28 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <OrganizationCategory>Local Education Agency</OrganizationCategory>
     </OrganizationCategories>
     <Address>
-      <StreetNumberName>689 Braeburn Lane</StreetNumberName>
+      <StreetNumberName>827 Braeburn Lane</StreetNumberName>
       <City>New York</City>
       <StateAbbreviation>NY</StateAbbreviation>
       <PostalCode>10292</PostalCode>
     </Address>
     <Telephone InstitutionTelephoneNumberType="Main">
-      <TelephoneNumber>(351) 555-7066</TelephoneNumber>
+      <TelephoneNumber>(995) 555-1415</TelephoneNumber>
     </Telephone>
     <WebSite>http://fake.local-education-agency.org.fake/fake</WebSite>
-    <OperationalStatus>Changed Agency</OperationalStatus>
+    <OperationalStatus>Added</OperationalStatus>
     <AccountabilityRatings>
       <RatingTitle>2001 rating: IL-DAYBREAK</RatingTitle>
-      <Rating>High Advanced</Rating>
-      <RatingDate>2001-07-08</RatingDate>
+      <Rating>Mid Satisfactory</Rating>
+      <RatingDate>2001-09-26</RatingDate>
       <SchoolYear>2001-2002</SchoolYear>
       <RatingOrganization>STANDARD-SEA</RatingOrganization>
       <RatingProgram>AEIS</RatingProgram>
     </AccountabilityRatings>
     <AccountabilityRatings>
       <RatingTitle>2002 rating: IL-DAYBREAK</RatingTitle>
-      <Rating>Low Unsatisfactory</Rating>
-      <RatingDate>2002-05-05</RatingDate>
+      <Rating>Low Advanced</Rating>
+      <RatingDate>2002-06-22</RatingDate>
       <SchoolYear>2002-2003</SchoolYear>
       <RatingOrganization>STANDARD-SEA</RatingOrganization>
       <RatingProgram>AEIS</RatingProgram>
@@ -1353,7 +1353,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AccountabilityRatings>
       <RatingTitle>2003 rating: IL-DAYBREAK</RatingTitle>
       <Rating>High Satisfactory</Rating>
-      <RatingDate>2003-12-30</RatingDate>
+      <RatingDate>2003-12-20</RatingDate>
       <SchoolYear>2003-2004</SchoolYear>
       <RatingOrganization>STANDARD-SEA</RatingOrganization>
       <RatingProgram>AEIS</RatingProgram>
@@ -1409,7 +1409,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </ProgramIdentity>
     </ProgramReference>
     <LEACategory>Independent</LEACategory>
-    <CharterStatus>Open Enrollment</CharterStatus>
+    <CharterStatus>Not a Charter School</CharterStatus>
     <StateEducationAgencyReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
@@ -1427,36 +1427,36 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <OrganizationCategory>Local Education Agency</OrganizationCategory>
     </OrganizationCategories>
     <Address>
-      <StreetNumberName>797 West Blvd</StreetNumberName>
+      <StreetNumberName>867 Braeburn Lane</StreetNumberName>
       <City>New York</City>
       <StateAbbreviation>NY</StateAbbreviation>
       <PostalCode>10292</PostalCode>
     </Address>
     <Telephone InstitutionTelephoneNumberType="Main">
-      <TelephoneNumber>(850) 555-0519</TelephoneNumber>
+      <TelephoneNumber>(118) 555-5520</TelephoneNumber>
     </Telephone>
     <WebSite>http://fake.local-education-agency.org.fake/fake</WebSite>
-    <OperationalStatus>Added</OperationalStatus>
+    <OperationalStatus>Active</OperationalStatus>
     <AccountabilityRatings>
       <RatingTitle>2001 rating: 5</RatingTitle>
-      <Rating>Mid Satisfactory</Rating>
-      <RatingDate>2001-01-24</RatingDate>
+      <Rating>Low Satisfactory</Rating>
+      <RatingDate>2001-05-08</RatingDate>
       <SchoolYear>2001-2002</SchoolYear>
       <RatingOrganization>STANDARD-SEA</RatingOrganization>
       <RatingProgram>AEIS</RatingProgram>
     </AccountabilityRatings>
     <AccountabilityRatings>
       <RatingTitle>2002 rating: 5</RatingTitle>
-      <Rating>High Unsatisfactory</Rating>
-      <RatingDate>2002-08-15</RatingDate>
+      <Rating>Low Advanced</Rating>
+      <RatingDate>2002-12-17</RatingDate>
       <SchoolYear>2002-2003</SchoolYear>
       <RatingOrganization>STANDARD-SEA</RatingOrganization>
       <RatingProgram>AEIS</RatingProgram>
     </AccountabilityRatings>
     <AccountabilityRatings>
       <RatingTitle>2003 rating: 5</RatingTitle>
-      <Rating>High Advanced</Rating>
-      <RatingDate>2003-04-01</RatingDate>
+      <Rating>High Satisfactory</Rating>
+      <RatingDate>2003-01-08</RatingDate>
       <SchoolYear>2003-2004</SchoolYear>
       <RatingOrganization>STANDARD-SEA</RatingOrganization>
       <RatingProgram>AEIS</RatingProgram>
@@ -1492,7 +1492,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </ProgramIdentity>
     </ProgramReference>
     <LEACategory>Independent</LEACategory>
-    <CharterStatus>Open Enrollment</CharterStatus>
+    <CharterStatus>Not a Charter School</CharterStatus>
     <StateEducationAgencyReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>STANDARD-SEA</StateOrganizationId>

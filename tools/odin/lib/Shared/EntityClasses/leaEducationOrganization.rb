@@ -96,8 +96,9 @@ class LocalEducationAgency < BaseEntity
   # - OrganizationCategories (hard-coded in mustache template)
   # - LEACategory (hard-coded in mustache template)
 
-  def initialize(rand, id, sea_parent_id, programs = nil, years = [])
-    @random = rand
+  def initialize(id, sea_parent_id, programs = [], years = [])    
+    @random = Random.new(9876)
+    @random = Random.new(id) unless id.kind_of? String
 
     @state_org_id   = get_state_organization_id(id)
     @address        = get_address
@@ -110,7 +111,7 @@ class LocalEducationAgency < BaseEntity
     @telephone      = get_telephone
     @website        = 'http://fake.local-education-agency.org.fake/fake'
     @op_status      = get_random_operational_status
-    @accountability = get_accountability_ratings(years) unless years.nil?
+    @accountability = get_accountability_ratings(years) unless years.nil? || years.empty?
     @ed_org_peers   = []
     @charter_status = get_random_charter_status_type(@random)
     @lea_parent_id  = nil   # this will need to be added when odin can generate multiple sub-tiers within the LEA tier
@@ -195,6 +196,6 @@ class LocalEducationAgency < BaseEntity
 
   # generates the charter status of the local education agency
   def get_random_charter_status_type(random)
-    return DataUtility.select_random_from_options(random, [:OPEN_ENROLLMENT, :NOT_A_CHARTER_SCHOOL])
+    DataUtility.select_random_from_options(random, [:OPEN_ENROLLMENT, :NOT_A_CHARTER_SCHOOL])
   end
 end
