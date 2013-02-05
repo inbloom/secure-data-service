@@ -35,47 +35,18 @@ class ApplicationAuthorizationsController < ApplicationController
   # GET /application_authorizations.json
   def index
     @application_authorizations = ApplicationAuthorization.all
-    existing_authorizations = @application_authorizations.map{|cur| cur.authId}
-    if @application_authorizations.length == 0 and is_lea_admin?
-      newAppAuthorization = ApplicationAuthorization.new({"authId" => session[:edOrgId], "authType" => "EDUCATION_ORGANIZATION", "appIds" => []})
-      @application_authorizations = [newAppAuthorization]
-    elsif is_sea_admin?
+    @apps_map = {}
+    App.all.each { |app| @apps_map[app.id] = app }
+
+    if is_sea_admin?
       my_delegations = AdminDelegation.all
-      my_authorizations = (my_delegations.select{|delegation| delegation.appApprovalEnabled}).map{|cur| cur.localEdOrgId}
-      missing_authorizations = my_authorizations - existing_authorizations
-      missing_authorizations.each do |edOrg|
-        newAppAuthorization = ApplicationAuthorization.new({"authId" => edOrg, "authType" => "EDUCATION_ORGANIZATION", "appIds" => []})
-        @application_authorizations.push(newAppAuthorization)
-      end
-      @application_authorizations = @application_authorizations.sort {|a, b| a.authId <=> b.authId}
+      @edorgs = (my_delegations.select{|delegation| delegation.appApprovalEnabled}).map{|cur| cur.localEdOrgId}
     end
     #Get EDORGS for the authId
-    @edorgs = {}
-    @application_authorizations.each do |auth|
-      raise OutOfOrder unless EducationOrganization.exists? auth.authId
-      @edorgs[auth.authId] = EducationOrganization.find(auth.authId).nameOfInstitution
-    end
+    @edorgs = [session[:edOrgId]] if @edorgs == nil
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @application_authorizations }
-    end
-  end
-
-  # POST /application_authorizations
-  # POST /application_authorizations.json
-  def create
-    appId = params[:application_authorization][:appId]
-
-    @application_authorization = ApplicationAuthorization.new({"authId" => params[:application_authorization][:authId], "authType" => "EDUCATION_ORGANIZATION", "appIds" => [appId]})
-
-    respond_to do |format|
-      if @application_authorization.save
-        format.html { redirect_to application_authorizations_path, notice: 'Application authorization was successfully created.' }
-        format.json { render json: @application_authorization, status: :created, location: @application_authorization }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @application_authorization.errors, status: :unprocessable_entity }
-      end
     end
   end
 
@@ -84,17 +55,15 @@ class ApplicationAuthorizationsController < ApplicationController
   def update
     @application_authorization = ApplicationAuthorization.find(params[:id])
     appId = params[:application_authorization][:appId]
-    idArray = @application_authorization.appIds
+    approve = true
 
     if(params[:commit] == "Deny")
-      idArray.delete(appId)
-    else
-      idArray.unshift(appId)
+      approve = true
     end
-    updates = {"appIds" =>  idArray}
+    updates = {"appId" =>  appId, "authorized" => approve}
     respond_to do |format|
       if @application_authorization.update_attributes(updates)
-        format.html { redirect_to application_authorizations_path, notice: @application_authorization.authId}
+        format.html { redirect_to application_authorizations_path, notice: @application_authorization.appId}
         #format.html {redirect_to :action => 'index', notice: 'Application authorization was succesfully updated.'}
         format.json { head :ok }
       else

@@ -106,6 +106,7 @@ public class ApplicationAuthorizationResource {
                 return Response.status(Status.NOT_FOUND).build();
             } else {
                 HashMap<String, Object> entity = new HashMap<String, Object>();
+                entity.put("id", appId);
                 entity.put("appId", appId);
                 entity.put("authorized", false);
                 return Response.status(Status.OK).entity(entity).build();
@@ -113,6 +114,7 @@ public class ApplicationAuthorizationResource {
         } else {
             HashMap<String, Object> entity = new HashMap<String, Object>();
             entity.put("appId", appId);
+            entity.put("id", appId);
             List<String> edOrgs = (List<String>) appAuth.get("edorgs");
             entity.put("authorized", edOrgs.contains(edorg));
             return Response.status(Status.OK).entity(entity).build();
@@ -203,6 +205,7 @@ public class ApplicationAuthorizationResource {
         for (EntityBody body : ents) {
             HashMap<String, Object> entity = new HashMap<String, Object>();
             String appId = (String) body.get("applicationId");
+            entity.put("id", appId);
             entity.put("appId", appId);
             entity.put("authorized", true);
             results.add(entity);
@@ -212,6 +215,7 @@ public class ApplicationAuthorizationResource {
             List<String> approvedEdorgs = (List<String>) entry.getValue().getBody().get("authorized_ed_orgs");
             if (approvedEdorgs != null && approvedEdorgs.contains(myEdorg)) {
                 HashMap<String, Object> entity = new HashMap<String, Object>();
+                entity.put("id", entry.getKey());
                 entity.put("appId", entry.getKey());
                 entity.put("authorized", false);
                 results.add(entity);

@@ -1,48 +1,19 @@
-
-<h1>District - <%= @edorgs[@application_authorization.authId] %></h1>
-<table id="AuthorizedAppsTable_<%= @application_authorization.authId  %>" class="AuthorizedAppsTable table">
-  <thead>
-  <tr>
-    <th>Name</th>
-    <th>Version</th>
-    <th>Vendor</th>
-    <th>Status</th>
-    <th> </th>
-  </tr>
-  </thead>
-  <tbody>
-<%
-    apps = App.all
-
-    #The reason map is being used is to put the apps in the order that they were authorized
-    authorizedApps = @application_authorization.appIds.map{|appId| apps.detect{|app| app.id == appId }}
-    unauthorizedApps = apps.select {|app| @application_authorization.appIds.find_index(app.id) == nil}
-    apps = authorizedApps + unauthorizedApps
-    apps.each do |app|
-%>
-<% if app == nil
-      next
-   end
-%>
     <tr>
-      
-      <td><%= app.name %></td>
-      <td><%= app.version  %></td>
-      <td><%= app.vendor %></td>
+      <td><%= @apps_map[@app_auth.appId].name %></td>
+      <td><%= @apps_map[@app_auth.appId].version  %></td>
+      <td><%= @apps_map[@app_auth.appId].vendor %></td>
       <%=
-          isApproved = false
-          if @application_authorization.appIds.find_index(app.id) != nil
-                isApproved = true
-                content_tag(:td, "Approved", :id => "approvedStatus")
+          isApproved = @app_auth.authorized
+          if isApproved
+            content_tag(:td, "Approved", :id => "approvedStatus")
           else
-                content_tag(:td, "Not Approved", :id => "notApprovedStatus")
+            content_tag(:td, "Not Approved", :id => "notApprovedStatus")
           end
       %>
       <td><%=
-          form_for @application_authorization do |f|
+          form_for @app_auth do |f|
           %>
-            <%= f.hidden_field :authId, :value => @application_authorization.authId %>
-            <%= f.hidden_field :appId, :value => app.id %>
+            <%= f.hidden_field :appId, :value => @app_auth.appId %>
             <%= f.submit "Approve", :disabled => isApproved,
                          :confirm => "Do you really want this application to access the district's data?'", :class=>"btn" %>
             <%= f.submit "Deny", :disabled => !isApproved,
@@ -50,6 +21,3 @@
           <% end %>
       </td>
     </tr>
-    <%end %>
-    </tbody>
-  </table>
