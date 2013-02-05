@@ -44,11 +44,11 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.delta.SliDeltaManager;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.AggregatedSource;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
-import org.slc.sli.ingestion.smooks.SliDeltaManager;
 
 /**
  * Transforms disjoint set of attendance events into cleaner set of {school year : list of

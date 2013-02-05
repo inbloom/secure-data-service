@@ -14,7 +14,7 @@
 				<xs:element name="LocalEducationAgency" type="SLC-LocalEducationAgency"/>
 				<xs:element name="School" type="SLC-School"/>
 				<xs:element name="Course" type="SLC-Course"/>
-				<xs:element name="CompetencyLevelDescriptor" type="CompetencyLevelDescriptor"/>
+				<xs:element name="CompetencyLevelDescriptor" type="SLC-CompetencyLevelDescriptor"/>
 				<xs:element name="Program" type="SLC-Program"/>
 			</xs:choice>
 		</xs:complexType>
