@@ -33,7 +33,6 @@
     <entry key="StaffAssociation">
       <value>classpath:edfiXsd-SLI/SLI-Interchange-StaffAssociation.xsd</value>
     </entry>
-
     <entry key="StudentAssessment">
       <value>classpath:edfiXsd-SLI/SLI-Interchange-StudentAssessment.xsd</value>
     </entry>
@@ -63,9 +62,16 @@
     </entry>
   </util:map>
 
-  <bean id="xsdValidator" class="org.slc.sli.ingestion.validation.XsdValidator" scope="prototype">
-    <property name="xsd" ref="xsd" />
+  <bean id="xsdSelector" class="org.slc.sli.ingestion.util.XsdSelector" />
+
+  <bean id="xsdList"
+    class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+    <property name="targetClass" value="org.slc.sli.ingestion.util.XsdSelector" />
+    <property name="targetMethod" value="setXsdList" />
+    <property name="arguments" ref="xsd" />
   </bean>
+
+  <bean id="xsdValidator" class="org.slc.sli.ingestion.validation.XsdValidator" scope="prototype" />
 
   <bean id="controlFileValidator" class="org.slc.sli.ingestion.landingzone.validation.ControlFileValidator">
     <property name="ingestionFileValidators">

@@ -65,6 +65,13 @@ public interface TenantDA {
     boolean updateAndAquireOnboardingLock(String tenantId);
 
     /**
+     * Unset the isReady field for this tenant.
+     * @param tenantId
+     * @return
+     */
+    void unsetTenantReadyFlag(String tenantId);
+
+    /**
      * Remove tenant with invalid characters in the landing zone path from the tenant collection
      *
      * @param lzPath

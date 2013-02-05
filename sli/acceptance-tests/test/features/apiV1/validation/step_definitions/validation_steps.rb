@@ -422,7 +422,7 @@ $validationTestData = {
         "schoolYear" => "2011-2012",
         "term" => "Spring Semester",
         "beginDate" => "2012-01-01",
-        "endDate" => "2012-06-31",
+        "endDate" => "2012-06-30",
         "totalInstructionalDays" => 80,
         "gradingPeriodReference" => ["b40a7eb5-dd74-4666-a5b9-5c3f4425f130", "ef72b883-90fa-40fa-afc2-4cb1ae17623b"],
     },
