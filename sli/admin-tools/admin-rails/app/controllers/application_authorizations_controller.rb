@@ -58,7 +58,7 @@ class ApplicationAuthorizationsController < ApplicationController
     approve = true
 
     if(params[:commit] == "Deny")
-      approve = true
+      approve = false
     end
     updates = {"appId" =>  appId, "authorized" => approve}
     respond_to do |format|
