@@ -16,14 +16,13 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.Arrays;
-import java.util.Set;
-
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.security.context.resolver.EdOrgHelper;
+import java.util.Arrays;
+import java.util.Set;
 
 /**
  * Validates the context of a teacher to see the requested set of education organizations.
