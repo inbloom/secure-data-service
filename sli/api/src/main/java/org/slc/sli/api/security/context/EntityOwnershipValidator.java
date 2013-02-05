@@ -1,5 +1,5 @@
 /*
- * Copyright 2013 Shared Learning Collaborative, LLC
+ * Copyright 2012 Shared Learning Collaborative, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -128,6 +128,10 @@ public class EntityOwnershipValidator {
     }
 
     public boolean canAccess(Entity entity) {
+        if (SecurityUtil.getSLIPrincipal().getAuthorizingEdOrgs() == null) {
+            //We explicitly set not if the app is marked as authorized_for_all_edorgs
+            return true;
+        }
 
         if (publicEntities.contains(entity.getType())) {
             return true;

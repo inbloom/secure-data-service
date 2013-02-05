@@ -16,15 +16,15 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Validates the context of a staff member to see the requested set of grades. Returns true if the

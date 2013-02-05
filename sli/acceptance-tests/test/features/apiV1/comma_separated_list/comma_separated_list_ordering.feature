@@ -103,7 +103,6 @@ Feature: As an SLI application, I want to return the right order of entities.
       | ENDPOINT                  | GOOD_ID                            | BAD_ID                             |
       |attendances                |530f0704-c240-4ed9-0a64-55c0308f91ee|9953166a-9722-447c-094a-bfcce701c2c9|
       |cohorts                    |b40926af-8fd5-11e1-86ec-0021701f543f_id|7e9915ed-ea6f-4e6b-b8b0-aeae20a25826_id|
-      |courses                    |f9d960e4-682b-4ebe-96d8-c4c2fc803435|e31f7583-417e-4c42-bd55-0bbe7518edf8|
       |disciplineActions          |db7f1d4b-9689-b2f4-9281-d88d65999423|0e26de6c-225b-9f67-9281-7213ad50a03b|
       |disciplineIncidents        |0e26de79-7efa-5e67-9201-5113ad50a03b|0e26de79-226a-5d67-9201-5113ad50a03b|
 #      |gradebookEntries           |0dbb262b-8a3e-4a7b-82f9-72de95903d91_id20120613-56b6-4d17-847b-2997b7227686_id|706ee3be-0dae-4e98-9525-f564e05aa388_id008fd89d-88a2-43aa-8af1-74ac16a29380_id|
@@ -120,7 +119,6 @@ Feature: As an SLI application, I want to return the right order of entities.
 #      |studentCompetencies        |b57643e4-9acf-11e1-89a7-68a86d21d918|3a2ea9f8-9acf-11e1-add5-68a86d83461b| - Bad data
       |teachers                   |bcfcc33f-f4a6-488f-baee-b92fbd062e8d|eb4d7e1b-7bed-890a-d574-1d729a37fd2d| 
       # Associations
-      |courseOfferings                        |01ba881f-ae39-4b76-920e-42bc7e8769d7|5ed994e9-5bf4-4d6e-a0ad-bc44c0112940|
       |courseTranscripts                      |f11a2a30-d4fd-4400-ae18-353c00d581a2|09eced61-edd9-4826-a7bc-137ffecda877|
       |staffCohortAssociations                |b41338da-8fd5-11e1-86ec-0021701f543f|235b88ea-bfea-42ce-8b06-542143e19909|
       |staffEducationOrgAssignmentAssociations|b1c40ccc-b466-8f3b-b3c7-7e13c2bc4d5a|05e3de47-9e41-c048-a572-3eb4c7ee9095|
@@ -147,7 +145,6 @@ Scenario Outline: Validate CSL where teacher has access to one ID but not two
       | ENDPOINT                  | GOOD_ID                            | BAD_ID                             |
       |attendances                |4beb72d4-0f76-4071-92b4-61982dba7a7b|530f0704-c240-4ed9-0a64-55c0308f91ee|
       |cohorts                    |9ac7ad37-80aa-42ab-9d63-e48cc70a7863_id|b40926af-8fd5-11e1-86ec-0021701f543f_id|
-      |courses                    |f9d960e4-682b-4ebe-96d8-c4c2fc803435|731a70cb-86e4-48ce-bfb9-1675f874ded1|
 #      |disciplineActions          |db7f1d4b-9689-b2f4-9281-d88d65999423|0e26de6c-225b-9f67-9281-7213ad50a03b|
       |disciplineIncidents        |0e26de79-7efa-5e67-9201-5113ad50a03b|0e26de79-22ea-5d67-9201-5113ad50a03b|
       |gradebookEntries           |0dbb262b-8a3e-4a7b-82f9-72de95903d91_id20120613-56b6-4d17-847b-2997b7227686_id|706ee3be-0dae-4e98-9525-f564e05aa388_id008fd89d-88a2-43aa-8af1-74ac16a29380_id|
@@ -164,7 +161,6 @@ Scenario Outline: Validate CSL where teacher has access to one ID but not two
       |studentCompetencies        |b57643e4-9acf-11e1-7919-201211130002|b57643e4-9acf-11e1-89a7-68a86d21d918|
       |teachers                   |e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b|bcfcc33f-f4a6-488f-baee-b92fbd062e8d| 
       # Associations
-      |courseOfferings                        |01ba881f-ae39-4b76-920e-42bc7e8769d7|5ed994e9-5bf4-4d6e-a0ad-bc44c0112940|
       |courseTranscripts                      |36aeeabf-ee9b-46e6-7919-201311130015|f11a2a30-d4fd-4400-ae18-353c00d581a2|
       |staffCohortAssociations                |2e1b42be-ff75-4e74-b9f1-cdcd9164b183|b41338da-8fd5-11e1-86ec-0021701f543f|
       |staffEducationOrgAssignmentAssociations|a29e3113-316d-bfd1-4b00-b9121b8fdfd3|b1c40ccc-b466-8f3b-b3c7-7e13c2bc4d5a|
