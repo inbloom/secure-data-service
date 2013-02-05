@@ -171,9 +171,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     private static final String INGESTION_MESSAGE_TYPE = "IngestionMessageType";
 
-    @Autowired
-    private LoggingMessageReport loggingMessageReport;
-
     // Spring's dependency management can confuse camel due to some circular dependencies. Removing
     // this constructor, even if it doesn't look like it will change things, may affect loading
     // order and cause ingestion to fail to start on certain JVMs
@@ -185,8 +182,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Override
     public void configure() throws Exception {
         LOG.info("Configuring node {} for node type {}", nodeInfo.getUUID(), nodeInfo.getNodeType());
-
-        loggingMessageReport.setLogger(LOG);
 
         String landingZoneQueueUri = landingZoneQueue + "?concurrentConsumers=" + landingZoneConsumers;
         String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + workItemConsumers;
