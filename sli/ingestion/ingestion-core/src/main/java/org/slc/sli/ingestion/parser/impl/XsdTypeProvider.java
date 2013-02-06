@@ -31,7 +31,7 @@ import org.jdom2.input.SAXBuilder;
 import org.springframework.core.io.Resource;
 
 import org.slc.sli.common.util.logging.SecurityEvent;
-import org.slc.sli.ingestion.parser.EdfiType;
+import org.slc.sli.ingestion.parser.RecordMeta;
 import org.slc.sli.ingestion.parser.TypeProvider;
 
 /**
@@ -148,13 +148,13 @@ public class XsdTypeProvider implements TypeProvider {
     }
 
     @Override
-    public EdfiType getTypeFromParentType(String type, String eventName) {
+    public RecordMeta getTypeFromParentType(String type, String eventName) {
         Element parentElement = getComplexElement(type);
         if (parentElement != null && eventName != null) {
 
             for (Element e : parentElement.getDescendants(Filters.element(ELEMENT, XS_NAMESPACE))) {
                 if (e.getAttributeValue(NAME).equals(eventName)) {
-                    return new XsdEdfiType(eventName, e.getAttributeValue(TYPE), shouldBeList(e, parentElement));
+                    return new RecordMetaImpl(eventName, e.getAttributeValue(TYPE), shouldBeList(e, parentElement));
                 }
             }
         }

@@ -15,13 +15,15 @@
  */
 package org.slc.sli.ingestion.parser;
 
+import javax.xml.stream.Location;
+
 /**
- * Describes an Edfi element type.
+ * Describes an XML record.
  *
  * @author dduran
  *
  */
-public interface EdfiType {
+public interface RecordMeta {
 
     /**
      * The type of the element as defined in the XSD.
@@ -43,5 +45,21 @@ public interface EdfiType {
      * @return <code>true</code> if the element should be represented as a list.
      */
     boolean isList();
+
+    /**
+     * Provide start location for record.
+     *
+     * @return The <code>javax.xml.stream.Location</code> associated with the XML start tag for this
+     *         record in the source.
+     */
+    Location getSourceStartLocation();
+
+    /**
+     * Provide end location for record;
+     *
+     * @return The <code>javax.xml.stream.Location</code> associated with the XML start tag for this
+     *         record in the source.
+     */
+    Location getSourceEndLocation();
 
 }

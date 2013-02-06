@@ -28,9 +28,11 @@ public interface RecordVisitor {
     /**
      * Invoked upon completion of parsing a record.
      *
+     * @param edfiType
+     *            meta information about the parsed record.
      * @param record
      *            the fully constructed map of objects representation of the record
      */
-    void visit(String name, Map<String, Object> record);
+    void visit(RecordMeta edfiType, Map<String, Object> record);
 
 }

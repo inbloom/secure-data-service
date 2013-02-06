@@ -45,8 +45,9 @@ import org.springframework.core.io.Resource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
+import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.ingestion.parser.EdfiRecordParser;
-import org.slc.sli.ingestion.parser.EdfiType;
+import org.slc.sli.ingestion.parser.RecordMeta;
 import org.slc.sli.ingestion.parser.RecordVisitor;
 import org.slc.sli.ingestion.parser.TypeProvider;
 import org.slc.sli.ingestion.parser.XmlParseException;
@@ -69,12 +70,13 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
 
     private List<RecordVisitor> recordVisitors = new ArrayList<RecordVisitor>();
 
-    Stack<Pair<EdfiType, Map<String, Object>>> complexTypeStack = new Stack<Pair<EdfiType, Map<String, Object>>>();
+    Stack<Pair<RecordMeta, Map<String, Object>>> complexTypeStack = new Stack<Pair<RecordMeta, Map<String, Object>>>();
     String currentEntityName = null;
     boolean currentEntityValid = false;
     private String interchange;
 
-    public static void parse(XMLEventReader reader, Resource schemaResource, TypeProvider typeProvider, RecordVisitor visitor) throws XmlParseException {
+    public static void parse(XMLEventReader reader, Resource schemaResource, TypeProvider typeProvider,
+            RecordVisitor visitor) throws XmlParseException {
         EdfiRecordParserImpl parser = new EdfiRecordParserImpl();
 
         parser.setParent(reader);
@@ -131,7 +133,7 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
     private void parseInterchangeEvent(XMLEvent event, String eventName) throws XMLStreamException {
 
         if (complexTypeStack.isEmpty() && event.isStartElement()) {
-            initCurrentEntity(eventName);
+            initCurrentEntity(event, eventName);
         }
 
         if (!complexTypeStack.isEmpty()) {
@@ -144,9 +146,13 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
         }
     }
 
-    private void initCurrentEntity(String eventName) {
+    private void initCurrentEntity(XMLEvent event, String eventName) {
         String xsdType = typeProvider.getTypeFromInterchange(interchange, eventName);
-        complexTypeStack.push(createElementEntry(new XsdEdfiType(eventName, xsdType)));
+
+        RecordMeta recordMeta = new RecordMetaImpl(eventName, xsdType);
+        ((RecordMetaImpl) recordMeta).setSourceStartLocation(event.getLocation());
+
+        complexTypeStack.push(createElementEntry(recordMeta));
         currentEntityName = eventName;
         currentEntityValid = true;
     }
@@ -160,7 +166,7 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
             parseCharacters(e.asCharacters());
 
         } else if (e.isEndElement() && eventName.equals(complexTypeStack.peek().getLeft().getName())) {
-            parseEndElement();
+            parseEndElement(e);
         }
     }
 
@@ -180,9 +186,10 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
     }
 
     private void newEventToStack(String eventName) {
-        EdfiType typeMeta = typeProvider.getTypeFromParentType(complexTypeStack.peek().getLeft().getType(), eventName);
+        RecordMeta typeMeta = typeProvider
+                .getTypeFromParentType(complexTypeStack.peek().getLeft().getType(), eventName);
 
-        Pair<EdfiType, Map<String, Object>> subElement = createElementEntry(typeMeta);
+        Pair<RecordMeta, Map<String, Object>> subElement = createElementEntry(typeMeta);
 
         Object mapValue = subElement.getRight();
         if (typeMeta.isList() && complexTypeStack.peek().getRight().get(eventName) == null) {
@@ -210,29 +217,30 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
         }
     }
 
-    private void parseEndElement() {
+    private void parseEndElement(XMLEvent event) {
         if (complexTypeStack.size() > 1) {
             complexTypeStack.pop();
         } else if (complexTypeStack.size() == 1) {
 
-            recordParsingComplete();
+            recordParsingComplete(event);
         }
     }
 
-    private void recordParsingComplete() {
-        Pair<EdfiType,Map<String,Object>> pair = complexTypeStack.pop();
-        Map<String, Object> record = pair.getRight();
-        LOG.debug("Parsed record: {} - {}", currentEntityName, record);
+    private void recordParsingComplete(XMLEvent event) {
+        Pair<RecordMeta, Map<String, Object>> pair = complexTypeStack.pop();
+        ((RecordMetaImpl) pair.getLeft()).setSourceEndLocation(event.getLocation());
+
+        LOG.debug("Parsed record: {} - {}", currentEntityName, pair);
 
         for (RecordVisitor visitor : recordVisitors) {
-            visitor.visit(pair.getLeft().getName(), record);
+            visitor.visit(pair.getLeft(), pair.getRight());
         }
 
         currentEntityName = null;
     }
 
-    private Pair<EdfiType, Map<String, Object>> createElementEntry(EdfiType edfiType) {
-        return new ImmutablePair<EdfiType, Map<String, Object>>(edfiType, new InnerMap());
+    private Pair<RecordMeta, Map<String, Object>> createElementEntry(RecordMeta edfiType) {
+        return new ImmutablePair<RecordMeta, Map<String, Object>>(edfiType, new InnerMap());
     }
 
     private static String extractTagName(XMLEvent e) {
@@ -287,6 +295,11 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
             }
             return result;
         }
+    }
+
+    public void audit(SecurityEvent event) {
+        // TODO Auto-generated method stub
+
     }
 
 }

@@ -47,6 +47,7 @@ import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.parser.RecordMeta;
 import org.slc.sli.ingestion.parser.RecordVisitor;
 import org.slc.sli.ingestion.parser.TypeProvider;
 import org.slc.sli.ingestion.parser.XmlParseException;
@@ -69,7 +70,6 @@ import org.slc.sli.ingestion.util.XsdSelector;
 public class EdFiParserProcessor extends AbstractIngestionHandler<IngestionFileEntry, Void> implements Processor,
         RecordVisitor {
     private static final Logger LOG = LoggerFactory.getLogger(EdFiParserProcessor.class);
-    private static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.EDFI_PROCESSOR;
     private static final String BATCH_JOB_STAGE_DESC = "Reads records from the interchanges and persists to the staging database";
     private static final XMLInputFactory XML_INPUT_FACTORY = XMLInputFactory.newInstance();
 
@@ -86,7 +86,7 @@ public class EdFiParserProcessor extends AbstractIngestionHandler<IngestionFileE
 
     @Override
     public void process(Exchange exchange) {
-        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
+        Stage stage = Stage.createAndStartStage(getStage(), getStageDescription());
 
         NewBatchJob job = null;
 
@@ -153,7 +153,15 @@ public class EdFiParserProcessor extends AbstractIngestionHandler<IngestionFileE
 
     @Override
     public String getStageName() {
-        return BATCH_JOB_STAGE.getName();
+        return getStage().getName();
+    }
+
+    public String getStageDescription() {
+        return BATCH_JOB_STAGE_DESC;
+    }
+
+    public BatchJobStageType getStage() {
+        return BatchJobStageType.EDFI_PROCESSOR;
     }
 
     @Override
@@ -188,8 +196,8 @@ public class EdFiParserProcessor extends AbstractIngestionHandler<IngestionFileE
     }
 
     @Override
-    public void visit(String name, Map<String, Object> record) {
-        state.get().addToBatch(name, record);
+    public void visit(RecordMeta recordMeta, Map<String, Object> record) {
+        state.get().addToBatch(recordMeta, record);
     }
 
     public void sendDataBatch() {
@@ -279,7 +287,7 @@ public class EdFiParserProcessor extends AbstractIngestionHandler<IngestionFileE
             return dataBatch;
         }
 
-        public void addToBatch(String name, Map<String, Object> record) {
+        public void addToBatch(RecordMeta recordMeta, Map<String, Object> record) {
             NeutralRecord neutralRecord = new NeutralRecord();
 
             neutralRecord.setBatchJobId(work.getBatchJobId());
