@@ -45,6 +45,7 @@ import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.parser.RecordMeta;
 import org.slc.sli.ingestion.parser.RecordVisitor;
 import org.slc.sli.ingestion.parser.TypeProvider;
 import org.slc.sli.ingestion.parser.XmlParseException;
@@ -183,7 +184,7 @@ public class EdFiParserProcessor extends AbstractIngestionHandler<IngestionFileE
     }
 
     @Override
-    public void visit(String name, Map<String, Object> record) {
+    public void visit(RecordMeta type, Map<String, Object> record) {
         //
     }
 

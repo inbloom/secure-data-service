@@ -15,8 +15,8 @@
  */
 package org.slc.sli.ingestion.parser.impl;
 
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyMap;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 
@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
+import org.slc.sli.ingestion.parser.RecordMeta;
 import org.slc.sli.ingestion.parser.RecordVisitor;
 
 /**
@@ -57,7 +58,7 @@ public class EdfiRecordParserTest {
 
         EdfiRecordParserImpl.parse(reader, schema, tp, visitor);
 
-        verify(visitor, atLeastOnce()).visit(anyString(), anyMap());
+        verify(visitor, atLeastOnce()).visit(any(RecordMeta.class), anyMap());
     }
 
 }

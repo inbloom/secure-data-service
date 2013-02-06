@@ -45,7 +45,7 @@ public interface TypeProvider {
      *            String value of the name of an EdFi element.
      * @return EdfiType for this element.
      */
-    public EdfiType getTypeFromParentType(String parentType, String elementName);
+    public RecordMeta getTypeFromParentType(String parentType, String elementName);
 
     /**
      * Process / convert the value for a given type.
