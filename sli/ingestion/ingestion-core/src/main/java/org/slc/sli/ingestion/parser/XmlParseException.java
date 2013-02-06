@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Shared Learning Collaborative, LLC
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,35 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.slc.sli.ingestion.parser;
 
 /**
- * Describes an Edfi element type.
- *
- * @author dduran
+ * @author okrook
  *
  */
-public interface EdfiType {
+public class XmlParseException extends Exception {
+    private static final long serialVersionUID = -3899885281663995643L;
 
-    /**
-     * The type of the element as defined in the XSD.
-     *
-     * @return String value of type.
-     */
-    String getType();
+    public XmlParseException() {
+        super();
+    }
 
-    /**
-     * The name of the element as described in the XSD parent type.
-     *
-     * @return String value of name.
-     */
-    String getName();
+    public XmlParseException(String message) {
+        super(message);
+    }
 
-    /**
-     * Whether this element is unbounded.
-     *
-     * @return <code>true</code> if the element should be represented as a list.
-     */
-    boolean isList();
+    public XmlParseException(String message, Throwable cause) {
+        super(message, cause);
+    }
 
+    public XmlParseException(Throwable cause) {
+        super(cause);
+    }
 }

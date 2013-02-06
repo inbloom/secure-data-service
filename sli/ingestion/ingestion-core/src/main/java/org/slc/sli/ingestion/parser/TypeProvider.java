@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Shared Learning Collaborative, LLC
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,7 +45,7 @@ public interface TypeProvider {
      *            String value of the name of an EdFi element.
      * @return EdfiType for this element.
      */
-    public EdfiType getTypeFromParentType(String parentType, String elementName);
+    public RecordMeta getTypeFromParentType(String parentType, String elementName);
 
     /**
      * Process / convert the value for a given type.

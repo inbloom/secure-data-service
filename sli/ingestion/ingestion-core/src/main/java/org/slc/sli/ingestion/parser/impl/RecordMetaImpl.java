@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Shared Learning Collaborative, LLC
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,26 +15,32 @@
  */
 package org.slc.sli.ingestion.parser.impl;
 
-import org.slc.sli.ingestion.parser.EdfiType;
+import javax.xml.stream.Location;
+
+import org.slc.sli.common.util.logging.SecurityEvent;
+import org.slc.sli.ingestion.parser.RecordMeta;
 
 /**
- * Basic implementation of EdfiType
+ * Basic implementation of RecordMeta
+ *
  * @author dduran
  *
  */
-public final class XsdEdfiType implements EdfiType {
+public final class RecordMetaImpl implements RecordMeta {
 
     final String name;
     final String type;
     final boolean isList;
+    Location sourceStartLocation;
+    Location sourceEndLocation;
 
-    public XsdEdfiType(String name, String type) {
+    public RecordMetaImpl(String name, String type) {
         this.name = name;
         this.type = type;
         isList = false;
     }
 
-    public XsdEdfiType(String name, String type, boolean isList) {
+    public RecordMetaImpl(String name, String type, boolean isList) {
         this.name = name;
         this.type = type;
         this.isList = isList;
@@ -58,6 +64,29 @@ public final class XsdEdfiType implements EdfiType {
     @Override
     public String toString() {
         return "<name=" + name + ", type=" + type + ", isList=" + isList + ">";
+    }
+
+    @Override
+    public Location getSourceStartLocation() {
+        return sourceStartLocation;
+    }
+
+    @Override
+    public Location getSourceEndLocation() {
+        return sourceEndLocation;
+    }
+
+    public void setSourceStartLocation(Location sourceStartLocation) {
+        this.sourceStartLocation = sourceStartLocation;
+    }
+
+    public void setSourceEndLocation(Location sourceEndLocation) {
+        this.sourceEndLocation = sourceEndLocation;
+    }
+
+    public void audit(SecurityEvent event) {
+        // TODO Auto-generated method stub
+
     }
 
 }

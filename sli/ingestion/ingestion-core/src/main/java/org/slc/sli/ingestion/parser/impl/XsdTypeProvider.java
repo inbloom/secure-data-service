@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Shared Learning Collaborative, LLC
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,9 +21,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Properties;
-
-import javax.annotation.PostConstruct;
 
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -31,13 +28,10 @@ import org.jdom2.JDOMException;
 import org.jdom2.Namespace;
 import org.jdom2.filter.Filters;
 import org.jdom2.input.SAXBuilder;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.logging.SecurityEvent;
-import org.slc.sli.ingestion.parser.EdfiType;
+import org.slc.sli.ingestion.parser.RecordMeta;
 import org.slc.sli.ingestion.parser.TypeProvider;
 
 /**
@@ -47,10 +41,7 @@ import org.slc.sli.ingestion.parser.TypeProvider;
  * @author dduran
  *
  */
-@Component
 public class XsdTypeProvider implements TypeProvider {
-
-    private static final String SCHEMA_DIR_PROPERTY = "sli.edfi.schema.dir";
 
     private static final Namespace XS_NAMESPACE = Namespace.getNamespace("xs", "http://www.w3.org/2001/XMLSchema");
     private static final String XS_DATE = "xs:date";
@@ -72,39 +63,38 @@ public class XsdTypeProvider implements TypeProvider {
     private static final String UNBOUNDED = "unbounded";
     private static final String MAX_OCCURS = "maxOccurs";
 
-    @Value("file:${sli.conf}")
-    private Resource sliPropsFile;
+    private Resource edfiSchemaDir;
 
     private Map<String, Element> complexTypes = new HashMap<String, Element>();
     private Map<String, String> typeMap = new HashMap<String, String>();
 
     private Map<String, Map<String, String>> interchangeMap = new HashMap<String, Map<String, String>>();
 
-    @PostConstruct
-    @SuppressWarnings("unused")
     private void init() throws Exception {
         System.setProperty("javax.xml.parsers.SAXParserFactory",
                 "com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl");
 
-        Properties sliProps = PropertiesLoaderUtils.loadProperties(sliPropsFile);
-        if (null == sliProps) {
-            throw new Exception("Cannot load properties from props file '" + sliPropsFile + "' == ${sli.conf}"); // NOPMD
-        }
+        File schemaDir = edfiSchemaDir.getFile();
+        SAXBuilder b = new SAXBuilder();
 
-        File schemaDir = new File(sliProps.getProperty(SCHEMA_DIR_PROPERTY));
         if (schemaDir.isDirectory()) {
-            SAXBuilder b = new SAXBuilder();
-
             for (File schemaFile : schemaDir.listFiles()) {
-
-                if (schemaFile.getName().toLowerCase().indexOf(INTERCHANGE) != -1) {
-
-                    parseInterchangeSchemas(schemaFile, b);
-                } else {
-
-                    parseEdfiSchema(schemaFile, b);
-                }
+                parseSchema(b, schemaFile);
             }
+        }
+    }
+
+    /**
+     * @param b
+     * @param schemaFile
+     * @throws JDOMException
+     * @throws IOException
+     */
+    private void parseSchema(SAXBuilder b, File schemaFile) throws JDOMException, IOException {
+        if (schemaFile.getName().toLowerCase().indexOf(INTERCHANGE) != -1) {
+            parseInterchangeSchemas(schemaFile, b);
+        } else {
+            parseEdfiSchema(schemaFile, b);
         }
     }
 
@@ -158,13 +148,13 @@ public class XsdTypeProvider implements TypeProvider {
     }
 
     @Override
-    public EdfiType getTypeFromParentType(String type, String eventName) {
+    public RecordMeta getTypeFromParentType(String type, String eventName) {
         Element parentElement = getComplexElement(type);
         if (parentElement != null && eventName != null) {
 
             for (Element e : parentElement.getDescendants(Filters.element(ELEMENT, XS_NAMESPACE))) {
                 if (e.getAttributeValue(NAME).equals(eventName)) {
-                    return new XsdEdfiType(eventName, e.getAttributeValue(TYPE), shouldBeList(e, parentElement));
+                    return new RecordMetaImpl(eventName, e.getAttributeValue(TYPE), shouldBeList(e, parentElement));
                 }
             }
         }
@@ -244,6 +234,16 @@ public class XsdTypeProvider implements TypeProvider {
     public void audit(SecurityEvent event) {
         // TODO Auto-generated method stub
 
+    }
+
+    public Resource getEdfiSchemaDir() {
+        return edfiSchemaDir;
+    }
+
+    public void setEdfiSchemaDir(Resource edfiSchemaDir) throws Exception {
+        this.edfiSchemaDir = edfiSchemaDir;
+
+        init();
     }
 
 }

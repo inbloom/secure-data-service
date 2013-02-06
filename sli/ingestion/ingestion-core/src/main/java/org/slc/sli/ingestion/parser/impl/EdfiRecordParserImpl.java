@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Shared Learning Collaborative, LLC
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.slc.sli.ingestion.parser;
+package org.slc.sli.ingestion.parser.impl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -23,24 +24,33 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import javax.xml.XMLConstants;
+import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 import javax.xml.stream.util.EventReaderDelegate;
+import javax.xml.transform.stax.StAXSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.xml.sax.ErrorHandler;
+import org.springframework.core.io.Resource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-import org.slc.sli.ingestion.parser.impl.XsdEdfiType;
+import org.slc.sli.common.util.logging.SecurityEvent;
+import org.slc.sli.ingestion.parser.EdfiRecordParser;
+import org.slc.sli.ingestion.parser.RecordMeta;
+import org.slc.sli.ingestion.parser.RecordVisitor;
+import org.slc.sli.ingestion.parser.TypeProvider;
+import org.slc.sli.ingestion.parser.XmlParseException;
 
 /**
  * A reader delegate that will intercept an XML Validator's calls to nextEvent() and build the
@@ -52,19 +62,50 @@ import org.slc.sli.ingestion.parser.impl.XsdEdfiType;
  * @author dduran
  *
  */
-@Component
-public class EdfiEventReaderDelegate extends EventReaderDelegate implements ErrorHandler {
+public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRecordParser {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EdfiEventReaderDelegate.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EdfiRecordParserImpl.class);
 
-    @Autowired
     private TypeProvider typeProvider;
 
-    private String interchange;
+    private List<RecordVisitor> recordVisitors = new ArrayList<RecordVisitor>();
 
-    Stack<Pair<EdfiType, Map<String, Object>>> complexTypeStack = new Stack<Pair<EdfiType, Map<String, Object>>>();
+    Stack<Pair<RecordMeta, Map<String, Object>>> complexTypeStack = new Stack<Pair<RecordMeta, Map<String, Object>>>();
     String currentEntityName = null;
     boolean currentEntityValid = false;
+    private String interchange;
+
+    public static void parse(XMLEventReader reader, Resource schemaResource, TypeProvider typeProvider,
+            RecordVisitor visitor) throws XmlParseException {
+        EdfiRecordParserImpl parser = new EdfiRecordParserImpl();
+
+        parser.setParent(reader);
+        parser.addVisitor(visitor);
+        parser.typeProvider = typeProvider;
+
+        SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        Schema schema;
+        try {
+            schema = sf.newSchema(schemaResource.getURL());
+        } catch (SAXException e) {
+            throw new XmlParseException("Exception while initializing XSD schema", e);
+        } catch (IOException e) {
+            throw new XmlParseException("Exception while accessing XSD schema file", e);
+        }
+
+        Validator validator = schema.newValidator();
+        validator.setErrorHandler(parser);
+
+        try {
+            validator.validate(new StAXSource(parser));
+        } catch (SAXException e) {
+            throw new XmlParseException("Exception while processing the xml file", e);
+        } catch (IOException e) {
+            throw new XmlParseException("Exception while accessing the xml file", e);
+        } catch (XMLStreamException e) {
+            throw new XmlParseException("Exception while processing the xml file", e);
+        }
+    }
 
     @Override
     public XMLEvent nextEvent() throws XMLStreamException {
@@ -92,7 +133,7 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
     private void parseInterchangeEvent(XMLEvent event, String eventName) throws XMLStreamException {
 
         if (complexTypeStack.isEmpty() && event.isStartElement()) {
-            initCurrentEntity(eventName);
+            initCurrentEntity(event, eventName);
         }
 
         if (!complexTypeStack.isEmpty()) {
@@ -105,9 +146,13 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
         }
     }
 
-    private void initCurrentEntity(String eventName) {
+    private void initCurrentEntity(XMLEvent event, String eventName) {
         String xsdType = typeProvider.getTypeFromInterchange(interchange, eventName);
-        complexTypeStack.push(createElementEntry(new XsdEdfiType(eventName, xsdType)));
+
+        RecordMeta recordMeta = new RecordMetaImpl(eventName, xsdType);
+        ((RecordMetaImpl) recordMeta).setSourceStartLocation(event.getLocation());
+
+        complexTypeStack.push(createElementEntry(recordMeta));
         currentEntityName = eventName;
         currentEntityValid = true;
     }
@@ -121,7 +166,7 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
             parseCharacters(e.asCharacters());
 
         } else if (e.isEndElement() && eventName.equals(complexTypeStack.peek().getLeft().getName())) {
-            parseEndElement();
+            parseEndElement(e);
         }
     }
 
@@ -141,9 +186,10 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
     }
 
     private void newEventToStack(String eventName) {
-        EdfiType typeMeta = typeProvider.getTypeFromParentType(complexTypeStack.peek().getLeft().getType(), eventName);
+        RecordMeta typeMeta = typeProvider
+                .getTypeFromParentType(complexTypeStack.peek().getLeft().getType(), eventName);
 
-        Pair<EdfiType, Map<String, Object>> subElement = createElementEntry(typeMeta);
+        Pair<RecordMeta, Map<String, Object>> subElement = createElementEntry(typeMeta);
 
         Object mapValue = subElement.getRight();
         if (typeMeta.isList() && complexTypeStack.peek().getRight().get(eventName) == null) {
@@ -171,21 +217,30 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
         }
     }
 
-    private void parseEndElement() {
+    private void parseEndElement(XMLEvent event) {
         if (complexTypeStack.size() > 1) {
             complexTypeStack.pop();
         } else if (complexTypeStack.size() == 1) {
-            // completed parsing an entity
-            Map<String, Object> entity = complexTypeStack.pop().getRight();
 
-            LOG.info("Parsed entity: {} - {}", currentEntityName, entity);
-
-            currentEntityName = null;
+            recordParsingComplete(event);
         }
     }
 
-    private Pair<EdfiType, Map<String, Object>> createElementEntry(EdfiType edfiType) {
-        return new ImmutablePair<EdfiType, Map<String, Object>>(edfiType, new InnerMap());
+    private void recordParsingComplete(XMLEvent event) {
+        Pair<RecordMeta, Map<String, Object>> pair = complexTypeStack.pop();
+        ((RecordMetaImpl) pair.getLeft()).setSourceEndLocation(event.getLocation());
+
+        LOG.debug("Parsed record: {} - {}", currentEntityName, pair);
+
+        for (RecordVisitor visitor : recordVisitors) {
+            visitor.visit(pair.getLeft(), pair.getRight());
+        }
+
+        currentEntityName = null;
+    }
+
+    private Pair<RecordMeta, Map<String, Object>> createElementEntry(RecordMeta edfiType) {
+        return new ImmutablePair<RecordMeta, Map<String, Object>>(edfiType, new InnerMap());
     }
 
     private static String extractTagName(XMLEvent e) {
@@ -216,6 +271,11 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
         currentEntityValid = false;
     }
 
+    @Override
+    public void addVisitor(RecordVisitor recordVisitor) {
+        recordVisitors.add(recordVisitor);
+    }
+
     @SuppressWarnings({ "unchecked", "serial" })
     private static class InnerMap extends HashMap<String, Object> {
         @Override
@@ -236,4 +296,10 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
             return result;
         }
     }
+
+    public void audit(SecurityEvent event) {
+        // TODO Auto-generated method stub
+
+    }
+
 }
