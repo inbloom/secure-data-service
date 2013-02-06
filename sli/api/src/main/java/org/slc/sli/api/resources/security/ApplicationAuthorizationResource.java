@@ -234,7 +234,7 @@ public class ApplicationAuthorizationResource {
             return SecurityUtil.getEdOrgId();
         }
         if (!edorg.equals(SecurityUtil.getEdOrgId()) && !delegation.getAppApprovalDelegateEdOrgs().contains(edorg) ) {
-            audit(securityEventBuilder.createSecurityEvent(ApplicationAuthorizationResource.class.getName(), uri.getRequestUri(), "Access Denined"));
+            audit(securityEventBuilder.createSecurityEvent(ApplicationAuthorizationResource.class.getName(), uri != null ? uri.getRequestUri() : null, "Access Denined"));
             throw new AccessDeniedException("Cannot perform authorizations for edorg " + edorg);
         }
         return edorg;
