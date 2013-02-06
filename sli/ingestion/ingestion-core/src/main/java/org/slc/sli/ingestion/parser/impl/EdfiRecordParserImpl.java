@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.slc.sli.ingestion.parser;
+package org.slc.sli.ingestion.parser.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,11 +36,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-import org.slc.sli.ingestion.parser.impl.XsdEdfiType;
+import org.slc.sli.ingestion.parser.EdfiRecordParser;
+import org.slc.sli.ingestion.parser.EdfiType;
+import org.slc.sli.ingestion.parser.RecordVisitor;
+import org.slc.sli.ingestion.parser.TypeProvider;
 
 /**
  * A reader delegate that will intercept an XML Validator's calls to nextEvent() and build the
@@ -53,18 +55,19 @@ import org.slc.sli.ingestion.parser.impl.XsdEdfiType;
  *
  */
 @Component
-public class EdfiEventReaderDelegate extends EventReaderDelegate implements ErrorHandler {
+public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRecordParser {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EdfiEventReaderDelegate.class);
+    private static final Logger LOG = LoggerFactory.getLogger(EdfiRecordParserImpl.class);
 
     @Autowired
     private TypeProvider typeProvider;
 
-    private String interchange;
+    private List<RecordVisitor> recordVisitors = new ArrayList<RecordVisitor>();
 
     Stack<Pair<EdfiType, Map<String, Object>>> complexTypeStack = new Stack<Pair<EdfiType, Map<String, Object>>>();
     String currentEntityName = null;
     boolean currentEntityValid = false;
+    private String interchange;
 
     @Override
     public XMLEvent nextEvent() throws XMLStreamException {
@@ -175,13 +178,20 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
         if (complexTypeStack.size() > 1) {
             complexTypeStack.pop();
         } else if (complexTypeStack.size() == 1) {
-            // completed parsing an entity
-            Map<String, Object> entity = complexTypeStack.pop().getRight();
 
-            LOG.info("Parsed entity: {} - {}", currentEntityName, entity);
-
-            currentEntityName = null;
+            recordParsingComplete();
         }
+    }
+
+    private void recordParsingComplete() {
+        Map<String, Object> record = complexTypeStack.pop().getRight();
+        LOG.debug("Parsed record: {} - {}", currentEntityName, record);
+
+        for (RecordVisitor visitor : recordVisitors) {
+            visitor.visit(record);
+        }
+
+        currentEntityName = null;
     }
 
     private Pair<EdfiType, Map<String, Object>> createElementEntry(EdfiType edfiType) {
@@ -216,6 +226,11 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
         currentEntityValid = false;
     }
 
+    @Override
+    public void addVisitor(RecordVisitor recordVisitor) {
+        recordVisitors.add(recordVisitor);
+    }
+
     @SuppressWarnings({ "unchecked", "serial" })
     private static class InnerMap extends HashMap<String, Object> {
         @Override
@@ -236,4 +251,5 @@ public class EdfiEventReaderDelegate extends EventReaderDelegate implements Erro
             return result;
         }
     }
+
 }

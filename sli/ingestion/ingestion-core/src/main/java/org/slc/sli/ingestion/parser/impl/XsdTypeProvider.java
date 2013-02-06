@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.annotation.PostConstruct;
 
@@ -32,8 +31,6 @@ import org.jdom2.Namespace;
 import org.jdom2.filter.Filters;
 import org.jdom2.input.SAXBuilder;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.logging.SecurityEvent;
@@ -49,8 +46,6 @@ import org.slc.sli.ingestion.parser.TypeProvider;
  */
 @Component
 public class XsdTypeProvider implements TypeProvider {
-
-    private static final String SCHEMA_DIR_PROPERTY = "sli.edfi.schema.dir";
 
     private static final Namespace XS_NAMESPACE = Namespace.getNamespace("xs", "http://www.w3.org/2001/XMLSchema");
     private static final String XS_DATE = "xs:date";
@@ -72,8 +67,8 @@ public class XsdTypeProvider implements TypeProvider {
     private static final String UNBOUNDED = "unbounded";
     private static final String MAX_OCCURS = "maxOccurs";
 
-    @Value("file:${sli.conf}")
-    private Resource sliPropsFile;
+    @Value("${sli.edfi.schema.dir}")
+    private String edfiSchemaDir;
 
     private Map<String, Element> complexTypes = new HashMap<String, Element>();
     private Map<String, String> typeMap = new HashMap<String, String>();
@@ -86,12 +81,7 @@ public class XsdTypeProvider implements TypeProvider {
         System.setProperty("javax.xml.parsers.SAXParserFactory",
                 "com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl");
 
-        Properties sliProps = PropertiesLoaderUtils.loadProperties(sliPropsFile);
-        if (null == sliProps) {
-            throw new Exception("Cannot load properties from props file '" + sliPropsFile + "' == ${sli.conf}"); // NOPMD
-        }
-
-        File schemaDir = new File(sliProps.getProperty(SCHEMA_DIR_PROPERTY));
+        File schemaDir = new File(edfiSchemaDir);
         if (schemaDir.isDirectory()) {
             SAXBuilder b = new SAXBuilder();
 
