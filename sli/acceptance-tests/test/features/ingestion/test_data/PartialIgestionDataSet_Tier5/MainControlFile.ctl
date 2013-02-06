@@ -1,4 +1,5 @@
 edfi-xml,StaffAssociation,InterchangeStaffAssociation.xml,e458b6a27793bdc352358bf889ccdf30
 edfi-xml,StudentEnrollment,InterchangeStudentEnrollment.xml,0cb2739eff306809f8b33e1f428efd98
 edfi-xml,AssessmentMetadata,InterchangeAssessmentMetadata-READ2.xml,4cb3a06ef8cd854686ff6c0d4a84d4d5
+edfi-xml,AssessmentMetadata,InterchangeAssessmentMetadata-ACT.xml,974c0e751fe7d591c2f8f470b3f6a037
 edfi-xml,Attendance,InterchangeAttendance.xml,1b6d0c657ba44b08579c89227274748c
