@@ -35,7 +35,7 @@ describe "GradebookEntryFactory" do
     let(:end_date) { Date.new(2012, 12, 28) }
     let(:interval) { DateInterval.create_using_start_and_end_dates(random, start_date, end_date) }
     let(:session) { {"interval" => interval} }
-    let(:section) { {:ed_org_id => "school123", :unique_section_code => "section123"} }
+    let(:section) { {:ed_org_id => "school123", :unique_section_code => 1} }
   
     let(:scenario) { {'GRADEBOOK_ENTRIES_BY_GRADE' => {
         "First grade" => { "Homework" => {"min" => 8, "max" => 16} },
@@ -86,7 +86,7 @@ describe "GradebookEntryFactory" do
     let(:end_date) { Date.new(2012, 12, 28) }
     let(:interval) { DateInterval.create_using_start_and_end_dates(random, start_date, end_date) }
     let(:session) { {"interval" => interval} }
-    let(:section) { {:ed_org_id => "school123", :unique_section_code => "section123"} }
+    let(:section) { {:ed_org_id => "school123", :unique_section_code => 1} }
   
     let(:scenario) { {'GRADEBOOK_ENTRIES_BY_GRADE' => {
         "First grade" => { "Homework" => {"min" => 1, "max" => 1} },
@@ -123,7 +123,7 @@ describe "GradebookEntryFactory" do
     let(:end_date) { Date.new(2012, 12, 28) }
     let(:interval) { DateInterval.create_using_start_and_end_dates(random, start_date, end_date) }
     let(:session) { {"interval" => interval} }
-    let(:section) { {:ed_org_id => "school123", :unique_section_code => "section123"} }
+    let(:section) { {:ed_org_id => "school123", :unique_section_code => 1} }
     
     it "(scenario) is missing --> raise error message" do
       scenario = nil

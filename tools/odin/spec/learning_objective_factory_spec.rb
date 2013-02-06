@@ -24,8 +24,10 @@ require_relative '../lib/WorldDefinition/learning_objective_factory'
 # specifications for learning objective factory
 describe "LearningObjectiveFactory" do
 
-  let(:scenario) { {'NUM_LEARNING_OBJECTIVES_PER_SUBJECT_AND_GRADE' => 3} }
-  let(:factory)  { LearningObjectiveFactory.new(scenario) }
+  let(:first_grade)  { :FIRST_GRADE  }
+  let(:second_grade) { :SECOND_GRADE }
+  let(:scenario)     { {'NUM_LEARNING_OBJECTIVES_PER_SUBJECT_AND_GRADE' => 3} }
+  let(:factory)      { LearningObjectiveFactory.new(scenario) }
 
   describe "#build_learning_objectives" do
     describe "--> for any elementary school grade" do
@@ -71,6 +73,21 @@ describe "LearningObjectiveFactory" do
               learning_objective.grade.should   eq grade
               learning_objective.subject.should eq subject
             end
+          end
+        end
+      end
+    end
+
+    describe "--> multiple requests for same grade" do
+      it "returns identical maps each time" do
+        map1 = factory.build_learning_objectives(first_grade)
+        map2 = factory.build_learning_objectives(first_grade)
+        map1.keys.size.should eq map2.keys.size
+        map1.each do |subject, learning_objectives|
+          map2.keys.include?(subject).should be_true
+          learning_objectives.each_index do |index|
+            learning_objective = learning_objectives[index]
+            map2[subject][index].should eq learning_objective
           end
         end
       end

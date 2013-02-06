@@ -1239,7 +1239,7 @@ class WorldBuilder
   def create_learning_objectives
     GradeLevelType.get_ordered_grades.each{|grade|
       AcademicSubjectType.get_academic_subjects(grade).each {|academic_subject|
-        LearningObjective.build_learning_objectives((@scenarioYAML["NUM_LEARNING_OBJECTIVES_PER_SUBJECT_AND_GRADE"] or 2), AcademicSubjectType.to_string(academic_subject), GradeLevelType.to_string(grade)).each {|learning_objective|
+        LearningObjective.build_learning_objectives((@scenarioYAML["NUM_LEARNING_OBJECTIVES_PER_SUBJECT_AND_GRADE"] or 2), academic_subject, grade).each {|learning_objective|
           @queue.push_work_order learning_objective
         }
       }

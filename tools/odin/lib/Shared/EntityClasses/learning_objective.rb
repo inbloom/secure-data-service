@@ -16,6 +16,9 @@ limitations under the License.
 
 =end
 
+require_relative 'enum/AcademicSubjectType'
+require_relative 'enum/GradeLevelType'
+
 # creates learning objective
 #
 # from SLI-Ed-Fi-Core.xsd:
@@ -78,5 +81,12 @@ class LearningObjective < BaseEntity
 
   def self.build_learning_objectives(count, academic_subject, objective_grade_level)
     (1..count).collect{|x| LearningObjective.new("Generic Learning Objective #{x}", academic_subject, objective_grade_level)}
+  end
+
+  # define equality between two entities by iterating over instance variables and comparing each field for equality
+  def ==(entity)
+    rval = true
+    self.instance_variables.each { |variable| rval &= self.instance_variable_get(variable) == entity.instance_variable_get(variable) }
+    rval
   end
 end
