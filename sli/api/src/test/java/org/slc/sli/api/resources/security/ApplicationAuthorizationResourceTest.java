@@ -17,51 +17,34 @@
 
 package org.slc.sli.api.resources.security;
 
-import static junit.framework.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
-
-import java.net.URI;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriInfo;
-
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.service.EntityNotFoundException;
-import org.slc.sli.api.service.EntityService;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.security.context.validator.ValidatorTestHelper;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import com.sun.jersey.core.spi.factory.ResponseImpl;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -72,25 +55,176 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 public class ApplicationAuthorizationResourceTest {
 
     @Autowired
-    @InjectMocks private ApplicationAuthorizationResource resource;
-
-    @Autowired
-    SecurityContextInjector securityContextInjector;
-
-    @Mock EntityService service;
-
-    @Mock Repository<Entity> repo;
+    private PagingRepositoryDelegate<Entity> repo;
     
-    @Mock DelegationUtil delegationUtil;
+    @Autowired
+    private ValidatorTestHelper helper;
+    
+    @Autowired
+    private ApplicationAuthorizationResource res;
+    
+    @Autowired
+    private SecurityContextInjector injector;
+    
+    Entity sea, lea1, lea2, school11, school12, school21, school22;
 
-    UriInfo uriInfo = null;
+    @Before
+    public void setup() {
+        injector.setAdminContextWithElevatedRights();
+        sea = helper.generateEdorgWithParent(null);
+        lea1 = helper.generateEdorgWithParent(sea.getEntityId());
+        lea2 = helper.generateEdorgWithParent(sea.getEntityId());
+        school11 = helper.generateEdorgWithParent(lea1.getEntityId());
+        school12 = helper.generateEdorgWithParent(lea1.getEntityId());
+        school21 = helper.generateEdorgWithParent(lea2.getEntityId());
+        school22 = helper.generateEdorgWithParent(lea2.getEntityId());
+        SecurityUtil.getSLIPrincipal().setEdOrgId(lea1.getEntityId());
+        
+    }
+    
+    @After
+    public void cleanup() throws Exception {
+        helper.resetRepo();
+        repo.deleteAll("applicationAuthorization", new NeutralQuery());
+    }
+    
+    @Test
+    public void testGetAuthForNonExistingAppAndNonExistingAuth() {
+        ResponseImpl resp = (ResponseImpl) res.getAuthorization("someAppId", null);
+        Assert.assertEquals(404, resp.getStatus());
+    }
 
-    private static final int STATUS_CREATED = 201;
-    private static final int STATUS_DELETED = 204;
-    private static final int STATUS_NO_CONTENT = 204;
-    private static final int STATUS_NOT_FOUND = 404;
-    private static final int STATUS_FOUND = 200;
-    private static final int STATUS_BAD_REQUEST = 400;
+    @Test
+    //Authorized for some other edorg
+    public void testGetAuthForNonExistingAppAndExistingAuth() {
+        Map<String, Object> auth = new HashMap<String, Object>();
+        auth.put("applicationId", "someAppId");
+        auth.put("edorgs", Arrays.asList("someOtherEdorg"));
+        repo.create("applicationAuthorization", auth);
+        ResponseImpl resp = (ResponseImpl) res.getAuthorization("someAppId", null);
+        Assert.assertEquals(200, resp.getStatus());
+        Map ent = (Map) resp.getEntity();
+        Assert.assertFalse((Boolean) ent.get("authorized"));
+    }
+    
+    @Test
+    //Authorized for my edorg
+    public void testGetAuthForNonExistingAppAndExistingAuth2() {
+        Map<String, Object> auth = new HashMap<String, Object>();
+        auth.put("applicationId", "someAppId");
+        auth.put("edorgs", Arrays.asList(SecurityUtil.getEdOrgId()));
+        repo.create("applicationAuthorization", auth);
+        ResponseImpl resp = (ResponseImpl) res.getAuthorization("someAppId", null);
+        Assert.assertEquals(200, resp.getStatus());
+        Map ent = (Map) resp.getEntity();
+        Assert.assertTrue((Boolean) ent.get("authorized"));
+    }
+    
+    @Test
+    public void testGetAuthForExistingAppAndNonExistingAuth() {
+        Map<String, Object> appBody = new HashMap<String, Object>();
+        Entity app = repo.create("application", appBody);
+        ResponseImpl resp = (ResponseImpl) res.getAuthorization(app.getEntityId(), null);
+        Assert.assertEquals(200, resp.getStatus());
+        Map ent = (Map) resp.getEntity();
+        Assert.assertFalse((Boolean) ent.get("authorized"));
+        
+    }
+    
+    @Test
+    //Authorized for my edorg
+    public void testGetAuthForExistingAppAndExistingAuth() {
+        Map<String, Object> appBody = new HashMap<String, Object>();
+        Entity app = repo.create("application", appBody);
+        Map<String, Object> auth = new HashMap<String, Object>();
+        auth.put("applicationId", app.getEntityId());
+        auth.put("edorgs", Arrays.asList(SecurityUtil.getEdOrgId()));
+        repo.create("applicationAuthorization", auth);
+        ResponseImpl resp = (ResponseImpl) res.getAuthorization(app.getEntityId(), null);
+        Assert.assertEquals(200, resp.getStatus());
+        Map ent = (Map) resp.getEntity();
+        Assert.assertTrue((Boolean) ent.get("authorized"));
+    }
+    
+    @Test
+    //Authorized for other edorg
+    public void testGetAuthForExistingAppAndExistingAuth2() {
+        Map<String, Object> appBody = new HashMap<String, Object>();
+        Entity app = repo.create("application", appBody);
+        Map<String, Object> auth = new HashMap<String, Object>();
+        auth.put("applicationId", app.getEntityId());
+        auth.put("edorgs", Arrays.asList("someOtherEdorg"));
+        repo.create("applicationAuthorization", auth);
+        ResponseImpl resp = (ResponseImpl) res.getAuthorization(app.getEntityId(), null);
+        Assert.assertEquals(200, resp.getStatus());
+        Map ent = (Map) resp.getEntity();
+        Assert.assertFalse((Boolean) ent.get("authorized"));
+    }
+    
+    @Test
+    //Authorized for other edorg
+    public void testGetAuthForExistingAppAndExistingAuthAndEdorg() {
+        Map<String, Object> appBody = new HashMap<String, Object>();
+        Entity app = repo.create("application", appBody);
+        Map<String, Object> auth = new HashMap<String, Object>();
+        auth.put("applicationId", app.getEntityId());
+        auth.put("edorgs", Arrays.asList("someOtherEdorg"));
+        repo.create("applicationAuthorization", auth);
+        ResponseImpl resp = (ResponseImpl) res.getAuthorization(app.getEntityId(), SecurityUtil.getEdOrgId());
+        Assert.assertEquals(200, resp.getStatus());
+        Map ent = (Map) resp.getEntity();
+        Assert.assertFalse((Boolean) ent.get("authorized"));
+    }
+    
+    @Test
+    //Authorized for my edorg
+    public void testUpdate() {
+        //create app
+        Map<String, Object> appBody = new HashMap<String, Object>();
+        Entity app = repo.create("application", appBody);
+        
+        //create app auth
+        Map<String, Object> auth = new HashMap<String, Object>();
+        auth.put("applicationId", app.getEntityId());
+        auth.put("edorgs", Arrays.asList(SecurityUtil.getEdOrgId()));
+        repo.create("applicationAuthorization", auth);
+        
+        //query app auth
+        ResponseImpl resp = (ResponseImpl) res.getAuthorization(app.getEntityId(), null);
+        Assert.assertEquals(200, resp.getStatus());
+        Map ent = (Map) resp.getEntity();
+        Assert.assertTrue((Boolean) ent.get("authorized"));
 
-
+        //Set authorized to false
+        EntityBody body = new EntityBody();
+        body.put("authorized", false);
+        body.put("applicationId", app.getEntityId());
+        res.updateAuthorization(app.getEntityId(),body, null);
+        
+        //Re-query auth
+        resp = (ResponseImpl) res.getAuthorization(app.getEntityId(), null);
+        Assert.assertEquals(200, resp.getStatus());
+        ent = (Map) resp.getEntity();
+        Assert.assertFalse((Boolean) ent.get("authorized"));
+    }
+    
+    @Test
+    public void testGetAuths() {
+        Map<String, Object> appBody = new HashMap<String, Object>();
+        Entity app = repo.create("application", appBody);
+        Map<String, Object> auth = new HashMap<String, Object>();
+        auth.put("applicationId", app.getEntityId());
+        auth.put("edorgs", Arrays.asList(SecurityUtil.getEdOrgId()));
+        repo.create("applicationAuthorization", auth);
+        ResponseImpl resp = (ResponseImpl) res.getAuthorizations(null);
+        Assert.assertEquals(200, resp.getStatus());
+        List ents = (List) resp.getEntity();
+        Assert.assertEquals(1, ents.size());
+    }
+    
+    @Test(expected=AccessDeniedException.class)
+    public void testGetAuthForBadEdorg() {
+        ResponseImpl resp = (ResponseImpl) res.getAuthorization("someAppId", "badEdorgId");
+    }
+    
 }

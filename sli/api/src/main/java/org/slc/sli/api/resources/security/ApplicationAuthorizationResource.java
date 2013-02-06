@@ -32,10 +32,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import javax.ws.rs.core.UriInfo;
 
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
@@ -97,6 +95,7 @@ public class ApplicationAuthorizationResource {
     @Path("{appId}")
     @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE })
     public Response getAuthorization(@PathParam("appId") String appId, @QueryParam("edorg") String edorg) {
+        String myEdorg = validateEdOrg(edorg);
         
         EntityBody appAuth = getAppAuth(appId);
         if (appAuth == null) {
@@ -116,7 +115,7 @@ public class ApplicationAuthorizationResource {
             entity.put("appId", appId);
             entity.put("id", appId);
             List<String> edOrgs = (List<String>) appAuth.get("edorgs");
-            entity.put("authorized", edOrgs.contains(edorg));
+            entity.put("authorized", edOrgs.contains(myEdorg));
             return Response.status(Status.OK).entity(entity).build();
         }
         
@@ -191,7 +190,7 @@ public class ApplicationAuthorizationResource {
     
     @GET
     @RightsAllowed({Right.EDORG_APP_AUTHZ, Right.EDORG_DELEGATE })
-    public Response getAuthorizations(@Context UriInfo info, @QueryParam("edorg") String edorg) {
+    public Response getAuthorizations(@QueryParam("edorg") String edorg) {
         String myEdorg = validateEdOrg(edorg);
         Iterable<Entity> appQuery = repo.findAll("application", new NeutralQuery());
         Map<String, Entity> allApps = new HashMap<String, Entity>();
