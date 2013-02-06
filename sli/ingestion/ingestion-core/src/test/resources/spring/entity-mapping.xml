@@ -28,7 +28,23 @@
   <bean id="simpleEntityRepository" name="simpleValidationRepo" class="org.slc.sli.dal.repository.SimpleEntityRepository">
   </bean>
   <bean class="org.slc.sli.ingestion.transformation.DummyNaturalKeyExtractor"/>
-  <bean class="org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy"/>
   <bean class="org.slc.sli.common.util.uuid.ShardType1UUIDGeneratorStrategy"/>
+
+  <bean id="deterministicUUIDGeneratorStrategy" class="org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy"/>
+
+  <bean id="didSchemaParser" class="org.slc.sli.ingestion.transformation.normalization.did.DidSchemaParser">
+    <property name="xsdLocation" value="classpath:edfiXsd/Ed-Fi-Core.xsd" />
+    <property name="extensionXsdLocation" value="classpath:edfiXsd-SLI/SLI-Ed-Fi-Core.xsd" />
+    <property name="xsdParentLocation" value="classpath:edfiXsd" />
+    <property name="extensionXsdParentLocation" value="classpath:edfiXsd-SLI" />
+  </bean>
+  
+  <bean id="deterministicIdResolver" class="org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver">
+  	<property name="didSchemaParser" ref="didSchemaParser" />
+  </bean>
+
+  <bean id="didEntityConfigReader" class="org.slc.sli.ingestion.transformation.normalization.did.DidEntityConfigReader">
+    <property name="searchPath" value="classpath:smooksEdFi2SLI/didEntityConfig/" />
+  </bean>
 
 </beans>
