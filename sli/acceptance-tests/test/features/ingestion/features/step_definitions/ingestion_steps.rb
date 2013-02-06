@@ -265,6 +265,8 @@ def initializeTenants()
 end
 
 def cleanTenants()
+  disable_NOTABLESCAN()
+
   @db = @conn[INGESTION_DB_NAME]
   @tenantColl = @db.collection('tenant')
   @tenantColl.remove("type" => "tenantTest")
@@ -290,6 +292,8 @@ def cleanTenants()
       @tenantColl.save(row)
     end
   end
+
+  enable_NOTABLESCAN()
 end
 
 ############################################################
@@ -1658,6 +1662,18 @@ Then /^I should see following map of indexes in the corresponding collections:$/
 
   assert(@result == "true", "Some indexes were not created successfully.")
 
+end
+
+Then /^I remove the following indexes in the corresponding collections:$/ do |table|
+  @db   = @conn[@ingestion_db_name]
+  table.hashes.map do |row|
+    @indexcollection = @db.collection("system.indexes")
+    indexQRS = @indexcollection.find("ns" => @ingestion_db_name + "." + row["collectionName"], "key" => {row["index"] => 1}).to_a
+    index = indexQRS.pop()
+    indexName = index["name"]
+    @entity_collection = @db.collection(row["collectionName"])
+    @entity_collection.drop_index(indexName)
+  end
 end
 
 def cleanupSubDoc(superdocs, subdoc)

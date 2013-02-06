@@ -1,0 +1,32 @@
+Feature: Missing Index Alert
+
+  Background: I have a landing zone route configured
+    Given I am using local data store
+
+  Scenario: Ingest, delete index, and ingest again
+    Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
+    And the tenant database for "Midgar" does not exist
+    And the tenantIsReady flag for the tenant "Midgar" is reset
+    And I post "TinyDataSet.zip" file as the payload of the ingestion job
+    And zip file is scp to ingestion landing zone with name "TinyDataSet1.zip"
+    And a batch job for file "TinyDataSet1.zip" is completed in database
+    And I should not see an error log file created
+    Then I should see following map of indexes in the corresponding collections:
+      | collectionName                             | index                       |
+      | section                                    | body.schoolId               |
+      | student                                    | body.studentUniqueStateId   |
+      | teacherSchoolAssociation                   | body.schoolId               |
+    Then I remove the following indexes in the corresponding collections:
+      | collectionName                             | index                       |
+      | section                                    | body.schoolId               |
+      | student                                    | body.studentUniqueStateId   |
+      | teacherSchoolAssociation                   | body.schoolId               |
+    And I post "TinyDataSet.zip" file as the payload of the ingestion job
+    And zip file is scp to ingestion landing zone with name "TinyDataSet2.zip"
+    And I am willing to wait upto 60 seconds for ingestion to complete
+    And a batch job for file "TinyDataSet2.zip" is completed in database
+    And a batch job log has been created
+    And I should see "ERROR  CORE_0038:[TinyDataSet2.zip]-Index missing: teacherSchoolAssociation {body.schoolId=1}, unique: false" in the resulting batch job error file
+    And I should see "ERROR  CORE_0038:[TinyDataSet2.zip]-Index missing: section {body.schoolId=1}, unique: false" in the resulting batch job error file
+    And I should see "ERROR  CORE_0038:[TinyDataSet2.zip]-Index missing: student {body.studentUniqueStateId=1}, unique: false" in the resulting batch job error file
+    And the tenantIsReady flag for the tenant "Midgar" is reset
