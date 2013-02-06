@@ -685,7 +685,7 @@ public class BasicService implements EntityService {
     	} else if (EntityNames.TEACHER_SCHOOL_ASSOCIATION.equals(type)) {
     		Entity entity = repo.findById(defn.getStoredCollectionName(), entityId);
     		Map<String, Object> body = entity.getBody();
-    		return selfId.equals(body.get(ParameterConstants.TEACHER_REFERENCE));
+    		return selfId.equals(body.get(ParameterConstants.TEACHER_ID));
     	}
     	return false;
     }
