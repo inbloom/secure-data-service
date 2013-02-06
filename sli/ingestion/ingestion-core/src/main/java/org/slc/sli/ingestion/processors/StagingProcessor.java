@@ -47,35 +47,16 @@ import org.slc.sli.ingestion.util.BatchJobUtils;
  */
 @Component
 public class StagingProcessor extends IngestionProcessor<NeutralRecordWorkNote>{
-    public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.STAGING_PROCESSOR;
-    private static final String BATCH_JOB_STAGE_DESC = "Persists records to a temporary staging datastore";
     private static final Logger LOG = LoggerFactory.getLogger(StagingProcessor.class);
 
     @Autowired
     private ResourceWriter<NeutralRecord> nrMongoStagingWriter;
     
     @Override
-    protected void process(Exchange exchange, NeutralRecordWorkNote nrWorkNote) {
-        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
+    protected void process(Exchange exchange, NeutralRecordWorkNote workNote, NewBatchJob newBatchJob, ReportStats rs) {
 
-        NewBatchJob newJob = null;
-        String batchJobId = nrWorkNote.getBatchJobId();
-        try {
-            newJob = batchJobDAO.findBatchJobById(batchJobId);
-            initTenantContext(newJob);
-            ReportStats rs = new SimpleReportStats();
+            writeRecords(workNote.getNeutralRecords(), rs);
 
-            writeRecords(nrWorkNote.getNeutralRecords(), rs);
-
-            setExchangeHeaders(exchange, rs.hasErrors());
-        } catch (Exception exception) {
-            handleProcessingExceptions(exchange, batchJobId, BATCH_JOB_STAGE, exception);
-        } finally {
-            if (newJob != null) {
-                BatchJobUtils.stopStageAndAddToJob(stage, newJob);
-                getBatchJobDAO().saveBatchJob(newJob);
-            }
-        }
     }
 
     private void writeRecords(List<NeutralRecord> neutralRecords, ReportStats rs) {
@@ -103,6 +84,16 @@ public class StagingProcessor extends IngestionProcessor<NeutralRecordWorkNote>{
     
     public void setNrMongoStagingWriter(ResourceWriter<NeutralRecord> nrMongoStagingWriter) {
         this.nrMongoStagingWriter = nrMongoStagingWriter;
+    }
+
+    @Override
+    protected BatchJobStageType getStage() {
+        return BatchJobStageType.STAGING_PROCESSOR;
+    }
+
+    @Override
+    protected String getStageDescription() {
+        return "Persists records to a temporary staging datastore";
     }
 
 }

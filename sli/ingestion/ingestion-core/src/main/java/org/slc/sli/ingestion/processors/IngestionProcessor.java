@@ -17,14 +17,17 @@
 package org.slc.sli.ingestion.processors;
 
 import org.apache.camel.Exchange;
+import org.apache.camel.InvalidPayloadException;
 import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
+import org.slc.sli.ingestion.FileEntryWorkNote;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
@@ -32,6 +35,7 @@ import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.impl.ProcessorSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
+import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.LogUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -55,48 +59,60 @@ public abstract class IngestionProcessor<T extends WorkNote> implements Processo
     @Override
     @SuppressWarnings("unchecked")
     public void process(Exchange exchange) throws Exception {
-        T workNote = (T) exchange.getIn().getBody(WorkNote.class);
-        if (workNote == null) {
-            handleNoBatchJobIdInExchange(exchange);
-        } else {
-            process(exchange, workNote);
-        }
+        try {
+            
+            T workNote = (T) exchange.getIn().getMandatoryBody(WorkNote.class);
+            ReportStats rs = new SimpleReportStats();
+            NewBatchJob job = getJob(workNote);
+            Stage stage = Stage.createAndStartStage(getStage(), getStageDescription());
+            
+            try {
+                process(exchange, workNote, job, rs);
+                
+                exchange.getIn().setHeader("hasErrors", rs.hasErrors());
+            } catch (Exception e) {
+                handleProcessingExceptions(exchange, workNote, e);
+            } finally {
+                if (job != null) {
+                    BatchJobUtils.stopStageAndAddToJob(stage, job);
+                    getBatchJobDAO().saveBatchJob(job);
+                }
+            }
+            
+        } catch (InvalidPayloadException e) {
+            exchange.getIn().setHeader("hasErrors", true);
+            LOG.error("Cannot retrieve a work note to process.");
+        } 
+
     }
 
-    protected abstract void process(Exchange exchange, T workNote);
+    protected abstract void process(Exchange exchange, T workNote, NewBatchJob newBatchJob, ReportStats rs);
 
-    private void handleNoBatchJobIdInExchange(Exchange exchange) {
+    protected void handleProcessingExceptions(Exchange exchange, WorkNote workNote, Exception exception) {
         exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.ERROR.name());
-        LOG.error("No BatchJobId specified in " + this.getClass().getName() + " exchange message header.");
-    }
+        LogUtil.error(LOG, "Error processing batch job " + workNote.getBatchJobId(), exception);
 
-    protected void setExchangeHeaders(Exchange exchange, boolean hasError) {
-        exchange.getIn().setHeader("hasErrors", hasError);
-        if (hasError) {
-            exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.ERROR.name());
-        } else {
-            exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.DATA_STAGED.name());
-        }
-    }
-
-    protected void handleProcessingExceptions(Exchange exchange, String batchJobId, BatchJobStageType stage, Exception exception) {
-        exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.ERROR.name());
-        LogUtil.error(LOG, "Error processing batch job " + batchJobId, exception);
-
-        if (batchJobId != null) {
+        if (workNote.getBatchJobId() != null) {
             ReportStats reportStats = new SimpleReportStats();
-            databaseMessageReport.error(reportStats, new ProcessorSource(stage.getName()),
-                    CoreMessageCode.CORE_0021, batchJobId,
+            databaseMessageReport.error(reportStats, new ProcessorSource(getStage().getName()),
+                    CoreMessageCode.CORE_0021, workNote.getBatchJobId(),
                     exception.getMessage());
         }
     }
+    
+    private NewBatchJob getJob(WorkNote work) {
+        NewBatchJob job = batchJobDAO.findBatchJobById(work.getBatchJobId());
 
-    protected String initTenantContext(NewBatchJob newJob) {
+        initTenantContext(job);
+
+        return job;
+    }
+
+    private void initTenantContext(NewBatchJob newJob) {
         String tenantId = newJob.getTenantId();
         TenantContext.setTenantId(tenantId);
         TenantContext.setJobId(newJob.getId());
         TenantContext.setBatchProperties(newJob.getBatchProperties());
-        return tenantId;
     }
 
     public BatchJobDAO getBatchJobDAO() {
@@ -114,5 +130,7 @@ public abstract class IngestionProcessor<T extends WorkNote> implements Processo
     public void setDatabaseMessageReport(AbstractMessageReport databaseMessageReport) {
         this.databaseMessageReport = databaseMessageReport;
     }
-
+    
+    protected abstract BatchJobStageType getStage();
+    protected abstract String getStageDescription();
 }

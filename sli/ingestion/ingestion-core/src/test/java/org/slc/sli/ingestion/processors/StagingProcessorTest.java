@@ -47,8 +47,11 @@ public class StagingProcessorTest {
     public void testProcess() throws Exception {
         NeutralRecord record1 = new NeutralRecord();
         record1.setRecordType("student");
+        NeutralRecord record2 = new NeutralRecord();
+        record2.setRecordType("student");
         List<NeutralRecord> records = new ArrayList<NeutralRecord>();
         records.add(record1);
+        records.add(record2);
         
         NeutralRecordWorkNote workNote = new NeutralRecordWorkNote(records, "batchJobId", "tenantId", false);
         
@@ -59,5 +62,6 @@ public class StagingProcessorTest {
         
         Assert.assertEquals(MessageType.DATA_STAGED.name(), exchange.getIn().getHeader("IngestionMessageType"));
         Assert.assertEquals(false, exchange.getIn().getHeader("hasErrors"));
+        Mockito.verify(rwriter, Mockito.times(2)).insertResource(Mockito.any(NeutralRecord.class));
     }
 }

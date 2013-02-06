@@ -45,4 +45,9 @@ public final class BatchJobManager {
         return workNote.hasErrors();
     }
 
+    public boolean isDuplicateDetection(Exchange exchange) {
+        WorkNote workNote = exchange.getIn().getBody(WorkNote.class);
+        String jobId = workNote.getBatchJobId();
+        return batchJobDAO.isDuplicateDetection(jobId);
+    }
 }
