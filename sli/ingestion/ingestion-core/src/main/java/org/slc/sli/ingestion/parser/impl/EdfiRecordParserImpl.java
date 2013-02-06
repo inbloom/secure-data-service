@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Shared Learning Collaborative, LLC
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 package org.slc.sli.ingestion.parser.impl;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -23,19 +24,24 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import javax.xml.XMLConstants;
+import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.Attribute;
 import javax.xml.stream.events.Characters;
 import javax.xml.stream.events.StartElement;
 import javax.xml.stream.events.XMLEvent;
 import javax.xml.stream.util.EventReaderDelegate;
+import javax.xml.transform.stax.StAXSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.core.io.Resource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
@@ -43,6 +49,7 @@ import org.slc.sli.ingestion.parser.EdfiRecordParser;
 import org.slc.sli.ingestion.parser.EdfiType;
 import org.slc.sli.ingestion.parser.RecordVisitor;
 import org.slc.sli.ingestion.parser.TypeProvider;
+import org.slc.sli.ingestion.parser.XmlParseException;
 
 /**
  * A reader delegate that will intercept an XML Validator's calls to nextEvent() and build the
@@ -54,12 +61,10 @@ import org.slc.sli.ingestion.parser.TypeProvider;
  * @author dduran
  *
  */
-@Component
 public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRecordParser {
 
     private static final Logger LOG = LoggerFactory.getLogger(EdfiRecordParserImpl.class);
 
-    @Autowired
     private TypeProvider typeProvider;
 
     private List<RecordVisitor> recordVisitors = new ArrayList<RecordVisitor>();
@@ -68,6 +73,37 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
     String currentEntityName = null;
     boolean currentEntityValid = false;
     private String interchange;
+
+    public static void parse(XMLEventReader reader, Resource schemaResource, TypeProvider typeProvider, RecordVisitor visitor) throws XmlParseException {
+        EdfiRecordParserImpl parser = new EdfiRecordParserImpl();
+
+        parser.setParent(reader);
+        parser.addVisitor(visitor);
+        parser.typeProvider = typeProvider;
+
+        SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        Schema schema;
+        try {
+            schema = sf.newSchema(schemaResource.getURL());
+        } catch (SAXException e) {
+            throw new XmlParseException("Exception while initializing XSD schema", e);
+        } catch (IOException e) {
+            throw new XmlParseException("Exception while accessing XSD schema file", e);
+        }
+
+        Validator validator = schema.newValidator();
+        validator.setErrorHandler(parser);
+
+        try {
+            validator.validate(new StAXSource(parser));
+        } catch (SAXException e) {
+            throw new XmlParseException("Exception while processing the xml file", e);
+        } catch (IOException e) {
+            throw new XmlParseException("Exception while accessing the xml file", e);
+        } catch (XMLStreamException e) {
+            throw new XmlParseException("Exception while processing the xml file", e);
+        }
+    }
 
     @Override
     public XMLEvent nextEvent() throws XMLStreamException {
@@ -184,11 +220,12 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
     }
 
     private void recordParsingComplete() {
-        Map<String, Object> record = complexTypeStack.pop().getRight();
+        Pair<EdfiType,Map<String,Object>> pair = complexTypeStack.pop();
+        Map<String, Object> record = pair.getRight();
         LOG.debug("Parsed record: {} - {}", currentEntityName, record);
 
         for (RecordVisitor visitor : recordVisitors) {
-            visitor.visit(record);
+            visitor.visit(pair.getLeft().getName(), record);
         }
 
         currentEntityName = null;

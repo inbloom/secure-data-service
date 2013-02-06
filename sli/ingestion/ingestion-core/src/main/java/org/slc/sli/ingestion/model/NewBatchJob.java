@@ -305,10 +305,6 @@ public class NewBatchJob implements Job {
         this.stages.add(stage);
     }
 
-    public void addStageChunk(Stage stage) {
-        this.addStage(stage);
-    }
-
     @Override
     public List<IngestionFileEntry> getFiles() {
         List<IngestionFileEntry> ingestionFileEntries = new ArrayList<IngestionFileEntry>();

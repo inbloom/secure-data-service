@@ -28,9 +28,6 @@ public class FileProcessStatus {
     private long totalRecordCount;
     private Map<String, Long> duplicateCounts;
 
-    private String outputFilePath;
-    private String outputFileName;
-
     public String getJobId() {
         return this.jobId;
     }
@@ -45,22 +42,6 @@ public class FileProcessStatus {
 
     public void setTotalRecordCount(long totalRecordCount) {
         this.totalRecordCount = totalRecordCount;
-    }
-
-    public String getOutputFileName() {
-        return this.outputFileName;
-    }
-
-    public void setOutputFileName(String outputFileName) {
-        this.outputFileName = outputFileName;
-    }
-
-    public String getOutputFilePath() {
-        return this.outputFilePath;
-    }
-
-    public void setOutputFilePath(String outputFile) {
-        this.outputFilePath = outputFile;
     }
 
     public Map<String, Long> getDuplicateCounts() {

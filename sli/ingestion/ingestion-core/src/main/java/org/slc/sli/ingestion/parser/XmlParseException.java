@@ -13,24 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.slc.sli.ingestion.parser;
 
-import java.util.Map;
-
 /**
- * Visitor for a parser to notify when a record has been fully parsed.
- *
- * @author dduran
+ * @author okrook
  *
  */
-public interface RecordVisitor {
+public class XmlParseException extends Exception {
+    private static final long serialVersionUID = -3899885281663995643L;
 
-    /**
-     * Invoked upon completion of parsing a record.
-     *
-     * @param record
-     *            the fully constructed map of objects representation of the record
-     */
-    void visit(String name, Map<String, Object> record);
+    public XmlParseException() {
+        super();
+    }
 
+    public XmlParseException(String message) {
+        super(message);
+    }
+
+    public XmlParseException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public XmlParseException(Throwable cause) {
+        super(cause);
+    }
 }
