@@ -28,15 +28,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
@@ -58,6 +49,14 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -125,7 +124,7 @@ public class BasicService implements EntityService {
     @Override
     public long count(NeutralQuery neutralQuery) {
         checkRights(readRight, false);
-        checkFieldAccess(neutralQuery);
+        checkFieldAccess(neutralQuery, false);
 
         return getRepo().count(collectionName, neutralQuery);
     }
@@ -140,7 +139,7 @@ public class BasicService implements EntityService {
     @Override
     public Iterable<String> listIds(final NeutralQuery neutralQuery) {
         checkRights(readRight, false);
-        checkFieldAccess(neutralQuery);
+        checkFieldAccess(neutralQuery, false);
 
         NeutralQuery nq = neutralQuery;
         Iterable<Entity> entities = repo.findAll(collectionName, nq);
@@ -285,7 +284,7 @@ public class BasicService implements EntityService {
 
     private Entity getEntity(String id, final NeutralQuery neutralQuery) {
         checkAccess(readRight, id);
-        checkFieldAccess(neutralQuery);
+        checkFieldAccess(neutralQuery, isSelf(id));
 
         NeutralQuery nq = neutralQuery;
         if (nq == null) {
@@ -323,7 +322,7 @@ public class BasicService implements EntityService {
         }
 
         checkRights(readRight, false);
-        checkFieldAccess(neutralQuery);
+        checkFieldAccess(neutralQuery, false);
 
         List<String> idList = new ArrayList<String>();
 
@@ -357,8 +356,26 @@ public class BasicService implements EntityService {
 
     @Override
     public Iterable<EntityBody> list(NeutralQuery neutralQuery) {
-        checkRights(readRight, false);
-        checkFieldAccess(neutralQuery);
+    	boolean isSelf = false;
+    	
+    	//This checks if they're querying for a self entity.  It's overly convoluted because going to
+    	//resourcename/<ID> calls this method instead of calling get(String id)
+    	List<NeutralCriteria> allTheCriteria = neutralQuery.getCriteria();
+    	if (allTheCriteria.size() == 1) {
+    		NeutralCriteria criteria = allTheCriteria.get(0);
+    		try {
+    			List<String> value = (List<String>) criteria.getValue();
+    			if (criteria.getKey().equals("_id") && criteria.getOperator().equals(NeutralCriteria.CRITERIA_IN) && value.size() == 1) {
+    				isSelf = isSelf(value.get(0));
+    			}
+    		} catch(ClassCastException e) {
+    			debug("The value of the criteria was not a list");
+    		}
+    	}
+    	
+    	
+        checkRights(readRight, isSelf);
+        checkFieldAccess(neutralQuery, isSelf);
 
         Collection<Entity> entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
 
@@ -861,12 +878,16 @@ public class BasicService implements EntityService {
      * @param query
      *            The query to check
      */
-    protected void checkFieldAccess(NeutralQuery query) {
+    protected void checkFieldAccess(NeutralQuery query, boolean isSelf) {
 
         if (query != null) {
             // get the authorities
-            Collection<GrantedAuthority> auths = SecurityContextHolder.getContext().getAuthentication()
-                    .getAuthorities();
+            Collection<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
+            auths.addAll(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
+            if (isSelf) {
+            	auths.addAll(SecurityUtil.getSLIPrincipal().getSelfRights());
+            }
+            
 
             if (!auths.contains(Right.FULL_ACCESS) && !auths.contains(Right.ANONYMOUS_ACCESS)) {
                 for (NeutralCriteria criteria : query.getCriteria()) {
