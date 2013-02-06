@@ -63,9 +63,9 @@ class LearningObjective < BaseEntity
     @subject               = subject
     @grade                 = grade
 
-    @learning_standard_id  = learning_standards.first['id'] unless learning_standards.empty?
     @description           = "#{objective} for grade: #{objective_grade_level} in subject: #{academic_subject}"
-    @learning_standards    = learning_standards
+    #@learning_standard_id  = learning_standards.first['id'] unless learning_standards.empty?
+    #@learning_standards    = learning_standards
     @learning_objectives   = learning_objectives
   end
 
