@@ -51,7 +51,7 @@ import org.slc.sli.ingestion.processors.PersistenceProcessor;
  * @author yuan
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+@ContextConfiguration(locations = { "/spring/entity-mapping.xml" })
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
 @Ignore
 public class IngestionTest {

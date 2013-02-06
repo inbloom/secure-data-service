@@ -51,6 +51,8 @@ module Eventbus
             else
               sleep(1)
             end
+          rescue Mongo::ConnectionFailure => ex
+            @logger.error "Replica Set went down" if @logger
           rescue Mongo::OperationFailure => ex
             # catch invalid cursor on mongo reconnects
             cursor = mongo_operation_exception_handler(ex, cursor)
@@ -67,6 +69,7 @@ module Eventbus
         db = @connection.db(@config[:mongo_db])
         coll = db[@config[:mongo_oplog_collection]]
         cursor = nil
+        retry_count = 0
         if initial_empty
           @logger.info "ignoring initial readings" if @logger
           last_ts = get_last_timestamp()
@@ -92,6 +95,8 @@ module Eventbus
       rescue Exception => e
         @logger.debug "exception occurred when connecting to mongo for oplog: #{e}" if @logger
         @logger.debug "reconnection attempt in #{@config[:mongo_connection_retry]} seconds" if @logger
+        retry_count +=1
+        raise e if retry_count >= @config[:mongo_connection_retry_count]
         sleep @config[:mongo_connection_retry]
         retry
       end
