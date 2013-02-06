@@ -58,7 +58,7 @@ public class SubDocAccessor {
             String parent = EmbeddedDocumentRelations.getParentEntityType(entityType);
             String parentKey = EmbeddedDocumentRelations.getParentFieldReference(entityType);
             if (parent != null && parentKey != null) {
-                store(entityType).within(parent).as(entityType).mapping(parentKey, "_id").register();
+                store(entityType).within(parent).as(entityType).mapping(parentKey, "_id").asEntity().register();
             }
         }
     }
@@ -78,6 +78,8 @@ public class SubDocAccessor {
         private String collection;
         private String subField;
         private final String type;
+        private boolean asEntity = false;
+        private String key = "_id";
 
         public LocationBuilder(String type) {
             super();
@@ -120,11 +122,22 @@ public class SubDocAccessor {
             return this;
         }
 
+        public LocationBuilder asEntity() {
+            this.asEntity = true;
+            return this;
+        }
+
+        public LocationBuilder withKey(String key) {
+            this.key = key;
+            return this;
+        }
+
         /**
          * Register it as a sub resource location
          */
         public void register() {
-            SubDocLocation location = new SubDocLocation(SubDocAccessor.this, collection, lookup, subField);
+            SubDocLocation location = asEntity ? new SubDocLocation(SubDocAccessor.this, collection, lookup, subField, key)
+                    : new PartialLocation(SubDocAccessor.this, collection, lookup, subField, key);
             locations.put(type, location);
         }
 

@@ -45,6 +45,7 @@ public class SubDocLocation {
     private final String collection;
     private final Map<String, String> lookup;
     private final String subField;
+    private final String key;
 
     /**
      * Create a new location to store subdocs
@@ -58,12 +59,13 @@ public class SubDocLocation {
      * @param subDocAccessor
      *            TODO
      */
-    public SubDocLocation(SubDocAccessor subDocAccessor, String collection, Map<String, String> lookup, String subField) {
+    public SubDocLocation(SubDocAccessor subDocAccessor, String collection, Map<String, String> lookup, String subField, String key) {
         super();
         this.subDocAccessor = subDocAccessor;
         this.collection = collection;
         this.lookup = lookup;
         this.subField = subField;
+        this.key = key;
     }
 
     private DBObject getParentQuery(Map<String, Object> body) {
@@ -112,7 +114,7 @@ public class SubDocLocation {
         return updateDBObject;
     }
 
-    private boolean doUpdate(DBObject parentQuery, List<Entity> subEntities) {
+    protected boolean doUpdate(DBObject parentQuery, List<Entity> subEntities) {
         boolean result = true;
         TenantContext.setIsSystemCall(false);
 
@@ -124,7 +126,7 @@ public class SubDocLocation {
 
     private boolean doPush(DBObject parentQuery, List<Entity> subEntities) {
         DBObject query = new BasicDBObject(parentQuery.toMap());
-        query.putAll(new Query(Criteria.where(subField + "._id").nin(getSubDocDids(subEntities))).getQueryObject());
+        query.putAll(new Query(Criteria.where(subField + "." + getKey()).nin(getSubDocDids(subEntities))).getQueryObject());
         if (this.subDocAccessor.getTemplate().getCollection(collection)
                 .update(query, buildPushObject(subEntities), true, false, WriteConcern.SAFE).getN() == 1) {
             return true;
@@ -140,15 +142,15 @@ public class SubDocLocation {
 
     }
 
-    private DBObject buildPullObject(List<Entity> subEntities) {
+    protected DBObject buildPullObject(List<Entity> subEntities) {
         Set<String> existingIds = new HashSet<String>(getSubDocDids(subEntities));
-        Query pullQuery = new Query(Criteria.where("_id").in(existingIds));
+        Query pullQuery = new Query(Criteria.where(getKey()).in(existingIds));
         Update update = new Update();
         update.pull(subField, pullQuery.getQueryObject());
         return update.getUpdateObject();
     }
 
-    private DBObject buildPushObject(List<Entity> subEntities) {
+    protected DBObject buildPushObject(List<Entity> subEntities) {
         List<DBObject> subDocs = new ArrayList<DBObject>();
         for (Entity entity : subEntities) {
             subDocs.add(subDocToDBObject(entity));
@@ -161,12 +163,12 @@ public class SubDocLocation {
     private List<String> getSubDocDids(List<Entity> subEntities) {
         List<String> subDocDids = new ArrayList<String>();
         for (Entity entity : subEntities) {
-            subDocDids.add((String) subDocToDBObject(entity).get("_id"));
+            subDocDids.add((String) subDocToDBObject(entity).get(getKey()));
         }
         return subDocDids;
     }
 
-    private DBObject subDocToDBObject(Entity entity) {
+    protected DBObject subDocToDBObject(Entity entity) {
         MongoEntity mongoEntity;
 
         if (entity instanceof MongoEntity) {
@@ -588,7 +590,20 @@ public class SubDocLocation {
         }
     }
 
-    String getCollection() {
+    protected String getCollection() {
         return collection;
     }
+
+    protected String getSubField() {
+        return subField;
+    }
+
+    protected Map<String, String> getLookup() {
+        return lookup;
+    }
+
+    protected String getKey() {
+        return key;
+    }
+
 }
