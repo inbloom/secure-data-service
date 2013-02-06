@@ -2799,6 +2799,7 @@ table.hashes.map do |row|
   @entity_collection = @db.collection(row["collectionName"])
   @entity_collection.ensure_index([row["indexes"],1],:unique=>true)                                                                                                    
 end
+end
 
 Then /^the following collections counts are the same:$/ do |table|
   @db = @conn[@ingestion_db_name]
