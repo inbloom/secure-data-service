@@ -3,7 +3,6 @@
 xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentEnrollment.xsd">
   <GraduationPlan>
     <GraduationPlanType>Distinguished</GraduationPlanType>
-    <IndividualPlan>false</IndividualPlan>
     <TotalCreditsRequired CreditConversion="0" CreditType="Semester hour credit">
       <Credit>54</Credit>
     </TotalCreditsRequired>
@@ -31,6 +30,42 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <Credit>12</Credit>
       </Credits>
     </CreditsBySubject>
+    <CreditsByCourse>
+      <CourseCode IdentificationSystem="CSSC course code" AssigningOrganizationCode="STANDARD-SEA">
+        <ID>English Language and Literature</ID>
+      </CourseCode>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>12</Credit>
+      </Credits>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </CreditsByCourse>
+    <CreditsByCourse>
+      <CourseCode IdentificationSystem="CSSC course code" AssigningOrganizationCode="STANDARD-SEA">
+        <ID>Mathematics</ID>
+      </CourseCode>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>15</Credit>
+      </Credits>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </CreditsByCourse>
+    <CreditsByCourse>
+      <CourseCode IdentificationSystem="CSSC course code" AssigningOrganizationCode="STANDARD-SEA">
+        <ID>Science</ID>
+      </CourseCode>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>15</Credit>
+      </Credits>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </CreditsByCourse>
+    <CreditsByCourse>
+      <CourseCode IdentificationSystem="CSSC course code" AssigningOrganizationCode="STANDARD-SEA">
+        <ID>Social Sciences and History</ID>
+      </CourseCode>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>12</Credit>
+      </Credits>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </CreditsByCourse>
     <EducationOrganizationReference>
         <EducationalOrgIdentity>
           <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
@@ -39,7 +74,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </GraduationPlan>
   <GraduationPlan>
     <GraduationPlanType>Minimum</GraduationPlanType>
-    <IndividualPlan>false</IndividualPlan>
     <TotalCreditsRequired CreditConversion="0" CreditType="Semester hour credit">
       <Credit>36</Credit>
     </TotalCreditsRequired>
@@ -67,6 +101,42 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <Credit>9</Credit>
       </Credits>
     </CreditsBySubject>
+    <CreditsByCourse>
+      <CourseCode IdentificationSystem="CSSC course code" AssigningOrganizationCode="STANDARD-SEA">
+        <ID>English Language and Literature</ID>
+      </CourseCode>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>9</Credit>
+      </Credits>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </CreditsByCourse>
+    <CreditsByCourse>
+      <CourseCode IdentificationSystem="CSSC course code" AssigningOrganizationCode="STANDARD-SEA">
+        <ID>Mathematics</ID>
+      </CourseCode>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>9</Credit>
+      </Credits>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </CreditsByCourse>
+    <CreditsByCourse>
+      <CourseCode IdentificationSystem="CSSC course code" AssigningOrganizationCode="STANDARD-SEA">
+        <ID>Science</ID>
+      </CourseCode>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>9</Credit>
+      </Credits>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </CreditsByCourse>
+    <CreditsByCourse>
+      <CourseCode IdentificationSystem="CSSC course code" AssigningOrganizationCode="STANDARD-SEA">
+        <ID>Social Sciences and History</ID>
+      </CourseCode>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>9</Credit>
+      </Credits>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </CreditsByCourse>
     <EducationOrganizationReference>
         <EducationalOrgIdentity>
           <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
@@ -75,7 +145,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </GraduationPlan>
   <GraduationPlan>
     <GraduationPlanType>Standard</GraduationPlanType>
-    <IndividualPlan>false</IndividualPlan>
     <TotalCreditsRequired CreditConversion="0" CreditType="Semester hour credit">
       <Credit>48</Credit>
     </TotalCreditsRequired>
@@ -103,6 +172,42 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
         <Credit>12</Credit>
       </Credits>
     </CreditsBySubject>
+    <CreditsByCourse>
+      <CourseCode IdentificationSystem="CSSC course code" AssigningOrganizationCode="STANDARD-SEA">
+        <ID>English Language and Literature</ID>
+      </CourseCode>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>12</Credit>
+      </Credits>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </CreditsByCourse>
+    <CreditsByCourse>
+      <CourseCode IdentificationSystem="CSSC course code" AssigningOrganizationCode="STANDARD-SEA">
+        <ID>Mathematics</ID>
+      </CourseCode>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>12</Credit>
+      </Credits>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </CreditsByCourse>
+    <CreditsByCourse>
+      <CourseCode IdentificationSystem="CSSC course code" AssigningOrganizationCode="STANDARD-SEA">
+        <ID>Science</ID>
+      </CourseCode>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>12</Credit>
+      </Credits>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </CreditsByCourse>
+    <CreditsByCourse>
+      <CourseCode IdentificationSystem="CSSC course code" AssigningOrganizationCode="STANDARD-SEA">
+        <ID>Social Sciences and History</ID>
+      </CourseCode>
+      <Credits CreditConversion="0" CreditType="Semester hour credit">
+        <Credit>12</Credit>
+      </Credits>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </CreditsByCourse>
     <EducationOrganizationReference>
         <EducationalOrgIdentity>
           <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
