@@ -45,9 +45,9 @@ public class EdfiRecordParserTest {
     @Test
     @SuppressWarnings("unchecked")
     public void testParsing() throws Throwable {
-        Resource schema = new ClassPathResource("edfiXsd/Interchange-StudentParent.xsd");
+        Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StudentParent.xsd");
         Resource schemaDir = new ClassPathResource("edfiXsd");
-        Resource xml = new ClassPathResource("XsdValidation/InterchangeStudent-Valid.xml");
+        Resource xml = new ClassPathResource("parser/Student.xml");
 
         XMLEventReader reader = XMLInputFactory.newInstance().createXMLEventReader(xml.getInputStream());
 
