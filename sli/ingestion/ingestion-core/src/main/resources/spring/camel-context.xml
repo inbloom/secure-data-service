@@ -38,7 +38,6 @@
 
   <camelContext xmlns="http://camel.apache.org/schema/spring">
 	<contextScan></contextScan>
-    <template id="stagingProcessorTemplate" defaultEndpoint="direct:stagingProcessor"/>
   </camelContext>
 
 </beans>

@@ -265,6 +265,8 @@ def initializeTenants()
 end
 
 def cleanTenants()
+  disable_NOTABLESCAN()
+
   @db = @conn[INGESTION_DB_NAME]
   @tenantColl = @db.collection('tenant')
   @tenantColl.remove("type" => "tenantTest")
@@ -290,6 +292,8 @@ def cleanTenants()
       @tenantColl.save(row)
     end
   end
+
+  enable_NOTABLESCAN()
 end
 
 ############################################################
