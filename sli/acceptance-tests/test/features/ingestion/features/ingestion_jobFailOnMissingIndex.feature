@@ -26,7 +26,6 @@ Feature: Missing Index Alert
     And I am willing to wait upto 60 seconds for ingestion to complete
     And a batch job for file "TinyDataSet2.zip" is completed in database
     And a batch job log has been created
-    And I should see "ERROR  CORE_0038:[TinyDataSet2.zip]-Index missing: teacherSchoolAssociation {body.schoolId=1}, unique: false" in the resulting batch job error file
-    And I should see "ERROR  CORE_0038:[TinyDataSet2.zip]-Index missing: section {body.schoolId=1}, unique: false" in the resulting batch job error file
-    And I should see "ERROR  CORE_0038:[TinyDataSet2.zip]-Index missing: student {body.studentUniqueStateId=1}, unique: false" in the resulting batch job error file
+    And I should see "INFO  Not all records were processed completely due to errors." in the resulting batch job file
+    And I should see "CORE_0038" in the resulting error log file
     And the tenantIsReady flag for the tenant "Midgar" is reset

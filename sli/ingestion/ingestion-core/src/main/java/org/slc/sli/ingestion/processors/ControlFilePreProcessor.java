@@ -54,6 +54,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import javax.security.auth.login.FailedLoginException;
 import java.io.File;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
@@ -152,10 +153,10 @@ public class ControlFilePreProcessor implements Processor {
                 databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0059);
             }
 
-            Source indicesSource = new JobSource(zipResource.getResourceId());
-            String tenantDbName = TenantIdToDbName.convertTenantIdToDbName(currentJob.getTenantId());
-
-            boolean indicesOK = tenantDBIndexValidator.isValid(mongoTemplate.getDb() , Arrays.asList(tenantDbName), databaseMessageReport, reportStats, indicesSource);
+            String tenant = currentJob.getTenantId();
+            String tenantDbName = TenantIdToDbName.convertTenantIdToDbName(tenant);
+            boolean indicesOK = tenantDBIndexValidator.isValid(mongoTemplate.getDb() , Arrays.asList(tenantDbName), databaseMessageReport, reportStats, source);
+            LOG.info( "{} Index Validation for Tenant {} ", indicesOK?"Passed": "Failed", tenant);
 
             setExchangeHeaders(exchange, reportStats);
             setExchangeBody(exchange, reportStats, controlFile, currentJob);
