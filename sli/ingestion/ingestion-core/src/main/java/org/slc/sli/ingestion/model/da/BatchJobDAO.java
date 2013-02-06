@@ -113,4 +113,5 @@ public interface BatchJobDAO {
 
     public boolean isDryRun(String jobId);
 
+    public boolean isDuplicateDetection(String jobId);
 }

@@ -610,6 +610,17 @@ public class BatchJobMongoDA implements BatchJobDAO {
         return false;
     }
 
+    @Override
+    public boolean isDuplicateDetection(String jobId) {
+        Map<String, String> batchProperties = getBatchProperties(jobId);
+        for (Entry<String, String> property : batchProperties.entrySet()) {
+            if(property.getKey().equals(AttributeType.DUPLICATE_DETECTION.getName())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public Map<String, String> getBatchProperties(String jobId) {
         Query query = new Query();
         query.addCriteria(Criteria.where("_id").is(jobId));
