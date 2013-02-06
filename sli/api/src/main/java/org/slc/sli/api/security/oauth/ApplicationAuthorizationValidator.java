@@ -17,6 +17,7 @@
 
 package org.slc.sli.api.security.oauth;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -31,6 +32,7 @@ import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+
 
 /**
  * Determines which applications a given user is authorized to use based on
@@ -77,7 +79,7 @@ public class ApplicationAuthorizationValidator {
                         return true;
                     } else {
                         //query approved edorgs
-                        List<String> approvedDistricts = (List<String>) app.getBody().get("authorized_ed_orgs");
+                        List<String> approvedDistricts = new ArrayList<String>((List<String>) app.getBody().get("authorized_ed_orgs"));
                         List<String> myDistricts = helper.getDistricts(principal.getEntity());
                         approvedDistricts.retainAll(myDistricts);
                         return !approvedDistricts.isEmpty();
