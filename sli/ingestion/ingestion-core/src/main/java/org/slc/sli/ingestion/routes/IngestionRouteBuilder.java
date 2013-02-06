@@ -41,7 +41,6 @@ import org.slc.sli.ingestion.processors.TenantProcessor;
 import org.slc.sli.ingestion.processors.TransformationProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
 import org.slc.sli.ingestion.queues.MessageType;
-import org.slc.sli.ingestion.reporting.impl.LoggingMessageReport;
 import org.slc.sli.ingestion.routes.orchestra.AggregationPostProcessor;
 import org.slc.sli.ingestion.routes.orchestra.OrchestraPreProcessor;
 import org.slc.sli.ingestion.routes.orchestra.WorkNoteLatch;
@@ -109,7 +108,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Autowired
     private IndexValidatorExecutor indexValidatorExecutor;
-    
+
     @Autowired
     private NodeInfo nodeInfo;
 
