@@ -14,11 +14,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created with IntelliJ IDEA.
- * User: srupasinghe
- * Date: 2/1/13
- * Time: 3:13 PM
- * To change this template use File | Settings | File Templates.
+ * Resolves which courseTranscripts any given teacher can access.
+ *
  */
 @Component
 public class TeacherToCourseTranscriptValidator extends AbstractContextValidator {

@@ -15,17 +15,14 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created with IntelliJ IDEA.
- * User: srupasinghe
- * Date: 2/1/13
- * Time: 3:05 PM
- * To change this template use File | Settings | File Templates.
+ * Resolves which courseTranscripts any given staff member can access.
+ *
  */
 @Component
 public class StaffToCourseTranscriptValidator extends AbstractContextValidator {
 
     @Autowired
-    private TeacherToSubStudentEntityValidator validator;
+    private StaffToSubStudentEntityValidator validator;
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {

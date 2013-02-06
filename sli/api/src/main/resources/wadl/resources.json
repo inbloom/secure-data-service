@@ -24,7 +24,6 @@
         { "path": "/{id}/studentSectionAssociations/students/courseTranscripts", "dateSearchDisallowed": true },
         { "path": "/{id}/studentSectionAssociations/students/reportCards", "dateSearchDisallowed": true },
         { "path": "/{id}/studentSectionAssociations/students/studentAcademicRecords", "dateSearchDisallowed": true },
-        { "path": "/{id}/studentSectionAssociations/students/studentAcademicRecords/courseTranscripts", "dateSearchDisallowed": true },
         { "path": "/{id}/studentSectionAssociations/students/studentAssessments" },
         { "path": "/{id}/studentSectionAssociations/students/studentGradebookEntries", "dateSearchDisallowed": true },
         { "path": "/{id}/studentSectionAssociations/students/studentParentAssociations" },
@@ -592,8 +591,7 @@
         { "path": "/{id}/studentDisciplineIncidentAssociations/disciplineIncidents" },
         { "path": "/{id}/studentCohortAssociations/cohorts" }, 
         { "path": "/{id}/studentGradebookEntries" }, 
-        { "path": "/{id}/studentAcademicRecords", "dateSearchDisallowed": true},
-        { "path": "/{id}/studentAcademicRecords/courseTranscripts", "dateSearchDisallowed": true}
+        { "path": "/{id}/studentAcademicRecords", "dateSearchDisallowed": true}
       ]
     },
     {
