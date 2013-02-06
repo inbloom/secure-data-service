@@ -28,24 +28,18 @@ import javax.xml.stream.XMLStreamException;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.InvalidPayloadException;
-import org.apache.camel.Processor;
 import org.apache.camel.ProducerTemplate;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.slc.sli.common.util.logging.SecurityEvent;
-import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FileEntryWorkNote;
 import org.slc.sli.ingestion.FileProcessStatus;
 import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.WorkNote;
-import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
-import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.parser.RecordMeta;
 import org.slc.sli.ingestion.parser.RecordVisitor;
@@ -57,8 +51,6 @@ import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.impl.FileSource;
-import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
-import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.XsdSelector;
 
 /**
@@ -67,8 +59,7 @@ import org.slc.sli.ingestion.util.XsdSelector;
  * @author okrook
  *
  */
-public class EdFiParserProcessor extends AbstractIngestionHandler<IngestionFileEntry, Void> implements Processor,
-        RecordVisitor {
+public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote> implements RecordVisitor {
     private static final Logger LOG = LoggerFactory.getLogger(EdFiParserProcessor.class);
     private static final String BATCH_JOB_STAGE_DESC = "Reads records from the interchanges and persists to the staging database";
     private static final XMLInputFactory XML_INPUT_FACTORY = XMLInputFactory.newInstance();
@@ -85,36 +76,12 @@ public class EdFiParserProcessor extends AbstractIngestionHandler<IngestionFileE
     private ThreadLocal<ParserState> state = new ThreadLocal<ParserState>();
 
     @Override
-    public void process(Exchange exchange) {
-        Stage stage = Stage.createAndStartStage(getStage(), getStageDescription());
+    protected void process(Exchange exchange, FileEntryWorkNote workNote, NewBatchJob job, ReportStats rs) {
+        prepareState(exchange, workNote);
 
-        NewBatchJob job = null;
-
-        try {
-            prepareState(exchange);
-
-            job = getJob(state.get().getWork());
-
-            Metrics metrics = Metrics.newInstance(state.get().getWork().getFileEntry().getFileName());
-            stage.addMetrics(metrics);
-
-            ReportStats rs = new SimpleReportStats();
-
-            handle(state.get().getWork().getFileEntry(), messageReport, rs);
-
-            exchange.getIn().setHeader("hasErrors", rs.hasErrors());
-        } catch (InvalidPayloadException e) {
-            exchange.getIn().setHeader("hasErrors", true);
-            LOG.error("Cannot retrieve a work note to process.");
-        } finally {
-            cleanUpState();
-
-            if (job != null) {
-                BatchJobUtils.stopStageAndAddToJob(stage, job);
-                batchJobDAO.saveBatchJob(job);
-            }
-        }
+        cleanUpState();
     }
+
 
     /**
      * Prepare the state for the job.
@@ -123,12 +90,10 @@ public class EdFiParserProcessor extends AbstractIngestionHandler<IngestionFileE
      *            Exchange
      * @throws InvalidPayloadException
      */
-    private void prepareState(Exchange exchange) throws InvalidPayloadException {
-        FileEntryWorkNote work = exchange.getIn().getMandatoryBody(FileEntryWorkNote.class);
-
+    private void prepareState(Exchange exchange, FileEntryWorkNote workNote) {
         ParserState newState = new ParserState();
         newState.setOriginalExchange(exchange);
-        newState.setWork(work);
+        newState.setWork(workNote);
 
         state.set(newState);
     }
@@ -140,31 +105,16 @@ public class EdFiParserProcessor extends AbstractIngestionHandler<IngestionFileE
         state.set(null);
     }
 
-    private NewBatchJob getJob(WorkNote work) {
-        NewBatchJob job = batchJobDAO.findBatchJobById(work.getBatchJobId());
-
-        String tenantId = job.getTenantId();
-        TenantContext.setTenantId(tenantId);
-        TenantContext.setJobId(job.getId());
-        TenantContext.setBatchProperties(job.getBatchProperties());
-
-        return job;
-    }
-
     @Override
-    public String getStageName() {
-        return getStage().getName();
-    }
-
     public String getStageDescription() {
         return BATCH_JOB_STAGE_DESC;
     }
 
+    @Override
     public BatchJobStageType getStage() {
         return BatchJobStageType.EDFI_PROCESSOR;
     }
 
-    @Override
     protected Void doHandling(IngestionFileEntry item, AbstractMessageReport report, ReportStats reportStats,
             FileProcessStatus fileProcessStatus) {
 
@@ -189,13 +139,6 @@ public class EdFiParserProcessor extends AbstractIngestionHandler<IngestionFileE
     }
 
     @Override
-    protected List<Void> doHandling(List<IngestionFileEntry> items, AbstractMessageReport report,
-            ReportStats reportStats, FileProcessStatus fileProcessStatus) {
-        // This processor does not support this.
-        return null;
-    }
-
-    @Override
     public void visit(RecordMeta recordMeta, Map<String, Object> record) {
         state.get().addToBatch(recordMeta, record);
     }
@@ -206,14 +149,6 @@ public class EdFiParserProcessor extends AbstractIngestionHandler<IngestionFileE
         if (s.getDataBatch().size() > 0) {
             producer.sendBodyAndHeaders(s.getDataBatch(), s.getOriginalExchange().getIn().getHeaders());
         }
-    }
-
-    public BatchJobDAO getBatchJobDAO() {
-        return batchJobDAO;
-    }
-
-    public void setBatchJobDAO(BatchJobDAO batchJobDAO) {
-        this.batchJobDAO = batchJobDAO;
     }
 
     public AbstractMessageReport getMessageReport() {
