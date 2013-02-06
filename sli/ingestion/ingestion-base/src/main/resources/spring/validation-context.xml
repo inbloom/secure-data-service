@@ -13,8 +13,9 @@
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
+  <import resource="properties-context.xml" />
 
-  <util:map id="xsd" key-type="java.lang.String" value-type="org.springframework.core.io.Resource">
+  <util:map id="sliXsdList" key-type="java.lang.String" value-type="org.springframework.core.io.Resource">
     <entry key="AssessmentMetadata">
       <value>classpath:edfiXsd-SLI/SLI-Interchange-AssessmentMetadata.xsd</value>
     </entry>
@@ -62,16 +63,13 @@
     </entry>
   </util:map>
 
-  <bean id="xsdSelector" class="org.slc.sli.ingestion.util.XsdSelector" />
-
-  <bean id="xsdList"
-    class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-    <property name="targetClass" value="org.slc.sli.ingestion.util.XsdSelector" />
-    <property name="targetMethod" value="setXsdList" />
-    <property name="arguments" ref="xsd" />
+  <bean id="xsdSelector" class="org.slc.sli.ingestion.util.XsdSelector" >
+    <property name="xsdList" ref="sliXsdList" />
   </bean>
 
-  <bean id="xsdValidator" class="org.slc.sli.ingestion.validation.XsdValidator" scope="prototype" />
+  <bean id="xsdValidator" class="org.slc.sli.ingestion.validation.XsdValidator" scope="prototype">
+    <property name="xsdSelector" ref="xsdSelector" />
+  </bean>
 
   <bean id="controlFileValidator" class="org.slc.sli.ingestion.landingzone.validation.ControlFileValidator">
     <property name="ingestionFileValidators">
@@ -85,6 +83,8 @@
   </bean>
 
   <bean id="zipFileValidator" class="org.slc.sli.ingestion.landingzone.validation.ZipFileValidator">
+    <property name="zipfileTimeout" value="${sli.ingestion.file.timeout}" />
+    <property name="zipfilePollInterval" value="${sli.ingestion.file.retryinterval}" />
   </bean>
 
   <bean id="checksumValidator" class="org.slc.sli.ingestion.landingzone.validation.ChecksumValidator" />

@@ -77,9 +77,6 @@
     </property>
   </bean>
 
-  <bean id="zipFileValidator" class="org.slc.sli.ingestion.landingzone.validation.ZipFileValidator">
-  </bean>
-
   <bean id="messageSource" parent="coreMessageSource" />
 
   <camelContext xmlns="http://camel.apache.org/schema/spring" />
