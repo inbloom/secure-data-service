@@ -49,6 +49,9 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "ba942e512de1fd5021a69a9d452b481c7512c1bd_id" if human_readable_id == "INGESTED FALL 2009 EAST BREAK JUNIOR HIGH"
   id = "1771687e116b8babb04c3e5e0a1e9bda10b583c8_id" if human_readable_id == "INGESTED SUMMER 2012 EAST BREAK JUNIOR HIGH"
 
+  # StudentAssessment
+  id = "fe0be78251b73eaeb5bdc9cc79819b42a472dab4_id" if human_readable_id == "STUDENT ASSESSMENT ID"
+
   # StudentSchoolAssociation
   id = "ec2e4218-6483-4e9c-8954-0aecccfd4731"        if human_readable_id == "MARVIN MILLER EAST DB JR HI"
   id = "b4a4697c3c7d08b48a38460c34b58286ad3b3f60_id" if human_readable_id == "INGESTED MATT SOLLARS EAST BREAK JUNIOR HIGH"
@@ -128,6 +131,11 @@ $entity_data = {
   "studentAcademicRecord" => {
       "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085_id",
       "sessionId" => "62101257-592f-4cbe-bcd5-b8cd24a06f73"
+    },
+  "studentAssessment" => {
+      "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085_id",
+      "assessmentId" => "7b2e6133-4224-4890-ac02-73962eb09645",
+      "administrationDate" => "2013-01-01"
     },
     "studentCohortAssociation" => {
            "cohortId" => "b40926af-8fd5-11e1-86ec-0021701f543f_id",
