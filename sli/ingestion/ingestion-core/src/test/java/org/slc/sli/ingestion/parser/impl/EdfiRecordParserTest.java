@@ -15,14 +15,19 @@
  */
 package org.slc.sli.ingestion.parser.impl;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyMap;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 
+import java.io.IOException;
+import java.util.Map;
+
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.slf4j.Logger;
@@ -42,11 +47,14 @@ public class EdfiRecordParserTest {
 
     public static final Logger LOG = LoggerFactory.getLogger(EdfiRecordParserTest.class);
 
+    private ObjectMapper objectMapper = new ObjectMapper();
+
+    Resource schemaDir = new ClassPathResource("edfiXsd-SLI");
+
     @Test
     @SuppressWarnings("unchecked")
     public void testParsing() throws Throwable {
         Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StudentParent.xsd");
-        Resource schemaDir = new ClassPathResource("edfiXsd");
         Resource xml = new ClassPathResource("parser/Student.xml");
 
         XMLEventReader reader = XMLInputFactory.newInstance().createXMLEventReader(xml.getInputStream());
@@ -61,4 +69,43 @@ public class EdfiRecordParserTest {
         verify(visitor, atLeastOnce()).visit(any(RecordMeta.class), anyMap());
     }
 
+    @Test
+    public void testStudentParsing() throws Throwable {
+        Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StudentParent.xsd");
+        Resource xml = new ClassPathResource("parser/Student.xml");
+        Resource expectedJson = new ClassPathResource("parser/Student.expected.json");
+
+        XMLEventReader reader = XMLInputFactory.newInstance().createXMLEventReader(xml.getInputStream());
+
+        RecordVisitor visitor = new TestingRecordVisitor(expectedJson, objectMapper);
+
+        XsdTypeProvider tp = new XsdTypeProvider();
+        tp.setEdfiSchemaDir(schemaDir);
+
+        EdfiRecordParserImpl.parse(reader, schema, tp, visitor);
+    }
+
+    private static final class TestingRecordVisitor implements RecordVisitor {
+        private Resource expectedResource;
+        private ObjectMapper objectMapper;
+
+        private TestingRecordVisitor(Resource expectedResource, ObjectMapper objectMapper) {
+            this.expectedResource = expectedResource;
+            this.objectMapper = objectMapper;
+        }
+
+        @Override
+        public void visit(RecordMeta edfiType, Map<String, Object> record) {
+            try {
+                LOG.debug(objectMapper.writeValueAsString(record));
+
+                Object expected = objectMapper.readValue(expectedResource.getFile(), Map.class);
+
+                assertEquals(expected, record);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
