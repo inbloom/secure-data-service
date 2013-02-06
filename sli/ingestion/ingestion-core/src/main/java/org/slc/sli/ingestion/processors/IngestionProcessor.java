@@ -42,6 +42,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Abstract processor for Ingestion
+ * T A unit of work that contains all information that needs to be processed
  * @author ablum
  *
  */

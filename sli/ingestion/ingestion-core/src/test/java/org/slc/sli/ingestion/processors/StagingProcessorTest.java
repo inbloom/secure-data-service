@@ -60,7 +60,6 @@ public class StagingProcessorTest {
         
         processor.process(exchange);
         
-        Assert.assertEquals(MessageType.DATA_STAGED.name(), exchange.getIn().getHeader("IngestionMessageType"));
         Assert.assertEquals(false, exchange.getIn().getHeader("hasErrors"));
         Mockito.verify(rwriter, Mockito.times(2)).insertResource(Mockito.any(NeutralRecord.class));
     }
