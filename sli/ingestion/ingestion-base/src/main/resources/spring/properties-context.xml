@@ -17,24 +17,25 @@
 -->
 
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
-  xmlns:aop="http://www.springframework.org/schema/aop"
   xsi:schemaLocation="
-        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
-        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
-        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-  <import resource="validation-context.xml" />
+  <bean id="ingestionPropertiesPlaceholder"
+    class="org.slc.sli.ingestion.util.ExposedPropertyPlaceholderConfigurer">
 
-  <context:component-scan base-package="org.slc.sli.handler"/>
+    <!-- this avoids errors with *other* property placeholders -->
+    <property name="ignoreUnresolvablePlaceholders" value="true" />
 
-  <bean id="zipFileHandler" class="org.slc.sli.ingestion.handler.ZipFileHandler">
-    <property name="preValidators">
-        <util:list value-type="org.slc.sli.ingestion.validation.Validator">
-            <ref bean="zipFileValidator" />
-        </util:list>
+    <!-- this allows using an optional local properties file (ingestion-dev.properties) -->
+    <property name="ignoreResourceNotFound" value="true" />
+
+    <property name="locations">
+      <list>
+        <value>file:${sli.conf}</value>
+        <value>classpath:ingestion.properties</value>
+      </list>
     </property>
   </bean>
 
 </beans>
+
