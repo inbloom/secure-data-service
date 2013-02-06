@@ -5,6 +5,7 @@ source "http://gems.rubyforge.org"
 source :gemcutter
 source "http://gemcutter.org"
 
+gem "rake"
 gem "nokogiri"
 gem "aquarium"
 gem "mongo"
