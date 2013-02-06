@@ -40,6 +40,7 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.constants.PathConstants;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.CallingApplicationInfoProvider;
@@ -673,8 +674,20 @@ public class BasicService implements EntityService {
     
     private boolean isSelf(String entityId) {
     	SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
-    	String curId = principal.getEntity().getEntityId();
-    	return curId.equals(entityId);
+    	String selfId = principal.getEntity().getEntityId();
+    	String type = defn.getType();
+    	if (selfId.equals(entityId)) {
+    		return true;
+    	} else if (EntityNames.STAFF_ED_ORG_ASSOCIATION.equals(type)) {
+    		Entity entity = repo.findById(defn.getStoredCollectionName(), entityId);
+    		Map<String, Object> body = entity.getBody();
+    		return selfId.equals(body.get(ParameterConstants.STAFF_REFERENCE));
+    	} else if (EntityNames.TEACHER_SCHOOL_ASSOCIATION.equals(type)) {
+    		Entity entity = repo.findById(defn.getStoredCollectionName(), entityId);
+    		Map<String, Object> body = entity.getBody();
+    		return selfId.equals(body.get(ParameterConstants.TEACHER_REFERENCE));
+    	}
+    	return false;
     }
 
     /**
