@@ -53,9 +53,9 @@ public class StagingProcessor extends IngestionProcessor<NeutralRecordWorkNote>{
     private ResourceWriter<NeutralRecord> nrMongoStagingWriter;
     
     @Override
-    protected void process(Exchange exchange, NeutralRecordWorkNote workNote, NewBatchJob newBatchJob, ReportStats rs) {
+    protected void process(Exchange exchange, ProcessorArgs<NeutralRecordWorkNote> args) {
 
-            writeRecords(workNote.getNeutralRecords(), rs);
+            writeRecords(args.workNote.getNeutralRecords(), args.reportStats);
 
     }
 
