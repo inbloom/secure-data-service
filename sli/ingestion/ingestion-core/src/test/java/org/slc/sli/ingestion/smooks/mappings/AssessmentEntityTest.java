@@ -25,8 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import junit.framework.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -226,13 +224,5 @@ public class AssessmentEntityTest {
 
         assertEquals("code value", assessmentNeutralRecord.getAttributes().get("periodDescriptorRef"));
         assertEquals(Arrays.asList("TAKSReading2-1", "TAKSReading2-2"), assessmentNeutralRecord.getAttributes().get("objectiveAssessmentRefs"));
-
-        @SuppressWarnings("unchecked")
-        List<Map<String, Object>> assessmentItems = (List<Map<String, Object>>) assessmentNeutralRecord.getAttributes().get(
-                "assessmentItem");
-        Assert.assertNotNull(assessmentItems);
-        assertEquals(2, assessmentItems.size());
-        assertEquals("TAKSReading3-1", assessmentItems.get(0).get("identificationCode"));
-        assertEquals("TAKSReading3-2", assessmentItems.get(1).get("identificationCode"));
     }
 }
