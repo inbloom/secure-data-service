@@ -128,13 +128,15 @@ def replace_api_version(version)
   Dir[File.join("#{@extract_dest}/acceptance-tests/test/features", "**", "*.{rb,feature}")].each do |f|
     temp_text = File.read(f).gsub(/v\d\.?\d*(?!_resources)/, version)
     text = ""
-    replace_next_line = false
+    replace_next_line_for_search = false
     temp_text.each_line do |line|
-      if replace_next_line
-        line = "  version = (expectedUri.include? \"/search\") ? \"v1.1\" : \"#{version}\"\n"
-        replace_next_line = false
+      if replace_next_line_for_search
+        line += "  version = (expectedUri.include? \"/search\") ? \"v1.1\" : \"#{version}\"\n"
+        replace_next_line_for_search = false
       end
-      replace_next_line = true if line.include? "Then /^uri was rewritten to"
+      replace_next_line_for_search = true if line.include? "Then /^uri was rewritten to"
+      # Fix bad transform regex for to match api minor versions
+      line.gsub!(/\[\\w-\]/, "[^\\\"]") if line.match(/Transform.*\[\\w-\]+.*version/)
       text += "#{line}"
     end
     File.open(f, "w") do |f|
@@ -166,13 +168,16 @@ def start_api
 end
 
 def insert_migration_scripts
-  puts "---- Run migration scripts"
+  puts "---- Inserting migration scripts in Rakefile"
   Dir.chdir "#{@sli_workspace}/acceptance-tests"
   run_cmd "bundle exec rake loadDefaultIngestionTenants"
-  gemfile_lock = "#{@extract_dest}/acceptance-tests/Gemfile.lock"
-  text = File.read(gemfile_lock).gsub(/mongo .+/, "mongo (1.8.0)")
-  File.open(gemfile_lock, "w") do |f|
-    f.write text
+  mongo_gem_version = File.read(gemfile_lock).match(/mongo \((.*)\)/)[1]
+  if mongo_gem_version.to_f < "1.8.0".to_f
+    # Migration scripts require 1.8.0 or above
+    text = File.read(gemfile_lock).gsub(/mongo .+/, "mongo (1.8.0)")
+    File.open(gemfile_lock, "w") do |f|
+      f.write text
+    end
   end
   text_to_insert = @migrations.map { |m| "sh \"#{m}\"" }.join "\n"
   rakefile = "#{@extract_dest}/acceptance-tests/Rakefile"

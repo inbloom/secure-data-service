@@ -42,7 +42,7 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "classpath:/spring/applicationContext-test.xml" })
+@ContextConfiguration(locations = { "/spring/recordLvlHash-context.xml" })
 public class SessionEntityTest {
 
     @Value("#{recordLvlHashNeutralRecordTypes}")
