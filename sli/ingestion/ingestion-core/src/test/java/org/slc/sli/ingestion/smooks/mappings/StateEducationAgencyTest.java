@@ -53,7 +53,7 @@ import org.slc.sli.validation.EntityValidator;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+@ContextConfiguration(locations = { "/spring/entity-mapping.xml" })
 public class StateEducationAgencyTest {
 
     @Value("#{recordLvlHashNeutralRecordTypes}")

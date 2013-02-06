@@ -60,6 +60,7 @@ public class URITranslator {
     private static final String CHILD_LEARNING_OBJECTIVE = "childLearningObjective";
     private static final String LEARNING_STANDARD = "learningStandards";
     private static final String STUDENT_COMPETENCY = "studentCompetencies";
+    private static final String COURSE_TRANSCRIPT = "courseTranscript";
     private static final String ID_KEY = "_id";
 
     public URITranslator() {
@@ -79,6 +80,10 @@ public class URITranslator {
                 usingPattern("{version}/learningObjectives/{id}/studentCompetencies").
                 usingCollection(EntityNames.STUDENT_COMPETENCY).withKey("objectiveId.learningObjectiveId")
                 .andReference(ID_KEY).build();
+        translate(COURSE_TRANSCRIPT).transformToUri("studentAcademicRecords/{id}/courseTranscripts").
+                usingPattern("{version}/students/{id}/courseTranscripts").
+                usingCollection(EntityNames.STUDENT_ACADEMIC_RECORD).withKey(ID_KEY)
+                .andReference("studentId").build();
     }
 
     public void translate(ContainerRequest request) {
@@ -118,14 +123,22 @@ public class URITranslator {
         private String parentEntity;
         private String key;
         private String referenceKey;
+        private String transformToUri;
 
         private URITranslationBuilder(String transformResource) {
             this.transformResource = transformResource;
         }
+
         public URITranslationBuilder transformTo(String transformTo) {
             this.transformTo = transformTo;
             return this;
         }
+
+        public URITranslationBuilder transformToUri(String transformToUri) {
+            this.transformToUri = transformToUri;
+            return this;
+        }
+
         public URITranslationBuilder usingPattern(String pattern) {
             this.pattern = pattern;
             return this;
@@ -148,7 +161,7 @@ public class URITranslator {
 
         public void build() {
             uriTranslationMap.put(transformResource,
-                    new URITranslation(transformTo, pattern, parentEntity, key, referenceKey));
+                    new URITranslation(transformTo, pattern, parentEntity, key, referenceKey, transformToUri));
         }
     }
     
@@ -164,13 +177,16 @@ public class URITranslator {
         String parentEntity;
         String key;
         String referenceKey;
+        String transformToUri;
 
-        URITranslation(String transformTo, String pattern, String parentEntity, String key, String referenceKey) {
+        URITranslation(String transformTo, String pattern, String parentEntity, String key,
+                       String referenceKey, String transformToUri) {
             this.transformTo = transformTo;
             this.pattern = pattern;
             this.parentEntity = parentEntity;
             this.key = key;
             this.referenceKey = referenceKey;
+            this.transformToUri = transformToUri;
         }
 
 
@@ -209,7 +225,11 @@ public class URITranslator {
         }
 
         private String buildTranslatedPath(List<String> translatedIdList) {
-            return  transformTo + "/" + StringUtils.join(translatedIdList, ",");
+            if (transformToUri != null) {
+                return transformToUri.replaceAll("\\{id\\}", StringUtils.join(translatedIdList, ","));
+            } else {
+                return  transformTo + "/" + StringUtils.join(translatedIdList, ",");
+            }
         }
 
     }
