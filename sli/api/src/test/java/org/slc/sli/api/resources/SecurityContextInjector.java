@@ -266,7 +266,6 @@ public class SecurityContextInjector {
         return new PreAuthenticatedAuthenticationToken(principal, token, rights);
     }
 
-
     public void setEducatorContext() {
         String user = "educator";
         String fullName = "Educator";
@@ -276,6 +275,7 @@ public class SecurityContextInjector {
         Mockito.when(entity.getEntityId()).thenReturn(user);
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
         principal.setRoles(roles);
+        principal.setSelfRights(Arrays.asList(new GrantedAuthority[]{ Right.READ_RESTRICTED}));
         setSecurityContext(principal, false);
     }
 
@@ -289,6 +289,7 @@ public class SecurityContextInjector {
         Mockito.when(entity.getEntityId()).thenReturn(userId);
         SLIPrincipal principal = buildPrincipal(user, fullName, DEFAULT_REALM_ID, roles, entity);
         principal.setRoles(roles);
+        principal.setSelfRights(Arrays.asList(new GrantedAuthority[]{ Right.READ_RESTRICTED}));
         setSecurityContext(principal, false);
     }
 
