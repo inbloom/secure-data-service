@@ -61,8 +61,6 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
     private static final Logger LOG = LoggerFactory.getLogger(XsdValidator.class);
     private static final String STAGE_NAME = "XSD Validation";
 
-    private XsdSelector xsdSelector;
-
     @Override
     public boolean isValid(IngestionFileEntry entry, AbstractMessageReport report,
             ReportStats reportStats, Source source) {
@@ -97,7 +95,7 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
         }
 
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        Resource xsdResource = xsdSelector.provideXsdResource(entry);
+        Resource xsdResource = XsdSelector.provideXsdResource(entry);
         Schema schema = schemaFactory.newSchema(xsdResource.getURL());
 
         javax.xml.validation.Validator validator = schema.newValidator();
@@ -108,14 +106,6 @@ public class XsdValidator implements Validator<IngestionFileEntry> {
         validator.validate(sc);
 
         return true;
-    }
-
-    public XsdSelector getXsdSelector() {
-        return xsdSelector;
-    }
-
-    public void setXsdSelector(XsdSelector xsdSelector) {
-        this.xsdSelector = xsdSelector;
     }
 
     @Override

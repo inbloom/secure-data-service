@@ -18,13 +18,15 @@ customRole,false,body.realmId:1
 customRole,false,metaData.tenantId:1,body.realmId:1
 custom_entities,false,metaData.entityId:1,metaData.clientId:1
 
-# Billy is investigating these
-
-# direct references, index on each direct reference
+# Direct References, index on each direct reference
+# Used in cascade delete
+attendance,false,body.schoolId:1
 # Look up attendance by student: /students/{id}/attendances
 attendance,false,body.studentId:1
 # Look up cohort by edorg: /educationOrganizations/{id}/cohorts
 cohort,false,body.educationOrgId:1
+# Used in cascade delete
+cohort,false,body.programId:1
 # Look up studentCohortAssociation by student: /students/{id}/studentCohortAssociations
 cohort,false,studentCohortAssociation.body.studentId:1
 # Look up course by school: /educationOrganizations/{id}/schools
@@ -37,43 +39,53 @@ courseOffering,false,body.schoolId:1
 courseOffering,false,body.sessionId:1
 # Look up courseTranscript by course: /courses/{id}/courseTranscripts
 courseTranscript,false,body.courseId:1
-# REMOVE - DE2538
+# Used in cascade delete
+courseTranscript,false,body.educationOrganizationReference:1
+# Used in StudentTranscriptOptionalFieldAppender
 courseTranscript,false,body.studentAcademicRecordId:1
 # Look up courseTranscript by student: /students/{id}/courseTranscripts
 courseTranscript,false,body.studentId:1
-# REMOVE - DE2540
+# Used in cascade delete
+disciplineAction,false,body.assignmentSchoolId:1
+# Used in cascade delete
 disciplineAction,false,body.disciplineIncidentId:1
-# REMOVE - DE2541
+# Used in cascade delete
 disciplineAction,false,body.responsibilitySchoolId:1
 # Look up disciplineAction by teacher: /teachers/{id}/disciplineActions
 disciplineAction,false,body.staffId:1
-# REMOVE - DE2542
+# Used in cascade delete
 disciplineAction,false,body.studentId:1
+# Used in cascade delete
+disciplineIncident,false,body.schoolId:1
 # Look up disciplineIncident by teacher: /teachers/{id}/disciplineIncidents
 disciplineIncident,false,body.staffId:1
 # Used in heirarchy traversal
 educationOrganization,false,body.parentEducationAgencyReference:1
-# REMOVE - DE2544
+# Used in cascade delete
 educationOrganization,false,body.programReference:1
 # Look up grade by gradingPeriod: /gradingPeriods/{id}/grades
 grade,false,body.gradePeriodId:1
-# REMOVE - DE2545
+# Used in cascade delete
 grade,false,body.studentSectionAssociationId:1
+# Used in cascade delete
+gradingPeriod,false,body.gradingPeriodIdentity.schoolId:1
 # Look up graduation play by edorg: /educationOrganizations/{id}/graduationPlans
 graduationPlan,false,body.educationOrganizationId:1
 # Learning objective traversal
 learningObjective,false,body.parentLearningObjective:1
+# Used in cascade delete
+reportCard,false,body.grades:1
 # Look up reportCard by gradingPeriod: /gradingPeriods/{id}/reportCards
 reportCard,false,body.gradingPeriodId:1
 # Look up reportCard by studentCompetency: /studentCompetencies/{id}/reportCards
 reportCard,false,body.studentCompetencyId:1
 # Look up reportCard by student: /students/{id}/reportCards
 reportCard,false,body.studentId:1
-# REMOVE - DEDE2548
+# Used in cascade delete
 section,false,body.assessmentReferences:1
 # Look up section by courseOffering: /courseOfferings/{id}/sections
 section,false,body.courseOfferingId:1
-# REMOVE - DE2549
+# Used in cascade delete
 section,false,body.programReference:1
 # Look up section by school: /schools/{id}/sections
 section,false,body.schoolId:1
@@ -108,7 +120,7 @@ studentCompetency,false,body.objectiveId.learningObjectiveId:1
 studentCompetency,false,body.studentSectionAssociationId:1
 # Look up studentCompetencyObjective by edorg: /educationOrganizations/{id}/studentCompetencyObjectives
 studentCompetencyObjective,false,body.educationOrganizationId:1
-# REMOVE - DE2553
+# Used in cacade delete
 student,false,studentDisciplineIncidentAssociation.body.disciplineIncidentId:1
 # Look up studentGradebookEntry by gradebookEntry: /gradebookEntries/{id}/studentGradebookEntries
 studentGradebookEntry,false,body.gradebookEntryId:1
@@ -116,7 +128,7 @@ studentGradebookEntry,false,body.gradebookEntryId:1
 studentGradebookEntry,false,body.sectionId:1
 # Look up studentGradebookEntry by student: /students/{id}/studentGradebookEntries
 studentGradebookEntry,false,body.studentId:1
-# REMOVE - DE2554
+# Used in cascade delete
 studentGradebookEntry,false,body.studentSectionAssociationId:1
 # studentParentAssociation is embedded into student
 # Look up studentParentAssoc by parent: /parents/{id}/studentParentAssociations
@@ -141,43 +153,27 @@ teacherSchoolAssociation,false,body.teacherId:1
 # Look up teacherSectionAssoc by teacher: /teachers/{id}/teacherSectionAssociations
 section,false,teacherSectionAssociation.body.teacherId:1
 
-# Ingestion
-# These indexes are all used by ingestion and should be removed as part of reference resolution work
-# TONY - Need to tie these to reference resolution stories
-
-# US4388
-assessment,false,body.assessmentIdentificationCode:1
-# US4388
-assessment,false,body.assessmentPeriodDescriptor.codeValue:1
-# US4388
 assessment,false,body.assessmentTitle:1,body.academicSubject:1,body.gradeLevelAssessed:1
-calendarDate,false,body.date:1,body.calendarEvent:1
-course,false,body.courseCode.ID:1,body.courseCode.identificationSystem:1
-disciplineIncident,false,body.incidentIdentifier:1
-educationOrganization,false,body.stateOrganizationId:1
-# needs to be combined with next
-educationOrganization,false,body.educationOrgIdentificationCode:1
-educationOrganization,false,body.educationOrgIdentificationCode.ID:1
-gradingPeriod,false,body.gradingPeriodIdentity.schoolYear:1
-graduationPlan,false,body.graduationPlanType:1
-# needs to combined with next
-learningObjective,false,body.learningObjectiveId:1
-learningObjective,false,body.learningObjectiveId.identificationCode:1
-learningObjective,false,body.objective:1
-learningStandard,false,body.learningStandardId.identificationCode:1
-parent,false,body.parentUniqueStateId:1
-program,false,body.programId:1
-section,false,body.uniqueSectionCode:1
-session,false,body.sessionName:1
-student,false,body.studentUniqueStateId:1
-studentCompetency,false,metaData.externalId:1,metaData.studentUniqueStateId:1,metaData.uniqueSectionCode:1
-studentCompetencyObjective,false,body.studentCompetencyObjectiveId:1
 
 # Profiled
-# Find school/edorg by name
+# Find discipline incident by external ID
+disciplineIncident,false,body.incidentIdentifier:1
+# Find school/edorg by external name
 educationOrganization,false,type:1,body.nameOfInstitution:1
-# Find staff/teacher by login
+# Find school/edorg by external ID
+educationOrganization,false,body.stateOrganizationId:1
+# Find learning objective by external ID
+learningObjective,false,body.objective:1
+# Find learning standard by external ID
+learningStandard,false,body.learningStandardId.identificationCode:1
+# Find parent by external ID
+parent,false,body.parentUniqueStateId:1
+# Find program by external ID
+program,false,body.programId:1
+# Find staff/teacher by external login
 staff,false,body.staffUniqueStateId:1
+# Find student by external ID
+student,false,body.studentUniqueStateId:1
 
 # US4365
 student,false,cohort._id:1

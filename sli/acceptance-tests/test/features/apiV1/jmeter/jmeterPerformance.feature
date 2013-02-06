@@ -3,6 +3,7 @@
 Feature: API Jmeter performance tests
 
 Scenario: Run Jmeter tests
+  Given I send a command to start the extractor to extract now
   Given I run each of the Jmeter tests:
     | testName                   |
     | login                      |

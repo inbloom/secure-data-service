@@ -1664,6 +1664,18 @@ Then /^I should see following map of indexes in the corresponding collections:$/
 
 end
 
+Then /^I remove the following indexes in the corresponding collections:$/ do |table|
+  @db   = @conn[@ingestion_db_name]
+  table.hashes.map do |row|
+    @indexcollection = @db.collection("system.indexes")
+    indexQRS = @indexcollection.find("ns" => @ingestion_db_name + "." + row["collectionName"], "key" => {row["index"] => 1}).to_a
+    index = indexQRS.pop()
+    indexName = index["name"]
+    @entity_collection = @db.collection(row["collectionName"])
+    @entity_collection.drop_index(indexName)
+  end
+end
+
 def cleanupSubDoc(superdocs, subdoc)
   superdocs.each do |superdoc|
     superdoc[subdoc] = nil

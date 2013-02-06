@@ -26,15 +26,15 @@ import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.zip.UnsupportedZipFeatureException;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
 import org.slc.sli.ingestion.reporting.impl.ZipFileSource;
 import org.slc.sli.ingestion.validation.Validator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * Zip file validator.
@@ -48,9 +48,11 @@ public class ZipFileValidator implements Validator<File> {
     private static final String STAGE_NAME = "Zip File Validation";
 
     // how long to wait for the file to become valid before giving up
+    @Value("${sli.ingestion.file.timeout:600000}")
     private Long zipfileTimeout;
 
     // how often to check if the file is has become valid
+    @Value("${sli.ingestion.file.retryinterval:10000}")
     private Long zipfilePollInterval;
 
     @Override
@@ -133,22 +135,6 @@ public class ZipFileValidator implements Validator<File> {
         }
 
         return isValid;
-    }
-
-    public Long getZipfileTimeout() {
-        return zipfileTimeout;
-    }
-
-    public void setZipfileTimeout(Long zipfileTimeout) {
-        this.zipfileTimeout = zipfileTimeout;
-    }
-
-    public Long getZipfilePollInterval() {
-        return zipfilePollInterval;
-    }
-
-    public void setZipfilePollInterval(Long zipfilePollInterval) {
-        this.zipfilePollInterval = zipfilePollInterval;
     }
 
     private static boolean isDirectory(ArchiveEntry zipEntry) {

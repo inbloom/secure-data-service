@@ -24,7 +24,6 @@ import java.util.Map;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -41,15 +40,12 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/validation-context.xml" })
+@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class XsdSelectorTest {
-
-    @Autowired
-    private XsdSelector xsdSelector;
 
     @Test
     public void testLoadXsds() {
-        Map<String, Resource> resources = xsdSelector.getXsdList();
+        Map<String, Resource> resources = XsdSelector.getXsdList();
 
         assertNotNull(resources.get("AssessmentMetadata"));
         assertNotNull(resources.get("EducationOrganization"));
@@ -91,7 +87,7 @@ public class XsdSelectorTest {
         final String expectedXsdResource = "SLI-Interchange-EducationOrganization.xsd";
         IngestionFileEntry xmlFile = new IngestionFileEntry(parentDir, FileFormat.EDFI_XML,
                 FileType.XML_EDUCATION_ORGANIZATION, xmlFileName, checksum);
-        Resource xsdResource = xsdSelector.provideXsdResource(xmlFile);
+        Resource xsdResource = XsdSelector.provideXsdResource(xmlFile);
         assertEquals("XSD resource mismatch", expectedXsdResource, xsdResource.getFilename());
     }
 
@@ -102,7 +98,7 @@ public class XsdSelectorTest {
         final String checksum = "e1e10";
         IngestionFileEntry xmlFile = new IngestionFileEntry(parentDir, FileFormat.EDFI_XML,
                 FileType.CONTROL, xmlFileName, checksum);
-        Resource xsdResource = xsdSelector.provideXsdResource(xmlFile);
+        Resource xsdResource = XsdSelector.provideXsdResource(xmlFile);
         assertNull("XSD resource should be null", xsdResource);
     }
 

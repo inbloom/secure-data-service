@@ -20,6 +20,7 @@ require 'pp'
 require 'rexml/document'
 
 require_relative '../../../utils/sli_utils.rb'
+require_relative '../../../search/step_definitions/search_indexer_steps.rb'
 
 include REXML
 
