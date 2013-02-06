@@ -80,13 +80,13 @@ describe "WorldBuilder" do
         course_entity.course_level[:level].should eq("Honors")
         course_entity.course_level[:level_char].should eq("Other")
         course_entity.grades_offered.should eq("Kindergarten")
-        course_entity.subject_area.should eq("Mathematics")
+        course_entity.subject_area.should eq("ELA")
         course_entity.description.should eq("this is a course for Kindergarten")
         course_entity.gpa_appl.should eq("Applicable")
-        course_entity.defined_by.should eq("SEA")
-        course_entity.career_path.should eq("Science, Technology, Engineering and Mathematics")
+        course_entity.defined_by.should eq("LEA")
+        course_entity.career_path.should eq("Education and Training")
         course_entity.learning_objectives[0].objective.should eq("Generic Learning Objective 1")
-        course_entity.learning_objectives[0].academic_subject.should eq("Mathematics")
+        course_entity.learning_objectives[0].academic_subject.should eq("ELA")
         course_entity.learning_objectives[0].objective_grade_level.should eq("Kindergarten")
         course_entity.competency_levels[0].should eq("Incompetent")
 
@@ -128,6 +128,13 @@ describe "WorldBuilder" do
 
       it "will create the configured number of cohorts for each school" do
         @queue.count(Cohort).should eq(9)
+
+        # check that optional fields are generated
+        @queue.get_work_orders(Cohort).each{|cohort|
+          cohort_entity = @factory.create(cohort)
+          cohort_entity.subject.should_not be_nil
+          cohort_entity.programs.should have_at_least(1).items
+        }
       end
 
       it "will associate a staff member for each cohort for each year" do

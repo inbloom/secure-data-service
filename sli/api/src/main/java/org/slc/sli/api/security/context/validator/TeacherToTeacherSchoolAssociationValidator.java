@@ -16,11 +16,6 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.annotation.Resource;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
@@ -29,6 +24,10 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Validates teacher's access to given teacherSchoolAssociation

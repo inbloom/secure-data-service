@@ -30,6 +30,9 @@ import org.elasticsearch.node.Node;
 import org.elasticsearch.node.NodeBuilder;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.constants.ParameterConstants;
+import org.slc.sli.api.criteriaGenerator.GranularAccessFilter;
+import org.slc.sli.api.criteriaGenerator.GranularAccessFilterProvider;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.generic.PreConditionFailedException;
 import org.slc.sli.api.resources.generic.representation.Resource;
@@ -45,6 +48,7 @@ import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.service.query.ApiQuery;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -80,7 +84,7 @@ public class SearchResourceService {
     // Minimum limit on results to retrieve from Elasticsearch each trip
     private static final int MINIMUM_ES_LIMIT_PER_QUERY = 10;
 
-    private static final int SEARCH_RESULT_LIMIT = 500;
+    private static final int SEARCH_RESULT_LIMIT = 250;
 
     @Autowired
     DefaultResourceService defaultResourceService;
@@ -99,6 +103,9 @@ public class SearchResourceService {
 
     @Autowired
     private ContextValidator contextValidator;
+
+    @Autowired
+    GranularAccessFilterProvider granularAccessFilterProvider;
 
     private EntityDefinition searchEntityDefinition;
 
@@ -171,6 +178,7 @@ public class SearchResourceService {
             }
             criteria = new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, entityMap.row(type).keySet());
             query.addCriteria(criteria);
+            query.setOffset(0);
             Iterables.addAll(fullEntities, resourceHelper.getEntityDefinitionByType(type).getService().list(query));
         }
         return fullEntities;
@@ -188,13 +196,14 @@ public class SearchResourceService {
 
         // get the offset and limit requested
         int limit = apiQuery.getLimit();
+        if ((limit == 0) || (limit == 1000)) {
+            limit = SEARCH_RESULT_LIMIT;
+        }
         if (limit > maxFilteredSearchResultCount) {
             throw new PreConditionFailedException("Invalid condition, limit [" + limit
                     + "] cannot be greater than maxFilteredResults [" + maxFilteredSearchResultCount + "] on search");
         }
-        if (limit == 0) {
-            limit = SEARCH_RESULT_LIMIT;
-        }
+
         int offset = apiQuery.getOffset();
         int totalLimit = limit + offset + 1;
 
@@ -268,6 +277,7 @@ public class SearchResourceService {
      */
     public ApiQuery prepareQuery(Resource resource, String entities, URI queryUri) {
         ApiQuery apiQuery = new ApiQuery(queryUri);
+        addGranularAccessCriteria(entities,apiQuery);
         filterCriteria(apiQuery);
         addSecurityContext(apiQuery);
         if (entities != null) {
@@ -512,6 +522,33 @@ public class SearchResourceService {
                 }
             } catch (Exception e) {
                 error("Unable to delete data directory for embedded elasticsearch", e);
+            }
+        }
+    }
+    private void addGranularAccessCriteria(String entities, ApiQuery apiQuery) {
+
+        if (granularAccessFilterProvider.hasFilter()) {
+            GranularAccessFilter filter = granularAccessFilterProvider.getFilter();
+
+            if (entities.contains(filter.getEntityName())) {
+
+                if (filter.isNoSessionsFoundForSchoolYear()) {
+                    //throw new NoGranularAccessDatesException();
+                }
+
+                NeutralQuery dateQuery = filter.getNeutralQuery();
+                for (NeutralCriteria criteria : dateQuery.getCriteria()) {
+                    apiQuery.addCriteria(criteria);
+                }
+                for (NeutralQuery dateOrQuery : dateQuery.getOrQueries()) {
+                   for( NeutralCriteria dateOrCriteria : dateOrQuery.getCriteria()) {
+                       if(ParameterConstants.SCHOOL_YEARS.equals(dateOrCriteria.getKey())) {
+                           continue;
+                       } else {
+                        apiQuery.addCriteria(dateOrCriteria);
+                       }
+                   }
+                }
             }
         }
     }

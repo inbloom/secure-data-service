@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 gem 'rake'
 gem 'oauth2'
-gem 'mongo'
+gem 'mongo', '1.8.2'
 gem 'selenium-webdriver'
 gem 'rest-client'
 gem 'builder'

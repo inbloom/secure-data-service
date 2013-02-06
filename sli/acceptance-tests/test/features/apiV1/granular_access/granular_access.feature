@@ -22,17 +22,17 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     # 2011-2012: 2011-09-06 to 2011-12-16
     | Entity URI                              | School Years | Count Without Range | Count With Range | Entity List                                                                    |
     | attendances                             | 2010-2011    | 2                   | 0                |                                                                                |
-    | courseOfferings                         | 2010-2011    | 28                  | 1                | LCC1149GR1                                                                     |
+    | courseOfferings                         | 2010-2011    | 138                  | 1                | LCC1149GR1                                                                     |
 #    | courseTranscripts                       | 2010-2011    | 0                   | 0                |                                                                               |
     | disciplineActions                       | 2010-2011    | 0                   | 0                |                                                                                |
     | disciplineIncidents                     | 2010-2011    | 0                   | 0                |                                                                                |
     | gradebookEntries                        | 2010-2011    | 0                   | 0                |                                                                                |
     | grades                                  | 2010-2011    | 0                   | 0                |                                                                                |
-    | gradingPeriods                          | 2010-2011    | 1                   | 0                |                                                                                |
+    | gradingPeriods                          | 2010-2011    | 2                   | 0                |                                                                                |
     | programs                                | 2009-2010    | 0                   | 0                |                                                                                |
 #    | reportCards                             | 2010-2011    | 0                   | 0                |                                                                               |
 #    | sections                                | 2010-2011    | 0                   | 0                |                                                                               |
-    | sessions                                | 2010-2011    | 7                   | 1                | e19cd46a-e50d-4157-a2b4-68d06f328058                                           |
+    | sessions                                | 2010-2011    | 29                   | 3                | e19cd46a-e50d-4157-a2b4-68d06f328058,377c734f-7c15-455f-9209-ac15b3118236,e100045b-25b3-41d6-9f1c-cd86db18eb68                                          |
     | staffCohortAssociations                 | 2009-2010    | 0                   | 0                |                                                                                |
     | staffEducationOrgAssignmentAssociations | 2010-2011    | 1                   | 1                | b1c40ccc-b466-8f3b-b3c7-7e13c2bc4d5a                                           |
     | staffProgramAssociations                | 2009-2010    | 0                   | 0                |                                                                                |
@@ -67,7 +67,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     # 2011-2012: 2011-09-06 to 2012-06-31
     | Entity URI                              | School Years | Count Without Range | Count With Range | Entity List                                                                    |
     | attendances                             | 2011-2012    | 29                  | 1                | 530f0704-c240-4ed9-0a64-55c0308f91ee                                           |
-    | courseOfferings                         | 2010-2011    | 39                  | 12               | <LIST-CO-LINDAKIM>                                                             |
+    | courseOfferings                         | 2010-2011    | 138                  | 12               | <LIST-CO-LINDAKIM>                                                             |
 #    | courseTranscripts                       | 2010-2011    | 2                   | 1                | f11a2a30-d4fd-4400-ae18-353c00d581a2                                           |
     | disciplineActions                       | 2010-2011    | 0                   | 0                |                                                                                |
     | disciplineIncidents                     | 2010-2011    | 0                   | 0                |                                                                                |
@@ -77,7 +77,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | programs                                | 2010-2011    | 0                   | 0                |                                                                                |
 #    | reportCards                             | 2009-2010    | 1                   | 0                |                                                                                |
 #    | sections                                | 2010-2011    | 4                   | 2                | Science 7A - Sec 5f10,8th Grade English - Sec 6                                |
-    | sessions                                | 2010-2011    | 9                   | 2                | <LIST-SESSION-LINDAKIM>                                                        |
+    | sessions                                | 2010-2011    | 29                   | 8                | <LIST-SESSION-LINDAKIM>                                                        |
     | staffCohortAssociations                 | 2010-2011    | 0                   | 0                |                                                                                |
 #    | staffEducationOrgAssignmentAssociations | 2010-2011    | 1                   | 1                | 2c6face89f0c2854667310b46808e21156ed73cc_id                                    |
     | staffProgramAssociations                | 2010-2011    | 0                   | 0                |                                                                                |
@@ -227,11 +227,11 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     And parameter "limit" is "0"
     When I navigate to GET "/v1/sessions"
     Then I should receive a return code of 200
-    And I should receive a collection of "9" entities
+    And I should receive a collection of "29" entities
     Given parameter "schoolYears" is "2010-2011"
     When I navigate to GET "/v1/sessions"
     Then I should receive a return code of 200
-    And I should receive a collection of "2" entities
+    And I should receive a collection of "8" entities
 
   Scenario Outline: Sad path - invalid date ranges
     Given I am logged in using "akopel" "akopel1234" to realm "IL"
