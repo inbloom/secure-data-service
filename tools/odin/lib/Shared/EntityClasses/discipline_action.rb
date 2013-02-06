@@ -66,7 +66,7 @@ class DisciplineAction < BaseEntity
   attr_accessor :asgn_ed_org_id  # maps to 'AssignmentSchoolReference'
   
   def initialize(student_id, ed_org_id, incident, staff_members = [])
-    rand             = Random.new(incident.index)
+    @rand            = Random.new(incident.index)
 
     @action_id       = "#{incident.incident_identifier},#{student_id}"
     @disciplines     = ["DI#{incident.index}"]
@@ -75,19 +75,21 @@ class DisciplineAction < BaseEntity
     @incidents       = [incident]
     @resp_ed_org_id  = ed_org_id
 
-    @action_length   = DataUtility.select_random_from_options(rand, (1..5).to_a)
-    @actual_length   = DataUtility.select_random_from_options(rand, (0..@action_length).to_a)
-    @length_diff_rsn = :NO_DIFFERENCE if @action_length - @actual_length == 0
-    @length_diff_rsn = :OTHER         if @action_length - @actual_length != 0
-    members          = []
-    members          << incident.staff_id unless incident.staff_id.nil?
-    members          << staff_members unless staff_members.nil? || staff_members.size == 0
-    @staff_members   = members.flatten
-    @asgn_ed_org_id  = ed_org_id
+    optional { @action_length   = DataUtility.select_random_from_options(@rand, (1..5).to_a) }
+    optional { @actual_length   = DataUtility.select_random_from_options(@rand, (0..@action_length).to_a) }
+    optional { @length_diff_rsn = :NO_DIFFERENCE if @action_length - @actual_length == 0 }
+    optional { @length_diff_rsn = :OTHER         if @action_length - @actual_length != 0 }
+    optional { 
+      members          = []
+      members          << incident.staff_id unless incident.staff_id.nil?
+      members          << staff_members unless staff_members.nil? || staff_members.size == 0
+      @staff_members   = members.flatten
+    }
+    optional { @asgn_ed_org_id  = ed_org_id }
   end
 
   # convert DisciplineActionLengthDifferenceReason from symbol -> string representation
   def diff_reason
-    DisciplineActionLengthDifferenceReasonType.to_string(@length_diff_rsn)
+    DisciplineActionLengthDifferenceReasonType.to_string(@length_diff_rsn) unless @length_diff_rsn.nil?
   end
 end

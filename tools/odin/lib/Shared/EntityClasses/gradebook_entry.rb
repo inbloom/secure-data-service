@@ -58,11 +58,12 @@ class GradebookEntry < BaseEntity
     @type                = type
     @date_assigned       = date_assigned
     @section             = section
+    @rand                = Random.new((type + date_assigned.to_s + section['ed_org_id'].to_s + section['unique_section_code'].to_s).size)
 
-    @description         = description
-    @learning_standards  = learning_standards
-    @learning_objectives = learning_objectives
-    @grading_period      = grading_period
+    optional { @description         = description }
+    optional { @learning_standards  = learning_standards }
+    optional { @learning_objectives = learning_objectives }
+    optional { @grading_period      = grading_period }
   end
 
   # maps to optional field 'GradingPeriodReference'

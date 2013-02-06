@@ -59,14 +59,15 @@ class LearningObjective < BaseEntity
   attr_accessor :grade
 
   def initialize(objective, subject, grade, learning_standards = [], learning_objectives = [])
+    @rand                  = Random.new((objective + AcademicSubjectType.to_string(subject) + GradeLevelType.to_string(grade)).size)
     @objective             = objective
     @subject               = subject
     @grade                 = grade
 
-    @description           = "#{objective} for grade: #{objective_grade_level} in subject: #{academic_subject}"
-    #@learning_standard_id  = learning_standards.first['id'] unless learning_standards.empty?
-    #@learning_standards    = learning_standards
-    @learning_objectives   = learning_objectives
+    optional { @description          = "#{objective} for grade: #{objective_grade_level} in subject: #{academic_subject}" }
+    optional { @learning_standard_id = learning_standards.first['id'] unless learning_standards.empty? }
+    optional { @learning_standards   = learning_standards }
+    optional { @learning_objectives  = learning_objectives }
   end
 
   # maps to required field 'AcademicSubject'

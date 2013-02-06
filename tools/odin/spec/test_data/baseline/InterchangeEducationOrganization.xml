@@ -1315,11 +1315,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <LocalEducationAgency>
     <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-    <EducationOrgIdentificationCode IdentificationSystem="SEA">
-      <ID>IL-DAYBREAK</ID>
-    </EducationOrgIdentificationCode>
     <NameOfInstitution>IL-DAYBREAK School District</NameOfInstitution>
-    <ShortNameOfInstitution>IL-DAYBREAK LEA</ShortNameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>Local Education Agency</OrganizationCategory>
     </OrganizationCategories>
@@ -1329,35 +1325,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <StateAbbreviation>NY</StateAbbreviation>
       <PostalCode>10292</PostalCode>
     </Address>
-    <Telephone InstitutionTelephoneNumberType="Main">
-      <TelephoneNumber>(995) 555-1415</TelephoneNumber>
-    </Telephone>
-    <WebSite>http://fake.local-education-agency.org.fake/fake</WebSite>
-    <OperationalStatus>Added</OperationalStatus>
-    <AccountabilityRatings>
-      <RatingTitle>2001 rating: IL-DAYBREAK</RatingTitle>
-      <Rating>Mid Satisfactory</Rating>
-      <RatingDate>2001-09-26</RatingDate>
-      <SchoolYear>2001-2002</SchoolYear>
-      <RatingOrganization>STANDARD-SEA</RatingOrganization>
-      <RatingProgram>AEIS</RatingProgram>
-    </AccountabilityRatings>
-    <AccountabilityRatings>
-      <RatingTitle>2002 rating: IL-DAYBREAK</RatingTitle>
-      <Rating>Low Advanced</Rating>
-      <RatingDate>2002-06-22</RatingDate>
-      <SchoolYear>2002-2003</SchoolYear>
-      <RatingOrganization>STANDARD-SEA</RatingOrganization>
-      <RatingProgram>AEIS</RatingProgram>
-    </AccountabilityRatings>
-    <AccountabilityRatings>
-      <RatingTitle>2003 rating: IL-DAYBREAK</RatingTitle>
-      <Rating>High Satisfactory</Rating>
-      <RatingDate>2003-12-20</RatingDate>
-      <SchoolYear>2003-2004</SchoolYear>
-      <RatingOrganization>STANDARD-SEA</RatingOrganization>
-      <RatingProgram>AEIS</RatingProgram>
-    </AccountabilityRatings>
     <ProgramReference>
       <ProgramIdentity>
         <ProgramId>50</ProgramId>
@@ -1409,20 +1376,10 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </ProgramIdentity>
     </ProgramReference>
     <LEACategory>Independent</LEACategory>
-    <CharterStatus>Not a Charter School</CharterStatus>
-    <StateEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </StateEducationAgencyReference>
   </LocalEducationAgency>
   <LocalEducationAgency>
     <StateOrganizationId>5</StateOrganizationId>
-    <EducationOrgIdentificationCode IdentificationSystem="SEA">
-      <ID>5</ID>
-    </EducationOrgIdentificationCode>
     <NameOfInstitution>5 School District</NameOfInstitution>
-    <ShortNameOfInstitution>5 LEA</ShortNameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>Local Education Agency</OrganizationCategory>
     </OrganizationCategories>
@@ -1432,35 +1389,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       <StateAbbreviation>NY</StateAbbreviation>
       <PostalCode>10292</PostalCode>
     </Address>
-    <Telephone InstitutionTelephoneNumberType="Main">
-      <TelephoneNumber>(118) 555-5520</TelephoneNumber>
-    </Telephone>
-    <WebSite>http://fake.local-education-agency.org.fake/fake</WebSite>
-    <OperationalStatus>Active</OperationalStatus>
-    <AccountabilityRatings>
-      <RatingTitle>2001 rating: 5</RatingTitle>
-      <Rating>Low Satisfactory</Rating>
-      <RatingDate>2001-05-08</RatingDate>
-      <SchoolYear>2001-2002</SchoolYear>
-      <RatingOrganization>STANDARD-SEA</RatingOrganization>
-      <RatingProgram>AEIS</RatingProgram>
-    </AccountabilityRatings>
-    <AccountabilityRatings>
-      <RatingTitle>2002 rating: 5</RatingTitle>
-      <Rating>Low Advanced</Rating>
-      <RatingDate>2002-12-17</RatingDate>
-      <SchoolYear>2002-2003</SchoolYear>
-      <RatingOrganization>STANDARD-SEA</RatingOrganization>
-      <RatingProgram>AEIS</RatingProgram>
-    </AccountabilityRatings>
-    <AccountabilityRatings>
-      <RatingTitle>2003 rating: 5</RatingTitle>
-      <Rating>High Satisfactory</Rating>
-      <RatingDate>2003-01-08</RatingDate>
-      <SchoolYear>2003-2004</SchoolYear>
-      <RatingOrganization>STANDARD-SEA</RatingOrganization>
-      <RatingProgram>AEIS</RatingProgram>
-    </AccountabilityRatings>
     <ProgramReference>
       <ProgramIdentity>
         <ProgramId>60</ProgramId>
@@ -1492,12 +1420,6 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </ProgramIdentity>
     </ProgramReference>
     <LEACategory>Independent</LEACategory>
-    <CharterStatus>Not a Charter School</CharterStatus>
-    <StateEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </StateEducationAgencyReference>
   </LocalEducationAgency>
   <School>
     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -1604,22 +1526,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </School>
   <CompetencyLevelDescriptor>
       <CodeValue>Incompetent</CodeValue>
-      <Description>Student does not understand anything</Description>
-      <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
   </CompetencyLevelDescriptor>
   <CompetencyLevelDescriptor>
       <CodeValue>Barely Competent</CodeValue>
-      <Description>Student understands some basic</Description>
-      <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
   </CompetencyLevelDescriptor>
   <CompetencyLevelDescriptor>
       <CodeValue>Competent</CodeValue>
-      <Description>Student understands basic and some intermediate material</Description>
-      <PerformanceBaseConversion>Proficient</PerformanceBaseConversion>
   </CompetencyLevelDescriptor>
   <CompetencyLevelDescriptor>
       <CodeValue>Very Competent</CodeValue>
-      <Description>Student understands everything in subject</Description>
-      <PerformanceBaseConversion>Advanced</PerformanceBaseConversion>
   </CompetencyLevelDescriptor>
 </InterchangeEducationOrganization>

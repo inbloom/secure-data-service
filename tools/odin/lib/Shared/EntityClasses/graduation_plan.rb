@@ -61,9 +61,10 @@ class GraduationPlan < BaseEntity
     @type          = type
     @total_credits = credits_by_subject.values.inject(:+)
     @ed_org_id     = ed_org_id
+    @rand          = Random.new((type + ed_org_id.to_s).size + @total_credits)
 
-    @individual    = false
-    @subjects      = credits_by_subject.map{ |subject, credits| {subject: subject, credits: credits} }
-    @courses       = credits_by_subject.map{ |course, credits|  {course: {id: course, ed_org_id: ed_org_id}, credits: credits}   }
+    optional { @individual = false }
+    optional { @subjects   = credits_by_subject.map{ |subject, credits| {subject: subject, credits: credits} } }
+    optional { @courses    = credits_by_subject.map{ |course, credits|  {course: {id: course, ed_org_id: ed_org_id}, credits: credits} } }
   end
 end
