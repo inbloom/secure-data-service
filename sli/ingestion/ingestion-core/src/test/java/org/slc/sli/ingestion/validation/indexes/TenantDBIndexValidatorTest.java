@@ -47,8 +47,6 @@ import org.slc.sli.ingestion.util.MongoIndex;
  * @author tke
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class TenantDBIndexValidatorTest {
 
     private MongoTemplate mongoTemplate = Mockito.mock(MongoTemplate.class);
