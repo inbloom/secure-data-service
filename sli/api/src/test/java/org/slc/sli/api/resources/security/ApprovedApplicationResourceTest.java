@@ -17,39 +17,25 @@
 
 package org.slc.sli.api.resources.security;
 
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.ws.rs.core.Response;
+import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.security.oauth.ApplicationAuthorizationValidator;
-import org.slc.sli.api.service.EntityService;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.security.context.validator.ValidatorTestHelper;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.domain.enums.Right;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -57,11 +43,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-/**
- * 
- * @author pwolf
- *
- */
+import com.sun.jersey.core.spi.factory.ResponseImpl;
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 @TestExecutionListeners({ WebContextTestExecutionListener.class,
@@ -71,175 +54,60 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 public class ApprovedApplicationResourceTest {
     
     @Autowired
-    @InjectMocks
     private ApprovedApplicationResource resource;
     
-    @Mock
-    EntityService service;
+    @Autowired
+    private PagingRepositoryDelegate<Entity> repo;
     
-    @Mock
-    ApplicationAuthorizationValidator appValidator;
+    @Autowired
+    private ApplicationAuthorizationResource appAuth;
     
-    @Mock Repository<Entity> repo;
+    Entity app1 = null;
     
-    EntityBody adminApp, userApp, installedApp;
+    @Autowired
+    SecurityContextInjector injector;
+    
+    @Autowired
+    ValidatorTestHelper helper;
     
     @Before
     public void setup() {
-        MockitoAnnotations.initMocks(this);
+        Entity lea = helper.generateEdorgWithParent(null);
+        lea.getBody().put("organizationCategories", Arrays.asList("Local Education Agency"));
+        injector.setStaffContext();
+        helper.generateStaffEdorg(SecurityUtil.getSLIPrincipal().getEntity().getEntityId(), lea.getEntityId(), false);
+        SecurityUtil.getSLIPrincipal().setEdOrgId(lea.getEntityId());
         
-        adminApp = new EntityBody();
-        adminApp.put("is_admin", true);
-        adminApp.put("installed", false);
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put("authorized_ed_orgs", Arrays.asList(SecurityUtil.getEdOrgId()));
+        body.put("installed", false);
+        body.put("name", "MyApp");
+        app1 = repo.create("application", body);
         
-        //endpoint list
-        List<Map<String, Object>> endpoints = new ArrayList<Map<String, Object>>();
-        Map<String, Object> endpoint = new HashMap<String, Object>();
-        endpoint.put("name", "myName");
-        endpoint.put("description", "myDesc");
-        endpoint.put("url", "http://url/");
-        ArrayList<String> rights = new ArrayList<String>();
-        rights.add(Right.ADMIN_ACCESS.toString());
-        rights.add(Right.CRUD_LEA_ADMIN.toString());
-        endpoint.put("rights", rights);
-        endpoints.add(endpoint);
-        adminApp.put("endpoints", endpoints);
-        adminApp.put("created_by", "slcdeveloper");
-        adminApp.put("name", "Admin App");
-        adminApp.put("admin_visible", true);
-        userApp = new EntityBody();
-        userApp.put("is_admin", false);
-        userApp.put("installed", false);
-        userApp.put("created_by", "bob");
-        userApp.put("name", "User App");
-        installedApp = new EntityBody();
-        installedApp.put("name", "Installed App");
-        installedApp.put("is_admin", false);
-        installedApp.put("installed", true);
-        installedApp.put("created_by", "bob");
-        List<Entity> appList = new ArrayList<Entity>();
-        appList.add(new MongoEntity("application", adminApp));
-        appList.add(new MongoEntity("application", userApp));
-        appList.add(new MongoEntity("application", installedApp));
-        Mockito.when(repo.findAll(Mockito.eq("application"), Mockito.any(NeutralQuery.class))).thenReturn(appList);
+        injector.setAdminContextWithElevatedRights();
+        SecurityUtil.getSLIPrincipal().setEdOrgId(lea.getEntityId());
+        EntityBody auth = new EntityBody();
+        auth.put("appId", app1.getEntityId());
+        auth.put("authorized", true);
+        appAuth.updateAuthorization(app1.getEntityId(), auth, null);
+        
+        injector.setStaffContext();
+        SecurityUtil.getSLIPrincipal().setEdOrgId(lea.getEntityId());
     }
     
-    @Test (expected = InsufficientAuthenticationException.class)
-    public void testNotLoggedIn() {
-        SecurityContextHolder.clearContext();
-        resource.getApplications("");
-    }
-        
-    private boolean isInEntityList(EntityBody app, List<EntityBody> ents) {
-        for (EntityBody ent : ents) {
-            if (app.get("name").equals(ent.get("name"))) {
-                return true;
-            }
+    @Test
+    public void testGetApps() {
+
+
+        ResponseImpl resp = (ResponseImpl) resource.getApplications("");
+        List<Map> list = (List<Map>) resp.getEntity();
+        List<String> names = new ArrayList<String>();
+        for (Map map : list) {
+            String name = (String) map.get("name");
+            names.add(name);
         }
-        return false;
+        Assert.assertTrue(names.contains("MyApp"));
     }
 
- /*   @Test
-    public void testEndpointFilteringNoRoles() {
-        Mockito.when(appValidator.getAuthorizedApps(Mockito.any(SLIPrincipal.class))).thenReturn(
-                Arrays.asList("adminAppId", "userAppId", "disabledAppId"));
-        setupAuth(Right.AGGREGATE_READ, null);
-        Response resp = resource.getApplications("");
-        List<EntityBody> ents = (List<EntityBody>) resp.getEntity();
-        assertFalse("Admin should be filtered out since no endpoints are applicable", isInEntityList(adminApp, ents));
-    }
-    
-    @Test
-    public void testEndpointFilteringWithRole() {
-        Mockito.when(appValidator.getAuthorizedApps(Mockito.any(SLIPrincipal.class))).thenReturn(
-                Arrays.asList("adminAppId", "userAppId", "disabledAppId"));
-        
-        ArrayList<String> myRoles = new ArrayList<String>();
-        myRoles.add("SLI Administrator");
-        setupAuth(Right.ADMIN_ACCESS, myRoles);
-        Response resp = resource.getApplications("");
-        List<EntityBody> ents = (List<EntityBody>) resp.getEntity();
-        boolean foundAdmin = false;
-        for (EntityBody body : ents) {
-            
-            if (body.get("name").equals(adminApp.get("name"))) {
-                foundAdmin = true;
-                assertTrue("endpoint found", ((List) body.get("endpoints")).size() == 1);
-            }
-         }
-        assertTrue(foundAdmin);
-    }
-    
-    @Test
-    public void testEndpointNoRolesRequired() {
-        Mockito.when(appValidator.getAuthorizedApps(Mockito.any(SLIPrincipal.class))).thenReturn(
-                Arrays.asList("adminAppId", "userAppId", "disabledAppId"));
-        
-        Map endpoint = (Map) ((List) adminApp.get("endpoints")).get(0);
-        endpoint.put("roles", new ArrayList<String>()); //no roles means never filter
-        setupAuth(Right.ADMIN_ACCESS, null);
-        Response resp = resource.getApplications("");
-        List<EntityBody> ents = (List<EntityBody>) resp.getEntity();
-        boolean foundAdmin = false;
-        for (EntityBody body : ents) { 
-            if (body.get("name").equals(adminApp.get("name"))) {
-                foundAdmin = true;
-                assertTrue("endpoint found", ((List) body.get("endpoints")).size() == 1);
-            }
-         }
-        assertTrue(foundAdmin);
-    }
-    
-    @Test
-    public void testAdminUserFilterNonAdmin() {
-        Mockito.when(appValidator.getAuthorizedApps(Mockito.any(SLIPrincipal.class))).thenReturn(
-                Arrays.asList("adminAppId", "userAppId", "disabledAppId"));
-        setupAuth(Right.ADMIN_ACCESS, null);
-        Response resp = resource.getApplications("false");
-        List<EntityBody> ents = (List<EntityBody>) resp.getEntity();
-        assertFalse(ents.contains(adminApp));
-        assertFalse(ents.contains(userApp));
-        assertFalse(ents.contains(installedApp));
-    }
-    
-    @Test
-    public void testAdminUserFilterAdmin() {
-        Mockito.when(appValidator.getAuthorizedApps(Mockito.any(SLIPrincipal.class))).thenReturn(
-                Arrays.asList("adminAppId", "userAppId", "disabledAppId"));
-        setupAuth(Right.ADMIN_ACCESS, Arrays.asList("LEA Administrator"));
-        Response resp = resource.getApplications("true");
-        List<EntityBody> ents = (List<EntityBody>) resp.getEntity();
-        assertTrue(isInEntityList(adminApp, ents));
-        assertFalse(isInEntityList(userApp, ents));
-        assertFalse(isInEntityList(installedApp, ents));
-    }   */
-    
-    
-    private void setupAuth(GrantedAuthority auth, List<String> roles) {
-        Authentication mockAuth = Mockito.mock(Authentication.class);
-        ArrayList<GrantedAuthority> rights = new ArrayList<GrantedAuthority>();
-        rights.add(auth);
-        Mockito.when(mockAuth.getAuthorities()).thenReturn(rights);
-        SLIPrincipal principal = new SLIPrincipal();
-        if (roles == null) {
-            principal.setRoles(new ArrayList<String>());
-        } else {
-            principal.setRoles(roles);
-        }
-        principal.setRealm("someRealm");
-        Map realmBody = new HashMap();
-
-        if (auth == Right.ADMIN_ACCESS) {
-            realmBody.put("admin", true);
-        } else {
-            realmBody.put("admin", false);
-        }
-        MongoEntity realm = new MongoEntity("realm", realmBody);
-        Mockito.when(repo.findById("realm", "someRealm")).thenReturn(realm);
-        Mockito.when(mockAuth.getPrincipal()).thenReturn(principal);
-        SecurityContextHolder.getContext().setAuthentication(mockAuth);
-        
-        
-    }
 
 }

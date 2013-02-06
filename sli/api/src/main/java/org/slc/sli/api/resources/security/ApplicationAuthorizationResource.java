@@ -32,7 +32,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.core.Response.Status;
 
 import org.slc.sli.api.config.EntityDefinition;
@@ -53,6 +55,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
+import org.slc.sli.api.security.SecurityEventBuilder;
 
 /**
  *
@@ -76,12 +79,15 @@ public class ApplicationAuthorizationResource {
     @Autowired
     private DelegationUtil delegation;
 
-
     private EntityService service;
+    
+    @Autowired
+    private SecurityEventBuilder securityEventBuilder;
 
+    @Context
+    UriInfo uri;
 
     public static final String RESOURCE_NAME = "applicationAuthorization";
-
     public static final String APP_ID = "applicationId";
     public static final String EDORG_IDS = "edorgs";
 
@@ -228,6 +234,7 @@ public class ApplicationAuthorizationResource {
             return SecurityUtil.getEdOrgId();
         }
         if (!edorg.equals(SecurityUtil.getEdOrgId()) && !delegation.getAppApprovalDelegateEdOrgs().contains(edorg) ) {
+            audit(securityEventBuilder.createSecurityEvent(ApplicationAuthorizationResource.class.getName(), uri.getRequestUri(), "Access Denined"));
             throw new AccessDeniedException("Cannot perform authorizations for edorg " + edorg);
         }
         return edorg;
