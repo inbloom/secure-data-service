@@ -148,6 +148,7 @@ class StudentWorkOrder
     @section_factory = opts[:section_factory]
     @plan = opts[:plan]
     @program_id_count = opts[:program_id_count]
+    @student_section_association = {}
   end
 
   def build
@@ -194,7 +195,7 @@ class StudentWorkOrder
 
   # generates attendance events for the student in the specified session
   def generate_attendances(session, type, school)
-    return @attendance_factory.generate_attendance_events(@rand, @id, school, session, type) if @attendance_factory.nil? == false
+    return @attendance_factory.generate_attendance_events(@rand, @id, school, session, type, @student_section_association[@id]) if @attendance_factory.nil? == false
     return []
   end
 
@@ -251,12 +252,13 @@ class StudentWorkOrder
           code_values = [1, 2, 3] if code_values.empty?
           sections.each{|course_offering, available_sections|
             sections_per_student = DataUtility.rand_float_to_int(@rand, @scenario['HACK_SECTIONS_PER_STUDENT'] || 1)
+            @student_section_association[@id] ||= []
             for sps in 1..sections_per_student
               section    = available_sections[@id % available_sections.count]
               section_id = DataUtility.get_unique_section_id(section[:id])
               student_section_association = StudentSectionAssociation.new(@id, section_id, school_id, begin_date, grade)
+              @student_section_association[@id] << student_section_association
               rval       << student_section_association
-  
               unless @gradebook_factory.nil? or section[:gbe].nil?
                 grades = {}
                 section[:gbe].each do |type, gbe_num|

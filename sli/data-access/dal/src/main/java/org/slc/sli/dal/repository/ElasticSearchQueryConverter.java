@@ -19,6 +19,7 @@ package org.slc.sli.dal.repository;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +28,7 @@ import org.elasticsearch.index.query.FilterBuilder;
 import org.elasticsearch.index.query.FilterBuilders;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.slc.sli.api.constants.ParameterConstants;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.domain.NeutralCriteria;
@@ -168,7 +170,10 @@ public class ElasticSearchQueryConverter {
     }
 
     public QueryBuilder getQuery(NeutralCriteria criteria) {
-        return this.operationMap.get(criteria.getOperator()).getQuery(criteria);
+        if(this.operationMap.containsKey(criteria.getOperator())) {
+            return this.operationMap.get(criteria.getOperator()).getQuery(criteria);
+        }
+        return null;
     }
 
     /**
@@ -185,10 +190,20 @@ public class ElasticSearchQueryConverter {
             BoolQueryBuilder bqb = QueryBuilders.boolQuery();
             // set query criteria
             for (NeutralCriteria criteria : query.getCriteria()) {
-                bqb.must(getQuery(criteria));
+                if (ParameterConstants.SCHOOL_YEARS.equals(criteria.getKey())) {
+                    // do not include schoolYears in the elastic Search, it is handled elsewhere
+                    continue;
+                }
+                QueryBuilder queryBuilder = getQuery(criteria);
+                if(queryBuilder != null) {
+                    bqb.must(queryBuilder);
+                }
             }
             for (NeutralQuery nq : query.getOrQueries()) {
-                bqb.should(getQuery(nq));
+                QueryBuilder queryBuilder = getQuery(nq);
+                if( null != queryBuilder) {
+                    bqb.should(queryBuilder);
+                }
             }
             return bqb;
         }
@@ -196,6 +211,12 @@ public class ElasticSearchQueryConverter {
 
     @SuppressWarnings("unchecked")
     private static String[] getTermTokens(Object value) {
-        return (value instanceof List) ? ((List<String>) value).toArray(new String[0]) : ((String) value).split(",");
+        if (value instanceof List) {
+            return ((List<String>) value).toArray(new String[0]);
+        } else if (value instanceof HashSet) {
+            return ((HashSet<String>) value).toArray(new String[]{});
+
+        }
+            return ((String) value).split(",");
     }
 }

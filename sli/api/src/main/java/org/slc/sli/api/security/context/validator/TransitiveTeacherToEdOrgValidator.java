@@ -20,7 +20,6 @@ import org.slc.sli.api.constants.EntityNames;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.Set;
 
 /**
