@@ -1,1 +1,1 @@
-{"_id":"137f12ac-f967-4cb3-99e8-1ce8363ac009","type":"applicationAuthorization","body":{"authId":"3591ae30-8bfb-45df-9616-371dddaefb57","authType":"EDUCATION_ORGANIZATION","appIds":["d465f328-e351-4580-b6a7-ddb2a3f10c48"]},"metaData":{"tenantId":"fakedev_zork_net","updated":{"$date":1332785105123},"created":{"$date":1332785105123}}}
+{ "_id" : "0907addb-4ae6-43fd-9988-7de98efcc44a", "body" : { "applicationId" : "d465f328-e351-4580-b6a7-ddb2a3f10c48", "edorgs" : [ "3591ae30-8bfb-45df-9616-371dddaefb57" ] } }
