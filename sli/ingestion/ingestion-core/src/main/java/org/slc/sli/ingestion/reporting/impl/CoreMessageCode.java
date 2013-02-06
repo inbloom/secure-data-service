@@ -77,7 +77,9 @@ public enum CoreMessageCode implements MessageCode {
     CORE_0056,
     CORE_0057,
     CORE_0058,
-    CORE_0059;
+    CORE_0059,
+    CORE_0060,
+    CORE_0061;
 
     @Override
     public String getCode() {
