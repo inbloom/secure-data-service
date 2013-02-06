@@ -82,7 +82,6 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
     private static final String SESSION_SHOOL_ID = "EducationOrganizationReference." + EDORG_ID;
     private static final String SESSION_BEGINDATE = "BeginDate";
     private static final String SESSION_ENDDATE = "EndDate";
-    private static final String STUDENT_SCHOOL_ASSOCIATION = "studentSchoolAssociation";
     private static final String DATE = "date";
     private static final String EVENT = "event";
     private static final String REASON = "reason";
@@ -367,54 +366,8 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         record.setAttributes(attendanceAttributes);
 
         record.setSourceFile(attendances.values().iterator().next().getSourceFile());
-        record.setLocationInSourceFile(attendances.values().iterator().next().getLocationInSourceFile());
 
         return record;
-    }
-
-    private List<NeutralRecord> getSchoolsForStudentFromSLI(String studentUniqueStateId) {
-        List<NeutralRecord> schools = new ArrayList<NeutralRecord>();
-
-        NeutralQuery studentQuery = new NeutralQuery(0);
-        studentQuery.addCriteria(new NeutralCriteria("studentUniqueStateId", NeutralCriteria.OPERATOR_EQUAL,
-                studentUniqueStateId));
-        Entity studentEntity = getMongoEntityRepository().findOne(EntityNames.STUDENT, studentQuery);
-        String studentEntityId = "";
-        if (studentEntity != null) {
-            studentEntityId = studentEntity.getEntityId();
-        }
-
-        NeutralQuery query = new NeutralQuery(0);
-        query.addCriteria(new NeutralCriteria(STUDENT_ID, NeutralCriteria.OPERATOR_EQUAL, studentEntityId));
-        Iterable<Entity> associations = getMongoEntityRepository().findAll(EntityNames.STUDENT_SCHOOL_ASSOCIATION,
-                query);
-
-        if (associations != null) {
-            List<String> schoolIds = new ArrayList<String>();
-            for (Entity association : associations) {
-                Map<String, Object> associationAttributes = association.getBody();
-                String schoolId = (String) associationAttributes.get(SCHOOL_ID);
-                schoolIds.add(schoolId);
-            }
-
-            NeutralQuery schoolQuery = new NeutralQuery(0);
-            schoolQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, schoolIds));
-            Iterable<Entity> queriedSchools = getMongoEntityRepository().findAll(EntityNames.EDUCATION_ORGANIZATION,
-                    schoolQuery);
-
-            if (queriedSchools != null) {
-                Iterator<Entity> itr = queriedSchools.iterator();
-                NeutralRecord record = null;
-                Entity entity = null;
-                while (itr.hasNext()) {
-                    entity = itr.next();
-                    record = new NeutralRecord();
-                    record.setAttributes(entity.getBody());
-                    schools.add(record);
-                }
-            }
-        }
-        return schools;
     }
 
     /**

@@ -62,10 +62,6 @@ public class SmooksEdFi2SLITransformer extends EdFi2SLITransformer {
             entity.setBody(body);
             entity.setStagedEntityId(item.getRecordId());
 
-            Integer recordNumber = item.getLocationInSourceFile();
-            if (recordNumber != null) {
-                entity.setRecordNumber(recordNumber.longValue());
-            }
             entity.setSourceFile(item.getSourceFile());
 
             entity.setVisitBeforeLineNumber(item.getVisitBeforeLineNumber());

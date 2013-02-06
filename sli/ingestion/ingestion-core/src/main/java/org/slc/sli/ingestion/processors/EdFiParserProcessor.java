@@ -18,6 +18,7 @@ package org.slc.sli.ingestion.processors;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -38,6 +39,7 @@ import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FileEntryWorkNote;
 import org.slc.sli.ingestion.FileProcessStatus;
+import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
@@ -91,16 +93,14 @@ public class EdFiParserProcessor extends AbstractIngestionHandler<IngestionFileE
         try {
             prepareState(exchange);
 
-            FileEntryWorkNote work = exchange.getIn().getMandatoryBody(FileEntryWorkNote.class);
+            job = getJob(state.get().getWork());
 
-            job = getJob(work);
-
-            Metrics metrics = Metrics.newInstance(work.getFileEntry().getFileName());
+            Metrics metrics = Metrics.newInstance(state.get().getWork().getFileEntry().getFileName());
             stage.addMetrics(metrics);
 
             ReportStats rs = new SimpleReportStats();
 
-            handle(work.getFileEntry(), messageReport, rs);
+            handle(state.get().getWork().getFileEntry(), messageReport, rs);
 
             exchange.getIn().setHeader("hasErrors", rs.hasErrors());
         } catch (InvalidPayloadException e) {
@@ -121,10 +121,15 @@ public class EdFiParserProcessor extends AbstractIngestionHandler<IngestionFileE
      *
      * @param exchange
      *            Exchange
+     * @throws InvalidPayloadException
      */
-    private void prepareState(Exchange exchange) {
+    private void prepareState(Exchange exchange) throws InvalidPayloadException {
+        FileEntryWorkNote work = exchange.getIn().getMandatoryBody(FileEntryWorkNote.class);
+
         ParserState newState = new ParserState();
         newState.setOriginalExchange(exchange);
+        newState.setWork(work);
+
         state.set(newState);
     }
 
@@ -184,7 +189,7 @@ public class EdFiParserProcessor extends AbstractIngestionHandler<IngestionFileE
 
     @Override
     public void visit(String name, Map<String, Object> record) {
-        //
+        state.get().addToBatch(name, record);
     }
 
     public void sendDataBatch() {
@@ -251,7 +256,8 @@ public class EdFiParserProcessor extends AbstractIngestionHandler<IngestionFileE
      */
     static class ParserState {
         private Exchange originalExchange;
-        private List<Object> dataBatch;
+        private FileEntryWorkNote work;
+        private List<NeutralRecord> dataBatch = new ArrayList<NeutralRecord>();
 
         public Exchange getOriginalExchange() {
             return originalExchange;
@@ -261,12 +267,30 @@ public class EdFiParserProcessor extends AbstractIngestionHandler<IngestionFileE
             this.originalExchange = originalExchange;
         }
 
-        public List<Object> getDataBatch() {
+        public FileEntryWorkNote getWork() {
+            return work;
+        }
+
+        public void setWork(FileEntryWorkNote work) {
+            this.work = work;
+        }
+
+        public List<NeutralRecord> getDataBatch() {
             return dataBatch;
         }
 
-        public void setDataBatch(List<Object> dataBatch) {
-            this.dataBatch = dataBatch;
+        public void addToBatch(String name, Map<String, Object> record) {
+            NeutralRecord neutralRecord = new NeutralRecord();
+
+            neutralRecord.setBatchJobId(work.getBatchJobId());
+            neutralRecord.setSourceFile(work.getFileEntry().getResourceId());
+
+//            neutralRecord.setVisitBeforeLineNumber(visitBeforeLineNumber);
+//            neutralRecord.setVisitBeforeColumnNumber(visitBeforeColumnNumber);
+//            neutralRecord.setVisitAfterLineNumber(visitAfterLineNumber);
+//            neutralRecord.setVisitAfterColumnNumber(visitAfterColumnNumber);
+
+            neutralRecord.setAttributes(record);
         }
     }
 
