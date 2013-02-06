@@ -45,7 +45,7 @@ import org.slc.sli.ingestion.util.EntityTestUtils;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+@ContextConfiguration(locations = { "/spring/recordLvlHash-context.xml" })
 public class LearningObjectiveTest {
 
     @Value("#{recordLvlHashNeutralRecordTypes}")

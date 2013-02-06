@@ -109,10 +109,10 @@ public class StaffToSubStudentEntityValidatorTest {
         assertTrue(validator.canValidate(EntityNames.ATTENDANCE, false));
     }
 
-    @Test
-    public void testCanValidateStaffToCourseTranscript() throws Exception {
-        assertTrue(validator.canValidate(EntityNames.COURSE_TRANSCRIPT, false));
-    }
+//    @Test
+//    public void testCanValidateStaffToCourseTranscript() throws Exception {
+//        assertTrue(validator.canValidate(EntityNames.COURSE_TRANSCRIPT, false));
+//    }
 
     @Test
     public void testCanValidateStaffToDisciplineAction() throws Exception {
