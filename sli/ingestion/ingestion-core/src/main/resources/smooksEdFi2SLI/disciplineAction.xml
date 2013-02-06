@@ -40,13 +40,13 @@
     <jb:wiring beanIdRef="DisciplineDescriptorType" />
   </jb:bean>
 
-  <jb:bean beanId="DisciplineDescriptorType" class="java.util.ArrayList" createOnElement=" attributes Disciplines element">
+  <jb:bean beanId="DisciplineDescriptorType" class="java.util.ArrayList" createOnElement="attributes Disciplines element">
   	<jb:wiring beanIdRef="CodeValue" />
   	<jb:wiring beanIdRef="ShortDescription" />
   	<jb:wiring beanIdRef="Description" />
   </jb:bean>
-
-  <jb:bean beanId="CodeValue" class="java.util.HashMap" createOnElement="attributes Disciplines element element CodeValue">
+  
+    <jb:bean beanId="CodeValue" class="java.util.HashMap" createOnElement="attributes Disciplines element element CodeValue">
     <jb:value property="codeValue" data="attributes Disciplines element element CodeValue _value" />
   </jb:bean>
 
@@ -69,5 +69,6 @@
   <jb:bean beanId="StaffReferences" class="java.util.ArrayList" createOnElement="attributes StaffReference">
     <jb:value data="attributes StaffReference element" />
   </jb:bean>
+  
 
 </smooks-resource-list>
