@@ -37,12 +37,14 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.logging.SecurityEvent;
+import org.slc.sli.ingestion.parser.EdfiType;
 import org.slc.sli.ingestion.parser.TypeProvider;
 
 /**
  * Provides xsd-based typification services to the parser
  *
  * @author dkornishev
+ * @author dduran
  *
  */
 @Component
@@ -67,6 +69,8 @@ public class XsdTypeProvider implements TypeProvider {
     private static final String RESTRICTION = "restriction";
     private static final String BASE = "base";
     private static final String SCHEMA = "schema";
+    private static final String UNBOUNDED = "unbounded";
+    private static final String MAX_OCCURS = "maxOccurs";
 
     @Value("file:${sli.conf}")
     private Resource sliPropsFile;
@@ -154,28 +158,17 @@ public class XsdTypeProvider implements TypeProvider {
     }
 
     @Override
-    public String getTypeFromParentType(String xsdType, String eventName) {
-        Element parentElement = getComplexElement(xsdType);
-        if (parentElement != null) {
+    public EdfiType getTypeFromParentType(String type, String eventName) {
+        Element parentElement = getComplexElement(type);
+        if (parentElement != null && eventName != null) {
+
             for (Element e : parentElement.getDescendants(Filters.element(ELEMENT, XS_NAMESPACE))) {
                 if (e.getAttributeValue(NAME).equals(eventName)) {
-                    return e.getAttributeValue(TYPE);
+                    return new XsdEdfiType(eventName, e.getAttributeValue(TYPE), shouldBeList(e, parentElement));
                 }
             }
         }
         return null;
-    }
-
-    @Override
-    public boolean isComplexType(String elementName) {
-        return this.complexTypes.containsKey(elementName)
-                || this.complexTypes.containsKey(this.typeMap.get(elementName));
-    }
-
-    @Override
-    public boolean existsInSchema(String parentName, String name) {
-        Element parent = getComplexElement(parentName);
-        return parent.getChild(name) != null;
     }
 
     private Element getComplexElement(String parentName) {
@@ -186,11 +179,30 @@ public class XsdTypeProvider implements TypeProvider {
         return parent;
     }
 
+    private boolean shouldBeList(Element e, Element parentElement) {
+        if (UNBOUNDED.equals(e.getAttributeValue(MAX_OCCURS))) {
+            return true;
+        }
+        return isContainedByUnboundedElement(e, parentElement);
+    }
+
+    private boolean isContainedByUnboundedElement(Element e, Element parentElement) {
+        // we may be able to remove this method/logic as the SLI-Edfi schema overrides all types
+        // that contain unbounded choice to remove them.
+        Element immediateParent = e.getParentElement();
+        while (!immediateParent.equals(parentElement)) {
+            if (UNBOUNDED.equals(immediateParent.getAttributeValue(MAX_OCCURS))) {
+                return true;
+            }
+            immediateParent = immediateParent.getParentElement();
+        }
+        return false;
+    }
+
     @Override
-    public Object convertType(String typeName, String value) {
+    public Object convertType(String type, String value) {
         Object result = value;
-        if (typeName != null && typeMap.get(typeName) != null) {
-            String type = typeMap.get(typeName);
+        if (type != null) {
             if (type.equals(XS_DATE)) {
                 result = value;
             } else if (type.equals(XS_BOOLEAN)) {
@@ -232,12 +244,6 @@ public class XsdTypeProvider implements TypeProvider {
     public void audit(SecurityEvent event) {
         // TODO Auto-generated method stub
 
-    }
-
-    @Override
-    public boolean isReference(String elementName) {
-        // TODO Auto-generated method stub
-        return false;
     }
 
 }

@@ -17,18 +17,44 @@
 package org.slc.sli.ingestion.parser;
 
 /**
+ * Provides type information.
  *
+ * @author dkornishev
+ * @author dduran
  */
 public interface TypeProvider {
-    public boolean isComplexType(String elementName);
 
-    public boolean isReference(String elementName);
+    /**
+     * Given an interchange, provide the type of the element with given name.
+     *
+     * @param interchange
+     *            String value of EdFi Interchange name.
+     * @param elementName
+     *            String value of the name of an EdFi element defined in the interchange.
+     * @return String value of the type of the element with given name as defined by the
+     *         interchange.
+     */
+    public String getTypeFromInterchange(String interchange, String elementName);
 
-    public Object convertType(String elementName, String value);
+    /**
+     * Given an element's parent's type, provide the type of the element with given name.
+     *
+     * @param parentType
+     *            String value of element's parent's EdFi type.
+     * @param elementName
+     *            String value of the name of an EdFi element.
+     * @return EdfiType for this element.
+     */
+    public EdfiType getTypeFromParentType(String parentType, String elementName);
 
-    boolean existsInSchema(String parentName, String name);
-
-    public String getTypeFromInterchange(String interchange, String eventName);
-
-    public String getTypeFromParentType(String xsdType, String eventName);
+    /**
+     * Process / convert the value for a given type.
+     *
+     * @param type
+     *            String value of an EdFi type.
+     * @param value
+     *            Parsed value to be converted.
+     * @return Converted object.
+     */
+    public Object convertType(String type, String value);
 }
