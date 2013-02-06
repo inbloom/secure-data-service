@@ -7,7 +7,7 @@
 		<xs:documentation>===== SLI Transactional Entity =====</xs:documentation>
 	</xs:annotation>
 
-	<xs:simpleType name="ActionType">
+	<xs:simpleType name="ActionTypeType">
 		<xs:annotation>
 			<xs:documentation>HTTP like method for update operation</xs:documentation>
 		</xs:annotation>
@@ -20,7 +20,7 @@
 		</xs:restriction>
 	</xs:simpleType>
 
-	<xs:complexType name="DbOperationType">
+	<xs:complexType name="SLC-ActionType">
 	  <xs:annotation>
 	    <xs:documentation>This is the verb wrapper that surrounds a sequence of objects to be operated on.</xs:documentation>
 	  </xs:annotation>
@@ -37,7 +37,7 @@
 	  </xs:choice>
 	  
 	  <!--  Attributes -->
-	  <xs:attribute name="Action" type="ActionType" use="optional">
+	  <xs:attribute name="ActionType" type="ActionTypeType" use="optional">
 	    <xs:annotation><xs:documentation>The HTTP method indicating the type of operation being done on the object.</xs:documentation></xs:annotation>
 	  </xs:attribute>
 	  <xs:attribute name="Cascade" type="xs:boolean" use="optional">

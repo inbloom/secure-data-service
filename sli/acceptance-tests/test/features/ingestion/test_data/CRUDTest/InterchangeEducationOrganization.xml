@@ -4,7 +4,7 @@
 
   
   <!-- Illustrative use of DELETE -->
-  <DbOperation Action="DELETE" Cascade="true">
+  <Action ActionType="DELETE" Cascade="true">
 
     <EducationOrgReference>
       <EducationalOrgIdentity>
@@ -30,11 +30,11 @@
       </LocationIdentity>
     </LocationReference>
 
-  </DbOperation>
+  </Action>
 
 
   <!-- Illustrative use of MOVE -->
-  <DbOperation ActionType="MOVE">
+  <Action ActionType="MOVE">
     
     <!-- Ed-Fi domain data follows... -->
     
@@ -75,6 +75,6 @@
       <LoginId>2895@fakemail.com</LoginId>
     </Student>
     
-  </DbOperation>
+  </Action>
   
 </InterchangeEducationOrganization>
