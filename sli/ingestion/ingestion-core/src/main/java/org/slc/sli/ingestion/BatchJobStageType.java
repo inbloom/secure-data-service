@@ -32,6 +32,7 @@ public enum BatchJobStageType {
     CONTROL_FILE_PROCESSOR("ControlFileProcessor"),
     PURGE_PROCESSOR("PurgeProcessor"),
     EDFI_PROCESSOR("EdFiProcessor"),
+    STAGING_PROCESSOR("StagingProcessor"),
     WORKNOTE_SPLITTER("WorkNoteSplitter"),
     TRANSFORMATION_PROCESSOR("TransformationProcessor"),
     PERSISTENCE_PROCESSOR("PersistenceProcessor"),
