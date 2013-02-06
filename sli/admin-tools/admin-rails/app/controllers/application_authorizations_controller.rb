@@ -41,6 +41,7 @@ class ApplicationAuthorizationsController < ApplicationController
     if is_sea_admin?
       my_delegations = AdminDelegation.all
       @edorgs = (my_delegations.select{|delegation| delegation.appApprovalEnabled}).map{|cur| cur.localEdOrgId}
+      @edorgs = @edorgs.sort{|a,b| a <=> b}
       @edorgs.each { |edorg|
         @application_authorizations[edorg] = ApplicationAuthorization.find(:all, :params => {'edorg' => edorg})
       }
@@ -51,7 +52,6 @@ class ApplicationAuthorizationsController < ApplicationController
     #Get EDORGS for the authId
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @application_authorizations }
     end
   end
 
