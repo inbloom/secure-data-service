@@ -164,7 +164,4 @@ public class ParameterConstants {
     public static final String ID = "_id";
     public static final String END_DATE = "endDate";
     public static final String STUDENT_RECORD_ACCESS = "studentRecordAccess";
-    
-    public static final String STAFF_REFERENCE = "staffReference";
-    public static final String TEACHER_REFERENCE = "teacherReference";
 }
