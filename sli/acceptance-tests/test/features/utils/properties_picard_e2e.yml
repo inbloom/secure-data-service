@@ -68,7 +68,7 @@ minisb_ldap_admin_pass: Y;Gtf@w{
 
 user_registration_app_production_url: "https://picard-admin.slidev.org"
 user_registration_app_sandbox_url: "https://picard-admin.slidev.org"
-user_registration_app_host_url: "slcedu.org"
+user_registration_app_host_url: "inbloom.org"
 registration_app_suffix: "/registration"
 sb_get_started: "dev.slcedu.org/getting-started"
 samt_app_suffix: "/users"

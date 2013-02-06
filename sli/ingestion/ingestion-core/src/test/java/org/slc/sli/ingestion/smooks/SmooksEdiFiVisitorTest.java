@@ -47,7 +47,7 @@ import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdRes
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+@ContextConfiguration(locations = { "/spring/recordLvlHash-context.xml" })
 public class SmooksEdiFiVisitorTest {
 
     @Value("#{recordLvlHashNeutralRecordTypes}")
