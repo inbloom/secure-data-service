@@ -68,10 +68,6 @@ class GradebookEntry < BaseEntity
   # maps to optional field 'GradingPeriodReference'
   def grading_period
     return nil if @grading_period.nil?
-
-    type       = GradingPeriodType.to_string(@grading_period['type'])
-    ed_org_id  = @grading_period['ed_org_id']
-    begin_date = @grading_period['ed_org_id']['interval'].get_begin_date
-    return {:type => type, :ed_org_id => ed_org_id, :begin_date => begin_date}
+    return {:type => @grading_period.type, :ed_org_id => @grading_period.ed_org_id, :begin_date => @grading_period.begin_date}
   end
 end

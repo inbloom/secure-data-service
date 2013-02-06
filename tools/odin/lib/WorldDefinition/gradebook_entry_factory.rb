@@ -22,6 +22,7 @@ require_relative '../Shared/date_utility'
 require_relative '../Shared/EntityClasses/enum/AcademicSubjectType'
 require_relative '../Shared/EntityClasses/enum/GradeLevelType'
 require_relative '../Shared/EntityClasses/gradebook_entry'
+require_relative '../Shared/EntityClasses/grading_period'
 require_relative 'learning_objective_factory'
 
 # factory for creating grade book entries for sections
@@ -35,7 +36,7 @@ class GradebookEntryFactory
   # generates gradebook entries using the specified 'grade' as the key to look up how many entries to create
   # -> gradebook entries are spread out over the interval (specified by session)
   # -> gradebook entries are associated to the specified section
-  def generate_entries(prng, grade, session, section, grading_period = nil)
+  def generate_entries(prng, grade, session, section)
     entries   = []
     load_gradebook_breakdown_for_grade(grade).each do |type, guidelines|
       min                 = guidelines['min']
@@ -54,24 +55,40 @@ class GradebookEntryFactory
   def generate_entries_of_type(session, section, type, num, learning_objectives = [])
     entries = []
     unless session.nil?
-      start_date  = session['interval'].get_begin_date
-      end_date    = session['interval'].get_end_date
-      holidays    = session['interval'].get_holidays
-      school_days = DateUtility.get_school_days_over_interval(start_date, end_date, num, holidays)
-      school_days.each do |date_assigned|
-        entry   = create_gradebook_entry_work_order(type, date_assigned, section, learning_objectives)
-        entries << entry unless entries.include?(entry)
-        # put the above check in place to make sure no duplicate gradebook entries are created
-        # -> generally occurs around holidays, and this factory isn't smart enough to shuffle assignments out accordingly (yet)
+      grading_periods = session['grading_periods']
+      unless grading_periods.nil?
+        grading_periods.each do |grading_period|
+          start_date  = grading_period['interval'].get_begin_date
+          end_date    = grading_period['interval'].get_end_date
+          holidays    = grading_period['interval'].get_holidays
+          school_days = DateUtility.get_school_days_over_interval(start_date, end_date, num, holidays)
+          grading_period_for_work_order = GradingPeriod.new(grading_period['type'], 
+            grading_period['year'], 
+            grading_period['interval'], 
+            grading_period['ed_org_id'])
+          school_days.each do |date_assigned|
+            entry   = create_gradebook_entry_work_order(type, date_assigned, section, learning_objectives, grading_period_for_work_order)
+            entries << entry unless entries.include?(entry)
+            # put the above check in place to make sure no duplicate gradebook entries are created
+            # -> generally occurs around holidays, and this factory isn't smart enough to shuffle assignments out accordingly (yet)
+          end
+        end
       end
     end
     entries
   end
 
   # assembles the gradebook entry work order
-  def create_gradebook_entry_work_order(gbe_type, date_assigned, section, objectives = [])
-    description = "Gradebook Entry of type: #{gbe_type}, assigned on: #{date_assigned}"
-    {:type => GradebookEntry, :gbe_type => gbe_type, :date_assigned => date_assigned, :section => section, :description => description, :learning_objectives => objectives}
+  def create_gradebook_entry_work_order(gbe_type, date_assigned, section, objectives = [], grading_period = nil)
+    {
+      :type                => GradebookEntry, 
+      :gbe_type            => gbe_type, 
+      :date_assigned       => date_assigned, 
+      :section             => section, 
+      :description         => "Gradebook Entry of type: #{gbe_type}, assigned on: #{date_assigned}", 
+      :learning_objectives => objectives,
+      :grading_period      => grading_period
+    }
   end
 
   # loads gradebook entry breakdown for the specified grade

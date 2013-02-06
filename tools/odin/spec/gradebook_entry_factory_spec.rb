@@ -29,13 +29,15 @@ require_relative 'spec_helper'
 
 # specifications for the grade book entry factory
 describe "GradebookEntryFactory" do
-  describe "--> when requesting gradebook entries" do
-    let(:random) { Random.new(1234567890) }
-    let(:start_date) { Date.new(2012, 12, 3) }
-    let(:end_date) { Date.new(2012, 12, 28) }
-    let(:interval) { DateInterval.create_using_start_and_end_dates(random, start_date, end_date) }
-    let(:session) { {"interval" => interval} }
-    let(:section) { {:ed_org_id => "school123", :unique_section_code => 1} }
+  describe "--> requesting gradebook entries" do
+    let(:random)         { Random.new(1234567890) }
+    let(:year)           { 2012 }
+    let(:start_date)     { Date.new(year, 12, 3) }
+    let(:end_date)       { Date.new(year, 12, 28) }
+    let(:interval)       { DateInterval.create_using_start_and_end_dates(random, start_date, end_date) }
+    let(:grading_period) { {"interval" => interval, "year" => year} }
+    let(:session)        { {"interval" => interval, "grading_periods" => [grading_period]} }
+    let(:section)        { {:ed_org_id => "school123", :unique_section_code => 1} }
   
     let(:scenario) { {'GRADEBOOK_ENTRIES_BY_GRADE' => {
         "First grade" => { "Homework" => {"min" => 8, "max" => 16} },
@@ -81,12 +83,14 @@ describe "GradebookEntryFactory" do
   end
 
   describe "--> requesting (edge case) gradebook entries" do
-    let(:random) { Random.new(1234567890) }
-    let(:start_date) { Date.new(2012, 12, 3) }
-    let(:end_date) { Date.new(2012, 12, 28) }
-    let(:interval) { DateInterval.create_using_start_and_end_dates(random, start_date, end_date) }
-    let(:session) { {"interval" => interval} }
-    let(:section) { {:ed_org_id => "school123", :unique_section_code => 1} }
+    let(:random)         { Random.new(1234567890) }
+    let(:year)           { 2012 } 
+    let(:start_date)     { Date.new(year, 12, 3) }
+    let(:end_date)       { Date.new(year, 12, 28) }
+    let(:interval)       { DateInterval.create_using_start_and_end_dates(random, start_date, end_date) }
+    let(:grading_period) { {"interval" => interval, "year" => year} }
+    let(:session)        { {"interval" => interval, "grading_periods" => [grading_period]} }
+    let(:section)        { {:ed_org_id => "school123", :unique_section_code => 1} }
   
     let(:scenario) { {'GRADEBOOK_ENTRIES_BY_GRADE' => {
         "First grade" => { "Homework" => {"min" => 1, "max" => 1} },
