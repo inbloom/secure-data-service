@@ -56,7 +56,7 @@ for (( NUM=1; NUM<=$TOTAL_INGESTION_SERVERS; NUM++ )) ; do
 done
 rm -r -f /ingestion/lz/inbound/*
 
-echo " ***** Attempting to drop databases"
+echo " ***** Dropping databases"
 ALL_DBS=`mongo --quiet --eval 'db.getMongo().getDBNames()' | sed -e 's/,/ /g'`
 for DB in $ALL_DBS ; do
   if [ "$DB" != "test" -a "$DB" != "config" -a "$DB" != "local" ] ; then
@@ -65,41 +65,29 @@ for DB in $ALL_DBS ; do
   fi
 done
 
-echo " ***** Ensuring Primary servers no longer have databases"
-for PRIMARY in $PRIMARIES ; do
-  ALL_DBS=`mongo $PRIMARY --quiet --eval 'db.getMongo().getDBNames()' | sed -e 's/,/ /g'`
-  for DB in $ALL_DBS ; do
-    if [ "$DB" != "test" -a "$DB" != "config" -a "$DB" != "local" ] ; then
-      echo "Dropping database $DB on $PRIMARY"
-      mongo $PRIMARY/$DB << END
-db.setProfilingLevel(0);
-db.dropDatabase()
-END
-    fi
-  done
-done
-
-echo " ***** Setting slow query logging"
-for PRIMARY in $PRIMARIES ; do
-  mongo $PRIMARY <<END
-use sli
-db.setProfilingLevel($SLOW_QUERY_PARAMS);
-use d36f43474916ad310100c9711f21b65bd8231cc6
-db.setProfilingLevel($SLOW_QUERY_PARAMS);
-END
-done
-
 echo " ***** Dropping ingestion_batch_job"
 ALL_DBS=`mongo $ISDB --quiet --eval 'db.getMongo().getDBNames()' | sed -e 's/,/ /g'`
 for DB in $ALL_DBS ; do
   if [ "$DB" != "test" -a "$DB" != "config" -a "$DB" != "local" ] ; then
     echo "Dropping database $DB on $ISDB"
-    mongo $ISDB/$DB << END
-db.setProfilingLevel(0);
-db.dropDatabase()
-END
+    mongo $ISDB/$DB --quiet --eval 'db.dropDatabase()'
   fi
 done
+
+for (( NUM=1; NUM<=$TOTAL_INGESTION_SERVERS; NUM++ )) ; do
+  echo " ***** Restarting Mongos on server #$NUM"
+  ssh slirpingest0$NUM service mongos restart
+done
+
+#echo " ***** Setting slow query logging"
+#for PRIMARY in $PRIMARIES ; do
+#  mongo $PRIMARY <<END
+#use sli
+#db.setProfilingLevel($SLOW_QUERY_PARAMS);
+#use d36f43474916ad310100c9711f21b65bd8231cc6
+#db.setProfilingLevel($SLOW_QUERY_PARAMS);
+#END
+#done
 
 echo " ***** Adding Indexes to sli db"
 unzip -p /opt/tomcat/apache-tomcat-7.0.29/webapps/ingest.war WEB-INF/classes/sli_indexes.js > /tmp/sli_indexes.js
@@ -107,14 +95,8 @@ mongo sli < /tmp/sli_indexes.js
 
 echo " ***** Setting up indexes on $ISDB"
 unzip -p /opt/tomcat/apache-tomcat-7.0.29/webapps/ingest.war WEB-INF/classes/ingestion_batch_job_indexes.js > /tmp/ingestion_batch_job_indexes.js
-mongo $ISDB/ingestion_batch_job --quiet --eval "db.setProfilingLevel($SLOW_QUERY_PARAMS);"
+#mongo $ISDB/ingestion_batch_job --quiet --eval "db.setProfilingLevel($SLOW_QUERY_PARAMS);"
 mongo $ISDB/ingestion_batch_job < /tmp/ingestion_batch_job_indexes.js
-
-for (( NUM=1; NUM<=$TOTAL_INGESTION_SERVERS; NUM++ )) ; do
-  echo " ***** Restarting Mongos on server #$NUM"
-  ssh slirpingest0$NUM killall mongos
-  ssh slirpingest0$NUM service mongos start
-done
 
 #
 # Clear ActiveMQ
@@ -137,18 +119,21 @@ sleep 60
 #
 # Onboard tenants
 #
-TENANTS[0]="Hyrule-NYC"
-TENANTS[1]="Midgar-DAYBREAK"
-TENANTS[2]="Tenant_1-State"
-TENANTS[3]="Tenant_2-State"
-TENANTS[4]="Tenant_3-State"
-TENANTS[5]="Tenant_4-State"
-TENANTS[6]="Tenant_5-State"
+TENANTS[1]="Hyrule-NYC"
+TENANTS[2]="Midgar-DAYBREAK"
+TENANTS[3]="Tenant_1-State"
+TENANTS[4]="Tenant_2-State"
+TENANTS[5]="Tenant_3-State"
+TENANTS[6]="Tenant_4-State"
+TENANTS[7]="Tenant_5-State"
 for (( NUM=1; NUM<=$NUMBER_OF_TENANTS; NUM++ )) ; do
   TENANT=${TENANTS[$NUM]}
   echo "***** Onboarding tenant #$NUM - $TENANT"
-  echo "@purge" > $LZ/inbound/$TENANT/MainControlFile.ctl
-  $PUBSCRIPT STOR $LZ/inbound/$TENANT/MainControlFile.ctl localhost
+  echo "@purge" > /tmp/MainControlFile.ctl
+  pushd /tmp
+  zip $LZ/inbound/$TENANT/purge.zip MainControlFile.ctl
+  popd
+  $PUBSCRIPT STOR $LZ/inbound/$TENANT/purge.zip localhost
   while [ "`grep "Clearing cache at job completion" $ING_LOG_DIR/ingestion.log | wc -l`" -ne 1 ]; do
     echo -n .
     sleep 5
@@ -165,7 +150,7 @@ for (( NUM=2; NUM<=$NUMBER_OF_SERVERS; NUM++ )) ; do
   echo " ***** Restarting Tomcat on server #$NUM"
   ssh slirpingest0$NUM service tomcat start
 done
-if [ $NUM -gt 1 ] ; then
+if [ $NUMBER_OF_SERVERS -gt 1 ] ; then
   echo "***** Waiting for Tomcat to start on other ingestion servers"
   sleep 60
 fi

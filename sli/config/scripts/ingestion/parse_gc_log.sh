@@ -31,6 +31,7 @@ echo "0" > /tmp/gc2.tmp
 sed -e 's/^\(.*\)$/\1 +/' /tmp/gc.tmp >> /tmp/gc2.tmp
 echo "p" >> /tmp/gc2.tmp
 GC_SECONDS=`dc < /tmp/gc2.tmp | sed -e 's/^\(.*\)\..*$/\1/'`
+if [ -z "$GC_SECONDS" ] ; then GC_SECONDS=0  ; fi
 let "GC_MINUTES = $GC_SECONDS / 60"
 
 START_SECONDS=`grep --text '^[0-9\.]*:.*$' $FILE | head -n 1 | sed -e 's/^\([0-9]*\).*$/\1/'`
