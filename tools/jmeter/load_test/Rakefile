@@ -91,7 +91,7 @@ task :runReadOnlyMultiNodeOdin150kLoadTestsOnSlirp => [:checkJmeterHome] do
           :result_dir => result_dir,
           :remote => true,
           :remote_servers => ["parmongo02.slidev.org", "parmongo03.slidev.org"],
-          :ignore => IGNORED_JMX_FILES
+          :ignore => [IGNORED_JMX_FILES, UPDATE_JMX_FILES]
       }
   )
   runner.collect_all_data(CONFIG_HOME, (0..4).collect{|x| 2**x})
