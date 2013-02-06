@@ -82,7 +82,7 @@ task :runReadOnlyOdin150kLoadTestsOnSlirp => [:checkJmeterHome] do
 end
 
 desc "Run Read-Only Odin 150k Multiple Jmeter Nodes Load Tests on SLIRP"
-task :runMultiNodesTests => [:checkJmeterHome] do
+task :runReadOnlyMultiNodeOdin150kLoadTestsOnSlirp => [:checkJmeterHome] do
   result_dir = "#{API_LOAD_TEST_HOME}/load_test_result/multi_node"
   runner = ApiLoadTest::Runner.new(
       {
