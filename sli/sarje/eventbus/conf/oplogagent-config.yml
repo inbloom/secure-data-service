@@ -32,6 +32,9 @@ mongo_oplog_collection: oplog.rs
 
 # Number of seconds to wait between retrying to reconnect to MongoDb (in case connecting fails).
 mongo_connection_retry: 5
+  
+# Number of times oplog agent will retry to connect
+mongo_connection_retry_count: 10
 
 # Ignore existing entries in the oplog upon startup (only follow new entries as they come in).
 mongo_ignore_initial_read: true
