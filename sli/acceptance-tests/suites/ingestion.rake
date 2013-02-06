@@ -259,6 +259,11 @@ task :ingestionDupDetectTest do
   runTests("test/features/ingestion/features/ingestion_dupdetect.feature")
 end
 
+desc "Fail Fast on Missing Index Test"
+task :ingestionJobFailOnMissingIndexTest do
+  runTests("test/features/ingestion/features/ingestion_jobFailOnMissingIndex.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################
