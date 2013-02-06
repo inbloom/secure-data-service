@@ -99,9 +99,11 @@ staffProgramAssociation,false,body.staffId:1
 studentAcademicRecord,false,body.sessionId:1
 # Look up studentAcademicRecord by student: /students/{id}/studentAcademicRecords
 studentAcademicRecord,false,body.studentId:1
-# studentAssessment is embedded into student
+# studentAssessment is un-subdoced from student
 # Look up studentAssessment by assessment: /assessments/{id}/studentAssessments
-student,false,studentAssessment.body.assessmentId:1
+# student,false,studentAssessment.body.assessmentId:1
+studentAssessment,false,body.assessmentId:1
+studentAssessment,false,body.studentId:1
 # Look up studentCompetency by learningObjective: /learningObjectives/{id}/studentCompetencies
 studentCompetency,false,body.objectiveId.learningObjectiveId:1
 # Look up studentCompetency by studentSectionAssoc: /studentSectionAssociations/{id}/studentCompetencies
