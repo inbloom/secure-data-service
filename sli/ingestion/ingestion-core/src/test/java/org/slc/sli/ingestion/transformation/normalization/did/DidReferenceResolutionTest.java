@@ -53,7 +53,7 @@ import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+@ContextConfiguration(locations = { "/spring/entity-mapping.xml" })
 public class DidReferenceResolutionTest {
 
     @Autowired
