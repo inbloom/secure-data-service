@@ -39,6 +39,7 @@ import java.util.Map;
 
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.map.ObjectMapper;
+
 import org.slc.sli.ingestion.reporting.ElementSource;
 
 /**
@@ -109,11 +110,6 @@ public class NeutralRecord implements Cloneable, Resource, ElementSource {
      * The name of the file where this neutral record originated
      */
     private String sourceFile;
-
-    /**
-     * The location in source file of the record
-     */
-    private int locationInSourceFile;
 
     /**
      * The line number in source file of the record when the element is processed in visitBefore()
@@ -313,14 +309,6 @@ public class NeutralRecord implements Cloneable, Resource, ElementSource {
         this.sourceFile = sourceFile;
     }
 
-    public int getLocationInSourceFile() {
-        return locationInSourceFile;
-    }
-
-    public void setLocationInSourceFile(int locationInSourceFile) {
-        this.locationInSourceFile = locationInSourceFile;
-    }
-
     @Override
     public String getElementType() {
         return recordType;
@@ -398,7 +386,6 @@ public class NeutralRecord implements Cloneable, Resource, ElementSource {
         result = prime * result + (int) (creationTime ^ (creationTime >>> 32));
         result = prime * result + ((localId == null) ? 0 : localId.hashCode());
         result = prime * result + ((localParentIds == null) ? 0 : localParentIds.hashCode());
-        result = prime * result + locationInSourceFile;
         result = prime * result + ((metaData == null) ? 0 : metaData.hashCode());
         result = prime * result + ((recordId == null) ? 0 : recordId.hashCode());
         result = prime * result + ((recordType == null) ? 0 : recordType.hashCode());
@@ -460,9 +447,6 @@ public class NeutralRecord implements Cloneable, Resource, ElementSource {
         } else if (!localParentIds.equals(other.localParentIds)) {
             return false;
         }
-        if (locationInSourceFile != other.locationInSourceFile) {
-            return false;
-        }
         if (metaData == null) {
             if (other.metaData != null) {
                 return false;
@@ -518,6 +502,7 @@ public class NeutralRecord implements Cloneable, Resource, ElementSource {
      *
      * @return The cloned object, taking care to handle composite members such as maps.
      */
+    @SuppressWarnings("unchecked")
     @Override
     public Object clone() {
         NeutralRecord result = null;

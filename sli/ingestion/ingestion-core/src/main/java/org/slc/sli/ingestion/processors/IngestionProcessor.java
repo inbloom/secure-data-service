@@ -21,10 +21,11 @@ import org.apache.camel.InvalidPayloadException;
 import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.FileEntryWorkNote;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.Stage;
@@ -37,14 +38,11 @@ import org.slc.sli.ingestion.reporting.impl.ProcessorSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.LogUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 /**
  * Abstract processor for Ingestion
- * T A unit of work that contains all information that needs to be processed
- * @author ablum
  *
+ * @param <T> A unit of work that contains all information that needs to be processed
  */
 @Component
 public abstract class IngestionProcessor<T extends WorkNote> implements Processor{
@@ -61,20 +59,21 @@ public abstract class IngestionProcessor<T extends WorkNote> implements Processo
     @SuppressWarnings("unchecked")
     public void process(Exchange exchange) throws Exception {
         try {
-            
+
             T workNote = (T) exchange.getIn().getMandatoryBody(WorkNote.class);
             ReportStats rs = new SimpleReportStats();
             NewBatchJob job = getJob(workNote);
             Stage stage = Stage.createAndStartStage(getStage(), getStageDescription());
-            
+
             try {
+
                 ProcessorArgs<T> args = new ProcessorArgs<T>();
                 args.workNote = workNote;
                 args.job = job;
                 args.stage = stage;
                 args.reportStats = rs;
                 process(exchange, args);
-                
+
                 exchange.getIn().setHeader("hasErrors", rs.hasErrors());
             } catch (Exception e) {
                 handleProcessingExceptions(exchange, workNote, e);
@@ -84,11 +83,11 @@ public abstract class IngestionProcessor<T extends WorkNote> implements Processo
                     getBatchJobDAO().saveBatchJob(job);
                 }
             }
-            
+
         } catch (InvalidPayloadException e) {
             exchange.getIn().setHeader("hasErrors", true);
             LOG.error("Cannot retrieve a work note to process.");
-        } 
+        }
 
     }
 
@@ -105,7 +104,7 @@ public abstract class IngestionProcessor<T extends WorkNote> implements Processo
                     exception.getMessage());
         }
     }
-    
+
     private NewBatchJob getJob(WorkNote work) {
         NewBatchJob job = batchJobDAO.findBatchJobById(work.getBatchJobId());
 
@@ -124,7 +123,7 @@ public abstract class IngestionProcessor<T extends WorkNote> implements Processo
     public BatchJobDAO getBatchJobDAO() {
         return batchJobDAO;
     }
-    
+
     public void setBatchJobDAO(BatchJobDAO batchJobDAO) {
         this.batchJobDAO = batchJobDAO;
     }
@@ -136,7 +135,7 @@ public abstract class IngestionProcessor<T extends WorkNote> implements Processo
     public void setMessageReport(AbstractMessageReport messageReport) {
         this.messageReport = messageReport;
     }
-    
+
     protected abstract BatchJobStageType getStage();
     protected abstract String getStageDescription();
     

@@ -188,7 +188,8 @@ public final class SliDeltaManager {
 
     private static void handleFieldAccessException(String fieldName, NeutralRecord n, boolean optional) {
         if (!optional) {
-            String message = "The \"" + n.getRecordType() + "\" entity at location " + n.getLocationInSourceFile()
+            String message = "The \"" + n.getRecordType() + "\" entity at line " + n.getVisitBeforeLineNumber()
+                    + " column " + n.getVisitBeforeColumnNumber()
                     + " in file \"" + n.getSourceFile() + "\" is missing a value for required natural key field \""
                     + fieldName + "\" as specified in \"" + NRKEYVALUEFIELDNAMES + "\" in smooks-all-xml.";
 

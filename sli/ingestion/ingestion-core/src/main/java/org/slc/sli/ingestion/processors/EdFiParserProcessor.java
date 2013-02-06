@@ -18,33 +18,27 @@ package org.slc.sli.ingestion.processors;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.stream.Location;
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.InvalidPayloadException;
-import org.apache.camel.Processor;
 import org.apache.camel.ProducerTemplate;
 import org.apache.commons.io.IOUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.core.io.Resource;
 
 import org.slc.sli.common.util.logging.SecurityEvent;
-import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FileEntryWorkNote;
-import org.slc.sli.ingestion.FileProcessStatus;
-import org.slc.sli.ingestion.WorkNote;
-import org.slc.sli.ingestion.handler.AbstractIngestionHandler;
-import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
-import org.slc.sli.ingestion.model.Metrics;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.NeutralRecordWorkNote;
 import org.slc.sli.ingestion.model.NewBatchJob;
-import org.slc.sli.ingestion.model.Stage;
-import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.parser.RecordMeta;
 import org.slc.sli.ingestion.parser.RecordVisitor;
 import org.slc.sli.ingestion.parser.TypeProvider;
@@ -55,8 +49,6 @@ import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.impl.FileSource;
-import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
-import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.XsdSelector;
 
 /**
@@ -65,15 +57,11 @@ import org.slc.sli.ingestion.util.XsdSelector;
  * @author okrook
  *
  */
-public class EdFiParserProcessor extends AbstractIngestionHandler<IngestionFileEntry, Void> implements Processor,
-        RecordVisitor {
-    private static final Logger LOG = LoggerFactory.getLogger(EdFiParserProcessor.class);
-    private static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.EDFI_PROCESSOR;
+public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote> implements RecordVisitor {
     private static final String BATCH_JOB_STAGE_DESC = "Reads records from the interchanges and persists to the staging database";
     private static final XMLInputFactory XML_INPUT_FACTORY = XMLInputFactory.newInstance();
 
     // Processor configuration
-    private BatchJobDAO batchJobDAO;
     private AbstractMessageReport messageReport;
     private ProducerTemplate producer;
     private TypeProvider typeProvider;
@@ -84,36 +72,29 @@ public class EdFiParserProcessor extends AbstractIngestionHandler<IngestionFileE
     private ThreadLocal<ParserState> state = new ThreadLocal<ParserState>();
 
     @Override
-    public void process(Exchange exchange) {
-        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
+    protected void process(Exchange exchange, FileEntryWorkNote workNote, NewBatchJob job, ReportStats rs) {
+        prepareState(exchange, workNote);
 
-        NewBatchJob job = null;
+        Source source = new FileSource(workNote.getFileEntry().getResourceId());
 
+        InputStream input = null;
         try {
-            prepareState(exchange);
+            input = workNote.getFileEntry().getFileStream();
+            XMLEventReader reader = XML_INPUT_FACTORY.createXMLEventReader(input);
 
-            FileEntryWorkNote work = exchange.getIn().getMandatoryBody(FileEntryWorkNote.class);
+            Resource xsdSchema = xsdSelector.provideXsdResource(workNote.getFileEntry());
 
-            job = getJob(work);
-
-            Metrics metrics = Metrics.newInstance(work.getFileEntry().getFileName());
-            stage.addMetrics(metrics);
-
-            ReportStats rs = new SimpleReportStats();
-
-            handle(work.getFileEntry(), messageReport, rs);
-
-            exchange.getIn().setHeader("hasErrors", rs.hasErrors());
-        } catch (InvalidPayloadException e) {
-            exchange.getIn().setHeader("hasErrors", true);
-            LOG.error("Cannot retrieve a work note to process.");
+            EdfiRecordParserImpl.parse(reader, xsdSchema, typeProvider, this);
+        } catch (IOException e) {
+            getMessageReport().error(rs, source, CoreMessageCode.CORE_0016);
+        } catch (XMLStreamException e) {
+            getMessageReport().error(rs, source, CoreMessageCode.CORE_0017);
+        } catch (XmlParseException e) {
+            getMessageReport().error(rs, source, CoreMessageCode.CORE_0017);
         } finally {
-            cleanUpState();
+            IOUtils.closeQuietly(input);
 
-            if (job != null) {
-                BatchJobUtils.stopStageAndAddToJob(stage, job);
-                batchJobDAO.saveBatchJob(job);
-            }
+            cleanUpState();
         }
     }
 
@@ -122,10 +103,13 @@ public class EdFiParserProcessor extends AbstractIngestionHandler<IngestionFileE
      *
      * @param exchange
      *            Exchange
+     * @throws InvalidPayloadException
      */
-    private void prepareState(Exchange exchange) {
+    private void prepareState(Exchange exchange, FileEntryWorkNote workNote) {
         ParserState newState = new ParserState();
         newState.setOriginalExchange(exchange);
+        newState.setWork(workNote);
+
         state.set(newState);
     }
 
@@ -136,72 +120,24 @@ public class EdFiParserProcessor extends AbstractIngestionHandler<IngestionFileE
         state.set(null);
     }
 
-    private NewBatchJob getJob(WorkNote work) {
-        NewBatchJob job = batchJobDAO.findBatchJobById(work.getBatchJobId());
-
-        String tenantId = job.getTenantId();
-        TenantContext.setTenantId(tenantId);
-        TenantContext.setJobId(job.getId());
-        TenantContext.setBatchProperties(job.getBatchProperties());
-
-        return job;
-    }
-
     @Override
-    public String getStageName() {
-        return BATCH_JOB_STAGE.getName();
-    }
+    public void visit(RecordMeta recordMeta, Map<String, Object> record) {
+        state.get().addToBatch(recordMeta, record);
 
-    @Override
-    protected Void doHandling(IngestionFileEntry item, AbstractMessageReport report, ReportStats reportStats,
-            FileProcessStatus fileProcessStatus) {
-
-        Source source = new FileSource(item.getResourceId());
-        InputStream input = null;
-        try {
-            input = item.getFileStream();
-            XMLEventReader reader = XML_INPUT_FACTORY.createXMLEventReader(input);
-
-            EdfiRecordParserImpl.parse(reader, xsdSelector.provideXsdResource(item), typeProvider, this);
-        } catch (IOException e) {
-            report.error(reportStats, source, CoreMessageCode.CORE_0016);
-        } catch (XMLStreamException e) {
-            report.error(reportStats, source, CoreMessageCode.CORE_0017);
-        } catch (XmlParseException e) {
-            report.error(reportStats, source, CoreMessageCode.CORE_0017);
-        } finally {
-            IOUtils.closeQuietly(input);
+        if (state.get().getDataBatch().size() >= batchSize) {
+            sendDataBatch();
         }
-
-        return null;
-    }
-
-    @Override
-    protected List<Void> doHandling(List<IngestionFileEntry> items, AbstractMessageReport report,
-            ReportStats reportStats, FileProcessStatus fileProcessStatus) {
-        // This processor does not support this.
-        return null;
-    }
-
-    @Override
-    public void visit(RecordMeta type, Map<String, Object> record) {
-        //
     }
 
     public void sendDataBatch() {
         ParserState s = state.get();
 
         if (s.getDataBatch().size() > 0) {
-            producer.sendBodyAndHeaders(s.getDataBatch(), s.getOriginalExchange().getIn().getHeaders());
+            NeutralRecordWorkNote workNote = new NeutralRecordWorkNote(s.getDataBatch(), s.getWork().getBatchJobId(),
+                    s.getWork().getTenantId(), false);
+
+            producer.sendBodyAndHeaders(workNote, s.getOriginalExchange().getIn().getHeaders());
         }
-    }
-
-    public BatchJobDAO getBatchJobDAO() {
-        return batchJobDAO;
-    }
-
-    public void setBatchJobDAO(BatchJobDAO batchJobDAO) {
-        this.batchJobDAO = batchJobDAO;
     }
 
     public AbstractMessageReport getMessageReport() {
@@ -210,6 +146,16 @@ public class EdFiParserProcessor extends AbstractIngestionHandler<IngestionFileE
 
     public void setMessageReport(AbstractMessageReport messageReport) {
         this.messageReport = messageReport;
+    }
+
+    @Override
+    public String getStageDescription() {
+        return BATCH_JOB_STAGE_DESC;
+    }
+
+    @Override
+    public BatchJobStageType getStage() {
+        return BatchJobStageType.EDFI_PROCESSOR;
     }
 
     public ProducerTemplate getProducer() {
@@ -252,7 +198,8 @@ public class EdFiParserProcessor extends AbstractIngestionHandler<IngestionFileE
      */
     static class ParserState {
         private Exchange originalExchange;
-        private List<Object> dataBatch;
+        private FileEntryWorkNote work;
+        private List<NeutralRecord> dataBatch = new ArrayList<NeutralRecord>();
 
         public Exchange getOriginalExchange() {
             return originalExchange;
@@ -262,12 +209,37 @@ public class EdFiParserProcessor extends AbstractIngestionHandler<IngestionFileE
             this.originalExchange = originalExchange;
         }
 
-        public List<Object> getDataBatch() {
+        public FileEntryWorkNote getWork() {
+            return work;
+        }
+
+        public void setWork(FileEntryWorkNote work) {
+            this.work = work;
+        }
+
+        public List<NeutralRecord> getDataBatch() {
             return dataBatch;
         }
 
-        public void setDataBatch(List<Object> dataBatch) {
-            this.dataBatch = dataBatch;
+        public void resetDataBatch() {
+            dataBatch = new ArrayList<NeutralRecord>();
+        }
+
+        public void addToBatch(RecordMeta recordMeta, Map<String, Object> record) {
+            NeutralRecord neutralRecord = new NeutralRecord();
+
+            neutralRecord.setBatchJobId(work.getBatchJobId());
+            neutralRecord.setSourceFile(work.getFileEntry().getResourceId());
+
+            Location startLoc = recordMeta.getSourceStartLocation();
+            Location endLoc = recordMeta.getSourceStartLocation();
+
+            neutralRecord.setVisitBeforeLineNumber(startLoc.getLineNumber());
+            neutralRecord.setVisitBeforeColumnNumber(startLoc.getColumnNumber());
+            neutralRecord.setVisitAfterLineNumber(endLoc.getLineNumber());
+            neutralRecord.setVisitAfterColumnNumber(endLoc.getColumnNumber());
+
+            neutralRecord.setAttributes(record);
         }
     }
 
