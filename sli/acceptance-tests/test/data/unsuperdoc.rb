@@ -19,18 +19,20 @@ def unsuperdoc(superDocFile, newSuperDocFile, newSubdocFile, subdoc_type, parent
   while (line = superDocFile.gets)
     begin
       superdoc = JSON.parse(line)
-      next unless superdoc[subdoc_type]
+
+      # nil subdoc section in the superdoc
+      subdoc = superdoc[subdoc_type]
+      superdoc[subdoc_type] = nil
+      newSuperDocFile.puts to_json_with_no_nil(superdoc)
+
+      next unless subdoc
     rescue JSON::ParserError
       puts "Problem with superdoc file :("
       puts "line is #{line}"
       next
     end
 
-    subdoc = superdoc[subdoc_type]
     
-    # nil subdoc section in the superdoc
-    superdoc[subdoc_type] = nil
-    newSuperDocFile.puts to_json_with_no_nil(superdoc)
 
     # convert each subdoc into correct format
     subdoc.each {|doc|
