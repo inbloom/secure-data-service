@@ -34,16 +34,21 @@ class ApplicationAuthorizationsController < ApplicationController
   # GET /application_authorizations
   # GET /application_authorizations.json
   def index
-    @application_authorizations = ApplicationAuthorization.all
+
     @apps_map = {}
     App.all.each { |app| @apps_map[app.id] = app }
-
+    @application_authorizations = {}
     if is_sea_admin?
       my_delegations = AdminDelegation.all
       @edorgs = (my_delegations.select{|delegation| delegation.appApprovalEnabled}).map{|cur| cur.localEdOrgId}
+      @edorgs.each { |edorg|
+        @application_authorizations[edorg] = ApplicationAuthorization.find(:all, :params => {'edorg' => edorg})
+      }
+    else
+      @edorgs = [session[:edOrgId]]
+      @application_authorizations[@edorgs[0]] = ApplicationAuthorization.all
     end
     #Get EDORGS for the authId
-    @edorgs = [session[:edOrgId]] if @edorgs == nil
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @application_authorizations }
@@ -53,7 +58,9 @@ class ApplicationAuthorizationsController < ApplicationController
   # PUT /application_authorizations/1
   # PUT /application_authorizations/1.json
   def update
-    @application_authorization = ApplicationAuthorization.find(params[:id])
+    edorg = params[:application_authorization][:edorg]
+    @application_authorization = ApplicationAuthorization.find(params[:id], :params => {:edorg => edorg})
+    ApplicationAuthorization.cur_edorg = edorg
     appId = params[:application_authorization][:appId]
     approve = true
 
@@ -63,7 +70,7 @@ class ApplicationAuthorizationsController < ApplicationController
     updates = {"appId" =>  appId, "authorized" => approve}
     respond_to do |format|
       if @application_authorization.update_attributes(updates)
-        format.html { redirect_to application_authorizations_path, notice: @application_authorization.appId}
+        format.html { redirect_to application_authorizations_path, notice: edorg}
         #format.html {redirect_to :action => 'index', notice: 'Application authorization was succesfully updated.'}
         format.json { head :ok }
       else

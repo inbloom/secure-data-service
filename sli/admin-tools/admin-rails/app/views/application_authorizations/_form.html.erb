@@ -14,6 +14,7 @@
           form_for @app_auth do |f|
           %>
             <%= f.hidden_field :appId, :value => @app_auth.appId %>
+            <%= f.hidden_field :edorg, :value => @cur_edorg %>
             <%= f.submit "Approve", :disabled => isApproved,
                          :confirm => "Do you really want this application to access the district's data?'", :class=>"btn" %>
             <%= f.submit "Deny", :disabled => !isApproved,

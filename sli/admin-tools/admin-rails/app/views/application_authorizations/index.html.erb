@@ -17,15 +17,14 @@
 <% end %>
 <% if @edorgs.length > 1 %>
     <select id="districtSelection">
-        <% edorgs.each do |cur| %>
-            <option value="<%= cur %>" <%= "selected='selected'" if notice == cur %>><%= @edorgs[cur] %></option>
+        <% @edorgs.each do |cur| %>
+            <option value="<%= cur %>" <%= "selected='selected'" if notice == cur %>><%= EducationOrganization.find(cur).nameOfInstitution %></option>
         <% end %>
     </select>
 <% end %>
 
 
 <% @edorgs.each do |edorg| %>
-
 <h1>District - <%= EducationOrganization.find(edorg).nameOfInstitution %></h1>
 <table id="AuthorizedAppsTable_<%= edorg  %>" class="AuthorizedAppsTable table">
   <thead>
@@ -38,7 +37,8 @@
   </tr>
   </thead>
   <tbody>
-    <% @application_authorizations.each do |app_auth| %>
+    <% @application_authorizations[edorg].each do |app_auth| %>
+    <% @cur_edorg = edorg %>
     <% @app_auth = app_auth
        next if @apps_map[app_auth.appId] == nil
     %>
