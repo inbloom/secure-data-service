@@ -23,6 +23,8 @@ import org.springframework.core.io.Resource;
 
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 
+
+
 /**
  *
  * Utility class which provides an XSD Resource from an XML IngestionFileEntry.
@@ -32,7 +34,7 @@ import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
  */
 public class XsdSelector {
 
-    private Map<String, Resource> xsdList;
+    private static Map<String, Resource> xsdList;
 
     /**
     * Provides an XSD Resource from an XML IngestionFileEntry.
@@ -44,17 +46,17 @@ public class XsdSelector {
     *         Resource representing the XSD file schema for the XML file,
     *         or null if no matching schema can be found.
     */
-    public Resource provideXsdResource(IngestionFileEntry xmlFile) {
-        Resource xsdResource = this.xsdList.get(xmlFile.getFileType().getName());
+    public static Resource provideXsdResource(IngestionFileEntry xmlFile) {
+        Resource xsdResource = xsdList.get(xmlFile.getFileType().getName());
         return xsdResource;
     }
 
-    public Map<String, Resource> getXsdList() {
-        return this.xsdList;
+    public static Map<String, Resource> getXsdList() {
+        return xsdList;
     }
 
-    public void setXsdList(Map<String, Resource> xsdList) {
-        this.xsdList = xsdList;
+    public static void setXsdList(Map<String, Resource> xsdList) {
+        XsdSelector.xsdList = xsdList;
     }
 
 }
