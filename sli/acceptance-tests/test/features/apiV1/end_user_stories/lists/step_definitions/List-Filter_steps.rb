@@ -64,7 +64,7 @@ Transform /^<.+>$/ do |template|
   id = "706ee3be-0dae-4e98-9525-f564e05aa388_id" if template == "<'8th Grade English - Sec 5' ID>"
   id = "ceffbb26-1327-4313-9cfc-1c3afd38122e_id" if template == "<'8th Grade English - Sec 6' ID>"
   id = "7847b027-687d-46f0-bc1a-36d3c16956aa_id" if template == "<'Science 7A - Sec 5f10' ID>"
-  id = "5738d251-dd0b-4734-9ea6-417ac9320a15_id87fb8da5-e1aa-a6d9-efc7-b0eb091cd695_id" if template == "<'Matt Sollars Assessment' ID>"
+  id = "87fb8da5-e1aa-a6d9-efc7-b0eb091cd695_id" if template == "<'Matt Sollars Assessment' ID>"
   id
 end
 

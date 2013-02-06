@@ -114,7 +114,7 @@ def get_id_for_resource resource
   "studentCompetencies"=>"3a2ea9f8-9acf-11e1-add5-68a86d21d918",
   "studentSectionAssociations"=>"04ca900a-dc0b-41b8-8d47-504fb73b5166_id6f4183d0-a1bb-4584-b23c-49dba741534f_id",
   "staffCohortAssociations"=>"235b88ea-bfea-42ce-8b06-542143e19909",
-  "studentAssessments"=>"0c2756fd-6a30-4010-af79-488d6ef2735a_ide5e13e61-01aa-066b-efe0-710f7a011115_id",
+  "studentAssessments"=>"e5e13e61-01aa-066b-efe0-710f7a011115_id",
   "competencyLevelDescriptor"=>"",
   "staffProgramAssociations"=>"04223945-b773-425c-8173-af090a960603",
   "studentCompetencyObjectives"=>"313db42ad65b911b0897d8240e26ca4b50bddb5e_id",
