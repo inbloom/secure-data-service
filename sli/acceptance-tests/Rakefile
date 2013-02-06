@@ -1316,6 +1316,7 @@ desc "Import Unified Data Set"
 task :importUnifiedData => [:realmInit] do
   testHash = Hash[
     "assessment" => "unified_data/uds_assessment.json",
+    "studentAssessment" => "unified_data/uds_studentAssessment.json",
     "attendance" => "unified_data/uds_attendance.json",
     "course" => "unified_data/uds_course.json",
     "courseOffering" => "unified_data/uds_courseOffering.json",
