@@ -52,12 +52,16 @@ development:
     api_base: http://local.slidev.org:8080/api/rest
     client_id: Eg6eseKRzN
     client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
+    ## redirect_uri: http://localhost:3001/callback
     redirect_uri: http://local.slidev.org:3001/callback
     ldap_base: ou=LocalNew,ou=DevTest,dc=slidev,dc=org
     is_sandbox: false
     auto_approve: false
+    ## email_replace_uri: http://localhost:3001
     email_replace_uri: http://local.slidev.org:3001
+    ## portal_url: https://{portal_host}/portal
     portal_url: https://rcportal.slidev.org/portal
+    ## rsa_key_dir: {file system directory}
     rsa_key_dir: /var/tmp/.sftp/authorized_keys
     tmp_dir: /tmp 
     encryption_keyfile: ../../data-access/dal/keyStore/localRailsKey
@@ -67,15 +71,20 @@ local-acceptance-tests:
     <<: *common
     <<: *email_rumbster
     <<: *ldap_default
+    ## api_base: http://localhost:8080/api/rest
     api_base: http://local.slidev.org:8080/api/rest
     client_id: Eg6eseKRzN
     client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
+    ## redirect_uri: http://localhost:3001/callback
     redirect_uri: http://local.slidev.org:3001/callback
     ldap_base: ou=SLIAdmin,dc=slidev,dc=org
     is_sandbox: false
     auto_approve: false
+    ## email_replace_uri: http://localhost:2000
     email_replace_uri: http://local.slidev.org:2000
+    ## portal_url: https://{portal_host}/portal
     portal_url: https://rcportal.slidev.org/portal
+    ## rsa_key_dir: {file system directory}
     rsa_key_dir: /var/tmp/.sftp/authorized_keys
     tmp_dir: /tmp 
     encryption_keyfile: ../../data-access/dal/keyStore/localRailsKey
@@ -89,10 +98,14 @@ development_sb:
     api_base: http://local.slidev.org:8080/api/rest
     client_id: Eg6eseKRzN
     client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
+    ## redirect_uri: http://localhost:3001/callback
     redirect_uri: http://local.slidev.org:3001/callback
     ldap_base: ou=LocalNew,ou=DevTest,dc=slidev,dc=org
+    ## email_replace_uri: http://localhost:3001
     email_replace_uri: http://local.slidev.org:3001
+    ## portal_url: https://{portal_host}/portal
     portal_url: https://rc2portal.slidev.org/portal
+    ## rsa_key_dir: {file system directory}
     rsa_key_dir: /var/tmp/.sftp/authorized_keys
     tmp_dir: /tmp 
     encryption_keyfile: ../../data-access/dal/keyStore/localRailsKey
@@ -102,15 +115,20 @@ team:
     <<: *common
     <<: *email_mon
     <<: *ldap_default
+    ## api_base: https://{ci_host}/api/rest
     api_base: https://ci.slidev.org/api/rest
     client_id: OY6Nnukmn6
     client_secret: UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg
+    ## redirect_uri: https://{ci_host}:2001/callback
     redirect_uri: https://ci.slidev.org:2001/callback
     ldap_base: ou=SLIAdmin,dc=slidev,dc=org
+    ## email_replace_uri: https://{ci_host}:2001
     email_replace_uri: https://ci.slidev.org:2001
     is_sandbox: false
     auto_approve: false
+    ## portal_url: https://{portal_host}/portal
     portal_url: https://rcportal.slidev.org/portal
+    ## rsa_key_dir: {file system directory}
     rsa_key_dir: /ingestion/.sftp/authorized_keys
     tmp_dir: /tmp 
     encryption_keyfile: ../../data-access/dal/keyStore/localRailsKey
@@ -121,13 +139,18 @@ team_sb:
     <<: *sandbox
     <<: *email_mon
     <<: *ldap_default
+    ## api_base: https://{ci_host}/api/rest
     api_base: https://ci.slidev.org/api/rest
     client_id: OY6Nnukmn6
     client_secret: UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg
+    ## redirect_uri: https://{ci_host}:2001/callback
     redirect_uri: https://ci.slidev.org:2001/callback
     ldap_base: ou=SLIAdmin,dc=slidev,dc=org
+    ## email_replace_uri: https://{ci_host}:2001
     email_replace_uri: https://ci.slidev.org:2001
+    ## portal_url: https://{portal_host}/portal
     portal_url: https://rc2portal.slidev.org/portal
+    ## rsa_key_dir: {file system directory}
     rsa_key_dir: /ingestion/.sftp/authorized_keys
     tmp_dir: /tmp 
     encryption_keyfile: ../../data-access/dal/keyStore/localRailsKey
@@ -143,6 +166,7 @@ test:
     auto_approve: false
     email_replace_uri: http://local.slidev.org:3001
     portal_url: https://rcportal.slidev.org/portal
+    ## rsa_key_dir: {file system directory}
     rsa_key_dir: /var/tmp/.sftp/authorized_keys
     tmp_dir: /tmp 
     encryption_keyfile: ../../data-access/dal/keyStore/localRailsKey
@@ -152,15 +176,20 @@ production:
     <<: *common
     <<: *email_mon
     <<: *ldap_default
+    ## api_base: https://{ci_host}/api/rest
     api_base: https://ci.slidev.org/api/rest
     client_id: OY6Nnukmn6
     client_secret: UxeLZVB6rM1hBL3ZEpRSkGvfdkMTTUgJH77UyTCU462zXNIg
+    ## redirect_uri: https://{ci_host}:2001/callback
     redirect_uri: https://ci.slidev.org:2001/callback
     ldap_base: ou=SLIAdmin,dc=slidev,dc=org
+    ## email_replace_uri: https://{ci_host}:2001
     email_replace_uri: https://ci.slidev.org:2001
     is_sandbox: false
     auto_approve: false
+    ## portal_url: https://{portal_host}/portal
     portal_url: https://rcportal.slidev.org/portal
+    ## rsa_key_dir: {file system directory}
     rsa_key_dir: /ingestion/.sftp/authorized_keys
     tmp_dir: /tmp 
     encryption_keyfile: ../../data-access/dal/keyStore/localRailsKey
