@@ -14,18 +14,18 @@
   },
   "Telephone":[
     {
-      "TelephoneNumberType":"Unlisted",
       "TelephoneNumber":{
         "_value":"Ui"
       },
-      "PrimaryTelephoneNumberIndicator":"0"
+      "@PrimaryTelephoneNumberIndicator":"0",
+      "@TelephoneNumberType":"Unlisted"
     },
     {
-      "TelephoneNumberType":"Emergency 1",
       "TelephoneNumber":{
         "_value":"rO2M2JWseTfFx"
       },
-      "PrimaryTelephoneNumberIndicator":"true"
+      "@PrimaryTelephoneNumberIndicator":"true",
+      "@TelephoneNumberType":"Emergency 1"
     }
   ],
   "LoginId":{
@@ -40,7 +40,6 @@
   "StudentUniqueStateId":{
     "_value":"y"
   },
-  "id":"ID001",
   "Section504Disabilities":{
     "Section504Disability":[
       {
@@ -157,6 +156,7 @@
       "MiddleName":{
         "_value":"yhf4QJPn0"
       },
+      "@OtherNameType":"Previous Legal Name",
       "PersonalTitlePrefix":{
         "_value":"Colonel"
       },
@@ -168,13 +168,13 @@
       },
       "GenerationCodeSuffix":{
         "_value":"VIII"
-      },
-      "OtherNameType":"Previous Legal Name"
+      }
     },
     {
       "MiddleName":{
         "_value":"TpZQV_"
       },
+      "@OtherNameType":"Nickname",
       "PersonalTitlePrefix":{
         "_value":"Mrs"
       },
@@ -186,21 +186,20 @@
       },
       "GenerationCodeSuffix":{
         "_value":"V"
-      },
-      "OtherNameType":"Nickname"
+      }
     }
   ],
   "StudentIdentificationCode":[
     {
-      "AssigningOrganizationCode":"XJo-xQ.tcIYkXhRPQ7gZXGv",
-      "IdentificationSystem":"SSN",
+      "@IdentificationSystem":"SSN",
+      "@AssigningOrganizationCode":"XJo-xQ.tcIYkXhRPQ7gZXGv",
       "IdentificationCode":{
         "_value":"qVDzEH4OYsrbM__ZnGSF93BSrryuXJrRKOAi9QE_vfe2iWCSWvHFf5F"
       }
     },
     {
-      "AssigningOrganizationCode":"WrwF0N_U-Nob0t1Uw-DLUVDsXTZsu8B1j5oAhvu8",
-      "IdentificationSystem":"National Migrant",
+      "@IdentificationSystem":"National Migrant",
+      "@AssigningOrganizationCode":"WrwF0N_U-Nob0t1Uw-DLUVDsXTZsu8B1j5oAhvu8",
       "IdentificationCode":{
         "_value":"u-k3E7jeCiTNGZnJkRSwaE3n"
       }
@@ -208,13 +207,13 @@
   ],
   "CohortYears":[
     {
-      "CohortYearType":"Ninth grade",
+      "@CohortYearType":"Ninth grade",
       "SchoolYear":{
         "_value":"2018-2019"
       }
     },
     {
-      "CohortYearType":"Ninth grade",
+      "@CohortYearType":"Ninth grade",
       "SchoolYear":{
         "_value":"1998-1999"
       }
@@ -324,13 +323,13 @@
     "LastSurname":{
       "_value":"jvb8mZ_dmOqnjDV5EeigE7XbMpRPbUbyVCK_SZinYq6jlQDw"
     },
-    "Verification":"State-issued ID",
     "FirstName":{
       "_value":"WbCbOEep1yHTV8YIs5V"
     },
     "GenerationCodeSuffix":{
       "_value":"VII"
-    }
+    },
+    "@Verification":"State-issued ID"
   },
   "Address":[
     {
@@ -340,6 +339,7 @@
       "BeginDate":{
         "_value":"2013-06-21"
       },
+      "@AddressType":"Other",
       "Latitude":{
         "_value":"uPWeq-r5o2lQf3yO"
       },
@@ -354,7 +354,6 @@
       "Longitude":{
         "_value":"QQ8zO8LXeECCe"
       },
-      "AddressType":"Other",
       "Country":{
         "_value":"UGANDA"
       }
@@ -372,6 +371,7 @@
       "StreetNumberName":{
         "_value":"MbpAM.lbDpGGZJlo6BeNT3nUaTLfTladqrnW"
       },
+      "@AddressType":"Physical",
       "NameOfCounty":{
         "_value":"ilkuflZ5BCPil6cAp"
       },
@@ -381,7 +381,6 @@
       "ApartmentRoomSuiteNumber":{
         "_value":"kbHbvGCiq4thEk"
       },
-      "AddressType":"Physical",
       "City":{
         "_value":"CJFOa1bT_e_-tB3A"
       }
@@ -389,16 +388,17 @@
   ],
   "ElectronicMail":[
     {
+      "@EmailAddressType":"Organization",
       "EmailAddress":{
         "_value":"N_dw6BBG6taWtMKG"
-      },
-      "EmailAddressType":"Organization"
+      }
     },
     {
+      "@EmailAddressType":"Work",
       "EmailAddress":{
         "_value":"WebZ-qm847iIH5_z0q3.OjK"
-      },
-      "EmailAddressType":"Work"
+      }
     }
-  ]
+  ],
+  "@id":"ID001"
 }

@@ -216,7 +216,7 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
         Iterator<Attribute> it = e.getAttributes();
         while (it.hasNext()) {
             Attribute a = it.next();
-            complexTypeStack.peek().getRight().put(a.getName().getLocalPart(), a.getValue());
+            complexTypeStack.peek().getRight().put("@" + a.getName().getLocalPart(), a.getValue());
         }
     }
 
