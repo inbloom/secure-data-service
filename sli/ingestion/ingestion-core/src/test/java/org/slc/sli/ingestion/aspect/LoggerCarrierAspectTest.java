@@ -52,7 +52,7 @@ import org.slc.sli.common.util.logging.SecurityEvent;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+@ContextConfiguration(locations = { "/spring/BatchJob-Mongo.xml" })
 public class LoggerCarrierAspectTest {
 
 	 private MongoTemplate mockedMongoTemplate;

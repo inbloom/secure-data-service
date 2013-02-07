@@ -77,7 +77,7 @@ import org.slc.sli.ingestion.util.BatchJobUtils;
  * (medium) removeAllPersistedStagedEntitiesFromJob
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+@ContextConfiguration(locations = { "/spring/BatchJob-Mongo.xml" })
 public class BatchJobMongoDATest {
 
     private static final String BATCHJOB_ERROR_COLLECTION = "error";
@@ -90,7 +90,7 @@ public class BatchJobMongoDATest {
 
     @InjectMocks
     @Autowired
-    private BatchJobMongoDA mockBatchJobMongoDA;
+    private BatchJobMongoDA mockBatchJobMongoDA = new BatchJobMongoDA();
 
     @Mock
     MongoTemplate mockMongoTemplate;
