@@ -41,4 +41,19 @@
     <property name="recordLevelDeltaEnabledEntities" ref="recordLevelDeltaEnabledEntities" />
   </bean>
 
+  <bean id="stagingProcessor" class="org.slc.sli.ingestion.processors.StagingProcessor" parent="ingestionProcessor">
+    <property name="nrMongoStagingWriter" ref="neutralRecordMongoAccess" />
+  </bean>
+
+  <bean id="xsdTypeProvider" class="org.slc.sli.ingestion.parser.impl.XsdTypeProvider">
+    <property name="edfiSchemaDir" value="classpath:edfiXsd-SLI" />
+  </bean>
+
+  <bean id="edFiParserProcessor" class="org.slc.sli.ingestion.processors.EdFiParserProcessor" parent="ingestionProcessor">
+    <property name="batchSize" value="${sli.ingestion.parser.batch.size}" />
+    <property name="typeProvider" ref="xsdTypeProvider" />
+    <property name="xsdSelector" ref="xsdSelector" />
+    <property name="producer" ref="parserEndPoint" />
+  </bean>
+
 </beans>

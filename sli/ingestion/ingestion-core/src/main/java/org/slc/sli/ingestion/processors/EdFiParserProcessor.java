@@ -38,14 +38,12 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FileEntryWorkNote;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordWorkNote;
-import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.parser.RecordMeta;
 import org.slc.sli.ingestion.parser.RecordVisitor;
 import org.slc.sli.ingestion.parser.TypeProvider;
 import org.slc.sli.ingestion.parser.XmlParseException;
 import org.slc.sli.ingestion.parser.impl.EdfiRecordParserImpl;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.impl.FileSource;
@@ -142,10 +140,12 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote> i
         }
     }
 
+    @Override
     public AbstractMessageReport getMessageReport() {
         return messageReport;
     }
 
+    @Override
     public void setMessageReport(AbstractMessageReport messageReport) {
         this.messageReport = messageReport;
     }

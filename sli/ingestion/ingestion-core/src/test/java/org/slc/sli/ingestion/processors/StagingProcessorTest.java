@@ -36,7 +36,6 @@ import org.slc.sli.ingestion.NeutralRecordWorkNote;
 import org.slc.sli.ingestion.ResourceWriter;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 
 /**
  *
@@ -52,9 +51,6 @@ public class StagingProcessorTest {
 
     @Mock
     protected BatchJobDAO batchJobDAO;
-
-    @Mock
-    private AbstractMessageReport databaseMessageReport;
 
     @Before
     public void init() {
@@ -82,7 +78,7 @@ public class StagingProcessorTest {
         processor.process(exchange);
 
         Assert.assertEquals(false, exchange.getIn().getHeader("hasErrors"));
-        
+
         List<NeutralRecord> verifyStudent = new ArrayList<NeutralRecord>();
         verifyStudent.add(record2);
         List<NeutralRecord> verifySchool = new ArrayList<NeutralRecord>();
