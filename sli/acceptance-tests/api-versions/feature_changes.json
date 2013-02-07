@@ -1,0 +1,26 @@
+{
+  "Release-1.0.67" : [
+    {
+      "feature" : "apiV1/entities/crud/crud.feature",
+      "changes" : [
+        {
+          "old" : "| \"course\"                | \"courses\"                 | 27    |/schools/@ids/courses|",
+          "new" : "| \"course\"                | \"courses\"                 | 91    |/search/courses|"
+        },
+        {
+          "old" : "| \"session\"               | \"sessions\"                | 6     |/educationOrganizations/@ids/sessions|",
+          "new" : "| \"session\"               | \"sessions\"                | 24    |/search/sessions|"
+        },
+        {
+          "old" : "| \"gradingPeriod\"         | \"gradingPeriods\"          | 2     |/schools/@ids/sessions/gradingPeriods|",
+          "new" : "| \"gradingPeriod\"         | \"gradingPeriods\"          | 1     |/search/gradingPeriods|"
+        },
+        {
+          "old" : "| \"staff\"                 | \"staff\"                   | 3     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|",
+          "new" : "| \"staff\"                 | \"staff\"                   | 6     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|"
+        }
+      ]
+    }
+  ],
+  "Release-1.0.68" : []
+}
