@@ -41,15 +41,19 @@
      @application_authorizations[edorg].sort!{|a,b| 
        appA = @apps_map[a.appId]
        appB = @apps_map[b.appId]
-      if (appA == nil && appB != nil)
-        -1
-      elsif (appA != nil && appB == nil)
-        1
-      elsif (appA == nil && appB == nil)
-        0
-      else
-        appA.registration.approval_date <=> appB.registration.approval_date
-      end
+       if a.authorized && !b.authorized
+         -1 #Authorized on top
+       elsif !a.authorized && b.authorized
+         1 
+       elsif (appA == nil && appB != nil)
+         -1
+       elsif (appA != nil && appB == nil)
+         1
+       elsif (appA == nil && appB == nil)
+         0
+       else
+         appA.registration.approval_date <=> appB.registration.approval_date
+       end
      }
     %>
     <% @application_authorizations[edorg].each do |app_auth| %>

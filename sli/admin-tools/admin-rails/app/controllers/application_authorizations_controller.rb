@@ -47,6 +47,7 @@ class ApplicationAuthorizationsController < ApplicationController
       }
     else
       @edorgs = [session[:edOrgId]]
+      ApplicationAuthorization.cur_edorg = @edorgs[0]
       @application_authorizations[@edorgs[0]] = ApplicationAuthorization.all
     end
     #Get EDORGS for the authId
@@ -59,8 +60,8 @@ class ApplicationAuthorizationsController < ApplicationController
   # PUT /application_authorizations/1.json
   def update
     edorg = params[:application_authorization][:edorg]
-    @application_authorization = ApplicationAuthorization.find(params[:id], :params => {:edorg => edorg})
     ApplicationAuthorization.cur_edorg = edorg
+    @application_authorization = ApplicationAuthorization.find(params[:id], :params => {:edorg => edorg})
     appId = params[:application_authorization][:appId]
     approve = true
 
