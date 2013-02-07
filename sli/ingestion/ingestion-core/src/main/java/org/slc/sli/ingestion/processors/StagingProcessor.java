@@ -16,7 +16,10 @@
 
 package org.slc.sli.ingestion.processors;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.mongodb.MongoException;
 
@@ -54,34 +57,50 @@ public class StagingProcessor extends IngestionProcessor<NeutralRecordWorkNote>{
     
     @Override
     protected void process(Exchange exchange, ProcessorArgs<NeutralRecordWorkNote> args) {
-
+        
             writeRecords(args.workNote.getNeutralRecords(), args.reportStats);
 
     }
 
     private void writeRecords(List<NeutralRecord> neutralRecords, ReportStats rs) {
-        for (NeutralRecord record : neutralRecords) {
-            try {
-                nrMongoStagingWriter.insertResource(record);
-            } catch (DataAccessResourceFailureException darfe) {
-                LOG.error("Exception processing record " + record.getRecordId() + " of type: " + record.getRecordId(), darfe);
-                rs.incError();
-            } catch (InvalidDataAccessApiUsageException ex) {
-                LOG.error("Exception processing record " + record.getRecordId() + " of type: " + record.getRecordId(), ex);
-                rs.incError();
-            } catch (InvalidDataAccessResourceUsageException ex) {
-                LOG.error("Exception processing record " + record.getRecordId() + " of type: " + record.getRecordId(), ex);
-                rs.incError();
-            } catch (MongoException me) {
-                LOG.error("Exception processing record " + record.getRecordId() + " of type: " + record.getRecordId(), me);
-                rs.incError();
-            } catch (UncategorizedMongoDbException ex) {
-                LOG.error("Exception processing record " + record.getRecordId() + " of type: " + record.getRecordId(), ex);
-                rs.incError();
-            }
+        Map<String, List<NeutralRecord>> recordsByCollections = splitRecords(neutralRecords);
+        for (Map.Entry<String, List<NeutralRecord>> entry : recordsByCollections.entrySet()) {
+                try {
+                    nrMongoStagingWriter.insertResources(entry.getValue(), entry.getKey());
+                } catch (DataAccessResourceFailureException darfe) {
+                    LOG.error("Exception occured while batch processing records of type: " + entry.getKey(), darfe);
+                    rs.incError();
+                } catch (InvalidDataAccessApiUsageException ex) {
+                    LOG.error("Exception occured while batch processing records of type: " + entry.getKey(), ex);
+                    rs.incError();
+                } catch (InvalidDataAccessResourceUsageException ex) {
+                    LOG.error("Exception occured while batch processing records of type: " + entry.getKey(), ex);
+                    rs.incError();
+                } catch (MongoException me) {
+                    LOG.error("Exception occured while batch processing records of type: " + entry.getKey(), me);
+                    rs.incError();
+                } catch (UncategorizedMongoDbException ex) {
+                    LOG.error("Exception occured while batch processing records of type: " + entry.getKey(), ex);
+                    rs.incError();
+                }
         }
     }
     
+    private Map<String, List<NeutralRecord>> splitRecords(List<NeutralRecord> neutralRecords) {
+        Map<String, List<NeutralRecord>> recordsByCollection = new HashMap<String, List<NeutralRecord>>(); 
+        
+        for (NeutralRecord record : neutralRecords) {
+            String collection = record.getRecordType();
+            List<NeutralRecord> records =  recordsByCollection.get(collection);
+            if (records == null) {
+                records = new ArrayList<NeutralRecord>();
+            }
+            records.add(record);
+            recordsByCollection.put(collection, records);
+        }
+        return recordsByCollection;
+    }
+
     public void setNrMongoStagingWriter(ResourceWriter<NeutralRecord> nrMongoStagingWriter) {
         this.nrMongoStagingWriter = nrMongoStagingWriter;
     }
