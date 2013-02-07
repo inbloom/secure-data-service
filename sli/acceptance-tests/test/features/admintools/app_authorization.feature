@@ -35,8 +35,7 @@ Scenario: Deny application
   And I am asked 'Do you really want deny access to this application of the district's data'
   When I click on Ok
   Then the application is denied to use data of "Sunset School District"
-  And it is put on the bottom of the table
-  And the Status becomes "Not Approved"
+  And the app "SDK Sample" Status becomes "Not Approved"
   And it is colored "red"
   And the Approve button next to it is enabled
   And the Deny button next to it is disabled
@@ -51,11 +50,7 @@ Scenario: Deny application
 	And I am asked 'Do you really want this application to access the district's data'
 	When I click on Ok
 	Then the application is authorized to use data of "Sunset School District"
-	And is put on the top of the table
-	And the Status becomes "Approved"
+	And the app "SDK Sample" Status becomes "Approved"
 	And it is colored "green"
 	And the Approve button next to it is disabled
 	And the Deny button next to it is enabled
-	
-	
-	

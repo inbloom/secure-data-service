@@ -89,18 +89,6 @@ end
 Given /^I am a valid SEA\/LEA user$/ do
 end
 
-When /^I hit the Application Authorization Tool$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
-When /^the login process is initiated$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
-When /^I pass my valid username and password$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
 Then /^I get message that I am not authorized$/ do
   isForbidden = @driver.find_element(:xpath, '//title[text()="Not Authorized (403)"]')
   assert(isForbidden != nil)
@@ -181,7 +169,14 @@ Then /^is put on the top of the table$/ do
   assert(@row.find_element(:xpath, ".//td[1]").text == @appName, "The approved application should have moved to the top")
 end
 
-Then /^the Status becomes "([^"]*)"$/ do |arg1|
+Then /^the app "([^"]*)" Status becomes "([^"]*)"$/ do |app, arg1|
+  rows = @driver.find_elements(:xpath, ".//tbody/tr/td[text()='#{app}']/..")
+  rows.each do |curRow|
+    if curRow.displayed?
+      @row = curRow
+      break
+    end
+  end
   assertWithWait("Status should have switched to #{arg1}"){  @row.find_element(:xpath, ".//td[4]").text == arg1} 
 end
 
@@ -212,24 +207,13 @@ Then /^the Deny button next to it is enabled$/ do
   end
 end
 
-Given /^in Status it says Approved$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
 Given /^I am asked 'Do you really want deny access to this application of the district's data'$/ do
-      begin
-        @driver.switch_to.alert
-      rescue
-      end
+    @driver.switch_to.alert
 end
 
 Then /^the application is denied to use data of "([^"]*)"$/ do |arg1|
   row = @driver.find_element(:xpath, ".//tbody/tr/td[text()='#{@appName}']/..")
   assert(row != nil)
-end
-
-Then /^it is put on the bottom of the table$/ do
-  @row = @driver.find_element(:xpath, ".//tbody/tr/td[text()='#{@appName}']/..")
 end
 
 Then /^the Approve button next to it is enabled$/ do
@@ -250,18 +234,6 @@ Then /^the Deny button next to it is disabled$/ do
   end
 end
 
-Given /^I am an authenticated end user \(Educator\) from <district>$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
-Given /^the Data Browser is denied access for <district>$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
-When /^I try to access any resource through the DB \(even the home\-link\) page$/ do
-  pending # express the regexp above with the code you wish you had
-end
-
 Given /^I am a valid District Super Administrator for "([^"]*)"$/ do |arg1|
   #No code needed
 end
@@ -272,10 +244,6 @@ Given /^I am an authenticated District Super Administrator for "([^"]*)"$/ do |a
   step "I was redirected to the \"Simple\" IDP Login page"
   step "I submit the credentials \"sunsetadmin\" \"sunsetadmin1234\" for the \"Simple\" login page"
   step "I am redirected to the Admin Application Authorization Tool"
-end
-
-Given /^I am an authenticated end user "" from "([^"]*)"$/ do |arg1|
-    @driver.get(PropLoader.getProps['databrowser_server_url'])
 end
 
 
