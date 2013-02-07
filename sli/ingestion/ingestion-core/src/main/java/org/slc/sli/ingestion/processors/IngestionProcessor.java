@@ -69,7 +69,6 @@ public abstract class IngestionProcessor<T extends WorkNote> implements Processo
                 args.reportStats = rs;
                 process(exchange, args);
 
-                exchange.getIn().setHeader("hasErrors", rs.hasErrors());
             } catch (Exception e) {
                 handleProcessingExceptions(exchange, workNote, e);
             } finally {
@@ -80,7 +79,7 @@ public abstract class IngestionProcessor<T extends WorkNote> implements Processo
             }
 
         } catch (InvalidPayloadException e) {
-            exchange.getIn().setHeader("hasErrors", true);
+            exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.ERROR.name());
             LOG.error("Cannot retrieve a work note to process.");
         }
 
@@ -95,7 +94,7 @@ public abstract class IngestionProcessor<T extends WorkNote> implements Processo
         if (workNote.getBatchJobId() != null) {
             ReportStats reportStats = new SimpleReportStats();
             messageReport.error(reportStats, new ProcessorSource(getStage().getName()),
-                    CoreMessageCode.CORE_0021, workNote.getBatchJobId(),
+                    CoreMessageCode.CORE_0062, workNote.getBatchJobId(),
                     exception.getMessage());
         }
     }
