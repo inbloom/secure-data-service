@@ -19,7 +19,7 @@ public class IndexValidatorExecutor {
     private static final Logger LOG = LoggerFactory.getLogger(IndexValidatorExecutor.class);
 
     @Autowired
-    private Validator<?> systemValidator;
+    private Validator<?> systemValidatorStartUp;
 
     @Autowired
     private LoggingMessageReport loggingMessageReport;
@@ -31,7 +31,7 @@ public class IndexValidatorExecutor {
 		Source source = new JobSource(null);
 		ReportStats reportStats = new SimpleReportStats();
 
-		boolean indexValidated = systemValidator.isValid(null,
+		boolean indexValidated = systemValidatorStartUp.isValid(null,
 				loggingMessageReport, reportStats, source);
 
 		if (!indexValidated) {
@@ -42,7 +42,7 @@ public class IndexValidatorExecutor {
 
 	public void setValidator(Validator<?> systemValidator)
 	{
-		this.systemValidator = systemValidator;
+		this.systemValidatorStartUp = systemValidator;
 	}
 
 	public void setLoggingMessageReport(LoggingMessageReport loggingMessageReport)
