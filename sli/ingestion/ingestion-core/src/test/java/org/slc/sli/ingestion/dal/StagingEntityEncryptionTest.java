@@ -38,7 +38,7 @@ import org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+@ContextConfiguration(locations = { "/spring/BatchJob-Mongo.xml" })
 public class StagingEntityEncryptionTest {
 
     @Autowired

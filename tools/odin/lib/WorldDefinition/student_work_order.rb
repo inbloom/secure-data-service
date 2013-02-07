@@ -280,9 +280,9 @@ class StudentWorkOrder
               end
               rval += addDisciplineEntities(section[:id], school_id, session, year)
   
-              academic_subject = AcademicSubjectType.to_string(academic_subjects[section[:id] % academic_subjects.size])
+              academic_subject = academic_subjects[section[:id] % academic_subjects.size]
               num_objectives = (@scenario["NUM_LEARNING_OBJECTIVES_PER_SUBJECT_AND_GRADE"] or 2)
-              LearningObjective.build_learning_objectives(num_objectives, academic_subject, GradeLevelType.to_string(grade)).each {|learning_objective|
+              LearningObjective.build_learning_objectives(num_objectives, academic_subject, grade).each {|learning_objective|
                 student_competency = StudentCompetency.new(code_values[(section[:id] + @id) % code_values.size], learning_objective, student_section_association)
                 student_competencies << student_competency
                 rval << student_competency

@@ -17,12 +17,12 @@ curl http://tomcat:s3cret@localhost/manager/text/stop?path=/simple-idp
 curl http://tomcat:s3cret@localhost/manager/text/undeploy?path=/simple-idp
 set -e
 cp /opt/megatron/sli/sli/acceptance-tests/teamFiles/megtomcat01.properties /opt/megatron/sli/sli/acceptance-tests/teamFiles/megtomcat01_sandbox.properties
-sed -i.bk1 's#sli.sandbox.enabled = false#sli.sandbox.enabled = true#g' megtomcat01.properties
-sed -i.bk2 's#sli.autoRegisterApps = false#sli.autoRegisterApps = true#g' megtomcat01.properties
-sed -i.bk3 's#bootstrap.sandbox.createSandboxRealm = false#bootstrap.sandbox.createSandboxRealm = true#g' megtomcat01.properties
-sed -i.bk4 's#bootstrap.app.databrowser.authorized_for_all_edorgs = false#bootstrap.app.databrowser.authorized_for_all_edorgs = true#g' megtomcat01.properties
-sed -i.bk5 's#bootstrap.app.dashboard.authorized_for_all_edorgs = false#bootstrap.app.dashboard.authorized_for_all_edorgs = true#g' megtomcat01.properties
-sed -i.bk6 's#sli.simple-idp.sandboxImpersonationEnabled = false#sli.simple-idp.sandboxImpersonationEnabled = true#g' megtomcat01.properties
+sed -i.bk1 's#sli.sandbox.enabled = false#sli.sandbox.enabled = true#g' megtomcat01_sandbox.properties
+sed -i.bk2 's#sli.autoRegisterApps = false#sli.autoRegisterApps = true#g' megtomcat01_sandbox.properties
+sed -i.bk3 's#bootstrap.sandbox.createSandboxRealm = false#bootstrap.sandbox.createSandboxRealm = true#g' megtomcat01_sandbox.properties
+sed -i.bk4 's#bootstrap.app.databrowser.authorized_for_all_edorgs = false#bootstrap.app.databrowser.authorized_for_all_edorgs = true#g' megtomcat01_sandbox.properties
+sed -i.bk5 's#bootstrap.app.dashboard.authorized_for_all_edorgs = false#bootstrap.app.dashboard.authorized_for_all_edorgs = true#g' megtomcat01_sandbox.properties
+sed -i.bk6 's#sli.simple-idp.sandboxImpersonationEnabled = false#sli.simple-idp.sandboxImpersonationEnabled = true#g' megtomcat01_sandbox.properties
 cp /opt/megatron/sli/sli/acceptance-tests/teamFiles/megtomcat01_sandbox.properties /opt/tomcat/apache-tomcat-7.0.34/conf/sli.properties
 cp /opt/megatron/sli/sli/acceptance-tests/teamFiles/megtomcat01_sandbox.properties /opt/megatron/sli/sli/config/properties/sli.properties
 cd /opt/megatron/sli/sli/config/scripts/
