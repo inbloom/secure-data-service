@@ -158,8 +158,7 @@ When the user "cgray" in tenant "IL" tries to update the "firstName" for staff "
 Then I should receive a return code of 403
 
 @production
-@derp
-Scenario: An Aggregate Viewer is given all self rights, they can read and write to themselves but can't access anything else
+Scenario: Self rights for Aggregate Viewers are removed, a aggregate viewer can no longer read their enitity
 When the user "jvasquez" in tenant "IL" tries to retrieve the staff "jvasquez"
 Then I should receive a return code of 200
 And  the user "jvasquez" in tenant "IL" tries to update the "firstName" for staff "jvasquez" to "Jerry"
