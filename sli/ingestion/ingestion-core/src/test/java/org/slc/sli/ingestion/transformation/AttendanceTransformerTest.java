@@ -123,17 +123,6 @@ public class AttendanceTransformerTest {
         schoolQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, schoolIds));
         when(entityRepository.findAll(Mockito.eq("educationOrganization"), Mockito.argThat(new IsCorrectNeutralQuery(schoolQuery))))
             .thenReturn(buildSchoolEntities());
-
-
-        List<NeutralRecord> result = (List<NeutralRecord>) PrivateAccessor.invoke(transformer, "getSchoolsForStudentFromSLI",
-                new Class[]{String.class},  new Object[]{studentUniqueStateId});
-
-        Assert.assertNotNull(result);
-        Assert.assertEquals(1, result.size());
-        NeutralRecord nr = result.get(0);
-        Assert.assertEquals("schoolId2", nr.getAttributes().get("stateOrganizationId"));
-        Assert.assertNull(nr.getRecordId());
-
     }
 
     @SuppressWarnings("unchecked")

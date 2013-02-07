@@ -109,7 +109,7 @@
     <property name="defaultEntityPersistHandler" ref="entityPersistHandler" />
     <property name="entityPersistTypeMap" ref="entityPersistTypeMap" />
     <property name="neutralRecordReadConverter" ref="neutralRecordReadConverter" />
-    <property name="recordLvlHashNeutralRecordTypes" ref="recordLvlHashNeutralRecordTypes" />
+    <property name="recordLvlHashNeutralRecordTypes" ref="recordLevelDeltaEnabledEntities" />
   </bean>
 
   <bean id="WorkNoteSplitter" class="org.slc.sli.ingestion.routes.orchestra.WorkNoteSplitter" />

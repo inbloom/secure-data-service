@@ -14,29 +14,23 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.ingestion.processors;
 
+import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
-
-import junitx.util.PrivateAccessor;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
 import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.WorkNote;
@@ -52,13 +46,10 @@ import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
  * @author npandey
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class PurgeProcessorTest {
 
     private static final String BATCHJOBID = "MT.ctl-1234235235";
-    @InjectMocks
-    @Autowired
+
     private PurgeProcessor purgeProcessor;
 
     @Mock
@@ -70,6 +61,16 @@ public class PurgeProcessorTest {
     @Before
     public void setup() {
         MockitoAnnotations.initMocks(this);
+
+        purgeProcessor = new PurgeProcessor();
+
+        purgeProcessor.setBatchJobDAO(mockBatchJobDAO);
+        purgeProcessor.setMongoTemplate(mongoTemplate);
+        purgeProcessor.setSandboxEnabled(false);
+
+        List<String> exclude = Collections.emptyList();
+
+        purgeProcessor.setExcludeCollections(exclude);
     }
 
     @Test
@@ -86,7 +87,7 @@ public class PurgeProcessorTest {
         Mockito.when(mockBatchJobDAO.findBatchJobById(BATCHJOBID)).thenReturn(job);
 
         AbstractMessageReport messageReport = Mockito.mock(AbstractMessageReport.class);
-        PrivateAccessor.setField(purgeProcessor, "databaseMessageReport", messageReport);
+        purgeProcessor.setMessageReport(messageReport);
 
         purgeProcessor.process(ex);
         Mockito.verify(messageReport, Mockito.atLeastOnce()).error(Matchers.any(ReportStats.class),

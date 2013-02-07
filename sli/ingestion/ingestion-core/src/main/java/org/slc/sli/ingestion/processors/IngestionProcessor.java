@@ -21,8 +21,6 @@ import org.apache.camel.InvalidPayloadException;
 import org.apache.camel.Processor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
@@ -44,15 +42,12 @@ import org.slc.sli.ingestion.util.LogUtil;
  *
  * @param <T> A unit of work that contains all information that needs to be processed
  */
-@Component
 public abstract class IngestionProcessor<T extends WorkNote> implements Processor{
     private static final String INGESTION_MESSAGE_TYPE = "IngestionMessageType";
     private static final Logger LOG = LoggerFactory.getLogger(IngestionProcessor.class);
 
-    @Autowired
     protected BatchJobDAO batchJobDAO;
 
-    @Autowired
     private AbstractMessageReport messageReport;
 
     @Override
@@ -138,7 +133,12 @@ public abstract class IngestionProcessor<T extends WorkNote> implements Processo
 
     protected abstract BatchJobStageType getStage();
     protected abstract String getStageDescription();
-    
+
+    /**
+     * Common arguments for Ingestion processors.
+     *
+     * @param <T> Type of the WorkNote.
+     */
     static class ProcessorArgs<T> {
         protected Stage stage;
         protected NewBatchJob job;

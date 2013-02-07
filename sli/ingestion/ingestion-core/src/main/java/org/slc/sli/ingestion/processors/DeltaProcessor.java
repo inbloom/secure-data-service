@@ -23,8 +23,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.camel.Exchange;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
@@ -38,8 +36,6 @@ import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.RecordHash;
-import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 
@@ -49,20 +45,14 @@ import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdRes
  *
  */
 
-@Component
 public class DeltaProcessor extends IngestionProcessor<NeutralRecordWorkNote> {
 
     private static final String BATCH_JOB_STAGE_DESC = "Filter out records that have been detected as duplicates";
 
-    @Autowired
-    private BatchJobDAO batchJobDAO;
-
-    @Autowired
-    private AbstractMessageReport databaseMessageReport;
-
     private Map<String, Long> duplicateCounts = new HashMap<String, Long>();
 
     private DeterministicUUIDGeneratorStrategy dIdStrategy;
+
     private DeterministicIdResolver dIdResolver;
 
     private Set<String> recordLevelDeltaEnabledEntities;
@@ -73,7 +63,7 @@ public class DeltaProcessor extends IngestionProcessor<NeutralRecordWorkNote> {
         List<NeutralRecord> filteredRecords = null;
         List<NeutralRecord> records = args.workNote.getNeutralRecords();
         if (records != null) {
-            //All neutral records in a batch belong to the same interchange
+            // All neutral records in a batch belong to the same interchange
             String resourceId = records.get(0).getSourceFile();
             Metrics metrics = Metrics.newInstance(resourceId);
             args.stage.addMetrics(metrics);
@@ -97,22 +87,23 @@ public class DeltaProcessor extends IngestionProcessor<NeutralRecordWorkNote> {
                 // Handle record hash checking according to various modes.
                 String rhMode = TenantContext.getBatchProperty(AttributeType.DUPLICATE_DETECTION.getName());
                 boolean modeDisable = (null != rhMode) && rhMode.equalsIgnoreCase(RecordHash.RECORD_HASH_MODE_DISABLE);
-                boolean modeDebugDrop = (null != rhMode) && rhMode.equalsIgnoreCase(RecordHash.RECORD_HASH_MODE_DEBUG_DROP);
+                boolean modeDebugDrop = (null != rhMode)
+                        && rhMode.equalsIgnoreCase(RecordHash.RECORD_HASH_MODE_DEBUG_DROP);
 
-                if (modeDisable || (!modeDebugDrop && !SliDeltaManager.isPreviouslyIngested(neutralRecord, batchJobDAO, dIdStrategy, dIdResolver, databaseMessageReport, reportStats))) {
+                if (modeDisable
+                        || (!modeDebugDrop && !SliDeltaManager.isPreviouslyIngested(neutralRecord, batchJobDAO,
+                                dIdStrategy, dIdResolver, getMessageReport(), reportStats))) {
                     filteredRecords.add(neutralRecord);
                 } else {
                     String type = neutralRecord.getRecordType();
-                    Long count = duplicateCounts.containsKey(type) ? duplicateCounts
-                            .get(type) : Long.valueOf(0);
-                    duplicateCounts.put(type,
-                            Long.valueOf(count.longValue() + 1));
+                    Long count = duplicateCounts.containsKey(type) ? duplicateCounts.get(type) : Long.valueOf(0);
+                    duplicateCounts.put(type, Long.valueOf(count.longValue() + 1));
                 }
             }
         }
+
         return filteredRecords;
     }
-
 
     private void processMetrics(Metrics metrics, Map<String, Long> duplicateCount, int recordCount, ReportStats rs) {
         metrics.setDuplicateCounts(duplicateCount);
@@ -120,26 +111,11 @@ public class DeltaProcessor extends IngestionProcessor<NeutralRecordWorkNote> {
         metrics.setErrorCount(rs.getErrorCount());
     }
 
-    public void setDIdGeneratorStrategy(DeterministicUUIDGeneratorStrategy dIdGeneratorStrategy) {
-        this.dIdStrategy = dIdGeneratorStrategy;
-    }
-
-    public void setDIdResolver(DeterministicIdResolver dIdResolver) {
-        this.dIdResolver = dIdResolver;
-    }
-
-    public void setRecordLevelDeltaEnabledEntities(Set<String> entities) {
-        this.recordLevelDeltaEnabledEntities = entities;
-    }
-
-    public Set<String> getRecordLevelDeltaEnabledEntities() {
-        return recordLevelDeltaEnabledEntities;
-    }
-
-    private void setExchangeBody(Exchange exchange, List<NeutralRecord> records, NewBatchJob job, ReportStats reportStats) {
+    private void setExchangeBody(Exchange exchange, List<NeutralRecord> records, NewBatchJob job,
+            ReportStats reportStats) {
         WorkNote workNote = new NeutralRecordWorkNote(records, job.getId(), job.getTenantId(), reportStats.hasErrors());
         exchange.getIn().setBody(workNote, ControlFileWorkNote.class);
-}
+    }
 
     @Override
     protected BatchJobStageType getStage() {
@@ -151,4 +127,27 @@ public class DeltaProcessor extends IngestionProcessor<NeutralRecordWorkNote> {
         return BATCH_JOB_STAGE_DESC;
     }
 
+    public DeterministicUUIDGeneratorStrategy getdIdStrategy() {
+        return dIdStrategy;
+    }
+
+    public DeterministicIdResolver getdIdResolver() {
+        return dIdResolver;
+    }
+
+    public Set<String> getRecordLevelDeltaEnabledEntities() {
+        return recordLevelDeltaEnabledEntities;
+    }
+
+    public void setdIdStrategy(DeterministicUUIDGeneratorStrategy dIdStrategy) {
+        this.dIdStrategy = dIdStrategy;
+    }
+
+    public void setdIdResolver(DeterministicIdResolver dIdResolver) {
+        this.dIdResolver = dIdResolver;
+    }
+
+    public void setRecordLevelDeltaEnabledEntities(Set<String> recordLevelDeltaEnabledEntities) {
+        this.recordLevelDeltaEnabledEntities = recordLevelDeltaEnabledEntities;
+    }
 }
