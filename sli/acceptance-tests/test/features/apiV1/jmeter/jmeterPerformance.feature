@@ -3,6 +3,7 @@
 Feature: API Jmeter performance tests
 
 Scenario: Run Jmeter tests
+  Given I send a command to start the extractor to extract now
   Given I run each of the Jmeter tests:
     | testName                   |
     | login                      |
@@ -15,4 +16,4 @@ Scenario: Run Jmeter tests
     | update-attendance          |
     | dashboard-list-students    |
     | dashboard-single-student   |
-  #Then no performance regressions should be found
+  Then no performance regressions should be found

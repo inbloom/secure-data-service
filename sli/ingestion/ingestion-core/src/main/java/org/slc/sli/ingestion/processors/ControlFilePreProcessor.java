@@ -16,35 +16,14 @@
 
 package org.slc.sli.ingestion.processors;
 
-import java.io.File;
-import java.io.IOException;
-import java.lang.management.ManagementFactory;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
-
-import javax.annotation.Resource;
-
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
 import org.apache.commons.lang.StringEscapeUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
-import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.ControlFileWorkNote;
-import org.slc.sli.ingestion.FileFormat;
-import org.slc.sli.ingestion.RangedWorkNote;
-import org.slc.sli.ingestion.WorkNote;
+import org.slc.sli.ingestion.*;
 import org.slc.sli.ingestion.landingzone.ControlFile;
 import org.slc.sli.ingestion.landingzone.ControlFileDescriptor;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
@@ -61,11 +40,27 @@ import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.ControlFileSource;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.impl.JobSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.tenant.TenantDA;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.LogUtil;
 import org.slc.sli.ingestion.util.MongoCommander;
+import org.slc.sli.ingestion.validation.indexes.TenantDBIndexValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+import javax.security.auth.login.FailedLoginException;
+import java.io.File;
+import java.io.IOException;
+import java.lang.management.ManagementFactory;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.util.*;
 
 /**
  * Transforms body from ControlFile to ControlFileDescriptor type.
@@ -95,6 +90,13 @@ public class ControlFilePreProcessor implements Processor {
 
     @Autowired
     private AbstractMessageReport databaseMessageReport;
+
+
+    @Autowired
+    private TenantDBIndexValidator tenantDBIndexValidator;
+
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     private enum TenantStatus {TENANT_READY, TENANT_NOT_READY, TENANT_SPINUP_FAILED}
 
@@ -151,9 +153,14 @@ public class ControlFilePreProcessor implements Processor {
                 databaseMessageReport.error(reportStats, source, CoreMessageCode.CORE_0059);
             }
 
-            setExchangeHeaders(exchange, reportStats);
+            String tenant = currentJob.getTenantId();
+            String tenantDbName = TenantIdToDbName.convertTenantIdToDbName(tenant);
+            boolean indicesOK = tenantDBIndexValidator.isValid(mongoTemplate.getDb() , Arrays.asList(tenantDbName), databaseMessageReport, reportStats, source);
+            LOG.info( "{} Index Validation for Tenant {} ", indicesOK?"Passed": "Failed", tenant);
 
+            setExchangeHeaders(exchange, reportStats);
             setExchangeBody(exchange, reportStats, controlFile, currentJob);
+
 
         } catch (SubmissionLevelException exception) {
             String id = "null";
