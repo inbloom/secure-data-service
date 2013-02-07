@@ -24,6 +24,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
+import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +35,6 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
-
-import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
-import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 
 /**
  * Transformer for StudentAssessment entities.
@@ -272,7 +271,6 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
 
                     if (assessmentItems.iterator().hasNext()) {
                         NeutralRecord assessmentItem = assessmentItems.iterator().next();
-                        assessmentItem.getAttributes().remove("assessmentId");
                         sai.getAttributes().put(ASSESSMENT_ITEM, assessmentItem.getAttributes());
                     } else {
                         reportError(sai.getSourceFile(), new ElementSourceImpl(sai), CoreMessageCode.CORE_0032, assessmentItemIdentificatonCode);

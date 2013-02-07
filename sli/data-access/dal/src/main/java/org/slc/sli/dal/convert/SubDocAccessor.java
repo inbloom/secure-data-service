@@ -61,8 +61,6 @@ public class SubDocAccessor {
                 store(entityType).within(parent).as(entityType).mapping(parentKey, "_id").asEntity().register();
             }
         }
-        store("assessmentItem").within("assessment").as("body.assessmentItem").mapping("assessmentId", "_id")
-                .withKey("identificationCode").register();
     }
 
     /**
