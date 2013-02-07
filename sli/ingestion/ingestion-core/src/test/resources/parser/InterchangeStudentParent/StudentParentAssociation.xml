@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentParent xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <StudentParentAssociation>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>_hvNB7n1juH</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <ParentReference>
+            <ParentIdentity>
+                <ParentUniqueStateId>aBH75KvXygxZ</ParentUniqueStateId>
+            </ParentIdentity>
+        </ParentReference>
+        <Relation>Cousin</Relation>
+        <PrimaryContactStatus>false</PrimaryContactStatus>
+        <LivesWith>true</LivesWith>
+        <EmergencyContactStatus>true</EmergencyContactStatus>
+        <ContactPriority>-742574136</ContactPriority>
+        <ContactRestrictions>H.z1D2bJ0PqkooeIJ05nPHywA5BBT.N1cXcFcgWOpV</ContactRestrictions>
+    </StudentParentAssociation>
+</InterchangeStudentParent>

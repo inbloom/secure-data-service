@@ -15,20 +15,15 @@
  */
 package org.slc.sli.ingestion.parser.impl;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyMap;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 
-import java.util.Map;
-
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 
-import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,8 +41,6 @@ import org.slc.sli.ingestion.parser.RecordVisitor;
 public class EdfiRecordParserTest {
 
     public static final Logger LOG = LoggerFactory.getLogger(EdfiRecordParserTest.class);
-
-    private ObjectMapper objectMapper = new ObjectMapper();
 
     Resource schemaDir = new ClassPathResource("edfiXsd-SLI");
 
@@ -67,29 +60,6 @@ public class EdfiRecordParserTest {
         EdfiRecordParserImpl.parse(reader, schema, tp, visitor);
 
         verify(visitor, atLeastOnce()).visit(any(RecordMeta.class), anyMap());
-    }
-
-    @Test
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public void testStudentParsing() throws Throwable {
-
-        Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StudentParent.xsd");
-        Resource xml = new ClassPathResource("parser/Student.xml");
-        Resource expectedJson = new ClassPathResource("parser/Student.expected.json");
-
-        XMLEventReader reader = XMLInputFactory.newInstance().createXMLEventReader(xml.getInputStream());
-
-        XsdTypeProvider tp = new XsdTypeProvider();
-        tp.initEdfiSchema(schemaDir);
-
-        RecordVisitor mockVisitor = Mockito.mock(RecordVisitor.class);
-        EdfiRecordParserImpl.parse(reader, schema, tp, mockVisitor);
-
-        ArgumentCaptor<Map> mapArgCaptor = ArgumentCaptor.forClass(Map.class);
-        verify(mockVisitor, atLeastOnce()).visit(any(RecordMeta.class), mapArgCaptor.capture());
-
-        Object expected = objectMapper.readValue(expectedJson.getFile(), Map.class);
-        assertEquals(expected, mapArgCaptor.getValue());
     }
 
 }
