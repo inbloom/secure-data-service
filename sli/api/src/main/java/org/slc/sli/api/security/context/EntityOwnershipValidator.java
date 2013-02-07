@@ -38,6 +38,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.Type;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -73,7 +74,6 @@ public class EntityOwnershipValidator {
 
     }
 
-    ClassType type = null;
     @SuppressWarnings({ "serial", "unused" })
     @PostConstruct
     private void init() {
@@ -129,7 +129,7 @@ public class EntityOwnershipValidator {
 
     public boolean canAccess(Entity entity) {
         if (SecurityUtil.getSLIPrincipal().getAuthorizingEdOrgs() == null) {
-            //We explicitly set not if the app is marked as authorized_for_all_edorgs
+            //We explicitly set null if the app is marked as authorized_for_all_edorgs
             return true;
         }
 
@@ -192,7 +192,7 @@ public class EntityOwnershipValidator {
                     Set<String> toAdd = lookupEdorgs(ents, collectionName);
                     edorgs.addAll(toAdd);
                 } else {
-                    warn("Could not find a matching {} where {} is {}.", collectionName, critField, critValue);
+                    throw new AccessDeniedException("Could not find a matching " + collectionName + " where " + critField + " is " + critValue + ".");
                 }
             }
         }
