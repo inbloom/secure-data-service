@@ -59,6 +59,7 @@
   
   <bean class="org.slc.sli.ingestion.reporting.impl.DummyMessageReport"/>
 
+  <bean class="org.slc.sli.ingestion.validation.indexes.TenantDBIndexValidator"/>
   <bean class="org.slc.sli.ingestion.processors.ControlFilePreProcessor"/>
   
   <bean class="org.slc.sli.ingestion.landingzone.validation.ControlFileValidator" />
