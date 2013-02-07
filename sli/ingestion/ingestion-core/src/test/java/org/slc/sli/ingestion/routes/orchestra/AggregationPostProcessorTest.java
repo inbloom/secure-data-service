@@ -38,7 +38,7 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 *
 */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+@ContextConfiguration(locations = { "/spring/processor-test.xml" })
 public class AggregationPostProcessorTest {
 
     @Autowired

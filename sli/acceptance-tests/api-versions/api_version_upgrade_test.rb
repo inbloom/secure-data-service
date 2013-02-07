@@ -56,7 +56,7 @@ ARGV.options do |opts|
 end
 
 def init
-  @sli_workspace = File.absolute_path("#{File.dirname(__FILE__)}/../../")
+  @sli_workspace = "#{`git rev-parse --show-toplevel`.chomp}/sli"
   @extract_dest = "#{@sli_workspace}/test-bundle-extract/"
   @api_log = "#{@sli_workspace}/acceptance-tests/target/api_version_upgrade_test.log"
   @dirs_to_archive = ["acceptance-tests",
@@ -173,7 +173,11 @@ end
 def insert_migration_scripts
   puts "---- Inserting migration scripts in Rakefile"
   Dir.chdir "#{@sli_workspace}/acceptance-tests"
-  run_cmd "bundle exec rake loadDefaultIngestionTenants"
+  if @ci
+    run_cmd "bundle exec rake loadDefaultIngestionTenants ingestion_properties_file=/opt/tomcat/conf/sli.properties"
+  else
+    run_cmd "bundle exec rake loadDefaultIngestionTenants"
+  end
   gemfile_lock = "#{@extract_dest}/acceptance-tests/Gemfile.lock"
   mongo_gem_version = File.read(gemfile_lock).match(/mongo \((.*)\)/)[1]
   if mongo_gem_version.to_f < "1.8.0".to_f
