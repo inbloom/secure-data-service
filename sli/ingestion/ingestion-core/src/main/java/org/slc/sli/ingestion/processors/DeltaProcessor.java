@@ -27,7 +27,6 @@ import org.apache.camel.Exchange;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.ControlFileWorkNote;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordWorkNote;
 import org.slc.sli.ingestion.WorkNote;
@@ -114,7 +113,7 @@ public class DeltaProcessor extends IngestionProcessor<NeutralRecordWorkNote> {
     private void setExchangeBody(Exchange exchange, List<NeutralRecord> records, NewBatchJob job,
             ReportStats reportStats) {
         WorkNote workNote = new NeutralRecordWorkNote(records, job.getId(), job.getTenantId(), reportStats.hasErrors());
-        exchange.getIn().setBody(workNote, ControlFileWorkNote.class);
+        exchange.getIn().setBody(workNote, NeutralRecordWorkNote.class);
     }
 
     @Override

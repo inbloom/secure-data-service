@@ -84,11 +84,11 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote> i
 
             EdfiRecordParserImpl.parse(reader, xsdSchema, typeProvider, this);
         } catch (IOException e) {
-            getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0016);
+            getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0063);
         } catch (XMLStreamException e) {
-            getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0017);
+            getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0064);
         } catch (XmlParseException e) {
-            getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0017);
+            getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0065);
         } finally {
             IOUtils.closeQuietly(input);
 
