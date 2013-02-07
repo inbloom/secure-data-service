@@ -2,7 +2,7 @@
 var roles = <%= roles.roles.to_json.html_safe %>;
 var default_roles = <%= default_roles.to_json.html_safe %>;
 var UPDATE_URL = '<%= url_for(:action=>"update") %>'
-var toolTipText = "Context<br />For Staff: Own Staff entity, own StaffEducationOrgEmploymentAssociation (s), own StaffEducationOrgAssignmentAssociation(s) and own LeaveEvent(s) \
+var toolTipText = "Context<br />For Staff: Own Staff entity, own StaffEducationOrgEmploymentAssociation (s), own StaffEducationOrgAssignmentAssociation(s)\
 <br /><br />For Teacher: Same as Staff + own Teacher entity, own TeacherSchoolAssociation \
 <br /><br />For Student: Own Student entity, own StudentSchoolAssociation(s), own StudentParentAssociation(s), own Parent(s) \
 <br /><br />For Parent: Same as for Student"
