@@ -31,7 +31,10 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.dal.NeutralRecordRepository;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 
@@ -54,6 +57,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     private static final String ASSESSMENT_FAMILY = "assessmentFamily";
     private static final String ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
     private static final String ASSESSMENT_TRANSFORMED = "assessment_transformed";
+    private static final String ASSESSMENT_ITEM = "assessmentItem";
     private static final String PARENT_ASSESSMENT_FAMILY_TITLE = "parentAssessmentFamilyTitle";
 
     @Autowired
@@ -125,6 +129,19 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
                 attrs.put("objectiveAssessment", familyObjectiveAssessments);
             }
 
+            if (attrs.containsKey(ASSESSMENT_ITEM)) {
+                @SuppressWarnings("unchecked")
+                List<Map<String, Object>> items = (List<Map<String, Object>>) attrs.get(ASSESSMENT_ITEM);
+                if (items == null || items.size() == 0) {
+                    attrs.remove(ASSESSMENT_ITEM);
+                } else {
+                    List<Map<String, Object>> assessmentItems = getAssessmentItems(items);
+                    if (assessmentItems != null) {
+                        attrs.put(ASSESSMENT_ITEM, assessmentItems);
+                    }
+                }
+            }
+
             String assessmentPeriodDescriptorRef = (String) attrs.remove("periodDescriptorRef");
             if (assessmentPeriodDescriptorRef != null) {
                 attrs.put(ASSESSMENT_PERIOD_DESCRIPTOR, getAssessmentPeriodDescriptor(assessmentPeriodDescriptorRef));
@@ -134,6 +151,37 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             neutralRecord.setCreationTime(getWorkNote().getRangeMinimum());
             transformedAssessments.add(neutralRecord);
         }
+    }
+
+    private List<Map<String, Object>> getAssessmentItems(List<Map<String, Object>> itemReferences) {
+        List<String> identificationCodes = new ArrayList<String>();
+        // build in clause
+        for (Map<String, Object> item : itemReferences) {
+            if (item.containsKey("identificationCode")) {
+                identificationCodes.add((String) item.get("identificationCode"));
+            }
+        }
+
+        if (identificationCodes.size() > 0) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("query for assessmentItems: {}", identificationCodes);
+            }
+            NeutralQuery constraint = new NeutralQuery();
+            constraint.addCriteria(new NeutralCriteria("identificationCode", NeutralCriteria.CRITERIA_IN,
+                    identificationCodes));
+            NeutralRecordRepository repo = getNeutralRecordMongoAccess().getRecordRepository();
+            Iterable<NeutralRecord> records = repo.findAllForJob(ASSESSMENT_ITEM, constraint);
+            List<Map<String, Object>> assessmentItems = new ArrayList<Map<String, Object>>();
+            if (records != null) {
+                for (NeutralRecord record : records) {
+                    assessmentItems.add(record.getAttributes());
+                }
+
+                return assessmentItems;
+            }
+        }
+
+        return null;
     }
 
     @SuppressWarnings("unchecked")

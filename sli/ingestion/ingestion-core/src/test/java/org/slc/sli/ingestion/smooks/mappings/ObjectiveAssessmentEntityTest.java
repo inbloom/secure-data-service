@@ -149,6 +149,11 @@ public class ObjectiveAssessmentEntityTest {
         String subObjectiveAssessment = (String) subObjectiveAssessments.get(0);
         Assert.assertEquals("sub", subObjectiveAssessment);
 
+        List<Map<String, Object>> assessmentItems = (List<Map<String, Object>>) entity.get("assessmentItemRefs");
+        Assert.assertNotNull(assessmentItems);
+        Assert.assertEquals(1, assessmentItems.size());
+        Assert.assertEquals("EOA12", assessmentItems.get(0).get("identificationCode"));
+
         List<Map<String, Object>> learningObjectives = (List<Map<String, Object>>) entity.get("learningObjectives");
         Assert.assertNotNull(learningObjectives);
         Assert.assertEquals(1, learningObjectives.size());
