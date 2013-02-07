@@ -74,5 +74,14 @@
   <bean class="org.slc.sli.ingestion.handler.ZipFileHandler" />
   <bean class="org.slc.sli.ingestion.processors.ZipFileProcessor"/>
 
+  <bean class="org.slc.sli.ingestion.routes.orchestra.AggregationPostProcessor"/>
+
+  <bean class="org.slc.sli.ingestion.routes.orchestra.BalancedTimestampSplitStrategy"/>
+
+  <bean class="org.slc.sli.ingestion.routes.orchestra.OrchestraPreProcessor"/>
+
+  <bean class="org.slc.sli.ingestion.routes.orchestra.WorkNoteLatch"/>
+
+  <bean class="org.slc.sli.ingestion.routes.orchestra.WorkNoteSplitter"/>
 
 </beans>
