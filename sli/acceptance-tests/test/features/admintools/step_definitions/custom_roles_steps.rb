@@ -52,7 +52,7 @@ Transform /roles "(.*?)"/ do |arg1|
   roles
 end
 
-Transform /user "(.*?)"/ do |user|
+Transform /staff "(.*?)"/ do |user|
   result = "teachers/e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b" if user == "cgray"
   result = "teachers/e9ca4497-e1e5-4fc4-ac7b-24badbad998b" if user == "stweed"
   result = "staff/527406fd-0f6c-43b7-9dab-fab504c87c7f" if user == "jvasquez"
@@ -304,7 +304,7 @@ Then /^the group "(.*?)" has the admin role box checked$/ do |title|
 end
 
 
-When /^the user "(.*?)" in tenant "(.*?)" tries to update the "(.*?)" for (user ".*?") to "(.*?)"$/ do |user, tenant, field, updateUser, newValue|
+When /^the user "(.*?)" in tenant "(.*?)" tries to update the "(.*?)" for (staff ".*?") to "(.*?)"$/ do |user, tenant, field, updateUser, newValue|
     # Login and get a session ID
   idpRealmLogin(user, user+"1234", tenant)
   assert(@sessionId != nil, "Session returned was nil")
@@ -355,12 +355,17 @@ def checkRights(user, tenant, rights, isSelf)
   end
 end
 
-Then /^I should see that the "(.*?)" for user "(.*?)" is "(.*?)"$/ do |field, user, value|
-  restHttpGet("/v1/teachers/e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b")
+Then /^I should see that the "(.*?)" for (staff ".*?") is "(.*?)"$/ do |field, staff, value|
+  restHttpGet("/v1/" + staff)
   result = JSON.parse(@res.body)
   assert(@res != nil, "Response from rest-client GET is nil")
   assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
   assert(result["name"][field] == value, "Expected the #{field} to be #{value}, was #{result["name"][field]}")  
 
+end
+
+When /^the user "(.*?)" in tenant "(.*?)" tries to retrieve the (staff ".*?")$/ do |user, tenant, staff|
+  idpRealmLogin(user, user+"1234", tenant)
+  restHttpGet("/v1/" + staff)
 end
 

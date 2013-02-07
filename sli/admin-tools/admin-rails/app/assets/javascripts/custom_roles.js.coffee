@@ -16,7 +16,7 @@ jQuery ->
     if (option.val() == 'none')
       return
     text = option.text()
-    right = createLabel('right', text)
+    right = createLabel('self-right', text)
     right = wrapInputWithDeleteButton(right, "span", text)
     $("#addSelfRightUi").parent().append(right)
     $("#addSelfRightUi").parent().append(" ")
@@ -258,7 +258,7 @@ populateTable = (data) ->
 
     if (role.selfRights != null && role.selfRights != undefined)
       for selfRight in role.selfRights
-        newRow.find(SELF_RIGHT_COL).append(createLabel('right', selfRight))
+        newRow.find(SELF_RIGHT_COL).append(createLabel('self-right', selfRight))
         newRow.find(SELF_RIGHT_COL).append(" ")
 
     newRow.find(ADMIN_COL).append("<input type='checkbox' class='isAdmin' disabled='true'>")
