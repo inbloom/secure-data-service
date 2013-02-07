@@ -45,10 +45,12 @@ import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.SecurityEventBuilder;
+import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.api.util.SecurityUtil.SecurityTask;
+import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.dal.convert.IdConverter;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -98,6 +100,9 @@ public class RealmResource {
 
     @Autowired
     private RoleInitializer roleInitializer;
+    
+    @Autowired
+    private RealmHelper realmHelper;
 
     @PostConstruct
     public void init() {
@@ -141,8 +146,10 @@ public class RealmResource {
         updatedRealm.put(ED_ORG, SecurityUtil.getEdOrg());
 
         if (service.update(realmId, updatedRealm)) {
-            audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(),
-                    "Realm [" + updatedRealm.get(NAME) + "] updated!"));
+        	SecurityEvent event = securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(),
+                    "Realm [" + updatedRealm.get(NAME) + "] updated!");
+        	audit(event);
+            
             return Response.status(Status.NO_CONTENT).build();
         }
         return Response.status(Status.BAD_REQUEST).build();
@@ -160,8 +167,9 @@ public class RealmResource {
         }
         service.delete(realmId);
         roleInitializer.dropRoles(realmId);
-        audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(),
-                "Realm [" + deletedRealm.get(NAME) + "] deleted!"));
+        SecurityEvent event = securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(),
+                "Realm [" + deletedRealm.get(NAME) + "] deleted!");
+        audit(event);        
         return Response.status(Status.NO_CONTENT).build();
     }
 
@@ -189,9 +197,9 @@ public class RealmResource {
 
         // Also create custom roles
         roleInitializer.dropAndBuildRoles(id);
-
-        audit(securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(),
-                "Realm [" + newRealm.get(NAME) + "] created!"));
+        SecurityEvent event = securityEventBuilder.createSecurityEvent(RealmResource.class.getName(), uriInfo.getRequestUri(),
+                "Realm [" + newRealm.get(NAME) + "] created!");
+        audit(event);
         String uri = uriToString(uriInfo) + "/" + id;
 
         return Response.status(Status.CREATED).header("Location", uri).build();

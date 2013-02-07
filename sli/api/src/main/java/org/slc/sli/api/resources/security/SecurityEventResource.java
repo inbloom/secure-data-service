@@ -93,7 +93,7 @@ public class SecurityEventResource extends UnversionedResource {
     private Response retrieveEntities(final UriInfo uriInfo) {
         EntityDefinition entityDef = entityDefs.lookupByResourceName(RESOURCE_NAME);
         NeutralQuery mainQuery = queryConverter.convert(uriInfo);
-        mainQuery.addCriteria(new NeutralCriteria("appId", NeutralCriteria.CRITERIA_IN, WATCHED_APP));
+ //       mainQuery.addCriteria(new NeutralCriteria("appId", NeutralCriteria.CRITERIA_IN, WATCHED_APP));
         mainQuery.setSortBy("timeStamp");
         mainQuery.setSortOrder(SortOrder.descending);
         mainQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.CRITERIA_IN, resolver.findAccessible(null)));

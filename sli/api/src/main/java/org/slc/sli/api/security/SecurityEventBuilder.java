@@ -25,6 +25,7 @@ import java.util.Date;
 
 import javax.ws.rs.core.UriInfo;
 
+import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +44,9 @@ public class SecurityEventBuilder {
     private String thisNode;
     private String thisProcess;
     
+    @Autowired
+    private RealmHelper realmHelper;
+    
     public SecurityEventBuilder() {
         try {
             InetAddress host = InetAddress.getLocalHost();
@@ -55,6 +59,7 @@ public class SecurityEventBuilder {
     
     public SecurityEvent createSecurityEvent(String loggingClass, URI requestUri, String slMessage) {
         SecurityEvent event = new SecurityEvent();
+        String realmEdOrg = "UnknownEdOrg";
         
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -63,6 +68,11 @@ public class SecurityEventBuilder {
                 if (principal != null) {
                     event.setTenantId(principal.getTenantId());
                     event.setUser(principal.getExternalId() + ", " + principal.getName());
+                    String realm = realmHelper.getRealmFromSession(principal.getSessionId());
+                    realmEdOrg = realmHelper.getRealmEdOrg(realm);
+               	 	if (realmEdOrg != null) {
+               	 		event.setUserEdOrg(realmEdOrg);
+               	 	}
                 }
                 Object credential = auth.getCredentials();
                 if (credential != null) {
@@ -70,7 +80,8 @@ public class SecurityEventBuilder {
                 }
             }
             
-            event.setTargetEdOrg("UnknownTargetEdOrg");
+            event.setTargetEdOrg(realmEdOrg);
+                        
             if (requestUri != null) {
                 event.setActionUri(requestUri.toString());
             }
@@ -99,5 +110,5 @@ public class SecurityEventBuilder {
     public void setCallingApplicationInfoProvider(CallingApplicationInfoProvider callingApplicationInfoProvider) {
         this.callingApplicationInfoProvider = callingApplicationInfoProvider;
     }
-    
+
 }

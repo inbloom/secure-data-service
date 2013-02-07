@@ -43,10 +43,13 @@ import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.RightsAllowed;
+import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.SecurityEventBuilder;
+import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
@@ -57,6 +60,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 /**
@@ -80,7 +85,7 @@ public class ApplicationAuthorizationResource {
 
     @Autowired
     private DelegationUtil delegationUtil;
-
+    
     private EntityService service;
     private EntityService applicationService;
     private EntityService edOrgService;
@@ -274,22 +279,24 @@ public class ApplicationAuthorizationResource {
 
     private void logSecurityEvent(UriInfo uriInfo, Set<Pair<String, String>> edOrgApps, boolean added) {
         for (Pair<String, String> edOrgApp : edOrgApps) {
-            String stateId = edOrgApp.getLeft();
+            String edOrgId = edOrgApp.getLeft();
             String appId = edOrgApp.getRight();
-            String edOrgId = null;
+            //String edOrgId = null;
 
             EntityBody edOrg = null;
             EntityBody app = null;
-            try {
-                Iterable<String> edorgIds = edOrgService.listIds(new NeutralQuery(new NeutralCriteria(
-                        STATE_ORGANIZATION_ID, "=", stateId)));
-                if (edorgIds != null && edorgIds.iterator().hasNext()) {
-                    edOrgId = edorgIds.iterator().next();
-                    edOrg = edOrgService.get(edOrgId);
-                }
-            } catch (AccessDeniedException e) {
-                info("No access to EdOrg[" + edOrgId + "].Omitting in Security ");
-            }
+            
+            edOrg = edOrgService.get(edOrgId);
+//            try {
+//                Iterable<String> edorgIds = edOrgService.listIds(new NeutralQuery(new NeutralCriteria(
+//                        STATE_ORGANIZATION_ID, "=", stateId)));
+//                if (edorgIds != null && edorgIds.iterator().hasNext()) {
+//                    edOrgId = edorgIds.iterator().next();
+//                    edOrg = edOrgService.get(edOrgId);
+//                }
+//            } catch (AccessDeniedException e) {
+//                info("No access to EdOrg[" + edOrgId + "].Omitting in Security ");
+//            }
             try {
                 app = applicationService.get(appId);
             } catch (AccessDeniedException e) {
@@ -324,15 +331,20 @@ public class ApplicationAuthorizationResource {
             }
 
             if (added) {
-                audit(securityEventBuilder.createSecurityEvent(ApplicationAuthorizationResource.class.getName(),
+            	SecurityEvent event = securityEventBuilder.createSecurityEvent(ApplicationAuthorizationResource.class.getName(),
                         uriInfo.getRequestUri(), "ALLOWED [" + appId + ", " + name + ", " + description + "] by Client [" + clientId
                                 + "] " + "TO ACCESS [" + edOrgId + ", " + stateOrganizationId + ", "
-                                + nameOfInstitution + "]"));
+                                + nameOfInstitution + "]");
+                event.setTargetEdOrg(edOrgId);               
+                audit(event);
             } else {
-                audit(securityEventBuilder.createSecurityEvent(ApplicationAuthorizationResource.class.getName(),
+            	
+              SecurityEvent event =	securityEventBuilder.createSecurityEvent(ApplicationAuthorizationResource.class.getName(),
                         uriInfo.getRequestUri(), "NOT ALLOWED [" + appId + ", " + name + ", " + description + "] by Client ["
                                 + clientId + "] " + "TO ACCESS [" + edOrgId + ", " + stateOrganizationId + ", "
-                                + nameOfInstitution + "]"));
+                                + nameOfInstitution + "]");
+              event.setTargetEdOrg(edOrgId);  
+              audit(event);
             }
         }
     }

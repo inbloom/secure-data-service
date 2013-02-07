@@ -56,6 +56,7 @@ $SESSION_MAP = {
                 "operator_SLI" => "a8cf184b-9c7e-4253-9f45-ed4e9f4f596c",
                 "bigbro_IL" => "4cf7a5d4-37a1-ca00-8b13-b5f95131ac85",
                 "sunsetrealmadmin_SLI" => "d9af321c-5fa8-4287-af3d-98e7b5f9d999",
+                "longwoodadmin_SLI" => "4aea375c-0e5d-456a-8b89-23bc03aa5ea3",
                 "fakerealmadmin_SLI" => "aa391d1c-99a8-4287-af3d-481516234242",
                 "anotherfakerealmadmin_SLI" => "910bcfad-5fa8-4287-af3d-98e7b5f9e786",
                 "sunsetadmin_SLI" => "4aea375c-0e5d-456a-8b89-23bc03aa5ea2",
@@ -509,6 +510,7 @@ module DataProvider
     }
   end
 
+
   def self.getValidAdminDelegationData()
     return {
       "viewSecurityEventsEnabled" => false,
@@ -516,7 +518,16 @@ module DataProvider
       "localEdOrgId" => "b2c6e292-37b0-4148-bf75-c98a2fcc905f"
       }
   end
-
+  
+ 
+   def self.getValidAdminDelegationDataLongwood()
+    return {
+      "viewSecurityEventsEnabled" => false,
+      "appApprovalEnabled" => false,
+      "localEdOrgId" => "xd086bae-ee82-6ce2-bcf9-321a8407ba13"
+      }
+  end
+  
 
 end
 

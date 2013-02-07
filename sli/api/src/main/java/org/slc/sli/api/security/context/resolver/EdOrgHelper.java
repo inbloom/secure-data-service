@@ -130,6 +130,23 @@ public class EdOrgHelper {
         return toReturn;
     }
 
+   
+    public List<String> getAllChildLEAsOfEdOrg(Entity edorgEntity) {
+        List<String> toReturn = new ArrayList<String>();
+        NeutralQuery query = new NeutralQuery(0);
+        query.addCriteria(new NeutralCriteria("parentEducationAgencyReference", "=", edorgEntity.getEntityId()));
+               
+        for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
+            if (isLEA(entity) && toReturn.contains(entity.getEntityId()) == false) { 
+            	List<String> nestedChildren = getAllChildLEAsOfEdOrg(entity);
+            	toReturn.addAll(nestedChildren);
+                toReturn.add(entity.getEntityId());
+            }
+        }
+       return toReturn;
+    }
+
+
     /**
      * Get an ordered list of the parents of an edorg.
      *

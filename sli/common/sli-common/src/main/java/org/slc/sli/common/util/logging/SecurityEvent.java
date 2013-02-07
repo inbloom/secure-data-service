@@ -40,6 +40,8 @@ public class SecurityEvent {
     private String user;
 
     private String targetEdOrg;
+    
+    private String userEdOrg;
 
     private String actionUri; // Alpha MH
 
@@ -91,6 +93,14 @@ public class SecurityEvent {
 
     public String getActionUri() {
         return actionUri;
+    }
+    
+    public String getUserEdOrg() {
+        return userEdOrg;
+    }
+
+    public void setUserEdOrg(String userEdOrg) {
+        this.userEdOrg = userEdOrg;
     }
 
     public void setActionUri(String actionUri) {
@@ -197,6 +207,7 @@ public class SecurityEvent {
                 + ((className == null) ? "" : className) + DELIMITER
                 + ((tenantId == null) ? "" : tenantId) + DELIMITER
                 + ((targetEdOrg == null) ? "" : targetEdOrg) + DELIMITER
+                + ((userEdOrg == null) ? "" : userEdOrg) + DELIMITER
                 + ((user == null) ? "" : user) + DELIMITER
                 + ((userOrigin == null) ? "" : userOrigin) + DELIMITER
                 + ((credential == null) ? "" : credential) + DELIMITER
@@ -219,6 +230,11 @@ public class SecurityEvent {
         if (targetEdOrg != null) {
             dataMap.put("targetEdOrg", targetEdOrg);
         }
+        
+        if (userEdOrg != null) {
+            dataMap.put("userEdOrg", userEdOrg);
+        }
+ 
         if (actionUri != null) {
             dataMap.put("actionUri", actionUri);
         }

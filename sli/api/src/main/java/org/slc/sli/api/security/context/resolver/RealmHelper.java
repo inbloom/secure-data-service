@@ -19,6 +19,7 @@ package org.slc.sli.api.security.context.resolver;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,8 @@ import org.slc.sli.domain.NeutralQuery;
  */
 @Component
 public class RealmHelper {
-
+    public static final String USER_SESSION = "userSession";
+	
     @Value("${sli.sandbox.enabled}")
     protected boolean isSandboxEnabled;
 
@@ -70,7 +72,58 @@ public class RealmHelper {
 
         return realm.getEntityId();
     }
+    
+    public String getRealmEdOrg(String realmId) {
+        NeutralQuery realmQuery = new NeutralQuery();
+        realmQuery.addCriteria(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, realmId));
+        Entity realmEntity = repo.findOne("realm", realmQuery);
+        if (realmEntity != null) {
+        	Map<String, Object> body = realmEntity.getBody();
+        	if (body != null) {
+        		String stateOrgId = (String) body.get("edOrg");
+        		String tenantId = (String) body.get("tenantId");
+        		if (stateOrgId != null && tenantId != null) {
+        			return getEdOrgFromTenantDB(tenantId, stateOrgId);
+        		}
+        	}
+        }
+        return null;
+    }
 
+    public String getEdOrgFromTenantDB(String tenantId, String stateOrgId) {
+        NeutralQuery edOrgIdQuery = new NeutralQuery();
+        edOrgIdQuery.addCriteria(new NeutralCriteria("stateOrganizationId", NeutralCriteria.OPERATOR_EQUAL, stateOrgId));
+
+        // query the specified tenant db
+        String originalTenantId = TenantContext.getTenantId();
+        TenantContext.setTenantId(tenantId);
+        Entity edOrgEntity = repo.findOne("educationOrganization", edOrgIdQuery);
+        TenantContext.setTenantId(originalTenantId);
+        if (edOrgEntity != null) {
+        	Map<String, Object> body = edOrgEntity.getBody();
+        	if (body != null) {
+        		return (String) body.get("_id");
+        	}
+        }
+
+    	return null;
+    }
+    
+    public String getRealmFromSession(String sessionId) {
+       NeutralQuery sessionQuery = new NeutralQuery(new NeutralCriteria("_id", NeutralCriteria.OPERATOR_EQUAL, sessionId));
+       Entity userSession = repo.findOne(USER_SESSION, sessionQuery);
+        if (userSession != null) {
+        	Map<String, Object> body = userSession.getBody();
+        	
+        	if (body != null) {
+        		Map<String, Object> principal = (Map<String, Object>) body.get("principal"); 
+        		return (String) principal.get("realm");
+        	}
+        }
+        return null;
+    }
+
+        
     public List<String> getPreferredLoginRealmIds(Entity userEntity) {
         // If there's a realm directly associated with your edorg, we'll require that
         List<String> toReturn = new ArrayList<String>();

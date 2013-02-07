@@ -25,6 +25,7 @@ require_relative '../../utils/sli_utils.rb'
 Transform /^district "([^"]*)"$/ do |district|
   id = "4726e42f-b265-372a-3c17-dc8d5d5fb263" if district == "IL-SUNSET"
   id = "b2c6e292-37b0-4148-bf75-c98a2fcc905f" if district == "IL-SUNSET's ID"
+  id = "xd086bae-ee82-6ce2-bcf9-321a8407ba13" if district == "IL-LONGWOOD's ID"
   id
 end
 
@@ -48,6 +49,10 @@ end
 
 Given /^I have a valid admin delegation entity$/ do
   @adminDelegation = DataProvider.getValidAdminDelegationData()
+end
+
+Given /^I have a valid admin delegation entity for longwood$/ do
+  @adminDelegation = DataProvider.getValidAdminDelegationDataLongwood()
 end
 
 Given /^I change "([^"]*)" to true$/ do |field|
@@ -101,7 +106,10 @@ end
 Then /^I should see that "([^"]*)" is "([^"]*)" for (district "[^"]*")$/ do |field, value, district|
   list = JSON.parse(@res.body)
   foundIt = false
+  puts "brandon"  
+  puts district
   list.each do |cur|
+    
     if cur["localEdOrgId"] == district  
       foundIt = true
       assert(cur[field].to_s == value, "Expected field #{field} to be #{value} was #{cur[field].to_s}")
