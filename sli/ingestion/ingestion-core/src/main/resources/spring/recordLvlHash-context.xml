@@ -6,8 +6,10 @@
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
   <!-- SLI-Ed-Fi neutral record types for which record level hash processing is supported -->
-  <util:set id="recordLvlHashNeutralRecordTypes" set-class="java.util.HashSet" value-type="java.lang.String">
+  <bean id="recordLevelDeltaEnabledEntities" class="java.util.HashSet">
 <!--    <value>attendance</value> Transformed so needs additional work.  Excluded from DID resolver due to StudentReference - should be fixed later. -->
+    <constructor-arg>
+    <set>
     <value>attendance</value>
     <value>calendarDate</value>
     <value>cohort</value> <!-- has EdOrg ref as key field -->
@@ -49,6 +51,8 @@
     <value>teacher</value>
     <value>teacherSchoolAssociation</value>
     <value>teacherSectionAssociation</value>
-  </util:set>
-
+    </set>
+    </constructor-arg>
+  </bean>
+  
 </beans>

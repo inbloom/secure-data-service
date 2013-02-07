@@ -23,10 +23,6 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.camel.Exchange;
-import org.apache.camel.InvalidPayloadException;
-import org.apache.camel.Processor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -42,33 +38,21 @@ import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.RecordHash;
-import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
-import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
-import org.slc.sli.ingestion.reporting.impl.ProcessorSource;
-import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
-import org.slc.sli.ingestion.util.BatchJobUtils;
-import org.slc.sli.ingestion.util.LogUtil;
 
 /**
  *
  * @author npandey
  *
  */
-@Component
-public class DeltaProcessor implements Processor {
 
-    public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.DELTA_PROCESSOR;
+@Component
+public class DeltaProcessor extends IngestionProcessor<NeutralRecordWorkNote> {
 
     private static final String BATCH_JOB_STAGE_DESC = "Filter out records that have been detected as duplicates";
-
-    private static final String INGESTION_MESSAGE_TYPE = "IngestionMessageType";
-
-    private static final Logger LOG = LoggerFactory.getLogger(DeltaProcessor.class);
 
     @Autowired
     private BatchJobDAO batchJobDAO;
@@ -81,51 +65,24 @@ public class DeltaProcessor implements Processor {
     private DeterministicUUIDGeneratorStrategy dIdStrategy;
     private DeterministicIdResolver dIdResolver;
 
-    @Autowired
-    private Set<String> recordLvlHashNeutralRecordTypes;
+    private Set<String> recordLevelDeltaEnabledEntities;
 
     @Override
-    public void process(Exchange exchange) throws Exception {
-
-
-        Stage stage = Stage.createAndStartStage(BATCH_JOB_STAGE, BATCH_JOB_STAGE_DESC);
-
-        ReportStats reportStats = new SimpleReportStats();
+    public void process(Exchange exchange, ProcessorArgs<NeutralRecordWorkNote> args) {
 
         List<NeutralRecord> filteredRecords = null;
+        List<NeutralRecord> records = args.workNote.getNeutralRecords();
+        if (records != null) {
+            //All neutral records in a batch belong to the same interchange
+            String resourceId = records.get(0).getSourceFile();
+            Metrics metrics = Metrics.newInstance(resourceId);
+            args.stage.addMetrics(metrics);
 
-        NewBatchJob currentJob = null;
-
-        String batchJobId = null;
-
-        try {
-            NeutralRecordWorkNote workNote = exchange.getIn().getMandatoryBody(NeutralRecordWorkNote.class);
-            currentJob = getJob(workNote);
-
-            batchJobId = currentJob.getId();
-
-            Metrics metrics = Metrics.newInstance(batchJobId);
-            stage.addMetrics(metrics);
-
-            filteredRecords = filterRecords(workNote, reportStats);
-
-            processMetrics(metrics, duplicateCounts, filteredRecords.size(), reportStats);
-
-            setExchangeHeaders(exchange, reportStats);
-            setExchangeBody(exchange, filteredRecords, currentJob, reportStats);
-
-        } catch (InvalidPayloadException e) {
-            exchange.getIn().setHeader("hasErrors", true);
-            LOG.error("Cannot retrieve a work note to process.");
-        } catch (Exception exception) {
-            handleProcessingExceptions(exchange, batchJobId, exception);
-        } finally {
-            if (currentJob != null) {
-                BatchJobUtils.stopStageAndAddToJob(stage, currentJob);
-                batchJobDAO.saveBatchJob(currentJob);
-            }
+            filteredRecords = filterRecords(args.workNote, args.reportStats);
+            processMetrics(metrics, duplicateCounts, filteredRecords.size(), args.reportStats);
         }
 
+        setExchangeBody(exchange, filteredRecords, args.job, args.reportStats);
     }
 
     private List<NeutralRecord> filterRecords(NeutralRecordWorkNote workNote, ReportStats reportStats) {
@@ -134,7 +91,7 @@ public class DeltaProcessor implements Processor {
 
         for (NeutralRecord neutralRecord : workNote.getNeutralRecords()) {
 
-            if (!recordLvlHashNeutralRecordTypes.contains(neutralRecord.getRecordType())) {
+            if (!recordLevelDeltaEnabledEntities.contains(neutralRecord.getRecordType())) {
                 filteredRecords.add(neutralRecord);
             } else {
                 // Handle record hash checking according to various modes.
@@ -156,6 +113,7 @@ public class DeltaProcessor implements Processor {
         return filteredRecords;
     }
 
+
     private void processMetrics(Metrics metrics, Map<String, Long> duplicateCount, int recordCount, ReportStats rs) {
         metrics.setDuplicateCounts(duplicateCount);
         metrics.setRecordCount(recordCount);
@@ -171,41 +129,26 @@ public class DeltaProcessor implements Processor {
     }
 
     public void setRecordLevelDeltaEnabledEntities(Set<String> entities) {
-        this.recordLvlHashNeutralRecordTypes = entities;
+        this.recordLevelDeltaEnabledEntities = entities;
     }
 
-
-    private void handleProcessingExceptions(Exchange exchange, String batchJobId, Exception exception) {
-        exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.ERROR.name());
-        LogUtil.error(LOG, "Error processing batch job " + batchJobId, exception);
-
-        if (batchJobId != null) {
-            ReportStats reportStats = new SimpleReportStats();
-            databaseMessageReport.error(reportStats, new ProcessorSource(BATCH_JOB_STAGE.getName()),
-                    CoreMessageCode.CORE_0060, batchJobId, exception.getMessage());
-        }
-    }
-
-    private void setExchangeHeaders(Exchange exchange, ReportStats reportStats) {
-        if (reportStats.hasErrors()) {
-            exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
-        }
-    }
-
-    private NewBatchJob getJob(WorkNote work) {
-        NewBatchJob job = batchJobDAO.findBatchJobById(work.getBatchJobId());
-
-        String tenantId = job.getTenantId();
-        TenantContext.setTenantId(tenantId);
-        TenantContext.setJobId(job.getId());
-        TenantContext.setBatchProperties(job.getBatchProperties());
-
-        return job;
+    public Set<String> getRecordLevelDeltaEnabledEntities() {
+        return recordLevelDeltaEnabledEntities;
     }
 
     private void setExchangeBody(Exchange exchange, List<NeutralRecord> records, NewBatchJob job, ReportStats reportStats) {
         WorkNote workNote = new NeutralRecordWorkNote(records, job.getId(), job.getTenantId(), reportStats.hasErrors());
         exchange.getIn().setBody(workNote, ControlFileWorkNote.class);
 }
+
+    @Override
+    protected BatchJobStageType getStage() {
+        return BatchJobStageType.DELTA_PROCESSOR;
+    }
+
+    @Override
+    protected String getStageDescription() {
+        return BATCH_JOB_STAGE_DESC;
+    }
 
 }
