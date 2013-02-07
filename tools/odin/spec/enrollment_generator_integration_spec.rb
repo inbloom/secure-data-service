@@ -56,12 +56,6 @@ describe 'EnrollmentGenerator' do
     it 'will write a GraduationPlan to ed-fi xml interchange' do
       @student_enrollment.match('<GraduationPlanType>Standard</GraduationPlanType>').should_not be_nil
       @student_enrollment.match('<Credit>36</Credit>').should_not be_nil
-      @student_enrollment.match('<Credit>9</Credit>').should_not be_nil
-      @student_enrollment.match('<Credit>12</Credit>').should_not be_nil
-      @student_enrollment.match('<Credit>15</Credit>').should_not be_nil
-      @student_enrollment.match('<SubjectArea>English</SubjectArea>').should_not be_nil
-      @student_enrollment.match('<SubjectArea>Science</SubjectArea>').should_not be_nil
-      @student_enrollment.match('<SubjectArea>Math</SubjectArea>').should_not be_nil
     end
   end
 end
