@@ -74,6 +74,10 @@ task :ingestionXsdValidationTest do
   runTests("test/features/ingestion/features/xsd_validation.feature")
 end
 
+desc "Run Index Validation Test" 
+task :ingestionIndexValidationTest do 
+  runTests("test/features/ingestion/features/ingestion_index_validation.feature") 
+end
 
 desc "Run Ingestion Ignore ID Reference Resolution Test"
 task :ingestionIgnoreIDRefsTest do
