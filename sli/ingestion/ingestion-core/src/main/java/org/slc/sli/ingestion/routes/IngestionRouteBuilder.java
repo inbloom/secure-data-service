@@ -21,6 +21,8 @@ import javax.annotation.PostConstruct;
 import org.apache.camel.CamelContext;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.spring.SpringRouteBuilder;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.validation.IndexValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -181,6 +183,12 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Override
     public void configure() throws Exception {
         LOG.info("Configuring node {} for node type {}", nodeInfo.getUUID(), nodeInfo.getNodeType());
+        LOG.info("Checking Indexes");
+        ReportStats indexValidationStats = indexValidatorExecutor.checkNonTenantIndexes();
+        if(indexValidationStats.hasErrors()){
+            LOG.error("Required indexes are missing! Check log for details of missing indexes");
+            throw new IndexValidationException("Required indexes are missing!");
+        }
 
         String landingZoneQueueUri = landingZoneQueue + "?concurrentConsumers=" + landingZoneConsumers;
         String workItemQueueUri = workItemQueue + "?concurrentConsumers=" + workItemConsumers;
