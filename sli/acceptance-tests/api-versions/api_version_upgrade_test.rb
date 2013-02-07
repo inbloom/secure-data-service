@@ -56,7 +56,7 @@ ARGV.options do |opts|
 end
 
 def init
-  @sli_workspace = File.absolute_path("#{File.dirname(__FILE__)}/../../")
+  @sli_workspace = "#{`git rev-parse --show-toplevel`.chomp}/sli"
   @extract_dest = "#{@sli_workspace}/test-bundle-extract/"
   @api_log = "#{@sli_workspace}/acceptance-tests/target/api_version_upgrade_test.log"
   @dirs_to_archive = ["acceptance-tests",
