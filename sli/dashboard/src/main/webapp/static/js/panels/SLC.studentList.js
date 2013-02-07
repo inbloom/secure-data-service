@@ -71,17 +71,27 @@ SLC.namespace('SLC.studentList', (function () {
 					SLC.grid.tablegrid.create(tableId, options, SLC.dataProxy.getData(listOfStudents), {});
 				} else {
 
-					fieldName = filterBy.condition.field;
-					fieldValues = filterBy.condition.value;
+                    fieldName = filterBy.condition.field;
+                    fieldValues = filterBy.condition.value;
 
-					filteredStudents = $.grep(filteredStudents, function(n, i) {
-						filterValue = n[fieldName];
-						var y = $.inArray(filterValue, fieldValues);
-						return y !== -1;
-					});
+                    filteredStudents = $.grep(filteredStudents, function(n, i) {
+                        filterValue = n[fieldName];
 
-					filteredData.students = filteredStudents;
-					SLC.grid.tablegrid.create(tableId, options, filteredData, {});
+                        if (filterValue instanceof Array) {
+                            for (i=0;i<filterValue.length;i++) {
+                                var y = $.inArray(filterValue[i], fieldValues);
+                                return y !== -1;
+
+                            }
+                        } else {
+                            var y = $.inArray(filterValue, fieldValues);
+                            return y !== -1;
+                        }
+
+                    });
+
+                    filteredData.students = filteredStudents;
+                    SLC.grid.tablegrid.create(tableId, options, filteredData, {});
 				}
 			}
 		}
