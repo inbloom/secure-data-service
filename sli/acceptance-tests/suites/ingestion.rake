@@ -74,6 +74,10 @@ task :ingestionXsdValidationTest do
   runTests("test/features/ingestion/features/xsd_validation.feature")
 end
 
+desc "Run Index Validation Test" 
+task :ingestionIndexValidationTest do 
+  runTests("test/features/ingestion/features/ingestion_index_validation.feature") 
+end
 
 desc "Run Ingestion Ignore ID Reference Resolution Test"
 task :ingestionIgnoreIDRefsTest do
@@ -257,6 +261,11 @@ end
 desc "Duplicate Detection Test"
 task :ingestionDupDetectTest do
   runTests("test/features/ingestion/features/ingestion_dupdetect.feature")
+end
+
+desc "Fail Fast on Missing Index Test"
+task :ingestionJobFailOnMissingIndexTest do
+  runTests("test/features/ingestion/features/ingestion_jobFailOnMissingIndex.feature")
 end
 
 ############################################################
