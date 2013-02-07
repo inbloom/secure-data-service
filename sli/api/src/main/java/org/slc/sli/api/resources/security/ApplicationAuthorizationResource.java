@@ -17,6 +17,7 @@
 
 package org.slc.sli.api.resources.security;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -162,6 +163,7 @@ public class ApplicationAuthorizationResource {
                     edorgs.addAll(getChildEdorgs(myEdorg));
                     body.put("edorgs", edorgs);
                     service.create(body);
+                    logSecurityEvent(appId, myEdorg, true);
                 }
                 return Response.status(Status.NO_CONTENT).build();
             }
@@ -172,6 +174,7 @@ public class ApplicationAuthorizationResource {
                 edorgsCopy.add(myEdorg);
                 edorgsCopy.addAll(getParentEdorgs(myEdorg));
                 edorgsCopy.addAll(getChildEdorgs(myEdorg));
+                logSecurityEvent(appId, myEdorg, true);
             } else {
                 edorgsCopy.remove(myEdorg);
                 edorgsCopy.removeAll(getChildEdorgs(myEdorg));
@@ -179,6 +182,7 @@ public class ApplicationAuthorizationResource {
                 if (edorgsCopy.size() == 1) {   //Only SEA for this tenant is left
                     edorgsCopy.removeAll(getParentEdorgs(myEdorg));
                 }
+                logSecurityEvent(appId, myEdorg, false);
             }
             existingAuth.put("edorgs", new ArrayList<String>(edorgsCopy));
             service.update((String) existingAuth.get("id"), existingAuth);
@@ -227,6 +231,16 @@ public class ApplicationAuthorizationResource {
             }
         }
         return Response.status(Status.OK).entity(results).build();
+    }
+    
+    private void logSecurityEvent(String appId, String edOrgId, boolean allowed) {
+        URI path = null;
+        if (uri != null) {
+            path = uri.getRequestUri();
+        }
+        String allowedText = allowed ? "ALLOWED" : "NOT ALLOWED";
+        audit(securityEventBuilder.createSecurityEvent(ApplicationAuthorizationResource.class.getName(),
+                path, allowedText + " [" + appId + "] " + "TO ACCESS [" + edOrgId + "]"));
     }
 
     private String validateEdOrg(String edorg) {
