@@ -310,6 +310,7 @@
 						Individual test items, if appropriate.
 					</xs:documentation>
 					<xs:appinfo>
+                                                <sli:hidden>true</sli:hidden>
 						<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 						<sli:CollectionType>assessmentItem</sli:CollectionType>
 						<sli:WriteEnforcement>
@@ -388,6 +389,7 @@
                         <sli:ReferenceType>assessment</sli:ReferenceType>
                         <sli:naturalKey>true</sli:naturalKey>
                         <sli:associationKey>true</sli:associationKey>
+                        <sli:hidden>true</sli:hidden>
                         <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
                         <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
                     </xs:appinfo>
@@ -821,6 +823,7 @@
                     <xs:appinfo>
                         <sli:ReferenceType>assessment</sli:ReferenceType>
                         <sli:naturalKey>true</sli:naturalKey>
+                        <sli:hidden>true</sli:hidden>
                         <sli:associationKey>true</sli:associationKey>
                         <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
                         <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
@@ -835,6 +838,7 @@
                     <xs:appinfo>
                         <sli:ReferenceType>objectiveAssessment</sli:ReferenceType>
                         <sli:naturalKey>true</sli:naturalKey>
+                        <sli:hidden>true</sli:hidden>
                         <sli:associationKey>true</sli:associationKey>
                         <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
                         <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
@@ -3643,6 +3647,7 @@
                     <xs:appinfo>
                         <sli:ReferenceType>studentAssessment</sli:ReferenceType>
                         <sli:naturalKey>true</sli:naturalKey>
+                        <sli:hidden>true</sli:hidden>
                         <sli:associationKey>true</sli:associationKey>
                         <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
                         <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
@@ -4137,6 +4142,7 @@
                     <xs:appinfo>
                         <sli:ReferenceType>studentAssessment</sli:ReferenceType>
                         <sli:naturalKey>true</sli:naturalKey>
+                        <sli:hidden>true</sli:hidden>
                         <sli:associationKey>true</sli:associationKey>
                         <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
                         <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>

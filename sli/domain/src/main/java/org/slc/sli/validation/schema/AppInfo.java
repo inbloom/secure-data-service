@@ -52,6 +52,7 @@ public class AppInfo extends Annotation {
     protected static final String APPLY_NATURAL_KEYS = "applyNaturalKeys";
     protected static final String SELF_REFERENCE = "SelfReference";
     public static final String SCHEMA_VERSION = "schemaVersion";
+    public static final String HIDDEN = "hidden";
 
     public static final int NOT_VERSIONED = -1;
 
@@ -360,6 +361,10 @@ public class AppInfo extends Annotation {
         }
 
         return rval;
+    }
+
+    public boolean isHidden() {
+        return values.containsKey(HIDDEN) && Boolean.parseBoolean((String) values.get(HIDDEN));
     }
 
 }
