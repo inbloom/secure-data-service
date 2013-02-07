@@ -11,6 +11,17 @@
     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
     >
 
+  <bean id="ingestionPropertiesPlaceholder" class="org.slc.sli.ingestion.util.ExposedPropertyPlaceholderConfigurer">
+
+    <!-- this avoids errors with *other* property placeholders -->
+    <property name="ignoreUnresolvablePlaceholders" value="true" />
+
+    <!-- this allows using an optional local properties file (ingestion-dev.properties) -->
+    <property name="ignoreResourceNotFound" value="true" />
+
+    <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+  </bean>
+  
   <bean id="entityConfigurationsFactory" class="org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory">
     <property name="searchPath" value="classpath:smooksEdFi2SLI/" />
   </bean>
