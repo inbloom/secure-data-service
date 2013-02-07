@@ -2757,49 +2757,6 @@ Given /^I have checked the counts of the following collections:$/ do |table|
   end
 end
 
-Then /^the following collections are missing indexes in sli datastore:$/ do |table|
-disable_NOTABLESCAN()
-puts INGESTION_DB_NAME
-@db = @conn[INGESTION_DB_NAME]    
-
-table.hashes.map do |row|
-  @entity_collection = @db.collection(row["collectionName"])
-  @entity_collection.drop_index(row["indexes"])                                                                                                    
-end
-
-end
-
-Then /^the following collections are missing indexes in ingestion_batch_job datastore:$/ do |table|
-disable_NOTABLESCAN()
-puts INGESTION_DB_NAME
-@db = @conn[INGESTION_DB_NAME]    
-table.hashes.map do |row|
-  @entity_collection = @db.collection(row["collectionName"])
-  @entity_collection.drop_index(row["indexes"])                                                                                                    
-end
-end
-
-Then /^the following collections rebuild indexes in sli datastore:$/ do |table|
-disable_NOTABLESCAN()
-puts INGESTION_DB_NAME
-@db = @conn[INGESTION_DB_NAME]  
-  
-table.hashes.map do |row|
-  @entity_collection = @db.collection(row["collectionName"])
-  @entity_collection.ensure_index([row["indexes"],1],:unique=>true) 
-end
-end
-
-Then /^the following collections rebuild indexes in ingestion_batch_job datastore:$/ do |table|
-disable_NOTABLESCAN()
-puts INGESTION_DB_NAME
-@db = @conn[INGESTION_DB_NAME]    
-
-table.hashes.map do |row|
-  @entity_collection = @db.collection(row["collectionName"])
-  @entity_collection.ensure_index([row["indexes"],1],:unique=>true)                                                                                                    
-end
-end
 
 Then /^the following collections counts are the same:$/ do |table|
   @db = @conn[@ingestion_db_name]
