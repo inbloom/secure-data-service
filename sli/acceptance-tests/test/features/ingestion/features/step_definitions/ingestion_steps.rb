@@ -66,6 +66,8 @@ UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/publish_fil
 ERROR_REPORT_MISSING_STRING_PREFIX = "#?"
 ERROR_REPORT_MISSING_STRING_SUFFIX = "?#"
 
+DATA_SET_COUNTS = {"small sample data set" => 4258}
+
 ############################################################
 # STEPS: BEFORE
 ############################################################
@@ -2953,6 +2955,10 @@ Then /^I check that references were resolved correctly:$/ do |table|
 	enable_NOTABLESCAN()
 end
 
+
+Then /^all the (.*) records were processed$/ do |dataSet|
+  step "I should see \"Processed #{DATA_SET_COUNTS[dataSet]} records\" in the resulting batch job file"
+end
 
 ############################################################
 # STEPS: AFTER
