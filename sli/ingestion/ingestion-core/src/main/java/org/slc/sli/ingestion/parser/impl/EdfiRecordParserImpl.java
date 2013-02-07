@@ -66,32 +66,43 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
 
     private static final Logger LOG = LoggerFactory.getLogger(EdfiRecordParserImpl.class);
 
-    private TypeProvider typeProvider;
+    private static final SchemaFactory SCHEMA_FACTORY = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
-    private List<RecordVisitor> recordVisitors = new ArrayList<RecordVisitor>();
+    private TypeProvider typeProvider;
 
     Stack<Pair<RecordMeta, Map<String, Object>>> complexTypeStack = new Stack<Pair<RecordMeta, Map<String, Object>>>();
     String currentEntityName = null;
     boolean currentEntityValid = false;
     private String interchange;
 
+    private List<RecordVisitor> recordVisitors = new ArrayList<RecordVisitor>();
+
     public static void parse(XMLEventReader reader, Resource schemaResource, TypeProvider typeProvider,
             RecordVisitor visitor) throws XmlParseException {
-        EdfiRecordParserImpl parser = new EdfiRecordParserImpl();
 
+        EdfiRecordParserImpl parser = new EdfiRecordParserImpl();
         parser.setParent(reader);
         parser.addVisitor(visitor);
         parser.typeProvider = typeProvider;
 
-        SchemaFactory sf = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        Schema schema = initializeSchema(schemaResource);
+
+        parseAndValidate(parser, schema);
+    }
+
+    private static Schema initializeSchema(Resource schemaResource) throws XmlParseException {
         Schema schema;
         try {
-            schema = sf.newSchema(schemaResource.getURL());
+            schema = SCHEMA_FACTORY.newSchema(schemaResource.getURL());
         } catch (SAXException e) {
             throw new XmlParseException("Exception while initializing XSD schema", e);
         } catch (IOException e) {
             throw new XmlParseException("Exception while accessing XSD schema file", e);
         }
+        return schema;
+    }
+
+    private static void parseAndValidate(EdfiRecordParserImpl parser, Schema schema) throws XmlParseException {
 
         Validator validator = schema.newValidator();
         validator.setErrorHandler(parser);

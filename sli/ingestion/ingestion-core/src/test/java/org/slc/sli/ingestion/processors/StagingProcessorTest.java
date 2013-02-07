@@ -67,7 +67,7 @@ public class StagingProcessorTest {
     @Test
     public void testProcess() throws Exception {
         NeutralRecord record1 = new NeutralRecord();
-        record1.setRecordType("student");
+        record1.setRecordType("school");
         NeutralRecord record2 = new NeutralRecord();
         record2.setRecordType("student");
         List<NeutralRecord> records = new ArrayList<NeutralRecord>();
@@ -82,6 +82,14 @@ public class StagingProcessorTest {
         processor.process(exchange);
 
         Assert.assertEquals(false, exchange.getIn().getHeader("hasErrors"));
-        Mockito.verify(rwriter, Mockito.times(2)).insertResource(Mockito.any(NeutralRecord.class));
+        
+        List<NeutralRecord> verifyStudent = new ArrayList<NeutralRecord>();
+        verifyStudent.add(record2);
+        List<NeutralRecord> verifySchool = new ArrayList<NeutralRecord>();
+        verifySchool.add(record1);
+
+        Mockito.verify(rwriter, Mockito.times(1)).insertResources(verifyStudent, "student");
+        Mockito.verify(rwriter, Mockito.times(1)).insertResources(verifySchool, "school");
+
     }
 }
