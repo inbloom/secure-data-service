@@ -822,7 +822,8 @@ public class BasicService implements EntityService {
     @SuppressWarnings("unchecked")
     private void filterFields(Map<String, Object> eb, String prefix) {
 
-        Collection<GrantedAuthority> auths = SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        Collection<GrantedAuthority> auths = new HashSet<GrantedAuthority>();
+        auths.addAll(SecurityContextHolder.getContext().getAuthentication().getAuthorities());
 
         if (!auths.contains(Right.FULL_ACCESS)) {
 
@@ -834,9 +835,11 @@ public class BasicService implements EntityService {
                 String fieldPath = prefix.replaceAll("^.", "") + fieldName;
                 Set<Right> neededRights = getNeededRights(fieldPath);
 
-                SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication()
-                        .getPrincipal();
-                if (!intersection(auths, neededRights) && !principal.getEntity().getEntityId().equals(eb.get("id"))) {
+                SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
+                if(isSelf((String) eb.get("id"))) {
+                	auths.addAll(principal.getSelfRights());
+                }
+                if (!intersection(auths, neededRights)) {
                     toRemove.add(fieldName);
                 } else if (value instanceof Map) {
                     filterFields((Map<String, Object>) value, prefix + "." + fieldName + ".");
