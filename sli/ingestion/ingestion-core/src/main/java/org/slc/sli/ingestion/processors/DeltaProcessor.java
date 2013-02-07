@@ -29,6 +29,7 @@ import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordWorkNote;
+import org.slc.sli.ingestion.Resource;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.delta.SliDeltaManager;
 import org.slc.sli.ingestion.landingzone.AttributeType;
@@ -36,6 +37,7 @@ import org.slc.sli.ingestion.model.Metrics;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 
 /**
@@ -44,7 +46,7 @@ import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdRes
  *
  */
 
-public class DeltaProcessor extends IngestionProcessor<NeutralRecordWorkNote> {
+public class DeltaProcessor extends IngestionProcessor<NeutralRecordWorkNote, Resource> {
 
     private static final String BATCH_JOB_STAGE_DESC = "Filter out records that have been detected as duplicates";
 
@@ -149,4 +151,16 @@ public class DeltaProcessor extends IngestionProcessor<NeutralRecordWorkNote> {
     public void setRecordLevelDeltaEnabledEntities(Set<String> recordLevelDeltaEnabledEntities) {
         this.recordLevelDeltaEnabledEntities = recordLevelDeltaEnabledEntities;
     }
+
+    @Override
+    protected Resource itemToValidate(ProcessorArgs<NeutralRecordWorkNote> args) {
+        return null;
+    }
+
+    @Override
+    protected Source getSource(ProcessorArgs<NeutralRecordWorkNote> args) {
+        return null;
+    }
+
+
 }

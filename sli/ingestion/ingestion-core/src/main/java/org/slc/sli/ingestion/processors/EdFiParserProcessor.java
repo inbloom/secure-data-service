@@ -38,6 +38,7 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FileEntryWorkNote;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordWorkNote;
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.parser.RecordMeta;
 import org.slc.sli.ingestion.parser.RecordVisitor;
 import org.slc.sli.ingestion.parser.TypeProvider;
@@ -47,6 +48,7 @@ import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.impl.FileSource;
+import org.slc.sli.ingestion.reporting.impl.JobSource;
 import org.slc.sli.ingestion.util.XsdSelector;
 
 /**
@@ -55,7 +57,7 @@ import org.slc.sli.ingestion.util.XsdSelector;
  * @author okrook
  *
  */
-public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote> implements RecordVisitor {
+public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, IngestionFileEntry> implements RecordVisitor {
     private static final String BATCH_JOB_STAGE_DESC = "Reads records from the interchanges and persists to the staging database";
     private static final XMLInputFactory XML_INPUT_FACTORY = XMLInputFactory.newInstance();
 
@@ -248,4 +250,15 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote> i
     public void audit(SecurityEvent event) {
         // Do nothing
     }
+
+    @Override
+    protected IngestionFileEntry itemToValidate(ProcessorArgs<FileEntryWorkNote> args) {
+        return args.workNote.getFileEntry();
+    }
+
+    @Override
+    protected Source getSource(ProcessorArgs<FileEntryWorkNote> args) {
+        return new JobSource(args.workNote.getFileEntry().getResourceId());
+    }
+
 }

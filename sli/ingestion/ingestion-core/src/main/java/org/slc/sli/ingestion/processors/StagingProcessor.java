@@ -34,8 +34,10 @@ import org.springframework.data.mongodb.UncategorizedMongoDbException;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordWorkNote;
+import org.slc.sli.ingestion.Resource;
 import org.slc.sli.ingestion.ResourceWriter;
 import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
 
 /**
  * Persists records into a datastore
@@ -43,7 +45,7 @@ import org.slc.sli.ingestion.reporting.ReportStats;
  * @author ablum
  *
  */
-public class StagingProcessor extends IngestionProcessor<NeutralRecordWorkNote> {
+public class StagingProcessor extends IngestionProcessor<NeutralRecordWorkNote, Resource> {
     private static final Logger LOG = LoggerFactory.getLogger(StagingProcessor.class);
 
     private ResourceWriter<NeutralRecord> nrMongoStagingWriter;
@@ -104,6 +106,16 @@ public class StagingProcessor extends IngestionProcessor<NeutralRecordWorkNote> 
     @Override
     protected String getStageDescription() {
         return "Persists records to a temporary staging datastore";
+    }
+
+    @Override
+    protected Resource itemToValidate(ProcessorArgs<NeutralRecordWorkNote> args) {
+        return null;
+    }
+
+    @Override
+    protected Source getSource(ProcessorArgs<NeutralRecordWorkNote> args) {
+        return null;
     }
 
 }
