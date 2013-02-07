@@ -24,20 +24,12 @@ public class IndexValidatorExecutor {
     @Autowired
     private LoggingMessageReport loggingMessageReport;
 
-	@PostConstruct
-	public void init() throws IndexValidationException{
-
+	public ReportStats checkNonTenantIndexes() throws IndexValidationException{
 		loggingMessageReport.setLogger(LOG);
-		Source source = new JobSource(null);
 		ReportStats reportStats = new SimpleReportStats();
-
-		boolean indexValidated = systemValidatorStartUp.isValid(null,
-				loggingMessageReport, reportStats, source);
-
-		if (!indexValidated) {
-			throw new IndexValidationException(
-					"Indexes validation error, some indexes are missing in the database.");
-		}
+        Source source = new JobSource("IngestionService");
+		boolean indexValidated = systemValidatorStartUp.isValid(null, loggingMessageReport, reportStats, source);
+        return reportStats;
 	}
 
 	public void setValidator(Validator<?> systemValidator)
