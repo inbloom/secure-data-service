@@ -19,6 +19,10 @@ package org.slc.sli.api.service;
 
 import static org.junit.Assert.assertTrue;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -92,7 +96,7 @@ public class BasicServiceTest {
 
         NeutralQuery query1 = new NeutralQuery(query);
 
-        service.checkFieldAccess(query);
+        service.checkFieldAccess(query, false);
         assertTrue("Should match", query1.equals(query));
     }
 
@@ -104,29 +108,22 @@ public class BasicServiceTest {
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("economicDisadvantaged", "=", "true"));
 
-        service.checkFieldAccess(query);
+        service.checkFieldAccess(query, false);
     }
     
     @Test
     public void testWriteSelf() {
-        BasicService basicService = (BasicService) context.getBean("basicService", "teacher", null,
+        BasicService basicService = (BasicService) context.getBean("basicService", "teacher", new ArrayList<Treatment>(),
                 Right.READ_GENERAL, Right.WRITE_GENERAL, securityRepo);
         basicService.setDefn(definitionStore.lookupByEntityType("teacher"));
         securityContextInjector.setEducatorContext("my-id");
-        EntityBody content = new EntityBody();
         
-        basicService.update("my-id", content);
-    }
-    
-    @Test
-    public void testReadSelf() {
-    	
-    }
-    
-    @Test
-    public void testNoSelfRightsReadGeneral() {
-    	
-    }
+        Map<String, Object> body = new HashMap<String, Object>();
+        Entity entity = securityRepo.create("teacher", body);
 
+        EntityBody updated = new EntityBody();
+        basicService.update(entity.getEntityId(), updated);
+    }
+    
 
 }
