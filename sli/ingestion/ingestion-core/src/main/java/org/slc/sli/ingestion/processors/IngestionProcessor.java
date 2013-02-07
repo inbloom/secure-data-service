@@ -53,7 +53,7 @@ public abstract class IngestionProcessor<T extends WorkNote> implements Processo
     protected BatchJobDAO batchJobDAO;
 
     @Autowired
-    private AbstractMessageReport databaseMessageReport;
+    private AbstractMessageReport messageReport;
 
     @Override
     @SuppressWarnings("unchecked")
@@ -66,7 +66,13 @@ public abstract class IngestionProcessor<T extends WorkNote> implements Processo
             Stage stage = Stage.createAndStartStage(getStage(), getStageDescription());
 
             try {
-                process(exchange, workNote, job, rs);
+
+                ProcessorArgs<T> args = new ProcessorArgs<T>();
+                args.workNote = workNote;
+                args.job = job;
+                args.stage = stage;
+                args.reportStats = rs;
+                process(exchange, args);
 
                 exchange.getIn().setHeader("hasErrors", rs.hasErrors());
             } catch (Exception e) {
@@ -85,7 +91,7 @@ public abstract class IngestionProcessor<T extends WorkNote> implements Processo
 
     }
 
-    protected abstract void process(Exchange exchange, T workNote, NewBatchJob newBatchJob, ReportStats rs);
+    protected abstract void process(Exchange exchange, ProcessorArgs<T> args);
 
     protected void handleProcessingExceptions(Exchange exchange, WorkNote workNote, Exception exception) {
         exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.ERROR.name());
@@ -93,7 +99,7 @@ public abstract class IngestionProcessor<T extends WorkNote> implements Processo
 
         if (workNote.getBatchJobId() != null) {
             ReportStats reportStats = new SimpleReportStats();
-            databaseMessageReport.error(reportStats, new ProcessorSource(getStage().getName()),
+            messageReport.error(reportStats, new ProcessorSource(getStage().getName()),
                     CoreMessageCode.CORE_0021, workNote.getBatchJobId(),
                     exception.getMessage());
         }
@@ -122,14 +128,21 @@ public abstract class IngestionProcessor<T extends WorkNote> implements Processo
         this.batchJobDAO = batchJobDAO;
     }
 
-    public AbstractMessageReport getDatabaseMessageReport() {
-        return databaseMessageReport;
+    public AbstractMessageReport getMessageReport() {
+        return messageReport;
     }
 
-    public void setDatabaseMessageReport(AbstractMessageReport databaseMessageReport) {
-        this.databaseMessageReport = databaseMessageReport;
+    public void setMessageReport(AbstractMessageReport messageReport) {
+        this.messageReport = messageReport;
     }
 
     protected abstract BatchJobStageType getStage();
     protected abstract String getStageDescription();
+    
+    static class ProcessorArgs<T> {
+        protected Stage stage;
+        protected NewBatchJob job;
+        protected T workNote;
+        protected ReportStats reportStats;
+    };
 }

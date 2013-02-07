@@ -72,25 +72,25 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote> i
     private ThreadLocal<ParserState> state = new ThreadLocal<ParserState>();
 
     @Override
-    protected void process(Exchange exchange, FileEntryWorkNote workNote, NewBatchJob job, ReportStats rs) {
-        prepareState(exchange, workNote);
+    protected void process(Exchange exchange, ProcessorArgs<FileEntryWorkNote> args) {
+        prepareState(exchange, args.workNote);
 
-        Source source = new FileSource(workNote.getFileEntry().getResourceId());
+        Source source = new FileSource(args.workNote.getFileEntry().getResourceId());
 
         InputStream input = null;
         try {
-            input = workNote.getFileEntry().getFileStream();
+            input = args.workNote.getFileEntry().getFileStream();
             XMLEventReader reader = XML_INPUT_FACTORY.createXMLEventReader(input);
 
-            Resource xsdSchema = xsdSelector.provideXsdResource(workNote.getFileEntry());
+            Resource xsdSchema = xsdSelector.provideXsdResource(args.workNote.getFileEntry());
 
             EdfiRecordParserImpl.parse(reader, xsdSchema, typeProvider, this);
         } catch (IOException e) {
-            getMessageReport().error(rs, source, CoreMessageCode.CORE_0016);
+            getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0016);
         } catch (XMLStreamException e) {
-            getMessageReport().error(rs, source, CoreMessageCode.CORE_0017);
+            getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0017);
         } catch (XmlParseException e) {
-            getMessageReport().error(rs, source, CoreMessageCode.CORE_0017);
+            getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0017);
         } finally {
             IOUtils.closeQuietly(input);
 
