@@ -23,9 +23,17 @@ Feature: Missing Index Alert
       | teacherSchoolAssociation                   | body.schoolId               |
     And I post "TinyDataSet.zip" file as the payload of the ingestion job
     And zip file is scp to ingestion landing zone with name "TinyDataSet2.zip"
-    And I am willing to wait upto 60 seconds for ingestion to complete
     And a batch job for file "TinyDataSet2.zip" is completed in database
     And a batch job log has been created
     And I should see "INFO  Not all records were processed completely due to errors." in the resulting batch job file
     And I should see "CORE_0038" in the resulting error log file
+    #When the index is reinitialized, then ingestion should succeed!
+    When the landing zone is reinitialized
     And the tenantIsReady flag for the tenant "Midgar" is reset
+    And I post "TinyDataSet.zip" file as the payload of the ingestion job
+    And zip file is scp to ingestion landing zone with name "TinyDataSet3.zip"
+    And a batch job for file "TinyDataSet3.zip" is completed in database
+    And I should not see an error log file created
+
+
+
