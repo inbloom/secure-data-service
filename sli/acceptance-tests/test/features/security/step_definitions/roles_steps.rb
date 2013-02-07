@@ -149,3 +149,29 @@ Then /^the Student restricted fields are not visible in the response$/ do
   assert(result != nil, "Result of JSON parsing is nil")
   assert(result['economicDisadvantaged'] == nil, "Expected no restriced student fields, but saw them in response")
 end
+
+When /^I make an API call to view another staff's data$/ do
+  student_uri = "/v1/teachers/e9ca4497-e1e5-4fc4-ac7b-24badbad998b" 
+  restHttpGet(student_uri,"application/json")
+  assert(@res != nil, "Response from rest-client GET is nil")
+
+end
+
+Then /^the Staff restricted fields are not visible in the response$/ do
+  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
+
+  result = JSON.parse(@res.body)
+  assert(result != nil, "Result of JSON parsing is nil")
+  assert(result['race'] == nil, "Expected restricted staff field: race to be nil in response")
+  assert(result['sex'] == nil, "Expected restricted staff field: sex to be nil in response")
+  assert(result['birthDate'] == nil, "Expected restricted staff field: birthDate to be nil in response")
+  assert(result['address'] == nil, "Expected restricted staff field: address to be nil in response")
+  assert(result['hispanicLatinoEthnicity'] == nil, "Expected restricted staff field: hispanicLatinoEthnicity to be nil in response")
+  assert(result['oldEthnicity'] == nil, "Expected restricted staff field: oldEthnicity to be nil in response")
+  assert(result['highestLevelOfEducationCompleted'] == nil, "Expected restricted staff field: highestLevelOfEducationCompleted to be nil in response")
+  assert(result['yearsOfPriorProfessionalExperience'] == nil, "Expected restricted staff field: yearsOfPriorProfessionalExperience to be nil in response")
+  assert(result['yearsOfPriorTeachingExperience'] == nil, "Expected restricted staff field: yearsOfPriorTeachingExperience to be nil in response")
+  assert(result['credentials'] == nil, "Expected restricted staff field: credentials to be nil in response")
+  assert(result['loginId'] == nil, "Expected restricted staff field: loginId to be nil in response")
+end
+
