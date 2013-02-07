@@ -10,11 +10,6 @@
             "entityType" : "learningObjective",
             "sourceRefPath": "body.objectiveAssessment.objectiveAssessments.learningObjectives",
             "optional" : true
-        },
-        {
-            "entityType" : "learningStandard",
-            "sourceRefPath": "body.assessmentItem.learningStandards",
-            "optional" : true
         }
     ]
 }

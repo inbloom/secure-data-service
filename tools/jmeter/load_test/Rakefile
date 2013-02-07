@@ -2,8 +2,9 @@ $:.unshift File.dirname(__FILE__)
 require 'jmeter_runner'
 
 API_LOAD_TEST_HOME = File.dirname(File.absolute_path(__FILE__))
-CONFIG_HOME = API_LOAD_TEST_HOME.split('/')[0..-2].join('/') + "/attendance2"
-#IGNORED_JMX_FILES = ["oauth.jmx"]
+CONFIG_HOME = API_LOAD_TEST_HOME.split('/')[0..-2].join('/')
+IGNORED_JMX_FILES = ["oauth.jmx"]
+UPDATE_JMX_FILES = ["update-attendance.jmx", "update-gradebooks.jmx"]
 
 desc "Clean Result directory"
 task :clean do
@@ -24,7 +25,8 @@ task :verifyJmxFileLocal => [:checkJmeterHome, :checkServerProcesses] do
           :jmeter_exec => @jmeter_exec,
           :max_threads => 0,
           :result_dir => test_dir,
-          :jmeter_prop => "#{CONFIG_HOME}/local.properties"
+          :jmeter_prop => "#{CONFIG_HOME}/local.properties",
+          :ignore => IGNORED_JMX_FILES
       }
   )
   runner.collect_all_data(CONFIG_HOME, [1])
@@ -51,10 +53,48 @@ task :runLoadTests => [:checkJmeterHome] do
           :jmeter_exec => @jmeter_exec,
           :jmeter_prop => "#{CONFIG_HOME}/local.properties",
           :result_dir => result_dir,
-          :max_avg_elapsed_time => 300000
+          :max_avg_elapsed_time => 300000,
+          :ignore => IGNORED_JMX_FILES
       }
   )
   runner.collect_all_data(CONFIG_HOME, (0..20).collect{|x| 2**x})
+  File.open("#{result_dir}/result.json", "w") do |f|
+    f.write(runner.aggregate_all_result().to_json)
+  end
+end
+
+desc "Run Read-Only Odin 150k Load Tests on SLIRP"
+task :runReadOnlyOdin150kLoadTestsOnSlirp => [:checkJmeterHome] do
+  result_dir = "#{API_LOAD_TEST_HOME}/load_test_result/single_node"
+  runner = ApiLoadTest::Runner.new(
+      {
+          :jmeter_exec => @jmeter_exec,
+          :jmeter_prop => "#{CONFIG_HOME}/odin-slirp/slirp.properties",
+          :result_dir => result_dir,
+          :max_avg_elapsed_time => 300000,
+          :ignore => [IGNORED_JMX_FILES, UPDATE_JMX_FILES].flatten!
+      }
+  )
+  runner.collect_all_data(CONFIG_HOME, (0..1).collect{|x| 2**x})
+  File.open("#{result_dir}/result.json", "w") do |f|
+    f.write(runner.aggregate_all_result().to_json)
+  end
+end
+
+desc "Run Read-Only Odin 150k Multiple Jmeter Nodes Load Tests on SLIRP"
+task :runReadOnlyMultiNodeOdin150kLoadTestsOnSlirp => [:checkJmeterHome] do
+  result_dir = "#{API_LOAD_TEST_HOME}/load_test_result/multi_node"
+  runner = ApiLoadTest::Runner.new(
+      {
+          :jmeter_exec => @jmeter_exec,
+          :jmeter_prop => "#{CONFIG_HOME}/odin-slirp/slirp.properties",
+          :result_dir => result_dir,
+          :remote => true,
+          :remote_servers => ["parmongo02.slidev.org", "parmongo03.slidev.org"],
+          :ignore => [IGNORED_JMX_FILES, UPDATE_JMX_FILES]
+      }
+  )
+  runner.collect_all_data(CONFIG_HOME, (0..4).collect{|x| 2**x})
   File.open("#{result_dir}/result.json", "w") do |f|
     f.write(runner.aggregate_all_result().to_json)
   end
@@ -69,7 +109,8 @@ task :runMultiNodesTests => [:checkJmeterHome] do
           :jmeter_prop => "#{CONFIG_HOME}/local.properties",
           :result_dir => result_dir,
           :remote => true,
-          :remote_servers => ["parmongo01.slidev.org"]
+          :remote_servers => ["parmongo01.slidev.org"],
+          :ignore => IGNORED_JMX_FILES
       }
   )
   runner.collect_all_data(CONFIG_HOME, (0..20).collect{|x| 2**x})

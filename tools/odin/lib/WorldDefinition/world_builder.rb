@@ -505,16 +505,16 @@ class WorldBuilder
         
         sessions_per_lea = @scenarioYAML["HACK_SESSIONS_PER_LEA"] || 1
         for s in 1..sessions_per_lea
-        start_date = DateUtility.random_school_day_on_interval(@prng, Date.new(year, 8, 25), Date.new(year, 9, 10))
-        interval   = DateInterval.create_using_start_and_num_days(@prng, start_date, 180)
+          start_date = DateUtility.random_school_day_on_interval(@prng, Date.new(year, 8, 25), Date.new(year, 9, 10))
+          interval   = DateInterval.create_using_start_and_num_days(@prng, start_date, 180)
 
-        session             = Hash.new
-        session["term"]     = :YEAR_ROUND
-        session["year"]     = year
-        session["name"] = year.to_s + "-" + (year+1).to_s + " " + SchoolTerm.to_string(:YEAR_ROUND) + " session: " + state_organization_id.to_s
-        session["interval"] = interval
-        session["edOrgId"]  = state_organization_id
-        @world["leas"][index]["sessions"] << session
+          session             = Hash.new
+          session["term"]     = :YEAR_ROUND
+          session["year"]     = year
+          session["name"] = year.to_s + "-" + (year+1).to_s + " " + SchoolTerm.to_string(:YEAR_ROUND) + " session: " + state_organization_id.to_s
+          session["interval"] = interval
+          session["edOrgId"]  = state_organization_id
+          @world["leas"][index]["sessions"] << session
         end
       end
     end
@@ -825,9 +825,11 @@ class WorldBuilder
   # - CalendarDate
   def create_education_org_calendar_work_orders
     # write sessions at the district level
-    @world["leas"].each do |ed_org|
+    @world["leas"].each_index do |ed_org_index|
       # get sessions currently stored on local education agency
-      # iterate through sessions
+      # -> get education organization using index
+      # -> iterate through sessions
+      ed_org    = @world["leas"][ed_org_index]
       sessions  = ed_org["sessions"]
       if ed_org["id"].kind_of? String
         ed_org_id = ed_org["id"]
@@ -836,7 +838,8 @@ class WorldBuilder
       end
       
       isFirstSession = true
-      sessions.each do |session|
+      sessions.each_index do |session_index|
+        session   = sessions[session_index]
         interval  = session["interval"]
         year      = session["year"]
         name      = session["name"]
@@ -844,8 +847,10 @@ class WorldBuilder
 
         # create calendar date(s) using interval
         # create grading period(s) using interval, school year, and state organization id
+        # -> store grading periods back onto sessions
         calendar_dates  = create_calendar_dates(interval, ed_org_id)        
         grading_periods = create_grading_periods(interval, year, ed_org_id)
+        @world["leas"][ed_org_index]["sessions"][session_index]["grading_periods"] = grading_periods
 
         # create and write session
         @queue.push_work_order( {:type=>Session, :name=>name, :year=>year, :term=>term, :interval=>interval, :edOrg => ed_org_id, :gradingPeriods => grading_periods})
@@ -1239,7 +1244,7 @@ class WorldBuilder
   def create_learning_objectives
     GradeLevelType.get_ordered_grades.each{|grade|
       AcademicSubjectType.get_academic_subjects(grade).each {|academic_subject|
-        LearningObjective.build_learning_objectives((@scenarioYAML["NUM_LEARNING_OBJECTIVES_PER_SUBJECT_AND_GRADE"] or 2), AcademicSubjectType.to_string(academic_subject), GradeLevelType.to_string(grade)).each {|learning_objective|
+        LearningObjective.build_learning_objectives((@scenarioYAML["NUM_LEARNING_OBJECTIVES_PER_SUBJECT_AND_GRADE"] or 2), academic_subject, grade).each {|learning_objective|
           @queue.push_work_order learning_objective
         }
       }

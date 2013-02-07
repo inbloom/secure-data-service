@@ -18,17 +18,22 @@ limitations under the License.
 
 require_relative '../Shared/EntityClasses/graduation_plan'
 
+# factory for creating graduation plans
 class GraduationPlanFactory
+
   def initialize(ed_org_id, scenario)
     @ed_org_id = ed_org_id
     @scenario = scenario
   end
 
   def build
-    plans = @scenario["GRADUATION_PLANS"]
+    plans   = @scenario["GRADUATION_PLANS"]
+    courses = @scenario["TWELFTH_GRADE_COURSES"]
     unless plans.nil?
-      plans.map{|plan_type, credits_by_subject|
-        GraduationPlan.new(plan_type, credits_by_subject, @ed_org_id)
+      plans.map { |plan_type, credits_by_subject| 
+        credits_by_course = {}
+        courses.each { |course| credits_by_course[course] = 12 }
+        GraduationPlan.new(plan_type, @ed_org_id, credits_by_subject, credits_by_course) 
       }
     end or []
   end

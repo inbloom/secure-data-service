@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+  xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+    http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
+    >
+
+  <util:set id="shardCollections" set-class="java.util.TreeSet">
+    <value>attendance</value>
+    <value>cohort</value>
+    <value>courseSectionAssociation</value>
+    <value>disciplineAction</value>
+    <value>disciplineIncident</value>
+    <value>educationOrganizationAssociation</value>
+    <value>educationOrganizationSchoolAssociation</value>
+    <value>grade</value>
+    <value>gradebookEntry</value>
+    <value>graduationPlan</value>
+    <value>parent</value>
+    <value>reportCard</value>
+    <value>section</value>
+    <value>staff</value>
+    <value>staffCohortAssociation</value>
+    <value>staffEducationOrganizationAssociation</value>
+    <value>staffProgramAssociation</value>
+    <value>student</value>
+    <value>studentAcademicRecord</value>
+    <value>studentCohortAssociation</value>
+    <value>studentCompetency</value>
+    <value>studentCompetencyObjective</value>
+    <value>studentDisciplineIncidentAssociation</value>
+    <value>studentGradebookEntry</value>
+    <value>studentParentAssociation</value>
+    <value>studentProgramAssociation</value>
+    <value>studentSchoolAssociation</value>
+    <value>courseTranscript</value>
+    <value>teacherSchoolAssociation</value>
+    <value>teacherSectionAssociation</value>
+  </util:set>
+
+  <bean id="entityConfigurationsFactory" class="org.slc.sli.ingestion.transformation.normalization.EntityConfigFactory">
+    <property name="searchPath" value="classpath:smooksEdFi2SLI/" />
+  </bean>
+
+  <bean id="entityEncryption" class="org.slc.sli.dal.encrypt.EntityEncryption" />
+  
+  <import resource="dal-context.xml" />
+  <import resource="entity-mapping.xml" />
+  <import resource="recordLvlHash-context.xml"/>
+  <import resource="classpath:/spring/db.xml" />
+
+  <bean id="dalEntityCipher" class="org.slc.sli.dal.encrypt.InsecureCipher" />
+  
+  <bean class="org.slc.sli.ingestion.reporting.impl.DummyMessageReport"/>
+
+  <bean class="org.slc.sli.ingestion.validation.indexes.TenantDBIndexValidator"/>
+  <bean class="org.slc.sli.ingestion.processors.ControlFilePreProcessor"/>
+  
+  <bean class="org.slc.sli.ingestion.landingzone.validation.ControlFileValidator" />
+  <bean class="org.slc.sli.ingestion.processors.ControlFileProcessor"/>
+
+  <bean class="org.slc.sli.ingestion.processors.JobReportingProcessor"/>
+
+  <bean class="org.slc.sli.ingestion.processors.LandingZoneProcessor"/>
+
+  <bean class="org.slc.sli.ingestion.processors.PersistenceProcessor"/>
+
+  <bean class="org.slc.sli.ingestion.handler.ZipFileHandler" />
+  <bean class="org.slc.sli.ingestion.processors.ZipFileProcessor"/>
+
+
+</beans>
