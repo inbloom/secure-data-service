@@ -98,7 +98,7 @@
             <constructor-arg value="${smooks.config.all.xml}" />
             <constructor-arg>
               <list>
-                
+
                 <value>${smooks.targetselector.xml.assessment}</value>
                 <value>${smooks.targetselector.xml.objective.assessment}</value>
                 <value>${smooks.targetselector.xml.assessment.item}</value>
@@ -137,7 +137,7 @@
                 <value>${smooks.targetselector.xml.studentCompetency}</value>
                 <value>${smooks.targetselector.xml.competencyLevelDescriptorStudentGrade}</value>
                  <value>InterchangeStudentGrade/LearningObjective</value>
-               
+
               </list>
             </constructor-arg>
           </bean>
@@ -203,7 +203,7 @@
     <property name="batchJobDAO" ref="batchJobMongoDA" />
     <property name="dIdStrategy" ref="deterministicUUIDGeneratorStrategy" />
     <property name="dIdResolver" ref="deterministicIdResolver" />
-    <property name="recordLevelDeltaEnabledEntities" ref="recordLvlHashNeutralRecordTypes" />
+    <property name="recordLevelDeltaEnabledEntities" ref="recordLevelDeltaEnabledEntities" />
   </bean>
 
 </beans>

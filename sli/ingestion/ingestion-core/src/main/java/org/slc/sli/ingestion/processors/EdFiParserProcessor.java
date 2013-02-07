@@ -137,6 +137,8 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote> i
                     s.getWork().getTenantId(), false);
 
             producer.sendBodyAndHeaders(workNote, s.getOriginalExchange().getIn().getHeaders());
+
+            s.resetDataBatch();
         }
     }
 
