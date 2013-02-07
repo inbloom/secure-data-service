@@ -18,6 +18,7 @@ customRole,false,body.realmId:1
 customRole,false,metaData.tenantId:1,body.realmId:1
 custom_entities,false,metaData.entityId:1,metaData.clientId:1
 
+
 # Direct References, index on each direct reference
 # Used in cascade delete
 attendance,false,body.schoolId:1
@@ -91,8 +92,6 @@ section,false,body.programReference:1
 section,false,body.schoolId:1
 # Look up section by session: /sessions/{id}/sections
 section,false,body.sessionId:1
-# REMOVE - DE2550
-session,false,body.gradingPeriodReference:1
 # Look up session by school: /schools/{id}/sections
 session,false,body.schoolId:1
 # Look up staffCohortAssociation by cohort: /cohorts/{id}/staffCohortAssociations
@@ -136,8 +135,6 @@ student,false,studentParentAssociation.body.parentId:1
 # studentProgramAssociation is embedded into program
 # Look up studentProgramAssoc by student: /students/{id}/studentProgramAssociations
 program,false,studentProgramAssociation.body.studentId:1
-# REMOVE - DE2556
-studentSchoolAssociation,false,body.graduationPlanId:1
 # Look up studentSchoolAssoc by school: /schools/{id}/studentSchoolAssociations
 studentSchoolAssociation,false,body.schoolId:1
 # Look up studentSchoolAssoc by student: /students/{id}/studentSchoolAssociations
@@ -153,13 +150,10 @@ teacherSchoolAssociation,false,body.teacherId:1
 # Look up teacherSectionAssoc by teacher: /teachers/{id}/teacherSectionAssociations
 section,false,teacherSectionAssociation.body.teacherId:1
 
-assessment,false,body.assessmentTitle:1,body.academicSubject:1,body.gradeLevelAssessed:1
 
-# Profiled
+# External IDs
 # Find discipline incident by external ID
 disciplineIncident,false,body.incidentIdentifier:1
-# Find school/edorg by external name
-educationOrganization,false,type:1,body.nameOfInstitution:1
 # Find school/edorg by external ID
 educationOrganization,false,body.stateOrganizationId:1
 # Find learning objective by external ID
@@ -175,6 +169,12 @@ staff,false,body.staffUniqueStateId:1
 # Find student by external ID
 student,false,body.studentUniqueStateId:1
 
+
+# Natural Keys
+# US4388
+assessment,false,body.assessmentTitle:1,body.academicSubject:1,body.gradeLevelAssessed:1
+
+
 # US4365
 student,false,cohort._id:1
 
@@ -183,3 +183,7 @@ competencyLevelDescriptor,false,body.codeValue:1
 
 # US4602, checked with Billy.
 educationOrganization,false,body.organizationCategories:1
+
+
+# To make Accaptance Tests pass -- REMOVE THIS - DE2609
+educationOrganization,false,type:1,body.nameOfInstitution:1
