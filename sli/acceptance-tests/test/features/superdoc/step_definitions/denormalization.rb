@@ -37,6 +37,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   # Student
   id = "74cf790e-84c4-4322-84b8-fca7206f1085_id"     if human_readable_id == "MARVIN MILLER"
   id = "067198fd6da91e1aa8d67e28e850f224d6851713_id" if human_readable_id == "INGESTED MATT SOLLARS"
+  id = "0c93f4ca943a22e75b979fb468e7dc949c479bb9_id" if human_readable_id == "INGESTED STUDENT ID"
   # Section
   id = "ceffbb26-1327-4313-9cfc-1c3afd38122e_id"     if human_readable_id == "8TH GRADE ENGLISH SEC 6"
   id = "b11d9f8e0790f441c72a15a3c2deba5ffa1a5c4a_id" if human_readable_id == "INGESTED 7TH GRADE ENGLISH SEC 5"
@@ -51,6 +52,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
 
   # StudentAssessment
   id = "fe0be78251b73eaeb5bdc9cc79819b42a472dab4_id" if human_readable_id == "STUDENT ASSESSMENT ID"
+  id = "3923f33497e8c41c7a0f6267b7e5f0627d2c0fd2_id" if human_readable_id == "STUDENTASSESSMENT REFERENCE ID"
 
   # StudentSchoolAssociation
   id = "ec2e4218-6483-4e9c-8954-0aecccfd4731"        if human_readable_id == "MARVIN MILLER EAST DB JR HI"
