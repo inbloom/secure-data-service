@@ -249,7 +249,7 @@ describe "WorkOrderProcessor" do
                                     2003 => {:type => middle_school, :grade => seventh_grade, :school => middle_ed_org, :programs => []},
                                     2004 => {:type => middle_school, :grade => eighth_grade, :school => middle_ed_org, :programs => []},
                                     2005 => {:type => high_school, :grade => ninth_grade, :school => high_ed_org, :programs => []}},
-                          :graduation_plans => [ GraduationPlan.new("Standard", {'Math'=> 12}, "state-id")] )}
+                          :graduation_plans => [ GraduationPlan.new("Standard", "state-id", {'Math'=> 12})] )}
 
       before { work_order_queue.push_work_order(work_order) }
       it "will get enrollments for each school" do

@@ -20,6 +20,7 @@ require 'optparse'
 require 'zip/zip'
 require 'fileutils'
 require 'timeout'
+require 'json'
 
 @options = {}
 ARGV.options do |opts|
@@ -55,7 +56,7 @@ ARGV.options do |opts|
 end
 
 def init
-  @sli_workspace = File.absolute_path("#{File.dirname(__FILE__)}/../")
+  @sli_workspace = "#{`git rev-parse --show-toplevel`.chomp}/sli"
   @extract_dest = "#{@sli_workspace}/test-bundle-extract/"
   @api_log = "#{@sli_workspace}/acceptance-tests/target/api_version_upgrade_test.log"
   @dirs_to_archive = ["acceptance-tests",
@@ -70,13 +71,15 @@ def init
   @env_var = @options[:env_var] ? @options[:env_var].split(",") : ["TOGGLE_TABLESCANS", "FORCE_COLOR"]
   @env_var.map! {|e| "#{e}=1"}
   # @rake_tasks = @options[:tasks] ? @options[:tasks].join(" ") : "apiAndSecurityTests"
-  @rake_tasks = "apiAndSecurityTests"
+  @rake_tasks = "apiV1EntityTests"
   @ci = @options[:ci]
 
   scripts_loc = "#{@sli_workspace}/opstools/migration"
   @migrations = [
       "bundle exec ruby #{scripts_loc}/67to68TeacherSchoolDenormalizer.rb",
-      "bundle exec ruby #{scripts_loc}/69WritePublicRoleMigration.rb localhost:27017"
+      "bundle exec ruby #{scripts_loc}/69WritePublicRoleMigration.rb localhost:27017",
+      "bundle exec ruby #{@sli_workspace}/acceptance-tests/api-versions/fix_staffEdOrg_type.rb 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a",
+      "bundle exec ruby #{@sli_workspace}/acceptance-tests/api-versions/fix_staffEdOrg_type.rb f25ce1b8a399bd8621a57427a20039b4b13935db"
   ]
 end
 
@@ -128,13 +131,15 @@ def replace_api_version(version)
   Dir[File.join("#{@extract_dest}/acceptance-tests/test/features", "**", "*.{rb,feature}")].each do |f|
     temp_text = File.read(f).gsub(/v\d\.?\d*(?!_resources)/, version)
     text = ""
-    replace_next_line = false
+    replace_next_line_for_search = false
     temp_text.each_line do |line|
-      if replace_next_line
-        line = "  version = (expectedUri.include? \"/search\") ? \"v1.1\" : \"#{version}\"\n"
-        replace_next_line = false
+      if replace_next_line_for_search
+        line += "  version = (expectedUri.include? \"/search\") ? \"v1.1\" : \"#{version}\"\n"
+        replace_next_line_for_search = false
       end
-      replace_next_line = true if line.include? "Then /^uri was rewritten to"
+      replace_next_line_for_search = true if line.include? "Then /^uri was rewritten to"
+      # Fix bad transform regex for to match api minor versions
+      line.gsub!(/\[\\w-\]/, "[^\\\"]") if line.match(/Transform.*\[\\w-\]+.*version/)
       text += "#{line}"
     end
     File.open(f, "w") do |f|
@@ -166,19 +171,39 @@ def start_api
 end
 
 def insert_migration_scripts
-  puts "---- Run migration scripts"
+  puts "---- Inserting migration scripts in Rakefile"
   Dir.chdir "#{@sli_workspace}/acceptance-tests"
   run_cmd "bundle exec rake loadDefaultIngestionTenants"
   gemfile_lock = "#{@extract_dest}/acceptance-tests/Gemfile.lock"
-  text = File.read(gemfile_lock).gsub(/mongo .+/, "mongo (1.8.0)")
-  File.open(gemfile_lock, "w") do |f|
-    f.write text
+  mongo_gem_version = File.read(gemfile_lock).match(/mongo \((.*)\)/)[1]
+  if mongo_gem_version.to_f < "1.8.0".to_f
+    # Migration scripts require 1.8.0 or above
+    text = File.read(gemfile_lock).gsub(/mongo .+/, "mongo (1.8.0)")
+    File.open(gemfile_lock, "w") do |f|
+      f.write text
+    end
   end
   text_to_insert = @migrations.map { |m| "sh \"#{m}\"" }.join "\n"
   rakefile = "#{@extract_dest}/acceptance-tests/Rakefile"
   text = File.read(rakefile).gsub(/def runTests\(testDirPath\)/, "def runTests(testDirPath)\n#{text_to_insert}")
   File.open(rakefile, "w") do |f|
     f.write text
+  end
+end
+
+def update_feature_files
+  puts "---- Updating feature files according to config"
+  config = JSON.parse(File.read("#{@sli_workspace}/acceptance-tests/api-versions/feature_changes.json"))
+  f_changes = config[@old_branch]
+  f_changes.each do |f_change|
+    file = "#{@extract_dest}/acceptance-tests/test/features/#{f_change["feature"]}"
+    text = File.read(file)
+    f_change["changes"].each do |change|
+      text.gsub!(change["old"], change["new"])
+    end
+    File.open(file, "w") do |f|
+      f.write text
+    end
   end
 end
 
@@ -205,6 +230,7 @@ def main
     unpackage_test_code @extract_dest
     replace_api_version @old_version if @old_version
     insert_migration_scripts
+    update_feature_files
     start_api unless @ci
     run_test @rake_tasks
   rescue Exception => e

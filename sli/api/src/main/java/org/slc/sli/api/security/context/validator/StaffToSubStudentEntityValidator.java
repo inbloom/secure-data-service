@@ -65,7 +65,7 @@ public class StaffToSubStudentEntityValidator extends AbstractContextValidator {
         
         Set<String> students = new HashSet<String>();
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
-                NeutralCriteria.OPERATOR_EQUAL, new ArrayList<String>(ids)));
+                NeutralCriteria.CRITERIA_IN, new ArrayList<String>(ids)));
         Iterable<Entity> entities = getRepo().findAll(entityType, query);
         if (entities != null) {
             for (Entity entity : entities) {

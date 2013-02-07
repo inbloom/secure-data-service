@@ -23,7 +23,7 @@ class ChartController < ApplicationController
     #  f.series(:name => 'max', :data => [173, 324, 538, 695, 917, 1137, 1565, 2151, 1542, 1612])
     #end
 
-    file = File.read("#{Rails.root}/../multinode/result.json")
+    file = File.read("#{Rails.root}/../load_test_result/single_node/result.json")
     json = JSON.parse(file)
     @charts = []
     @table = {}

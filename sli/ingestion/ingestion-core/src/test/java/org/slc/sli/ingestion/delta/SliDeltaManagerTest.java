@@ -51,8 +51,6 @@ import org.slc.sli.ingestion.transformation.normalization.did.DidSchemaParser;
  *
  * @author ldalgado
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class SliDeltaManagerTest {
     @Mock
     private AbstractMessageReport errorReport;

@@ -1,7 +1,6 @@
 require 'nokogiri'
 require 'json'
 
-IGNORED_JMX_FILES = ["oauth.jmx"]
 IGNORED_REQUESTS = ["/api/oauth/sso", "simple-idp", "IDP Login HTTP Request", "/api/rest/saml/sso/post", "/api/oauth/token"]
 JTL_FILE_PREFIX = "test"
 TOTAL_LABEL = "total"
@@ -40,6 +39,7 @@ module ApiLoadTest
       @jmeter_exec = config[:jmeter_exec]
       @max_avg_elapsed_time = config[:max_avg_elapsed_time] || 300000
       @jmeter_prop = config[:jmeter_prop]
+      @ignore = config[:ignore]
     end
 
     def run_jmeter(jmx_file, jtl_file, thread_count)
@@ -109,7 +109,7 @@ module ApiLoadTest
     def collect_all_data(config_dir, thread_count_array)
       FileUtils.mkdir_p(@result_dir)
       Dir.foreach(config_dir) do |file|
-        next if IGNORED_JMX_FILES.include? file
+        next if @ignore.include? file
         if match_index = file =~ /[.]jmx$/
           full_path = File.join(@result_dir, file[0..(match_index - 1)])
           FileUtils.mkdir_p(full_path)
@@ -167,7 +167,7 @@ module ApiLoadTest
     def collect_all_errors(config_dir)
       errors = {}
       Dir.foreach(config_dir) do |file|
-        next if IGNORED_JMX_FILES.include? file
+        next if @ignore.include? file
         if match_index = file =~ /[.]jmx$/
           scenario = file[0..(match_index - 1)]
           full_path = File.join(@result_dir, scenario)

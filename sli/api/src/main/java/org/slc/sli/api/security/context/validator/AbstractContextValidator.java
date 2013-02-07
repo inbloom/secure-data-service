@@ -63,8 +63,7 @@ public abstract class AbstractContextValidator implements IContextValidator {
     }
     
     protected static final Set<String> SUB_ENTITIES_OF_STUDENT = new HashSet<String>(Arrays.asList(
-            EntityNames.ATTENDANCE, 
-            EntityNames.COURSE_TRANSCRIPT, 
+            EntityNames.ATTENDANCE,
             EntityNames.DISCIPLINE_ACTION, 
             EntityNames.STUDENT_ACADEMIC_RECORD,
             EntityNames.STUDENT_ASSESSMENT,

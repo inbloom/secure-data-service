@@ -275,6 +275,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
 
                     if (assessmentItems.iterator().hasNext()) {
                         NeutralRecord assessmentItem = assessmentItems.iterator().next();
+                        assessmentItem.getAttributes().remove("assessmentId");
                         sai.getAttributes().put(ASSESSMENT_ITEM, assessmentItem.getAttributes());
                     } else {
                         reportError(sai.getSourceFile(), new ElementSourceImpl(sai), CoreMessageCode.CORE_0032, assessmentItemIdentificatonCode);
