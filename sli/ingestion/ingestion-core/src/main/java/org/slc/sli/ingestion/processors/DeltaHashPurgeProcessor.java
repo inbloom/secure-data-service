@@ -29,7 +29,6 @@ import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 
 /**
  *
@@ -49,9 +48,6 @@ public class DeltaHashPurgeProcessor extends IngestionProcessor<WorkNote> {
 
     @Autowired
     private BatchJobDAO batchJobDAO;
-
-    @Autowired
-    private AbstractMessageReport databaseMessageReport;
 
     @Override
     public void process(Exchange exchange, ProcessorArgs<WorkNote> args) {
