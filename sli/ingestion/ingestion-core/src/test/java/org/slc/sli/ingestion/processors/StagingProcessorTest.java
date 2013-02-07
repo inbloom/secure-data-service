@@ -70,7 +70,7 @@ public class StagingProcessorTest {
         records.add(record1);
         records.add(record2);
 
-        NeutralRecordWorkNote workNote = new NeutralRecordWorkNote(records, "batchJobId", "tenantId", false);
+        NeutralRecordWorkNote workNote = new NeutralRecordWorkNote(records, "batchJobId", false);
 
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
         exchange.getIn().setBody(workNote);

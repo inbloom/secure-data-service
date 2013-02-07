@@ -101,7 +101,7 @@ public class DeltaProcessorTest {
         List<NeutralRecord> neutralRecords = new ArrayList<NeutralRecord>();
         neutralRecords.add(createNeutralRecord("gradingPeriod"));
 
-        NeutralRecordWorkNote workNote = new NeutralRecordWorkNote(neutralRecords, "batchJobId", "tenantId", false);
+        NeutralRecordWorkNote workNote = new NeutralRecordWorkNote(neutralRecords, "batchJobId", false);
 
         exchange.getIn().setBody(workNote);
 
@@ -128,7 +128,7 @@ public class DeltaProcessorTest {
         neutralRecords.add(createNeutralRecord("student"));
         neutralRecords.add(createNeutralRecord("grade"));
 
-        NeutralRecordWorkNote workNote = new NeutralRecordWorkNote(neutralRecords, "batchJobId", "tenantId", false);
+        NeutralRecordWorkNote workNote = new NeutralRecordWorkNote(neutralRecords, "batchJobId", false);
 
         exchange.getIn().setBody(workNote);
 
@@ -167,7 +167,7 @@ public class DeltaProcessorTest {
         Mockito.when(batchJobDAO.findRecordHash("tenantId", "recordId")).thenReturn(recordHash);
 
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
-        NeutralRecordWorkNote workNote = new NeutralRecordWorkNote(neutralRecords, "batchJobId", "tenantId", false);
+        NeutralRecordWorkNote workNote = new NeutralRecordWorkNote(neutralRecords, "batchJobId", false);
         exchange.getIn().setBody(workNote);
 
         deltaProcessor.process(exchange);
@@ -195,7 +195,7 @@ public class DeltaProcessorTest {
         Mockito.when(batchJobDAO.findRecordHash("tenantId", "recordId")).thenReturn(null);
 
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
-        NeutralRecordWorkNote workNote = new NeutralRecordWorkNote(neutralRecords, "batchJobId", "tenantId", false);
+        NeutralRecordWorkNote workNote = new NeutralRecordWorkNote(neutralRecords, "batchJobId", false);
         exchange.getIn().setBody(workNote);
 
         deltaProcessor.process(exchange);

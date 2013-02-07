@@ -64,7 +64,7 @@ public class DeltaHashPurgeProcessorTest {
         Mockito.when(job.getProperty(AttributeType.DUPLICATE_DETECTION.getName())).thenReturn(RecordHash.RECORD_HASH_MODE_DISABLE);
 
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
-        WorkNote workNote = new WorkNote("batchJobId", "tenantId", false);
+        WorkNote workNote = new WorkNote("batchJobId", false);
 
         exchange.getIn().setBody(workNote);
 
@@ -78,7 +78,7 @@ public class DeltaHashPurgeProcessorTest {
         Mockito.when(job.getProperty(AttributeType.DUPLICATE_DETECTION.getName())).thenReturn(RecordHash.RECORD_HASH_MODE_RESET);
 
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
-        WorkNote workNote = new WorkNote("batchJobId", "tenantId", false);
+        WorkNote workNote = new WorkNote("batchJobId", false);
 
         exchange.getIn().setBody(workNote);
 
@@ -91,7 +91,7 @@ public class DeltaHashPurgeProcessorTest {
         Mockito.when(job.getProperty(AttributeType.DUPLICATE_DETECTION.getName())).thenReturn("");
 
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
-        WorkNote workNote = new WorkNote("batchJobId", "tenantId", false);
+        WorkNote workNote = new WorkNote("batchJobId", false);
 
         exchange.getIn().setBody(workNote);
 

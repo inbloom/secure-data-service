@@ -133,8 +133,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
         ParserState s = state.get();
 
         if (s.getDataBatch().size() > 0) {
-            NeutralRecordWorkNote workNote = new NeutralRecordWorkNote(s.getDataBatch(), s.getWork().getBatchJobId(),
-                    s.getWork().getTenantId(), false);
+            NeutralRecordWorkNote workNote = new NeutralRecordWorkNote(s.getDataBatch(), s.getWork().getBatchJobId(), false);
 
             producer.sendBodyAndHeaders(workNote, s.getOriginalExchange().getIn().getHeaders());
 

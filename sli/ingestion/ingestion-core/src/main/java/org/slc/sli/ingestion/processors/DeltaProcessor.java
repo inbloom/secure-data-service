@@ -114,7 +114,7 @@ public class DeltaProcessor extends IngestionProcessor<NeutralRecordWorkNote, Re
 
     private void setExchangeBody(Exchange exchange, List<NeutralRecord> records, NewBatchJob job,
             ReportStats reportStats) {
-        WorkNote workNote = new NeutralRecordWorkNote(records, job.getId(), job.getTenantId(), reportStats.hasErrors());
+        WorkNote workNote = new NeutralRecordWorkNote(records, job.getId(), reportStats.hasErrors());
         exchange.getIn().setBody(workNote, NeutralRecordWorkNote.class);
     }
 
