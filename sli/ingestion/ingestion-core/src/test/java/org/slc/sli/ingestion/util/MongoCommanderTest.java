@@ -44,8 +44,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  * @author tke
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class MongoCommanderTest {
 
     private MongoTemplate mockedMongoTemplate = Mockito.mock(MongoTemplate.class);

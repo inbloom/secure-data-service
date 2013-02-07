@@ -1,7 +1,7 @@
 @RALLY_US210
 Feature: Querying the API to receive subsets of results
+ 
 
-  @wip
 Scenario Outline: Confirm ability to use all API query operators with different data type
   Given I am logged in using <username> <password> to realm "NY"
     And format "application/json;charset=utf-8"
@@ -244,7 +244,7 @@ When I navigate to GET "/v1/search/students?q=Mat"
 Then I should receive a collection with 1 elements
 Then each entity's "id" should be "5738d251-dd0b-4734-9ea6-417ac9320a15_id"
 When I navigate to GET "/v1/search?q=Mat"
-Then I should receive a collection with 25 elements
+Then I should receive a collection with 39 elements
     Examples:
       | username           | password              |
       | "rrogers"          | "rrogers1234"         |

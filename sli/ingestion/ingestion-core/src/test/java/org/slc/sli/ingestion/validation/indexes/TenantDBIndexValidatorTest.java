@@ -47,8 +47,6 @@ import org.slc.sli.ingestion.util.MongoIndex;
  * @author tke
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class TenantDBIndexValidatorTest {
 
     private MongoTemplate mongoTemplate = Mockito.mock(MongoTemplate.class);
@@ -122,6 +120,8 @@ public class TenantDBIndexValidatorTest {
     @Test
     public void test() throws IllegalArgumentException, IllegalAccessException, SecurityException, NoSuchFieldException {
         tenantDBIndexValidator.setTenantDA(tenantDA);
+
+        Mockito.doCallRealMethod().when(tenantDBIndexValidator).isValid(Matchers.any(DB.class), Matchers.any(List.class), Matchers.any(AbstractMessageReport.class), Matchers.any(ReportStats.class), Matchers.any(Source.class));
 
         AbstractMessageReport report = Mockito.mock(AbstractMessageReport.class);
         ReportStats reportStats = Mockito.mock(ReportStats.class);
