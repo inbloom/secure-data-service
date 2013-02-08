@@ -85,6 +85,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
             Resource xsdSchema = xsdSelector.provideXsdResource(args.workNote.getFileEntry());
 
             EdfiRecordParserImpl.parse(reader, xsdSchema, typeProvider, this);
+
         } catch (IOException e) {
             getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0063);
         } catch (XMLStreamException e) {
@@ -93,6 +94,8 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
             getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0065);
         } finally {
             IOUtils.closeQuietly(input);
+
+            sendDataBatch();
 
             cleanUpState();
         }
@@ -243,6 +246,8 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
             neutralRecord.setVisitAfterColumnNumber(endLoc.getColumnNumber());
 
             neutralRecord.setAttributes(record);
+
+            dataBatch.add(neutralRecord);
         }
     }
 
