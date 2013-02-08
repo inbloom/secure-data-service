@@ -30,11 +30,11 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.init.RoleInitializer;
 import org.slc.sli.api.resources.security.DelegationUtil;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.domain.enums.Right;
 
 /**
@@ -47,7 +47,7 @@ public class SecurityEventContextResolver implements EntityContextResolver {
     static final List<String> ROLES_LEA_ADMIN          = Arrays.asList(RoleInitializer.LEA_ADMINISTRATOR);
 
     @Autowired
-    
+
     private PagingRepositoryDelegate<Entity> repository;
 
     private static final String       RESOURCE_NAME              = "securityEvent";
@@ -94,8 +94,9 @@ public class SecurityEventContextResolver implements EntityContextResolver {
                             if (roles.contains(RoleInitializer.SEA_ADMINISTRATOR) && homeEdOrgs.size() > 0) {
 
                                 NeutralQuery or = new NeutralQuery();
-                                or.addCriteria(new NeutralCriteria("targetEdOrg",             NeutralCriteria.CRITERIA_IN,    homeEdOrgs));
-                                or.addCriteria(new NeutralCriteria("roles",                   NeutralCriteria.CRITERIA_IN,    ROLES_SEA_OR_REALM_ADMIN));
+                                or.addCriteria(new NeutralCriteria("tenantId",      NeutralCriteria.OPERATOR_EQUAL, principal.getTenantId()));
+                                or.addCriteria(new NeutralCriteria("targetEdOrg",   NeutralCriteria.CRITERIA_IN,    homeEdOrgs));
+                                or.addCriteria(new NeutralCriteria("roles",         NeutralCriteria.CRITERIA_IN,    ROLES_SEA_OR_REALM_ADMIN));
                                 filters.add(or);
 
                                 if (SecurityUtil.hasRight(Right.EDORG_DELEGATE)) {
