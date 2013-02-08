@@ -25,6 +25,7 @@ task :apiV1EntityTests => [:realmInit] do
   runTests("test/features/apiV1/entities/crud")
   Rake::Task["importSandboxData"].execute
   runTests("test/features/apiV1/entities/crud_auto")
+  runTests("test/features/apiV1/api_search/")
 end
 
 task :crudAutoTests => [:realmInit] do
