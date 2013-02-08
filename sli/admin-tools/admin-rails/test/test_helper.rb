@@ -70,9 +70,8 @@ class ActiveSupport::TestCase
       #app auth
       mock.get "/api/rest/applicationAuthorization", {"Accept" => "application/json"}, [@appauth_fixtures['district1']].to_json
       #mock.get "/api/rest/applicationAuthorization", {"Accept" => "application/json"}, [].to_json
-      mock.get "/api/rest/applicationAuthorization/1", {"Accept" => "application/json"}, @appauth_fixtures['district1'].to_json
-      mock.post "/api/rest/applicationAuthorization", {"Content-Type" => "application/json"}, @app_fixtures['new_district'], 201
-      mock.put "/api/rest/applicationAuthorization/1", {"Content-Type" => "application/json"}, @app_fixtures['district'], 201
+      mock.get "/api/rest/applicationAuthorization/appId1?edorg=ID1", {"Accept" => "application/json"}, @appauth_fixtures['district1'].to_json
+      mock.put "/api/rest/applicationAuthorization/appId1?edorg=ID1", {"Content-Type" => "application/json"}, @app_fixtures['district'], 201
       mock.get "/api/rest/system/session/check/", {"Accept" => "application/json"}, @appauth_fixtures['sessionCheck'].to_json
 
       #ed orgs

@@ -40,7 +40,9 @@ class ApplicationAuthorizationsControllerTest < ActionController::TestCase
 
   test "should update application_authorization" do
     session[:roles] = ["LEA Administrator"]
-    put :update, id: "1", application_authorization: @appauth_fixtures['district1']
+    session[:edOrgId] = "ID1"
+    #params[:application_authorization][:edorg] = "ID1"
+    put :update, id: "appId1", application_authorization: @appauth_fixtures['district1']
     assert_redirected_to application_authorizations_path
   end
 end
