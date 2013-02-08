@@ -23,9 +23,9 @@ require_relative 'baseEntity'
 class Assessment < BaseEntity
 
   attr_accessor :id, :assessmentTitle, :assessmentIdentificationCode, :year_of, :gradeLevelAssessed,
-    :assessmentFamilyReference, :assessment_items
+    :assessmentFamilyReference, :assessment_items, :objective_assessments
 
-  def initialize(id, year_of = 2012, gradeLevelAssessed = :UNGRADED, num_items = 0, assessmentFamilyReference = nil)
+  def initialize(id, year_of = 2012, gradeLevelAssessed = :UNGRADED, num_items = 0, assessmentFamilyReference = nil, num_objectives = 2)
     @id = id
     @year_of = year_of
     @gradeLevelAssessed = GradeLevelType.to_string(gradeLevelAssessed)
@@ -33,6 +33,8 @@ class Assessment < BaseEntity
     @assessmentIdentificationCode = { code: @id, assessmentIdentificationSystemType: 'State' }
 
     @assessment_items = (1..num_items).map{|i| AssessmentItem.new(i, self)}
+    @objective_assessments = (1..num_objectives).map {|i| ObjectiveAssessment.new("#{@id} - Objective Assessment #{i}", 100/num_objectives)}
+
     @assessmentFamilyReference = assessmentFamilyReference
   end
 
