@@ -110,7 +110,7 @@ Then I should see following map of entry counts in the corresponding collections
      | courseTranscript                         |                196|
      | teacherSchoolAssociation                 |                  3|
      | teacherSectionAssociation                |                 11|
-    And all the small sample data set records were processed
+    And I should see "Processed 4254 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
 

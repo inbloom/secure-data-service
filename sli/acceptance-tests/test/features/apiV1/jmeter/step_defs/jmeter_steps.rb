@@ -39,7 +39,7 @@ Before do
   @time = Time.now.strftime("%Y%m%d_%H%M%S")
   @testsRun = Array.new
 
-  #makeDirs([JMETER_JTL_ARCHIVE, JMETER_FAILED_JTL_ARCHIVE])
+  makeDirs([JMETER_JTL_ARCHIVE, JMETER_FAILED_JTL_ARCHIVE])
 end
 
 def makeDirs(dirs)
@@ -186,6 +186,7 @@ def checkForRegression(testName)
     end
   end
 
+  puts "#{regressions}.count regressions found."
   return regressions
 end
 
@@ -228,6 +229,7 @@ def aggregate(map)
       sum = sum + timing.to_f
     end
     avg = sum / timings.count
+    puts "Average time is #{avg} for label #{label} out of #{timings.count} samples"
     aggregateMap[label] = avg
   end
 

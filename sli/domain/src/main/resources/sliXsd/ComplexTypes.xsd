@@ -310,14 +310,8 @@
 						Individual test items, if appropriate.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
-						<sli:CollectionType>assessmentItem</sli:CollectionType>
-						<sli:WriteEnforcement>
-							<sli:allowedBy>WRITE_PUBLIC</sli:allowedBy>
-						</sli:WriteEnforcement>
-						<sli:ReadEnforcement>
-							<sli:allowedBy>READ_GENERAL</sli:allowedBy>
-						</sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -378,21 +372,6 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-            <!--  this is a 'virtual' element that only exists for superdoc processing -->
-            <xs:element minOccurs='0' name='assessmentId' type='reference'>
-                <xs:annotation>
-                    <xs:documentation>Reference to the assessment taken by the
-                        student.
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:ReferenceType>assessment</sli:ReferenceType>
-                        <sli:naturalKey>true</sli:naturalKey>
-                        <sli:associationKey>true</sli:associationKey>
-                        <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
 			<!--This is how we associate the assessment item and the objective assessment 
 				locally within the assessment. <xs:element name="id" type="xs:ID"> <xs:annotation> 
 				<xs:documentation>Uniquely identifies this assessment item within the assessment.</xs:documentation> 
