@@ -22,12 +22,14 @@ import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
 import java.util.Date;
+import java.util.Map;
 
 import javax.ws.rs.core.UriInfo;
 
 import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
+import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -60,6 +62,8 @@ public class SecurityEventBuilder {
     public SecurityEvent createSecurityEvent(String loggingClass, URI requestUri, String slMessage) {
         SecurityEvent event = new SecurityEvent();
         String realmEdOrg = "UnknownEdOrg";
+		String stateOrgId;
+		String tenantId;
         
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -68,11 +72,21 @@ public class SecurityEventBuilder {
                 if (principal != null) {
                     event.setTenantId(principal.getTenantId());
                     event.setUser(principal.getExternalId() + ", " + principal.getName());
-                    String realm = realmHelper.getRealmFromSession(principal.getSessionId());
-                    realmEdOrg = realmHelper.getRealmEdOrg(realm);
-               	 	if (realmEdOrg != null) {
-               	 		event.setUserEdOrg(realmEdOrg);
-               	 	}
+                    Entity realmEntity = realmHelper.getRealmFromSession(principal.getSessionId());
+            		if (realmEntity != null) {
+            			String realmId = realmEntity.getEntityId();
+						realmEdOrg = realmHelper.getRealmEdOrg(realmId);
+						if (realmEdOrg != null) {
+							event.setUserEdOrg(realmEdOrg);
+						}
+
+            			Map<String, Object> body = realmEntity.getBody();
+            			if (body != null) {
+            				stateOrgId = (String) body.get("edOrg");
+							tenantId = (String) body.get("tenantId");
+				            event.setTargetEdOrg(realmHelper.getEdOrgIdFromTenantDB(tenantId, stateOrgId));
+            			}
+            		}
                 }
                 Object credential = auth.getCredentials();
                 if (credential != null) {
@@ -80,8 +94,6 @@ public class SecurityEventBuilder {
                 }
             }
             
-            event.setTargetEdOrg(realmEdOrg);
-                        
             if (requestUri != null) {
                 event.setActionUri(requestUri.toString());
             }
