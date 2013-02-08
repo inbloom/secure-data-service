@@ -84,7 +84,7 @@ public class EntityOwnershipValidator {
         typeToReference.put(EntityNames.STUDENT_SECTION_ASSOCIATION, new Reference(EntityNames.STUDENT_SECTION_ASSOCIATION, EntityNames.STUDENT, ParameterConstants.STUDENT_ID, Reference.RefType.LEFT_TO_RIGHT));
         typeToReference.put(EntityNames.ATTENDANCE, new Reference(EntityNames.ATTENDANCE, EntityNames.SCHOOL, ParameterConstants.SCHOOL_ID, Reference.RefType.LEFT_TO_RIGHT));
         typeToReference.put(EntityNames.COHORT, new Reference(EntityNames.COHORT, EntityNames.EDUCATION_ORGANIZATION, "educationOrgId", Reference.RefType.LEFT_TO_RIGHT));
-        typeToReference.put(EntityNames.COURSE_TRANSCRIPT, new Reference(EntityNames.COURSE_TRANSCRIPT, EntityNames.COURSE, ParameterConstants.COURSE_ID, Reference.RefType.LEFT_TO_RIGHT));
+        typeToReference.put(EntityNames.COURSE_TRANSCRIPT, new Reference(EntityNames.COURSE_TRANSCRIPT, EntityNames.EDUCATION_ORGANIZATION, ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, Reference.RefType.LEFT_TO_RIGHT));
         typeToReference.put(EntityNames.DISCIPLINE_INCIDENT, new Reference(EntityNames.DISCIPLINE_INCIDENT, EntityNames.SCHOOL, ParameterConstants.SCHOOL_ID, Reference.RefType.LEFT_TO_RIGHT));
         typeToReference.put(EntityNames.DISCIPLINE_ACTION, new Reference(EntityNames.DISCIPLINE_ACTION, EntityNames.SCHOOL, "responsibilitySchoolId", Reference.RefType.LEFT_TO_RIGHT));
         typeToReference.put(EntityNames.GRADEBOOK_ENTRY, new Reference(EntityNames.GRADEBOOK_ENTRY, EntityNames.SECTION, ParameterConstants.SECTION_ID, Reference.RefType.LEFT_TO_RIGHT));
@@ -170,7 +170,14 @@ public class EntityOwnershipValidator {
         if (ref.toType.equals(EntityNames.SCHOOL) || ref.toType.equals(EntityNames.EDUCATION_ORGANIZATION)) {
             //No need to do an actual mongo lookup since we have the IDs we need
             for (Entity entity : entities) {
-                edorgs.add((String) entity.getBody().get(ref.refField));
+                Object value = entity.getBody().get(ref.refField);
+                if (value instanceof String) {
+                    edorgs.add((String) value);
+                } else if (value instanceof List<?>) {
+                    for (Object subValues : (List<?>) value) {
+                        edorgs.add(subValues.toString());
+                    }
+                }
             }
         } else {
         
