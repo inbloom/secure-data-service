@@ -1,4 +1,7 @@
 
+SLI_ROOT = "."
+
+
 def run
   cleanCanonicalConfig
   cleanDatabrowserConfig
@@ -11,7 +14,9 @@ def run
 end
 
 def cleanCanonicalConfig()
-  contents = File.read('config/config.in/canonical_config.yml')
+
+  filename = "#{SLI_ROOT}/config/config.in/canonical_config.yml"
+  contents = File.read(filename)
 
   contents = removeProfile(contents,"devapp1")
   contents = removeProfile(contents,"devjuggernauts")
@@ -26,49 +31,54 @@ def cleanCanonicalConfig()
 
   contents = sanitizeConfigProperties(contents)
 
-  File.open('config/config.in/canonical_config2.yml', 'w') {|f| f.write(contents) }
+  File.open(filename, 'w') {|f| f.write(contents) }
 end
 
 def cleanDatabrowserConfig
-  contents = File.read('databrowser/config/config.yml')
+  filename = "#{SLI_ROOT}/databrowser/config/config.yml"
+  contents = File.read(filename)
   contents = sanitizeConfigProperties(contents)
-  File.open('databrowser/config/config2.yml', 'w') {|f| f.write(contents) }
+  File.open(filename, 'w') {|f| f.write(contents) }
 end
 
 def cleanAdminConfig
-  contents = File.read('admin-tools/admin-rails/config/config.yml')
+  filename = "#{SLI_ROOT}/admin-tools/admin-rails/config/config.yml"
+  contents = File.read(filename)
   contents = removeProfile(contents,"test") # refers to devapp1
   contents = sanitizeConfigProperties(contents)
-  File.open('admin-tools/admin-rails/config/config2.yml', 'w') {|f| f.write(contents) }
+  File.open(filename, 'w') {|f| f.write(contents) }
 end
 
 
 def cleanDashboardConfig
-  contents = File.read('config/config.in/dashboard_config.yml')
+  filename = "#{SLI_ROOT}/config/config.in/dashboard_config.yml"
+  contents = File.read(filename)
   contents = sanitizeConfigProperties(contents)
-  File.open('config/config.in/dashboard_config2.yml', 'w') {|f| f.write(contents) }
+  File.open(filename, 'w') {|f| f.write(contents) }
 end
 
 def cleanPortalConfig
-  contents = File.read('config/config.in/portal_config.yml')
+  filename = "#{SLI_ROOT}/config/config.in/portal_config.yml"
+  contents = File.read(filename)
   contents = removeProfile(contents,"devlycans")
   contents = removeProfile(contents,"devlr1")
   contents = removeProfile(contents,"devlr2")
   contents = removeProfile(contents,"testlr1")
   contents = removeProfile(contents,"demo")
   contents = sanitizeConfigProperties(contents)
-  File.open('config/config.in/portal_config2.yml', 'w') {|f| f.write(contents) }
+  File.open(filename, 'w') {|f| f.write(contents) }
 end
 
 def cleanPortalExtConfig
-  contents = File.read('config/config.in/portal_ext_config.yml')
+  filename = "#{SLI_ROOT}/config/config.in/portal_ext_config.yml"
+  contents = File.read(filename)
   contents = removeProfile(contents,"devlycans")
   contents = removeProfile(contents,"devlr1")
   contents = removeProfile(contents,"devlr2")
   contents = removeProfile(contents,"testlr1")
   contents = removeProfile(contents,"demo")
   contents = sanitizeConfigProperties(contents)
-  File.open('config/config.in/portal_ext_config2.yml', 'w') {|f| f.write(contents) }
+  File.open(filename, 'w') {|f| f.write(contents) }
 end
 
 
@@ -80,11 +90,11 @@ def removeFiles
     end
   end
 
-  deleteIfExists('data-access/dal/keyStore/ciKeyStore.jks')
-  deleteIfExists('data-access/dal/keyStore/localKeyStore.jks')
-  deleteIfExists('data-access/dal/keyStore/localRailsKey')
-  deleteIfExists('databrowser/config/devmegatron_databrowser_config.yml')
-  deleteIfExists('databrowser/config/megtomcat01_databrowser_config.yml')
+  deleteIfExists("#{SLI_ROOT}/data-access/dal/keyStore/ciKeyStore.jks")
+  deleteIfExists("#{SLI_ROOT}/data-access/dal/keyStore/localKeyStore.jks")
+  deleteIfExists("#{SLI_ROOT}/data-access/dal/keyStore/localRailsKey")
+  deleteIfExists("#{SLI_ROOT}/databrowser/config/devmegatron_databrowser_config.yml")
+  deleteIfExists("#{SLI_ROOT}/databrowser/config/megtomcat01_databrowser_config.yml")
 
 end
 
