@@ -135,6 +135,7 @@ def sanitizeConfigProperties(contents)
       /(^[^#]+bootstrap.developer.realm.redirectEndpoint:).*$/ => '\1',
       /(^[^#]+bootstrap.sandbox.realm.idpId:).*$/ => '\1',
       /(^[^#]+bootstrap.sandbox.realm.redirectEndpoint:).*$/ => '\1',
+      /(^[^#]+sli.simple-idp.response-destination:).*$/ => '\1',
       /(^[^#]+sli.landingZone.server:).*$/ => '\1',
       /(^[^#]+sli.api.ldap.user:).*$/ => '\1',
       /(^[^#]+sli.api.ldap.pass:).*$/ => '\1',
