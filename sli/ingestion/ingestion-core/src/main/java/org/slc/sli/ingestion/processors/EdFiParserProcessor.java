@@ -69,7 +69,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote> i
     private int batchSize;
 
     // Internal state of the processor
-    private ThreadLocal<ParserState> state = new ThreadLocal<ParserState>();
+    protected ThreadLocal<ParserState> state = new ThreadLocal<ParserState>();
 
     @Override
     protected void process(Exchange exchange, ProcessorArgs<FileEntryWorkNote> args) {
@@ -84,7 +84,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote> i
 
             Resource xsdSchema = xsdSelector.provideXsdResource(args.workNote.getFileEntry());
 
-            EdfiRecordParserImpl.parse(reader, xsdSchema, typeProvider, this);
+            parse(reader, xsdSchema, typeProvider); 
         } catch (IOException e) {
             getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0016);
         } catch (XMLStreamException e) {
@@ -98,6 +98,10 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote> i
         }
     }
 
+    public void parse(XMLEventReader reader, Resource xsdSchema, TypeProvider typeProvider2) throws IOException, XMLStreamException, XmlParseException{
+        EdfiRecordParserImpl.parse(reader, xsdSchema, typeProvider, this);
+    }
+
     /**
      * Prepare the state for the job.
      *
@@ -105,7 +109,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote> i
      *            Exchange
      * @throws InvalidPayloadException
      */
-    private void prepareState(Exchange exchange, FileEntryWorkNote workNote) {
+    protected void prepareState(Exchange exchange, FileEntryWorkNote workNote) {
         ParserState newState = new ParserState();
         newState.setOriginalExchange(exchange);
         newState.setWork(workNote);
@@ -230,6 +234,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote> i
         public void addToBatch(RecordMeta recordMeta, Map<String, Object> record) {
             NeutralRecord neutralRecord = new NeutralRecord();
 
+            neutralRecord.setRecordType(recordMeta.getType());
             neutralRecord.setBatchJobId(work.getBatchJobId());
             neutralRecord.setSourceFile(work.getFileEntry().getResourceId());
 
@@ -242,6 +247,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote> i
             neutralRecord.setVisitAfterColumnNumber(endLoc.getColumnNumber());
 
             neutralRecord.setAttributes(record);
+            dataBatch.add(neutralRecord);
         }
     }
 
