@@ -356,12 +356,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         // set up update query
         Map<String, Object> entityBody = entity.getBody();
         Map<String, Object> entityMetaData = entity.getMetaData();
-        Update update = new Update();
-        for (Entry<String, Object> entry : entityBody.entrySet()) {
-            update.set("body." + entry.getKey(), entry.getValue());
-        }
-        update.set("metaData", entityMetaData);
-        return update;
+        return (new Update().set("body", entityBody).set("metaData", entityMetaData));
     }
 
     @Override

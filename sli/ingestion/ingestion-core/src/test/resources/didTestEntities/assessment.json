@@ -32,6 +32,20 @@
 					}
 				]
 			}
+		],
+		"assessmentItem":
+		[
+			{
+				"learningStandards":
+				[
+    				{
+        				"LearningStandardIdentity":
+        				{
+            				"IdentificationCode":"0123456789"
+        				}
+    				}
+    			]
+			}
 		]
 	}	
 }

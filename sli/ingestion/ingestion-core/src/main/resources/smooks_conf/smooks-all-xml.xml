@@ -1152,6 +1152,7 @@
     <jb:value property="maxRawScore" data="InterchangeAssessmentMetadata/ObjectiveAssessment/MaxRawScore" decoder="Integer" />
     <jb:value property="percentOfAssessment" data="InterchangeAssessmentMetadata/ObjectiveAssessment/PercentOfAssessment" decoder="Integer"/>
     <jb:value property="nomenclature" data="InterchangeAssessmentMetadata/ObjectiveAssessment/Nomenclature" />
+    <jb:wiring property="assessmentItemRefs" beanIdRef="SubObjectiveAssessmentItemReferenceTypeArray" />
     <jb:wiring property="subObjectiveRefs" beanIdRef="SubObjectiveAssessmentsArray" />
     <jb:wiring beanIdRef="SLC-ObjectiveAssessment_Attributes_SLC-LearningObjectiveReferenceTypeArray" property="learningObjectives"/>
   </jb:bean>
@@ -1203,6 +1204,16 @@
 <!--    <jb:wiring beanIdRef="ObjectiveItemRef" /> -->
   </jb:bean>
 
+  <!-- AssessmentItemReferenceType -->
+  <jb:bean beanId="SubObjectiveAssessmentItemReferenceTypeArray" class="java.util.ArrayList"
+    createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment">
+    <jb:wiring beanIdRef="SubObjectiveAssessmentItemReferenceType" />
+  </jb:bean>
+  <jb:bean beanId="SubObjectiveAssessmentItemReferenceType" class="java.util.HashMap"
+    createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentItemReference">
+    <jb:value property="identificationCode" data="ObjectiveAssessment/AssessmentItemReference/AssessmentItemIdentity/AssessmentItemIdentificationCode" />
+  </jb:bean>
+
   <!-- AssessmentItem -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeAssessmentMetadata/AssessmentItem">
     <jb:expression property="recordType">'assessmentItem'</jb:expression>
@@ -1216,7 +1227,7 @@
     <jb:value property="correctResponse" data="CorrectResponse" />
     <jb:value property="nomenclature" data="Nomenclature" />
     <jb:wiring property="learningStandards" beanIdRef="assessmentItemLearningStandardRefsArray" />
-    <jb:wiring property="assessmentId" beanIdRef="AssessmentItem_AssessmentReferenceType" />
+ <!--   <jb:wiring property="assessmentReference" beanIdRef="AssessmentItem_AssessmentReferenceType" /> -->
   </jb:bean>
 
   <jb:bean beanId="assessmentItemLearningStandardRefsArray" class="java.util.ArrayList" createOnElement="InterchangeAssessmentMetadata/AssessmentItem">
@@ -1230,7 +1241,7 @@
   <jb:bean beanId="assessmentItemLearningStandardIdentity" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/AssessmentItem/LearningStandardReference">
     <jb:value property="IdentificationCode" data="LearningStandardReference/LearningStandardIdentity/IdentificationCode" />
   </jb:bean>
-
+  <!--
   <jb:bean beanId="AssessmentItem_AssessmentReferenceType" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/AssessmentItem/AssessmentReference">
     <jb:wiring beanIdRef="AssessmentItem_AssessmentReferenceType_AssessmentIdentityType" property="AssessmentIdentity"/>
   </jb:bean>
@@ -1240,6 +1251,7 @@
     <jb:value data="AssessmentIdentity/AcademicSubject" property="AcademicSubject"/>
     <jb:value data="AssessmentIdentity/AssessmentTitle" property="AssessmentTitle"/>
   </jb:bean>
+  -->
 
   <!-- StudentAssessmentItem -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeStudentAssessment/StudentAssessmentItem">
@@ -1491,6 +1503,7 @@
     <jb:value property="nomenclature" data="Assessment/Nomenclature" />
     <jb:value property="parentAssessmentFamilyTitle" data="Assessment/AssessmentFamilyReference/AssessmentFamilyIdentity/AssessmentFamilyTitle"/>
     <jb:value property="periodDescriptorRef" data="Assessment/AssessmentPeriod/CodeValue"/>
+    <jb:wiring property="assessmentItem" beanIdRef="AssessmentItemArrayResolvedReferences" />
     <jb:wiring property="objectiveAssessmentRefs" beanIdRef="objectiveAssessmentRefs" />
   </jb:bean>
 
