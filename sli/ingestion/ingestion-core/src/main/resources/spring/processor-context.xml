@@ -104,4 +104,8 @@
     <property name="neutralRecordAccess" ref="neutralRecordMongoAccess" />
   </bean>
 
+    <bean id="fileEntryLatch" class="org.slc.sli.ingestion.routes.orchestra.parsing.FileEntryLatch" >
+        <property name="batchJobDAO" ref="batchJobMongoDA" />
+    </bean>
+  
 </beans>

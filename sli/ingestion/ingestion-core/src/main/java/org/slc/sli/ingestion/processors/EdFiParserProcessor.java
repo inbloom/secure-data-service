@@ -31,6 +31,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.InvalidPayloadException;
 import org.apache.camel.ProducerTemplate;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.core.io.Resource;
 
 import org.slc.sli.common.util.logging.SecurityEvent;
@@ -236,8 +237,8 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
 
         public void addToBatch(RecordMeta recordMeta, Map<String, Object> record) {
             NeutralRecord neutralRecord = new NeutralRecord();
-
-            neutralRecord.setRecordType(recordMeta.getType());
+            
+            neutralRecord.setRecordType(StringUtils.uncapitalize(recordMeta.getName()));
             neutralRecord.setBatchJobId(work.getBatchJobId());
             neutralRecord.setSourceFile(work.getFileEntry().getResourceId());
 
