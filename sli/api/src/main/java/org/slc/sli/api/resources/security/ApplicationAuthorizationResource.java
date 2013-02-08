@@ -60,6 +60,32 @@ import org.slc.sli.api.security.SecurityEventBuilder;
 
 /**
  *
+ * App auths are stored in mongo in the format
+ * 
+ * {
+ *  applicationId: id of application from application collection,
+ *  edorgs: ids of all the edorgs (schools, LEAs, and SEAs) that have authorized the application.
+ * }
+ * 
+ * The endpoint supports three operations
+ * 
+ * GET /applicationAuthorization
+ * GET /applicationAuthorization/id
+ * PUT /applicationAuthorization/id
+ * 
+ * On a GET, it returns data of the format
+ * {
+ *  appId: id of the application
+ *  authorized: true|false
+ * }
+ * 
+ * For LEA administrators the content is based on the user's LEA.
+ * For SEA administrators the content is based on delegated SEAs.
+ * 
+ * If an SEA administrator needs to distinguish between two edorgs, a
+ * ?edorgs=... query parameter can be used on all operations.
+ * 
+ * On a PUT, the endpoint automatically registers parent and child edorgs.
  */
 @Component
 @Scope("request")
