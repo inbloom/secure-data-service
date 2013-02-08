@@ -57,9 +57,9 @@ import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
 public class PurgeProcessorTest {
 
     private static final String BATCHJOBID = "MT.ctl-1234235235";
-    @InjectMocks
     @Autowired
-    private PurgeProcessor purgeProcessor;
+    @InjectMocks
+    private PurgeProcessor purgeProcessor = new PurgeProcessor();
 
     @Mock
     private BatchJobDAO mockBatchJobDAO;

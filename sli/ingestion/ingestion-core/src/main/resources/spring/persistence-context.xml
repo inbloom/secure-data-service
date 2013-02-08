@@ -22,7 +22,6 @@
 
   <!-- collections that should be persisted using the new pipeline but no transformation has been performed -->
   <util:set id="passthroughEntities" set-class="java.util.HashSet" value-type="java.lang.String">
-    <value>assessmentItem</value>
     <value>calendarDate</value>
     <value>cohort</value>
     <value>competencyLevelDescriptor</value>
@@ -78,6 +77,7 @@
     entity -->
   <util:set id="stagedOnlyEntities" set-class="java.util.HashSet" value-type="java.lang.String">
     <value>assessmentFamily</value>
+    <value>assessmentItem</value>
     <value>assessmentPeriodDescriptor</value>
     <value>objectiveAssessment</value>
     <value>studentAssessmentItem</value>

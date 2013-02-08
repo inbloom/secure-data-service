@@ -16,53 +16,63 @@ limitations under the License.
 
 =end
 
-require_relative "../date_interval.rb"
-require_relative "baseEntity"
-require_relative "enum/GradingPeriodType.rb"
-require_relative "enum/CalendarEventType.rb"
+require_relative '../date_interval'
+require_relative 'baseEntity'
+require_relative 'enum/GradingPeriodType'
+require_relative 'enum/CalendarEventType'
 
 # creates grading period
+#
+# from SLI-Ed-Fi-Core.xsd:
+# <xs:complexType name="SLC-GradingPeriod">
+#   <xs:annotation>
+#     <xs:documentation>GradingPeriod record with key fields: GradingPeriod, EducationOrganizationReference (StateOrganizationId) and BeginDate. Added GradingPeriod, SchoolYear and EducationOrganizationReference. Changed type of CalendarDateReference to SLC reference type.</xs:documentation>
+#     <xs:appinfo>
+#       <sli:recordType>gradingPeriod</sli:recordType>
+#     </xs:appinfo>
+#   </xs:annotation>
+#   <xs:complexContent>
+#     <xs:extension base="ComplexObjectType">
+#       <xs:sequence>
+#         <xs:element name="GradingPeriod" type="GradingPeriodType"/>
+#         <xs:element name="SchoolYear" type="SchoolYearType"/>
+#         <xs:element name="EducationOrganizationReference" type="SLC-EducationalOrgReferenceType"/>
+#         <xs:element name="BeginDate" type="xs:date"/>
+#         <xs:element name="EndDate" type="xs:date"/>
+#         <xs:element name="TotalInstructionalDays">
+#           <xs:simpleType>
+#             <xs:restriction base="xs:int">
+#               <xs:minInclusive value="0"/>
+#             </xs:restriction>
+#           </xs:simpleType>
+#         </xs:element>
+#         <xs:element name="CalendarDateReference" type="SLC-CalendarDateReferenceType" maxOccurs="unbounded"/>
+#       </xs:sequence>
+#     </xs:extension>
+#   </xs:complexContent>
+# </xs:complexType>
 class GradingPeriod < BaseEntity
+  
+  # required fields
+  attr_accessor :school_year     # maps to 'SchoolYear'
+  attr_accessor :ed_org_id       # maps to 'EducationOrganizationReference'
+  attr_accessor :begin_date      # maps to 'BeginDate'
+  attr_accessor :end_date        # maps to 'EndDate'
+  attr_accessor :num_school_days # maps to 'TotalInstructionalDays'
+  attr_accessor :calendar_dates  # maps to 'CalendarDateReference'
 
-  attr_accessor :name, :school_year, :ed_org_id;
-
-  def initialize(type, year, interval, ed_org_id, calendar_dates)
-  	@type           = type
-  	@school_year    = year.to_s + "-" + (year+1).to_s
-  	@ed_org_id      = ed_org_id
-    @calendar_dates = calendar_dates
-    @begin_date = interval.get_begin_date.to_s
-    @end_date = interval.get_end_date.to_s
+  def initialize(type, year, interval, ed_org_id, calendar_dates = [])
+  	@type            = type
+  	@school_year     = year.to_s + "-" + (year+1).to_s
+  	@ed_org_id       = ed_org_id
+    @calendar_dates  = calendar_dates
+    @begin_date      = interval.get_begin_date.to_s
+    @end_date        = interval.get_end_date.to_s
     @num_school_days = interval.get_num_school_days
   end
 
+  # maps to required field 'GradingPeriod'
   def type
   	GradingPeriodType.to_string(@type)
-  end
-
-  def begin_date
-  	@begin_date
-  end
-
-  def end_date
-  	@end_date
-  end
-
-  def num_school_days
-    @num_school_days
-  end
-
-  # this is not strictly needed, yet
-  # --> this will become needed when de2170 is complete (adds calendar event type back 
-  #     into natural key of calendar date identity used by reference)
-  def calendar_dates
-    dates = []
-    @calendar_dates.each do |calendar_date|
-      date          = Hash.new
-      date["date"]  = calendar_date["date"]
-    #  date["event"] = CalendarEventType.to_string(calendar_date["event"])
-      dates         << date
-    end
-    dates
   end
 end
