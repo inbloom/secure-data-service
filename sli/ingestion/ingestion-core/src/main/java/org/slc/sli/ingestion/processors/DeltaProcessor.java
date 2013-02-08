@@ -30,11 +30,9 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordWorkNote;
 import org.slc.sli.ingestion.Resource;
-import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.delta.SliDeltaManager;
 import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.model.Metrics;
-import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
@@ -48,8 +46,6 @@ import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdRes
 public class DeltaProcessor extends IngestionProcessor<NeutralRecordWorkNote, Resource> {
 
     private static final String BATCH_JOB_STAGE_DESC = "Filter out records that have been detected as duplicates";
-
-    private Map<String, Long> duplicateCounts = new HashMap<String, Long>();
 
     private DeterministicUUIDGeneratorStrategy dIdStrategy;
 
@@ -67,67 +63,92 @@ public class DeltaProcessor extends IngestionProcessor<NeutralRecordWorkNote, Re
 
         List<NeutralRecord> filteredRecords = null;
         List<NeutralRecord> records = args.workNote.getNeutralRecords();
-        if (records != null) {
-            // All neutral records in a batch belong to the same interchange
-            String resourceId = records.get(0).getSourceFile();
-            Metrics metrics = Metrics.newInstance(resourceId);
+        if (records != null && records.size() > 0) {
+            Metrics metrics = Metrics.newInstance(records.get(0).getSourceFile());
+
             args.stage.addMetrics(metrics);
 
-            filteredRecords = filterRecords(args.workNote, args.reportStats);
-            processMetrics(metrics, duplicateCounts, filteredRecords.size(), args.reportStats);
-        }
+            if (!isDeltaDisabled()) {
+                filteredRecords = filterRecords(metrics, args.workNote, args.reportStats);
+                args.workNote.setNeutralRecords(filteredRecords);
 
-        setExchangeBody(exchange, filteredRecords, args.job, args.reportStats);
+                exchange.getIn().setBody(args.workNote);
+            }
+        }
     }
 
     /**
-     * Given a list of neutral records filters out records that have been previously ingested
+     * Given a list of neutral records filters out records that have been previously ingested.
      *
-     * @param workNote work note provides the list of neutral records
+     * @param metrics
      * @param reportStats reportStats is used to keep track of errors and warnings
      *
      * @return returns list of neutral records that have to be processed further
      */
-    private List<NeutralRecord> filterRecords(NeutralRecordWorkNote workNote, ReportStats reportStats) {
+    private List<NeutralRecord> filterRecords(Metrics metrics, NeutralRecordWorkNote workNote, ReportStats reportStats) {
+        Map<String, Long> duplicateCounts = new HashMap<String, Long>();
 
         List<NeutralRecord> filteredRecords = new ArrayList<NeutralRecord>();
 
         for (NeutralRecord neutralRecord : workNote.getNeutralRecords()) {
+            boolean isDuplicate = false;
 
-            if (!recordLevelDeltaEnabledEntities.contains(neutralRecord.getRecordType())) {
-                filteredRecords.add(neutralRecord);
+            if(isDeltafiable(neutralRecord)) {
+                isDuplicate = isDuplicateRecord(neutralRecord, reportStats);
             } else {
-                // Handle record hash checking according to various modes.
-                String rhMode = TenantContext.getBatchProperty(AttributeType.DUPLICATE_DETECTION.getName());
-                boolean modeDisable = (null != rhMode) && rhMode.equalsIgnoreCase(RecordHash.RECORD_HASH_MODE_DISABLE);
-                boolean modeDebugDrop = (null != rhMode)
-                        && rhMode.equalsIgnoreCase(RecordHash.RECORD_HASH_MODE_DEBUG_DROP);
+                isDuplicate = false;
+            }
 
-                if (modeDisable
-                        || (!modeDebugDrop && !SliDeltaManager.isPreviouslyIngested(neutralRecord, batchJobDAO,
-                                dIdStrategy, dIdResolver, getMessageReport(), reportStats))) {
-                    filteredRecords.add(neutralRecord);
-                } else {
-                    String type = neutralRecord.getRecordType();
-                    Long count = duplicateCounts.containsKey(type) ? duplicateCounts.get(type) : Long.valueOf(0);
-                    duplicateCounts.put(type, Long.valueOf(count.longValue() + 1));
-                }
+            if (isDuplicate) {
+                String type = neutralRecord.getRecordType();
+                long count = duplicateCounts.containsKey(type) ? duplicateCounts.get(type) : 0L;
+                duplicateCounts.put(type, count + 1);
+            } else {
+                filteredRecords.add(neutralRecord);
             }
         }
+
+        metrics.setDuplicateCounts(duplicateCounts);
+        metrics.setRecordCount(filteredRecords.size());
+        metrics.setErrorCount(reportStats.getErrorCount());
 
         return filteredRecords;
     }
 
-    private void processMetrics(Metrics metrics, Map<String, Long> duplicateCount, int recordCount, ReportStats rs) {
-        metrics.setDuplicateCounts(duplicateCount);
-        metrics.setRecordCount(recordCount);
-        metrics.setErrorCount(rs.getErrorCount());
+    /**
+     * Is delta processing supported for this record type.
+     *
+     * @param neutralRecord Record to check
+     * @return True if the record is support
+     */
+    private boolean isDeltafiable(NeutralRecord neutralRecord) {
+        return recordLevelDeltaEnabledEntities.contains(neutralRecord.getRecordType());
     }
 
-    private void setExchangeBody(Exchange exchange, List<NeutralRecord> records, NewBatchJob job,
-            ReportStats reportStats) {
-        WorkNote workNote = new NeutralRecordWorkNote(records, job.getId(), reportStats.hasErrors());
-        exchange.getIn().setBody(workNote, NeutralRecordWorkNote.class);
+    private boolean isDeltaDisabled() {
+        String rhMode = TenantContext.getBatchProperty(AttributeType.DUPLICATE_DETECTION.getName());
+        if (rhMode == null) {
+            return false;
+        }
+
+        return rhMode.equalsIgnoreCase(RecordHash.RECORD_HASH_MODE_DISABLE);
+    }
+
+    private boolean isDuplicateRecord(NeutralRecord neutralRecord, ReportStats reportStats) {
+        String rhMode = TenantContext.getBatchProperty(AttributeType.DUPLICATE_DETECTION.getName());
+
+        boolean modeDebugDrop = false;
+        if(rhMode != null ) {
+            modeDebugDrop = rhMode.equalsIgnoreCase(RecordHash.RECORD_HASH_MODE_DEBUG_DROP);
+        } else {
+            modeDebugDrop = false;
+        }
+
+        if(modeDebugDrop) {
+           return true;
+        } else {
+            return SliDeltaManager.isPreviouslyIngested(neutralRecord, batchJobDAO, dIdStrategy, dIdResolver, getMessageReport(), reportStats);
+        }
     }
 
     @Override

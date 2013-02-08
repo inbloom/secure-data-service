@@ -40,8 +40,6 @@ import org.slc.sli.ingestion.model.da.BatchJobMongoDA;
  *
  */
 public class FileEntryLatchTest {
-    private static final String FILE_ENTRY_LATCH = "fileEntryLatch";
-
     @InjectMocks
     FileEntryLatch fileEntryLatch = new FileEntryLatch();
 
@@ -62,11 +60,11 @@ public class FileEntryLatchTest {
 
         exchange.getIn().setBody(workNote, FileEntryWorkNote.class);
 
-        fileEntryLatch.receive(exchange);
+        fileEntryLatch.lastFileProcessed(exchange);
 
         Assert.assertEquals(false, exchange.getIn().getHeader("fileEntryLatchOpened"));
 
-        fileEntryLatch.receive(exchange);
+        fileEntryLatch.lastFileProcessed(exchange);
 
         Assert.assertEquals(true, exchange.getIn().getHeader("fileEntryLatchOpened"));
     }

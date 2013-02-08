@@ -30,16 +30,12 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
  * @author ablum
  *
  */
-@Component
 public class FileEntryLatch {
 
-    @Autowired
     private BatchJobDAO batchJobDAO;
 
     @Handler
-    public void receive(Exchange exchange) throws Exception {
-        exchange.getIn().setHeader("fileEntryLatchOpened", false);
-
+    public boolean lastFileProcessed(Exchange exchange) throws Exception {
         FileEntryWorkNote workNote = exchange.getIn().getBody(FileEntryWorkNote.class);
 
         String batchJobId = workNote.getBatchJobId();
@@ -47,10 +43,21 @@ public class FileEntryLatch {
 
         if (batchJobDAO.updateFileEntryLatch(workNote.getBatchJobId(), workNote.getFileEntry().getFileName())) {
 
-            exchange.getIn().setHeader("fileEntryLatchOpened", true);
             RangedWorkNote wn = RangedWorkNote.createSimpleWorkNote(batchJobId);
             exchange.getIn().setBody(wn, RangedWorkNote.class);
+            return true;
 
         }
+        
+        return false;
     }
+    
+    public BatchJobDAO getBatchJobDAO() {
+        return batchJobDAO;
+    }
+
+    public void setBatchJobDAO(BatchJobDAO batchJobDAO) {
+        this.batchJobDAO = batchJobDAO;
+    }
+
 }

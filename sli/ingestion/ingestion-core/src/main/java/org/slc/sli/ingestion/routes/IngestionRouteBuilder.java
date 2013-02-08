@@ -337,7 +337,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.CONTROL_FILE_PROCESSED.name()))
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to zipFileSplitter.")
                 .choice()
-                .when().method(batchJobManager, "isDuplicateDetection")
+                .when().method(batchJobManager, "isEligibleForDeltaPurge")
                 .beanRef("deltaHashPurgeProcessor")
                 .endChoice()
                 .split().method("ZipFileSplitter", "splitZipFile")
@@ -355,13 +355,13 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
         from("direct:staging").routeId("staging")
             .log(LoggingLevel.INFO, "CamelRouting", "Batch of ${body.neutralRecords.size} is recieved to stage")
-            .beanRef("stagingProcessor")
-            .to("direct:fileEntryLatch");
+            .beanRef("stagingProcessor");
 
         // file entry Latch
         from("direct:fileEntryLatch").routeId("fileEntryLatch")
-                .bean(this.lookup(FileEntryLatch.class))
-                .choice().when(header("fileENtryLatchOpened").isEqualTo(true))
+            .log(LoggingLevel.INFO, "Removing file entry from latch. Processing: ${body}")
+            .choice()
+                .when().method("fileEntryLatch", "lastFileProcessed")
                     .log(LoggingLevel.INFO, "CamelRouting", "FileEntryWorkNote latch opened.")
                     .to("direct:postExtract");
 
