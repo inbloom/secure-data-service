@@ -15,7 +15,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
+
 require_relative 'baseEntity.rb'
+require_relative 'enum/AcademicSubjectType'
+require_relative 'enum/GradeLevelType'
 
 # creates course
 class Course < BaseEntity
@@ -78,7 +81,7 @@ class Course < BaseEntity
 
     optional {
       num_objectives = (@@scenario["NUM_LEARNING_OBJECTIVES_PER_SUBJECT_AND_GRADE"] or 2)
-      @learning_objectives = LearningObjective.build_learning_objectives(num_objectives, @subject_area, grade)
+      @learning_objectives = LearningObjective.build_learning_objectives(num_objectives, AcademicSubjectType.to_symbol(@subject_area), GradeLevelType.to_symbol(grade))
     }
  
     optional {

@@ -66,12 +66,19 @@ class Grade < BaseEntity
   def initialize(letter_grade, number_grade, type, student_section_association, grading_period = nil)
     @type                        = type
     @student_section_association = student_section_association
+    @rand                        = Random.new((GradeType.to_string(type) + student_section_association['student'].to_s + student_section_association['ed_org_id'].to_s).size)
     
-    @letter_grade                = letter_grade
-    @number_grade                = number_grade
-    @performance                 = get_performance_base
-    @diagnostic                  = "Student has #{performance_base} understanding of subject."
-    @grading_period              = grading_period
+    # report card computations rely on this field being present
+    # -> beyond that, it's ridiculous to me that BOTH letter and number grades are optional on a 'grade' type
+    # -> so this optional field is not optional for odin
+    @letter_grade = letter_grade
+
+    optional { @number_grade = number_grade }
+    optional { 
+      @performance = get_performance_base
+      @diagnostic  = "Student has #{performance_base} understanding of subject."
+    }
+    optional { @grading_period = grading_period }
   end
 
   # maps to required field 'GradeType'
@@ -82,13 +89,14 @@ class Grade < BaseEntity
   # maps to required field 'PerformanceBaseConversion'
   def performance_base
     return PerformanceBaseType.to_string(@performance) if @performance
-    return PerformanceBaseType.to_string(:PROFICIENT)
   end
 
   def get_performance_base
+    return nil          if @letter_grade.nil?
     return :ADVANCED    if @letter_grade.include?("A")
     return :PROFICIENT  if @letter_grade.include?("B")
     return :BASIC       if @letter_grade.include?("C")
     return :BELOW_BASIC if @letter_grade.include?("D")
+    return nil
   end
 end

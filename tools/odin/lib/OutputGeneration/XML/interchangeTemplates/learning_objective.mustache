@@ -16,7 +16,26 @@ limitations under the License.
 {{#entity}}
   <LearningObjective>
     <Objective>{{objective}}</Objective>
+    {{#description}}
+    <Description>{{description}}</Description>
+    {{/description}}
     <AcademicSubject>{{academic_subject}}</AcademicSubject>
     <ObjectiveGradeLevel>{{objective_grade_level}}</ObjectiveGradeLevel>
+    {{#learning_standards}}
+    <LearningStandardReference>
+      <LearningStandardIdentity>
+        <IdentificationCode>{{code}}</IdentificationCode>
+      </LearningStandardIdentity>
+    </LearningStandardReference>
+    {{/learning_standards}}
+    {{#learning_objectives}}
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>{{objective}}</Objective>
+        <AcademicSubject>{{academic_subject}}</AcademicSubject>
+        <ObjectiveGradeLevel>{{objective_grade_level}}</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    {{/learning_objectives}}
   </LearningObjective>
 {{/entity}}

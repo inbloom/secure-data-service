@@ -52,13 +52,13 @@ import org.slc.sli.ingestion.tenant.TenantDA;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+@ContextConfiguration(locations = { "/spring/processor-test.xml" })
 @TestExecutionListeners({ DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
 public class LandingZoneProcessorTest {
 
-    @InjectMocks
     @Autowired
-    private LandingZoneProcessor landingZoneProcessor;
+    @InjectMocks
+    private LandingZoneProcessor landingZoneProcessor = new LandingZoneProcessor();
 
     @Mock
     private TenantDA mockedTenantDA;

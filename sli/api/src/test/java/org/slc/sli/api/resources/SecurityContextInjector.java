@@ -304,7 +304,7 @@ public class SecurityContextInjector {
         setSecurityContext(principal, false);
     }
 
-    private SLIPrincipal setSecurityContext(SLIPrincipal principal, boolean isAdminRealm) {
+    public SLIPrincipal setSecurityContext(SLIPrincipal principal, boolean isAdminRealm) {
         String token = "AQIC5wM2LY4SfczsoqTgHpfSEciO4J34Hc5ThvD0QaM2QUI.*AAJTSQACMDE.*";
 
         debug("assembling authentication token");
