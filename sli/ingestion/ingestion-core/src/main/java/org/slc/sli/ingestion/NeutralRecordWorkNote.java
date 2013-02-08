@@ -30,8 +30,8 @@ public class NeutralRecordWorkNote extends WorkNote {
 
     private List<NeutralRecord> neutralRecords;
 
-    public NeutralRecordWorkNote(List<NeutralRecord> neutralRecords, String batchJobId, String tenantId, boolean hasErrors) {
-        super(batchJobId, tenantId, hasErrors);
+    public NeutralRecordWorkNote(List<NeutralRecord> neutralRecords, String batchJobId, boolean hasErrors) {
+        super(batchJobId, hasErrors);
         this.neutralRecords = neutralRecords;
     }
 

@@ -41,4 +41,67 @@
     <property name="recordLevelDeltaEnabledEntities" ref="recordLevelDeltaEnabledEntities" />
   </bean>
 
+  <bean id="stagingProcessor" class="org.slc.sli.ingestion.processors.StagingProcessor" parent="ingestionProcessor">
+    <property name="nrMongoStagingWriter" ref="neutralRecordMongoAccess" />
+  </bean>
+
+  <bean id="xsdTypeProvider" class="org.slc.sli.ingestion.parser.impl.XsdTypeProvider">
+    <property name="schemaFiles" value="classpath:edfiXsd-SLI/*.xsd" />
+  </bean>
+
+  <bean id="xmlFileValidator" class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+
+  <!-- This will go away upon completion of US5060 -->
+  <bean id="smooksFileHandler" class="org.slc.sli.ingestion.handler.SmooksFileHandler">
+    <property name="preValidators">
+      <util:list value-type="org.slc.sli.ingestion.validation.Validator">
+        <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+        <ref bean="xsdValidator" />
+      </util:list>
+    </property>
+  </bean>
+
+  <!-- This will go away upon completion of US4198 -->
+  <bean id="XmlFileHandler" class="org.slc.sli.ingestion.handler.XmlFileHandler" scope="prototype">
+    <property name="preValidators">
+      <util:list value-type="org.slc.sli.ingestion.validation.Validator">
+        <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+        <ref bean="xsdValidator" />
+      </util:list>
+    </property>
+  </bean>
+
+  <bean id="edFiParserProcessor" class="org.slc.sli.ingestion.processors.EdFiParserProcessor" parent="ingestionProcessor">
+    <property name="batchSize" value="${sli.ingestion.parser.batch.size}" />
+    <property name="typeProvider" ref="xsdTypeProvider" />
+    <property name="xsdSelector" ref="xsdSelector" />
+    <property name="producer" ref="parserEndPoint" />
+    <property name="preValidators">
+      <util:list value-type="org.slc.sli.ingestion.validation.Validator">
+        <bean class="org.slc.sli.ingestion.landingzone.validation.XmlFileValidator" />
+        <ref bean="xsdValidator" />
+      </util:list>
+    </property>
+  </bean>
+  
+  <bean id="deltaHashPurgeProcessor" class="org.slc.sli.ingestion.processors.DeltaHashPurgeProcessor" parent="ingestionProcessor"/>
+
+  <bean id="persistenceProcessor" class="org.slc.sli.ingestion.processors.PersistenceProcessor">
+    <property name="transformer" ref="smooksEdFi2SLITransformer" />
+    <property name="defaultEntityPersistHandler" ref="entityPersistHandler" />
+    <property name="entityPersistTypeMap" ref="entityPersistTypeMap" />
+    <property name="neutralRecordReadConverter" ref="neutralRecordReadConverter" />
+    <property name="recordLvlHashNeutralRecordTypes" ref="recordLevelDeltaEnabledEntities" />
+  </bean>
+
+  <bean id="WorkNoteSplitter" class="org.slc.sli.ingestion.routes.orchestra.WorkNoteSplitter" />
+
+  <bean id="ZipFileSplitter" class="org.slc.sli.ingestion.routes.orchestra.ZipFileSplitter" />
+
+  <bean id="stagedEntityTypeDAO" class="org.slc.sli.ingestion.routes.orchestra.InMemoryStagedEntityTypeDAO" />
+
+  <bean id="balancedTimestampSplitStrategy" class="org.slc.sli.ingestion.routes.orchestra.BalancedTimestampSplitStrategy">
+    <property name="neutralRecordAccess" ref="neutralRecordMongoAccess" />
+  </bean>
+
 </beans>

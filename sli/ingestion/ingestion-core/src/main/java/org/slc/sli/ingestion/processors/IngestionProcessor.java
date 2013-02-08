@@ -16,6 +16,8 @@
 
 package org.slc.sli.ingestion.processors;
 
+import java.util.List;
+
 import org.apache.camel.Exchange;
 import org.apache.camel.InvalidPayloadException;
 import org.apache.camel.Processor;
@@ -31,24 +33,35 @@ import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.impl.JobSource;
 import org.slc.sli.ingestion.reporting.impl.ProcessorSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 import org.slc.sli.ingestion.util.LogUtil;
+import org.slc.sli.ingestion.validation.Validator;
 
 /**
  * Abstract processor for Ingestion
  *
- * @param <T> A unit of work that contains all information that needs to be processed
+ * @param <T>
+ *            A unit of work that contains all information that needs to be processed
+ *
+ * @param <S>
+ *            Resource to validate
  */
-public abstract class IngestionProcessor<T extends WorkNote> implements Processor{
+public abstract class IngestionProcessor<T extends WorkNote, S> implements Processor {
     private static final String INGESTION_MESSAGE_TYPE = "IngestionMessageType";
     private static final Logger LOG = LoggerFactory.getLogger(IngestionProcessor.class);
 
     protected BatchJobDAO batchJobDAO;
 
     private AbstractMessageReport messageReport;
+
+    private List<? extends Validator<S>> preValidators;
+
+    private List<? extends Validator<S>> postValidators;
 
     @Override
     @SuppressWarnings("unchecked")
@@ -67,9 +80,15 @@ public abstract class IngestionProcessor<T extends WorkNote> implements Processo
                 args.job = job;
                 args.stage = stage;
                 args.reportStats = rs;
-                process(exchange, args);
 
-                exchange.getIn().setHeader("hasErrors", rs.hasErrors());
+                S item = getItemToValidate(args);
+
+                pre(item, messageReport, args.reportStats, getSource(args));
+                if (!args.reportStats.hasErrors()) {
+                    process(exchange, args);
+                    post(item, messageReport, args.reportStats, getSource(args));
+                }
+
             } catch (Exception e) {
                 handleProcessingExceptions(exchange, workNote, e);
             } finally {
@@ -80,7 +99,7 @@ public abstract class IngestionProcessor<T extends WorkNote> implements Processo
             }
 
         } catch (InvalidPayloadException e) {
-            exchange.getIn().setHeader("hasErrors", true);
+            exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.ERROR.name());
             LOG.error("Cannot retrieve a work note to process.");
         }
 
@@ -88,15 +107,30 @@ public abstract class IngestionProcessor<T extends WorkNote> implements Processo
 
     protected abstract void process(Exchange exchange, ProcessorArgs<T> args);
 
+    void pre(S item, AbstractMessageReport report, ReportStats reportStats, Source source) {
+        if (preValidators != null) {
+            for (Validator<S> validator : preValidators) {
+                validator.isValid(item, report, reportStats, source);
+            }
+        }
+    }
+
+    void post(S item, AbstractMessageReport report, ReportStats reportStats, Source source) {
+        if (postValidators != null) {
+            for (Validator<S> validator : postValidators) {
+                validator.isValid(item, report, reportStats, source);
+            }
+        }
+    }
+
     protected void handleProcessingExceptions(Exchange exchange, WorkNote workNote, Exception exception) {
         exchange.getIn().setHeader(INGESTION_MESSAGE_TYPE, MessageType.ERROR.name());
         LogUtil.error(LOG, "Error processing batch job " + workNote.getBatchJobId(), exception);
 
         if (workNote.getBatchJobId() != null) {
             ReportStats reportStats = new SimpleReportStats();
-            messageReport.error(reportStats, new ProcessorSource(getStage().getName()),
-                    CoreMessageCode.CORE_0021, workNote.getBatchJobId(),
-                    exception.getMessage());
+            messageReport.error(reportStats, new ProcessorSource(getStage().getName()), CoreMessageCode.CORE_0062,
+                    workNote.getBatchJobId(), exception.getMessage());
         }
     }
 
@@ -106,6 +140,35 @@ public abstract class IngestionProcessor<T extends WorkNote> implements Processo
         initTenantContext(job);
 
         return job;
+    }
+
+    /**
+     * Convert ProcessorArgs to a type that needs to be validated.
+     * The default implementation returns <code>null</code>.
+     * Extended classes should provide their implementation if validation is expected.
+     *
+     * @param args
+     *            Arguments for the current processor
+     * @return Item to validate
+     */
+    protected S getItemToValidate(ProcessorArgs<T> args) {
+        // This is a PMD workaround
+        S s = null;
+
+        return s;
+    }
+
+    /**
+     * Provide a Source for the error reporting based on the ProcessorArgs.
+     * The default implementation returns <code>JobSource</code> for the current batch job.
+     * Extended classes should provide their implementation if validation is expected.
+     *
+     * @param args
+     *            Arguments for the current processor
+     * @return A Source
+     */
+    protected Source getSource(ProcessorArgs<T> args) {
+        return new JobSource(args.job.getId());
     }
 
     private void initTenantContext(NewBatchJob newJob) {
@@ -131,18 +194,36 @@ public abstract class IngestionProcessor<T extends WorkNote> implements Processo
         this.messageReport = messageReport;
     }
 
+    public void setPreValidators(List<? extends Validator<S>> preValidators) {
+        this.preValidators = preValidators;
+    }
+
+    public void setPostValidators(List<? extends Validator<S>> postValidators) {
+        this.postValidators = postValidators;
+    };
+
+    public List<? extends Validator<S>> getPreValidators() {
+        return preValidators;
+    }
+
+    public List<? extends Validator<S>> getPostValidators() {
+        return postValidators;
+    }
+
     protected abstract BatchJobStageType getStage();
+
     protected abstract String getStageDescription();
 
     /**
      * Common arguments for Ingestion processors.
      *
-     * @param <T> Type of the WorkNote.
+     * @param <T>
+     *            Type of the WorkNote.
      */
     static class ProcessorArgs<T> {
         protected Stage stage;
         protected NewBatchJob job;
         protected T workNote;
         protected ReportStats reportStats;
-    };
+    }
 }

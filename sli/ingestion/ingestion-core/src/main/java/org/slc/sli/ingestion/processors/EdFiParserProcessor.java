@@ -38,17 +38,17 @@ import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FileEntryWorkNote;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordWorkNote;
-import org.slc.sli.ingestion.model.NewBatchJob;
+import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.parser.RecordMeta;
 import org.slc.sli.ingestion.parser.RecordVisitor;
 import org.slc.sli.ingestion.parser.TypeProvider;
 import org.slc.sli.ingestion.parser.XmlParseException;
 import org.slc.sli.ingestion.parser.impl.EdfiRecordParserImpl;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
-import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.impl.FileSource;
+import org.slc.sli.ingestion.reporting.impl.JobSource;
 import org.slc.sli.ingestion.util.XsdSelector;
 
 /**
@@ -57,7 +57,7 @@ import org.slc.sli.ingestion.util.XsdSelector;
  * @author okrook
  *
  */
-public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote> implements RecordVisitor {
+public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, IngestionFileEntry> implements RecordVisitor {
     private static final String BATCH_JOB_STAGE_DESC = "Reads records from the interchanges and persists to the staging database";
     private static final XMLInputFactory XML_INPUT_FACTORY = XMLInputFactory.newInstance();
 
@@ -86,13 +86,15 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote> i
 
             parse(reader, xsdSchema, typeProvider); 
         } catch (IOException e) {
-            getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0016);
+            getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0063);
         } catch (XMLStreamException e) {
-            getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0017);
+            getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0064);
         } catch (XmlParseException e) {
-            getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0017);
+            getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0065);
         } finally {
             IOUtils.closeQuietly(input);
+
+            sendDataBatch();
 
             cleanUpState();
         }
@@ -137,8 +139,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote> i
         ParserState s = state.get();
 
         if (s.getDataBatch().size() > 0) {
-            NeutralRecordWorkNote workNote = new NeutralRecordWorkNote(s.getDataBatch(), s.getWork().getBatchJobId(),
-                    s.getWork().getTenantId(), false);
+            NeutralRecordWorkNote workNote = new NeutralRecordWorkNote(s.getDataBatch(), s.getWork().getBatchJobId(), false);
 
             producer.sendBodyAndHeaders(workNote, s.getOriginalExchange().getIn().getHeaders());
 
@@ -146,10 +147,12 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote> i
         }
     }
 
+    @Override
     public AbstractMessageReport getMessageReport() {
         return messageReport;
     }
 
+    @Override
     public void setMessageReport(AbstractMessageReport messageReport) {
         this.messageReport = messageReport;
     }
@@ -254,4 +257,15 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote> i
     public void audit(SecurityEvent event) {
         // Do nothing
     }
+
+    @Override
+    protected IngestionFileEntry getItemToValidate(ProcessorArgs<FileEntryWorkNote> args) {
+        return args.workNote.getFileEntry();
+    }
+
+    @Override
+    protected Source getSource(ProcessorArgs<FileEntryWorkNote> args) {
+        return new JobSource(args.workNote.getFileEntry().getResourceId());
+    }
+
 }

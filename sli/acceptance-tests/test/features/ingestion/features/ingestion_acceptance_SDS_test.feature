@@ -133,6 +133,22 @@ Then I should see following map of entry counts in the corresponding collections
         | securityEvent               | 120   |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
+       | assessment                  | 1                   | body.assessmentItem.0.correctResponse          | False            | string  |
+       | assessment                  | 1                   | body.assessmentItem.0.identificationCode       | AssessmentItem-1 | string  |
+       | assessment                  | 1                   | body.assessmentItem.0.itemCategory             | True-False       | string  |
+       | assessment                  | 1                   | body.assessmentItem.0.maxRawScore              | 5                | integer |
+       | assessment                  | 1                   | body.assessmentItem.1.correctResponse          | True             | string  |
+       | assessment                  | 1                   | body.assessmentItem.1.identificationCode       | AssessmentItem-2 | string  |
+       | assessment                  | 1                   | body.assessmentItem.1.itemCategory             | True-False       | string  |
+       | assessment                  | 1                   | body.assessmentItem.1.maxRawScore              | 5                | integer |
+       | assessment                  | 1                   | body.assessmentItem.2.correctResponse          | True             | string  |
+       | assessment                  | 1                   | body.assessmentItem.2.identificationCode       | AssessmentItem-3 | string  |
+       | assessment                  | 1                   | body.assessmentItem.2.itemCategory             | True-False       | string  |
+       | assessment                  | 1                   | body.assessmentItem.2.maxRawScore              | 5                | integer |
+       | assessment                  | 1                   | body.assessmentItem.3.correctResponse          | False            | string  |
+       | assessment                  | 1                   | body.assessmentItem.3.identificationCode       | AssessmentItem-4 | string  |
+       | assessment                  | 1                   | body.assessmentItem.3.itemCategory             | True-False       | string  |
+       | assessment                  | 1                   | body.assessmentItem.3.maxRawScore              | 5                | integer |
        | attendance                  | 11                  | body.schoolYearAttendance.attendanceEvent.event | Tardy         | string     |
        | attendance                  | 75                  | body.schoolYearAttendance.attendanceEvent.event | In Attendance | string     |
        | attendance                  | 75                  | body.schoolYearAttendance.schoolYear            | 2011-2012     | string     |
@@ -167,7 +183,7 @@ Then I should see following map of entry counts in the corresponding collections
        | studentAssessment | 25                 | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-4    | string |
        | studentParentAssociation     | 2                  | body.contactRestrictions                                      | NO CONTACT ALLOWED  | string |
        | studentParentAssociation     | 3                  | body.contactPriority                                          | 1                   | integer|
-    And I should see "Processed 4270 records." in the resulting batch job file
+    And I should see "Processed 4266 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -196,8 +212,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeAssessmentMetadata-StateTest.xml records considered: 2" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-StateTest.xml records ingested successfully: 2" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-StateTest.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-ACT.xml records considered: 5" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-ACT.xml records ingested successfully: 5" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-ACT.xml records considered: 1" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-ACT.xml records ingested successfully: 1" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-ACT.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-StateAssessments.xml records considered: 12" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-StateAssessments.xml records ingested successfully: 12" in the resulting batch job file
@@ -232,6 +248,9 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentAssessment-Cgray-ACT.xml records considered: 25" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Cgray-ACT.xml records ingested successfully: 25" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Cgray-ACT.xml records failed: 0" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-ACT.xml records considered: 1" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-ACT.xml records ingested successfully: 1" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-ACT.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeAttendance.xml records considered: 75" in the resulting batch job file
     And I should see "InterchangeAttendance.xml records ingested successfully: 75" in the resulting batch job file
     And I should see "InterchangeAttendance.xml records failed: 0" in the resulting batch job file
@@ -939,28 +958,16 @@ Then I should see following map of entry counts in the corresponding collections
   When I find a record in "assessment" under "body.assessmentItem" where "identificationCode" is "AssessmentItem-1"
   Then the field "learningStandards" is an array of size 2
   And "learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-C.4"
-  And the field "correctResponse" has value "False"
-  And the field "itemCategory" has value "True-False"
-  And the field "maxRawScore" has value "5"
   When I find a record in "assessment" under "body.assessmentItem" where "identificationCode" is "AssessmentItem-2"
   Then the field "learningStandards" is an array of size 2
   And "learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.3"
-  And the field "correctResponse" has value "True"
-  And the field "itemCategory" has value "True-False"
-  And the field "maxRawScore" has value "5"
   When I find a record in "assessment" under "body.assessmentItem" where "identificationCode" is "AssessmentItem-3"
   Then the field "learningStandards" is an array of size 1
   And "learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.5"
-  And the field "correctResponse" has value "True"
-  And the field "itemCategory" has value "True-False"
-  And the field "maxRawScore" has value "5"
   When I find a record in "assessment" under "body.assessmentItem" where "identificationCode" is "AssessmentItem-4"
   Then the field "learningStandards" is an array of size 1
   And "learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.6"
-  And the field "correctResponse" has value "False"
-  And the field "itemCategory" has value "True-False"
-  And the field "maxRawScore" has value "5"
-  And I should see "Processed 121 records." in the resulting batch job file
+  And I should see "Processed 117 records." in the resulting batch job file
   And I should see "Program2.xml records considered: 4" in the resulting batch job file
   And I should see "Program2.xml records ingested successfully: 4" in the resulting batch job file
   And I should see "Program2.xml records failed: 0" in the resulting batch job file
@@ -997,8 +1004,8 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "CourseOffering.xml records considered: 2" in the resulting batch job file
   And I should see "CourseOffering.xml records ingested successfully: 2" in the resulting batch job file
   And I should see "CourseOffering.xml records failed: 0" in the resulting batch job file
-  And I should see "actAssessment_CCSMapping.xml records considered: 5" in the resulting batch job file
-  And I should see "actAssessment_CCSMapping.xml records ingested successfully: 5" in the resulting batch job file
+  And I should see "actAssessment_CCSMapping.xml records considered: 1" in the resulting batch job file
+  And I should see "actAssessment_CCSMapping.xml records ingested successfully: 1" in the resulting batch job file
   And I should see "actAssessment_CCSMapping.xml records failed: 0" in the resulting batch job file
   And I should see "Grade_12_Math_CCS_G_SRT.xml records considered: 12" in the resulting batch job file
   And I should see "Grade_12_Math_CCS_G_SRT.xml records ingested successfully: 12" in the resulting batch job file

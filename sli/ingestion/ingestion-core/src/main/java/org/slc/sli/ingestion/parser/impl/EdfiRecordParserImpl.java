@@ -66,8 +66,6 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
 
     private static final Logger LOG = LoggerFactory.getLogger(EdfiRecordParserImpl.class);
 
-    private static final SchemaFactory SCHEMA_FACTORY = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-
     private TypeProvider typeProvider;
 
     Stack<Pair<RecordMeta, Map<String, Object>>> complexTypeStack = new Stack<Pair<RecordMeta, Map<String, Object>>>();
@@ -93,7 +91,7 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
     private static Schema initializeSchema(Resource schemaResource) throws XmlParseException {
         Schema schema;
         try {
-            schema = SCHEMA_FACTORY.newSchema(schemaResource.getURL());
+            schema = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI).newSchema(schemaResource.getURL());
         } catch (SAXException e) {
             throw new XmlParseException("Exception while initializing XSD schema", e);
         } catch (IOException e) {
@@ -216,7 +214,7 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
         Iterator<Attribute> it = e.getAttributes();
         while (it.hasNext()) {
             Attribute a = it.next();
-            complexTypeStack.peek().getRight().put(a.getName().getLocalPart(), a.getValue());
+            complexTypeStack.peek().getRight().put("@" + a.getName().getLocalPart(), a.getValue());
         }
     }
 
@@ -266,19 +264,19 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
 
     @Override
     public void warning(SAXParseException exception) throws SAXException {
-        LOG.warn("Warning: ", exception);
+        LOG.warn("Warning: {}", exception.getMessage());
         currentEntityValid = false;
     }
 
     @Override
     public void error(SAXParseException exception) throws SAXException {
-        LOG.error("Error: ", exception);
+        LOG.error("Error: {}", exception.getMessage());
         currentEntityValid = false;
     }
 
     @Override
     public void fatalError(SAXParseException exception) throws SAXException {
-        LOG.error("FatalError: ", exception);
+        LOG.error("FatalError: {}", exception.getMessage());
         currentEntityValid = false;
     }
 

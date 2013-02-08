@@ -15,9 +15,8 @@
  */
 package org.slc.sli.ingestion.parser.impl;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -28,6 +27,7 @@ import org.jdom2.JDOMException;
 import org.jdom2.Namespace;
 import org.jdom2.filter.Filters;
 import org.jdom2.input.SAXBuilder;
+import org.jdom2.util.IteratorIterable;
 import org.springframework.core.io.Resource;
 
 import org.slc.sli.common.util.logging.SecurityEvent;
@@ -62,25 +62,23 @@ public class XsdTypeProvider implements TypeProvider {
     private static final String SCHEMA = "schema";
     private static final String UNBOUNDED = "unbounded";
     private static final String MAX_OCCURS = "maxOccurs";
+    private static final String EXTENSION = "extension";
 
-    private Resource edfiSchemaDir;
+    private Resource[] schemaFiles;
 
     private Map<String, Element> complexTypes = new HashMap<String, Element>();
     private Map<String, String> typeMap = new HashMap<String, String>();
 
     private Map<String, Map<String, String>> interchangeMap = new HashMap<String, Map<String, String>>();
 
-    private void init() throws Exception {
+    private void init() throws IOException, JDOMException {
         System.setProperty("javax.xml.parsers.SAXParserFactory",
                 "com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl");
 
-        File schemaDir = edfiSchemaDir.getFile();
         SAXBuilder b = new SAXBuilder();
 
-        if (schemaDir.isDirectory()) {
-            for (File schemaFile : schemaDir.listFiles()) {
-                parseSchema(b, schemaFile);
-            }
+        for (Resource schemaFile : schemaFiles) {
+            parseSchema(b, schemaFile);
         }
     }
 
@@ -90,21 +88,20 @@ public class XsdTypeProvider implements TypeProvider {
      * @throws JDOMException
      * @throws IOException
      */
-    private void parseSchema(SAXBuilder b, File schemaFile) throws JDOMException, IOException {
-        if (schemaFile.getName().toLowerCase().indexOf(INTERCHANGE) != -1) {
+    private void parseSchema(SAXBuilder b, Resource schemaFile) throws JDOMException, IOException {
+        if (schemaFile.getFilename().toLowerCase().indexOf(INTERCHANGE) != -1) {
             parseInterchangeSchemas(schemaFile, b);
         } else {
             parseEdfiSchema(schemaFile, b);
         }
     }
 
-    private void parseEdfiSchema(File schemaFile, SAXBuilder b) throws JDOMException, IOException {
-        Document doc = b.build(new FileInputStream(schemaFile));
+    private void parseEdfiSchema(Resource schemaFile, SAXBuilder b) throws JDOMException, IOException {
+        Document doc = b.build(schemaFile.getURL());
 
         for (Element xsInclude : doc.getDescendants(Filters.element(INCLUDE, XS_NAMESPACE))) {
             String inclSchemaLocation = xsInclude.getAttributeValue(SCHEMA_LOCATION);
-            File includedSchemaFile = new File(schemaFile.getParent(), inclSchemaLocation);
-            parseEdfiSchema(includedSchemaFile, b);
+            parseEdfiSchema(schemaFile.createRelative(inclSchemaLocation), b);
         }
 
         parseComplexTypes(doc);
@@ -126,8 +123,8 @@ public class XsdTypeProvider implements TypeProvider {
         }
     }
 
-    private void parseInterchangeSchemas(File schemaFile, SAXBuilder b) throws JDOMException, IOException {
-        Document doc = b.build(new FileInputStream(schemaFile));
+    private void parseInterchangeSchemas(Resource schemaFile, SAXBuilder b) throws JDOMException, IOException {
+        Document doc = b.build(schemaFile.getURL());
 
         // get interchange element name and build map for it
 
@@ -150,16 +147,25 @@ public class XsdTypeProvider implements TypeProvider {
     @Override
     public RecordMeta getTypeFromParentType(String type, String eventName) {
         Element parentElement = getComplexElement(type);
-        if (parentElement != null && eventName != null) {
 
+        while (parentElement != null && eventName != null) {
             for (Element e : parentElement.getDescendants(Filters.element(ELEMENT, XS_NAMESPACE))) {
                 if (e.getAttributeValue(NAME).equals(eventName)) {
                     return new RecordMetaImpl(eventName, e.getAttributeValue(TYPE), shouldBeList(e, parentElement));
                 }
             }
+
+            IteratorIterable<Element> extensions = parentElement.getDescendants(Filters.element(EXTENSION, XS_NAMESPACE));
+
+            if (extensions.hasNext()) {
+                parentElement = extensions.next();
+            }
         }
+
         return null;
     }
+
+
 
     private Element getComplexElement(String parentName) {
         Element parent = complexTypes.get(parentName);
@@ -233,15 +239,10 @@ public class XsdTypeProvider implements TypeProvider {
 
     public void audit(SecurityEvent event) {
         // TODO Auto-generated method stub
-
     }
 
-    public Resource getEdfiSchemaDir() {
-        return edfiSchemaDir;
-    }
-
-    public void setEdfiSchemaDir(Resource edfiSchemaDir) throws Exception {
-        this.edfiSchemaDir = edfiSchemaDir;
+    public void setSchemaFiles(Resource[] schemaFiles) throws Exception {
+        this.schemaFiles = Arrays.copyOf(schemaFiles, schemaFiles.length);
 
         init();
     }

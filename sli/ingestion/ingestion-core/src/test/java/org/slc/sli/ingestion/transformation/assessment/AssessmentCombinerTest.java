@@ -17,6 +17,8 @@
 package org.slc.sli.ingestion.transformation.assessment;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -67,6 +69,7 @@ public class AssessmentCombinerTest {
 
     public static final String OBJ2_ID = "Obj2";
     public static final String OBJ1_ID = "Obj1";
+    private static final String ASS_ITEM_ID_1 = "assessment-item-1";
     private static final String PERIOD_DESCRIPTOR_CODE_VALUE = "Spring2012";
 
     private static final String ASSESSMENT = "assessment";
@@ -116,8 +119,13 @@ public class AssessmentCombinerTest {
         assessmentFamily2.add(assessmentF2);
         List<NeutralRecord> families = Arrays.asList(assessmentF1, assessmentF2);
 
+        NeutralRecord assessmentItem1 = buildTestAssessmentItem(ASS_ITEM_ID_1);
+        List<NeutralRecord> assessmentItems = new ArrayList<NeutralRecord>();
+        assessmentItems.add(assessmentItem1);
+
         when(repository.findAllByQuery(Mockito.eq("assessment"), Mockito.any(Query.class))).thenReturn(assessments);
         when(repository.findAllByQuery(Mockito.eq("assessmentFamily"), Mockito.any(Query.class))).thenReturn(families);
+        when(repository.findAllForJob(Mockito.eq("assessmentItem"), Mockito.any(NeutralQuery.class))).thenReturn(assessmentItems);
 
         Query q1 = new Query().limit(0);
         q1.addCriteria(Criteria.where("batchJobId").is(batchJobId));
@@ -151,6 +159,11 @@ public class AssessmentCombinerTest {
         when(
                 repository.findAllByQuery(Mockito.eq("objectiveAssessment"), Mockito.eq(q4))).thenReturn(Arrays.asList(buildObjectiveAssessment(OBJ2_ID)));
 
+        Map<String, String> itemPath = new HashMap<String, String>();
+        itemPath.put("localId", ASS_ITEM_ID_1);
+        when(repository.findByPathsForJob("assessmentItem", itemPath, batchJobId)).thenReturn(
+                Arrays.asList(buildTestAssessmentItem(ASS_ITEM_ID_1)));
+
         when(job.getId()).thenReturn(batchJobId);
     }
 
@@ -169,6 +182,11 @@ public class AssessmentCombinerTest {
                     neutralRecord.getAttributes().get("assessmentPeriodDescriptor"));
             assertEquals(Arrays.asList(buildTestObjAssmt(OBJ1_ID).getAttributes(), buildTestObjAssmt(OBJ2_ID)
                     .getAttributes()), neutralRecord.getAttributes().get("objectiveAssessment"));
+            List<Map<String, Object>> items = (List<Map<String, Object>>) neutralRecord.getAttributes().get(
+                    "assessmentItem");
+            assertNotNull(items);
+            assertEquals(1, items.size());
+            assertEquals("assessment-item-id", items.get(0).get("identificationCode"));
         }
     }
 
@@ -268,49 +286,46 @@ public class AssessmentCombinerTest {
         assertEquals(result.get("codeValue"), "READ2-BOY-2011");
     }
 
-//<<<<<<< HEAD
-//    @SuppressWarnings("unchecked")
-//    @Test
-//    public void testGetAssessmentItem() throws Throwable {
-//        NeutralRecord assessment = buildTestAssessmentNeutralRecord();
-//        assessment.setAttributeField("ObjectiveAssessmentReference", null);
-//        Map<Object, NeutralRecord> assessmentsMap = new HashMap<Object, NeutralRecord>();
-//        assessmentsMap.put(assessment.getLocalId(), assessment);
-//        PrivateAccessor.setField(combiner, "assessments", assessmentsMap);
-//
-//        combiner.transform();
-//
-//        List<NeutralRecord> transformedList = (List<NeutralRecord>) PrivateAccessor.getField(combiner, "transformedAssessments");
-//        assertTrue(transformedList.size() > 0);
-//        NeutralRecord transformed = transformedList.get(0);
-//        assertTrue(transformed.getAttributes().containsKey("assessmentItem"));
-//        List<Map<String, Object>> assessmentItems = (List<Map<String, Object>>) transformed.getAttributes().get("assessmentItem");
-//        assertTrue(assessmentItems.size() > 0);
-//        Map<String, Object> assessmentItem = assessmentItems.get(0);
-//        assertEquals(assessmentItem.get("correctResponse"), "True");
-//    }
-//
-//    @SuppressWarnings("unchecked")
-//    @Test
-//    public void testNoAssessmentItems() throws Throwable {
-//        NeutralRecord assessment = buildTestAssessmentNeutralRecord();
-//        assessment.setAttributeField("ObjectiveAssessmentReference", null);
-//        assessment.setAttributeField("AssessmentItemReference", new ArrayList<NeutralRecord>());
-//        Map<Object, NeutralRecord> assessmentsMap = new HashMap<Object, NeutralRecord>();
-//        assessmentsMap.put(assessment.getLocalId(), assessment);
-//        PrivateAccessor.setField(combiner, "assessments", assessmentsMap);
-//
-//        combiner.transform();
-//
-//        List<NeutralRecord> transformedList = (List<NeutralRecord>) PrivateAccessor.getField(combiner, "transformedAssessments");
-//        assertTrue(transformedList.size() > 0);
-//        NeutralRecord transformed = transformedList.get(0);
-//        assertTrue(!transformed.getAttributes().containsKey("AssessmentItemReference"));
-//    }
-//
-//    @SuppressWarnings("unchecked")
-//=======
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testGetAssessmentItem() throws Throwable {
+        NeutralRecord assessment = buildTestAssessmentNeutralRecord();
+        assessment.setAttributeField("objectiveAssessmentRefs", null);
+        Map<Object, NeutralRecord> assessmentsMap = new HashMap<Object, NeutralRecord>();
+        assessmentsMap.put(assessment.getLocalId(), assessment);
+        PrivateAccessor.setField(combiner, "assessments", assessmentsMap);
 
+        combiner.transform();
+
+        List<NeutralRecord> transformedList = (List<NeutralRecord>) PrivateAccessor.getField(combiner, "transformedAssessments");
+        assertTrue(transformedList.size() > 0);
+        NeutralRecord transformed = transformedList.get(0);
+        assertTrue(transformed.getAttributes().containsKey("assessmentItem"));
+        List<Map<String, Object>> assessmentItems = (List<Map<String, Object>>) transformed.getAttributes().get("assessmentItem");
+        assertTrue(assessmentItems.size() > 0);
+        Map<String, Object> assessmentItem = assessmentItems.get(0);
+        assertEquals(assessmentItem.get("correctResponse"), "True");
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testNoAssessmentItems() throws Throwable {
+        NeutralRecord assessment = buildTestAssessmentNeutralRecord();
+        assessment.setAttributeField("objectiveAssessmentRefs", null);
+        assessment.setAttributeField("assessmentItem", new ArrayList<NeutralRecord>());
+        Map<Object, NeutralRecord> assessmentsMap = new HashMap<Object, NeutralRecord>();
+        assessmentsMap.put(assessment.getLocalId(), assessment);
+        PrivateAccessor.setField(combiner, "assessments", assessmentsMap);
+
+        combiner.transform();
+
+        List<NeutralRecord> transformedList = (List<NeutralRecord>) PrivateAccessor.getField(combiner, "transformedAssessments");
+        assertTrue(transformedList.size() > 0);
+        NeutralRecord transformed = transformedList.get(0);
+        assertTrue(!transformed.getAttributes().containsKey("assessmentItem"));
+    }
+
+    @SuppressWarnings("unchecked")
     private NeutralRecord buildTestAssessmentNeutralRecord() {
 
         NeutralRecord assessment = new NeutralRecord();
@@ -375,6 +390,10 @@ public class AssessmentCombinerTest {
 //        assessment.setAttributeField("AssessmentItemReference", Arrays.asList(item));
 //
 //=======
+
+        Map<String, Object> item = new HashMap<String, Object>();
+        item.put("identificationCode", ASS_ITEM_ID_1);
+        assessment.setAttributeField("assessmentItem", Arrays.asList(item));
 
         return assessment;
     }
@@ -455,6 +474,16 @@ public class AssessmentCombinerTest {
         NeutralRecord rec = new NeutralRecord();
         rec.setRecordType("objectiveAssessment");
         rec.setAttributeField("identificationCode", idCode);
+
+        return rec;
+    }
+
+    public static NeutralRecord buildTestAssessmentItem(String idCode) {
+        NeutralRecord rec = new NeutralRecord();
+        rec.setRecordType("assessmentItem");
+        rec.setAttributeField("identificationCode", idCode);
+        rec.setAttributeField("correctResponse", "True");
+        rec.setAttributeField("itemCategory", "True-False");
 
         return rec;
     }

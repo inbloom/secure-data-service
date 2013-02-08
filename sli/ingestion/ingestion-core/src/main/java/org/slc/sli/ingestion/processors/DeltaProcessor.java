@@ -27,9 +27,9 @@ import org.apache.camel.Exchange;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.ingestion.BatchJobStageType;
-import org.slc.sli.ingestion.ControlFileWorkNote;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordWorkNote;
+import org.slc.sli.ingestion.Resource;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.delta.SliDeltaManager;
 import org.slc.sli.ingestion.landingzone.AttributeType;
@@ -40,12 +40,12 @@ import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 
 /**
+ * Processor to filter out neutral records previously ingested
  *
  * @author npandey
  *
  */
-
-public class DeltaProcessor extends IngestionProcessor<NeutralRecordWorkNote> {
+public class DeltaProcessor extends IngestionProcessor<NeutralRecordWorkNote, Resource> {
 
     private static final String BATCH_JOB_STAGE_DESC = "Filter out records that have been detected as duplicates";
 
@@ -57,6 +57,11 @@ public class DeltaProcessor extends IngestionProcessor<NeutralRecordWorkNote> {
 
     private Set<String> recordLevelDeltaEnabledEntities;
 
+    /**
+     * Camel Exchange process callback method
+     *
+     * @param exchange Camel exchange.
+     */
     @Override
     public void process(Exchange exchange, ProcessorArgs<NeutralRecordWorkNote> args) {
 
@@ -75,6 +80,14 @@ public class DeltaProcessor extends IngestionProcessor<NeutralRecordWorkNote> {
         setExchangeBody(exchange, filteredRecords, args.job, args.reportStats);
     }
 
+    /**
+     * Given a list of neutral records filters out records that have been previously ingested
+     *
+     * @param workNote work note provides the list of neutral records
+     * @param reportStats reportStats is used to keep track of errors and warnings
+     *
+     * @return returns list of neutral records that have to be processed further
+     */
     private List<NeutralRecord> filterRecords(NeutralRecordWorkNote workNote, ReportStats reportStats) {
 
         List<NeutralRecord> filteredRecords = new ArrayList<NeutralRecord>();
@@ -113,8 +126,8 @@ public class DeltaProcessor extends IngestionProcessor<NeutralRecordWorkNote> {
 
     private void setExchangeBody(Exchange exchange, List<NeutralRecord> records, NewBatchJob job,
             ReportStats reportStats) {
-        WorkNote workNote = new NeutralRecordWorkNote(records, job.getId(), job.getTenantId(), reportStats.hasErrors());
-        exchange.getIn().setBody(workNote, ControlFileWorkNote.class);
+        WorkNote workNote = new NeutralRecordWorkNote(records, job.getId(), reportStats.hasErrors());
+        exchange.getIn().setBody(workNote, NeutralRecordWorkNote.class);
     }
 
     @Override
@@ -125,18 +138,6 @@ public class DeltaProcessor extends IngestionProcessor<NeutralRecordWorkNote> {
     @Override
     protected String getStageDescription() {
         return BATCH_JOB_STAGE_DESC;
-    }
-
-    public DeterministicUUIDGeneratorStrategy getdIdStrategy() {
-        return dIdStrategy;
-    }
-
-    public DeterministicIdResolver getdIdResolver() {
-        return dIdResolver;
-    }
-
-    public Set<String> getRecordLevelDeltaEnabledEntities() {
-        return recordLevelDeltaEnabledEntities;
     }
 
     public void setdIdStrategy(DeterministicUUIDGeneratorStrategy dIdStrategy) {

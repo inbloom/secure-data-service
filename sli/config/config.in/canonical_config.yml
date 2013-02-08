@@ -184,6 +184,8 @@ default:
         sli.ingestion.queue.parser.concurrentConsumers: 8
         sli.ingestion.queue.parser.uriOptions:
 
+        sli.ingestion.parser.batch.size: 500
+
         sli.ingestion.nodeType: standalone
         sli.ingestion.tenant.loadDefaultTenants: true
         sli.ingestion.tenant.tenantPollingRepeatInterval: 5s

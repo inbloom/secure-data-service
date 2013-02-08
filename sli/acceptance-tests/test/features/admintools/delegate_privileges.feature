@@ -63,8 +63,7 @@ Scenario: State Administrator gets access to app approval for one district
   And I am asked 'Do you really want this application to access the district's data'
   And I click on Ok
   And the application is authorized to use data of "Daybreak School District"
-  And is put on the top of the table
-  And the Status becomes "Approved"
+  And the app "Testing App" Status becomes "Approved"
   And it is colored "green"
   And the Approve button next to it is disabled
   And the Deny button next to it is enabled

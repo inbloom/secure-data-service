@@ -117,8 +117,9 @@ end
 def whichTestsToRun(hash)
   testsToRun = []
   mongoHash = getLastHashFromMongo()
+  puts "Last commit hash in mongo is #{mongoHash}"
   changedFiles = getFilesChanged(mongoHash, hash)
-  puts changedFiles
+  puts "Changed files: #{changedFiles}"
   keySet = @pathToTestMap.keys
   changedFiles.each do |file|
     keySet.each do |key|
@@ -149,6 +150,10 @@ def updateMongo(hash)
   currTime = Time.new
 
   coll.update({"_id" => "last_used_commit"}, {"$set" => {"commit_hash" => hash, "lastUpdate" => currTime}})
+
+  puts "Newly persisted git hash in mongo: #{coll.find_one("_id" => "last_used_commit")["commit_hash"]}"
+
+
 end
 
 ##################### Main Methods #########################################
