@@ -24,16 +24,15 @@ import java.net.UnknownHostException;
 import java.util.Date;
 import java.util.Map;
 
-import javax.ws.rs.core.UriInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.security.context.resolver.RealmHelper;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.Entity;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
 /**
  * Utility class to fill in common SecurityEvent details
@@ -42,13 +41,13 @@ import org.springframework.stereotype.Component;
 public class SecurityEventBuilder {
     @Autowired
     private CallingApplicationInfoProvider callingApplicationInfoProvider;
-    
+
     private String thisNode;
     private String thisProcess;
-    
+
     @Autowired
     private RealmHelper realmHelper;
-    
+
     public SecurityEventBuilder() {
         try {
             InetAddress host = InetAddress.getLocalHost();
@@ -58,13 +57,10 @@ public class SecurityEventBuilder {
         }
         thisProcess = ManagementFactory.getRuntimeMXBean().getName();
     }
-    
+
     public SecurityEvent createSecurityEvent(String loggingClass, URI requestUri, String slMessage) {
         SecurityEvent event = new SecurityEvent();
-        String realmEdOrg = "UnknownEdOrg";
-		String stateOrgId;
-		String tenantId;
-        
+
         try {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             if (auth != null) {
@@ -74,16 +70,13 @@ public class SecurityEventBuilder {
                     event.setUser(principal.getExternalId() + ", " + principal.getName());
                     Entity realmEntity = realmHelper.getRealmFromSession(principal.getSessionId());
             		if (realmEntity != null) {
-            			String realmId = realmEntity.getEntityId();
-						realmEdOrg = realmHelper.getRealmEdOrg(realmId);
-						if (realmEdOrg != null) {
-							event.setUserEdOrg(realmEdOrg);
-						}
+                        String realmId = realmEntity.getEntityId();
+                        Map<String, Object> body = realmEntity.getBody();
+                        if (body != null) {
+                            event.setUserEdOrg((String) body.get("edOrg"));
 
-            			Map<String, Object> body = realmEntity.getBody();
-            			if (body != null) {
-            				stateOrgId = (String) body.get("edOrg");
-							tenantId = (String) body.get("tenantId");
+            				String stateOrgId = (String) body.get("edOrg");
+							String tenantId = (String) body.get("tenantId");
 				            event.setTargetEdOrg(realmHelper.getEdOrgIdFromTenantDB(tenantId, stateOrgId));
             			}
             		}
@@ -93,7 +86,7 @@ public class SecurityEventBuilder {
                     event.setCredential(credential.toString());
                 }
             }
-            
+
             if (requestUri != null) {
                 event.setActionUri(requestUri.toString());
             }
@@ -106,19 +99,19 @@ public class SecurityEventBuilder {
             event.setClassName(loggingClass);
             event.setLogLevel(LogLevelType.TYPE_INFO);
             event.setLogMessage(slMessage);
-            
+
             debug(event.toString());
-            
+
         } catch (Exception e) {
             info("Could not build SecurityEvent for [" + requestUri + "] [" + slMessage + "]");
         }
         return event;
     }
-    
+
     public CallingApplicationInfoProvider getCallingApplicationInfoProvider() {
         return callingApplicationInfoProvider;
     }
-    
+
     public void setCallingApplicationInfoProvider(CallingApplicationInfoProvider callingApplicationInfoProvider) {
         this.callingApplicationInfoProvider = callingApplicationInfoProvider;
     }
