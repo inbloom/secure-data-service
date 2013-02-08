@@ -61,24 +61,15 @@ def allLeaAllowAppForTenant(appName, tenantName)
   appAuthColl = dbTenant.collection("applicationAuthorization")
   edOrgColl = dbTenant.collection("educationOrganization")
 
-  neededEdOrgs = edOrgColl.find({"body.organizationCategories" => ["Local Education Agency"]})
-  neededEdOrgs.each do |edOrg|
-    puts("Currently on edOrg #{edOrg.inspect}") if ENV['DEBUG']
-    edOrgId = edOrg["_id"]
-    edOrgTenant = edOrg["metaData"]["tenantId"]
-    existingAppAuth = appAuthColl.find_one({"body.authId" => edOrgId})
-    if existingAppAuth == nil 
-      newAppAuth = {"_id" => "2012ls-#{SecureRandom.uuid}", "body" => {"authType" => "EDUCATION_ORGANIZATION", "authId" => edOrgId, "appIds" => [appId]}, "metaData" => {"tenantId" => edOrgTenant}}
-      puts("About to insert #{newAppAuth.inspect}") if ENV['DEBUG']
-      appAuthColl.insert(newAppAuth)
-    elsif !(existingAppAuth["body"]["appIds"].include?(appId))
-      existingAppAuth["body"]["appIds"].push(appId)
-      puts("About to update #{existingAppAuth.inspect}") if ENV['DEBUG']
-      appAuthColl.update({"body.authId" => edOrgId}, existingAppAuth)
-    else
-      puts("App already approved for district #{edOrgId}, skipping") if ENV['DEBUG']
-    end
+  neededEdOrgs = [] 
+  edOrgColl.find().each do |edorg|
+    neededEdOrgs.push(edorg["_id"])
   end
+  
+  appAuthColl.remove("body.applicationId" => appId)
+  newAppAuth = {"_id" => "2012ls-#{SecureRandom.uuid}", "body" => {"applicationId" => appId, "edorgs" => neededEdOrgs}, "metaData" => {"tenantId" => tenantName}}
+  appAuthColl.insert(newAppAuth)
+  conn.close
   enable_NOTABLESCAN()
 end
 
