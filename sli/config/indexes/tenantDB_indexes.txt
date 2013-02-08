@@ -166,6 +166,8 @@ parent,false,body.parentUniqueStateId:1
 program,false,body.programId:1
 # Find staff/teacher by external login
 staff,false,body.staffUniqueStateId:1
+# TODO: Find usage
+staff,false,type:1
 # Find student by external ID
 student,false,body.studentUniqueStateId:1
 
