@@ -23,7 +23,7 @@ require 'mongo'
 require_relative '../../utils/sli_utils.rb'
 
 Transform /^district "([^"]*)"$/ do |district|
-  id = "4726e42f-b265-372a-3c17-dc8d5d5fb263" if district == "IL-SUNSET"
+  id = "b2c6e292-37b0-4148-bf75-c98a2fcc905f" if district == "IL-SUNSET"
   id = "b2c6e292-37b0-4148-bf75-c98a2fcc905f" if district == "IL-SUNSET's ID"
   id
 end
@@ -68,29 +68,19 @@ end
 
 Then /^I should update app authorizations for (district "[^"]*")$/ do |district|
   @format = "application/json"
-  dataObj = {"authId" => "b2c6e292-37b0-4148-bf75-c98a2fcc905f", "appIds" => ["78f71c9a-8e37-0f86-8560-7783379d96f7"], "authType" => "EDUCATION_ORGANIZATION"}
+  dataObj = {"appId" => "78f71c9a-8e37-0f86-8560-7783379d96f7", "authorized" => true}
   data = prepareData("application/json", dataObj)
   puts("The data is #{data}") if ENV['DEBUG']
-  restHttpPut("/applicationAuthorization/" + district, data)
+  restHttpPut("/applicationAuthorization/78f71c9a-8e37-0f86-8560-7783379d96f7?edorg=#{district}", data)
   assert(@res != nil, "Response from PUT operation was nil")
 end
 
-Then /^I should update one app authorization for (district "[^"]*")$/ do |district|
-  @format = "application/json"
-  dataObj = {"authId" => "b2c6e292-37b0-4148-bf75-c98a2fcc905f", "appIds" => ["78f71c9a-8e37-0f86-8560-7783379d96f7"], "authType" => "EDUCATION_ORGANIZATION"}
-  data = prepareData("application/json", dataObj)
-  puts("The data is #{data}") if ENV['DEBUG']
-  restHttpPut("/applicationAuthorization/" + district, data)
-  assert(@res != nil, "Response from PUT operation was nil")
+Then /^I should update one app authorization for district "([^"]*)"$/ do |district|
+  step "I should update app authorizations for district \"#{district}\""
 end
 
-Then /^I should also update app authorizations for (district "[^"]*")$/ do |district|
-  @format = "application/json"
-  dataObj = {"authId" => "b2c6e292-37b0-4148-bf75-c98a2fcc905f", "authType" => "EDUCATION_ORGANIZATION", "appIds" => ["78f71c9a-8e37-0f86-8560-7783379d96f7"]}
-  data = prepareData("application/json", dataObj)
-  puts("The data is #{data}") if ENV['DEBUG']
-  restHttpPut("/applicationAuthorization/" + district, data)
-  assert(@res != nil, "Response from PUT operation was nil")
+Then /^I should also update app authorizations for district "([^"]*)"$/ do |district|
+  step "I should update app authorizations for district \"#{district}\""
 end
 
 Then /^I should get my delegations$/ do
@@ -123,8 +113,8 @@ Then /^I put back app authorizations/ do
   end
 end
 
-def appAuthColl
+def appAuthColl 
   @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db(convertTenantIdToDbName('DB_NAME'))
   @coll ||= @db.collection('applicationAuthorization')
-  return @coll
+  #return @coll
 end
