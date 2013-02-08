@@ -11,6 +11,17 @@
     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
     >
 
+  <bean id="ingestionPropertiesPlaceholder" class="org.slc.sli.ingestion.util.ExposedPropertyPlaceholderConfigurer">
+
+    <!-- this avoids errors with *other* property placeholders -->
+    <property name="ignoreUnresolvablePlaceholders" value="true" />
+
+    <!-- this allows using an optional local properties file (ingestion-dev.properties) -->
+    <property name="ignoreResourceNotFound" value="true" />
+
+    <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE" />
+  </bean>
+  
   <util:set id="shardCollections" set-class="java.util.TreeSet">
     <value>attendance</value>
     <value>cohort</value>
@@ -74,5 +85,14 @@
   <bean class="org.slc.sli.ingestion.handler.ZipFileHandler" />
   <bean class="org.slc.sli.ingestion.processors.ZipFileProcessor"/>
 
+  <bean class="org.slc.sli.ingestion.routes.orchestra.AggregationPostProcessor"/>
+
+  <bean class="org.slc.sli.ingestion.routes.orchestra.BalancedTimestampSplitStrategy"/>
+
+  <bean class="org.slc.sli.ingestion.routes.orchestra.OrchestraPreProcessor"/>
+
+  <bean class="org.slc.sli.ingestion.routes.orchestra.WorkNoteLatch"/>
+
+  <bean class="org.slc.sli.ingestion.routes.orchestra.WorkNoteSplitter"/>
 
 </beans>

@@ -66,8 +66,6 @@ UPLOAD_FILE_SCRIPT = File.expand_path("../opstools/ingestion_trigger/publish_fil
 ERROR_REPORT_MISSING_STRING_PREFIX = "#?"
 ERROR_REPORT_MISSING_STRING_SUFFIX = "?#"
 
-DATA_SET_COUNTS = {"small sample data set" => 4258}
-
 ############################################################
 # STEPS: BEFORE
 ############################################################
@@ -1230,7 +1228,7 @@ When /^a batch job has completed successfully in the database$/ do
      if found
        assert(true, "")
      else
-       assert(false, "Either batch log was never created, or it took more than #{@maxTimeout} seconds")
+       assert(false, "Batch log was not created in ")
      end
      @db = old_db
      enable_NOTABLESCAN()
@@ -1247,7 +1245,7 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
 
   intervalTime = 1 #seconds
   #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
-  @maxTimeout ? @maxTimeout : @maxTimeout = 900
+  @maxTimeout ? @maxTimeout : @maxTimeout = 600
   iters = (1.0*@maxTimeout/intervalTime).ceil
   found = false
   if (INGESTION_MODE == 'remote')
@@ -1281,7 +1279,7 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
   if found
     assert(true, "")
   else
-    assert(false, "Either batch log was never created, or it took more than #{@maxTimeout} seconds")
+    assert(false, "Batch log did not complete either successfully or with errors within #{(i+1)*intervalTime} seconds. Test has timed out. Please check ingestion.log for root cause.")
   end
 
   @db = old_db
@@ -2955,10 +2953,6 @@ Then /^I check that references were resolved correctly:$/ do |table|
 	enable_NOTABLESCAN()
 end
 
-
-Then /^all the (.*) records were processed$/ do |dataSet|
-  step "I should see \"Processed #{DATA_SET_COUNTS[dataSet]} records\" in the resulting batch job file"
-end
 
 ############################################################
 # STEPS: AFTER

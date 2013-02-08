@@ -63,8 +63,9 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     private static final String OBJECTIVE_ASSESSMENT_IDENTIFICATION_CODE = "ObjectiveAssessmentIdentity.ObjectiveAssessmentIdentificationCode";
     private static final String ASSESSMENTITEM_IDENTIFICATION_CODE = "AssessmentItemIdentity.AssessmentItemIdentificationCode" ;
 
-    //private static final String PARENT_ASSESSMENT_FAMILY_TITLE = "parentAssessmentFamilyTitle";
 
+//    private static final String ASSESSMENT_ITEM = "assessmentItem";
+//    private static final String PARENT_ASSESSMENT_FAMILY_TITLE = "parentAssessmentFamilyTitle";
 
     @Autowired
     private ObjectiveAssessmentBuilder builder;
@@ -147,22 +148,6 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
                 attrs.put("objectiveAssessment", familyObjectiveAssessments);
             }
 
-//<<<<<<< HEAD
-//            if (attrs.containsKey(ASSESSMENTITEM_REFERENCE)) {
-//                @SuppressWarnings("unchecked")
-//                List<Map<String, Object>> items = (List<Map<String, Object>>) attrs.get(ASSESSMENTITEM_REFERENCE);
-//                if (items == null || items.size() == 0) {
-//                    attrs.remove(ASSESSMENTITEM_REFERENCE);
-//                } else {
-//                    List<Map<String, Object>> assessmentItems = getAssessmentItems(items);
-//                    if (assessmentItems != null) {
-//                        attrs.put(ASSESSMENT_ITEM, assessmentItems);
-//                    }
-//                }
-//            }
-
-//=======
-
             String assessmentPeriodDescriptorRef = (String) attrs.remove("periodDescriptorRef");
             if (assessmentPeriodDescriptorRef != null) {
                 attrs.put(ASSESSMENT_PERIOD_DESCRIPTOR, getAssessmentPeriodDescriptor(assessmentPeriodDescriptorRef));
@@ -173,41 +158,6 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             transformedAssessments.add(neutralRecord);
         }
     }
-
-//<<<<<<< HEAD
-//    private List<Map<String, Object>> getAssessmentItems(List<Map<String, Object>> itemReferences) {
-//        List<String> identificationCodes = new ArrayList<String>();
-//        // build in clause
-//        for (Map<String, Object> item : itemReferences) {
-//            String identificationCode = (String) getProperty(item, ASSESSMENTITEM_IDENTIFICATION_CODE);
-//            if (identificationCode != null) {
-//                identificationCodes.add(identificationCode);
-//            }
-//        }
-//
-//        if (identificationCodes.size() > 0) {
-//            if (LOG.isDebugEnabled()) {
-//                LOG.debug("query for assessmentItems: {}", identificationCodes);
-//            }
-//            NeutralQuery constraint = new NeutralQuery();
-//            constraint.addCriteria(new NeutralCriteria(ASSESSMENTITEM_IDENTIFICATION_CODE, NeutralCriteria.CRITERIA_IN,
-//                    identificationCodes));
-//            NeutralRecordRepository repo = getNeutralRecordMongoAccess().getRecordRepository();
-//            Iterable<NeutralRecord> records = repo.findAllForJob(ASSESSMENT_ITEM, constraint);
-//            List<Map<String, Object>> assessmentItems = new ArrayList<Map<String, Object>>();
-//            if (records != null) {
-//                for (NeutralRecord record : records) {
-//                    assessmentItems.add(record.getAttributes());
-//                }
-//
-//                return assessmentItems;
-//            }
-//        }
-//
-//        return null;
-//    }
-//
-//=======
 
     @SuppressWarnings("unchecked")
     private Map<String, Object> getAssessmentPeriodDescriptor(String assessmentPeriodDescriptorRef) {

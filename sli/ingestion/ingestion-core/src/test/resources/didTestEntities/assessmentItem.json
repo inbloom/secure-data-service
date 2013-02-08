@@ -2,7 +2,7 @@
 "recordType":"assessmentItem",
 "attributes":
 {
-    "assessmentId":
+    "AssessmentReference":
     {
         "AssessmentIdentity":
         {
@@ -10,15 +10,6 @@
             "GradeLevelAssessed":"Fifth grade",
             "Version":"1"
         }
-    },
-    "learningStandards":
-                [
-                    {
-                        "LearningStandardIdentity":
-                        {
-                            "IdentificationCode":"0123456789"
-                        }
-                    }
-                ]
+    }
 }
 }
