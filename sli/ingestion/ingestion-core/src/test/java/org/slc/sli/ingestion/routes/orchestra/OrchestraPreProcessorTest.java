@@ -45,7 +45,7 @@ import org.slc.sli.ingestion.dal.NeutralRecordRepository;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+@ContextConfiguration(locations = { "/spring/processor-test.xml" })
 public class OrchestraPreProcessorTest {
 
     private static final String BATCHJOBID = "MT.ctl-1234235235";

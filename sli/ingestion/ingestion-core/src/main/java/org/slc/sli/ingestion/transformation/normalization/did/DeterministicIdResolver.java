@@ -79,11 +79,17 @@ public class DeterministicIdResolver implements BatchJobStage {
             return;
         }
 
+        String referenceEntityType = "";
+        String sourceRefPath = "";
+
         for (DidRefSource didRefSource : entityConfig.getReferenceSources()) {
-            String referenceEntityType = didRefSource.getEntityType();
-            String sourceRefPath = didRefSource.getSourceRefPath();
             try {
+                referenceEntityType = didRefSource.getEntityType();
+
+                sourceRefPath = didRefSource.getSourceRefPath();
+
                 handleDeterministicIdForReference(entity, didRefSource, tenantId);
+
             } catch (IdResolutionException e) {
                 handleException(entity, sourceRefPath, entity.getType(), referenceEntityType, e, report, reportStats);
             }

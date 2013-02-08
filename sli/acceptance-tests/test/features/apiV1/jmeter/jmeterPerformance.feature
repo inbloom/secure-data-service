@@ -16,4 +16,4 @@ Scenario: Run Jmeter tests
     | update-attendance          |
     | dashboard-list-students    |
     | dashboard-single-student   |
-  #Then no performance regressions should be found
+  Then no performance regressions should be found

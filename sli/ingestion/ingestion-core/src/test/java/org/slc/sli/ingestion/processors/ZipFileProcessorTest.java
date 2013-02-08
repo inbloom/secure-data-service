@@ -51,12 +51,12 @@ import org.slc.sli.ingestion.queues.MessageType;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+@ContextConfiguration(locations = { "/spring/processor-test.xml" })
 public class ZipFileProcessorTest {
 
     @Autowired
     @InjectMocks
-    private ZipFileProcessor zipProc;
+    private ZipFileProcessor zipProc = new ZipFileProcessor();
 
     @Mock
     private BatchJobDAO mockedBatchJobDAO;
