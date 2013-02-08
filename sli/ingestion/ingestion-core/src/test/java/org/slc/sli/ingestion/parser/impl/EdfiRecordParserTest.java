@@ -20,24 +20,19 @@ import static org.mockito.Matchers.anyMap;
 import static org.mockito.Mockito.atLeastOnce;
 import static org.mockito.Mockito.verify;
 
-import java.io.IOException;
-import java.util.Map;
-
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 
 import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
+import org.slc.sli.ingestion.parser.RecordMeta;
+import org.slc.sli.ingestion.parser.RecordVisitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-
-import org.slc.sli.ingestion.parser.RecordMeta;
-import org.slc.sli.ingestion.parser.RecordVisitor;
 
 /**
  *

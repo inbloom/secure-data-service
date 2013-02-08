@@ -15,28 +15,17 @@
  */
 package org.slc.sli.ingestion.parser.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.verify;
-
-import java.util.Map;
-
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Mockito;
+import org.slc.sli.ingestion.parser.RecordVisitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-
-import org.slc.sli.ingestion.parser.RecordMeta;
-import org.slc.sli.ingestion.parser.RecordVisitor;
 
 /**
  *
@@ -81,7 +70,6 @@ public class InterchangeStudentParentTest {
         entityTestHelper(schema, inputXml, expectedJson);
     }
 
-    @SuppressWarnings({ "unchecked", "rawtypes" })
     private void entityTestHelper(Resource schema, Resource inputXmlResource, Resource expectedJsonResource)
             throws Throwable {
 
@@ -90,16 +78,9 @@ public class InterchangeStudentParentTest {
         XsdTypeProvider tp = new XsdTypeProvider();
         tp.setSchemaFiles(new PathMatchingResourcePatternResolver().getResources("classpath:edfiXsd-SLI/*.xsd"));
 
-        RecordVisitor mockVisitor = Mockito.mock(RecordVisitor.class);
-        EdfiRecordParserImpl.parse(reader, schema, tp, mockVisitor);
+        RecordVisitor visitor = new TestingRecordVisitor(expectedJsonResource, objectMapper);
+        EdfiRecordParserImpl.parse(reader, schema, tp, visitor);
 
-        ArgumentCaptor<Map> mapArgCaptor = ArgumentCaptor.forClass(Map.class);
-        verify(mockVisitor, atLeastOnce()).visit(any(RecordMeta.class), mapArgCaptor.capture());
-        LOG.info("Visitor invoked {} times.", mapArgCaptor.getAllValues().size());
-
-        LOG.info(objectMapper.writeValueAsString(mapArgCaptor.getValue()));
-        Object expected = objectMapper.readValue(expectedJsonResource.getFile(), Map.class);
-        assertEquals(expected, mapArgCaptor.getValue());
     }
 
 }
