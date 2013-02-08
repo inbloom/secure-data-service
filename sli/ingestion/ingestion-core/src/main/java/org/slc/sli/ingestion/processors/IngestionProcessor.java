@@ -35,6 +35,7 @@ import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.impl.JobSource;
 import org.slc.sli.ingestion.reporting.impl.ProcessorSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.util.BatchJobUtils;
@@ -44,9 +45,11 @@ import org.slc.sli.ingestion.validation.Validator;
 /**
  * Abstract processor for Ingestion
  *
- * @param <T> A unit of work that contains all information that needs to be processed
+ * @param <T>
+ *            A unit of work that contains all information that needs to be processed
  *
- * @param <S> Resource to validate
+ * @param <S>
+ *            Resource to validate
  */
 public abstract class IngestionProcessor<T extends WorkNote, S> implements Processor {
     private static final String INGESTION_MESSAGE_TYPE = "IngestionMessageType";
@@ -56,9 +59,9 @@ public abstract class IngestionProcessor<T extends WorkNote, S> implements Proce
 
     private AbstractMessageReport messageReport;
 
-    List<? extends Validator<S>> preValidators;
+    private List<? extends Validator<S>> preValidators;
 
-    List<? extends Validator<S>> postValidators;
+    private List<? extends Validator<S>> postValidators;
 
     @Override
     @SuppressWarnings("unchecked")
@@ -78,10 +81,12 @@ public abstract class IngestionProcessor<T extends WorkNote, S> implements Proce
                 args.stage = stage;
                 args.reportStats = rs;
 
-                pre(itemToValidate(args), messageReport, args.reportStats, getSource(args));
+                S item = getItemToValidate(args);
+
+                pre(item, messageReport, args.reportStats, getSource(args));
                 if (!args.reportStats.hasErrors()) {
                     process(exchange, args);
-                    post(itemToValidate(args), messageReport, args.reportStats, getSource(args));
+                    post(item, messageReport, args.reportStats, getSource(args));
                 }
 
             } catch (Exception e) {
@@ -124,9 +129,8 @@ public abstract class IngestionProcessor<T extends WorkNote, S> implements Proce
 
         if (workNote.getBatchJobId() != null) {
             ReportStats reportStats = new SimpleReportStats();
-            messageReport.error(reportStats, new ProcessorSource(getStage().getName()),
-                    CoreMessageCode.CORE_0062, workNote.getBatchJobId(),
-                    exception.getMessage());
+            messageReport.error(reportStats, new ProcessorSource(getStage().getName()), CoreMessageCode.CORE_0062,
+                    workNote.getBatchJobId(), exception.getMessage());
         }
     }
 
@@ -136,6 +140,35 @@ public abstract class IngestionProcessor<T extends WorkNote, S> implements Proce
         initTenantContext(job);
 
         return job;
+    }
+
+    /**
+     * Convert ProcessorArgs to a type that needs to be validated.
+     * The default implementation returns <code>null</code>.
+     * Extended classes should provide their implementation if validation is expected.
+     *
+     * @param args
+     *            Arguments for the current processor
+     * @return Item to validate
+     */
+    protected S getItemToValidate(ProcessorArgs<T> args) {
+        // This is a PMD workaround
+        S s = null;
+
+        return s;
+    }
+
+    /**
+     * Provide a Source for the error reporting based on the ProcessorArgs.
+     * The default implementation returns <code>JobSource</code> for the current batch job.
+     * Extended classes should provide their implementation if validation is expected.
+     *
+     * @param args
+     *            Arguments for the current processor
+     * @return A Source
+     */
+    protected Source getSource(ProcessorArgs<T> args) {
+        return new JobSource(args.job.getId());
     }
 
     private void initTenantContext(NewBatchJob newJob) {
@@ -161,21 +194,36 @@ public abstract class IngestionProcessor<T extends WorkNote, S> implements Proce
         this.messageReport = messageReport;
     }
 
-    protected abstract BatchJobStageType getStage();
-    protected abstract String getStageDescription();
+    public void setPreValidators(List<? extends Validator<S>> preValidators) {
+        this.preValidators = preValidators;
+    }
 
-    protected abstract S itemToValidate(ProcessorArgs<T> args);
-    protected abstract Source getSource(ProcessorArgs<T> args);
+    public void setPostValidators(List<? extends Validator<S>> postValidators) {
+        this.postValidators = postValidators;
+    };
+
+    public List<? extends Validator<S>> getPreValidators() {
+        return preValidators;
+    }
+
+    public List<? extends Validator<S>> getPostValidators() {
+        return postValidators;
+    }
+
+    protected abstract BatchJobStageType getStage();
+
+    protected abstract String getStageDescription();
 
     /**
      * Common arguments for Ingestion processors.
      *
-     * @param <T> Type of the WorkNote.
+     * @param <T>
+     *            Type of the WorkNote.
      */
     static class ProcessorArgs<T> {
         protected Stage stage;
         protected NewBatchJob job;
         protected T workNote;
         protected ReportStats reportStats;
-    };
+    }
 }

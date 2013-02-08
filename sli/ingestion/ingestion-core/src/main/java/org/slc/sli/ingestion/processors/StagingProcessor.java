@@ -37,7 +37,6 @@ import org.slc.sli.ingestion.NeutralRecordWorkNote;
 import org.slc.sli.ingestion.Resource;
 import org.slc.sli.ingestion.ResourceWriter;
 import org.slc.sli.ingestion.reporting.ReportStats;
-import org.slc.sli.ingestion.reporting.Source;
 
 /**
  * Persists records into a datastore
@@ -107,15 +106,4 @@ public class StagingProcessor extends IngestionProcessor<NeutralRecordWorkNote, 
     protected String getStageDescription() {
         return "Persists records to a temporary staging datastore";
     }
-
-    @Override
-    protected Resource itemToValidate(ProcessorArgs<NeutralRecordWorkNote> args) {
-        return null;
-    }
-
-    @Override
-    protected Source getSource(ProcessorArgs<NeutralRecordWorkNote> args) {
-        return null;
-    }
-
 }

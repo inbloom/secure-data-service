@@ -251,7 +251,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
     }
 
     @Override
-    protected IngestionFileEntry itemToValidate(ProcessorArgs<FileEntryWorkNote> args) {
+    protected IngestionFileEntry getItemToValidate(ProcessorArgs<FileEntryWorkNote> args) {
         return args.workNote.getFileEntry();
     }
 

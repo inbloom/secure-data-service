@@ -19,8 +19,6 @@ package org.slc.sli.ingestion.processors;
 import org.apache.camel.Exchange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
@@ -29,36 +27,25 @@ import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.RecordHash;
-import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.reporting.Source;
 
 /**
  *
  * @author npandey
  *
  */
-
-@Component
 public class DeltaHashPurgeProcessor extends IngestionProcessor<WorkNote, Resource> {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.DELTA_PROPERTY_PROCESSOR;
 
     private static final String BATCH_JOB_STAGE_DESC = "Process the duplicate detection prooperty";
 
-
-    private static final Logger LOG = LoggerFactory.getLogger(DeltaProcessor.class);
-
-    @Autowired
-    private BatchJobDAO batchJobDAO;
+    private static final Logger LOG = LoggerFactory.getLogger(DeltaHashPurgeProcessor.class);
 
     @Override
     public void process(Exchange exchange, ProcessorArgs<WorkNote> args) {
-
-
             String tenantId = TenantContext.getTenantId();
 
             potentiallyRemoveRecordHash(args.job, tenantId);
-
     }
 
     private void potentiallyRemoveRecordHash(NewBatchJob job, String tenantId) {
@@ -79,16 +66,5 @@ public class DeltaHashPurgeProcessor extends IngestionProcessor<WorkNote, Resour
     @Override
     protected String getStageDescription() {
         return BATCH_JOB_STAGE_DESC;
-    }
-
-
-    @Override
-    protected Resource itemToValidate(ProcessorArgs<WorkNote> args) {
-        return null;
-    }
-
-    @Override
-    protected Source getSource(ProcessorArgs<WorkNote> args) {
-        return null;
     }
 }
