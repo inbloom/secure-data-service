@@ -35,6 +35,7 @@ import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 
 /**
+ * Junit test for DeltaHashPurge Processor
  *
  * @author npandey
  *

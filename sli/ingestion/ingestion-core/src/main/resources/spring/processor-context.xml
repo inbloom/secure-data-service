@@ -83,6 +83,10 @@
       </util:list>
     </property>
   </bean>
+  
+    <bean id="deltaHashPurgeProcessor" class="org.slc.sli.ingestion.processors.DeltaHashPurgeProcessor" parent="ingestionProcessor">
+        <property name="batchJobDAO" ref="batchJobMongoDA" />
+  </bean>
 
   <bean id="persistenceProcessor" class="org.slc.sli.ingestion.processors.PersistenceProcessor">
     <property name="transformer" ref="smooksEdFi2SLITransformer" />

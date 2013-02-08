@@ -29,6 +29,7 @@ import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.RecordHash;
 
 /**
+ * Processor to remove delta hash from the datastore
  *
  * @author npandey
  *
@@ -39,8 +40,13 @@ public class DeltaHashPurgeProcessor extends IngestionProcessor<WorkNote, Resour
 
     private static final String BATCH_JOB_STAGE_DESC = "Process the duplicate detection prooperty";
 
-    private static final Logger LOG = LoggerFactory.getLogger(DeltaHashPurgeProcessor.class);
+    private static final Logger LOG = LoggerFactory.getLogger(DeltaProcessor.class);
 
+    /**
+     * Camel Exchange process callback method
+     *
+     * @param exchange Camel exchange.
+     */
     @Override
     public void process(Exchange exchange, ProcessorArgs<WorkNote> args) {
             String tenantId = TenantContext.getTenantId();
@@ -48,6 +54,12 @@ public class DeltaHashPurgeProcessor extends IngestionProcessor<WorkNote, Resour
             potentiallyRemoveRecordHash(args.job, tenantId);
     }
 
+    /**
+     * Clear out delta hash for this tenant from datastore if the duplicate-detection property is set to disable or reset
+     *
+     * @param job Batch Job
+     * @param tenantId Tenant Id
+     */
     private void potentiallyRemoveRecordHash(NewBatchJob job, String tenantId) {
         String rhMode = job.getProperty(AttributeType.DUPLICATE_DETECTION.getName());
         if ((null != rhMode)
