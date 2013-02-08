@@ -68,7 +68,7 @@ public class DeltaProcessor extends IngestionProcessor<NeutralRecordWorkNote, Re
 
             args.stage.addMetrics(metrics);
 
-            if (isDeltaEnabled()) {
+            if (!isDeltaDisabled()) {
                 filteredRecords = filterRecords(metrics, args.workNote, args.reportStats);
                 args.workNote.setNeutralRecords(filteredRecords);
 
@@ -93,8 +93,10 @@ public class DeltaProcessor extends IngestionProcessor<NeutralRecordWorkNote, Re
         for (NeutralRecord neutralRecord : workNote.getNeutralRecords()) {
             boolean isDuplicate = false;
 
-            if (isDeltafiable(neutralRecord)) {
-                isDuplicate = SliDeltaManager.isPreviouslyIngested(neutralRecord, batchJobDAO, dIdStrategy, dIdResolver, getMessageReport(), reportStats);
+            if(isDeltafiable(neutralRecord)) {
+                isDuplicate = isDuplicateRecord(neutralRecord, reportStats);
+            } else {
+                isDuplicate = false;
             }
 
             if (isDuplicate) {
@@ -123,17 +125,30 @@ public class DeltaProcessor extends IngestionProcessor<NeutralRecordWorkNote, Re
         return recordLevelDeltaEnabledEntities.contains(neutralRecord.getRecordType());
     }
 
-    private boolean isDeltaEnabled() {
+    private boolean isDeltaDisabled() {
         String rhMode = TenantContext.getBatchProperty(AttributeType.DUPLICATE_DETECTION.getName());
-
         if (rhMode == null) {
-            return true;
+            return false;
         }
 
-        boolean modeDisable = rhMode.equalsIgnoreCase(RecordHash.RECORD_HASH_MODE_DISABLE);
-        boolean modeDebugDrop = rhMode.equalsIgnoreCase(RecordHash.RECORD_HASH_MODE_DEBUG_DROP);
+        return rhMode.equalsIgnoreCase(RecordHash.RECORD_HASH_MODE_DISABLE);
+    }
 
-        return !modeDisable && !modeDebugDrop;
+    private boolean isDuplicateRecord(NeutralRecord neutralRecord, ReportStats reportStats) {
+        String rhMode = TenantContext.getBatchProperty(AttributeType.DUPLICATE_DETECTION.getName());
+
+        boolean modeDebugDrop = false;
+        if(rhMode != null ) {
+            modeDebugDrop = rhMode.equalsIgnoreCase(RecordHash.RECORD_HASH_MODE_DEBUG_DROP);
+        } else {
+            modeDebugDrop = false;
+        }
+
+        if(modeDebugDrop) {
+           return true;
+        } else {
+            return SliDeltaManager.isPreviouslyIngested(neutralRecord, batchJobDAO, dIdStrategy, dIdResolver, getMessageReport(), reportStats);
+        }
     }
 
     @Override
