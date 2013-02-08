@@ -69,7 +69,7 @@ public class ApplicationAuthorizationValidator {
             if (isAutoAuthorized(app)) {
                 return true;
             } else {
-                Set<String> edOrgs = helper.getDirectEdorgs();
+                Set<String> edOrgs = helper.getDirectEdorgs(principal.getEntity());
                 NeutralQuery appAuthCollQuery = new NeutralQuery();
                 appAuthCollQuery.addCriteria(new NeutralCriteria("applicationId", "=", app.getEntityId()));
                 appAuthCollQuery.addCriteria(new NeutralCriteria("edorgs", NeutralCriteria.CRITERIA_IN, edOrgs));

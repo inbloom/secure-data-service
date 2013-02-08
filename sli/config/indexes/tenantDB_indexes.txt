@@ -14,6 +14,7 @@
 adminDelegation,false,body.localEdOrgId:1,body.appApprovalEnabled:1
 applicationAuthorization,false,body.applicationId:1
 applicationAuthorization,false,body.applicationId:1,body.edorgs:1
+applicationAuthorization,false,body.edorgs:1
 customRole,false,body.realmId:1
 customRole,false,metaData.tenantId:1,body.realmId:1
 custom_entities,false,metaData.entityId:1,metaData.clientId:1
