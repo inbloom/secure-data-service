@@ -94,7 +94,7 @@ public class SecurityEventContextResolver implements EntityContextResolver {
                             if (roles.contains(RoleInitializer.SEA_ADMINISTRATOR) && homeEdOrgs.size() > 0) {
 
                                 NeutralQuery or = new NeutralQuery();
-                                or.addCriteria(new NeutralCriteria("tenantId",      NeutralCriteria.OPERATOR_EQUAL, principal.getTenantId()));
+//                                or.addCriteria(new NeutralCriteria("tenantId",      NeutralCriteria.OPERATOR_EQUAL, principal.getTenantId()));
                                 or.addCriteria(new NeutralCriteria("targetEdOrg",   NeutralCriteria.CRITERIA_IN,    homeEdOrgs));
                                 or.addCriteria(new NeutralCriteria("roles",         NeutralCriteria.CRITERIA_IN,    ROLES_SEA_OR_REALM_ADMIN));
                                 filters.add(or);
