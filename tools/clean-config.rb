@@ -1,5 +1,5 @@
 
-SLI_ROOT = "."
+SLI_ROOT = "../sli"
 
 
 def run
