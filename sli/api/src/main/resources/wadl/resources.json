@@ -21,7 +21,7 @@
         { "path": "/{id}/studentSectionAssociations/studentCompetencies" },
         { "path": "/{id}/studentSectionAssociations/students" },
         { "path": "/{id}/studentSectionAssociations/students/attendances" },
-        { "path": "/{id}/studentSectionAssociations/students/courseTranscripts", "dateSearchDisallowed": true },
+        { "path": "/{id}/studentSectionAssociations/students/studentAcademicRecords/courseTranscripts", "dateSearchDisallowed": true },
         { "path": "/{id}/studentSectionAssociations/students/reportCards", "dateSearchDisallowed": true },
         { "path": "/{id}/studentSectionAssociations/students/studentAcademicRecords", "dateSearchDisallowed": true },
         { "path": "/{id}/studentSectionAssociations/students/studentAssessments" },

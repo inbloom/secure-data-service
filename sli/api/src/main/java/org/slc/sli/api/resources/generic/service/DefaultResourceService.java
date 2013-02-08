@@ -367,7 +367,7 @@ public class DefaultResourceService implements ResourceService {
         final EntityDefinition assocEntity = resourceHelper.getEntityDefinition(association);
         final EntityDefinition baseEntity = resourceHelper.getEntityDefinition(base);
 
-        final String resourceKey = getConnectionKey(association, resource);
+        String resourceKey = getConnectionKey(association, resource);
         String key = "_id";
 
         try {
@@ -421,14 +421,17 @@ public class DefaultResourceService implements ResourceService {
                 for (EntityBody entityBody : assocEntity.getService().list(apiQuery)) {
                     List<String> filteredIds = entityBody.getValues(resourceKey);
                     if ((filteredIds == null) || (filteredIds.isEmpty())) {
-                       key = resourceKey;
-                       filteredIdList.addAll(valueList);
-                       break;
-                    } else {
-                        for (String filteredId : filteredIds) {
-                            filteredIdList.add(filteredId);
+                        key = resourceKey;
+                        if (associationKey.equals("_id")) {
+                            filteredIdList.addAll(valueList);
+                            break;
+
+                        } else {
+                            resourceKey = "id";
+                            filteredIds = entityBody.getValues(resourceKey);
                         }
                     }
+                    filteredIdList.addAll(filteredIds);
                 }
             }
 
