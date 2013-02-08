@@ -56,7 +56,7 @@ public class EdfiRecordParserTest {
         Resource[] schemaFiles = new PathMatchingResourcePatternResolver().getResources("classpath:edfiXsd-SLI/*.xsd");
 
         Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StudentParent.xsd");
-        Resource xml = new ClassPathResource("parser/Student.xml");
+        Resource xml = new ClassPathResource("parser/InterchangeStudentParent/Student.xml");
 
         XMLEventReader reader = XMLInputFactory.newInstance().createXMLEventReader(xml.getInputStream());
 
@@ -76,8 +76,8 @@ public class EdfiRecordParserTest {
         Resource[] schemaFiles = new PathMatchingResourcePatternResolver().getResources("classpath:edfiXsd-SLI/*.xsd");
 
         Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StudentParent.xsd");
-        Resource xml = new ClassPathResource("parser/Student.xml");
-        Resource expectedJson = new ClassPathResource("parser/Student.expected.json");
+        Resource xml = new ClassPathResource("parser/InterchangeStudentParent/Student.xml");
+        Resource expectedJson = new ClassPathResource("parser/InterchangeStudentParent/Student.expected.json");
 
         XMLEventReader reader = XMLInputFactory.newInstance().createXMLEventReader(xml.getInputStream());
 
@@ -89,27 +89,4 @@ public class EdfiRecordParserTest {
         EdfiRecordParserImpl.parse(reader, schema, tp, visitor);
     }
 
-    private static final class TestingRecordVisitor implements RecordVisitor {
-        private Resource expectedResource;
-        private ObjectMapper objectMapper;
-
-        private TestingRecordVisitor(Resource expectedResource, ObjectMapper objectMapper) {
-            this.expectedResource = expectedResource;
-            this.objectMapper = objectMapper;
-        }
-
-        @Override
-        public void visit(RecordMeta edfiType, Map<String, Object> record) {
-            try {
-                LOG.debug(objectMapper.writeValueAsString(record));
-
-                Object expected = objectMapper.readValue(expectedResource.getFile(), Map.class);
-
-                Assert.assertEquals(expected, record);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 }
