@@ -1,0 +1,34 @@
+{
+  "StudentReference":{
+    "StudentIdentity":{
+      "StudentUniqueStateId":{
+        "_value":"_hvNB7n1juH"
+      }
+    }
+  },
+  "ParentReference":{
+    "ParentIdentity":{
+      "ParentUniqueStateId":{
+        "_value":"aBH75KvXygxZ"
+      }
+    }
+  },
+  "Relation":{
+    "_value":"Cousin"
+  },
+  "PrimaryContactStatus":{
+    "_value":false
+  },
+  "LivesWith":{
+    "_value":true
+  },
+  "EmergencyContactStatus":{
+    "_value":true
+  },
+  "ContactPriority":{
+    "_value":-742574136
+  },
+  "ContactRestrictions":{
+    "_value":"H.z1D2bJ0PqkooeIJ05nPHywA5BBT.N1cXcFcgWOpV"
+  }
+}

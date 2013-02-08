@@ -15,7 +15,6 @@
  */
 package org.slc.sli.ingestion.parser.impl;
 
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyMap;
 import static org.mockito.Mockito.atLeastOnce;
@@ -28,6 +27,7 @@ import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 
 import org.codehaus.jackson.map.ObjectMapper;
+import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.slf4j.Logger;
@@ -63,6 +63,7 @@ public class EdfiRecordParserTest {
         RecordVisitor visitor = Mockito.mock(RecordVisitor.class);
 
         XsdTypeProvider tp = new XsdTypeProvider();
+
         tp.setSchemaFiles(schemaFiles);
 
         EdfiRecordParserImpl.parse(reader, schema, tp, visitor);
@@ -104,7 +105,7 @@ public class EdfiRecordParserTest {
 
                 Object expected = objectMapper.readValue(expectedResource.getFile(), Map.class);
 
-                assertEquals(expected, record);
+                Assert.assertEquals(expected, record);
 
             } catch (IOException e) {
                 e.printStackTrace();

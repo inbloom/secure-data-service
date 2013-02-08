@@ -247,7 +247,7 @@ public class ControlFilePreProcessor implements Processor {
     }
 
     private void setExchangeBody(Exchange exchange, ReportStats reportStats, ControlFile controlFile, NewBatchJob job) {
-            WorkNote workNote = new ControlFileWorkNote(controlFile, job.getId(), job.getTenantId(), reportStats.hasErrors());
+            WorkNote workNote = new ControlFileWorkNote(controlFile, job.getId(), reportStats.hasErrors());
             exchange.getIn().setBody(workNote, ControlFileWorkNote.class);
     }
 

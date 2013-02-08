@@ -24,12 +24,13 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
+import org.slc.sli.ingestion.Resource;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.reporting.AbstractMessageReport;
+import org.slc.sli.ingestion.reporting.Source;
 
 /**
  *
@@ -38,7 +39,7 @@ import org.slc.sli.ingestion.reporting.AbstractMessageReport;
  */
 
 @Component
-public class DeltaHashPurgeProcessor extends IngestionProcessor<WorkNote> {
+public class DeltaHashPurgeProcessor extends IngestionProcessor<WorkNote, Resource> {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.DELTA_PROPERTY_PROCESSOR;
 
@@ -49,9 +50,6 @@ public class DeltaHashPurgeProcessor extends IngestionProcessor<WorkNote> {
 
     @Autowired
     private BatchJobDAO batchJobDAO;
-
-    @Autowired
-    private AbstractMessageReport databaseMessageReport;
 
     @Override
     public void process(Exchange exchange, ProcessorArgs<WorkNote> args) {
@@ -81,5 +79,16 @@ public class DeltaHashPurgeProcessor extends IngestionProcessor<WorkNote> {
     @Override
     protected String getStageDescription() {
         return BATCH_JOB_STAGE_DESC;
+    }
+
+
+    @Override
+    protected Resource itemToValidate(ProcessorArgs<WorkNote> args) {
+        return null;
+    }
+
+    @Override
+    protected Source getSource(ProcessorArgs<WorkNote> args) {
+        return null;
     }
 }

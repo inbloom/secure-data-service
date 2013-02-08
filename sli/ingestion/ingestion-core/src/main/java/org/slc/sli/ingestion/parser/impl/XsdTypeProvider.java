@@ -71,7 +71,7 @@ public class XsdTypeProvider implements TypeProvider {
 
     private Map<String, Map<String, String>> interchangeMap = new HashMap<String, Map<String, String>>();
 
-    private void init() throws Exception {
+    private void init() throws IOException, JDOMException {
         System.setProperty("javax.xml.parsers.SAXParserFactory",
                 "com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl");
 
