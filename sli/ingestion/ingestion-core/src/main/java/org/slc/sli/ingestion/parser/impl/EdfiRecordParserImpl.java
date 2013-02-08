@@ -141,29 +141,14 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
 
     private void parseInterchangeEvent(XMLEvent event, String eventName) throws XMLStreamException {
 
-        if (complexTypeStack.isEmpty() && event.isStartElement()) {
+        if (!complexTypeStack.isEmpty()) {
+
+            parseEntityEvent(event, eventName);
+
+        } else if (event.isStartElement()) {
+
             initCurrentEntity(event, eventName);
         }
-
-        if (!complexTypeStack.isEmpty()) {
-            if (currentEntityValid) {
-                parseEntityEvent(event, eventName);
-
-            } else if (eventName.equals(currentEntityName) && event.isEndElement()) {
-                endOfInvalidEntity();
-            }
-        }
-    }
-
-    private void initCurrentEntity(XMLEvent event, String eventName) {
-        String xsdType = typeProvider.getTypeFromInterchange(interchange, eventName);
-
-        RecordMeta recordMeta = new RecordMetaImpl(eventName, xsdType);
-        ((RecordMetaImpl) recordMeta).setSourceStartLocation(event.getLocation());
-
-        complexTypeStack.push(createElementEntry(recordMeta));
-        currentEntityName = eventName;
-        currentEntityValid = true;
     }
 
     private void parseEntityEvent(XMLEvent e, String eventName) throws XMLStreamException {
@@ -179,19 +164,24 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
         }
     }
 
-    private void endOfInvalidEntity() {
-        LOG.info("Entity had validation problems: {}", currentEntityName);
-        complexTypeStack.removeAllElements();
-        currentEntityName = null;
+    private void initCurrentEntity(XMLEvent event, String eventName) {
+        String xsdType = typeProvider.getTypeFromInterchange(interchange, eventName);
+
+        RecordMeta recordMeta = new RecordMetaImpl(eventName, xsdType);
+        ((RecordMetaImpl) recordMeta).setSourceStartLocation(event.getLocation());
+
+        complexTypeStack.push(createElementEntry(recordMeta));
+        currentEntityName = eventName;
+        currentEntityValid = true;
+
+        parseEventAttributes(event.asStartElement());
     }
 
-    private void parseStartElement(StartElement e, String eventName) {
-        if (!currentEntityName.equals(eventName)) {
-            // don't process for root entity element - we already pushed it in initCurrentEntity
-            newEventToStack(eventName);
-        }
+    private void parseStartElement(StartElement startElement, String eventName) {
 
-        parseEventAttributes(e);
+        newEventToStack(eventName);
+
+        parseEventAttributes(startElement);
     }
 
     private void newEventToStack(String eventName) {
@@ -210,8 +200,8 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
     }
 
     @SuppressWarnings("unchecked")
-    private void parseEventAttributes(StartElement e) {
-        Iterator<Attribute> it = e.getAttributes();
+    private void parseEventAttributes(StartElement startElement) {
+        Iterator<Attribute> it = startElement.getAttributes();
         while (it.hasNext()) {
             Attribute a = it.next();
             complexTypeStack.peek().getRight().put("@" + a.getName().getLocalPart(), a.getValue());
@@ -236,16 +226,19 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
     }
 
     private void recordParsingComplete(XMLEvent event) {
-        Pair<RecordMeta, Map<String, Object>> pair = complexTypeStack.pop();
-        ((RecordMetaImpl) pair.getLeft()).setSourceEndLocation(event.getLocation());
-
-        LOG.debug("Parsed record: {} - {}", currentEntityName, pair);
-
-        for (RecordVisitor visitor : recordVisitors) {
-            visitor.visit(pair.getLeft(), pair.getRight());
-        }
-
         currentEntityName = null;
+
+        Pair<RecordMeta, Map<String, Object>> pair = complexTypeStack.pop();
+        LOG.debug("Parsed record: {}", pair);
+
+        if (currentEntityValid) {
+
+            ((RecordMetaImpl) pair.getLeft()).setSourceEndLocation(event.getLocation());
+
+            for (RecordVisitor visitor : recordVisitors) {
+                visitor.visit(pair.getLeft(), pair.getRight());
+            }
+        }
     }
 
     private Pair<RecordMeta, Map<String, Object>> createElementEntry(RecordMeta edfiType) {
