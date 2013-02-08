@@ -133,7 +133,7 @@ public class EdFiParserProcessorTest extends CamelTestSupport{
         Mockito.when(ife.getFileStream()).thenReturn(is);
         FileType type = FileType.XML_STUDENT_PARENT_ASSOCIATION;
         Mockito.when(ife.getFileType()).thenReturn(type);
-        FileEntryWorkNote workNote = new FileEntryWorkNote("batchJobId", "tenantId", ife, false);
+        FileEntryWorkNote workNote = new FileEntryWorkNote("batchJobId", ife, false);
 
         Exchange exchange = new DefaultExchange(new DefaultCamelContext());
         exchange.getIn().setBody(workNote);
