@@ -3,34 +3,9 @@
 xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentEnrollment.xsd">
   <GraduationPlan>
     <GraduationPlanType>Distinguished</GraduationPlanType>
-    <IndividualPlan>false</IndividualPlan>
     <TotalCreditsRequired CreditConversion="0" CreditType="Semester hour credit">
       <Credit>54</Credit>
     </TotalCreditsRequired>
-    <CreditsBySubject>
-      <SubjectArea>English Language and Literature</SubjectArea>
-      <Credits CreditConversion="0" CreditType="Semester hour credit">
-        <Credit>12</Credit>
-      </Credits>
-    </CreditsBySubject>
-    <CreditsBySubject>
-      <SubjectArea>Mathematics</SubjectArea>
-      <Credits CreditConversion="0" CreditType="Semester hour credit">
-        <Credit>15</Credit>
-      </Credits>
-    </CreditsBySubject>
-    <CreditsBySubject>
-      <SubjectArea>Science</SubjectArea>
-      <Credits CreditConversion="0" CreditType="Semester hour credit">
-        <Credit>15</Credit>
-      </Credits>
-    </CreditsBySubject>
-    <CreditsBySubject>
-      <SubjectArea>Social Sciences and History</SubjectArea>
-      <Credits CreditConversion="0" CreditType="Semester hour credit">
-        <Credit>12</Credit>
-      </Credits>
-    </CreditsBySubject>
     <EducationOrganizationReference>
         <EducationalOrgIdentity>
           <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
@@ -39,34 +14,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </GraduationPlan>
   <GraduationPlan>
     <GraduationPlanType>Minimum</GraduationPlanType>
-    <IndividualPlan>false</IndividualPlan>
     <TotalCreditsRequired CreditConversion="0" CreditType="Semester hour credit">
       <Credit>36</Credit>
     </TotalCreditsRequired>
-    <CreditsBySubject>
-      <SubjectArea>English Language and Literature</SubjectArea>
-      <Credits CreditConversion="0" CreditType="Semester hour credit">
-        <Credit>9</Credit>
-      </Credits>
-    </CreditsBySubject>
-    <CreditsBySubject>
-      <SubjectArea>Mathematics</SubjectArea>
-      <Credits CreditConversion="0" CreditType="Semester hour credit">
-        <Credit>9</Credit>
-      </Credits>
-    </CreditsBySubject>
-    <CreditsBySubject>
-      <SubjectArea>Science</SubjectArea>
-      <Credits CreditConversion="0" CreditType="Semester hour credit">
-        <Credit>9</Credit>
-      </Credits>
-    </CreditsBySubject>
-    <CreditsBySubject>
-      <SubjectArea>Social Sciences and History</SubjectArea>
-      <Credits CreditConversion="0" CreditType="Semester hour credit">
-        <Credit>9</Credit>
-      </Credits>
-    </CreditsBySubject>
     <EducationOrganizationReference>
         <EducationalOrgIdentity>
           <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
@@ -75,34 +25,9 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </GraduationPlan>
   <GraduationPlan>
     <GraduationPlanType>Standard</GraduationPlanType>
-    <IndividualPlan>false</IndividualPlan>
     <TotalCreditsRequired CreditConversion="0" CreditType="Semester hour credit">
       <Credit>48</Credit>
     </TotalCreditsRequired>
-    <CreditsBySubject>
-      <SubjectArea>English Language and Literature</SubjectArea>
-      <Credits CreditConversion="0" CreditType="Semester hour credit">
-        <Credit>12</Credit>
-      </Credits>
-    </CreditsBySubject>
-    <CreditsBySubject>
-      <SubjectArea>Mathematics</SubjectArea>
-      <Credits CreditConversion="0" CreditType="Semester hour credit">
-        <Credit>12</Credit>
-      </Credits>
-    </CreditsBySubject>
-    <CreditsBySubject>
-      <SubjectArea>Science</SubjectArea>
-      <Credits CreditConversion="0" CreditType="Semester hour credit">
-        <Credit>12</Credit>
-      </Credits>
-    </CreditsBySubject>
-    <CreditsBySubject>
-      <SubjectArea>Social Sciences and History</SubjectArea>
-      <Credits CreditConversion="0" CreditType="Semester hour credit">
-        <Credit>12</Credit>
-      </Credits>
-    </CreditsBySubject>
     <EducationOrganizationReference>
         <EducationalOrgIdentity>
           <StateOrganizationId>STANDARD-SEA</StateOrganizationId>

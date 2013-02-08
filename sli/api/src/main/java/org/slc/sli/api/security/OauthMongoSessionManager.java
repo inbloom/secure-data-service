@@ -256,9 +256,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         principal.setEntity(locator.locate(principal.getTenantId(), principal.getExternalId(), principal.getUserType()).getEntity());
         TenantContext.setTenantId(principal.getTenantId());
 
-        List<String> authorizedAppIds = appValidator.getAuthorizedApps(principal);
-
-        if (!authorizedAppIds.contains(app.getEntityId())) {
+        if (!appValidator.isAuthorizedForApp(app, principal)) {
             String message = "User " + principal.getExternalId() + " is not authorized to use "
                     + app.getBody().get("name");
             error(message);

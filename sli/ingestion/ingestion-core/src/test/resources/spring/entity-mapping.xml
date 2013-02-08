@@ -4,7 +4,7 @@
   xmlns:mongo="http://www.springframework.org/schema/data/mongo"
   xsi:schemaLocation="
     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+    http://www.springframework.org/schema/util http://www.spriorg.slc.sli.validationngframework.org/schema/util/spring-util.xsd
     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
     http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
