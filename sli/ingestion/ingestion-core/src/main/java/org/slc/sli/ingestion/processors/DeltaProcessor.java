@@ -41,6 +41,7 @@ import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 
 /**
+ * Processor to filter out neutral records previously ingested
  *
  * @author npandey
  *
@@ -58,6 +59,11 @@ public class DeltaProcessor extends IngestionProcessor<NeutralRecordWorkNote, Re
 
     private Set<String> recordLevelDeltaEnabledEntities;
 
+    /**
+     * Camel Exchange process callback method
+     *
+     * @param exchange Camel exchange.
+     */
     @Override
     public void process(Exchange exchange, ProcessorArgs<NeutralRecordWorkNote> args) {
 
@@ -76,6 +82,14 @@ public class DeltaProcessor extends IngestionProcessor<NeutralRecordWorkNote, Re
         setExchangeBody(exchange, filteredRecords, args.job, args.reportStats);
     }
 
+    /**
+     * Given a list of neutral records filters out records that have been previously ingested
+     *
+     * @param workNote work note provides the list of neutral records
+     * @param reportStats reportStats is used to keep track of errors and warnings
+     *
+     * @return returns list of neutral records that have to be processed further
+     */
     private List<NeutralRecord> filterRecords(NeutralRecordWorkNote workNote, ReportStats reportStats) {
 
         List<NeutralRecord> filteredRecords = new ArrayList<NeutralRecord>();
