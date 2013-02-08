@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeEducationOrgCalendar xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <GradingPeriod id="ID009">
+        <GradingPeriod>Sixth Six Weeks</GradingPeriod>
+        <SchoolYear>2009-2010</SchoolYear>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>J..1bKVFuQV4yn7xK</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <BeginDate>2014-04-22</BeginDate>
+        <EndDate>2013-05-01</EndDate>
+        <TotalInstructionalDays>1108330730</TotalInstructionalDays>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2014-06-09</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>gg0ssCxSVgFHrRvxVDQST8TX.raagr634T1HIU9Bbs_dU3cORd97wS9aE.</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
+        <CalendarDateReference>
+            <CalendarDateIdentity>
+                <Date>2013-12-26</Date>
+                <EducationOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Q_</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationOrgReference>
+            </CalendarDateIdentity>
+        </CalendarDateReference>
+    </GradingPeriod>
+</InterchangeEducationOrgCalendar>

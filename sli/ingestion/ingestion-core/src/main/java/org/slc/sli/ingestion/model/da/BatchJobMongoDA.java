@@ -611,14 +611,14 @@ public class BatchJobMongoDA implements BatchJobDAO {
     }
 
     @Override
-    public boolean isDuplicateDetection(String jobId) {
+    public String getDuplicateDetectionMode(String jobId) {
         Map<String, String> batchProperties = getBatchProperties(jobId);
         for (Entry<String, String> property : batchProperties.entrySet()) {
             if(property.getKey().equals(AttributeType.DUPLICATE_DETECTION.getName())) {
-                return true;
+                return property.getValue();
             }
         }
-        return false;
+        return null;
     }
 
     public Map<String, String> getBatchProperties(String jobId) {

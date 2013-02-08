@@ -337,7 +337,7 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
                 .when(header(INGESTION_MESSAGE_TYPE).isEqualTo(MessageType.CONTROL_FILE_PROCESSED.name()))
                 .log(LoggingLevel.INFO, "CamelRouting", "Routing to zipFileSplitter.")
                 .choice()
-                .when().method(batchJobManager, "isDuplicateDetection")
+                .when().method(batchJobManager, "isEligibleForDeltaPurge")
                 .beanRef("deltaHashPurgeProcessor")
                 .endChoice()
                 .split().method("ZipFileSplitter", "splitZipFile")
