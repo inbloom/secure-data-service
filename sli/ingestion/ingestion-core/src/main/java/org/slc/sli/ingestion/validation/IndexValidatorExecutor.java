@@ -1,7 +1,5 @@
 package org.slc.sli.ingestion.validation;
 
-import javax.annotation.PostConstruct;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +22,6 @@ public class IndexValidatorExecutor {
     @Autowired
     private LoggingMessageReport loggingMessageReport;
 
-	@PostConstruct
 	public void init() throws IndexValidationException{
 
 		loggingMessageReport.setLogger(LOG);

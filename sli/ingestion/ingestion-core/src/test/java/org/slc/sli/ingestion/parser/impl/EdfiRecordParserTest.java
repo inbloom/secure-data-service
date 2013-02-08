@@ -34,6 +34,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import org.slc.sli.ingestion.parser.RecordMeta;
 import org.slc.sli.ingestion.parser.RecordVisitor;
@@ -49,11 +50,11 @@ public class EdfiRecordParserTest {
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    Resource schemaDir = new ClassPathResource("edfiXsd-SLI");
-
     @Test
     @SuppressWarnings("unchecked")
     public void testParsing() throws Throwable {
+        Resource[] schemaFiles = new PathMatchingResourcePatternResolver().getResources("classpath:edfiXsd-SLI/*.xsd");
+
         Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StudentParent.xsd");
         Resource xml = new ClassPathResource("parser/Student.xml");
 
@@ -62,7 +63,7 @@ public class EdfiRecordParserTest {
         RecordVisitor visitor = Mockito.mock(RecordVisitor.class);
 
         XsdTypeProvider tp = new XsdTypeProvider();
-        tp.setEdfiSchemaDir(schemaDir);
+        tp.setSchemaFiles(schemaFiles);
 
         EdfiRecordParserImpl.parse(reader, schema, tp, visitor);
 
@@ -71,6 +72,8 @@ public class EdfiRecordParserTest {
 
     @Test
     public void testStudentParsing() throws Throwable {
+        Resource[] schemaFiles = new PathMatchingResourcePatternResolver().getResources("classpath:edfiXsd-SLI/*.xsd");
+
         Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StudentParent.xsd");
         Resource xml = new ClassPathResource("parser/Student.xml");
         Resource expectedJson = new ClassPathResource("parser/Student.expected.json");
@@ -80,7 +83,7 @@ public class EdfiRecordParserTest {
         RecordVisitor visitor = new TestingRecordVisitor(expectedJson, objectMapper);
 
         XsdTypeProvider tp = new XsdTypeProvider();
-        tp.setEdfiSchemaDir(schemaDir);
+        tp.setSchemaFiles(schemaFiles);
 
         EdfiRecordParserImpl.parse(reader, schema, tp, visitor);
     }

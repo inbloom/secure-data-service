@@ -84,10 +84,6 @@ public class ZipFileValidator implements Validator<File> {
 
             isValid = false;
         } catch (FileNotFoundException ex) {
-            String message = zipFile.getAbsolutePath()
-                    + " cannot be found. If the file is not processed, please resubmit.";
-            LOG.error(message, ex);
-
             report.error(reportStats, new ZipFileSource(zipFile), BaseMessageCode.BASE_0020, zipFile.getName());
 
             isValid = false;

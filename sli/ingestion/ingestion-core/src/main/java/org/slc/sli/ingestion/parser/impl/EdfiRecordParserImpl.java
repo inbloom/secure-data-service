@@ -66,8 +66,6 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
 
     private static final Logger LOG = LoggerFactory.getLogger(EdfiRecordParserImpl.class);
 
-    private static final SchemaFactory SCHEMA_FACTORY = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-
     private TypeProvider typeProvider;
 
     Stack<Pair<RecordMeta, Map<String, Object>>> complexTypeStack = new Stack<Pair<RecordMeta, Map<String, Object>>>();
@@ -93,7 +91,7 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
     private static Schema initializeSchema(Resource schemaResource) throws XmlParseException {
         Schema schema;
         try {
-            schema = SCHEMA_FACTORY.newSchema(schemaResource.getURL());
+            schema = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI).newSchema(schemaResource.getURL());
         } catch (SAXException e) {
             throw new XmlParseException("Exception while initializing XSD schema", e);
         } catch (IOException e) {
