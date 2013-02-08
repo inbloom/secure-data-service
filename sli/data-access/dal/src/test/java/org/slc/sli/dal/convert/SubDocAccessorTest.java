@@ -236,7 +236,7 @@ public class SubDocAccessorTest {
                         .equals(BEGINDATE)
                         && ssaIds.get(0).equals("studentSectionAssociation");
             }
-        }), eq(true), eq(false), eq(WriteConcern.SAFE));
+        }), eq(false), eq(false), eq(WriteConcern.SAFE));
 
     }
 
@@ -281,7 +281,7 @@ public class SubDocAccessorTest {
                         .equals(BEGINDATE)
                         && ssaIds.get(0).equals("studentSectionAssociation");
             }
-        }), eq(true), eq(false), eq(WriteConcern.SAFE));
+        }), eq(false), eq(false), eq(WriteConcern.SAFE));
         // Test that both fry and gunther get enrolled in history of the 20th century
         verify(sectionCollection).update(argThat(new ArgumentMatcher<DBObject>() {
 
@@ -310,7 +310,7 @@ public class SubDocAccessorTest {
                         Object[] studentSectionsToPush = (Object[]) toPush.iterator().next();
                         return studentSectionsToPush.length == 2;
                     }
-                }), eq(true), eq(false), eq(WriteConcern.SAFE));
+                }), eq(false), eq(false), eq(WriteConcern.SAFE));
 
     }
 
