@@ -23,7 +23,6 @@ task :verifyJmxFileLocal => [:checkJmeterHome, :checkServerProcesses] do
   runner = ApiLoadTest::Runner.new(
       {
           :jmeter_exec => @jmeter_exec,
-          :max_threads => 0,
           :result_dir => test_dir,
           :jmeter_prop => "#{CONFIG_HOME}/local.properties",
           :ignore => IGNORED_JMX_FILES
@@ -63,6 +62,11 @@ task :runLoadTests => [:checkJmeterHome] do
   end
 end
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
 desc "Run Read-Only Odin 150k Load Tests on SLIRP"
 task :runReadOnlyOdin150kLoadTestsOnSlirp => [:checkJmeterHome] do
   result_dir = "#{API_LOAD_TEST_HOME}/load_test_result/single_node"
@@ -91,7 +95,11 @@ task :runReadOnlyMultiNodeOdin150kLoadTestsOnSlirp => [:checkJmeterHome] do
           :result_dir => result_dir,
           :remote => true,
           :remote_servers => ["parmongo02.slidev.org", "parmongo03.slidev.org"],
+<<<<<<< Updated upstream
           :ignore => [IGNORED_JMX_FILES, UPDATE_JMX_FILES]
+=======
+          :ignore => [IGNORED_JMX_FILES, UPDATE_JMX_FILES].flatten!
+>>>>>>> Stashed changes
       }
   )
   runner.collect_all_data(CONFIG_HOME, (0..4).collect{|x| 2**x})
@@ -100,6 +108,10 @@ task :runReadOnlyMultiNodeOdin150kLoadTestsOnSlirp => [:checkJmeterHome] do
   end
 end
 
+<<<<<<< Updated upstream
+=======
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 desc "Run Multiple Jmeter Nodes Load Tests"
 task :runMultiNodesTests => [:checkJmeterHome] do
   result_dir = "#{API_LOAD_TEST_HOME}/result/result-4jmeter-1api-60timeout"

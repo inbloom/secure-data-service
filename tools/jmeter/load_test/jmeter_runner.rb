@@ -7,31 +7,9 @@ TOTAL_LABEL = "total"
 ERROR_LABEL = "error"
 
 module ApiLoadTest
-  class Sample
-    attr_accessor :elapsed_time, :latency, :timestamp, :success_flag, :label, :response_code, :response_message,
-                  :thread_name, :data_type, :bytes
-    def initialize(sample)
-      hash = {}
-      sample.each do |pair|
-        hash[pair[0]] = pair[1]
-      end
-
-      @elapsed_time = hash["t"].to_i
-      @latency = hash["lt"].to_i
-      @timestamp = hash["ts"].to_i
-      @success_flag = (hash["s"] == "true")
-      @label = hash["lb"]
-      @response_code = hash["rc"]
-      @response_message = hash["rm"]
-      @thread_name = hash["tn"]
-      @data_type = hash["dt"]
-      @bytes = hash["by"].to_i
-
-      @label = "simple-idp" if @label.include?("simple-idp")
-    end
-  end
 
   class Runner
+<<<<<<< Updated upstream
     def initialize(config = {})
       @remote = config[:remote] || false
       @remote_servers = config[:remote_servers]
@@ -64,6 +42,8 @@ module ApiLoadTest
       end
       scenario_to_sample_array
     end
+=======
+>>>>>>> Stashed changes
 
     def get_errors(jtl_file)
       request_to_sample_array = build_request_to_sample_array(jtl_file)
@@ -79,6 +59,7 @@ module ApiLoadTest
       errors
     end
 
+<<<<<<< Updated upstream
     def build_scenario_result(thread_count, jtl_file)
       request_to_sample_array = build_request_to_sample_array(jtl_file)
       request_to_sample_array.reject! do |label, samples|
@@ -122,6 +103,8 @@ module ApiLoadTest
       end
     end
 
+=======
+>>>>>>> Stashed changes
     def aggregate_all_result
       results = {}
       Dir.foreach(@result_dir) do |scenario_folder|
