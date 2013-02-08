@@ -1,9 +1,11 @@
-  <AssessmentPerformanceLevel>
-    <PerformanceLevel>
-      <CodeValue>{{code_value}}</CodeValue>
-      <PerformanceLevelMet>true</PerformanceLevelMet>
-    </PerformanceLevel>
-    <AssessmentReportingMethod>{{reporting_method}}</AssessmentReportingMethod>
-    <MinimumScore>{{min_score}}</MinimumScore>
-    <MaximumScore>{{max_score}}</MaximumScore>
-  </AssessmentPerformanceLevel>
+{{#assessmentPerformanceLevel}}
+<AssessmentPerformanceLevel>
+  <PerformanceLevel>
+    <CodeValue>{{codeValue}}</CodeValue>
+    <PerformanceLevelMet>{{performanceLevelMet}}</PerformanceLevelMet>
+  </PerformanceLevel>
+  <AssessmentReportingMethod>{{assessmentReportingMethod}}</AssessmentReportingMethod>
+  <MinimumScore>{{minScore}}</MinimumScore>
+  <MaximumScore>{{maxScore}}</MaximumScore>
+</AssessmentPerformanceLevel>
+{{/assessmentPerformanceLevel}}

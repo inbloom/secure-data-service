@@ -21,14 +21,18 @@ limitations under the License.
   {{#maxRawScore}}
   <MaxRawScore>{{.}}</MaxRawScore>
   {{/maxRawScore}}
-  {{#assessmentPeformanceLevel}}
-    {{> Partials/_assessment_performance_level}}
-  {{/assessmentPeformanceLevel}}
+  {{> Partials/_assessment_performance_level}}
   {{#percentOfAssessment}}
   <PercentOfAssessment>{{.}}</PercentOfAssessment>
   {{/percentOfAssessment}}
   {{#nomenclature}}
   <Nomenclature>{{.}}</Nomenclature>
   {{/nomenclature}}
+  {{#learning_objectives}}
+  {{> Partials/_learning_objective_reference}}
+  {{/learning_objectives}}
+  {{#child_objective_assessment}}
+  {{> Partials/_objective_assessment_reference}}
+  {{/child_objective_assessment}}
 </ObjectiveAssessment>
 {{/entity}}

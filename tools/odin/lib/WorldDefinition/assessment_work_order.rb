@@ -72,7 +72,7 @@ class GradeWideAssessmentWorkOrder
     generated += assessments
     assessments.each{|assessment|
       generated += assessment.assessment_items
-      generated += assessment.objective_assessments
+      generated += assessment.all_objective_assessments
     }
     generated
   end

@@ -101,7 +101,8 @@ describe "AssessmentFactory" do
         entities[AssessmentItem].should have(4 * entities[Assessment].count).items
       end
       it "will generate the configured number of objective assessments for each assessment" do
-        entities[ObjectiveAssessment].should have(2 * entities[Assessment].count).items
+        assessment = entities[Assessment][0]
+        assessment.referenced_objective_assessments.should have(2).items
       end
     end
   end
