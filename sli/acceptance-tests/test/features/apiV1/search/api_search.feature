@@ -8,7 +8,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
   Scenario Outline: Result of elastic search should contain correct unicode encoding
     Given I am logged in using "akopel" "akopel1234" to realm "IL"
     And parameter "limit" is "0"
-    When I navigate to GET "/v1/<Entity URI>"
+    When I navigate to GET "/v1.1/<Entity URI>"
     Then I should receive a return code of 200
     And  I should have entity with "<ENTITY ID>" and "<DESC>"
   Examples:
