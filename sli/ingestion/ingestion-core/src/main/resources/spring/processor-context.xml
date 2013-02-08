@@ -61,5 +61,9 @@
       </util:list>
     </property>
   </bean>
+  
+    <bean id="deltaHashPurgeProcessor" class="org.slc.sli.ingestion.processors.DeltaHashPurgeProcessor" parent="ingestionProcessor">
+        <property name="batchJobDAO" ref="batchJobMongoDA" />
+  </bean>
 
 </beans>

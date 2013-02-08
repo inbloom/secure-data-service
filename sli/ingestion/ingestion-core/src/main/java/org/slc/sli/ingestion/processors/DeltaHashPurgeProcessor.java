@@ -19,8 +19,6 @@ package org.slc.sli.ingestion.processors;
 import org.apache.camel.Exchange;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
@@ -38,7 +36,6 @@ import org.slc.sli.ingestion.reporting.Source;
  *
  */
 
-@Component
 public class DeltaHashPurgeProcessor extends IngestionProcessor<WorkNote, Resource> {
 
     public static final BatchJobStageType BATCH_JOB_STAGE = BatchJobStageType.DELTA_PROPERTY_PROCESSOR;
@@ -48,7 +45,6 @@ public class DeltaHashPurgeProcessor extends IngestionProcessor<WorkNote, Resour
 
     private static final Logger LOG = LoggerFactory.getLogger(DeltaProcessor.class);
 
-    @Autowired
     private BatchJobDAO batchJobDAO;
 
     @Override
