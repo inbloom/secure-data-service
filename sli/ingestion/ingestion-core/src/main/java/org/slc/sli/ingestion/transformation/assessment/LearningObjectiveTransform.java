@@ -46,10 +46,11 @@ import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 @Component("learningObjectiveTransformationStrategy")
 public class LearningObjectiveTransform extends AbstractTransformationStrategy {
 
+    private static final String VALUE = "_value";
     public static final String LEARNING_OBJECTIVE = "learningObjective";
     public static final String LEARNING_OBJECTIVE_TRANSFORMED = "learningObjective_transformed";
-    public static final String ID_CODE = "IdentificationCode";
-    public static final String CONTENT_STANDARD_NAME = "ContentStandardName";
+    public static final String ID_CODE = "IdentificationCode." + VALUE;
+    public static final String CONTENT_STANDARD_NAME = "ContentStandardName." + VALUE;
     public static final String LO_ID_CODE_PATH = "LearningObjectiveId." + ID_CODE;
     public static final String LO_CONTENT_STANDARD_NAME_PATH = "LearningObjectiveId." + CONTENT_STANDARD_NAME;
     public static final String LS_ID_CODE_PATH = ID_CODE;
@@ -59,6 +60,12 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
     public static final String PARENT_LEARNING_OBJ_REF = "ParentLearningObjectiveReference";
     public static final String LOCAL_ID_OBJECTIVE_ID = "parentObjectiveId";
     public static final String LOCAL_ID_LEARNING_STANDARDS = "childLearningStandards";
+    public static final String OBJECTIVE = "Objective." + VALUE;
+    public static final String ACADEMIC_SUBJECT = "AcademicSubject." + VALUE;
+    public static final String OBJECTIVE_GRADE_LEVEL = "ObjectiveGradeLevel." + VALUE;
+    public static final String LO_ID_OBJECTIVE = "LearningObjectiveIdentity." + OBJECTIVE;
+    public static final String LO_ID_ACADEMIC_SUBJECT = "LearningObjectiveIdentity." + ACADEMIC_SUBJECT;
+    public static final String LO_ID_OBJECTIVE_GRADE_LEVEL = "LearningObjectiveIdentity." + OBJECTIVE_GRADE_LEVEL;
 
     private static final Logger LOG = LoggerFactory.getLogger(LearningObjectiveTransform.class);
 
@@ -92,9 +99,9 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
 
         for (NeutralRecord lo : learningObjectives) {
             Map<String, Object> attributes = lo.getAttributes();
-            String objective = getByPath("Objective", attributes);
-            String academicSubject = getByPath("AcademicSubject", attributes);
-            String objectiveGradeLevel = getByPath("ObjectiveGradeLevel", attributes);
+            String objective = getByPath(OBJECTIVE, attributes);
+            String academicSubject = getByPath(ACADEMIC_SUBJECT, attributes);
+            String objectiveGradeLevel = getByPath(OBJECTIVE_GRADE_LEVEL, attributes);
             if (objective != null && academicSubject != null && objectiveGradeLevel != null) {
                 if (learningObjectiveIdMap.containsKey(new LearningObjectiveId(objective, academicSubject,
                         objectiveGradeLevel))) {
@@ -121,16 +128,16 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
         Map<String, Object> parentLearningObjRefs = new HashMap<String, Object>();
 
         Map<String, Object> learningObjIdentity = new HashMap<String, Object>();
-        learningObjIdentity.put("Objective", getByPath("Objective", attributes));
-        learningObjIdentity.put("AcademicSubject", getByPath("AcademicSubject", attributes));
-        learningObjIdentity.put("ObjectiveGradeLevel", getByPath("ObjectiveGradeLevel", attributes));
+        learningObjIdentity.put("Objective", getByPath(OBJECTIVE, attributes));
+        learningObjIdentity.put("AcademicSubject", getByPath(ACADEMIC_SUBJECT, attributes));
+        learningObjIdentity.put("ObjectiveGradeLevel", getByPath(OBJECTIVE_GRADE_LEVEL, attributes));
         parentLearningObjRefs.put("LearningObjectiveIdentity", learningObjIdentity);
 
         for (Map<String, Object> childLORef : childLearningObjRefs) {
 
-            String objective = getByPath("LearningObjectiveIdentity.Objective", childLORef);
-            String academicSubject = getByPath("LearningObjectiveIdentity.AcademicSubject", childLORef);
-            String objectiveGradeLevel = getByPath("LearningObjectiveIdentity.ObjectiveGradeLevel", childLORef);
+            String objective = getByPath(LO_ID_OBJECTIVE, childLORef);
+            String academicSubject = getByPath(LO_ID_ACADEMIC_SUBJECT, childLORef);
+            String objectiveGradeLevel = getByPath(LO_ID_OBJECTIVE_GRADE_LEVEL, childLORef);
 
             LearningObjectiveId loId = new LearningObjectiveId(objective, academicSubject, objectiveGradeLevel);
             NeutralRecord childNR = learningObjectiveIdMap.get(loId);
