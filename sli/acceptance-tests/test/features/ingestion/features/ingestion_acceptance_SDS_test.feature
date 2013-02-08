@@ -338,10 +338,10 @@ And I check to find if record is in collection:
        | studentAcademicRecord         | 100                 | body.cumulativeCreditsAttempted.credit| 5                       | integer              |
 And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                              | searchValue      |  searchType           |
-     | assessment                  | 1                   | body.assessmentItem.identificationCode       | AssessmentItem-1 |   string              |
-     | assessment                  | 1                   | body.assessmentItem.identificationCode       | AssessmentItem-2 |   string              |
-     | assessment                  | 1                   | body.assessmentItem.identificationCode       | AssessmentItem-3 |   string              |
-     | assessment                  | 1                   | body.assessmentItem.identificationCode       | AssessmentItem-4 |   string              |
+     | assessment                  | 1                   | assessmentItem.body.identificationCode       | AssessmentItem-1 |   string              |
+     | assessment                  | 1                   | assessmentItem.body.identificationCode       | AssessmentItem-2 |   string              |
+     | assessment                  | 1                   | assessmentItem.body.identificationCode       | AssessmentItem-3 |   string              |
+     | assessment                  | 1                   | assessmentItem.body.identificationCode       | AssessmentItem-4 |   string              |
  And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter             | searchValue              | searchType           |
      | courseOffering              | 1                   | body.localCourseCode        | 3rd Grade Homeroom       | string               |
@@ -400,7 +400,7 @@ Scenario: Verify deterministic ids generated: Clean Database
     | competencyLevelDescriptor            | fb623d47656476ad67d8b698ee19d3a1932fd2ea_id | body.codeValue                    | Barely Competent 4                   |
     | educationOrganization                | b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id | body.stateOrganizationId  | IL                                   |
     | assessment                           | d50118aaad960b54a8b2afc7268d01d13842cb58_id | body.assessmentIdentificationCode.ID  | ACT                              |
-    | assessment                           | d50118aaad960b54a8b2afc7268d01d13842cb58_id | body.assessmentItem.learningStandards  | aad9e465a76a47a6478c9ac92a6c8bea9e9a587c_id |
+    | assessment                           | d50118aaad960b54a8b2afc7268d01d13842cb58_id | assessmentItem.body.learningStandards  | aad9e465a76a47a6478c9ac92a6c8bea9e9a587c_id |
     | assessment                           | d50118aaad960b54a8b2afc7268d01d13842cb58_id | body.objectiveAssessment.learningObjectives  | 7cad1e4eae9c2b91f1e7fe963ee6144e83afe917_id |
     | educationOrganization                | 1b223f577827204a1c7e9c851dba06bea6b031fe_id | body.stateOrganizationId  | IL-DAYBREAK                          |
     | educationOrganization                | a13489364c2eb015c219172d561c62350f0453f3_id | body.stateOrganizationId  | Daybreak Central High                |
@@ -822,25 +822,25 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName              | expectedRecordCount | searchParameter             | searchValue             | searchType           |
      | assessment                  | 1                   | body.assessmentFamilyHierarchyName               | AP.AP Eng.AP-Eng-and-Literature      |string                  |
      | assessment                  | 1                   | body.assessmentFamilyHierarchyName               | AP.AP Eng.AP-Lang-and-Literature     |string                  |
-     | assessment                  | 1                   | body.assessmentItem.correctResponse            | False            | string |
-     | assessment                  | 1                   | body.assessmentItem.correctResponse            | False            | string |
-     | assessment                  | 1                   | body.assessmentItem.correctResponse            | True             | string |
-     | assessment                  | 1                   | body.assessmentItem.correctResponse            | True             | string |
-     | assessment                  | 1                   | body.assessmentItem.identificationCode         | AssessmentItem-1 | string |
-     | assessment                  | 1                   | body.assessmentItem.identificationCode         | AssessmentItem-2 | string |
-     | assessment                  | 1                   | body.assessmentItem.identificationCode         | AssessmentItem-3 | string |
-     | assessment                  | 1                   | body.assessmentItem.identificationCode         | AssessmentItem-4 | string |
-     | assessment                  | 1                   | body.assessmentItem.identificationCode      | AssessmentItem-1 |string                  |
-     | assessment                  | 1                   | body.assessmentItem.identificationCode      | AssessmentItem-2 |string                  |
-     | assessment                  | 1                   | body.assessmentItem.identificationCode      | AssessmentItem-3 |string                  |
-     | assessment                  | 1                   | body.assessmentItem.identificationCode      | AssessmentItem-4 |string                  |
-     | assessment                  | 1                   | body.assessmentItem.itemCategory               | True-False       | string |
-     | assessment                  | 1                   | body.assessmentItem.itemCategory               | True-False       | string |
-     | assessment                  | 1                   | body.assessmentItem.itemCategory               | True-False       | string |
-     | assessment                  | 1                   | body.assessmentItem.itemCategory               | True-False       | string |
-     | assessment                  | 1                   | body.assessmentItem.maxRawScore                | 5                | integer |
-     | assessment                  | 1                   | body.assessmentItem.maxRawScore                | 5                | integer |
-     | assessment                  | 1                   | body.assessmentItem.maxRawScore                | 5                | integer |
+     | assessment                  | 1                   | assessmentItem.body.correctResponse            | False            | string |
+     | assessment                  | 1                   | assessmentItem.body.correctResponse            | False            | string |
+     | assessment                  | 1                   | assessmentItem.body.correctResponse            | True             | string |
+     | assessment                  | 1                   | assessmentItem.body.correctResponse            | True             | string |
+     | assessment                  | 1                   | assessmentItem.body.identificationCode         | AssessmentItem-1 | string |
+     | assessment                  | 1                   | assessmentItem.body.identificationCode         | AssessmentItem-2 | string |
+     | assessment                  | 1                   | assessmentItem.body.identificationCode         | AssessmentItem-3 | string |
+     | assessment                  | 1                   | assessmentItem.body.identificationCode         | AssessmentItem-4 | string |
+     | assessment                  | 1                   | assessmentItem.body.identificationCode      | AssessmentItem-1 |string                  |
+     | assessment                  | 1                   | assessmentItem.body.identificationCode      | AssessmentItem-2 |string                  |
+     | assessment                  | 1                   | assessmentItem.body.identificationCode      | AssessmentItem-3 |string                  |
+     | assessment                  | 1                   | assessmentItem.body.identificationCode      | AssessmentItem-4 |string                  |
+     | assessment                  | 1                   | assessmentItem.body.itemCategory               | True-False       | string |
+     | assessment                  | 1                   | assessmentItem.body.itemCategory               | True-False       | string |
+     | assessment                  | 1                   | assessmentItem.body.itemCategory               | True-False       | string |
+     | assessment                  | 1                   | assessmentItem.body.itemCategory               | True-False       | string |
+     | assessment                  | 1                   | assessmentItem.body.maxRawScore                | 5                | integer |
+     | assessment                  | 1                   | assessmentItem.body.maxRawScore                | 5                | integer |
+     | assessment                  | 1                   | assessmentItem.body.maxRawScore                | 5                | integer |
      | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue      | BOY                                              | string |
      | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue      | EOY                                              | string |
      | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue      | MOY                                              | string |
@@ -936,30 +936,30 @@ Then I should see following map of entry counts in the corresponding collections
      | courseTranscript  | 36                  | body.finalLetterGradeEarned           | B                       | string               |
      | courseTranscript  | 5                   | body.finalNumericGradeEarned          | 87                      | integer              |
      | courseTranscript  | 64                  | body.gradeLevelWhenTaken              | Tenth grade             | string               |
-  When I find a record in "assessment" under "body.assessmentItem" where "identificationCode" is "AssessmentItem-1"
-  Then the field "learningStandards" is an array of size 2
-  And "learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-C.4"
-  And the field "correctResponse" has value "False"
-  And the field "itemCategory" has value "True-False"
-  And the field "maxRawScore" has value "5"
-  When I find a record in "assessment" under "body.assessmentItem" where "identificationCode" is "AssessmentItem-2"
-  Then the field "learningStandards" is an array of size 2
-  And "learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.3"
-  And the field "correctResponse" has value "True"
-  And the field "itemCategory" has value "True-False"
-  And the field "maxRawScore" has value "5"
-  When I find a record in "assessment" under "body.assessmentItem" where "identificationCode" is "AssessmentItem-3"
-  Then the field "learningStandards" is an array of size 1
-  And "learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.5"
-  And the field "correctResponse" has value "True"
-  And the field "itemCategory" has value "True-False"
-  And the field "maxRawScore" has value "5"
-  When I find a record in "assessment" under "body.assessmentItem" where "identificationCode" is "AssessmentItem-4"
-  Then the field "learningStandards" is an array of size 1
-  And "learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.6"
-  And the field "correctResponse" has value "False"
-  And the field "itemCategory" has value "True-False"
-  And the field "maxRawScore" has value "5"
+  When I find a record in "assessment" under "assessmentItem" where "body.identificationCode" is "AssessmentItem-1"
+  Then the field "body.learningStandards" is an array of size 2
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-C.4"
+  And the field "body.correctResponse" has value "False"
+  And the field "body.itemCategory" has value "True-False"
+  And the field "body.maxRawScore" has value "5"
+  When I find a record in "assessment" under "assessmentItem" where "body.identificationCode" is "AssessmentItem-2"
+  Then the field "body.learningStandards" is an array of size 2
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.3"
+  And the field "body.correctResponse" has value "True"
+  And the field "body.itemCategory" has value "True-False"
+  And the field "body.maxRawScore" has value "5"
+  When I find a record in "assessment" under "assessmentItem" where "body.identificationCode" is "AssessmentItem-3"
+  Then the field "body.learningStandards" is an array of size 1
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.5"
+  And the field "body.correctResponse" has value "True"
+  And the field "body.itemCategory" has value "True-False"
+  And the field "body.maxRawScore" has value "5"
+  When I find a record in "assessment" under "assessmentItem" where "body.identificationCode" is "AssessmentItem-4"
+  Then the field "body.learningStandards" is an array of size 1
+  And "body.learningStandards" contains a reference to a "learningStandard" where "body.learningStandardId.identificationCode" is "G-SRT.6"
+  And the field "body.correctResponse" has value "False"
+  And the field "body.itemCategory" has value "True-False"
+  And the field "body.maxRawScore" has value "5"
   And I should see "Processed 121 records." in the resulting batch job file
   And I should see "Program2.xml records considered: 4" in the resulting batch job file
   And I should see "Program2.xml records ingested successfully: 4" in the resulting batch job file
