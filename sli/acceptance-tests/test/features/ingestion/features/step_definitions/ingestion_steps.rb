@@ -1228,7 +1228,7 @@ When /^a batch job has completed successfully in the database$/ do
      if found
        assert(true, "")
      else
-       assert(false, "Batch log was not created in ")
+       assert(false, "Either batch log was never created, or it took more than #{@maxTimeout} seconds")
      end
      @db = old_db
      enable_NOTABLESCAN()
