@@ -83,7 +83,7 @@ Given /^I am using the Smallville School District assessment scores$/ do
 end
 
 Given /^the aggregation table is clear$/ do
-  coll.drop
+  coll.remove()
 end
 
 Given /^I have an aggregation definition for (<[^>]*>)$/ do |agg_def|
