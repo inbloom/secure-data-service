@@ -48,11 +48,11 @@ import org.slc.sli.ingestion.queues.MessageType;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+@ContextConfiguration(locations = { "/spring/processor-test.xml" })
 public class WorkNoteSplitterTest {
     @InjectMocks
     @Autowired
-    WorkNoteSplitter workNoteSplitter;
+    WorkNoteSplitter workNoteSplitter = new WorkNoteSplitter();
 
     @Mock
     BatchJobMongoDA mockBatchJobMongoDA;

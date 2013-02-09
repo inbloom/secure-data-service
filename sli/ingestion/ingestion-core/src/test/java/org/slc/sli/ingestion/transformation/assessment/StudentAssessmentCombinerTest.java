@@ -60,8 +60,6 @@ import org.slc.sli.ingestion.transformation.TransformationStrategy;
  * @author nbrown
  *
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class StudentAssessmentCombinerTest {
 
     private StudentAssessmentCombiner saCombiner = spy(new StudentAssessmentCombiner());

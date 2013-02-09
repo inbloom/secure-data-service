@@ -23,11 +23,15 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ContextConfiguration;
@@ -35,11 +39,6 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
-
-import org.slc.sli.api.security.SLIPrincipal;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.Repository;
 
 /**
  * Tests authorized applications.
@@ -60,6 +59,9 @@ public class ApplicationAuthorizationValidatorTest {
 
     @Autowired
     private Repository<Entity> repo;
+    
+    @Autowired
+    SecurityContextInjector injector;
 
     Entity lea1 = null;
     Entity sea1 = null;
@@ -138,11 +140,15 @@ public class ApplicationAuthorizationValidatorTest {
         noAuthApp = repo.create("application", body);
 
         body = new HashMap<String, Object>();
-        body.put("authId", lea1.getEntityId());
-        body.put("authType", "EDUCATION_ORGANIZATION");
-        body.put("appIds", Arrays.asList(approvedApp.getEntityId(), nonApprovedApp.getEntityId()));
-
+        body.put("edorgs", Arrays.asList(sea1.getEntityId(), lea1.getEntityId()));
+        body.put("applicationId", approvedApp.getEntityId());
         repo.create("applicationAuthorization", body);
+        
+        body = new HashMap<String, Object>();
+        body.put("edorgs", Arrays.asList(sea1.getEntityId(), lea1.getEntityId()));
+        body.put("applicationId", nonApprovedApp.getEntityId());
+        repo.create("applicationAuthorization", body);
+        
 
         body = new HashMap<String, Object>();
         leaRealm = repo.create("realm", body);
@@ -158,14 +164,14 @@ public class ApplicationAuthorizationValidatorTest {
         principal.setEntity(staff1);
         principal.setEdOrg(lea1.getEntityId());
         principal.setRealm(leaRealm.getEntityId());
-        List<String> ids = validator.getAuthorizedApps(principal);
+        injector.setSecurityContext(principal, false);
 
-        assertTrue("Can see autoApp", ids.contains(autoApp.getEntityId()));
-        assertTrue("Can see approvedApp", ids.contains(approvedApp.getEntityId()));
-        assertFalse("Cannot see adminApp", ids.contains(adminApp.getEntityId()));
-        assertFalse("Cannot see noAuthApp", ids.contains(noAuthApp.getEntityId()));
-        assertFalse("Cannot see nonApprovedApp", ids.contains(nonApprovedApp.getEntityId()));
-        assertFalse("Cannot see notAuthorizedApp", ids.contains(notAuthorizedApp.getEntityId()));
+        assertTrue("Can see autoApp", validator.isAuthorizedForApp(autoApp, principal));
+        assertTrue("Can see approvedApp", validator.isAuthorizedForApp(approvedApp, principal));
+        assertFalse("Cannot see adminApp", validator.isAuthorizedForApp(adminApp, principal));
+        assertFalse("Cannot see noAuthApp", validator.isAuthorizedForApp(noAuthApp, principal));
+        assertFalse("Cannot see nonApprovedApp", validator.isAuthorizedForApp(nonApprovedApp, principal));
+        assertFalse("Cannot see notAuthorizedApp", validator.isAuthorizedForApp(notAuthorizedApp, principal));
     }
 
     @Test
@@ -175,13 +181,12 @@ public class ApplicationAuthorizationValidatorTest {
         principal.setEdOrg("SOMETHING");
         principal.setRealm(sliRealm.getEntityId());
         principal.setAdminRealmAuthenticated(true);
-        List<String> ids = validator.getAuthorizedApps(principal);
-
-        assertFalse("Cannot see autoApp", ids.contains(autoApp.getEntityId()));
-        assertFalse("Cannot see approvedApp", ids.contains(approvedApp.getEntityId()));
-        assertTrue("Can see adminApp", ids.contains(adminApp.getEntityId()));
-        assertFalse("Cannot see noAuthApp", ids.contains(noAuthApp.getEntityId()));
-        assertFalse("Cannot see nonApprovedApp", ids.contains(nonApprovedApp.getEntityId()));
-        assertFalse("Cannot see notAuthorizedApp", ids.contains(notAuthorizedApp.getEntityId()));
+        injector.setSecurityContext(principal, false);
+        assertFalse("Cannot see autoApp", validator.isAuthorizedForApp(autoApp, principal));
+        assertFalse("Cannot see approvedApp", validator.isAuthorizedForApp(approvedApp, principal));
+        assertTrue("Can see adminApp", validator.isAuthorizedForApp(adminApp, principal));
+        assertFalse("Cannot see noAuthApp", validator.isAuthorizedForApp(noAuthApp, principal));
+        assertFalse("Cannot see nonApprovedApp", validator.isAuthorizedForApp(nonApprovedApp, principal));
+        assertFalse("Cannot see notAuthorizedApp", validator.isAuthorizedForApp(notAuthorizedApp, principal));
     }
 }

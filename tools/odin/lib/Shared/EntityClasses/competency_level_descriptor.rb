@@ -17,14 +17,48 @@ limitations under the License.
 =end
 
 # creates competency level descriptor
+#
+# from Ed-Fi-Core.xsd:
+# <xs:complexType name="CompetencyLevelDescriptor">
+#   <xs:annotation>
+#     <xs:documentation>This descriptor defines various levels for assessed competencies.</xs:documentation>
+#   </xs:annotation>
+#   <xs:complexContent>
+#     <xs:extension base="ComplexObjectType">
+#       <xs:sequence>
+#         <xs:element name="CodeValue" type="CodeValue">
+#           <xs:annotation>
+#             <xs:documentation>A code or abbreviation that is used to refer to a competency level.</xs:documentation>
+#           </xs:annotation>
+#         </xs:element>
+#         <xs:element name="Description" type="Description" minOccurs="0">
+#           <xs:annotation>
+#             <xs:documentation>The description of the competency Level</xs:documentation>
+#           </xs:annotation>
+#         </xs:element>
+#         <xs:element name="PerformanceBaseConversion" type="PerformanceBaseType" minOccurs="0">
+#           <xs:annotation>
+#             <xs:documentation>A conversion of the level to a standard set of competency levels.</xs:documentation>
+#           </xs:annotation>
+#         </xs:element>
+#       </xs:sequence>
+#     </xs:extension>
+#   </xs:complexContent>
+# </xs:complexType>
 class CompetencyLevelDescriptor < BaseEntity
 
-  attr_accessor :code_value, :description, :performance_base_conversion
+  # required fields
+  attr_accessor :code_value                  # maps to 'CodeValue'
+
+  # optional fields
+  attr_accessor :description                 # maps to 'Description'
+  attr_accessor :performance_base_conversion # maps to 'PerformanceBaseConversion'
 
   def initialize(code_value, description, performance_base_conversion)
+    @rand       = Random.new(code_value.size)
     @code_value = code_value
-    @description = description
-    @performance_base_conversion = performance_base_conversion
+    
+    optional { @description                 = description                 }
+    optional { @performance_base_conversion = performance_base_conversion }
   end
-
 end

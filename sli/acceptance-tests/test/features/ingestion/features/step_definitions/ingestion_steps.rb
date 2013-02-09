@@ -6,7 +6,7 @@ Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-http://www.apache.org/licenses/LICENSE-2.0
+http://www.apache.org/licenses/LICENSE-2.0-
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
@@ -265,6 +265,8 @@ def initializeTenants()
 end
 
 def cleanTenants()
+  disable_NOTABLESCAN()
+
   @db = @conn[INGESTION_DB_NAME]
   @tenantColl = @db.collection('tenant')
   @tenantColl.remove("type" => "tenantTest")
@@ -290,6 +292,8 @@ def cleanTenants()
       @tenantColl.save(row)
     end
   end
+
+  enable_NOTABLESCAN()
 end
 
 ############################################################
@@ -1224,7 +1228,7 @@ When /^a batch job has completed successfully in the database$/ do
      if found
        assert(true, "")
      else
-       assert(false, "Either batch log was never created, or it took more than #{@maxTimeout} seconds")
+       assert(false, "Batch log was not created in ")
      end
      @db = old_db
      enable_NOTABLESCAN()
@@ -1241,7 +1245,7 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
 
   intervalTime = 1 #seconds
   #If @maxTimeout set in previous step def, then use it, otherwise default to 240s
-  @maxTimeout ? @maxTimeout : @maxTimeout = 900
+  @maxTimeout ? @maxTimeout : @maxTimeout = 600
   iters = (1.0*@maxTimeout/intervalTime).ceil
   found = false
   if (INGESTION_MODE == 'remote')
@@ -1275,7 +1279,7 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
   if found
     assert(true, "")
   else
-    assert(false, "Either batch log was never created, or it took more than #{@maxTimeout} seconds")
+    assert(false, "Batch log did not complete either successfully or with errors within #{(i+1)*intervalTime} seconds. Test has timed out. Please check ingestion.log for root cause.")
   end
 
   @db = old_db
@@ -1658,6 +1662,18 @@ Then /^I should see following map of indexes in the corresponding collections:$/
 
   assert(@result == "true", "Some indexes were not created successfully.")
 
+end
+
+Then /^I remove the following indexes in the corresponding collections:$/ do |table|
+  @db   = @conn[@ingestion_db_name]
+  table.hashes.map do |row|
+    @indexcollection = @db.collection("system.indexes")
+    indexQRS = @indexcollection.find("ns" => @ingestion_db_name + "." + row["collectionName"], "key" => {row["index"] => 1}).to_a
+    index = indexQRS.pop()
+    indexName = index["name"]
+    @entity_collection = @db.collection(row["collectionName"])
+    @entity_collection.drop_index(indexName)
+  end
 end
 
 def cleanupSubDoc(superdocs, subdoc)
@@ -2756,6 +2772,7 @@ Given /^I have checked the counts of the following collections:$/ do |table|
     @excludedCollectionHash[row["collectionName"]] = @db.collection(row["collectionName"]).count()
   end
 end
+
 
 Then /^the following collections counts are the same:$/ do |table|
   @db = @conn[@ingestion_db_name]

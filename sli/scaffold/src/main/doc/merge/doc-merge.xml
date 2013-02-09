@@ -12,14 +12,14 @@
       ]" />
 
   <!-- Add views documentation -->
-  <merge type="node" action="add" xpath="//resource[@path='v1/students']/resource[@path='{id}']/method[@name='GET']">
+  <merge type="node" action="add" xpath="//resource[(@path='v1.0/students') or (@path='v1.1/students')]/resource[@path='{id}']/method[@name='GET']">
     <request>
       <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="views" style="query" type="xs:string">
         <doc><![CDATA[A comma-separated list of optional data to include,]]></doc>
       </param>
     </request>
   </merge>
-  <merge type="node" action="add" xpath="//resource[@path='v1/sections']/resource[@path='{sectionId}/studentSectionAssociations/students']/method[@name='GET']">
+  <merge type="node" action="add" xpath="//resource[(@path='v1.0/sections/{id}/studentSectionAssociations/students') or (@path='v1.1/sections/{id}/studentSectionAssociations/students')]/method[@name='GET']">
     <request>
       <param xmlns:xs="http://www.w3.org/2001/XMLSchema" name="views" style="query" type="xs:string">
         <doc><![CDATA[A comma-separated list of optional data to include,]]></doc>

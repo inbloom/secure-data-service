@@ -52,6 +52,16 @@ class BaseEntity
     end
   end
 
+  def wChooseUsingRand(prng, distribution)
+    r = prng.rand weight_total(distribution)
+    distribution.each do |element, weight|
+      if r < weight
+      return element
+      end
+      r -= weight
+    end
+  end
+
   def weight_total(distribution)
     sum = 0
     distribution.each do |_, weight|
@@ -65,7 +75,15 @@ class BaseEntity
   end
 
   def optional?
-    (@@scenario['OPTIONAL_FIELD_LIKELYHOOD'] > 0) and (@rand.rand() < @@scenario['OPTIONAL_FIELD_LIKELYHOOD'])
+    ((@@scenario['OPTIONAL_FIELD_LIKELYHOOD'] > 0) and (@rand.rand() < @@scenario['OPTIONAL_FIELD_LIKELYHOOD']))
   end
 
+  def optional(&blk)
+    yield if ((@@scenario['OPTIONAL_FIELD_LIKELYHOOD'] > 0) and (@rand.rand() < @@scenario['OPTIONAL_FIELD_LIKELYHOOD']))
+  end
+
+  def int_value(obj)
+    in_byte = obj.to_s.bytes
+    in_byte.inject(0) {|s, i| s+i}
+  end
 end

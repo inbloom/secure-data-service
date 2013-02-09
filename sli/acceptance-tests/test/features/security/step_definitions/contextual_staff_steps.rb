@@ -66,6 +66,10 @@ Transform /^data containing "([^"]*)"$/ do |path|
   id = ["b14ff449-56c9-4d10-942b-70c9eb721919_id",
         "92d1a002-2695-4fb8-a0d6-4ef655d29e48_id",
         "f098e289-5678-4df0-9447-ca568e45061d_id",
+        "eb4d7e1b-7bed-890a-d5f4-5d8aa9fbfc2d_id",
+        "eb4d7e1b-7bed-890a-e1f4-5d8aa9fbfc2d_id",
+        "eb4d7e1b-7bed-890a-e5f4-5d8aa9fbfc2d_id",
+        "eb4d7e1b-7bed-890a-ddf4-5d8aa9fbfc2d_id",
         "c79fb3a9-a0ec-4ffd-a128-124a0d9a7069_id"] if path == "Students in Dawn Elementary"
   id = ["1563ec1d-924d-4c02-8099-3a0e314ef1d4_id",
         "274f4c71-1984-4607-8c6f-0a91db2d240a_id",

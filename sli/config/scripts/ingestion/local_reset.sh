@@ -5,19 +5,21 @@
 #
 #set -x
 
-if [ $# -ne 1 ] ; then
-  echo "Usage: scripts/ingestion/slirp_reset NUMBER_OF_TENANTS"
+if [ $# -gt 1 ] ; then
+  echo "Usage: local_reset.sh [SLOW_QUERY_TIME]"
   exit 1
 fi
 
-NUMBER_OF_TENANTS=$1
-
 #
-# Threshold for logging slow queries, ms
+# Threshold for logging slowq queries, ms
 #
-SLOW_QUERY=100
-# There is a bug with the slow query log see https://jira.mongodb.org/browse/CS-5365
-SLOW_QUERY=0
+if [ $# -eq 1 ] ; then
+  SLOW_QUERY=$1
+else
+  SLOW_QUERY=100
+  # There is a bug with the slow query log see https://jira.mongodb.org/browse/CS-5365
+  SLOW_QUERY=0
+fi
 if [ $SLOW_QUERY -gt 0 ] ; then
   SLOW_QUERY_PARAMS="1,$SLOW_QUERY"
 else
@@ -29,10 +31,9 @@ echo "**  Resetting at `date`"
 echo "******************************************************************************"
 
 echo " ***** Stop Jetty"
-PID=`ps -e | grep jetty | grep -v grep | sed -e's/^ *\([0-9]*\) .*$/\1/'`
+PID=`ps -e | grep jetty | grep -v grep | sed -e's/^\([0-9]*\) .*$/\1/'`
 if [ -n "$PID" ] ; then
   echo "Jetty PID = $PID"
-  kill -9 $PID
 fi
 rm -f $ING_LOG_DIR/jetty.log
 
@@ -55,11 +56,10 @@ echo " ***** Setting up indexes on $ISDB"
 mongo ingestion_batch_job < $ING/src/main/resources/ingestion_batch_job_indexes.js
 
 echo " ***** Attempting to clear ActiveMQ"
-#activemq restart
+activemq restart
 
 echo " ***** Removing ingestion log"
-mkdir -p $ING_LOG_DIR
-rm -f $ING_LOG_DIR/*
+rm -f $ING_LOG_DIR/ingestion.log
 
 echo " ***** Start Jetty"
 export MAVEN_OPTS="-Xmx4096m -XX:MaxPermSize=256m -XX:+UseParallelGC"
@@ -69,31 +69,3 @@ popd
 echo "Waiting for Jetty to start..."
 sleep 60
 echo "Done."
-
-#
-# Onboard tenants
-#
-TENANTS[1]="Hyrule-NYC"
-TENANTS[2]="Midgar-DAYBREAK"
-TENANTS[3]="Tenant_1-State"
-TENANTS[4]="Tenant_2-State"
-TENANTS[5]="Tenant_3-State"
-TENANTS[6]="Tenant_4-State"
-TENANTS[7]="Tenant_5-State"
-for (( NUM=1; NUM<=$NUMBER_OF_TENANTS; NUM++ )) ; do
-  TENANT=${TENANTS[$NUM]}
-  echo "***** Onboarding tenant #$NUM - $TENANT"
-  echo "@purge" > /tmp/MainControlFile.ctl
-  pushd /tmp
-  zip $LZ/inbound/$TENANT/purge.zip MainControlFile.ctl
-  popd
-  $PUBSCRIPT STOR $LZ/inbound/$TENANT/purge.zip localhost
-  while [ "`grep "Clearing cache at job completion" $ING_LOG_DIR/ingestion.log | wc -l`" -ne 1 ]; do
-    echo -n .
-    sleep 5
-  done
-  echo
-  echo "***** Truncating ingestion log"
-  echo " " > $ING_LOG_DIR/ingestion.log
-done
-

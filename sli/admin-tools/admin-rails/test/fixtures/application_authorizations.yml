@@ -1,17 +1,14 @@
 district1:
-    id: "1"
-    authId: "ID1"
-    authType: "EDUCATION_ORGANIZATION"
-    appIds:
-    - appId1
-    - appId2
+    id: "appId1"
+    appId: "appId1"
+    approved: true
+    edorg: "ID1"
 
 new_district:
-    id: "2"
-    authId: "ID2"
-    authType: "EDUCATION_ORGANIZATION"
-    appIds:
-    - appId1
+    id: "appId2"
+    appId: "appId2"
+    approved: false
+    edorg: "ID1"
 
 sessionCheck:
     edOrg: "DISTRICT1"

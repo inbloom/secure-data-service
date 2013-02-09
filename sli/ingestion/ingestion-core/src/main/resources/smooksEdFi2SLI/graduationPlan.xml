@@ -75,7 +75,7 @@
   </jb:bean>
 
   <jb:bean beanId="GraduationPlan_CreditsByCourse_Credits" class="java.util.HashMap"
-           createOnElement="attributes creditsByCourse element credits element">
+           createOnElement="attributes creditsByCourse element credits">
       <jb:value property="credit" data="attributes creditsByCourse element credits credit" decoder="Double" />
       <jb:value property="creditType" data="attributes creditsByCourse element credits creditType" />
       <jb:value property="creditConversion" data="attributes creditsByCourse element credits creditConversion"
