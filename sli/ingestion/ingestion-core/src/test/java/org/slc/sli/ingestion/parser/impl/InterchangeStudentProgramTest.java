@@ -31,7 +31,7 @@ public class InterchangeStudentProgramTest {
     public static final Logger LOG = LoggerFactory.getLogger(InterchangeStudentProgramTest.class);
 
     @Test
-    public void testStudentParentAssociation() throws Throwable {
+    public void testStudentProgramAssociation() throws Throwable {
 
         Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StudentProgram.xsd");
         Resource inputXml = new ClassPathResource("parser/InterchangeStudentProgram/StudentProgramAssociation.xml");

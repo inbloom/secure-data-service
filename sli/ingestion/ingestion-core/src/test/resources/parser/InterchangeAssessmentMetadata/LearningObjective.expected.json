@@ -1,0 +1,23 @@
+{
+  "@id":"ID001",
+  "LearningObjectiveId":{
+    "@ContentStandardName":"hGNrCyg0S7PrJFpbCOi9fcUktQ0wUe2_5xH0Zzcq9atBcQzdMjwZOyiIeamsIJe",
+    "IdentificationCode":{"_value":"S8gK7JgZuCQdrao2Ac9Mh"}
+  },
+  "Objective":{"_value":"_30iUn9qDcnuRbz_JxT6KSLfYd3"},
+  "Description":{"_value":"Zii9-GRHabEGOWqnN6GdSXqiFFq-Dzcw5o1I_.2yesqgaE_xXM4qp6-JtfK-p_zTSNg"},
+  "AcademicSubject":{"_value":"Computer and Information Sciences"},
+  "ObjectiveGradeLevel":{"_value":"Eleventh grade"},
+  "LearningStandardReference":[{
+    "LearningStandardIdentity":{
+      "IdentificationCode":{"_value":"CF46hT"}
+    }
+  }],
+  "LearningObjectiveReference":{
+    "LearningObjectiveIdentity":[{
+      "Objective":"DU"},
+      "AcademicSubject":{"_value":"ELA"},
+      "ObjectiveGradeLevel":{"_value":"Eighth grade"}
+    }]
+  }
+}

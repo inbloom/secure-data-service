@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeAssessmentMetadata xmlns:sli="http://slc-sli/ed-org/0.1"
+ xmlns="http://ed-fi.org/0100"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://ed-fi.org/0100 file:/C:/beta/sli/sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-AssessmentMetadata.xsd">
+    <LearningStandard id="ID001">
+        <LearningStandardId ContentStandardName="P7D1FD">
+            <IdentificationCode>KkPmmofIfuW1</IdentificationCode>
+        </LearningStandardId>
+        <Description>l_BDs1R6HA5bfnj</Description>
+        <ContentStandard>International Baccalaureate</ContentStandard>
+        <GradeLevel>Seventh grade</GradeLevel>
+        <SubjectArea>ELA</SubjectArea>
+        <CourseTitle>O0j</CourseTitle>
+    </LearningStandard>
+</InterchangeAssessmentMetadata>
