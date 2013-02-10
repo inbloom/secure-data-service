@@ -490,15 +490,15 @@ public class ApplicationResource extends UnversionedResource {
         if (count == 0) {
             debug("No application authorization exists. Creating one.");
             EntityBody body = new EntityBody();
-            body.put("applicationIds", uuid);
-            body.put("edorgs", authedEdOrgs.toArray());
+            body.put("applicationId", uuid);
+            body.put("edorgs", new ArrayList<String>(authedEdOrgs));
             service.create(body);
         } else {
         	Iterable<EntityBody> auths = service.list(query);
         	for (EntityBody auth : auths) {
         		String authId = (String) auth.get("_id");
         		auth.remove("edorgs");
-        		auth.put("edorgs", authedEdOrgs.toArray());
+        		auth.put("edorgs", new ArrayList<String>(authedEdOrgs));
         		service.update(authId, auth);
         	}
         }
