@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeEducationOrganization xmlns:sli="http://slc-sli/ed-org/0.1"
+ xmlns="http://ed-fi.org/0100"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://ed-fi.org/0100 file:/Users/tshewchuk/repository/sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
+    <Course id="ID027">
+        <CourseTitle>cB.</CourseTitle>
+        <NumberOfParts>8</NumberOfParts>
+        <CourseCode IdentificationSystem="University course code" AssigningOrganizationCode="kdXMtMKq5p9Ihmk_nqOLjLN3Qd5eZDil4">
+            <ID>JWnNAKHqSFen6u</ID>
+        </CourseCode>
+        <CourseCode IdentificationSystem="SCED course code" AssigningOrganizationCode="fVGV">
+            <ID>f-SNM.pz_jrYXpdZmrEnJt</ID>
+        </CourseCode>
+        <CourseLevel>General or regular</CourseLevel>
+        <CourseLevelCharacteristics>
+            <CourseLevelCharacteristic>Magnet</CourseLevelCharacteristic>
+            <CourseLevelCharacteristic>Magnet</CourseLevelCharacteristic>
+        </CourseLevelCharacteristics>
+        <GradesOffered>
+            <GradeLevel>Ungraded</GradeLevel>
+            <GradeLevel>Infant/toddler</GradeLevel>
+        </GradesOffered>
+        <SubjectArea>Mathematics</SubjectArea>
+        <CourseDescription>xOb4tao_</CourseDescription>
+        <DateCourseAdopted>2013-03-23</DateCourseAdopted>
+        <HighSchoolCourseRequirement>1</HighSchoolCourseRequirement>
+        <CourseGPAApplicability>Applicable</CourseGPAApplicability>
+        <CourseDefinedBy>National Organization</CourseDefinedBy>
+        <MinimumAvailableCredit CreditType="Trimester hour credit" CreditConversion="-1666253284.473">
+            <Credit>1825011836.79</Credit>
+        </MinimumAvailableCredit>
+        <MaximumAvailableCredit CreditType="Carnegie unit" CreditConversion="2125416277.768">
+            <Credit>1128341680.71</Credit>
+        </MaximumAvailableCredit>
+        <CareerPathway>Arts, A/V Technology and Communications</CareerPathway>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>UAQCuO99GE-KbhLrrsYA8WUDLC6yK.8cI4jI3TTiP0lVVXuG</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>OXU2YAIi.fEPp9ynIQi4kZKbyw.8.l3gd4XjEw</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>d1OuyB2eAH-SXmsMaA-w3Y0.Sv</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningObjectiveReference>
+            <LearningObjectiveIdentity>
+                <Objective>z</Objective>
+                <AcademicSubject>Health Care Sciences</AcademicSubject>
+                <ObjectiveGradeLevel>Kindergarten</ObjectiveGradeLevel>
+            </LearningObjectiveIdentity>
+        </LearningObjectiveReference>
+        <LearningObjectiveReference>
+            <LearningObjectiveIdentity>
+                <Objective>zGJqZ-KNaedPPIzTGPyp2lekYdD6_</Objective>
+                <AcademicSubject>Mathematics</AcademicSubject>
+                <ObjectiveGradeLevel>Grade 13</ObjectiveGradeLevel>
+            </LearningObjectiveIdentity>
+        </LearningObjectiveReference>
+        <CompetencyLevels id="ID029" ref="ID027">
+            <CodeValue>icTge.ObfzE</CodeValue>
+        </CompetencyLevels>
+        <CompetencyLevels id="ID031" ref="ID026">
+            <CodeValue>jVU6</CodeValue>
+        </CompetencyLevels>
+        <UniqueCourseId>PzrfV22HUazk3GC87jI.v5mH-dB4KJ1UzGdFsVHAOH</UniqueCourseId>
+    </Course>
+</InterchangeEducationOrganization>
