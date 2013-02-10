@@ -1,0 +1,23 @@
+{
+  "@id":"ID001",
+  "AssessmentReference":{
+    "@id":"ID003",
+    "@ref":"ID001",
+    "AssessmentIdentity":{
+      "AssessmentTitle":{"_value":"vj8zbHeMTeYFobCU0TF21q-Cy8n"},
+      "AcademicSubject":{"_value":"Hospitality and Tourism"},
+      "GradeLevelAssessed":{"_value":"Tenth grade"},
+      "Version":-1179495731
+    }
+  },
+  "IdentificationCode":{"_value":"M3Pfl1._SPeQLaKiJiEqcQIZTPBpGJstVLq03QwcjJdiGwBWe_"},
+  "ItemCategory":{"_value":"Matching"},
+  "MaxRawScore":-1973159586,
+  "CorrectResponse":{"_value":"X3uT5DZ"},
+  "LearningStandardReference":[{
+    "LearningStandardIdentity":{
+      "IdentificationCode":{"_value":"gpF8VKfk7Gf4.vEuUdv9n.I3iGiMucJ7"}
+    }
+  }],
+  "Nomenclature":{"_value":"JdVo8tkNO"}
+}

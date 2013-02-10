@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStaffAssociation xmlns:sli="http://slc-sli/ed-org/0.1"
+ xmlns="http://ed-fi.org/0100"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://ed-fi.org/0100 file:/C:/beta/sli/sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StaffAssociation.xsd">
+    <TeacherSchoolAssociation id="ID015">
+        <TeacherReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>HjE3Gyf</StaffUniqueStateId>
+            </StaffIdentity>
+        </TeacherReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>n</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <ProgramAssignment>Regular Education</ProgramAssignment>
+        <InstructionalGradeLevels>
+            <GradeLevel>Adult Education</GradeLevel>
+            <GradeLevel>Tenth grade</GradeLevel>
+            <GradeLevel>Adult Education</GradeLevel>
+            <GradeLevel>Postsecondary</GradeLevel>
+            <GradeLevel>Postsecondary</GradeLevel>
+            <GradeLevel>Second grade</GradeLevel>
+        </InstructionalGradeLevels>
+        <AcademicSubjects>
+            <AcademicSubject>Writing</AcademicSubject>
+            <AcademicSubject>Architecture and Construction</AcademicSubject>
+            <AcademicSubject>English Language and Literature</AcademicSubject>
+            <AcademicSubject>Architecture and Construction</AcademicSubject>
+            <AcademicSubject>Social Studies</AcademicSubject>
+            <AcademicSubject>Life and Physical Sciences</AcademicSubject>
+        </AcademicSubjects>
+    </TeacherSchoolAssociation>
+</InterchangeStaffAssociation>

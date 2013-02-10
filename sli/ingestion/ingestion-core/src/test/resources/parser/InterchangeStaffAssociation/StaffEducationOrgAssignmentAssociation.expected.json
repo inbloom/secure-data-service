@@ -1,0 +1,16 @@
+{
+  "StaffReference":{
+    "StaffIdentity":{
+      "StaffUniqueStateId":{"_value":"zWoaMYsBN3pH5"}
+    }
+  },
+  "EducationOrganizationReference":{
+    "EducationalOrgIdentity":{
+      "StateOrganizationId":{"_value":"f5AQKsDEZTNLR4Lm9qkRHn_Xuo_ceSOpM"}
+    }
+  },
+  "StaffClassification":{"_value":"School Leader"},
+  "PositionTitle":{"_value":"deDxbWQ4lJEfeLSGIFa0cwvczyr-dneEDv"},
+  "BeginDate":{"_value":"2014-03-04"},
+  "EndDate":{"_value":"2013-07-05"}
+}

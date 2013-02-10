@@ -26,7 +26,6 @@ import org.slc.sli.ingestion.Resource;
 import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.model.NewBatchJob;
-import org.slc.sli.ingestion.model.RecordHash;
 
 /**
  * Processor to remove delta hash from the datastore
@@ -51,23 +50,21 @@ public class DeltaHashPurgeProcessor extends IngestionProcessor<WorkNote, Resour
     public void process(Exchange exchange, ProcessorArgs<WorkNote> args) {
             String tenantId = TenantContext.getTenantId();
 
-            potentiallyRemoveRecordHash(args.job, tenantId);
+            removeRecordHash(args.job, tenantId);
     }
 
     /**
-     * Clear out delta hash for this tenant from datastore if the duplicate-detection property is set to disable or reset
+     * Clear out delta hash for this tenant from datastore
      *
      * @param job Batch Job
      * @param tenantId Tenant Id
      */
-    private void potentiallyRemoveRecordHash(NewBatchJob job, String tenantId) {
+    private void removeRecordHash(NewBatchJob job, String tenantId) {
         String rhMode = job.getProperty(AttributeType.DUPLICATE_DETECTION.getName());
-        if ((null != rhMode)
-            && (rhMode.equalsIgnoreCase(RecordHash.RECORD_HASH_MODE_DISABLE) || rhMode
-                    .equalsIgnoreCase(RecordHash.RECORD_HASH_MODE_RESET))) {
-            LOG.info("@duplicate-detection mode '" + rhMode + "' given: resetting recordHash");
-            batchJobDAO.removeRecordHashByTenant(tenantId);
-        }
+
+        LOG.info("@duplicate-detection mode '" + rhMode + "' given: resetting recordHash");
+
+        batchJobDAO.removeRecordHashByTenant(tenantId);
     }
 
     @Override

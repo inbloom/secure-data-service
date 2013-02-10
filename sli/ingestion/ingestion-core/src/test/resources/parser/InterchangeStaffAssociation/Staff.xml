@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStaffAssociation xmlns:sli="http://slc-sli/ed-org/0.1"
+ xmlns="http://ed-fi.org/0100"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://ed-fi.org/0100 file:/C:/beta/sli/sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StaffAssociation.xsd">
+    <Staff id="ID001">
+        <StaffUniqueStateId>jid</StaffUniqueStateId>
+        <StaffIdentificationCode IdentificationSystem="Other" AssigningOrganizationCode="XsvxgaU-lQMmrc">
+            <ID>FY7pYFphxGIOX_hWdB1QjR0Oi8FDiyacd3D0HNDhTMPk</ID>
+        </StaffIdentificationCode>
+        <StaffIdentificationCode IdentificationSystem="Selective Service" AssigningOrganizationCode="b935pSsIDpo8ejef7YIN-Bvs_Ym8s2rs">
+            <ID>BA</ID>
+        </StaffIdentificationCode>
+        <StaffIdentificationCode IdentificationSystem="Medicaid" AssigningOrganizationCode="DBrJTRtja">
+            <ID>CsJnQKpdweS-2.kAmGG7ja2cqFXSlqHgWK_I37Gt5_</ID>
+        </StaffIdentificationCode>
+        <StaffIdentificationCode IdentificationSystem="Canadian SIN" AssigningOrganizationCode="vSdkptbIICoQpSDtzVKZqTiPEcd0KAkEJ6o1gn-Xu6ueC9HAm9YvIR9">
+            <ID>t2VbBUTI3CcqV88FDZf</ID>
+        </StaffIdentificationCode>
+        <StaffIdentificationCode IdentificationSystem="Canadian SIN" AssigningOrganizationCode="AAOSqLqGH51zHGg_yDwixy_x9FQlco9WaBZI2DJC">
+            <ID>xrVrJgG19E1Bq</ID>
+        </StaffIdentificationCode>
+        <StaffIdentificationCode IdentificationSystem="SSN" AssigningOrganizationCode="Etz1JKzRi1W995.">
+            <ID>pkIAY-3-wG9wgVhzJbxGRXt</ID>
+        </StaffIdentificationCode>
+        <Name Verification="Entry in family Bible">
+            <PersonalTitlePrefix>Sr</PersonalTitlePrefix>
+            <FirstName>db3zAfA67B1y0OeFvA8buB8pwyN2EF8b8Er9JW_.Wc.i36h-lze.</FirstName>
+            <MiddleName>T8X.4ot5vZ03DkuYefafN_We3xlcVcH5Cc2Vu8drU</MiddleName>
+            <LastSurname>S-BI8vWaa</LastSurname>
+            <GenerationCodeSuffix>III</GenerationCodeSuffix>
+            <MaidenName>agQvPuyyVSKyfH1jhfTrWoU0JyLwgDdQSpIHuHs0nX</MaidenName>
+        </Name>
+        <OtherName OtherNameType="Other Name">
+            <PersonalTitlePrefix>Sr</PersonalTitlePrefix>
+            <FirstName>mwE13lY6b-EsVt3kdYM5G5cDkp9</FirstName>
+            <MiddleName>fXTd.</MiddleName>
+            <LastSurname>M8jyw_mCRYtRkYjDbQcVF7wgioNTYPSPAgbt3Y</LastSurname>
+            <GenerationCodeSuffix>III</GenerationCodeSuffix>
+        </OtherName>
+        <OtherName OtherNameType="Previous Legal Name">
+            <PersonalTitlePrefix>Dr</PersonalTitlePrefix>
+            <FirstName>ErvwIzMENpHYtaqq8_qJqk-1hXni9hlTuxjHm2GyJhy</FirstName>
+            <MiddleName>iwRhqDkD78JKl</MiddleName>
+            <LastSurname>k_HTgsxXfZa6xYrseHW7VDcSFFPhYlmvAXhjPdFox</LastSurname>
+            <GenerationCodeSuffix>Sr</GenerationCodeSuffix>
+        </OtherName>
+        <OtherName OtherNameType="Alias">
+            <PersonalTitlePrefix>Reverend</PersonalTitlePrefix>
+            <FirstName>aaWR4TUg2tnlsfsr_</FirstName>
+            <MiddleName>XU_lGGYnQfHgU2Pb.iVItkUWIWP4sKvbU2</MiddleName>
+            <LastSurname>a7TPGd597iX1MJrN0LJdwYbFrwf-eVci</LastSurname>
+            <GenerationCodeSuffix>Sr</GenerationCodeSuffix>
+        </OtherName>
+        <OtherName OtherNameType="Alias">
+            <PersonalTitlePrefix>Colonel</PersonalTitlePrefix>
+            <FirstName>XbU</FirstName>
+            <MiddleName>CJMyqRemgv0Evo79BMPyyQbZ7l3-Yc-eU-HRi5</MiddleName>
+            <LastSurname>YjycERoA2Jq7ZMx6tQZ.FOH-xelNf-rfkpNeRCcvaxrDV0TvbZns11Ge</LastSurname>
+            <GenerationCodeSuffix>Sr</GenerationCodeSuffix>
+        </OtherName>
+        <OtherName OtherNameType="Nickname">
+            <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+            <FirstName>sjuZwErh5UTDVWUKeN0-ToM</FirstName>
+            <MiddleName>Als2gNa5Z5s3j-RHnK5E521A7sRO9qox4L_-XO7Adv0RE7d2560lMT5gZf</MiddleName>
+            <LastSurname>WsmZ8-GopvnytnPIYIxjUxDtwk_huFslnWNagELuuVA</LastSurname>
+            <GenerationCodeSuffix>V</GenerationCodeSuffix>
+        </OtherName>
+        <OtherName OtherNameType="Nickname">
+            <PersonalTitlePrefix>Colonel</PersonalTitlePrefix>
+            <FirstName>L9rNjFkHeSOcv.LD7qun_ICtdpOASuy4Y6Nusrav4oVETiaemJRPRad.H</FirstName>
+            <MiddleName>ukqqlN72LdUIV216sDU</MiddleName>
+            <LastSurname>y7gygOu</LastSurname>
+            <GenerationCodeSuffix>III</GenerationCodeSuffix>
+        </OtherName>
+        <Sex>Male</Sex>
+        <BirthDate>2014-12-07</BirthDate>
+        <Address AddressType="Temporary">
+            <AddressLine>UotmaUMILTnlLooKsxp01rI4Hps.G_QMBcZd1gEd9dcfAu-E7y-7kxAB</AddressLine>
+            <AddressLine>aA4ZvcWWooHlFUE3sunn.b</AddressLine>
+            <AddressLine>tb7KuDv3HS</AddressLine>
+            <AddressLine>Dv0AIoSxOYfbW7En5cjAygtE</AddressLine>
+            <AddressLine>iXiNIc</AddressLine>
+            <AddressLine>JYmySOfrrQ2cF6lTVQ1zYKBdWEf6oVqokM7ZLfFcMVgamBAdN6DSmiZDY3aUt.iqjK7I</AddressLine>
+            <Country>AZERBAIJAN</Country>
+            <Latitude>viDO</Latitude>
+            <Longitude>VRnzH</Longitude>
+            <BeginDate>2014-07-22</BeginDate>
+            <EndDate>2015-01-27</EndDate>
+        </Address>
+        <Address AddressType="Temporary">
+            <StreetNumberName>W1NHgdPLrjDAGqZ3iVnhPMXjssgutIZHAnQo</StreetNumberName>
+            <ApartmentRoomSuiteNumber>DuumODJkWFqXM_CUR</ApartmentRoomSuiteNumber>
+            <BuildingSiteNumber>Yfn</BuildingSiteNumber>
+            <City>ZCaKi_T-6td1g9QdxMtTNyBzAyKHU</City>
+            <StateAbbreviation>ND</StateAbbreviation>
+            <PostalCode>nwZLcXfEJWpb0zYM</PostalCode>
+            <NameOfCounty>J04LnUzjUoZpVcyMbr</NameOfCounty>
+            <CountyFIPSCode>E7c8</CountyFIPSCode>
+            <Latitude>C</Latitude>
+            <Longitude>iziFP15hlRyJKWJ</Longitude>
+            <BeginDate>2014-07-30</BeginDate>
+            <EndDate>2013-08-23</EndDate>
+        </Address>
+        <Address AddressType="Home">
+            <AddressLine>gAy.mv-XGsrPcxz4cdF5oq8IqxmkP2zGwcXb_B38gKk</AddressLine>
+            <AddressLine>MnhnbDphrQAiZpyC2LfmFIZ6q-oKi92t7V9FMQYAARwU0EwB.qf84d9dUh425n_.gMzRhJHIH.kPUKXMvhiA2</AddressLine>
+            <AddressLine>KtsPTBLjwFe-y61Hajq536S9efb2fK0f5NeIyiAHvIWvhZwmMOMit3XaWveOrxdnBe0frZK6ma1wsmagRGsn2GsGd1CKa-wH.OyULxcelOSrELQe0A9PGnNJIO</AddressLine>
+            <AddressLine>T2tUhazFORQM-.-i29ZT4IM_wu6Y0ecG3iVeAcDe</AddressLine>
+            <AddressLine>ep</AddressLine>
+            <AddressLine>cX3fAov4WltYWLPF3Jm5wpURD.mU850QLspFAFHF-6..4</AddressLine>
+            <Country>DOMINICAN REPUBLIC</Country>
+            <Latitude>MQ2</Latitude>
+            <Longitude>jM_EBdpP3F.ZTI</Longitude>
+            <BeginDate>2013-06-08</BeginDate>
+            <EndDate>2015-02-03</EndDate>
+        </Address>
+        <Address AddressType="Temporary">
+            <AddressLine>ea87PSUiPip6SW6AsKP6EYoHL5</AddressLine>
+            <AddressLine>OPXn</AddressLine>
+            <AddressLine>HjYxXAK5r6VFrpqyHVdbkJegf2BHaqkja1qJEdwh.xxC</AddressLine>
+            <AddressLine>xcUpPZvlhr.Lia4tvBHI8-1</AddressLine>
+            <AddressLine>qcHEpQ1_JGwUt3h52nFPfvYTL7IUAJVlruEA4vf2O.wzQzC1JwKG_WSsu.UInKf0FDJ76HQ.HXDv14xwlz</AddressLine>
+            <AddressLine>ft-qyiUvj-BmK8.BPxuu5Dp-z1Qzz3N9QKYmQHVoDXwBQiH6wMojizt0nb_9TdFYmrpRd_L7IhlHf9QmTCqQUT0Nbk0WmtTl7xFpIhZFA-OTAT3OZNQFanSmcY4</AddressLine>
+            <Country>ZAMBIA</Country>
+            <Latitude>UE5d9iCc</Latitude>
+            <Longitude>Hf</Longitude>
+            <BeginDate>2014-05-03</BeginDate>
+            <EndDate>2013-09-25</EndDate>
+        </Address>
+        <Address AddressType="Physical">
+            <AddressLine>iPN2vXC8QE2owr40xKfqgvk.rz4Wy0KBd3jpbDQjC9Eoz9flygUGulJ7bJ_0Ba04Va7pKVS</AddressLine>
+            <AddressLine>Q.aT</AddressLine>
+            <AddressLine>sNVJrJfDFsm_hQW64DS</AddressLine>
+            <AddressLine>lJOs-kDFr9WhYgcv-bL8IRLnZPXiUsXY_w7qbjK1K8b.mB82VE</AddressLine>
+            <AddressLine>iZk7lZrBnx9M0hoRoUTCGDlX_pRD2z6sCSRbEI_06uS-59PfwlHiuksDJLUdSD25R-kyh2yMYAxX4F17xLjClz7e..Gjdi2djbJ1</AddressLine>
+            <AddressLine>GErtWA3E0EAkPdLVSMMKaTwdGop.ID96-dYnQOJ27EVQlc-4XXW72FgUfsq</AddressLine>
+            <Country>ISLE OF MAN</Country>
+            <Latitude>z4hd</Latitude>
+            <Longitude>DUgVcKxJsRZ</Longitude>
+            <BeginDate>2014-07-25</BeginDate>
+            <EndDate>2014-09-16</EndDate>
+        </Address>
+        <Address AddressType="Billing">
+            <StreetNumberName>PlbOVaN1_rN8KdqrFz3k7qa</StreetNumberName>
+            <ApartmentRoomSuiteNumber>jfhCywhX</ApartmentRoomSuiteNumber>
+            <BuildingSiteNumber>E.Tng4x.</BuildingSiteNumber>
+            <City>qKOS8Sv-A</City>
+            <StateAbbreviation>IN</StateAbbreviation>
+            <PostalCode>i</PostalCode>
+            <NameOfCounty>t0HUUo-wDmOjr-azcMVVs</NameOfCounty>
+            <CountyFIPSCode>huY</CountyFIPSCode>
+            <Latitude>n6MCMB-9OH2tnJmuq</Latitude>
+            <Longitude>xjwr</Longitude>
+            <BeginDate>2013-07-31</BeginDate>
+            <EndDate>2014-10-23</EndDate>
+        </Address>
+        <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>LGokZ0bnhCZlB6DGCucj</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="1">
+            <TelephoneNumber>BS6dJUYOqpT</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Work" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>rWZJi4JWn.bRsXMIL4h</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Home" PrimaryTelephoneNumberIndicator="false">
+            <TelephoneNumber>LsFsqNQjvWm</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="true">
+            <TelephoneNumber>S.o.pySuIY1InCvg43</TelephoneNumber>
+        </Telephone>
+        <Telephone TelephoneNumberType="Other" PrimaryTelephoneNumberIndicator="0">
+            <TelephoneNumber>GnzTEq2w6NvQkEo</TelephoneNumber>
+        </Telephone>
+        <ElectronicMail EmailAddressType="Home/Personal">
+            <EmailAddress>vEXUPjJCFOVovwHHKDx9SVqBRdt-X2Io_.iL68Tx0rlpFIFSaTi4_wNHIQfq1pXMVCJ9Aek2.zTSSx821zW__O_16_0auAe6MBO</EmailAddress>
+        </ElectronicMail>
+        <ElectronicMail EmailAddressType="Home/Personal">
+            <EmailAddress>ZLrWP9b9Nog8fOy0H_cMBO8IY3gi_GNQSHzT0WDjgL04vzCAv237oMeBegnLhFInJtakOJYS.bXDe-CcPKirITZpSxPjTXJVj0qZFVXgIi.e.</EmailAddress>
+        </ElectronicMail>
+        <ElectronicMail EmailAddressType="Organization">
+            <EmailAddress>Y6m4YNAhhQ3.</EmailAddress>
+        </ElectronicMail>
+        <ElectronicMail EmailAddressType="Organization">
+            <EmailAddress>Z1swizsfFYcYxeHbluxJt5Zh7vVI_n3UT6O6wAlGOSPDJJFBg0Md5v</EmailAddress>
+        </ElectronicMail>
+        <ElectronicMail EmailAddressType="Home/Personal">
+            <EmailAddress>zel8tlSqBfF1FZH8I4p34UNkW9jbaRs5RjhGLoDsOUYZ4lHm3cDWxHq0Di5Y</EmailAddress>
+        </ElectronicMail>
+        <ElectronicMail EmailAddressType="Other">
+            <EmailAddress>j3Fmio-Y3E_8l_RZpO1aIbAj5lxI7yJezO_4u1uYvZ</EmailAddress>
+        </ElectronicMail>
+        <HispanicLatinoEthnicity>0</HispanicLatinoEthnicity>
+        <OldEthnicity>Asian Or Pacific Islander</OldEthnicity>
+        <Race>
+            <RacialCategory>Asian</RacialCategory>
+            <RacialCategory>American Indian - Alaskan Native</RacialCategory>
+            <RacialCategory>American Indian - Alaskan Native</RacialCategory>
+            <RacialCategory>Native Hawaiian - Pacific Islander</RacialCategory>
+            <RacialCategory>Black - African American</RacialCategory>
+            <RacialCategory>White</RacialCategory>
+        </Race>
+        <HighestLevelOfEducationCompleted>Master's</HighestLevelOfEducationCompleted>
+        <YearsOfPriorProfessionalExperience>-849319750</YearsOfPriorProfessionalExperience>
+        <YearsOfPriorTeachingExperience>-1690819928</YearsOfPriorTeachingExperience>
+        <Credentials>
+            <CredentialType>Other</CredentialType>
+            <CredentialField id="ID003" ref="ID002">
+                <CodeValue>g7x</CodeValue>
+            </CredentialField>
+            <Level>Early Childhood (PK-K)</Level>
+            <TeachingCredentialType>Other</TeachingCredentialType>
+            <CredentialIssuanceDate>2015-01-01</CredentialIssuanceDate>
+            <CredentialExpirationDate>2014-05-10</CredentialExpirationDate>
+            <TeachingCredentialBasis>5-year bachelor's degree</TeachingCredentialBasis>
+        </Credentials>
+        <Credentials>
+            <CredentialType>Registration</CredentialType>
+            <CredentialField id="ID005" ref="ID005">
+                <Description>GlaoNznrYrK8IY9sPN7HvCuI6x5nbcpDAsqiuZRl5G6YC3</Description>
+            </CredentialField>
+            <Level>Elementary (Grade Level EC-4)</Level>
+            <TeachingCredentialType>Master</TeachingCredentialType>
+            <CredentialIssuanceDate>2014-03-10</CredentialIssuanceDate>
+            <CredentialExpirationDate>2013-05-26</CredentialExpirationDate>
+            <TeachingCredentialBasis>Master's degree</TeachingCredentialBasis>
+        </Credentials>
+        <Credentials>
+            <CredentialType>Certification</CredentialType>
+            <CredentialField id="ID007" ref="ID007">
+                <Description>j7vF-dVkkck7J0F.V9GOY4eyJ-R6L-JlZKE15NDFVUHex2vCiwnnLRq9VR2U.IZO5bDzE3digiBrCxbSvEyIdOvbbj.c_FNch9u3-IxEZLwByXCp17e2-BEWeJf</Description>
+            </CredentialField>
+            <Level>Elementary (Grade Level 1-6)</Level>
+            <TeachingCredentialType>Retired</TeachingCredentialType>
+            <CredentialIssuanceDate>2014-02-11</CredentialIssuanceDate>
+            <CredentialExpirationDate>2014-10-30</CredentialExpirationDate>
+            <TeachingCredentialBasis>5-year bachelor's degree</TeachingCredentialBasis>
+        </Credentials>
+        <Credentials>
+            <CredentialType>Endorsement</CredentialType>
+            <CredentialField id="ID009" ref="ID005">
+                <CodeValue>TJRRBlEsS15</CodeValue>
+            </CredentialField>
+            <Level>Elementary (Grade Level PK-5)</Level>
+            <TeachingCredentialType>Provisional</TeachingCredentialType>
+            <CredentialIssuanceDate>2013-08-16</CredentialIssuanceDate>
+            <CredentialExpirationDate>2013-03-11</CredentialExpirationDate>
+            <TeachingCredentialBasis>4-year bachelor's degree</TeachingCredentialBasis>
+        </Credentials>
+        <Credentials>
+            <CredentialType>Other</CredentialType>
+            <CredentialField id="ID011" ref="ID006">
+                <CodeValue>V</CodeValue>
+            </CredentialField>
+            <Level>Elementary (Grade Level PK-6)</Level>
+            <TeachingCredentialType>Visiting International Teacher</TeachingCredentialType>
+            <CredentialIssuanceDate>2013-03-17</CredentialIssuanceDate>
+            <CredentialExpirationDate>2014-05-01</CredentialExpirationDate>
+            <TeachingCredentialBasis>Relevant experience</TeachingCredentialBasis>
+        </Credentials>
+        <Credentials>
+            <CredentialType>Registration</CredentialType>
+            <CredentialField id="ID013" ref="ID000">
+                <Description>Eyc-IcSKB0beCGkySZftVZmRMJnlb9FEbMZMYAxkZi7AykW72DiFwL0o7TgfPvUtgz2zsJ.54085gmLyAu4fz97x_K_a1I5a9VZGnfKx9RkTzQ7DL4vjFGCku6n5</Description>
+            </CredentialField>
+            <Level>Elementary (Grade Level 1-6)</Level>
+            <TeachingCredentialType>Unknown</TeachingCredentialType>
+            <CredentialIssuanceDate>2014-07-09</CredentialIssuanceDate>
+            <CredentialExpirationDate>2013-12-10</CredentialExpirationDate>
+            <TeachingCredentialBasis>Special/alternative program completion</TeachingCredentialBasis>
+        </Credentials>
+        <LoginId>HS7.sg9kDk4qdI6-bR9HwIBb2TwhNXZ7065YKLic</LoginId>
+    </Staff>
+</InterchangeStaffAssociation>

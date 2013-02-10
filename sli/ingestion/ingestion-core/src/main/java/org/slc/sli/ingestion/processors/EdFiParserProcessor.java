@@ -31,6 +31,7 @@ import org.apache.camel.Exchange;
 import org.apache.camel.InvalidPayloadException;
 import org.apache.camel.ProducerTemplate;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.core.io.Resource;
 
 import org.slc.sli.common.util.logging.SecurityEvent;
@@ -69,7 +70,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
     private int batchSize;
 
     // Internal state of the processor
-    private ThreadLocal<ParserState> state = new ThreadLocal<ParserState>();
+    protected ThreadLocal<ParserState> state = new ThreadLocal<ParserState>();
 
     @Override
     protected void process(Exchange exchange, ProcessorArgs<FileEntryWorkNote> args) {
@@ -84,8 +85,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
 
             Resource xsdSchema = xsdSelector.provideXsdResource(args.workNote.getFileEntry());
 
-            EdfiRecordParserImpl.parse(reader, xsdSchema, typeProvider, this);
-
+            parse(reader, xsdSchema, typeProvider); 
         } catch (IOException e) {
             getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0063);
         } catch (XMLStreamException e) {
@@ -101,6 +101,10 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
         }
     }
 
+    public void parse(XMLEventReader reader, Resource xsdSchema, TypeProvider typeProvider2) throws IOException, XMLStreamException, XmlParseException{
+        EdfiRecordParserImpl.parse(reader, xsdSchema, typeProvider, this);
+    }
+
     /**
      * Prepare the state for the job.
      *
@@ -108,7 +112,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
      *            Exchange
      * @throws InvalidPayloadException
      */
-    private void prepareState(Exchange exchange, FileEntryWorkNote workNote) {
+    protected void prepareState(Exchange exchange, FileEntryWorkNote workNote) {
         ParserState newState = new ParserState();
         newState.setOriginalExchange(exchange);
         newState.setWork(workNote);
@@ -233,7 +237,8 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
 
         public void addToBatch(RecordMeta recordMeta, Map<String, Object> record) {
             NeutralRecord neutralRecord = new NeutralRecord();
-
+            
+            neutralRecord.setRecordType(StringUtils.uncapitalize(recordMeta.getName()));
             neutralRecord.setBatchJobId(work.getBatchJobId());
             neutralRecord.setSourceFile(work.getFileEntry().getResourceId());
 
@@ -246,7 +251,6 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
             neutralRecord.setVisitAfterColumnNumber(endLoc.getColumnNumber());
 
             neutralRecord.setAttributes(record);
-
             dataBatch.add(neutralRecord);
         }
     }

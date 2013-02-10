@@ -55,17 +55,11 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     private static final String ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
     private static final String ASSESSMENT_TRANSFORMED = "assessment_transformed";
 
-    private static final String ASSESSMENT_ITEM = "assessmentItem";
-    private static final String ASSESSMENTITEM_REFERENCE = "AssessmentItemReference";
     private static final String VALUE = "_value";
-    private static final String PARENT_ASSESSMENT_FAMILY_TITLE = "AssessmentFamilyReference.AssessmentFamilyIdentity.AssessmentFamilyTitle";
+    private static final String ASSESSMENT_FAMILY_TITLE = "AssessmentFamilyTitle" + VALUE;
+    private static final String PARENT_ASSESSMENT_FAMILY_TITLE = "AssessmentFamilyReference.AssessmentFamilyIdentity." + ASSESSMENT_FAMILY_TITLE;
     private static final String OBJECTIVE_ASSESSMENT_REFERENCE = "ObjectiveAssessmentReference";
-    private static final String OBJECTIVE_ASSESSMENT_IDENTIFICATION_CODE = "ObjectiveAssessmentIdentity.ObjectiveAssessmentIdentificationCode";
-    private static final String ASSESSMENTITEM_IDENTIFICATION_CODE = "AssessmentItemIdentity.AssessmentItemIdentificationCode" ;
-
-
-//    private static final String ASSESSMENT_ITEM = "assessmentItem";
-//    private static final String PARENT_ASSESSMENT_FAMILY_TITLE = "parentAssessmentFamilyTitle";
+    private static final String OBJECTIVE_ASSESSMENT_IDENTIFICATION_CODE = "ObjectiveAssessmentIdentity.ObjectiveAssessmentIdentificationCode" + VALUE;
 
     @Autowired
     private ObjectiveAssessmentBuilder builder;
@@ -198,11 +192,11 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             Map<String, Object> associationAttrs = neutralRecord.getAttributes();
 
             if ("".equals(theFamilyHierarchyName)) {
-                theFamilyHierarchyName = (String) associationAttrs.get("AssessmentFamilyTitle");
+                theFamilyHierarchyName = (String) associationAttrs.get(ASSESSMENT_FAMILY_TITLE);
             } else {
-                theFamilyHierarchyName = associationAttrs.get("AssessmentFamilyTitle") + "." + theFamilyHierarchyName;
+                theFamilyHierarchyName = associationAttrs.get(ASSESSMENT_FAMILY_TITLE) + "." + theFamilyHierarchyName;
             }
-            deepFamilyMap.put((String) associationAttrs.get("AssessmentFamilyTitle"), associationAttrs);
+            deepFamilyMap.put((String) associationAttrs.get(ASSESSMENT_FAMILY_TITLE), associationAttrs);
 
             // check if there are parent nodes
             if (associationAttrs.containsKey("parentAssessmentFamilyTitle")

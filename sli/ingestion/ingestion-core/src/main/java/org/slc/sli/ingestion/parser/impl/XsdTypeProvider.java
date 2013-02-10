@@ -159,6 +159,8 @@ public class XsdTypeProvider implements TypeProvider {
 
             if (extensions.hasNext()) {
                 parentElement = extensions.next();
+            } else {
+                parentElement = null;
             }
         }
 

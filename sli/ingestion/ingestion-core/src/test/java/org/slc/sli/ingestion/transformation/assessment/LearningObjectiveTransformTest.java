@@ -137,9 +137,9 @@ public class LearningObjectiveTransformTest {
         nr.setLocalParentIds(new HashMap<String, Object>());
         setAtPath(nr.getAttributes(), LearningObjectiveTransform.LO_ID_CODE_PATH, objectiveId);
         setAtPath(nr.getAttributes(), LearningObjectiveTransform.LO_CONTENT_STANDARD_NAME_PATH, contentStandardName);
-        setAtPath(nr.getAttributes(), "Objective", objective);
-        setAtPath(nr.getAttributes(), "AcademicSubject", subject);
-        setAtPath(nr.getAttributes(), "ObjectiveGradeLevel", grade);
+        setAtPath(nr.getAttributes(), LearningObjectiveTransform.OBJECTIVE, objective);
+        setAtPath(nr.getAttributes(), LearningObjectiveTransform.ACADEMIC_SUBJECT, subject);
+        setAtPath(nr.getAttributes(), LearningObjectiveTransform.OBJECTIVE_GRADE_LEVEL, grade);
         setAtPath(nr.getAttributes(), LearningObjectiveTransform.LEARNING_OBJ_REFS,
                 new ArrayList<Map<String, Object>>());
         return nr;
