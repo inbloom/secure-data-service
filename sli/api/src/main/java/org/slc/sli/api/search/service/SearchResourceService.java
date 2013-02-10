@@ -525,6 +525,13 @@ public class SearchResourceService {
             }
         }
     }
+
+    /**
+     * This method will apply the date filter for schoolYears query param.
+     * Assumption: the entities for which the criteria is valid have the end date i.e endDate $exists check is ignored
+     * @param entities
+     * @param apiQuery
+     */
     private void addGranularAccessCriteria(String entities, ApiQuery apiQuery) {
 
         if (granularAccessFilterProvider.hasFilter()) {

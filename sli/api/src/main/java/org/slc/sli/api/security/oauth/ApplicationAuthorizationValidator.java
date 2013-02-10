@@ -18,11 +18,11 @@
 package org.slc.sli.api.security.oauth;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.domain.Entity;
@@ -33,11 +33,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+
 /**
  * Determines which applications a given user is authorized to use based on
  * that user's ed-org.
- *
- * @author pwolf
  *
  */
 @Component
@@ -62,111 +61,48 @@ public class ApplicationAuthorizationValidator {
      * @return list of app IDs, or null if it couldn't be determined
      */
     @SuppressWarnings("unchecked")
-    public List<String> getAuthorizedApps(SLIPrincipal principal) {
-
-        //For hosted users (Developer, SLC Operator, SEA/LEA Administrator) they're not associated with a district
-        List<Entity> districts = principal.isAdminRealmAuthenticated() ? new ArrayList<Entity>() : findUsersDistricts(principal);
-
-        Set<String> bootstrapApps = getDefaultAllowedApps();
-        Set<String> results = principal.isAdminRealmAuthenticated() ? new HashSet<String>() : getDefaultAuthorizedApps();
-
-        for (Entity district : districts) {
-            debug("User is in district {}.", district.getEntityId());
-
-            NeutralQuery appAuthCollQuery = new NeutralQuery();
-            appAuthCollQuery.addCriteria(new NeutralCriteria("authId", "=", district.getEntityId()));
-            appAuthCollQuery.addCriteria(new NeutralCriteria("authType", "=", "EDUCATION_ORGANIZATION"));
-            Entity authorizedApps = repo.findOne("applicationAuthorization", appAuthCollQuery);
-
-            if (authorizedApps != null) {
-
-                NeutralQuery appCollQuery = new NeutralQuery(0);
-                appCollQuery.addCriteria(new NeutralCriteria("authorized_ed_orgs", "=", district.getEntityId()));
-
-                Set<String> vendorAppsEnabledForEdorg = new HashSet<String>(bootstrapApps); //bootstrap apps automatically added
-
-                for (String id : repo.findAllIds("application", appCollQuery)) {
-                    vendorAppsEnabledForEdorg.add(id);
-                }
-
-                //Intersection
-                vendorAppsEnabledForEdorg.retainAll((List<String>) authorizedApps.getBody().get("appIds"));
-
-                results.addAll(vendorAppsEnabledForEdorg);
-            }
-        }
+    public boolean isAuthorizedForApp(Entity app, SLIPrincipal principal) {
 
         if (principal.isAdminRealmAuthenticated()) {
-
-            NeutralQuery adminVisible = new NeutralQuery(0);
-            adminVisible.addCriteria(new NeutralCriteria("admin_visible", "=", true));
-            for (String id : repo.findAllIds("application", adminVisible)) {
-                results.add(id);
+            return isAdminVisible(app);
+        } else {
+            if (isAutoAuthorized(app)) {
+                return true;
+            } else {
+                Set<String> edOrgs = helper.getDirectEdorgs(principal.getEntity());
+                NeutralQuery appAuthCollQuery = new NeutralQuery();
+                appAuthCollQuery.addCriteria(new NeutralCriteria("applicationId", "=", app.getEntityId()));
+                appAuthCollQuery.addCriteria(new NeutralCriteria("edorgs", NeutralCriteria.CRITERIA_IN, edOrgs));
+                Entity authorizedApps = repo.findOne("applicationAuthorization", appAuthCollQuery);
+                if (authorizedApps != null) {
+                    if (isAutoApproved(app)) {
+                        return true;
+                    } else {
+                        //query approved edorgs
+                        List<String> approvedDistricts = new ArrayList<String>((List<String>) app.getBody().get("authorized_ed_orgs"));
+                        List<String> myDistricts = helper.getDistricts(principal.getEntity());
+                        approvedDistricts.retainAll(myDistricts);
+                        return !approvedDistricts.isEmpty();
+                    }
+                }
             }
-
         }
-
-        return new ArrayList<String>(results);
+        return false;
     }
 
-    /**
-     * These are the apps that are auto-authorized, i.e. the district admin doesn't
-     * need to manually authorize the application.
-     * @return
-     */
-    private Set<String> getDefaultAuthorizedApps() {
-        Set<String> toReturn = new HashSet<String>();
-        NeutralQuery autoAuthQuery = new NeutralQuery(0);
-        autoAuthQuery.addCriteria(new NeutralCriteria("authorized_for_all_edorgs", "=", true));
-        Iterable<Entity> autoAuthApps = repo.findAll("application", autoAuthQuery);
-
-        for (Entity currentApp : autoAuthApps) {
-            toReturn.add(currentApp.getEntityId());
-        }
-        return toReturn;
+    private boolean isAutoApproved(Entity app) {
+        Boolean value = (Boolean) app.getBody().get("allowed_for_all_edorgs");
+        return value != null && value.booleanValue();
     }
 
-    /**
-     * These are apps that are auto-allowed, i.e. the app developer doesn't need
-     * to select the districts that can use the app.
-     * @return
-     */
-    private Set<String> getDefaultAllowedApps() {
-        Set<String> toReturn = new HashSet<String>();
-        NeutralQuery bootstrapQuery = new NeutralQuery(0);
-        bootstrapQuery.addCriteria(new NeutralCriteria("allowed_for_all_edorgs", "=", true));
-        Iterable<Entity> bootstrapApps = repo.findAll("application", bootstrapQuery);
-
-        for (Entity currentApp : bootstrapApps) {
-            toReturn.add(currentApp.getEntityId());
-        }
-        return toReturn;
+    private boolean isAutoAuthorized(Entity app) {
+        Boolean value = (Boolean) app.getBody().get("authorized_for_all_edorgs");
+        return value != null && value.booleanValue();
     }
 
-
-    /**
-     * Looks up the user's LEA entity.
-     *
-     * Currently it returns a list of all LEAs the user might be associated with.
-     * In the case there's a hierarchy of LEAs, all are returned in no particular order.
-     *
-     * Don't expect this to work for hosted users (they'll end up resolving to everything).
-     *
-     * @param principal
-     * @return a list of accessible LEAs
-     */
-    private List<Entity> findUsersDistricts(SLIPrincipal principal) {
-        List<Entity> toReturn = new ArrayList<Entity>();
-
-        List<String> leaIds = helper.getDistricts(principal.getEntity());
-
-        NeutralQuery query = new NeutralQuery(0);
-        query.addCriteria(new NeutralCriteria("_id", "in", leaIds, false));
-        for (Entity entity : repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query)) {
-            toReturn.add(entity);
-        }
-
-        return toReturn;
+    private boolean isAdminVisible(Entity app) {
+        Boolean value = (Boolean) app.getBody().get("admin_visible");
+        return value != null && value.booleanValue();
     }
 
     /**
@@ -175,33 +111,23 @@ public class ApplicationAuthorizationValidator {
      * @return
      */
     public Set<String> getAuthorizingEdOrgsForApp(String clientId) {
-        
         //This is called before the SLIPrincipal has been set, so use TenantContext to get tenant rather than SLIPrincipal on SecurityContext
         Entity app = repo.findOne("application", new NeutralQuery(new NeutralCriteria("client_id", "=", clientId)));
+        
         if (isAuthorizedForAllEdorgs(app)) {
             debug("App {} is authorized for all edorgs", clientId);
             return null;
         }
-        NeutralQuery appAuthCollQuery = new NeutralQuery();
-        appAuthCollQuery.addCriteria(new NeutralCriteria("appIds", "=", app.getEntityId()));
-        appAuthCollQuery.addCriteria(new NeutralCriteria("authType", "=", "EDUCATION_ORGANIZATION"));
-        Set<String> leas = new HashSet<String>();
-        Iterable<Entity> authsContainingApp = repo.findAll("applicationAuthorization", appAuthCollQuery);
-        for (Entity ent : authsContainingApp) {
-            leas.add((String) ent.getBody().get("authId"));
+        
+        NeutralQuery appAuthCollQuery = new NeutralQuery(new NeutralCriteria("applicationId", "=", app.getEntityId()));
+        Entity authEntry = repo.findOne("applicationAuthorization", appAuthCollQuery);
+        if (authEntry != null) {
+            return new HashSet<String>((Collection) authEntry.getBody().get("edorgs"));
+        } else {
+            return new HashSet<String>();
         }
-        
-        leas.addAll(helper.getChildEdOrgs(leas));
-        
-        //Add SEAs
-        for (Entity ent : authsContainingApp) {
-            String edOrg = (String) ent.getBody().get("authId");
-            leas.addAll(helper.getParentEdOrgs(helper.byId(edOrg)));
-        }
-        
-        return leas;
     }
-    
+
     private boolean isAuthorizedForAllEdorgs(Entity app) {
         return app.getBody().get("authorized_for_all_edorgs") != null && (Boolean) app.getBody().get("authorized_for_all_edorgs");
     }

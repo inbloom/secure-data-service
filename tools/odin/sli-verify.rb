@@ -41,6 +41,8 @@ def where_stored(entity_type)
   case entity_type
   when "AssessmentItem"
     {collection: 'assessment', subdoc: ['body', 'assessmentItem']}
+  when "ObjectiveAssessment"
+    {collection: 'assessment', subdoc: ['body', 'objectiveAssessment']}
   when "AttendanceEvent"
     {collection: 'attendance', subdoc: ['body', 'schoolYearAttendance', :*, 'attendanceEvent']}
   when "GradebookEntry"
