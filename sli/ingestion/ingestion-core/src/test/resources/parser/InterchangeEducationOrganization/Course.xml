@@ -63,10 +63,10 @@
                 <ObjectiveGradeLevel>Grade 13</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
-        <CompetencyLevels id="ID029" ref="ID027">
+        <CompetencyLevels id="ID029">
             <CodeValue>icTge.ObfzE</CodeValue>
         </CompetencyLevels>
-        <CompetencyLevels id="ID031" ref="ID026">
+        <CompetencyLevels id="ID031">
             <CodeValue>jVU6</CodeValue>
         </CompetencyLevels>
         <UniqueCourseId>PzrfV22HUazk3GC87jI.v5mH-dB4KJ1UzGdFsVHAOH</UniqueCourseId>

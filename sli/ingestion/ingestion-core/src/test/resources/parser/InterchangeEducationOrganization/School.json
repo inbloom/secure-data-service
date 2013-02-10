@@ -320,7 +320,10 @@
   {
     "_value":"Title I targeted eligible school - no program"
   },
-  "MagnetSpecialProgramEmphasisSchool":"Some, but not all, students participate",
+  "MagnetSpecialProgramEmphasisSchool":
+  {
+    "_value":"Some, but not all, students participate"
+  },
   "AdministrativeFundingControl":
   {
     "_value":"Other"

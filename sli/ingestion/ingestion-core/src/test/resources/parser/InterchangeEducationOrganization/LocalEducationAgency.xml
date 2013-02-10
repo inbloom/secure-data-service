@@ -26,16 +26,17 @@
             <PostalCode>AZENutMWLUaGJcm</PostalCode>
             <NameOfCounty>ivUWL0Uy_Cb5EUlV3dD-SVQRxL</NameOfCounty>
             <CountyFIPSCode>B6ZF</CountyFIPSCode>
-            <AddressLine>q081uOtRqm0xqwRM2-fJ.7dNmL2nwFqa7F0JrwxKY3n2eSNxD.3</AddressLine>
-            <AddressLine>F3DdRKLD4uBqZtgxrzxvaot3-gnmA4wf6HBzkBy.sZqsHeL1lg5rS4yYk-nPN-sUV1wN.8LZs_SbHTRk_S-O</AddressLine>
-            <Country>NIGERIA</Country>
             <Latitude>wewFsTCeXdmO</Latitude>
             <Longitude>Rut.sG</Longitude>
             <BeginDate>2013-05-21</BeginDate>
             <EndDate>2014-08-23</EndDate>
+<!--            <AddressLine>q081uOtRqm0xqwRM2-fJ.7dNmL2nwFqa7F0JrwxKY3n2eSNxD.3</AddressLine>
+            <AddressLine>F3DdRKLD4uBqZtgxrzxvaot3-gnmA4wf6HBzkBy.sZqsHeL1lg5rS4yYk-nPN-sUV1wN.8LZs_SbHTRk_S-O</AddressLine>
+            <Country>NIGERIA</Country>
+-->
         </Address>
         <Address AddressType="Physical">
-            <StreetNumberName>svS7X5.4wAZoqCq9m1PC4NaYKrbl4cOZ</StreetNumberName>
+<!--            <StreetNumberName>svS7X5.4wAZoqCq9m1PC4NaYKrbl4cOZ</StreetNumberName>
             <ApartmentRoomSuiteNumber>uP7</ApartmentRoomSuiteNumber>
             <BuildingSiteNumber>WE</BuildingSiteNumber>
             <City>TRnht</City>
@@ -43,6 +44,7 @@
             <PostalCode>fKrUFt8etyZibWg</PostalCode>
             <NameOfCounty>OpnGVs5S0uCNc</NameOfCounty>
             <CountyFIPSCode>dM6</CountyFIPSCode>
+-->
             <AddressLine>ppu3</AddressLine>
             <AddressLine>Peoa</AddressLine>
             <Country>CZECH REPUBLIC</Country>
@@ -85,26 +87,28 @@
                 <ProgramId>Bz-9B</ProgramId>
             </ProgramIdentity>
         </ProgramReference>
-        <EducationOrganizationPeerReference id="ID009" ref="ID002">
+        <EducationOrganizationPeerReference id="ID009">
             <EducationalOrgIdentity>
                 <StateOrganizationId>EsWa64mMvob9p_.3oCE5GZWst3jkZTfcMCY4QGr6Lp60YB7</StateOrganizationId>
-                <EducationOrgIdentificationCode IdentificationSystem="SEA">
+<!--                <EducationOrgIdentificationCode IdentificationSystem="SEA">
                     <ID>NDUdsD8mMIWW52Ht1vCR_nCPIOVNStFbzr_9CqRFWik</ID>
                 </EducationOrgIdentificationCode>
                 <EducationOrgIdentificationCode IdentificationSystem="DUNS">
                     <ID>JpILHX</ID>
                 </EducationOrgIdentificationCode>
+-->
             </EducationalOrgIdentity>
         </EducationOrganizationPeerReference>
-        <EducationOrganizationPeerReference id="ID011" ref="ID004">
+        <EducationOrganizationPeerReference id="ID011">
             <EducationalOrgIdentity>
                 <StateOrganizationId>XOMCPz.bktXXN8HjtfNx7anX0HHi-z4NR5yBp7R8c1t</StateOrganizationId>
-                <EducationOrgIdentificationCode IdentificationSystem="LEA">
+<!-->                <EducationOrgIdentificationCode IdentificationSystem="LEA">
                     <ID>wQDR_Wz3Z24rR_</ID>
                 </EducationOrgIdentificationCode>
                 <EducationOrgIdentificationCode IdentificationSystem="School">
                     <ID>_IU3I1Wm</ID>
                 </EducationOrgIdentificationCode>
+-->
             </EducationalOrgIdentity>
         </EducationOrganizationPeerReference>
         <LEACategory>Charter</LEACategory>

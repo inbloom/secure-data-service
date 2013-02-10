@@ -29,31 +29,29 @@
     "_value":"General or regular"
   },
   "CourseLevelCharacteristics":
-  [
     {
       "CourseLevelCharacteristic":
-      {
-        "_value":"Magnet"
-      }
+      [
+        {
+          "_value":"Magnet"
+        },
+        {
+          "_value":"Magnet"
+        }
+      ]
     },
-    {
-      "CourseLevelCharacteristic":
-      {
-        "_value":"Magnet"
-      }
-    }
-  ],
   "GradesOffered":
   {
-      "GradeLevel":
+    "GradeLevel":
+    [
       {
         "_value":"Ungraded"
       },
-      "GradeLevel":
       {
         "_value":"Infant/toddler"
       }
-  },
+    ]
+   },
   "SubjectArea":
   {
     "_value":"Mathematics"
@@ -77,23 +75,20 @@
   },
   "MinimumAvailableCredit":
   {
-    "CreditType":
-    {
-      "_value":"Trimester hour credit"
-    },
-    "CreditConversion":-1.666253284473E9,
+    "@CreditType":"Trimester hour credit",
+    "@CreditConversion":-1.666253284473E9,
     "Credit":1.82501183679E9
   },
   "MaximumAvailableCredit":
   {
-    "CreditType":
-    {
-      "_value":"Carnegie unit"
-    },
-    "CreditConversion":2.125416277768E9,
+    "@CreditType":"Carnegie unit",
+    "@CreditConversion":2.125416277768E9,
     "Credit":1.12834168071E9
   },
-  "CareerPathway":"Arts, A/V Technology and Communications",
+  "CareerPathway":
+  {
+    "_value":"Arts, A/V Technology and Communications"
+  },
   "EducationOrganizationReference":
   {
     "EducationalOrgIdentity":

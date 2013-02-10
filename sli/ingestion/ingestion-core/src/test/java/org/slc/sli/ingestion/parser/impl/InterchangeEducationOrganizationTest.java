@@ -19,7 +19,6 @@ import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 
 import org.codehaus.jackson.map.ObjectMapper;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +50,6 @@ public class InterchangeEducationOrganizationTest {
         entityTestHelper(schema, inputXml, expectedJson);
     }
 
-    @Ignore
     @Test
     public void testCourse() throws Throwable {
         Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd");
@@ -61,7 +59,6 @@ public class InterchangeEducationOrganizationTest {
         entityTestHelper(schema, inputXml, expectedJson);
     }
 
-    @Ignore
     @Test
     public void testLocalEducationAgency() throws Throwable {
         Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd");
@@ -80,7 +77,6 @@ public class InterchangeEducationOrganizationTest {
         entityTestHelper(schema, inputXml, expectedJson);
     }
 
-    @Ignore
     @Test
     public void testSchool() throws Throwable {
         Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd");
@@ -90,7 +86,6 @@ public class InterchangeEducationOrganizationTest {
         entityTestHelper(schema, inputXml, expectedJson);
     }
 
-    @Ignore
     @Test
     public void testStateEducationAgency() throws Throwable {
         Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd");

@@ -73,15 +73,6 @@
       {
         "_value":"B6ZF"
       },
-      "AddressLine":
-      [
-        "q081uOtRqm0xqwRM2-fJ.7dNmL2nwFqa7F0JrwxKY3n2eSNxD.3",
-        "F3DdRKLD4uBqZtgxrzxvaot3-gnmA4wf6HBzkBy.sZqsHeL1lg5rS4yYk-nPN-sUV1wN.8LZs_SbHTRk_S-O"
-      ],
-      "Country":
-      {
-        "_value":"NIGERIA"
-      },
       "Latitude":
       {
         "_value":"wewFsTCeXdmO"
@@ -101,38 +92,6 @@
     },
     {
       "@AddressType":"Physical",
-      "StreetNumberName":
-      {
-        "_value":"svS7X5.4wAZoqCq9m1PC4NaYKrbl4cOZ"
-      },
-      "ApartmentRoomSuiteNumber":
-      {
-        "_value":"uP7"
-      },
-      "BuildingSiteNumber":
-      {
-        "_value":"WE"
-      },
-      "City":
-      {
-        "_value":"TRnht"
-      },
-      "StateAbbreviation":
-      {
-        "_value":"ME"
-      },
-      "PostalCode":
-      {
-        "_value":"fKrUFt8etyZibWg"
-      },
-      "NameOfCounty":
-      {
-        "_value":"OpnGVs5S0uCNc"
-      },
-      "CountyFIPSCode":
-      {
-        "_value":"dM6"
-      },
       "AddressLine":
       [
         "ppu3",
@@ -270,24 +229,7 @@
         "StateOrganizationId":
         {
           "_value":"EsWa64mMvob9p_.3oCE5GZWst3jkZTfcMCY4QGr6Lp60YB7"
-        },
-        "EducationOrgIdentificationCode":
-        [
-          {
-            "@IdentificationSystem":"SEA",
-            "ID":
-            {
-              "_value":"NDUdsD8mMIWW52Ht1vCR_nCPIOVNStFbzr_9CqRFWik"
-            }
-          },
-          {
-            "@IdentificationSystem":"DUNS",
-            "ID":
-            {
-              "_value":"JpILHX"
-            }
-          }
-        ]
+        }
       }
     },
     {
@@ -297,24 +239,7 @@
         "StateOrganizationId":
         {
           "_value":"XOMCPz.bktXXN8HjtfNx7anX0HHi-z4NR5yBp7R8c1t"
-        },
-        "EducationOrgIdentificationCode":
-        [
-          {
-            "@IdentificationSystem":"LEA",
-            "ID":
-            {
-              "_value":"wQDR_Wz3Z24rR_"
-            }
-          },
-          {
-            "@IdentificationSystem":"School",
-            "ID":
-            {
-              "_value":"_IU3I1Wm"
-            }
-          }
-        ]
+        }
       }
     }
   ],
