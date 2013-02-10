@@ -1279,7 +1279,7 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
   if found
     assert(true, "")
   else
-    assert(false, "Batch log did not complete either successfully or with errors within #{(i+1)*intervalTime} seconds. Test has timed out. Please check ingestion.log for root cause.")
+    assert(false, "Batch log did not complete either successfully or with errors within #{@maxTimeout} seconds. Test has timed out. Please check ingestion.log for root cause.")
   end
 
   @db = old_db
