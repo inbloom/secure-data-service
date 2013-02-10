@@ -26,16 +26,10 @@ class ApplicationAuthorizationsControllerTest < ActionController::TestCase
 
   test "should get index" do
     session[:roles] = ["LEA Administrator"]
+    session[:edOrgId] = "ID1"
     get :index
     assert_response :success
     assert_not_nil assigns(:application_authorizations)
-  end
-
-  test "should create application_authorization" do
-    session[:roles] = ["LEA Administrator"]
-    post :create, application_authorization: @appauth_fixtures['new_district']
-    #assert_redirected_to application_authorization_path(assigns(:application_authorization))
-    assert_redirected_to assigns(:application_authorization)
   end
 
   test "should fail if we are an operator" do
@@ -46,7 +40,9 @@ class ApplicationAuthorizationsControllerTest < ActionController::TestCase
 
   test "should update application_authorization" do
     session[:roles] = ["LEA Administrator"]
-    put :update, id: "1", application_authorization: @appauth_fixtures['district1']
+    session[:edOrgId] = "ID1"
+    #params[:application_authorization][:edorg] = "ID1"
+    put :update, id: "appId1", application_authorization: @appauth_fixtures['district1']
     assert_redirected_to application_authorizations_path
   end
 end

@@ -1228,7 +1228,7 @@ When /^a batch job has completed successfully in the database$/ do
      if found
        assert(true, "")
      else
-       assert(false, "Batch log was not created in ")
+       assert(false, "Either batch log was never created, or it took more than #{@maxTimeout} seconds")
      end
      @db = old_db
      enable_NOTABLESCAN()
@@ -1279,7 +1279,7 @@ When /^a batch job for file "([^"]*)" is completed in database$/ do |batch_file|
   if found
     assert(true, "")
   else
-    assert(false, "Batch log did not complete either successfully or with errors within #{(i+1)*intervalTime} seconds. Test has timed out. Please check ingestion.log for root cause.")
+    assert(false, "Batch log did not complete either successfully or with errors within #{@maxTimeout} seconds. Test has timed out. Please check ingestion.log for root cause.")
   end
 
   @db = old_db
