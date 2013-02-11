@@ -113,7 +113,8 @@ developer_email_imap_registration_pass: liferaywgen1234 #pass to access gmail in
 landingzone: pike-lz.slidev.org
 landingzone_port: 443
 
-tenant: RCTestTenant
+sandbox_tenant: testdevsb2.wgen@gmail.com
+tenant: RCTestTenantsandbox_tenant: testdevsb2.wgen@gmail.com
 edorg: STANDARD-SEA
 
 # IDP and Redirect Endpoint URL for Realm Management
