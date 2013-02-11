@@ -86,6 +86,7 @@ And the role attribute equals "Educator"
 When I make an API call to view a Student's data
 Then the Student restricted fields are not visible in the response
 
+@derp
 Scenario: Authorized SLI Default Educator trying to view Educator restricted field
 Given  I am valid SEA/LEA end user "cgray" with password "cgray1234"
 And I am authenticated on "IL"

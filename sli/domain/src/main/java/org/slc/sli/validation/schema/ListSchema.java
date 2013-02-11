@@ -25,15 +25,16 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
 import org.slc.sli.validation.schema.Annotation.AnnotationType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  *
@@ -48,6 +49,8 @@ public class ListSchema extends NeutralSchema {
 
     // Attributes
     private List<NeutralSchema> list = new LinkedList<NeutralSchema>();
+    
+    private static final Logger LOG = LoggerFactory.getLogger(ListSchema.class);
 
     // Constructors
     public ListSchema() {
@@ -92,6 +95,7 @@ public class ListSchema extends NeutralSchema {
     public void updateAnnotations() {
         AppInfo info = (AppInfo) getAnnotation(AnnotationType.APPINFO);
         if (info != null) {
+            LOG.debug("App info has read rights {} and write rights {}", info.getReadAuthorities(), info.getWriteAuthorities());
             for (NeutralSchema itemSchema : getList()) {
                 itemSchema.inheritAnnotations(info);
             }
@@ -202,10 +206,6 @@ public class ListSchema extends NeutralSchema {
 
     @Override
     protected Annotation getAnnotation(Annotation.AnnotationType type) {
-        Annotation annotation = super.getAnnotation(type);
-        if (annotation != null) {
-            return annotation;
-        }
         return list.get(0).getAnnotation(type);
     }
 

@@ -173,5 +173,8 @@ Then /^the Staff restricted fields are not visible in the response$/ do
   assert(result['yearsOfPriorTeachingExperience'] == nil, "Expected restricted staff field: yearsOfPriorTeachingExperience to be nil in response")
   assert(result['credentials'] == nil, "Expected restricted staff field: credentials to be nil in response")
   assert(result['loginId'] == nil, "Expected restricted staff field: loginId to be nil in response")
+  assert(result['staffUniqueStateId'] == nil, "Expected restricted staff field: staffUniqueStateId to be nil in response")
+  assert(result['staffIdentificationCode'] == nil, "Expected restricted staff field: staffIdentificationCode to be nil in response")
+
 end
 
