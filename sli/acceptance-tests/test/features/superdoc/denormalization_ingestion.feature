@@ -98,6 +98,9 @@ Feature: As an SLI platform, I want to denormalize data to super-docs correctly 
     And I should see "Processed 4270 records." in the resulting batch job file
     And I should see "All records processed successfully." in the resulting batch job file
     And I should not see an error log file created
+    # Reference should be inserted
+     When I look at "<INGESTED STUDENT ID>" in the "student"
+     Then I should find "<STUDENTASSESSMENT REFERENCE ID>" in "studentAssessment"
 
 @wip
   Scenario: Post new data and check if references are denormalized correctly to Super Docs

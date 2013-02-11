@@ -46,8 +46,13 @@ public class EmbeddedDocumentRelations {
         studentReferenceMap.put("studentId", "_id");
 
         // student section association de-normalization
-        denormalizationMap.put("studentSectionAssociation", new Denormalization("student", "section",
-                studentReferenceMap, "sectionId", Arrays.asList("endDate")));
+        denormalizationMap.put("studentSectionAssociation", new Denormalization("student", "section", studentReferenceMap,
+                "sectionId", Arrays.asList("endDate")));
+
+        //student assessment association de-normalization
+        denormalizationMap.put("studentAssessment", new Denormalization("student", "studentAssessment", studentReferenceMap,
+                "_id", Arrays.asList("administrationDate")));
+
         // Student--program
         denormalizationMap.put("studentProgramAssociation", new Denormalization("student", "program",
                 studentReferenceMap, "programId", Arrays.asList("endDate")));
@@ -71,7 +76,6 @@ public class EmbeddedDocumentRelations {
         DENORMALIZATIONS = Collections.unmodifiableMap(denormalizationMap);
 
         map.put("studentSectionAssociation", new Parent("section", "sectionId"));
-        map.put("studentAssessment", new Parent("student", "studentId"));
         map.put("studentCohortAssociation", new Parent("cohort", "cohortId"));
         map.put("gradebookEntry", new Parent("section", "sectionId"));
         map.put("teacherSectionAssociation", new Parent("section", "sectionId"));

@@ -37,7 +37,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
     | staffEducationOrgAssignmentAssociations | 2010-2011    | 1                   | 1                | b1c40ccc-b466-8f3b-b3c7-7e13c2bc4d5a                                           |
     | staffProgramAssociations                | 2009-2010    | 0                   | 0                |                                                                                |
 #    | studentAcademicRecords                  | 2010-2011    | 1                   | 0                |                                                                               |
-    | studentAssessments                      | 2011-2012    | 4                   | 2                | 5738c251-dd0b-4734-9ea6-417ac9320a15_ide5e13e61-01aa-066b-efe0-710f7a0e8755_id,5738d251-dd0b-4734-9ea6-417ac9320a15_ide5e13e61-01aa-066b-efe0-710f7a0e8755_id |
+    | studentAssessments                      | 2011-2012    | 4                   | 2                | e5e13e61-01aa-066b-efe0-710f7a0e8755_id,e5e13e61-01aa-066b-efe0-710f7a0e8755_id |
     | studentCohortAssociations               | 2009-2011    | 0                   | 0                |                                                                                |
     | studentCompetencies                     | 2010-2011    | 0                   | 0                |                                                                                |
     | studentDisciplineIncidentAssociations   | 2010-2011    | 0                   | 0                |                                                                                |
