@@ -12,8 +12,8 @@
 # Low cardinality collections
 # approved 10/30 by Tony/Billy
 adminDelegation,false,body.localEdOrgId:1,body.appApprovalEnabled:1
-applicationAuthorization,false,body.appIds:1
-applicationAuthorization,false,body.authId:1,body.authType:1
+applicationAuthorization,false,body.applicationId:1
+applicationAuthorization,false,body.edorgs:1
 customRole,false,body.realmId:1
 customRole,false,metaData.tenantId:1,body.realmId:1
 custom_entities,false,metaData.entityId:1,metaData.clientId:1
@@ -187,3 +187,5 @@ educationOrganization,false,body.organizationCategories:1
 
 # To make Accaptance Tests pass -- REMOVE THIS - DE2609
 educationOrganization,false,type:1,body.nameOfInstitution:1
+# To make acceptance tests pass -- REMOVE THIS -- DE2622
+staff,false,type:1

@@ -21,6 +21,17 @@ require 'securerandom'
 require 'rumbster'
 require 'message_observers'
 
+Before do
+  @entity_type_to_uri = {
+      "studentAssessment" => "studentAssessments",
+      "studentSchoolAssociation" => "studentSchoolAssociations",
+      "teacherSectionAssociation" => "teacherSectionAssociations",
+      "session" => "sessions",
+      "gradingPeriod" => "gradingPeriods",
+      "courseOffering" => "courseOfferings",
+      "course" => "courses"
+}
+end
 Given /^I am logged in using "([^\"]*)" "([^\"]*)" to realm "([^\"]*)"$/ do |user, pass, realm|
   @user = user
   @passwd = pass
