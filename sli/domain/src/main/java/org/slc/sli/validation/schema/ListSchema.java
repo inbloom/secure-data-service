@@ -25,16 +25,17 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.NeutralSchemaType;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
 import org.slc.sli.validation.schema.Annotation.AnnotationType;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
 
 /**
  *
@@ -49,7 +50,7 @@ public class ListSchema extends NeutralSchema {
 
     // Attributes
     private List<NeutralSchema> list = new LinkedList<NeutralSchema>();
-    
+
     private static final Logger LOG = LoggerFactory.getLogger(ListSchema.class);
 
     // Constructors
@@ -206,6 +207,18 @@ public class ListSchema extends NeutralSchema {
 
     @Override
     protected Annotation getAnnotation(Annotation.AnnotationType type) {
+        Annotation annotation = super.getAnnotation(type);
+        if (annotation != null) {
+            if (type.equals(Annotation.AnnotationType.APPINFO)) {
+                AppInfo current = (AppInfo) annotation;
+                for (NeutralSchema schema : getList()) {
+                    AppInfo info = schema.getAppInfo();
+                    current.inheritSecurityConcerns(info);
+                }
+            }
+            return annotation;
+        }
+
         return list.get(0).getAnnotation(type);
     }
 
