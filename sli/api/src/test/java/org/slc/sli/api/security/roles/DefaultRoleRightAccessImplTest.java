@@ -105,7 +105,7 @@ public class DefaultRoleRightAccessImplTest {
         }
         
         assertNotNull("Need default rights for Educator role", expectedRights);
-        Set<GrantedAuthority> roles = resolver.resolveRoles("MyTenant", realm.getEntityId(), Arrays.asList("Educator"), false);
+        Set<GrantedAuthority> roles = resolver.resolveRoles("MyTenant", realm.getEntityId(), Arrays.asList("Educator"), false, false);
         for (GrantedAuthority auth : roles) {
             assertTrue("Looking for " + auth.toString(), expectedRights.contains(auth.toString()));
         }
