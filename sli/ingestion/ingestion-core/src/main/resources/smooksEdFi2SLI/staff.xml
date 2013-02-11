@@ -13,16 +13,16 @@
 
   <core:filterSettings type="SAX" readerPoolSize="5" />
 
-  <jb:bean beanId="teachers" class="java.util.ArrayList" createOnElement="#document">
-      <jb:wiring beanIdRef="teacher" />
+  <jb:bean beanId="staffs" class="java.util.ArrayList" createOnElement="#document">
+      <jb:wiring beanIdRef="staff" />
   </jb:bean>
 
-  <jb:bean beanId="teacher" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
-    <jb:expression property="type">'teacher'</jb:expression>
-    <jb:wiring property="body" beanIdRef="teacherBody" />
+  <jb:bean beanId="staff" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+    <jb:expression property="type">'staff'</jb:expression>
+    <jb:wiring property="body" beanIdRef="staffBody" />
   </jb:bean>
 
-  <jb:bean beanId="teacherBody" class="java.util.HashMap" createOnElement="attributes">
+  <jb:bean beanId="staffBody" class="java.util.HashMap" createOnElement="attributes">
     <jb:value property="staffUniqueStateId" data="attributes StaffUniqueStateId _value" />
     <jb:wiring property="staffIdentificationCode" beanIdRef="StaffIdentificationCodes" />
     <jb:wiring property="name" beanIdRef="Name" />
@@ -120,7 +120,7 @@
     </jb:bean>
     <jb:bean beanId="Credential" class="java.util.HashMap" createOnElement="attributes Credentials element">
         <jb:value property="credentialType" data="attributes Credentials element CredentialType _value" />
-        <jb:value property="credentialField" data="attributes Credentials element CredentialField CodeValue _value" />
+        <jb:wiring property="credentialField" beanIdRef="CredentialField" />
         <jb:value property="level" data="attributes Credentials element Level _value" />
         <jb:value property="teachingCredentialType" data="attributes Credentials element TeachingCredentialType _value" />
         <jb:value property="credentialIssuanceDate" data="attributes Credentials element CredentialIssuanceDate _value" />
@@ -128,4 +128,8 @@
         <jb:value property="teachingCredentialBasis" data="attributes Credentials element TeachingCredentialBasis _value" />
     </jb:bean>
 
+    <jb:bean beanId="CredentialField" class="java.util.ArrayList"  createOnElement="attributes Race">
+        <jb:value data="attributes CredentialField CodeValue _value" />
+    </jb:bean>
+    
 </smooks-resource-list>

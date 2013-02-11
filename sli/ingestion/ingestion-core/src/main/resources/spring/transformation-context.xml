@@ -199,6 +199,19 @@
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/student.xml" />
       </bean>
     </entry>
+    
+    <entry key="staff">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/staff.xml" />
+      </bean>
+    </entry>
+    
+    <entry key="teacher">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/teacher.xml" />
+      </bean>
+    </entry>
+    
   </util:map>
 
   <bean id="didSchemaParser" class="org.slc.sli.ingestion.transformation.normalization.did.DidSchemaParser">
