@@ -35,7 +35,7 @@ end
 @log.info "--------------------------------------"
 
 host_port = ARGV[0].strip.split(":")
-mongodb   = Mongo::Connection.new(host_port[0], host_port[1].to_i, :pool_size => 10, :pool_timeout => 25, :safe => {:wtimeout => 500})
+mongodb   = Mongo::Connection.new(host_port[0], host_port[1].to_i, :pool_size => 10, :pool_timeout => 25)
 databases = mongodb.database_names
 databases.each do |database|
   # skip these databases --> won't have customRole collection
