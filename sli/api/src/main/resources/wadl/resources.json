@@ -46,7 +46,7 @@
       "path": "/courses",
       "queryable": true,
       "dateSearchDisallowed": true,
-      "doc": "Represents the organization of subject matter and related learning experiences provided for the instruction of students on a regular or systematic basis. This is similar to section except that a section is a specific instance of a course. For more information, see the schema for $$Course$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers and staff, this is /schools/{IDs}/courses. {IDs} represents a list of school or education organization IDs to which the teacher or staff is currently associated.",
+      "doc": "Represents the organization of subject matter and related learning experiences provided for the instruction of students on a regular or systematic basis. This is similar to section except that a section is a specific instance of a course. Caution: The course entity is public in the SLI API. Any metadata associated with a course can be viewed by anyone within the tenant to which the educationOrganization belongs. For more information, see the schema for $$Course$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers and staff, this is /schools/{IDs}/courses. {IDs} represents a list of school or education organization IDs to which the teacher or staff is currently associated.",
       "subResources": [
         { "path": "/{id}/courseOfferings", "dateSearchDisallowed": true },
         { "path": "/{id}/courseOfferings/sessions", "dateSearchDisallowed": true },
@@ -69,7 +69,7 @@
       {
           "path": "/gradingPeriods",
           "queryable": true,
-          "doc": "Represents the time span for which grades are reported. For detailed information, see the schema for $$GradingPeriod$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers or staff, this is /schools/{IDs}/sessions/gradingPeriods. {IDs} represents a list of the school or education organization IDs to which the teacher or staff is currently associated.",
+          "doc": "Represents the time span for which grades are reported. For detailed information, see the schema for $$GradingPeriod$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers or staff, this is /schools/{IDs}/sessions/gradingPeriods. {IDs} represents a list of the school or education organization IDs to which the teacher or staff is currently associated. Caution: The gradingPeriod entity is public in the SLI API. Any metadata associated with a gradingPeriod can be viewed by anyone within the tenant to which the educationOrganization belongs.",
           "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicDefaultResource",
           "subResources": [
               {
@@ -103,7 +103,7 @@
     {
       "path": "/sessions",
       "queryable": true,
-      "doc": "Represents the session resource. A session is the prescribed span of time when an education institution is open, instruction is provided, and students are under the direction and guidance of teachers and/or education institution administration. A session may be interrupted by one or more vacations. For detailed information, see the schema for $$Session$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers or staff, this is /educationOrganizations/{IDs}/sessions. {IDs} represents a list of the school or education organization IDs to which the teacher or staff is currently associated.",
+      "doc": "Represents the session resource. A session is the prescribed span of time when an education institution is open, instruction is provided, and students are under the direction and guidance of teachers and/or education institution administration. A session may be interrupted by one or more vacations. Caution: The session entity is public in the SLI API. Any metadata associated with a session can be viewed by anyone within the tenant to which the educationOrganization belongs. For detailed information, see the schema for $$Session$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers or staff, this is /educationOrganizations/{IDs}/sessions. {IDs} represents a list of the school or education organization IDs to which the teacher or staff is currently associated.",
       "subResources": [
         { "path": "/{id}/courseOfferings", "dateSearchDisallowed": true },
         { "path": "/{id}/courseOfferings/courses", "dateSearchDisallowed": true },
@@ -548,7 +548,7 @@
     {
       "path": "/courseOfferings",
         "queryable": true,
-        "doc": "Represents the course offering resource. A course offering represents the association of a $$Course$$ with a $$Session$$ during which the course is offered. For detailed information, see the schema for $$CourseOffering$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers or staff, this is /schools/{IDs}/courseOfferings. {IDs} represents a list of the school or education organization IDs to which the teacher or staff is currently associated.",
+        "doc": "Represents the course offering resource. A course offering represents the association of a $$Course$$ with a $$Session$$ during which the course is offered. Caution: The courseOffering entity is public in the SLI API. Any metadata associated with a courseOffering can be viewed by anyone within the tenant to which the educationOrganization belongs. For detailed information, see the schema for $$CourseOffering$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers or staff, this is /schools/{IDs}/courseOfferings. {IDs} represents a list of the school or education organization IDs to which the teacher or staff is currently associated.",
         "resourceClass": "org.slc.sli.api.resources.generic.custom.PublicDefaultResource",
         "subResources": [
             { "path": "/{id}/sessions", "dateSearchDisallowed": true },
