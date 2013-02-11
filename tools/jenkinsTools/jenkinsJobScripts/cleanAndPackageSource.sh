@@ -1,8 +1,5 @@
 #!/bin/bash
 
-WORKSPACE=~/dev/sli
-echo $WORKSPACE
-
 cd $WORKSPACE
 branchname=`git rev-parse --symbolic-full-name --abbrev-ref HEAD`
 head_commit=`git rev-parse HEAD`
