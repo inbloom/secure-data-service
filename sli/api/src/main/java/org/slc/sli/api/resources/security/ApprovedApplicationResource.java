@@ -84,21 +84,19 @@ public class ApprovedApplicationResource {
     @GET
     @RightsAllowed(any = true)
     public Response getApplications(@DefaultValue("") @QueryParam("is_admin") String adminFilter) {
-        List<String> allowedApps = getAllowedAppIds();
         List<EntityBody> results = new ArrayList<EntityBody>();
 
         NeutralQuery query = new NeutralQuery(0);
-        query.addCriteria(new NeutralCriteria("_id", "in", allowedApps, false));
 
         for (Entity result : repo.findAll("application", query)) {
-
-            EntityBody body = new EntityBody(result.getBody());
-            if (!shouldFilterApp(body, adminFilter)) {
-
-                filterAttributes(body);
-                results.add(body);
+            if (appValidator.isAuthorizedForApp(result, SecurityUtil.getSLIPrincipal())) {
+                EntityBody body = new EntityBody(result.getBody());
+                if (!shouldFilterApp(body, adminFilter)) {
+    
+                    filterAttributes(body);
+                    results.add(body);
+                }
             }
-
         }
         return Response.status(Status.OK).entity(results).build();
     }
@@ -187,18 +185,6 @@ public class ApprovedApplicationResource {
         }
     }
 
-    private List<String> getAllowedAppIds() {
-        SLIPrincipal principal = null;
-        SecurityContext context = SecurityContextHolder.getContext();
-        if (context.getAuthentication() != null) {
-            principal = (SLIPrincipal) context.getAuthentication().getPrincipal();
-        }
-        if (principal == null) {
-            throw new InsufficientAuthenticationException("Application list is a protected resource.");
-        }
-        List<String> toReturn = appValidator.getAuthorizedApps(principal);
-        return toReturn;
-    }
 
     /**
      * Filters out attributes we don't want ordinary users to see.

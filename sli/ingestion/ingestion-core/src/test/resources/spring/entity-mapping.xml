@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:util="http://www.springframework.org/schema/util" xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+  xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/util http://www.spriorg.slc.sli.validationngframework.org/schema/util/spring-util.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
+    http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd"
+    >
+
+
+  <import resource="recordLvlHash-context.xml" />
+  <import resource="classpath:/spring/validation.xml" />
+  
+  <context:annotation-config />
+
+  <bean id="neutralSchemaRepositoryProvider" class="org.slc.sli.validation.NeutralSchemaRepositoryProvider" />
+  <bean id="validator" class="org.slc.sli.validation.schema.NeutralSchemaValidator" />
+  <bean id="selfReferenceValidator" class="org.slc.sli.validation.SelfReferenceValidator" />
+    <bean id="selfReferenceExtractor" class="org.slc.sli.validation.SelfReferenceExtractor" />
+  <bean id="schemaFactory" class="org.slc.sli.validation.NeutralSchemaFactory" />
+  <bean id="repo" class="org.slc.sli.validation.utils.XsdToNeutralSchemaRepo" />
+  <bean id="entityRepository"  name="validationRepo" class="org.slc.sli.validation.DummyEntityRepository">
+    <constructor-arg><value>true</value></constructor-arg>
+  </bean>
+  <bean id="simpleEntityRepository" name="simpleValidationRepo" class="org.slc.sli.dal.repository.SimpleEntityRepository">
+  </bean>
+  <bean class="org.slc.sli.ingestion.transformation.DummyNaturalKeyExtractor"/>
+  <bean class="org.slc.sli.common.util.uuid.ShardType1UUIDGeneratorStrategy"/>
+
+  <bean id="deterministicUUIDGeneratorStrategy" class="org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy"/>
+
+  <bean id="didSchemaParser" class="org.slc.sli.ingestion.transformation.normalization.did.DidSchemaParser">
+    <property name="xsdLocation" value="classpath:edfiXsd/Ed-Fi-Core.xsd" />
+    <property name="extensionXsdLocation" value="classpath:edfiXsd-SLI/SLI-Ed-Fi-Core.xsd" />
+    <property name="xsdParentLocation" value="classpath:edfiXsd" />
+    <property name="extensionXsdParentLocation" value="classpath:edfiXsd-SLI" />
+  </bean>
+  
+  <bean id="deterministicIdResolver" class="org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver">
+  	<property name="didSchemaParser" ref="didSchemaParser" />
+  </bean>
+
+  <bean id="didEntityConfigReader" class="org.slc.sli.ingestion.transformation.normalization.did.DidEntityConfigReader">
+    <property name="searchPath" value="classpath:smooksEdFi2SLI/didEntityConfig/" />
+  </bean>
+
+</beans>

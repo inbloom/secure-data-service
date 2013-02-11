@@ -17,15 +17,8 @@
 				</xs:appinfo>
 			</xs:annotation>
             <xs:sequence>
-                <xs:element name="authType" minOccurs="1">
-                    <xs:simpleType>
-                        <xs:restriction base="xs:string">
-                            <xs:enumeration value="EDUCATION_ORGANIZATION"/>
-                        </xs:restriction>
-                    </xs:simpleType>
-                </xs:element>
-                <xs:element name="authId" type="xs:string" minOccurs="1"/>
-                <xs:element name="appIds" minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="applicationId" type="xs:string" minOccurs="1"/>
+                <xs:element name="edorgs" minOccurs="0" maxOccurs="unbounded">
                     <xs:simpleType>
                         <xs:restriction base="xs:string"/>
                     </xs:simpleType>

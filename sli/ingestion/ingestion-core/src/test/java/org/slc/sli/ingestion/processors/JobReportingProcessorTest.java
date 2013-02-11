@@ -63,7 +63,7 @@ import org.slc.sli.ingestion.util.BatchJobUtils;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
+@ContextConfiguration(locations = { "/spring/processor-test.xml" })
 public class JobReportingProcessorTest {
 
     private static final String TEMP_DIR = "tmp/";

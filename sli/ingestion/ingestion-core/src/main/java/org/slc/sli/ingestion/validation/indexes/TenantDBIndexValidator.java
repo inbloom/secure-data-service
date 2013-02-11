@@ -54,7 +54,10 @@ public class TenantDBIndexValidator extends DbIndexValidator {
     @Override
     public boolean isValid(DB db, AbstractMessageReport report, ReportStats reportStats, Source source) {
         List<String> tenantDbs = tenantDA.getAllTenantDbs();
+        return isValid(db, tenantDbs, report, reportStats, source);
+    }
 
+    public boolean isValid(DB db, List<String> tenantDbs, AbstractMessageReport report, ReportStats reportStats, Source source) {
         boolean isValid = true;
         Set<MongoIndex> expectedIndexes = loadExpectedIndexes();
 

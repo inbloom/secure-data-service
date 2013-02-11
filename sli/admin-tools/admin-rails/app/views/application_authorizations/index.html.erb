@@ -2,34 +2,67 @@
 <h6>Allow applications to access the platform</h6>
 
 <!-- application_authorizations -->
-
-<% names = @application_authorizations.map{|auth| auth.authId} %>
 <p id="notice"><%=
-    if notice != nil and names.member?(notice)
+    if notice != nil
         "Application was successfully updated"
     elsif notice != nil
       notice
     end
 %></p>
 
-
-<% if @application_authorizations.length == 0 %>
+<% if @edorgs.length == 0 %>
     <h3 id='notApprovedStatus'>You are not authorized to make application authorizations</h3>
 <% else %>
     <h3>Please approve inBloom applications to access the district's data</h3>
 <% end %>
-<% if @application_authorizations.length > 1 %>
+<% if @edorgs.length > 1 %>
     <select id="districtSelection">
-        <% names.each do |cur| %>
-            <option value="<%= cur %>" <%= "selected='selected'" if notice == cur %>><%= @edorgs[cur] %></option>
+        <% @edorgs.each do |cur| %>
+            <option value="<%= cur %>" <%= "selected='selected'" if notice == cur %>><%= EducationOrganization.find(cur).nameOfInstitution %></option>
         <% end %>
     </select>
 <% end %>
 
 
-<% @application_authorizations.each do |application_authorization| %>
-    <% @application_authorization = application_authorization %>
-    <%= render 'form' %>
+<% @edorgs.each do |edorg| %>
+<h1>District - <%= EducationOrganization.find(edorg).nameOfInstitution %></h1>
+<table id="AuthorizedAppsTable_<%= edorg  %>" class="AuthorizedAppsTable table">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Version</th>
+    <th>Vendor</th>
+    <th>Status</th>
+    <th> </th>
+  </tr>
+  </thead>
+  <tbody>
+    <% 
+     @application_authorizations[edorg].sort!{|a,b| 
+       appA = @apps_map[a.appId]
+       appB = @apps_map[b.appId]
+       if a.authorized && !b.authorized
+         -1 #Authorized on top
+       elsif !a.authorized && b.authorized
+         1 
+       elsif (appA == nil && appB != nil)
+         -1
+       elsif (appA != nil && appB == nil)
+         1
+       elsif (appA == nil && appB == nil)
+         0
+       else
+         appA.name <=> appB.name
+       end
+     }
+    %>
+    <% @application_authorizations[edorg].each do |app_auth| %>
+    <% @cur_edorg = edorg %>
+    <% @app_auth = app_auth
+       next if @apps_map[app_auth.appId] == nil
+    %>
+    <%= render 'form'%>
+  <% end %>
 <% end %>
 <script type="text/javascript" charset="utf-8">
     $("select").change(function(){

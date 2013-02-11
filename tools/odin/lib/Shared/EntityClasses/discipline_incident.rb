@@ -75,12 +75,12 @@ class DisciplineIncident < BaseEntity
   attr_accessor :index
 
   def initialize(id, section_id, school, staff, interval, location, behaviors = nil)
-    random      = Random.new(id + section_id * 10)
+    @rand      = Random.new(id + section_id * 10)
     eight_hours = 8 * 60 * 60
     
     @incident_identifier = DisciplineIncident.gen_id(id, section_id)
-    @date                = interval.random_day(random)
-    @time                = (@date.to_time + eight_hours + random.rand(eight_hours)).strftime("%H:%M:%S")
+    @date                = interval.random_day(@rand)
+    @time                = (@date.to_time + eight_hours + @rand.rand(eight_hours)).strftime("%H:%M:%S")
     @location            = location
     @behaviors           = behaviors || [DisciplineIncident.gen_behavior(id, section_id)]
     @school_id           = school
@@ -88,22 +88,26 @@ class DisciplineIncident < BaseEntity
     reporters      = ReporterDescriptionType.all
     weapons        = WeaponItemType.all
     behavior_types = BehaviourCategoryType.all
-    reporter       = DataUtility.select_random_from_options(random, reporters)
-    weapon         = DataUtility.select_random_from_options(random, weapons)
+    reporter       = DataUtility.select_random_from_options(@rand, reporters)
+    weapon         = DataUtility.select_random_from_options(@rand, weapons)
 
-    @reporter_desc       = reporter.value
-    @reporter_name       = "Reported " + @reporter_desc + " Name"
-    @sec_behaviors       = [] 
-    @behaviors.each do |behavior| 
-      behavior_type  = DataUtility.select_random_from_options(random, behavior_types)
-      @sec_behaviors << {:sec_behavior => "S" + behavior, :type => behavior_type.value}
-    end
-    @weapons             = [weapon.value]
-    @reported            = random.rand < 0.50
-    @case_number         = "case-#{@incident_identifier}" if @reported == true
-    @reported            = "true"  if @reported == true
-    @reported            = "false" if @reported == false
-    @staff_id            = staff
+    optional { @reporter_desc = reporter.value }
+    optional { @reporter_name = "Reported " + @reporter_desc + " Name" }
+    optional { 
+      @sec_behaviors = [] 
+      @behaviors.each do |behavior| 
+        behavior_type  = DataUtility.select_random_from_options(@rand, behavior_types)
+        @sec_behaviors << {:sec_behavior => "S" + behavior, :type => behavior_type.value}
+      end
+    }
+    optional { @weapons    = [weapon.value] }
+    optional { 
+      @reported            = @rand.rand < 0.50
+      @case_number         = "case-#{@incident_identifier}" if @reported == true
+      @reported            = "true"  if @reported == true
+      @reported            = "false" if @reported == false
+    }
+    optional { @staff_id            = staff }
 
     @index = DisciplineIncident.gen_index(id, section_id)
   end

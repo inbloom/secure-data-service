@@ -15,21 +15,26 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 =end
+
 require_relative 'baseEntity.rb'
+require_relative 'enum/AcademicSubjectType'
+require_relative 'enum/GradeLevelType'
 
 # creates course
 class Course < BaseEntity
 
   attr_accessor :id, :grade, :title, :edOrg, :course_level, :grades_offered, :subject_area,
   :description, :gpa_appl, :defined_by, :career_path, :learning_objectives, :competency_levels
+
   def initialize(id, grade, title, edOrg)
     @rand = Random.new(id)
     @id = id
     @grade = grade
     @title = title
     @edOrg = edOrg
-    if optional?
-      @course_level = {:level => choose([
+    
+    # optional field support
+    optional {@course_level = {:level => choose([
         "Basic or remedial",
         "Enriched or advanced",
         "General or regular",
@@ -44,39 +49,45 @@ class Course < BaseEntity
         "General",
         "Other"
         ])}
+    }
 
-      @grades_offered = grade
+    optional { @grades_offered = grade }
 
-      @subject_area = AcademicSubjectType.to_string(choose(AcademicSubjectType.get_academic_subjects(GradeLevelType.get_key(grade))))
+    optional { @subject_area = AcademicSubjectType.to_string(choose(AcademicSubjectType.get_academic_subjects(GradeLevelType.get_key(grade)))) }
 
-      @description = ("this is a course for " + grade)
+    optional { @description = ("this is a course for " + grade) }
 
-      @gpa_appl = choose([
+    optional { @gpa_appl = choose([
         "Applicable",
         "Not Applicable",
         "Weighted"
       ])
+    }
 
-      @defined_by = choose([
+    optional { @defined_by = choose([
         "LEA",
         "National Organization",
         "SEA",
         "School"
       ])
+    }
 
-      @career_path = choose([
+    optional { @career_path = choose([
         "Arts, A/V Technology and Communications",
         "Education and Training",
         "Science, Technology, Engineering and Mathematics"
       ])
+    }
 
+    optional {
       num_objectives = (@@scenario["NUM_LEARNING_OBJECTIVES_PER_SUBJECT_AND_GRADE"] or 2)
-
-      @learning_objectives = LearningObjective.build_learning_objectives(num_objectives, @subject_area, grade)
-
+      @learning_objectives = LearningObjective.build_learning_objectives(num_objectives, AcademicSubjectType.to_symbol(@subject_area), GradeLevelType.to_symbol(grade))
+    }
+ 
+    optional {
       @competency_levels = (@@scenario["COMPETENCY_LEVEL_DESCRIPTORS"] or []).collect{|competency_level_descriptor| competency_level_descriptor['code_value']}
       @competency_levels = [1, 2, 3] if @competency_levels.empty?
-    end
+    }
+  
   end
-
 end

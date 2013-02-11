@@ -1315,41 +1315,111 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </Program>
   <LocalEducationAgency>
     <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
-    <NameOfInstitution>School District IL-DAYBREAK</NameOfInstitution>
+    <NameOfInstitution>IL-DAYBREAK School District</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>Local Education Agency</OrganizationCategory>
     </OrganizationCategories>
     <Address>
-      <StreetNumberName>123 Street</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>00000</PostalCode>
+      <StreetNumberName>827 Braeburn Lane</StreetNumberName>
+      <City>New York</City>
+      <StateAbbreviation>NY</StateAbbreviation>
+      <PostalCode>10292</PostalCode>
     </Address>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>50</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>51</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>52</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>53</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>54</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>55</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>56</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>57</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>58</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>59</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
     <LEACategory>Independent</LEACategory>
-    <StateEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </StateEducationAgencyReference>
   </LocalEducationAgency>
   <LocalEducationAgency>
     <StateOrganizationId>5</StateOrganizationId>
-    <NameOfInstitution>School District 5</NameOfInstitution>
+    <NameOfInstitution>5 School District</NameOfInstitution>
     <OrganizationCategories>
       <OrganizationCategory>Local Education Agency</OrganizationCategory>
     </OrganizationCategories>
     <Address>
-      <StreetNumberName>123 Street</StreetNumberName>
-      <City>Chicago</City>
-      <StateAbbreviation>IL</StateAbbreviation>
-      <PostalCode>00000</PostalCode>
+      <StreetNumberName>867 Braeburn Lane</StreetNumberName>
+      <City>New York</City>
+      <StateAbbreviation>NY</StateAbbreviation>
+      <PostalCode>10292</PostalCode>
     </Address>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>60</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>61</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>62</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>63</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>64</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>65</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
     <LEACategory>Independent</LEACategory>
-    <StateEducationAgencyReference>
-      <EducationalOrgIdentity>
-        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
-      </EducationalOrgIdentity>
-    </StateEducationAgencyReference>
   </LocalEducationAgency>
   <School>
     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
@@ -1456,22 +1526,14 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </School>
   <CompetencyLevelDescriptor>
       <CodeValue>Incompetent</CodeValue>
-      <Description>Student does not understand anything</Description>
-      <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
   </CompetencyLevelDescriptor>
   <CompetencyLevelDescriptor>
       <CodeValue>Barely Competent</CodeValue>
-      <Description>Student understands some basic</Description>
-      <PerformanceBaseConversion>Basic</PerformanceBaseConversion>
   </CompetencyLevelDescriptor>
   <CompetencyLevelDescriptor>
       <CodeValue>Competent</CodeValue>
-      <Description>Student understands basic and some intermediate material</Description>
-      <PerformanceBaseConversion>Proficient</PerformanceBaseConversion>
   </CompetencyLevelDescriptor>
   <CompetencyLevelDescriptor>
       <CodeValue>Very Competent</CodeValue>
-      <Description>Student understands everything in subject</Description>
-      <PerformanceBaseConversion>Advanced</PerformanceBaseConversion>
   </CompetencyLevelDescriptor>
 </InterchangeEducationOrganization>

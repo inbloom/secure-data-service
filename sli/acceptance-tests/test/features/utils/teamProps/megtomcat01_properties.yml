@@ -61,7 +61,7 @@ ldap_admin_pass: Y;Gtf@w{
 
 user_registration_app_production_url: "http://megtomcat01.slidev.org:3001"
 user_registration_app_sandbox_url: "http://megtomcat01.slidev.org:3001"
-user_registration_app_host_url: "slcedu.org"
+user_registration_app_host_url: "inbloom.org"
 sb_get_started: "dev.slcedu.org/getting-started"
 registration_app_suffix: "/registration"
 samt_app_suffix: "/users"

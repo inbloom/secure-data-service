@@ -38,9 +38,7 @@ class DateUtility
 
   # generates a random date on the specified interval (inclusive of the specified dates)
   def self.random_date_on_interval(random, date1, date2 = date1)
-    if date1 > date2
-      raise(ArgumentError, ":date1 must be before :date2") if date1 > date2
-    end
+    raise(ArgumentError, ":date1 must be before :date2") if date1 > date2
     dates = Array.new((date1..date2).step(1).to_a)
     dates[random.rand(dates.size) - 1]
   end
@@ -50,25 +48,25 @@ class DateUtility
   	raise(ArgumentError, ":date1 must be before :date2") if date1 > date2
 
   	if date1 == date2
-      raise(ArgumentError, ":dates must not fall on a weekend") if date1.wday == 0 or date1.wday == 6
+      raise(ArgumentError, ":dates must not fall on a weekend") if is_weekend_day(date1)
   	  return date1
   	end
 
   	random_date = random_date_on_interval(random, date1, date2)
 
-  	if DateUtility.is_saturday(random_date) or DateUtility.is_sunday(random_date)
+  	if is_saturday(random_date) or is_sunday(random_date)
   	  if random_date == date2
   	  	# move date backward
   	  	random_date = random_date - 1 until ((random_date.wday + 7) % 7) == 5 or random_date == date1
 
-  	  	if DateUtility.is_saturday(random_date) or DateUtility.is_sunday(random_date)
+  	  	if is_saturday(random_date) or is_sunday(random_date)
   	  	  random_date = random_date + 1 until ((random_date.wday + 7) % 7) == 1 or random_date == date1
   	  	end
   	  else
   	  	# move date forward
   	  	random_date = random_date + 1 until ((random_date.wday + 7) % 7) == 1 or random_date == date2
 
-  	  	if DateUtility.is_saturday(random_date) or DateUtility.is_sunday(random_date)
+  	  	if is_saturday(random_date) or is_sunday(random_date)
   	  	  random_date = random_date - 1 until ((random_date.wday + 7) % 7) == 5 or random_date == date1
   	  	end
   	  end

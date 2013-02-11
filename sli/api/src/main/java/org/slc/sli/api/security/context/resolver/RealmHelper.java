@@ -76,38 +76,6 @@ public class RealmHelper {
 		return realm.getEntityId();
 	}
 
-	public String getRealmEdOrgId(String realmId) {
-		NeutralQuery realmQuery = new NeutralQuery();
-		realmQuery.addCriteria(new NeutralCriteria("_id",
-				NeutralCriteria.OPERATOR_EQUAL, realmId));
-		Entity realmEntity = repo.findOne("realm", realmQuery);
-		if (realmEntity != null) {
-			Map<String, Object> body = realmEntity.getBody();
-			if (body != null) {
-				String stateOrgId = (String) body.get("edOrg");
-				String tenantId = (String) body.get("tenantId");
-				if (stateOrgId != null && tenantId != null) {
-					return getEdOrgIdFromTenantDB(tenantId, stateOrgId);
-				}
-			}
-		}
-		return null;
-	}
-
-	public String getRealmEdOrg(String realmId) {
-		NeutralQuery realmQuery = new NeutralQuery();
-		realmQuery.addCriteria(new NeutralCriteria("_id",
-				NeutralCriteria.OPERATOR_EQUAL, realmId));
-		Entity realmEntity = repo.findOne("realm", realmQuery);
-		if (realmEntity != null) {
-			Map<String, Object> body = realmEntity.getBody();
-			if (body != null) {
-				return (String) body.get("edOrg");
-			}
-		}
-		return null;
-	}
-
 	public String getEdOrgIdFromTenantDB(String tenantId, String stateOrgId) {
 		NeutralQuery edOrgIdQuery = new NeutralQuery();
 		edOrgIdQuery.addCriteria(new NeutralCriteria("stateOrganizationId",
@@ -142,7 +110,7 @@ public class RealmHelper {
 				Map<String, Object> principal = (Map<String, Object>) body
 						.get("principal");
 				realmId = (String) principal.get("realm");
-				
+
 				NeutralQuery realmQuery = new NeutralQuery();
 				realmQuery.addCriteria(new NeutralCriteria("_id",
 						NeutralCriteria.OPERATOR_EQUAL, realmId));
@@ -176,9 +144,9 @@ public class RealmHelper {
 	/**
 	 * If the edorg is directly associated with a realm, return that realm's
 	 * entity.
-	 * 
+	 *
 	 * Otherwise return null.
-	 * 
+	 *
 	 * @param edOrg
 	 * @return
 	 */
@@ -193,19 +161,19 @@ public class RealmHelper {
 
 	/**
 	 * Determine if the user is allowed to login to the specified realm.
-	 * 
+	 *
 	 * The rules are as follows: If the user is associated with an edorg, and
 	 * that edorg is directly associated with a realm, then the user is only
 	 * allowed to login to that realm.
-	 * 
+	 *
 	 * If the user isn't directly associated with any realm, we look at their
 	 * parent edorgs, and the first one of those that has a valid realm
 	 * associated is the realm they have to log into.
-	 * 
+	 *
 	 * If the user doesn't have any parent edorgs, i.e. is an SEA, then we go
 	 * one level down to the LEAs directly under the SEA. If any of those has a
 	 * realm that the user logged in through, it's valid.
-	 * 
+	 *
 	 * @param userEntity
 	 * @param realm
 	 * @param tenantId
@@ -280,12 +248,12 @@ public class RealmHelper {
 
 	/**
 	 * Get the IDs of the realms the user is associated with.
-	 * 
+	 *
 	 * In the case of sandbox, this is always the sandbox realm. If it's
 	 * production and the user is an admin user, this is the realm they can
 	 * administer, not the realm they logged into.
-	 * 
-	 * 
+	 *
+	 *
 	 * @return the realm's mongo id, or null if a realm doesn't exist.
 	 */
 	public Set<String> getAssociatedRealmIds() {

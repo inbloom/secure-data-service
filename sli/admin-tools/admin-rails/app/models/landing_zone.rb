@@ -122,10 +122,13 @@ class LandingZone
 
 
     begin
-      if sample_data_select !=nil && isDuplicate == false
-        ApplicationMailer.auto_provision_email(user_info[:emailAddress], user_info[:first], SAMPLE_DATA_SET_TO_LOGIN_USER[sample_data_select]).deliver
-      elsif sample_data_select == nil
-        ApplicationMailer.provision_email(user_info[:emailAddress], user_info[:first], @server, edorg_id).deliver
+      # don't send an email if it's a duplicate.
+      if (isDuplicate == false)
+        if sample_data_select !=nil
+          ApplicationMailer.auto_provision_email(user_info[:emailAddress], user_info[:first], SAMPLE_DATA_SET_TO_LOGIN_USER[sample_data_select]).deliver
+        elsif sample_data_select == nil
+          ApplicationMailer.provision_email(user_info[:emailAddress], user_info[:first], @server, edorg_id).deliver
+        end
       end
     rescue => e
       Rails.logger.error e.message

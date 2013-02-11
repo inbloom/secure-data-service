@@ -223,7 +223,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "schoolYear" => "2011-2012",
     "term" => "Spring Semester",
     "beginDate" => "2012-01-01",
-    "endDate" => "2012-06-31",
+    "endDate" => "2012-06-30",
     "totalInstructionalDays" => 80,
     "gradingPeriodReference" => ["b40a7eb5-dd74-4666-a5b9-5c3f4425f130"],
     "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe"
@@ -541,4 +541,36 @@ And /^field "(.*?)" is removed from the json document$/ do |arg1|
   puts @fields.inspect 
   @fields.delete "beginDate" 
   puts @fields.inspect 
+end
+
+Then /^I should see all entities$/ do
+  jsonResult = JSON.parse(@res.body)
+  apiSet = Set.new
+  dbSet = Set.new
+  currentEntity = @entity_type_to_uri.key(@entityUri)
+
+  #Get entity ids from the api call
+  jsonResult.each do |data|
+    apiSet.add(data["id"])
+  end
+
+  #Get entity ids from the database
+  @conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
+  @db = @conn.db(convertTenantIdToDbName("Midgar"))
+  @coll = @db[currentEntity]
+
+  @coll.find.each do |doc|
+    dbSet.add(doc["_id"])
+  end
+
+  @conn.close
+  diffSet = dbSet.difference(apiSet)
+
+  #difference should be 0 between two non-empty sets of entity ids
+  assert(apiSet.empty? == false, "Api returned 0 entities of type #{currentEntity}.")
+  assert(dbSet.empty? == false, "No entities of type #{currentEntity} found in the database.")
+  assert(diffSet.empty?, "Did not receive the expected entities:
+    \n Number of expected (api) entities: #{apiSet.size}
+    \n Number of actual (database) entities: #{dbSet.size}
+    \n Outstanding entities: #{diffSet.inspect}")
 end

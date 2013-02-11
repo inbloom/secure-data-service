@@ -5,7 +5,7 @@ Scenario:  Data Extraction
 Given I import into tenant collection
 Given I send a command to start the extractor to extract "Midgar" now
 Given I send a command to start the extractor to extract "Hyrule" now
-Given Indexer should have "111" entities
+Given Indexer should have "159" entities
 And I flush the Indexer
 And I search in Elastic Search for "matt" in tenant "Midgar"
 And "1" hit is returned
@@ -17,4 +17,4 @@ And I see the following fields:
  |_source.name.lastSurname  |Sollars                                  |
  |_source.name.middleName   |D                                        |
 And I search in Elastic Search for "PSAT%20Mathematics" in tenant "Midgar"
-And "5" hit is returned
+And "8" hit is returned

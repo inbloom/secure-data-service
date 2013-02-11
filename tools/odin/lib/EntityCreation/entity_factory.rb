@@ -39,7 +39,7 @@ class EntityFactory
           rval << StateEducationAgency.new(@prnd, work_order[:id], work_order[:programs])
 
         when [LocalEducationAgency]
-          rval << LocalEducationAgency.new(@prnd, work_order[:id], work_order[:parent], work_order[:programs])
+          rval << LocalEducationAgency.new(work_order[:id], work_order[:parent], work_order[:programs], work_order[:years])
 
         when [School]
           rval << School.new(work_order[:id], work_order[:parent], work_order[:classification], work_order[:programs])
@@ -85,7 +85,7 @@ class EntityFactory
           rval << TeacherSectionAssociation.new(work_order[:teacher], work_order[:section], work_order[:school], work_order[:position])
 
         when [GradebookEntry]
-          rval << GradebookEntry.new(work_order[:gbe_type], work_order[:date_assigned], work_order[:section])
+          rval << GradebookEntry.new(work_order[:gbe_type], work_order[:date_assigned], work_order[:section], work_order[:description], work_order[:grading_period],  work_order[:learning_objectives])
 
         else
           puts "factory not found for #{work_order}"
