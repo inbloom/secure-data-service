@@ -17,22 +17,23 @@
   "Nomenclature":{"_value":"J"},
   "AssessmentItemReference":[{
     "@id":"ID005",
-    "@ref":"ID002"},
-    "LearningObjectiveReference":{
-    "LearningObjectiveIdentity":{
-      "Objective":{"_value":"piv"},
-      "AcademicSubject":{"_value":"Communication and Audio/Visual Technology"},
-      "ObjectiveGradeLevel":{"_value":"Preschool/Prekindergarten"}
-    }
+    "@ref":"ID002"
   }],
-  "LearningStandardReference":{
+  "LearningObjectiveReference":[{
+      "LearningObjectiveIdentity":{
+        "Objective":{"_value":"piv"},
+        "AcademicSubject":{"_value":"Communication and Audio/Visual Technology"},
+        "ObjectiveGradeLevel":{"_value":"Preschool/Prekindergarten"}
+      }
+  }],
+  "LearningStandardReference":[{
     "LearningStandardIdentity":{
       "IdentificationCode":{"_value":"HTDJdlX-7HbFcSUxFiBPLj6iODRUFJDSrsdKLkR6H-DeyW-9"}
     }
-  },
-  "ObjectiveAssessmentReference":{
+  }],
+  "ObjectiveAssessmentReference":[{
     "ObjectiveAssessmentIdentity":{
       "ObjectiveAssessmentIdentificationCode":{"_value":"VZDSaOEQ6c5j2J.taMsH15xtlDp_OuPqujkxHwkLHQyrSG"}
     }
-  }
+  }]
 }
