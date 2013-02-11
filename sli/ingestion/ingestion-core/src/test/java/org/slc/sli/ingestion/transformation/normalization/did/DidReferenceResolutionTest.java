@@ -633,8 +633,8 @@ public class DidReferenceResolutionTest {
     }
 
     @Test
-    public void resolvesLearningObjectiveDidsInAssessmentCorrectly() throws IOException {
-        NeutralRecordEntity entity = loadEntity("didTestEntities/assessment.json");
+    public void resolvesLearningObjectiveDidsInObjectiveAssessmentCorrectly() throws IOException {
+        NeutralRecordEntity entity = loadEntity("didTestEntities/objectiveAssessment.json");
         resolveInternalId(entity);
 
         Map<String, String> naturalKeys = new HashMap<String, String>();
@@ -642,9 +642,7 @@ public class DidReferenceResolutionTest {
         naturalKeys.put("academicSubject", "ELA");
         naturalKeys.put("objectiveGradeLevel", "Twelfth grade");
 
-        checkId(entity, "objectiveAssessment.[0].learningObjectives", naturalKeys, "learningObjective");
-        checkId(entity, "objectiveAssessment.[0].objectiveAssessments.[0].learningObjectives", naturalKeys,
-                "learningObjective");
+        checkId(entity, "learningObjectives", naturalKeys, "learningObjective");
     }
 
     @Test

@@ -20,7 +20,6 @@ package org.slc.sli.ingestion.smooks.mappings;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -223,6 +222,5 @@ public class AssessmentEntityTest {
         assertEquals("the nomenclature", assessmentNeutralRecord.getAttributes().get("nomenclature"));
 
         assertEquals("code value", assessmentNeutralRecord.getAttributes().get("periodDescriptorRef"));
-        assertEquals(Arrays.asList("TAKSReading2-1", "TAKSReading2-2"), assessmentNeutralRecord.getAttributes().get("objectiveAssessmentRefs"));
     }
 }

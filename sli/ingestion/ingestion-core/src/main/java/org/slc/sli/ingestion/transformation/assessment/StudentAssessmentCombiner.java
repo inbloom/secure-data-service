@@ -225,6 +225,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
 
                 if (objectiveAssessment != null) {
                     LOG.debug("Found objective assessment: {}", objectiveAssessmentRef);
+                    objectiveAssessment.remove("assessmentId");
                     assessmentAttributes.put("objectiveAssessment", objectiveAssessment);
                 }
 

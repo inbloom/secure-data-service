@@ -23,7 +23,6 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -32,7 +31,6 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 
 /**
@@ -55,9 +53,6 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     private static final String ASSESSMENT_PERIOD_DESCRIPTOR = "assessmentPeriodDescriptor";
     private static final String ASSESSMENT_TRANSFORMED = "assessment_transformed";
     private static final String PARENT_ASSESSMENT_FAMILY_TITLE = "parentAssessmentFamilyTitle";
-
-    @Autowired
-    private ObjectiveAssessmentBuilder builder;
 
     /**
      * Default constructor.
@@ -93,7 +88,6 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
      */
     public void transform() {
         LOG.info("Transforming assessment data");
-        builder.setAbstractTransformationStrategy(this);
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : assessments.entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
 
@@ -103,27 +97,6 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             String familyHierarchyName = getAssocationFamilyMap(parentFamilyTitle, new HashMap<String, Map<String, Object>>(), "");
             attrs.put("assessmentFamilyHierarchyName", familyHierarchyName);
 
-            @SuppressWarnings("unchecked")
-            List<String> objectiveAssessmentRefs = (List<String>) attrs.get("objectiveAssessmentRefs");
-            attrs.remove("objectiveAssessmentRefs");
-            List<Map<String, Object>> familyObjectiveAssessments = new ArrayList<Map<String, Object>>();
-            if (objectiveAssessmentRefs != null && !(objectiveAssessmentRefs.isEmpty())) {
-                for (String objectiveAssessmentRef : objectiveAssessmentRefs) {
-                    Map<String, Object> objectiveAssessment = builder.getObjectiveAssessment(
-                            getNeutralRecordMongoAccess(), getJob(), objectiveAssessmentRef);
-
-                    if (objectiveAssessment != null && !objectiveAssessment.isEmpty()) {
-                        LOG.info("Found objective assessment: {} for family: {}", objectiveAssessmentRef,
-                                familyHierarchyName);
-                        familyObjectiveAssessments.add(objectiveAssessment);
-                    } else {
-                        LOG.warn("Failed to match objective assessment: {} for family: {}", objectiveAssessmentRef,
-                                familyHierarchyName);
-                        builder.reportAggregatedWarnings(CoreMessageCode.CORE_0045, getNeutralRecordMongoAccess(), getJob(), objectiveAssessmentRef, familyHierarchyName);
-                    }
-                }
-                attrs.put("objectiveAssessment", familyObjectiveAssessments);
-            }
 
             String assessmentPeriodDescriptorRef = (String) attrs.remove("periodDescriptorRef");
             if (assessmentPeriodDescriptorRef != null) {

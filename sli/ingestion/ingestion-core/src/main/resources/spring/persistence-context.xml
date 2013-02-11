@@ -37,6 +37,7 @@
     <value>graduationPlan</value>
     <value>learningStandard</value>
     <value>localEducationAgency</value>
+    <value>objectiveAssessment</value>
     <value>parent</value>
     <value>program</value>
     <value>reportCard</value>
@@ -79,7 +80,6 @@
   <util:set id="stagedOnlyEntities" set-class="java.util.HashSet" value-type="java.lang.String">
     <value>assessmentFamily</value>
     <value>assessmentPeriodDescriptor</value>
-    <value>objectiveAssessment</value>
     <value>studentAssessmentItem</value>
     <value>studentObjectiveAssessment</value>
   </util:set>
