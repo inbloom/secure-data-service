@@ -33,8 +33,12 @@
   {
     "OrganizationCategory":
     [
-      "Local Education Agency",
-      "State Education Agency"
+      {
+        "_value":"Local Education Agency"
+      },
+      {
+        "_value":"State Education Agency"
+      }
     ]
   },
   "Address":
@@ -296,16 +300,24 @@
   {
     "GradeLevel":
     [
-      "Ninth grade",
-      "Twelfth grade"
+      {
+        "_value":"Ninth grade"
+      },
+      {
+        "_value":"Twelfth grade"
+      }
     ]
   },
   "SchoolCategories":
   {
     "SchoolCategory":
     [
-      "All Levels",
-      "SecondarySchool"
+      {
+        "_value":"All Levels"
+      },
+      {
+        "_value":"SecondarySchool"
+      }
     ]
   },
   "SchoolType":

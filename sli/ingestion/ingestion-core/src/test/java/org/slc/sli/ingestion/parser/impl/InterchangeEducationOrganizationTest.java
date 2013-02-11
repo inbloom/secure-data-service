@@ -90,7 +90,7 @@ public class InterchangeEducationOrganizationTest {
     public void testStateEducationAgency() throws Throwable {
         Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd");
         Resource inputXml = new ClassPathResource("parser/InterchangeEducationOrganization/StateEducationAgency.xml");
-        Resource expectedJson = new ClassPathResource("parser/InterchangeEducationOrganization/StatelEducationAgency.json");
+        Resource expectedJson = new ClassPathResource("parser/InterchangeEducationOrganization/StateEducationAgency.json");
 
         entityTestHelper(schema, inputXml, expectedJson);
     }

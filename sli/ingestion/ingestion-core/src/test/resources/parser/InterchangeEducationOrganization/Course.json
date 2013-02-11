@@ -29,17 +29,17 @@
     "_value":"General or regular"
   },
   "CourseLevelCharacteristics":
-    {
-      "CourseLevelCharacteristic":
-      [
-        {
-          "_value":"Magnet"
-        },
-        {
-          "_value":"Magnet"
-        }
-      ]
-    },
+  {
+    "CourseLevelCharacteristic":
+    [
+      {
+        "_value":"Magnet"
+      },
+      {
+        "_value":"Magnet"
+      }
+    ]
+  },
   "GradesOffered":
   {
     "GradeLevel":

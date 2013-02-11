@@ -33,8 +33,12 @@
   {
     "OrganizationCategory":
     [
-      "Education Service Center",
-      "State Education Agency"
+      {
+        "_value":"Education Service Center"
+      },
+      {
+        "_value":"State Education Agency"
+      }
     ]
   },
   "Address":
