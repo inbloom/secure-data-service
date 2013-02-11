@@ -30,14 +30,12 @@ bundle exec rake FORCE_COLOR=true ingestion_log_directory=/home/ingestion/logs i
 cd $WORKSPACE/tools/jmeter/odin-ci
 source ci-jmeter-realm.sh
 
-cd $WORKSPACE/sli/opstools/migration
-ruby 70ApplicationAuthorizationMigration.rb localhost:27017
-
 cd $WORKSPACE/tools/jmeter/
 rm -f *.jtl
 cd $WORKSPACE/sli/acceptance-tests
 rm -f *.jtl
 bundle install --deployment
+bundle exec ruby $WORKSPACE/sli/opstools/migration/70ApplicationAuthorizationMigration.rb localhost:27017
 
 #run the jmeter acceptance test wrapper with ci properties
 bundle exec rake FORCE_COLOR=true apiJMeterTests jmeter_jmx_path=../../tools/jmeter/ jmeter_bin=/opt/apache-jmeter-2.7/bin/jmeter jmeter_properties=ci.properties jmeter_regression_threshold=0.5
