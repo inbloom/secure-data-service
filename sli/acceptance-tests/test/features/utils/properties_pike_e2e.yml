@@ -114,7 +114,7 @@ landingzone: pike-lz.slidev.org
 landingzone_port: 443
 
 sandbox_tenant: testdevsb2.wgen@gmail.com
-tenant: RCTestTenantsandbox_tenant: testdevsb2.wgen@gmail.com
+tenant: RCTestTenant
 edorg: STANDARD-SEA
 
 # IDP and Redirect Endpoint URL for Realm Management
