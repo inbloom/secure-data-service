@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:camel="http://camel.apache.org/schema/spring"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd">
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
   <bean id="myDb" class="com.mongodb.Mongo">
     <!-- <constructor-arg index="0" value="192.168.1.111" /> -->
@@ -64,8 +65,71 @@
 
   <bean id="zipSplitter" class="test.camel.support.zip.ZipFileSplitterBuilder" factory-method="unzip" />
 
+  <util:map id="xsdSelection" key-type="java.lang.String" value-type="org.springframework.core.io.Resource">
+    <entry key="InterchangeAssessmentMetadata.xml">
+      <value>classpath:edfiXsd-SLI/SLI-Interchange-AssessmentMetadata.xsd</value>
+    </entry>
+    <entry key="InterchangeEducationOrganization.xml">
+      <value>classpath:edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd</value>
+    </entry>
+    <entry key="InterchangeEducationOrgCalendar.xml">
+      <value>classpath:edfiXsd-SLI/SLI-Interchange-EducationOrgCalendar.xsd</value>
+    </entry>
+    <entry key="HSGeneratedStudentTranscript">
+      <value>classpath:edfiXsd-SLI/SLI-Interchange-HSGeneratedStudentTranscript.xsd</value>
+    </entry>
+    <entry key="InterchangeMasterSchedule.xml">
+      <value>classpath:edfiXsd-SLI/SLI-Interchange-MasterSchedule.xsd</value>
+    </entry>
+    <entry key="InterchangeStaffAssociation.xml">
+      <value>classpath:edfiXsd-SLI/SLI-Interchange-StaffAssociation.xsd</value>
+    </entry>
+    <entry key="InterchangeStudentAssessment.xml">
+      <value>classpath:edfiXsd-SLI/SLI-Interchange-StudentAssessment.xsd</value>
+    </entry>
+    <entry key="Attendance">
+      <value>classpath:edfiXsd-SLI/SLI-Interchange-StudentAttendance.xsd</value>
+    </entry>
+    <entry key="InterchangeStudentCohort.xml">
+      <value>classpath:edfiXsd-SLI/SLI-Interchange-StudentCohort.xsd</value>
+    </entry>
+    <entry key="StudentDiscipline">
+      <value>classpath:edfiXsd-SLI/SLI-Interchange-StudentDiscipline.xsd</value>
+    </entry>
+    <entry key="InterchangeStudentEnrollment.xml">
+      <value>classpath:edfiXsd-SLI/SLI-Interchange-StudentEnrollment.xsd</value>
+    </entry>
+    <entry key="StudentGrades">
+      <value>classpath:edfiXsd-SLI/SLI-Interchange-StudentGrade.xsd</value>
+    </entry>
+    <entry key="InterchangeStudentParent.xml">
+      <value>classpath:edfiXsd-SLI/SLI-Interchange-StudentParent.xsd</value>
+    </entry>
+    <entry key="StudentProgram">
+      <value>classpath:edfiXsd-SLI/SLI-Interchange-StudentProgram.xsd</value>
+    </entry>
+    <entry key="StudentCohort">
+      <value>classpath:edfiXsd-SLI/SLI-Interchange-StudentCohort.xsd</value>
+    </entry>
+  </util:map>
+
+  <bean id="xsdSelector" class="org.slc.sli.ingestion.processors.XsdSelector">
+    <property name="xsdList" ref="xsdSelection" />
+  </bean>
+
+  <bean id="xsdTypeProvider" class="org.slc.sli.ingestion.parser.impl.XsdTypeProvider">
+    <property name="schemaFiles" value="classpath:edfiXsd-SLI/*.xsd" />
+  </bean>
+
+  <bean id="edFiParserProcessor" class="org.slc.sli.ingestion.processors.EdFiParserProcessor">
+    <property name="batchSize" value="5000" />
+    <property name="typeProvider" ref="xsdTypeProvider" />
+    <property name="xsdSelector" ref="xsdSelector" />
+    <property name="producer" ref="myTemplate" />
+  </bean>
+
   <camelContext trace="false" xmlns="http://camel.apache.org/schema/spring">
-    <template id="myTemplate" defaultEndpoint="direct:logging"/>
+    <template id="myTemplate" defaultEndpoint="direct:logging" />
 
     <route id="fileReader">
       <from uri="txActivemq:queue:ingestion.landingZone?concurrentConsumers=32" />
@@ -96,21 +160,22 @@
       <filter>
         <simple>${body.getFileEntry} regex '^.*\.xml$'</simple>
         <log loggingLevel="INFO" message="Batch ${header.batchId}: Received a zip file entry - ${body.getFileEntry}" />
-        <convertBodyTo type="java.io.InputStream" />
         <!-- <bean ref="smooksProcessor" /> -->
         <!-- <bean ref="staxProcessor" /> -->
-        <!-- -->
-        <split streaming="true" parallelProcessing="true">
+        <bean ref="edFiParserProcessor" />
+        <!--
+          <convertBodyTo type="java.io.InputStream" />
+          <split streaming="true" parallelProcessing="true">
           <ref>staxSplitter</ref>
           <setHeader headerName="JMSXGroupSeq">
-            <header>CamelSplitIndex</header>
+          <header>CamelSplitIndex</header>
           </setHeader>
           <setHeader headerName="JMSXGroupCount">
-            <header>CamelSplitSize</header>
+          <header>CamelSplitSize</header>
           </setHeader>
           <to uri="direct:logging" />
-        </split>
-        <!-- -->
+          </split>
+        -->
         <log message="Batch ${header.batchId}: Parsing is done for ${header.fileEntry}" />
       </filter>
     </route>
@@ -143,8 +208,7 @@
 
     <route id="logging">
       <from uri="direct:logging" />
-      <log
-        message="File: ${header.fileEntry}, batch of ${body.size}. Starts at Ln: body[0][line] - Col: body[0][column]" />
+      <log message="File: ${header.fileEntry}, batch of ${body.size}. Starts at Ln: body[0][line] - Col: body[0][column]" />
       <stop />
     </route>
 
