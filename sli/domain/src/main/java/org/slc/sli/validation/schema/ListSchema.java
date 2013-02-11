@@ -96,7 +96,6 @@ public class ListSchema extends NeutralSchema {
     public void updateAnnotations() {
         AppInfo info = (AppInfo) getAnnotation(AnnotationType.APPINFO);
         if (info != null) {
-            LOG.debug("App info has read rights {} and write rights {}", info.getReadAuthorities(), info.getWriteAuthorities());
             for (NeutralSchema itemSchema : getList()) {
                 itemSchema.inheritAnnotations(info);
             }
