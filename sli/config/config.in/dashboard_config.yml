@@ -6,15 +6,19 @@ default:
         api.client: apiClient
 
         # URL of the API server to be used by dashboard
+        ## api.server.url: http://localhost:8080/
         api.server.url: http://local.slidev.org:8080/
 
         # URL used to make authenticating requests to the backend API
+        ## security.server.url: http://localhost:8080/
         security.server.url: http://local.slidev.org:8080/
 
         # Only used in dashboard
+        ## portal.footer.url: https://{portal_host}/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
         portal.footer.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
 
         # Only used in dashboard
+        ## portal.header.url: https://{portal_host}/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
         portal.header.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
 
         # Only used in dashboard
@@ -27,6 +31,7 @@ default:
         oauth.client.secret: 
 
         # oauth security parameter (only used in dashboard)
+        ## oauth.redirect: http://localhost:8888/dashboard/callback
         oauth.redirect: http://local.slidev.org:8888/dashboard/callback
 
         # Config directory (only used in dashboard)
