@@ -194,11 +194,11 @@
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/learningObjective.xml" />
       </bean>
     </entry>
-<!--     <entry key="objectiveAssessment">
+    <entry key="student">
       <bean class="org.milyn.Smooks">
-        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/objectiveAssessment.xml" />
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/student.xml" />
       </bean>
-    </entry> -->
+    </entry>
   </util:map>
 
   <bean id="didSchemaParser" class="org.slc.sli.ingestion.transformation.normalization.did.DidSchemaParser">
