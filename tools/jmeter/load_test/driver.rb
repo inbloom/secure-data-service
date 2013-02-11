@@ -1,4 +1,6 @@
 #!/usr/bin/env ruby
+require 'json'
+
 require_relative 'lib/load_test'
 
 class Driver
@@ -24,11 +26,22 @@ END
         time = Time.now.strftime("%Y%m%d_%H%M%S")
         run_root = File.join(config[:data_root], "#{config_name}_#{time}")
         jmeter_runner = LoadTest::JmeterRunner.new(@jmeter_exec, config)
-        files.each {|result_dir, file|
-          result_dir_full_path = File.join(run_root, result_dir)
-          jmeter_runner.collect_all_data(result_dir, file, result_dir_full_path)
-        }
+
+        if(config[:test_run])
+          puts "Doing a test run"
+          test_run_root = File.join(run_root, "test_run")
+          files.each{|result_dir, file|
+            test_run_full_path = File.join(test_run_root, result_dir)
+            jmeter_runner.collect_all_data(result_dir, file, test_run_full_path, [1])
+
+          }
+        end
         puts "Result is saved in #{run_root}"
+
+        File.open("#{run_root}/result.json", "w") do |f|
+          jmeter_result_processor = LoadTest::JmeterResultProcessor.new({:result_dir => "#{run_root}/test_run"})
+          f.write(jmeter_result_processor.aggregate_all_result().to_json)
+        end
       end
     end
   end

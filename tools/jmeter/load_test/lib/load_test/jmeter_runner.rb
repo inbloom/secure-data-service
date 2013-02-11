@@ -11,14 +11,12 @@ module LoadTest
       @remote_servers = config[:remote_servers]
       @jmeter_exec = jmeter_exec
       @max_avg_elapsed_time = config[:max_avg_elapsed_time]
-      @thread_count_array = config[:thread_count_array]
       @jmeter_prop = config[:jmeter_prop]
       @ignore = config[:ignore]
       @stop_when_error_occurs = config[:stop_when_error_occurs]
     end
 
     def run_jmeter(jmx_file, jtl_file, thread_count)
-      File.delete(jtl_file) if File.exist? jtl_file
       command = @remote ? "#{@jmeter_exec} -n -t #{jmx_file} -G #{@jmeter_prop} -l #{jtl_file} -Gthreads=#{thread_count} -Gloops=1 -R #{@remote_servers.join(',')}" :
           "#{@jmeter_exec} -n -q #{@jmeter_prop} -t #{jmx_file} -l #{jtl_file} -Jthreads=#{thread_count} -Jloops=1 >> jmeter_runner.log"
       pid = Process.spawn(command)
@@ -42,13 +40,15 @@ module LoadTest
       end
     end
 
-    def collect_all_data(test_name, file, result_dir)
+    # TODO: refactor - consolidate result AND then output to console
+    def collect_all_data(test_name, file, result_dir, thread_count_array)
       FileUtils.mkdir_p(result_dir)
       ended_early = false
-      @thread_count_array.each do |thread_count|
+      puts "Running #{test_name}"
+      thread_count_array.each do |thread_count|
         jtl_file = File.join(result_dir, "#{JTL_FILE_PREFIX}#{thread_count}.jtl")
 
-        puts "Running #{test_name} with #{thread_count} thread#{thread_count > 1 ? 's' : ''}#{@remote_servers.nil? ? '' : " on #{@remote_servers.size} jmeter nodes"}."
+        puts "  #{thread_count} thread#{thread_count > 1 ? 's' : ''}"
         start_time = Time.now
         run_jmeter(file, jtl_file, thread_count)
 
@@ -57,24 +57,23 @@ module LoadTest
         total_average = scenario_result[JmeterResultProcessor::TOTAL_LABEL]
         error_count = scenario_result[JmeterResultProcessor::ERROR_LABEL]
 
-
-        puts "Test completed in #{duration(Time.now - start_time)}."
-        puts "Average total time per thread took #{duration(total_average)} to complete."
-        puts "There #{error_count > 1 ? 'are' : 'is'} #{error_count} error#{error_count > 1 ? 's' : ''}"
+        puts "  Test completed in #{duration(Time.now - start_time)}."
+        puts "  Average total time per thread took #{duration(total_average/1000)} to complete."
+        puts "  There #{error_count > 1 ? 'are' : 'is'} #{error_count} error#{error_count > 1 ? 's' : ''}"
 
         if total_average > @max_avg_elapsed_time
-          puts "Ending #{test_name} test because total average time #{total_average}ms exceeds #{@max_avg_elapsed_time}ms\n"
+          puts "  Ending #{test_name} test because total average time #{total_average}ms exceeds #{@max_avg_elapsed_time}ms\n"
           ended_early = true
           break
         end
         if (@stop_when_error_occurs && error_count > 0)
-          puts "Ending #{test_name} test because error exists\n"
+          puts "  Ending #{test_name} test because error exists\n"
           ended_early = true
           break
         end
       end
       unless ended_early
-        puts "Test #{test_name} completed successfully.\n"
+        puts "  Test #{test_name} completed successfully.\n"
       end
     end
   end
