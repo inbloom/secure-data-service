@@ -83,7 +83,7 @@ Scenario: Read securityEvents as SEA Admin. 8 Events. Sunsetadmin(4) And Iladmin
     Then I should get my delegations
     And I should see that "viewSecurityEventsEnabled" is "true" for district "IL-SUNSET's ID"
 	And I should see that "viewSecurityEventsEnabled" is "true" for district "IL-LONGWOOD's ID"
-	@wip
+
 	Scenario: Read securityEvents as SEA Admin. 11 Events. Sunsetadmin(4),  Iladmin(4) and Longwoodadmin(3)
     Given I am logged in using "iladmin" "iladmin1234" to realm "SLI"
     And format "application/vnd.slc+json"
@@ -92,5 +92,5 @@ Scenario: Read securityEvents as SEA Admin. 8 Events. Sunsetadmin(4) And Iladmin
     Then I should receive a return code of 200
     And I should receive a collection of "11" entities
     And each entity's "entityType" should be "<ENTITY TYPE>"
-    Then each entity's "targetEdOrg" should be in the array "<IL_OR_IL_SUNSET>"
+    Then each entity's "targetEdOrg" should be in the array "<IL_SUNSET_LONGWOOD>"
    

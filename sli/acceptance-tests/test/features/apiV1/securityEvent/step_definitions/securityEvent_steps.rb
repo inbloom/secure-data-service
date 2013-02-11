@@ -35,6 +35,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "securityEvent"                              if human_readable_id == "ENTITY TYPE"
   id = "/securityEvent"                             if human_readable_id == "ENTITY URI"
   id = ["IL", "IL-SUNSET"]                          if human_readable_id == "IL_OR_IL_SUNSET"
+  id = ["IL", "IL-SUNSET", "IL-LONGWOOD"]           if human_readable_id == "IL_SUNSET_LONGWOOD"
+
   #return the translated value
   id
 end
