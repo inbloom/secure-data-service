@@ -23,6 +23,7 @@ import org.apache.camel.LoggingLevel;
 import org.apache.camel.spring.SpringRouteBuilder;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.validation.IndexValidationException;
+import org.slc.sli.ingestion.validation.IndexValidatorExecutor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,6 +106,9 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     @Autowired
     private NodeInfo nodeInfo;
+    
+    @Autowired
+    private IndexValidatorExecutor indexValidatorExecutor;
 
     @Value("${sli.ingestion.queue.workItem.queueURI}")
     private String workItemQueue;

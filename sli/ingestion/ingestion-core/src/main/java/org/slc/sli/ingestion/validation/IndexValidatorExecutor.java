@@ -1,5 +1,7 @@
 package org.slc.sli.ingestion.validation;
 
+import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,26 +24,22 @@ public class IndexValidatorExecutor {
     @Autowired
     private LoggingMessageReport loggingMessageReport;
 
-	public void init() throws IndexValidationException{
-
-		loggingMessageReport.setLogger(LOG);
-		ReportStats reportStats = new SimpleReportStats();
+    public ReportStats checkNonTenantIndexes() throws IndexValidationException{
+        loggingMessageReport.setLogger(LOG);
+        ReportStats reportStats = new SimpleReportStats();
         Source source = new JobSource("IngestionService");
-		boolean indexValidated = systemValidatorStartUp.isValid(null, loggingMessageReport, reportStats, source);
+        boolean indexValidated = systemValidatorStartUp.isValid(null, loggingMessageReport, reportStats, source);
+        return reportStats;
+    }
 
-		if (!indexValidated) {
-		    throw new IndexValidationException(
-		            "Indexes validation error, some indexes are missing in the database.");
-		}
-	}
+    public void setValidator(Validator<?> systemValidator)
+    {
+        this.systemValidatorStartUp = systemValidator;
+    }
 
-	public void setValidator(Validator<?> systemValidator)
-	{
-		this.systemValidatorStartUp = systemValidator;
-	}
-
-	public void setLoggingMessageReport(LoggingMessageReport loggingMessageReport)
-	{
-		this.loggingMessageReport = loggingMessageReport;
-	}
+    public void setLoggingMessageReport(LoggingMessageReport loggingMessageReport)
+    {
+        this.loggingMessageReport = loggingMessageReport;
+    }
 }
+
