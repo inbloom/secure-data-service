@@ -1594,8 +1594,8 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1604,8 +1604,8 @@
 					<xs:documentation>The identifier for the school year.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1614,8 +1614,8 @@
 					<xs:documentation>The term for the session during the school year.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1625,8 +1625,8 @@
 						session.
 					</xs:documentation>
           <xs:appinfo>
-            <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-            <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+            <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+            <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
             <sli:beginDate>yes</sli:beginDate>
           </xs:appinfo>
 				</xs:annotation>
@@ -1637,8 +1637,8 @@
 						session.
 					</xs:documentation>
 					<xs:appinfo>
-            <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-            <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+            <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+            <sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
             <sli:endDate>yes</sli:endDate>
           </xs:appinfo>
         </xs:annotation>
@@ -1649,8 +1649,8 @@
 						school calendar.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1663,8 +1663,8 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>gradingPeriod</sli:ReferenceType>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1676,8 +1676,8 @@
 					<xs:appinfo>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1704,8 +1704,8 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1715,8 +1715,8 @@
 						offered in the school, if different from the CourseTitle.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1727,8 +1727,8 @@
 					<xs:appinfo>
 						<sli:ReferenceType>school</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1738,8 +1738,8 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>course</sli:ReferenceType>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -1750,8 +1750,8 @@
 					<xs:appinfo>
 						<sli:ReferenceType>session</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7328,8 +7328,8 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7341,8 +7341,8 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
                         <sli:beginDate>yes</sli:beginDate>
 					</xs:appinfo>
 				</xs:annotation>
@@ -7354,8 +7354,8 @@
 						grading period.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
                         <sli:endDate>yes</sli:endDate>
 					</xs:appinfo>
 				</xs:annotation>
@@ -7368,8 +7368,8 @@
 						during the grading period.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 				<xs:simpleType>
@@ -7385,8 +7385,8 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:ReferenceType>calendarDate</sli:ReferenceType>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7407,8 +7407,8 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7417,8 +7417,8 @@
 					<xs:documentation>The identifier for the school year.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7431,8 +7431,8 @@
 					<xs:appinfo>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7787,8 +7787,8 @@
 					<!--<sli:naturalKey>true</sli:naturalKey> -->
 					<!--</xs:appinfo> -->
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7797,8 +7797,8 @@
 					<xs:documentation>The number of parts identified for a course.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 				<xs:simpleType>
@@ -7817,8 +7817,8 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:naturalKey>true</sli:naturalKey>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7829,8 +7829,8 @@
 						instruction of students.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7838,8 +7838,8 @@
 				<xs:annotation>
 					<xs:documentation>The course's level of rigor.</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7851,8 +7851,8 @@
 						Credit, CTE. etc.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7862,8 +7862,8 @@
 					<xs:documentation>The grade levels in which the course is offered.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7872,8 +7872,8 @@
 					<xs:documentation>The intended major subject area of the course.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7885,8 +7885,8 @@
 					</xs:documentation>
 					<xs:appinfo>
 						<sli:RelaxedBlacklist>true</sli:RelaxedBlacklist>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7896,8 +7896,8 @@
 						agency.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7908,8 +7908,8 @@
 						school graduation requirements in the course's subject area.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7922,8 +7922,8 @@
 						courses.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7933,8 +7933,8 @@
 						SEA, LEA, School, or national organization.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7945,8 +7945,8 @@
 						student who successfully completes the course
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7957,8 +7957,8 @@
 						student who successfully completes the course
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7968,8 +7968,8 @@
 						course is associated with as part of a CTE curriculum.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -7983,8 +7983,8 @@
 					<xs:appinfo>
 						<sli:ReferenceType>educationOrganization</sli:ReferenceType>
 						<sli:naturalKey>true</sli:naturalKey>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -8014,8 +8014,8 @@
 						would be entered as 20/272/G/1.00/1 of 1
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -8028,8 +8028,8 @@
 						instruction of students.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
@@ -8040,8 +8040,8 @@
 						Identification Code.
 					</xs:documentation>
 					<xs:appinfo>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_PUBLIC</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>

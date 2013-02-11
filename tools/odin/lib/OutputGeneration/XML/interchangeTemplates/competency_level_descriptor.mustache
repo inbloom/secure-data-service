@@ -16,7 +16,11 @@ limitations under the License.
 {{#entity}}
   <CompetencyLevelDescriptor>
       <CodeValue>{{code_value}}</CodeValue>
+      {{#description}}
       <Description>{{description}}</Description>
+      {{/description}}
+      {{#performance_base_conversion}}
       <PerformanceBaseConversion>{{performance_base_conversion}}</PerformanceBaseConversion>
+      {{/performance_base_conversion}}
   </CompetencyLevelDescriptor>
 {{/entity}}

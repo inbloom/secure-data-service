@@ -21,6 +21,8 @@ import javax.annotation.PostConstruct;
 import org.apache.camel.CamelContext;
 import org.apache.camel.LoggingLevel;
 import org.apache.camel.spring.SpringRouteBuilder;
+import org.slc.sli.ingestion.reporting.ReportStats;
+import org.slc.sli.ingestion.validation.IndexValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,17 +43,13 @@ import org.slc.sli.ingestion.processors.TenantProcessor;
 import org.slc.sli.ingestion.processors.TransformationProcessor;
 import org.slc.sli.ingestion.processors.ZipFileProcessor;
 import org.slc.sli.ingestion.queues.MessageType;
-import org.slc.sli.ingestion.reporting.ReportStats;
-import org.slc.sli.ingestion.reporting.Source;
-import org.slc.sli.ingestion.reporting.impl.JobSource;
-import org.slc.sli.ingestion.reporting.impl.LoggingMessageReport;
-import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.routes.orchestra.AggregationPostProcessor;
 import org.slc.sli.ingestion.routes.orchestra.OrchestraPreProcessor;
 import org.slc.sli.ingestion.routes.orchestra.WorkNoteLatch;
 import org.slc.sli.ingestion.routes.orchestra.parsing.FileEntryLatch;
 import org.slc.sli.ingestion.tenant.TenantPopulator;
-import org.slc.sli.ingestion.validation.Validator;
+import org.slc.sli.ingestion.validation.IndexValidatorExecutor;
+
 
 
 /**
@@ -111,10 +109,10 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     private BatchJobManager batchJobManager;
 
     @Autowired
-    private NodeInfo nodeInfo;
+    private IndexValidatorExecutor indexValidatorExecutor;
 
     @Autowired
-    private Validator<?> systemValidator;
+    private NodeInfo nodeInfo;
 
     @Value("${sli.ingestion.queue.workItem.queueURI}")
     private String workItemQueue;
@@ -174,9 +172,6 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
 
     private static final String INGESTION_MESSAGE_TYPE = "IngestionMessageType";
 
-    @Autowired
-    private LoggingMessageReport loggingMessageReport;
-
     // Spring's dependency management can confuse camel due to some circular dependencies. Removing
     // this constructor, even if it doesn't look like it will change things, may affect loading
     // order and cause ingestion to fail to start on certain JVMs
@@ -188,14 +183,11 @@ public class IngestionRouteBuilder extends SpringRouteBuilder {
     @Override
     public void configure() throws Exception {
         LOG.info("Configuring node {} for node type {}", nodeInfo.getUUID(), nodeInfo.getNodeType());
-
-        loggingMessageReport.setLogger(LOG);
-        Source source = new JobSource(null);
-        ReportStats reportStats = new SimpleReportStats();
-        boolean indexValidated = systemValidator.isValid(null, loggingMessageReport, reportStats, source);
-
-        if (!indexValidated) {
-            LOG.error("Indexes could not be verified, check the index file configurations are set");
+        LOG.info("Checking Indexes");
+        ReportStats indexValidationStats = indexValidatorExecutor.checkNonTenantIndexes();
+        if(indexValidationStats.hasErrors()){
+            LOG.error("Required indexes are missing! Check log for details of missing indexes");
+            throw new IndexValidationException("Required indexes are missing!");
         }
 
         String landingZoneQueueUri = landingZoneQueue + "?concurrentConsumers=" + landingZoneConsumers;

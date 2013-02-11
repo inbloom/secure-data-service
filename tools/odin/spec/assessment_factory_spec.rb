@@ -100,6 +100,18 @@ describe "AssessmentFactory" do
       it "will generate the configured number of assessment items for each assessment" do
         entities[AssessmentItem].should have(4 * entities[Assessment].count).items
       end
+      it "will generate the configured number of objective assessments for each assessment" do
+        assessment = entities[Assessment][0]
+        assessment.referenced_objective_assessments.should have(2).items
+        assessment.referenced_objective_assessments[0].learning_objectives.should have(5).items
+      end
+      it "will generate objective assessments that together make up 100% of the assessment" do
+        assessment = entities[Assessment][0]
+        assessment.referenced_objective_assessments.should have(2).items
+        total = assessment.referenced_objective_assessments.inject(0) {|s, obj_assessment| s += obj_assessment.percentOfAssessment}
+        total.should eq 100
+      end
+    
     end
   end
 end

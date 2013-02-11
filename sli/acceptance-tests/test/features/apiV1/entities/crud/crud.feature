@@ -217,7 +217,7 @@ Examples:
 | "assessment"            | "assessments"             | 17    |/search/assessments|                                                                            
 | "attendance"            | "attendances"             | 3     |/sections/@ids/studentSectionAssociations/students/attendances|
 | "cohort"                | "cohorts"                 | 4     |/staff/@ids/staffCohortAssociations/cohorts|
-| "course"                | "courses"                 | 91    |/search/courses|
+| "course"                | "courses"                 | 92    |/search/courses|
 | "disciplineAction"      | "disciplineActions"       | 0     |/staff/@ids/disciplineActions|                                                           
 | "disciplineIncident"    | "disciplineIncidents"     | 0     |/staff/@ids/disciplineIncidents|                                                         
 | "school"                | "educationOrganizations"  | 2     |/teachers/@ids/teacherSchoolAssociations/schools|              
@@ -248,3 +248,26 @@ Examples:
     	And field "beginDate" is removed from the json document
     	When I navigate to POST "/v1/studentSectionAssociations"
     	Then I should receive a return code of 400
+
+  #all staff types (it admins, educators) should be able to see all public entities
+  @tagPublicEntities
+  Scenario Outline: Ensure Public Entities Are Visible
+    Given I am logged in using <User> <Password> to realm "IL"
+      And entity URI <Entity>
+      And parameter "limit" is "0"
+        When I navigate to GET "/<ENTITY URI>"
+        Then I should receive a return code of 200
+          #generic step that sets global variable for current entity
+          And I should see all entities
+
+  Examples:
+   | User                | Password           | Entity              |
+   | "linda.kim"         | "linda.kim1234"    | "sessions"          |
+   | "linda.kim"         | "linda.kim1234"    | "gradingPeriods"    |
+   | "linda.kim"         | "linda.kim1234"    | "courseOfferings"   |
+   | "linda.kim"         | "linda.kim1234"    | "courses"           |
+   | "jstevenson"        | "jstevenson1234"   | "sessions"          |
+   | "jstevenson"        | "jstevenson1234"   | "gradingPeriods"    |
+   | "jstevenson"        | "jstevenson1234"   | "courseOfferings"   |
+   | "jstevenson"        | "jstevenson1234"   | "courses"           |
+

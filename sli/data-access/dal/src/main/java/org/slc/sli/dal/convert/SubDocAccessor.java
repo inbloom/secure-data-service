@@ -229,7 +229,7 @@ public class SubDocAccessor {
             TenantContext.setIsSystemCall(false);
 
             result &= template.getCollection(collection)
-                    .update(parentQuery, buildPullObject(subEntities), false, false, WriteConcern.SAFE).getLastError()
+                    .update(parentQuery, buildPullObject(subEntities), true, false, WriteConcern.SAFE).getLastError()
                     .ok();
             result &= doPush(parentQuery, subEntities);
             return result;
@@ -239,7 +239,7 @@ public class SubDocAccessor {
             DBObject query = new BasicDBObject(parentQuery.toMap());
             query.putAll(new Query(Criteria.where(subField + "._id").nin(getSubDocDids(subEntities))).getQueryObject());
             if (template.getCollection(collection)
-                    .update(query, buildPushObject(subEntities), true, false, WriteConcern.SAFE).getN() == 1) {
+                    .update(query, buildPushObject(subEntities), false, false, WriteConcern.SAFE).getN() == 1) {
                 return true;
             } else {
                 if (subEntities.size() > 1) {

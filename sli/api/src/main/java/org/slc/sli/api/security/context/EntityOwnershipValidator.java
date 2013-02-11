@@ -38,6 +38,7 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.modeling.uml.ClassType;
 import org.slc.sli.modeling.uml.Type;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
@@ -73,7 +74,6 @@ public class EntityOwnershipValidator {
 
     }
 
-    ClassType type = null;
     @SuppressWarnings({ "serial", "unused" })
     @PostConstruct
     private void init() {
@@ -84,9 +84,7 @@ public class EntityOwnershipValidator {
         typeToReference.put(EntityNames.STUDENT_SECTION_ASSOCIATION, new Reference(EntityNames.STUDENT_SECTION_ASSOCIATION, EntityNames.STUDENT, ParameterConstants.STUDENT_ID, Reference.RefType.LEFT_TO_RIGHT));
         typeToReference.put(EntityNames.ATTENDANCE, new Reference(EntityNames.ATTENDANCE, EntityNames.SCHOOL, ParameterConstants.SCHOOL_ID, Reference.RefType.LEFT_TO_RIGHT));
         typeToReference.put(EntityNames.COHORT, new Reference(EntityNames.COHORT, EntityNames.EDUCATION_ORGANIZATION, "educationOrgId", Reference.RefType.LEFT_TO_RIGHT));
-        typeToReference.put(EntityNames.COURSE, new Reference(EntityNames.COURSE, EntityNames.SCHOOL, ParameterConstants.SCHOOL_ID, Reference.RefType.LEFT_TO_RIGHT));
-        typeToReference.put(EntityNames.COURSE_OFFERING, new Reference(EntityNames.COURSE_OFFERING, EntityNames.SCHOOL, ParameterConstants.SCHOOL_ID, Reference.RefType.LEFT_TO_RIGHT));
-        typeToReference.put(EntityNames.COURSE_TRANSCRIPT, new Reference(EntityNames.COURSE_TRANSCRIPT, EntityNames.COURSE, ParameterConstants.COURSE_ID, Reference.RefType.LEFT_TO_RIGHT));
+        typeToReference.put(EntityNames.COURSE_TRANSCRIPT, new Reference(EntityNames.COURSE_TRANSCRIPT, EntityNames.EDUCATION_ORGANIZATION, ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, Reference.RefType.LEFT_TO_RIGHT));
         typeToReference.put(EntityNames.DISCIPLINE_INCIDENT, new Reference(EntityNames.DISCIPLINE_INCIDENT, EntityNames.SCHOOL, ParameterConstants.SCHOOL_ID, Reference.RefType.LEFT_TO_RIGHT));
         typeToReference.put(EntityNames.DISCIPLINE_ACTION, new Reference(EntityNames.DISCIPLINE_ACTION, EntityNames.SCHOOL, "responsibilitySchoolId", Reference.RefType.LEFT_TO_RIGHT));
         typeToReference.put(EntityNames.GRADEBOOK_ENTRY, new Reference(EntityNames.GRADEBOOK_ENTRY, EntityNames.SECTION, ParameterConstants.SECTION_ID, Reference.RefType.LEFT_TO_RIGHT));
@@ -94,7 +92,6 @@ public class EntityOwnershipValidator {
         typeToReference.put(EntityNames.PARENT, new Reference(EntityNames.PARENT, EntityNames.STUDENT_PARENT_ASSOCIATION, ParameterConstants.PARENT_ID, Reference.RefType.RIGHT_TO_LEFT));
         typeToReference.put(EntityNames.REPORT_CARD, new Reference(EntityNames.REPORT_CARD, EntityNames.STUDENT, ParameterConstants.STUDENT_ID, Reference.RefType.LEFT_TO_RIGHT));
         typeToReference.put(EntityNames.SECTION, new Reference(EntityNames.SECTION, EntityNames.SCHOOL, ParameterConstants.SCHOOL_ID, Reference.RefType.LEFT_TO_RIGHT));
-        typeToReference.put(EntityNames.SESSION, new Reference(EntityNames.SESSION, EntityNames.SCHOOL, ParameterConstants.SCHOOL_ID, Reference.RefType.LEFT_TO_RIGHT));
         typeToReference.put(EntityNames.STAFF, new Reference(EntityNames.STAFF, EntityNames.STAFF_ED_ORG_ASSOCIATION, ParameterConstants.STAFF_REFERENCE, Reference.RefType.RIGHT_TO_LEFT));
         typeToReference.put(EntityNames.STAFF_ED_ORG_ASSOCIATION, new Reference(EntityNames.STAFF_ED_ORG_ASSOCIATION, EntityNames.EDUCATION_ORGANIZATION, ParameterConstants.EDUCATION_ORGANIZATION_REFERENCE, Reference.RefType.LEFT_TO_RIGHT));
         typeToReference.put(EntityNames.STAFF_COHORT_ASSOCIATION, new Reference(EntityNames.STAFF_COHORT_ASSOCIATION, EntityNames.STAFF, ParameterConstants.STAFF_ID, Reference.RefType.LEFT_TO_RIGHT));
@@ -121,6 +118,9 @@ public class EntityOwnershipValidator {
                 EntityNames.LEARNING_STANDARD,
                 EntityNames.PROGRAM,
                 EntityNames.GRADING_PERIOD,
+                EntityNames.SESSION,
+                EntityNames.COURSE,
+                EntityNames.COURSE_OFFERING,
                 "stateEducationAgency",
                 "localEducationAgency"
                 ));
@@ -129,7 +129,7 @@ public class EntityOwnershipValidator {
 
     public boolean canAccess(Entity entity) {
         if (SecurityUtil.getSLIPrincipal().getAuthorizingEdOrgs() == null) {
-            //We explicitly set not if the app is marked as authorized_for_all_edorgs
+            //We explicitly set null if the app is marked as authorized_for_all_edorgs
             return true;
         }
 
@@ -170,7 +170,14 @@ public class EntityOwnershipValidator {
         if (ref.toType.equals(EntityNames.SCHOOL) || ref.toType.equals(EntityNames.EDUCATION_ORGANIZATION)) {
             //No need to do an actual mongo lookup since we have the IDs we need
             for (Entity entity : entities) {
-                edorgs.add((String) entity.getBody().get(ref.refField));
+                Object value = entity.getBody().get(ref.refField);
+                if (value instanceof String) {
+                    edorgs.add((String) value);
+                } else if (value instanceof List<?>) {
+                    for (Object subValues : (List<?>) value) {
+                        edorgs.add(subValues.toString());
+                    }
+                }
             }
         } else {
         
@@ -192,7 +199,7 @@ public class EntityOwnershipValidator {
                     Set<String> toAdd = lookupEdorgs(ents, collectionName);
                     edorgs.addAll(toAdd);
                 } else {
-                    warn("Could not find a matching {} where {} is {}.", collectionName, critField, critValue);
+                    throw new AccessDeniedException("Could not find a matching " + collectionName + " where " + critField + " is " + critValue + ".");
                 }
             }
         }

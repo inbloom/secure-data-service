@@ -97,25 +97,25 @@ class LocalEducationAgency < BaseEntity
   # - LEACategory (hard-coded in mustache template)
 
   def initialize(id, sea_parent_id, programs = [], years = [])    
-    @random = Random.new(9876)
-    @random = Random.new(id) unless id.kind_of? String
+    @rand = Random.new(9876)
+    @rand = Random.new(id) unless id.kind_of? String
 
     @state_org_id   = get_state_organization_id(id)
     @address        = get_address
     @programs       = programs
 
     # leave sea parent above get_accountability_ratings --> current rating organization
-    @ed_org_id_code = @state_org_id
-    @sea_parent_id  = sea_parent_id
-    @short_name     = get_short_name
-    @telephone      = get_telephone
-    @website        = 'http://fake.local-education-agency.org.fake/fake'
-    @op_status      = get_random_operational_status
-    @accountability = get_accountability_ratings(years) unless years.nil? || years.empty?
-    @ed_org_peers   = []
-    @charter_status = get_random_charter_status_type(@random)
-    @lea_parent_id  = nil   # this will need to be added when odin can generate multiple sub-tiers within the LEA tier
-    @esc_parent_id  = nil   # can we ingest education service centers? if so, do we have any security model for them?
+    optional { @ed_org_id_code = @state_org_id }
+    optional { @sea_parent_id  = sea_parent_id }
+    optional { @short_name     = get_short_name }
+    optional { @telephone      = get_telephone }
+    optional { @website        = 'http://fake.local-education-agency.org.fake/fake' }
+    optional { @op_status      = get_random_operational_status }
+    optional { @accountability = get_accountability_ratings(years) unless years.nil? || years.empty? }
+    optional { @ed_org_peers   = [] }
+    optional { @charter_status = get_random_charter_status_type(@rand) }
+    optional { @lea_parent_id  = nil }   # this will need to be added when odin can generate multiple sub-tiers within the LEA tier
+    optional { @esc_parent_id  = nil }   # can we ingest education service centers? if so, do we have any security model for them?
   end
 
   # maps to optional field 'CharterStatus'
@@ -138,7 +138,7 @@ class LocalEducationAgency < BaseEntity
   def get_address
     address = {}
     begin
-      address[:line_one] = @random.rand(1000).to_s + " " + DataUtility.select_random_from_options(@random, BaseEntity.demographics['street'])
+      address[:line_one] = @rand.rand(1000).to_s + " " + DataUtility.select_random_from_options(@rand, BaseEntity.demographics['street'])
       address[:city] = BaseEntity.demographics['city']
       address[:state] = BaseEntity.demographics['state']
       address[:postal_code] = BaseEntity.demographics['postalCode']
@@ -156,8 +156,8 @@ class LocalEducationAgency < BaseEntity
 
   # generates the telephone number of the local education agency
   def get_telephone
-    area_code        = @random.rand(1000).to_s.rjust(3, '0')
-    last_four_digits = @random.rand(10000).to_s.rjust(4, '0')
+    area_code        = @rand.rand(1000).to_s.rjust(3, '0')
+    last_four_digits = @rand.rand(10000).to_s.rjust(4, '0')
     "(" + area_code + ") 555-" + last_four_digits
   end
 
@@ -167,7 +167,7 @@ class LocalEducationAgency < BaseEntity
     years.each do |year|
       title       = "#{year} rating: #{@state_org_id}"
       rating      = get_random_rating
-      date        = DateUtility.random_date_from_years(@random, year)
+      date        = DateUtility.random_date_from_years(@rand, year)
       school_year = "#{year}-#{year+1}"
       ratings << {:title => title, :rating => rating, :date => date, :year => school_year, :rating_org => @sea_parent_id, :program => "AEIS"}
     end
@@ -177,7 +177,7 @@ class LocalEducationAgency < BaseEntity
   # generates the operational status of the local education agency
   def get_random_operational_status
     statuses = [:ACTIVE, :ADDED, :CHANGED_AGENCY, :CONTINUING, :NEW, :REOPENED]
-    DataUtility.select_random_from_options(@random, statuses)
+    DataUtility.select_random_from_options(@rand, statuses)
   end
 
   # generates an accountability rating, as per AEIS standard ratings
@@ -191,7 +191,7 @@ class LocalEducationAgency < BaseEntity
       ['Low Advanced', 25], 
       ['High Advanced', 25]
     ]
-    wChooseUsingRand(@random, ratings)
+    wChooseUsingRand(@rand, ratings)
   end
 
   # generates the charter status of the local education agency

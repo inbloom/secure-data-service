@@ -62,6 +62,31 @@
   <bean id="systemValidator" class="org.slc.sli.ingestion.validation.ComplexValidator" autowire="byName">
     <property name="validators" ref="systemValidatorsList" />
   </bean>
+  
+   <util:list id="indexValidatorListStartUp" value-type="org.slc.sli.ingestion.validation.SimpleValidatorSpring">
+      <ref bean="sliDbIndexValidator" />
+      <ref bean="batchJobDbIndexValidator" />
+  </util:list>
+  
+    <bean id="indexValidatorStartUp" class="org.slc.sli.ingestion.validation.IndexValidator">
+      <property name="validators" ref="indexValidatorListStartUp" />
+  </bean>
+  
+  <util:list id="mongoValidatorListStartUp" value-type="org.slc.sli.ingestion.validation.ComplexValidator">
+      <ref bean="indexValidatorStartUp" />
+  </util:list>
+  
+  <bean id="mongoValidatorStartUp" class="org.slc.sli.ingestion.validation.MongoValidator">
+      <property name="mongoTemplate" ref="mongoTemplate" />
+      <property name="validators" ref="mongoValidatorListStartUp" />
+  </bean>
+  
+  <util:list id="systemValidatorsListStartUp" value-type="org.slc.sli.ingestion.validation.ComplexValidator">
+      <ref bean="mongoValidatorStartUp" />
+  </util:list>
+  
+  <bean id="systemValidatorStartUp" class="org.slc.sli.ingestion.validation.ComplexValidator" autowire="byName">
+    <property name="validators" ref="systemValidatorsListStartUp" />
+  </bean>
+  
 </beans>
-
-
