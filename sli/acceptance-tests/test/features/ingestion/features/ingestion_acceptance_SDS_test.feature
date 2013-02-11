@@ -196,8 +196,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeAssessmentMetadata-StateTest.xml records considered: 2" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-StateTest.xml records ingested successfully: 2" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-StateTest.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-ACT.xml records considered: 5" in the resulting batch job file
-    And I should see "InterchangeAssessmentMetadata-ACT.xml records ingested successfully: 5" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-ACT.xml records considered: 17" in the resulting batch job file
+    And I should see "InterchangeAssessmentMetadata-ACT.xml records ingested successfully: 17" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-ACT.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-StateAssessments.xml records considered: 12" in the resulting batch job file
     And I should see "InterchangeAssessmentMetadata-StateAssessments.xml records ingested successfully: 12" in the resulting batch job file
@@ -359,18 +359,18 @@ And I check to find if record is in collection:
 And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                                     | searchValue                                      |searchType           |
      | assessment                  | 1                   | body.assessmentFamilyHierarchyName                                  | ACT                                              |string               |
-     | assessment                  | 1                   | body.objectiveAssessment.identificationCode                         | ACT-English                                      |string               |
-     | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | ACT-English-Usage                                |string               |
-     | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | ACT-English-Rhetorical                           |string               |
-     | assessment                  | 1                   | body.objectiveAssessment.identificationCode                         | ACT-Mathematics                                  |string               |
-     | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | ACT-Math-Pre-Algebra                             |string               |
-     | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | ACT-Math-Algebra                                 |string               |
-     | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | ACT-Math-Plane-Geometry                          |string               |
-     | assessment                  | 1                   | body.objectiveAssessment.identificationCode                         | ACT-Reading                                      |string               |
-     | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | ACT-Reading-SocialStudies                        |string               |
-     | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | ACT-Reading-Arts                                 |string               |
-     | assessment                  | 1                   | body.objectiveAssessment.identificationCode                         | ACT-Science                                      |string               |
-     | assessment                  | 1                   | body.objectiveAssessment.identificationCode                         | ACT-Writing                                      |string               |
+     | assessment                  | 1                   | objectiveAssessment.body.identificationCode                         | ACT-English                                      |string               |
+     | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | ACT-English-Usage                                |string               |
+     | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | ACT-English-Rhetorical                           |string               |
+     | assessment                  | 1                   | objectiveAssessment.body.identificationCode                         | ACT-Mathematics                                  |string               |
+     | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | ACT-Math-Pre-Algebra                             |string               |
+     | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | ACT-Math-Algebra                                 |string               |
+     | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | ACT-Math-Plane-Geometry                          |string               |
+     | assessment                  | 1                   | objectiveAssessment.body.identificationCode                         | ACT-Reading                                      |string               |
+     | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | ACT-Reading-SocialStudies                        |string               |
+     | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | ACT-Reading-Arts                                 |string               |
+     | assessment                  | 1                   | objectiveAssessment.body.identificationCode                         | ACT-Science                                      |string               |
+     | assessment                  | 1                   | objectiveAssessment.body.identificationCode                         | ACT-Writing                                      |string               |
      | studentAssessment| 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode                        | ACT-English                  |string               |
      | studentAssessment| 25                  | body.studentObjectiveAssessments.objectiveAssessment.objectiveAssessments.0.identificationCode | ACT-English-Usage            |string               |
      | studentAssessment| 25                  | body.studentObjectiveAssessments.objectiveAssessment.objectiveAssessments.1.identificationCode | ACT-English-Rhetorical       |string               |
@@ -401,7 +401,7 @@ Scenario: Verify deterministic ids generated: Clean Database
     | educationOrganization                | b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id | body.stateOrganizationId  | IL                                   |
     | assessment                           | d50118aaad960b54a8b2afc7268d01d13842cb58_id | body.assessmentIdentificationCode.ID  | ACT                              |
     | assessment                           | d50118aaad960b54a8b2afc7268d01d13842cb58_id | assessmentItem.body.learningStandards  | aad9e465a76a47a6478c9ac92a6c8bea9e9a587c_id |
-    | assessment                           | d50118aaad960b54a8b2afc7268d01d13842cb58_id | body.objectiveAssessment.learningObjectives  | 7cad1e4eae9c2b91f1e7fe963ee6144e83afe917_id |
+    | assessment                           | d50118aaad960b54a8b2afc7268d01d13842cb58_id | objectiveAssessment.body.learningObjectives  | 7cad1e4eae9c2b91f1e7fe963ee6144e83afe917_id |
     | educationOrganization                | 1b223f577827204a1c7e9c851dba06bea6b031fe_id | body.stateOrganizationId  | IL-DAYBREAK                          |
     | educationOrganization                | a13489364c2eb015c219172d561c62350f0453f3_id | body.stateOrganizationId  | Daybreak Central High                |
     | student                              | 067198fd6da91e1aa8d67e28e850f224d6851713_id | body.studentUniqueStateId         | 800000025                            |
@@ -844,17 +844,17 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue      | BOY                                              | string |
      | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue      | EOY                                              | string |
      | assessment                  | 1                   | body.assessmentPeriodDescriptor.codeValue      | MOY                                              | string |
-     | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-English          | string |
-     | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-Mathematics      | string |
-     | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-Reading          | string |
-     | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-Science          | string |
-     | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | ACT-Writing          | string |
-     | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | SAT-Critical Reading                             | string |
-     | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | SAT-Math                                         | string |
-     | assessment                  | 1                   | body.objectiveAssessment.identificationCode    | SAT-Writing                                      | string |
-     | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Algebra            | string |
-     | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Arithmetic         | string |
-     | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Geometry           | string |
+     | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | ACT-English          | string |
+     | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | ACT-Mathematics      | string |
+     | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | ACT-Reading          | string |
+     | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | ACT-Science          | string |
+     | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | ACT-Writing          | string |
+     | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | SAT-Critical Reading                             | string |
+     | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | SAT-Math                                         | string |
+     | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | SAT-Writing                                      | string |
+     | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | SAT-Math-Algebra            | string |
+     | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | SAT-Math-Arithmetic         | string |
+     | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | SAT-Math-Geometry           | string |
      | assessment                  | 3                   | body.assessmentFamilyHierarchyName             | READ2.READ 2.0.READ 2.0 Kindergarten                 | string |
      | attendance                  | 75                  | body.schoolYearAttendance.attendanceEvent.date | 2011-09-06      |string               |
      | cohort                      | 1                   | body.academicSubject        | English                 | string               |
@@ -960,7 +960,7 @@ Then I should see following map of entry counts in the corresponding collections
   And the field "body.correctResponse" has value "False"
   And the field "body.itemCategory" has value "True-False"
   And the field "body.maxRawScore" has value "5"
-  And I should see "Processed 121 records." in the resulting batch job file
+  And I should see "Processed 139 records." in the resulting batch job file
   And I should see "Program2.xml records considered: 4" in the resulting batch job file
   And I should see "Program2.xml records ingested successfully: 4" in the resulting batch job file
   And I should see "Program2.xml records failed: 0" in the resulting batch job file
@@ -997,8 +997,8 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "CourseOffering.xml records considered: 2" in the resulting batch job file
   And I should see "CourseOffering.xml records ingested successfully: 2" in the resulting batch job file
   And I should see "CourseOffering.xml records failed: 0" in the resulting batch job file
-  And I should see "actAssessment_CCSMapping.xml records considered: 5" in the resulting batch job file
-  And I should see "actAssessment_CCSMapping.xml records ingested successfully: 5" in the resulting batch job file
+  And I should see "actAssessment_CCSMapping.xml records considered: 17" in the resulting batch job file
+  And I should see "actAssessment_CCSMapping.xml records ingested successfully: 17" in the resulting batch job file
   And I should see "actAssessment_CCSMapping.xml records failed: 0" in the resulting batch job file
   And I should see "Grade_12_Math_CCS_G_SRT.xml records considered: 12" in the resulting batch job file
   And I should see "Grade_12_Math_CCS_G_SRT.xml records ingested successfully: 12" in the resulting batch job file
@@ -1009,8 +1009,8 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "Grade_12_English_CCS_RI_11_12.xml records considered: 17" in the resulting batch job file
   And I should see "Grade_12_English_CCS_RI_11_12.xml records ingested successfully: 17" in the resulting batch job file
   And I should see "Grade_12_English_CCS_RI_11_12.xml records failed: 0" in the resulting batch job file
-  And I should see "InterchangeAssessmentMetadata-AP-Eng.xml records considered: 6" in the resulting batch job file
-  And I should see "InterchangeAssessmentMetadata-AP-Eng.xml records ingested successfully: 6" in the resulting batch job file
+  And I should see "InterchangeAssessmentMetadata-AP-Eng.xml records considered: 12" in the resulting batch job file
+  And I should see "InterchangeAssessmentMetadata-AP-Eng.xml records ingested successfully: 12" in the resulting batch job file
   And I should see "InterchangeAssessmentMetadata-AP-Eng.xml records failed: 0" in the resulting batch job file
   And I should see "InterchangeStudentAssessment-CgrayAP-English.xml records considered: 11" in the resulting batch job file
   And I should see "InterchangeStudentAssessment-CgrayAP-English.xml records ingested successfully: 11" in the resulting batch job file

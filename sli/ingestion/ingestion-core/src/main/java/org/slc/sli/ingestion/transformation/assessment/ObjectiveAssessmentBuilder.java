@@ -222,6 +222,7 @@ public class ObjectiveAssessmentBuilder {
         NeutralRecord record = null;
         while (itr.hasNext()) {
             record = itr.next();
+            record.getAttributes().remove("assessmentId");
             all.put(record.getRecordId(), record);
         }
         return all;

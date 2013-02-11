@@ -18,12 +18,12 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                   |   1     |
    And I check to find if record is in collection:
      | collectionName      | expectedRecordCount   | searchParameter                                | searchValue       |
-     | assessment          | 1                     | body.objectiveAssessment.0.identificationCode  | ACT-English       |
-     | assessment          | 1                     | body.objectiveAssessment.1.identificationCode  | ACT-Mathematics   |
-     | assessment          | 1                     | body.objectiveAssessment.2.identificationCode  | ACT-Reading       |
-     | assessment          | 1                     | body.objectiveAssessment.3.identificationCode  | ACT-Science       |
-     | assessment          | 1                     | body.objectiveAssessment.4.identificationCode  | ACT-Writing       |
-  And I should see "Processed 5 records." in the resulting batch job file
-  And I should see "InterchangeAssessmentMetadata-ACT.xml records ingested successfully: 5" in the resulting batch job file
+     | assessment          | 1                     | objectiveAssessment.body.identificationCode    | ACT-English       |
+     | assessment          | 1                     | objectiveAssessment.body.identificationCode    | ACT-Mathematics   |
+     | assessment          | 1                     | objectiveAssessment.body.identificationCode    | ACT-Reading       |
+     | assessment          | 1                     | objectiveAssessment.body.identificationCode    | ACT-Science       |
+     | assessment          | 1                     | objectiveAssessment.body.identificationCode    | ACT-Writing       |
+  And I should see "Processed 17 records." in the resulting batch job file
+  And I should see "InterchangeAssessmentMetadata-ACT.xml records ingested successfully: 17" in the resulting batch job file
   And I should see "All records processed successfully" in the resulting batch job file
   And I should not see an error log file created
