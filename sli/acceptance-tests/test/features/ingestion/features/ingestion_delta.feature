@@ -7,7 +7,7 @@ Given I am using local data store
 
 Scenario: Job report should report deltas when SDS is ingested twice
     Given I post "StoriedDataSet_IL_Daybreak.zip" file as the payload of the ingestion job
-    And the following collections are empty in batch job datastore:
+    And the following collections are empty in datastore:
         | collectionName                        |
         | assessment                            |
         | attendance                            |
