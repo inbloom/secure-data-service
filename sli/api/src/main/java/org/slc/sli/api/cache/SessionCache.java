@@ -1,6 +1,7 @@
 package org.slc.sli.api.cache;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
@@ -15,6 +16,7 @@ import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 import net.sf.ehcache.config.CacheConfiguration;
+import net.sf.ehcache.config.Configuration;
 import net.sf.ehcache.store.MemoryStoreEvictionPolicy;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
@@ -47,13 +49,19 @@ public class SessionCache {
 
 	private TopicSession jmsSession;
 	private TopicPublisher tp;
+	
+	private Thread listener;
+	private CacheManager manager;
+	private boolean live=true;
 
 	@PostConstruct
 	@SuppressWarnings("unused")
 	private void init() throws Exception {
 		
 		//	Init Cache
-		CacheManager manager = new CacheManager();
+		Configuration c = new Configuration();
+		c.setName("sessionManager");
+		manager = new CacheManager(c);
 		CacheConfiguration config = new CacheConfiguration();
 		config.eternal(false).name(CACHE_NAME).maxEntriesLocalHeap(10000).memoryStoreEvictionPolicy(MemoryStoreEvictionPolicy.LRU).timeToIdleSeconds(300).timeToLiveSeconds(900);
 		manager.addCache(new Cache(config));
@@ -67,11 +75,11 @@ public class SessionCache {
 		final Topic topic = jmsSession.createTopic(TOPIC_NAME);
 		tp = jmsSession.createPublisher(topic);
 
-		new Thread() {	// Thread created once upon container startup
+		listener = new Thread() {	// Thread created once upon container startup
 			public void run() {
 				try {
 					MessageConsumer consumer = jmsSession.createConsumer(topic);
-					while (true) {
+					while (live) {
 
 						ObjectMessage msg = (ObjectMessage) consumer.receive();
 
@@ -89,9 +97,18 @@ public class SessionCache {
 					error("Error reading replication message", e);
 				}
 			}
-		}.start();
+		};
+		
+		listener.start();
 	}
 
+	@PreDestroy
+	@SuppressWarnings("unused")
+	private void teardown() {
+		this.live=false;
+		this.manager.shutdown();
+	}
+	
 	public void put(String token, OAuth2Authentication auth) {
 		this.sessions.put(new Element(token, auth));
 		replicate(token, auth);
