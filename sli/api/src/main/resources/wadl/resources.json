@@ -55,7 +55,7 @@
           "dateSearchDisallowed": true,
           "deprecatedVersion": "1.0",
           "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
-          "doc": "This URI, /courses/{id}/courseTranscripts, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{ids}/studentSectionAssociations/students/courseTranscripts (for teachers) or /schools/{ids}/studentSchoolAssociations/students/courseTranscripts (for staff) instead. These URIs are used internally instead of /courses/{id}/courseTranscripts, and will still be available after the deprecation period ends." 
+          "doc": "This URI, /courses/{id}/courseTranscripts, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{ids}/studentSectionAssociations/students/studentAcademicRecords/courseTranscripts (for teachers) or /schools/{ids}/studentSchoolAssociations/students/courseTranscripts (for staff) instead. These URIs are used internally instead of /courses/{id}/courseTranscripts, and will still be available after the deprecation period ends."
         }
       ]
     },
@@ -267,11 +267,11 @@
           "doc": "This URI, /schools/{id}/studentSchoolAssociations/students/attendances, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{id}/studentSectionAssociations/students/attendances (for teachers) instead. This URI is used internally instead of /schools/{id}/studentSchoolAssociations/students/attendances, and will still be available after the deprecation period ends."
         },
         { 
-          "path": "/{id}/studentSchoolAssociations/students/courseTranscripts",
+          "path": "/{id}/studentSchoolAssociations/students/studentAcademicRecords/courseTranscripts",
           "deprecatedVersion": "1.0",
           "dateSearchDisallowed": true,
           "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
-          "doc": "This URI, /schools/{id}/studentSchoolAssociations/students/courseTranscripts, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{id}/studentSectionAssociations/students/courseTranscripts (for teachers) instead. This URI is used internally instead of /schools/{id}/studentSchoolAssociations/students/courseTranscripts, and will still be available after the deprecation period ends."
+          "doc": "This URI, /schools/{id}/studentSchoolAssociations/students/studentAcademicRecords/courseTranscripts, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{id}/studentSectionAssociations/students/studentAcademicRecords/courseTranscripts (for teachers) instead. This URI is used internally instead of /schools/{id}/studentSchoolAssociations/students/studentAcademicRecords/courseTranscripts, and will still be available after the deprecation period ends."
         },
         { 
           "path": "/{id}/studentSchoolAssociations/students/reportCards",
