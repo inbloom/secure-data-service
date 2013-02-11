@@ -30,6 +30,7 @@ class StudentAssessmentGenerator < InterchangeGenerator
     @header, @footer = build_header_footer( "StudentAssessment" )
     @writers[StudentAssessment] = EntityWriter.new("student_assessment.mustache")
     @writers[StudentAssessmentItem] = EntityWriter.new("student_assessment_item.mustache")
+    @writers[StudentObjectiveAssessment] = EntityWriter.new("student_objective_assessment.mustache")
   end
 
 end

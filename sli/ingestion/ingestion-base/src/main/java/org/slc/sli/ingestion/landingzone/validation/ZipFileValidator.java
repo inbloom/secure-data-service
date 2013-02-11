@@ -33,7 +33,7 @@ import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.Source;
 import org.slc.sli.ingestion.reporting.impl.BaseMessageCode;
-import org.slc.sli.ingestion.reporting.impl.ZipFileSource;
+import org.slc.sli.ingestion.reporting.impl.FileSource;
 import org.slc.sli.ingestion.validation.Validator;
 
 /**
