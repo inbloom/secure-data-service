@@ -17,6 +17,7 @@ package org.slc.sli.ingestion.parser.impl;
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -61,13 +62,14 @@ public final class TestingRecordVisitor implements RecordVisitor {
             compare(expected, record);
         } catch (IOException e) {
             e.printStackTrace();
+            assertNull(""+e,e);
         }
     }
     
     @SuppressWarnings("unchecked")
     private void compare(Map<String, Object> expected, Map<String, Object> record) {
 
-        assertEquals(expected.size(), record.size());
+        assertEquals("keys:\n"+expected.keySet()+"\n"+record.keySet()+"\n", expected.size(), record.size());
 
         for (String key : expected.keySet()) {
             assertTrue("Missing expected key: " + key, record.containsKey(key));

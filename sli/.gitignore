@@ -10,6 +10,7 @@ TEST-*.xml
 *.tmp
 acceptance-tests/test/features/ingestion/test_data/*.zip
 acceptance-tests/test/features/ingestion/test_data/temp-*
+acceptance-tests/activemq-data/*
 ingestion/ingestion-base/src/test/resources/zip/unzip/*
 acceptance-tests/vendor/cache/*
 domain/src/main/resources/sliModel/SLI.xmi

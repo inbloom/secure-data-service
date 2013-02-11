@@ -1,0 +1,21 @@
+{
+  "TeacherReference":{
+    "StaffIdentity":{
+        "StaffUniqueStateId":{"_value":"pXas4CbbfwQQi"}
+      }
+  },
+  "SectionReference":{
+    "SectionIdentity":{
+      "EducationalOrgReference":{
+        "EducationalOrgIdentity":{
+          "StateOrganizationId":{"_value":"A2GmaqA5BhrhWmBw6J_5ow"}
+        }
+      },
+      "UniqueSectionCode":{"_value":"bjoYzn6NwaVpdHYLbRpGkaxkkIYDHMfC6XAfLTAZZr-Q"}
+    }
+  },
+  "ClassroomPosition":{"_value":"Substitute Teacher"},
+  "BeginDate":{"_value":"2014-03-29"},
+  "EndDate":{"_value":"2013-11-14"},
+  "HighlyQualifiedTeacher":true
+}

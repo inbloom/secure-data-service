@@ -62,30 +62,32 @@ import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
 public class AttendanceTransformer extends AbstractTransformationStrategy {
     private static final Logger LOG = LoggerFactory.getLogger(AttendanceTransformer.class);
 
-    private static final String STATE_ORGANIZATION_ID = "StateOrganizationId";
+    private static final String VALUE = "_value";
+
+    private static final String STATE_ORGANIZATION_ID = "StateOrganizationId." + VALUE;
     private static final String EDUCATIONAL_ORG_ID = "EducationalOrgIdentity";
     private static final String EDORG_ID = EDUCATIONAL_ORG_ID + "." + STATE_ORGANIZATION_ID;
 
     private static final String ATTENDANCE = "attendance";
     private static final String ATTENDANCE_EVENT = "attendanceEvent";
-    private static final String ATTENDANCE_EVENT_REASON = "AttendanceEventReason";
+    private static final String ATTENDANCE_EVENT_REASON = "AttendanceEventReason." + VALUE;
     private static final String ATTENDANCE_TRANSFORMED = ATTENDANCE + "_transformed";
-    private static final String ATTENDANCE_EVENT_DATE = "EventDate";
-    private static final String ATTENDANCE_EVENT_CATEGORY = "AttendanceEventCategory";
+    private static final String ATTENDANCE_EVENT_DATE = "EventDate." + VALUE;
+    private static final String ATTENDANCE_EVENT_CATEGORY = "AttendanceEventCategory." + VALUE;
     private static final String ATTENDANCE_SCHOOL_ID = "SchoolReference." + EDORG_ID;
 
     private static final String SCHOOL = "school";
     private static final String SCHOOL_ID = "schoolId";
-    private static final String SCHOOL_YEAR = "SchoolYear";
+    private static final String SCHOOL_YEAR = "SchoolYear." + VALUE;
     private static final String STUDENT_ID = "studentId";
     private static final String SESSION = "session";
     private static final String SESSION_SHOOL_ID = "EducationOrganizationReference." + EDORG_ID;
-    private static final String SESSION_BEGINDATE = "BeginDate";
-    private static final String SESSION_ENDDATE = "EndDate";
+    private static final String SESSION_BEGINDATE = "BeginDate." + VALUE;
+    private static final String SESSION_ENDDATE = "EndDate." + VALUE;
     private static final String DATE = "date";
     private static final String EVENT = "event";
     private static final String REASON = "reason";
-    private static final String STUDENT_UNIQUE_STATE_ID = "StudentReference.StudentIdentity.StudentUniqueStateId";
+    private static final String STUDENT_UNIQUE_STATE_ID = "StudentReference.StudentIdentity.StudentUniqueStateId." + VALUE;
     private static final String RECORDHASHDATA = SliDeltaManager.RECORDHASH_DATA;
 
     private int numAttendancesIngested = 0;
@@ -166,12 +168,12 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                 }
 
                 Map<String, Object> event = new HashMap<String, Object>();
-                String eventDate = (String) attributes.get(ATTENDANCE_EVENT_DATE);
-                String eventCategory = (String) attributes.get(ATTENDANCE_EVENT_CATEGORY);
+                String eventDate = (String) getProperty(attributes, ATTENDANCE_EVENT_DATE);
+                String eventCategory = (String) getProperty(attributes, ATTENDANCE_EVENT_CATEGORY);
                 event.put(DATE, eventDate);
                 event.put(EVENT, eventCategory);
                 if (attributes.containsKey(ATTENDANCE_EVENT_REASON)) {
-                    String eventReason = (String) attributes.get(ATTENDANCE_EVENT_REASON);
+                    String eventReason = (String) getProperty(attributes, ATTENDANCE_EVENT_REASON);
                     event.put(REASON, eventReason);
                 }
                 event.put(RECORDHASHDATA, recordHashData);  // include data for record level
@@ -503,9 +505,9 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         for (Map.Entry<Object, NeutralRecord> session : sessions.entrySet()) {
             NeutralRecord sessionRecord = session.getValue();
             Map<String, Object> sessionAttributes = sessionRecord.getAttributes();
-            String schoolYear = (String) sessionAttributes.get(SCHOOL_YEAR);
-            DateTime sessionBegin = DateTimeUtil.parseDateTime((String) sessionAttributes.get(SESSION_BEGINDATE));
-            DateTime sessionEnd = DateTimeUtil.parseDateTime((String) sessionAttributes.get(SESSION_ENDDATE));
+            String schoolYear = (String) getProperty( sessionAttributes,SCHOOL_YEAR);
+            DateTime sessionBegin = DateTimeUtil.parseDateTime((String) getProperty(sessionAttributes,SESSION_BEGINDATE));
+            DateTime sessionEnd = DateTimeUtil.parseDateTime((String) getProperty(sessionAttributes, SESSION_ENDDATE));
 
             List<Map<String, Object>> events = new ArrayList<Map<String, Object>>();
 
@@ -719,10 +721,10 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         res.addAll(first);
         Set<String> sessions = new HashSet<String>();
         for (NeutralRecord record : first) {
-            sessions.add((String) record.getAttributes().get("SessionName"));
+            sessions.add((String) record.getAttributes().get("SessionName._value"));
         }
         for (NeutralRecord record : second) {
-            String sKey = (String) record.getAttributes().get("SessionName");
+            String sKey = (String) record.getAttributes().get("SessionName._value");
             if (!sessions.contains(sKey)) {
                 sessions.add(sKey);
                 res.add(record);

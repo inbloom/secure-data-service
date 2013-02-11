@@ -45,8 +45,9 @@ class AssessmentFactory
 
   def grade_wide_assessments(grade, year, family = nil)
     item_count = DataUtility.rand_float_to_int(@rand, @item_counts['GRADE_WIDE_ASSESSMENTS'])
+    objectives_per_assessment = (@scenario['OBJECTIVE_ASSESSMENTS_PER_ASSESSMENT'] or 2)
     (1..@assessments_per_grade).map{|i|
-      Assessment.new("#{year}-#{GradeLevelType.to_string(grade)} Assessment #{i}", year, grade, item_count, family)
+      Assessment.new("#{year}-#{GradeLevelType.to_string(grade)} Assessment #{i}", year, grade, item_count, family, objectives_per_assessment)
     }
   end
 
@@ -71,6 +72,7 @@ class GradeWideAssessmentWorkOrder
     generated += assessments
     assessments.each{|assessment|
       generated += assessment.assessment_items
+      generated += assessment.all_objective_assessments
     }
     generated
   end

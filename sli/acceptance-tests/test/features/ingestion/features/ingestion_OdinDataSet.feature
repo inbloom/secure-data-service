@@ -151,9 +151,11 @@ Scenario: Verify entities in specific student document ingested correctly: Popul
 
 Scenario: Verify entities in student school association were ingested correctly
     And I check to find if record is in collection:
-     | collectionName              | expectedRecordCount | searchParameter                          | searchValue                                   | searchType           |
-     | graduationPlan              | 1                   | _id                                      | 438cc6756e65d65da2eabb0968387ad25a3e0b93_id   | string               |
-     | studentSchoolAssociation    | 5                   | body.graduationPlanId                    | 438cc6756e65d65da2eabb0968387ad25a3e0b93_id   | string               |
+     | collectionName              | expectedRecordCount | searchParameter                             | searchValue                                   | searchType           |
+     | graduationPlan              | 1                   | _id                                         | 438cc6756e65d65da2eabb0968387ad25a3e0b93_id   | string               |
+     | studentSchoolAssociation    | 5                   | body.graduationPlanId                       | 438cc6756e65d65da2eabb0968387ad25a3e0b93_id   | string               |
+     | assessment                  | 6                   | body.objectiveAssessment.learningObjectives | 1b0d13e233ef61ffafb613a8cc6930dfc0d29b92_id   | string               |
+     | learningObjective           | 1                   | _id                                         | 1b0d13e233ef61ffafb613a8cc6930dfc0d29b92_id   | string               |
 
 Scenario: Verify the sli verification script confirms everything ingested correctly
     Given the edfi manifest that was generated in the 'generated' directory

@@ -1,0 +1,30 @@
+{
+  "@id":"ID001",
+  "LocalCourseCode":{"_value":"eiKnCG"},
+  "LocalCourseTitle":{"_value":"w4w6GbeZ8u"},
+  "SchoolReference":{
+    "EducationalOrgIdentity":{
+      "StateOrganizationId":{"_value":"qU8Hus"}
+    }
+  },
+  "SessionReference":{
+    "SessionIdentity":{
+      "EducationalOrgReference":{
+        "EducationalOrgIdentity":{
+          "StateOrganizationId":{"_value":"AEKtTs2zMP10B5"}
+        }
+      },
+      "SessionName":{"_value":"txtx1h13V"}
+    }
+  },
+  "CourseReference":{
+    "CourseIdentity":{
+      "EducationalOrgReference":{
+        "EducationalOrgIdentity":{
+          "StateOrganizationId":{"_value":"KK.6_D97.8TaAQSPw"}
+        }
+      },
+      "UniqueCourseId":{"_value":"Q7wc2O4-vBul-pnuf5s"}
+    }
+  }
+}

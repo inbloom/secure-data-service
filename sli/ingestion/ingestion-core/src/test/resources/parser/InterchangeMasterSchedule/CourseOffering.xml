@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeMasterSchedule xmlns:sli="http://slc-sli/ed-org/0.1"
+ xmlns="http://ed-fi.org/0100"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://ed-fi.org/0100 file:/C:/beta/sli/sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-MasterSchedule.xsd">
+    <CourseOffering id="ID001">
+        <LocalCourseCode>eiKnCG</LocalCourseCode>
+        <LocalCourseTitle>w4w6GbeZ8u</LocalCourseTitle>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>qU8Hus</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>AEKtTs2zMP10B5</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>txtx1h13V</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+        <CourseReference>
+            <CourseIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>KK.6_D97.8TaAQSPw</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>Q7wc2O4-vBul-pnuf5s</UniqueCourseId>
+            </CourseIdentity>
+        </CourseReference>
+    </CourseOffering>
+</InterchangeMasterSchedule>
