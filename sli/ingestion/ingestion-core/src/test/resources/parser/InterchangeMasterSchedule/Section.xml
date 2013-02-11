@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeMasterSchedule xmlns:sli="http://slc-sli/ed-org/0.1"
+ xmlns="http://ed-fi.org/0100"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://ed-fi.org/0100 file:/C:/beta/sli/sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-MasterSchedule.xsd">
+    <Section id="ID001">
+        <UniqueSectionCode>glt71G8aD34w16HEE9tfsV5ABEnnI2</UniqueSectionCode>
+        <SequenceOfCourse>7</SequenceOfCourse>
+        <EducationalEnvironment>Mainstream (Special Education)</EducationalEnvironment>
+        <MediumOfInstruction>Other technology-based instruction</MediumOfInstruction>
+        <PopulationServed>ESL Students</PopulationServed>
+        <AvailableCredit CreditType="Semester hour credit" CreditConversion="918241612.14">
+            <Credit>266982401.27</Credit>
+        </AvailableCredit>
+        <CourseOfferingReference>
+            <CourseOfferingIdentity>
+                <LocalCourseCode>WCv8XCMGy-rPgL</LocalCourseCode>
+                <SessionReference>
+                    <SessionIdentity>
+                        <SessionName>dTiw5pEbayOq3bgDzfiqtNNrU_NR</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>yB2T2K8rw5s1x8</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </CourseOfferingIdentity>
+        </CourseOfferingReference>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>oBGb</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>fuHocabJk2b_lZouywtP9QQ</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>kKetPH376YbHpXKuq9jUQX22qxtnEfek8Z</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+        <LocationReference id="ID003" ref="ID002">
+            <LocationIdentity>
+                <ClassroomIdentificationCode>ybmi89O2</ClassroomIdentificationCode>
+                <StateOrganizationId>Eo6RxoIJtbMyG0Agz6Y03mWOeXfxLdCk03F4-_</StateOrganizationId>
+            </LocationIdentity>
+        </LocationReference>
+        <ClassPeriodReference id="ID005" ref="ID005">
+            <ClassPeriodIdentity>
+                <ClassPeriodName>yfcdo</ClassPeriodName>
+                <EducationOrgIdentificationCode IdentificationSystem="DUNS">
+                    <ID>dGkcZpLxJ</ID>
+                </EducationOrgIdentificationCode>
+            </ClassPeriodIdentity>
+        </ClassPeriodReference>
+        <ProgramReference>
+            <ProgramIdentity>
+                <ProgramId>IJeOzO5HTVhF</ProgramId>
+            </ProgramIdentity>
+        </ProgramReference>
+    </Section>
+</InterchangeMasterSchedule>
