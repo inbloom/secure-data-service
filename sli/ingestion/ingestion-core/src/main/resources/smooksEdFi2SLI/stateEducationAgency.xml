@@ -44,8 +44,8 @@
         <jb:value property="ID" data="attributes EducationOrgIdentificationCode ID _value" />
     </jb:bean>
 
-    <jb:bean beanId="OrganizationCategories" class="java.util.ArrayList" createOnElement="attributes OrganizationCategories">
-        <jb:value data="attributes OrganizationCategories element _value" />
+    <jb:bean beanId="OrganizationCategories" class="java.util.ArrayList" createOnElement="attributes OrganizationCategories OrganizationCategory">
+        <jb:value data="attributes OrganizationCategories OrganizationCategory element _value" />
     </jb:bean>
 
     <jb:bean beanId="Addresses" class="java.util.ArrayList" createOnElement="attributes">
