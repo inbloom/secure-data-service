@@ -38,12 +38,12 @@ class ObjectiveAssessment < BaseEntity
 
     unless grade_assessed == :UNGRADED
       num_objectives = (@@scenario["NUM_LEARNING_OBJECTIVES_PER_SUBJECT_AND_GRADE"] or 2)
-      subject = academic_subject || AcademicSubjectType.to_string(choose(AcademicSubjectType.get_academic_subjects(grade_assessed)))
-      @learning_objectives = LearningObjective.build_learning_objectives(num_objectives, subject, GradeLevelType.to_string(grade_assessed))
+      subject = academic_subject || choose(AcademicSubjectType.get_academic_subjects(grade_assessed))
+      @learning_objectives = LearningObjective.build_learning_objectives(num_objectives, subject, grade_assessed)
     end
 
     if (generate_child) 
-      @child_objective_assessment = ObjectiveAssessment.new("#{@identificationCode} Sub", @maxRawScore, grade_assessed, false, subject)
+      @child_objective_assessment = ObjectiveAssessment.new("#{@identificationCode} Sub", @maxRawScore, grade_assessed, subject)
     end 
   end
 

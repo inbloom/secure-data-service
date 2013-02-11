@@ -30,6 +30,9 @@ bundle exec rake FORCE_COLOR=true ingestion_log_directory=/home/ingestion/logs i
 cd $WORKSPACE/tools/jmeter/odin-ci
 source ci-jmeter-realm.sh
 
+cd $WORKSPACE/sli/opstools/migration
+ruby 70ApplicationAuthorizationMigration.rb localhost:27017
+
 cd $WORKSPACE/tools/jmeter/
 rm -f *.jtl
 cd $WORKSPACE/sli/acceptance-tests

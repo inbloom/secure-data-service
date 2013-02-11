@@ -6,10 +6,11 @@ You have successfully created a landing zone on your inBloom sandbox.
 If you chose to use one of the inBloom sample datasets, you can download it from:
 <%= @sample_data_link %>
 
-Upload the data file (inBloom sample data or your own Ed-Fi-compliant data) to the following SFTP location for ingestion:
+Upload the data file (inBloom sample data or your own Ed-Fi-compliant data) to the SFTP location below.  Your SFTP credentials are your inBloom sandbox username and password.
 
 Server: <%= @serverName %>
-Education organization: <%= @edorgId %>
+
+Your landing zone is for the education organization: <%= @edorgId %>.  Other users in your sandbox tenant who provision a landing zone with the same education organization will share this landing zone with you.
 
 For more information, please see <%= @redirect_email %>
 
@@ -21,7 +22,7 @@ Welcome <%= @firstName %>,
 
 You have successfully created a landing zone for your education organization.
      
-To load your data, sftp to the directory below and upload the data file you created in order for it to be ingested by the system.
+To load your data, SFTP to the directory below and upload the data file you created in order for it to be ingested by the system.  Your SFTP credentials are your inBloom administrator account username and password.
 
 Server: <%= @serverName %>
 Education organization: <%= @edorgId %>
