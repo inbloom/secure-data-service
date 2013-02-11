@@ -74,7 +74,6 @@ public class SecurityEventBuilder {
                         Map<String, Object> body = realmEntity.getBody();
                         if (body != null) {
                             event.setUserEdOrg((String) body.get("edOrg"));
-
             				String stateOrgId = (String) body.get("edOrg");
 							String tenantId = (String) body.get("tenantId");
 				            event.setTargetEdOrg(realmHelper.getEdOrgIdFromTenantDB(tenantId, stateOrgId));

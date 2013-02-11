@@ -104,20 +104,17 @@ public class RealmHelper {
 		Entity userSession = repo.findOne(USER_SESSION, sessionQuery);
 		if (userSession != null) {
 			Map<String, Object> body = userSession.getBody();
-
 			if (body != null) {
 				@SuppressWarnings("unchecked")
 				Map<String, Object> principal = (Map<String, Object>) body
 						.get("principal");
 				realmId = (String) principal.get("realm");
-
 				NeutralQuery realmQuery = new NeutralQuery();
 				realmQuery.addCriteria(new NeutralCriteria("_id",
 						NeutralCriteria.OPERATOR_EQUAL, realmId));
 				return repo.findOne("realm", realmQuery);
 			}
 		}
-
 		return null;
 	}
 
