@@ -213,7 +213,7 @@ public class ListSchema extends NeutralSchema {
                 AppInfo current = (AppInfo) annotation;
                 for (NeutralSchema schema : getList()) {
                     AppInfo info = schema.getAppInfo();
-                    current.inheritSecurityConcerns(info);
+                    current.inheritReadWriteAuthorities(info);
                 }
             }
             return annotation;
