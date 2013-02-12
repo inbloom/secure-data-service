@@ -331,23 +331,41 @@ public class JobReportingProcessor implements Processor {
     }
 
     private void writeDuplicates(NewBatchJob job, PrintWriter jobReportWriter) {
-        List<Metrics> edfiMetrics = job.getStageMetrics(BatchJobStageType.EDFI_PROCESSOR);
-        if (edfiMetrics != null) {
-            for (Metrics metric : edfiMetrics) {
-                Map<String, Long> duplicates = metric.getDuplicateCounts();
+        Map<String,Map<String, Long>> combinedMetrics = new HashMap<String, Map<String, Long>>();
+        List<Metrics> deltaStageMetrics = job.getStageMetrics(BatchJobStageType.DELTA_PROCESSOR);
 
-                if (duplicates != null) {
-                    String resource = metric.getResourceId();
-                    for (Map.Entry<String, Long> dupEntry : duplicates.entrySet()) {
-                        Long count = dupEntry.getValue();
-                        if (count > 0) {
-                            writeInfoLine(jobReportWriter, resource + " " + dupEntry.getKey() + " " + count
-                                    + " deltas!");
-                        }
-                    }
-                }
+        if(deltaStageMetrics != null) {
+            for(Metrics metrics : deltaStageMetrics) {
+                String resourceId = metrics.getResourceId();
+                Map<String, Long> combinedDuplicateCounts = combinedMetrics.containsKey(resourceId) ? collateDuplicateCounts(combinedMetrics.get(resourceId), metrics.getDuplicateCounts()) : metrics.getDuplicateCounts();
+                combinedMetrics.put(resourceId, combinedDuplicateCounts);
             }
         }
+
+        for(Entry<String, Map<String, Long>> entry : combinedMetrics.entrySet()) {
+            String resource = entry.getKey();
+            Map<String, Long> duplicates = entry.getValue();
+            if(duplicates != null) {
+                for (Map.Entry<String, Long> dupEntry : duplicates.entrySet()) {
+                  Long count = dupEntry.getValue();
+                  if (count > 0) {
+                      writeInfoLine(jobReportWriter, resource + " " + dupEntry.getKey() + " " + count
+                              + " deltas!");
+                  }
+              }
+
+            }
+        }
+    }
+
+    private Map<String, Long> collateDuplicateCounts(Map<String, Long> currentCounts, Map<String, Long> metricsCount) {
+        Map<String, Long> combinedCounts = new HashMap<String, Long>();
+        combinedCounts.putAll(currentCounts);
+        for(Map.Entry<String,Long> entry : metricsCount.entrySet()) {
+            Long count = combinedCounts.containsKey(entry.getKey()) ? combinedCounts.get(entry.getKey()) + entry.getValue() : entry.getValue();
+            combinedCounts.put(entry.getKey(),count);
+        }
+        return combinedCounts;
     }
 
     private long writeBatchJobPersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter) {

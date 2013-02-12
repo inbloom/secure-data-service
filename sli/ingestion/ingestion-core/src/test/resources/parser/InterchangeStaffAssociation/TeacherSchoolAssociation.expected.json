@@ -1,0 +1,34 @@
+{
+  "@id":"ID015",
+  "TeacherReference":{
+    "StaffIdentity":{
+      "StaffUniqueStateId":{"_value":"HjE3Gyf"}
+    }
+  },
+  "SchoolReference":{
+    "EducationalOrgIdentity":{
+      "StateOrganizationId":{"_value":"n"}
+    }
+  },
+  "ProgramAssignment":{"_value":"Regular Education"},
+  "InstructionalGradeLevels":{
+    "GradeLevel":[
+      {"_value":"Adult Education"},
+      {"_value":"Tenth grade"},
+      {"_value":"Adult Education"},
+      {"_value":"Postsecondary"},
+      {"_value":"Postsecondary"},
+      {"_value":"Second grade"}
+    ]
+  },
+  "AcademicSubjects":{
+    "AcademicSubject":[
+      {"_value":"Writing"},
+      {"_value":"Architecture and Construction"},
+      {"_value":"English Language and Literature"},
+      {"_value":"Architecture and Construction"},
+      {"_value":"Social Studies"},
+      {"_value":"Life and Physical Sciences"}
+    ]
+  }
+}

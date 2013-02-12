@@ -3,18 +3,18 @@
   "StaffUniqueStateId":{"_value":"iytez9gFUJfovYCkYXQ3kKofV7RdL"},
   "StaffIdentificationCode":[
     {
-      "IdentificationSystem":{"_value":"District"},
-      "AssigningOrganizationCode":{"_value":"kqd55pX9mLRJf.K7f_VBzDRB4wT1QMRE-LXRh1"},
+      "@IdentificationSystem":{"_value":"District"},
+      "@AssigningOrganizationCode":{"_value":"kqd55pX9mLRJf.K7f_VBzDRB4wT1QMRE-LXRh1"},
       "ID":{"_value":"lX82jZNFKNehTMso0_cu7bq"}
     },
     {
-      "IdentificationSystem":{"_value":"Canadian SIN"},
-      "AssigningOrganizationCode":{"_value":"PT7UnR.2yhaw28HrhyiyX1wN16wP33hVfrqtmT4Q9JiXHtWZJZv5Wqd0nTy."},
+      "@IdentificationSystem":{"_value":"Canadian SIN"},
+      "@AssigningOrganizationCode":{"_value":"PT7UnR.2yhaw28HrhyiyX1wN16wP33hVfrqtmT4Q9JiXHtWZJZv5Wqd0nTy."},
       "ID":{"_value":"_MayJd.Gw3t8"}
     }
   ],
   "Name":{
-    "Verification":{"_value":"Drivers license"},
+    "@Verification":{"_value":"Drivers license"},
     "PersonalTitlePrefix":{"_value":"Sister"},
     "FirstName":{"_value":"EZlq_J8-Iytl1lMoX6PRe172zXtySazEM.Uu"},
     "MiddleName":{"_value":"MKqnSHKUrQEL0wPV4xCI5WYRDF7i50L7-r6Blh"},
@@ -24,7 +24,7 @@
   },
   "OtherName":[
     {
-      "OtherNameType":{"_value":"Previous Legal Name"},
+      "@OtherNameType":{"_value":"Previous Legal Name"},
       "PersonalTitlePrefix":{"_value":"Mr"},
       "FirstName":{"_value":"eLHsqSob"},
       "MiddleName":{"_value":"n66Ws.qNatBEiZNwXVzq"},
@@ -32,7 +32,7 @@
       "GenerationCodeSuffix":{"_value":"VIII"}
     },
     {
-      "OtherNameType":{"_value":"Nickname"},
+      "@OtherNameType":{"_value":"Nickname"},
       "PersonalTitlePrefix":{"_value":"Reverend"},
       "FirstName":{"_value":"Ir7J6uTquGP75gl7yS_tViJ8GkZU3sGo7-Wpcq-XZgAao-mwR7MCL5s6_A"},
       "MiddleName":{"_value":"b5geKyfC6hhOnnpeyvMZrkzTgf_t.AhD6.seR2_pofbq8lY5uWUmyrnGyhdvW"},
@@ -44,7 +44,7 @@
   "BirthDate":{"_value":"2014-03-26"},
   "Address":[
     {
-      "AddressType":{"_value":"Home"},
+      "@AddressType":{"_value":"Home"},
       "AddressLine":[
         {"_value":"BBw1Pl_Jk0Y3udqUVn2QnH-D5_14F76kxdylzzH9TmUgprel2ESTMlX75tCy"},
         {"_value":"sFcQms"}
@@ -56,7 +56,7 @@
       "EndDate":{"_value":"2014-04-18"}
     },
     {
-      "AddressType":{"_value":"Work"},
+      "@AddressType":{"_value":"Work"},
       "AddressLine":[
         {"_value":"EIRoqIU-kvbmqhj01jyhpHr.Z6_gYPIvkPp0JGAleXvGLSHH1f6k5v26e0aQ3YCumiRtkJG65w403sqDYx7ibdClJNXdhd4dSwlhSL-WL6t1lzVLq"},
         {"_value":"_pXRiYcaODbXd1sxM-S8-AlYI38mrYv7gF14owL7-NmQk21rxfGKo0RyZ04mLZ"}
@@ -70,22 +70,22 @@
   ],
   "Telephone":[
     {
-      "TelephoneNumberType":{"_value":"Mobile"},
-      "PrimaryTelephoneNumberIndicator":0,{"_value":"TelephoneNumber":"BG"}
+      "@TelephoneNumberType":{"_value":"Mobile"},
+      "@PrimaryTelephoneNumberIndicator":0,"TelephoneNumber":"BG"
     },
     {
-      "TelephoneNumberType":{"_value":"Unlisted"},
+      "@TelephoneNumberType":{"_value":"Unlisted"},
       "PrimaryTelephoneNumberIndicator":0,
       "TelephoneNumber":{"_value":"uCvjlE1BrQzf9m"}
     }
   ],
   "ElectronicMail":[
     {
-      "EmailAddressType":{"_value":"Other"},
+      "@EmailAddressType":{"_value":"Other"},
       "EmailAddress":{"_value":"lWaTdymittPUh8nxvyTHz55C9D33oLrslHI4SZkJICcBGOr8X"}
     },
     {
-      "EmailAddressType":{"_value":"Other"},
+      "@EmailAddressType":{"_value":"Other"},
       "EmailAddress":{"_value":"xTE566T98b.IktBpVSkXlP6iUVjQY"}
     }
   ],

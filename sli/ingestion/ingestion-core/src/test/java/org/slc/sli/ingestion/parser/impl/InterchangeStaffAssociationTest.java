@@ -30,6 +30,16 @@ public class InterchangeStaffAssociationTest {
 
     public static final Logger LOG = LoggerFactory.getLogger(InterchangeStaffAssociationTest.class);
 
+    @Test
+    public void testStaff() throws Throwable {
+
+        Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StaffAssociation.xsd");
+        Resource inputXml = new ClassPathResource("parser/InterchangeStaffAssociation/Staff.xml");
+        Resource expectedJson = new ClassPathResource("parser/InterchangeStaffAssociation/Staff.expected.json");
+
+        new EntityTestHelper().parseAndVerify(schema, inputXml, expectedJson);
+    }
+
 //    @Test
     public void testTeacher() throws Throwable {
 
@@ -41,11 +51,41 @@ public class InterchangeStaffAssociationTest {
     }
 
     @Test
+    public void testStaffProgramAssociation() throws Throwable {
+
+        Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StaffAssociation.xsd");
+        Resource inputXml = new ClassPathResource("parser/InterchangeStaffAssociation/StaffProgramAssociation.xml");
+        Resource expectedJson = new ClassPathResource("parser/InterchangeStaffAssociation/StaffProgramAssociation.expected.json");
+
+        new EntityTestHelper().parseAndVerify(schema, inputXml, expectedJson);
+    }
+
+    @Test
     public void testStaffEducationOrgAssignmentAssociation() throws Throwable {
 
         Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StaffAssociation.xsd");
         Resource inputXml = new ClassPathResource("parser/InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation.xml");
         Resource expectedJson = new ClassPathResource("parser/InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation.expected.json");
+
+        new EntityTestHelper().parseAndVerify(schema, inputXml, expectedJson);
+    }
+
+    @Test
+    public void testTeacherSchoolAssociation() throws Throwable {
+
+        Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StaffAssociation.xsd");
+        Resource inputXml = new ClassPathResource("parser/InterchangeStaffAssociation/TeacherSchoolAssociation.xml");
+        Resource expectedJson = new ClassPathResource("parser/InterchangeStaffAssociation/TeacherSchoolAssociation.expected.json");
+
+        new EntityTestHelper().parseAndVerify(schema, inputXml, expectedJson);
+    }
+
+    @Test
+    public void testTeacherSectionAssociation() throws Throwable {
+
+        Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StaffAssociation.xsd");
+        Resource inputXml = new ClassPathResource("parser/InterchangeStaffAssociation/TeacherSectionAssociation.xml");
+        Resource expectedJson = new ClassPathResource("parser/InterchangeStaffAssociation/TeacherSectionAssociation.expected.json");
 
         new EntityTestHelper().parseAndVerify(schema, inputXml, expectedJson);
     }

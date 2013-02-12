@@ -1,0 +1,172 @@
+dashboard_server_address: "http://devmegatron.slidev.org"
+dashboard_app_prefix: "/dashboard"
+dashboard_landing_page: "/"
+dashboard_api_server_uri: "http://devmegatron.slidev.org"
+realm_page_url: "http://devmegatron.slidev.org/api/oauth/authorize"
+browser: "firefox"
+
+admintools_server_url: "http://devmegatron.slidev.org:3001"
+minisb_admintools_server_url: "http://ycao-mint.slidev.org:3001"
+api_server_url: "http://devmegatron.slidev.org"
+databrowser_server_url: "http://devmegatron.slidev.org:3000"
+
+ingestion_db: "localhost"
+ingestion_db_port: 27017
+ingestion_database_name: "sli"
+ingestion_batchjob_db: "localhost"
+ingestion_batchjob_database_name: "ingestion_batch_job"
+ingestion_batchjob_db_port: 27017
+lz_server_url: "devpantheon.slidev.org"
+lz_sftp_port: "22"
+ingestion_server_url: "devpantheon.slidev.org"
+ingestion_username: "ingestion"
+ingestion_password: "password"
+ingestion_remote_lz_path: "/home/ingestion/"
+ingestion_mode: "local"
+ingestion_destination_data_store: "../ingestion/ingestion-service/target/ingestion/logs/"
+ingestion_healthcheck_url: "http://devmegatron.slidev.org/ingestion-service/healthcheck"
+ingestion_properties_file: "/opt/tomcat/apache-tomcat-7.0.34/conf/sli.properties"
+ingestion_log_directory: "/opt/ingestion/logs/"
+ingestion_index_validation: true
+ingestion_rc_tenant: ""
+ingestion_rc_edorg: ""
+ingestion_timeout_override_seconds: 0
+activemq_host: "localhost"
+
+sif_db: "localhost"
+sif_port: 27017
+sif_database_name: "sli"
+sif_zis_address_trigger: "http://devmegatron.slidev.org/mock-zis/trigger"
+
+sli_database_name: "sli"
+
+DB_HOST: "localhost"
+DB_PORT: 27017
+api_database_name : "sli"
+
+sampleApp_server_address: "http://devmegatron.slidev.org/"
+
+simpleIDP_realm_server_address: "http://devmegatron.slidev.org/"
+simpleIDP_realm_params: "response_type%3dcode%26client_id%3dfm67sH6vZZ%26redirect_uri%3dhttp://devmegatron.slidev.org/sample/callback"
+simpleIDP_login_url: "http://devmegatron.slidev.org/simple-idp"
+simpleIDP_realm_SLI: "SimpleIDP Test Realm - SLI"
+simpleIDP_realm_suffix: "Local"
+
+ldap_hostname: ldap.slidev.org
+ldap_port: 389
+ldap_use_ssl: false
+ldap_base: "ou=LocalNew,ou=DevTest,dc=slidev,dc=org"
+ldap_admin_user: cn=DevLDAP User, ou=People,dc=slidev,dc=org
+ldap_admin_pass: Y;Gtf@w{
+
+user_registration_app_production_url: "http://devmegatron.slidev.org:3001"
+user_registration_app_sandbox_url: "http://devmegatron.slidev.org:3001"
+user_registration_app_host_url: "inbloom.org"
+sb_get_started: "dev.slcedu.org/getting-started"
+registration_app_suffix: "/registration"
+samt_app_suffix: "/users"
+validation_base_suffix: "/user_account_validation"
+user_registration_email: devldapuser@slidev.org
+user_registration_pass: test1234
+
+jmeter_jmx_path: "../../tools/jmeter/"
+jmeter_jtl_archive: "/storage/logs/jmeter/archive"
+jmeter_failed_jtl_archive: "/storage/logs/jmeter/failed"
+jmeter_bin: "jmeter"
+jmeter_properties: "local.properties"
+jmeter_regression_threshold: 0.25
+
+
+emaiL_smtp_host: mon.slidev.org
+email_smtp_port: 3000
+
+email_imap_port: 993
+
+# for CI and local environments
+email_imap_host: mon.slidev.org
+email_imap_registration_user: devldapuser
+email_imap_registration_user_email: devldapuser@slidev.org
+email_imap_registration_pass: Y;Gtf@w{
+
+################# e2e test properties #################################
+# For CI environments
+email_imap_hostname: mon.slidev.org
+email_imap_portname: 993
+
+#SEA Admin creds - For CI environments
+primary_email_imap_registration_user: e2etestsea
+primary_email_imap_registration_user_email: e2etestsea@slidev.org
+primary_email_imap_registration_pass: test1234
+
+#LEA Admin creds - For CI environments
+secondary_email_imap_registration_user: e2etestlea
+secondary_email_imap_registration_user_email: e2etestlea@slidev.org
+secondary_email_imap_registration_pass: test1234
+
+#Developer creds - For CI environments
+developer_email_imap_registration_user: e2etestdev
+developer_email_imap_registration_user_email: e2etestdev@slidev.org
+developer_email_imap_registration_pass: test1234
+
+#Developer creds (sandbox) - For CI environments
+developer_sb_email_imap_registration_user: e2etestdev_sb
+developer_sb_email_imap_registration_user_email: e2etestdev_sb@slidev.org
+developer_sb_email_imap_registration_pass: test1234
+
+#Developer 2 creds (sandbox) - For CI environments
+developer2_sb_email_imap_registration_user: e2etestdev_sb2
+developer2_sb_email_imap_registration_user_email: e2etestdev_sb2@slidev.org
+developer2_sb_email_imap_registration_pass: test1234
+
+#Landing zone -
+landingzone: picard-lz.slidev.org
+landingzone_port: 443
+
+sandbox_tenant: e2etestdev_sb@slidev.org
+tenant: RCTestTenant
+edorg: STANDARD-SEA
+
+# IDP and Redirect Endpoint URL for Realm Management
+ci_idp_redirect_url: https://devmegatron.slidev.org/simple-idp?realm=IL-Daybreak
+
+##For RC environments
+#email_imap_hostname: imap.gmail.com
+#email_imap_portname: 993
+
+##SEA Admin creds - For RC environments
+#primary_email_imap_registration_user: testuser0.wgen@gmail.com
+#primary_email_imap_registration_user_email: testuser0.wgen@gmail.com
+#primary_email_imap_registration_pass: liferaywgen
+
+##LEA Admin creds - For RC environments
+#secondary_email_imap_registration_user: testuser1.wgen@gmail.com
+#secondary_email_imap_registration_user_email: testuser1.wgen@gmail.com
+#secondary_email_imap_registration_pass: liferaywgen
+
+##Developer creds - For RC environments
+#developer_email_imap_registration_user: testdev.wgen@gmail.com
+#developer_email_imap_registration_user_email: testdev.wgen@gmail.com
+#developer_email_imap_registration_pass: test1234
+
+##Developer creds (sandbox) - For RC environments
+#developer_sb_email_imap_registration_user:
+#developer_sb_email_imap_registration_user_email:
+#developer_sb_email_imap_registration_pass:
+
+##Developer 2 creds (sandbox) - For RC environments
+#developer2_sb_email_imap_registration_user:
+#developer2_sb_email_imap_registration_user_email:
+#developer2_sb_email_imap_registration_pass:
+
+################# /e2e test properties #################################
+
+portal_server_address: http://devmegatron.slidev.org:7000
+portal_app_suffix: "/portal"
+
+elastic_search_address: http://devmegatron.slidev.org:9200
+elastic_search_inbox: "../search-indexer/data/inbox"
+elastic_search_host: localhost
+elastic_search_remote_command_port: 10024
+
+activemq_host: localhost
+activemq_port: 61613

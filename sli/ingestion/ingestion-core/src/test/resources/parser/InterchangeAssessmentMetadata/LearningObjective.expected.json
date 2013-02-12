@@ -14,10 +14,10 @@
     }
   }],
   "LearningObjectiveReference":{
-    "LearningObjectiveIdentity":[{
-      "Objective":"DU"},
+    "LearningObjectiveIdentity":{
+      "Objective":{"_value":"DU"},
       "AcademicSubject":{"_value":"ELA"},
       "ObjectiveGradeLevel":{"_value":"Eighth grade"}
-    }]
+    }
   }
 }
