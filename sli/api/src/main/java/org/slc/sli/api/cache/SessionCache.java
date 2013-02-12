@@ -30,7 +30,7 @@ import org.springframework.stereotype.Component;
  * @author dkornishev
  * 
  */
-@Component
+//@Component
 public class SessionCache {
 
 	private static final String TOPIC_NAME = "sessionSync";
@@ -54,7 +54,7 @@ public class SessionCache {
 	private CacheManager manager;
 	private boolean live=true;
 
-	@PostConstruct
+	//@PostConstruct
 	@SuppressWarnings("unused")
 	private void init() throws Exception {
 		
@@ -102,7 +102,7 @@ public class SessionCache {
 		listener.start();
 	}
 
-	@PreDestroy
+	//@PreDestroy
 	@SuppressWarnings("unused")
 	private void teardown() {
 		this.live=false;
