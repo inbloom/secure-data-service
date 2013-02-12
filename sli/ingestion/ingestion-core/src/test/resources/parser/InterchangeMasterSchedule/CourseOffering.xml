@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeMasterSchedule xmlns:sli="http://slc-sli/ed-org/0.1"
+ xmlns:ns0="http://ed-fi.org/0100"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://ed-fi.org/0100 file:/C:/Users/tshewchuk/repository/sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-MasterSchedule.xsd">
+    <CourseOffering id="ID000">
+        <LocalCourseCode>LocalCourseCode0</LocalCourseCode>
+        <LocalCourseTitle>LocalCourseTitle0</LocalCourseTitle>
+        <SchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>StateOrganizationId0</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>StateOrganizationId1</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>SessionName0</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+        <CourseReference>
+            <CourseIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>StateOrganizationId2</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>UniqueCourseId0</UniqueCourseId>
+            </CourseIdentity>
+        </CourseReference>
+    </CourseOffering>
+</InterchangeMasterSchedule>
