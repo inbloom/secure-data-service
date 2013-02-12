@@ -1,10 +1,10 @@
 {
-  "@id":"ID003",
+  "a_id":"ID003",
   "ParentUniqueStateId":{
     "_value":"L0CRWfT6iKxuBlI-_3DHMRQ"
   },
   "Name":{
-    "@Verification":"Life insurance policy",
+    "a_Verification":"Life insurance policy",
     "PersonalTitlePrefix":{
       "_value":"Sr"
     },
@@ -26,7 +26,7 @@
   },
   "OtherName":[
     {
-      "@OtherNameType":"Alias",
+      "a_OtherNameType":"Alias",
       "PersonalTitlePrefix":{
         "_value":"Mrs"
       },
@@ -44,7 +44,7 @@
       }
     },
     {
-      "@OtherNameType":"Alias",
+      "a_OtherNameType":"Alias",
       "PersonalTitlePrefix":{
         "_value":"Sister"
       },
@@ -67,7 +67,7 @@
   },
   "Address":[
     {
-      "@AddressType":"Mailing",
+      "a_AddressType":"Mailing",
       "AddressLine":[
         {
           "_value":"TdCVN8RLefbvfv8K-xAntOId3M0sASnso5nwnlk-M3NUOH6w4nUDlp4IcqIWLLjBSwp7o"
@@ -93,7 +93,7 @@
       }
     },
     {
-      "@AddressType":"Billing",
+      "a_AddressType":"Billing",
       "StreetNumberName":{
         "_value":"r"
       },
@@ -134,15 +134,15 @@
   ],
   "Telephone":[
     {
-      "@PrimaryTelephoneNumberIndicator":"0",
-      "@TelephoneNumberType":"Unlisted",
+      "a_PrimaryTelephoneNumberIndicator":"0",
+      "a_TelephoneNumberType":"Unlisted",
       "TelephoneNumber":{
         "_value":"vq4"
       }
     },
     {
-      "@PrimaryTelephoneNumberIndicator":"0",
-      "@TelephoneNumberType":"Emergency 1",
+      "a_PrimaryTelephoneNumberIndicator":"0",
+      "a_TelephoneNumberType":"Emergency 1",
       "TelephoneNumber":{
         "_value":"gPvWtP6k6VBSVJqUh"
       }
@@ -150,13 +150,13 @@
   ],
   "ElectronicMail":[
     {
-      "@EmailAddressType":"Work",
+      "a_EmailAddressType":"Work",
       "EmailAddress":{
         "_value":"vj9ZXsMdvOCTifTMe36G5cV9fYmVp9x"
       }
     },
     {
-      "@EmailAddressType":"Other",
+      "a_EmailAddressType":"Other",
       "EmailAddress":{
         "_value":"uREWY5bBJLSnbgbCzRnwVHSGSg"
       }

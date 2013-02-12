@@ -1,5 +1,5 @@
 {
-  "@id":"ID009",
+  "a_id":"ID009",
   "AssessmentResponse":
   {
     "_value":"AssessmentResponse0"
@@ -23,7 +23,7 @@
       },
       "StudentReference":
       {
-        "@id":"ID010",
+        "a_id":"ID010",
         "StudentIdentity":
         {
           "StudentUniqueStateId":
@@ -34,7 +34,7 @@
       },
       "AssessmentReference":
       {
-        "@id":"ID011",
+        "a_id":"ID011",
         "AssessmentIdentity":
         {
           "AssessmentTitle":
@@ -59,11 +59,11 @@
           },
           "StudentReference":
           {
-            "@id":"ID012"
+            "a_id":"ID012"
           },
           "AssessmentReference":
           {
-            "@id":"ID013"
+            "a_id":"ID013"
           }
         }
       },

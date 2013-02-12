@@ -1,8 +1,8 @@
 {
-  "@id":"ID001",
+  "a_id":"ID001",
   "AssessmentReference":{
-    "@id":"ID003",
-    "@ref":"ID001",
+    "a_id":"ID003",
+    "a_ref":"ID001",
     "AssessmentIdentity":{
       "AssessmentTitle":{"_value":"vj8zbHeMTeYFobCU0TF21q-Cy8n"},
       "AcademicSubject":{"_value":"Hospitality and Tourism"},

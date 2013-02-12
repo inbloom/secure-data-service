@@ -1,7 +1,7 @@
 {
-  "@id":"ID001",
+  "a_id":"ID001",
   "LearningObjectiveId":{
-    "@ContentStandardName":"hGNrCyg0S7PrJFpbCOi9fcUktQ0wUe2_5xH0Zzcq9atBcQzdMjwZOyiIeamsIJe",
+    "a_ContentStandardName":"hGNrCyg0S7PrJFpbCOi9fcUktQ0wUe2_5xH0Zzcq9atBcQzdMjwZOyiIeamsIJe",
     "IdentificationCode":{"_value":"S8gK7JgZuCQdrao2Ac9Mh"}
   },
   "Objective":{"_value":"_30iUn9qDcnuRbz_JxT6KSLfYd3"},

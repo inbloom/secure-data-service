@@ -1,5 +1,5 @@
 {
-  "@id":"ID007",
+  "a_id":"ID007",
   "StateOrganizationId":
   {
     "_value":"jBj7RIzrrwFTDGeKoFwMfz0aoN"
@@ -7,14 +7,14 @@
   "EducationOrgIdentificationCode":
   [
     {
-      "@IdentificationSystem":"SEA",
+      "a_IdentificationSystem":"SEA",
       "ID":
       {
         "_value":"YG7QsFN"
       }
     },
     {
-      "@IdentificationSystem":"School",
+      "a_IdentificationSystem":"School",
       "ID":
       {
         "_value":"ceTQOoV7tCm"
@@ -44,7 +44,7 @@
   "Address":
   [
     {
-      "@AddressType":"Physical",
+      "a_AddressType":"Physical",
       "StreetNumberName":
       {
         "_value":"eM"
@@ -95,7 +95,7 @@
       }
     },
     {
-      "@AddressType":"Physical",
+      "a_AddressType":"Physical",
       "AddressLine":
       [
         "ppu3",
@@ -126,14 +126,14 @@
   "Telephone":
   [
     {
-      "@InstitutionTelephoneNumberType":"Administrative",
+      "a_InstitutionTelephoneNumberType":"Administrative",
       "TelephoneNumber":
       {
         "_value":"sWz9_OSee2Y07pgD8RJQSC"
       }
     },
     {
-      "@InstitutionTelephoneNumberType":"Administrative",
+      "a_InstitutionTelephoneNumberType":"Administrative",
       "TelephoneNumber":
       {
         "_value":"z"
@@ -227,7 +227,7 @@
   "EducationOrganizationPeerReference":
   [
     {
-      "@id":"ID009",
+      "a_id":"ID009",
       "EducationalOrgIdentity":
       {
         "StateOrganizationId":
@@ -237,7 +237,7 @@
       }
     },
     {
-      "@id":"ID011",
+      "a_id":"ID011",
       "EducationalOrgIdentity":
       {
         "StateOrganizationId":

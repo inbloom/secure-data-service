@@ -1,5 +1,5 @@
 {
-  "@id":"ID027",
+  "a_id":"ID027",
   "CourseTitle":
   {
     "_value":"cB."
@@ -8,16 +8,16 @@
   "CourseCode":
   [
     {
-      "@IdentificationSystem":"University course code",
-      "@AssigningOrganizationCode":"kdXMtMKq5p9Ihmk_nqOLjLN3Qd5eZDil4",
+      "a_IdentificationSystem":"University course code",
+      "a_AssigningOrganizationCode":"kdXMtMKq5p9Ihmk_nqOLjLN3Qd5eZDil4",
       "ID":
       {
         "_value":"JWnNAKHqSFen6u"
       }
     },
     {
-      "@IdentificationSystem":"SCED course code",
-      "@AssigningOrganizationCode":"fVGV",
+      "a_IdentificationSystem":"SCED course code",
+      "a_AssigningOrganizationCode":"fVGV",
       "ID":
       {
         "_value":"f-SNM.pz_jrYXpdZmrEnJt"
@@ -75,14 +75,14 @@
   },
   "MinimumAvailableCredit":
   {
-    "@CreditType":"Trimester hour credit",
-    "@CreditConversion":-1.666253284473E9,
+    "a_CreditType":"Trimester hour credit",
+    "a_CreditConversion":-1.666253284473E9,
     "Credit":1.82501183679E9
   },
   "MaximumAvailableCredit":
   {
-    "@CreditType":"Carnegie unit",
-    "@CreditConversion":2.125416277768E9,
+    "a_CreditType":"Carnegie unit",
+    "a_CreditConversion":2.125416277768E9,
     "Credit":1.12834168071E9
   },
   "CareerPathway":
@@ -160,14 +160,14 @@
   "CompetencyLevels":
   [
     {
-      "@id":"ID029",
+      "a_id":"ID029",
       "CodeValue":
       {
         "_value":"icTge.ObfzE"
       }
     },
     {
-      "@id":"ID031",
+      "a_id":"ID031",
       "CodeValue":
       {
         "_value":"jVU6"

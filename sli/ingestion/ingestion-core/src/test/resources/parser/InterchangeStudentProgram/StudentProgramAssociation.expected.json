@@ -1,5 +1,5 @@
 {
-  "@id":"ID001",
+  "a_id":"ID001",
   "StudentReference":{
     "StudentIdentity":{
       "StudentUniqueStateId":{"_value":"Pt_uyzV4Y0BFCjlg2d"}
@@ -11,8 +11,8 @@
     }
   },
   "Services":[{
-    "@id":"ID003",
-    "@ref":"ID002",
+    "a_id":"ID003",
+    "a_ref":"ID002",
     "ShortDescription":{"_value":"x6So5.qOhsHap-r0JfU80Ap8EHnof"}
   }],
   "BeginDate":{"_value":"2014-10-04"},

@@ -1,16 +1,16 @@
 {
-  "@id":"ID004",
+  "a_id":"ID004",
   "ScoreResults":
   [
     {
-      "@AssessmentReportingMethod":"Achievement/proficiency level",
+      "a_AssessmentReportingMethod":"Achievement/proficiency level",
       "Result":
       {
         "_value":"Result2"
       }
     },
     {
-      "@AssessmentReportingMethod":"Achievement/proficiency level",
+      "a_AssessmentReportingMethod":"Achievement/proficiency level",
       "Result":
       {
         "_value":"Result3"
@@ -20,7 +20,7 @@
   "PerformanceLevels":
   [
     {
-      "@id":"ID005",
+      "a_id":"ID005",
       "CodeValue":
       {
         "_value":"CodeValue2"
@@ -28,7 +28,7 @@
       "PerformanceLevelMet":false
     },
     {
-      "@id":"ID006",
+      "a_id":"ID006",
       "Description":
       {
         "_value":"Description1"
@@ -46,7 +46,7 @@
       },
       "StudentReference":
       {
-        "@id":"ID007",
+        "a_id":"ID007",
         "StudentIdentity":
         {
           "StudentUniqueStateId":
@@ -57,7 +57,7 @@
       },
       "AssessmentReference":
       {
-        "@id":"ID008",
+        "a_id":"ID008",
         "AssessmentIdentity":
         {
           "AssessmentTitle":

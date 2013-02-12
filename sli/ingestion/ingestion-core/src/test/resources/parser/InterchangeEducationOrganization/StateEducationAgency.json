@@ -1,5 +1,5 @@
 {
-  "@id":"ID001",
+  "a_id":"ID001",
   "StateOrganizationId":
   {
     "_value":"s2KbeMYlPi7B0dD6Jjts5VmxbF"
@@ -7,14 +7,14 @@
   "EducationOrgIdentificationCode":
   [
     {
-      "@IdentificationSystem":"DUNS",
+      "a_IdentificationSystem":"DUNS",
       "ID":
       {
         "_value":"GlzIERM8LkrwDBa_QOCUq375y3LBhf87iO_JhjcR5eH8SQ8C33"
       }
     },
     {
-      "@IdentificationSystem":"Federal",
+      "a_IdentificationSystem":"Federal",
       "ID":
       {
         "_value":"JRUxNX.iNSRpxtRko"
@@ -44,7 +44,7 @@
   "Address":
   [
     {
-      "@AddressType":"Work",
+      "a_AddressType":"Work",
       "AddressLine":
       [
         "FP09pmPhg7wOKV7",
@@ -72,7 +72,7 @@
       }
     },
     {
-      "@AddressType":"Home",
+      "a_AddressType":"Home",
       "StreetNumberName":
       {
         "_value":"pZtzHV9zfrcgQV5BnTgDCcvEUQO"
@@ -126,14 +126,14 @@
   "Telephone":
   [
     {
-      "@InstitutionTelephoneNumberType":"Administrative",
+      "a_InstitutionTelephoneNumberType":"Administrative",
       "TelephoneNumber":
       {
         "_value":"ByoQbCa"
       }
     },
     {
-      "@InstitutionTelephoneNumberType":"HealthClinic",
+      "a_InstitutionTelephoneNumberType":"HealthClinic",
       "TelephoneNumber":
       {
         "_value":"iApTT-6_e8"
@@ -227,20 +227,20 @@
   "EducationOrganizationPeerReference":
   [
     {
-      "@id":"ID003",
+      "a_id":"ID003",
       "EducationalOrgIdentity":
       {
         "EducationOrgIdentificationCode":
         [
           {
-            "@IdentificationSystem":"Other Federal",
+            "a_IdentificationSystem":"Other Federal",
             "ID":
             {
               "_value":"PcrQp7_HtAZockXQA9VlLh"
             }
           },
           {
-            "@IdentificationSystem":"DUNS",
+            "a_IdentificationSystem":"DUNS",
             "ID":
             {
               "_value":"u5ZC29Z1-V"
@@ -250,7 +250,7 @@
       }
     },
     {
-      "@id":"ID005",
+      "a_id":"ID005",
       "EducationalOrgIdentity":
       {
         "StateOrganizationId":

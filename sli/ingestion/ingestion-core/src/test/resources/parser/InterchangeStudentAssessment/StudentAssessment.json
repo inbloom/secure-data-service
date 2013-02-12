@@ -1,5 +1,5 @@
 {
-  "@id":"ID014",
+  "a_id":"ID014",
   "AdministrationDate":
   {
     "_value":"2006-05-04"
@@ -65,14 +65,14 @@
   "ScoreResults":
   [
     {
-      "@AssessmentReportingMethod":"Achievement/proficiency level",
+      "a_AssessmentReportingMethod":"Achievement/proficiency level",
       "Result":
       {
         "_value":"Result4"
       }
     },
     {
-      "@AssessmentReportingMethod":"Achievement/proficiency level",
+      "a_AssessmentReportingMethod":"Achievement/proficiency level",
       "Result":
       {
         "_value":"Result5"
@@ -86,7 +86,7 @@
   "PerformanceLevels":
   [
     {
-      "@id":"ID015",
+      "a_id":"ID015",
       "CodeValue":
       {
         "_value":"CodeValue4"
@@ -94,7 +94,7 @@
       "PerformanceLevelMet":false
     },
     {
-      "@id":"ID016",
+      "a_id":"ID016",
       "Description":
       {
         "_value":"Description3"
@@ -114,7 +114,7 @@
   },
   "AssessmentReference":
   {
-    "@id":"ID017",
+    "a_id":"ID017",
     "AssessmentIdentity":
     {
       "AssessmentTitle":

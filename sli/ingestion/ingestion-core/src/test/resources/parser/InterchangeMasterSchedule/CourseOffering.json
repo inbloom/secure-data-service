@@ -1,5 +1,5 @@
 {
-  "@id":"ID000",
+  "a_id":"ID000",
   "LocalCourseCode":
   {
     "_value":"LocalCourseCode0"

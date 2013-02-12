@@ -1,40 +1,40 @@
 {
-  "@id":"ID001",
+  "a_id":"ID001",
   "StaffUniqueStateId":{"_value":"jid"},
   "StaffIdentificationCode":[
     {
-      "@IdentificationSystem":"Other",
-      "@AssigningOrganizationCode":"XsvxgaU-lQMmrc",
+      "a_IdentificationSystem":"Other",
+      "a_AssigningOrganizationCode":"XsvxgaU-lQMmrc",
       "ID":{"_value":"FY7pYFphxGIOX_hWdB1QjR0Oi8FDiyacd3D0HNDhTMPk"}
     },
     {
-      "@IdentificationSystem":"Selective Service",
-      "@AssigningOrganizationCode":"b935pSsIDpo8ejef7YIN-Bvs_Ym8s2rs",
+      "a_IdentificationSystem":"Selective Service",
+      "a_AssigningOrganizationCode":"b935pSsIDpo8ejef7YIN-Bvs_Ym8s2rs",
       "ID":{"_value":"BA"}
     },
     {
-      "@IdentificationSystem":"Medicaid",
-      "@AssigningOrganizationCode":"DBrJTRtja",
+      "a_IdentificationSystem":"Medicaid",
+      "a_AssigningOrganizationCode":"DBrJTRtja",
       "ID":{"_value":"CsJnQKpdweS-2.kAmGG7ja2cqFXSlqHgWK_I37Gt5_"}
     },
     {
-      "@IdentificationSystem":"Canadian SIN",
-      "@AssigningOrganizationCode":"vSdkptbIICoQpSDtzVKZqTiPEcd0KAkEJ6o1gn-Xu6ueC9HAm9YvIR9",
+      "a_IdentificationSystem":"Canadian SIN",
+      "a_AssigningOrganizationCode":"vSdkptbIICoQpSDtzVKZqTiPEcd0KAkEJ6o1gn-Xu6ueC9HAm9YvIR9",
       "ID":{"_value":"t2VbBUTI3CcqV88FDZf"}
     },
     {
-      "@IdentificationSystem":"Canadian SIN",
-      "@AssigningOrganizationCode":"AAOSqLqGH51zHGg_yDwixy_x9FQlco9WaBZI2DJC",
+      "a_IdentificationSystem":"Canadian SIN",
+      "a_AssigningOrganizationCode":"AAOSqLqGH51zHGg_yDwixy_x9FQlco9WaBZI2DJC",
       "ID":{"_value":"xrVrJgG19E1Bq"}
     },
     {
-      "@IdentificationSystem":"SSN",
-      "@AssigningOrganizationCode":"Etz1JKzRi1W995.",
+      "a_IdentificationSystem":"SSN",
+      "a_AssigningOrganizationCode":"Etz1JKzRi1W995.",
       "ID":{"_value":"pkIAY-3-wG9wgVhzJbxGRXt"}
     }
   ],
   "Name":{
-    "@Verification":"Entry in family Bible",
+    "a_Verification":"Entry in family Bible",
     "PersonalTitlePrefix":{"_value":"Sr"},
     "FirstName":{"_value":"db3zAfA67B1y0OeFvA8buB8pwyN2EF8b8Er9JW_.Wc.i36h-lze."},
     "MiddleName":{"_value":"T8X.4ot5vZ03DkuYefafN_We3xlcVcH5Cc2Vu8drU"},
@@ -44,7 +44,7 @@
   },
   "OtherName":[
     {
-      "@OtherNameType":"Other Name",
+      "a_OtherNameType":"Other Name",
       "PersonalTitlePrefix":{"_value":"Sr"},
       "FirstName":{"_value":"mwE13lY6b-EsVt3kdYM5G5cDkp9"},
       "MiddleName":{"_value":"fXTd."},
@@ -52,7 +52,7 @@
       "GenerationCodeSuffix":{"_value":"III"}
     },
     {
-      "@OtherNameType":"Previous Legal Name",
+      "a_OtherNameType":"Previous Legal Name",
       "PersonalTitlePrefix":{"_value":"Dr"},
       "FirstName":{"_value":"ErvwIzMENpHYtaqq8_qJqk-1hXni9hlTuxjHm2GyJhy"},
       "MiddleName":{"_value":"iwRhqDkD78JKl"},
@@ -60,7 +60,7 @@
       "GenerationCodeSuffix":{"_value":"Sr"}
     },
     {
-      "@OtherNameType":"Alias",
+      "a_OtherNameType":"Alias",
       "PersonalTitlePrefix":{"_value":"Reverend"},
       "FirstName":{"_value":"aaWR4TUg2tnlsfsr_"},
       "MiddleName":{"_value":"XU_lGGYnQfHgU2Pb.iVItkUWIWP4sKvbU2"},
@@ -68,7 +68,7 @@
       "GenerationCodeSuffix":{"_value":"Sr"}
     },
     {
-      "@OtherNameType":"Alias",
+      "a_OtherNameType":"Alias",
       "PersonalTitlePrefix":{"_value":"Colonel"},
       "FirstName":{"_value":"XbU"},
       "MiddleName":{"_value":"CJMyqRemgv0Evo79BMPyyQbZ7l3-Yc-eU-HRi5"},
@@ -76,7 +76,7 @@
       "GenerationCodeSuffix":{"_value":"Sr"}
     },
     {
-      "@OtherNameType":"Nickname",
+      "a_OtherNameType":"Nickname",
       "PersonalTitlePrefix":{"_value":"Mr"},
       "FirstName":{"_value":"sjuZwErh5UTDVWUKeN0-ToM"},
       "MiddleName":{"_value":"Als2gNa5Z5s3j-RHnK5E521A7sRO9qox4L_-XO7Adv0RE7d2560lMT5gZf"},
@@ -84,7 +84,7 @@
       "GenerationCodeSuffix":{"_value":"V"}
     },
     {
-      "@OtherNameType":"Nickname",
+      "a_OtherNameType":"Nickname",
       "PersonalTitlePrefix":{"_value":"Colonel"},
       "FirstName":{"_value":"L9rNjFkHeSOcv.LD7qun_ICtdpOASuy4Y6Nusrav4oVETiaemJRPRad.H"},
       "MiddleName":{"_value":"ukqqlN72LdUIV216sDU"},
@@ -96,7 +96,7 @@
   "BirthDate":{"_value":"2014-12-07"},
   "Address":[
     {
-      "@AddressType":"Temporary",
+      "a_AddressType":"Temporary",
       "AddressLine":[
         {"_value":"UotmaUMILTnlLooKsxp01rI4Hps.G_QMBcZd1gEd9dcfAu-E7y-7kxAB"},
         {"_value":"aA4ZvcWWooHlFUE3sunn.b"},
@@ -112,7 +112,7 @@
       "EndDate":{"_value":"2015-01-27"}
     },
     {
-      "@AddressType":"Temporary",
+      "a_AddressType":"Temporary",
       "StreetNumberName":{"_value":"W1NHgdPLrjDAGqZ3iVnhPMXjssgutIZHAnQo"},
       "ApartmentRoomSuiteNumber":{"_value":"DuumODJkWFqXM_CUR"},
       "BuildingSiteNumber":{"_value":"Yfn"},
@@ -127,7 +127,7 @@
       "EndDate":{"_value":"2013-08-23"}
     },
     {
-      "@AddressType":"Home",
+      "a_AddressType":"Home",
       "AddressLine":[
         {"_value":"gAy.mv-XGsrPcxz4cdF5oq8IqxmkP2zGwcXb_B38gKk"},
         {"_value":"MnhnbDphrQAiZpyC2LfmFIZ6q-oKi92t7V9FMQYAARwU0EwB.qf84d9dUh425n_.gMzRhJHIH.kPUKXMvhiA2"},
@@ -143,7 +143,7 @@
       "EndDate":{"_value":"2015-02-03"}
     },
     {
-      "@AddressType":"Temporary",
+      "a_AddressType":"Temporary",
       "AddressLine":[
         {"_value":"ea87PSUiPip6SW6AsKP6EYoHL5"},
         {"_value":"OPXn"},
@@ -159,7 +159,7 @@
       "EndDate":{"_value":"2013-09-25"}
     },
     {
-      "@AddressType":"Physical",
+      "a_AddressType":"Physical",
       "AddressLine":[
         {"_value":"iPN2vXC8QE2owr40xKfqgvk.rz4Wy0KBd3jpbDQjC9Eoz9flygUGulJ7bJ_0Ba04Va7pKVS"},
         {"_value":"Q.aT"},
@@ -175,7 +175,7 @@
       "EndDate":{"_value":"2014-09-16"}
     },
     {
-      "@AddressType":"Billing",
+      "a_AddressType":"Billing",
       "StreetNumberName":{"_value":"PlbOVaN1_rN8KdqrFz3k7qa"},
       "ApartmentRoomSuiteNumber":{"_value":"jfhCywhX"},
       "BuildingSiteNumber":{"_value":"E.Tng4x."},
@@ -192,59 +192,59 @@
   ],
   "Telephone":[
     {
-      "@TelephoneNumberType":"Other",
-      "@PrimaryTelephoneNumberIndicator":false,
+      "a_TelephoneNumberType":"Other",
+      "a_PrimaryTelephoneNumberIndicator":false,
       "TelephoneNumber":{"_value":"LGokZ0bnhCZlB6DGCucj"}
     },
     {
-      "@TelephoneNumberType":"Unlisted",
-      "@PrimaryTelephoneNumberIndicator":1,
+      "a_TelephoneNumberType":"Unlisted",
+      "a_PrimaryTelephoneNumberIndicator":1,
       "TelephoneNumber":{"_value":"BS6dJUYOqpT"}
     },
     {
-      "@TelephoneNumberType":"Work",
-      "@PrimaryTelephoneNumberIndicator":true,
+      "a_TelephoneNumberType":"Work",
+      "a_PrimaryTelephoneNumberIndicator":true,
       "TelephoneNumber":{"_value":"rWZJi4JWn.bRsXMIL4h"}
     },
     {
-      "@TelephoneNumberType":"Home",
-      "@PrimaryTelephoneNumberIndicator":false,
+      "a_TelephoneNumberType":"Home",
+      "a_PrimaryTelephoneNumberIndicator":false,
       "TelephoneNumber":{"_value":"LsFsqNQjvWm"}
     },
     {
-      "@TelephoneNumberType":"Emergency 1",
-      "@PrimaryTelephoneNumberIndicator":true,
+      "a_TelephoneNumberType":"Emergency 1",
+      "a_PrimaryTelephoneNumberIndicator":true,
       "TelephoneNumber":{"_value":"S.o.pySuIY1InCvg43"}
     },
     {
-      "@TelephoneNumberType":"Other",
-      "@PrimaryTelephoneNumberIndicator":0,
+      "a_TelephoneNumberType":"Other",
+      "a_PrimaryTelephoneNumberIndicator":0,
       "TelephoneNumber":{"_value":"GnzTEq2w6NvQkEo"}
     }
   ],
   "ElectronicMail":[
     {
-      "@EmailAddressType":"Home/Personal",
+      "a_EmailAddressType":"Home/Personal",
       "EmailAddress":{"_value":"vEXUPjJCFOVovwHHKDx9SVqBRdt-X2Io_.iL68Tx0rlpFIFSaTi4_wNHIQfq1pXMVCJ9Aek2.zTSSx821zW__O_16_0auAe6MBO"}
     },
     {
-      "@EmailAddressType":"Home/Personal",
+      "a_EmailAddressType":"Home/Personal",
       "EmailAddress":{"_value":"ZLrWP9b9Nog8fOy0H_cMBO8IY3gi_GNQSHzT0WDjgL04vzCAv237oMeBegnLhFInJtakOJYS.bXDe-CcPKirITZpSxPjTXJVj0qZFVXgIi.e."}
     },
     {
-      "@EmailAddressType":"Organization",
+      "a_EmailAddressType":"Organization",
       "EmailAddress":{"_value":"Y6m4YNAhhQ3."}
     },
     {
-      "@EmailAddressType":"Organization",
+      "a_EmailAddressType":"Organization",
       "EmailAddress":{"_value":"Z1swizsfFYcYxeHbluxJt5Zh7vVI_n3UT6O6wAlGOSPDJJFBg0Md5v"}
     },
     {
-      "@EmailAddressType":"Home/Personal",
+      "a_EmailAddressType":"Home/Personal",
       "EmailAddress":{"_value":"zel8tlSqBfF1FZH8I4p34UNkW9jbaRs5RjhGLoDsOUYZ4lHm3cDWxHq0Di5Y"}
     },
     {
-      "@EmailAddressType":"Other",
+      "a_EmailAddressType":"Other",
       "EmailAddress":{"_value":"j3Fmio-Y3E_8l_RZpO1aIbAj5lxI7yJezO_4u1uYvZ"}
     }
   ],
@@ -267,8 +267,8 @@
     {
       "CredentialType":{"_value":"Other"},
       "CredentialField":{
-        "@id":"ID003",
-        "@ref":"ID002",
+        "a_id":"ID003",
+        "a_ref":"ID002",
         "CodeValue":{"_value":"g7x"}
       },
       "Level":{"_value":"Early Childhood (PK-K)"},
@@ -280,8 +280,8 @@
     {
       "CredentialType":{"_value":"Registration"},
       "CredentialField":{
-        "@id":"ID005",
-        "@ref":"ID005",
+        "a_id":"ID005",
+        "a_ref":"ID005",
         "Description":{"_value":"GlaoNznrYrK8IY9sPN7HvCuI6x5nbcpDAsqiuZRl5G6YC3"}
       },
       "Level":{"_value":"Elementary (Grade Level EC-4)"},
@@ -293,8 +293,8 @@
     {
       "CredentialType":{"_value":"Certification"},
       "CredentialField":{
-        "@id":"ID007",
-        "@ref":"ID007",
+        "a_id":"ID007",
+        "a_ref":"ID007",
         "Description":{"_value":"j7vF-dVkkck7J0F.V9GOY4eyJ-R6L-JlZKE15NDFVUHex2vCiwnnLRq9VR2U.IZO5bDzE3digiBrCxbSvEyIdOvbbj.c_FNch9u3-IxEZLwByXCp17e2-BEWeJf"}
       },
       "Level":{"_value":"Elementary (Grade Level 1-6)"},
@@ -306,7 +306,7 @@
     {
       "CredentialType":{"_value":"Endorsement"},
       "CredentialField":{
-        "@id":"ID009","@ref":"ID005",
+        "a_id":"ID009","a_ref":"ID005",
         "CodeValue":{"_value":"TJRRBlEsS15"}
       },
       "Level":{"_value":"Elementary (Grade Level PK-5)"},
@@ -318,8 +318,8 @@
     {
       "CredentialType":{"_value":"Other"},
       "CredentialField":{
-        "@id":"ID011",
-        "@ref":"ID006",
+        "a_id":"ID011",
+        "a_ref":"ID006",
         "CodeValue":{"_value":"V"}
       },
       "Level":{"_value":"Elementary (Grade Level PK-6)"},
@@ -331,8 +331,8 @@
     {
       "CredentialType":{"_value":"Registration"},
       "CredentialField":{
-        "@id":"ID013",
-        "@ref":"ID000",
+        "a_id":"ID013",
+        "a_ref":"ID000",
         "Description":{"_value":"Eyc-IcSKB0beCGkySZftVZmRMJnlb9FEbMZMYAxkZi7AykW72DiFwL0o7TgfPvUtgz2zsJ.54085gmLyAu4fz97x_K_a1I5a9VZGnfKx9RkTzQ7DL4vjFGCku6n5"}
       },
       "Level":{"_value":"Elementary (Grade Level 1-6)"},

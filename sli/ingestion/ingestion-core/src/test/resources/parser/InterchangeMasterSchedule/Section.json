@@ -1,5 +1,5 @@
 {
-  "@id":"ID005",
+  "a_id":"ID005",
   "UniqueSectionCode":
   {
     "_value":"UniqueSectionCode1"
@@ -19,8 +19,8 @@
   },
   "AvailableCredit":
   {
-    "@CreditType":"Carnegie unit",
-    "@CreditConversion":0,
+    "a_CreditType":"Carnegie unit",
+    "a_CreditConversion":0,
     "Credit":
     {
       "_value":50
@@ -88,7 +88,7 @@
   },
   "LocationReference":
   {
-    "@id":"ID006",
+    "a_id":"ID006",
     "LocationIdentity":
     {
       "ClassroomIdentificationCode":
@@ -98,28 +98,28 @@
       "EducationOrgIdentificationCode":
       [
         {
-          "@IdentificationSystem":"School",
+          "a_IdentificationSystem":"School",
           "ID":
           {
             "_value":"ID2"
           }
         },
         {
-          "@IdentificationSystem":"School",
+          "a_IdentificationSystem":"School",
           "ID":
           {
             "_value":"ID3"
           }
         },
         {
-          "@IdentificationSystem":"School",
+          "a_IdentificationSystem":"School",
           "ID":
           {
             "_value":"ID4"
           }
         },
         {
-          "@IdentificationSystem":"School",
+          "a_IdentificationSystem":"School",
           "ID":
           {
             "_value":"ID5"
@@ -130,7 +130,7 @@
   },
   "ClassPeriodReference":
   {
-    "@id":"ID007",
+    "a_id":"ID007",
     "ClassPeriodIdentity":
     {
       "ClassPeriodName":

@@ -1,11 +1,11 @@
 {
-  "@id":"ID001",
+  "a_id":"ID001",
   "IdentificationCode":{"_value":"HJDowIqe5ynYf-a"},
   "MaxRawScore":-616777533,
   "AssessmentPerformanceLevel":[{
     "PerformanceLevel":{
-      "@id":"ID003",
-      "@ref":"ID002",
+      "a_id":"ID003",
+      "a_ref":"ID002",
       "CodeValue":{"_value":"Wsv8Xq4AlZ_JQFnv"},
       "PerformanceLevelMet":true
     },
@@ -16,8 +16,8 @@
   "PercentOfAssessment":-379146788,
   "Nomenclature":{"_value":"J"},
   "AssessmentItemReference":[{
-    "@id":"ID005",
-    "@ref":"ID002"
+    "a_id":"ID005",
+    "a_ref":"ID002"
   }],
   "LearningObjectiveReference":[{
       "LearningObjectiveIdentity":{
