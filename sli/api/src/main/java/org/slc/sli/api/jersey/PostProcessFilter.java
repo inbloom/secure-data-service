@@ -17,8 +17,10 @@
 
 package org.slc.sli.api.jersey;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.List;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import com.mongodb.BasicDBList;
@@ -121,10 +123,13 @@ public class PostProcessFilter implements ContainerResponseFilter {
             securityCachingStrategy.expire();
         }
     }
+
+    static long bucket = 0;
     private void logApiDataToDb(ContainerRequest request, ContainerResponse response) {
         long startTime = (Long) request.getProperties().get("startTime");
         long endTime = System.currentTimeMillis(); 
         long elapsed = endTime - startTime;
+        long startBucket = bucket;
 
         Map<String, Object> body = new HashMap<String, Object>();
 
@@ -148,7 +153,7 @@ public class PostProcessFilter implements ContainerResponseFilter {
             }
         }
 
-        if (logIntoDb) {
+        if (true) {
             String endPoint = "/" + uri.get("resource");
             if (uri.get("id") != null) {
                 endPoint += "/{id}";
@@ -181,7 +186,35 @@ public class PostProcessFilter implements ContainerResponseFilter {
             body.put("endTime", endTime);
             body.put("responseTime", String.valueOf(elapsed));
             body.put("dbHitCount", mongoStat.getDbHitCount());
-            body.put("stats", mongoStat.getStats()); 
+
+            // break stats up into multiple 1k stat documents.
+            List<String> stats = mongoStat.getStats();
+            List<String> statsBucket = new ArrayList<String>();
+            for (int i=0; i < stats.size(); ++i) {
+                statsBucket.add(stats.get(i));
+                if (((i+1) % 1000) == 0) {
+                    Map<String, Object> statDoc = new HashMap<String, Object>();
+                    statDoc.put("id", Long.toString(bucket++));
+                    statDoc.put("stats", statsBucket);
+                    perfRepo.create("apiResponseStat", statDoc, "apiResponseStat");
+                    statsBucket.clear();
+                }
+            }
+
+            if (!statsBucket.isEmpty()) {
+                Map<String, Object> statDoc = new HashMap<String, Object>();
+                statDoc.put("id", Long.toString(bucket++));
+                statDoc.put("stats", statsBucket);
+                perfRepo.create("apiResponseStat", statDoc, "apiResponseStat");
+                statsBucket.clear();
+            }
+
+            ArrayList<String> tmp = new ArrayList<String>();
+            for (long i = startBucket; i < bucket; ++i) {
+                tmp.add(Long.toString(i));
+            }
+
+            body.put("stats", tmp);
             perfRepo.create("apiResponse", body, "apiResponse");
         }
 
