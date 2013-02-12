@@ -3,14 +3,14 @@ require 'mongo'
 
 $index_70_adds = {
   "applicationAuthorization" => [
-    {"body.applicationId" => Mongo::ASCENDING},
-    {"body.edorgs" => Mongo::ASCENDING}
+    ["body.applicationId", Mongo::ASCENDING],
+    ["body.edorgs", Mongo::ASCENDING]
     ],
   "courseTranscript" => [
-    {"body.educationOrganizationReference" => Mongo::ASCENDING},
+    ["body.educationOrganizationReference", Mongo::ASCENDING],
     ],
   "gradingPeriod" => [
-    {"body.gradingPeriodIdentity.schoolId" => Mongo::ASCENDING},
+    ["body.gradingPeriodIdentity.schoolId", Mongo::ASCENDING],
     ],
 }
 
@@ -41,7 +41,7 @@ def add_indexes(host, port, tenant_name)
       num_added = num_added + 1
 
       puts "Adding index: #{tenant_name}:#{coll}.#{idx_name}"
-      client.db(tenant_name).collection(coll).create_index( idx, :name => idx_name )
+      client.db(tenant_name).collection(coll).create_index([idx], :name => idx_name)
     end
   end
 

@@ -14,23 +14,24 @@
       "doc": "Represents the definition of a section resource. A section is an educational entity that represents a setting in which organized instruction of course content is provided to one or more students for a given period of time. See $$Course$$ resource for details. A section is associated with a student, teacher, and assessment through $$StudentSectionAssociation$$ and $$TeacherSectionAssociation$$. For more details about the resources, see $$Student$$, $$Teacher$$ and $$Assessment$$ resources. For detailed information, see the schema for $$Section$$ resources. For this open ended URI, only current and directly associated entities are returned. For teachers, this is /teachers/{ID}/teacherSectionAssociations/sections. {ID} is the unique ID of the teacher. For staff, this is /schools/{IDs}/sections. {IDs} represents a list of the school or education organization IDs to which the staff is currently associated.",
       "resourceClass": "org.slc.sli.api.resources.generic.DefaultResource",
       "subResources": [
-        { "path": "/{id}/gradebookEntries" },
-        { "path": "/{id}/studentGradebookEntries" },
-        { "path": "/{id}/studentSectionAssociations" },
-        { "path": "/{id}/studentSectionAssociations/grades" },
-        { "path": "/{id}/studentSectionAssociations/studentCompetencies" },
-        { "path": "/{id}/studentSectionAssociations/students" },
-        { "path": "/{id}/studentSectionAssociations/students/attendances" },
-        { "path": "/{id}/studentSectionAssociations/students/courseTranscripts", "dateSearchDisallowed": true },
-        { "path": "/{id}/studentSectionAssociations/students/reportCards", "dateSearchDisallowed": true },
-        { "path": "/{id}/studentSectionAssociations/students/studentAcademicRecords", "dateSearchDisallowed": true },
-        { "path": "/{id}/studentSectionAssociations/students/studentAssessments" },
-        { "path": "/{id}/studentSectionAssociations/students/studentGradebookEntries", "dateSearchDisallowed": true },
-        { "path": "/{id}/studentSectionAssociations/students/studentParentAssociations" },
-        { "path": "/{id}/studentSectionAssociations/students/studentParentAssociations/parents" },
-        { "path": "/{id}/studentSectionAssociations/students/studentSchoolAssociations" },
-        { "path": "/{id}/teacherSectionAssociations", "dateSearchDisallowed": true},
-        { "path": "/{id}/teacherSectionAssociations/teachers", "dateSearchDisallowed": true }
+          { "path": "/{id}/gradebookEntries" },
+          { "path": "/{id}/studentGradebookEntries" },
+          { "path": "/{id}/studentSectionAssociations" },
+          { "path": "/{id}/studentSectionAssociations/grades" },
+          { "path": "/{id}/studentSectionAssociations/studentCompetencies" },
+          { "path": "/{id}/studentSectionAssociations/students" },
+          { "path": "/{id}/studentSectionAssociations/students/attendances" },
+          { "path": "/{id}/studentSectionAssociations/students/courseTranscripts", "dateSearchDisallowed": true },
+          { "path": "/{id}/studentSectionAssociations/students/studentAcademicRecords/courseTranscripts", "dateSearchDisallowed": true },
+          { "path": "/{id}/studentSectionAssociations/students/reportCards", "dateSearchDisallowed": true },
+          { "path": "/{id}/studentSectionAssociations/students/studentAcademicRecords", "dateSearchDisallowed": true },
+          { "path": "/{id}/studentSectionAssociations/students/studentAssessments" },
+          { "path": "/{id}/studentSectionAssociations/students/studentGradebookEntries", "dateSearchDisallowed": true },
+          { "path": "/{id}/studentSectionAssociations/students/studentParentAssociations" },
+          { "path": "/{id}/studentSectionAssociations/students/studentParentAssociations/parents" },
+          { "path": "/{id}/studentSectionAssociations/students/studentSchoolAssociations" },
+          { "path": "/{id}/teacherSectionAssociations", "dateSearchDisallowed": true},
+          { "path": "/{id}/teacherSectionAssociations/teachers", "dateSearchDisallowed": true }
       ]
     },
     {
@@ -266,14 +267,14 @@
           "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
           "doc": "This URI, /schools/{id}/studentSchoolAssociations/students/attendances, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{id}/studentSectionAssociations/students/attendances (for teachers) instead. This URI is used internally instead of /schools/{id}/studentSchoolAssociations/students/attendances, and will still be available after the deprecation period ends."
         },
-        { 
+        {
           "path": "/{id}/studentSchoolAssociations/students/courseTranscripts",
           "deprecatedVersion": "1.0",
           "dateSearchDisallowed": true,
           "deprecatedReason" : "Deprecation occurred to remove a potential security vulnerability.",
           "doc": "This URI, /schools/{id}/studentSchoolAssociations/students/courseTranscripts, has been marked for deprecation. Support for this endpoint ends 12 months after the release of version 1.0. Use /sections/{id}/studentSectionAssociations/students/courseTranscripts (for teachers) instead. This URI is used internally instead of /schools/{id}/studentSchoolAssociations/students/courseTranscripts, and will still be available after the deprecation period ends."
         },
-        { 
+        {
           "path": "/{id}/studentSchoolAssociations/students/reportCards",
           "deprecatedVersion": "1.0",
           "dateSearchDisallowed": true,
@@ -316,6 +317,10 @@
         { "path": "/{id}/courses", "dateSearchDisallowed": true },
         { "path": "/{id}/sessions", "dateSearchDisallowed": true },
         { "path": "/{id}/sessions/gradingPeriods" },
+          {
+              "path": "/{id}/studentSchoolAssociations/students/studentAcademicRecords/courseTranscripts",
+              "dateSearchDisallowed": true
+          },
         { 
           "path": "/{id}/sections",
           "deprecatedVersion": "1.0",
