@@ -1,26 +1,26 @@
 {
-  "@id":"ID001",
+  "a_id":"ID001",
   "StudentUniqueStateId":{
     "_value":"y"
   },
   "StudentIdentificationCode":[
     {
-      "@IdentificationSystem":"SSN",
-      "@AssigningOrganizationCode":"XJo-xQ.tcIYkXhRPQ7gZXGv",
+      "a_IdentificationSystem":"SSN",
+      "a_AssigningOrganizationCode":"XJo-xQ.tcIYkXhRPQ7gZXGv",
       "IdentificationCode":{
         "_value":"qVDzEH4OYsrbM__ZnGSF93BSrryuXJrRKOAi9QE_vfe2iWCSWvHFf5F"
       }
     },
     {
-      "@IdentificationSystem":"National Migrant",
-      "@AssigningOrganizationCode":"WrwF0N_U-Nob0t1Uw-DLUVDsXTZsu8B1j5oAhvu8",
+      "a_IdentificationSystem":"National Migrant",
+      "a_AssigningOrganizationCode":"WrwF0N_U-Nob0t1Uw-DLUVDsXTZsu8B1j5oAhvu8",
       "IdentificationCode":{
         "_value":"u-k3E7jeCiTNGZnJkRSwaE3n"
       }
     }
   ],
   "Name":{
-    "@Verification":"State-issued ID",
+    "a_Verification":"State-issued ID",
     "PersonalTitlePrefix":{
       "_value":"Mr"
     },
@@ -42,7 +42,7 @@
   },
   "OtherName":[
     {
-      "@OtherNameType":"Previous Legal Name",
+      "a_OtherNameType":"Previous Legal Name",
       "PersonalTitlePrefix":{
         "_value":"Colonel"
       },
@@ -60,7 +60,7 @@
       }
     },
     {
-      "@OtherNameType":"Nickname",
+      "a_OtherNameType":"Nickname",
       "PersonalTitlePrefix":{
         "_value":"Mrs"
       },
@@ -103,7 +103,7 @@
   },
   "Address":[
     {
-      "@AddressType":"Other",
+      "a_AddressType":"Other",
       "AddressLine":[
         {
           "_value":"dXZ5533XWSfZbG-0UND0V"
@@ -129,7 +129,7 @@
       }
     },
     {
-      "@AddressType":"Physical",
+      "a_AddressType":"Physical",
       "StreetNumberName":{
         "_value":"MbpAM.lbDpGGZJlo6BeNT3nUaTLfTladqrnW"
       },
@@ -158,15 +158,15 @@
   ],
   "Telephone":[
     {
-      "@TelephoneNumberType":"Unlisted",
-      "@PrimaryTelephoneNumberIndicator":"0",
+      "a_TelephoneNumberType":"Unlisted",
+      "a_PrimaryTelephoneNumberIndicator":"0",
       "TelephoneNumber":{
         "_value":"Ui"
       }
     },
     {
-      "@TelephoneNumberType":"Emergency 1",
-      "@PrimaryTelephoneNumberIndicator":"true",
+      "a_TelephoneNumberType":"Emergency 1",
+      "a_PrimaryTelephoneNumberIndicator":"true",
       "TelephoneNumber":{
         "_value":"rO2M2JWseTfFx"
       }
@@ -174,13 +174,13 @@
   ],
   "ElectronicMail":[
     {
-      "@EmailAddressType":"Organization",
+      "a_EmailAddressType":"Organization",
       "EmailAddress":{
         "_value":"N_dw6BBG6taWtMKG"
       }
     },
     {
-      "@EmailAddressType":"Work",
+      "a_EmailAddressType":"Work",
       "EmailAddress":{
         "_value":"WebZ-qm847iIH5_z0q3.OjK"
       }
@@ -337,13 +337,13 @@
   },
   "CohortYears":[
     {
-      "@CohortYearType":"Ninth grade",
+      "a_CohortYearType":"Ninth grade",
       "SchoolYear":{
         "_value":"2018-2019"
       }
     },
     {
-      "@CohortYearType":"Ninth grade",
+      "a_CohortYearType":"Ninth grade",
       "SchoolYear":{
         "_value":"1998-1999"
       }

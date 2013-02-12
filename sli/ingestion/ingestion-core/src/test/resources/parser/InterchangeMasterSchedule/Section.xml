@@ -1,64 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeMasterSchedule xmlns:sli="http://slc-sli/ed-org/0.1"
- xmlns="http://ed-fi.org/0100"
+ xmlns:ns0="http://ed-fi.org/0100"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="http://ed-fi.org/0100 file:/C:/beta/sli/sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-MasterSchedule.xsd">
-    <Section id="ID001">
-        <UniqueSectionCode>glt71G8aD34w16HEE9tfsV5ABEnnI2</UniqueSectionCode>
-        <SequenceOfCourse>7</SequenceOfCourse>
-        <EducationalEnvironment>Mainstream (Special Education)</EducationalEnvironment>
-        <MediumOfInstruction>Other technology-based instruction</MediumOfInstruction>
-        <PopulationServed>ESL Students</PopulationServed>
-        <AvailableCredit CreditType="Semester hour credit" CreditConversion="918241612.14">
-            <Credit>266982401.27</Credit>
+ xsi:schemaLocation="http://ed-fi.org/0100 file:/C:/Users/tshewchuk/repository/sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-MasterSchedule.xsd">
+    <Section id="ID005">
+        <UniqueSectionCode>UniqueSectionCode1</UniqueSectionCode>
+        <SequenceOfCourse>4</SequenceOfCourse>
+        <EducationalEnvironment>Classroom</EducationalEnvironment>
+        <MediumOfInstruction>Televised</MediumOfInstruction>
+        <PopulationServed>Regular Students</PopulationServed>
+        <AvailableCredit CreditType="Carnegie unit" CreditConversion="0">
+            <Credit>50.00</Credit>
         </AvailableCredit>
         <CourseOfferingReference>
             <CourseOfferingIdentity>
-                <LocalCourseCode>WCv8XCMGy-rPgL</LocalCourseCode>
+                <LocalCourseCode>LocalCourseCode3</LocalCourseCode>
                 <SessionReference>
                     <SessionIdentity>
-                        <SessionName>dTiw5pEbayOq3bgDzfiqtNNrU_NR</SessionName>
+                        <SessionName>SessionName4</SessionName>
                     </SessionIdentity>
                 </SessionReference>
                 <EducationalOrgReference>
                     <EducationalOrgIdentity>
-                        <StateOrganizationId>yB2T2K8rw5s1x8</StateOrganizationId>
+                        <StateOrganizationId>StateOrganizationId12</StateOrganizationId>
                     </EducationalOrgIdentity>
                 </EducationalOrgReference>
             </CourseOfferingIdentity>
         </CourseOfferingReference>
         <SchoolReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>oBGb</StateOrganizationId>
+                <StateOrganizationId>StateOrganizationId13</StateOrganizationId>
             </EducationalOrgIdentity>
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
                 <EducationalOrgReference>
                     <EducationalOrgIdentity>
-                        <StateOrganizationId>fuHocabJk2b_lZouywtP9QQ</StateOrganizationId>
+                        <StateOrganizationId>StateOrganizationId14</StateOrganizationId>
                     </EducationalOrgIdentity>
                 </EducationalOrgReference>
-                <SessionName>kKetPH376YbHpXKuq9jUQX22qxtnEfek8Z</SessionName>
+                <SessionName>SessionName5</SessionName>
             </SessionIdentity>
         </SessionReference>
-        <LocationReference id="ID003" ref="ID002">
+        <LocationReference id="ID006">
             <LocationIdentity>
-                <ClassroomIdentificationCode>ybmi89O2</ClassroomIdentificationCode>
-                <StateOrganizationId>Eo6RxoIJtbMyG0Agz6Y03mWOeXfxLdCk03F4-_</StateOrganizationId>
+                <ClassroomIdentificationCode>ClassroomIdentificat</ClassroomIdentificationCode>
+                <EducationOrgIdentificationCode IdentificationSystem="School">
+                    <ID>ID2</ID>
+                </EducationOrgIdentificationCode>
+                <EducationOrgIdentificationCode IdentificationSystem="School">
+                    <ID>ID3</ID>
+                </EducationOrgIdentificationCode>
+                <EducationOrgIdentificationCode IdentificationSystem="School">
+                    <ID>ID4</ID>
+                </EducationOrgIdentificationCode>
+                <EducationOrgIdentificationCode IdentificationSystem="School">
+                    <ID>ID5</ID>
+                </EducationOrgIdentificationCode>
             </LocationIdentity>
         </LocationReference>
-        <ClassPeriodReference id="ID005" ref="ID005">
+        <ClassPeriodReference id="ID007">
             <ClassPeriodIdentity>
-                <ClassPeriodName>yfcdo</ClassPeriodName>
-                <EducationOrgIdentificationCode IdentificationSystem="DUNS">
-                    <ID>dGkcZpLxJ</ID>
-                </EducationOrgIdentificationCode>
+                <ClassPeriodName>ClassPeriodName1</ClassPeriodName>
+                <StateOrganizationId>StateOrganizationId17</StateOrganizationId>
+                <StateOrganizationId>StateOrganizationId18</StateOrganizationId>
             </ClassPeriodIdentity>
         </ClassPeriodReference>
         <ProgramReference>
             <ProgramIdentity>
-                <ProgramId>IJeOzO5HTVhF</ProgramId>
+                <ProgramId>ProgramId2</ProgramId>
+            </ProgramIdentity>
+        </ProgramReference>
+        <ProgramReference>
+            <ProgramIdentity>
+                <ProgramId>ProgramId3</ProgramId>
             </ProgramIdentity>
         </ProgramReference>
     </Section>

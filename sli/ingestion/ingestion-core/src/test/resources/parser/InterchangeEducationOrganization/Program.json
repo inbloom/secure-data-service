@@ -1,5 +1,5 @@
 {
-  "@id":"ID035",
+  "a_id":"ID035",
   "ProgramId":
   {
     "_value":"pgGNrp3D8"
@@ -15,14 +15,14 @@
   "Services":
   [
     {
-      "@id":"ID037",
+      "a_id":"ID037",
       "CodeValue":
       {
         "_value":"UPPL5luMrwk-guU"
       }
     },
     {
-      "@id":"ID039",
+      "a_id":"ID039",
       "Description":
       {
         "_value":"XANoYGy4cnQGwA2DpSKUEajvBYREWnuGpHenJr2dos-6BHmqWGTXaOks7x_QKbW9ic"

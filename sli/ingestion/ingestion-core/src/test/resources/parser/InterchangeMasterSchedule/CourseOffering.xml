@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeMasterSchedule xmlns:sli="http://slc-sli/ed-org/0.1"
- xmlns="http://ed-fi.org/0100"
+ xmlns:ns0="http://ed-fi.org/0100"
  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="http://ed-fi.org/0100 file:/C:/beta/sli/sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-MasterSchedule.xsd">
-    <CourseOffering id="ID001">
-        <LocalCourseCode>eiKnCG</LocalCourseCode>
-        <LocalCourseTitle>w4w6GbeZ8u</LocalCourseTitle>
+ xsi:schemaLocation="http://ed-fi.org/0100 file:/C:/Users/tshewchuk/repository/sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-MasterSchedule.xsd">
+    <CourseOffering id="ID000">
+        <LocalCourseCode>LocalCourseCode0</LocalCourseCode>
+        <LocalCourseTitle>LocalCourseTitle0</LocalCourseTitle>
         <SchoolReference>
             <EducationalOrgIdentity>
-                <StateOrganizationId>qU8Hus</StateOrganizationId>
+                <StateOrganizationId>StateOrganizationId0</StateOrganizationId>
             </EducationalOrgIdentity>
         </SchoolReference>
         <SessionReference>
             <SessionIdentity>
                 <EducationalOrgReference>
                     <EducationalOrgIdentity>
-                        <StateOrganizationId>AEKtTs2zMP10B5</StateOrganizationId>
+                        <StateOrganizationId>StateOrganizationId1</StateOrganizationId>
                     </EducationalOrgIdentity>
                 </EducationalOrgReference>
-                <SessionName>txtx1h13V</SessionName>
+                <SessionName>SessionName0</SessionName>
             </SessionIdentity>
         </SessionReference>
         <CourseReference>
             <CourseIdentity>
                 <EducationalOrgReference>
                     <EducationalOrgIdentity>
-                        <StateOrganizationId>KK.6_D97.8TaAQSPw</StateOrganizationId>
+                        <StateOrganizationId>StateOrganizationId2</StateOrganizationId>
                     </EducationalOrgIdentity>
                 </EducationalOrgReference>
-                <UniqueCourseId>Q7wc2O4-vBul-pnuf5s</UniqueCourseId>
+                <UniqueCourseId>UniqueCourseId0</UniqueCourseId>
             </CourseIdentity>
         </CourseReference>
     </CourseOffering>

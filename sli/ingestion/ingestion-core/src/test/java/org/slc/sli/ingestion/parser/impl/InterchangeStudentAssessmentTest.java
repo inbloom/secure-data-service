@@ -33,28 +33,37 @@ import org.slc.sli.ingestion.parser.RecordVisitor;
  * @author tshewchuk
  *
  */
-public class InterchangeMasterScheduleTest {
+public class InterchangeStudentAssessmentTest {
 
-    public static final Logger LOG = LoggerFactory.getLogger(InterchangeMasterScheduleTest.class);
+    public static final Logger LOG = LoggerFactory.getLogger(InterchangeStudentAssessmentTest.class);
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
     Resource schemaDir = new ClassPathResource("edfiXsd-SLI");
 
     @Test
-    public void testCourseOffering() throws Throwable {
-        Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-MasterSchedule.xsd");
-        Resource inputXml = new ClassPathResource("parser/InterchangeMasterSchedule/CourseOffering.xml");
-        Resource expectedJson = new ClassPathResource("parser/InterchangeMasterSchedule/CourseOffering.json");
+    public void testStudentAssessment() throws Throwable {
+        Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StudentAssessment.xsd");
+        Resource inputXml = new ClassPathResource("parser/InterchangeStudentAssessment/StudentAssessment.xml");
+        Resource expectedJson = new ClassPathResource("parser/InterchangeStudentAssessment/StudentAssessment.json");
 
         entityTestHelper(schema, inputXml, expectedJson);
     }
 
     @Test
-    public void testSection() throws Throwable {
-        Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-MasterSchedule.xsd");
-        Resource inputXml = new ClassPathResource("parser/InterchangeMasterSchedule/Section.xml");
-        Resource expectedJson = new ClassPathResource("parser/InterchangeMasterSchedule/Section.json");
+    public void testStudentObjectiveAssessment() throws Throwable {
+        Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StudentAssessment.xsd");
+        Resource inputXml = new ClassPathResource("parser/InterchangeStudentAssessment/StudentObjectiveAssessment.xml");
+        Resource expectedJson = new ClassPathResource("parser/InterchangeStudentAssessment/StudentObjectiveAssessment.json");
+
+        entityTestHelper(schema, inputXml, expectedJson);
+    }
+
+    @Test
+    public void testStudentAssessmentItem() throws Throwable {
+        Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StudentAssessment.xsd");
+        Resource inputXml = new ClassPathResource("parser/InterchangeStudentAssessment/StudentAssessmentItem.xml");
+        Resource expectedJson = new ClassPathResource("parser/InterchangeStudentAssessment/StudentAssessmentItem.json");
 
         entityTestHelper(schema, inputXml, expectedJson);
     }
