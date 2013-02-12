@@ -38,7 +38,7 @@
         <jb:wiring property="minimumAvailableCredit" beanIdRef="MinimumAvailableCreditType" />
         <jb:wiring property="maximumAvailableCredit" beanIdRef="MaximumAvailableCreditType" />
         <jb:value property="careerPathway" data="attributes CareerPathway _value" />
-        <jb:value property="schoolId" data="attributes EducationOrganizationReference _value" />
+        <jb:value property="schoolId" data="attributes EducationOrganizationReference" />
         <jb:value property="uniqueCourseId" data="attributes UniqueCourseId _value" />
     </jb:bean>
 
@@ -52,7 +52,7 @@
 
     <jb:bean beanId="courseCodeType" class="java.util.HashMap" createOnElement="attributes CourseCode element">
         <jb:value property="ID" data="attributes CourseCode element ID _value" />
-        <jb:value property="identificationSystem" data="attributes CourseCode element IdentificationSystem _value" />
+        <jb:value property="identificationSystem" data="attributes CourseCode element a_IdentificationSystem" />
         <jb:value property="assigningOrganizationCode" data="attributes CourseCode element AssigningOrganizationCode _value" />
     </jb:bean>
 
