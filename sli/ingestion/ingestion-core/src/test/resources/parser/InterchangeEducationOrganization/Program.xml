@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeEducationOrganization xmlns:sli="http://slc-sli/ed-org/0.1"
+ xmlns="http://ed-fi.org/0100"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://ed-fi.org/0100 file:/Users/tshewchuk/repository/sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
+    <Program id="ID035">
+        <ProgramId>pgGNrp3D8</ProgramId>
+        <ProgramType>Vocational Education</ProgramType>
+        <ProgramSponsor>Private Organization</ProgramSponsor>
+        <Services id="ID037">
+            <CodeValue>UPPL5luMrwk-guU</CodeValue>
+        </Services>
+        <Services id="ID039">
+            <Description>XANoYGy4cnQGwA2DpSKUEajvBYREWnuGpHenJr2dos-6BHmqWGTXaOks7x_QKbW9ic</Description>
+        </Services>
+    </Program>
+</InterchangeEducationOrganization>

@@ -13,28 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.slc.sli.ingestion.reporting.impl;
 
-import java.io.File;
+package org.slc.sli.ingestion.parser;
 
 /**
- * 
- * @author slee
+ * @author okrook
  *
  */
-public class ZipFileSource extends FileSource
-{
-    private String zipFilePath;
+public class XmlParseException extends Exception {
+    private static final long serialVersionUID = -3899885281663995643L;
 
-    public ZipFileSource(File zipFile)
-    {
-        super(zipFile.getName());
-        this.zipFilePath = zipFile.getPath();
+    public XmlParseException() {
+        super();
     }
 
-    @Override
-    public String getUserFriendlyMessage() {
-        return zipFilePath == null ? super.getUserFriendlyMessage() : zipFilePath;
+    public XmlParseException(String message) {
+        super(message);
     }
 
+    public XmlParseException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+    public XmlParseException(Throwable cause) {
+        super(cause);
+    }
 }

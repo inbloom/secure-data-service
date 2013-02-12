@@ -1,0 +1,67 @@
+{
+  "a_id":"ID001",
+  "UniqueSectionCode":{"_value":"glt71G8aD34w16HEE9tfsV5ABEnnI2"},
+  "SequenceOfCourse":7,
+  "EducationalEnvironment":{"_value":"Mainstream (Special Education)"},
+  "MediumOfInstruction":{"_value":"Other technology-based instruction"},
+  "PopulationServed":{"_value":"ESL Students"},
+  "AvailableCredit":{
+    "a_CreditType":"Semester hour credit",
+    "a_CreditConversion":9.1824161214E8,
+    "Credit":2.6698240127E8
+  },
+  "CourseOfferingReference":{
+    "CourseOfferingIdentity":{
+      "LocalCourseCode":{"_value":"WCv8XCMGy-rPgL"},
+      "SessionReference":{
+        "SessionIdentity":{
+          "SessionName":{"_value":"dTiw5pEbayOq3bgDzfiqtNNrU_NR"}
+        }
+      },
+      "EducationalOrgReference":{
+        "EducationalOrgIdentity":{
+          "StateOrganizationId":{"_value":"yB2T2K8rw5s1x8"}
+        }
+      }
+    }
+  },
+  "SchoolReference":{
+    "EducationalOrgIdentity":{
+      "StateOrganizationId":{"_value":"oBGb"}
+    }
+  },
+  "SessionReference":{
+    "SessionIdentity":{
+      "EducationalOrgReference":{
+        "EducationalOrgIdentity":{
+          "StateOrganizationId":{"_value":"fuHocabJk2b_lZouywtP9QQ"}
+        }
+      },
+      "SessionName":{"_value":"kKetPH376YbHpXKuq9jUQX22qxtnEfek8Z"}
+    }
+  },
+  "LocationReference":{
+    "a_id":"ID003",
+    "a_ref":"ID002",
+    "LocationIdentity":{
+      "ClassroomIdentificationCode":{"_value":"ybmi89O2"},
+      "StateOrganizationId":[{"_value":"Eo6RxoIJtbMyG0Agz6Y03mWOeXfxLdCk03F4-_"}]
+    }
+  },
+  "ClassPeriodReference":{
+    "a_id":"ID005",
+    "a_ref":"ID005",
+    "ClassPeriodIdentity":{
+      "ClassPeriodName":{"_value":"yfcdo"},
+      "EducationOrgIdentificationCode":[{
+        "a_IdentificationSystem":"DUNS",
+        "ID":{"_value":"dGkcZpLxJ"}
+      }]
+    }
+  },
+  "ProgramReference":[{
+    "ProgramIdentity":{
+      "ProgramId":{"_value":"IJeOzO5HTVhF"}
+    }
+  }]
+}

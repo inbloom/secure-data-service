@@ -20,11 +20,6 @@ import java.io.File;
 
 import org.apache.camel.Exchange;
 import org.apache.camel.Processor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.WorkNote;
@@ -38,9 +33,13 @@ import org.slc.sli.ingestion.queues.MessageType;
 import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.reporting.ReportStats;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
+import org.slc.sli.ingestion.reporting.impl.FileSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
-import org.slc.sli.ingestion.reporting.impl.ZipFileSource;
 import org.slc.sli.ingestion.util.BatchJobUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * Zip file handler.
@@ -127,7 +126,7 @@ public class ZipFileProcessor implements Processor {
         exchange.getIn().setHeader("IngestionMessageType", MessageType.ERROR.name());
         LOG.error("Error processing batch job " + batchJobId, exception);
         if (batchJobId != null) {
-            databaseMessageReport.error(reportStats, new ZipFileSource(zipFile), CoreMessageCode.CORE_0014, exception.toString());
+            databaseMessageReport.error(reportStats, new FileSource(zipFile.getName()), CoreMessageCode.CORE_0014, exception.toString());
         }
     }
 

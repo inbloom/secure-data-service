@@ -92,6 +92,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
     // schema type constants
     private static final String REFERENCE_TYPE = "ReferenceType";
     private static final String IDENTITY_TYPE = "IdentityType";
+    
 
     // Did annotation constants
     private static final String APPLY_KEY_FIELDS = "applyKeyFields";
@@ -99,6 +100,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
     private static final String RECORD_TYPE = "recordType";
     private static final String KEY_FIELD_NAME = "keyFieldName";
     private static final String XPATH_PREFIX = "body.";
+    private static final String XPATH_SUFFIX = "._value";
 
     private static final Logger LOG = LoggerFactory.getLogger(DidSchemaParser.class);
 
@@ -532,6 +534,8 @@ public class DidSchemaParser implements ResourceLoaderAware {
                         XmlSchemaComplexType nestedRefType = referenceTypes.get(elementType.getLocalPart());
                         DidRefConfig nestedRefConfig = extractRefConfig(nestedRefType);
                         keyfield.setRefConfig(nestedRefConfig);
+                    } else {
+                        xPath += XPATH_SUFFIX;
                     }
                     keyfield.setValueSource(xPath);
 

@@ -88,6 +88,7 @@ public abstract class IngestionProcessor<T extends WorkNote, S> implements Proce
                     process(exchange, args);
                     post(item, messageReport, args.reportStats, getSource(args));
                 }
+                job = args.job;
 
             } catch (Exception e) {
                 handleProcessingExceptions(exchange, workNote, e);

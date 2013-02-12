@@ -1,0 +1,68 @@
+{
+  "a_id":"ID001",
+  "AssessmentTitle":{"_value":"aU6W-pe-Bjv9niZ_K4_N49"},
+  "AssessmentIdentificationCode":[{
+    "a_IdentificationSystem":"District",
+    "a_AssigningOrganizationCode":"Z0.UIs0cIHhNODupbg7fwKR",
+    "ID":{"_value":"V2RMAf8BUUN0NxQL6_vHfO1dsmRXKKmsXNy6a8BHRSvh"}
+  }],
+  "AssessmentCategory":{"_value":"Aptitude test"},
+  "AcademicSubject":{"_value":"Architecture and Construction"},
+  "GradeLevelAssessed":{"_value":"First grade"},
+  "LowestGradeLevelAssessed":{"_value":"Preschool/Prekindergarten"},
+  "AssessmentPerformanceLevel":[{
+    "PerformanceLevel":[{
+      "a_id":"ID003",
+      "a_ref":"ID001",
+      "Description":{"_value":"jt7baWVKTYxqHJ:EzFfpkod3QYt6mRpIat:ruDWX:XJNg750pJcYHB9GsU6OR_WeZC5spec89tExEFc:Npq5runz6NLmvufcV9PnhvSZOwFn_xRCI2p5CBLxADi9eg4acyykTJT6KFjB4FfgPXjf.DNSX.hqlyKLI1.EZSXOwoyX-j7stKotdN-_w:v8yc.Bpa7P1Bm9JB7IIgSXtpwV_oUpRZBrpg-OJ.8tCrp3OfhVKolAXul6uhlTda83ZDXwD0zqd9dT0yI50kDLJlvkHp6dRIQQ47GEg8fm26Fcm3mhqrFuy4y4p_81G9-t6iHz4l5x_3WSlHXQxbY0KC96:GYyxyfoFjj0VH7C5hG.wP-Ih06H6q7pTzQJJs6HVCvXkuqUg:wSDFJGbX1mHeKceIGik0ELk9.aHXCXa-Vx:B-EjII:t3sXStFcUR9j7j8RDjgJ5uXe-uIjkUuAKYyxFndWk-ScVkjVRsvh:lGdKjsXIWpBKOl7BgRxGL1PSRoiCbZzJQQhEHG1L8ZRIUW-alVGbaaEpKeyMAPMYibc7.HCQ8kSx_o0gn7ofcH8.Pcb6MFybDIYSnpvbmRH1CD5QUw-cmzn.THEpOlBnv4pJwT0rcbaeWWg4S4e-knEWPQi:2J8gGZmiPVDnRrM4c1-ZsDJGsMl7PT6pE6yrBEnh_V7uNVBNsKYYl87a7KFvAp7ZjYt7zDMEbL90fQ2HujXbnAH4ziQr2sL_Pf1UfAYQpEWVOC1O.x7Qup2PELZOth2X7mq-w8few2FZuM9PfO:E1zX32mn5_VRFf3rIlg9GYzXOQhNU2Nwwn2rSQT6Y5xLv9IBU.9KhEOZzWz3g5O-Js97PEKEkcEVMpm2alqM:6CYfs6En6SnG6K9dAGg3KtzdwosdH3zyMlLr6ph2ijoG-I1nqtdeaMJGG:YhKhKfj1kxDJGJf_SdiOdIhqAxQtYEyg6kf_W5ZVsO-Yf7mCuF-e:-0NBHXG"},
+      "PerformanceLevelMet":false
+    }],
+    "AssessmentReportingMethod":{"_value":"National College-Bound Percentile"},
+    "MinimumScore":1101149543,
+    "MaximumScore":1057492940
+  }],
+  "ContentStandard":{"_value":"State Standard"},
+  "AssessmentForm":{"_value":"iHe"},
+  "Version":1667864855,
+  "RevisionDate":{"_value":"2013-06-26"},
+  "MaxRawScore":-106363329,
+  "Nomenclature":{"_value":"KHxRDAz7C"},
+  "AssessmentPeriod":{
+    "a_id":"ID005",
+    "a_ref":"ID001",
+    "CodeValue":{"_value":"L3kdkmNh"}
+  },
+  "AssessmentItemReference":[{
+    "a_id":"ID007",
+    "a_ref":"ID001",
+    "AssessmentItemIdentity":{
+      "AssessmentItemIdentificationCode":{"_value":"IhKDMMqx5G6S5LVQCerE3"}
+    }
+  }],
+  "ObjectiveAssessmentReference":[{
+    "ObjectiveAssessmentIdentity":{
+      "ObjectiveAssessmentIdentificationCode":{"_value":"nw66_iWx"}
+    }
+  }],
+  "AssessmentFamilyReference":{
+    "a_id":"ID009",
+    "a_ref":"ID003",
+    "AssessmentFamilyIdentity":{
+      "AssessmentFamilyIdentificationCode":[{
+        "a_IdentificationSystem":"Federal",
+        "a_AssigningOrganizationCode":"DWByg__HAWAAcr1Ldb4yHIAy",
+        "ID":{"_value":"BYt9iVcXMIKysptdpO1zFxm-Y2koGSyj9JIW4pE6wC4HWkILxF53zyrtoPIi"}
+      }]
+    }
+  },
+  "SectionReference":[{
+    "SectionIdentity":{
+      "EducationalOrgReference":{
+        "EducationalOrgIdentity":{
+          "StateOrganizationId":{"_value":"F3eRC4pd3GDXikWPOeYtCRfqzue2lf_n7yfI_IAE6K3goq0"}
+        }
+      },
+      "UniqueSectionCode":{"_value":"jGyGTzJ3gElxUUjwwi"}
+    }
+  }]
+}

@@ -149,7 +149,8 @@ public class XsdTypeProvider implements TypeProvider {
         Element parentElement = getComplexElement(type);
 
         while (parentElement != null && eventName != null) {
-            for (Element e : parentElement.getDescendants(Filters.element(ELEMENT, XS_NAMESPACE))) {
+            IteratorIterable<Element> res = parentElement.getDescendants(Filters.element(ELEMENT, XS_NAMESPACE));
+            for (Element e : res) {
                 if (e.getAttributeValue(NAME).equals(eventName)) {
                     return new RecordMetaImpl(eventName, e.getAttributeValue(TYPE), shouldBeList(e, parentElement));
                 }
@@ -158,7 +159,7 @@ public class XsdTypeProvider implements TypeProvider {
             IteratorIterable<Element> extensions = parentElement.getDescendants(Filters.element(EXTENSION, XS_NAMESPACE));
 
             if (extensions.hasNext()) {
-                parentElement = extensions.next();
+                parentElement = getComplexElement(extensions.next().getAttributeValue(BASE));
             } else {
                 parentElement = null;
             }

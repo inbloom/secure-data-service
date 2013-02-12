@@ -40,6 +40,7 @@ import org.slc.sli.ingestion.FileEntryWorkNote;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.NeutralRecordWorkNote;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
+import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.parser.RecordMeta;
 import org.slc.sli.ingestion.parser.RecordVisitor;
 import org.slc.sli.ingestion.parser.TypeProvider;
@@ -59,7 +60,7 @@ import org.slc.sli.ingestion.util.XsdSelector;
  *
  */
 public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, IngestionFileEntry> implements RecordVisitor {
-    private static final String BATCH_JOB_STAGE_DESC = "Reads records from the interchanges and persists to the staging database";
+    private static final String BATCH_JOB_STAGE_DESC = "Reads records from the interchanges";
     private static final XMLInputFactory XML_INPUT_FACTORY = XMLInputFactory.newInstance();
 
     // Processor configuration
@@ -85,7 +86,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
 
             Resource xsdSchema = xsdSelector.provideXsdResource(args.workNote.getFileEntry());
 
-            parse(reader, xsdSchema, typeProvider); 
+            parse(reader, xsdSchema, typeProvider);
         } catch (IOException e) {
             getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0063);
         } catch (XMLStreamException e) {
@@ -98,6 +99,9 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
             sendDataBatch();
 
             cleanUpState();
+
+            //Get job from db to capture delta and staging processor information
+            args.job = refreshjob(args.job.getId());
         }
     }
 
@@ -125,6 +129,10 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
      */
     private void cleanUpState() {
         state.set(null);
+    }
+
+    private NewBatchJob refreshjob(String id) {
+        return batchJobDAO.findBatchJobById(id);
     }
 
     @Override
@@ -165,7 +173,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
 
     @Override
     public BatchJobStageType getStage() {
-        return BatchJobStageType.EDFI_PROCESSOR;
+        return BatchJobStageType.EDFI_PARSER_PROCESSOR;
     }
 
     public ProducerTemplate getProducer() {
@@ -237,7 +245,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
 
         public void addToBatch(RecordMeta recordMeta, Map<String, Object> record) {
             NeutralRecord neutralRecord = new NeutralRecord();
-            
+
             neutralRecord.setRecordType(StringUtils.uncapitalize(recordMeta.getName()));
             neutralRecord.setBatchJobId(work.getBatchJobId());
             neutralRecord.setSourceFile(work.getFileEntry().getResourceId());
