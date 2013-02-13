@@ -63,8 +63,18 @@ public final class RecordMetaImpl implements RecordMeta {
 
     @Override
     public String toString() {
-        return "<name=" + name + ", type=" + type + ", isList=" + isList + ", startLoc="
-                + sourceStartLocation.getLineNumber() + ", endLoc=" + sourceEndLocation.getLineNumber() + ">";
+        int sourceStart = -1;
+        if (sourceStartLocation != null) {
+            sourceStart = sourceStartLocation.getLineNumber();
+        }
+
+        int sourceEnd = -1;
+        if (sourceEndLocation != null) {
+            sourceEnd = sourceEndLocation.getLineNumber();
+        }
+
+        return "<name=" + name + ", type=" + type + ", isList=" + isList + ", startLoc=" + sourceStart + ", endLoc="
+                + sourceEnd + ">";
     }
 
     @Override
