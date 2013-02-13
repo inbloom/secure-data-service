@@ -77,8 +77,8 @@ Before do
 
   if (INGESTION_MODE != 'remote')
     @batchConn.drop_database(INGESTION_BATCHJOB_DB_NAME)
-    ensureBatchJobIndexes(@batchConn)
     puts "Dropped " + INGESTION_BATCHJOB_DB_NAME + " database"
+    `mongo ingestion_batch_job ../config/indexes/ingestion_batch_job_indexes.js`
   else
     @tenant_conn = @conn.db(convertTenantIdToDbName(PropLoader.getProps['tenant']))
     @recordHash = @tenant_conn.collection('recordHash')
@@ -171,7 +171,6 @@ Before do
 end
 
 def ensureBatchJobIndexes(db_connection)
-
   @db = db_connection[INGESTION_BATCHJOB_DB_NAME]
 
   @collection = @db["error"]
@@ -880,7 +879,7 @@ Given /^the following collections are empty in batch job datastore:$/ do |table|
   end
   #ensureBatchJobIndexes(@batchConn)
   #assert(@result == "true", "Some collections were not cleared successfully.")
-  exec 'mongo ingestion_batch_job ../config/indexes/ingestion_batch_job_indexes.js'
+  `mongo ingestion_batch_job ../config/indexes/ingestion_batch_job_indexes.js`
   enable_NOTABLESCAN()
 end
 
