@@ -69,8 +69,8 @@
         <jb:wiring beanIdRef="StaffIdentificationCode" />
     </jb:bean>
     <jb:bean beanId="StaffIdentificationCode" class="java.util.HashMap" createOnElement="attributes StaffIdentificationCode element">
-        <jb:value property="assigningOrganizationCode" data="attributes StaffIdentificationCode @AssigningOrganizationCode" />
-        <jb:value property="identificationSystem" data="attributes StaffIdentificationCode @IdentificationSystem" />
+        <jb:value property="assigningOrganizationCode" data="attributes StaffIdentificationCode a_AssigningOrganizationCode" />
+        <jb:value property="identificationSystem" data="attributes StaffIdentificationCode a_IdentificationSystem" />
         <jb:value property="ID" data="attributes StaffIdentificationCode element ID _value" />
     </jb:bean>
   
