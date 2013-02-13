@@ -208,7 +208,7 @@ Given /^I check for the file "(.*?)" every "(.*?)" seconds for "(.*?)" seconds$/
     sleep checkInterval
     waited += checkInterval
   end
-  assert (waited < total, "Timed out. Check ingestion.log")
+  assert (waited < total)
 end
 
 Then /^the landing zone should contain a file with the message "(.*?)"$/ do |arg1|
