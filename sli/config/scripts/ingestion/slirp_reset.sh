@@ -13,6 +13,8 @@ fi
 NUMBER_OF_SERVERS=$1
 NUMBER_OF_TENANTS=$2
 
+TOTAL_INGESTION_SERVERS=3
+
 if [ -z "$ING_LOG_DIR" ] ; then
   ING_LOG_DIR=/opt/logs
 fi
@@ -35,15 +37,6 @@ else
   SLOW_QUERY_PARAMS="0"
 fi
 
-######################
-#   Primary Config   #
-######################
-
-PRIMARIES="slirpmongo03.slidev.org slirpmongo05.slidev.org slirpmongo09.slidev.org slirpmongo11.slidev.org"
-ISDB="slirpmongo99.slidev.org"
-TOTAL_INGESTION_SERVERS=3
-
-### The script!
 echo "******************************************************************************"
 echo "**  Resetting SLIRP at `date`" for $NUMBER_OF_SERVERS ingestion servers
 echo "******************************************************************************"
@@ -78,16 +71,6 @@ for (( NUM=1; NUM<=$TOTAL_INGESTION_SERVERS; NUM++ )) ; do
   echo " ***** Restarting Mongos on server #$NUM"
   ssh slirpingest0$NUM service mongos restart
 done
-
-#echo " ***** Setting slow query logging"
-#for PRIMARY in $PRIMARIES ; do
-#  mongo $PRIMARY <<END
-#use sli
-#db.setProfilingLevel($SLOW_QUERY_PARAMS);
-#use d36f43474916ad310100c9711f21b65bd8231cc6
-#db.setProfilingLevel($SLOW_QUERY_PARAMS);
-#END
-#done
 
 echo " ***** Adding Indexes to sli db"
 unzip -p /opt/tomcat/apache-tomcat-7.0.29/webapps/ingest.war WEB-INF/classes/sli_indexes.js > /tmp/sli_indexes.js
@@ -140,7 +123,7 @@ for (( NUM=1; NUM<=$NUMBER_OF_TENANTS; NUM++ )) ; do
   done
   echo
   echo "***** Truncating ingestion log"
-  echo " " > /opt/logs/ingestion.log
+  echo " " > $ING_LOG_DIR/ingestion.log
 done
 
 #
