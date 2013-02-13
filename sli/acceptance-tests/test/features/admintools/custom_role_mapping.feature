@@ -140,6 +140,39 @@ And I click the cancel button
 Then the group "Educator" contains the rights "Read General Public and Aggregate"
 And the group "Educator" contains the roles "Educator"
 
+@production
+Scenario: An Educator is given WRITE_GENERAL in self context, they can write to themselves but no one else
+When the user "cgray" in tenant "IL" tries to update the "firstName" for staff "cgray" to "Chuck"
+Then I should receive a return code of 403
+When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
+Then I have navigated to my Custom Role Mapping Page
+And I edit the group "Educator"
+And I add the self right "WRITE_GENERAL" to the group "Educator"
+And I add the self right "WRITE_RESTRICTED" to the group "Educator"
+And I hit the save button
+Then the user "cgray" in tenant "IL" can access the API with self rights "Read Restricted, Write Restricted and Write General"
+And  the user "cgray" in tenant "IL" tries to update the "firstName" for staff "cgray" to "Chuck"
+Then I should receive a return code of 204
+And I should see that the "firstName" for staff "cgray" is "Chuck"
+When the user "cgray" in tenant "IL" tries to update the "firstName" for staff "stweed" to "Chuck"
+Then I should receive a return code of 403
+
+@production
+Scenario: Self rights for Aggregate Viewers are removed, a aggregate viewer can no longer read their enitity
+When the user "jvasquez" in tenant "IL" tries to retrieve the staff "jvasquez"
+Then I should receive a return code of 200
+And  the user "jvasquez" in tenant "IL" tries to update the "firstName" for staff "jvasquez" to "Jerry"
+Then I should receive a return code of 403
+When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" login page
+Then I have navigated to my Custom Role Mapping Page
+And I edit the group "Aggregate Viewer"
+And I remove the right "READ_GENERAL" from the group "Aggregate Viewer"
+And I remove the right "READ_RESTRICTED" from the group "Aggregate Viewer"
+And I hit the save button
+Then the user "jvasquez" in tenant "IL" can access the API with self rights "none"
+When the user "jvasquez" in tenant "IL" tries to retrieve the staff "jvasquez"
+Then I should receive a return code of 403
+
 @sandbox
 Scenario: Developer modifies roles in their tenant without affecting other tenant
 When I submit the credentials "developer-email@slidev.org" "test1234" for the "Simple" login page
