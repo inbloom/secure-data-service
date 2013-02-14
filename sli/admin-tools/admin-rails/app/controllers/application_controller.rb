@@ -28,7 +28,8 @@ class ApplicationController < ActionController::Base
   INBLOOM_OPERATOR = "SLC Operator" #TODO: inBloom Operator
   SEA_ADMINISTRATOR = "SEA Administrator"
   LEA_ADMINISTRATOR = "LEA Administrator"
-  REALM_ADMINISTRATOR ="Realm Administrator"
+  REALM_ADMINISTRATOR = "Realm Administrator"
+  IT_ADMINISTRATOR = "IT Administrator"
 
   protect_from_forgery
   before_filter :handle_oauth
@@ -128,7 +129,7 @@ class ApplicationController < ActionController::Base
   end
 
   def is_developer?
-    session[:roles].include? "Application Developer"
+    session[:roles].include? APPLICATION_DEVELOPER
   end
 
   def is_operator?
@@ -139,23 +140,23 @@ class ApplicationController < ActionController::Base
   end
 
   def is_lea_admin?
-    session[:roles].include? "LEA Administrator"
+    session[:roles].include? LEA_ADMINISTRATOR
   end
 
   def is_sea_admin?
-    session[:roles].include? "SEA Administrator"
+    session[:roles].include? SEA_ADMINISTRATOR
   end
 
   def is_realm_admin?
-    session[:roles].include?("Realm Administrator")
+    session[:roles].include? REALM_ADMINISTRATOR
   end
 
   def is_ingestion_user?
-    session[:roles].include?("Ingestion User")
+    session[:roles].include? INGESTION_USER
   end
 
   def is_it_admin?
-    session[:roles].include?("IT Administrator")
+    session[:roles].include? IT_ADMINISTRATOR
   end
 
   def get_tenant

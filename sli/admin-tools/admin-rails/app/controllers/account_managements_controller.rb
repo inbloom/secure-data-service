@@ -95,12 +95,9 @@ class AccountManagementsController < ApplicationController
 
   def check_operator
     if $check_slc.nil? || $check_slc == true
-      #check = Check.get("")
-      #roles = check["sliRoles"]
-      #if roles.nil? || !roles.include?("SLC Operator")
-      #  render :file => "#{Rails.root}/public/403.html"
-      #end
-      if is_operator?
+      check = Check.get("")
+      roles = check["sliRoles"]
+      if roles.nil? || !roles.include?("Operator")
         render :file => "#{Rails.root}/public/403.html"
       end
     end
