@@ -23,12 +23,12 @@ class UsersController < ApplicationController
   SANDBOX_ADMINISTRATOR = "Sandbox Administrator"
   APPLICATION_DEVELOPER = "Application Developer"
   INGESTION_USER = "Ingestion User"
-  SLC_OPERATOR = "SLC Operator"
+  INBLOOM_OPERATOR = "inBloom Operator"
   SEA_ADMINISTRATOR = "SEA Administrator"
   LEA_ADMINISTRATOR = "LEA Administrator"
   REALM_ADMINISTRATOR ="Realm Administrator"
   SANDBOX_ALLOWED_ROLES = [SANDBOX_ADMINISTRATOR]
-  PRODUCTION_ALLOWED_ROLES = [SLC_OPERATOR, SEA_ADMINISTRATOR, LEA_ADMINISTRATOR]
+  PRODUCTION_ALLOWED_ROLES = [INBLOOM_OPERATOR, SEA_ADMINISTRATOR, LEA_ADMINISTRATOR]
 
   before_filter :check_rights
 
@@ -329,7 +329,7 @@ class UsersController < ApplicationController
     if APP_CONFIG['is_sandbox']
       @sandbox_roles ={SANDBOX_ADMINISTRATOR => SANDBOX_ADMINISTRATOR, APPLICATION_DEVELOPER => APPLICATION_DEVELOPER, INGESTION_USER => INGESTION_USER }
     elsif is_operator?
-      @production_roles={SLC_OPERATOR => SLC_OPERATOR, SEA_ADMINISTRATOR => SEA_ADMINISTRATOR, LEA_ADMINISTRATOR => LEA_ADMINISTRATOR, INGESTION_USER => INGESTION_USER, REALM_ADMINISTRATOR => REALM_ADMINISTRATOR }
+      @production_roles={INBLOOM_OPERATOR => INBLOOM_OPERATOR, SEA_ADMINISTRATOR => SEA_ADMINISTRATOR, LEA_ADMINISTRATOR => LEA_ADMINISTRATOR, INGESTION_USER => INGESTION_USER, REALM_ADMINISTRATOR => REALM_ADMINISTRATOR }
 
     elsif is_sea_admin?
       @production_roles={SEA_ADMINISTRATOR => SEA_ADMINISTRATOR, LEA_ADMINISTRATOR => LEA_ADMINISTRATOR, INGESTION_USER => INGESTION_USER, REALM_ADMINISTRATOR => REALM_ADMINISTRATOR }
@@ -358,7 +358,7 @@ class UsersController < ApplicationController
         @user.primary_role = INGESTION_USER
       end
     else
-      overlap_group = @user.groups & [SLC_OPERATOR, SEA_ADMINISTRATOR, LEA_ADMINISTRATOR]
+      overlap_group = @user.groups & [INBLOOM_OPERATOR, SEA_ADMINISTRATOR, LEA_ADMINISTRATOR]
       if overlap_group.length == 0 && @user.groups.include?(INGESTION_USER)
         @user.primary_role = INGESTION_USER
         if@user.groups.include?(REALM_ADMINISTRATOR)
@@ -366,8 +366,8 @@ class UsersController < ApplicationController
         end
       elsif overlap_group.length == 0 && @user.groups.include?(REALM_ADMINISTRATOR)
         @user.primary_role = REALM_ADMINISTRATOR
-      elsif overlap_group.length == 1 && @user.groups.include?(SLC_OPERATOR)
-        @user.primary_role = SLC_OPERATOR
+      elsif overlap_group.length == 1 && @user.groups.include?(INBLOOM_OPERATOR)
+        @user.primary_role = INBLOOM_OPERATOR
         if@user.groups.include?(INGESTION_USER)
           @user.optional_role_1 = INGESTION_USER
         end

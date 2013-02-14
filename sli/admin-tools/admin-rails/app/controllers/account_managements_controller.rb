@@ -19,7 +19,7 @@ limitations under the License.
 require 'approval'
 
 class AccountManagementsController < ApplicationController
-  before_filter :check_slc_operator
+  before_filter :check_operator
   before_filter :enabled_only_in_sandbox
 
   # GET /account_managements
@@ -93,11 +93,14 @@ class AccountManagementsController < ApplicationController
     account_managements
   end
 
-  def check_slc_operator
+  def check_operator
     if $check_slc.nil? || $check_slc == true
-      check = Check.get("")
-      roles = check["sliRoles"]
-      if roles.nil? || !roles.include?("SLC Operator")
+      #check = Check.get("")
+      #roles = check["sliRoles"]
+      #if roles.nil? || !roles.include?("SLC Operator")
+      #  render :file => "#{Rails.root}/public/403.html"
+      #end
+      if is_operator?
         render :file => "#{Rails.root}/public/403.html"
       end
     end

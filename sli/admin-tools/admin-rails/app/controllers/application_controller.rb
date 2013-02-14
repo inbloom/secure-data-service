@@ -123,7 +123,7 @@ class ApplicationController < ActionController::Base
   end
 
   def is_operator?
-    session[:roles].include? "SLC Operator"
+    session[:roles].include? "Operator"
   end
 
   def is_lea_admin?

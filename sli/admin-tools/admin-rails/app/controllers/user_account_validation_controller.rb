@@ -26,7 +26,7 @@ class UserAccountValidationController < ApplicationController
   def show
     @validation_result = UserAccountValidation.validate_account params[:id]
     if @validation_result[:success] and APP_CONFIG["is_sandbox"]
-        #email slc operator about newly created user
+        #email operator about newly created user
         begin 
           user = APP_LDAP_CLIENT.read_user_emailtoken(params[:id])
           ApplicationMailer.notify_operator_on_acct_creation(user).deliver unless user.nil?
