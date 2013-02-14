@@ -21,7 +21,7 @@ module CheckGroupHelper
   SANDBOX_ADMINISTRATOR = "Sandbox Administrator"
   APPLICATION_DEVELOPER = "Application Developer"
   INGESTION_USER = "Ingestion User"
-  OPERATOR = "inBloom Operator"
+  OPERATOR = "Operator"
   SEA_ADMINISTRATOR = "SEA Administrator"
   LEA_ADMINISTRATOR = "LEA Administrator"
   REALM_ADMINISTRATOR ="Realm Administrator"
@@ -39,7 +39,10 @@ module CheckGroupHelper
   end
 
   def includes_operator_group?(groups)
-    groups.include? OPERATOR
+    groups.each do |group|
+      return true if group.include? OPERATOR
+    end
+    return false
   end
 
   def includes_sea_admin_group?(groups)

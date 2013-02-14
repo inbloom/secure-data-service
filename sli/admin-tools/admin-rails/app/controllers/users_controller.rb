@@ -23,7 +23,7 @@ class UsersController < ApplicationController
   SANDBOX_ADMINISTRATOR = "Sandbox Administrator"
   APPLICATION_DEVELOPER = "Application Developer"
   INGESTION_USER = "Ingestion User"
-  INBLOOM_OPERATOR = "inBloom Operator"
+  INBLOOM_OPERATOR = "SLC Operator" #inBloom Operator
   SEA_ADMINISTRATOR = "SEA Administrator"
   LEA_ADMINISTRATOR = "LEA Administrator"
   REALM_ADMINISTRATOR ="Realm Administrator"
@@ -341,53 +341,53 @@ class UsersController < ApplicationController
 
   def set_roles
     if APP_CONFIG['is_sandbox']
-      if @user.groups.include?(SANDBOX_ADMINISTRATOR)
+      if includes_sandbox_admin_group?(@user.groups)
         @user.primary_role = SANDBOX_ADMINISTRATOR
-        if @user.groups.include?(APPLICATION_DEVELOPER)
+        if includes_app_developer_group?(@user.groups)
           @user.optional_role_1 = APPLICATION_DEVELOPER
         end
-        if @user.groups.include?(INGESTION_USER)
+        if includes_ingestion_user_group?(@user.groups)
           @user.optional_role_2 = INGESTION_USER
         end
-      elsif @user.groups.include?(APPLICATION_DEVELOPER)
+      elsif includes_app_developer_group?(@user.groups)
         @user.primary_role = APPLICATION_DEVELOPER
-        if @user.groups.include?(INGESTION_USER)
+        if includes_ingestion_user_group?(@user.groups)
           @user.optional_role_2 = INGESTION_USER
         end
-      elsif @user.groups.include?(INGESTION_USER)
+      elsif includes_ingestion_user_group?(@user.groups)
         @user.primary_role = INGESTION_USER
       end
     else
       overlap_group = @user.groups & [INBLOOM_OPERATOR, SEA_ADMINISTRATOR, LEA_ADMINISTRATOR]
-      if overlap_group.length == 0 && @user.groups.include?(INGESTION_USER)
+      if overlap_group.length == 0 && includes_ingestion_user_group?(@user.groups)
         @user.primary_role = INGESTION_USER
-        if@user.groups.include?(REALM_ADMINISTRATOR)
+        if includes_realm_admin_group?(@user.groups)
           @user.optional_role_2 = REALM_ADMINISTRATOR
         end
-      elsif overlap_group.length == 0 && @user.groups.include?(REALM_ADMINISTRATOR)
+      elsif overlap_group.length == 0 && includes_realm_admin_group?(@user.groups)
         @user.primary_role = REALM_ADMINISTRATOR
       elsif overlap_group.length == 1 && @user.groups.include?(INBLOOM_OPERATOR)
         @user.primary_role = INBLOOM_OPERATOR
-        if@user.groups.include?(INGESTION_USER)
+        if includes_ingestion_user_group?(@user.groups)
           @user.optional_role_1 = INGESTION_USER
         end
-        if@user.groups.include?(REALM_ADMINISTRATOR)
+        if includes_realm_admin_group?(@user.groups)
           @user.optional_role_2 = REALM_ADMINISTRATOR
         end
       elsif overlap_group.length == 1 && @user.groups.include?(SEA_ADMINISTRATOR)
         @user.primary_role = SEA_ADMINISTRATOR
-        if@user.groups.include?(INGESTION_USER)
+        if includes_ingestion_user_group?(@user.groups)
           @user.optional_role_1 = INGESTION_USER
         end
-        if@user.groups.include?(REALM_ADMINISTRATOR)
+        if includes_realm_admin_group?(@user.groups)
           @user.optional_role_2 = REALM_ADMINISTRATOR
         end
       elsif overlap_group.length == 1 && @user.groups.include?(LEA_ADMINISTRATOR)
         @user.primary_role = LEA_ADMINISTRATOR
-        if@user.groups.include?(INGESTION_USER)
+        if includes_ingestion_user_group?(@user.groups)
           @user.optional_role_1 = INGESTION_USER
         end
-        if@user.groups.include?(REALM_ADMINISTRATOR)
+        if includes_realm_admin_group?(@user.groups)
           @user.optional_role_2 = REALM_ADMINISTRATOR
         end
 
@@ -402,12 +402,12 @@ class UsersController < ApplicationController
 
   def validate_tenant_edorg
     valid =true
-    if (is_operator? && !@user.groups.include?("SLC Operator")) && (@user.edorg==nil || @user.edorg=="")
+    if (is_operator? && !includes_operator_group?(@user.groups)) && (@user.edorg==nil || @user.edorg=="")
       @user.errors[:edorg] << "can't be blank"
       valid=false
     end
 
-    if (is_operator? && !@user.groups.include?("SLC Operator")) && (@user.tenant == nil || @user.tenant=="")
+    if (is_operator? && !includes_operator_group?(@user.groups)) && (@user.tenant == nil || @user.tenant=="")
       @user.errors[:tenant] << "can't be blank"
       valid=false
     end
