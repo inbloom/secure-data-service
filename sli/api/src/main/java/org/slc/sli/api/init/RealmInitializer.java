@@ -23,15 +23,15 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
 
 /**
  * Class for bootstrapping the initial SLI realm that must always exist into mongo.
@@ -52,21 +52,12 @@ public class RealmInitializer {
     @Value("${bootstrap.admin.realm.redirectEndpoint}")
     private String adminRedirectEndpoint;
 
-    @Value("${bootstrap.developer.realm.name}")
-    private String devRealmName;
-
-    @Value("${bootstrap.developer.realm.uniqueId}")
-    private String devUniqueId;
-
-    @Value("${bootstrap.developer.realm.idpId}")
-    private String devIdpId;
-
-    @Value("${bootstrap.developer.realm.redirectEndpoint}")
-    private String devRedirectEndpoint;
-
     @Value("${sli.sandbox.enabled}")
     private boolean isSandbox;
 
+    @Autowired
+    private ApplicationContext context;
+    
     @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity> repository;
@@ -84,12 +75,12 @@ public class RealmInitializer {
         createOrUpdateRealm(ADMIN_REALM_ID, bootstrapAdminRealmBody);
 
         if (!isSandbox) {
-            Map<String, Object> bootstrapDeveloperRealmBody = createDeveloperRealmBody();
-            createOrUpdateRealm(devUniqueId, bootstrapDeveloperRealmBody);
+        	//this bean should be lazy-initialized 
+        	context.getBean("appDeveloperRealmInitializer");
         }
     }
 
-    private void createOrUpdateRealm(String realmId, Map<String, Object> realmEntity) {
+    protected void createOrUpdateRealm(String realmId, Map<String, Object> realmEntity) {
         Entity existingRealm = findRealm(realmId);
         if (existingRealm != null) {
             info("{} realm already exists --> updating if necessary", realmId);
@@ -110,7 +101,7 @@ public class RealmInitializer {
      * @param existingRealm
      */
     @SuppressWarnings({ "rawtypes" })
-    private void updateRealmIfNecessary(Entity existingRealm, Map<String, Object> newRealmBody) {
+    protected void updateRealmIfNecessary(Entity existingRealm, Map<String, Object> newRealmBody) {
         Map oldBody = existingRealm.getBody();
         long oldHash = InitializerUtils.checksum(oldBody);
         long newHash = InitializerUtils.checksum(newRealmBody);
@@ -134,14 +125,7 @@ public class RealmInitializer {
         return insertSaml(body, true, false);
     }
 
-    protected Map<String, Object> createDeveloperRealmBody() {
-        Map<String, Object> body = createRealmBody(devUniqueId, devRealmName, "", null, false, true, devIdpId,
-                devRedirectEndpoint);
-
-        return insertSaml(body, false, true);
-    }
-
-    private Map<String, Object> insertSaml(Map<String, Object> body, boolean isAdminRealm, boolean isDeveloperRealm) {
+    protected Map<String, Object> insertSaml(Map<String, Object> body, boolean isAdminRealm, boolean isDeveloperRealm) {
         Map<String, Object> saml = new HashMap<String, Object>();
         saml.put("field", getFields(isAdminRealm, isDeveloperRealm));
         body.put("saml", saml);
@@ -149,7 +133,7 @@ public class RealmInitializer {
         return body;
     }
 
-    private Map<String, Object> createRealmBody(String uniqueId, String name, String tenantId, String edOrg,
+    protected Map<String, Object> createRealmBody(String uniqueId, String name, String tenantId, String edOrg,
             boolean admin, boolean developer, String idpId, String redirectEndpoint) {
         Map<String, Object> body = new HashMap<String, Object>();
         body.put("name", name);
@@ -171,7 +155,7 @@ public class RealmInitializer {
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    private List getFields(boolean isAdminRealm, boolean isDeveloperRealm) {
+    protected List getFields(boolean isAdminRealm, boolean isDeveloperRealm) {
         List toReturn = new ArrayList();
         toReturn.add(createField("roles", "(.+)"));
         toReturn.add(createField("tenant", "(.+)"));
@@ -194,7 +178,7 @@ public class RealmInitializer {
     }
 
     @SuppressWarnings({ "rawtypes", "unchecked" })
-    private Map createField(String name, String transform) {
+    protected Map createField(String name, String transform) {
         Map toReturn = new HashMap();
         toReturn.put("clientName", name);
         toReturn.put("sliName", name);
@@ -207,7 +191,7 @@ public class RealmInitializer {
      *
      * @return the realm entity, or null if not found
      */
-    private Entity findRealm(String realmUniqueId) {
+    protected Entity findRealm(String realmUniqueId) {
         return repository.findOne(REALM_RESOURCE, new NeutralQuery(new NeutralCriteria("uniqueIdentifier",
                 NeutralCriteria.OPERATOR_EQUAL, realmUniqueId)));
     }
