@@ -79,6 +79,21 @@ And "Leader" is allowed to view restricted Student fields
 When I make an API call to view a Student's data
 Then the Student restricted fields are visible in the response
 
+Scenario: Authorized SLI Default Educator trying to view Student restricted field
+Given  I am valid SEA/LEA end user "linda.kim" with password "linda.kim1234"
+And I am authenticated on "IL"
+And the role attribute equals "Educator"
+When I make an API call to view a Student's data
+Then the Student restricted fields are not visible in the response
+
+@derp
+Scenario: Authorized SLI Default Educator trying to view Educator restricted field
+Given  I am valid SEA/LEA end user "cgray" with password "cgray1234"
+And I am authenticated on "IL"
+And the role attribute equals "Educator"
+When I make an API call to view another staff's data
+Then the Staff restricted fields are not visible in the response
+
 @WritePublic
 Scenario Outline: User with WRITE_PUBLIC can post public data
 	Given I am logged in using "morion" "moron" to realm "Midgar"
