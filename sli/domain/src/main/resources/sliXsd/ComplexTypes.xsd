@@ -8170,8 +8170,8 @@
 				<sli:CollectionType>attendance</sli:CollectionType>
 				<sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 				<sli:schemaVersion>1</sli:schemaVersion>
-                <sli:filterBeginDateOn>schoolYearAttendance.attendanceEvent.date</sli:filterBeginDateOn>
-                <sli:filterEndDateOn>schoolYearAttendance.attendanceEvent.date</sli:filterEndDateOn>
+        <sli:filterBeginDateOn>schoolYearAttendance.attendanceEvent.date</sli:filterBeginDateOn>
+        <sli:filterEndDateOn>schoolYearAttendance.attendanceEvent.date</sli:filterEndDateOn>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
@@ -8201,8 +8201,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='schoolYearAttendance' type='schoolYearAttendanceType' />
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='schoolYearAttendance' type='schoolYearAttendanceType' />
 		</xs:sequence>
 	</xs:complexType>
 
@@ -8220,13 +8219,13 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name='date' type='xs:date'>
-                <xs:annotation>
-                    <xs:appinfo>
-                        <sli:beginDate>yes</sli:beginDate>
-                        <sli:endDate>yes</sli:endDate>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
+        <xs:annotation>
+          <xs:appinfo>
+            <sli:beginDate>yes</sli:beginDate>
+            <sli:endDate>yes</sli:endDate>
+          </xs:appinfo>
+        </xs:annotation>
+      </xs:element>
 			<xs:element name='event' type='attendanceEventCategoryType' />
 			<xs:element minOccurs='0' name='reason' type='attendanceEventReason' />
 		</xs:sequence>
@@ -9000,8 +8999,7 @@
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name='schoolYear' type='schoolYearType' />
-			<xs:element maxOccurs='unbounded' minOccurs='0'
-				name='attendanceEvent' type='attendanceEvent' />
+			<xs:element maxOccurs='unbounded' minOccurs='0' name='attendanceEvent' type='attendanceEvent' />
 		</xs:sequence>
 	</xs:complexType>
 
