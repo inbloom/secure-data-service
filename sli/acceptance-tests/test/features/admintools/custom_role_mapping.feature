@@ -32,7 +32,7 @@ And I add the role "Dummy" to the group "New Custom"
 And I hit the save button
 Then I am no longer in edit mode
 And the group "New Custom" contains the roles "Dummy"
-And the group "New Custom" contains the rights "Read General"
+And the group "New Custom" contains the "right" rights "Read General"
 
 @production
 Scenario: Add role to existing group
@@ -58,7 +58,7 @@ When I add the right "WRITE_GENERAL" to the group "New Custom"
 And I check the admin role box
 And I hit the save button
 Then I am no longer in edit mode
-And the group "New Custom" contains the rights "Read and Write General"
+And the group "New Custom" contains the "right" rights "Read and Write General"
 And the user "custom" in tenant "IL" can access the API with rights "Read and Write General"
 And the group "New Custom" has the admin role box checked
 
@@ -68,10 +68,10 @@ When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" l
 Then I have navigated to my Custom Role Mapping Page
 When I edit the group "New Custom"
 When I remove the right "WRITE_GENERAL" from the group "New Custom"
-Then the group "New Custom" contains the rights "Read General"
+Then the group "New Custom" contains the "right" rights "Read General"
 And I hit the save button
 Then I am no longer in edit mode
-And the group "New Custom" contains the rights "Read General"
+And the group "New Custom" contains the "right" rights "Read General"
 And the user "custom" in tenant "IL" can access the API with rights "Read General"
 When I edit the group "New Custom"
 When I remove the right "READ_GENERAL" from the group "New Custom"
@@ -137,7 +137,7 @@ When I edit the group "Educator"
 When I add the right "WRITE_GENERAL" to the group "Educator"
 And I add the role "Teacher" to the group "Educator"
 And I click the cancel button
-Then the group "Educator" contains the rights "Read General Public and Aggregate"
+Then the group "Educator" contains the "right" rights "Read General Public and Aggregate"
 And the group "Educator" contains the roles "Educator"
 
 @production
@@ -167,7 +167,9 @@ When I submit the credentials "sunsetadmin" "sunsetadmin1234" for the "Simple" l
 Then I have navigated to my Custom Role Mapping Page
 And I edit the group "Aggregate Viewer"
 And I remove the right "READ_GENERAL" from the group "Aggregate Viewer"
+Then the group "Aggregate Viewer" contains the "self-right" rights "Read Restricted"
 And I remove the right "READ_RESTRICTED" from the group "Aggregate Viewer"
+Then the group "Aggregate Viewer" contains the "self-right" rights "none"
 And I hit the save button
 Then the user "jvasquez" in tenant "IL" can access the API with self rights "none"
 When the user "jvasquez" in tenant "IL" tries to retrieve the staff "jvasquez"
@@ -188,7 +190,7 @@ And I add the role "Educator" to the group "New Custom"
 And I hit the save button
 Then I am no longer in edit mode
 Then the group "New Custom" contains the roles "Educator"
-And the group "New Custom" contains the rights "Read General"
+And the group "New Custom" contains the "right" rights "Read General"
 And the user "linda.kim" in tenant "developer-email" can access the API with rights "Read General"
 And the user "linda.kim" in tenant "sandboxadministrator" can access the API with rights "IT Administrator"
 
