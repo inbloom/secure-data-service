@@ -15,17 +15,9 @@
  */
 package org.slc.sli.ingestion.parser.impl;
 
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLInputFactory;
-
-import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
-import org.slc.sli.ingestion.parser.RecordVisitor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 /**
  *
@@ -34,12 +26,6 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
  */
 public class InterchangeStudentParentTest {
 
-    public static final Logger LOG = LoggerFactory.getLogger(InterchangeStudentParentTest.class);
-
-    private ObjectMapper objectMapper = new ObjectMapper();
-
-    Resource schemaDir = new ClassPathResource("edfiXsd-SLI");
-
     @Test
     public void testStudent() throws Throwable {
 
@@ -47,7 +33,7 @@ public class InterchangeStudentParentTest {
         Resource inputXml = new ClassPathResource("parser/InterchangeStudentParent/Student.xml");
         Resource expectedJson = new ClassPathResource("parser/InterchangeStudentParent/Student.expected.json");
 
-        entityTestHelper(schema, inputXml, expectedJson);
+        EntityTestHelper.parseAndVerify(schema, inputXml, expectedJson);
     }
 
     @Test
@@ -57,7 +43,7 @@ public class InterchangeStudentParentTest {
         Resource inputXml = new ClassPathResource("parser/InterchangeStudentParent/Parent.xml");
         Resource expectedJson = new ClassPathResource("parser/InterchangeStudentParent/Parent.expected.json");
 
-        entityTestHelper(schema, inputXml, expectedJson);
+        EntityTestHelper.parseAndVerify(schema, inputXml, expectedJson);
     }
 
     @Test
@@ -67,20 +53,7 @@ public class InterchangeStudentParentTest {
         Resource inputXml = new ClassPathResource("parser/InterchangeStudentParent/StudentParentAssociation.xml");
         Resource expectedJson = new ClassPathResource("parser/InterchangeStudentParent/StudentParentAssociation.expected.json");
 
-        entityTestHelper(schema, inputXml, expectedJson);
-    }
-
-    private void entityTestHelper(Resource schema, Resource inputXmlResource, Resource expectedJsonResource)
-            throws Throwable {
-
-        XMLEventReader reader = XMLInputFactory.newInstance().createXMLEventReader(inputXmlResource.getInputStream());
-
-        XsdTypeProvider tp = new XsdTypeProvider();
-        tp.setSchemaFiles(new PathMatchingResourcePatternResolver().getResources("classpath:edfiXsd-SLI/*.xsd"));
-
-        RecordVisitor visitor = new TestingRecordVisitor(expectedJsonResource, objectMapper);
-        EdfiRecordParserImpl.parse(reader, schema, tp, visitor);
-
+        EntityTestHelper.parseAndVerify(schema, inputXml, expectedJson);
     }
 
 }

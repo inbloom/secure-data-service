@@ -16,19 +16,15 @@
 package org.slc.sli.ingestion.parser.impl;
 
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 /**
- * 
+ *
  * @author slee
  *
  */
 public class InterchangeStudentProgramTest {
-
-    public static final Logger LOG = LoggerFactory.getLogger(InterchangeStudentProgramTest.class);
 
     @Test
     public void testStudentProgramAssociation() throws Throwable {
@@ -37,7 +33,7 @@ public class InterchangeStudentProgramTest {
         Resource inputXml = new ClassPathResource("parser/InterchangeStudentProgram/StudentProgramAssociation.xml");
         Resource expectedJson = new ClassPathResource("parser/InterchangeStudentProgram/StudentProgramAssociation.expected.json");
 
-        new EntityTestHelper().parseAndVerify(schema, inputXml, expectedJson);
+        EntityTestHelper.parseAndVerify(schema, inputXml, expectedJson);
     }
 
 }
