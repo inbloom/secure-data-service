@@ -28,15 +28,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.codehaus.jackson.map.ObjectMapper;
-import org.slc.sli.common.util.logging.SecurityEvent;
-import org.slc.sli.ingestion.parser.RecordMeta;
-import org.slc.sli.ingestion.parser.RecordVisitor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.Resource;
 
+import org.slc.sli.ingestion.parser.RecordMeta;
+import org.slc.sli.ingestion.parser.RecordVisitor;
+
 /**
- * 
+ *
  * @author slee
  *
  */
@@ -65,7 +65,7 @@ public final class TestingRecordVisitor implements RecordVisitor {
             assertNull(""+e,e);
         }
     }
-    
+
     @SuppressWarnings("unchecked")
     private void compare(Map<String, Object> expected, Map<String, Object> record) {
 
@@ -87,7 +87,7 @@ public final class TestingRecordVisitor implements RecordVisitor {
 
             if (exp instanceof Map) {
                 assertTrue("Missing expected Map value type for key: " + key, rec instanceof Map);
-                compare((Map<String, Object>) exp, (Map<String, Object>) rec);                    
+                compare((Map<String, Object>) exp, (Map<String, Object>) rec);
             }
 
             if (exp instanceof List) {
@@ -102,14 +102,14 @@ public final class TestingRecordVisitor implements RecordVisitor {
                     for (Object o : rc) {
                         assertTrue("Missing expected String type for key: " + key, o instanceof String);
                     }
-                    compareStringList((List<String>) ex, (List<String>) rc);
+                    compareStringList(ex, rc);
                 }
 
                 if (ex.get(0) instanceof Map) {
                     for (Object o : rc) {
                         assertTrue("Missing expected Map type for key: " + key, o instanceof Map);
                     }
-                    compareMapList((List<Map<String, Object>>) ex, (List<Map<String, Object>>) rc);
+                    compareMapList(ex, rc);
                 }
             }
         }
@@ -127,13 +127,13 @@ public final class TestingRecordVisitor implements RecordVisitor {
         Map<String, List<Object>> exp = aggregateMapListByKey(expected);
         Map<String, List<Object>> rec = aggregateMapListByKey(record);
 
-        assertEquals("Error list size ", exp.size(), rec.size());
+        assertEquals("Error list size\n"+exp+"\n"+rec+"\n", exp.size(), rec.size());
         for (String key : exp.keySet()) {
             assertTrue("Missing expected key: " + key, rec.containsKey(key));
             Object[] exv = exp.get(key).toArray();
             Object[] rcv = rec.get(key).toArray();
             assertEquals("Error array size for key: " + key, exv.length, rcv.length);
-            
+
             if (exv[0] instanceof String) {
                 assertTrue("Missing expected String type for key: " + key, rcv[0] instanceof String);
                 Arrays.sort(exv);

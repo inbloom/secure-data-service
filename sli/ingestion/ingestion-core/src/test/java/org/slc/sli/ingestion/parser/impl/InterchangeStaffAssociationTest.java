@@ -22,7 +22,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 /**
- * 
+ *
  * @author slee
  *
  */
@@ -40,7 +40,7 @@ public class InterchangeStaffAssociationTest {
         new EntityTestHelper().parseAndVerify(schema, inputXml, expectedJson);
     }
 
-//    @Test
+    @Test
     public void testTeacher() throws Throwable {
 
         Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StaffAssociation.xsd");
