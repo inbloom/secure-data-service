@@ -1,0 +1,124 @@
+{
+    "GradingPeriodReference": [
+        {
+            "GradingPeriodIdentity": {
+                "EducationalOrgReference": {
+                    "EducationalOrgIdentity": {
+                        "StateOrganizationId": {
+                            "_value": "jhl_4ptg9hxx2C0MsL"
+                        }
+                    }
+                },
+                "BeginDate": {
+                    "_value": "2013-09-10"
+                },
+                "GradingPeriod": {
+                    "_value": "Third Nine Weeks"
+                }
+            }
+        },
+        {
+            "GradingPeriodIdentity": {
+                "EducationalOrgReference": {
+                    "EducationalOrgIdentity": {
+                        "StateOrganizationId": {
+                            "_value": "AtPbhbJwWsQYH-mcBmdcJSrIdZG4kBEGccqZFKuJv1MLnMDJtjL1FN_g_84p"
+                        }
+                    }
+                },
+                "BeginDate": {
+                    "_value": "2013-11-07"
+                },
+                "GradingPeriod": {
+                    "_value": "Third Trimester"
+                }
+            }
+        }
+    ],
+    "EducationOrganizationReference": {
+        "EducationalOrgIdentity": {
+            "StateOrganizationId": {
+                "_value": "DJ"
+            }
+        }
+    },
+    "SessionName": {
+        "_value": "w2Mm4yOjbf2bgtWVz7T7a.puHwUX_1rlgmP1DlP4ozHumYZFDZUL"
+    },
+    "EndDate": {
+        "_value": "2013-05-22"
+    },
+    "BeginDate": {
+        "_value": "2013-06-26"
+    },
+    "a_id": "ID001",
+    "CalendarDateReference": [
+        {
+            "CalendarDateIdentity": {
+                "Date": {
+                    "_value": "2014-03-27"
+                },
+                "EducationOrgReference": {
+                    "EducationalOrgIdentity": {
+                        "StateOrganizationId": {
+                            "_value": "n.6.KeFycDsVQSoqk"
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "CalendarDateIdentity": {
+                "Date": {
+                    "_value": "2014-03-27"
+                },
+                "EducationOrgReference": {
+                    "EducationalOrgIdentity": {
+                        "StateOrganizationId": {
+                            "_value": "QktDOVbhX_sdrmCwa6-oxW8Sqv_u7FIAgduWPNEhb"
+                        }
+                    }
+                }
+            }
+        }
+    ],
+    "AcademicWeekReference": [
+        {
+            "AcademicWeekIdentity": {
+                "EducationalOrgReference": {
+                    "EducationalOrgIdentity": {
+                        "StateOrganizationId": {
+                            "_value": "qiEijRboNN"
+                        }
+                    }
+                },
+                "WeekIdentifier": {
+                    "_value": "laK0dgcFIxBXhOalHnvUc7EQECGT.I"
+                }
+            }
+        },
+        {
+            "AcademicWeekIdentity": {
+                "EducationalOrgReference": {
+                    "EducationalOrgIdentity": {
+                        "StateOrganizationId": {
+                            "_value": "wR"
+                        }
+                    }
+                },
+                "WeekIdentifier": {
+                    "_value": "iSKZYcE8p51FUEBeP8hHi"
+                }
+            }
+        }
+    ],
+    "TotalInstructionalDays": {
+        "_value": -135091402
+    },
+    "Term": {
+        "_value": "Spring Semester"
+    },
+    "SchoolYear": {
+        "_value": "2006-2007"
+    }
+}

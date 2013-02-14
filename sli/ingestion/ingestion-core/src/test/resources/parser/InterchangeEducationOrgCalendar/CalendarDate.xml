@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeEducationOrgCalendar xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <CalendarDate id="ID011">
+    <Date>2013-05-09</Date>
+    <CalendarEvent>Student late arrival/early dismissal</CalendarEvent>
+    <EducationOrgReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>KnpMz6xv7ac6Gn8iv</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrgReference>
+  </CalendarDate>
+</InterchangeEducationOrgCalendar>

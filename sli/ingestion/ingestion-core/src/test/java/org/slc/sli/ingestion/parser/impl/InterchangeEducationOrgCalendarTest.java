@@ -61,6 +61,26 @@ public class InterchangeEducationOrgCalendarTest {
         entityTestHelper(schema, inputXml, expectedJson);
     }
 
+    @Test
+    public void testSession() throws Throwable {
+
+        Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-EducationOrgCalendar.xsd");
+        Resource inputXml = new ClassPathResource("parser/InterchangeEducationOrgCalendar/Session.xml");
+        Resource expectedJson = new ClassPathResource("parser/InterchangeEducationOrgCalendar/Session.expected.json");
+
+        entityTestHelper(schema, inputXml, expectedJson);
+    }
+
+    @Test
+    public void testCalendarDate() throws Throwable {
+
+        Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-EducationOrgCalendar.xsd");
+        Resource inputXml = new ClassPathResource("parser/InterchangeEducationOrgCalendar/CalendarDate.xml");
+        Resource expectedJson = new ClassPathResource("parser/InterchangeEducationOrgCalendar/CalendarDate.expected.json");
+
+        entityTestHelper(schema, inputXml, expectedJson);
+    }
+
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private void entityTestHelper(Resource schema, Resource inputXmlResource, Resource expectedJsonResource)
             throws Throwable {
