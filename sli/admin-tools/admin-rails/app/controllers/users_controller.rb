@@ -20,13 +20,6 @@ class UsersController < ApplicationController
 
   @@EXISTING_EMAIL_MSG = "An account with this email already exists"
 
-  SANDBOX_ADMINISTRATOR = "Sandbox Administrator"
-  APPLICATION_DEVELOPER = "Application Developer"
-  INGESTION_USER = "Ingestion User"
-  INBLOOM_OPERATOR = "SLC Operator" #inBloom Operator
-  SEA_ADMINISTRATOR = "SEA Administrator"
-  LEA_ADMINISTRATOR = "LEA Administrator"
-  REALM_ADMINISTRATOR ="Realm Administrator"
   SANDBOX_ALLOWED_ROLES = [SANDBOX_ADMINISTRATOR]
   PRODUCTION_ALLOWED_ROLES = [INBLOOM_OPERATOR, SEA_ADMINISTRATOR, LEA_ADMINISTRATOR]
 
