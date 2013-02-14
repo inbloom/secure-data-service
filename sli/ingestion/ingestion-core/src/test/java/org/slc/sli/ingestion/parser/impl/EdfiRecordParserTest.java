@@ -15,19 +15,24 @@
  */
 package org.slc.sli.ingestion.parser.impl;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyMap;
 import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+
+import java.io.IOException;
+import java.util.Map;
 
 import javax.xml.stream.XMLEventReader;
 import javax.xml.stream.XMLInputFactory;
 
-import org.codehaus.jackson.map.ObjectMapper;
+import org.jdom2.JDOMException;
+import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
@@ -42,30 +47,54 @@ import org.slc.sli.ingestion.parser.RecordVisitor;
  */
 public class EdfiRecordParserTest {
 
-    public static final Logger LOG = LoggerFactory.getLogger(EdfiRecordParserTest.class);
+    XsdTypeProvider tp = new XsdTypeProvider();
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    @Before
+    public void setup() throws IOException, JDOMException {
+        Resource[] schemaFiles = new PathMatchingResourcePatternResolver().getResources("classpath:edfiXsd-SLI/*.xsd");
+        tp.setSchemaFiles(schemaFiles);
+    }
 
     @Test
     @SuppressWarnings("unchecked")
     public void testParsing() throws Throwable {
-        Resource[] schemaFiles = new PathMatchingResourcePatternResolver().getResources("classpath:edfiXsd-SLI/*.xsd");
-
         Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StudentParent.xsd");
         Resource xml = new ClassPathResource("parser/InterchangeStudentParent/Student.xml");
 
         XMLEventReader reader = XMLInputFactory.newInstance().createXMLEventReader(xml.getInputStream());
 
-        RecordVisitor visitor = Mockito.mock(RecordVisitor.class);
+        RecordVisitor mockVisitor = Mockito.mock(RecordVisitor.class);
+        EdfiRecordParserImpl.parse(reader, schema, tp, mockVisitor);
 
-        XsdTypeProvider tp = new XsdTypeProvider();
-
-        tp.setSchemaFiles(schemaFiles);
-
-        EdfiRecordParserImpl.parse(reader, schema, tp, visitor);
-
-        verify(visitor, atLeastOnce()).visit(any(RecordMeta.class), anyMap());
+        verify(mockVisitor, atLeastOnce()).visit(any(RecordMeta.class), anyMap());
     }
 
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testSourceLocation() throws Throwable {
 
+        Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StudentParent.xsd");
+        Resource xml = new ClassPathResource("parser/InterchangeStudentParent/ThirteenStudents.xml");
+
+        XMLEventReader reader = XMLInputFactory.newInstance().createXMLEventReader(xml.getInputStream());
+
+        RecordVisitor mockVisitor = Mockito.mock(RecordVisitor.class);
+        EdfiRecordParserImpl.parse(reader, schema, tp, mockVisitor);
+
+        ArgumentCaptor<RecordMeta> recordMetaCaptor = ArgumentCaptor.forClass(RecordMeta.class);
+        verify(mockVisitor, times(13)).visit(recordMetaCaptor.capture(), any(Map.class));
+
+        int recorCount = 0;
+        for (RecordMeta recordMeta : recordMetaCaptor.getAllValues()) {
+            recorCount++;
+
+            if (recorCount == 11) {
+                assertEquals(1584, recordMeta.getSourceStartLocation().getLineNumber());
+                assertEquals(1741, recordMeta.getSourceEndLocation().getLineNumber());
+            } else if (recorCount == 13) {
+                assertEquals(1900, recordMeta.getSourceStartLocation().getLineNumber());
+                assertEquals(2057, recordMeta.getSourceEndLocation().getLineNumber());
+            }
+        }
+    }
 }
