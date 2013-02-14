@@ -111,7 +111,7 @@
   </bean>
 
   <bean class="org.slc.sli.aspect.LoggerCarrierAspect" factory-method="aspectOf">
-    <property name="template" ref="mongoTemplate" />
+    <property name="entityRepository" ref="mongoEntityRepository" />
   </bean>
 
   <bean id="ingestionHealthCheck" class="org.slc.sli.ingestion.IngestionHealthCheck">
