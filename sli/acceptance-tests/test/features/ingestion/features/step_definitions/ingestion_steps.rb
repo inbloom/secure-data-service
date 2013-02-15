@@ -211,7 +211,7 @@ def ensureBatchJobIndexes(db_connection)
   @collection.save({ '_id' => " " })
   @collection.ensure_index([['t', 1]])
   @collection.remove({ '_id' => " " })
-    
+
   @collection = @db["fileEntryLatch"]
   @collection.save({'_id' => " "})
   @collection.ensure_index([['batchJobId', 1]], :unique => true)

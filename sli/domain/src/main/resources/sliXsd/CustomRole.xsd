@@ -68,6 +68,17 @@
                     <xs:restriction base="xs:string"/>
                 </xs:simpleType>
             </xs:element>
+            
+            <xs:element name="selfRights" minOccurs="0" maxOccurs="unbounded">
+            	<xs:annotation>
+                    <xs:documentation>
+                    	A right to the user's own info.
+                    </xs:documentation>
+                </xs:annotation>
+                <xs:simpleType>
+                    <xs:restriction base="xs:string"/>
+                </xs:simpleType>
+            </xs:element>
         </xs:sequence>
     </xs:complexType>
 </xs:schema>
