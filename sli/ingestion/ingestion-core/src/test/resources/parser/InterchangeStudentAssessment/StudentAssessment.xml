@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeStudentAssessment xmlns:sli="http://slc-sli/ed-org/0.1"
  xmlns:ns0="http://ed-fi.org/0100"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="http://ed-fi.org/0100 file:/C:/Users/tshewchuk/repository/sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentAssessment.xsd">
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <StudentAssessment id="ID014">
         <AdministrationDate>2006-05-04</AdministrationDate>
         <AdministrationEndDate>2006-05-04</AdministrationEndDate>

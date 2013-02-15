@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeEducationOrganization xmlns:sli="http://slc-sli/ed-org/0.1"
  xmlns="http://ed-fi.org/0100"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="http://ed-fi.org/0100 file:/Users/tshewchuk/repository/sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <Course id="ID027">
         <CourseTitle>cB.</CourseTitle>
         <NumberOfParts>8</NumberOfParts>

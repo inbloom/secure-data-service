@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentDiscipline xmlns:sli="http://slc-sli/ed-org/0.1"
+ xmlns:ns0="http://ed-fi.org/0100"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <DisciplineAction id="ID006">
+        <DisciplineActionIdentifier>HQyIFGlZleiTdz-0P</DisciplineActionIdentifier>
+        <Disciplines id="ID016">
+            <CodeValue>I5f</CodeValue>
+        </Disciplines>
+        <Disciplines id="ID017">
+            <ShortDescription>wMfl27iTe7O62Yd1fJg7yWXjP.3ED86MBSk1kGzbQg</ShortDescription>
+        </Disciplines>
+        <Disciplines id="ID018">
+            <Description>_ERq.1zZcccye8KzfIdvpZusyvEi_Lv3-1Zt-GOurlSN3u</Description>
+        </Disciplines>
+        <DisciplineDate>2015-01-08</DisciplineDate>
+        <DisciplineActionLength>-1558744834</DisciplineActionLength>
+        <ActualDisciplineActionLength>130292704</ActualDisciplineActionLength>
+        <DisciplineActionLengthDifferenceReason>Student Incarcerated</DisciplineActionLengthDifferenceReason>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>ojJHAQhzktzJ9</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>J.29G1H_rc0eJFBqJS7F6</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <DisciplineIncidentReference>
+            <DisciplineIncidentIdentity>
+                <IncidentIdentifier>g-D1wOO3hUs6X36M</IncidentIdentifier>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>KZzf0oZUwAj7IIYWVu_FC4AS5CPgADoQBNYxrVq5HV0B4</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </DisciplineIncidentIdentity>
+        </DisciplineIncidentReference>
+        <DisciplineIncidentReference>
+            <DisciplineIncidentIdentity>
+                <IncidentIdentifier>_dnHXiyyt</IncidentIdentifier>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>JiYUiXncZbS0e0A_1</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+            </DisciplineIncidentIdentity>
+        </DisciplineIncidentReference>
+        <StaffReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>YwoGFwcQs_EdKWoHE</StaffUniqueStateId>
+            </StaffIdentity>
+        </StaffReference>
+        <StaffReference>
+            <StaffIdentity>
+                <StaffUniqueStateId>ZUHbXknkejEpICBzZT3DhazfjmB</StaffUniqueStateId>
+            </StaffIdentity>
+        </StaffReference>
+        <ResponsibilitySchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>gecjRQwHW1u_TPJrFSnKWQrAqy3xjGAnF3zFoKj0dTdg</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </ResponsibilitySchoolReference>
+        <AssignmentSchoolReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>EtdjEva</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </AssignmentSchoolReference>
+    </DisciplineAction>
+</InterchangeStudentDiscipline>
