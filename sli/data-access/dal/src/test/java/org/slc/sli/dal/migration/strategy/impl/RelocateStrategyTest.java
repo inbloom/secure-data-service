@@ -38,16 +38,16 @@ import org.slc.sli.domain.MongoEntity;
  *
  */
 public class RelocateStrategyTest {
-    
+
     private RelocateStrategy relocateStrategy;
     private Entity testEntity;
-    
+
     @Before
     public void init() {
         this.relocateStrategy = new RelocateStrategy();
         this.testEntity = this.createTestEntity();
     }
-    
+
     private Entity createTestEntity() {
         String entityType = "Type";
         String entityId = "ID";
@@ -55,7 +55,7 @@ public class RelocateStrategyTest {
         Map<String, Object> metaData = new HashMap<String, Object>();
         Map<String, List<Entity>> embeddedData = new HashMap<String, List<Entity>>();
         body.put("nested", new HashMap<String, Object>());
-        
+
         List<Map<String, Object>> insideBody = new ArrayList<Map<String, Object>>();
         Map<String, Object> item = new HashMap<String, Object>();
         item.put("a", "1");
@@ -63,7 +63,7 @@ public class RelocateStrategyTest {
         item.put("c", "3");
         insideBody.add(item);
         body.put("existsInsideBody", insideBody);
-        
+
         List<Entity> outsideBody = new ArrayList<Entity>();
         Map<String, Object> item2 = new HashMap<String, Object>();
         item2.put("x", "24");
@@ -71,10 +71,10 @@ public class RelocateStrategyTest {
         item2.put("z", "26");
         outsideBody.add(new MongoEntity("outsideBody", "outsideBody", item2, null));
         embeddedData.put("existsOutsideBody", outsideBody);
-        
+
         return new MongoEntity(entityType, entityId, body, metaData, null, null, embeddedData, null);
     }
-    
+
     /*
      * no parameter set
      */
@@ -82,27 +82,27 @@ public class RelocateStrategyTest {
     public void noParametersShouldThrowMigrationException() throws MigrationException {
         this.relocateStrategy.setParameters(new HashMap<String, Object>());
     }
-    
+
     /*
      * "to" not set
      */
     @Test(expected = MigrationException.class)
     public void noToFieldShouldThrowMigrationException() throws MigrationException {
-    	Map<String, Object> parameters = new HashMap<String, Object>();
-    	parameters.put("from", "someWhereInsideBody");
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("from", "someWhereInsideBody");
         this.relocateStrategy.setParameters(parameters);
     }
-    
+
     /*
      * "from" not set
      */
     @Test(expected = MigrationException.class)
     public void noFromFieldShouldThrowMigrationException() throws MigrationException {
-    	Map<String, Object> parameters = new HashMap<String, Object>();
-    	parameters.put("to", ".someWhereOutsideBody");
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("to", ".someWhereOutsideBody");
         this.relocateStrategy.setParameters(parameters);
     }
-    
+
     /*
      * if "from" and "to" are valid field, relocate the specified "from" field
      * to "to" field
@@ -114,16 +114,16 @@ public class RelocateStrategyTest {
      */
     @Test
     public void bothFromAndToAreInsideBody() {
-    	Map<String, Object> parameters = new HashMap<String, Object>();
-    	parameters.put("to", "someWhereElseInsideBody");
-    	parameters.put("from", "existsInsideBody");
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("to", "someWhereElseInsideBody");
+        parameters.put("from", "existsInsideBody");
         this.relocateStrategy.setParameters(parameters);
         Entity originClone = cloneEntity(this.testEntity);
         Entity transformedEntity = this.relocateStrategy.migrate(this.testEntity);
         assertTrue(transformedEntity.getBody().get("someWhereElseInsideBody")
-        		.equals(originClone.getBody().get("existsInsideBody")));
+                .equals(originClone.getBody().get("existsInsideBody")));
     }
-    
+
     /*
      * relocate from inside body to outside body
      * 
@@ -133,22 +133,22 @@ public class RelocateStrategyTest {
      */
     @Test  
     public void movingFromInsideBodyToOutsideBody() {
-    	Map<String, Object> parameters = new HashMap<String, Object>();
-    	parameters.put("to", ".someWhereElseOutsideBody");
-    	parameters.put("from", "existsInsideBody");
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("to", ".someWhereElseOutsideBody");
+        parameters.put("from", "existsInsideBody");
         this.relocateStrategy.setParameters(parameters);
         @SuppressWarnings("unchecked")
-		List<Map<String, Object>> originClone = (List<Map<String, Object>>) (cloneEntity(this.testEntity).getBody().get("existsInsideBody"));
+        List<Map<String, Object>> originClone = (List<Map<String, Object>>) (cloneEntity(this.testEntity).getBody().get("existsInsideBody"));
         Entity transformedEntity = this.relocateStrategy.migrate(this.testEntity);
         List<Entity> topLevelEntities = transformedEntity.getEmbeddedData().get("someWhereElseOutsideBody");
         //can only test 1 item, otherise sequence may not match
         for (int i=0; i<topLevelEntities.size(); ++i ) {
-        	Entity e = topLevelEntities.get(i);
-        	assertEquals(e.getType(), "existsInsideBody");
-        	assertEquals(e.getBody(), originClone.get(0));
+            Entity e = topLevelEntities.get(i);
+            assertEquals(e.getType(), "existsInsideBody");
+            assertEquals(e.getBody(), originClone.get(0));
         }
     }
-    
+
     /*
      * relocate from outside body into body field 
      * 
@@ -158,58 +158,58 @@ public class RelocateStrategyTest {
      */
     @Test
     public void movingFromOutsideBodyIntoBody() {
-    	Map<String, Object> parameters = new HashMap<String, Object>();
-    	parameters.put("to", "someWhereInsideBody");
-    	parameters.put("from", ".existsOutsideBody");
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("to", "someWhereInsideBody");
+        parameters.put("from", ".existsOutsideBody");
         this.relocateStrategy.setParameters(parameters);
-        
+
         Entity originClone = cloneEntity(this.testEntity);
-    	Entity transformedEntity = this.relocateStrategy.migrate(this.testEntity);
-    	@SuppressWarnings("unchecked")
-		List<Map<String, Object>> items = (List<Map<String, Object>>) transformedEntity.getBody().get("someWhereInsideBody");
-    	assertTrue(originClone.getEmbeddedData().get("existsOutsideBody").get(0).getBody().equals(items.get(0)));
+        Entity transformedEntity = this.relocateStrategy.migrate(this.testEntity);
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> items = (List<Map<String, Object>>) transformedEntity.getBody().get("someWhereInsideBody");
+        assertTrue(originClone.getEmbeddedData().get("existsOutsideBody").get(0).getBody().equals(items.get(0)));
     }
-    
+
     /*
      * if "from" points to nothing, don't move anything
      */
     @Test
     public void fromDoesNotExistNothingShouldChange() {
-    	Map<String, Object> parameters = new HashMap<String, Object>();
-    	parameters.put("to", "someWhereOutsideBody");
-    	parameters.put("from", "someWhereInsideBodyButDoesNotExist");
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("to", "someWhereOutsideBody");
+        parameters.put("from", "someWhereInsideBodyButDoesNotExist");
         this.relocateStrategy.setParameters(parameters);
         Entity originClone = cloneEntity(this.testEntity);
-    	Entity transformedEntity = this.relocateStrategy.migrate(this.testEntity);
-    	assertTrue(originClone.getBody().equals((transformedEntity.getBody())));
-    	//only 1 item
-    	assertTrue(originClone.getEmbeddedData().get("existsOutsideBody").get(0).getBody()
-    			.equals((transformedEntity.getEmbeddedData().get("existsOutsideBody").get(0).getBody())));
+        Entity transformedEntity = this.relocateStrategy.migrate(this.testEntity);
+        assertTrue(originClone.getBody().equals((transformedEntity.getBody())));
+        //only 1 item
+        assertTrue(originClone.getEmbeddedData().get("existsOutsideBody").get(0).getBody()
+                .equals((transformedEntity.getEmbeddedData().get("existsOutsideBody").get(0).getBody())));
     }
-  
-    
-    
+
+
+
     private Entity cloneEntity(Entity entity) {
-    	return new MongoEntity(entity.getType(), entity.getEntityId(), new HashMap<String, Object>(entity.getBody()), 
-    			new HashMap<String, Object>(entity.getMetaData()), null, null, deepCopy(entity.getEmbeddedData()), null);
+        return new MongoEntity(entity.getType(), entity.getEntityId(), new HashMap<String, Object>(entity.getBody()), 
+                new HashMap<String, Object>(entity.getMetaData()), null, null, deepCopy(entity.getEmbeddedData()), null);
     } 
-    
+
     private Map<String, List<Entity>> deepCopy(Map<String, List<Entity>> data) {
-    	if (data == null) {
-    		return null;
-    	}
-    	
-    	Map<String, List<Entity>> clone = new HashMap<String, List<Entity>>();
-    	for (Entry<String, List<Entity>> entry : data.entrySet()) {
-    		List<Entity> entities = entry.getValue();
-    		List<Entity> clonedEntities = new ArrayList<Entity>(entities.size());
-    		for (Entity e : entities) {
-    			clonedEntities.add(new MongoEntity(e.getType(), e.getEntityId(), 
-    					new HashMap<String, Object>(e.getBody()), null));
-    		}
-    		clone.put(entry.getKey(), clonedEntities);
-    	}
-    	
-    	return clone;
+        if (data == null) {
+            return null;
+        }
+
+        Map<String, List<Entity>> clone = new HashMap<String, List<Entity>>();
+        for (Entry<String, List<Entity>> entry : data.entrySet()) {
+            List<Entity> entities = entry.getValue();
+            List<Entity> clonedEntities = new ArrayList<Entity>(entities.size());
+            for (Entity e : entities) {
+                clonedEntities.add(new MongoEntity(e.getType(), e.getEntityId(), 
+                            new HashMap<String, Object>(e.getBody()), null));
+            }
+            clone.put(entry.getKey(), clonedEntities);
+        }
+
+        return clone;
     }
 }

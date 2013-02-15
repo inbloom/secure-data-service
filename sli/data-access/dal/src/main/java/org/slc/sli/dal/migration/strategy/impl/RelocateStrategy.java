@@ -35,94 +35,94 @@ public class RelocateStrategy implements MigrationStrategy {
 
     public static final String TO = "to";
     public static final String FROM = "from";
-    
+
     private String from;
     private String to;
-    
-	@Override
-    public Entity migrate(Entity entity) throws MigrationException {
-    	if (from == null || to == null) {
-    		throw new MigrationException(new IllegalArgumentException("RelocateStrategy missing required relocation instructions, please set parameters first"));
-    	}
 
-    
-    	List<Map<String, Object>> fromObjectList = getFromObject(entity);
-    
-    	// "from" doesn't point to anything, nothing to relocate
-    	if (fromObjectList == null) {
-    		return entity;
-    	}
-    	
-    	if (this.to.startsWith(".")) {
-    		//moving to outside body
-    		String type = this.from;
-    		List<Entity> entities = new ArrayList<Entity>();
-    		
-    		for (Map<String, Object> map : fromObjectList) {
-    			entities.add(new MongoEntity(type, null, map, null));
-    		}
-    		
-    		entity.getEmbeddedData().put(this.to.substring(1), entities);
-    	} else {
-    		//moving inside body
-    		entity.getBody().put(this.to, fromObjectList);
-    	}
-    	
+    @Override
+    public Entity migrate(Entity entity) throws MigrationException {
+        if (from == null || to == null) {
+            throw new MigrationException(new IllegalArgumentException("RelocateStrategy missing required relocation instructions, please set parameters first"));
+        }
+
+
+        List<Map<String, Object>> fromObjectList = getFromObject(entity);
+
+        // "from" doesn't point to anything, nothing to relocate
+        if (fromObjectList == null) {
+            return entity;
+        }
+
+        if (this.to.startsWith(".")) {
+            //moving to outside body
+            String type = this.from;
+            List<Entity> entities = new ArrayList<Entity>();
+
+            for (Map<String, Object> map : fromObjectList) {
+                entities.add(new MongoEntity(type, null, map, null));
+            }
+
+            entity.getEmbeddedData().put(this.to.substring(1), entities);
+        } else {
+            //moving inside body
+            entity.getBody().put(this.to, fromObjectList);
+        }
+
         return entity;
     }
-    
-    @SuppressWarnings("unchecked")
-	private List<Map<String, Object>> getFromObject(Entity entity) throws MigrationException {
-    	Object fromObject = null;
-    	boolean outsideBody = this.from.startsWith(".");
-    	
-    	if (outsideBody) {
-    		fromObject = entity.getEmbeddedData().remove(this.from.substring(1));
-    	} else {
-    		fromObject = entity.getBody().remove(this.from);
-    	}
-    	
-    	if (fromObject == null) {
-    	    //from field doesn't exists
-    		return null;
-    	}
-    		
-    	if (!(fromObject instanceof List<?>)) {
-    		throw new MigrationException(new RuntimeException("RelocateStrategy can not relocate simple types"));
-    	} 
-    	
-    	List<Map<String, Object>> fromObjectList;
-    	try {
-    		if(outsideBody) {
-    			fromObjectList = new ArrayList<Map<String, Object>>();
-    			List<Entity> embeddedList = (List<Entity>) fromObject;
-    			for (Entity e : embeddedList) {
-    				fromObjectList.add(e.getBody());
-    			}
-    		} else {
-    			fromObjectList = (List<Map<String, Object>>) fromObject;
-    		}
-    	} catch (ClassCastException e) {
-    		throw new MigrationException(e);
-    	}
 
-    	return fromObjectList;
+    @SuppressWarnings("unchecked")
+    private List<Map<String, Object>> getFromObject(Entity entity) throws MigrationException {
+        Object fromObject = null;
+        boolean outsideBody = this.from.startsWith(".");
+
+        if (outsideBody) {
+            fromObject = entity.getEmbeddedData().remove(this.from.substring(1));
+        } else {
+            fromObject = entity.getBody().remove(this.from);
+        }
+
+        if (fromObject == null) {
+            //from field doesn't exists
+            return null;
+        }
+
+        if (!(fromObject instanceof List<?>)) {
+            throw new MigrationException(new RuntimeException("RelocateStrategy can not relocate simple types"));
+        } 
+
+        List<Map<String, Object>> fromObjectList;
+        try {
+            if(outsideBody) {
+                fromObjectList = new ArrayList<Map<String, Object>>();
+                List<Entity> embeddedList = (List<Entity>) fromObject;
+                for (Entity e : embeddedList) {
+                    fromObjectList.add(e.getBody());
+                }
+            } else {
+                fromObjectList = (List<Map<String, Object>>) fromObject;
+            }
+        } catch (ClassCastException e) {
+            throw new MigrationException(e);
+        }
+
+        return fromObjectList;
     }
-    
+
     @Override
     public void setParameters(Map<String, Object> parameters) throws MigrationException {
-    	if (parameters == null || parameters.size() == 0 || !parameters.containsKey(TO) || !parameters.containsKey(FROM)) {
-    		throw new MigrationException(new IllegalArgumentException("RelocateStrategy missing required relocation instructions"));
-    	}
-    	
-    	Object from = parameters.get(FROM);
-    	Object to = parameters.get(TO);
-    	if (!(from instanceof String) || !(to instanceof String)) {
-    		throw new MigrationException(new IllegalArgumentException("RelocateStrategy can not interprete relocation instructions"));
-    	}
-    	
-    	this.from = (String) from;
-    	this.to = (String) to;
+        if (parameters == null || parameters.size() == 0 || !parameters.containsKey(TO) || !parameters.containsKey(FROM)) {
+            throw new MigrationException(new IllegalArgumentException("RelocateStrategy missing required relocation instructions"));
+        }
+
+        Object from = parameters.get(FROM);
+        Object to = parameters.get(TO);
+        if (!(from instanceof String) || !(to instanceof String)) {
+            throw new MigrationException(new IllegalArgumentException("RelocateStrategy can not interprete relocation instructions"));
+        }
+
+        this.from = (String) from;
+        this.to = (String) to;
     }
-    
+
 }
