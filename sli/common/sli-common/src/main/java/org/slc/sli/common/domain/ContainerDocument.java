@@ -54,7 +54,7 @@ public final class ContainerDocument {
      *
      * @author pghosh
      */
-    protected static final class ContainerDocumentBuilder {
+    public static final class ContainerDocumentBuilder {
         private String collectionName;
         private Map<String, String> parentNaturalKeyMap;
         private String fieldToPersist;

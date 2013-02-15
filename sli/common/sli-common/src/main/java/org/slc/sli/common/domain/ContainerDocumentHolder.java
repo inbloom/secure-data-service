@@ -16,26 +16,36 @@
 
 package org.slc.sli.common.domain;
 
+import org.springframework.stereotype.Component;
+
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * @author jstokes
  */
+@Component
 public class ContainerDocumentHolder {
-    private static final Map<String, ContainerDocument> CONTAINER_DOCUMENT_MAP = new HashMap<String, ContainerDocument>();
+    private final Map<String, ContainerDocument> containerDocumentMap = new HashMap<String, ContainerDocument>();
 
-    static {
-        // initialization things
+
+    public ContainerDocumentHolder() {
+        init();
+    }
+
+    private void init() {
         final ContainerDocument attendance = ContainerDocument.builder().forCollection("attendance")
                 .forField("attendanceEvent")
-                .withParent(new HashMap<String,String>()).build();
+                .withParent(new HashMap<String, String>()).build();
 
-        CONTAINER_DOCUMENT_MAP.put("attendance", attendance);
+        containerDocumentMap.put("attendance", attendance);
     }
 
-    public static ContainerDocument getContainerDocument(final String entityName) {
-        return CONTAINER_DOCUMENT_MAP.get(entityName);
+    public ContainerDocument getContainerDocument(final String entityName) {
+        return containerDocumentMap.get(entityName);
+    }
+
+    public boolean isContainerDocument(final String entityName) {
+        return containerDocumentMap.containsKey(entityName);
     }
 }
-
