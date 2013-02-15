@@ -62,6 +62,10 @@ public aspect LoggerCarrierAspect {
         LoggerFactory.getLogger(this.getClass()).warn(msg);
     }
 
+    public void LoggerCarrier.error(String msg) {
+        LoggerFactory.getLogger(this.getClass()).error(msg);
+    }
+
     public void LoggerCarrier.debug(String msg, Object... params) {
         LoggerFactory.getLogger(this.getClass()).debug(msg, params);
     }

@@ -27,12 +27,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.logging.LogFactory;
+import org.slc.sli.modeling.uml.ModelRuntimeException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
@@ -391,8 +394,17 @@ public class ResourceUtil {
 
     private static List<EmbeddedLink> getEmbeddedReferences(String[] keys, ReferenceSchema ref, EntityDefinition defn,
             Map<String, Object> entityBody, UriInfo uri, EntityDefinitionStore defnStore) {
-        return getEmbeddedReferences("", Arrays.asList(keys), defnStore.lookupByEntityType(ref.getEntityType())
-                .getResourceName(), defn.getSchema(), entityBody, uri);
+
+        EntityDefinition dfn = defnStore.lookupByEntityType(ref.getEntityType());
+        if (dfn != null) {
+            return getEmbeddedReferences("", Arrays.asList(keys), defnStore.lookupByEntityType(ref.getEntityType())
+                    .getResourceName(), defn.getSchema(), entityBody, uri);
+        } else {
+            LogFactory.getFactory().getInstance(ResourceUtil.class).error(String.format(
+                    "Failed to generate a link for entity type %s : the definition for the type  was not registered.",
+                    ref.getEntityType()));
+        }
+        return new ArrayList<EmbeddedLink>();
     }
 
     private static List<EmbeddedLink> getEmbeddedReferences(String prefix, List<String> keys, String resourceName,
@@ -435,8 +447,13 @@ public class ResourceUtil {
     private static String getNaturalKey(Map<String, Object> object, NeutralSchema schema) {
         for (Entry<String, NeutralSchema> fieldEntry : schema.getFields().entrySet()) {
             NeutralSchema field = fieldEntry.getValue();
-            if (field.getAppInfo() != null && field.getAppInfo().isNaturalKey()) {
-                return object.get(fieldEntry.getKey()).toString();
+            if (field != null) {
+                if (field.getAppInfo() != null && field.getAppInfo().isNaturalKey()) {
+                    Object obj = object.get(fieldEntry.getKey());
+                    if (obj != null) {
+                        return obj.toString();
+                    }
+                }
             }
         }
         return "";
