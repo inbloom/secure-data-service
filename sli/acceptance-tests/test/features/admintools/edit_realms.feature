@@ -91,7 +91,7 @@ And I add the role "Dummy" to the group "Brand New Role"
 And I hit the save button
 Then I am no longer in edit mode
 And the group "Brand New Role" contains the roles "Dummy"
-And the group "Brand New Role" contains the rights "Read General"
+And the group "Brand New Role" contains the "right" rights "Read General"
 When I navigate back to the realm listing page
 Then I see the realms for "New York State Education System (NY-STATE-NYC)"
 When I click the "Chicken Realm" custom roles button
@@ -104,7 +104,7 @@ And I add the role "Dummy" to the group "Chicken Role"
 And I hit the save button
 Then I am no longer in edit mode
 And the group "Chicken Role" contains the roles "Dummy"
-And the group "Chicken Role" contains the rights "Read General"
+And the group "Chicken Role" contains the "right" rights "Read General"
 When I navigate back to the realm listing page
 Then I see the realms for "New York State Education System (NY-STATE-NYC)"
 When I click the "Chicken Realm" delete button and confirm deletion
