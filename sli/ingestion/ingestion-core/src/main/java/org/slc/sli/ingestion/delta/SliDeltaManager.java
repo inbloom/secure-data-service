@@ -54,6 +54,7 @@ public final class SliDeltaManager {
     public static final String RECORDHASH_HASH = "rhHash";
     public static final String RECORDHASH_ID = "rhId";
     public static final String RECORDHASH_CURRENT = "rhCurrentHash";
+    private static final String VALUE = "_value";
 
     // Logging
     private static final Logger LOG = LoggerFactory.getLogger(SliDeltaManager.class);
@@ -175,13 +176,25 @@ public final class SliDeltaManager {
             } catch (NoSuchMethodException e) {
                 handleFieldAccessException(fieldName, neutralRecord, naturalKey.isOptional());
             }
+
             String strValue = "";
             if (value != null) {
-                strValue = value.toString();
+                if( value instanceof Map) {
+                    @SuppressWarnings("unchecked")
+                    Map<String, String> valueMap = (Map<String, String>) value;
+                    strValue = valueMap.get(VALUE);
+                } else {
+                    strValue = value.toString();
+                }
             } else {
                 handleFieldAccessException(fieldName, neutralRecord, naturalKey.isOptional());
             }
-            populatedNaturalKeys.put(fieldName, strValue);
+
+            if(strValue != null) {
+                populatedNaturalKeys.put(fieldName, strValue);
+            } else {
+                handleFieldAccessException(fieldName, neutralRecord, naturalKey.isOptional());
+            }
         }
         return populatedNaturalKeys;
     }
@@ -190,8 +203,7 @@ public final class SliDeltaManager {
         if (!optional) {
             String message = "The \"" + n.getRecordType() + "\" entity at line " + n.getVisitBeforeLineNumber()
                     + " column " + n.getVisitBeforeColumnNumber()
-                    + " in file \"" + n.getSourceFile() + "\" is missing a value for required natural key field \""
-                    + fieldName + "\" as specified in \"" + NRKEYVALUEFIELDNAMES + "\" in smooks-all-xml.";
+                    + " in file \"" + n.getSourceFile() + "\" is missing a value for required natural key field \"";
 
             throw new NaturalKeyValidationException(message);
         }
