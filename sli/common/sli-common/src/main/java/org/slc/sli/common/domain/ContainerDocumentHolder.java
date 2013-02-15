@@ -23,20 +23,19 @@ import java.util.Map;
  * @author jstokes
  */
 public class ContainerDocumentHolder {
-    private static final Map<String, ContainerDocument> containerDocumentMap = new HashMap<String, ContainerDocument>();
+    private static final Map<String, ContainerDocument> CONTAINER_DOCUMENT_MAP = new HashMap<String, ContainerDocument>();
 
     static {
         // initialization things
-        final ContainerDocument attendance = new ContainerDocument.ContainerDocumentBuilder()
-                .forCollection("attendance")
+        final ContainerDocument attendance = ContainerDocument.builder().forCollection("attendance")
                 .forField("attendanceEvent")
                 .withParent(new HashMap<String,String>()).build();
 
-        containerDocumentMap.put("attendance", attendance);
+        CONTAINER_DOCUMENT_MAP.put("attendance", attendance);
     }
 
     public static ContainerDocument getContainerDocument(final String entityName) {
-        return containerDocumentMap.get(entityName);
+        return CONTAINER_DOCUMENT_MAP.get(entityName);
     }
 }
 

@@ -16,79 +16,69 @@
 
 package org.slc.sli.common.domain;
 
+import java.util.Collections;
 import java.util.Map;
 
 /**
  *
  * @author pghosh
  */
-public class ContainerDocument {
-    private  String collectionName;
-    private  Map<String, String> parentNaturalKeyMap;
-    private  String fieldToPersist;
+public final class ContainerDocument {
+    private final String collectionName;
+    private final Map<String, String> parentNaturalKeyMap;
+    private final String fieldToPersist;
 
     public String getCollectionName() {
         return collectionName;
     }
 
-    private void setCollectionName(String collectionName) {
-        this.collectionName = collectionName;
-    }
-
     public Map<String, String> getParentNaturalKeyMap() {
-        return parentNaturalKeyMap;
-    }
-
-    private void setParentNaturalKeyMap(Map<String, String> parentNaturalKeyMap) {
-        this.parentNaturalKeyMap = parentNaturalKeyMap;
+        return Collections.unmodifiableMap(parentNaturalKeyMap);
     }
 
     public String getFieldToPersist() {
         return fieldToPersist;
     }
 
-    private void setFieldToPersist(String fieldToPersist) {
-        this.fieldToPersist = fieldToPersist;
+    public static ContainerDocumentBuilder builder() {
+        return new ContainerDocumentBuilder();
+    }
+
+    private ContainerDocument(final ContainerDocumentBuilder builder) {
+        this.collectionName = builder.collectionName;
+        this.parentNaturalKeyMap = builder.parentNaturalKeyMap;
+        this.fieldToPersist = builder.fieldToPersist;
     }
 
     /**
      *
      * @author pghosh
      */
-    public static class ContainerDocumentBuilder {
-        private final ContainerDocument containerDocument;
-
-        public ContainerDocumentBuilder() {
-            this.containerDocument = new ContainerDocument();
-        }
+    protected static final class ContainerDocumentBuilder {
+        private String collectionName;
+        private Map<String, String> parentNaturalKeyMap;
+        private String fieldToPersist;
 
         public ContainerDocumentBuilder forCollection(final String collectionName) {
-            containerDocument.setCollectionName(collectionName);
+            this.collectionName = collectionName;
             return this;
         }
 
         public ContainerDocumentBuilder withParent(final Map<String, String> parent) {
-            containerDocument.setParentNaturalKeyMap(parent);
+            this.parentNaturalKeyMap = parent;
             return this;
         }
 
         public ContainerDocumentBuilder forField(final String fieldName) {
-            containerDocument.setFieldToPersist(fieldName);
+            this.fieldToPersist = fieldName;
             return this;
         }
 
-        /**
-         *
-         * @return null if not fully initialized
-         */
         public ContainerDocument build() {
-            if (containerDocument.getCollectionName() != null &&
-                    containerDocument.getFieldToPersist() != null &&
-                    containerDocument.getParentNaturalKeyMap() != null) {
-                return containerDocument;
-            } else {
-                return null;
+            if (collectionName == null || parentNaturalKeyMap == null || fieldToPersist == null) {
+                throw new IllegalStateException("The container document is not fully initialized!");
             }
+            return new ContainerDocument(this);
         }
     }
 }

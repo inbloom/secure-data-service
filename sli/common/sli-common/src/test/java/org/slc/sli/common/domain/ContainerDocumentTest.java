@@ -38,7 +38,7 @@ public class ContainerDocumentTest {
     public void getContainerDocument() {
         final Map<String, String> parentMap = new HashMap<String, String>();
         parentMap.put("k1", "v1");
-        final ContainerDocument testDocument = new ContainerDocument.ContainerDocumentBuilder()
+        final ContainerDocument testDocument = ContainerDocument.builder()
                 .forCollection("testCollection")
                 .forField("testField")
                 .withParent(parentMap).build();
