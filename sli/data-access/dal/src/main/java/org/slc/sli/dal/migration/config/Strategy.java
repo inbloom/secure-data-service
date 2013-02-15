@@ -19,6 +19,7 @@ package org.slc.sli.dal.migration.config;
 import org.slc.sli.dal.migration.strategy.MigrationException;
 import org.slc.sli.dal.migration.strategy.MigrationStrategy;
 import org.slc.sli.dal.migration.strategy.impl.AddStrategy;
+import org.slc.sli.dal.migration.strategy.impl.RelocateStrategy;
 import org.slc.sli.dal.migration.strategy.impl.RemoveFieldStrategy;
 import org.slc.sli.dal.migration.strategy.impl.RenameFieldStrategy;
 
@@ -32,7 +33,8 @@ public enum Strategy {
     
     ADD(AddStrategy.class),
     REMOVE(RemoveFieldStrategy.class),
-    RENAME(RenameFieldStrategy.class);
+    RENAME(RenameFieldStrategy.class),
+    RELOCATE(RelocateStrategy.class);
 
     private Class<? extends MigrationStrategy> implementingClass;
 

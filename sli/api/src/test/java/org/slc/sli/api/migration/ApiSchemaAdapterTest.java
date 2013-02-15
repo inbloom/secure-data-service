@@ -36,6 +36,7 @@ import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.dal.migration.strategy.MigrationStrategy;
 import org.slc.sli.dal.migration.strategy.impl.AddStrategy;
+import org.slc.sli.dal.migration.strategy.impl.RelocateStrategy;
 import org.slc.sli.dal.migration.strategy.impl.RemoveFieldStrategy;
 import org.slc.sli.dal.migration.strategy.impl.RenameFieldStrategy;
 import org.slc.sli.domain.Entity;
@@ -76,6 +77,13 @@ public class ApiSchemaAdapterTest {
         assertTrue(upList.get(2) instanceof RenameFieldStrategy);
         assertTrue(((String) getField(upList.get(2), "oldFieldName")).equals("oldUpFoo"));
         assertTrue(((String) getField(upList.get(2), "newFieldName")).equals("newUpFoo"));
+
+        upList = apiSchemaAdapter.getUpMigrationStrategies("assessment", 1);
+        assertTrue(upList != null);
+        assertTrue(upList.get(0) instanceof RelocateStrategy);
+        assertTrue(((String) getField(upList.get(0), "from")).equals("oldLocationInsideBody"));
+        assertTrue(((String) getField(upList.get(0), "to")).equals(".newLocationOutsideOfBody"));
+
     }
 
     @Test
