@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2013 inBloom, Inc. and its affiliates
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,6 @@ package org.slc.sli.dal.convert;
 
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.domain.Entity;
-import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
