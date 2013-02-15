@@ -6,6 +6,7 @@ Feature: User provisions a landing zone, and preloads Small Sample Dataset
 Background:
   Given I have an open web browser
   And I am running in Sandbox mode
+  And a landing zone
 
   Scenario: Ingestion User Provisions LZ and Pre-loads Small Sample Dataset
 	When I navigate to the Portal home page
@@ -21,10 +22,9 @@ Background:
     And I switch to the iframe
     Then I get the success message
 
-Scenario: Verify Small Sample Dataset was Successfully Preloaded
-
-    Given a landing zone
-    And I check for the file "job*.log" every "30" seconds for "900" seconds
+#Verify the file ingested on the Landing Zone
+    Then I have a landing zone configured for my tenant
+    Given I check for the file "job*.log" every "30" seconds for "900" seconds
     Then the landing zone should contain a file with the message "Processed 4254 records"
     And the landing zone should contain a file with the message "All records processed successfully."
     And I should not see an error log file created

@@ -215,6 +215,14 @@ Then /^the landing zone should contain a file with the message "(.*?)"$/ do |arg
   assert fileContainsMessage("job", arg1, @landing_zone_path, @lz_url, @lz_username, @lz_password, @lz_port_number)
 end
 
+Then /^I have a landing zone configured for my tenant$/ do
+    if (!RUN_ON_RC)
+      steps %Q{
+            And I have a local configured landing zone for my tenant
+      }
+    end
+end
+
 Given /^a landing zone$/ do
   if RUN_ON_RC
     steps %Q{
@@ -235,7 +243,13 @@ Given /^a landing zone$/ do
   else
     steps %Q{
         Given I am using local data store
-        And I have a local configured landing zone for my tenant
     }
+    if (@mode != "SANDBOX")
+        steps %Q{
+            And I have a local configured landing zone for my tenant
+        }
+    end
   end
 end
+
+
