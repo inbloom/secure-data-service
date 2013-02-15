@@ -154,7 +154,7 @@ Scenario: Verify entities in student school association were ingested correctly
      | collectionName              | expectedRecordCount | searchParameter                             | searchValue                                   | searchType           |
      | graduationPlan              | 1                   | _id                                         | 438cc6756e65d65da2eabb0968387ad25a3e0b93_id   | string               |
      | studentSchoolAssociation    | 5                   | body.graduationPlanId                       | 438cc6756e65d65da2eabb0968387ad25a3e0b93_id   | string               |
-     | assessment                  | 6                   | body.objectiveAssessment.learningObjectives | 1b0d13e233ef61ffafb613a8cc6930dfc0d29b92_id   | string               |
+     | assessment                  | 6                   | objectiveAssessment.body.learningObjectives | 1b0d13e233ef61ffafb613a8cc6930dfc0d29b92_id   | string               |
      | learningObjective           | 1                   | _id                                         | 1b0d13e233ef61ffafb613a8cc6930dfc0d29b92_id   | string               |
 
 Scenario: Verify the sli verification script confirms everything ingested correctly
