@@ -115,6 +115,8 @@ studentAcademicRecord,false,body.studentId:1
 # student,false,studentAssessment.body.assessmentId:1
 studentAssessment,false,body.assessmentId:1
 studentAssessment,false,body.studentId:1
+#US5364, support grouping of student assessments by school year
+studentAssessment,false,body.schoolYear:1
 # Look up studentCompetency by learningObjective: /learningObjectives/{id}/studentCompetencies
 studentCompetency,false,body.objectiveId.learningObjectiveId:1
 # Look up studentCompetency by studentSectionAssoc: /studentSectionAssociations/{id}/studentCompetencies
