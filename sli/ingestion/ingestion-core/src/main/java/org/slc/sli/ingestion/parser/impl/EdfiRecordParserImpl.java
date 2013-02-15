@@ -195,8 +195,26 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
             mapValue = new ArrayList<Object>(Arrays.asList(mapValue));
         }
 
-        complexTypeStack.peek().getRight().put(eventName, mapValue);
+        insertToMap(eventName, mapValue, complexTypeStack.peek().getRight());
+
         complexTypeStack.push(subElement);
+    }
+
+    @SuppressWarnings("unchecked")
+    private Object insertToMap(String key, Object value, Map<String, Object> map) {
+        Object result = null;
+        Object stored = map.get(key);
+        if (stored != null) {
+            if (List.class.isAssignableFrom(stored.getClass())) {
+                List<Object> storage = (List<Object>) stored;
+                storage.add(value);
+            } else {
+                result = map.put(key, new ArrayList<Object>(Arrays.asList(stored, value)));
+            }
+        } else {
+            result = map.put(key, value);
+        }
+        return result;
     }
 
     private RecordMeta getRecordMetaForEvent(String eventName) {
@@ -256,7 +274,7 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
     }
 
     private Pair<RecordMeta, Map<String, Object>> createElementEntry(RecordMeta edfiType) {
-        return new ImmutablePair<RecordMeta, Map<String, Object>>(edfiType, new InnerMap());
+        return new ImmutablePair<RecordMeta, Map<String, Object>>(edfiType, new HashMap<String, Object>());
     }
 
     private static String extractTagName(XMLEvent e) {
@@ -290,27 +308,6 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
     @Override
     public void addVisitor(RecordVisitor recordVisitor) {
         recordVisitors.add(recordVisitor);
-    }
-
-    @SuppressWarnings({ "unchecked", "serial" })
-    private static class InnerMap extends HashMap<String, Object> {
-        @Override
-        public Object put(String key, Object value) {
-            Object result;
-            Object stored = this.get(key);
-            if (stored != null) {
-                if (List.class.isAssignableFrom(stored.getClass())) {
-                    List<Object> storage = (List<Object>) stored;
-                    storage.add(value);
-                    result = storage;
-                } else {
-                    result = super.put(key, new ArrayList<Object>(Arrays.asList(stored, value)));
-                }
-            } else {
-                result = super.put(key, value);
-            }
-            return result;
-        }
     }
 
     public void audit(SecurityEvent event) {
