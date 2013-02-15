@@ -200,23 +200,6 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
         complexTypeStack.push(subElement);
     }
 
-    @SuppressWarnings("unchecked")
-    private Object insertToMap(String key, Object value, Map<String, Object> map) {
-        Object result = null;
-        Object stored = map.get(key);
-        if (stored != null) {
-            if (List.class.isAssignableFrom(stored.getClass())) {
-                List<Object> storage = (List<Object>) stored;
-                storage.add(value);
-            } else {
-                result = map.put(key, new ArrayList<Object>(Arrays.asList(stored, value)));
-            }
-        } else {
-            result = map.put(key, value);
-        }
-        return result;
-    }
-
     private RecordMeta getRecordMetaForEvent(String eventName) {
         RecordMeta typeMeta = typeProvider
                 .getTypeFromParentType(complexTypeStack.peek().getLeft().getType(), eventName);
@@ -273,7 +256,7 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
         }
     }
 
-    private Pair<RecordMeta, Map<String, Object>> createElementEntry(RecordMeta edfiType) {
+    private static Pair<RecordMeta, Map<String, Object>> createElementEntry(RecordMeta edfiType) {
         return new ImmutablePair<RecordMeta, Map<String, Object>>(edfiType, new HashMap<String, Object>());
     }
 
@@ -285,6 +268,17 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
             result = e.asStartElement().getName().getLocalPart();
         }
         return result;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static void insertToMap(String key, Object value, Map<String, Object> map) {
+        Object stored = map.get(key);
+        if (stored != null && List.class.isAssignableFrom(stored.getClass())) {
+            List<Object> storage = (List<Object>) stored;
+            storage.add(value);
+        } else {
+            map.put(key, value);
+        }
     }
 
     @Override
