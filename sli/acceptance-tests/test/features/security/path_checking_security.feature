@@ -12,7 +12,7 @@ Scenario Outline: Staff making calls to disallowed URI paths and being rewritten
 
 Examples:
 	| Called Path                            | ID                                     | Rewritten Path                                                                              |
-	| "/courses/@id/courseTranscripts"       | "0002f3f2-cf56-425a-ba24-56f805331743" | "/schools/@context/studentSchoolAssociations/students/courseTranscripts?courseId=@id"       |
+	| "/courses/@id/courseTranscripts"       | "0002f3f2-cf56-425a-ba24-56f805331743" | "/schools/@context/studentSchoolAssociations/students/studentAcademicRecords/courseTranscripts?courseId=@id"       |
 	| "/gradingPeriods/@id/reportCards"      | "b40a7eb5-dd74-4666-a5b9-5c3f4425f130" | "/schools/@context/studentSchoolAssociations/students/reportCards?gradingPeriodId=@id"        |
 	| "/gradingPeriods/@id/grades"           | "b40a7eb5-dd74-4666-a5b9-5c3f4425f130" | "/schools/@context/sections/studentSectionAssociations/grades?gradingPeriodId=@id"           |
     | "/sessions/@id/studentAcademicRecords" | "0410354d-dbcb-0214-250a-404401060c93" | "/schools/@context/studentSchoolAssociations/students/studentAcademicRecords?sessionId=@id" |
@@ -33,7 +33,7 @@ Scenario Outline: Teacher making calls to disallowed URI paths and being rewritt
     
 Examples:
 	| Called Path                           | ID                                     | Rewritten Path                                                                                |
-	| "/courses/@id/courseTranscripts"      | "5841cf31-16a6-4b4d-abe1-3909d86b4fc3" | "/sections/@context/studentSectionAssociations/students/courseTranscripts?courseId=@id"       |
+	| "/courses/@id/courseTranscripts"      | "5841cf31-16a6-4b4d-abe1-3909d86b4fc3" | "/sections/@context/studentSectionAssociations/students/studentAcademicRecords/courseTranscripts?courseId=@id"       |
 	| "/gradingPeriods/@id/reportCards"     | "8940897f-0e4b-4e88-9aa3-30cf040c0ebf" | "/sections/@context/studentSectionAssociations/students/reportCards?gradingPeriodId=@id"        |
 	| "/gradingPeriods/@id/grades"          | "8940897f-0e4b-4e88-9aa3-30cf040c0ebf" | "/sections/@context/studentSectionAssociations/grades?gradingPeriodId=@id"           |
     | "/sessions/@id/studentAcademicRecords"| "0410354d-dbcb-0214-250a-404401060c93" | "/sections/@context/studentSectionAssociations/students/studentAcademicRecords?sessionId=@id" |
@@ -57,7 +57,7 @@ Examples:
     |"/schools/@id/studentSchoolAssociations"                                           | "92d6d5a0-852c-45f4-907a-912752831772" |"/sections/@context/studentSectionAssociations/students/studentSchoolAssociations"|
     |"/schools/@id/studentSchoolAssociations/students"                                  | "92d6d5a0-852c-45f4-907a-912752831772" |"/sections/@context/studentSectionAssociations/students"|
     |"/schools/@id/studentSchoolAssociations/students/attendances"                      | "92d6d5a0-852c-45f4-907a-912752831772" |"/sections/@context/studentSectionAssociations/students/attendances"|
-    |"/schools/@id/studentSchoolAssociations/students/courseTranscripts"                | "92d6d5a0-852c-45f4-907a-912752831772" |"/sections/@context/studentSectionAssociations/students/courseTranscripts"|
+    |"/schools/@id/studentSchoolAssociations/students/courseTranscripts"                | "92d6d5a0-852c-45f4-907a-912752831772" |"/sections/@context/studentSectionAssociations/students/studentAcademicRecords/courseTranscripts"|
     |"/schools/@id/studentSchoolAssociations/students/reportCards"                      | "92d6d5a0-852c-45f4-907a-912752831772" |"/sections/@context/studentSectionAssociations/students/reportCards"|
     |"/schools/@id/studentSchoolAssociations/students/studentAcademicRecords"           | "92d6d5a0-852c-45f4-907a-912752831772" |"/sections/@context/studentSectionAssociations/students/studentAcademicRecords"|
     |"/schools/@id/studentSchoolAssociations/students/studentAssessments"               | "92d6d5a0-852c-45f4-907a-912752831772" |"/sections/@context/studentSectionAssociations/students/studentAssessments"|

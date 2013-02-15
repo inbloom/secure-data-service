@@ -43,7 +43,7 @@ class ObjectiveAssessment < BaseEntity
     end
 
     if (generate_child) 
-      @child_objective_assessment = ObjectiveAssessment.new("#{@identificationCode} Sub", @maxRawScore, grade_assessed, subject)
+      @child_objective_assessment = ObjectiveAssessment.new("#{@identificationCode} Sub", @maxRawScore, grade_assessed, false, subject)
     end 
   end
 

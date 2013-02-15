@@ -1,4 +1,5 @@
 @RALLY_US215
+@derp
 Feature: User sees information in databrowser for certain districts
 
 
@@ -32,10 +33,13 @@ Scenario: The Educator role is given the Admin flag so an Educator gets access
     And I was redirected to the "Simple" IDP Login page
     When I submit the credentials "cgray" "cgray1234" for the "Simple" login page
     Then I should be redirected to the Data Browser home page
-    And I should navigate to "/entities/teachers"
-    Then I should see that there are "3" teachers 
+    When I navigate to see the teachers in the school "Daybreak Central High"
+    Then I should see that there are "2" teachers 
+    When I navigate to see the teachers in the school "Sunset Central High"
+    Then I should see that there are "2" teachers 
 
-
+@DE2510
+@wip
 Scenario: An IT Admin in Daybreak and Sunset sees the Daybreak data but not the Sunset data
     Given I remove the application authorizations in sunset
     And I have an open web browser
@@ -45,11 +49,11 @@ Scenario: An IT Admin in Daybreak and Sunset sees the Daybreak data but not the 
     And I was redirected to the "Simple" IDP Login page
     When I submit the credentials "rrogers" "rrogers1234" for the "Simple" login page
     And I should be redirected to the Data Browser home page
-    And I should navigate to "/entities/teachers"
-    Then I should see that there are "3" teachers 
-    And I should get the IDs for "Daybreak only"
-
+    When I navigate to see the teachers in the school "Daybreak Central High"
+    Then I should see that there are "2" teachers 
+    When I navigate to see the teachers in the school "Sunset Central High"
+    Then I see a "You do not have access to view this." alert box
 
 Scenario: Put data back
-  Then I put back the application authorizations in sunset
+  Given that databrowser has been authorized for all ed orgs
   And I change the isAdminRole flag for role "Educator" to in the realm "Daybreak" to be "false"
