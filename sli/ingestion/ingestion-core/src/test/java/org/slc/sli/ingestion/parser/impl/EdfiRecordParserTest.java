@@ -90,11 +90,11 @@ public class EdfiRecordParserTest {
             recorCount++;
 
             if (recorCount == 11) {
-                assertEquals(1584, recordMeta.getSourceStartLocation().getLineNumber());
-                assertEquals(1741, recordMeta.getSourceEndLocation().getLineNumber());
+                assertEquals(1574, recordMeta.getSourceStartLocation().getLineNumber());
+                assertEquals(1730, recordMeta.getSourceEndLocation().getLineNumber());
             } else if (recorCount == 13) {
-                assertEquals(1900, recordMeta.getSourceStartLocation().getLineNumber());
-                assertEquals(2057, recordMeta.getSourceEndLocation().getLineNumber());
+                assertEquals(1888, recordMeta.getSourceStartLocation().getLineNumber());
+                assertEquals(2044, recordMeta.getSourceEndLocation().getLineNumber());
             }
         }
     }

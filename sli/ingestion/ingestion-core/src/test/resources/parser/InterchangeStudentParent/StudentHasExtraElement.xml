@@ -3,8 +3,7 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Student id="ID001">
     <StudentUniqueStateId>y</StudentUniqueStateId>
-    <StudentIdentificationCode IdentificationSystem="SSN"
-      AssigningOrganizationCode="XJo-xQ.tcIYkXhRPQ7gZXGv">
+    <StudentIdentificationCode IdentificationSystem="SSN" AssigningOrganizationCode="XJo-xQ.tcIYkXhRPQ7gZXGv">
       <IdentificationCode>qVDzEH4OYsrbM__ZnGSF93BSrryuXJrRKOAi9QE_vfe2iWCSWvHFf5F</IdentificationCode>
     </StudentIdentificationCode>
     <StudentIdentificationCode IdentificationSystem="National Migrant"

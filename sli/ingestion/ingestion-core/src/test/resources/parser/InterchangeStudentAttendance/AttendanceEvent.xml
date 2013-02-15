@@ -1,42 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<InterchangeStudentAttendance xmlns:sli="http://slc-sli/ed-org/0.1"
- xmlns:ns0="http://ed-fi.org/0100"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <AttendanceEvent id="ID000">
-        <EventDate>2013-07-10</EventDate>
-        <AttendanceEventType>Section Attendance</AttendanceEventType>
-        <AttendanceEventCategory>Unexcused Absence</AttendanceEventCategory>
-        <AttendanceEventReason>Top_xpy</AttendanceEventReason>
-        <EducationalEnvironment>Homebound</EducationalEnvironment>
-        <StudentReference>
-            <StudentIdentity>
-                <StudentUniqueStateId>TG.wxAj9vph1A8J-hZ</StudentUniqueStateId>
-            </StudentIdentity>
-        </StudentReference>
-        <SchoolReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>Ok5bDpJ</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </SchoolReference>
-        <SessionReference>
-            <SessionIdentity>
-                <EducationalOrgReference>
-                    <EducationalOrgIdentity>
-                        <StateOrganizationId>buhCN0xRKGRpQuNFMe.tTz0xmdxyfgR2W</StateOrganizationId>
-                    </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <SessionName>UrIppL-gjLEvjJo-w1uVESILqiWqa0EwchT4ARdO8</SessionName>
-            </SessionIdentity>
-        </SessionReference>
-        <SectionReference>
-            <SectionIdentity>
-                <EducationalOrgReference>
-                    <EducationalOrgIdentity>
-                        <StateOrganizationId>xtsrb8fK3oP</StateOrganizationId>
-                    </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <UniqueSectionCode>u.04iazJ1b.nofjMj</UniqueSectionCode>
-            </SectionIdentity>
-        </SectionReference>
-    </AttendanceEvent>
+<InterchangeStudentAttendance xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AttendanceEvent id="ID000">
+    <EventDate>2013-07-10</EventDate>
+    <AttendanceEventType>Section Attendance</AttendanceEventType>
+    <AttendanceEventCategory>Unexcused Absence</AttendanceEventCategory>
+    <AttendanceEventReason>Top_xpy</AttendanceEventReason>
+    <EducationalEnvironment>Homebound</EducationalEnvironment>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>TG.wxAj9vph1A8J-hZ</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>Ok5bDpJ</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>buhCN0xRKGRpQuNFMe.tTz0xmdxyfgR2W</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>UrIppL-gjLEvjJo-w1uVESILqiWqa0EwchT4ARdO8</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>xtsrb8fK3oP</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>u.04iazJ1b.nofjMj</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </AttendanceEvent>
 </InterchangeStudentAttendance>

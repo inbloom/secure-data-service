@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<InterchangeEducationOrganization xmlns:sli="http://slc-sli/ed-org/0.1"
- xmlns="http://ed-fi.org/0100"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="http://ed-fi.org/0100 file:/Users/tshewchuk/repository/sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-EducationOrganization.xsd">
-    <CompetencyLevelDescriptor id="ID033">
-        <CodeValue>nBgd27gx</CodeValue>
-        <Description>akcWDDcm3OYUr.ZgQTZXhrztr1j-alZuZ6LO5FmLB2OgMw7gdDkrPP2-aKOvYoksUSFuMJMsoSnHgFzsTZmuYw9lW4FpaupFvzQvCLCun64SKCdxfR:t5-0UjJZUnw9dlZRW1Nk0-lEAt9gjDvZUR92tmONOqj7EvFbrU9bQ8T7Mj5gSua56O2Zm4zFuaDuPR5DGdkb1LcYmlqLb1Sgp.cb:KEKwgpDjiiY2hk8OmatlQrnvp7R7.5ScaqrO0t97d5LR.y80O6jbepK03-RWC8yGeJGRQtMUL7czQqdSnBPubkdQ1QXMsRQKXqcIGaYojQRdBmJrKY6LmeEAb2yJEF0zD_AxF2dpHeD77Ijvqkesn-iWkm9lTv71z9OEU6kwbz-C_.ZZA33dqi5YHUvEpp.nbBm6nVvv-OB2G_:cvnuLxmuKSKNRXGi6Ho._JsmO5_tOrKHkMpZAC4dfP5.G3TberTAG2PLcU3dA2DjMHfoNBrbu2e.d_AfL98mj:OulMEdmr6fWsK:VYlg3C5mkQH__KJINSGIuYZf.7yix2l:xcnmIR:92OeB24kGXgamCtXhSG39PgPfm-RriZnxnJu6rJvkAjdJmg:QZ-9p90oY:gk5ZiGrOAxEvBaVjIZXJCvNkY2SdBURLloOpsh8gt7q0R6PdhIEWSd6.v6k.ARyOb9xa1whF7Nbt0mht2WXYxP_hteM45YSEn9gSDugNZj87G0Y7.cxdUK49_M-impVbtz22FqONbr-5GCj1oVEMEl9t2Xn-LrbmVb39R:SwZ57-uoy8ZffLRbXNdq4i2pMsazf8Vj-c57haqxN:uxdhivslJqeAJJVEXIGkw</Description>
-        <PerformanceBaseConversion>Below Basic</PerformanceBaseConversion>
-    </CompetencyLevelDescriptor>
+<InterchangeEducationOrganization xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <CompetencyLevelDescriptor id="ID033">
+    <CodeValue>nBgd27gx</CodeValue>
+    <Description>akcWDDcm3OYUr.ZgQTZXhrztr1j-alZuZ6LO5FmLB2OgMw7gdDkrPP2-aKOvYoksUSFuMJMsoSnHgFzsTZmuYw9lW4FpaupFvzQvCLCun64SKCdxfR:t5-0UjJZUnw9dlZRW1Nk0-lEAt9gjDvZUR92tmONOqj7EvFbrU9bQ8T7Mj5gSua56O2Zm4zFuaDuPR5DGdkb1LcYmlqLb1Sgp.cb:KEKwgpDjiiY2hk8OmatlQrnvp7R7.5ScaqrO0t97d5LR.y80O6jbepK03-RWC8yGeJGRQtMUL7czQqdSnBPubkdQ1QXMsRQKXqcIGaYojQRdBmJrKY6LmeEAb2yJEF0zD_AxF2dpHeD77Ijvqkesn-iWkm9lTv71z9OEU6kwbz-C_.ZZA33dqi5YHUvEpp.nbBm6nVvv-OB2G_:cvnuLxmuKSKNRXGi6Ho._JsmO5_tOrKHkMpZAC4dfP5.G3TberTAG2PLcU3dA2DjMHfoNBrbu2e.d_AfL98mj:OulMEdmr6fWsK:VYlg3C5mkQH__KJINSGIuYZf.7yix2l:xcnmIR:92OeB24kGXgamCtXhSG39PgPfm-RriZnxnJu6rJvkAjdJmg:QZ-9p90oY:gk5ZiGrOAxEvBaVjIZXJCvNkY2SdBURLloOpsh8gt7q0R6PdhIEWSd6.v6k.ARyOb9xa1whF7Nbt0mht2WXYxP_hteM45YSEn9gSDugNZj87G0Y7.cxdUK49_M-impVbtz22FqONbr-5GCj1oVEMEl9t2Xn-LrbmVb39R:SwZ57-uoy8ZffLRbXNdq4i2pMsazf8Vj-c57haqxN:uxdhivslJqeAJJVEXIGkw</Description>
+    <PerformanceBaseConversion>Below Basic</PerformanceBaseConversion>
+  </CompetencyLevelDescriptor>
 </InterchangeEducationOrganization>
