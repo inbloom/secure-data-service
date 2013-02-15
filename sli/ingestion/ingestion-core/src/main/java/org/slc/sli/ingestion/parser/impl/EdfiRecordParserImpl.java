@@ -290,7 +290,7 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
     @Override
     public void warning(SAXParseException exception) throws SAXException {
         LOG.warn("Warning: {}", exception.getMessage());
-        currentEntityValid = false;
+        currentEntityValid = true;
     }
 
     @Override
