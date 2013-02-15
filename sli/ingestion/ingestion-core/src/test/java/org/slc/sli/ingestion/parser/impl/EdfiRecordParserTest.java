@@ -114,4 +114,18 @@ public class EdfiRecordParserTest {
         verify(mockVisitor, never()).visit(any(RecordMeta.class), anyMap());
     }
 
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testExtraElementIsPresent() throws Throwable {
+
+        Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StudentParent.xsd");
+        Resource xml = new ClassPathResource("parser/InterchangeStudentParent/StudentHasExtraElement.xml");
+
+        XMLEventReader reader = XMLInputFactory.newInstance().createXMLEventReader(xml.getInputStream());
+
+        RecordVisitor mockVisitor = Mockito.mock(RecordVisitor.class);
+        EdfiRecordParserImpl.parse(reader, schema, tp, mockVisitor);
+
+        verify(mockVisitor, never()).visit(any(RecordMeta.class), anyMap());
+    }
 }
