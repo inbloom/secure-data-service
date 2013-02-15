@@ -24,8 +24,8 @@
 
   <jb:bean beanId="studentGradebookEntryBody" class="java.util.HashMap" createOnElement="attributes">
     <jb:value property="gradebookEntryId" data="attributes GradebookEntryReference" />
-    <jb:value property="studentId" data="attributes StudentReference" />
-    <jb:value property="sectionId" data="attributes SectionReference" />
+    <jb:value property="studentId" data="attributes DiDResolved_StudentReference" />
+    <jb:value property="sectionId" data="attributes DiDResolved_SectionReference" />
     <jb:value property="dateFulfilled" data="attributes DateFulfilled _value" />
     <jb:value property="letterGradeEarned" data="attributes LetterGradeEarned _value" />
     <jb:value property="numericGradeEarned" data="attributes NumericGradeEarned _value" decoder="Integer" />

@@ -62,7 +62,7 @@ public class DeterministicIdResolver implements BatchJobStage {
 
     private static final String BODY_PATH = "body.";
     private static final String PATH_SEPARATOR = "\\.";
-
+    private static final String  REF_PREFIX = "DiDResolved_";
     private static final String STAGE_NAME = "Deterministic Id Resolution";
 
     public void resolveInternalIds(NeutralRecordEntity entity, String tenantId, AbstractMessageReport report,
@@ -122,7 +122,7 @@ public class DeterministicIdResolver implements BatchJobStage {
         if (didRefConfig == null) {
             return;
         }
-
+        
         // handle case of references within embedded lists of objects (for assessments)
         // split source ref path and look for lists in embedded objects
         String strippedRefPath = sourceRefPath.replaceFirst(BODY_PATH, "");
@@ -139,6 +139,7 @@ public class DeterministicIdResolver implements BatchJobStage {
                     tenantId);
             if (resolvedRef != null) {
                 node.put(refObjName, resolvedRef);
+                entity.getBody().put(REF_PREFIX + refObjName, resolvedRef);
             }
         }
     }
@@ -210,6 +211,9 @@ public class DeterministicIdResolver implements BatchJobStage {
             } else {
                 throw new IdResolutionException("Null or empty deterministic id generated", refType, uuid);
             }
+        } else if (referenceObject instanceof String) { 
+            //Reference already resolved 
+            return (String) referenceObject;
         } else {
             throw new IdResolutionException("Unsupported reference object type", refType, null);
         }
@@ -271,6 +275,8 @@ public class DeterministicIdResolver implements BatchJobStage {
                         @SuppressWarnings("unchecked")
                         Map<String, Object> nestedRefMap = (Map<String, Object>) nestedRef;
                         value = getId(nestedRefMap, tenantId, keyFieldDef.getRefConfig());
+                    } else if (nestedRef instanceof String) {
+                        value = nestedRef;
                     } else {
                         throw new IdResolutionException("Non-map value found from entity",
                                 keyFieldDef.getValueSource(), "");
