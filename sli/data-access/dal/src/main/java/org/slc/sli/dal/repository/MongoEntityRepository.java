@@ -17,23 +17,16 @@
 package org.slc.sli.dal.repository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.mongodb.core.FindAndModifyOptions;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.util.Assert;
+import java.util.Set;
 
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.tenantdb.TenantContext;
@@ -52,6 +45,17 @@ import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.util.Assert;
+
+import com.mongodb.DBObject;
 
 /**
  * mongodb implementation of the entity repository interface that provides basic
@@ -63,6 +67,18 @@ import org.slc.sli.validation.schema.INaturalKeyExtractor;
 
 public class MongoEntityRepository extends MongoRepository<Entity> implements InitializingBean,
         ValidationWithoutNaturalKeys {
+    
+    // define the entities that always return with embedded fields included
+    public static final Map<String, Set<String>> FULL_ENTITIES = new HashMap<String, Set<String>>();
+
+    static{
+        Set<String> assessmentNestedFields = new HashSet<String>();
+        assessmentNestedFields.addAll(Arrays.asList("assessmentItem", "objectiveAssessment"));
+        Set<String> saNestedFields = new HashSet<String>();
+        saNestedFields.addAll(Arrays.asList("studentObjectiveAssessment", "studentAssessmentItem"));
+        FULL_ENTITIES.put("assessment", assessmentNestedFields);
+        FULL_ENTITIES.put("studentAssessment", saNestedFields);
+    }
 
     @Autowired
     private EntityValidator validator;
@@ -314,6 +330,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             }
             return null;
         }
+        if (FULL_ENTITIES.containsKey(collectionName)) {
+            Set<String> embededFields = FULL_ENTITIES.get(collectionName);
+            addEmbededFields(query, embededFields);
+        }
         return super.findOne(collectionName, query);
     }
 
@@ -457,6 +477,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             this.addDefaultQueryParams(neutralQuery, collectionName);
             return subDocs.subDoc(collectionName).findAll(getQueryConverter().convert(collectionName, neutralQuery));
         }
+        if (FULL_ENTITIES.containsKey(collectionName)) {
+            Set<String> embededFields = FULL_ENTITIES.get(collectionName);
+            addEmbededFields(neutralQuery, embededFields);
+        }
         return super.findAll(collectionName, neutralQuery);
     }
 
@@ -532,5 +556,26 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         Query query = this.getQueryConverter().convert(collectionName, neutralQuery);
         FindAndModifyOptions options = new FindAndModifyOptions();
         return template.findAndModify(query, update, options, getRecordClass(), collectionName);
+    }
+    
+    private Query addEmbededFields(Query query, Set<String> embededFields) {
+        if (query == null) {
+            return null;
+        }
+        DBObject fieldObjects = query.getFieldsObject();
+        for (String embededField : embededFields) {
+            fieldObjects.put(embededField, 1);
+        }
+        return query;
+    }
+    
+    private NeutralQuery addEmbededFields(NeutralQuery query, Set<String> embededFields){
+        if (query == null) {
+            return null;
+        }
+        List<String> fields = new ArrayList<String>();
+        fields.addAll(embededFields);
+        query.setEmbeddedFields(fields);
+        return query;
     }
 }
