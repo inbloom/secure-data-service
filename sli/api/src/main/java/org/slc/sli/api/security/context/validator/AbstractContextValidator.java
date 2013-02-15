@@ -16,6 +16,14 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.joda.time.DateTime;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
@@ -28,14 +36,6 @@ import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Abstract class that all context validators must extend.
@@ -61,7 +61,13 @@ public abstract class AbstractContextValidator implements IContextValidator {
     protected DateTime getNowMinusGracePeriod() {
         return dateHelper.getNowMinusGracePeriod();
     }
-    
+
+    protected static final Set<String> GLOBAL_WRITE_RESOURCE = new HashSet<String>(Arrays.asList(
+            EntityNames.ASSESSMENT, 
+            EntityNames.LEARNING_OBJECTIVE, 
+            EntityNames.LEARNING_STANDARD, 
+            EntityNames.COMPETENCY_LEVEL_DESCRIPTOR));
+
     protected static final Set<String> SUB_ENTITIES_OF_STUDENT = new HashSet<String>(Arrays.asList(
             EntityNames.ATTENDANCE,
             EntityNames.DISCIPLINE_ACTION, 
@@ -281,6 +287,16 @@ public abstract class AbstractContextValidator implements IContextValidator {
 
     protected Set<String> getDirectEdorgs() {
         return edorgHelper.getDirectEdorgs();
+    }
+    
+    /**
+     * Determines if the entity type has global write context.
+     *
+     * @param type Entity type.
+     * @return True if the entity has global write context, false otherwise.
+     */
+    protected boolean isGlobalWrite(String type) {
+        return GLOBAL_WRITE_RESOURCE.contains(type);
     }
 
     /**

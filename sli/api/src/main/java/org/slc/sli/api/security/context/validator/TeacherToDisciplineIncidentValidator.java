@@ -49,7 +49,7 @@ public class TeacherToDisciplineIncidentValidator extends AbstractContextValidat
     }
     
     @Override
-    public boolean validate(String entityType, Set<String> ids) {
+    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.DISCIPLINE_INCIDENT, entityType, ids)) {
             return false;
         }

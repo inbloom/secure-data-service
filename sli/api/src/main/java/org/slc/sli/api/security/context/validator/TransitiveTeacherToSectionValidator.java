@@ -49,7 +49,7 @@ public class TransitiveTeacherToSectionValidator extends AbstractContextValidato
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) {
+    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.SECTION, entityType, ids)) {
             return false;
         }

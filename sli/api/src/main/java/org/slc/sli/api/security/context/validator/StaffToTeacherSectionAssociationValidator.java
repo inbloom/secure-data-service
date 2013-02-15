@@ -47,7 +47,7 @@ public class StaffToTeacherSectionAssociationValidator extends AbstractContextVa
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) {
+    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.TEACHER_SECTION_ASSOCIATION, entityType, ids)) {
             return false;
         }

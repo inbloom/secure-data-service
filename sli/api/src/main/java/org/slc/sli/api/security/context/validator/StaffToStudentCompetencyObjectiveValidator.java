@@ -38,7 +38,7 @@ public class StaffToStudentCompetencyObjectiveValidator extends AbstractContextV
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> objectiveIds) {
+    public boolean validate(String entityType, Set<String> objectiveIds) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STUDENT_COMPETENCY_OBJECTIVE, entityType, objectiveIds)) {
             return false;
         }

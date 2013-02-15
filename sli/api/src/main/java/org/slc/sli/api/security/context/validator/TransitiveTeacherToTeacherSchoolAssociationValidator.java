@@ -45,7 +45,7 @@ public class TransitiveTeacherToTeacherSchoolAssociationValidator extends Abstra
     }
     
     @Override
-    public boolean validate(String entityType, Set<String> ids) {
+    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.TEACHER_SCHOOL_ASSOCIATION, entityType, ids)) {
             return false;
         }

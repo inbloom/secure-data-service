@@ -53,7 +53,7 @@ public class TransitiveStaffToStaffValidator extends AbstractContextValidator {
     
     @SuppressWarnings("unchecked")
     @Override
-    public boolean validate(String entityName, Set<String> staffIds) {
+    public boolean validate(String entityName, Set<String> staffIds) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STAFF, entityName, staffIds)) {
             return false;
         }

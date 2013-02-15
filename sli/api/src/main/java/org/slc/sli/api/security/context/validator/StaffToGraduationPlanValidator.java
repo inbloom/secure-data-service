@@ -38,7 +38,7 @@ public class StaffToGraduationPlanValidator extends AbstractContextValidator {
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> graduationIds) {
+    public boolean validate(String entityType, Set<String> graduationIds) throws IllegalStateException {
         if (!areParametersValid(EntityNames.GRADUATION_PLAN, entityType, graduationIds)) {
             return false;
         }

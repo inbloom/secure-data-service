@@ -59,7 +59,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> studentIds) {
+    public boolean validate(String entityType, Set<String> studentIds) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STUDENT, entityType, studentIds)) {
             return false;
         }

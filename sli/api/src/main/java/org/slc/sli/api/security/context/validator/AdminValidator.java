@@ -36,7 +36,7 @@ public class AdminValidator implements IContextValidator {
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) {
+    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (entityType.equals(EntityNames.EDUCATION_ORGANIZATION)) {
             return true;
         }

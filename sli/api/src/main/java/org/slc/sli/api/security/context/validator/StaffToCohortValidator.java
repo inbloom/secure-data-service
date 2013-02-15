@@ -47,7 +47,7 @@ public class StaffToCohortValidator extends AbstractContextValidator {
      * well as the ones you're directly associated with.
      */
     @Override
-    public boolean validate(String entityType, Set<String> ids) {
+    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.COHORT, entityType, ids)) {
             return false;
         }

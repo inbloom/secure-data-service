@@ -50,7 +50,7 @@ public class StaffToStaffProgramAssociationValidator extends AbstractContextVali
      * all of the staff you can see have.
      */
     @Override
-    public boolean validate(String entityType, Set<String> ids) {
+    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STAFF_PROGRAM_ASSOCIATION, entityType, ids)) {
             return false;
         }

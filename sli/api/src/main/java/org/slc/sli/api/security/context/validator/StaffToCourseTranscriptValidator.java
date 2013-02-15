@@ -30,7 +30,7 @@ public class StaffToCourseTranscriptValidator extends AbstractContextValidator {
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) {
+    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
 
         if (!areParametersValid(EntityNames.COURSE_TRANSCRIPT, entityType, ids)) {
             return false;

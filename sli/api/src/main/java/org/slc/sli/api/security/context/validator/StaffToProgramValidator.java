@@ -44,7 +44,7 @@ public class StaffToProgramValidator extends AbstractContextValidator {
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean validate(String entityType, Set<String> ids) {
+    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.PROGRAM, entityType, ids)) {
             return false;
         }

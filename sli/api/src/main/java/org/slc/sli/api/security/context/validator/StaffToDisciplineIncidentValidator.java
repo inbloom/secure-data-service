@@ -54,7 +54,7 @@ public class StaffToDisciplineIncidentValidator extends AbstractContextValidator
      * and you can see the ones that are in the edorg heirarchy beneath you
      */
     @Override
-    public boolean validate(String entityType, Set<String> ids) {
+    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.DISCIPLINE_INCIDENT, entityType, ids)) {
             return false;
         }

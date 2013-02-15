@@ -44,7 +44,7 @@ public class StaffToSubStudentSectionAssociationEntityValidator extends Abstract
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) {
+    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(SUB_ENTITIES_OF_STUDENT_SECTION, entityType, ids)) {
             return false;
         }

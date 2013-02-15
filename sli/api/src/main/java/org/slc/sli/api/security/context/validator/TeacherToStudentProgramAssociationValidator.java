@@ -41,7 +41,7 @@ public class TeacherToStudentProgramAssociationValidator extends AbstractContext
     }
 
     @Override
-    public boolean validate(String entityType, Set<String> ids) {
+    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STUDENT_PROGRAM_ASSOCIATION, entityType, ids)) {
             return false;
         }

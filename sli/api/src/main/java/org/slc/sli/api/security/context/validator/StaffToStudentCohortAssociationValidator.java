@@ -49,7 +49,7 @@ public class StaffToStudentCohortAssociationValidator extends AbstractContextVal
      * expired.
      */
     @Override
-    public boolean validate(String entityType, Set<String> ids) {
+    public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
         if (!areParametersValid(EntityNames.STUDENT_COHORT_ASSOCIATION, entityType, ids)) {
             return false;
         }
