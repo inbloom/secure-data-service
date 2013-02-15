@@ -16,14 +16,20 @@
 
 package org.slc.sli.dal.convert;
 
+import com.mongodb.BasicDBObjectBuilder;
+import com.mongodb.DBObject;
 import org.slc.sli.common.domain.ContainerDocument;
 import org.slc.sli.common.domain.ContainerDocumentHolder;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -47,6 +53,30 @@ public class ContainerDocumentAccessor {
         return containerDocumentHolder.isContainerDocument(entity);
     }
 
+    public boolean insert(final List<Entity> entityList) {
+        boolean result = true;
+
+        for(Entity entity: entityList) {
+
+            result &= insert(entity);
+        }
+        return result;
+    }
+    public boolean insert(final Entity entity) {
+
+        DBObject query = getContainerDocQuery(entity);
+        return insertContainerDoc(query, entity);
+    }
+
+    private DBObject getContainerDocQuery(Entity entity  ) {
+        String parentKey = createParentKey(entity);
+        //remove parent keys
+        Query query = new Query();
+        query.addCriteria(new Criteria("_id").is(parentKey));
+        return query.getQueryObject();
+
+    }
+
     // TODO: private
     protected String createParentKey(final Entity entity) {
         final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
@@ -55,4 +85,14 @@ public class ContainerDocumentAccessor {
 
         return generatorStrategy.generateId(naturalKeyDescriptor);
     }
+
+    protected boolean insertContainerDoc(DBObject query, Entity entity) {
+        TenantContext.setIsSystemCall(false);
+        ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
+        return mongoTemplate.getCollection(entity.getType()).update(query,
+                BasicDBObjectBuilder.start().push("$pushAll").add(containerDocument.getFieldToPersist(),entity.getBody()).get())
+        .getLastError().ok();
+
+    }
+
 }

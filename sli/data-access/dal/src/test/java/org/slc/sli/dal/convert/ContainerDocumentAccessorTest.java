@@ -91,6 +91,16 @@ public class ContainerDocumentAccessorTest {
         assertEquals(expected, parentUUID);
     }
 
+    //@Test
+    public void testCreateEntityBody() {
+
+    }
+
+    @Test
+    public void testInsert() {
+
+    }
+
     private ContainerDocument createAttendanceContainer() {
         return ContainerDocument.builder().forCollection("testCollection")
                 .forField("array_field")

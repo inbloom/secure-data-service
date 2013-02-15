@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.slc.sli.dal.convert.ContainerDocumentAccessor;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -89,6 +90,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     private Denormalizer denormalizer;
 
+    private ContainerDocumentAccessor containerDocumentAccessor;
+
     @Autowired
     protected SliSchemaVersionValidatorProvider schemaVersionValidatorProvider;
 
@@ -97,6 +100,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         setWriteConcern(writeConcern);
         subDocs = new SubDocAccessor(getTemplate(), uuidGeneratorStrategy, naturalKeyExtractor);
         denormalizer = new Denormalizer(getTemplate());
+        containerDocumentAccessor = new ContainerDocumentAccessor(uuidGeneratorStrategy, template);
     }
 
     @Override
@@ -255,7 +259,11 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             }
 
             return entity;
-        } else {
+        } else if(containerDocumentAccessor.isContainerDocument(entity.getType())) {
+            containerDocumentAccessor.insert(entity);
+            return entity;
+        }
+        else {
             Entity result = super.insert(entity, collectionName);
 
             if (denormalizer.isDenormalizedDoc(collectionName)) {
@@ -281,7 +289,11 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             }
 
             return records;
-        } else {
+        } else if (containerDocumentAccessor.isContainerDocument(collectionName)) {
+            containerDocumentAccessor.insert(records);
+            return  records;
+        }
+        else {
             List<Entity> persist = new ArrayList<Entity>();
 
             for (Entity record : records) {
