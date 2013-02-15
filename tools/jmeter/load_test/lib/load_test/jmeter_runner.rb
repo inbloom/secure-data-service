@@ -45,6 +45,7 @@ module LoadTest
       FileUtils.mkdir_p(result_dir)
       ended_early = false
       puts "Running #{test_name}"
+      error_occurred = false
       thread_count_array.each do |thread_count|
         jtl_file = File.join(result_dir, "#{JTL_FILE_PREFIX}#{thread_count}.jtl")
 
@@ -61,6 +62,7 @@ module LoadTest
         puts "  Average total time per thread took #{duration(total_average/1000)} to complete."
         puts "  There #{error_count > 1 ? 'are' : 'is'} #{error_count} error#{error_count > 1 ? 's' : ''}"
 
+        error_occurred ||= (error_count > 0)
         if total_average > @max_avg_elapsed_time
           puts "  Ending #{test_name} test because total average time #{total_average}ms exceeds #{@max_avg_elapsed_time}ms\n"
           ended_early = true
@@ -75,6 +77,7 @@ module LoadTest
       unless ended_early
         puts "  Test #{test_name} completed successfully.\n"
       end
+      !error_occurred
     end
   end
 end
