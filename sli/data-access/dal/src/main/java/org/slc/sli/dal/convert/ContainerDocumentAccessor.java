@@ -22,12 +22,9 @@ import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -39,26 +36,26 @@ public class ContainerDocumentAccessor {
     @Autowired
     private ContainerDocumentHolder containerDocumentHolder;
 
-//    @Autowired
-//    @Qualifier("deterministicUUIDGeneratorStrategy")
-//    private UUIDGeneratorStrategy uuidGeneratorStrategy;
+    private UUIDGeneratorStrategy generatorStrategy;
 
-    @Autowired
-    DeterministicUUIDGeneratorStrategy deterministicUUIDGeneratorStrategy;
+    public ContainerDocumentAccessor() {
+        this.generatorStrategy = new DeterministicUUIDGeneratorStrategy();
+    }
+
+    // TODO: hack because of spring dependencies, FIXME
+    protected ContainerDocumentAccessor(final UUIDGeneratorStrategy strategy) {
+        this.generatorStrategy = strategy;
+    }
 
     public boolean isContainerDocument(final String entity) {
         return containerDocumentHolder.isContainerDocument(entity);
     }
 
-    public String createParentKey(final  Entity entity) {
-        ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
-        Map<String,String> parentKeyMap = containerDocument.getParentNaturalKeyMap();
-        Map<String, String> naturalKeyMap = new HashMap<String, String>();
-        for(String key : parentKeyMap.keySet()) {
-           String value = (String) entity.getBody().get(key);
-            naturalKeyMap.put(key,value);
-        }
-        final NaturalKeyDescriptor naturalKeyDescriptor = new NaturalKeyDescriptor(naturalKeyMap);
-       return deterministicUUIDGeneratorStrategy.generateId(naturalKeyDescriptor);
+    public String createParentKey(final Entity entity) {
+        final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
+        final Map<String, String> parentKeyMap = containerDocument.getParentNaturalKeyMap();
+        final NaturalKeyDescriptor naturalKeyDescriptor = ContainerDocumentHelper.extractNaturalKeyDescriptor(entity, parentKeyMap);
+
+        return generatorStrategy.generateId(naturalKeyDescriptor);
     }
 }
