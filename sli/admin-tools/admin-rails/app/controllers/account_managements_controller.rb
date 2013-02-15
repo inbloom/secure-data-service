@@ -97,7 +97,7 @@ class AccountManagementsController < ApplicationController
     if $check_slc.nil? || $check_slc == true
       check = Check.get("")
       roles = check["sliRoles"]
-      if roles.nil? || !roles.include?("Operator")
+      if roles.nil? || !is_operator?
         render :file => "#{Rails.root}/public/403.html"
       end
     end

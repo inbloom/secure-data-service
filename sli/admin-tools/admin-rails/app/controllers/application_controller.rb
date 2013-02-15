@@ -19,6 +19,7 @@ limitations under the License.
 
 require "active_resource/base"
 require "oauth_helper"
+include RoleGroupHelper
 
 class ApplicationController < ActionController::Base
 
@@ -126,7 +127,7 @@ class ApplicationController < ActionController::Base
 
   def is_operator?
     session[:roles].each do |role|
-      return true if role.include? "Operator"
+      return true if role.include? OPERATOR
     end
     return false
   end

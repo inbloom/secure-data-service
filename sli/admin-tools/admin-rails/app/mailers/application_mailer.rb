@@ -16,6 +16,7 @@ limitations under the License.
 
 =end
 
+include RoleGroupHelper
 
 class ApplicationMailer < ActionMailer::Base
   default from: "#{APP_CONFIG['email_sender_name']} <#{APP_CONFIG['email_sender_address']}>"
@@ -119,27 +120,27 @@ class ApplicationMailer < ActionMailer::Base
   def samt_welcome(email_address, firstName, groups)
     Rails.logger.debug("groups = #{groups}")
     @firstName = firstName
-    @is_admin = !(["SLC Operator", "SEA Administrator", "LEA Administrator", "Sandbox SLC Operator", "Sandbox Administrator"] & groups).empty?
-    @is_ingestion = groups.include?("ingestion_user")
-    @is_app_dev = groups.include?("application_developer")
-    @is_realm_admin = groups.include?("Realm Administrator")
-    @is_slc_operator = groups.include?("SLC Operator")
-    @is_sea_admin = groups.include?("SEA Administrator")
-    @is_lea_admin = groups.include?("LEA Administrator")
+    @is_admin = !([INBLOOM_OPERATOR, SEA_ADMINISTRATOR, LEA_ADMINISTRATOR, SANDBOX_INBLOOM_OPERATOR, SANDBOX_ADMINISTRATOR] & groups).empty?
+    @is_ingestion = includes_ingestion_user_group? groups
+    @is_app_dev = includes_app_developer_group? groups
+    @is_realm_admin = includes_realm_admin_group? groups
+    @is_slc_operator = includes_operator_group? groups
+    @is_sea_admin = includes_sea_admin_group? groups
+    @is_lea_admin = includes_lea_admin_group? groups
     @portal_link = APP_CONFIG["portal_url"]
     @app_dev_documentation_link = APP_CONFIG['app_dev_documentation_link']
     @support_email = APP_CONFIG["support_email"]
     @admin_documentation_link = APP_CONFIG["admin_documentation_link"]
     if(@is_slc_operator)
-      @account_type = "SLC Operator"
+      @account_type = INBLOOM_OPERATOR
     elsif(@is_sea_admin)
-      @account_type = "SEA Administrator"
+      @account_type = SEA_ADMINISTRATOR
     elsif(@is_lea_admin)
-      @account_type = "LEA Administrator"
+      @account_type = LEA_ADMINISTRATOR
     elsif(@is_realm_admin)
-      @account_type = "Realm Administrator"
+      @account_type = REALM_ADMINISTRATOR
     elsif(@is_ingestion)
-      @account_type = "Ingestion User"
+      @account_type = INGESTION_USER
     end
     mail(:to => email_address, :subject => (APP_CONFIG["is_sandbox"] ? SAMT_WELCOME_SANDBOX : SAMT_WELCOME_PROD))
   end

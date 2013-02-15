@@ -19,10 +19,14 @@ limitations under the License.
 
 module RoleGroupHelper
 
+  OPERATOR = "Operator"
   SANDBOX_ADMINISTRATOR = "Sandbox Administrator"
   APPLICATION_DEVELOPER = "Application Developer"
+  APPLICATION_DEVELOPER_DOWNCASE = "application_developer"
   INGESTION_USER = "Ingestion User"
+  INGESTION_USER_DOWNCASE = "ingestion_user"
   INBLOOM_OPERATOR = "SLC Operator" #TODO: inBloom Operator
+  SANDBOX_INBLOOM_OPERATOR = "Sandbox SLC Operator" #TODO: Sandbox inBloom Operator
   SEA_ADMINISTRATOR = "SEA Administrator"
   LEA_ADMINISTRATOR = "LEA Administrator"
   REALM_ADMINISTRATOR = "Realm Administrator"
@@ -34,16 +38,16 @@ module RoleGroupHelper
   end
 
   def includes_app_developer_group?(groups)
-    groups.include? APPLICATION_DEVELOPER
+    groups.include? APPLICATION_DEVELOPER or groups.include? APPLICATION_DEVELOPER_DOWNCASE
   end
 
   def includes_ingestion_user_group?(groups)
-    groups.include? INGESTION_USER
+    groups.include? INGESTION_USER or groups.include? INGESTION_USER_DOWNCASE
   end
 
   def includes_operator_group?(groups)
     groups.each do |group|
-      return true if group.include? "Operator"
+      return true if group.include? OPERATOR
     end
     return false
   end
