@@ -1,42 +1,43 @@
-<?xml version="1.0" encoding="UTF-8"?> 
-<InterchangeStudentAssessment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentAssessment.xsd"> 
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentAssessment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentAssessment.xsd">
 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>2</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+      <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>2</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <RetestIndicator>Primary Administration</RetestIndicator>
       <ScoreResults AssessmentReportingMethod="Scale score">
-          <Result>81</Result> 
-      </ScoreResults> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>530425896</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
+          <Result>81</Result>
+      </ScoreResults>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>530425896</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
                 <AssessmentTitle>ACT</AssessmentTitle>
                 <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
 		        <Version>1</Version>
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   
-   <StudentObjectiveAssessment> 
-       <ScoreResults AssessmentReportingMethod="Scale score"> 
-         <Result>18</Result> 
-       </ScoreResults> 
-       <StudentAssessmentReference/> 
-       <ObjectiveAssessmentReference> 
-           <ObjectiveAssessmentIdentity> 
-               <ObjectiveAssessmentIdentificationCode>ACT-English</ObjectiveAssessmentIdentificationCode> 
-           </ObjectiveAssessmentIdentity> 
-       </ObjectiveAssessmentReference> 
-   </StudentObjectiveAssessment> 
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+
+   <StudentObjectiveAssessment>
+       <ScoreResults AssessmentReportingMethod="Scale score">
+         <Result>18</Result>
+       </ScoreResults>
+       <StudentAssessmentReference/>
+       <ObjectiveAssessmentReference>
+           <ObjectiveAssessmentIdentity>
+               <ObjectiveAssessmentIdentificationCode>ACT-English</ObjectiveAssessmentIdentificationCode>
+           </ObjectiveAssessmentIdentity>
+       </ObjectiveAssessmentReference>
+   </StudentObjectiveAssessment>
 
   <StudentAssessmentItem>
     <AssessmentResponse>True</AssessmentResponse>
@@ -50,4 +51,4 @@
     </AssessmentItemReference>
   </StudentAssessmentItem>
 
-</InterchangeStudentAssessment> 
+</InterchangeStudentAssessment>

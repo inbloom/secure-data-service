@@ -2,1275 +2,1325 @@
 <!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
 <InterchangeStudentAssessment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentAssessment.xsd">
 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>5</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <SpecialAccommodations> 
-           <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation> 
-      </SpecialAccommodations> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>2</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000000</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Literature and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>7</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <SpecialAccommodations> 
-           <SpecialAccommodation>Untimed</SpecialAccommodation> 
-      </SpecialAccommodations> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>4</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000000</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>2</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>3</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000001</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Literature and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>5</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <LinguisticAccommodations> 
-           <LinguisticAccommodation>Bilingual Glossary</LinguisticAccommodation> 
-      </LinguisticAccommodations> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>5</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000001</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>8</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>1</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000002</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Literature and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>9</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>1</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000002</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>8</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>3</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000003</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Literature and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>5</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>5</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000003</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>10</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>2</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000004</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Literature and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>6</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>1</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000004</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>5</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <SpecialAccommodations> 
-           <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation> 
-      </SpecialAccommodations> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>5</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000005</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Literature and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>5</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <SpecialAccommodations> 
-           <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation> 
-      </SpecialAccommodations> 
-      <LinguisticAccommodations> 
-           <LinguisticAccommodation>Oral Translation - Word or Phrase</LinguisticAccommodation> 
-      </LinguisticAccommodations> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>3</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000005</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>2</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>3</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000006</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Literature and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>4</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <SpecialAccommodations> 
-           <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation> 
-      </SpecialAccommodations> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>2</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000006</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>3</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <SpecialAccommodations> 
-           <SpecialAccommodation>Untimed</SpecialAccommodation> 
-      </SpecialAccommodations> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>1</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000007</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Literature and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>2</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <LinguisticAccommodations> 
-           <LinguisticAccommodation>English and Spanish tests side-by-side</LinguisticAccommodation> 
-      </LinguisticAccommodations> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>2</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000007</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>3</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>5</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000008</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Literature and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>9</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <SpecialAccommodations> 
-           <SpecialAccommodation>Untimed</SpecialAccommodation> 
-      </SpecialAccommodations> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>3</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000008</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>2</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <LinguisticAccommodations> 
-           <LinguisticAccommodation>Reading Aloud - Word or Phrase</LinguisticAccommodation> 
-      </LinguisticAccommodations> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>2</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000009</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Literature and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>4</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>3</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000009</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>3</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <SpecialAccommodations> 
-           <SpecialAccommodation>Computer administration</SpecialAccommodation> 
-      </SpecialAccommodations> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>3</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000010</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Literature and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>2</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>4</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000010</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>2</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <SpecialAccommodations> 
-           <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation> 
-      </SpecialAccommodations> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>4</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000011</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Literature and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>2</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <SpecialAccommodations> 
-           <SpecialAccommodation>Braille</SpecialAccommodation> 
-      </SpecialAccommodations> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>5</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000011</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>4</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>4</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000012</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Literature and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>7</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <LinguisticAccommodations> 
-           <LinguisticAccommodation>Reading Aloud - Word or Phrase</LinguisticAccommodation> 
-      </LinguisticAccommodations> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>4</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000012</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>4</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>5</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000013</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Literature and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>4</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>4</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000013</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>5</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>2</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000014</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Literature and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>2</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <SpecialAccommodations> 
-           <SpecialAccommodation>Braille</SpecialAccommodation> 
-      </SpecialAccommodations> 
-      <LinguisticAccommodations> 
-           <LinguisticAccommodation>Reading Aloud - Word or Phrase</LinguisticAccommodation> 
-      </LinguisticAccommodations> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>2</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000014</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>7</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <LinguisticAccommodations> 
-           <LinguisticAccommodation>English and Spanish tests side-by-side</LinguisticAccommodation> 
-      </LinguisticAccommodations> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>3</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000015</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Literature and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>6</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <LinguisticAccommodations> 
-           <LinguisticAccommodation>English Dictionary</LinguisticAccommodation> 
-      </LinguisticAccommodations> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>3</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000015</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>4</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>3</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000016</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Literature and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>9</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>2</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000016</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>0</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>2</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000017</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Literature and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>6</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>5</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000017</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>3</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <SpecialAccommodations> 
-           <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation> 
-      </SpecialAccommodations> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>3</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000018</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Literature and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>6</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <LinguisticAccommodations> 
-           <LinguisticAccommodation>Bilingual Glossary</LinguisticAccommodation> 
-      </LinguisticAccommodations> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>1</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000018</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>3</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>4</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000019</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Literature and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>3</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>3</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000019</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>8</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>4</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000020</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Literature and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>1</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <LinguisticAccommodations> 
-           <LinguisticAccommodation>English and Spanish tests side-by-side</LinguisticAccommodation> 
-      </LinguisticAccommodations> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>5</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000020</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>3</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>4</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000021</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Literature and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>4</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>3</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000021</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>6</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <LinguisticAccommodations> 
-           <LinguisticAccommodation>English Dictionary</LinguisticAccommodation> 
-      </LinguisticAccommodations> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>1</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000022</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Literature and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>5</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>1</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000022</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>2</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>5</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000023</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Literature and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>9</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>1</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000023</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>8</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>2</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000024</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Literature and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   <StudentAssessment> 
-      <AdministrationDate>2011-05-01</AdministrationDate> 
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
-      <SerialNumber>6</SerialNumber> 
-      <AdministrationLanguage>English</AdministrationLanguage> 
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
-      <RetestIndicator>Primary Administration</RetestIndicator> 
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
-      <PerformanceLevels> 
-           <CodeValue>3</CodeValue> 
-      </PerformanceLevels> 
-      <StudentReference> 
-           <StudentIdentity> 
-                <StudentUniqueStateId>900000024</StudentUniqueStateId> 
-           </StudentIdentity> 
-      </StudentReference> 
-      <AssessmentReference> 
-           <AssessmentIdentity> 
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
-                     <ID>AP English Language and Composition</ID> 
-                </AssessmentIdentificationCode> 
-           </AssessmentIdentity> 
-      </AssessmentReference> 
-   </StudentAssessment> 
-   
-   
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>5</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <SpecialAccommodations>
+           <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation>
+      </SpecialAccommodations>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>2</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000000</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Literature and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>7</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <SpecialAccommodations>
+           <SpecialAccommodation>Untimed</SpecialAccommodation>
+      </SpecialAccommodations>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>4</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000000</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Language and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>2</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>3</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000001</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Literature and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>5</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <LinguisticAccommodations>
+           <LinguisticAccommodation>Bilingual Glossary</LinguisticAccommodation>
+      </LinguisticAccommodations>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>5</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000001</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Language and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>8</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>1</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000002</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Literature and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>9</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>1</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000002</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Language and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>8</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>3</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000003</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Literature and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>5</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>5</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000003</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Language and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>10</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>2</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000004</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Literature and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>6</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>1</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000004</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Language and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>5</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <SpecialAccommodations>
+           <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation>
+      </SpecialAccommodations>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>5</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000005</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Literature and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>5</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <SpecialAccommodations>
+           <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation>
+      </SpecialAccommodations>
+      <LinguisticAccommodations>
+           <LinguisticAccommodation>Oral Translation - Word or Phrase</LinguisticAccommodation>
+      </LinguisticAccommodations>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>3</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000005</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Language and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>2</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>3</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000006</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Literature and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>4</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <SpecialAccommodations>
+           <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation>
+      </SpecialAccommodations>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>2</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000006</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Language and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>3</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <SpecialAccommodations>
+           <SpecialAccommodation>Untimed</SpecialAccommodation>
+      </SpecialAccommodations>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>1</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000007</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Literature and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>2</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <LinguisticAccommodations>
+           <LinguisticAccommodation>English and Spanish tests side-by-side</LinguisticAccommodation>
+      </LinguisticAccommodations>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>2</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000007</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Language and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>3</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>5</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000008</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Literature and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>9</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <SpecialAccommodations>
+           <SpecialAccommodation>Untimed</SpecialAccommodation>
+      </SpecialAccommodations>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>3</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000008</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Language and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>2</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <LinguisticAccommodations>
+           <LinguisticAccommodation>Reading Aloud - Word or Phrase</LinguisticAccommodation>
+      </LinguisticAccommodations>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>2</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000009</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Literature and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>4</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>3</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000009</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Language and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>3</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <SpecialAccommodations>
+           <SpecialAccommodation>Computer administration</SpecialAccommodation>
+      </SpecialAccommodations>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>3</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000010</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Literature and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>2</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>4</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000010</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Language and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>2</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <SpecialAccommodations>
+           <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation>
+      </SpecialAccommodations>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>4</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000011</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Literature and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>2</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <SpecialAccommodations>
+           <SpecialAccommodation>Braille</SpecialAccommodation>
+      </SpecialAccommodations>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>5</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000011</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Language and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>4</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>4</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000012</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Literature and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>7</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <LinguisticAccommodations>
+           <LinguisticAccommodation>Reading Aloud - Word or Phrase</LinguisticAccommodation>
+      </LinguisticAccommodations>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>4</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000012</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Language and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>4</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>5</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000013</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Literature and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>4</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>4</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000013</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Language and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>5</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>2</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000014</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Literature and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>2</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <SpecialAccommodations>
+           <SpecialAccommodation>Braille</SpecialAccommodation>
+      </SpecialAccommodations>
+      <LinguisticAccommodations>
+           <LinguisticAccommodation>Reading Aloud - Word or Phrase</LinguisticAccommodation>
+      </LinguisticAccommodations>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>2</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000014</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Language and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>7</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <LinguisticAccommodations>
+           <LinguisticAccommodation>English and Spanish tests side-by-side</LinguisticAccommodation>
+      </LinguisticAccommodations>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>3</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000015</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Literature and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>6</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <LinguisticAccommodations>
+           <LinguisticAccommodation>English Dictionary</LinguisticAccommodation>
+      </LinguisticAccommodations>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>3</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000015</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Language and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>4</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>3</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000016</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Literature and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>9</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>2</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000016</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Language and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>0</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>2</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000017</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Literature and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>6</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>5</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000017</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Language and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>3</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <SpecialAccommodations>
+           <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation>
+      </SpecialAccommodations>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>3</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000018</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Literature and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>6</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <LinguisticAccommodations>
+           <LinguisticAccommodation>Bilingual Glossary</LinguisticAccommodation>
+      </LinguisticAccommodations>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>1</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000018</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Language and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>3</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>4</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000019</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Literature and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>3</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>3</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000019</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Language and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>8</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>4</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000020</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Literature and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>1</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <LinguisticAccommodations>
+           <LinguisticAccommodation>English and Spanish tests side-by-side</LinguisticAccommodation>
+      </LinguisticAccommodations>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>5</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000020</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Language and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>3</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>4</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000021</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Literature and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>4</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>3</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000021</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Language and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>6</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <LinguisticAccommodations>
+           <LinguisticAccommodation>English Dictionary</LinguisticAccommodation>
+      </LinguisticAccommodations>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>1</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000022</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Literature and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>5</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>1</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000022</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Language and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>2</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>5</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000023</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Literature and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>9</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>1</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000023</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Language and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>8</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>2</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000024</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Literature and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+   <StudentAssessment>
+      <AdministrationDate>2011-05-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
+    <AdministrationEndDate>2011-05-01</AdministrationEndDate>
+      <SerialNumber>6</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels>
+           <CodeValue>3</CodeValue>
+      </PerformanceLevels>
+      <StudentReference>
+           <StudentIdentity>
+                <StudentUniqueStateId>900000024</StudentUniqueStateId>
+           </StudentIdentity>
+      </StudentReference>
+      <AssessmentReference>
+           <AssessmentIdentity>
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+                     <ID>AP English Language and Composition</ID>
+                </AssessmentIdentificationCode>
+           </AssessmentIdentity>
+      </AssessmentReference>
+   </StudentAssessment>
+
+
 </InterchangeStudentAssessment>

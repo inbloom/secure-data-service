@@ -3,6 +3,7 @@
 
    <StudentAssessment>
       <AdministrationDate>2009-10-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
       <AdministrationEndDate>2009-10-01</AdministrationEndDate>
       <SerialNumber>2</SerialNumber>
       <AdministrationLanguage>English</AdministrationLanguage>
@@ -35,6 +36,7 @@
 
    <StudentAssessment>
       <AdministrationDate>2009-10-01</AdministrationDate>
+      <SchoolYear>2011-2012</SchoolYear>
       <AdministrationEndDate>2009-10-01</AdministrationEndDate>
       <SerialNumber>9</SerialNumber>
       <AdministrationLanguage>English</AdministrationLanguage>
