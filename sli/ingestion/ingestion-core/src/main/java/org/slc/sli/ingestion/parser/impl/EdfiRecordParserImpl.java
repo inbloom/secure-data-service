@@ -106,7 +106,11 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
         validator.setErrorHandler(parser);
 
         try {
+            // http://xerces.apache.org/xerces2-j/features.html
+            validator.setFeature("http://apache.org/xml/features/validation/id-idref-checking", false);
+
             validator.validate(new StAXSource(parser));
+
         } catch (SAXException e) {
             throw new XmlParseException("Exception while processing the xml file", e);
         } catch (IOException e) {
