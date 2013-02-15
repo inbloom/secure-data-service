@@ -244,7 +244,7 @@ public class XsdTypeProvider implements TypeProvider {
         // TODO Auto-generated method stub
     }
 
-    public void setSchemaFiles(Resource[] schemaFiles) throws Exception {
+    public void setSchemaFiles(Resource[] schemaFiles) throws IOException, JDOMException {
         this.schemaFiles = Arrays.copyOf(schemaFiles, schemaFiles.length);
 
         init();

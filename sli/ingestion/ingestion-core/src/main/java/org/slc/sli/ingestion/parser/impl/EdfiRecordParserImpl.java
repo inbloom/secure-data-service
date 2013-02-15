@@ -185,8 +185,8 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
     }
 
     private void newEventToStack(String eventName) {
-        RecordMeta typeMeta = typeProvider
-                .getTypeFromParentType(complexTypeStack.peek().getLeft().getType(), eventName);
+
+        RecordMeta typeMeta = getRecordMetaForEvent(eventName);
 
         Pair<RecordMeta, Map<String, Object>> subElement = createElementEntry(typeMeta);
 
@@ -197,6 +197,20 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
 
         complexTypeStack.peek().getRight().put(eventName, mapValue);
         complexTypeStack.push(subElement);
+    }
+
+    private RecordMeta getRecordMetaForEvent(String eventName) {
+        RecordMeta typeMeta = typeProvider
+                .getTypeFromParentType(complexTypeStack.peek().getLeft().getType(), eventName);
+
+        if (typeMeta == null) {
+            // the parser must go on building the stack
+            LOG.warn(
+                    "Could not determine type of element: {} with parent of type: {}. Type conversion may not be applied on its value.",
+                    eventName, complexTypeStack.peek().getLeft().getType());
+            typeMeta = new RecordMetaImpl(eventName, "UNKNOWN");
+        }
+        return typeMeta;
     }
 
     @SuppressWarnings("unchecked")

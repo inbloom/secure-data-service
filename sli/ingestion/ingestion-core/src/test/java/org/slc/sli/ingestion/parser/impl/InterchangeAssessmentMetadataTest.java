@@ -16,19 +16,15 @@
 package org.slc.sli.ingestion.parser.impl;
 
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 /**
- * 
+ *
  * @author slee
  *
  */
 public class InterchangeAssessmentMetadataTest {
-
-    public static final Logger LOG = LoggerFactory.getLogger(InterchangeAssessmentMetadataTest.class);
 
     @Test
     public void testAssessment() throws Throwable {
@@ -37,7 +33,7 @@ public class InterchangeAssessmentMetadataTest {
         Resource inputXml = new ClassPathResource("parser/InterchangeAssessmentMetadata/Assessment.xml");
         Resource expectedJson = new ClassPathResource("parser/InterchangeAssessmentMetadata/Assessment.expected.json");
 
-        new EntityTestHelper().parseAndVerify(schema, inputXml, expectedJson);
+        EntityTestHelper.parseAndVerify(schema, inputXml, expectedJson);
     }
 
     @Test
@@ -47,7 +43,7 @@ public class InterchangeAssessmentMetadataTest {
         Resource inputXml = new ClassPathResource("parser/InterchangeAssessmentMetadata/AssessmentFamily.xml");
         Resource expectedJson = new ClassPathResource("parser/InterchangeAssessmentMetadata/AssessmentFamily.expected.json");
 
-        new EntityTestHelper().parseAndVerify(schema, inputXml, expectedJson);
+        EntityTestHelper.parseAndVerify(schema, inputXml, expectedJson);
     }
 
     @Test
@@ -57,7 +53,7 @@ public class InterchangeAssessmentMetadataTest {
         Resource inputXml = new ClassPathResource("parser/InterchangeAssessmentMetadata/AssessmentItem.xml");
         Resource expectedJson = new ClassPathResource("parser/InterchangeAssessmentMetadata/AssessmentItem.expected.json");
 
-        new EntityTestHelper().parseAndVerify(schema, inputXml, expectedJson);
+        EntityTestHelper.parseAndVerify(schema, inputXml, expectedJson);
     }
 
     @Test
@@ -67,7 +63,7 @@ public class InterchangeAssessmentMetadataTest {
         Resource inputXml = new ClassPathResource("parser/InterchangeAssessmentMetadata/AssessmentPeriodDescriptor.xml");
         Resource expectedJson = new ClassPathResource("parser/InterchangeAssessmentMetadata/AssessmentPeriodDescriptor.expected.json");
 
-        new EntityTestHelper().parseAndVerify(schema, inputXml, expectedJson);
+        EntityTestHelper.parseAndVerify(schema, inputXml, expectedJson);
     }
 
     @Test
@@ -77,7 +73,7 @@ public class InterchangeAssessmentMetadataTest {
         Resource inputXml = new ClassPathResource("parser/InterchangeAssessmentMetadata/LearningObjective.xml");
         Resource expectedJson = new ClassPathResource("parser/InterchangeAssessmentMetadata/LearningObjective.expected.json");
 
-        new EntityTestHelper().parseAndVerify(schema, inputXml, expectedJson);
+        EntityTestHelper.parseAndVerify(schema, inputXml, expectedJson);
     }
 
     @Test
@@ -87,7 +83,7 @@ public class InterchangeAssessmentMetadataTest {
         Resource inputXml = new ClassPathResource("parser/InterchangeAssessmentMetadata/LearningStandard.xml");
         Resource expectedJson = new ClassPathResource("parser/InterchangeAssessmentMetadata/LearningStandard.expected.json");
 
-        new EntityTestHelper().parseAndVerify(schema, inputXml, expectedJson);
+        EntityTestHelper.parseAndVerify(schema, inputXml, expectedJson);
     }
 
     @Test
@@ -97,7 +93,7 @@ public class InterchangeAssessmentMetadataTest {
         Resource inputXml = new ClassPathResource("parser/InterchangeAssessmentMetadata/ObjectiveAssessment.xml");
         Resource expectedJson = new ClassPathResource("parser/InterchangeAssessmentMetadata/ObjectiveAssessment.expected.json");
 
-        new EntityTestHelper().parseAndVerify(schema, inputXml, expectedJson);
+        EntityTestHelper.parseAndVerify(schema, inputXml, expectedJson);
     }
 
 }

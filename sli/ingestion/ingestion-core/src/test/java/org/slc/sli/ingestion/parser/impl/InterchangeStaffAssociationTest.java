@@ -16,19 +16,15 @@
 package org.slc.sli.ingestion.parser.impl;
 
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 /**
- * 
+ *
  * @author slee
  *
  */
 public class InterchangeStaffAssociationTest {
-
-    public static final Logger LOG = LoggerFactory.getLogger(InterchangeStaffAssociationTest.class);
 
     @Test
     public void testStaff() throws Throwable {
@@ -37,17 +33,17 @@ public class InterchangeStaffAssociationTest {
         Resource inputXml = new ClassPathResource("parser/InterchangeStaffAssociation/Staff.xml");
         Resource expectedJson = new ClassPathResource("parser/InterchangeStaffAssociation/Staff.expected.json");
 
-        new EntityTestHelper().parseAndVerify(schema, inputXml, expectedJson);
+        EntityTestHelper.parseAndVerify(schema, inputXml, expectedJson);
     }
 
-//    @Test
+    @Test
     public void testTeacher() throws Throwable {
 
         Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StaffAssociation.xsd");
         Resource inputXml = new ClassPathResource("parser/InterchangeStaffAssociation/Teacher.xml");
         Resource expectedJson = new ClassPathResource("parser/InterchangeStaffAssociation/Teacher.expected.json");
 
-        new EntityTestHelper().parseAndVerify(schema, inputXml, expectedJson);
+        EntityTestHelper.parseAndVerify(schema, inputXml, expectedJson);
     }
 
     @Test
@@ -57,7 +53,7 @@ public class InterchangeStaffAssociationTest {
         Resource inputXml = new ClassPathResource("parser/InterchangeStaffAssociation/StaffProgramAssociation.xml");
         Resource expectedJson = new ClassPathResource("parser/InterchangeStaffAssociation/StaffProgramAssociation.expected.json");
 
-        new EntityTestHelper().parseAndVerify(schema, inputXml, expectedJson);
+        EntityTestHelper.parseAndVerify(schema, inputXml, expectedJson);
     }
 
     @Test
@@ -67,7 +63,7 @@ public class InterchangeStaffAssociationTest {
         Resource inputXml = new ClassPathResource("parser/InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation.xml");
         Resource expectedJson = new ClassPathResource("parser/InterchangeStaffAssociation/StaffEducationOrgAssignmentAssociation.expected.json");
 
-        new EntityTestHelper().parseAndVerify(schema, inputXml, expectedJson);
+        EntityTestHelper.parseAndVerify(schema, inputXml, expectedJson);
     }
 
     @Test
@@ -77,7 +73,7 @@ public class InterchangeStaffAssociationTest {
         Resource inputXml = new ClassPathResource("parser/InterchangeStaffAssociation/TeacherSchoolAssociation.xml");
         Resource expectedJson = new ClassPathResource("parser/InterchangeStaffAssociation/TeacherSchoolAssociation.expected.json");
 
-        new EntityTestHelper().parseAndVerify(schema, inputXml, expectedJson);
+        EntityTestHelper.parseAndVerify(schema, inputXml, expectedJson);
     }
 
     @Test
@@ -87,7 +83,7 @@ public class InterchangeStaffAssociationTest {
         Resource inputXml = new ClassPathResource("parser/InterchangeStaffAssociation/TeacherSectionAssociation.xml");
         Resource expectedJson = new ClassPathResource("parser/InterchangeStaffAssociation/TeacherSectionAssociation.expected.json");
 
-        new EntityTestHelper().parseAndVerify(schema, inputXml, expectedJson);
+        EntityTestHelper.parseAndVerify(schema, inputXml, expectedJson);
     }
 
 }

@@ -1,0 +1,16 @@
+{
+    "a_id": "ID011",
+    "Date": {
+        "_value": "2013-05-09"
+    },
+    "EducationOrgReference": {
+        "EducationalOrgIdentity": {
+            "StateOrganizationId": {
+                "_value": "KnpMz6xv7ac6Gn8iv"
+            }
+        }
+    },
+    "CalendarEvent": {
+        "_value": "Student late arrival/early dismissal"
+    }
+}
