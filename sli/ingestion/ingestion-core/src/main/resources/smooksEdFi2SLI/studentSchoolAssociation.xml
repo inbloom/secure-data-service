@@ -34,7 +34,7 @@
         <jb:value property="schoolChoiceTransfer" data="attributes SchoolChoiceTransfer _value" decoder="Boolean"/>
         <jb:value property="exitWithdrawDate" data="attributes ExitWithdrawDate _value" />
         <jb:value property="exitWithdrawType" data="attributes ExitWithdrawType _value" />
-        <jb:wiring property="educationPlans" beanIdRef="EducationPlans"/>
+        <jb:wiring property="educationalPlans" beanIdRef="EducationPlans"/>
         <jb:value property="graduationPlanId" data="attributes GraduationPlanReference" />
     </jb:bean>
     
