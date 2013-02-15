@@ -56,7 +56,7 @@
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/staffProgramAssociation.xml" />
       </bean>
     </entry>
-    <entry key="attendance">
+    <entry key="attendanceEvent">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/attendance.xml" />
       </bean>
