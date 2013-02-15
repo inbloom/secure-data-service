@@ -27,6 +27,7 @@ import org.slc.sli.common.domain.ContainerDocumentHolder;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.MongoEntity;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -55,9 +56,12 @@ public class ContainerDocumentAccessorTest {
     @Mock
     private UUIDGeneratorStrategy generatorStrategy;
 
+    @Mock
+    private MongoTemplate mongoTemplate;
+
     @Before
     public void setup() {
-        testAccessor = new ContainerDocumentAccessor(generatorStrategy);
+        testAccessor = new ContainerDocumentAccessor(generatorStrategy, mongoTemplate);
         MockitoAnnotations.initMocks(this);
     }
 

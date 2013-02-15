@@ -19,18 +19,16 @@ package org.slc.sli.dal.convert;
 import org.slc.sli.common.domain.ContainerDocument;
 import org.slc.sli.common.domain.ContainerDocumentHolder;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
-import org.slc.sli.common.util.uuid.DeterministicUUIDGeneratorStrategy;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
 import java.util.Map;
 
 /**
  * @author jstokes
  */
-@Component
 public class ContainerDocumentAccessor {
 
     @Autowired
@@ -38,20 +36,19 @@ public class ContainerDocumentAccessor {
 
     private UUIDGeneratorStrategy generatorStrategy;
 
-    public ContainerDocumentAccessor() {
-        this.generatorStrategy = new DeterministicUUIDGeneratorStrategy();
-    }
+    private MongoTemplate mongoTemplate;
 
-    // TODO: hack because of spring dependencies, FIXME
-    protected ContainerDocumentAccessor(final UUIDGeneratorStrategy strategy) {
+    public ContainerDocumentAccessor(final UUIDGeneratorStrategy strategy, final MongoTemplate mongoTemplate) {
         this.generatorStrategy = strategy;
+        this.mongoTemplate = mongoTemplate;
     }
 
     public boolean isContainerDocument(final String entity) {
         return containerDocumentHolder.isContainerDocument(entity);
     }
 
-    public String createParentKey(final Entity entity) {
+    // TODO: private
+    protected String createParentKey(final Entity entity) {
         final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
         final Map<String, String> parentKeyMap = containerDocument.getParentNaturalKeyMap();
         final NaturalKeyDescriptor naturalKeyDescriptor = ContainerDocumentHelper.extractNaturalKeyDescriptor(entity, parentKeyMap);
