@@ -1377,10 +1377,9 @@ public class PopulationManagerImpl extends ApiClientManager implements Populatio
             LOG.error("Requested data for non-existing ID" + id);
             return entity;
         }
-        List<Map<String, Object>> assessements = filterAssessmentByFamily(
-                student.getList(Constants.ATTR_STUDENT_ASSESSMENTS),
-                (String) config.getParams().get(Constants.ATTR_ASSESSMENT_FAMILY));
 
+        List<Map<String, Object>> assessements = student.getList(Constants.ATTR_STUDENT_ASSESSMENTS);
+        
         // get all assessments for student
         entity.put(Constants.ATTR_ASSESSMENTS, assessements);
         Set<String> scoreResultNames = new LinkedHashSet<String>();
