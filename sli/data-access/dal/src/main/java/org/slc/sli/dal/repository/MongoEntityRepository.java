@@ -17,17 +17,16 @@
 package org.slc.sli.dal.repository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.slc.sli.common.domain.FullSuperDoc;
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
@@ -61,25 +60,13 @@ import com.mongodb.DBObject;
  * mongodb implementation of the entity repository interface that provides basic
  * CRUD and field query methods for entities including core entities and
  * association entities
- *
+ * 
  * @author Dong Liu dliu@wgen.net
  */
 
 public class MongoEntityRepository extends MongoRepository<Entity> implements InitializingBean,
         ValidationWithoutNaturalKeys {
     
-    // define the entities that always return with embedded fields included
-    public static final Map<String, Set<String>> FULL_ENTITIES = new HashMap<String, Set<String>>();
-
-    static{
-        Set<String> assessmentNestedFields = new HashSet<String>();
-        assessmentNestedFields.addAll(Arrays.asList("assessmentItem", "objectiveAssessment"));
-        Set<String> saNestedFields = new HashSet<String>();
-        saNestedFields.addAll(Arrays.asList("studentObjectiveAssessment", "studentAssessmentItem"));
-        FULL_ENTITIES.put("assessment", assessmentNestedFields);
-        FULL_ENTITIES.put("studentAssessment", saNestedFields);
-    }
-
     @Autowired
     private EntityValidator validator;
 
@@ -330,8 +317,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             }
             return null;
         }
-        if (FULL_ENTITIES.containsKey(collectionName)) {
-            Set<String> embededFields = FULL_ENTITIES.get(collectionName);
+        if (FullSuperDoc.FULL_ENTITIES.containsKey(collectionName)) {
+            Set<String> embededFields = FullSuperDoc.FULL_ENTITIES.get(collectionName);
             addEmbededFields(query, embededFields);
         }
         return super.findOne(collectionName, query);
@@ -477,8 +464,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             this.addDefaultQueryParams(neutralQuery, collectionName);
             return subDocs.subDoc(collectionName).findAll(getQueryConverter().convert(collectionName, neutralQuery));
         }
-        if (FULL_ENTITIES.containsKey(collectionName)) {
-            Set<String> embededFields = FULL_ENTITIES.get(collectionName);
+        if (FullSuperDoc.FULL_ENTITIES.containsKey(collectionName)) {
+            Set<String> embededFields = FullSuperDoc.FULL_ENTITIES.get(collectionName);
             addEmbededFields(neutralQuery, embededFields);
         }
         return super.findAll(collectionName, neutralQuery);
@@ -564,12 +551,14 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         }
         DBObject fieldObjects = query.getFieldsObject();
         for (String embededField : embededFields) {
-            fieldObjects.put(embededField, 1);
+            if (!fieldObjects.containsField(embededField)) {
+                fieldObjects.put(embededField, 1);
+            }
         }
         return query;
     }
     
-    private NeutralQuery addEmbededFields(NeutralQuery query, Set<String> embededFields){
+    private NeutralQuery addEmbededFields(NeutralQuery query, Set<String> embededFields) {
         if (query == null) {
             return null;
         }
