@@ -2043,20 +2043,26 @@
 
     <jb:bean beanId="attendanceEventMetaData" class="java.util.HashMap"
     createOnElement="InterchangeStudentAttendance/AttendanceEvent">
-    <jb:expression property="neutralRecordKeyValueFieldNames">'StudentReference,schoolId,eventDate,attendanceEventCategory'</jb:expression>
+    <jb:expression property="neutralRecordKeyValueFieldNames">'StudentReference,SchoolReference,schoolYear'</jb:expression>
     <jb:expression property="sliEntityType">'attendance'</jb:expression>
   </jb:bean>
 
-  <jb:bean beanId="attendanceEventAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentAttendance/AttendanceEvent">
-    <jb:value property="schoolYear" data="InterchangeStudentAttendance/AttendanceEvent/SchoolYear" />
-    <jb:value property="eventDate" data="InterchangeStudentAttendance/AttendanceEvent/EventDate" />
-    <jb:value property="attendanceEventType" data="InterchangeStudentAttendance/AttendanceEvent/AttendanceEventType" />
-    <jb:value property="attendanceEventCategory" data="InterchangeStudentAttendance/AttendanceEvent/AttendanceEventCategory" />
-    <jb:value property="attendanceEventReason" data="InterchangeStudentAttendance/AttendanceEvent/AttendanceEventReason" />
-    <jb:value property="educationalEnvironment" data="InterchangeStudentAttendance/AttendanceEvent/EducationalEnvironment" />
-    <jb:wiring beanIdRef="SLC-AttendanceEvent_Attributes_SLC-StudentReferenceType" property="StudentReference"/>
-    <jb:value property="schoolId" data="InterchangeStudentAttendance/AttendanceEvent/SchoolReference/EducationalOrgIdentity/StateOrganizationId" />
-  </jb:bean>
+    <jb:bean beanId="attendanceEventAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentAttendance/AttendanceEvent">
+        <jb:value property="schoolYear" data="InterchangeStudentAttendance/AttendanceEvent/SchoolYear" />
+        <jb:value property="eventDate" data="InterchangeStudentAttendance/AttendanceEvent/EventDate" />
+        <jb:value property="attendanceEventType" data="InterchangeStudentAttendance/AttendanceEvent/AttendanceEventType" />
+        <jb:value property="attendanceEventCategory" data="InterchangeStudentAttendance/AttendanceEvent/AttendanceEventCategory" />
+        <jb:value property="attendanceEventReason" data="InterchangeStudentAttendance/AttendanceEvent/AttendanceEventReason" />
+        <jb:value property="educationalEnvironment" data="InterchangeStudentAttendance/AttendanceEvent/EducationalEnvironment" />
+        <jb:wiring beanIdRef="SLC-AttendanceEvent_Attributes_SLC-StudentReferenceType" property="StudentReference"/>
+        <jb:wiring beanIdRef="SLC-Attendance_EducationOrganizationReference" property="SchoolReference" />
+    </jb:bean>
+    <jb:bean beanId="SLC-Attendance_EducationOrganizationReference" class="java.util.HashMap" createOnElement="InterchangeStudentAttendance/AttendanceEvent">
+        <jb:wiring property="EducationalOrgIdentity" beanIdRef="SLC-Attendance_EducationOrganizationReference_EducationalOrgIdentity" />
+    </jb:bean>
+    <jb:bean beanId="SLC-Attendance_EducationOrganizationReference_EducationalOrgIdentity" class="java.util.HashMap" createOnElement="InterchangeStudentAttendance/AttendanceEvent">
+        <jb:value property="StateOrganizationId" data="AttendanceEvent/SchoolReference/EducationalOrgIdentity/StateOrganizationId" />
+    </jb:bean>
 
   <jb:bean beanId="SLC-AttendanceEvent_Attributes_SLC-StudentReferenceType" class="java.util.HashMap" createOnElement="InterchangeStudentAttendance/AttendanceEvent/StudentReference">
     <jb:wiring beanIdRef="SLC-AttendanceEvent_Attributes_SLC-StudentReferenceType_SLC-StudentIdentityType" property="StudentIdentity"/>

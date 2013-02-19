@@ -25,7 +25,7 @@
     <jb:bean beanId="attendanceBody" class="java.util.HashMap" createOnElement="attributes">
         <jb:value property="schoolYear" data="attributes schoolYear"></jb:value>
         <jb:value property="studentId" data="attributes StudentReference"></jb:value>
-        <jb:value property="schoolId" data="attributes schoolId"></jb:value>
+        <jb:value property="schoolId" data="attributes SchoolReference"></jb:value>
         <jb:wiring property="schoolYearAttendance" beanIdRef="schoolYearAttendanceArray"></jb:wiring>
     </jb:bean>
 
