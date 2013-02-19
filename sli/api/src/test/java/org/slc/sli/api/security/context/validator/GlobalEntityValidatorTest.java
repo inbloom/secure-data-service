@@ -28,13 +28,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
-import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
@@ -42,6 +35,14 @@ import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
 
 /**
  * Unit tests for staff/teacher --> non-transitive public entity context validator.
@@ -86,34 +87,34 @@ public class GlobalEntityValidatorTest {
 
     @Test
     public void testCanValidationStaff() throws Exception {
-        // First, check can validate for public entities
-        // This resolver shouldn't care about the transitive access flag
         assertTrue(validator.canValidate(EntityNames.ASSESSMENT, true));
-        assertTrue(validator.canValidate(EntityNames.ASSESSMENT, false));
+        assertFalse(validator.canValidate(EntityNames.ASSESSMENT, false));
         assertTrue(validator.canValidate(EntityNames.LEARNING_OBJECTIVE, true));
-        assertTrue(validator.canValidate(EntityNames.LEARNING_OBJECTIVE, false));
+        assertFalse(validator.canValidate(EntityNames.LEARNING_OBJECTIVE, false));
         assertTrue(validator.canValidate(EntityNames.LEARNING_STANDARD, true));
-        assertTrue(validator.canValidate(EntityNames.LEARNING_STANDARD, false));
+        assertFalse(validator.canValidate(EntityNames.LEARNING_STANDARD, false));
+        assertTrue(validator.canValidate(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR, true));
+        assertFalse(validator.canValidate(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR, false));
 
         // Next, check that it does not return true for non-public entities
         assertFalse(validator.canValidate(EntityNames.ATTENDANCE, true));
     }
-    
+
     @Test
     public void testCanValidationTeacher() throws Exception {
         injector.setEducatorContext();
-        // First, check can validate for public entities
-        // This resolver shouldn't care about the transitive access flag
+
         assertTrue(validator.canValidate(EntityNames.ASSESSMENT, true));
-        assertTrue(validator.canValidate(EntityNames.ASSESSMENT, false));
+        assertFalse(validator.canValidate(EntityNames.ASSESSMENT, false));
         assertTrue(validator.canValidate(EntityNames.LEARNING_OBJECTIVE, true));
-        assertTrue(validator.canValidate(EntityNames.LEARNING_OBJECTIVE, false));
+        assertFalse(validator.canValidate(EntityNames.LEARNING_OBJECTIVE, false));
         assertTrue(validator.canValidate(EntityNames.LEARNING_STANDARD, true));
-        assertTrue(validator.canValidate(EntityNames.LEARNING_STANDARD, false));
+        assertFalse(validator.canValidate(EntityNames.LEARNING_STANDARD, false));
+        assertTrue(validator.canValidate(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR, true));
+        assertFalse(validator.canValidate(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR, false));
 
         // Next, check that it does not return true for non-public entities
         assertFalse(validator.canValidate(EntityNames.COHORT, true));
-      
     }
 
     @Test
@@ -162,6 +163,22 @@ public class GlobalEntityValidatorTest {
         learningStandardIds.add(helper.generateLearningStandard().getEntityId());
         learningStandardIds.add(helper.generateLearningStandard().getEntityId());
         assertTrue(validator.validate(EntityNames.LEARNING_STANDARD, learningStandardIds));
+    }
+
+    @Test
+    public void testValidateSingleCompetencyLevelDescriptor() throws Exception {
+        HashSet<String> competencyLevelDescriptorIds = new HashSet<String>();
+        competencyLevelDescriptorIds.add(helper.generateCompetencyLevelDescriptor().getEntityId());
+        assertTrue(validator.validate(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR, competencyLevelDescriptorIds));
+    }
+
+    @Test
+    public void testValidateMultipleCompetencyLevelDescriptors() throws Exception {
+        HashSet<String> competencyLevelDescriptorIds = new HashSet<String>();
+        competencyLevelDescriptorIds.add(helper.generateCompetencyLevelDescriptor().getEntityId());
+        competencyLevelDescriptorIds.add(helper.generateCompetencyLevelDescriptor().getEntityId());
+        competencyLevelDescriptorIds.add(helper.generateCompetencyLevelDescriptor().getEntityId());
+        assertTrue(validator.validate(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR, competencyLevelDescriptorIds));
     }
 
     @Test(expected = IllegalArgumentException.class)

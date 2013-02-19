@@ -2,10 +2,13 @@ package org.slc.sli.api.security.context.validator;
 
 import java.util.Set;
 
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 
+@Component
 public class GenericToGlobalCourseWriteValidator extends
 		AbstractContextValidator {
 

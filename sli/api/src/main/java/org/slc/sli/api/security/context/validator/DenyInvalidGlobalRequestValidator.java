@@ -4,6 +4,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.constants.EntityNames;
 
 /**
@@ -12,8 +14,9 @@ import org.slc.sli.api.constants.EntityNames;
  * entities with no context (Assessment, Learning Objective, Learning Standard)
  * that resolve to a non-global entity, or other global entities which currently
  * do not have endpoints on them that resolve to non-global entities
- * 
+ *
  */
+@Component
 public class DenyInvalidGlobalRequestValidator extends AbstractContextValidator {
 
 	protected static final Set<String> OTHER_INVALID_RESOURCES = new HashSet<String>(
