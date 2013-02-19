@@ -34,6 +34,8 @@ JMETER_BIN = PropLoader.getProps['jmeter_bin']
 JMETER_JTL_ARCHIVE = PropLoader.getProps['jmeter_jtl_archive']
 JMETER_FAILED_JTL_ARCHIVE = PropLoader.getProps['jmeter_failed_jtl_archive']
 REGRESSION_THRESHOLD = PropLoader.getProps['jmeter_regression_threshold'].to_f
+puts "pre-float REGRESSION_THRESHOLD is #{PropLoader.getProps['jmeter_regression_threshold']}"
+puts "REGRESSION_THRESHOLD is #{REGRESSION_THRESHOLD}"
 
 Before do
   @time = Time.now.strftime("%Y%m%d_%H%M%S")
@@ -132,6 +134,7 @@ def validReturnCode?(rc)
 end
 
 Then /^no performance regressions should be found/ do
+  puts "REGRESSION_THRESHOLD is #{REGRESSION_THRESHOLD}"
   superRegressionMap = {}
   @testsRun.each do |testName|
     regressionsFound = checkForRegression(testName)
@@ -152,6 +155,7 @@ end
 
 def checkForRegression(testName)
   puts "Checking #{testName} for regression"
+  puts "REGRESSION_THRESHOLD is #{REGRESSION_THRESHOLD}"
 
   currentJtl = "#{testName}.jtl"
   previousJtl = findPreviousJtl(testName)
@@ -179,6 +183,7 @@ def checkForRegression(testName)
       next
     end
 
+    puts "#{label} average: Current: #{avgCurrentTime}, Previous: #{avgPreviousTime}"
     fractionalDifference = calculateFractionalDifference(avgCurrentTime, avgPreviousTime)
     if fractionalDifference >= REGRESSION_THRESHOLD
       puts "#{fractionalDifference} is greater than or equal to #{REGRESSION_THRESHOLD}, adding map for #{label} to #{fractionalDifference.to_s}"
@@ -186,7 +191,7 @@ def checkForRegression(testName)
     end
   end
 
-  puts "#{regressions}.count regressions found."
+  puts "#{regressions.count} regressions found."
   return regressions
 end
 
