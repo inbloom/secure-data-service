@@ -1,37 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
+<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 C:\Java\Projects\Git\sli\sli\edfi-schema\src\main\resources\edfiXsd-SLI\SLI-Interchange-AssessmentMetadata.xsd">
 	<!-- DIBELS Next-->
 	<Assessment>
-		<AssessmentTitle>DORF (Fluency) Fifth Grade 11-12 BOY</AssessmentTitle>
+		<AssessmentTitle>DIBELS Next Fourth Grade 11-12 BOY</AssessmentTitle>
 		<AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-			<ID>DORF (Fluency) Fifth Grade 11-12 BOY</ID>
+			<ID>DIBELS Next Fourth Grade 11-12 BOY</ID>
 		</AssessmentIdentificationCode>
 		<AssessmentCategory>Reading readiness test</AssessmentCategory>
 		<AcademicSubject>Reading</AcademicSubject>
-		<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+		<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Above Proficient</CodeValue>
+				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Proficient</CodeValue>
+				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Below Proficient</CodeValue>
+				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
-		</AssessmentPerformanceLevel>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<CodeValue>Far Below Proficient</CodeValue>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2011-08-01</RevisionDate>
@@ -40,41 +34,35 @@
 		</AssessmentPeriod>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
-				<AssessmentFamilyTitle>DIBELS Next Fifth Grade</AssessmentFamilyTitle>
+				<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>
 	<Assessment>
-		<AssessmentTitle>DORF (Fluency) Fifth Grade 11-12 MOY</AssessmentTitle>
+		<AssessmentTitle>DDIBELS Next Fourth Grade 11-12 MOY</AssessmentTitle>
 		<AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-			<ID>DORF (Fluency) Fifth Grade 11-12 MOY</ID>
+			<ID>DIBELS Next Fourth Grade 11-12 MOY</ID>
 		</AssessmentIdentificationCode>
 		<AssessmentCategory>Reading readiness test</AssessmentCategory>
 		<AcademicSubject>Reading</AcademicSubject>
-		<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+		<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Above Proficient</CodeValue>
+				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Proficient</CodeValue>
+				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Below Proficient</CodeValue>
+				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
-		</AssessmentPerformanceLevel>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<CodeValue>Far Below Proficient</CodeValue>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2011-08-01</RevisionDate>
@@ -83,41 +71,35 @@
 		</AssessmentPeriod>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
-				<AssessmentFamilyTitle>DIBELS Next Fifth Grade</AssessmentFamilyTitle>
+				<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>
 	<Assessment>
-		<AssessmentTitle>DORF (Fluency) Fifth Grade 11-12 EOY</AssessmentTitle>
+		<AssessmentTitle>DIBELS Next Fourth Grade 11-12 EOY</AssessmentTitle>
 		<AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-			<ID>DORF (Fluency) Fifth Grade 11-12 EOY</ID>
+			<ID>DIBELS Next Fourth Grade 11-12 EOY</ID>
 		</AssessmentIdentificationCode>
 		<AssessmentCategory>Reading readiness test</AssessmentCategory>
 		<AcademicSubject>Reading</AcademicSubject>
-		<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+		<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Above Proficient</CodeValue>
+				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Proficient</CodeValue>
+				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Below Proficient</CodeValue>
+				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
-		</AssessmentPerformanceLevel>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<CodeValue>Far Below Proficient</CodeValue>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2011-08-01</RevisionDate>
@@ -126,7 +108,192 @@
 		</AssessmentPeriod>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
-				<AssessmentFamilyTitle>DIBELS Next Fifth Grade</AssessmentFamilyTitle>
+				<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
+	</Assessment>
+	<Assessment>
+		<AssessmentTitle>DIBELS Next Fifth Grade 12-13 BOY</AssessmentTitle>
+		<AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+			<ID>DIBELS Next Fifth Grade 12-13 BOY</ID>
+		</AssessmentIdentificationCode>
+		<AssessmentCategory>Reading readiness test</AssessmentCategory>
+		<AcademicSubject>Reading</AcademicSubject>
+		<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+		<AssessmentPerformanceLevel>
+			<PerformanceLevel>
+				<CodeValue>Below Benchmark</CodeValue>
+			</PerformanceLevel>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+		</AssessmentPerformanceLevel>
+		<AssessmentPerformanceLevel>
+			<PerformanceLevel>
+				<CodeValue>Benchmark</CodeValue>
+			</PerformanceLevel>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+		</AssessmentPerformanceLevel>
+		<AssessmentPerformanceLevel>
+			<PerformanceLevel>
+				<CodeValue>Well Below Benchmark</CodeValue>
+			</PerformanceLevel>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+		</AssessmentPerformanceLevel>
+		<Version>1</Version>
+		<RevisionDate>2012-08-17</RevisionDate>
+		<AssessmentPeriod>
+			<CodeValue>12-13 BOY</CodeValue>
+		</AssessmentPeriod>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
+	</Assessment>
+	<Assessment>
+		<AssessmentTitle>DIBELS Next Fifth Grade 12-13 MOY</AssessmentTitle>
+		<AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+			<ID>DIBELS Next Fifth Grade 12-13 MOY</ID>
+		</AssessmentIdentificationCode>
+		<AssessmentCategory>Reading readiness test</AssessmentCategory>
+		<AcademicSubject>Reading</AcademicSubject>
+		<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+		<AssessmentPerformanceLevel>
+			<PerformanceLevel>
+				<CodeValue>Below Benchmark</CodeValue>
+			</PerformanceLevel>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+		</AssessmentPerformanceLevel>
+		<AssessmentPerformanceLevel>
+			<PerformanceLevel>
+				<CodeValue>Benchmark</CodeValue>
+			</PerformanceLevel>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+		</AssessmentPerformanceLevel>
+		<AssessmentPerformanceLevel>
+			<PerformanceLevel>
+				<CodeValue>Well Below Benchmark</CodeValue>
+			</PerformanceLevel>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+		</AssessmentPerformanceLevel>
+		<Version>1</Version>
+		<RevisionDate>2012-08-17</RevisionDate>
+		<AssessmentPeriod>
+			<CodeValue>12-13 MOY</CodeValue>
+		</AssessmentPeriod>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
+	</Assessment>
+	<Assessment>
+		<AssessmentTitle>DORF (Fluency) Fourth Grade 11-12 BOY</AssessmentTitle>
+		<AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+			<ID>DORF (Fluency) Fourth Grade 11-12 BOY</ID>
+		</AssessmentIdentificationCode>
+		<AssessmentCategory>Reading readiness test</AssessmentCategory>
+		<AcademicSubject>Reading</AcademicSubject>
+		<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+		<AssessmentPerformanceLevel>
+			<PerformanceLevel>
+				<CodeValue>Below Benchmark</CodeValue>
+			</PerformanceLevel>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+		</AssessmentPerformanceLevel>
+		<AssessmentPerformanceLevel>
+			<PerformanceLevel>
+				<CodeValue>Benchmark</CodeValue>
+			</PerformanceLevel>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+		</AssessmentPerformanceLevel>
+		<AssessmentPerformanceLevel>
+			<PerformanceLevel>
+				<CodeValue>Well Below Benchmark</CodeValue>
+			</PerformanceLevel>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+		</AssessmentPerformanceLevel>
+		<Version>1</Version>
+		<RevisionDate>2011-08-01</RevisionDate>
+		<AssessmentPeriod>
+			<CodeValue>11-12 BOY</CodeValue>
+		</AssessmentPeriod>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
+	</Assessment>
+	<Assessment>
+		<AssessmentTitle>DORF (Fluency) Fourth Grade 11-12 MOY</AssessmentTitle>
+		<AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+			<ID>DORF (Fluency) Fourth Grade 11-12 MOY</ID>
+		</AssessmentIdentificationCode>
+		<AssessmentCategory>Reading readiness test</AssessmentCategory>
+		<AcademicSubject>Reading</AcademicSubject>
+		<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+		<AssessmentPerformanceLevel>
+			<PerformanceLevel>
+				<CodeValue>Below Benchmark</CodeValue>
+			</PerformanceLevel>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+		</AssessmentPerformanceLevel>
+		<AssessmentPerformanceLevel>
+			<PerformanceLevel>
+				<CodeValue>Benchmark</CodeValue>
+			</PerformanceLevel>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+		</AssessmentPerformanceLevel>
+		<AssessmentPerformanceLevel>
+			<PerformanceLevel>
+				<CodeValue>Well Below Benchmark</CodeValue>
+			</PerformanceLevel>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+		</AssessmentPerformanceLevel>
+		<Version>1</Version>
+		<RevisionDate>2011-08-01</RevisionDate>
+		<AssessmentPeriod>
+			<CodeValue>11-12 MOY</CodeValue>
+		</AssessmentPeriod>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
+	</Assessment>
+	<Assessment>
+		<AssessmentTitle>DORF (Fluency) Fourth Grade 11-12 EOY</AssessmentTitle>
+		<AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+			<ID>DORF (Fluency) Fourth Grade 11-12 EOY</ID>
+		</AssessmentIdentificationCode>
+		<AssessmentCategory>Reading readiness test</AssessmentCategory>
+		<AcademicSubject>Reading</AcademicSubject>
+		<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+		<AssessmentPerformanceLevel>
+			<PerformanceLevel>
+				<CodeValue>Below Benchmark</CodeValue>
+			</PerformanceLevel>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+		</AssessmentPerformanceLevel>
+		<AssessmentPerformanceLevel>
+			<PerformanceLevel>
+				<CodeValue>Benchmark</CodeValue>
+			</PerformanceLevel>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+		</AssessmentPerformanceLevel>
+		<AssessmentPerformanceLevel>
+			<PerformanceLevel>
+				<CodeValue>Well Below Benchmark</CodeValue>
+			</PerformanceLevel>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+		</AssessmentPerformanceLevel>
+		<Version>1</Version>
+		<RevisionDate>2011-08-01</RevisionDate>
+		<AssessmentPeriod>
+			<CodeValue>11-12 EOY</CodeValue>
+		</AssessmentPeriod>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>
@@ -140,27 +307,21 @@
 		<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Above Proficient</CodeValue>
+				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Proficient</CodeValue>
+				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Below Proficient</CodeValue>
+				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
-		</AssessmentPerformanceLevel>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<CodeValue>Far Below Proficient</CodeValue>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2012-08-17</RevisionDate>
@@ -169,7 +330,7 @@
 		</AssessmentPeriod>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
-				<AssessmentFamilyTitle>DIBELS Next Fifth Grade</AssessmentFamilyTitle>
+				<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>
@@ -183,27 +344,21 @@
 		<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Above Proficient</CodeValue>
+				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Proficient</CodeValue>
+				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Below Proficient</CodeValue>
+				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
-		</AssessmentPerformanceLevel>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<CodeValue>Far Below Proficient</CodeValue>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2012-08-17</RevisionDate>
@@ -212,41 +367,35 @@
 		</AssessmentPeriod>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
-				<AssessmentFamilyTitle>DIBELS Next Fifth Grade</AssessmentFamilyTitle>
+				<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>
 	<Assessment>
-		<AssessmentTitle>DORF (Accuracy) Fifth Grade 11-12 BOY</AssessmentTitle>
+		<AssessmentTitle>DORF (Accuracy) Fourth Grade 11-12 BOY</AssessmentTitle>
 		<AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-			<ID>DORF (Accuracy) Fifth Grade 11-12 BOY</ID>
+			<ID>DORF (Accuracy) Fourth Grade 11-12 BOY</ID>
 		</AssessmentIdentificationCode>
 		<AssessmentCategory>Reading readiness test</AssessmentCategory>
 		<AcademicSubject>Reading</AcademicSubject>
-		<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+		<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Above Proficient</CodeValue>
+				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Proficient</CodeValue>
+				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Below Proficient</CodeValue>
+				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
-		</AssessmentPerformanceLevel>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<CodeValue>Far Below Proficient</CodeValue>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2011-08-01</RevisionDate>
@@ -255,41 +404,35 @@
 		</AssessmentPeriod>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
-				<AssessmentFamilyTitle>DIBELS Next Fifth Grade</AssessmentFamilyTitle>
+				<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>
 	<Assessment>
-		<AssessmentTitle>DORF (Accuracy) Fifth Grade 11-12 MOY</AssessmentTitle>
+		<AssessmentTitle>DORF (Accuracy) Fourth Grade 11-12 MOY</AssessmentTitle>
 		<AssessmentIdentificationCode IdentificationSystem="Test Contractor">
 			<ID>DORF (Accuracy) Fifth Grade 11-12 MOY</ID>
 		</AssessmentIdentificationCode>
 		<AssessmentCategory>Reading readiness test</AssessmentCategory>
 		<AcademicSubject>Reading</AcademicSubject>
-		<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+		<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Above Proficient</CodeValue>
+				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Proficient</CodeValue>
+				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Below Proficient</CodeValue>
+				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
-		</AssessmentPerformanceLevel>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<CodeValue>Far Below Proficient</CodeValue>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2011-08-01</RevisionDate>
@@ -298,41 +441,35 @@
 		</AssessmentPeriod>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
-				<AssessmentFamilyTitle>DIBELS Next Fifth Grade</AssessmentFamilyTitle>
+				<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>
 	<Assessment>
-		<AssessmentTitle>DORF (Accuracy) Fifth Grade 11-12 EOY</AssessmentTitle>
+		<AssessmentTitle>DORF (Accuracy) Fourth Grade 11-12 EOY</AssessmentTitle>
 		<AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-			<ID>DORF (Accuracy) Fifth Grade 11-12 EOY</ID>
+			<ID>DORF (Accuracy) Fourth Grade 11-12 EOY</ID>
 		</AssessmentIdentificationCode>
 		<AssessmentCategory>Reading readiness test</AssessmentCategory>
 		<AcademicSubject>Reading</AcademicSubject>
-		<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+		<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Above Proficient</CodeValue>
+				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Proficient</CodeValue>
+				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Below Proficient</CodeValue>
+				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
-		</AssessmentPerformanceLevel>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<CodeValue>Far Below Proficient</CodeValue>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2011-08-01</RevisionDate>
@@ -341,7 +478,7 @@
 		</AssessmentPeriod>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
-				<AssessmentFamilyTitle>DIBELS Next Fifth Grade</AssessmentFamilyTitle>
+				<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>
@@ -355,27 +492,21 @@
 		<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Above Proficient</CodeValue>
+				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Proficient</CodeValue>
+				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Below Proficient</CodeValue>
+				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
-		</AssessmentPerformanceLevel>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<CodeValue>Far Below Proficient</CodeValue>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2012-08-17</RevisionDate>
@@ -384,7 +515,7 @@
 		</AssessmentPeriod>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
-				<AssessmentFamilyTitle>DIBELS Next Fifth Grade</AssessmentFamilyTitle>
+				<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>
@@ -398,27 +529,21 @@
 		<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Above Proficient</CodeValue>
+				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Proficient</CodeValue>
+				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Below Proficient</CodeValue>
+				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
-		</AssessmentPerformanceLevel>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<CodeValue>Far Below Proficient</CodeValue>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2012-08-17</RevisionDate>
@@ -427,41 +552,35 @@
 		</AssessmentPeriod>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
-				<AssessmentFamilyTitle>DIBELS Next Fifth Grade</AssessmentFamilyTitle>
+				<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>
 	<Assessment>
-		<AssessmentTitle>DORF (Retell) Fifth Grade 11-12 BOY</AssessmentTitle>
+		<AssessmentTitle>DORF (Retell) Fourth Grade 11-12 BOY</AssessmentTitle>
 		<AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-			<ID>DORF (Retell) Fifth Grade 11-12 BOY</ID>
+			<ID>DORF (Retell) Fourth Grade 11-12 BOY</ID>
 		</AssessmentIdentificationCode>
 		<AssessmentCategory>Reading readiness test</AssessmentCategory>
 		<AcademicSubject>Reading</AcademicSubject>
-		<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+		<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Above Proficient</CodeValue>
+				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Proficient</CodeValue>
+				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Below Proficient</CodeValue>
+				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
-		</AssessmentPerformanceLevel>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<CodeValue>Far Below Proficient</CodeValue>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2011-08-01</RevisionDate>
@@ -470,41 +589,35 @@
 		</AssessmentPeriod>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
-				<AssessmentFamilyTitle>DIBELS Next Fifth Grade</AssessmentFamilyTitle>
+				<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>
 	<Assessment>
-		<AssessmentTitle>DORF (Retell) Fifth Grade 11-12 MOY</AssessmentTitle>
+		<AssessmentTitle>DORF (Retell) Fourth Grade 11-12 MOY</AssessmentTitle>
 		<AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-			<ID>DORF (Retell) Fifth Grade 11-12 MOY</ID>
+			<ID>DORF (Retell) Fourth Grade 11-12 MOY</ID>
 		</AssessmentIdentificationCode>
 		<AssessmentCategory>Reading readiness test</AssessmentCategory>
 		<AcademicSubject>Reading</AcademicSubject>
-		<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+		<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Above Proficient</CodeValue>
+				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Proficient</CodeValue>
+				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Below Proficient</CodeValue>
+				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
-		</AssessmentPerformanceLevel>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<CodeValue>Far Below Proficient</CodeValue>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2011-08-01</RevisionDate>
@@ -513,41 +626,35 @@
 		</AssessmentPeriod>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
-				<AssessmentFamilyTitle>DIBELS Next Fifth Grade</AssessmentFamilyTitle>
+				<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>
 	<Assessment>
-		<AssessmentTitle>DORF (Retell) Fifth Grade 11-12 EOY</AssessmentTitle>
+		<AssessmentTitle>DORF (Retell) Fourth Grade 11-12 EOY</AssessmentTitle>
 		<AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-			<ID>DORF (Retell) Fifth Grade 11-12 EOY</ID>
+			<ID>DORF (Retell) Fourth Grade 11-12 EOY</ID>
 		</AssessmentIdentificationCode>
 		<AssessmentCategory>Reading readiness test</AssessmentCategory>
 		<AcademicSubject>Reading</AcademicSubject>
-		<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+		<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Above Proficient</CodeValue>
+				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Proficient</CodeValue>
+				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Below Proficient</CodeValue>
+				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
-		</AssessmentPerformanceLevel>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<CodeValue>Far Below Proficient</CodeValue>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2011-08-01</RevisionDate>
@@ -556,7 +663,7 @@
 		</AssessmentPeriod>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
-				<AssessmentFamilyTitle>DIBELS Next Fifth Grade</AssessmentFamilyTitle>
+				<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>
@@ -570,27 +677,21 @@
 		<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Above Proficient</CodeValue>
+				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Proficient</CodeValue>
+				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Below Proficient</CodeValue>
+				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
-		</AssessmentPerformanceLevel>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<CodeValue>Far Below Proficient</CodeValue>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2012-08-17</RevisionDate>
@@ -599,7 +700,7 @@
 		</AssessmentPeriod>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
-				<AssessmentFamilyTitle>DIBELS Next Fifth Grade</AssessmentFamilyTitle>
+				<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>
@@ -613,27 +714,21 @@
 		<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Above Proficient</CodeValue>
+				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Proficient</CodeValue>
+				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Below Proficient</CodeValue>
+				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
-		</AssessmentPerformanceLevel>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<CodeValue>Far Below Proficient</CodeValue>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2012-08-17</RevisionDate>
@@ -642,41 +737,35 @@
 		</AssessmentPeriod>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
-				<AssessmentFamilyTitle>DIBELS Next Fifth Grade</AssessmentFamilyTitle>
+				<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>
 	<Assessment>
-		<AssessmentTitle>DORF (Retell Quality) Fifth Grade 11-12 BOY</AssessmentTitle>
+		<AssessmentTitle>DORF (Retell Quality) Fourth Grade 11-12 BOY</AssessmentTitle>
 		<AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-			<ID>DORF (Retell Quality) Fifth Grade 11-12 BOY</ID>
+			<ID>DORF (Retell Quality) Fourth Grade 11-12 BOY</ID>
 		</AssessmentIdentificationCode>
 		<AssessmentCategory>Reading readiness test</AssessmentCategory>
 		<AcademicSubject>Reading</AcademicSubject>
-		<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+		<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Above Proficient</CodeValue>
+				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Proficient</CodeValue>
+				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Below Proficient</CodeValue>
+				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
-		</AssessmentPerformanceLevel>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<CodeValue>Far Below Proficient</CodeValue>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2011-08-01</RevisionDate>
@@ -685,41 +774,35 @@
 		</AssessmentPeriod>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
-				<AssessmentFamilyTitle>DIBELS Next Fifth Grade</AssessmentFamilyTitle>
+				<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>
 	<Assessment>
-		<AssessmentTitle>DORF (Retell Quality) Fifth Grade 11-12 MOY</AssessmentTitle>
+		<AssessmentTitle>DORF (Retell Quality) Fourth Grade 11-12 MOY</AssessmentTitle>
 		<AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-			<ID>DORF (Retell Quality) Fifth Grade 11-12 MOY</ID>
+			<ID>DORF (Retell Quality) Fourth Grade 11-12 MOY</ID>
 		</AssessmentIdentificationCode>
 		<AssessmentCategory>Reading readiness test</AssessmentCategory>
 		<AcademicSubject>Reading</AcademicSubject>
-		<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+		<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Above Proficient</CodeValue>
+				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Proficient</CodeValue>
+				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Below Proficient</CodeValue>
+				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
-		</AssessmentPerformanceLevel>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<CodeValue>Far Below Proficient</CodeValue>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2011-08-01</RevisionDate>
@@ -728,41 +811,35 @@
 		</AssessmentPeriod>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
-				<AssessmentFamilyTitle>DIBELS Next Fifth Grade</AssessmentFamilyTitle>
+				<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>
 	<Assessment>
-		<AssessmentTitle>DORF (Retell Quality) Fifth Grade 11-12 EOY</AssessmentTitle>
+		<AssessmentTitle>DORF (Retell Quality) Fourth Grade 11-12 EOY</AssessmentTitle>
 		<AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-			<ID>DORF (Retell Quality) Fifth Grade 11-12 EOY</ID>
+			<ID>DORF (Retell Quality) Fourth Grade 11-12 EOY</ID>
 		</AssessmentIdentificationCode>
 		<AssessmentCategory>Reading readiness test</AssessmentCategory>
 		<AcademicSubject>Reading</AcademicSubject>
-		<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+		<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Above Proficient</CodeValue>
+				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Proficient</CodeValue>
+				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Below Proficient</CodeValue>
+				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
-		</AssessmentPerformanceLevel>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<CodeValue>Far Below Proficient</CodeValue>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2011-08-01</RevisionDate>
@@ -771,7 +848,7 @@
 		</AssessmentPeriod>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
-				<AssessmentFamilyTitle>DIBELS Next Fifth Grade</AssessmentFamilyTitle>
+				<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>
@@ -785,27 +862,21 @@
 		<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Above Proficient</CodeValue>
+				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Proficient</CodeValue>
+				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Below Proficient</CodeValue>
+				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
-		</AssessmentPerformanceLevel>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<CodeValue>Far Below Proficient</CodeValue>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2012-08-17</RevisionDate>
@@ -814,7 +885,7 @@
 		</AssessmentPeriod>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
-				<AssessmentFamilyTitle>DIBELS Next Fifth Grade</AssessmentFamilyTitle>
+				<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>
@@ -828,27 +899,21 @@
 		<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Above Proficient</CodeValue>
+				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Proficient</CodeValue>
+				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Below Proficient</CodeValue>
+				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
-		</AssessmentPerformanceLevel>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<CodeValue>Far Below Proficient</CodeValue>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2012-08-17</RevisionDate>
@@ -857,41 +922,35 @@
 		</AssessmentPeriod>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
-				<AssessmentFamilyTitle>DIBELS Next Fifth Grade</AssessmentFamilyTitle>
+				<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>
 	<Assessment>
-		<AssessmentTitle>DORF (Daze) Fifth Grade 11-12 BOY</AssessmentTitle>
+		<AssessmentTitle>DORF (Daze) Fourth Grade 11-12 BOY</AssessmentTitle>
 		<AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-			<ID>DORF (Daze) Fifth Grade 11-12 BOY</ID>
+			<ID>DORF (Daze) Fourth Grade 11-12 BOY</ID>
 		</AssessmentIdentificationCode>
 		<AssessmentCategory>Reading readiness test</AssessmentCategory>
 		<AcademicSubject>Reading</AcademicSubject>
-		<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+		<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Above Proficient</CodeValue>
+				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Proficient</CodeValue>
+				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Below Proficient</CodeValue>
+				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
-		</AssessmentPerformanceLevel>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<CodeValue>Far Below Proficient</CodeValue>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2011-08-01</RevisionDate>
@@ -900,41 +959,35 @@
 		</AssessmentPeriod>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
-				<AssessmentFamilyTitle>DIBELS Next Fifth Grade</AssessmentFamilyTitle>
+				<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>
 	<Assessment>
-		<AssessmentTitle>DORF (Daze) Fifth Grade 11-12 MOY</AssessmentTitle>
+		<AssessmentTitle>DORF (Daze) Fourth Grade 11-12 MOY</AssessmentTitle>
 		<AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-			<ID>DORF (Daze) Fifth Grade 11-12 MOY</ID>
+			<ID>DORF (Daze) Fourth Grade 11-12 MOY</ID>
 		</AssessmentIdentificationCode>
 		<AssessmentCategory>Reading readiness test</AssessmentCategory>
 		<AcademicSubject>Reading</AcademicSubject>
-		<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+		<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Above Proficient</CodeValue>
+				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Proficient</CodeValue>
+				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Below Proficient</CodeValue>
+				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
-		</AssessmentPerformanceLevel>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<CodeValue>Far Below Proficient</CodeValue>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2011-08-01</RevisionDate>
@@ -943,41 +996,35 @@
 		</AssessmentPeriod>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
-				<AssessmentFamilyTitle>DIBELS Next Fifth Grade</AssessmentFamilyTitle>
+				<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>
 	<Assessment>
-		<AssessmentTitle>DORF (Daze) Fifth Grade 11-12 EOY</AssessmentTitle>
+		<AssessmentTitle>DORF (Daze) Fourth Grade 11-12 EOY</AssessmentTitle>
 		<AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-			<ID>DORF (Daze) Fifth Grade 11-12 EOY</ID>
+			<ID>DORF (Daze) Fourth Grade 11-12 EOY</ID>
 		</AssessmentIdentificationCode>
 		<AssessmentCategory>Reading readiness test</AssessmentCategory>
 		<AcademicSubject>Reading</AcademicSubject>
-		<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+		<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Above Proficient</CodeValue>
+				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Proficient</CodeValue>
+				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Below Proficient</CodeValue>
+				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
-		</AssessmentPerformanceLevel>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<CodeValue>Far Below Proficient</CodeValue>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2011-08-01</RevisionDate>
@@ -986,7 +1033,7 @@
 		</AssessmentPeriod>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
-				<AssessmentFamilyTitle>DIBELS Next Fifth Grade</AssessmentFamilyTitle>
+				<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>
@@ -1000,27 +1047,21 @@
 		<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Above Proficient</CodeValue>
+				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Proficient</CodeValue>
+				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Below Proficient</CodeValue>
+				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
-		</AssessmentPerformanceLevel>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<CodeValue>Far Below Proficient</CodeValue>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2012-08-17</RevisionDate>
@@ -1029,7 +1070,7 @@
 		</AssessmentPeriod>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
-				<AssessmentFamilyTitle>DIBELS Next Fifth Grade</AssessmentFamilyTitle>
+				<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>
@@ -1043,27 +1084,21 @@
 		<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Above Proficient</CodeValue>
+				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Proficient</CodeValue>
+				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
-				<CodeValue>Below Proficient</CodeValue>
+				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
-		</AssessmentPerformanceLevel>
-		<AssessmentPerformanceLevel>
-			<PerformanceLevel>
-				<CodeValue>Far Below Proficient</CodeValue>
-			</PerformanceLevel>
-			<AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2012-08-17</RevisionDate>
@@ -1072,14 +1107,14 @@
 		</AssessmentPeriod>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
-				<AssessmentFamilyTitle>DIBELS Next Fifth Grade</AssessmentFamilyTitle>
+				<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>
 	<AssessmentFamily>
-		<AssessmentFamilyTitle>DIBELS Next Fifth Grade</AssessmentFamilyTitle>
+		<AssessmentFamilyTitle>DIBELS Next</AssessmentFamilyTitle>
 		<AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
-			<ID>DIBELS Next Fifth Grade</ID>
+			<ID>DIBELS Next</ID>
 		</AssessmentFamilyIdentificationCode>
 	</AssessmentFamily>
 	<AssessmentPeriodDescriptor>
