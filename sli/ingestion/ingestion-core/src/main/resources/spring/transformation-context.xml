@@ -194,6 +194,11 @@
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/learningObjective.xml" />
       </bean>
     </entry>
+    <entry key="learningStandard">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/learningStandard.xml" />
+      </bean>
+    </entry>
     <entry key="student">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/student.xml" />
