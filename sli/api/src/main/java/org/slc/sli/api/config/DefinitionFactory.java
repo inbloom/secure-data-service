@@ -121,20 +121,7 @@ public class DefinitionFactory {
             this.treatments.add(DefinitionFactory.this.idTreatment);
             this.treatments.add(DefinitionFactory.this.typeTreatment);
             this.treatments.add(DefinitionFactory.this.metaDataTreatment);
-            this.readRight = Right.READ_GENERAL;
-            this.writeRight = Right.WRITE_GENERAL;
             this.supportsAggregates = false;
-        }
-
-        public EntityBuilder setRequiredReadRight(Right right) {
-            this.readRight = right;
-            return this;
-        }
-
-
-        public EntityBuilder setRequiredWriteRight(Right right) {
-            this.writeRight = right;
-            return this;
         }
 
         /**

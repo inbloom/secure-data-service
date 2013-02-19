@@ -20,6 +20,7 @@ package org.slc.sli.api.security.schema;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
@@ -141,6 +142,25 @@ public class XsdSchemaDataProvider implements SchemaDataProvider {
             }
         }
         return null;
+    }
+    
+    public Set<Right> getAllFieldRights(String entityType, boolean getReadRights) {
+    	Set<Right> neededRights = new HashSet<Right>();
+        NeutralSchema schema = repo.getSchema(entityType);
+        Map<String, NeutralSchema> fields = schema.getFields();
+        for (String field : fields.keySet()) {
+        	NeutralSchema fieldSchema = fields.get(field);
+        	if (fieldSchema != null && fieldSchema.getAppInfo() != null) {
+        		AppInfo info = fieldSchema.getAppInfo();
+        		if (getReadRights) {
+                	neededRights.addAll(info.getReadAuthorities());
+        		} else {
+        			neededRights.addAll(info.getWriteAuthorities());
+        		}
+        	}
+        }
+        
+    	return neededRights;
     }
 
     private NeutralSchema traverse(String entityType, String fieldPath) {
