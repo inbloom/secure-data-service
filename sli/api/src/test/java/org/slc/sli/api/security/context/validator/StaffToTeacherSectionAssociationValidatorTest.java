@@ -106,12 +106,14 @@ public class StaffToTeacherSectionAssociationValidatorTest {
 
     @Test
     public void testCanValidateStaffToTeacherSectionAssociation() throws Exception {
+    	setContext(seaStaff, Arrays.asList(SecureRoleRightAccessImpl.SEA_ADMINISTRATOR));
         assertTrue(validator.canValidate(EntityNames.TEACHER_SECTION_ASSOCIATION, false));
         assertTrue(validator.canValidate(EntityNames.TEACHER_SECTION_ASSOCIATION, true));
     }
 
     @Test
     public void testDeniedStaffToOtherEntities() throws Exception {
+    	setContext(seaStaff, Arrays.asList(SecureRoleRightAccessImpl.SEA_ADMINISTRATOR));
         assertFalse(validator.canValidate(EntityNames.STUDENT, true));
         assertFalse(validator.canValidate(EntityNames.STUDENT, false));
         assertFalse(validator.canValidate(EntityNames.TEACHER, true));
