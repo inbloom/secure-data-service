@@ -44,7 +44,7 @@
     <value>session</value>
     <value>staff</value>
     <value>staffCohortAssociation</value>
-    <value>staffEducationOrganizationAssociation</value>
+    <value>staffEducationOrgAssignmentAssociation</value>
     <value>staffProgramAssociation</value>
     <value>stateEducationAgency</value>
     <value>student</value>
