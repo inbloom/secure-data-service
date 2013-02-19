@@ -78,6 +78,7 @@ def init
   @migrations = [
       "bundle exec ruby #{scripts_loc}/67to68TeacherSchoolDenormalizer.rb",
       "bundle exec ruby #{scripts_loc}/69WritePublicRoleMigration.rb localhost:27017",
+      "bundle exec ruby #{scripts_loc}/70ApplicationAuthorizationMigration.rb localhost:27017",
       "bundle exec ruby #{@sli_workspace}/acceptance-tests/api-versions/fix_staffEdOrg_type.rb 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a",
       "bundle exec ruby #{@sli_workspace}/acceptance-tests/api-versions/fix_staffEdOrg_type.rb f25ce1b8a399bd8621a57427a20039b4b13935db"
   ]
@@ -226,6 +227,7 @@ def clean_up
 end
 
 def main
+  exit_code = 0
   begin
     init
     package_test_code @old_branch
@@ -239,11 +241,13 @@ def main
     run_test @rake_tasks
   rescue Exception => e
     puts e.message
+    exit_code = 1
     # puts e.backtrace.inspect
   ensure
     clean_up unless @ci
     puts "API log is available at #{@api_log}"
   end
+  exit exit_code
 end
 
 main
