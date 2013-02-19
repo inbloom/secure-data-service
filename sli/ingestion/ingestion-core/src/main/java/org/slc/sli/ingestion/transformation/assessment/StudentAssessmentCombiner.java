@@ -58,6 +58,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     private static final String OBJECTIVE_ASSESSMENT_REFERENCE = "objectiveAssessmentRef";
     private static final String STUDENT_ASSESSMENT_ITEMS_FIELD = "studentAssessmentItems";
     private static final String STUDENT_ASSESSMENT_REFERENCE_ADMINISTRATION_DATE = "studentAssessmentReference.administrationDate";
+    private static final String STUDENT_ASSESSMENT_REFERENCE_SCHOOL_YEAR = "studentAssessmentReference.schoolYear";
     private static final String STUDENT_ASSESSMENT_REFERENCE_STUDENT = "studentAssessmentReference.studentReference.studentUniqueStateId";
 
     private static final String LOCAL_PARENT_IDS = "localParentIds.";
@@ -121,6 +122,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
 
             String studentId = null;
             String administrationDate = null;
+            String schoolYear = null;
 
             String assessmentTitle = null;
             String academicSubject = null;
@@ -146,6 +148,13 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
             }
 
             try {
+                schoolYear = (String) attributes.get("schoolYear");
+            } catch (ClassCastException e) {
+                LOG.error("Illegal value {} for school year, must be a string");
+                reportError(neutralRecord.getSourceFile(), new ElementSourceImpl(neutralRecord), CoreMessageCode.CORE_0060, attributes.get("schoolYear"));
+            }
+
+            try {
                 @SuppressWarnings("unchecked")
                 Map<String, Object> assessment = (Map<String, Object>) attributes.get("assessmentId");
                 @SuppressWarnings("unchecked")
@@ -163,6 +172,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
             Map<String, Object> queryCriteria = new LinkedHashMap<String, Object>();
             queryCriteria.put(STUDENT_ASSESSMENT_REFERENCE_STUDENT, studentId);
             queryCriteria.put(STUDENT_ASSESSMENT_REFERENCE_ADMINISTRATION_DATE, administrationDate);
+            queryCriteria.put(STUDENT_ASSESSMENT_REFERENCE_SCHOOL_YEAR, schoolYear);
             queryCriteria.put(STUDENT_ASSESSMENT_REFERENCE_ASSESSMENT_TITLE, assessmentTitle);
             queryCriteria.put(STUDENT_ASSESSMENT_REFERENCE_ACADEMIC_SUBJECT, academicSubject);
             queryCriteria.put(STUDENT_ASSESSMENT_REFERENCE_GRADE_LEVEL_ASSESSED, gradeLevelAssessed);
@@ -192,7 +202,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
      * Gets all student objective assessments that reference the student assessment's local (xml)
      * id.
      *
-     * @param studentAssessmentId
+     * @param queryCriteria
      *            volatile identifier.
      * @return list of student objective assessments (represented by neutral records).
      */

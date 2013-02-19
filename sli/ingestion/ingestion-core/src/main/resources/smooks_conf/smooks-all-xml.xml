@@ -1256,7 +1256,7 @@
 
   <jb:bean beanId="studentAssessmentItem_studentAssessmentReference" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentAssessmentItem">
     <jb:value property="administrationDate" data="StudentAssessmentItem/StudentAssessmentReference/StudentAssessmentIdentity/AdministrationDate" />
-    <jb:value property="schoolYear" data="StudentAssessmentItem/StudentAssessmentReference/StudentAssessmentIdentify/SchoolYear"/>
+    <jb:value property="schoolYear" data="StudentAssessmentItem/StudentAssessmentReference/StudentAssessmentIdentity/SchoolYear"/>
     <jb:wiring property="studentReference" beanIdRef="studentAssessmentItem_studentReference" />
     <jb:wiring property="assessmentReference" beanIdRef="studentAssessmentItem_assessmentReference" />
   </jb:bean>
@@ -1802,8 +1802,8 @@
   </jb:bean>
 
   <jb:bean beanId="studentObjectiveAssessment_studentAssessmentReference" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment">
-    <jb:value property="administrationDate" data="StudentObjectiveAssessment/StudentAssessmentReference/StudentAssessmentIdentity/SchoolYear" />
-    <jb:value property="schoolYear" data="StudentObjectiveAssessment/StudentAssessmentReference/StudentAssessmentIdentity/AdministrationDate" />
+    <jb:value property="schoolYear" data="StudentObjectiveAssessment/StudentAssessmentReference/StudentAssessmentIdentity/SchoolYear" />
+    <jb:value property="administrationDate" data="StudentObjectiveAssessment/StudentAssessmentReference/StudentAssessmentIdentity/AdministrationDate" />
     <jb:wiring property="studentReference" beanIdRef="studentObjectiveAssessment_studentReference" />
     <jb:wiring property="assessmentReference" beanIdRef="studentObjectiveAssessment_assessmentReference" />
   </jb:bean>
@@ -1859,7 +1859,6 @@
 
   <jb:bean beanId="studentAssessmentAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentAssessment">
     <jb:wiring beanIdRef="SLC-StudentAssessment_Attributes_SLC-StudentReferenceType" property="studentId"/>
-<!--     <jb:wiring property="assessmentId" beanIdRef="assessmentReferenceType" /> -->
     <jb:wiring beanIdRef="SLC-StudentAssessment_Attributes_SLC-AssessmentReferenceType" property="assessmentId"/>
     <jb:value property="administrationDate" data="InterchangeStudentAssessment/StudentAssessment/AdministrationDate" />
     <jb:value property="schoolYear" data="InterchangeStudentAssessment/StudentAssessment/SchoolYear" />
