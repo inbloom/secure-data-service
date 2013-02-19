@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                               xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd">
+
+  <!-- READ 2.0-->
+  <Assessment>
+    <AssessmentTitle>TRC Fifth Grade 11-12 BOY</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+      <ID>TRC Fifth Grade 11-12 BOY</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>Reading readiness test</AssessmentCategory>
+    <AcademicSubject>Reading</AcademicSubject>
+    <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>Above Proficient</CodeValue>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>Proficient</CodeValue>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>Below Proficient</CodeValue>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>Far Below Proficient</CodeValue>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+    </AssessmentPerformanceLevel>
+    <Version>1</Version>
+    <RevisionDate>2011-08-01</RevisionDate>
+    <AssessmentPeriod>
+      <CodeValue>11-12 BOY</CodeValue>
+    </AssessmentPeriod>
+    <AssessmentFamilyReference>
+      <AssessmentFamilyIdentity>
+        <AssessmentFamilyTitle>TRC Fifth Grade</AssessmentFamilyTitle>
+      </AssessmentFamilyIdentity>
+    </AssessmentFamilyReference>
+  </Assessment>
+
+  <Assessment>
+    <AssessmentTitle>TRC Fifth Grade 11-12 MOY</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+      <ID>TRC Fifth Grade 11-12 MOY</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>Reading readiness test</AssessmentCategory>
+    <AcademicSubject>Reading</AcademicSubject>
+    <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>Above Proficient</CodeValue>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>Proficient</CodeValue>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>Below Proficient</CodeValue>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>Far Below Proficient</CodeValue>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+    </AssessmentPerformanceLevel>
+    <Version>1</Version>
+    <RevisionDate>2011-08-01</RevisionDate>
+    <AssessmentPeriod>
+      <CodeValue>11-12 MOY</CodeValue>
+    </AssessmentPeriod>
+    <AssessmentFamilyReference>
+      <AssessmentFamilyIdentity>
+        <AssessmentFamilyTitle>TRC Fifth Grade</AssessmentFamilyTitle>
+      </AssessmentFamilyIdentity>
+    </AssessmentFamilyReference>
+  </Assessment>
+
+  <Assessment>
+    <AssessmentTitle>TRC Fifth Grade 11-12 EOY</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+      <ID>TRC Fifth Grade 11-12 EOY</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>Reading readiness test</AssessmentCategory>
+    <AcademicSubject>Reading</AcademicSubject>
+    <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>Above Proficient</CodeValue>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>Proficient</CodeValue>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>Below Proficient</CodeValue>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>Far Below Proficient</CodeValue>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+    </AssessmentPerformanceLevel>
+    <Version>1</Version>
+    <RevisionDate>2011-08-01</RevisionDate>
+    <AssessmentPeriod>
+      <CodeValue>11-12 EOY</CodeValue>
+    </AssessmentPeriod>
+    <AssessmentFamilyReference>
+      <AssessmentFamilyIdentity>
+        <AssessmentFamilyTitle>TRC Fifth Grade</AssessmentFamilyTitle>
+      </AssessmentFamilyIdentity>
+    </AssessmentFamilyReference>
+  </Assessment>
+
+  <Assessment>
+    <AssessmentTitle>TRC Fifth Grade 12-13 BOY</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+      <ID>TRC Fifth Grade 12-13 BOY</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>Reading readiness test</AssessmentCategory>
+    <AcademicSubject>Reading</AcademicSubject>
+    <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>Above Proficient</CodeValue>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>Proficient</CodeValue>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>Below Proficient</CodeValue>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>Far Below Proficient</CodeValue>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+    </AssessmentPerformanceLevel>
+    <Version>1</Version>
+    <RevisionDate>2012-08-17</RevisionDate>
+    <AssessmentPeriod>
+      <CodeValue>12-13 BOY</CodeValue>
+    </AssessmentPeriod>
+    <AssessmentFamilyReference>
+      <AssessmentFamilyIdentity>
+        <AssessmentFamilyTitle>TRC Fifth Grade</AssessmentFamilyTitle>
+      </AssessmentFamilyIdentity>
+    </AssessmentFamilyReference>
+  </Assessment>
+
+  <Assessment>
+    <AssessmentTitle>TRC Fifth Grade 12-13 MOY</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
+      <ID>TRC Fifth Grade 12-13 MOY</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>Reading readiness test</AssessmentCategory>
+    <AcademicSubject>Reading</AcademicSubject>
+    <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>Above Proficient</CodeValue>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>Proficient</CodeValue>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>Below Proficient</CodeValue>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+    </AssessmentPerformanceLevel>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel>
+        <CodeValue>Far Below Proficient</CodeValue>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
+    </AssessmentPerformanceLevel>
+    <Version>1</Version>
+    <RevisionDate>2012-08-17</RevisionDate>
+    <AssessmentPeriod>
+      <CodeValue>12-13 MOY</CodeValue>
+    </AssessmentPeriod>
+    <AssessmentFamilyReference>
+      <AssessmentFamilyIdentity>
+        <AssessmentFamilyTitle>TRC Fifth Grade</AssessmentFamilyTitle>
+      </AssessmentFamilyIdentity>
+    </AssessmentFamilyReference>
+  </Assessment>
+
+  <AssessmentFamily>
+    <AssessmentFamilyTitle>TRC Fifth Grade</AssessmentFamilyTitle>
+    <AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+      <ID>TRC Fifth Grade</ID>
+    </AssessmentFamilyIdentificationCode>
+  </AssessmentFamily>
+
+  <AssessmentPeriodDescriptor>
+    <CodeValue>11-12 BOY</CodeValue>
+    <Description>Beginning of Year 2011-2012</Description>
+    <ShortDescription>11-12 BOY</ShortDescription>
+    <BeginDate>2011-08-01</BeginDate>
+    <EndDate>2012-12-31</EndDate>
+  </AssessmentPeriodDescriptor>
+
+  <AssessmentPeriodDescriptor>
+    <CodeValue>11-12 MOY</CodeValue>
+    <Description>Beginning of Year 2011-2012</Description>
+    <ShortDescription>11-12 MOY</ShortDescription>
+    <BeginDate>2012-01-01</BeginDate>
+    <EndDate>2012-03-31</EndDate>
+  </AssessmentPeriodDescriptor>
+
+  <AssessmentPeriodDescriptor>
+    <CodeValue>11-12 EOY</CodeValue>
+    <Description>End of Year 2011-2012</Description>
+    <ShortDescription>11-12 EOY</ShortDescription>
+    <BeginDate>2012-04-01</BeginDate>
+    <EndDate>2012-06-30</EndDate>
+  </AssessmentPeriodDescriptor>
+
+  <AssessmentPeriodDescriptor>
+    <CodeValue>12-13 BOY</CodeValue>
+    <Description>Beginning of Year 2012-2013</Description>
+    <ShortDescription>12-13 BOY</ShortDescription>
+    <BeginDate>2012-08-01</BeginDate>
+    <EndDate>2012-12-31</EndDate>
+  </AssessmentPeriodDescriptor>
+
+  <AssessmentPeriodDescriptor>
+    <CodeValue>12-13 MOY</CodeValue>
+    <Description>Middle of Year 2012-2013</Description>
+    <ShortDescription>12-13 MOY</ShortDescription>
+    <BeginDate>2013-01-01</BeginDate>
+    <EndDate>2013-03-30</EndDate>
+  </AssessmentPeriodDescriptor>
+
+</InterchangeAssessmentMetadata>
