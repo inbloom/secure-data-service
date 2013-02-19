@@ -20,7 +20,9 @@ public class DenyInvalidGlobalRequestValidator extends AbstractContextValidator 
 			Arrays.asList(
 					EntityNames.COURSE,
 					EntityNames.COURSE_OFFERING,
-					EntityNames.GRADUATION_PLAN));
+					EntityNames.GRADING_PERIOD,
+					EntityNames.GRADUATION_PLAN,
+					EntityNames.SESSION));
 
 	@Override
 	public boolean canValidate(String entityType, boolean isTransitive) {
