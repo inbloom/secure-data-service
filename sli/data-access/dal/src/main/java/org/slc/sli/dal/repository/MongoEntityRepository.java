@@ -34,6 +34,8 @@ import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.dal.convert.Denormalizer;
 import org.slc.sli.dal.convert.SubDocAccessor;
+import org.slc.sli.dal.convert.SuperdocConverter;
+import org.slc.sli.dal.convert.SuperdocConverterRegistry;
 import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.dal.migration.config.MigrationRunner.MigrateEntity;
 import org.slc.sli.dal.migration.config.MigrationRunner.MigrateEntityCollection;
@@ -80,6 +82,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     @Autowired
     private INaturalKeyExtractor naturalKeyExtractor;
+    
+    @Autowired
+    private SuperdocConverterRegistry converterReg;
 
     @Autowired
     @Qualifier("entityKeyEncoder")
@@ -259,6 +264,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
             return entity;
         } else {
+            SuperdocConverter converter = converterReg.getConverter(collectionName);
+            if (converter != null) {
+                converter.bodyFieldToSubdoc(entity);
+            }
             Entity result = super.insert(entity, collectionName);
 
             if (denormalizer.isDenormalizedDoc(collectionName)) {
@@ -321,7 +330,14 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             Set<String> embededFields = FullSuperDoc.FULL_ENTITIES.get(collectionName);
             addEmbededFields(query, embededFields);
         }
-        return super.findOne(collectionName, query);
+        Entity entity = super.findOne(collectionName, query);
+        if (entity != null) {
+            SuperdocConverter converter = converterReg.getConverter(entity.getType());
+            if (converter != null) {
+                converter.subdocToBodyField(entity);
+            }
+        }
+        return entity;
     }
 
     @Override
@@ -468,7 +484,12 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             Set<String> embededFields = FullSuperDoc.FULL_ENTITIES.get(collectionName);
             addEmbededFields(neutralQuery, embededFields);
         }
-        return super.findAll(collectionName, neutralQuery);
+        Iterable<Entity> entities = super.findAll(collectionName, neutralQuery);
+        SuperdocConverter converter = converterReg.getConverter(collectionName);
+        if (converter != null) {
+            converter.subdocToBodyField(entities);
+        }
+        return entities;
     }
 
     @Override
