@@ -61,6 +61,7 @@
     <value>teacher</value>
     <value>teacherSchoolAssociation</value>
     <value>teacherSectionAssociation</value>
+      <value>attendance</value>
   </util:set>
 
   <!-- collections that should be persisted using the new pipeline and a transformation has been performed. the collection

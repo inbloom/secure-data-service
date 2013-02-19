@@ -28,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
@@ -37,7 +38,6 @@ import java.util.Map;
  */
 public class ContainerDocumentAccessor {
 
-    @Autowired
     private ContainerDocumentHolder containerDocumentHolder;
 
     private UUIDGeneratorStrategy generatorStrategy;
@@ -47,6 +47,7 @@ public class ContainerDocumentAccessor {
     public ContainerDocumentAccessor(final UUIDGeneratorStrategy strategy, final MongoTemplate mongoTemplate) {
         this.generatorStrategy = strategy;
         this.mongoTemplate = mongoTemplate;
+        containerDocumentHolder = new ContainerDocumentHolder();
     }
 
     public boolean isContainerDocument(final String entity) {

@@ -34,9 +34,13 @@ public class ContainerDocumentHolder {
     }
 
     private void init() {
+        Map<String,String> parentKeyMap = new HashMap<String, String>();
+        parentKeyMap.put("studentId","studentId");
+        parentKeyMap.put("schoolId","schoolId");
+        parentKeyMap.put("schoolYear","schoolYear");
         final ContainerDocument attendance = ContainerDocument.builder().forCollection("attendance")
                 .forField("attendanceEvent")
-                .withParent(new HashMap<String, String>()).build();
+                .withParent(parentKeyMap).build();
 
         containerDocumentMap.put("attendance", attendance);
     }
