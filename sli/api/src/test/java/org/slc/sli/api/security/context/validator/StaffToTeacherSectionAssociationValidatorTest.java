@@ -121,6 +121,13 @@ public class StaffToTeacherSectionAssociationValidatorTest {
     }
 
     @Test
+    public void testCanNotValidateAsNonStaffToTeacherSectionAssociation() throws Exception {
+    	setContext(educator, Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR));
+    	assertFalse(validator.canValidate(EntityNames.TEACHER_SECTION_ASSOCIATION, false));
+        assertFalse(validator.canValidate(EntityNames.TEACHER_SECTION_ASSOCIATION, true));
+    }
+
+    @Test
     public void testNullTeacherSectionAssociation() throws Exception {
         assertFalse(validator.validate(EntityNames.TEACHER_SECTION_ASSOCIATION, null));
     }
