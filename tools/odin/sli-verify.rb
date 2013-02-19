@@ -58,7 +58,7 @@ def where_stored(entity_type)
   when "StateEducationAgency"
     {collection: 'educationOrganization', query: {type: 'stateEducationAgency'}}
   when 'StudentAssessmentItem'
-    {collection: 'studentAssessment', subdoc: ['body', 'studentAssessmentItems']}
+    {collection: 'studentAssessment', subdoc: ['studentAssessmentItem']}
   when 'StudentObjectiveAssessment'
     {collection: 'studentAssessment', subdoc: ['body', 'studentObjectiveAssessments']}
   when 'StudentCohortAssociation'

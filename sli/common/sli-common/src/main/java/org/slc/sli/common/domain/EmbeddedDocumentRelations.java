@@ -84,6 +84,7 @@ public class EmbeddedDocumentRelations {
         map.put("studentDisciplineIncidentAssociation", new Parent("student", "studentId"));
         map.put("assessmentItem", new Parent("assessment", "assessmentId"));
         map.put("objectiveAssessment", new Parent("assessment", "assessmentId"));
+        map.put("studentAssessmentItem", new Parent("studentAssessment", "studentAssessmentId"));
         SUBDOC_TO_PARENT = Collections.unmodifiableMap(map);
 
         denormalizationByEntityAndKey = new HashSet<String>();

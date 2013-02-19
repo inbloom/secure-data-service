@@ -51,6 +51,7 @@
     <value>stateEducationAgency</value>
     <value>student</value>
     <value>studentAcademicRecord</value>
+    <value>studentAssessmentItem</value>
     <value>studentCohortAssociation</value>
     <value>studentCompetency</value>
     <value>studentCompetencyObjective</value>
@@ -80,7 +81,6 @@
   <util:set id="stagedOnlyEntities" set-class="java.util.HashSet" value-type="java.lang.String">
     <value>assessmentFamily</value>
     <value>assessmentPeriodDescriptor</value>
-    <value>studentAssessmentItem</value>
     <value>studentObjectiveAssessment</value>
   </util:set>
 

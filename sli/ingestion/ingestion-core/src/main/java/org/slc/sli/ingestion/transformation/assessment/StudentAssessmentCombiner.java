@@ -184,12 +184,6 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                 attributes.put("studentObjectiveAssessments", studentObjectiveAssessments);
             }
 
-            List<Map<String, Object>> studentAssessmentItems = getStudentAssessmentItemsNaturalKeys(queryCriteria);
-
-            if (studentAssessmentItems.size() > 0) {
-                attributes.put(STUDENT_ASSESSMENT_ITEMS_FIELD, studentAssessmentItems);
-            }
-
             neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
             neutralRecord.setCreationTime(getWorkNote().getRangeMinimum());
             transformedStudentAssessments.add(neutralRecord);
@@ -235,7 +229,6 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
 
                 if (objectiveAssessment != null) {
                     LOG.debug("Found objective assessment: {}", objectiveAssessmentRef);
-                    objectiveAssessment.remove("assessmentId");
                     assessmentAttributes.put("objectiveAssessment", objectiveAssessment);
                 }
 
@@ -283,7 +276,6 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
 
                     if (assessmentItems.iterator().hasNext()) {
                         NeutralRecord assessmentItem = assessmentItems.iterator().next();
-                        assessmentItem.getAttributes().remove("assessmentId");
                         sai.getAttributes().put(ASSESSMENT_ITEM, assessmentItem.getAttributes());
                     } else {
                         reportError(sai.getSourceFile(), new ElementSourceImpl(sai), CoreMessageCode.CORE_0032, assessmentItemIdentificatonCode);
