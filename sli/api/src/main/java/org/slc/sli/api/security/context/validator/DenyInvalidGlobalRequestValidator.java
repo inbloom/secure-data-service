@@ -19,7 +19,8 @@ public class DenyInvalidGlobalRequestValidator extends AbstractContextValidator 
 	protected static final Set<String> OTHER_INVALID_RESOURCES = new HashSet<String>(
 			Arrays.asList(
 					EntityNames.COURSE,
-					EntityNames.COURSE_OFFERING));
+					EntityNames.COURSE_OFFERING,
+					EntityNames.GRADUATION_PLAN));
 
 	@Override
 	public boolean canValidate(String entityType, boolean isTransitive) {
