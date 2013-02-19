@@ -1,0 +1,785 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentAssessment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentAssessment.xsd">
+	<StudentAssessment>
+		<AdministrationDate>2011-09-04</AdministrationDate>
+		<AdministrationEndDate>2011-09-04</AdministrationEndDate>
+		<SerialNumber>9</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ReasonNotTested>Medical waiver</ReasonNotTested>
+		<ScoreResults AssessmentReportingMethod="Mastery level">
+			<Result>89</Result>
+		</ScoreResults>
+		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
+		<PerformanceLevels>
+			<CodeValue>Below Benchmark</CodeValue>
+		</PerformanceLevels>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>500000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>DORF (Fluency) Fourth Grade 11-12 BOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+				<Version>1</Version>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+	<StudentAssessment>
+		<AdministrationDate>2011-09-04</AdministrationDate>
+		<AdministrationEndDate>2011-09-04</AdministrationEndDate>
+		<SerialNumber>9</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ReasonNotTested>Medical waiver</ReasonNotTested>
+		<ScoreResults AssessmentReportingMethod="Mastery level">
+			<Result>95</Result>
+		</ScoreResults>
+		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
+		<PerformanceLevels>
+			<CodeValue>Below Benchmark</CodeValue>
+		</PerformanceLevels>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>500000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>DORF (Accuracy) Fourth Grade 11-12 BOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+				<Version>1</Version>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+	<StudentAssessment>
+		<AdministrationDate>2011-09-04</AdministrationDate>
+		<AdministrationEndDate>2011-09-04</AdministrationEndDate>
+		<SerialNumber>9</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ReasonNotTested>Medical waiver</ReasonNotTested>
+		<ScoreResults AssessmentReportingMethod="Mastery level">
+			<Result>26</Result>
+		</ScoreResults>
+		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
+		<PerformanceLevels>
+			<CodeValue>Below Benchmark</CodeValue>
+		</PerformanceLevels>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>500000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>DORF (Retell) Fourth Grade 11-12 BOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+				<Version>1</Version>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+	<StudentAssessment>
+		<AdministrationDate>2011-09-04</AdministrationDate>
+		<AdministrationEndDate>2011-09-04</AdministrationEndDate>
+		<SerialNumber>9</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ReasonNotTested>Medical waiver</ReasonNotTested>
+		<ScoreResults AssessmentReportingMethod="Mastery level">
+			<Result>2</Result>
+		</ScoreResults>
+		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
+		<PerformanceLevels>
+			<CodeValue>Below Benchmark</CodeValue>
+		</PerformanceLevels>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>500000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>DORF (Retell Quality) Fourth Grade 11-12 BOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+				<Version>1</Version>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+	<StudentAssessment>
+		<AdministrationDate>2011-09-04</AdministrationDate>
+		<AdministrationEndDate>2011-09-04</AdministrationEndDate>
+		<SerialNumber>9</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ReasonNotTested>Medical waiver</ReasonNotTested>
+		<ScoreResults AssessmentReportingMethod="Mastery level">
+			<Result>14</Result>
+		</ScoreResults>
+		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
+		<PerformanceLevels>
+			<CodeValue>Below Benchmark</CodeValue>
+		</PerformanceLevels>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>500000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>DORF (Daze) Fourth Grade 11-12 BOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+				<Version>1</Version>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+	<StudentAssessment>
+		<AdministrationDate>2011-12-21</AdministrationDate>
+		<AdministrationEndDate>2011-12-21</AdministrationEndDate>
+		<SerialNumber>9</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ReasonNotTested>Medical waiver</ReasonNotTested>
+		<ScoreResults AssessmentReportingMethod="Mastery level">
+			<Result>101</Result>
+		</ScoreResults>
+		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
+		<PerformanceLevels>
+			<CodeValue>Below Benchmark</CodeValue>
+		</PerformanceLevels>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>500000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>DORF (Fluency) Fourth Grade 11-12 MOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+				<Version>1</Version>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+	<StudentAssessment>
+		<AdministrationDate>2011-12-21</AdministrationDate>
+		<AdministrationEndDate>2011-12-21</AdministrationEndDate>
+		<SerialNumber>9</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ReasonNotTested>Medical waiver</ReasonNotTested>
+		<ScoreResults AssessmentReportingMethod="Mastery level">
+			<Result>96</Result>
+		</ScoreResults>
+		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
+		<PerformanceLevels>
+			<CodeValue>Below Benchmark</CodeValue>
+		</PerformanceLevels>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>500000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>DORF (Accuracy) Fourth Grade 11-12 MOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+				<Version>1</Version>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+	<StudentAssessment>
+		<AdministrationDate>2011-12-21</AdministrationDate>
+		<AdministrationEndDate>2011-12-21</AdministrationEndDate>
+		<SerialNumber>9</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ReasonNotTested>Medical waiver</ReasonNotTested>
+		<ScoreResults AssessmentReportingMethod="Mastery level">
+			<Result>28</Result>
+		</ScoreResults>
+		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
+		<PerformanceLevels>
+			<CodeValue>Below Benchmark</CodeValue>
+		</PerformanceLevels>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>500000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>DORF (Retell) Fourth Grade 11-12 MOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+				<Version>1</Version>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+	<StudentAssessment>
+		<AdministrationDate>2011-12-21</AdministrationDate>
+		<AdministrationEndDate>2011-12-21</AdministrationEndDate>
+		<SerialNumber>9</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ReasonNotTested>Medical waiver</ReasonNotTested>
+		<ScoreResults AssessmentReportingMethod="Mastery level">
+			<Result>2</Result>
+		</ScoreResults>
+		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
+		<PerformanceLevels>
+			<CodeValue>Below Benchmark</CodeValue>
+		</PerformanceLevels>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>500000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>DORF (Retell Quality) Fifth Grade 12-13 MOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+				<Version>1</Version>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+	<StudentAssessment>
+		<AdministrationDate>2011-12-21</AdministrationDate>
+		<AdministrationEndDate>2011-12-21</AdministrationEndDate>
+		<SerialNumber>9</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ReasonNotTested>Medical waiver</ReasonNotTested>
+		<ScoreResults AssessmentReportingMethod="Mastery level">
+			<Result>16</Result>
+		</ScoreResults>
+		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
+		<PerformanceLevels>
+			<CodeValue>Below Benchmark</CodeValue>
+		</PerformanceLevels>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>500000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>DORF (Daze) Fourth Grade 11-12 MOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+				<Version>1</Version>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+	<StudentAssessment>
+		<AdministrationDate>2012-04-21</AdministrationDate>
+		<AdministrationEndDate>2012-04-21</AdministrationEndDate>
+		<SerialNumber>9</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ReasonNotTested>Medical waiver</ReasonNotTested>
+		<ScoreResults AssessmentReportingMethod="Mastery level">
+			<Result>112</Result>
+		</ScoreResults>
+		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
+		<PerformanceLevels>
+			<CodeValue>Below Benchmark</CodeValue>
+		</PerformanceLevels>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>500000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>DORF (Fluency) Fourth Grade 11-12 EOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+				<Version>1</Version>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+	<StudentAssessment>
+		<AdministrationDate>2012-04-21</AdministrationDate>
+		<AdministrationEndDate>2012-04-21</AdministrationEndDate>
+		<SerialNumber>9</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ReasonNotTested>Medical waiver</ReasonNotTested>
+		<ScoreResults AssessmentReportingMethod="Mastery level">
+			<Result>97</Result>
+		</ScoreResults>
+		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
+		<PerformanceLevels>
+			<CodeValue>Below Benchmark</CodeValue>
+		</PerformanceLevels>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>500000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>DORF (Accuracy) Fourth Grade 11-12 EOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+				<Version>1</Version>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+	<StudentAssessment>
+		<AdministrationDate>2012-04-21</AdministrationDate>
+		<AdministrationEndDate>2012-04-21</AdministrationEndDate>
+		<SerialNumber>9</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ReasonNotTested>Medical waiver</ReasonNotTested>
+		<ScoreResults AssessmentReportingMethod="Mastery level">
+			<Result>31</Result>
+		</ScoreResults>
+		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
+		<PerformanceLevels>
+			<CodeValue>Below Benchmark</CodeValue>
+		</PerformanceLevels>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>500000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>DORF (Retell) Fourth Grade 11-12 EOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+				<Version>1</Version>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+	<StudentAssessment>
+		<AdministrationDate>2012-04-21</AdministrationDate>
+		<AdministrationEndDate>2012-04-21</AdministrationEndDate>
+		<SerialNumber>9</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ReasonNotTested>Medical waiver</ReasonNotTested>
+		<ScoreResults AssessmentReportingMethod="Mastery level">
+			<Result>2</Result>
+		</ScoreResults>
+		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
+		<PerformanceLevels>
+			<CodeValue>Below Benchmark</CodeValue>
+		</PerformanceLevels>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>500000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>DORF (Retell Quality) Fourth Grade 11-12 EOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+				<Version>1</Version>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+	<StudentAssessment>
+		<AdministrationDate>2012-04-21</AdministrationDate>
+		<AdministrationEndDate>2012-04-21</AdministrationEndDate>
+		<SerialNumber>9</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ReasonNotTested>Medical waiver</ReasonNotTested>
+		<ScoreResults AssessmentReportingMethod="Mastery level">
+			<Result>23</Result>
+		</ScoreResults>
+		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
+		<PerformanceLevels>
+			<CodeValue>Below Benchmark</CodeValue>
+		</PerformanceLevels>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>500000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>DORF (Daze) Fourth Grade 11-12 EOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+				<Version>1</Version>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+	<StudentAssessment>
+		<AdministrationDate>2012-09-04</AdministrationDate>
+		<AdministrationEndDate>2012-09-04</AdministrationEndDate>
+		<SerialNumber>9</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ReasonNotTested>Medical waiver</ReasonNotTested>
+		<ScoreResults AssessmentReportingMethod="Composite Score">
+			<Result>451</Result>
+		</ScoreResults>
+		<GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
+		<PerformanceLevels>
+			<CodeValue>Benchmark</CodeValue>
+		</PerformanceLevels>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>500000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>DIBELS Next Fifth Grade 12-13 BOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+				<Version>1</Version>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+	<StudentAssessment>
+		<AdministrationDate>2012-09-04</AdministrationDate>
+		<AdministrationEndDate>2012-09-04</AdministrationEndDate>
+		<SerialNumber>9</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ReasonNotTested>Medical waiver</ReasonNotTested>
+		<ScoreResults AssessmentReportingMethod="Mastery level">
+			<Result>133</Result>
+		</ScoreResults>
+		<GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
+		<PerformanceLevels>
+			<CodeValue>Benchmark</CodeValue>
+		</PerformanceLevels>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>500000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>DORF (Fluency) Fifth Grade 12-13 BOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+				<Version>1</Version>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+	<StudentAssessment>
+		<AdministrationDate>2012-09-04</AdministrationDate>
+		<AdministrationEndDate>2012-09-04</AdministrationEndDate>
+		<SerialNumber>9</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ReasonNotTested>Medical waiver</ReasonNotTested>
+		<ScoreResults AssessmentReportingMethod="Mastery level">
+			<Result>99</Result>
+		</ScoreResults>
+		<GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
+		<PerformanceLevels>
+			<CodeValue>Benchmark</CodeValue>
+		</PerformanceLevels>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>500000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>DORF (Accuracy) Fifth Grade 12-13 BOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+				<Version>1</Version>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+	<StudentAssessment>
+		<AdministrationDate>2012-09-04</AdministrationDate>
+		<AdministrationEndDate>2012-09-04</AdministrationEndDate>
+		<SerialNumber>9</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ReasonNotTested>Medical waiver</ReasonNotTested>
+		<ScoreResults AssessmentReportingMethod="Mastery level">
+			<Result>79</Result>
+		</ScoreResults>
+		<GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
+		<PerformanceLevels>
+			<CodeValue>Benchmark</CodeValue>
+		</PerformanceLevels>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>500000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>DORF (Retell) Fifth Grade 12-13 BOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<Version>1</Version>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+	<StudentAssessment>
+		<AdministrationDate>2012-09-04</AdministrationDate>
+		<AdministrationEndDate>2012-09-04</AdministrationEndDate>
+		<SerialNumber>9</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ReasonNotTested>Medical waiver</ReasonNotTested>
+		<ScoreResults AssessmentReportingMethod="Mastery level">
+			<Result>3</Result>
+		</ScoreResults>
+		<GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
+		<PerformanceLevels>
+			<CodeValue>Benchmark</CodeValue>
+		</PerformanceLevels>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>500000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>DORF (Retell Quality) Fifth Grade 12-13 BOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+				<Version>1</Version>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+	<StudentAssessment>
+		<AdministrationDate>2012-09-04</AdministrationDate>
+		<AdministrationEndDate>2012-09-04</AdministrationEndDate>
+		<SerialNumber>9</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ReasonNotTested>Medical waiver</ReasonNotTested>
+		<ScoreResults AssessmentReportingMethod="Mastery level">
+			<Result>29</Result>
+		</ScoreResults>
+		<GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
+		<PerformanceLevels>
+			<CodeValue>Benchmark</CodeValue>
+		</PerformanceLevels>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>500000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>DORF (Daze) Fifth Grade 12-13 BOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+				<Version>1</Version>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+	<StudentAssessment>
+		<AdministrationDate>2012-12-21</AdministrationDate>
+		<AdministrationEndDate>2012-12-21</AdministrationEndDate>
+		<SerialNumber>9</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ReasonNotTested>Medical waiver</ReasonNotTested>
+		<ScoreResults AssessmentReportingMethod="Composite Score">
+			<Result>406</Result>
+		</ScoreResults>
+		<GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
+		<PerformanceLevels>
+			<CodeValue>Benchmark</CodeValue>
+		</PerformanceLevels>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>500000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>DIBELS Next Fifth Grade 12-13 MOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+				<Version>1</Version>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+	<StudentAssessment>
+		<AdministrationDate>2012-12-21</AdministrationDate>
+		<AdministrationEndDate>2012-12-21</AdministrationEndDate>
+		<SerialNumber>9</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ReasonNotTested>Medical waiver</ReasonNotTested>
+		<ScoreResults AssessmentReportingMethod="Mastery level">
+			<Result>140</Result>
+		</ScoreResults>
+		<GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
+		<PerformanceLevels>
+			<CodeValue>Benchmark</CodeValue>
+		</PerformanceLevels>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>500000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>DORF (Fluency) Fifth Grade 12-13 MOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+				<Version>1</Version>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+	<StudentAssessment>
+		<AdministrationDate>2012-12-21</AdministrationDate>
+		<AdministrationEndDate>2012-12-21</AdministrationEndDate>
+		<SerialNumber>9</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ReasonNotTested>Medical waiver</ReasonNotTested>
+		<ScoreResults AssessmentReportingMethod="Mastery level">
+			<Result>99</Result>
+		</ScoreResults>
+		<GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
+		<PerformanceLevels>
+			<CodeValue>Benchmark</CodeValue>
+		</PerformanceLevels>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>500000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>DORF (Accuracy) Fifth Grade 12-13 MOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+				<Version>1</Version>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+	<StudentAssessment>
+		<AdministrationDate>2012-12-21</AdministrationDate>
+		<AdministrationEndDate>2012-12-21</AdministrationEndDate>
+		<SerialNumber>9</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ReasonNotTested>Medical waiver</ReasonNotTested>
+		<ScoreResults AssessmentReportingMethod="Mastery level">
+			<Result>47</Result>
+		</ScoreResults>
+		<GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
+		<PerformanceLevels>
+			<CodeValue>Benchmark</CodeValue>
+		</PerformanceLevels>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>500000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>DORF (Retell) Fifth Grade 12-13 MOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+				<Version>1</Version>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+	<StudentAssessment>
+		<AdministrationDate>2012-12-21</AdministrationDate>
+		<AdministrationEndDate>2012-12-21</AdministrationEndDate>
+		<SerialNumber>9</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ReasonNotTested>Medical waiver</ReasonNotTested>
+		<ScoreResults AssessmentReportingMethod="Mastery level">
+			<Result>3</Result>
+		</ScoreResults>
+		<GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
+		<PerformanceLevels>
+			<CodeValue>Benchmark</CodeValue>
+		</PerformanceLevels>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>500000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>DORF (Retell Quality) Fifth Grade 12-13 MOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+				<Version>1</Version>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+	<StudentAssessment>
+		<AdministrationDate>2012-12-21</AdministrationDate>
+		<AdministrationEndDate>2012-12-21</AdministrationEndDate>
+		<SerialNumber>9</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ReasonNotTested>Medical waiver</ReasonNotTested>
+		<ScoreResults AssessmentReportingMethod="Mastery level">
+			<Result>20</Result>
+		</ScoreResults>
+		<GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
+		<PerformanceLevels>
+			<CodeValue>Benchmark</CodeValue>
+		</PerformanceLevels>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>500000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>DORF (Daze) Fifth Grade 12-13 MOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+				<Version>1</Version>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+</InterchangeStudentAssessment>
