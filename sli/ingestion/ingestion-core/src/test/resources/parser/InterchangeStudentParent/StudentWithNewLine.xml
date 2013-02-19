@@ -2,7 +2,8 @@
 <InterchangeStudentParent xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Student id="ID001">
-    <StudentUniqueStateId>y
+    <StudentUniqueStateId>
+        y
         </StudentUniqueStateId>
     <StudentIdentificationCode IdentificationSystem="SSN" AssigningOrganizationCode="XJo-xQ.tcIYkXhRPQ7gZXGv">
       <IdentificationCode>qVDzEH4OYsrbM__ZnGSF93BSrryuXJrRKOAi9QE_vfe2iWCSWvHFf5F</IdentificationCode>
