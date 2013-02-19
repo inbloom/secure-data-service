@@ -8201,6 +8201,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+      <xs:element name='schoolYear' type='schoolYearType' />
 			<xs:element maxOccurs='unbounded' minOccurs='0' name='schoolYearAttendance' type='schoolYearAttendanceType' />
 		</xs:sequence>
 	</xs:complexType>
