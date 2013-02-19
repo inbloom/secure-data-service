@@ -47,7 +47,8 @@ public class ContainerDocumentAccessor {
     public ContainerDocumentAccessor(final UUIDGeneratorStrategy strategy, final MongoTemplate mongoTemplate) {
         this.generatorStrategy = strategy;
         this.mongoTemplate = mongoTemplate;
-        containerDocumentHolder = new ContainerDocumentHolder();
+        //TODO: Fix (springify)
+        this.containerDocumentHolder = new ContainerDocumentHolder();
     }
 
     public boolean isContainerDocument(final String entity) {
@@ -57,19 +58,19 @@ public class ContainerDocumentAccessor {
     public boolean insert(final List<Entity> entityList) {
         boolean result = true;
 
-        for(Entity entity: entityList) {
-
+        for (Entity entity : entityList) {
             result &= insert(entity);
         }
         return result;
     }
+
     public boolean insert(final Entity entity) {
 
         DBObject query = getContainerDocQuery(entity);
         return insertContainerDoc(query, entity);
     }
 
-    private DBObject getContainerDocQuery(Entity entity  ) {
+    private DBObject getContainerDocQuery(Entity entity) {
         String parentKey = createParentKey(entity);
         //remove parent keys
         Query query = new Query();
@@ -90,10 +91,9 @@ public class ContainerDocumentAccessor {
     protected boolean insertContainerDoc(DBObject query, Entity entity) {
         TenantContext.setIsSystemCall(false);
         ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
-        return mongoTemplate.getCollection(entity.getType()).update(query,
-                BasicDBObjectBuilder.start().push("$pushAll").add(containerDocument.getFieldToPersist(),entity.getBody()).get())
-        .getLastError().ok();
-
+        boolean persisted = mongoTemplate.getCollection(entity.getType()).update(query,
+                BasicDBObjectBuilder.start().push("$pushAll").add(containerDocument.getFieldToPersist(), entity.getBody()).get())
+                .getLastError().ok();
+        return persisted;
     }
-
 }
