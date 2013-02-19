@@ -45,7 +45,6 @@ import org.slc.sli.ingestion.landingzone.AttributeType;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.RecordHash;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.reporting.AbstractMessageReport;
 import org.slc.sli.ingestion.transformation.normalization.did.DeterministicIdResolver;
 import org.slc.sli.ingestion.transformation.normalization.did.DidNaturalKey;
 import org.slc.sli.ingestion.transformation.normalization.did.DidSchemaParser;
@@ -68,9 +67,6 @@ public class DeltaProcessorTest {
 
     @Mock
     protected BatchJobDAO batchJobDAO;
-
-    @Mock
-    private AbstractMessageReport databaseMessageReport;
 
     @Mock
     private DeterministicUUIDGeneratorStrategy dIdStrategy;

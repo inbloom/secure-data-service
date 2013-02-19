@@ -19,6 +19,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyMap;
 import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -89,12 +90,57 @@ public class EdfiRecordParserTest {
             recorCount++;
 
             if (recorCount == 11) {
-                assertEquals(1584, recordMeta.getSourceStartLocation().getLineNumber());
-                assertEquals(1741, recordMeta.getSourceEndLocation().getLineNumber());
+                assertEquals(1574, recordMeta.getSourceStartLocation().getLineNumber());
+                assertEquals(1730, recordMeta.getSourceEndLocation().getLineNumber());
             } else if (recorCount == 13) {
-                assertEquals(1900, recordMeta.getSourceStartLocation().getLineNumber());
-                assertEquals(2057, recordMeta.getSourceEndLocation().getLineNumber());
+                assertEquals(1888, recordMeta.getSourceStartLocation().getLineNumber());
+                assertEquals(2044, recordMeta.getSourceEndLocation().getLineNumber());
             }
         }
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testRejectIfExpectedElementMissing() throws Throwable {
+
+        Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StudentParent.xsd");
+        Resource xml = new ClassPathResource("parser/InterchangeStudentParent/StudentMissingName.xml");
+
+        XMLEventReader reader = XMLInputFactory.newInstance().createXMLEventReader(xml.getInputStream());
+
+        RecordVisitor mockVisitor = Mockito.mock(RecordVisitor.class);
+        EdfiRecordParserImpl.parse(reader, schema, tp, mockVisitor);
+
+        verify(mockVisitor, never()).visit(any(RecordMeta.class), anyMap());
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testRejectIfExtraElementIsPresent() throws Throwable {
+
+        Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StudentParent.xsd");
+        Resource xml = new ClassPathResource("parser/InterchangeStudentParent/StudentHasExtraElement.xml");
+
+        XMLEventReader reader = XMLInputFactory.newInstance().createXMLEventReader(xml.getInputStream());
+
+        RecordVisitor mockVisitor = Mockito.mock(RecordVisitor.class);
+        EdfiRecordParserImpl.parse(reader, schema, tp, mockVisitor);
+
+        verify(mockVisitor, never()).visit(any(RecordMeta.class), anyMap());
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testRejectIfInvalidElementType() throws Throwable {
+
+        Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StudentParent.xsd");
+        Resource xml = new ClassPathResource("parser/InterchangeStudentParent/StudentHasInvalidTypeForDOB.xml");
+
+        XMLEventReader reader = XMLInputFactory.newInstance().createXMLEventReader(xml.getInputStream());
+
+        RecordVisitor mockVisitor = Mockito.mock(RecordVisitor.class);
+        EdfiRecordParserImpl.parse(reader, schema, tp, mockVisitor);
+
+        verify(mockVisitor, never()).visit(any(RecordMeta.class), anyMap());
     }
 }

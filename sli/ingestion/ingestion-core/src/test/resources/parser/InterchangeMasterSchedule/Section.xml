@@ -1,79 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<InterchangeMasterSchedule xmlns:sli="http://slc-sli/ed-org/0.1"
- xmlns:ns0="http://ed-fi.org/0100"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <Section id="ID005">
-        <UniqueSectionCode>UniqueSectionCode1</UniqueSectionCode>
-        <SequenceOfCourse>4</SequenceOfCourse>
-        <EducationalEnvironment>Classroom</EducationalEnvironment>
-        <MediumOfInstruction>Televised</MediumOfInstruction>
-        <PopulationServed>Regular Students</PopulationServed>
-        <AvailableCredit CreditType="Carnegie unit" CreditConversion="0">
-            <Credit>50.00</Credit>
-        </AvailableCredit>
-        <CourseOfferingReference>
-            <CourseOfferingIdentity>
-                <LocalCourseCode>LocalCourseCode3</LocalCourseCode>
-                <SessionReference>
-                    <SessionIdentity>
-                        <SessionName>SessionName4</SessionName>
-                    </SessionIdentity>
-                </SessionReference>
-                <EducationalOrgReference>
-                    <EducationalOrgIdentity>
-                        <StateOrganizationId>StateOrganizationId12</StateOrganizationId>
-                    </EducationalOrgIdentity>
-                </EducationalOrgReference>
-            </CourseOfferingIdentity>
-        </CourseOfferingReference>
-        <SchoolReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>StateOrganizationId13</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </SchoolReference>
+<InterchangeMasterSchedule xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Section id="ID005">
+    <UniqueSectionCode>UniqueSectionCode1</UniqueSectionCode>
+    <SequenceOfCourse>4</SequenceOfCourse>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <MediumOfInstruction>Televised</MediumOfInstruction>
+    <PopulationServed>Regular Students</PopulationServed>
+    <AvailableCredit CreditType="Carnegie unit" CreditConversion="0">
+      <Credit>50.00</Credit>
+    </AvailableCredit>
+    <CourseOfferingReference>
+      <CourseOfferingIdentity>
+        <LocalCourseCode>LocalCourseCode3</LocalCourseCode>
         <SessionReference>
-            <SessionIdentity>
-                <EducationalOrgReference>
-                    <EducationalOrgIdentity>
-                        <StateOrganizationId>StateOrganizationId14</StateOrganizationId>
-                    </EducationalOrgIdentity>
-                </EducationalOrgReference>
-                <SessionName>SessionName5</SessionName>
-            </SessionIdentity>
+          <SessionIdentity>
+            <SessionName>SessionName4</SessionName>
+          </SessionIdentity>
         </SessionReference>
-        <LocationReference id="ID006">
-            <LocationIdentity>
-                <ClassroomIdentificationCode>ClassroomIdentificat</ClassroomIdentificationCode>
-                <EducationOrgIdentificationCode IdentificationSystem="School">
-                    <ID>ID2</ID>
-                </EducationOrgIdentificationCode>
-                <EducationOrgIdentificationCode IdentificationSystem="School">
-                    <ID>ID3</ID>
-                </EducationOrgIdentificationCode>
-                <EducationOrgIdentificationCode IdentificationSystem="School">
-                    <ID>ID4</ID>
-                </EducationOrgIdentificationCode>
-                <EducationOrgIdentificationCode IdentificationSystem="School">
-                    <ID>ID5</ID>
-                </EducationOrgIdentificationCode>
-            </LocationIdentity>
-        </LocationReference>
-        <ClassPeriodReference id="ID007">
-            <ClassPeriodIdentity>
-                <ClassPeriodName>ClassPeriodName1</ClassPeriodName>
-                <StateOrganizationId>StateOrganizationId17</StateOrganizationId>
-                <StateOrganizationId>StateOrganizationId18</StateOrganizationId>
-            </ClassPeriodIdentity>
-        </ClassPeriodReference>
-        <ProgramReference>
-            <ProgramIdentity>
-                <ProgramId>ProgramId2</ProgramId>
-            </ProgramIdentity>
-        </ProgramReference>
-        <ProgramReference>
-            <ProgramIdentity>
-                <ProgramId>ProgramId3</ProgramId>
-            </ProgramIdentity>
-        </ProgramReference>
-    </Section>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>StateOrganizationId12</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </CourseOfferingIdentity>
+    </CourseOfferingReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>StateOrganizationId13</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SessionReference>
+      <SessionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>StateOrganizationId14</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <SessionName>SessionName5</SessionName>
+      </SessionIdentity>
+    </SessionReference>
+    <LocationReference id="ID006">
+      <LocationIdentity>
+        <ClassroomIdentificationCode>ClassroomIdentificat</ClassroomIdentificationCode>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+          <ID>ID2</ID>
+        </EducationOrgIdentificationCode>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+          <ID>ID3</ID>
+        </EducationOrgIdentificationCode>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+          <ID>ID4</ID>
+        </EducationOrgIdentificationCode>
+        <EducationOrgIdentificationCode IdentificationSystem="School">
+          <ID>ID5</ID>
+        </EducationOrgIdentificationCode>
+      </LocationIdentity>
+    </LocationReference>
+    <ClassPeriodReference id="ID007">
+      <ClassPeriodIdentity>
+        <ClassPeriodName>ClassPeriodName1</ClassPeriodName>
+        <StateOrganizationId>StateOrganizationId17</StateOrganizationId>
+        <StateOrganizationId>StateOrganizationId18</StateOrganizationId>
+      </ClassPeriodIdentity>
+    </ClassPeriodReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>ProgramId2</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>ProgramId3</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+  </Section>
 </InterchangeMasterSchedule>

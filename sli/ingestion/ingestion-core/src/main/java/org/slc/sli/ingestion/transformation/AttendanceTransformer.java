@@ -58,30 +58,29 @@ import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
  * @author shalka
  */
 @Scope("prototype")
-@Component("attendanceTransformationStrategy")
+@Component("attendanceEventTransformationStrategy")
 public class AttendanceTransformer extends AbstractTransformationStrategy {
     private static final Logger LOG = LoggerFactory.getLogger(AttendanceTransformer.class);
 
     private static final String VALUE = "_value";
 
-    private static final String STATE_ORGANIZATION_ID = "StateOrganizationId." + VALUE;
+    private static final String STATE_ORGANIZATION_ID = "StateOrganizationId";
     private static final String EDUCATIONAL_ORG_ID = "EducationalOrgIdentity";
     private static final String EDORG_ID = EDUCATIONAL_ORG_ID + "." + STATE_ORGANIZATION_ID;
 
-    private static final String ATTENDANCE = "attendance";
     private static final String ATTENDANCE_EVENT = "attendanceEvent";
-    private static final String ATTENDANCE_EVENT_REASON = "AttendanceEventReason." + VALUE;
-    private static final String ATTENDANCE_TRANSFORMED = ATTENDANCE + "_transformed";
+    private static final String ATTENDANCE_EVENT_REASON = "AttendanceEventReason" + VALUE;
+    private static final String ATTENDANCE_TRANSFORMED = ATTENDANCE_EVENT + "_transformed";
     private static final String ATTENDANCE_EVENT_DATE = "EventDate." + VALUE;
     private static final String ATTENDANCE_EVENT_CATEGORY = "AttendanceEventCategory." + VALUE;
-    private static final String ATTENDANCE_SCHOOL_ID = "SchoolReference." + EDORG_ID;
+    private static final String ATTENDANCE_SCHOOL_ID = "SchoolReference." + EDORG_ID + "." + VALUE;
 
     private static final String SCHOOL = "school";
     private static final String SCHOOL_ID = "schoolId";
-    private static final String SCHOOL_YEAR = "SchoolYear." + VALUE;
+    private static final String SCHOOL_YEAR = "SchoolYear";
     private static final String STUDENT_ID = "studentId";
     private static final String SESSION = "session";
-    private static final String SESSION_SHOOL_ID = "EducationOrganizationReference." + EDORG_ID;
+    private static final String SESSION_SHOOL_ID = "EducationOrganizationReference." + EDORG_ID + "." + VALUE;
     private static final String SESSION_BEGINDATE = "BeginDate." + VALUE;
     private static final String SESSION_ENDDATE = "EndDate." + VALUE;
     private static final String DATE = "date";
@@ -121,8 +120,8 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
      */
     public void loadData() {
         LOG.info("Loading data for attendance transformation.");
-        attendances = getCollectionFromDb(ATTENDANCE);
-        LOG.info("{} is loaded into local storage.  Total Count = {}", ATTENDANCE, attendances.size());
+        attendances = getCollectionFromDb(ATTENDANCE_EVENT);
+        LOG.info("{} is loaded into local storage.  Total Count = {}", ATTENDANCE_EVENT, attendances.size());
     }
 
     /**
@@ -257,9 +256,9 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
                 query.addCriteria(new NeutralCriteria(BATCH_JOB_ID_KEY, NeutralCriteria.OPERATOR_EQUAL,
                         getBatchJobId(), false));
                 query.addCriteria(new NeutralCriteria(STUDENT_ID, NeutralCriteria.OPERATOR_EQUAL, studentId));
-                query.addCriteria(new NeutralCriteria("schoolId." + EDUCATIONAL_ORG_ID + "." + STATE_ORGANIZATION_ID,
+                query.addCriteria(new NeutralCriteria("SchoolReference." + EDUCATIONAL_ORG_ID + "." + STATE_ORGANIZATION_ID + "." + VALUE,
                         NeutralCriteria.OPERATOR_EQUAL, schoolId));
-                query.addCriteria(new NeutralCriteria("schoolYearAttendance.schoolYear",
+                query.addCriteria(new NeutralCriteria("schoolYearAttendance.SchoolYear",
                         NeutralCriteria.OPERATOR_EQUAL, schoolYear));
 
                 attendanceRhData.addAll(extractRecordHashDataFromAttendanceEvents(events));
@@ -300,7 +299,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         NeutralQuery query = new NeutralQuery(1);
         query.addCriteria(new NeutralCriteria(BATCH_JOB_ID_KEY, NeutralCriteria.OPERATOR_EQUAL, getBatchJobId(), false));
         query.addCriteria(new NeutralCriteria(STUDENT_ID, NeutralCriteria.OPERATOR_EQUAL, studentId));
-        query.addCriteria(new NeutralCriteria("schoolId." + EDUCATIONAL_ORG_ID + "." + STATE_ORGANIZATION_ID,
+        query.addCriteria(new NeutralCriteria("schoolId." + EDUCATIONAL_ORG_ID + "." + STATE_ORGANIZATION_ID  + "." + VALUE,
                 NeutralCriteria.OPERATOR_EQUAL, schoolId));
 
         Map<String, Object> attendanceEventDeltaHashValuesToPush = new HashMap<String, Object>();
@@ -357,12 +356,15 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         // rebuild StudentReference, since that is what reference resolution will expect
         Map<String, Object> studentReference = new HashMap<String, Object>();
         Map<String, Object> studentIdentity = new HashMap<String, Object>();
-        studentIdentity.put("StudentUniqueStateId", studentId);
+        Map<String, Object> student_value = new HashMap<String, Object>();
+        student_value.put("_value", studentId);
+        studentIdentity.put("StudentUniqueStateId", student_value);
         studentReference.put("StudentIdentity", studentIdentity);
+        
 
         attendanceAttributes.put("StudentReference", studentReference);
         attendanceAttributes.put(STUDENT_ID, studentId);
-        attendanceAttributes.put(SCHOOL_ID, createEdfiSchoolReference(schoolId));
+        attendanceAttributes.put("SchoolReference", createEdfiSchoolReference(schoolId));
         attendanceAttributes.put("schoolYearAttendance", daily);
 
         record.setAttributes(attendanceAttributes);
@@ -425,7 +427,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
     private String getParentEdOrg(String edOrgId) {
         Query schoolQuery = new Query().limit(1);
         schoolQuery.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
-        schoolQuery.addCriteria(Criteria.where("body." + STATE_ORGANIZATION_ID).is(edOrgId));
+        schoolQuery.addCriteria(Criteria.where("body." + STATE_ORGANIZATION_ID + "." + VALUE).is(edOrgId));
 
         Iterable<NeutralRecord> queriedSchool = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(
                 SCHOOL, schoolQuery);
@@ -438,7 +440,10 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             if (edorgReference != null) {
                 Map<String, Object> edorgIdentity = (Map<String, Object>) edorgReference.get(EDUCATIONAL_ORG_ID);
                 if (edorgIdentity != null) {
-                    parentEducationAgency = (String) (edorgIdentity.get(STATE_ORGANIZATION_ID));
+                    Map<String, Object> stateOrgId = (Map<String, Object>) (edorgIdentity.get(STATE_ORGANIZATION_ID));
+                    if (stateOrgId != null) {
+                        parentEducationAgency = (String) stateOrgId.get(VALUE);
+                    }
                 }
             }
         } else {
@@ -473,7 +478,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         for (Map.Entry<Object, NeutralRecord> session : sessions.entrySet()) {
             NeutralRecord sessionRecord = session.getValue();
             Map<String, Object> sessionAttributes = sessionRecord.getAttributes();
-            String schoolYear = (String) sessionAttributes.get(SCHOOL_YEAR);
+            String schoolYear = (String) getProperty( sessionAttributes,SCHOOL_YEAR + "." + VALUE);
             if (schoolYear != null) {
                 placeholders.put(schoolYear, new ArrayList<Map<String, Object>>());
             }
@@ -505,7 +510,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         for (Map.Entry<Object, NeutralRecord> session : sessions.entrySet()) {
             NeutralRecord sessionRecord = session.getValue();
             Map<String, Object> sessionAttributes = sessionRecord.getAttributes();
-            String schoolYear = (String) getProperty( sessionAttributes,SCHOOL_YEAR);
+            String schoolYear = (String) getProperty( sessionAttributes,SCHOOL_YEAR + "." + VALUE);
             DateTime sessionBegin = DateTimeUtil.parseDateTime((String) getProperty(sessionAttributes,SESSION_BEGINDATE));
             DateTime sessionEnd = DateTimeUtil.parseDateTime((String) getProperty(sessionAttributes, SESSION_ENDDATE));
 
@@ -648,7 +653,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
         }
 
         for (Map<String, Object> yearAttendance : schoolYearAttendance) {
-            String schoolYear = (String) yearAttendance.get("schoolYear");
+            String schoolYear = (String) yearAttendance.get("SchoolYear");
             List<Map<String, Object>> attendanceEvent = (List<Map<String, Object>>) yearAttendance
                     .get(ATTENDANCE_EVENT);
             if (attendanceEvent.size() > 0) {
@@ -739,7 +744,9 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
     private static Map<String, Object> createEdfiSchoolReference(String schoolId) {
         Map<String, Object> schoolReferenceObj = new HashMap<String, Object>();
         Map<String, Object> idObj = new HashMap<String, Object>();
-        idObj.put(STATE_ORGANIZATION_ID, schoolId);
+        Map<String, Object> _value = new HashMap<String, Object>();
+        _value.put(VALUE, schoolId);
+        idObj.put(STATE_ORGANIZATION_ID, _value);
         schoolReferenceObj.put(EDUCATIONAL_ORG_ID, idObj);
         return schoolReferenceObj;
     }

@@ -1,21 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<InterchangeStaffAssociation xmlns:sli="http://slc-sli/ed-org/0.1"
- xmlns="http://ed-fi.org/0100"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="http://ed-fi.org/0100 file:/C:/beta/sli/sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StaffAssociation.xsd">
-    <StaffProgramAssociation>
-        <StaffReference>
-            <StaffIdentity>
-                <StaffUniqueStateId>Qm5qi.fpz1l.02A</StaffUniqueStateId>
-            </StaffIdentity>
-        </StaffReference>
-        <ProgramReference>
-            <ProgramIdentity>
-                <ProgramId>LDDUdY</ProgramId>
-            </ProgramIdentity>
-        </ProgramReference>
-        <BeginDate>2013-08-14</BeginDate>
-        <EndDate>2014-07-21</EndDate>
-        <StudentRecordAccess>false</StudentRecordAccess>
-    </StaffProgramAssociation>
+<InterchangeStaffAssociation xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <StaffProgramAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>Qm5qi.fpz1l.02A</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>LDDUdY</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <BeginDate>2013-08-14</BeginDate>
+    <EndDate>2014-07-21</EndDate>
+    <StudentRecordAccess>false</StudentRecordAccess>
+  </StaffProgramAssociation>
 </InterchangeStaffAssociation>

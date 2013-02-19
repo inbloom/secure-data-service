@@ -82,12 +82,12 @@
     </jb:bean>
   
     <jb:bean beanId="OtherName"  class="java.util.HashMap" createOnElement="attributes OtherName element ">
-        <jb:value property="otherNameType" data="attributes OtherName OtherNameType _value" />
-        <jb:value property="personalTitlePrefix" data="attributes OtherName PersonalTitlePrefix _value" />
-        <jb:value property="firstName" data="attributes OtherName FirstName _value" />
-        <jb:value property="middleName" data="attributes OtherName MiddleName _value" />
-        <jb:value property="lastSurname" data="attributes OtherName LastSurname _value" />
-        <jb:value property="generationCodeSuffix" data="attributes OtherName GenerationCodeSuffix _value" />
+        <jb:value property="otherNameType" data="attributes OtherName element a_OtherNameType" />
+        <jb:value property="personalTitlePrefix" data="attributes OtherName element PersonalTitlePrefix _value" />
+        <jb:value property="firstName" data="attributes OtherName element FirstName _value" />
+        <jb:value property="middleName" data="attributes OtherName element MiddleName _value" />
+        <jb:value property="lastSurname" data="attributes OtherName element LastSurname _value" />
+        <jb:value property="generationCodeSuffix" data="attributes OtherName element GenerationCodeSuffix _value" />
    </jb:bean>
   
     <jb:bean beanId="Addresses" class="java.util.ArrayList" createOnElement="attributes Address">

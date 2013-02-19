@@ -64,7 +64,6 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
     private static final XMLInputFactory XML_INPUT_FACTORY = XMLInputFactory.newInstance();
 
     // Processor configuration
-    private AbstractMessageReport messageReport;
     private ProducerTemplate producer;
     private TypeProvider typeProvider;
     private XsdSelector xsdSelector;

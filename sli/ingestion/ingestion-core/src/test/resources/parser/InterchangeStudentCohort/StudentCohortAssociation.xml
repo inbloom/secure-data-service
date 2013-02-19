@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<InterchangeStudentCohort xmlns:sli="http://slc-sli/ed-org/0.1"
- xmlns:ns0="http://ed-fi.org/0100"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <StudentCohortAssociation id="ID004">
-        <StudentReference>
-            <StudentIdentity>
-                <StudentUniqueStateId>DY3SdC6TglB</StudentUniqueStateId>
-            </StudentIdentity>
-        </StudentReference>
-        <CohortReference>
-            <CohortIdentity>
-                <CohortIdentifier>cBCxkH2F</CohortIdentifier>
-                <EducationalOrgReference>
-                    <EducationalOrgIdentity>
-                        <StateOrganizationId>Dt2VNtLjreM2RQOMMnNrIwgTq1INTc_hF2</StateOrganizationId>
-                    </EducationalOrgIdentity>
-                </EducationalOrgReference>
-            </CohortIdentity>
-        </CohortReference>
-        <BeginDate>2013-05-11</BeginDate>
-        <EndDate>2014-11-15</EndDate>
-    </StudentCohortAssociation>
+<InterchangeStudentCohort xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <StudentCohortAssociation id="ID004">
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>DY3SdC6TglB</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <CohortReference>
+      <CohortIdentity>
+        <CohortIdentifier>cBCxkH2F</CohortIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>Dt2VNtLjreM2RQOMMnNrIwgTq1INTc_hF2</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </CohortIdentity>
+    </CohortReference>
+    <BeginDate>2013-05-11</BeginDate>
+    <EndDate>2014-11-15</EndDate>
+  </StudentCohortAssociation>
 </InterchangeStudentCohort>

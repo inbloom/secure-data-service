@@ -1,30 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<InterchangeAssessmentMetadata xmlns:sli="http://slc-sli/ed-org/0.1"
- xmlns="http://ed-fi.org/0100"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="http://ed-fi.org/0100 file:/C:/beta/sli/sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-AssessmentMetadata.xsd">
-    <AssessmentFamily id="ID001">
-        <AssessmentFamilyTitle>HOjhWE6_IG1Anxl5</AssessmentFamilyTitle>
-        <AssessmentFamilyIdentificationCode IdentificationSystem="School" AssigningOrganizationCode="WLQ">
-            <ID>Jr</ID>
+<InterchangeAssessmentMetadata xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AssessmentFamily id="ID001">
+    <AssessmentFamilyTitle>HOjhWE6_IG1Anxl5</AssessmentFamilyTitle>
+    <AssessmentFamilyIdentificationCode IdentificationSystem="School"
+      AssigningOrganizationCode="WLQ">
+      <ID>Jr</ID>
+    </AssessmentFamilyIdentificationCode>
+    <AssessmentCategory>Mental ability (intelligence) test</AssessmentCategory>
+    <AcademicSubject>Composite</AcademicSubject>
+    <GradeLevelAssessed>Grade 13</GradeLevelAssessed>
+    <LowestGradeLevelAssessed>Tenth grade</LowestGradeLevelAssessed>
+    <ContentStandard>Advanced Placement</ContentStandard>
+    <Version>-1164435820</Version>
+    <RevisionDate>2014-05-09</RevisionDate>
+    <Nomenclature>Kfr87Oas</Nomenclature>
+    <AssessmentPeriods id="ID003" ref="ID003">
+      <CodeValue>WPhxGcxrV</CodeValue>
+    </AssessmentPeriods>
+    <AssessmentFamilyReference id="ID005" ref="ID002">
+      <AssessmentFamilyIdentity>
+        <AssessmentFamilyIdentificationCode IdentificationSystem="District"
+          AssigningOrganizationCode="u.zXl85h0sKc9w9DUEiQLUX1s5H8Bs">
+          <ID>kkG3hnH</ID>
         </AssessmentFamilyIdentificationCode>
-        <AssessmentCategory>Mental ability (intelligence) test</AssessmentCategory>
-        <AcademicSubject>Composite</AcademicSubject>
-        <GradeLevelAssessed>Grade 13</GradeLevelAssessed>
-        <LowestGradeLevelAssessed>Tenth grade</LowestGradeLevelAssessed>
-        <ContentStandard>Advanced Placement</ContentStandard>
-        <Version>-1164435820</Version>
-        <RevisionDate>2014-05-09</RevisionDate>
-        <Nomenclature>Kfr87Oas</Nomenclature>
-        <AssessmentPeriods id="ID003" ref="ID003">
-            <CodeValue>WPhxGcxrV</CodeValue>
-        </AssessmentPeriods>
-        <AssessmentFamilyReference id="ID005" ref="ID002">
-            <AssessmentFamilyIdentity>
-                <AssessmentFamilyIdentificationCode IdentificationSystem="District" AssigningOrganizationCode="u.zXl85h0sKc9w9DUEiQLUX1s5H8Bs">
-                    <ID>kkG3hnH</ID>
-                </AssessmentFamilyIdentificationCode>
-            </AssessmentFamilyIdentity>
-        </AssessmentFamilyReference>
-    </AssessmentFamily>
+      </AssessmentFamilyIdentity>
+    </AssessmentFamilyReference>
+  </AssessmentFamily>
 </InterchangeAssessmentMetadata>

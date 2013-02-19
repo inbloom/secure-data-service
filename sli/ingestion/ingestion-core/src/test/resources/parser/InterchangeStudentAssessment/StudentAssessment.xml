@@ -1,58 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<InterchangeStudentAssessment xmlns:sli="http://slc-sli/ed-org/0.1"
- xmlns:ns0="http://ed-fi.org/0100"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <StudentAssessment id="ID014">
-        <AdministrationDate>2006-05-04</AdministrationDate>
-        <AdministrationEndDate>2006-05-04</AdministrationEndDate>
-        <SerialNumber>SerialNumber1</SerialNumber>
-        <AdministrationLanguage>Spanish</AdministrationLanguage>
-        <AdministrationEnvironment>Classroom</AdministrationEnvironment>
-        <SpecialAccommodations>
-            <SpecialAccommodation>Presentation</SpecialAccommodation>
-            <SpecialAccommodation>Presentation</SpecialAccommodation>
-        </SpecialAccommodations>
-        <SpecialAccommodations>
-            <SpecialAccommodation>Presentation</SpecialAccommodation>
-            <SpecialAccommodation>Presentation</SpecialAccommodation>
-        </SpecialAccommodations>
-        <LinguisticAccommodations>
-            <LinguisticAccommodation>Bilingual Dictionary</LinguisticAccommodation>
-            <LinguisticAccommodation>Bilingual Dictionary</LinguisticAccommodation>
-        </LinguisticAccommodations>
-        <LinguisticAccommodations>
-            <LinguisticAccommodation>Bilingual Dictionary</LinguisticAccommodation>
-            <LinguisticAccommodation>Bilingual Dictionary</LinguisticAccommodation>
-        </LinguisticAccommodations>
-        <RetestIndicator>Primary Administration</RetestIndicator>
-        <ReasonNotTested>Absent</ReasonNotTested>
-        <ScoreResults AssessmentReportingMethod="Achievement/proficiency level">
-            <Result>Result4</Result>
-        </ScoreResults>
-        <ScoreResults AssessmentReportingMethod="Achievement/proficiency level">
-            <Result>Result5</Result>
-        </ScoreResults>
-        <GradeLevelWhenAssessed>Adult Education</GradeLevelWhenAssessed>
-        <PerformanceLevels id="ID015">
-            <CodeValue>CodeValue4</CodeValue>
-            <PerformanceLevelMet>false</PerformanceLevelMet>
-        </PerformanceLevels>
-        <PerformanceLevels id="ID016">
-            <Description>Description3</Description>
-            <PerformanceLevelMet>false</PerformanceLevelMet>
-        </PerformanceLevels>
-        <StudentReference>
-            <StudentIdentity>
-                <StudentUniqueStateId>StudentUniqueStateId1</StudentUniqueStateId>
-            </StudentIdentity>
-        </StudentReference>
-        <AssessmentReference id="ID017">
-            <AssessmentIdentity>
-                <AssessmentTitle>AssessmentTitle3</AssessmentTitle>
-                <AcademicSubject>English Language and Literature</AcademicSubject>
-                <GradeLevelAssessed>Adult Education</GradeLevelAssessed>
-                <Version>0</Version>
-            </AssessmentIdentity>
-        </AssessmentReference>
-    </StudentAssessment>
+<InterchangeStudentAssessment xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <StudentAssessment id="ID014">
+    <AdministrationDate>2006-05-04</AdministrationDate>
+    <AdministrationEndDate>2006-05-04</AdministrationEndDate>
+    <SerialNumber>SerialNumber1</SerialNumber>
+    <AdministrationLanguage>Spanish</AdministrationLanguage>
+    <AdministrationEnvironment>Classroom</AdministrationEnvironment>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Presentation</SpecialAccommodation>
+      <SpecialAccommodation>Presentation</SpecialAccommodation>
+    </SpecialAccommodations>
+    <SpecialAccommodations>
+      <SpecialAccommodation>Presentation</SpecialAccommodation>
+      <SpecialAccommodation>Presentation</SpecialAccommodation>
+    </SpecialAccommodations>
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Bilingual Dictionary</LinguisticAccommodation>
+      <LinguisticAccommodation>Bilingual Dictionary</LinguisticAccommodation>
+    </LinguisticAccommodations>
+    <LinguisticAccommodations>
+      <LinguisticAccommodation>Bilingual Dictionary</LinguisticAccommodation>
+      <LinguisticAccommodation>Bilingual Dictionary</LinguisticAccommodation>
+    </LinguisticAccommodations>
+    <RetestIndicator>Primary Administration</RetestIndicator>
+    <ReasonNotTested>Absent</ReasonNotTested>
+    <ScoreResults AssessmentReportingMethod="Achievement/proficiency level">
+      <Result>Result4</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Achievement/proficiency level">
+      <Result>Result5</Result>
+    </ScoreResults>
+    <GradeLevelWhenAssessed>Adult Education</GradeLevelWhenAssessed>
+    <PerformanceLevels id="ID015">
+      <CodeValue>CodeValue4</CodeValue>
+      <PerformanceLevelMet>false</PerformanceLevelMet>
+    </PerformanceLevels>
+    <PerformanceLevels id="ID016">
+      <Description>Description3</Description>
+      <PerformanceLevelMet>false</PerformanceLevelMet>
+    </PerformanceLevels>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>StudentUniqueStateId1</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <AssessmentReference id="ID017">
+      <AssessmentIdentity>
+        <AssessmentTitle>AssessmentTitle3</AssessmentTitle>
+        <AcademicSubject>English Language and Literature</AcademicSubject>
+        <GradeLevelAssessed>Adult Education</GradeLevelAssessed>
+        <Version>0</Version>
+      </AssessmentIdentity>
+    </AssessmentReference>
+  </StudentAssessment>
 </InterchangeStudentAssessment>

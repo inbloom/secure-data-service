@@ -488,7 +488,7 @@
 			<xs:documentation>This entity is a subelement of a learning objective consisting of a precise statement of the expectation of a student's proficiency.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>learningStandard</sli:recordType>
-				<sli:naturalKeys>LearningStandardId.identificationCode</sli:naturalKeys>
+				<sli:naturalKeys>LearningStandardId.IdentificationCode</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>

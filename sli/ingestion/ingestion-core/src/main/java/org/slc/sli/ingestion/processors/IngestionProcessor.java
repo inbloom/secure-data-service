@@ -57,7 +57,7 @@ public abstract class IngestionProcessor<T extends WorkNote, S> implements Proce
 
     protected BatchJobDAO batchJobDAO;
 
-    private AbstractMessageReport messageReport;
+    protected AbstractMessageReport messageReport;
 
     private List<? extends Validator<S>> preValidators;
 
