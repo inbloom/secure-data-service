@@ -16,23 +16,24 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import java.util.Set;
+
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.springframework.stereotype.Component;
-
-import java.util.Set;
 
 /**
- * Validates the context of a staff member to see the requested set of sections. Returns true if the
- * staff member can see ALL of the sections, and false otherwise.
+ * Validates context to a global section. This logic is applied to: transitive UPDATEs and
+ * non-transitive GETs for staff.
  */
 @Component
-public class StaffToSectionValidator extends AbstractContextValidator {
+public class StaffToGlobalSectionValidator extends AbstractContextValidator {
 
     @Override
-    public boolean canValidate(String entityType, boolean through) {
+    public boolean canValidate(String entityType, boolean isTransitive) {
         return EntityNames.SECTION.equals(entityType) && isStaff();
     }
 
@@ -41,13 +42,17 @@ public class StaffToSectionValidator extends AbstractContextValidator {
         if (!areParametersValid(EntityNames.SECTION, entityType, ids)) {
             return false;
         }
-        
-        Set<String> edorgLineage = getStaffEdOrgLineage();
-        NeutralQuery basicQuery = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID,
-                NeutralCriteria.CRITERIA_IN, ids));
-        basicQuery.addCriteria(new NeutralCriteria(ParameterConstants.SCHOOL_ID, NeutralCriteria.CRITERIA_IN,
-                edorgLineage));
-        return getRepo().count(EntityNames.SECTION, basicQuery) == ids.size();
-    }
 
+        /*
+         * Grab all the Sessions that are being requested AND contain a
+         * reference to a edorg in your edorg hierarchy. Counts should be equal
+         * if you can see all the sessions you asked for
+         */
+        Set<String> edOrgLineage = getEdorgDescendents(getDirectEdorgs());
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.ID, NeutralCriteria.CRITERIA_IN,
+                ids, false));
+        query.addCriteria(new NeutralCriteria(ParameterConstants.SCHOOL_ID, NeutralCriteria.CRITERIA_IN, edOrgLineage));
+
+        return ids.size() == repo.count(entityType, query);
+    }
 }
