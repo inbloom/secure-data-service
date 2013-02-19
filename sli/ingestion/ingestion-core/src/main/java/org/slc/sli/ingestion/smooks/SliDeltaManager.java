@@ -103,16 +103,9 @@ public final class SliDeltaManager {
 
         NeutralRecord neutralRecordResolved = null;
 
-        if ("attendance".equals(n.getRecordType())) {
-            // HACK didResolver requires transformed entities to be transformed so use the
-            // unresolved references
-            // to calculate record delta hash dId
-            neutralRecordResolved = n;
-        } else {
-            neutralRecordResolved = (NeutralRecord) n.clone();
-            NeutralRecordEntity entity = new NeutralRecordEntity(neutralRecordResolved);
-            didResolver.resolveInternalIds(entity, neutralRecordResolved.getSourceId(), report, reportStats);
-        }
+        neutralRecordResolved = (NeutralRecord) n.clone();
+        NeutralRecordEntity entity = new NeutralRecordEntity(neutralRecordResolved);
+        didResolver.resolveInternalIds(entity, neutralRecordResolved.getSourceId(), report, reportStats);
 
         // Calculate DiD using natural key values (that are references) in their Did form
         try {

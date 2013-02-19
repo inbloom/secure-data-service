@@ -67,7 +67,6 @@
     to use will be <name>_transformed -->
   <util:set id="transformedEntities" set-class="java.util.HashSet" value-type="java.lang.String">
     <value>assessment</value>
-    <value>attendance</value>
     <value>learningObjective</value>
     <value>studentAssessment</value>
     <value>courseTranscript</value>
