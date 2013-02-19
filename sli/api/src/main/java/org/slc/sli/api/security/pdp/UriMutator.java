@@ -31,6 +31,10 @@ import javax.ws.rs.core.PathSegment;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
@@ -44,9 +48,6 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 
 /**
  * Infers context about the {user,requested resource} pair, and restricts blanket API calls to
@@ -121,7 +122,7 @@ public class UriMutator {
                         	path = String.format("/staff/%s", e.getEntityId());
                         }
 						newMutated.setPath(path);
-                        
+
                         info("Rewriting URI to {} based on natural keys", newMutated.getPath());
                         return newMutated;
                     }
@@ -218,6 +219,8 @@ public class UriMutator {
             // FIVE TYPE
             put(joinPathSegments(PathConstants.SCHOOLS, PathConstants.STUDENT_SCHOOL_ASSOCIATIONS, PathConstants.STUDENTS, PathConstants.STUDENT_PARENT_ASSOCIATIONS, PathConstants.PARENTS),
                     new MutateInfo("/sections/%s/studentSectionAssociations/students/studentParentAssociations/parents", null));
+            put(joinPathSegments(PathConstants.SCHOOLS, PathConstants.STUDENT_SCHOOL_ASSOCIATIONS, PathConstants.STUDENTS, PathConstants.STUDENT_ACADEMIC_RECORDS, PathConstants.COURSE_TRANSCRIPTS),
+                    new MutateInfo("/sections/%s/studentSectionAssociations/students/studentAcademicRecords/courseTranscripts", null));
         }};
 
     }
