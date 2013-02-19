@@ -29,7 +29,7 @@
         <jb:value property="shortNameOfInstitution" data="attributes ShortNameOfInstitution _value" />
         <jb:wiring property="organizationCategories" beanIdRef="OrganizationCategories" />
         <jb:wiring property="address" beanIdRef="Addresses" />
-        <jb:wiring property="telephone" beanIdRef="Telephone" />
+        <jb:wiring property="telephone" beanIdRef="Telephones" />
         <jb:value property="webSite" data="attributes WebSite _value" />
         <jb:value property="operationalStatus" data="attributes OperationalStatus _value" />
         <jb:wiring property="accountabilityRatings" beanIdRef="AccountabilityRatings" />
@@ -50,12 +50,12 @@
         <jb:wiring beanIdRef="EducationOrgIdentificationCode" />
     </jb:bean>
     <jb:bean beanId="EducationOrgIdentificationCode" class="java.util.HashMap" createOnElement="attributes EducationOrgIdentificationCode element">
-        <jb:value property="identificationSystem" data="attributes EducationOrgIdentificationCode element IdentificationSystem _value" />
+        <jb:value property="identificationSystem" data="attributes EducationOrgIdentificationCode element a_IdentificationSystem" />
         <jb:value property="ID" data="attributes EducationOrgIdentificationCode element ID _value" />
     </jb:bean>
-
-    <jb:bean beanId="OrganizationCategories" class="java.util.ArrayList" createOnElement="attributes OrganizationCategories">
-        <jb:value data="attributes OrganizationCategories element _value" />
+ 
+    <jb:bean beanId="OrganizationCategories" class="java.util.ArrayList" createOnElement="attributes OrganizationCategories OrganizationCategory">
+        <jb:value data="attributes OrganizationCategories OrganizationCategory element _value" />
     </jb:bean>
 
     <jb:bean beanId="Addresses" class="java.util.ArrayList" createOnElement="attributes Address">
@@ -82,7 +82,7 @@
         <jb:wiring beanIdRef="Telephone" />
     </jb:bean>
     <jb:bean beanId="Telephone" class="java.util.HashMap" createOnElement="attributes Telephone element">
-        <jb:value property="institutionTelephoneNumberType " data="attributes Telephone element InstitutionTelephoneNumberType _value" />
+        <jb:value property="institutionTelephoneNumberType " data="attributes Telephone element a_InstitutionTelephoneNumberType" />
         <jb:value property="telephoneNumber " data="attributes Telephone element TelephoneNumber _value" />
         <jb:value property="primaryTelephoneNumberIndicator" data="attributes Telephone element PrimaryTelephoneNumberIndicator _value" decoder="Boolean"/>
     </jb:bean>
@@ -103,10 +103,10 @@
     </jb:bean>
 
     <jb:bean beanId="GradesOffered" class="java.util.ArrayList" createOnElement="attributes GradesOffered">
-        <jb:value data="attributes GradesOffered element _value" />
+        <jb:value data="attributes GradesOffered GradeLevel element _value" />
     </jb:bean>
 
     <jb:bean beanId="SchoolCategories" class="java.util.ArrayList" createOnElement="attributes SchoolCategories">
-        <jb:value data="attributes SchoolCategories element _value" />
+        <jb:value data="attributes SchoolCategories SchoolCategory element _value" />
     </jb:bean>
 </smooks-resource-list>

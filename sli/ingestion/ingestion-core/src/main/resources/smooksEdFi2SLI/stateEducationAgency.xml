@@ -40,7 +40,7 @@
         <jb:wiring beanIdRef="EducationOrgIdentificationCode" />
     </jb:bean>
     <jb:bean beanId="EducationOrgIdentificationCode" class="java.util.HashMap" createOnElement="attributes EducationOrgIdentificationCode element">
-        <jb:value property="identificationSystem" data="attributes EducationOrgIdentificationCode IdentificationSystem _value" />
+        <jb:value property="identificationSystem" data="attributes EducationOrgIdentificationCode a_IdentificationSystem" />
         <jb:value property="ID" data="attributes EducationOrgIdentificationCode ID _value" />
     </jb:bean>
 
@@ -72,8 +72,9 @@
         <jb:wiring beanIdRef="Telephone" />
     </jb:bean>
     <jb:bean beanId="Telephone" class="java.util.HashMap" createOnElement="attributes Telephone element">
-        <jb:value property="institutionTelephoneNumberType " data="Telephone element InstitutionTelephoneNumberType _value" />
+        <jb:value property="institutionTelephoneNumberType " data="Telephone element a_InstitutionTelephoneNumberType" />
         <jb:value property="telephoneNumber " data="Telephone element TelephoneNumber _value" />
+        <jb:value property="primaryTelephoneNumberIndicator" data="attributes Telephone element PrimaryTelephoneNumberIndicator _value" decoder="Boolean"/>
     </jb:bean>
 
     <jb:bean beanId="AccountabilityRatings" class="java.util.ArrayList" createOnElement="attributes">
