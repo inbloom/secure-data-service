@@ -57,16 +57,17 @@ public class FileEntryLatchTest {
         Exchange exchange =  new DefaultExchange(new DefaultCamelContext());
         IngestionFileEntry entry = new IngestionFileEntry("/", FileFormat.EDFI_XML, FileType.XML_STUDENT_PROGRAM, "fileName", "111");
         FileEntryWorkNote workNote = new FileEntryWorkNote("batchJobId", entry, false);
+        boolean fileEntryLatchOpened;
 
         exchange.getIn().setBody(workNote, FileEntryWorkNote.class);
 
-        fileEntryLatch.lastFileProcessed(exchange);
+        fileEntryLatchOpened = fileEntryLatch.lastFileProcessed(exchange);
 
-        Assert.assertEquals(false, exchange.getIn().getHeader("fileEntryLatchOpened"));
+        Assert.assertFalse(fileEntryLatchOpened);
 
-        fileEntryLatch.lastFileProcessed(exchange);
+        fileEntryLatchOpened = fileEntryLatch.lastFileProcessed(exchange);
 
-        Assert.assertEquals(true, exchange.getIn().getHeader("fileEntryLatchOpened"));
+        Assert.assertTrue(fileEntryLatchOpened);
     }
 
 }
