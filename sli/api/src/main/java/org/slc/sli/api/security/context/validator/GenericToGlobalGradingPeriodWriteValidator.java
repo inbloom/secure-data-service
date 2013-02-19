@@ -11,6 +11,9 @@ import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 
+/**
+ * Validates Write context to a global grading period.
+ */
 @Component
 public class GenericToGlobalGradingPeriodWriteValidator extends AbstractContextValidator {
 
@@ -41,7 +44,8 @@ public class GenericToGlobalGradingPeriodWriteValidator extends AbstractContextV
         Iterable<Entity> sessions = repo.findAll(entityType, query);
         for (Entity session : sessions) {
             if (edOrgLineage.contains(session.getBody().get(ParameterConstants.SCHOOL_ID))) {
-                gradingPeriodsToValidate.removeAll((Set<String>) session.getBody().get(ParameterConstants.GRADING_PERIOD_REFERENCE));
+                gradingPeriodsToValidate.removeAll((Set<String>) session.getBody().get(
+                        ParameterConstants.GRADING_PERIOD_REFERENCE));
                 if (gradingPeriodsToValidate.isEmpty()) {
                     // All Grading Period Ids have been validated, return success
                     return true;
