@@ -23,9 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
-
 import org.bson.BasicBSONObject;
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
@@ -35,6 +32,9 @@ import org.slc.sli.validation.NoNaturalKeysDefinedException;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 
 /**
  * Mongodb specific implementation of Entity Interface with basic conversion method
@@ -200,6 +200,17 @@ public class MongoEntity implements Entity, Serializable {
         dbObj.put("_id", uid);
         dbObj.put("body", body);
         dbObj.put("metaData", metaData);
+        if (embeddedData != null && embeddedData.size() > 0) {
+            for (Map.Entry<String, List<Entity>> subdocList : embeddedData.entrySet()) {
+                List<DBObject> dbObjs = new ArrayList<DBObject>();
+                for (Entity subdocEntity : subdocList.getValue()) {
+                    if (subdocEntity instanceof MongoEntity) {
+                        dbObjs.add(((MongoEntity) subdocEntity).toDBObject(uuidGeneratorStrategy, naturalKeyExtractor));
+                    }
+                }
+                dbObj.put(subdocList.getKey(), dbObjs);
+            }
+        }
 
         return dbObj;
     }
