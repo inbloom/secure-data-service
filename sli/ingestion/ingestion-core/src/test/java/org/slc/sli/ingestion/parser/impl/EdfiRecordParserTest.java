@@ -143,4 +143,15 @@ public class EdfiRecordParserTest {
 
         verify(mockVisitor, never()).visit(any(RecordMeta.class), anyMap());
     }
+    
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testNewLineCharacter() throws Throwable {
+
+        Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StudentParent.xsd");
+        Resource inputXml = new ClassPathResource("parser/InterchangeStudentParent/StudentWithNewLine.xml");
+        Resource expectedJson = new ClassPathResource("parser/InterchangeStudentParent/Student.expected.json");
+
+        EntityTestHelper.parseAndVerify(schema, inputXml, expectedJson);
+    }
 }
