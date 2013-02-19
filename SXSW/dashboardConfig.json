@@ -1,0 +1,1026 @@
+{
+    "config": {
+        "listOfStudents": {
+            "id": "listOfStudents",
+            "type": "PANEL",
+            "data": {
+                "entity": "listOfStudents",
+                "cacheKey": "listOfStudents",
+                "params": {
+                    "assessmentFilter": {
+                        "StateTest Reading": "HIGHEST_EVER",
+                        "StateTest Writing": "MOST_RECENT_WINDOW",
+                        "READ 2.0": "MOST_RECENT_WINDOW",
+                        "TRC": "MOST_RECENT_WINDOW",
+                        "SAT Reading": "HIGHEST_EVER",
+                        "SAT Writing": "HIGHEST_EVER",
+                        "AP Language": "HIGHEST_EVER",
+                        "AP Literature": "HIGHEST_EVER",
+                        "DIBELS": "MOST_RECENT_WINDOW"
+                    }
+                },
+                "lazy": true
+            },
+            "items": [
+                {
+                    "name": "Middle School ELA View",
+                    "type": "FIELD",
+                    "condition": {
+                        "field": "gradeLevel",
+                        "value": [
+                            "Third grade",
+                            "Fourth grade",
+                            "Fifth grade",
+                            "Sixth grade",
+                            "Seventh grade",
+                            "Eighth grade"
+                        ]
+                    },
+                    "items": [
+                        {
+                            "field": "name.fullName",
+                            "width": "150",
+                            "style": "ui-ellipsis",
+                            "formatter": "restLink",
+                            "name": "Student",
+                            "type": "FIELD",
+                            "params": {
+                                "link": "student",
+                                "target": "_self"
+                            }
+                        },
+                        {
+                            "field": "programParticipation",
+                            "width": "60",
+                            "formatter": "Lozenge",
+                            "name": "",
+                            "type": "FIELD"
+                        },
+                        {
+                            "name": "StateTest Reading (highest ever)",
+                            "type": "FIELD",
+                            "items": [
+                                {
+                                    "field": "assessments.StateTest Reading.perfLevel",
+                                    "width": "150",
+                                    "formatter": "FuelGaugeWithScore",
+                                    "sorter": "ProxyInt",
+                                    "name": "Performance Level",
+                                    "type": "FIELD",
+                                    "params": {
+                                        "sortField": "assessments.StateTest Reading.Scale score",
+                                        "name": "StateTest Reading",
+                                        "valueField": "Scale score",
+                                        "fieldName": "StateTestReading",
+                                        "cutPoints": {
+                                            "1": {
+                                                "style": "color-widget-red"
+                                            },
+                                            "2": {
+                                                "style": "color-widget-orange"
+                                            },
+                                            "3": {
+                                                "style": "color-widget-yellow"
+                                            },
+                                            "4": {
+                                                "style": "color-widget-green"
+                                            },
+                                            "5": {
+                                                "style": "color-widget-darkgreen"
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    "field": "assessments.StateTest Reading.Scale score",
+                                    "width": "45",
+                                    "sorter": "int",
+                                    "name": "SS",
+                                    "type": "FIELD"
+                                },
+                                {
+                                    "field": "assessments.StateTest Reading.Other",
+                                    "width": "45",
+                                    "sorter": "int",
+                                    "name": "Lexile",
+                                    "type": "FIELD"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "DIBELS Next (most recent)",
+                            "type": "FIELD",
+                            "items": [
+                                {
+                                    "field": "assessments.DIBELS.assessments.assessmentPeriodDescriptor.shortDescription",
+                                    "width": "150",
+                                    "sorter": "LetterGrade",
+                                    "name": "Period",
+                                    "type": "FIELD"
+                                },
+                                {
+                                    "field": "assessments.DIBELS.perfLevel",
+                                    "width": "150",
+                                    "sorter": "LetterGrade",
+                                    "name": "Performance Level",
+                                    "type": "FIELD"
+                                },
+                                {
+                                    "field": "assessments.DIBELS.Mastery level",
+                                    "width": "45",
+                                    "sorter": "LetterGrade",
+                                    "name": "Reading Level",
+                                    "type": "FIELD"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Reading 3D (most recent)",
+                            "type": "FIELD",
+                            "items": [
+                                {
+                                    "field": "assessments.TRC.assessments.assessmentPeriodDescriptor.shortDescription",
+                                    "width": "150",
+                                    "sorter": "LetterGrade",
+                                    "name": "Period",
+                                    "type": "FIELD"
+                                },
+                                {
+                                    "field": "assessments.TRC.perfLevel",
+                                    "width": "150",
+                                    "sorter": "LetterGrade",
+                                    "name": "Performance Level",
+                                    "type": "FIELD"
+                                },
+                                {
+                                    "field": "assessments.TRC.Mastery level",
+                                    "width": "45",
+                                    "sorter": "LetterGrade",
+                                    "name": "Reading Level",
+                                    "type": "FIELD"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "StateTest Writing (most recent)",
+                            "type": "FIELD",
+                            "items": [
+                                {
+                                    "field": "assessments.StateTest Writing.perfLevel",
+                                    "width": "150",
+                                    "formatter": "FuelGaugeWithScore",
+                                    "sorter": "ProxyInt",
+                                    "name": "Performance Level",
+                                    "type": "FIELD",
+                                    "params": {
+                                        "sortField": "assessments.StateTest Writing.Scale score",
+                                        "name": "StateTest Writing",
+                                        "valueField": "Scale score",
+                                        "fieldName": "StateTestWriting",
+                                        "cutPoints": {
+                                            "1": {
+                                                "style": "color-widget-red"
+                                            },
+                                            "2": {
+                                                "style": "color-widget-orange"
+                                            },
+                                            "3": {
+                                                "style": "color-widget-yellow"
+                                            },
+                                            "4": {
+                                                "style": "color-widget-green"
+                                            },
+                                            "5": {
+                                                "style": "color-widget-darkgreen"
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    "field": "assessments.StateTest Writing.Scale score",
+                                    "width": "45",
+                                    "sorter": "int",
+                                    "name": "SS",
+                                    "type": "FIELD"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Current Grades",
+                            "type": "FIELD",
+                            "items": [
+                                {
+                                    "field": "currentSession-0",
+                                    "width": "100",
+                                    "formatter": "Grade",
+                                    "sorter": "LettersAndNumbers",
+                                    "name": "Unit Test 1",
+                                    "type": "FIELD"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Final Grades",
+                            "type": "FIELD",
+                            "items": [
+                                {
+                                    "field": "previousSemester",
+                                    "width": "100",
+                                    "formatter": "TearDrop",
+                                    "sorter": "LetterGrade",
+                                    "name": "Last Semester",
+                                    "type": "FIELD"
+                                },
+                                {
+                                    "field": "twoSemestersAgo",
+                                    "width": "90",
+                                    "formatter": "TearDrop",
+                                    "sorter": "LetterGrade",
+                                    "name": "2 Semesters ago",
+                                    "type": "FIELD"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Attendance (current school year)",
+                            "type": "FIELD",
+                            "items": [
+                                {
+                                    "field": "attendances.absenceCount",
+                                    "width": "60",
+                                    "formatter": "CutPointReverse",
+                                    "sorter": "int",
+                                    "name": "Absence Count",
+                                    "type": "FIELD",
+                                    "params": {
+                                        "cutPoints": {
+                                            "0": {
+                                                "style": "color-widget-darkgreen"
+                                            },
+                                            "1": {
+                                                "style": "color-widget-green"
+                                            },
+                                            "6": {
+                                                "style": "color-widget-yellow"
+                                            },
+                                            "11": {
+                                                "style": "color-widget-red"
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    "field": "attendances.attendanceRate",
+                                    "width": "75",
+                                    "formatter": "CutPoint",
+                                    "sorter": "int",
+                                    "name": "Attendance Rate %",
+                                    "type": "FIELD",
+                                    "params": {
+                                        "cutPoints": {
+                                            "89": {
+                                                "style": "color-widget-red"
+                                            },
+                                            "94": {
+                                                "style": "color-widget-yellow"
+                                            },
+                                            "98": {
+                                                "style": "color-widget-green"
+                                            },
+                                            "100": {
+                                                "style": "color-widget-darkgreen"
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    "field": "attendances.tardyCount",
+                                    "width": "50",
+                                    "formatter": "CutPointReverse",
+                                    "sorter": "int",
+                                    "name": "Tardy Count",
+                                    "type": "FIELD",
+                                    "params": {
+                                        "cutPoints": {
+                                            "0": {
+                                                "style": "color-widget-darkgreen"
+                                            },
+                                            "1": {
+                                                "style": "color-widget-green"
+                                            },
+                                            "6": {
+                                                "style": "color-widget-yellow"
+                                            },
+                                            "11": {
+                                                "style": "color-widget-red"
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    "field": "attendances.tardyRate",
+                                    "width": "60",
+                                    "formatter": "CutPointReverse",
+                                    "sorter": "int",
+                                    "name": "Tardy Rate %",
+                                    "type": "FIELD",
+                                    "params": {
+                                        "cutPoints": {
+                                            "0": {
+                                                "style": "color-widget-darkgreen"
+                                            },
+                                            "1": {
+                                                "style": "color-widget-green"
+                                            },
+                                            "6": {
+                                                "style": "color-widget-yellow"
+                                            },
+                                            "11": {
+                                                "style": "color-widget-red"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "Early Literacy View",
+                    "type": "FIELD",
+                    "condition": {
+                        "field": "gradeLevel",
+                        "value": [
+                            "Kindergarten",
+                            "First grade",
+                            "Second grade",
+                            "Third grade"
+                        ]
+                    },
+                    "items": [
+                        {
+                            "field": "name.fullName",
+                            "width": "150",
+                            "style": "ui-ellipsis",
+                            "formatter": "restLink",
+                            "name": "Student",
+                            "type": "FIELD",
+                            "params": {
+                                "link": "student",
+                                "target": "_self"
+                            }
+                        },
+                        {
+                            "field": "programParticipation",
+                            "width": "60",
+                            "formatter": "Lozenge",
+                            "name": "",
+                            "type": "FIELD"
+                        },
+                        {
+                            "name": "READ 2.0",
+                            "type": "FIELD",
+                            "items": [
+                                {
+                                    "field": "assessments.READ 2_0.perfLevel",
+                                    "width": "100",
+                                    "name": "Performance Level",
+                                    "type": "FIELD"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Reading",
+                            "type": "FIELD",
+                            "items": [
+                                {
+                                    "field": "assessments.TRC.readingLevel",
+                                    "width": "100",
+                                    "name": "RL",
+                                    "type": "FIELD"
+                                },
+                                {
+                                    "field": "assessments.TRC.profLevel",
+                                    "width": "100",
+                                    "name": "Prof. Level",
+                                    "type": "FIELD"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Attendance",
+                            "type": "FIELD",
+                            "items": [
+                                {
+                                    "field": "attendances.absenceCount",
+                                    "width": "60",
+                                    "formatter": "CutPointReverse",
+                                    "sorter": "int",
+                                    "name": "Absence Count",
+                                    "type": "FIELD",
+                                    "params": {
+                                        "cutPoints": {
+                                            "0": {
+                                                "style": "color-widget-darkgreen"
+                                            },
+                                            "1": {
+                                                "style": "color-widget-green"
+                                            },
+                                            "6": {
+                                                "style": "color-widget-yellow"
+                                            },
+                                            "11": {
+                                                "style": "color-widget-red"
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    "field": "attendances.tardyCount",
+                                    "width": "50",
+                                    "formatter": "CutPointReverse",
+                                    "sorter": "int",
+                                    "name": "Tardy Count",
+                                    "type": "FIELD",
+                                    "params": {
+                                        "cutPoints": {
+                                            "0": {
+                                                "style": "color-widget-darkgreen"
+                                            },
+                                            "1": {
+                                                "style": "color-widget-green"
+                                            },
+                                            "6": {
+                                                "style": "color-widget-yellow"
+                                            },
+                                            "11": {
+                                                "style": "color-widget-red"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "College Ready ELA View",
+                    "type": "FIELD",
+                    "condition": {
+                        "field": "gradeLevel",
+                        "value": [
+                            "Ninth grade",
+                            "Tenth grade",
+                            "Eleventh grade",
+                            "Twelfth grade"
+                        ]
+                    },
+                    "items": [
+                        {
+                            "field": "name.fullName",
+                            "width": "150",
+                            "style": "ui-ellipsis",
+                            "formatter": "restLink",
+                            "name": "Student",
+                            "type": "FIELD",
+                            "params": {
+                                "link": "student",
+                                "target": "_self"
+                            }
+                        },
+                        {
+                            "field": "programParticipation",
+                            "width": "60",
+                            "formatter": "Lozenge",
+                            "name": "",
+                            "type": "FIELD"
+                        },
+                        {
+                            "name": "Reading Test Scores (Highest)",
+                            "type": "FIELD",
+                            "items": [
+                                {
+                                    "field": "assessments.SAT Reading.x",
+                                    "width": "100",
+                                    "sorter": "int",
+                                    "name": "SAT",
+                                    "type": "FIELD"
+                                },
+                                {
+                                    "field": "assessments.SAT Reading.percentile",
+                                    "width": "100",
+                                    "sorter": "int",
+                                    "name": "%ile",
+                                    "type": "FIELD"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Writing Test Scores (Highest)",
+                            "type": "FIELD",
+                            "items": [
+                                {
+                                    "field": "assessments.SAT Writing.x",
+                                    "width": "100",
+                                    "sorter": "int",
+                                    "name": "SAT",
+                                    "type": "FIELD"
+                                },
+                                {
+                                    "field": "assessments.SAT Writing.percentile",
+                                    "width": "100",
+                                    "sorter": "int",
+                                    "name": "%ile",
+                                    "type": "FIELD"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "AP Eng. Exam Scores (Highest)",
+                            "type": "FIELD",
+                            "items": [
+                                {
+                                    "field": "assessments.AP Language.x",
+                                    "width": "100",
+                                    "name": "Lang.",
+                                    "type": "FIELD"
+                                },
+                                {
+                                    "field": "assessments.AP Literature.x",
+                                    "width": "100",
+                                    "name": "Lit.",
+                                    "type": "FIELD"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Final Grades",
+                            "type": "FIELD",
+                            "items": [
+                                {
+                                    "field": "previousSemester",
+                                    "width": "100",
+                                    "formatter": "TearDrop",
+                                    "sorter": "LetterGrade",
+                                    "name": "Last Semester",
+                                    "type": "FIELD"
+                                },
+                                {
+                                    "field": "twoSemestersAgo",
+                                    "width": "90",
+                                    "formatter": "TearDrop",
+                                    "sorter": "LetterGrade",
+                                    "name": "2 Semesters ago",
+                                    "type": "FIELD"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Attendance",
+                            "type": "FIELD",
+                            "items": [
+                                {
+                                    "field": "attendances.absenceCount",
+                                    "width": "60",
+                                    "formatter": "CutPointReverse",
+                                    "sorter": "int",
+                                    "name": "Absence Count",
+                                    "type": "FIELD",
+                                    "params": {
+                                        "cutPoints": {
+                                            "0": {
+                                                "style": "color-widget-darkgreen"
+                                            },
+                                            "1": {
+                                                "style": "color-widget-green"
+                                            },
+                                            "6": {
+                                                "style": "color-widget-yellow"
+                                            },
+                                            "11": {
+                                                "style": "color-widget-red"
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    "field": "attendances.attendanceRate",
+                                    "width": "75",
+                                    "formatter": "CutPoint",
+                                    "sorter": "int",
+                                    "name": "Attendance Rate %",
+                                    "type": "FIELD",
+                                    "params": {
+                                        "cutPoints": {
+                                            "89": {
+                                                "style": "color-widget-red"
+                                            },
+                                            "94": {
+                                                "style": "color-widget-yellow"
+                                            },
+                                            "98": {
+                                                "style": "color-widget-green"
+                                            },
+                                            "100": {
+                                                "style": "color-widget-darkgreen"
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    "field": "attendances.tardyCount",
+                                    "width": "50",
+                                    "formatter": "CutPointReverse",
+                                    "sorter": "int",
+                                    "name": "Tardy Count",
+                                    "type": "FIELD",
+                                    "params": {
+                                        "cutPoints": {
+                                            "0": {
+                                                "style": "color-widget-darkgreen"
+                                            },
+                                            "1": {
+                                                "style": "color-widget-green"
+                                            },
+                                            "6": {
+                                                "style": "color-widget-yellow"
+                                            },
+                                            "11": {
+                                                "style": "color-widget-red"
+                                            }
+                                        }
+                                    }
+                                },
+                                {
+                                    "field": "attendances.tardyRate",
+                                    "width": "60",
+                                    "formatter": "CutPointReverse",
+                                    "sorter": "int",
+                                    "name": "Tardy Rate %",
+                                    "type": "FIELD",
+                                    "params": {
+                                        "cutPoints": {
+                                            "0": {
+                                                "style": "color-widget-darkgreen"
+                                            },
+                                            "1": {
+                                                "style": "color-widget-green"
+                                            },
+                                            "6": {
+                                                "style": "color-widget-yellow"
+                                            },
+                                            "11": {
+                                                "style": "color-widget-red"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "root": "students"
+        },
+        "student": {
+            "id": "student",
+            "name": "inBloom - Student Profile",
+            "type": "LAYOUT",
+            "data": {
+                "entity": "student",
+                "cacheKey": "student",
+                "lazy": false
+            },
+            "items": [
+                {
+                    "id": "csi",
+                    "name": "Student Info",
+                    "type": "PANEL"
+                },
+                {
+                    "id": "tab7",
+                    "name": "Elementary School Overview",
+                    "type": "TAB",
+                    "condition": {
+                        "field": "gradeLevel",
+                        "value": [
+                            "Infant/toddler",
+                            "Early Education",
+                            "Preschool/Prekindergarten",
+                            "Transitional Kindergarten",
+                            "Kindergarten",
+                            "First Grade",
+                            "Second Grade",
+                            "Third Grade",
+                            "Other",
+                            "Ungraded",
+                            "Not Available"
+                        ]
+                    },
+                    "items": [
+                        {
+                            "id": "contactInfo",
+                            "type": "PANEL"
+                        },
+                        {
+                            "id": "enrollmentHist",
+                            "name": "Student Enrollment Panel",
+                            "type": "GRID"
+                        }
+                    ]
+                },
+                {
+                    "id": "tab8",
+                    "name": "Middle School Overview",
+                    "type": "TAB",
+                    "condition": {
+                        "field": "gradeLevel",
+                        "value": [
+                            "Fourth Grade",
+                            "Fifth Grade",
+                            "Sixth Grade",
+                            "Seventh Grade",
+                            "Eighth grade",
+                            "Other",
+                            "Ungraded",
+                            "Not Available"
+                        ]
+                    },
+                    "items": [
+                        {
+                            "id": "contactInfo",
+                            "type": "PANEL"
+                        },
+                        {
+                            "id": "enrollmentHist",
+                            "name": "Student Enrollment Panel",
+                            "type": "GRID"
+                        }
+                    ]
+                },
+                {
+                    "id": "tab9",
+                    "name": "High School Overview",
+                    "type": "TAB",
+                    "condition": {
+                        "field": "gradeLevel",
+                        "value": [
+                            "Ninth grade",
+                            "Tenth grade",
+                            "Eleventh grade",
+                            "Twelfth grade",
+                            "Adult Education",
+                            "Grade 13",
+                            "Postsecondary",
+                            "Other",
+                            "Ungraded",
+                            "Not Available"
+                        ]
+                    },
+                    "items": [
+                        {
+                            "id": "contactInfo",
+                            "type": "PANEL"
+                        },
+                        {
+                            "id": "enrollmentHist",
+                            "name": "Student Enrollment Panel",
+                            "type": "GRID"
+                        }
+                    ]
+                },
+                {
+                    "id": "tab2",
+                    "name": "Attendance and Discipline",
+                    "type": "TAB",
+                    "items": [
+                        {
+                            "id": "attendanceHist",
+                            "type": "REPEAT_HEADER_GRID"
+                        },
+                        {
+                            "id": "studentAttendanceCalendar",
+                            "type": "PANEL"
+                        }
+                    ]
+                },
+                {
+                    "id": "tabE",
+                    "name": "Assessments",
+                    "type": "TAB",
+                    "condition": {
+                        "field": "gradeLevel",
+                        "value": [
+                            "Infant/toddler",
+                            "Early Education",
+                            "Preschool/Prekindergarten",
+                            "Transitional Kindergarten",
+                            "Kindergarten",
+                            "First Grade",
+                            "Second Grade",
+                            "Third Grade",
+                            "Other",
+                            "Ungraded",
+                            "Not Available"
+                        ]
+                    },
+                    "items": [
+                        {
+                            "id": "assessmentHistREAD2",
+                            "type": "GRID"
+                        }
+                    ]
+                },
+                {
+                    "id": "tabM",
+                    "name": "Assessments",
+                    "type": "TAB",
+                    "condition": {
+                        "field": "gradeLevel",
+                        "value": [
+                            "Fourth Grade",
+                            "Fifth Grade",
+                            "Sixth Grade",
+                            "Seventh Grade",
+                            "Eighth grade",
+                            "Other",
+                            "Ungraded",
+                            "Not Available"
+                        ]
+                    },
+                    "items": [
+                        {
+                            "id": "assessmentHistStateTestR",
+                            "type": "GRID"
+                        },
+                        {
+                            "id": "assessmentHistStateTestW",
+                            "type": "GRID"
+                        },
+                        {
+                            "id": "assessmentHistTRC",
+                            "type": "GRID"
+                        },
+                        {
+                            "id": "assessmentHistDIBELS",
+                            "type": "GRID"
+                        }
+                    ]
+                },
+                {
+                    "id": "tabH",
+                    "name": "Assessments",
+                    "type": "TAB",
+                    "condition": {
+                        "field": "gradeLevel",
+                        "value": [
+                            "Ninth grade",
+                            "Tenth grade",
+                            "Eleventh grade",
+                            "Twelfth grade",
+                            "Adult Education",
+                            "Grade 13",
+                            "Postsecondary",
+                            "Other",
+                            "Ungraded",
+                            "Not Available"
+                        ]
+                    },
+                    "items": [
+                        {
+                            "id": "assessmentHistAPE",
+                            "type": "GRID"
+                        },
+                        {
+                            "id": "assessmentHistSATR",
+                            "type": "GRID"
+                        },
+                        {
+                            "id": "assessmentHistSATW",
+                            "type": "GRID"
+                        }
+                    ]
+                },
+                {
+                    "id": "tab4",
+                    "name": "Grades and Credits",
+                    "type": "TAB",
+                    "items": [
+                        {
+                            "id": "transcriptHistory",
+                            "type": "PANEL"
+                        },
+                        {
+                            "id": "currentCoursesAndGrades",
+                            "type": "GRID"
+                        }
+                    ]
+                }
+            ]
+        },
+        "assessmentHistAPE": {
+            "id": "assessmentHistAPE",
+            "parentId": "assessmentHist",
+            "name": "Test History : AP English",
+            "type": "GRID",
+            "data": {
+                "cacheKey": "assessmentHistAPE",
+                "params": {
+                    "assessmentFamily": "AP.AP Eng"
+                },
+                "lazy": false
+            }
+        },
+        "assessmentHistREAD2": {
+            "id": "assessmentHistREAD2",
+            "parentId": "assessmentHist",
+            "name": "Test History : READ 2.0",
+            "type": "GRID",
+            "data": {
+                "cacheKey": "assessmentHistREAD2",
+                "params": {
+                    "assessmentFamily": "READ 2.0.READ 2.0 Grade 1"
+                },
+                "lazy": false
+            }
+        },
+        "assessmentHistStateTestR": {
+            "id": "assessmentHistStateTestR",
+            "parentId": "assessmentHist",
+            "name": "Test History : StateTest Reading",
+            "type": "GRID",
+            "data": {
+                "cacheKey": "assessmentHistStateTestR",
+                "params": {
+                    "assessmentFamily": "StateTest Reading"
+                },
+                "lazy": false
+            }
+        },
+        "assessmentHistStateTestW": {
+            "id": "assessmentHistStateTestW",
+            "parentId": "assessmentHist",
+            "name": "Test History : StateTest Writing",
+            "type": "GRID",
+            "data": {
+                "cacheKey": "assessmentHistStateTestW",
+                "params": {
+                    "assessmentFamily": "StateTest Writing"
+                },
+                "lazy": false
+            }
+        },
+        "assessmentHistSATR": {
+            "id": "assessmentHistSATR",
+            "parentId": "assessmentHist",
+            "name": "Test History : SAT Reading",
+            "type": "GRID",
+            "data": {
+                "cacheKey": "assessmentHistSATR",
+                "params": {
+                    "assessmentFamily": "SAT Reading"
+                },
+                "lazy": false
+            }
+        },
+        "assessmentHistSATW": {
+            "id": "assessmentHistSATW",
+            "parentId": "assessmentHist",
+            "name": "Test History : SAT Writing",
+            "type": "GRID",
+            "data": {
+                "cacheKey": "assessmentHistSATW",
+                "params": {
+                    "assessmentFamily": "SAT Writing"
+                },
+                "lazy": false
+            }
+        },
+        "assessmentHistTRC": {
+            "id": "assessmentHistTRC",
+            "parentId": "assessmentHist",
+            "name": "Test History : Reading 3D",
+            "type": "GRID",
+            "data": {
+                "cacheKey": "assessmentHistTRC",
+                "params": {
+                    "assessmentFamily": "TRC"
+                },
+                "lazy": false
+            }
+        },
+        "assessmentHistDIBELS": {
+            "id": "assessmentHistDIBELS",
+            "parentId": "assessmentHist",
+            "name": "Test History : DIBELS Next",
+            "type": "GRID",
+            "data": {
+                "cacheKey": "assessmentHistDIBELS",
+                "params": {
+                    "assessmentFamily": "DIBELS"
+                },
+                "lazy": false
+            }
+        }
+    }
+}
