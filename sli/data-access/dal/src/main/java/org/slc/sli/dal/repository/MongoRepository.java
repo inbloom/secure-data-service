@@ -23,13 +23,12 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.WriteConcern;
-import com.mongodb.WriteResult;
-
 import org.apache.commons.lang3.StringUtils;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.dal.convert.IdConverter;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,11 +38,11 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.dal.convert.IdConverter;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.WriteConcern;
+import com.mongodb.WriteResult;
 
 /**
  * mongodb implementation of the repository interface that provides basic CRUD
@@ -349,7 +348,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
     }
 
     @Override
-    public abstract boolean update(String collection, T record);
+    public abstract boolean update(String collection, T record, boolean isSuperdoc);
 
     /**
      * Updates the document inside of Mongo. MongoTemplate will upsert the given
@@ -362,7 +361,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
      * @param body
      * @return True if the document was saved
      */
-    public boolean update(String collection, T record, Map<String, Object> body) {
+    public boolean update(String collection, T record, Map<String, Object> body, boolean isSuperdoc) {
         Assert.notNull(record, "The given record must not be null!");
         String id = getRecordId(record);
         if (StringUtils.isEmpty(id)) {
@@ -376,7 +375,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
         }
 
         T encryptedRecord = getEncryptedRecord(record);
-        Update update = getUpdateCommand(encryptedRecord);
+        Update update = getUpdateCommand(encryptedRecord, isSuperdoc);
 
         // attempt upsert
         WriteResult result = upsert(query, update, collection);
@@ -471,7 +470,7 @@ public abstract class MongoRepository<T> implements Repository<T> {
 
     protected abstract T getEncryptedRecord(T entity);
 
-    protected abstract Update getUpdateCommand(T entity);
+    protected abstract Update getUpdateCommand(T entity, boolean isSuperdoc);
 
     @Override
     public boolean delete(String collectionName, String id) {
