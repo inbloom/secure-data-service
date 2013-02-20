@@ -1,428 +1,416 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeStudentAssessment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentAssessment.xsd">
-
+   
    <!-- Next elements for 8th Grade Eng Sec 6 for StateTest Reading/Writing for most recent  -->
-   <StudentAssessment>
-      <AdministrationDate>2011-10-01</AdministrationDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      <AdministrationEndDate>2011-10-01</AdministrationEndDate>
-      <SerialNumber>0</SerialNumber>
-      <AdministrationLanguage>English</AdministrationLanguage>
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
-      <LinguisticAccommodations>
-           <LinguisticAccommodation>Reading Aloud - Word or Phrase</LinguisticAccommodation>
-      </LinguisticAccommodations>
-      <RetestIndicator>Primary Administration</RetestIndicator>
-      <ReasonNotTested>Medical waiver</ReasonNotTested>
+   <StudentAssessment> 
+      <AdministrationDate>2011-10-01</AdministrationDate> 
+      <AdministrationEndDate>2011-10-01</AdministrationEndDate> 
+      <SerialNumber>0</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <LinguisticAccommodations> 
+           <LinguisticAccommodation>Reading Aloud - Word or Phrase</LinguisticAccommodation> 
+      </LinguisticAccommodations> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
       <ScoreResults AssessmentReportingMethod="Scale score">
-          <Result>11</Result>
-      </ScoreResults>
-      <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed>
-      <PerformanceLevels>
-           <CodeValue>XY</CodeValue>
-           <Description>XY unknown</Description>
-      </PerformanceLevels>
-      <StudentReference>
-           <StudentIdentity>
-                <StudentUniqueStateId>800000000</StudentUniqueStateId>
-           </StudentIdentity>
-      </StudentReference>
-      <AssessmentReference>
-           <AssessmentIdentity>
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-                     <ID>Grade 8 2011 StateTest Writing</ID>
-                </AssessmentIdentificationCode>
-           </AssessmentIdentity>
-      </AssessmentReference>
-   </StudentAssessment>
-   <StudentAssessment>
-      <AdministrationDate>2011-10-01</AdministrationDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      <AdministrationEndDate>2011-10-01</AdministrationEndDate>
-      <SerialNumber>2</SerialNumber>
-      <AdministrationLanguage>English</AdministrationLanguage>
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
-      <LinguisticAccommodations>
-           <LinguisticAccommodation>English Dictionary</LinguisticAccommodation>
-      </LinguisticAccommodations>
-      <RetestIndicator>Primary Administration</RetestIndicator>
-      <ReasonNotTested>Medical waiver</ReasonNotTested>
+          <Result>11</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>XY</CodeValue> 
+           <Description>XY unknown</Description> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>800000000</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
+                     <ID>Grade 8 2011 StateTest Writing</ID> 
+                </AssessmentIdentificationCode> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+   <StudentAssessment> 
+      <AdministrationDate>2011-10-01</AdministrationDate> 
+      <AdministrationEndDate>2011-10-01</AdministrationEndDate> 
+      <SerialNumber>2</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <LinguisticAccommodations> 
+           <LinguisticAccommodation>English Dictionary</LinguisticAccommodation> 
+      </LinguisticAccommodations> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
       <!--ScoreResults AssessmentReportingMethod="Scale score">
-          <Result>12</Result>
-      </ScoreResults-->
+          <Result>12</Result> 
+      </ScoreResults--> 
       <!--ScoreResults AssessmentReportingMethod="Other">
-          <Result>40</Result>
-      </ScoreResults>
+          <Result>40</Result> 
+      </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Percentile">
-          <Result>3</Result>
-      </ScoreResults-->
-      <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed>
-      <PerformanceLevels>
-           <CodeValue>XY</CodeValue>
-           <Description>XY Unknown</Description>
-      </PerformanceLevels>
-      <StudentReference>
-           <StudentIdentity>
-                <StudentUniqueStateId>800000000</StudentUniqueStateId>
-           </StudentIdentity>
-      </StudentReference>
-      <AssessmentReference>
-           <AssessmentIdentity>
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-                     <ID>Grade 8 2011 StateTest Reading</ID>
-                </AssessmentIdentificationCode>
-           </AssessmentIdentity>
-      </AssessmentReference>
-   </StudentAssessment>
-   <StudentAssessment>
-      <AdministrationDate>2011-10-01</AdministrationDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      <AdministrationEndDate>2011-10-01</AdministrationEndDate>
-      <SerialNumber>9</SerialNumber>
-      <AdministrationLanguage>English</AdministrationLanguage>
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
-      <SpecialAccommodations>
-           <SpecialAccommodation>Untimed</SpecialAccommodation>
-      </SpecialAccommodations>
-      <LinguisticAccommodations>
-           <LinguisticAccommodation>Bilingual Glossary</LinguisticAccommodation>
-      </LinguisticAccommodations>
-      <RetestIndicator>Primary Administration</RetestIndicator>
-      <ReasonNotTested>Medical waiver</ReasonNotTested>
+          <Result>3</Result> 
+      </ScoreResults--> 
+      <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>XY</CodeValue> 
+           <Description>XY Unknown</Description> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>800000000</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
+                     <ID>Grade 8 2011 StateTest Reading</ID> 
+                </AssessmentIdentificationCode> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment>  
+   <StudentAssessment> 
+      <AdministrationDate>2011-10-01</AdministrationDate> 
+      <AdministrationEndDate>2011-10-01</AdministrationEndDate> 
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <SpecialAccommodations> 
+           <SpecialAccommodation>Untimed</SpecialAccommodation> 
+      </SpecialAccommodations> 
+      <LinguisticAccommodations> 
+           <LinguisticAccommodation>Bilingual Glossary</LinguisticAccommodation> 
+      </LinguisticAccommodations> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
       <ScoreResults AssessmentReportingMethod="Scale score">
-          <Result>14</Result>
-      </ScoreResults>
-      <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed>
-      <PerformanceLevels>
-           <CodeValue>BS</CodeValue>
-           <Description>Below Standards</Description>
-      </PerformanceLevels>
-      <StudentReference>
-           <StudentIdentity>
-                <StudentUniqueStateId>800000002</StudentUniqueStateId>
-           </StudentIdentity>
-      </StudentReference>
-      <AssessmentReference>
-           <AssessmentIdentity>
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-                     <ID>Grade 8 2011 StateTest Writing</ID>
-                </AssessmentIdentificationCode>
-           </AssessmentIdentity>
-      </AssessmentReference>
-   </StudentAssessment>
-   <StudentAssessment>
-      <AdministrationDate>2011-10-01</AdministrationDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      <AdministrationEndDate>2011-10-01</AdministrationEndDate>
-      <SerialNumber>7</SerialNumber>
-      <AdministrationLanguage>English</AdministrationLanguage>
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
-      <SpecialAccommodations>
-           <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation>
-      </SpecialAccommodations>
-      <RetestIndicator>Primary Administration</RetestIndicator>
-      <ReasonNotTested>Medical waiver</ReasonNotTested>
+          <Result>14</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>BS</CodeValue> 
+           <Description>Below Standards</Description> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>800000002</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
+                     <ID>Grade 8 2011 StateTest Writing</ID> 
+                </AssessmentIdentificationCode> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+   <StudentAssessment> 
+      <AdministrationDate>2011-10-01</AdministrationDate> 
+      <AdministrationEndDate>2011-10-01</AdministrationEndDate> 
+      <SerialNumber>7</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <SpecialAccommodations> 
+           <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation> 
+      </SpecialAccommodations> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
       <ScoreResults AssessmentReportingMethod="Scale score">
-          <Result>91</Result>
-      </ScoreResults>
+          <Result>91</Result> 
+      </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
-          <Result>301</Result>
-      </ScoreResults>
+          <Result>301</Result> 
+      </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Percentile">
-          <Result>25</Result>
-      </ScoreResults>
-      <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed>
-      <PerformanceLevels>
-           <CodeValue>MS</CodeValue>
-           <Description>Meets Standards</Description>
-      </PerformanceLevels>
-      <StudentReference>
-           <StudentIdentity>
-                <StudentUniqueStateId>800000002</StudentUniqueStateId>
-           </StudentIdentity>
-      </StudentReference>
-      <AssessmentReference>
-           <AssessmentIdentity>
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-                     <ID>Grade 8 2011 StateTest Reading</ID>
-                </AssessmentIdentificationCode>
-           </AssessmentIdentity>
-      </AssessmentReference>
-   </StudentAssessment>
-   <StudentAssessment>
-      <AdministrationDate>2011-10-01</AdministrationDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      <AdministrationEndDate>2011-10-01</AdministrationEndDate>
-      <SerialNumber>9</SerialNumber>
-      <AdministrationLanguage>English</AdministrationLanguage>
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
-      <RetestIndicator>Primary Administration</RetestIndicator>
-      <ReasonNotTested>Medical waiver</ReasonNotTested>
+          <Result>25</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>MS</CodeValue> 
+           <Description>Meets Standards</Description> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>800000002</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
+                     <ID>Grade 8 2011 StateTest Reading</ID> 
+                </AssessmentIdentificationCode> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+   <StudentAssessment> 
+      <AdministrationDate>2011-10-01</AdministrationDate> 
+      <AdministrationEndDate>2011-10-01</AdministrationEndDate> 
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
       <ScoreResults AssessmentReportingMethod="Scale score">
-          <Result>1</Result>
-      </ScoreResults>
-      <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed>
-      <PerformanceLevels>
-           <CodeValue>BS</CodeValue>
-           <Description>Below Standards</Description>
-      </PerformanceLevels>
-      <StudentReference>
-           <StudentIdentity>
-                <StudentUniqueStateId>800000025</StudentUniqueStateId>
-           </StudentIdentity>
-      </StudentReference>
-      <AssessmentReference>
-           <AssessmentIdentity>
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-                     <ID>Grade 8 2011 StateTest Writing</ID>
-                </AssessmentIdentificationCode>
-           </AssessmentIdentity>
-      </AssessmentReference>
-   </StudentAssessment>
-   <StudentAssessment>
-      <AdministrationDate>2011-10-01</AdministrationDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      <AdministrationEndDate>2011-10-01</AdministrationEndDate>
-      <SerialNumber>3</SerialNumber>
-      <AdministrationLanguage>English</AdministrationLanguage>
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
-      <LinguisticAccommodations>
-           <LinguisticAccommodation>Bilingual Glossary</LinguisticAccommodation>
-      </LinguisticAccommodations>
-      <RetestIndicator>Primary Administration</RetestIndicator>
-      <ReasonNotTested>Medical waiver</ReasonNotTested>
+          <Result>1</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>BS</CodeValue> 
+           <Description>Below Standards</Description> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>800000025</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
+                     <ID>Grade 8 2011 StateTest Writing</ID> 
+                </AssessmentIdentificationCode> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+   <StudentAssessment> 
+      <AdministrationDate>2011-10-01</AdministrationDate> 
+      <AdministrationEndDate>2011-10-01</AdministrationEndDate> 
+      <SerialNumber>3</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <LinguisticAccommodations> 
+           <LinguisticAccommodation>Bilingual Glossary</LinguisticAccommodation> 
+      </LinguisticAccommodations> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
       <ScoreResults AssessmentReportingMethod="Scale score">
-          <Result>195</Result>
-      </ScoreResults>
+          <Result>195</Result> 
+      </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
-          <Result>642</Result>
-      </ScoreResults>
+          <Result>642</Result> 
+      </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Percentile">
-          <Result>53</Result>
-      </ScoreResults>
-      <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed>
-      <PerformanceLevels>
-           <CodeValue>ES</CodeValue>
-           <Description>Exceeds Standards</Description>
-      </PerformanceLevels>
-      <StudentReference>
-           <StudentIdentity>
-                <StudentUniqueStateId>800000025</StudentUniqueStateId>
-           </StudentIdentity>
-      </StudentReference>
-      <AssessmentReference>
-           <AssessmentIdentity>
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-                     <ID>Grade 8 2011 StateTest Reading</ID>
-                </AssessmentIdentificationCode>
-           </AssessmentIdentity>
-      </AssessmentReference>
-   </StudentAssessment>
-   <!-- Next elements for 8th Grade Eng Sec 6 for StateTest Reading/Writing
+          <Result>53</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>ES</CodeValue> 
+           <Description>Exceeds Standards</Description> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>800000025</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
+                     <ID>Grade 8 2011 StateTest Reading</ID> 
+                </AssessmentIdentificationCode> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+   <!-- Next elements for 8th Grade Eng Sec 6 for StateTest Reading/Writing 
       for highest ever and other conditions -->
-
-   <StudentAssessment>
-      <AdministrationDate>2011-09-01</AdministrationDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      <AdministrationEndDate>2011-09-01</AdministrationEndDate>
-      <SerialNumber>10</SerialNumber>
-      <AdministrationLanguage>English</AdministrationLanguage>
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
-      <RetestIndicator>Primary Administration</RetestIndicator>
-      <ReasonNotTested>Medical waiver</ReasonNotTested>
+      
+   <StudentAssessment> 
+      <AdministrationDate>2011-09-01</AdministrationDate> 
+      <AdministrationEndDate>2011-09-01</AdministrationEndDate> 
+      <SerialNumber>10</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
       <ScoreResults AssessmentReportingMethod="Scale score">
-          <Result>13</Result>
-      </ScoreResults>
-      <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed>
-      <PerformanceLevels>
-           <CodeValue>MS</CodeValue>
-           <Description>Meets Standards</Description>
-      </PerformanceLevels>
-      <StudentReference>
-           <StudentIdentity>
-                <StudentUniqueStateId>800000000</StudentUniqueStateId>
-           </StudentIdentity>
-      </StudentReference>
-      <AssessmentReference>
-           <AssessmentIdentity>
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-                     <ID>Grade 8 2011 StateTest Writing</ID>
-                </AssessmentIdentificationCode>
-           </AssessmentIdentity>
-      </AssessmentReference>
-   </StudentAssessment>
-   <StudentAssessment>
-      <AdministrationDate>2011-09-01</AdministrationDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      <AdministrationEndDate>2011-09-01</AdministrationEndDate>
-      <SerialNumber>7</SerialNumber>
-      <AdministrationLanguage>English</AdministrationLanguage>
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
-      <RetestIndicator>Primary Administration</RetestIndicator>
-      <ReasonNotTested>Medical waiver</ReasonNotTested>
+          <Result>13</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>MS</CodeValue> 
+           <Description>Meets Standards</Description> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>800000000</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
+                     <ID>Grade 8 2011 StateTest Writing</ID> 
+                </AssessmentIdentificationCode> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+   <StudentAssessment> 
+      <AdministrationDate>2011-09-01</AdministrationDate> 
+      <AdministrationEndDate>2011-09-01</AdministrationEndDate> 
+      <SerialNumber>7</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
       <ScoreResults AssessmentReportingMethod="Scale score">
-          <Result>245</Result>
-      </ScoreResults>
+          <Result>245</Result> 
+      </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
-          <Result>806</Result>
-      </ScoreResults>
+          <Result>806</Result> 
+      </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Percentile">
-          <Result>67</Result>
-      </ScoreResults>
-      <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed>
-      <PerformanceLevels>
-           <CodeValue>MS</CodeValue>
-           <Description>Meets Standards</Description>
-      </PerformanceLevels>
-      <StudentReference>
-           <StudentIdentity>
-                <StudentUniqueStateId>800000000</StudentUniqueStateId>
-           </StudentIdentity>
-      </StudentReference>
-      <AssessmentReference>
-           <AssessmentIdentity>
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-                     <ID>Grade 8 2011 StateTest Reading</ID>
-                </AssessmentIdentificationCode>
-           </AssessmentIdentity>
-      </AssessmentReference>
-   </StudentAssessment>
-   <StudentAssessment>
-      <AdministrationDate>2011-09-01</AdministrationDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      <AdministrationEndDate>2011-09-01</AdministrationEndDate>
-      <SerialNumber>6</SerialNumber>
-      <AdministrationLanguage>English</AdministrationLanguage>
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
-      <RetestIndicator>Primary Administration</RetestIndicator>
-      <ReasonNotTested>Medical waiver</ReasonNotTested>
+          <Result>67</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>MS</CodeValue> 
+           <Description>Meets Standards</Description> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>800000000</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
+                     <ID>Grade 8 2011 StateTest Reading</ID> 
+                </AssessmentIdentificationCode> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+   <StudentAssessment> 
+      <AdministrationDate>2011-09-01</AdministrationDate> 
+      <AdministrationEndDate>2011-09-01</AdministrationEndDate> 
+      <SerialNumber>6</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
       <ScoreResults AssessmentReportingMethod="Scale score">
-          <Result>23</Result>
-      </ScoreResults>
-      <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed>
-      <PerformanceLevels>
-           <CodeValue>BS</CodeValue>
-           <Description>Below Standards</Description>
-      </PerformanceLevels>
-      <StudentReference>
-           <StudentIdentity>
-                <StudentUniqueStateId>800000002</StudentUniqueStateId>
-           </StudentIdentity>
-      </StudentReference>
-      <AssessmentReference>
-           <AssessmentIdentity>
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-                     <ID>Grade 8 2011 StateTest Writing</ID>
-                </AssessmentIdentificationCode>
-           </AssessmentIdentity>
-      </AssessmentReference>
-   </StudentAssessment>
-   <StudentAssessment>
-      <AdministrationDate>2011-09-01</AdministrationDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      <AdministrationEndDate>2011-09-01</AdministrationEndDate>
-      <SerialNumber>10</SerialNumber>
-      <AdministrationLanguage>English</AdministrationLanguage>
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
-      <SpecialAccommodations>
-           <SpecialAccommodation>Untimed</SpecialAccommodation>
-      </SpecialAccommodations>
-      <LinguisticAccommodations>
-           <LinguisticAccommodation>English Dictionary</LinguisticAccommodation>
-      </LinguisticAccommodations>
-      <RetestIndicator>Primary Administration</RetestIndicator>
-      <ReasonNotTested>Medical waiver</ReasonNotTested>
+          <Result>23</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>BS</CodeValue> 
+           <Description>Below Standards</Description> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>800000002</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
+                     <ID>Grade 8 2011 StateTest Writing</ID> 
+                </AssessmentIdentificationCode> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+   <StudentAssessment> 
+      <AdministrationDate>2011-09-01</AdministrationDate> 
+      <AdministrationEndDate>2011-09-01</AdministrationEndDate> 
+      <SerialNumber>10</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <SpecialAccommodations> 
+           <SpecialAccommodation>Untimed</SpecialAccommodation> 
+      </SpecialAccommodations> 
+      <LinguisticAccommodations> 
+           <LinguisticAccommodation>English Dictionary</LinguisticAccommodation> 
+      </LinguisticAccommodations> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
       <ScoreResults AssessmentReportingMethod="Scale score">
-          <Result>120</Result>
-      </ScoreResults>
+          <Result>120</Result> 
+      </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
-          <Result>396</Result>
-      </ScoreResults>
+          <Result>396</Result> 
+      </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Percentile">
-          <Result>33</Result>
-      </ScoreResults>
-      <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed>
-      <PerformanceLevels>
-           <CodeValue>ES</CodeValue>
-           <Description>Exceeds Standards</Description>
-      </PerformanceLevels>
-      <StudentReference>
-           <StudentIdentity>
-                <StudentUniqueStateId>800000002</StudentUniqueStateId>
-           </StudentIdentity>
-      </StudentReference>
-      <AssessmentReference>
-           <AssessmentIdentity>
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-                     <ID>Grade 8 2011 StateTest Reading</ID>
-                </AssessmentIdentificationCode>
-           </AssessmentIdentity>
-      </AssessmentReference>
-   </StudentAssessment>
-   <StudentAssessment>
-      <AdministrationDate>2011-09-01</AdministrationDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      <AdministrationEndDate>2011-09-01</AdministrationEndDate>
-      <SerialNumber>9</SerialNumber>
-      <AdministrationLanguage>English</AdministrationLanguage>
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
-      <RetestIndicator>Primary Administration</RetestIndicator>
-      <ReasonNotTested>Medical waiver</ReasonNotTested>
+          <Result>33</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>ES</CodeValue> 
+           <Description>Exceeds Standards</Description> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>800000002</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
+                     <ID>Grade 8 2011 StateTest Reading</ID> 
+                </AssessmentIdentificationCode> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+   <StudentAssessment> 
+      <AdministrationDate>2011-09-01</AdministrationDate> 
+      <AdministrationEndDate>2011-09-01</AdministrationEndDate> 
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
       <ScoreResults AssessmentReportingMethod="Scale score">
-          <Result>25</Result>
-      </ScoreResults>
-      <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed>
-      <PerformanceLevels>
-           <CodeValue>AW</CodeValue>
-           <Description>Academic Warning</Description>
-      </PerformanceLevels>
-      <StudentReference>
-           <StudentIdentity>
-                <StudentUniqueStateId>800000025</StudentUniqueStateId>
-           </StudentIdentity>
-      </StudentReference>
-      <AssessmentReference>
-           <AssessmentIdentity>
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-                     <ID>Grade 8 2011 StateTest Writing</ID>
-                </AssessmentIdentificationCode>
-           </AssessmentIdentity>
-      </AssessmentReference>
-   </StudentAssessment>
-   <StudentAssessment>
-      <AdministrationDate>2011-09-01</AdministrationDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      <AdministrationEndDate>2011-09-01</AdministrationEndDate>
-      <SerialNumber>7</SerialNumber>
-      <AdministrationLanguage>English</AdministrationLanguage>
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
-      <RetestIndicator>Primary Administration</RetestIndicator>
-      <ReasonNotTested>Medical waiver</ReasonNotTested>
+          <Result>25</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>AW</CodeValue> 
+           <Description>Academic Warning</Description> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>800000025</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
+                     <ID>Grade 8 2011 StateTest Writing</ID> 
+                </AssessmentIdentificationCode> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+   <StudentAssessment> 
+      <AdministrationDate>2011-09-01</AdministrationDate> 
+      <AdministrationEndDate>2011-09-01</AdministrationEndDate> 
+      <SerialNumber>7</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
       <ScoreResults AssessmentReportingMethod="Scale score">
-          <Result>199</Result>
-      </ScoreResults>
+          <Result>199</Result> 
+      </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
-          <Result>655</Result>
-      </ScoreResults>
+          <Result>655</Result> 
+      </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Percentile">
-          <Result>55</Result>
-      </ScoreResults>
-      <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed>
-      <PerformanceLevels>
-           <CodeValue>MS</CodeValue>
-           <Description>Meets Standards</Description>
-      </PerformanceLevels>
-      <StudentReference>
-           <StudentIdentity>
-                <StudentUniqueStateId>800000025</StudentUniqueStateId>
-           </StudentIdentity>
-      </StudentReference>
-      <AssessmentReference>
-           <AssessmentIdentity>
-                <AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-                     <ID>Grade 8 2011 StateTest Reading</ID>
-                </AssessmentIdentificationCode>
-           </AssessmentIdentity>
-      </AssessmentReference>
-   </StudentAssessment>
+          <Result>55</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Eighth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>MS</CodeValue> 
+           <Description>Meets Standards</Description> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>800000025</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
+                     <ID>Grade 8 2011 StateTest Reading</ID> 
+                </AssessmentIdentificationCode> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 	
 </InterchangeStudentAssessment>

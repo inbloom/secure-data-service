@@ -3,7 +3,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>2</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -34,7 +33,6 @@
     <StudentAssessmentReference>
       <StudentAssessmentIdentity>
         <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
         <StudentReference>
           <StudentIdentity>
             <StudentUniqueStateId>900000000</StudentUniqueStateId>
@@ -63,7 +61,6 @@
     <StudentAssessmentReference>
       <StudentAssessmentIdentity>
         <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
         <StudentReference>
           <StudentIdentity>
             <StudentUniqueStateId>900000000</StudentUniqueStateId>
@@ -92,7 +89,6 @@
     <StudentAssessmentReference>
       <StudentAssessmentIdentity>
         <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
         <StudentReference>
           <StudentIdentity>
             <StudentUniqueStateId>900000000</StudentUniqueStateId>
@@ -121,7 +117,6 @@
     <StudentAssessmentReference>
       <StudentAssessmentIdentity>
         <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
         <StudentReference>
           <StudentIdentity>
             <StudentUniqueStateId>900000000</StudentUniqueStateId>
@@ -150,7 +145,6 @@
     <StudentAssessmentReference>
       <StudentAssessmentIdentity>
         <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
         <StudentReference>
           <StudentIdentity>
             <StudentUniqueStateId>900000000</StudentUniqueStateId>
@@ -179,7 +173,6 @@
     <StudentAssessmentReference>
       <StudentAssessmentIdentity>
         <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
         <StudentReference>
           <StudentIdentity>
             <StudentUniqueStateId>900000000</StudentUniqueStateId>
@@ -208,7 +201,6 @@
     <StudentAssessmentReference>
       <StudentAssessmentIdentity>
         <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
         <StudentReference>
           <StudentIdentity>
             <StudentUniqueStateId>900000000</StudentUniqueStateId>
@@ -237,7 +229,6 @@
     <StudentAssessmentReference>
       <StudentAssessmentIdentity>
         <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
         <StudentReference>
           <StudentIdentity>
             <StudentUniqueStateId>900000000</StudentUniqueStateId>
@@ -266,7 +257,6 @@
     <StudentAssessmentReference>
       <StudentAssessmentIdentity>
         <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
         <StudentReference>
           <StudentIdentity>
             <StudentUniqueStateId>900000000</StudentUniqueStateId>
@@ -295,7 +285,6 @@
     <StudentAssessmentReference>
       <StudentAssessmentIdentity>
         <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
         <StudentReference>
           <StudentIdentity>
             <StudentUniqueStateId>900000000</StudentUniqueStateId>
@@ -324,7 +313,6 @@
     <StudentAssessmentReference>
       <StudentAssessmentIdentity>
         <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
         <StudentReference>
           <StudentIdentity>
             <StudentUniqueStateId>900000000</StudentUniqueStateId>
@@ -353,7 +341,6 @@
     <StudentAssessmentReference>
       <StudentAssessmentIdentity>
         <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
         <StudentReference>
           <StudentIdentity>
             <StudentUniqueStateId>900000000</StudentUniqueStateId>
@@ -377,7 +364,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>2</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -408,7 +394,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000001</StudentUniqueStateId>
@@ -437,7 +422,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000001</StudentUniqueStateId>
@@ -466,7 +450,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000001</StudentUniqueStateId>
@@ -495,7 +478,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000001</StudentUniqueStateId>
@@ -524,7 +506,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000001</StudentUniqueStateId>
@@ -553,7 +534,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000001</StudentUniqueStateId>
@@ -582,7 +562,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000001</StudentUniqueStateId>
@@ -611,7 +590,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000001</StudentUniqueStateId>
@@ -640,7 +618,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000001</StudentUniqueStateId>
@@ -669,7 +646,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000001</StudentUniqueStateId>
@@ -698,7 +674,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000001</StudentUniqueStateId>
@@ -727,7 +702,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000001</StudentUniqueStateId>
@@ -751,7 +725,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>1</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -782,7 +755,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000002</StudentUniqueStateId>
@@ -811,7 +783,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000002</StudentUniqueStateId>
@@ -840,7 +811,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000002</StudentUniqueStateId>
@@ -869,7 +839,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000002</StudentUniqueStateId>
@@ -898,7 +867,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000002</StudentUniqueStateId>
@@ -927,7 +895,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000002</StudentUniqueStateId>
@@ -956,7 +923,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000002</StudentUniqueStateId>
@@ -985,7 +951,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000002</StudentUniqueStateId>
@@ -1014,7 +979,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000002</StudentUniqueStateId>
@@ -1043,7 +1007,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000002</StudentUniqueStateId>
@@ -1072,7 +1035,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000002</StudentUniqueStateId>
@@ -1101,7 +1063,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000002</StudentUniqueStateId>
@@ -1125,7 +1086,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>8</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -1156,7 +1116,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000003</StudentUniqueStateId>
@@ -1185,7 +1144,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000003</StudentUniqueStateId>
@@ -1214,7 +1172,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000003</StudentUniqueStateId>
@@ -1243,7 +1200,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000003</StudentUniqueStateId>
@@ -1272,7 +1228,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000003</StudentUniqueStateId>
@@ -1301,7 +1256,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000003</StudentUniqueStateId>
@@ -1330,7 +1284,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000003</StudentUniqueStateId>
@@ -1359,7 +1312,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000003</StudentUniqueStateId>
@@ -1388,7 +1340,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000003</StudentUniqueStateId>
@@ -1417,7 +1368,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000003</StudentUniqueStateId>
@@ -1446,7 +1396,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000003</StudentUniqueStateId>
@@ -1475,7 +1424,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000003</StudentUniqueStateId>
@@ -1499,7 +1447,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>6</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -1530,7 +1477,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000004</StudentUniqueStateId>
@@ -1559,7 +1505,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000004</StudentUniqueStateId>
@@ -1588,7 +1533,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000004</StudentUniqueStateId>
@@ -1617,7 +1561,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000004</StudentUniqueStateId>
@@ -1646,7 +1589,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000004</StudentUniqueStateId>
@@ -1675,7 +1617,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000004</StudentUniqueStateId>
@@ -1704,7 +1645,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000004</StudentUniqueStateId>
@@ -1733,7 +1673,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000004</StudentUniqueStateId>
@@ -1762,7 +1701,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000004</StudentUniqueStateId>
@@ -1791,7 +1729,6 @@
          <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000004</StudentUniqueStateId>
@@ -1820,7 +1757,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000004</StudentUniqueStateId>
@@ -1849,7 +1785,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000004</StudentUniqueStateId>
@@ -1873,7 +1808,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>7</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -1904,7 +1838,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000005</StudentUniqueStateId>
@@ -1933,7 +1866,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000005</StudentUniqueStateId>
@@ -1962,7 +1894,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000005</StudentUniqueStateId>
@@ -1991,7 +1922,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000005</StudentUniqueStateId>
@@ -2020,7 +1950,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000005</StudentUniqueStateId>
@@ -2049,7 +1978,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000005</StudentUniqueStateId>
@@ -2078,7 +2006,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000005</StudentUniqueStateId>
@@ -2107,7 +2034,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000005</StudentUniqueStateId>
@@ -2136,7 +2062,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000005</StudentUniqueStateId>
@@ -2165,7 +2090,6 @@
        <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000005</StudentUniqueStateId>
@@ -2194,7 +2118,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000005</StudentUniqueStateId>
@@ -2223,7 +2146,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000005</StudentUniqueStateId>
@@ -2247,7 +2169,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>6</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -2281,7 +2202,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000006</StudentUniqueStateId>
@@ -2310,7 +2230,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000006</StudentUniqueStateId>
@@ -2339,7 +2258,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000006</StudentUniqueStateId>
@@ -2368,7 +2286,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000006</StudentUniqueStateId>
@@ -2397,7 +2314,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000006</StudentUniqueStateId>
@@ -2426,7 +2342,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000006</StudentUniqueStateId>
@@ -2455,7 +2370,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000006</StudentUniqueStateId>
@@ -2484,7 +2398,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000006</StudentUniqueStateId>
@@ -2513,7 +2426,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000006</StudentUniqueStateId>
@@ -2542,7 +2454,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000006</StudentUniqueStateId>
@@ -2571,7 +2482,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000006</StudentUniqueStateId>
@@ -2600,7 +2510,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000006</StudentUniqueStateId>
@@ -2624,7 +2533,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>9</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -2658,7 +2566,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000007</StudentUniqueStateId>
@@ -2687,7 +2594,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000007</StudentUniqueStateId>
@@ -2716,7 +2622,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000007</StudentUniqueStateId>
@@ -2745,7 +2650,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000007</StudentUniqueStateId>
@@ -2774,7 +2678,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000007</StudentUniqueStateId>
@@ -2803,7 +2706,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000007</StudentUniqueStateId>
@@ -2832,7 +2734,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000007</StudentUniqueStateId>
@@ -2861,7 +2762,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000007</StudentUniqueStateId>
@@ -2890,7 +2790,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000007</StudentUniqueStateId>
@@ -2919,7 +2818,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000007</StudentUniqueStateId>
@@ -2948,7 +2846,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000007</StudentUniqueStateId>
@@ -2977,7 +2874,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000007</StudentUniqueStateId>
@@ -3001,7 +2897,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>6</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -3032,7 +2927,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000008</StudentUniqueStateId>
@@ -3061,7 +2955,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000008</StudentUniqueStateId>
@@ -3090,7 +2983,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000008</StudentUniqueStateId>
@@ -3119,7 +3011,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000008</StudentUniqueStateId>
@@ -3148,7 +3039,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000008</StudentUniqueStateId>
@@ -3177,7 +3067,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000008</StudentUniqueStateId>
@@ -3206,7 +3095,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000008</StudentUniqueStateId>
@@ -3235,7 +3123,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000008</StudentUniqueStateId>
@@ -3264,7 +3151,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000008</StudentUniqueStateId>
@@ -3293,7 +3179,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000008</StudentUniqueStateId>
@@ -3322,7 +3207,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000008</StudentUniqueStateId>
@@ -3351,7 +3235,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000008</StudentUniqueStateId>
@@ -3375,7 +3258,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>8</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -3409,7 +3291,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000009</StudentUniqueStateId>
@@ -3438,7 +3319,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000009</StudentUniqueStateId>
@@ -3467,7 +3347,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000009</StudentUniqueStateId>
@@ -3496,7 +3375,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000009</StudentUniqueStateId>
@@ -3525,7 +3403,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000009</StudentUniqueStateId>
@@ -3554,7 +3431,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000009</StudentUniqueStateId>
@@ -3583,7 +3459,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000009</StudentUniqueStateId>
@@ -3612,7 +3487,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000009</StudentUniqueStateId>
@@ -3641,7 +3515,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000009</StudentUniqueStateId>
@@ -3670,7 +3543,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000009</StudentUniqueStateId>
@@ -3699,7 +3571,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000009</StudentUniqueStateId>
@@ -3728,7 +3599,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000009</StudentUniqueStateId>
@@ -3752,7 +3622,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>10</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -3789,7 +3658,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000010</StudentUniqueStateId>
@@ -3818,7 +3686,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000010</StudentUniqueStateId>
@@ -3847,7 +3714,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000010</StudentUniqueStateId>
@@ -3876,7 +3742,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000010</StudentUniqueStateId>
@@ -3905,7 +3770,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000010</StudentUniqueStateId>
@@ -3934,7 +3798,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000010</StudentUniqueStateId>
@@ -3963,7 +3826,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000010</StudentUniqueStateId>
@@ -3992,7 +3854,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000010</StudentUniqueStateId>
@@ -4021,7 +3882,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000010</StudentUniqueStateId>
@@ -4050,7 +3910,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000010</StudentUniqueStateId>
@@ -4079,7 +3938,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000010</StudentUniqueStateId>
@@ -4108,7 +3966,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000010</StudentUniqueStateId>
@@ -4132,7 +3989,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>2</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -4163,7 +4019,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000011</StudentUniqueStateId>
@@ -4192,7 +4047,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000011</StudentUniqueStateId>
@@ -4221,7 +4075,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000011</StudentUniqueStateId>
@@ -4250,7 +4103,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000011</StudentUniqueStateId>
@@ -4279,7 +4131,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000011</StudentUniqueStateId>
@@ -4308,7 +4159,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000011</StudentUniqueStateId>
@@ -4337,7 +4187,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000011</StudentUniqueStateId>
@@ -4366,7 +4215,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000011</StudentUniqueStateId>
@@ -4395,7 +4243,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000011</StudentUniqueStateId>
@@ -4424,7 +4271,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000011</StudentUniqueStateId>
@@ -4453,7 +4299,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000011</StudentUniqueStateId>
@@ -4482,7 +4327,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000011</StudentUniqueStateId>
@@ -4506,7 +4350,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>7</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -4537,7 +4380,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000012</StudentUniqueStateId>
@@ -4566,7 +4408,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000012</StudentUniqueStateId>
@@ -4595,7 +4436,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000012</StudentUniqueStateId>
@@ -4624,7 +4464,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000012</StudentUniqueStateId>
@@ -4653,7 +4492,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000012</StudentUniqueStateId>
@@ -4682,7 +4520,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000012</StudentUniqueStateId>
@@ -4711,7 +4548,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000012</StudentUniqueStateId>
@@ -4740,7 +4576,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000012</StudentUniqueStateId>
@@ -4769,7 +4604,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000012</StudentUniqueStateId>
@@ -4798,7 +4632,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000012</StudentUniqueStateId>
@@ -4827,7 +4660,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000012</StudentUniqueStateId>
@@ -4856,7 +4688,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000012</StudentUniqueStateId>
@@ -4880,7 +4711,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>7</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -4911,7 +4741,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000013</StudentUniqueStateId>
@@ -4940,7 +4769,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000013</StudentUniqueStateId>
@@ -4969,7 +4797,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000013</StudentUniqueStateId>
@@ -4998,7 +4825,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000013</StudentUniqueStateId>
@@ -5027,7 +4853,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000013</StudentUniqueStateId>
@@ -5056,7 +4881,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000013</StudentUniqueStateId>
@@ -5085,7 +4909,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000013</StudentUniqueStateId>
@@ -5114,7 +4937,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000013</StudentUniqueStateId>
@@ -5143,7 +4965,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000013</StudentUniqueStateId>
@@ -5172,7 +4993,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000013</StudentUniqueStateId>
@@ -5201,7 +5021,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000013</StudentUniqueStateId>
@@ -5230,7 +5049,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000013</StudentUniqueStateId>
@@ -5254,7 +5072,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>1</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -5285,7 +5102,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000014</StudentUniqueStateId>
@@ -5314,7 +5130,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000014</StudentUniqueStateId>
@@ -5343,7 +5158,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000014</StudentUniqueStateId>
@@ -5372,7 +5186,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000014</StudentUniqueStateId>
@@ -5401,7 +5214,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000014</StudentUniqueStateId>
@@ -5430,7 +5242,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000014</StudentUniqueStateId>
@@ -5459,7 +5270,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000014</StudentUniqueStateId>
@@ -5488,7 +5298,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000014</StudentUniqueStateId>
@@ -5517,7 +5326,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000014</StudentUniqueStateId>
@@ -5546,7 +5354,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000014</StudentUniqueStateId>
@@ -5575,7 +5382,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000014</StudentUniqueStateId>
@@ -5604,7 +5410,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000014</StudentUniqueStateId>
@@ -5628,7 +5433,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>7</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -5659,7 +5463,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000015</StudentUniqueStateId>
@@ -5688,7 +5491,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000015</StudentUniqueStateId>
@@ -5717,7 +5519,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000015</StudentUniqueStateId>
@@ -5746,7 +5547,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000015</StudentUniqueStateId>
@@ -5775,7 +5575,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000015</StudentUniqueStateId>
@@ -5804,7 +5603,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000015</StudentUniqueStateId>
@@ -5833,7 +5631,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000015</StudentUniqueStateId>
@@ -5862,7 +5659,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000015</StudentUniqueStateId>
@@ -5891,7 +5687,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000015</StudentUniqueStateId>
@@ -5920,7 +5715,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000015</StudentUniqueStateId>
@@ -5949,7 +5743,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000015</StudentUniqueStateId>
@@ -5978,7 +5771,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000015</StudentUniqueStateId>
@@ -6002,7 +5794,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>6</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -6033,7 +5824,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000016</StudentUniqueStateId>
@@ -6062,7 +5852,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000016</StudentUniqueStateId>
@@ -6091,7 +5880,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000016</StudentUniqueStateId>
@@ -6120,7 +5908,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000016</StudentUniqueStateId>
@@ -6149,7 +5936,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000016</StudentUniqueStateId>
@@ -6178,7 +5964,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000016</StudentUniqueStateId>
@@ -6207,7 +5992,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000016</StudentUniqueStateId>
@@ -6236,7 +6020,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000016</StudentUniqueStateId>
@@ -6265,7 +6048,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000016</StudentUniqueStateId>
@@ -6294,7 +6076,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000016</StudentUniqueStateId>
@@ -6323,7 +6104,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000016</StudentUniqueStateId>
@@ -6352,7 +6132,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000016</StudentUniqueStateId>
@@ -6376,7 +6155,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>5</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -6407,7 +6185,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000017</StudentUniqueStateId>
@@ -6436,7 +6213,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000017</StudentUniqueStateId>
@@ -6465,7 +6241,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000017</StudentUniqueStateId>
@@ -6494,7 +6269,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000017</StudentUniqueStateId>
@@ -6523,7 +6297,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000017</StudentUniqueStateId>
@@ -6552,7 +6325,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000017</StudentUniqueStateId>
@@ -6581,7 +6353,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000017</StudentUniqueStateId>
@@ -6610,7 +6381,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000017</StudentUniqueStateId>
@@ -6639,7 +6409,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000017</StudentUniqueStateId>
@@ -6668,7 +6437,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000017</StudentUniqueStateId>
@@ -6697,7 +6465,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000017</StudentUniqueStateId>
@@ -6726,7 +6493,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000017</StudentUniqueStateId>
@@ -6750,7 +6516,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>3</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -6781,7 +6546,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000018</StudentUniqueStateId>
@@ -6810,7 +6574,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000018</StudentUniqueStateId>
@@ -6839,7 +6602,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000018</StudentUniqueStateId>
@@ -6868,7 +6630,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000018</StudentUniqueStateId>
@@ -6897,7 +6658,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000018</StudentUniqueStateId>
@@ -6926,7 +6686,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000018</StudentUniqueStateId>
@@ -6955,7 +6714,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000018</StudentUniqueStateId>
@@ -6984,7 +6742,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000018</StudentUniqueStateId>
@@ -7013,7 +6770,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000018</StudentUniqueStateId>
@@ -7042,7 +6798,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000018</StudentUniqueStateId>
@@ -7071,7 +6826,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000018</StudentUniqueStateId>
@@ -7100,7 +6854,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000018</StudentUniqueStateId>
@@ -7124,7 +6877,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>4</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -7155,7 +6907,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000019</StudentUniqueStateId>
@@ -7184,7 +6935,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000019</StudentUniqueStateId>
@@ -7213,7 +6963,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000019</StudentUniqueStateId>
@@ -7242,7 +6991,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000019</StudentUniqueStateId>
@@ -7271,7 +7019,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000019</StudentUniqueStateId>
@@ -7300,7 +7047,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000019</StudentUniqueStateId>
@@ -7329,7 +7075,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000019</StudentUniqueStateId>
@@ -7358,7 +7103,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000019</StudentUniqueStateId>
@@ -7387,7 +7131,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000019</StudentUniqueStateId>
@@ -7416,7 +7159,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000019</StudentUniqueStateId>
@@ -7445,7 +7187,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000019</StudentUniqueStateId>
@@ -7474,7 +7215,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000019</StudentUniqueStateId>
@@ -7498,7 +7238,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>1</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -7529,7 +7268,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000020</StudentUniqueStateId>
@@ -7558,7 +7296,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000020</StudentUniqueStateId>
@@ -7587,7 +7324,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000020</StudentUniqueStateId>
@@ -7616,7 +7352,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000020</StudentUniqueStateId>
@@ -7645,7 +7380,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000020</StudentUniqueStateId>
@@ -7674,7 +7408,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000020</StudentUniqueStateId>
@@ -7703,7 +7436,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000020</StudentUniqueStateId>
@@ -7732,7 +7464,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000020</StudentUniqueStateId>
@@ -7761,7 +7492,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000020</StudentUniqueStateId>
@@ -7790,7 +7520,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000020</StudentUniqueStateId>
@@ -7819,7 +7548,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000020</StudentUniqueStateId>
@@ -7848,7 +7576,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000020</StudentUniqueStateId>
@@ -7872,7 +7599,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>3</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -7906,7 +7632,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000021</StudentUniqueStateId>
@@ -7935,7 +7660,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000021</StudentUniqueStateId>
@@ -7964,7 +7688,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000021</StudentUniqueStateId>
@@ -7993,7 +7716,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000021</StudentUniqueStateId>
@@ -8022,7 +7744,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000021</StudentUniqueStateId>
@@ -8051,7 +7772,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000021</StudentUniqueStateId>
@@ -8080,7 +7800,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000021</StudentUniqueStateId>
@@ -8109,7 +7828,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000021</StudentUniqueStateId>
@@ -8138,7 +7856,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000021</StudentUniqueStateId>
@@ -8167,7 +7884,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000021</StudentUniqueStateId>
@@ -8196,7 +7912,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000021</StudentUniqueStateId>
@@ -8225,7 +7940,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000021</StudentUniqueStateId>
@@ -8249,7 +7963,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>2</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -8283,7 +7996,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000022</StudentUniqueStateId>
@@ -8312,7 +8024,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000022</StudentUniqueStateId>
@@ -8341,7 +8052,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000022</StudentUniqueStateId>
@@ -8370,7 +8080,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000022</StudentUniqueStateId>
@@ -8399,7 +8108,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000022</StudentUniqueStateId>
@@ -8428,7 +8136,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000022</StudentUniqueStateId>
@@ -8457,7 +8164,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000022</StudentUniqueStateId>
@@ -8486,7 +8192,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000022</StudentUniqueStateId>
@@ -8515,7 +8220,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000022</StudentUniqueStateId>
@@ -8544,7 +8248,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000022</StudentUniqueStateId>
@@ -8573,7 +8276,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000022</StudentUniqueStateId>
@@ -8602,7 +8304,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000022</StudentUniqueStateId>
@@ -8626,7 +8327,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>8</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -8657,7 +8357,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000023</StudentUniqueStateId>
@@ -8686,7 +8385,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000023</StudentUniqueStateId>
@@ -8715,7 +8413,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000023</StudentUniqueStateId>
@@ -8744,7 +8441,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000023</StudentUniqueStateId>
@@ -8773,7 +8469,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000023</StudentUniqueStateId>
@@ -8802,7 +8497,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000023</StudentUniqueStateId>
@@ -8831,7 +8525,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000023</StudentUniqueStateId>
@@ -8860,7 +8553,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000023</StudentUniqueStateId>
@@ -8889,7 +8581,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000023</StudentUniqueStateId>
@@ -8918,7 +8609,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000023</StudentUniqueStateId>
@@ -8947,7 +8637,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000023</StudentUniqueStateId>
@@ -8976,7 +8665,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000023</StudentUniqueStateId>
@@ -9000,7 +8688,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <AdministrationEndDate>2011-05-01</AdministrationEndDate>
     <SerialNumber>6</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
@@ -9034,7 +8721,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000024</StudentUniqueStateId>
@@ -9063,7 +8749,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000024</StudentUniqueStateId>
@@ -9092,7 +8777,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000024</StudentUniqueStateId>
@@ -9121,7 +8805,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000024</StudentUniqueStateId>
@@ -9150,7 +8833,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000024</StudentUniqueStateId>
@@ -9179,7 +8861,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000024</StudentUniqueStateId>
@@ -9208,7 +8889,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000024</StudentUniqueStateId>
@@ -9237,7 +8917,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000024</StudentUniqueStateId>
@@ -9266,7 +8945,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000024</StudentUniqueStateId>
@@ -9295,7 +8973,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000024</StudentUniqueStateId>
@@ -9324,7 +9001,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000024</StudentUniqueStateId>
@@ -9353,7 +9029,6 @@
         <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000024</StudentUniqueStateId>
@@ -9384,7 +9059,6 @@
     <StudentAssessmentReference>
       <StudentAssessmentIdentity>
         <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
         <StudentReference>
           <StudentIdentity>
             <StudentUniqueStateId>900000000</StudentUniqueStateId>
@@ -9413,7 +9087,6 @@
     <StudentAssessmentReference>
       <StudentAssessmentIdentity>
         <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
         <StudentReference>
           <StudentIdentity>
             <StudentUniqueStateId>900000000</StudentUniqueStateId>
@@ -9442,7 +9115,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000001</StudentUniqueStateId>
@@ -9471,7 +9143,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000001</StudentUniqueStateId>
@@ -9500,7 +9171,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000002</StudentUniqueStateId>
@@ -9529,7 +9199,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000002</StudentUniqueStateId>
@@ -9558,7 +9227,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000003</StudentUniqueStateId>
@@ -9587,7 +9255,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000003</StudentUniqueStateId>
@@ -9616,7 +9283,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000004</StudentUniqueStateId>
@@ -9645,7 +9311,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000004</StudentUniqueStateId>
@@ -9674,7 +9339,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000005</StudentUniqueStateId>
@@ -9703,7 +9367,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000005</StudentUniqueStateId>
@@ -9732,7 +9395,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000006</StudentUniqueStateId>
@@ -9761,7 +9423,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000006</StudentUniqueStateId>
@@ -9790,7 +9451,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000007</StudentUniqueStateId>
@@ -9819,7 +9479,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000007</StudentUniqueStateId>
@@ -9848,7 +9507,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000008</StudentUniqueStateId>
@@ -9877,7 +9535,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000008</StudentUniqueStateId>
@@ -9906,7 +9563,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000009</StudentUniqueStateId>
@@ -9935,7 +9591,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000009</StudentUniqueStateId>
@@ -9964,7 +9619,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000010</StudentUniqueStateId>
@@ -9993,7 +9647,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000010</StudentUniqueStateId>
@@ -10022,7 +9675,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000011</StudentUniqueStateId>
@@ -10051,7 +9703,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000011</StudentUniqueStateId>
@@ -10080,7 +9731,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000012</StudentUniqueStateId>
@@ -10109,7 +9759,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000012</StudentUniqueStateId>
@@ -10138,7 +9787,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000013</StudentUniqueStateId>
@@ -10167,7 +9815,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000013</StudentUniqueStateId>
@@ -10196,7 +9843,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000014</StudentUniqueStateId>
@@ -10225,7 +9871,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000014</StudentUniqueStateId>
@@ -10254,7 +9899,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000015</StudentUniqueStateId>
@@ -10283,7 +9927,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000015</StudentUniqueStateId>
@@ -10312,7 +9955,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000016</StudentUniqueStateId>
@@ -10341,7 +9983,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000016</StudentUniqueStateId>
@@ -10370,7 +10011,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000017</StudentUniqueStateId>
@@ -10399,7 +10039,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000017</StudentUniqueStateId>
@@ -10428,7 +10067,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000018</StudentUniqueStateId>
@@ -10457,7 +10095,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000018</StudentUniqueStateId>
@@ -10486,7 +10123,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000019</StudentUniqueStateId>
@@ -10515,7 +10151,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000019</StudentUniqueStateId>
@@ -10544,7 +10179,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000020</StudentUniqueStateId>
@@ -10573,7 +10207,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000020</StudentUniqueStateId>
@@ -10602,7 +10235,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000021</StudentUniqueStateId>
@@ -10631,7 +10263,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000021</StudentUniqueStateId>
@@ -10660,7 +10291,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000022</StudentUniqueStateId>
@@ -10689,7 +10319,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000022</StudentUniqueStateId>
@@ -10718,7 +10347,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000023</StudentUniqueStateId>
@@ -10747,7 +10375,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000023</StudentUniqueStateId>
@@ -10776,7 +10403,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000024</StudentUniqueStateId>
@@ -10805,7 +10431,6 @@
     <StudentAssessmentReference>
             <StudentAssessmentIdentity>
                 <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
                 <StudentReference>
                     <StudentIdentity>
                         <StudentUniqueStateId>900000024</StudentUniqueStateId>
@@ -10827,4 +10452,4 @@
     </AssessmentItemReference>
   </StudentAssessmentItem>
 
-</InterchangeStudentAssessment>
+</InterchangeStudentAssessment> 

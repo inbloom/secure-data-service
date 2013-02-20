@@ -392,7 +392,7 @@ And I check to find if record is in collection:
      | collectionName                        | expectedRecordCount | searchParameter               | searchValue     |searchType           |
      | staffEducationOrganizationAssociation |          9          | body.beginDate                | 1967-08-13      | string              |
      | staffEducationOrganizationAssociation |          1          | body.beginDate                | 2000-01-01      | string              |
-
+ 
 @smoke
 Scenario: Verify deterministic ids generated: Clean Database
   And I check that ids were generated properly:
@@ -412,15 +412,15 @@ Scenario: Verify deterministic ids generated: Clean Database
     | studentCohortAssociation             | e097d0f6e1e3d40d58930052eae2d7074eaa901a_idbc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.studentId            | c20c4b37f887348b67a02091dc10ee6b27fbd1ce_id |
     | studentCohortAssociation             | e097d0f6e1e3d40d58930052eae2d7074eaa901a_idbc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.cohortId             | e097d0f6e1e3d40d58930052eae2d7074eaa901a_id |
     | studentCohortAssociation             | e097d0f6e1e3d40d58930052eae2d7074eaa901a_idbc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.beginDate            | 2011-04-01                           |
-    | studentAssessment         | 138a1a027c4b69c44c6b777a3e1f01a98667aa44_id | body.studentId            | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id |
-    | studentAssessment         | 138a1a027c4b69c44c6b777a3e1f01a98667aa44_id | body.assessmentId         | 8be1b9e5f8b4274b0e0fd49ffe0e199297e0cb30_id |
-    | studentAssessment         | 1175c1ff0177c6527cf3eb7e00a50ba8a9c5e436_id | body.assessmentId         | d50118aaad960b54a8b2afc7268d01d13842cb58_id |
-    | studentAssessment         | 138a1a027c4b69c44c6b777a3e1f01a98667aa44_id | body.administrationDate   | 2011-10-01                           |
-    | studentAssessment                    | d64956781b505f01ec96ff82239facf95e71cfb5_id | body.studentId            | c04d5891b6b1f10ce9b9e48b80581cda7788312c_id |
-    | studentAssessment                    | d64956781b505f01ec96ff82239facf95e71cfb5_id | body.assessmentId         | d50118aaad960b54a8b2afc7268d01d13842cb58_id |
-    | studentAssessment                    | d64956781b505f01ec96ff82239facf95e71cfb5_id | body.administrationDate   | 2011-05-01                                    |
-    | studentAssessment                    | d64956781b505f01ec96ff82239facf95e71cfb5_id | body.studentAssessmentItems.assessmentItem.learningStandards   | 316a4af0c4f2a43c958c1dcf1102777862f86307_id |
-    | studentAssessment                    | d64956781b505f01ec96ff82239facf95e71cfb5_id | body.studentObjectiveAssessments.objectiveAssessment.learningObjectives   | 7cad1e4eae9c2b91f1e7fe963ee6144e83afe917_id |
+    | studentAssessment         | d8e0b70696b616712641162668edffe64511abcc_id | body.studentId            | 9b38ee8562b14f3201aff4995bac9bbafc3336a0_id |
+    | studentAssessment         | d8e0b70696b616712641162668edffe64511abcc_id | body.assessmentId         | 8be1b9e5f8b4274b0e0fd49ffe0e199297e0cb30_id |
+    | studentAssessment         | 4f3903628a3e67a727cbd88c5cc68aae17f243e5_id | body.assessmentId         | d50118aaad960b54a8b2afc7268d01d13842cb58_id |
+    | studentAssessment         | d8e0b70696b616712641162668edffe64511abcc_id | body.administrationDate   | 2011-10-01                           |
+    | studentAssessment                    | e7edb12749b430584eec8d7b9652d2774d7f6ffb_id | body.studentId            | c04d5891b6b1f10ce9b9e48b80581cda7788312c_id |
+    | studentAssessment                    | e7edb12749b430584eec8d7b9652d2774d7f6ffb_id | body.assessmentId         | d50118aaad960b54a8b2afc7268d01d13842cb58_id |
+    | studentAssessment                    | e7edb12749b430584eec8d7b9652d2774d7f6ffb_id | body.administrationDate   | 2011-05-01                                    |
+    | studentAssessment                    | e7edb12749b430584eec8d7b9652d2774d7f6ffb_id | body.studentAssessmentItems.assessmentItem.learningStandards   | 316a4af0c4f2a43c958c1dcf1102777862f86307_id |
+    | studentAssessment                    | e7edb12749b430584eec8d7b9652d2774d7f6ffb_id | body.studentObjectiveAssessments.objectiveAssessment.learningObjectives   | 7cad1e4eae9c2b91f1e7fe963ee6144e83afe917_id |   
     | studentCompetency                    | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id | body.competencyLevel.codeValue    | 777                                  |
     | studentCompetency                    | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id | body.studentSectionAssociationId    | 5593b94891e8ba3f7005993e3847df6aaaa3a064_idc377c9c4b343dda726e837f442a171c570a460cd_id  |
     | studentCompetency                    | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id | body.objectiveId.learningObjectiveId    | 9e4b630c63a6f2e284de84aae8e9e1846b33bf1f_id                                  |
@@ -501,8 +501,7 @@ Scenario: Verify references were resolved correctly
   And I check that references were resolved correctly:
     | entityCollection                      | entityId                             													 | referenceField                                | referenceCollection                        |
 	#assessment
-	| studentAssessment                     | 138a1a027c4b69c44c6b777a3e1f01a98667aa44_id | body.assessmentId							 | assessment						 		  |
-
+	| studentAssessment                     | d8e0b70696b616712641162668edffe64511abcc_id | body.assessmentId							 | assessment						 		  |
 	#calendarDate
 	|gradingPeriod                        	| a6c7aac9afe6bd86b0b8c8116caa8edb35e2a0ba_id 											 | body.calendarDateReference                	 | calendarDate								  |
 	#cohort
@@ -597,13 +596,12 @@ Scenario: Verify references were resolved correctly
 	| disciplineAction						| 70b8c1f4b77823bf5ede69389e13b0487f32e720_id											 | body.studentId								| student									  |
 	| reportCard                            | 8f3a05e77f7d902f963b73b5ec072ced1583fbda_id 											 | body.studentId 								| student                       			  |
     | studentAcademicRecord                 | a1e159796736acfe35a3dda1ece214dc380a2714_id 											 | body.studentId                       		| student									  |
-	| studentAssessment	         		    | d64956781b505f01ec96ff82239facf95e71cfb5_id | body.studentId            					| student 									  |
-
+	| studentAssessment	         		    | e7edb12749b430584eec8d7b9652d2774d7f6ffb_id | body.studentId            					| student 									  |
 	#studentSectionAssociation
 	| studentGradebookEntry           | 56751666983beeaa65cf74c1178f1f824fe02659_id 											| body.studentSectionAssociationId  			| studentSectionAssociation				  |
 	| grade                           | 3f8df929951a9ea94709be3aeef49a91c5addea9_id 										  | body.studentSectionAssociationId  			| studentSectionAssociation				  |
 	| studentCompetency               | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id 											| body.studentSectionAssociationId  			| studentSectionAssociation  			  |
-
+	
 @integration @IL-Sunset
 Scenario: Post a zip file containing all data for Illinois Sunset as a payload of the ingestion job: Append Database
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Sunset"
@@ -1029,7 +1027,7 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "InterchangeEducationOrganization.xml records considered: 3" in the resulting batch job file
   And I should see "InterchangeEducationOrganization.xml records ingested successfully: 3" in the resulting batch job file
   And I should see "InterchangeEducationOrganization.xml records failed: 0" in the resulting batch job file
-
+  
 Scenario: Concurrent job processing
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And the following collections are empty in datastore:

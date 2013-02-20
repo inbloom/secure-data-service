@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeStudentAssessment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
   xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentAssessment.xsd">
-
+  
   <!-- Next 50 elements for 8th Grade Eng Sec 6 for StateTest Reading/Writing for most recent -->
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -35,7 +34,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -65,7 +63,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -95,7 +92,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -126,7 +122,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -156,7 +151,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -180,14 +174,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -217,7 +210,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -241,14 +233,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -278,7 +269,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -302,15 +292,14 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
-
+  
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -340,7 +329,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -364,14 +352,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -401,7 +388,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -425,14 +411,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -462,7 +447,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -486,14 +470,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -523,7 +506,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -547,14 +529,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -584,7 +565,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -608,14 +588,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -645,7 +624,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -669,14 +647,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -706,7 +683,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -730,14 +706,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -767,7 +742,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -791,14 +765,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -828,7 +801,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -852,14 +824,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -889,7 +860,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -913,14 +883,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -950,7 +919,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -974,14 +942,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1011,7 +978,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1035,14 +1001,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1072,7 +1037,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1096,14 +1060,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1133,7 +1096,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1157,14 +1119,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1194,7 +1155,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1218,14 +1178,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1255,7 +1214,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1279,14 +1237,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1316,7 +1273,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1340,14 +1296,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1377,7 +1332,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1401,14 +1355,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1438,7 +1391,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1462,14 +1414,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1499,7 +1450,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-05-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1523,16 +1473,15 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
-
-
+  
+  
+  
   <!-- Next 50 elements for 8th Grade Eng Sec 6 for StateTest Reading/Writing for highest ever -->
-
-
-
+  
+  
+  
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1562,7 +1511,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1589,7 +1537,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1619,7 +1566,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1647,7 +1593,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1677,7 +1622,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1698,14 +1642,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1735,7 +1678,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1756,14 +1698,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1793,7 +1734,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1814,15 +1754,14 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
-
+  
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1852,7 +1791,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1873,14 +1811,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1910,7 +1847,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1931,14 +1867,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1968,7 +1903,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -1989,14 +1923,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2026,7 +1959,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2047,14 +1979,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2084,7 +2015,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2105,14 +2035,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2142,7 +2071,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2163,14 +2091,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2200,7 +2127,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2221,14 +2147,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2258,7 +2183,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2279,14 +2203,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2316,7 +2239,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2337,14 +2259,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2374,7 +2295,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2395,14 +2315,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2432,7 +2351,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2453,14 +2371,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2490,7 +2407,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2511,14 +2427,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2548,7 +2463,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2569,14 +2483,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2606,7 +2519,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2627,14 +2539,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2664,7 +2575,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2685,14 +2595,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2722,7 +2631,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2743,14 +2651,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2780,7 +2687,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2801,14 +2707,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2838,7 +2743,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2859,14 +2763,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2896,7 +2799,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2917,14 +2819,13 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 
 
 
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2954,7 +2855,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
@@ -2978,7 +2878,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-08-10</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Classroom</AdministrationEnvironment>
@@ -3005,7 +2904,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2012-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Classroom</AdministrationEnvironment>
@@ -3032,7 +2930,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2011-08-10</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Classroom</AdministrationEnvironment>
@@ -3059,7 +2956,6 @@
 
   <StudentAssessment>
     <AdministrationDate>2012-03-01</AdministrationDate>
-    <SchoolYear>2011-2012</SchoolYear>
     <SerialNumber>0</SerialNumber>
     <AdministrationLanguage>English</AdministrationLanguage>
     <AdministrationEnvironment>Classroom</AdministrationEnvironment>
@@ -3083,5 +2979,5 @@
       </AssessmentIdentity>
     </AssessmentReference>
   </StudentAssessment>
-
+  
 </InterchangeStudentAssessment>

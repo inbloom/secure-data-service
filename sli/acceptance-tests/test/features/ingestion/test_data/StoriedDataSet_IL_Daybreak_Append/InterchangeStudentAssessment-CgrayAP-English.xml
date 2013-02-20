@@ -2,325 +2,314 @@
 <!-- edited with XMLSpy v2012 sp1 (x64) (http://www.altova.com) by Peter Backes (Wireless Generation) -->
 <InterchangeStudentAssessment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentAssessment.xsd">
 
-   <StudentAssessment>
-      <AdministrationDate>2011-05-01</AdministrationDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate>
-      <SerialNumber>5</SerialNumber>
-      <AdministrationLanguage>English</AdministrationLanguage>
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
-      <LinguisticAccommodations>
-           <LinguisticAccommodation>Bilingual Glossary</LinguisticAccommodation>
-      </LinguisticAccommodations>
-      <RetestIndicator>Primary Administration</RetestIndicator>
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
-      <PerformanceLevels>
-           <CodeValue>5</CodeValue>
-           <Description>Extremely well qualified</Description>
-      </PerformanceLevels>
-      <StudentReference>
-           <StudentIdentity>
-                <StudentUniqueStateId>900000001</StudentUniqueStateId>
-           </StudentIdentity>
-      </StudentReference>
-      <AssessmentReference>
-           <AssessmentIdentity>
+   <StudentAssessment> 
+      <AdministrationDate>2011-05-01</AdministrationDate> 
+      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
+      <SerialNumber>5</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <LinguisticAccommodations> 
+           <LinguisticAccommodation>Bilingual Glossary</LinguisticAccommodation> 
+      </LinguisticAccommodations> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>5</CodeValue> 
+           <Description>Extremely well qualified</Description> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>900000001</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
                 <AssessmentTitle>English Language and Composition</AssessmentTitle>
                 <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
                 <Version>1</Version>
-           </AssessmentIdentity>
-      </AssessmentReference>
-   </StudentAssessment>
-
-   <StudentAssessment>
-      <AdministrationDate>2011-05-01</AdministrationDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate>
-      <SerialNumber>5</SerialNumber>
-      <AdministrationLanguage>English</AdministrationLanguage>
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
-      <RetestIndicator>Primary Administration</RetestIndicator>
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
-      <PerformanceLevels>
-           <CodeValue>5</CodeValue>
-           <Description>Extremely well qualified</Description>
-      </PerformanceLevels>
-      <StudentReference>
-           <StudentIdentity>
-                <StudentUniqueStateId>900000003</StudentUniqueStateId>
-           </StudentIdentity>
-      </StudentReference>
-      <AssessmentReference>
-           <AssessmentIdentity>
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+   
+   <StudentAssessment> 
+      <AdministrationDate>2011-05-01</AdministrationDate> 
+      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
+      <SerialNumber>5</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>5</CodeValue> 
+           <Description>Extremely well qualified</Description> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>900000003</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
                 <AssessmentTitle>English Language and Composition</AssessmentTitle>
                 <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
                 <Version>1</Version>
-           </AssessmentIdentity>
-      </AssessmentReference>
-   </StudentAssessment>
-
-
-   <StudentAssessment>
-      <AdministrationDate>2011-05-01</AdministrationDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate>
-      <SerialNumber>5</SerialNumber>
-      <AdministrationLanguage>English</AdministrationLanguage>
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
-      <SpecialAccommodations>
-           <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation>
-      </SpecialAccommodations>
-      <RetestIndicator>Primary Administration</RetestIndicator>
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
-      <PerformanceLevels>
-           <CodeValue>5</CodeValue>
-           <Description>Extremely well qualified</Description>
-      </PerformanceLevels>
-      <StudentReference>
-           <StudentIdentity>
-                <StudentUniqueStateId>900000005</StudentUniqueStateId>
-           </StudentIdentity>
-      </StudentReference>
-      <AssessmentReference>
-           <AssessmentIdentity>
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+  
+  
+   <StudentAssessment> 
+      <AdministrationDate>2011-05-01</AdministrationDate> 
+      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
+      <SerialNumber>5</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <SpecialAccommodations> 
+           <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation> 
+      </SpecialAccommodations> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>5</CodeValue> 
+           <Description>Extremely well qualified</Description> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>900000005</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
                 <AssessmentTitle>English Literature and Composition</AssessmentTitle>
                 <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
                 <Version>1</Version>
-           </AssessmentIdentity>
-      </AssessmentReference>
-   </StudentAssessment>
-
-   <StudentAssessment>
-      <AdministrationDate>2011-05-01</AdministrationDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate>
-      <SerialNumber>3</SerialNumber>
-      <AdministrationLanguage>English</AdministrationLanguage>
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
-      <RetestIndicator>Primary Administration</RetestIndicator>
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
-      <PerformanceLevels>
-           <CodeValue>5</CodeValue>
-           <Description>Extremely well qualified</Description>
-      </PerformanceLevels>
-      <StudentReference>
-           <StudentIdentity>
-                <StudentUniqueStateId>900000008</StudentUniqueStateId>
-           </StudentIdentity>
-      </StudentReference>
-      <AssessmentReference>
-           <AssessmentIdentity>
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+   
+   <StudentAssessment> 
+      <AdministrationDate>2011-05-01</AdministrationDate> 
+      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
+      <SerialNumber>3</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>5</CodeValue> 
+           <Description>Extremely well qualified</Description> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>900000008</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
                 <AssessmentTitle>English Literature and Composition</AssessmentTitle>
                 <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
                 <Version>1</Version>
-           </AssessmentIdentity>
-      </AssessmentReference>
-   </StudentAssessment>
-
-
-
-   <StudentAssessment>
-      <AdministrationDate>2011-05-01</AdministrationDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate>
-      <SerialNumber>2</SerialNumber>
-      <AdministrationLanguage>English</AdministrationLanguage>
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
-      <SpecialAccommodations>
-           <SpecialAccommodation>Braille</SpecialAccommodation>
-      </SpecialAccommodations>
-      <RetestIndicator>Primary Administration</RetestIndicator>
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
-      <PerformanceLevels>
-           <CodeValue>5</CodeValue>
-           <Description>Extremely well qualified</Description>
-      </PerformanceLevels>
-      <StudentReference>
-           <StudentIdentity>
-                <StudentUniqueStateId>900000011</StudentUniqueStateId>
-           </StudentIdentity>
-      </StudentReference>
-      <AssessmentReference>
-           <AssessmentIdentity>
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+  
+  
+ 
+   <StudentAssessment> 
+      <AdministrationDate>2011-05-01</AdministrationDate> 
+      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
+      <SerialNumber>2</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <SpecialAccommodations> 
+           <SpecialAccommodation>Braille</SpecialAccommodation> 
+      </SpecialAccommodations> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>5</CodeValue> 
+           <Description>Extremely well qualified</Description> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>900000011</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>English Language and Composition</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+  
+  
+   <StudentAssessment> 
+      <AdministrationDate>2011-05-01</AdministrationDate> 
+      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
+      <SerialNumber>6</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <LinguisticAccommodations> 
+           <LinguisticAccommodation>English Dictionary</LinguisticAccommodation> 
+      </LinguisticAccommodations> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>3</CodeValue> 
+           <Description>Qualified</Description> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>900000015</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
                 <AssessmentTitle>English Language and Composition</AssessmentTitle>
                 <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
                 <Version>1</Version>
-           </AssessmentIdentity>
-      </AssessmentReference>
-   </StudentAssessment>
-
-
-   <StudentAssessment>
-      <AdministrationDate>2011-05-01</AdministrationDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate>
-      <SerialNumber>6</SerialNumber>
-      <AdministrationLanguage>English</AdministrationLanguage>
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
-      <LinguisticAccommodations>
-           <LinguisticAccommodation>English Dictionary</LinguisticAccommodation>
-      </LinguisticAccommodations>
-      <RetestIndicator>Primary Administration</RetestIndicator>
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
-      <PerformanceLevels>
-           <CodeValue>3</CodeValue>
-           <Description>Qualified</Description>
-      </PerformanceLevels>
-      <StudentReference>
-           <StudentIdentity>
-                <StudentUniqueStateId>900000015</StudentUniqueStateId>
-           </StudentIdentity>
-      </StudentReference>
-      <AssessmentReference>
-           <AssessmentIdentity>
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+ 
+   <StudentAssessment> 
+      <AdministrationDate>2011-05-01</AdministrationDate> 
+      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>2</CodeValue> 
+           <Description>Possibly qualified</Description> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>900000016</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>English Language and Composition</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+  
+   <StudentAssessment> 
+      <AdministrationDate>2011-05-01</AdministrationDate> 
+      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
+      <SerialNumber>6</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>5</CodeValue> 
+           <Description>Extremely well qualified</Description> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>900000017</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
                 <AssessmentTitle>English Language and Composition</AssessmentTitle>
                 <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
                 <Version>1</Version>
-           </AssessmentIdentity>
-      </AssessmentReference>
-   </StudentAssessment>
-
-   <StudentAssessment>
-      <AdministrationDate>2011-05-01</AdministrationDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate>
-      <SerialNumber>9</SerialNumber>
-      <AdministrationLanguage>English</AdministrationLanguage>
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
-      <RetestIndicator>Primary Administration</RetestIndicator>
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
-      <PerformanceLevels>
-           <CodeValue>2</CodeValue>
-           <Description>Possibly qualified</Description>
-      </PerformanceLevels>
-      <StudentReference>
-           <StudentIdentity>
-                <StudentUniqueStateId>900000016</StudentUniqueStateId>
-           </StudentIdentity>
-      </StudentReference>
-      <AssessmentReference>
-           <AssessmentIdentity>
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+   
+   <StudentAssessment> 
+      <AdministrationDate>2011-05-01</AdministrationDate> 
+      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
+      <SerialNumber>6</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <LinguisticAccommodations> 
+           <LinguisticAccommodation>Bilingual Glossary</LinguisticAccommodation> 
+      </LinguisticAccommodations> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>1</CodeValue> 
+           <Description>No recommendation</Description> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>900000018</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>English Language and Composition</AssessmentTitle>
+                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+ 
+   <StudentAssessment> 
+      <AdministrationDate>2011-05-01</AdministrationDate> 
+      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
+      <SerialNumber>1</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <LinguisticAccommodations> 
+           <LinguisticAccommodation>English and Spanish tests side-by-side</LinguisticAccommodation> 
+      </LinguisticAccommodations> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>5</CodeValue> 
+           <Description>Extremely well qualified</Description> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>900000020</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
                 <AssessmentTitle>English Language and Composition</AssessmentTitle>
                 <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
                 <Version>1</Version>
-           </AssessmentIdentity>
-      </AssessmentReference>
-   </StudentAssessment>
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
 
-   <StudentAssessment>
-      <AdministrationDate>2011-05-01</AdministrationDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate>
-      <SerialNumber>6</SerialNumber>
-      <AdministrationLanguage>English</AdministrationLanguage>
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
-      <RetestIndicator>Primary Administration</RetestIndicator>
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
-      <PerformanceLevels>
-           <CodeValue>5</CodeValue>
-           <Description>Extremely well qualified</Description>
-      </PerformanceLevels>
-      <StudentReference>
-           <StudentIdentity>
-                <StudentUniqueStateId>900000017</StudentUniqueStateId>
-           </StudentIdentity>
-      </StudentReference>
-      <AssessmentReference>
-           <AssessmentIdentity>
-                <AssessmentTitle>English Language and Composition</AssessmentTitle>
-                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
-                <Version>1</Version>
-           </AssessmentIdentity>
-      </AssessmentReference>
-   </StudentAssessment>
-
-   <StudentAssessment>
-      <AdministrationDate>2011-05-01</AdministrationDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate>
-      <SerialNumber>6</SerialNumber>
-      <AdministrationLanguage>English</AdministrationLanguage>
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
-      <LinguisticAccommodations>
-           <LinguisticAccommodation>Bilingual Glossary</LinguisticAccommodation>
-      </LinguisticAccommodations>
-      <RetestIndicator>Primary Administration</RetestIndicator>
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
-      <PerformanceLevels>
-           <CodeValue>1</CodeValue>
-           <Description>No recommendation</Description>
-      </PerformanceLevels>
-      <StudentReference>
-           <StudentIdentity>
-                <StudentUniqueStateId>900000018</StudentUniqueStateId>
-           </StudentIdentity>
-      </StudentReference>
-      <AssessmentReference>
-           <AssessmentIdentity>
-                <AssessmentTitle>English Language and Composition</AssessmentTitle>
-                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
-                <Version>1</Version>
-           </AssessmentIdentity>
-      </AssessmentReference>
-   </StudentAssessment>
-
-   <StudentAssessment>
-      <AdministrationDate>2011-05-01</AdministrationDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate>
-      <SerialNumber>1</SerialNumber>
-      <AdministrationLanguage>English</AdministrationLanguage>
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
-      <LinguisticAccommodations>
-           <LinguisticAccommodation>English and Spanish tests side-by-side</LinguisticAccommodation>
-      </LinguisticAccommodations>
-      <RetestIndicator>Primary Administration</RetestIndicator>
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
-      <PerformanceLevels>
-           <CodeValue>5</CodeValue>
-           <Description>Extremely well qualified</Description>
-      </PerformanceLevels>
-      <StudentReference>
-           <StudentIdentity>
-                <StudentUniqueStateId>900000020</StudentUniqueStateId>
-           </StudentIdentity>
-      </StudentReference>
-      <AssessmentReference>
-           <AssessmentIdentity>
-                <AssessmentTitle>English Language and Composition</AssessmentTitle>
-                <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
-                <Version>1</Version>
-           </AssessmentIdentity>
-      </AssessmentReference>
-   </StudentAssessment>
-
-
-   <StudentAssessment>
-      <AdministrationDate>2011-05-01</AdministrationDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      <AdministrationEndDate>2011-05-01</AdministrationEndDate>
-      <SerialNumber>2</SerialNumber>
-      <AdministrationLanguage>English</AdministrationLanguage>
-      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
-      <RetestIndicator>Primary Administration</RetestIndicator>
-      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
-      <PerformanceLevels>
-           <CodeValue>5</CodeValue>
-           <Description>Extremely well qualified</Description>
-      </PerformanceLevels>
-      <StudentReference>
-           <StudentIdentity>
-                <StudentUniqueStateId>900000023</StudentUniqueStateId>
-           </StudentIdentity>
-      </StudentReference>
-      <AssessmentReference>
-           <AssessmentIdentity>
+   
+   <StudentAssessment> 
+      <AdministrationDate>2011-05-01</AdministrationDate> 
+      <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
+      <SerialNumber>2</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>5</CodeValue> 
+           <Description>Extremely well qualified</Description> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>900000023</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
                 <AssessmentTitle>English Literature and Composition</AssessmentTitle>
                 <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
-                <Version>1</Version>
-           </AssessmentIdentity>
-      </AssessmentReference>
-   </StudentAssessment>
-
-
+                <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+ 
+   
 </InterchangeStudentAssessment>

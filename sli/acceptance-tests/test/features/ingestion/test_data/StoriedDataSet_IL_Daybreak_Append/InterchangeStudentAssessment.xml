@@ -3,12 +3,11 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
 	xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentAssessment.xsd">
 
-	<!-- I know what you are thinking.  Why is a kindergarten student taking the SAT, and acing it?
+	<!-- I know what you are thinking.  Why is a kindergarten student taking the SAT, and acing it?  
 		 Keep in mind, this is River Tam we are talking about  -->
 	<StudentAssessment>
 		<AdministrationDate>2011-05-01</AdministrationDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      <SerialNumber>0</SerialNumber>
+		<SerialNumber>0</SerialNumber>
 		<AdministrationLanguage>English</AdministrationLanguage>
 		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
 		<RetestIndicator>Primary Administration</RetestIndicator>
@@ -38,8 +37,7 @@
 
 	<StudentAssessment>
 		<AdministrationDate>2011-05-02</AdministrationDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      <SerialNumber>0</SerialNumber>
+		<SerialNumber>0</SerialNumber>
 		<AdministrationLanguage>English</AdministrationLanguage>
 		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
 		<RetestIndicator>Primary Administration</RetestIndicator>
@@ -66,8 +64,7 @@
 
 	<StudentAssessment>
 		<AdministrationDate>2011-05-01</AdministrationDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      <SerialNumber>0</SerialNumber>
+		<SerialNumber>0</SerialNumber>
 		<AdministrationLanguage>English</AdministrationLanguage>
 		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
 		<RetestIndicator>Primary Administration</RetestIndicator>
@@ -96,11 +93,10 @@
 		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>800</Result>
 		</ScoreResults>
-		<StudentAssessmentReference>
+		<StudentAssessmentReference> 
 			<StudentAssessmentIdentity>
 				<AdministrationDate>2011-05-01</AdministrationDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      		<StudentReference>
+				<StudentReference>
 					<StudentIdentity>
 						<StudentUniqueStateId>42</StudentUniqueStateId>
 					</StudentIdentity>
@@ -137,11 +133,10 @@
 		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>800</Result>
 		</ScoreResults>
-		<StudentAssessmentReference>
+		<StudentAssessmentReference> 
 			<StudentAssessmentIdentity>
 				<AdministrationDate>2011-05-01</AdministrationDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      		<StudentReference>
+				<StudentReference>
 					<StudentIdentity>
 						<StudentUniqueStateId>42</StudentUniqueStateId>
 					</StudentIdentity>
@@ -178,11 +173,10 @@
 		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>800</Result>
 		</ScoreResults>
-		<StudentAssessmentReference>
+		<StudentAssessmentReference> 
 			<StudentAssessmentIdentity>
 				<AdministrationDate>2011-05-01</AdministrationDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      		<StudentReference>
+				<StudentReference>
 					<StudentIdentity>
 						<StudentUniqueStateId>42</StudentUniqueStateId>
 					</StudentIdentity>
@@ -219,11 +213,10 @@
 		<ScoreResults AssessmentReportingMethod="Percentile">
 			<Result>99.99</Result>
 		</ScoreResults>
-		<StudentAssessmentReference>
+		<StudentAssessmentReference> 
 			<StudentAssessmentIdentity>
 				<AdministrationDate>2011-05-01</AdministrationDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      		<StudentReference>
+				<StudentReference>
 					<StudentIdentity>
 						<StudentUniqueStateId>42</StudentUniqueStateId>
 					</StudentIdentity>
@@ -248,11 +241,10 @@
 		<ScoreResults AssessmentReportingMethod="Percentile">
 			<Result>99.99</Result>
 		</ScoreResults>
-		<StudentAssessmentReference>
+		<StudentAssessmentReference> 
 			<StudentAssessmentIdentity>
 				<AdministrationDate>2011-05-01</AdministrationDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      		<StudentReference>
+				<StudentReference>
 					<StudentIdentity>
 						<StudentUniqueStateId>42</StudentUniqueStateId>
 					</StudentIdentity>
@@ -277,11 +269,10 @@
 		<ScoreResults AssessmentReportingMethod="Percentile">
 			<Result>99.99</Result>
 		</ScoreResults>
-		<StudentAssessmentReference>
+		<StudentAssessmentReference> 
 			<StudentAssessmentIdentity>
 				<AdministrationDate>2011-05-01</AdministrationDate>
-      <SchoolYear>2011-2012</SchoolYear>
-      		<StudentReference>
+				<StudentReference>
 					<StudentIdentity>
 						<StudentUniqueStateId>42</StudentUniqueStateId>
 					</StudentIdentity>
@@ -337,59 +328,59 @@
 			</ObjectiveAssessmentIdentity>
 		</ObjectiveAssessmentReference>
 	</StudentObjectiveAssessment>
-
-<!--	<StudentAssessment>
-	  <AdministrationDate>2011-05-01</AdministrationDate>
-	  <AdministrationEndDate>2011-05-01</AdministrationEndDate>
-	  <SerialNumber>5</SerialNumber>
-	  <AdministrationLanguage>English</AdministrationLanguage>
-	  <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
-	  <SpecialAccommodations>
-		   <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation>
-	  </SpecialAccommodations>
+	
+<!--	<StudentAssessment> 
+	  <AdministrationDate>2011-05-01</AdministrationDate> 
+	  <AdministrationEndDate>2011-05-01</AdministrationEndDate> 
+	  <SerialNumber>5</SerialNumber> 
+	  <AdministrationLanguage>English</AdministrationLanguage> 
+	  <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+	  <SpecialAccommodations> 
+		   <SpecialAccommodation>Dyslexia Bundled</SpecialAccommodation> 
+	  </SpecialAccommodations> 
 	  <RetestIndicator>Primary Administration</RetestIndicator>
 	  <ScoreResults AssessmentReportingMethod="Scale score">
-		  <Result>28</Result>
-	  </ScoreResults>
-	  <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed>
+		  <Result>28</Result> 
+	  </ScoreResults>  
+	  <GradeLevelWhenAssessed>Twelfth grade</GradeLevelWhenAssessed> 
 	  <PerformanceLevels><CodeValue>Math110</CodeValue></PerformanceLevels>
-	  <StudentReference>
-		   <StudentIdentity>
-				<StudentUniqueStateId>42</StudentUniqueStateId>
-		   </StudentIdentity>
-	  </StudentReference>
-	  <AssessmentReference>
-		   <AssessmentIdentity>
-				<AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-					 <ID>ACT</ID>
-				</AssessmentIdentificationCode>
-		   </AssessmentIdentity>
-	  </AssessmentReference>
+	  <StudentReference> 
+		   <StudentIdentity> 
+				<StudentUniqueStateId>42</StudentUniqueStateId> 
+		   </StudentIdentity> 
+	  </StudentReference> 
+	  <AssessmentReference> 
+		   <AssessmentIdentity> 
+				<AssessmentIdentificationCode IdentificationSystem="Test Contractor"> 
+					 <ID>ACT</ID> 
+				</AssessmentIdentificationCode> 
+		   </AssessmentIdentity> 
+	  </AssessmentReference> 
    </StudentAssessment>
 
-   <StudentObjectiveAssessment>
-	   <ScoreResults AssessmentReportingMethod="Scale score">
-		 <Result>9</Result>
+   <StudentObjectiveAssessment> 
+	   <ScoreResults AssessmentReportingMethod="Scale score"> 
+		 <Result>9</Result> 
 	   </ScoreResults>
 	   <PerformanceLevels><CodeValue>Math110</CodeValue></PerformanceLevels>
-	   <StudentAssessmentReference/>
-	   <ObjectiveAssessmentReference>
-		   <ObjectiveAssessmentIdentity>
-			   <ObjectiveAssessmentIdentificationCode>ACT-Math-Pre-Algebra</ObjectiveAssessmentIdentificationCode>
-		   </ObjectiveAssessmentIdentity>
-	   </ObjectiveAssessmentReference>
-   </StudentObjectiveAssessment>
+	   <StudentAssessmentReference/> 
+	   <ObjectiveAssessmentReference> 
+		   <ObjectiveAssessmentIdentity> 
+			   <ObjectiveAssessmentIdentificationCode>ACT-Math-Pre-Algebra</ObjectiveAssessmentIdentificationCode> 
+		   </ObjectiveAssessmentIdentity> 
+	   </ObjectiveAssessmentReference> 
+   </StudentObjectiveAssessment> 
 
-   <StudentObjectiveAssessment>
-       <ScoreResults AssessmentReportingMethod="Scale score">
-         <Result>14</Result>
-       </ScoreResults>
-       <StudentAssessmentReference/>
-       <ObjectiveAssessmentReference>
-           <ObjectiveAssessmentIdentity>
-               <ObjectiveAssessmentIdentificationCode>ACT-Math-Plane-Geometry</ObjectiveAssessmentIdentificationCode>
-           </ObjectiveAssessmentIdentity>
-       </ObjectiveAssessmentReference>
+   <StudentObjectiveAssessment> 
+       <ScoreResults AssessmentReportingMethod="Scale score"> 
+         <Result>14</Result> 
+       </ScoreResults> 
+       <StudentAssessmentReference/> 
+       <ObjectiveAssessmentReference> 
+           <ObjectiveAssessmentIdentity> 
+               <ObjectiveAssessmentIdentificationCode>ACT-Math-Plane-Geometry</ObjectiveAssessmentIdentificationCode> 
+           </ObjectiveAssessmentIdentity> 
+       </ObjectiveAssessmentReference> 
    </StudentObjectiveAssessment> -->
 <!--originally been commented -->
 <!--	<StudentAssessmentItem>
@@ -403,7 +394,7 @@
    			</AssessmentItemIdentity>
    		</AssessmentItemReference>
    </StudentAssessmentItem>
-
+   
    <StudentAssessmentItem>
    		<StudentObjectiveAssessmentReference/>
    		<AssessmentItemResult>False</AssessmentItemResult>
@@ -415,7 +406,7 @@
    			</AssessmentItemIdentity>
    		</AssessmentItemReference>
    </StudentAssessmentItem>
-
+   
    <StudentAssessmentItem>
    		<StudentObjectiveAssessmentReference/>
    		<AssessmentItemResult>True</AssessmentItemResult>
@@ -440,7 +431,7 @@
    			</AssessmentItemIdentity>
    		</AssessmentItemReference>
    </StudentAssessmentItem>
-
+   
    <StudentAssessmentItem>
 		<AssessmentResponse>True</AssessmentResponse>
    		<AssessmentItemResult>Correct</AssessmentItemResult>

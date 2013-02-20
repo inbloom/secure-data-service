@@ -697,7 +697,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-StudentAssessment">
 		<xs:annotation>
-			<xs:documentation>StudentAssessment record with key fields: AdministrationDate, SchoolYear (optional), StudentReference (StudentUniqueStateId) and AssessmentReference (AssessmentTitle, AcademicSubject, GradeLevelAssessed, Version). Changed types of StudentReference and AssessmentReference to SLC reference types.</xs:documentation>
+			<xs:documentation>StudentAssessment record with key fields: AdministrationDate, StudentReference (StudentUniqueStateId) and AssessmentReference (AssessmentTitle, AcademicSubject, GradeLevelAssessed, Version). Changed types of StudentReference and AssessmentReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>studentAssessment</sli:recordType>
 			</xs:appinfo>
@@ -706,8 +706,7 @@
 			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
 					<xs:element name="AdministrationDate" type="xs:date"/>
-				    <xs:element name="SchoolYear" type="SchoolYearType" minOccurs="0"/>
-				    <xs:element name="AdministrationEndDate" type="xs:date" minOccurs="0"/>
+					<xs:element name="AdministrationEndDate" type="xs:date" minOccurs="0"/>
 				    <xs:element name="SerialNumber" type="IdentificationCode" minOccurs="0"/>
 					<xs:element name="AdministrationLanguage" type="LanguageItemType" minOccurs="0"/>
 					<xs:element name="AdministrationEnvironment" type="AdministrationEnvironmentType" minOccurs="0"/>
@@ -726,7 +725,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-StudentAssessmentItem">
 		<xs:annotation>
-			<xs:documentation>StudentAssessmentItem record with key field: StudentAssessmentReference (AdministrationDate, SchoolYear (optional), StudentUniqueStateId, AssessmentTitle, AcademicSubject, GradeLevelAssessed, Version) and AssessmentItemReference (AssessmentItemIdentificationCode). Changed types of StudentAssessmentReference, StudentObjectiveAssessmentReference and AssessmentItemReference to SLC reference types.</xs:documentation>
+			<xs:documentation>StudentAssessmentItem record with key field: StudentAssessmentReference (AdministrationDate, StudentUniqueStateId, AssessmentTitle, AcademicSubject, GradeLevelAssessed, Version) and AssessmentItemReference (AssessmentItemIdentificationCode). Changed types of StudentAssessmentReference, StudentObjectiveAssessmentReference and AssessmentItemReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>studentAssessmentItem</sli:recordType>
 			</xs:appinfo>
@@ -814,7 +813,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-StudentObjectiveAssessment">
 		<xs:annotation>
-			<xs:documentation>StudentObjectiveAssessment record with key fields: StudentAssessmentReference (AdministrationDate, SchoolYear (optional), StudentUniqueStateId, AssessmentTitle, AcademicSubject, GradeLevelAssessed, Version) and AssessmentItemReference (AssessmentItemIdentificationCode). Changed types of StudentAssessmentReference and ObjectiveAssessmentReference to SLC reference types.</xs:documentation>
+			<xs:documentation>StudentObjectiveAssessment record with key fields: StudentAssessmentReference (AdministrationDate, StudentUniqueStateId, AssessmentTitle, AcademicSubject, GradeLevelAssessed, Version) and AssessmentItemReference (AssessmentItemIdentificationCode). Changed types of StudentAssessmentReference and ObjectiveAssessmentReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>studentObjectiveAssessment</sli:recordType>
 			</xs:appinfo>
@@ -1950,7 +1949,7 @@
 	</xs:complexType>
 	<xs:complexType name="SLC-StudentAssessmentIdentityType">
 		<xs:annotation>
-			<xs:documentation>New SLC identity type for StudentAssessment. Contains keyfields: AdministrationDate, SchoolYear (optional), an embedded StudentReference and an embedded AssessmentReference.</xs:documentation>
+			<xs:documentation>New SLC identity type for StudentAssessment. Contains keyfields: AdministrationDate, an embedded StudentReference and an embedded AssessmentReference.</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="AdministrationDate" type="xs:date">
@@ -1960,13 +1959,6 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-		    <xs:element name="SchoolYear" type="SchoolYearType" minOccurs="0">
-		        <xs:annotation>
-		            <xs:appinfo>
-		                <sli:keyFieldName>schoolYear</sli:keyFieldName>
-		            </xs:appinfo>
-		        </xs:annotation>		        
-		    </xs:element>
 			<xs:element name="StudentReference" type="SLC-StudentReferenceType">
 				<xs:annotation>
 					<xs:appinfo>
