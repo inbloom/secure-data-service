@@ -17,6 +17,7 @@
 package org.slc.sli.dal.convert;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -34,47 +35,61 @@ public class AssessmentConverter implements SuperdocConverter {
     
     @Override
     public void subdocToBodyField(Entity entity) {
-
         if (entity != null && entity.getType().equals(EntityNames.ASSESSMENT)) {
-            if ((entity.getEmbeddedData() != null) && !entity.getEmbeddedData().isEmpty()) {
-                for (Map.Entry<String, List<Entity>> enbDocList : entity.getEmbeddedData().entrySet()) {
-                    List<Map<String, Object>> subDocbody = new ArrayList<Map<String, Object>>();
-                    for (Entity subEntity : enbDocList.getValue()) {
-                        // remove the assessmentId field
-                        subEntity.getBody().remove("assessmentId");
-                        subDocbody.add(subEntity.getBody());
-                    }
-                    entity.getBody().put(enbDocList.getKey(), subDocbody);
-                }
-                entity.getEmbeddedData().clear();
-            }
+            subdocsToBody(entity, "assessmentItem", Arrays.asList("assessmentId")); 
+            subdocsToBody(entity, "objectiveAssessment", Arrays.asList("assessmentId")); 
+            entity.getEmbeddedData().clear();
         }
     }
+   
+    private Entity subdocsToBody(Entity parent, String subentityType, List<String> removeFields) {
+    	if (parent.getEmbeddedData() == null || parent.getEmbeddedData().isEmpty()) {
+    		return parent;
+    	}
+    	
+    	List<Entity> subdocs = parent.getEmbeddedData().remove(subentityType);
+    	if (subdocs == null || subdocs.isEmpty()) {
+    		return parent;
+    	}
+    	
+    	List<Map<String, Object>> subdocBody = new ArrayList<Map<String, Object>>();
+    	for (Entity e : subdocs) {
+    		for (String field : removeFields) {
+    			e.getBody().remove(field);
+    		}
+    		subdocBody.add(e.getBody());
+    	}
+    	parent.getBody().put(subentityType, subdocBody);
+    	
+    	return parent;
+    } 
     
-    @SuppressWarnings("unchecked")
     @Override
     public void bodyFieldToSubdoc(Entity entity) {
         if (entity != null && entity.getType().equals(EntityNames.ASSESSMENT)) {
-            // convert assessmentitem
-            if (entity.getBody().get("assessmentItem") != null) {
-                List<Entity> subdocAssessmentItems = new ArrayList<Entity>();
-                List<Map<String, Object>> assessmentItems = (List<Map<String, Object>>) entity.getBody().get(
-                        "assessmentItem");
-                for (Map<String, Object> assessmentItem : assessmentItems) {
-                 // TODO generate cat did for assessmentitem
-                    MongoEntity subdocAssessmentItem = new MongoEntity("assessmentItem", "assessment_idassessmentItem_id", assessmentItem, null);
-                    
-                    
-                    subdocAssessmentItems.add(subdocAssessmentItem);
-                }
-                entity.getEmbeddedData().put("assessmentItem", subdocAssessmentItems);
-                entity.getBody().remove("assessmentItem");
-            }
-            // TODO convert objectiveAssessment
-            if (entity.getBody().get("objectiveAssessment") != null) {
-                // Do something
-            }
+        	bodyToSubdocs(entity, "assessmentItem", "assessmentId");
+        	bodyToSubdocs(entity, "objectiveAssessment", "assessmentId");
         }
+    }
+    
+    private Entity bodyToSubdocs(Entity parent, String subentityType, String parentKey) {
+    	if (parent.getBody().get(subentityType) != null) {
+    		List<Entity> subdocs = new ArrayList<Entity>();
+    		@SuppressWarnings("unchecked")
+			List<Map<String, Object>> subdocInBody = (List<Map<String, Object>>) parent.getBody().get(subentityType);
+    		for (Map<String, Object> inbodyDoc : subdocInBody) {
+    			inbodyDoc.put(parentKey, parent.getEntityId());
+    			MongoEntity subdoc = new MongoEntity(subentityType, null, inbodyDoc, null);
+    			subdocs.add(subdoc);
+    		}
+    		
+    		if (!subdocs.isEmpty()) {
+    			parent.getEmbeddedData().put(subentityType, subdocs);
+    			parent.getBody().remove(subentityType);
+    		}
+    	}
+    	
+    	return parent;
     }
     
     @Override
@@ -88,6 +103,11 @@ public class AssessmentConverter implements SuperdocConverter {
     
     @Override
     public void bodyFieldToSubdoc(Iterable<Entity> entities) {
-        // TODO Auto-generated method stub
+    	if (entities != null) {
+    		for (Entity entity : entities) {
+    			bodyFieldToSubdoc(entity);
+    		}
+    	}
     }
+    
 }
