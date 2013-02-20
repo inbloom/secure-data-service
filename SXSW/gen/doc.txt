@@ -1,0 +1,65 @@
+School Year   Always 2012-2013
+SCHOOL
+STU_ID   *CHANGE*
+Student Last Name
+Student First Name
+CLASS
+Grade
+Benchmark Period  Alternet *BOY/MOY*
+
+Assessment Measure-Composite Score-Levels
+Assessment Measure-Composite Score-Score
+
+Assessment Measure-DORF (Fluency)-Levels
+Assessment Measure-DORF (Fluency)-Score
+
+Assessment Measure-DORF (Accuracy)-Levels
+Assessment Measure-DORF (Accuracy)-Score
+
+Assessment Measure-DORF (Retell)-Levels
+Assessment Measure-DORF (Retell)-Score
+
+Assessment Measure-DORF (Retell Quality)-Levels
+Assessment Measure-DORF (Retell Quality)-Score
+
+Assessment Measure-Daze-Levels
+Assessment Measure-Daze-Score
+
+Assessment Measure-TRC Proficiency Level-Levels
+Assessment Measure-Final Story Details-Book Level
+
+   <!--  Rafaela Coleson -->
+   <StudentAssessment> 
+      <AdministrationDate>2012-10-01</AdministrationDate>    BOY = 2012-10-01   MOY 2013-02-01
+      <AdministrationEndDate>2012-10-01</AdministrationEndDate>   ""
+      <SerialNumber>9</SerialNumber> const
+      <AdministrationLanguage>English</AdministrationLanguage>  const
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>  const 
+      <RetestIndicator>Primary Administration</RetestIndicator>  const
+      <ReasonNotTested>Medical waiver</ReasonNotTested>  const
+      <ScoreResults AssessmentReportingMethod="Mastery level"> const
+          <Result>S</Result> Assessment Measure-Final Story Details-Book Level
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> const
+      <PerformanceLevels> 
+           <CodeValue>Proficient</CodeValue>   Assessment Measure-TRC Proficiency Level-Levels
+
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000001</StudentUniqueStateId> STU_ID   *CHANGE*
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 BOY</AssessmentTitle>  "<assmt> <gradelevel> 12-13 <bench period>"
+        <AcademicSubject>Reading</AcademicSubject> const
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed> const
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+    
+
+
+

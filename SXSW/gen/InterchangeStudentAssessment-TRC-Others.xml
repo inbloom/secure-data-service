@@ -1,0 +1,1165 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentAssessment xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/edfiXsd/Interchange-StudentAssessment.xsd">
+ 
+   <!--  Rafaela Coleson -->
+   <StudentAssessment> 
+      <AdministrationDate>2012-10-01</AdministrationDate> 
+      <AdministrationEndDate>2012-10-01</AdministrationEndDate> 
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>S</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000001</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 BOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+    
+   <StudentAssessment> 
+      <AdministrationDate>2013-02-01</AdministrationDate> 
+      <AdministrationEndDate>2013-02-01</AdministrationEndDate>
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>U</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000001</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 MOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+
+   <!--  Archie Forker -->
+   <StudentAssessment> 
+      <AdministrationDate>2012-10-01</AdministrationDate> 
+      <AdministrationEndDate>2012-10-01</AdministrationEndDate> 
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>Q</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Far Below Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000002</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 BOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+    
+   <StudentAssessment> 
+      <AdministrationDate>2013-02-01</AdministrationDate> 
+      <AdministrationEndDate>2013-02-01</AdministrationEndDate>
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>S</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Below Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000002</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 MOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+
+   <!--  Gerardo Gayer -->
+   <StudentAssessment> 
+      <AdministrationDate>2012-10-01</AdministrationDate> 
+      <AdministrationEndDate>2012-10-01</AdministrationEndDate> 
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>R</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Below Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000003</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 BOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+    
+   <StudentAssessment> 
+      <AdministrationDate>2013-02-01</AdministrationDate> 
+      <AdministrationEndDate>2013-02-01</AdministrationEndDate>
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>R</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Far Below Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000003</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 MOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+
+   <!--  Malcolm Haehn -->
+   <StudentAssessment> 
+      <AdministrationDate>2012-10-01</AdministrationDate> 
+      <AdministrationEndDate>2012-10-01</AdministrationEndDate> 
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>Q</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Far Below Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000004</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 BOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+    
+   <StudentAssessment> 
+      <AdministrationDate>2013-02-01</AdministrationDate> 
+      <AdministrationEndDate>2013-02-01</AdministrationEndDate>
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>U</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000004</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 MOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+
+   <!--  Garry Kinsel -->
+   <StudentAssessment> 
+      <AdministrationDate>2012-10-01</AdministrationDate> 
+      <AdministrationEndDate>2012-10-01</AdministrationEndDate> 
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>U</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Above Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000005</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 BOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+    
+   <StudentAssessment> 
+      <AdministrationDate>2013-02-01</AdministrationDate> 
+      <AdministrationEndDate>2013-02-01</AdministrationEndDate>
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>U</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000005</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 MOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+
+   <!-- Preston Lynds -->
+   <StudentAssessment> 
+      <AdministrationDate>2012-10-01</AdministrationDate> 
+      <AdministrationEndDate>2012-10-01</AdministrationEndDate> 
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>P</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Far Below Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000006</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 BOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+    
+   <StudentAssessment> 
+      <AdministrationDate>2013-02-01</AdministrationDate> 
+      <AdministrationEndDate>2013-02-01</AdministrationEndDate>
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>U</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000001</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 MOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+
+   <!-- Jayme Mabee -->
+   <StudentAssessment> 
+      <AdministrationDate>2012-10-01</AdministrationDate> 
+      <AdministrationEndDate>2012-10-01</AdministrationEndDate> 
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>S</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000007</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 BOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+    
+   <StudentAssessment> 
+      <AdministrationDate>2013-02-01</AdministrationDate> 
+      <AdministrationEndDate>2013-02-01</AdministrationEndDate>
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>R</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Far Below Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000007</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 MOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+
+   <!-- Larissa Marney -->
+   <StudentAssessment> 
+      <AdministrationDate>2012-10-01</AdministrationDate> 
+      <AdministrationEndDate>2012-10-01</AdministrationEndDate> 
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>S</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000008</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 BOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+    
+   <StudentAssessment> 
+      <AdministrationDate>2013-02-01</AdministrationDate> 
+      <AdministrationEndDate>2013-02-01</AdministrationEndDate>
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>U</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000008</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 MOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+
+   <!-- Alecia Nakken -->
+   <StudentAssessment> 
+      <AdministrationDate>2012-10-01</AdministrationDate> 
+      <AdministrationEndDate>2012-10-01</AdministrationEndDate> 
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>U</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Above Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000009</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 BOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+    
+   <StudentAssessment> 
+      <AdministrationDate>2013-02-01</AdministrationDate> 
+      <AdministrationEndDate>2013-02-01</AdministrationEndDate>
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>U</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000009</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 MOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+
+   <!-- Dara Nemecek -->
+   <StudentAssessment> 
+      <AdministrationDate>2012-10-01</AdministrationDate> 
+      <AdministrationEndDate>2012-10-01</AdministrationEndDate> 
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>U</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Above Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000010</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 BOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+    
+   <StudentAssessment> 
+      <AdministrationDate>2013-02-01</AdministrationDate> 
+      <AdministrationEndDate>2013-02-01</AdministrationEndDate>
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>U</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000010</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 MOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+
+   <!-- Dalia Pingel -->
+   <StudentAssessment> 
+      <AdministrationDate>2012-10-01</AdministrationDate> 
+      <AdministrationEndDate>2012-10-01</AdministrationEndDate> 
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>O</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Far Below Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000011</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 BOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+    
+   <StudentAssessment> 
+      <AdministrationDate>2013-02-01</AdministrationDate> 
+      <AdministrationEndDate>2013-02-01</AdministrationEndDate>
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>O</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Far Below Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000011</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 MOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+
+   <!-- Felipe Rafalski -->
+   <StudentAssessment> 
+      <AdministrationDate>2012-10-01</AdministrationDate> 
+      <AdministrationEndDate>2012-10-01</AdministrationEndDate> 
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>N</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Far Below Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000012</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 BOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+    
+   <StudentAssessment> 
+      <AdministrationDate>2013-02-01</AdministrationDate> 
+      <AdministrationEndDate>2013-02-01</AdministrationEndDate>
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>P</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Far Below Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000012</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 MOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+
+   <!-- Lauretta Seip -->
+   <StudentAssessment> 
+      <AdministrationDate>2012-10-01</AdministrationDate> 
+      <AdministrationEndDate>2012-10-01</AdministrationEndDate> 
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>Q</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Far Below Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000013</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 BOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+    
+   <StudentAssessment> 
+      <AdministrationDate>2013-02-01</AdministrationDate> 
+      <AdministrationEndDate>2013-02-01</AdministrationEndDate>
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>R</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Far Below Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000013</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 MOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+
+   <!-- Rudolph Sennett -->
+   <StudentAssessment> 
+      <AdministrationDate>2012-10-01</AdministrationDate> 
+      <AdministrationEndDate>2012-10-01</AdministrationEndDate> 
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>Q</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Far Below Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000014</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 BOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+    
+   <StudentAssessment> 
+      <AdministrationDate>2013-02-01</AdministrationDate> 
+      <AdministrationEndDate>2013-02-01</AdministrationEndDate>
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>U</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000014</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 MOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+
+   <!-- Vesta Smay -->
+   <StudentAssessment> 
+      <AdministrationDate>2012-10-01</AdministrationDate> 
+      <AdministrationEndDate>2012-10-01</AdministrationEndDate> 
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>U</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Above Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000015</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 BOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+    
+   <StudentAssessment> 
+      <AdministrationDate>2013-02-01</AdministrationDate> 
+      <AdministrationEndDate>2013-02-01</AdministrationEndDate>
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>U</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000015</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 MOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+
+   <!-- Dominic Smolka -->
+   <StudentAssessment> 
+      <AdministrationDate>2012-10-01</AdministrationDate> 
+      <AdministrationEndDate>2012-10-01</AdministrationEndDate> 
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>U</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Above Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000016</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 BOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+    
+   <StudentAssessment> 
+      <AdministrationDate>2013-02-01</AdministrationDate> 
+      <AdministrationEndDate>2013-02-01</AdministrationEndDate>
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>U</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000016</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 MOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+
+   <!-- Dara Nemecek -->
+   <StudentAssessment> 
+      <AdministrationDate>2012-10-01</AdministrationDate> 
+      <AdministrationEndDate>2012-10-01</AdministrationEndDate> 
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>U</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Above Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000010</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 BOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+    
+   <StudentAssessment> 
+      <AdministrationDate>2013-02-01</AdministrationDate> 
+      <AdministrationEndDate>2013-02-01</AdministrationEndDate>
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>U</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000010</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 MOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+
+   <!-- Dara Nemecek -->
+   <StudentAssessment> 
+      <AdministrationDate>2012-10-01</AdministrationDate> 
+      <AdministrationEndDate>2012-10-01</AdministrationEndDate> 
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>U</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Above Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000010</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 BOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+    
+   <StudentAssessment> 
+      <AdministrationDate>2013-02-01</AdministrationDate> 
+      <AdministrationEndDate>2013-02-01</AdministrationEndDate>
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>U</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000010</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 MOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+
+   <!-- Dara Nemecek -->
+   <StudentAssessment> 
+      <AdministrationDate>2012-10-01</AdministrationDate> 
+      <AdministrationEndDate>2012-10-01</AdministrationEndDate> 
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>U</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Above Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000010</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 BOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+    
+   <StudentAssessment> 
+      <AdministrationDate>2013-02-01</AdministrationDate> 
+      <AdministrationEndDate>2013-02-01</AdministrationEndDate>
+      <SerialNumber>9</SerialNumber> 
+      <AdministrationLanguage>English</AdministrationLanguage> 
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
+      <RetestIndicator>Primary Administration</RetestIndicator> 
+      <ReasonNotTested>Medical waiver</ReasonNotTested> 
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>U</Result> 
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed> 
+      <PerformanceLevels> 
+           <CodeValue>Proficient</CodeValue> 
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>500000010</StudentUniqueStateId> 
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>TRC Fifth Grade 12-13 MOY</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 
+
+
+</InterchangeStudentAssessment>

@@ -1,0 +1,30 @@
+   <!-- __Comment__ -->
+   <StudentAssessment> 
+      <AdministrationDate>__AdministrationDate__</AdministrationDate>
+      <AdministrationEndDate>__AdministrationDate__</AdministrationEndDate>
+      <SerialNumber>9</SerialNumber>
+      <AdministrationLanguage>English</AdministrationLanguage>
+      <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+      <RetestIndicator>Primary Administration</RetestIndicator>
+      <ReasonNotTested>Medical waiver</ReasonNotTested>
+      <ScoreResults AssessmentReportingMethod="Mastery level">
+          <Result>__Score__</Result>
+      </ScoreResults> 
+      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
+      <PerformanceLevels> 
+           <CodeValue>__Level__</CodeValue>
+      </PerformanceLevels> 
+      <StudentReference> 
+           <StudentIdentity> 
+                <StudentUniqueStateId>__StudentId__</StudentUniqueStateId>
+           </StudentIdentity> 
+      </StudentReference> 
+      <AssessmentReference> 
+           <AssessmentIdentity> 
+                <AssessmentTitle>__AssessmentTitle__</AssessmentTitle>
+        <AcademicSubject>Reading</AcademicSubject>
+        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+        <Version>1</Version> 
+           </AssessmentIdentity> 
+      </AssessmentReference> 
+   </StudentAssessment> 

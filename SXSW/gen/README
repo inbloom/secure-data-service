@@ -1,0 +1,37 @@
+
+Python script to generate InterchangeStudentAssessment.xml data from .CSV file
+J. Hinsdale, 20Feb2013
+Wireless Generation Megatron Team, Jersey City, NJ
+
+TO USE:
+Run "gen.py" and redirect output to the described XML file name
+
+The output XML is of the form
+    header
+	templates
+    footer
+
+HOW IT WORKS:
+
+Constant markup is in the file "template.xml" which has placeholder
+tokens into which values are substituted.
+
+Each line in the .CSV input file expands to an XML entity output for
+each of the repeating pairs of trailing columns (level, score)
+
+SUMMARY OF FILES IN THIS DIRECTORY:
+
+File 	    	      	       		            Purpose
+-------------------------------------------------   --------------------------------------------------------
+README	    	                                    This file
+doc.txt						    Summary of .CSV column headers
+gen.py*						    Generator script
+header.xml					    Static XML markup
+footer.xml	      				    ""
+template.xml					    ""
+input.csv					    Actual input to gen.py (with newlines fixed)
+inBloom data - Reading 3D final.csv		    Data provided to the team, basis for input.csv above 
+student_map.py					    Map of student name to ID
+inBloomData-KB_with_ids.csv	       	       	    Data used to create above map
+InterchangeStudentAssessment-DIBELS_Next-Matt.xml   Reference output data for checking
+InterchangeStudentAssessment-TRC-Others.xml	    ""
