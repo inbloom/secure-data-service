@@ -21,8 +21,8 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Arrays;
+import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 
@@ -36,15 +36,14 @@ public class ContainerDocumentTest {
 
     @Test
     public void getContainerDocument() {
-        final Map<String, String> parentMap = new HashMap<String, String>();
-        parentMap.put("k1", "v1");
+        final List<String> parentKeys = Arrays.asList("k1");
         final ContainerDocument testDocument = ContainerDocument.builder()
                 .forCollection("testCollection")
                 .forField("testField")
-                .withParent(parentMap).build();
+                .withParent(parentKeys).build();
 
         assertEquals("testCollection", testDocument.getCollectionName());
         assertEquals("testField", testDocument.getFieldToPersist());
-        assertEquals("v1", testDocument.getParentNaturalKeyMap().get("k1"));
+        assertEquals("k1", testDocument.getParentNaturalKeys().get(0));
     }
 }

@@ -24,11 +24,9 @@ import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
@@ -65,19 +63,19 @@ public class ContainerDocumentAccessor {
     }
 
     public boolean insert(final Entity entity) {
-        DBObject query = getContainerDocQuery(entity);
+        final DBObject query = getContainerDocQuery(entity);
         return insertContainerDoc(query, entity);
     }
 
-    private DBObject getContainerDocQuery(Entity entity) {
+    private DBObject getContainerDocQuery(final Entity entity) {
         final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
-        String parentKey = createParentKey(entity);
+        final String parentKey = createParentKey(entity);
         //remove parent keys
-        Query query = new Query();
-        query.addCriteria(new Criteria("_id").is(parentKey));
-        Map<String, Object> entityBody = entity.getBody();
 
-        for (Map.Entry<String, Object> value: entityBody.entrySet()) {
+        final Query query = Query.query(Criteria.where("_id").is(parentKey));
+        final Map<String, Object> entityBody = entity.getBody();
+
+        for (Map.Entry<String, Object> value : entityBody.entrySet()) {
             if (!containerDocument.getFieldToPersist().equals(value.getKey())) {
                 query.addCriteria(new Criteria("body." + value.getKey()).is(value.getValue()));
             }
@@ -90,8 +88,8 @@ public class ContainerDocumentAccessor {
     protected String createParentKey(final Entity entity) {
         if (entity.getEntityId() == null || entity.getEntityId().isEmpty()) {
             final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
-            final Map<String, String> parentKeyMap = containerDocument.getParentNaturalKeyMap();
-            final NaturalKeyDescriptor naturalKeyDescriptor = ContainerDocumentHelper.extractNaturalKeyDescriptor(entity, parentKeyMap);
+            final List<String> parentKeys = containerDocument.getParentNaturalKeys();
+            final NaturalKeyDescriptor naturalKeyDescriptor = ContainerDocumentHelper.extractNaturalKeyDescriptor(entity, parentKeys);
 
             return generatorStrategy.generateId(naturalKeyDescriptor);
         } else {
@@ -99,12 +97,12 @@ public class ContainerDocumentAccessor {
         }
     }
 
-    protected boolean insertContainerDoc(DBObject query, Entity entity) {
+    protected boolean insertContainerDoc(final DBObject query, final Entity entity) {
         TenantContext.setIsSystemCall(false);
-        ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
-        String fieldToPersist = containerDocument.getFieldToPersist();
-        DBObject docToPersist = BasicDBObjectBuilder.start().push("$pushAll")
-                .add("body."+ fieldToPersist, entity.getBody().get(fieldToPersist))
+        final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
+        final String fieldToPersist = containerDocument.getFieldToPersist();
+        final DBObject docToPersist = BasicDBObjectBuilder.start().push("$pushAll")
+                .add("body." + fieldToPersist, entity.getBody().get(fieldToPersist))
                 .get();
         boolean persisted = mongoTemplate.getCollection(entity.getType()).update(query,
                 docToPersist, true, false)

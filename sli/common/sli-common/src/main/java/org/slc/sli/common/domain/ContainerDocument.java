@@ -17,23 +17,22 @@
 package org.slc.sli.common.domain;
 
 import java.util.Collections;
-import java.util.Map;
+import java.util.List;
 
 /**
- *
  * @author pghosh
  */
 public final class ContainerDocument {
     private final String collectionName;
-    private final Map<String, String> parentNaturalKeyMap;
+    private final List<String> parentNaturalKeys;
     private final String fieldToPersist;
 
     public String getCollectionName() {
         return collectionName;
     }
 
-    public Map<String, String> getParentNaturalKeyMap() {
-        return Collections.unmodifiableMap(parentNaturalKeyMap);
+    public List<String> getParentNaturalKeys() {
+        return Collections.unmodifiableList(parentNaturalKeys);
     }
 
     public String getFieldToPersist() {
@@ -46,17 +45,16 @@ public final class ContainerDocument {
 
     private ContainerDocument(final ContainerDocumentBuilder builder) {
         this.collectionName = builder.collectionName;
-        this.parentNaturalKeyMap = builder.parentNaturalKeyMap;
+        this.parentNaturalKeys = builder.parentNaturalKeys;
         this.fieldToPersist = builder.fieldToPersist;
     }
 
     /**
-     *
      * @author pghosh
      */
     public static final class ContainerDocumentBuilder {
         private String collectionName;
-        private Map<String, String> parentNaturalKeyMap;
+        private List<String> parentNaturalKeys;
         private String fieldToPersist;
 
         public ContainerDocumentBuilder forCollection(final String collectionName) {
@@ -64,8 +62,8 @@ public final class ContainerDocument {
             return this;
         }
 
-        public ContainerDocumentBuilder withParent(final Map<String, String> parent) {
-            this.parentNaturalKeyMap = parent;
+        public ContainerDocumentBuilder withParent(final List<String> parent) {
+            this.parentNaturalKeys = parent;
             return this;
         }
 
@@ -75,7 +73,7 @@ public final class ContainerDocument {
         }
 
         public ContainerDocument build() {
-            if (collectionName == null || parentNaturalKeyMap == null || fieldToPersist == null) {
+            if (collectionName == null || parentNaturalKeys == null || fieldToPersist == null) {
                 throw new IllegalStateException("The container document is not fully initialized!");
             }
             return new ContainerDocument(this);

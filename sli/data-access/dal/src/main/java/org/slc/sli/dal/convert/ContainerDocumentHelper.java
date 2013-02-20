@@ -20,6 +20,7 @@ import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.domain.Entity;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,9 +29,9 @@ import java.util.Map;
 public class ContainerDocumentHelper {
 
     public static NaturalKeyDescriptor extractNaturalKeyDescriptor(final Entity entity,
-                                                                   final Map<String, String> parentKeyMap) {
+                                                                   final List<String> parentKeys) {
         final Map<String, String> naturalKeyMap = new HashMap<String, String>();
-        for (String key : parentKeyMap.keySet()) {
+        for (final String key : parentKeys) {
             String value = (String) entity.getBody().get(key);
             naturalKeyMap.put(key, value);
         }

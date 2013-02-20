@@ -18,7 +18,9 @@ package org.slc.sli.common.domain;
 
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -34,13 +36,10 @@ public class ContainerDocumentHolder {
     }
 
     private void init() {
-        final Map<String, String> parentKeyMap = new HashMap<String, String>();
-        parentKeyMap.put("studentId", "studentId");
-        parentKeyMap.put("schoolId", "schoolId");
-        parentKeyMap.put("schoolYear", "schoolYear");
+        final List<String> parentKeys = Arrays.asList("studentId", "schoolId", "schoolYear");
         final ContainerDocument attendance = ContainerDocument.builder().forCollection("attendance")
                 .forField("attendanceEvent")
-                .withParent(parentKeyMap).build();
+                .withParent(parentKeys).build();
 
         containerDocumentMap.put("attendance", attendance);
     }

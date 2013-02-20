@@ -31,7 +31,9 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static junit.framework.Assert.assertEquals;
@@ -78,7 +80,7 @@ public class ContainerDocumentAccessorTest {
         final ContainerDocument attendance = createAttendanceContainer();
         final MongoEntity entity = createAttendanceEntity();
         final NaturalKeyDescriptor stubKeyDescriptor =
-                ContainerDocumentHelper.extractNaturalKeyDescriptor(entity, attendance.getParentNaturalKeyMap());
+                ContainerDocumentHelper.extractNaturalKeyDescriptor(entity, attendance.getParentNaturalKeys());
 
         when(mockHolder.getContainerDocument(ATTENDANCE)).thenReturn(attendance);
         when(generatorStrategy.generateId(stubKeyDescriptor)).thenReturn("abc-123");
@@ -107,12 +109,8 @@ public class ContainerDocumentAccessorTest {
                 .withParent(createParentKeyMap()).build();
     }
 
-    private Map<String, String> createParentKeyMap() {
-        final Map<String, String> parentKeyMap = new HashMap<String, String>();
-        parentKeyMap.put("studentId", "studentId");
-        parentKeyMap.put("schoolId", "studentId");
-        parentKeyMap.put("schoolYear", "studentId");
-        return parentKeyMap;
+    private List<String> createParentKeyMap() {
+        return Arrays.asList("studentId", "schoolId", "schoolYear");
     }
 
     private MongoEntity createAttendanceEntity() {
