@@ -43,7 +43,7 @@
   </jb:bean>
   
   <jb:bean beanId="Name"  class="java.util.HashMap" createOnElement="attributes Name">
-        <jb:value property="verification" data="attributes Name Verification _value" />
+        <jb:value property="verification" data="attributes Name a_Verification" />
         <jb:value property="personalTitlePrefix" data="attributes Name PersonalTitlePrefix _value" />
         <jb:value property="firstName" data="attributes Name FirstName _value" />
         <jb:value property="middleName" data="attributes Name MiddleName _value" />
