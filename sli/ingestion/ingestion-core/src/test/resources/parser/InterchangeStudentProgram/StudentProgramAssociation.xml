@@ -1,29 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<InterchangeStudentProgram xmlns:sli="http://slc-sli/ed-org/0.1"
- xmlns="http://ed-fi.org/0100"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
- xsi:schemaLocation="http://ed-fi.org/0100 file:/C:/beta/sli/sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentProgram.xsd">
-    <StudentProgramAssociation id="ID001">
-        <StudentReference>
-            <StudentIdentity>
-                <StudentUniqueStateId>Pt_uyzV4Y0BFCjlg2d</StudentUniqueStateId>
-            </StudentIdentity>
-        </StudentReference>
-        <ProgramReference>
-            <ProgramIdentity>
-                <ProgramId>OtgtFpQRYbfv__</ProgramId>
-            </ProgramIdentity>
-        </ProgramReference>
-        <Services id="ID003" ref="ID002">
-            <ShortDescription>x6So5.qOhsHap-r0JfU80Ap8EHnof</ShortDescription>
-        </Services>
-        <BeginDate>2014-10-04</BeginDate>
-        <EndDate>2013-10-05</EndDate>
-        <ReasonExited>Died or is permanently incapacitated</ReasonExited>
-        <EducationOrganizationReference>
-            <EducationalOrgIdentity>
-                <StateOrganizationId>c88eM1JuQv07CD1r4ssi3Jng</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationReference>
-    </StudentProgramAssociation>
+<InterchangeStudentProgram xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <StudentProgramAssociation id="ID001">
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>Pt_uyzV4Y0BFCjlg2d</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>OtgtFpQRYbfv__</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <Services id="ID003" ref="ID002">
+      <ShortDescription>x6So5.qOhsHap-r0JfU80Ap8EHnof</ShortDescription>
+    </Services>
+    <BeginDate>2014-10-04</BeginDate>
+    <EndDate>2013-10-05</EndDate>
+    <ReasonExited>Died or is permanently incapacitated</ReasonExited>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>c88eM1JuQv07CD1r4ssi3Jng</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </StudentProgramAssociation>
 </InterchangeStudentProgram>

@@ -29,12 +29,12 @@
         <jb:value property="beginDate" data="attributes BeginDate _value" />
         <jb:value property="endDate" data="attributes EndDate _value" />
         <jb:value property="totalInstructionalDays" data="attributes TotalInstructionalDays _value" />
-        <jb:wiring property="gradingPeriodReference" beanIdRef="GradingPeriodReference _value" />
-        <jb:value property="schoolId" data="attributes EducationOrganizationReference _value" />
+        <jb:wiring property="gradingPeriodReference" beanIdRef="GradingPeriodReference" />
+        <jb:value property="schoolId" data="attributes EducationOrganizationReference" />
     </jb:bean>
 
-    <jb:bean beanId="GradingPeriodReference" class="java.util.ArrayList" createOnElement="attributes">
-        <jb:value data="attributes GradingPeriodReference element _value" />
+    <jb:bean beanId="GradingPeriodReference" class="java.util.ArrayList" createOnElement="GradingPeriodReference">
+        <jb:value data="attributes GradingPeriodReference element" />
     </jb:bean>
 
 </smooks-resource-list>

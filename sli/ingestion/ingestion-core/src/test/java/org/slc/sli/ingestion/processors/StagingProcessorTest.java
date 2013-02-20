@@ -77,7 +77,7 @@ public class StagingProcessorTest {
 
         processor.process(exchange);
 
-        Assert.assertEquals(false, exchange.getIn().getHeader("hasErrors"));
+        Assert.assertNull(exchange.getIn().getHeader("hasErrors"));
 
         List<NeutralRecord> verifyStudent = new ArrayList<NeutralRecord>();
         verifyStudent.add(record2);

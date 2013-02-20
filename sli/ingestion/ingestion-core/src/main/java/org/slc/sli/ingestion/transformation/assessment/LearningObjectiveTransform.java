@@ -17,6 +17,7 @@
 package org.slc.sli.ingestion.transformation.assessment;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,7 @@ import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
+
 
 /**
  * Modifies the LearningObjective to match the SLI datamodel.
@@ -122,8 +124,10 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
             List<NeutralRecord> transformedLearningObjectives) {
 
         Map<String, Object> attributes = parentLO.getAttributes();
-        List<Map<String, Object>> childLearningObjRefs = (List<Map<String, Object>>) parentLO.getAttributes().get(
+        Map<String, Object> childLearningObjRef = (Map<String, Object>) parentLO.getAttributes().get(
                 LEARNING_OBJ_REFS);
+        List<Map<String, Object>> childLearningObjRefs = childLearningObjRef==null ? new ArrayList<Map<String, Object>>() :
+            Arrays.asList(childLearningObjRef);
 
         Map<String, Object> parentLearningObjRefs = new HashMap<String, Object>();
 

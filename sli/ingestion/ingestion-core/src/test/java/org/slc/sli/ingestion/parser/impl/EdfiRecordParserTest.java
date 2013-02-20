@@ -93,11 +93,11 @@ public class EdfiRecordParserTest {
             recordCount++;
 
             if (recordCount == 11) {
-                assertEquals(1584, recordMeta.getSourceStartLocation().getLineNumber());
-                assertEquals(1741, recordMeta.getSourceEndLocation().getLineNumber());
+                assertEquals(1574, recordMeta.getSourceStartLocation().getLineNumber());
+                assertEquals(1730, recordMeta.getSourceEndLocation().getLineNumber());
             } else if (recordCount == 13) {
-                assertEquals(1900, recordMeta.getSourceStartLocation().getLineNumber());
-                assertEquals(2057, recordMeta.getSourceEndLocation().getLineNumber());
+                assertEquals(1888, recordMeta.getSourceStartLocation().getLineNumber());
+                assertEquals(2044, recordMeta.getSourceEndLocation().getLineNumber());
             }
         }
     }
@@ -145,5 +145,18 @@ public class EdfiRecordParserTest {
         EdfiRecordParserImpl2.parse(xml.getInputStream(), schema, tp, mockVisitor);
 
         verify(mockVisitor, never()).visit(any(RecordMeta.class), anyMap());
+    }
+
+    @Test
+    public void testNewLineCharacter() throws Throwable {
+
+        Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StudentParent.xsd");
+        Resource xml = new ClassPathResource("parser/InterchangeStudentParent/StudentWithNewLine.xml");
+        Resource expectedJson = new ClassPathResource("parser/InterchangeStudentParent/Student.expected.json");
+
+        RecordVisitor mockVisitor = Mockito.mock(RecordVisitor.class);
+        EdfiRecordParserImpl2.parse(xml.getInputStream(), schema, tp, mockVisitor);
+
+        EntityTestHelper.captureAndCompare(mockVisitor, expectedJson);
     }
 }

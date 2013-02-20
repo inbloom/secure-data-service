@@ -79,7 +79,7 @@ public class EntityTestHelper {
     }
 
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    private static void captureAndCompare(RecordVisitor mockVisitor, Resource expectedJsonResource) throws IOException {
+    public static void captureAndCompare(RecordVisitor mockVisitor, Resource expectedJsonResource) throws IOException {
 
         ArgumentCaptor<Map> recordCaptor = ArgumentCaptor.forClass(Map.class);
         verify(mockVisitor, atLeastOnce()).visit(any(RecordMeta.class), recordCaptor.capture());
@@ -93,7 +93,6 @@ public class EntityTestHelper {
 
     @SuppressWarnings("unchecked")
     private static void compare(Map<String, Object> expected, Map<String, Object> record) {
-
         assertEquals("keys:\n" + expected.keySet() + "\n" + record.keySet() + "\n", expected.size(), record.size());
 
         for (String key : expected.keySet()) {
@@ -107,7 +106,7 @@ public class EntityTestHelper {
 
             if (exp instanceof String) {
                 assertTrue("Missing expected String value type for key: " + key, rec instanceof String);
-                assertTrue("Record expected: " + exp + " for key: " + key, rec.equals(exp));
+                assertEquals(exp, rec);
             }
 
             if (exp instanceof Map) {

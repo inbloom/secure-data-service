@@ -1,41 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<InterchangeStudentAssessment xmlns:sli="http://slc-sli/ed-org/0.1"
- xmlns:ns0="http://ed-fi.org/0100"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <StudentObjectiveAssessment id="ID004">
-        <ScoreResults AssessmentReportingMethod="Achievement/proficiency level">
-            <Result>Result2</Result>
-        </ScoreResults>
-        <ScoreResults AssessmentReportingMethod="Achievement/proficiency level">
-            <Result>Result3</Result>
-        </ScoreResults>
-        <PerformanceLevels id="ID005">
-           <CodeValue>CodeValue2</CodeValue>
-            <PerformanceLevelMet>false</PerformanceLevelMet>
-        </PerformanceLevels>
-        <PerformanceLevels id="ID006">
-            <Description>Description1</Description>
-            <PerformanceLevelMet>false</PerformanceLevelMet>
-        </PerformanceLevels>
-        <StudentAssessmentReference>
-            <StudentAssessmentIdentity>
-                <AdministrationDate>2006-05-04</AdministrationDate>
-                <StudentReference id="ID007">
-                    <StudentIdentity>
-                        <StudentUniqueStateId>StudentUniqueStateId0</StudentUniqueStateId>
-                    </StudentIdentity>
-                </StudentReference>
-                <AssessmentReference id="ID008">
-                    <AssessmentIdentity>
-                        <AssessmentTitle>AssessmentTitle1</AssessmentTitle>
-                    </AssessmentIdentity>
-                </AssessmentReference>
-            </StudentAssessmentIdentity>
-        </StudentAssessmentReference>
-        <ObjectiveAssessmentReference>
-            <ObjectiveAssessmentIdentity>
-                <ObjectiveAssessmentIdentificationCode>ObjectiveAssessmentIdentificationCode0</ObjectiveAssessmentIdentificationCode>
-            </ObjectiveAssessmentIdentity>
-        </ObjectiveAssessmentReference>
-    </StudentObjectiveAssessment>
+<InterchangeStudentAssessment xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <StudentObjectiveAssessment id="ID004">
+    <ScoreResults AssessmentReportingMethod="Achievement/proficiency level">
+      <Result>Result2</Result>
+    </ScoreResults>
+    <ScoreResults AssessmentReportingMethod="Achievement/proficiency level">
+      <Result>Result3</Result>
+    </ScoreResults>
+    <PerformanceLevels id="ID005">
+      <CodeValue>CodeValue2</CodeValue>
+      <PerformanceLevelMet>false</PerformanceLevelMet>
+    </PerformanceLevels>
+    <PerformanceLevels id="ID006">
+      <Description>Description1</Description>
+      <PerformanceLevelMet>false</PerformanceLevelMet>
+    </PerformanceLevels>
+    <StudentAssessmentReference>
+      <StudentAssessmentIdentity>
+        <AdministrationDate>2006-05-04</AdministrationDate>
+        <StudentReference id="ID007">
+          <StudentIdentity>
+            <StudentUniqueStateId>StudentUniqueStateId0</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <AssessmentReference id="ID008">
+          <AssessmentIdentity>
+            <AssessmentTitle>AssessmentTitle1</AssessmentTitle>
+          </AssessmentIdentity>
+        </AssessmentReference>
+      </StudentAssessmentIdentity>
+    </StudentAssessmentReference>
+    <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+        <ObjectiveAssessmentIdentificationCode>ObjectiveAssessmentIdentificationCode0</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+    </ObjectiveAssessmentReference>
+  </StudentObjectiveAssessment>
 </InterchangeStudentAssessment>

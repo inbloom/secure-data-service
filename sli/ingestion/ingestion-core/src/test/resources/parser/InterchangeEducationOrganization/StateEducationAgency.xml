@@ -1,92 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<InterchangeEducationOrganization xmlns:sli="http://slc-sli/ed-org/0.1"
- xmlns="http://ed-fi.org/0100"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <StateEducationAgency id="ID001">
-        <StateOrganizationId>s2KbeMYlPi7B0dD6Jjts5VmxbF</StateOrganizationId>
+<InterchangeEducationOrganization xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <StateEducationAgency id="ID001">
+    <StateOrganizationId>s2KbeMYlPi7B0dD6Jjts5VmxbF</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="DUNS">
+      <ID>GlzIERM8LkrwDBa_QOCUq375y3LBhf87iO_JhjcR5eH8SQ8C33</ID>
+    </EducationOrgIdentificationCode>
+    <EducationOrgIdentificationCode IdentificationSystem="Federal">
+      <ID>JRUxNX.iNSRpxtRko</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>l8ymi2._JqLmUjtmZvL6wgqK8sUyBf</NameOfInstitution>
+    <ShortNameOfInstitution>bR4nLRjTsXA8Am4eMrqoIgWW</ShortNameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>Education Service Center</OrganizationCategory>
+      <OrganizationCategory>State Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <Address AddressType="Work">
+      <AddressLine>FP09pmPhg7wOKV7</AddressLine>
+      <AddressLine>NL2DX5d0DnomhZvlNjIOpVKFAzj_JshHV8bPiHKdFAzYH7mqx3pm4yz7xM7e1KHuefP3dU</AddressLine>
+      <Country>MONTSERRAT</Country>
+      <Latitude>TbRyxX</Latitude>
+      <Longitude>SP_XMKfz6ipEv2dXvNYl</Longitude>
+      <BeginDate>2014-03-20</BeginDate>
+      <EndDate>2013-12-10</EndDate>
+    </Address>
+    <Address AddressType="Home">
+      <StreetNumberName>pZtzHV9zfrcgQV5BnTgDCcvEUQO</StreetNumberName>
+      <ApartmentRoomSuiteNumber>YAg0tqB</ApartmentRoomSuiteNumber>
+      <BuildingSiteNumber>xHolgAC</BuildingSiteNumber>
+      <City>waqtq</City>
+      <StateAbbreviation>KY</StateAbbreviation>
+      <PostalCode>H7J</PostalCode>
+      <NameOfCounty>q3zfgF-sQX.w8ZZHGHb</NameOfCounty>
+      <CountyFIPSCode>Sd9j</CountyFIPSCode>
+      <Latitude>uCg56bt1dx8O.hlQh2</Latitude>
+      <Longitude>O7Drs</Longitude>
+      <BeginDate>2014-03-18</BeginDate>
+      <EndDate>2014-06-26</EndDate>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Administrative">
+      <TelephoneNumber>ByoQbCa</TelephoneNumber>
+    </Telephone>
+    <Telephone InstitutionTelephoneNumberType="HealthClinic">
+      <TelephoneNumber>iApTT-6_e8</TelephoneNumber>
+    </Telephone>
+    <WebSite>w2RW6tI8UkMs9wy4OPMv2ggeBQ.rhfAIoPEkOe39BYtjNVfe0PTr65eGN42V5882oPkDcbu</WebSite>
+    <OperationalStatus>Continuing</OperationalStatus>
+    <AccountabilityRatings>
+      <RatingTitle>iqR9grIWT5sjR.e1.-fboK-ZIei</RatingTitle>
+      <Rating>qs-dSKwi43SeFEApLNfbpyY</Rating>
+      <RatingDate>2013-10-24</RatingDate>
+      <SchoolYear>2000-2001</SchoolYear>
+      <RatingOrganization>R7tKOp.5CdtaqjmA9F</RatingOrganization>
+      <RatingProgram>YGMMi6qRwkDmlb3p</RatingProgram>
+    </AccountabilityRatings>
+    <AccountabilityRatings>
+      <RatingTitle>cp28xk5V2</RatingTitle>
+      <Rating>wVfPTKYTbYjWk</Rating>
+      <RatingDate>2014-10-01</RatingDate>
+      <SchoolYear>2027-2028</SchoolYear>
+      <RatingOrganization>CC3</RatingOrganization>
+      <RatingProgram>EWQZ_Nk1ukiIF5swY1AlopBio</RatingProgram>
+    </AccountabilityRatings>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>nUKr3</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>wZPeQlC2ulX</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <EducationOrganizationPeerReference id="ID003">
+      <EducationalOrgIdentity>
+        <EducationOrgIdentificationCode IdentificationSystem="Other Federal">
+          <ID>PcrQp7_HtAZockXQA9VlLh</ID>
+        </EducationOrgIdentificationCode>
         <EducationOrgIdentificationCode IdentificationSystem="DUNS">
-            <ID>GlzIERM8LkrwDBa_QOCUq375y3LBhf87iO_JhjcR5eH8SQ8C33</ID>
+          <ID>u5ZC29Z1-V</ID>
         </EducationOrgIdentificationCode>
-        <EducationOrgIdentificationCode IdentificationSystem="Federal">
-            <ID>JRUxNX.iNSRpxtRko</ID>
-        </EducationOrgIdentificationCode>
-        <NameOfInstitution>l8ymi2._JqLmUjtmZvL6wgqK8sUyBf</NameOfInstitution>
-        <ShortNameOfInstitution>bR4nLRjTsXA8Am4eMrqoIgWW</ShortNameOfInstitution>
-        <OrganizationCategories>
-            <OrganizationCategory>Education Service Center</OrganizationCategory>
-            <OrganizationCategory>State Education Agency</OrganizationCategory>
-        </OrganizationCategories>
-        <Address AddressType="Work">
-            <AddressLine>FP09pmPhg7wOKV7</AddressLine>
-            <AddressLine>NL2DX5d0DnomhZvlNjIOpVKFAzj_JshHV8bPiHKdFAzYH7mqx3pm4yz7xM7e1KHuefP3dU</AddressLine>
-            <Country>MONTSERRAT</Country>
-            <Latitude>TbRyxX</Latitude>
-            <Longitude>SP_XMKfz6ipEv2dXvNYl</Longitude>
-            <BeginDate>2014-03-20</BeginDate>
-            <EndDate>2013-12-10</EndDate>
-        </Address>
-        <Address AddressType="Home">
-            <StreetNumberName>pZtzHV9zfrcgQV5BnTgDCcvEUQO</StreetNumberName>
-            <ApartmentRoomSuiteNumber>YAg0tqB</ApartmentRoomSuiteNumber>
-            <BuildingSiteNumber>xHolgAC</BuildingSiteNumber>
-            <City>waqtq</City>
-            <StateAbbreviation>KY</StateAbbreviation>
-            <PostalCode>H7J</PostalCode>
-            <NameOfCounty>q3zfgF-sQX.w8ZZHGHb</NameOfCounty>
-            <CountyFIPSCode>Sd9j</CountyFIPSCode>
-            <Latitude>uCg56bt1dx8O.hlQh2</Latitude>
-            <Longitude>O7Drs</Longitude>
-            <BeginDate>2014-03-18</BeginDate>
-            <EndDate>2014-06-26</EndDate>
-        </Address>
-        <Telephone InstitutionTelephoneNumberType="Administrative">
-            <TelephoneNumber>ByoQbCa</TelephoneNumber>
-        </Telephone>
-        <Telephone InstitutionTelephoneNumberType="HealthClinic">
-            <TelephoneNumber>iApTT-6_e8</TelephoneNumber>
-        </Telephone>
-        <WebSite>w2RW6tI8UkMs9wy4OPMv2ggeBQ.rhfAIoPEkOe39BYtjNVfe0PTr65eGN42V5882oPkDcbu</WebSite>
-        <OperationalStatus>Continuing</OperationalStatus>
-        <AccountabilityRatings>
-            <RatingTitle>iqR9grIWT5sjR.e1.-fboK-ZIei</RatingTitle>
-            <Rating>qs-dSKwi43SeFEApLNfbpyY</Rating>
-            <RatingDate>2013-10-24</RatingDate>
-            <SchoolYear>2000-2001</SchoolYear>
-            <RatingOrganization>R7tKOp.5CdtaqjmA9F</RatingOrganization>
-            <RatingProgram>YGMMi6qRwkDmlb3p</RatingProgram>
-        </AccountabilityRatings>
-        <AccountabilityRatings>
-            <RatingTitle>cp28xk5V2</RatingTitle>
-            <Rating>wVfPTKYTbYjWk</Rating>
-            <RatingDate>2014-10-01</RatingDate>
-            <SchoolYear>2027-2028</SchoolYear>
-            <RatingOrganization>CC3</RatingOrganization>
-            <RatingProgram>EWQZ_Nk1ukiIF5swY1AlopBio</RatingProgram>
-        </AccountabilityRatings>
-        <ProgramReference>
-            <ProgramIdentity>
-                <ProgramId>nUKr3</ProgramId>
-            </ProgramIdentity>
-        </ProgramReference>
-        <ProgramReference>
-            <ProgramIdentity>
-                <ProgramId>wZPeQlC2ulX</ProgramId>
-            </ProgramIdentity>
-        </ProgramReference>
-        <EducationOrganizationPeerReference id="ID003">
-            <EducationalOrgIdentity>
-                <EducationOrgIdentificationCode IdentificationSystem="Other Federal">
-                    <ID>PcrQp7_HtAZockXQA9VlLh</ID>
-                </EducationOrgIdentificationCode>
-                <EducationOrgIdentificationCode IdentificationSystem="DUNS">
-                    <ID>u5ZC29Z1-V</ID>
-                </EducationOrgIdentificationCode>
-            </EducationalOrgIdentity>
-        </EducationOrganizationPeerReference>
-        <EducationOrganizationPeerReference id="ID005">
-            <EducationalOrgIdentity>
-                <StateOrganizationId>WF.YN1MajOC3uDLZ1a1z37rvZargAXsMFaM3GZ6I9.</StateOrganizationId>
-            </EducationalOrgIdentity>
-        </EducationOrganizationPeerReference>
-    </StateEducationAgency>
+      </EducationalOrgIdentity>
+    </EducationOrganizationPeerReference>
+    <EducationOrganizationPeerReference id="ID005">
+      <EducationalOrgIdentity>
+        <StateOrganizationId>WF.YN1MajOC3uDLZ1a1z37rvZargAXsMFaM3GZ6I9.</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationPeerReference>
+  </StateEducationAgency>
 </InterchangeEducationOrganization>

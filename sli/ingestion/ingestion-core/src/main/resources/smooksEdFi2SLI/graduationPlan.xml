@@ -26,13 +26,13 @@
     <jb:wiring property="totalCreditsRequired" beanIdRef="TotalCreditsRequired" />
     <jb:wiring property="creditsBySubject" beanIdRef="CreditsBySubjects" />
     <jb:wiring property="creditsByCourse" beanIdRef="CreditsByCourses" />
-    <jb:value property="educationOrganizationId" data="attributes EducationOrganizationReference" />
+    <jb:value property="educationOrganizationId" data="attributes EducationOrganizationReference element" />
   </jb:bean>
 
   <jb:bean beanId="TotalCreditsRequired" class="java.util.HashMap" createOnElement="attributes TotalCreditsRequired">
     <jb:value property="credit" data="attributes TotalCreditsRequired Credit _value" decoder="Double" />
-    <jb:value property="creditType" data="attributes TotalCreditsRequired CreditType _value" />
-    <jb:value property="creditConversion" data="attributes TotalCreditsRequired CreditConversion _value"
+    <jb:value property="creditType" data="attributes TotalCreditsRequired a_CreditType" />
+    <jb:value property="creditConversion" data="attributes TotalCreditsRequired a_CreditConversion"
       decoder="Double" />
   </jb:bean>
 
@@ -40,15 +40,15 @@
     <jb:wiring beanIdRef="CreditsBySubject" />
   </jb:bean>
 
-  <jb:bean beanId="GraduationPlan_CreditsBySubject" class="java.util.HashMap" createOnElement="attributes CreditsBySubject element">
+  <jb:bean beanId="CreditsBySubject" class="java.util.HashMap" createOnElement="attributes CreditsBySubject element">
     <jb:wiring property="credits" beanIdRef="CreditsBySubject_Credits" />
     <jb:value property="subjectArea" data="attributes CreditsBySubject element SubjectArea _value" />
   </jb:bean>
 
   <jb:bean beanId="CreditsBySubject_Credits" class="java.util.HashMap" createOnElement="attributes CreditsBySubject element Credits">
     <jb:value property="credit" data="attributes CreditsBySubject element Credits Credit _value" decoder="Double" />
-    <jb:value property="creditType" data="attributes CreditsBySubject element Credits CreditType _value" />
-    <jb:value property="creditConversion" data="attributes CreditsBySubject element Credits CreditConversion _value"
+    <jb:value property="creditType" data="attributes CreditsBySubject element Credits a_CreditType" />
+    <jb:value property="creditConversion" data="attributes CreditsBySubject element Credits a_CreditConversion"
       decoder="Double" />
   </jb:bean>
 
@@ -64,8 +64,8 @@
 
   <jb:bean beanId="CreditsByCourse_Credits" class="java.util.HashMap" createOnElement="attributes CreditsByCourse element Credits element">
     <jb:value property="credit" data="attributes CreditsByCourse element Credits Credit _value" decoder="Double" />
-    <jb:value property="creditType" data="attributes CreditsByCourse element Credits CreditType _value" />
-    <jb:value property="creditConversion" data="attributes CreditsByCourse element Credits CreditConversion _value"
+    <jb:value property="creditType" data="attributes CreditsByCourse element Credits a_CreditType" />
+    <jb:value property="creditConversion" data="attributes CreditsByCourse element Credits a_CreditConversion"
       decoder="Double" />
   </jb:bean>
 
@@ -75,8 +75,8 @@
 
   <jb:bean beanId="CourseCode" class="java.util.HashMap" createOnElement="attributes CreditsByCourse element CourseCode element">
     <jb:value property="ID" data="attributes CreditsByCourse element CourseCode element ID _value" />
-    <jb:value property="identificationSystem" data="attributes CreditsByCourse element CourseCode element IdentificationSystem _value" />
-    <jb:value property="assigningOrganizationCode" data="attributes CreditsByCourse element CourseCode element AssigningOrganizationCode _value" />
+    <jb:value property="identificationSystem" data="attributes CreditsByCourse element CourseCode element a_IdentificationSystem" />
+    <jb:value property="assigningOrganizationCode" data="attributes CreditsByCourse element CourseCode element a_AssigningOrganizationCode" />
   </jb:bean>
 
 </smooks-resource-list>

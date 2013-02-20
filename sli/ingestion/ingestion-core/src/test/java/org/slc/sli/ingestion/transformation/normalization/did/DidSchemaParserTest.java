@@ -72,7 +72,7 @@ public class DidSchemaParserTest {
         KeyFieldDef schoolStateOrgId = schoolRefConfig.getKeyFields().get(0);
         Assert.assertNotNull(schoolStateOrgId);
         Assert.assertEquals(SCHOOL_KEYFIELD, schoolStateOrgId.getKeyFieldName());
-        Assert.assertEquals("EducationalOrgIdentity.StateOrganizationId", schoolStateOrgId.getValueSource());
+        Assert.assertEquals("EducationalOrgIdentity.StateOrganizationId._value", schoolStateOrgId.getValueSource());
         Assert.assertNull("school stateOrgId should not contain a nested reference", schoolStateOrgId.getRefConfig());
     }
 
@@ -102,7 +102,7 @@ public class DidSchemaParserTest {
         Assert.assertNotNull(uniqSectionCode);
         Assert.assertEquals(SECTION_KEY_FIELD, uniqSectionCode.getKeyFieldName());
         Assert.assertNull("uniqueSectionCode should not have a nested DID", uniqSectionCode.getRefConfig());
-        Assert.assertEquals("SectionIdentity.UniqueSectionCode", uniqSectionCode.getValueSource());
+        Assert.assertEquals("SectionIdentity.UniqueSectionCode._value", uniqSectionCode.getValueSource());
 
         Assert.assertTrue(keyFieldMap.containsKey(SECTION_SCHOOL_KEYFIELD));
         KeyFieldDef schoolId = keyFieldMap.get(SECTION_SCHOOL_KEYFIELD);
@@ -120,7 +120,7 @@ public class DidSchemaParserTest {
         KeyFieldDef stateOrgId = nestedRefConfig.getKeyFields().get(0);
         Assert.assertNotNull(stateOrgId);
         Assert.assertEquals(SCHOOL_KEYFIELD, stateOrgId.getKeyFieldName());
-        Assert.assertEquals("EducationalOrgIdentity.StateOrganizationId", stateOrgId.getValueSource());
+        Assert.assertEquals("EducationalOrgIdentity.StateOrganizationId._value", stateOrgId.getValueSource());
         Assert.assertNull("nested stateOrgId should not contain a nested reference", stateOrgId.getRefConfig());
     }
 

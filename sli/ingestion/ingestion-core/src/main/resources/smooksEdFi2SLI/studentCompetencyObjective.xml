@@ -23,7 +23,7 @@
     </jb:bean>
 
     <jb:bean beanId="studentCompetencyObjectiveBody" class="java.util.HashMap" createOnElement="attributes">
-        <jb:value property="studentCompetencyObjectiveId" data="attributes StudentCompetencyObjectiveId" />
+        <jb:value property="studentCompetencyObjectiveId" data="attributes StudentCompetencyObjectiveId _value" />
         <jb:value property="objective" data="attributes Objective _value" />
         <jb:value property="description" data="attributes Description _value" />
         <jb:value property="objectiveGradeLevel" data="attributes ObjectiveGradeLevel _value" />

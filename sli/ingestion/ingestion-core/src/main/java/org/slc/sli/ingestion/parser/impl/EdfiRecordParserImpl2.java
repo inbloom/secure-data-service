@@ -31,6 +31,7 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.ValidatorHandler;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.apache.xerces.stax.ImmutableLocation;
@@ -146,7 +147,13 @@ public class EdfiRecordParserImpl2 extends DefaultHandler {
         String expectedLocalName = complexTypeStack.peek().getLeft().getName();
 
         if (localName.equals(expectedLocalName)) {
-            parseCharacters(elementValue.toString());
+            if (elementValue.length() > 0) {
+                String text = StringUtils.trimToEmpty(elementValue.toString());
+
+                if (StringUtils.isNotBlank(text)) {
+                    parseCharacters(text);
+                }
+            }
 
             if (complexTypeStack.size() > 1) {
                 complexTypeStack.pop();

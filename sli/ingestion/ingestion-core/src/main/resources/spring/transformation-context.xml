@@ -139,7 +139,7 @@
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/teacherSchoolAssociation.xml" />
       </bean>
     </entry>
-    <entry key="staffEducationOrganizationAssociation">
+    <entry key="staffEducationOrgAssignmentAssociation">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/staffEducationOrganizationAssociation.xml" />
       </bean>
@@ -192,6 +192,11 @@
     <entry key="learningObjective">
       <bean class="org.milyn.Smooks">
         <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/learningObjective.xml" />
+      </bean>
+    </entry>
+    <entry key="learningStandard">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/learningStandard.xml" />
       </bean>
     </entry>
     <entry key="student">
