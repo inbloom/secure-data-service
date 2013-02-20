@@ -123,6 +123,7 @@ public class EntityOwnershipValidator {
     }
 
     public boolean canAccess(Entity entity) {
+
         if (SecurityUtil.getSLIPrincipal().getAuthorizingEdOrgs() == null) {
             //We explicitly set null if the app is marked as authorized_for_all_edorgs
             return true;
