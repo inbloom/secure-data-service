@@ -24,7 +24,6 @@ import java.util.Map;
 
 import javax.xml.stream.Location;
 import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLStreamException;
 
 import junit.framework.Assert;
 
@@ -48,8 +47,6 @@ import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
-import org.slc.sli.ingestion.parser.TypeProvider;
-import org.slc.sli.ingestion.parser.XmlParseException;
 import org.slc.sli.ingestion.parser.impl.RecordMetaImpl;
 import org.slc.sli.ingestion.processors.EdFiParserProcessor.ParserState;
 
@@ -69,7 +66,7 @@ public class EdFiParserProcessorTest extends CamelTestSupport{
     protected BatchJobDAO batchJobDAO;
 
     @Before
-    public void init() throws IOException, XMLStreamException, XmlParseException {
+    public void init() throws Exception {
         MockitoAnnotations.initMocks(this);
         NewBatchJob job = Mockito.mock(NewBatchJob.class);
         Mockito.when(job.getTenantId()).thenReturn("tenantId");
@@ -78,7 +75,7 @@ public class EdFiParserProcessorTest extends CamelTestSupport{
         processor.setProducer(producer);
         processor.setBatchJobDAO(batchJobDAO);
         processor.setBatchSize(2);
-        Mockito.doNothing().when(processor).parse(Mockito.any(XMLEventReader.class), Mockito.any(Resource.class), Mockito.any(TypeProvider.class));
+        Mockito.doNothing().when(processor).parse(Mockito.any(XMLEventReader.class), Mockito.any(Resource.class));
     }
 
     @Test
@@ -88,14 +85,11 @@ public class EdFiParserProcessorTest extends CamelTestSupport{
         Exchange exchange = createFileEntryExchange();
         processor.process(exchange);
 
-        Mockito.verify(processor, Mockito.times(1)).parse(Mockito.any(XMLEventReader.class), Mockito.any(Resource.class), Mockito.any(TypeProvider.class));
-
-
-
+        Mockito.verify(processor, Mockito.times(1)).parse(Mockito.any(XMLEventReader.class), Mockito.any(Resource.class));
     }
 
     @Test
-    public void testVisitAndSend() throws IOException, XMLStreamException, XmlParseException, InterruptedException {
+    public void testVisitAndSend() throws Exception {
         init();
         Exchange exchange = createFileEntryExchange();
 

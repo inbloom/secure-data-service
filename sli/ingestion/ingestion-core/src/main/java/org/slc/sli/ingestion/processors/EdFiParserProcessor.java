@@ -33,6 +33,7 @@ import org.apache.camel.ProducerTemplate;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.core.io.Resource;
+import org.xml.sax.SAXException;
 
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.ingestion.BatchJobStageType;
@@ -85,7 +86,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
 
             Resource xsdSchema = xsdSelector.provideXsdResource(args.workNote.getFileEntry());
 
-            parse(reader, xsdSchema, typeProvider);
+            parse(reader, xsdSchema);
         } catch (IOException e) {
             getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0063);
         } catch (XMLStreamException e) {
@@ -104,7 +105,14 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
         }
     }
 
-    public void parse(XMLEventReader reader, Resource xsdSchema, TypeProvider typeProvider2) throws IOException, XMLStreamException, XmlParseException{
+    /**
+     * @param reader
+     * @param xsdSchema
+     * @throws XmlParseException
+     * @throws IOException
+     * @throws SAXException
+     */
+    public void parse(XMLEventReader reader, Resource xsdSchema) throws XmlParseException, IOException {
         EdfiRecordParserImpl.parse(reader, xsdSchema, typeProvider, this);
     }
 

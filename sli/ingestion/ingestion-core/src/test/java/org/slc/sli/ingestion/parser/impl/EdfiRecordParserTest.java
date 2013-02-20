@@ -26,9 +26,6 @@ import static org.mockito.Mockito.verify;
 import java.io.IOException;
 import java.util.Map;
 
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLInputFactory;
-
 import org.jdom2.JDOMException;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,6 +37,7 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import org.slc.sli.ingestion.parser.RecordMeta;
 import org.slc.sli.ingestion.parser.RecordVisitor;
+import org.slc.sli.ingestion.parser.XmlParseException;
 
 /**
  *
@@ -62,12 +60,19 @@ public class EdfiRecordParserTest {
         Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StudentParent.xsd");
         Resource xml = new ClassPathResource("parser/InterchangeStudentParent/Student.xml");
 
-        XMLEventReader reader = XMLInputFactory.newInstance().createXMLEventReader(xml.getInputStream());
-
         RecordVisitor mockVisitor = Mockito.mock(RecordVisitor.class);
-        EdfiRecordParserImpl.parse(reader, schema, tp, mockVisitor);
+        EdfiRecordParserImpl2.parse(xml.getInputStream(), schema, tp, mockVisitor);
 
         verify(mockVisitor, atLeastOnce()).visit(any(RecordMeta.class), anyMap());
+    }
+
+    @Test(expected = IOException.class)
+    public void testIOExceptionForSchema() throws Throwable {
+        Resource schema = new ClassPathResource("does_not_exists.xsd");
+        Resource xml = new ClassPathResource("parser/InterchangeStudentParent/Student.xml");
+
+        RecordVisitor mockVisitor = Mockito.mock(RecordVisitor.class);
+        EdfiRecordParserImpl2.parse(xml.getInputStream(), schema, tp, mockVisitor);
     }
 
     @Test
@@ -77,22 +82,20 @@ public class EdfiRecordParserTest {
         Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StudentParent.xsd");
         Resource xml = new ClassPathResource("parser/InterchangeStudentParent/ThirteenStudents.xml");
 
-        XMLEventReader reader = XMLInputFactory.newInstance().createXMLEventReader(xml.getInputStream());
-
         RecordVisitor mockVisitor = Mockito.mock(RecordVisitor.class);
-        EdfiRecordParserImpl.parse(reader, schema, tp, mockVisitor);
+        EdfiRecordParserImpl2.parse(xml.getInputStream(), schema, tp, mockVisitor);
 
         ArgumentCaptor<RecordMeta> recordMetaCaptor = ArgumentCaptor.forClass(RecordMeta.class);
         verify(mockVisitor, times(13)).visit(recordMetaCaptor.capture(), any(Map.class));
 
-        int recorCount = 0;
+        int recordCount = 0;
         for (RecordMeta recordMeta : recordMetaCaptor.getAllValues()) {
-            recorCount++;
+            recordCount++;
 
-            if (recorCount == 11) {
+            if (recordCount == 11) {
                 assertEquals(1584, recordMeta.getSourceStartLocation().getLineNumber());
                 assertEquals(1741, recordMeta.getSourceEndLocation().getLineNumber());
-            } else if (recorCount == 13) {
+            } else if (recordCount == 13) {
                 assertEquals(1900, recordMeta.getSourceStartLocation().getLineNumber());
                 assertEquals(2057, recordMeta.getSourceEndLocation().getLineNumber());
             }
@@ -100,46 +103,46 @@ public class EdfiRecordParserTest {
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void testRejectIfExpectedElementMissing() throws Throwable {
-
-        Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StudentParent.xsd");
-        Resource xml = new ClassPathResource("parser/InterchangeStudentParent/StudentMissingName.xml");
-
-        XMLEventReader reader = XMLInputFactory.newInstance().createXMLEventReader(xml.getInputStream());
-
-        RecordVisitor mockVisitor = Mockito.mock(RecordVisitor.class);
-        EdfiRecordParserImpl.parse(reader, schema, tp, mockVisitor);
-
-        verify(mockVisitor, never()).visit(any(RecordMeta.class), anyMap());
+        rejectRecord("parser/InterchangeStudentParent/StudentMissingName.xml",
+                "edfiXsd-SLI/SLI-Interchange-StudentParent.xsd");
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void testRejectIfExtraElementIsPresent() throws Throwable {
-
-        Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StudentParent.xsd");
-        Resource xml = new ClassPathResource("parser/InterchangeStudentParent/StudentHasExtraElement.xml");
-
-        XMLEventReader reader = XMLInputFactory.newInstance().createXMLEventReader(xml.getInputStream());
-
-        RecordVisitor mockVisitor = Mockito.mock(RecordVisitor.class);
-        EdfiRecordParserImpl.parse(reader, schema, tp, mockVisitor);
-
-        verify(mockVisitor, never()).visit(any(RecordMeta.class), anyMap());
+        rejectRecord("parser/InterchangeStudentParent/StudentHasExtraElement.xml",
+                "edfiXsd-SLI/SLI-Interchange-StudentParent.xsd");
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void testRejectIfInvalidElementType() throws Throwable {
+        rejectRecord("parser/InterchangeStudentParent/StudentHasInvalidTypeForDOB.xml",
+                "edfiXsd-SLI/SLI-Interchange-StudentParent.xsd");
+    }
 
-        Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StudentParent.xsd");
-        Resource xml = new ClassPathResource("parser/InterchangeStudentParent/StudentHasInvalidTypeForDOB.xml");
+    @Test(expected = XmlParseException.class)
+    public void testRejectIfTagIsNotClosed() throws Throwable {
+            rejectRecord("parser/InterchangeStudentParent/StudentHasOneTagNotClosed.xml",
+                    "edfiXsd-SLI/SLI-Interchange-StudentParent.xsd");
+    }
 
-        XMLEventReader reader = XMLInputFactory.newInstance().createXMLEventReader(xml.getInputStream());
+    @Test(expected = XmlParseException.class)
+    public void testRejectIfTagIsNotClosed2() throws Throwable {
+        rejectRecord("parser/InterchangeStudentParent/StudentHasOneTagNotClosed2.xml",
+                "edfiXsd-SLI/SLI-Interchange-StudentParent.xsd");
+    }
 
+    private void rejectRecord(String xmlClassPath, String schemaClassPath) throws Throwable {
+        Resource schema = new ClassPathResource(schemaClassPath);
+        Resource xml = new ClassPathResource(xmlClassPath);
+
+        rejectRecord(xml, schema);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void rejectRecord(Resource xml, Resource schema) throws Throwable {
         RecordVisitor mockVisitor = Mockito.mock(RecordVisitor.class);
-        EdfiRecordParserImpl.parse(reader, schema, tp, mockVisitor);
+        EdfiRecordParserImpl2.parse(xml.getInputStream(), schema, tp, mockVisitor);
 
         verify(mockVisitor, never()).visit(any(RecordMeta.class), anyMap());
     }
