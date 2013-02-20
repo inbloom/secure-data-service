@@ -7,7 +7,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="__AssessmentReportingMethod__">
           <Result>__Score__</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
