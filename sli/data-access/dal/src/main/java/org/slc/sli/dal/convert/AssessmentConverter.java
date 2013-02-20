@@ -35,15 +35,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
  * @author Dong Liu dliu@wgen.net
  */
 
-public class AssessmentConverter implements SuperdocConverter {
-
-    UUIDGeneratorStrategy uuidGeneratorStrategy;
-
-    INaturalKeyExtractor naturalKeyExtractor; 
+public class AssessmentConverter extends GenericSuperdocConverter implements SuperdocConverter {
 
     public AssessmentConverter(UUIDGeneratorStrategy uuidGeneratorStrategy, INaturalKeyExtractor naturalKeyExtractor) {
-        this.uuidGeneratorStrategy = uuidGeneratorStrategy;
-        this.naturalKeyExtractor = naturalKeyExtractor;
+        setUuidGeneratorStrategy(uuidGeneratorStrategy);
+        setNaturalKeyExtractor(naturalKeyExtractor);
     }
 
     @Override
@@ -55,62 +51,11 @@ public class AssessmentConverter implements SuperdocConverter {
         }
     }
 
-    private Entity subdocsToBody(Entity parent, String subentityType, List<String> removeFields) {
-        if (parent.getEmbeddedData() == null || parent.getEmbeddedData().isEmpty()) {
-            return parent;
-        }
-
-        List<Entity> subdocs = parent.getEmbeddedData().remove(subentityType);
-        if (subdocs == null || subdocs.isEmpty()) {
-            return parent;
-        }
-
-        List<Map<String, Object>> subdocBody = new ArrayList<Map<String, Object>>();
-        for (Entity e : subdocs) {
-            for (String field : removeFields) {
-                e.getBody().remove(field);
-            }
-            subdocBody.add(e.getBody());
-        }
-        parent.getBody().put(subentityType, subdocBody);
-
-        return parent;
-    } 
-
     @Override
     public void bodyFieldToSubdoc(Entity entity) {
         if (entity != null && entity.getType().equals(EntityNames.ASSESSMENT)) {
             bodyToSubdocs(entity, "assessmentItem", "assessmentId");
             bodyToSubdocs(entity, "objectiveAssessment", "assessmentId");
-        }
-    }
-
-    private Entity bodyToSubdocs(Entity parent, String subentityType, String parentKey) {
-        if (parent.getBody().get(subentityType) != null) {
-            List<Entity> subdocs = new ArrayList<Entity>();
-            @SuppressWarnings("unchecked")
-            List<Map<String, Object>> subdocInBody = (List<Map<String, Object>>) parent.getBody().get(subentityType);
-            for (Map<String, Object> inbodyDoc : subdocInBody) {
-                inbodyDoc.put(parentKey, generateDid(parent));
-                MongoEntity subdoc = new MongoEntity(subentityType, null, inbodyDoc, null);
-                subdocs.add(subdoc);
-            }
-
-            if (!subdocs.isEmpty()) {
-                parent.getEmbeddedData().put(subentityType, subdocs);
-                parent.getBody().remove(subentityType);
-            }
-        }
-
-        return parent;
-    }
-
-    private String generateDid(Entity entity) {
-        if (entity instanceof MongoEntity) {
-            return ((MongoEntity) entity).generateDid(uuidGeneratorStrategy, naturalKeyExtractor);
-        } else {
-            MongoEntity wrapper = new MongoEntity(entity.getType(), null, entity.getBody(), entity.getMetaData());
-            return wrapper.generateDid(uuidGeneratorStrategy, naturalKeyExtractor);
         }
     }
 
