@@ -29,9 +29,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLInputFactory;
-
 import org.codehaus.jackson.map.ObjectMapper;
 import org.jdom2.JDOMException;
 import org.mockito.ArgumentCaptor;
@@ -69,10 +66,8 @@ public class EntityTestHelper {
     public static void parseAndVerify(Resource schema, Resource inputXmlResource, Resource expectedJsonResource)
             throws Throwable {
 
-        XMLEventReader reader = XMLInputFactory.newInstance().createXMLEventReader(inputXmlResource.getInputStream());
-
         RecordVisitor mockVisitor = Mockito.mock(RecordVisitor.class);
-        EdfiRecordParserImpl.parse(reader, schema, tp, mockVisitor);
+        EdfiRecordParserImpl2.parse(inputXmlResource.getInputStream(), schema, tp, mockVisitor);
 
         captureAndCompare(mockVisitor, expectedJsonResource);
 
