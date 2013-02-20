@@ -1,5 +1,14 @@
 {
     "entities":{
-    	
+        "assessment": {
+            "1": [{
+                "COMBINE": {
+                    "subentity": "assessmentItem"
+                },
+                "COMBINE": {
+                    "subentity": "objectiveAssessment"
+                }
+            }]
+        }
     }
 }
