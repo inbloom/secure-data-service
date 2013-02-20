@@ -25,7 +25,7 @@
 		</StudentReference>
 		<AssessmentReference>
 			<AssessmentIdentity>
-				<AssessmentTitle>DIBELS Next Fourth Grade 11-12 BOY</AssessmentTitle>
+				<AssessmentTitle>DIBELS Next Composite Fourth Grade 11-12 BOY</AssessmentTitle>
 				<AcademicSubject>Reading</AcademicSubject>
 				<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
 				<Version>1</Version>
@@ -40,7 +40,7 @@
 		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
-		<ScoreResults AssessmentReportingMethod="Mastery level">
+		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>68</Result>
 		</ScoreResults>
 		<ScoreResults AssessmentReportingMethod="Other">
@@ -72,7 +72,7 @@
 		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
-		<ScoreResults AssessmentReportingMethod="Mastery level">
+		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>93</Result>
 		</ScoreResults>
 		<ScoreResults AssessmentReportingMethod="Other">
@@ -104,7 +104,7 @@
 		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
-		<ScoreResults AssessmentReportingMethod="Mastery level">
+		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>25</Result>
 		</ScoreResults>
 		<ScoreResults AssessmentReportingMethod="Other">
@@ -136,7 +136,7 @@
 		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
-		<ScoreResults AssessmentReportingMethod="Mastery level">
+		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>2</Result>
 		</ScoreResults>
 		<ScoreResults AssessmentReportingMethod="Other">
@@ -168,7 +168,7 @@
 		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
-		<ScoreResults AssessmentReportingMethod="Mastery level">
+		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>10</Result>
 		</ScoreResults>
 		<ScoreResults AssessmentReportingMethod="Other">
@@ -217,7 +217,7 @@
 		</StudentReference>
 		<AssessmentReference>
 			<AssessmentIdentity>
-				<AssessmentTitle>DIBELS Next Fourth Grade 11-12 MOY</AssessmentTitle>
+				<AssessmentTitle>DIBELS Next Composite Fourth Grade 11-12 MOY</AssessmentTitle>
 				<AcademicSubject>Reading</AcademicSubject>
 				<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
 				<Version>1</Version>
@@ -232,7 +232,7 @@
 		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
-		<ScoreResults AssessmentReportingMethod="Mastery level">
+		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>107</Result>
 		</ScoreResults>
 		<ScoreResults AssessmentReportingMethod="Other">
@@ -264,7 +264,7 @@
 		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
-		<ScoreResults AssessmentReportingMethod="Mastery level">
+		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>98</Result>
 		</ScoreResults>
 		<ScoreResults AssessmentReportingMethod="Other">
@@ -296,7 +296,7 @@
 		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
-		<ScoreResults AssessmentReportingMethod="Mastery level">
+		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>28</Result>
 		</ScoreResults>
 		<ScoreResults AssessmentReportingMethod="Other">
@@ -328,7 +328,7 @@
 		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
-		<ScoreResults AssessmentReportingMethod="Mastery level">
+		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>2</Result>
 		</ScoreResults>
 		<ScoreResults AssessmentReportingMethod="Other">
@@ -360,7 +360,7 @@
 		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
-		<ScoreResults AssessmentReportingMethod="Mastery level">
+		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>13</Result>
 		</ScoreResults>
 		<ScoreResults AssessmentReportingMethod="Other">
@@ -424,7 +424,7 @@
 		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
-		<ScoreResults AssessmentReportingMethod="Mastery level">
+		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>109</Result>
 		</ScoreResults>
 		<ScoreResults AssessmentReportingMethod="Other">
@@ -456,7 +456,7 @@
 		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
-		<ScoreResults AssessmentReportingMethod="Mastery level">
+		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>97</Result>
 		</ScoreResults>
 		<ScoreResults AssessmentReportingMethod="Other">
@@ -488,7 +488,7 @@
 		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
-		<ScoreResults AssessmentReportingMethod="Mastery level">
+		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>28</Result>
 		</ScoreResults>
 		<ScoreResults AssessmentReportingMethod="Other">
@@ -520,7 +520,7 @@
 		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
-		<ScoreResults AssessmentReportingMethod="Mastery level">
+		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>3</Result>
 		</ScoreResults>
 		<ScoreResults AssessmentReportingMethod="Other">
@@ -552,7 +552,7 @@
 		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
-		<ScoreResults AssessmentReportingMethod="Mastery level">
+		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>16</Result>
 		</ScoreResults>
 		<ScoreResults AssessmentReportingMethod="Other">
@@ -601,7 +601,7 @@
 		</StudentReference>
 		<AssessmentReference>
 			<AssessmentIdentity>
-				<AssessmentTitle>DIBELS Next Fifth Grade 12-13 BOY</AssessmentTitle>
+				<AssessmentTitle>DIBELS Next Composite Fifth Grade 12-13 BOY</AssessmentTitle>
 				<AcademicSubject>Reading</AcademicSubject>
 				<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
 				<Version>1</Version>
@@ -616,7 +616,7 @@
 		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
-		<ScoreResults AssessmentReportingMethod="Mastery level">
+		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>112</Result>
 		</ScoreResults>
 		<ScoreResults AssessmentReportingMethod="Other">
@@ -648,7 +648,7 @@
 		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
-		<ScoreResults AssessmentReportingMethod="Mastery level">
+		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>97</Result>
 		</ScoreResults>
 		<ScoreResults AssessmentReportingMethod="Other">
@@ -680,7 +680,7 @@
 		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
-		<ScoreResults AssessmentReportingMethod="Mastery level">
+		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>59</Result>
 		</ScoreResults>
 		<ScoreResults AssessmentReportingMethod="Other">
@@ -711,7 +711,7 @@
 		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
-		<ScoreResults AssessmentReportingMethod="Mastery level">
+		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>4</Result>
 		</ScoreResults>
 		<ScoreResults AssessmentReportingMethod="Other">
@@ -743,7 +743,7 @@
 		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
-		<ScoreResults AssessmentReportingMethod="Mastery level">
+		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>20</Result>
 		</ScoreResults>
 		<ScoreResults AssessmentReportingMethod="Other">
@@ -792,7 +792,7 @@
 		</StudentReference>
 		<AssessmentReference>
 			<AssessmentIdentity>
-				<AssessmentTitle>DIBELS Next Fifth Grade 12-13 MOY</AssessmentTitle>
+				<AssessmentTitle>DIBELS Next Composite Fifth Grade 12-13 MOY</AssessmentTitle>
 				<AcademicSubject>Reading</AcademicSubject>
 				<GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
 				<Version>1</Version>
@@ -807,7 +807,7 @@
 		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
-		<ScoreResults AssessmentReportingMethod="Mastery level">
+		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>132</Result>
 		</ScoreResults>
 		<ScoreResults AssessmentReportingMethod="Other">
@@ -839,7 +839,7 @@
 		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
-		<ScoreResults AssessmentReportingMethod="Mastery level">
+		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>98</Result>
 		</ScoreResults>
 		<ScoreResults AssessmentReportingMethod="Other">
@@ -871,7 +871,7 @@
 		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
-		<ScoreResults AssessmentReportingMethod="Mastery level">
+		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>56</Result>
 		</ScoreResults>
 		<ScoreResults AssessmentReportingMethod="Other">
@@ -903,7 +903,7 @@
 		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
-		<ScoreResults AssessmentReportingMethod="Mastery level">
+		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>3</Result>
 		</ScoreResults>
 		<ScoreResults AssessmentReportingMethod="Other">
@@ -935,7 +935,7 @@
 		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
-		<ScoreResults AssessmentReportingMethod="Mastery level">
+		<ScoreResults AssessmentReportingMethod="Scale score">
 			<Result>19</Result>
 		</ScoreResults>
 		<ScoreResults AssessmentReportingMethod="Other">
