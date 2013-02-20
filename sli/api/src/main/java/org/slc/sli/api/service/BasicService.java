@@ -42,6 +42,7 @@ import org.slc.sli.api.security.service.SecurityCriteria;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.FullSuperDoc;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
@@ -232,8 +233,9 @@ public class BasicService implements EntityService {
         info("new body is {}", sanitized);
         entity.getBody().clear();
         entity.getBody().putAll(sanitized);
-
-        boolean success = repo.update(collectionName, entity);
+        
+        boolean success = repo.update(collectionName, entity, FullSuperDoc.isFullSuperdoc(entity));
+        
         return success;
     }
 
@@ -485,7 +487,8 @@ public class BasicService implements EntityService {
                     getEntityDefinition().getType(), id, clientId });
             entity.getBody().clear();
             entity.getBody().putAll(clonedEntity);
-            getRepo().update(CUSTOM_ENTITY_COLLECTION, entity);
+            // custom entity is not superdoc
+            getRepo().update(CUSTOM_ENTITY_COLLECTION, entity, false);
         } else {
             debug("Creating new custom entity: entity={}, entityId={}, clientId={}", new Object[] {
                     getEntityDefinition().getType(), id, clientId });

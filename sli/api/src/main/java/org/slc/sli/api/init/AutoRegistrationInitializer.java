@@ -20,6 +20,7 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
+import org.slc.sli.api.resources.security.ApplicationResource;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -28,7 +29,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.slc.sli.api.resources.security.ApplicationResource;
 
 /**
  * Used to auto approve registration requests that are still pending if autoRegisterApps is enabled.
@@ -67,7 +67,7 @@ public class AutoRegistrationInitializer {
                 Map<String, Object> registration = (Map<String, Object>) app.getBody().get("registration");
                 registration.put(ApplicationResource.APPROVAL_DATE, System.currentTimeMillis());
                 registration.put(ApplicationResource.STATUS, "APPROVED");
-                repo.update(ApplicationResource.RESOURCE_NAME, app);
+                repo.update(ApplicationResource.RESOURCE_NAME, app, false);
             }
         }
     }

@@ -111,7 +111,8 @@ public class ApplicationInitializerTest {
         Entity mockEntity = Mockito.mock(Entity.class);
         Mockito.when(mockRepo.findOne(Mockito.anyString(), Mockito.any(NeutralQuery.class))).thenReturn(mockEntity);
         
-        Mockito.when(mockRepo.update(Mockito.anyString(), Mockito.any(Entity.class))).thenAnswer(new Answer<Boolean>() {
+        Mockito.when(mockRepo.update(Mockito.anyString(), Mockito.any(Entity.class), Mockito.anyBoolean())).thenAnswer(
+                new Answer<Boolean>() {
             
             @Override
             public Boolean answer(InvocationOnMock invocation) throws Throwable {

@@ -19,11 +19,11 @@ package org.slc.sli.domain;
 import java.util.List;
 import java.util.Map;
 
-import com.mongodb.DBCollection;
-import com.mongodb.WriteResult;
-
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+
+import com.mongodb.DBCollection;
+import com.mongodb.WriteResult;
 
 /**
  * Define the object repository interface that provides basic CRUD and field
@@ -134,7 +134,7 @@ public interface Repository<T> {
      *            the object that will be updated
      * @return whether or not the object was updated
      */
-    public boolean update(String collection, T object);
+    public boolean update(String collection, T object, boolean isSuperdoc);
 
     /**
      * Make an update to a single entity through a query
