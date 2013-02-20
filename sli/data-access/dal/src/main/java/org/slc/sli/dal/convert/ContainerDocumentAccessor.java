@@ -81,18 +81,22 @@ public class ContainerDocumentAccessor {
 
     // TODO: private
     protected String createParentKey(final Entity entity) {
-        final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
-        final Map<String, String> parentKeyMap = containerDocument.getParentNaturalKeyMap();
-        final NaturalKeyDescriptor naturalKeyDescriptor = ContainerDocumentHelper.extractNaturalKeyDescriptor(entity, parentKeyMap);
+        if(entity.getEntityId().isEmpty()) {
+            final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
+            final Map<String, String> parentKeyMap = containerDocument.getParentNaturalKeyMap();
+            final NaturalKeyDescriptor naturalKeyDescriptor = ContainerDocumentHelper.extractNaturalKeyDescriptor(entity, parentKeyMap);
 
-        return generatorStrategy.generateId(naturalKeyDescriptor);
+            return generatorStrategy.generateId(naturalKeyDescriptor);
+        } else {
+            return entity.getEntityId();
+        }
     }
 
     protected boolean insertContainerDoc(DBObject query, Entity entity) {
         TenantContext.setIsSystemCall(false);
         ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
         boolean persisted = mongoTemplate.getCollection(entity.getType()).update(query,
-                BasicDBObjectBuilder.start().push("$pushAll").add(containerDocument.getFieldToPersist(), entity.getBody()).get())
+                BasicDBObjectBuilder.start().push("$pushAll").add(containerDocument.getFieldToPersist(), entity.getBody()).get(), true, false)
                 .getLastError().ok();
         return persisted;
     }
