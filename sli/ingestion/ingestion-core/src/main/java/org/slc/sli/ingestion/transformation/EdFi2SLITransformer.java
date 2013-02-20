@@ -208,7 +208,7 @@ public abstract class EdFi2SLITransformer implements Handler<NeutralRecord, List
 
         if (naturalKeyDescriptor.isNaturalKeysNotNeeded()) {
             // Okay for embedded entities
-            LOG.error("Unable to find natural keys fields" + "       Entity     " + entity.getType() + "\n"
+            LOG.error("Unable to find natural key fields" + "       Entity     " + entity.getType() + "\n"
                     + "       Instance   " + entity.getRecordNumber());
 
             query = createEntityLookupQueryFromKeyFields(entity, entityConfig, report, reportStats);

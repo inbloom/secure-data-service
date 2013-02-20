@@ -154,6 +154,10 @@ Scenario: Verify entities in student school association were ingested correctly
      | collectionName              | expectedRecordCount | searchParameter                             | searchValue                                   | searchType           |
      | graduationPlan              | 1                   | _id                                         | 438cc6756e65d65da2eabb0968387ad25a3e0b93_id   | string               |
      | studentSchoolAssociation    | 5                   | body.graduationPlanId                       | 438cc6756e65d65da2eabb0968387ad25a3e0b93_id   | string               |
+
+Scenario: Verify objective assessment in assessment has valid references
+    And I check to find if record is in collection:
+     | collectionName              | expectedRecordCount | searchParameter                             | searchValue                                   | searchType           |
      | assessment                  | 6                   | objectiveAssessment.body.learningObjectives | 1b0d13e233ef61ffafb613a8cc6930dfc0d29b92_id   | string               |
      | learningObjective           | 1                   | _id                                         | 1b0d13e233ef61ffafb613a8cc6930dfc0d29b92_id   | string               |
 

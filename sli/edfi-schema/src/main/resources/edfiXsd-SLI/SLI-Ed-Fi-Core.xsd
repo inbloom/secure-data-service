@@ -707,7 +707,7 @@
 				<xs:sequence>
 					<xs:element name="AdministrationDate" type="xs:date"/>
 					<xs:element name="AdministrationEndDate" type="xs:date" minOccurs="0"/>
-					<xs:element name="SerialNumber" type="IdentificationCode" minOccurs="0"/>
+				    <xs:element name="SerialNumber" type="IdentificationCode" minOccurs="0"/>
 					<xs:element name="AdministrationLanguage" type="LanguageItemType" minOccurs="0"/>
 					<xs:element name="AdministrationEnvironment" type="AdministrationEnvironmentType" minOccurs="0"/>
 					<xs:element name="SpecialAccommodations" type="SpecialAccommodationsType" minOccurs="0" maxOccurs="unbounded"/>
@@ -1146,12 +1146,22 @@
 			<xs:documentation/>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="AssessmentItemIdentificationCode" type="IdentificationCode"/>
+			<xs:element name="AssessmentItemIdentificationCode" type="IdentificationCode">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:keyFieldName>identificationCode</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+                        </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-AssessmentItemReferenceType">
 		<xs:annotation>
 			<xs:documentation>Changed to use a required SLC identity type.</xs:documentation>
+			<xs:appinfo>
+				<sli:applyKeyFields>true</sli:applyKeyFields>
+				<sli:refType>assessmentItem</sli:refType>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="AssessmentItemIdentity" type="SLC-AssessmentItemIdentityType"/>

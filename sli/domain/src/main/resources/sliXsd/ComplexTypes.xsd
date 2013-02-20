@@ -3589,6 +3589,8 @@
 						assessment items.
 					</xs:documentation>
 					<xs:appinfo>
+                        <sli:CollectionType>studentAssessmentItem</sli:CollectionType>
+                        <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
@@ -3701,17 +3703,33 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name='assessmentItem' type='assessmentItem'>
+			<xs:element name='assessmentItemId' type='reference'>
 				<xs:annotation>
 					<xs:documentation>The AssessmentItem to which this
 						studentAssessmentItem is a response to.
 					</xs:documentation>
 					<xs:appinfo>
+                        <sli:ReferenceType>assessmentItem</sli:ReferenceType>
+                        <sli:naturalKey>true</sli:naturalKey>
 						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
 						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+            <xs:element name='studentAssessmentId' type='reference'>
+                <xs:annotation>
+                    <xs:documentation>Reference to the assessment taken by the
+                        student.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:ReferenceType>studentAssessment</sli:ReferenceType>
+                        <sli:naturalKey>true</sli:naturalKey>
+                        <sli:associationKey>true</sli:associationKey>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 

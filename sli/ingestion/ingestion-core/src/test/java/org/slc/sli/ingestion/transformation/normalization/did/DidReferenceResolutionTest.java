@@ -685,17 +685,6 @@ public class DidReferenceResolutionTest {
     }
 
     @Test
-    public void resolvesLearningStandardDidInStudentAssessmentCorrectly() throws IOException {
-        NeutralRecordEntity entity = loadEntity("didTestEntities/studentAssessment.json");
-        resolveInternalId(entity);
-
-        Map<String, String> naturalKeys = new HashMap<String, String>();
-        naturalKeys.put("learningStandardId.identificationCode", "0123456789");
-
-        checkId(entity, "studentAssessmentItems.[0].assessmentItem.learningStandards", naturalKeys, "learningStandard");
-    }
-
-    @Test
     public void resolvesProgramDidInStudentProgramAssociationCorrectly() throws IOException {
         NeutralRecordEntity entity = loadEntity("didTestEntities/studentProgramAssociation.json");
         resolveInternalId(entity);
