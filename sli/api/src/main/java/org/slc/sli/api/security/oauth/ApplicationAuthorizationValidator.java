@@ -23,15 +23,16 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 
 
 /**
@@ -113,12 +114,12 @@ public class ApplicationAuthorizationValidator {
     public Set<String> getAuthorizingEdOrgsForApp(String clientId) {
         //This is called before the SLIPrincipal has been set, so use TenantContext to get tenant rather than SLIPrincipal on SecurityContext
         Entity app = repo.findOne("application", new NeutralQuery(new NeutralCriteria("client_id", "=", clientId)));
-        
+
         if (isAuthorizedForAllEdorgs(app)) {
             debug("App {} is authorized for all edorgs", clientId);
             return null;
         }
-        
+
         NeutralQuery appAuthCollQuery = new NeutralQuery(new NeutralCriteria("applicationId", "=", app.getEntityId()));
         Entity authEntry = repo.findOne("applicationAuthorization", appAuthCollQuery);
         if (authEntry != null) {

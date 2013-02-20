@@ -21,6 +21,14 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import com.sun.jersey.spi.container.ContainerRequest;
+import com.sun.jersey.spi.container.ContainerRequestFilter;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.criteriaGenerator.DateFilterCriteriaGenerator;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
@@ -35,13 +43,6 @@ import org.slc.sli.dal.MongoStat;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.stereotype.Component;
-
-import com.sun.jersey.spi.container.ContainerRequest;
-import com.sun.jersey.spi.container.ContainerRequestFilter;
 
 /**
  * Pre-request processing filter.
@@ -89,7 +90,7 @@ public class PreProcessFilter implements ContainerRequestFilter {
         mongoStat.startRequest();
 
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        principal.setSubEdOrgHierarchy(edOrgHelper.getSubEdOrgHierarchy(principal.getEntity()));
+        principal.setSubEdOrgHierarchy(edOrgHelper.getStaffEdOrgsAndChildren());
 
         info("uri: {} -> {}", request.getBaseUri().getPath(), request.getRequestUri().getPath());
         request.getProperties().put("original-request", request.getPath());

@@ -114,7 +114,7 @@ public class TeacherToEdOrgValidatorTest {
         schoolIds.add(school.getEntityId());
         schoolIds.add(lea.getEntityId());
         schoolIds.add(sea.getEntityId());
-        assertTrue(validator.validate(EntityNames.SCHOOL, schoolIds));
+        assertFalse(validator.validate(EntityNames.SCHOOL, schoolIds));
     }
 
     @Test
