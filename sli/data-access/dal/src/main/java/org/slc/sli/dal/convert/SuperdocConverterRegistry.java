@@ -22,6 +22,10 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
+import org.slc.sli.validation.schema.INaturalKeyExtractor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 /**
@@ -33,10 +37,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class SuperdocConverterRegistry {
     private Map<String, SuperdocConverter> converters = new HashMap<String, SuperdocConverter>();
+
+    @Autowired
+    @Qualifier("deterministicUUIDGeneratorStrategy")
+    UUIDGeneratorStrategy uuidGeneratorStrategy;
+    
+    @Autowired
+    INaturalKeyExtractor naturalKeyExtractor; 
     
     @PostConstruct
     public void init() {
-        converters.put(EntityNames.ASSESSMENT, new AssessmentConverter());
+        converters.put(EntityNames.ASSESSMENT, new AssessmentConverter(uuidGeneratorStrategy, naturalKeyExtractor));
         converters.put(EntityNames.STUDENT_ASSESSMENT, new StudentAssessmentConverter());
     }
 

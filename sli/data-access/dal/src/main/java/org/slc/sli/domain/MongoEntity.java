@@ -162,6 +162,35 @@ public class MongoEntity implements Entity, Serializable {
         this.body = crypt.decrypt(getType(), body);
     }
 
+    public String generateDid(UUIDGeneratorStrategy uuidGeneratorStrategy, INaturalKeyExtractor naturalKeyExtractor) {
+       
+    	final String uid;
+        NaturalKeyDescriptor naturalKeyDescriptor;
+        try {
+            naturalKeyDescriptor = naturalKeyExtractor.getNaturalKeyDescriptor(this);
+        } catch (NoNaturalKeysDefinedException e) {
+            // Nothing can be done with the entity at this point,
+            // it is supposed to have natural keys, but none were defined.
+            // Picking a random UUID would be undesired behavior
+            LOG.error(e.getMessage(), e);
+            throw new RuntimeException(e);
+        }
+        
+        if (uuidGeneratorStrategy == null) {
+            LOG.warn("Generating Type 4 UUID by default because the UUID generator strategy is null.  This will cause issues if this value is being used in a Mongo indexed field (like _id)");
+            uid = UUID.randomUUID().toString();
+        } else {
+            if (naturalKeyDescriptor.isNaturalKeysNotNeeded()) {
+                // generate a truly random id
+                uid = uuidGeneratorStrategy.generateId();
+            } else {
+                uid = uuidGeneratorStrategy.generateId(naturalKeyDescriptor);
+            }
+        }
+        
+        return uid.toString();
+    }
+    
     public DBObject toDBObject(UUIDGeneratorStrategy uuidGeneratorStrategy, INaturalKeyExtractor naturalKeyExtractor) {
         BasicDBObject dbObj = new BasicDBObject();
         dbObj.put("type", type);
@@ -169,30 +198,8 @@ public class MongoEntity implements Entity, Serializable {
         final String uid;
 
         if (entityId == null) {
-            NaturalKeyDescriptor naturalKeyDescriptor;
-            try {
-                naturalKeyDescriptor = naturalKeyExtractor.getNaturalKeyDescriptor(this);
-            } catch (NoNaturalKeysDefinedException e) {
-                // Nothing can be done with the entity at this point,
-                // it is supposed to have natural keys, but none were defined.
-                // Picking a random UUID would be undesired behavior
-                LOG.error(e.getMessage(), e);
-                throw new RuntimeException(e);
-            }
-
-            if (uuidGeneratorStrategy == null) {
-                LOG.warn("Generating Type 4 UUID by default because the UUID generator strategy is null.  This will cause issues if this value is being used in a Mongo indexed field (like _id)");
-                uid = UUID.randomUUID().toString();
-            } else {
-                if (naturalKeyDescriptor.isNaturalKeysNotNeeded()) {
-                    // generate a truly random id
-                    uid = uuidGeneratorStrategy.generateId();
-                } else {
-                    uid = uuidGeneratorStrategy.generateId(naturalKeyDescriptor);
-                }
-            }
-
-            entityId = uid.toString();
+            uid = generateDid(uuidGeneratorStrategy, naturalKeyExtractor);
+            entityId = uid;
         } else {
             uid = entityId;
         }
