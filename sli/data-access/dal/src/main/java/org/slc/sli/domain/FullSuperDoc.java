@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.common.domain;
+package org.slc.sli.domain;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -39,6 +39,10 @@ public class FullSuperDoc {
         saNestedFields.addAll(Arrays.asList("studentObjectiveAssessment", "studentAssessmentItem"));
         FULL_ENTITIES.put("assessment", assessmentNestedFields);
         FULL_ENTITIES.put("studentAssessment", saNestedFields);
+    }
+    
+    public static boolean isFullSuperdoc(Entity entity) {
+        return FULL_ENTITIES.containsKey(entity.getType());
     }
 
 }

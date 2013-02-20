@@ -31,21 +31,11 @@ import java.util.UUID;
 
 import javax.annotation.Resource;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
-import com.mongodb.MongoException;
-
 import org.joda.time.DateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
@@ -53,6 +43,15 @@ import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.InvalidDataAccessApiUsageException;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import com.mongodb.MongoException;
 
 /**
  * JUnits for DAL
@@ -129,7 +128,7 @@ public class EntityRepositoryTest {
 
         // test update
         found.getBody().put("firstName", "Mandy");
-        assertTrue(repository.update("student", found));
+        assertTrue(repository.update("student", found, false));
         entities = repository.findAll("student", neutralQuery);
         assertNotNull(entities);
         Entity updated = entities.iterator().next();
@@ -156,7 +155,7 @@ public class EntityRepositoryTest {
     public void testNeedsId() {
 
         Entity e = new MongoEntity("student", buildTestStudentEntity());
-        assertFalse(repository.update("student", e));
+        assertFalse(repository.update("student", e, false));
 
     }
 
@@ -323,7 +322,7 @@ public class EntityRepositoryTest {
         // is no difference between create/update times
         Thread.sleep(2);
 
-        repository.update("student", saved);
+        repository.update("student", saved, false);
 
         updated = new DateTime(saved.getMetaData().get(EntityMetadataKey.UPDATED.getKey()));
 
@@ -475,7 +474,7 @@ public class EntityRepositoryTest {
         int noOfRetries = 3;
 
         Mockito.doThrow(new InvalidDataAccessApiUsageException("Test Exception")).when(mockRepo)
-                .update("student", entity);
+                .update("student", entity, false);
         Mockito.doCallRealMethod().when(mockRepo).updateWithRetries("student", entity, noOfRetries);
 
         try {
@@ -484,6 +483,6 @@ public class EntityRepositoryTest {
             assertEquals(ex.getMessage(), "Test Exception");
         }
 
-        Mockito.verify(mockRepo, Mockito.times(noOfRetries)).update("student", entity);
+        Mockito.verify(mockRepo, Mockito.times(noOfRetries)).update("student", entity, false);
     }
 }

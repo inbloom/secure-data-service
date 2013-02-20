@@ -26,7 +26,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.slc.sli.common.domain.FullSuperDoc;
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
@@ -42,6 +41,7 @@ import org.slc.sli.dal.migration.config.MigrationRunner.MigrateEntityCollection;
 import org.slc.sli.dal.versioning.SliSchemaVersionValidatorProvider;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
+import org.slc.sli.domain.FullSuperDoc;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.validation.EntityValidator;
@@ -375,20 +375,46 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     @Override
-    protected Update getUpdateCommand(Entity entity) {
+    protected Update getUpdateCommand(Entity entity, boolean isSuperdoc) {
         // set up update query
         Map<String, Object> entityBody = entity.getBody();
         Map<String, Object> entityMetaData = entity.getMetaData();
+        Update update = new Update();
+        update.set("body", entityBody).set("metaData", entityMetaData);
+        // superdoc need to update subdoc fields outside body
+        if (isSuperdoc && entity.getEmbeddedData() != null) {
+            for (Map.Entry<String, List<Entity>> subdocField : entity.getEmbeddedData().entrySet()) {
+                if (subdocField.getValue() != null && subdocField.getValue().size() > 0) {
+                    List<Map<String, Object>> updateEntities = new ArrayList<Map<String, Object>>();
+                    for (Entity subdocEntity : subdocField.getValue()) {
+                        Map<String, Object> updateEntity = new HashMap<String, Object>();
+                        updateEntity.put("_id", subdocEntity.getEntityId());
+                        updateEntity.put("body", subdocEntity.getBody());
+                        updateEntity.put("type", subdocEntity.getType());
+                        updateEntity.put("metaData", subdocEntity.getMetaData());
+                        updateEntities.add(updateEntity);
+                    }
+                    update.set(subdocField.getKey(), updateEntities);
+                }
+            }
+        } else if (isSuperdoc) {
+            // clear subdoc fields if they are null
+            for (String subdocField : FullSuperDoc.FULL_ENTITIES.get(entity.getType())) {
+                update.set(subdocField, new ArrayList<Map<String, Object>>());
+            }
+        }
+
         return (new Update().set("body", entityBody).set("metaData", entityMetaData));
     }
-
+    
     @Override
     public boolean updateWithRetries(final String collection, final Entity entity, int noOfRetries) {
         RetryMongoCommand rc = new RetryMongoCommand() {
 
             @Override
             public Object execute() {
-                return update(collection, entity);
+                // updateWithRetries is only used by ingestion, so always set isSuperdoc to false
+                return update(collection, entity, false);
             }
         };
         Object result = rc.executeOperation(noOfRetries);
@@ -402,15 +428,15 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     @Override
     public boolean updateWithoutValidatingNaturalKeys(String collection, Entity entity) {
-        return this.update(collection, entity, false);
+        return this.update(collection, entity, FullSuperDoc.isFullSuperdoc(entity));
     }
 
     @Override
-    public boolean update(String collection, Entity entity) {
-        return this.update(collection, entity, true);
+    public boolean update(String collection, Entity entity, boolean isSuperdoc) {
+        return this.update(collection, entity, true, isSuperdoc);
     }
 
-    private boolean update(String collection, Entity entity, boolean validateNaturalKeys) {
+    private boolean update(String collection, Entity entity, boolean validateNaturalKeys, boolean isSuperdoc) {
         if (validateNaturalKeys) {
             validator.validateNaturalKeys(entity, true);
         }
@@ -424,8 +450,13 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         if (subDocs.isSubDoc(collection)) {
             return subDocs.subDoc(collection).create(entity);
         }
+        // convert subdoc from superdoc body to outside body
+        SuperdocConverter converter = converterReg.getConverter(entity.getType());
+        if (converter != null && isSuperdoc) {
+            converter.bodyFieldToSubdoc(entity);
+        }
 
-        return super.update(collection, entity, null); // body);
+        return super.update(collection, entity, null, isSuperdoc); // body);
     }
 
     /** Add the created and updated timestamp to the document metadata. */

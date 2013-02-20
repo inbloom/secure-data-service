@@ -20,16 +20,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.mongodb.DBCollection;
-import com.mongodb.WriteResult;
-
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
+import com.mongodb.DBCollection;
+import com.mongodb.WriteResult;
 
 /**
  * Mock entity repository for testing purposes
@@ -88,7 +87,7 @@ public class DummyEntityRepository implements Repository<Entity> {
     }
 
     @Override
-    public boolean update(String collection, Entity entity) {
+    public boolean update(String collection, Entity entity, boolean isSuperdoc) {
         addEntity(collection, entity.getEntityId(), entity);
         return true;
     }

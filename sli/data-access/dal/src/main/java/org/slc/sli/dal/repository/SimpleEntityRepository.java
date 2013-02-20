@@ -90,7 +90,7 @@ public class SimpleEntityRepository implements Repository<Entity> {
     }
 
     @Override
-    public boolean update(String collection, Entity object) {
+    public boolean update(String collection, Entity object, boolean isSuperdoc) {
         // TODO Auto-generated method stub
         return false;
     }
