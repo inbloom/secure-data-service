@@ -1270,7 +1270,7 @@
 
   <jb:bean beanId="studentAssessmentItem" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentAssessmentItem">
     <jb:value property="AdministrationDate" data="StudentAssessmentItem/StudentAssessmentReference/StudentAssessmentIdentity/AdministrationDate" />
-    <jb:value property="schoolYear" data="StudentAssessmentItem/StudentAssessmentReference/StudentAssessmentIdentity/SchoolYear"/>
+    <jb:value property="SchoolYear" data="StudentAssessmentItem/StudentAssessmentReference/StudentAssessmentIdentity/SchoolYear"/>
     <jb:wiring property="StudentReference" beanIdRef="studentAssessmentItemPart3" />
     <jb:wiring property="AssessmentReference" beanIdRef="studentAssessmentItemPart2" />
   </jb:bean>
