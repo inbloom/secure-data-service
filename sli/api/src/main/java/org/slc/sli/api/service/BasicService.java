@@ -113,7 +113,7 @@ public class BasicService implements EntityService {
 
     @Override
     public long count(NeutralQuery neutralQuery) {
-    	reallyCheckAccess(true, false);
+    	checkAccess(true, false, null);
         checkFieldAccess(neutralQuery, false);
 
         return getRepo().count(collectionName, neutralQuery);
@@ -128,7 +128,7 @@ public class BasicService implements EntityService {
      */
     @Override
     public Iterable<String> listIds(final NeutralQuery neutralQuery) {
-        reallyCheckAccess(true, false);
+        checkAccess(true, false, null);
         checkFieldAccess(neutralQuery, false);
 
         NeutralQuery nq = neutralQuery;
@@ -148,7 +148,7 @@ public class BasicService implements EntityService {
 //        if (writeRight != Right.ANONYMOUS_ACCESS) {
 //            checkAllRights(determineWriteAccess(content, ""), true, false);
 //        }
-    	reallyCheckAccess(false, false);
+    	checkAccess(false, false, content);
 
         checkReferences(content);
 
@@ -161,9 +161,14 @@ public class BasicService implements EntityService {
         return entityId;
     }
     
-    private void reallyCheckAccess(boolean isRead, boolean isSelf) {
+    private void checkAccess(boolean isRead, boolean isSelf, EntityBody content) {
+    	SecurityUtil.ensureAuthenticated();
     	Set<Right> neededRights = new HashSet<Right>();
-    	neededRights.addAll(provider.getAllFieldRights(defn.getType(), isRead));
+    	if (isRead || content == null) {
+    		neededRights.addAll(provider.getAllFieldRights(defn.getType(), isRead));
+    	} else {
+    		neededRights.addAll(determineWriteAccess(content, ""));
+    	}
     	Collection<GrantedAuthority> auths = getAuths(isSelf);
 
     	if (ADMIN_SPHERE.equals(provider.getDataSphere(defn.getType()))) {
@@ -188,7 +193,7 @@ public class BasicService implements EntityService {
         }
     }
     
-    private void reallyCheckAccess(boolean isRead, String entityId) {
+    private void checkAccess(boolean isRead, String entityId, EntityBody content) {
         // Check that target entity actually exists
         if (securityRepo.findById(collectionName, entityId) == null) {
             warn("Could not find {}", entityId);
@@ -202,14 +207,14 @@ public class BasicService implements EntityService {
             }
         }
 
-    	reallyCheckAccess(isRead, isSelf(entityId));
+    	checkAccess(isRead, isSelf(entityId), content);
     }
 
 
     @Override
     public void delete(String id) {
     	
-    	reallyCheckAccess(false, id);
+    	checkAccess(false, id, null);
 
         try {
             cascadeDelete(id);
@@ -231,7 +236,7 @@ public class BasicService implements EntityService {
 //        if (writeRight != Right.ANONYMOUS_ACCESS) {
 //            checkAccess(determineWriteAccess(content, ""), id);
 //        }
-        reallyCheckAccess(false, id);
+        checkAccess(false, id, content);
 
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("_id", "=", id));
@@ -265,7 +270,7 @@ public class BasicService implements EntityService {
 //        if (writeRight != Right.ANONYMOUS_ACCESS) {
 //            checkAccess(determineWriteAccess(content, ""), id);
 //        }
-        reallyCheckAccess(false, id);
+        checkAccess(false, id, content);
         
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("_id", "=", id));
@@ -305,7 +310,7 @@ public class BasicService implements EntityService {
     }
 
     private Entity getEntity(String id, final NeutralQuery neutralQuery) {
-        reallyCheckAccess(true, id);
+        checkAccess(true, id, null);
         checkFieldAccess(neutralQuery, isSelf(id));
 
         NeutralQuery nq = neutralQuery;
@@ -343,7 +348,7 @@ public class BasicService implements EntityService {
             return Collections.emptyList();
         }
 
-        reallyCheckAccess(true, false);
+        checkAccess(true, false, null);
         checkFieldAccess(neutralQuery, false);
 
         List<String> idList = new ArrayList<String>();
@@ -379,7 +384,7 @@ public class BasicService implements EntityService {
     @Override
     public Iterable<EntityBody> list(NeutralQuery neutralQuery) {
     	boolean isSelf = isSelf(neutralQuery);
-        reallyCheckAccess(true, isSelf);
+        checkAccess(true, isSelf, null);
         checkFieldAccess(neutralQuery, isSelf);
 
         Collection<Entity> entities = (Collection<Entity>) repo.findAll(collectionName, neutralQuery);
@@ -399,7 +404,7 @@ public class BasicService implements EntityService {
 
     @Override
     public boolean exists(String id) {
-        reallyCheckAccess(true, isSelf(id));
+        checkAccess(true, isSelf(id), null);
 
         boolean exists = false;
         NeutralQuery query = new NeutralQuery();
@@ -416,7 +421,7 @@ public class BasicService implements EntityService {
 
     @Override
     public EntityBody getCustom(String id) {
-        reallyCheckAccess(true, id);
+        checkAccess(true, id, null);
 
         String clientId = getClientId();
 
@@ -438,7 +443,7 @@ public class BasicService implements EntityService {
 
     @Override
     public void deleteCustom(String id) {
-        reallyCheckAccess(false, id);
+        checkAccess(false, id, null);
 
         String clientId = getClientId();
 
@@ -459,7 +464,7 @@ public class BasicService implements EntityService {
 
     @Override
     public void createOrUpdateCustom(String id, EntityBody customEntity) throws EntityValidationException {
-        reallyCheckAccess(false, id);
+        checkAccess(false, id, customEntity);
 
         String clientId = getClientId();
 
