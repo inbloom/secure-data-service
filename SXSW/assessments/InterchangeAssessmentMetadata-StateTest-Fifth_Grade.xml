@@ -1,6 +1,56 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-AssessmentMetadata.xsd">
 	<!-- StateTest Section Fifth Grade-->
+	<AssessmentFamily>
+		<AssessmentFamilyTitle>StateTest</AssessmentFamilyTitle>
+		<AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+			<ID>StateTest</ID>
+		</AssessmentFamilyIdentificationCode>
+	</AssessmentFamily>
+	<AssessmentFamily>
+		<AssessmentFamilyTitle>StateTest Writing for Grades 3-8</AssessmentFamilyTitle>
+		<AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+			<ID>StateTest Writing for Grades 3-8</ID>
+		</AssessmentFamilyIdentificationCode>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyTitle>StateTest</AssessmentFamilyTitle>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
+	</AssessmentFamily>
+	<AssessmentFamily>
+		<AssessmentFamilyTitle>StateTest Reading for Grades 3-8</AssessmentFamilyTitle>
+		<AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+			<ID>StateTest Reading for Grades 3-8</ID>
+		</AssessmentFamilyIdentificationCode>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyTitle>StateTest</AssessmentFamilyTitle>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
+	</AssessmentFamily>
+	<AssessmentFamily>
+		<AssessmentFamilyTitle>StateTest Reading for Grade 5</AssessmentFamilyTitle>
+		<AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+			<ID>StateTest Reading for Grade 5</ID>
+		</AssessmentFamilyIdentificationCode>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyTitle>StateTest Reading for Grades 3-8</AssessmentFamilyTitle>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
+	</AssessmentFamily>
+	<AssessmentFamily>
+		<AssessmentFamilyTitle>StateTest Writing for Grade 5</AssessmentFamilyTitle>
+		<AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
+			<ID>StateTest Writing for Grade 5</ID>
+		</AssessmentFamilyIdentificationCode>
+		<AssessmentFamilyReference>
+			<AssessmentFamilyIdentity>
+				<AssessmentFamilyTitle>StateTest Writing for Grades 3-8</AssessmentFamilyTitle>
+			</AssessmentFamilyIdentity>
+		</AssessmentFamilyReference>
+	</AssessmentFamily>
 	<Assessment>
 		<AssessmentTitle>Grade 5 2011 StateTest Writing</AssessmentTitle>
 		<AssessmentIdentificationCode IdentificationSystem="Test Contractor">
@@ -101,26 +151,4 @@
 			</AssessmentFamilyIdentity>
 		</AssessmentFamilyReference>
 	</Assessment>
-	<AssessmentFamily>
-		<AssessmentFamilyTitle>StateTest Reading for Grade 5</AssessmentFamilyTitle>
-		<AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
-			<ID>StateTest Reading for Grade 5</ID>
-		</AssessmentFamilyIdentificationCode>
-		<AssessmentFamilyReference>
-			<AssessmentFamilyIdentity>
-				<AssessmentFamilyTitle>StateTest Reading for Grades 3-8</AssessmentFamilyTitle>
-			</AssessmentFamilyIdentity>
-		</AssessmentFamilyReference>
-	</AssessmentFamily>
-	<AssessmentFamily>
-		<AssessmentFamilyTitle>StateTest Writing for Grade 5</AssessmentFamilyTitle>
-		<AssessmentFamilyIdentificationCode IdentificationSystem="Test Contractor">
-			<ID>StateTest Writing for Grade 5</ID>
-		</AssessmentFamilyIdentificationCode>
-		<AssessmentFamilyReference>
-			<AssessmentFamilyIdentity>
-				<AssessmentFamilyTitle>StateTest Writing for Grades 3-8</AssessmentFamilyTitle>
-			</AssessmentFamilyIdentity>
-		</AssessmentFamilyReference>
-	</AssessmentFamily>
 </InterchangeAssessmentMetadata>
