@@ -370,6 +370,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     protected Entity getEncryptedRecord(Entity entity) {
         MongoEntity encryptedEntity = new MongoEntity(entity.getType(), entity.getEntityId(), entity.getBody(),
                 entity.getMetaData(), entity.getCalculatedValues(), entity.getAggregates());
+        encryptedEntity.getEmbeddedData().putAll(entity.getEmbeddedData());
         encryptedEntity.encrypt(encrypt);
         return encryptedEntity;
     }
@@ -383,28 +384,28 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         update.set("body", entityBody).set("metaData", entityMetaData);
         // superdoc need to update subdoc fields outside body
         if (isSuperdoc && entity.getEmbeddedData() != null) {
-            for (Map.Entry<String, List<Entity>> subdocField : entity.getEmbeddedData().entrySet()) {
-                if (subdocField.getValue() != null && subdocField.getValue().size() > 0) {
-                    List<Map<String, Object>> updateEntities = new ArrayList<Map<String, Object>>();
-                    for (Entity subdocEntity : subdocField.getValue()) {
-                        Map<String, Object> updateEntity = new HashMap<String, Object>();
-                        updateEntity.put("_id", subdocEntity.getEntityId());
-                        updateEntity.put("body", subdocEntity.getBody());
-                        updateEntity.put("type", subdocEntity.getType());
-                        updateEntity.put("metaData", subdocEntity.getMetaData());
-                        updateEntities.add(updateEntity);
+            Set<String> subdocFields = FullSuperDoc.FULL_ENTITIES.get(entity.getType());
+            if (subdocFields != null) {
+                for (String subdocField : subdocFields) {
+                    List<Entity> subdocEntities = entity.getEmbeddedData().get(subdocField);
+                    if (subdocEntities != null && subdocEntities.size() > 0) {
+                        List<Map<String, Object>> updateEntities = new ArrayList<Map<String, Object>>();
+                        for (Entity subdocEntity : subdocEntities) {
+                            Map<String, Object> updateEntity = new HashMap<String, Object>();
+                            updateEntity.put("_id", subdocEntity.getEntityId());
+                            updateEntity.put("body", subdocEntity.getBody());
+                            updateEntity.put("type", subdocEntity.getType());
+                            updateEntity.put("metaData", subdocEntity.getMetaData());
+                            updateEntities.add(updateEntity);
+                        }
+                        update.set(subdocField, updateEntities);
+                    } else {
+                        update.unset(subdocField);
                     }
-                    update.set(subdocField.getKey(), updateEntities);
                 }
             }
-        } else if (isSuperdoc) {
-            // clear subdoc fields if they are null
-            for (String subdocField : FullSuperDoc.FULL_ENTITIES.get(entity.getType())) {
-                update.set(subdocField, new ArrayList<Map<String, Object>>());
-            }
         }
-
-        return (new Update().set("body", entityBody).set("metaData", entityMetaData));
+        return update;
     }
     
     @Override
