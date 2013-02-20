@@ -159,15 +159,13 @@ Then I should see following map of entry counts in the corresponding collections
        | student                     | 1                   | body.studentUniqueStateId      | 800000012                  | string               |
        | student                     | 1                   | body.studentUniqueStateId      | 800000025                  | string               |
        | student                     | 1                   | body.studentUniqueStateId      | 900000024                  | string               |
-       | studentAssessment | 10                 | body.studentAssessmentItems.assessmentItemResult              | Incorrect           | string |
-       | studentAssessment | 10                 | body.studentAssessmentItems.assessmentResponse                | False               | string |
-       | studentAssessment | 24                 | body.studentAssessmentItems.assessmentItemResult              | Correct             | string |
-       | studentAssessment | 24                 | body.studentAssessmentItems.assessmentResponse                | True                | string |
-       | studentAssessment | 25                 | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-3    | string |
-       | studentAssessment | 25                 | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-4    | string |
+       | studentAssessment | 10                 | studentAssessmentItem.body.assessmentItemResult              | Incorrect           | string |
+       | studentAssessment | 10                 | studentAssessmentItem.body.assessmentResponse                | False               | string |
+       | studentAssessment | 24                 | studentAssessmentItem.body.assessmentItemResult              | Correct             | string |
+       | studentAssessment | 24                 | studentAssessmentItem.body.assessmentResponse                | True                | string |
        | studentParentAssociation     | 2                  | body.contactRestrictions                                      | NO CONTACT ALLOWED  | string |
        | studentParentAssociation     | 3                  | body.contactPriority                                          | 1                   | integer|
-    And I should see "Processed 4282 records." in the resulting batch job file
+    And I should see "Processed 4332 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -229,8 +227,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentAssessment-Rbraverman5thgrade.xml records considered: 2" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Rbraverman5thgrade.xml records ingested successfully: 2" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Rbraverman5thgrade.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeStudentAssessment-Cgray-ACT.xml records considered: 25" in the resulting batch job file
-    And I should see "InterchangeStudentAssessment-Cgray-ACT.xml records ingested successfully: 25" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment-Cgray-ACT.xml records considered: 75" in the resulting batch job file
+    And I should see "InterchangeStudentAssessment-Cgray-ACT.xml records ingested successfully: 75" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Cgray-ACT.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeAttendance.xml records considered: 75" in the resulting batch job file
     And I should see "InterchangeAttendance.xml records ingested successfully: 75" in the resulting batch job file
@@ -401,6 +399,7 @@ Scenario: Verify deterministic ids generated: Clean Database
     | educationOrganization                | b64ee2bcc92805cdd8ada6b7d8f9c643c9459831_id | body.stateOrganizationId  | IL                                   |
     | assessment                           | d50118aaad960b54a8b2afc7268d01d13842cb58_id | body.assessmentIdentificationCode.ID  | ACT                              |
     | assessment                           | d50118aaad960b54a8b2afc7268d01d13842cb58_id | assessmentItem.body.learningStandards  | aad9e465a76a47a6478c9ac92a6c8bea9e9a587c_id |
+    | assessment                           | d50118aaad960b54a8b2afc7268d01d13842cb58_id | assessmentItem.body.learningStandards  | 316a4af0c4f2a43c958c1dcf1102777862f86307_id |
     | assessment                           | d50118aaad960b54a8b2afc7268d01d13842cb58_id | objectiveAssessment.body.learningObjectives  | 7cad1e4eae9c2b91f1e7fe963ee6144e83afe917_id |
     | educationOrganization                | 1b223f577827204a1c7e9c851dba06bea6b031fe_id | body.stateOrganizationId  | IL-DAYBREAK                          |
     | educationOrganization                | a13489364c2eb015c219172d561c62350f0453f3_id | body.stateOrganizationId  | Daybreak Central High                |
@@ -419,7 +418,6 @@ Scenario: Verify deterministic ids generated: Clean Database
     | studentAssessment                    | e7edb12749b430584eec8d7b9652d2774d7f6ffb_id | body.studentId            | c04d5891b6b1f10ce9b9e48b80581cda7788312c_id |
     | studentAssessment                    | e7edb12749b430584eec8d7b9652d2774d7f6ffb_id | body.assessmentId         | d50118aaad960b54a8b2afc7268d01d13842cb58_id |
     | studentAssessment                    | e7edb12749b430584eec8d7b9652d2774d7f6ffb_id | body.administrationDate   | 2011-05-01                                    |
-    | studentAssessment                    | e7edb12749b430584eec8d7b9652d2774d7f6ffb_id | body.studentAssessmentItems.assessmentItem.learningStandards   | 316a4af0c4f2a43c958c1dcf1102777862f86307_id |
     | studentAssessment                    | e7edb12749b430584eec8d7b9652d2774d7f6ffb_id | body.studentObjectiveAssessments.objectiveAssessment.learningObjectives   | 7cad1e4eae9c2b91f1e7fe963ee6144e83afe917_id |   
     | studentCompetency                    | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id | body.competencyLevel.codeValue    | 777                                  |
     | studentCompetency                    | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id | body.studentSectionAssociationId    | 5593b94891e8ba3f7005993e3847df6aaaa3a064_idc377c9c4b343dda726e837f442a171c570a460cd_id  |
@@ -907,16 +905,14 @@ Then I should see following map of entry counts in the corresponding collections
      | staffProgramAssociation     | 2                   | body.beginDate              | 2011-06-02              | string               |
      | staffProgramAssociation     | 9                   | body.endDate                | 2012-02-15              | string               |
      | studentAcademicRecord         | 104                 | body.cumulativeCreditsAttempted.credit| 5                       | integer              |
-     | studentAssessment | 10                  | body.studentAssessmentItems.assessmentResponse                | False               | string |
+     | studentAssessment | 11                  | studentAssessmentItem.body.assessmentResponse                | False               | string |
      | studentAssessment | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-English-Rhetorical   | string |
-     | studentAssessment | 25                  | body.studentAssessmentItems.assessmentResponse                | True                | string |
+     | studentAssessment | 25                  | studentAssessmentItem.body.assessmentResponse                | True                | string |
      | studentAssessment | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-Math-Algebra            | string |
      | studentAssessment | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-Math-Pre-Algebra    | string |
      | studentAssessment | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-Mathematics             | string |
      | studentAssessment | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-Reading-Arts            | string |
      | studentAssessment | 25                  | body.studentObjectiveAssessments.objectiveAssessment.identificationCode    | ACT-Writing                       | string |
-     | studentAssessment | 26                  | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-3    | string |
-     | studentAssessment | 26                  | body.studentAssessmentItems.assessmentItem.identificationCode | AssessmentItem-4    | string |
      | studentAssessment| 8                   | body.performanceLevelDescriptors.0.1.description | Extremely well qualified             |string                  |
      | studentCohortAssociation    | 1                   | body.beginDate              | 2011-02-01              | string               |
      | studentCohortAssociation    | 1                   | body.beginDate              | 2011-03-01              | string               |
@@ -960,7 +956,9 @@ Then I should see following map of entry counts in the corresponding collections
   And the field "body.correctResponse" has value "False"
   And the field "body.itemCategory" has value "True-False"
   And the field "body.maxRawScore" has value "5"
-  And I should see "Processed 139 records." in the resulting batch job file
+  When I find a record in "studentAssessment" under "studentAssessmentItem" where "body.assessmentItemId" is "d50118aaad960b54a8b2afc7268d01d13842cb58_idbc774073db0cbd89322970083ee065c02c6a034d_id"
+  Then "body.assessmentItemId" contains a reference to a "assessmentItem" where "body.identificationCode" is "AssessmentItem-3"
+  And I should see "Processed 144 records." in the resulting batch job file
   And I should see "Program2.xml records considered: 4" in the resulting batch job file
   And I should see "Program2.xml records ingested successfully: 4" in the resulting batch job file
   And I should see "Program2.xml records failed: 0" in the resulting batch job file
@@ -1015,8 +1013,8 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "InterchangeStudentAssessment-CgrayAP-English.xml records considered: 11" in the resulting batch job file
   And I should see "InterchangeStudentAssessment-CgrayAP-English.xml records ingested successfully: 11" in the resulting batch job file
   And I should see "InterchangeStudentAssessment-CgrayAP-English.xml records failed: 0" in the resulting batch job file
-  And I should see "StudentAssessmentItem_ACTAssessmentItem_Mapping.xml records considered: 1" in the resulting batch job file
-  And I should see "StudentAssessmentItem_ACTAssessmentItem_Mapping.xml records ingested successfully: 1" in the resulting batch job file
+  And I should see "StudentAssessmentItem_ACTAssessmentItem_Mapping.xml records considered: 6" in the resulting batch job file
+  And I should see "StudentAssessmentItem_ACTAssessmentItem_Mapping.xml records ingested successfully: 6" in the resulting batch job file
   And I should see "StudentAssessmentItem_ACTAssessmentItem_Mapping.xml records failed: 0" in the resulting batch job file
   And I should see "InterchangeStudent.xml records considered: 12" in the resulting batch job file
   And I should see "InterchangeStudent.xml records ingested successfully: 12" in the resulting batch job file
