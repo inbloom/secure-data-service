@@ -1699,6 +1699,12 @@ def subDocParent(collectionName)
       "cohort"
     when "studentDisciplineIncidentAssociation"
       "student"
+    when "studentAssessmentItem"
+      "studentAssessment"
+    when "assessmentItem"
+      "assessment"
+    when "objectiveAssessment"
+      "assessment"
     else
       nil
   end
@@ -2719,16 +2725,25 @@ end
 
 Then /^"([^"]*)" contains a reference to a "([^"]*)" where "([^"]*)" is "([^"]*)"$/ do |referenceField, collection, searchTerm, value|
   disable_NOTABLESCAN()
-
-  db = @conn[@ingestion_db_name]
-  collection = db.collection(collection)
-  referred = collection.find_one({searchTerm => value})
+  referred = findOne(collection, searchTerm, value)
   referred.should_not == nil
   id = referred["_id"]
   references = findField(@record, referenceField)
 
   assert(references.include?(id), "the record #{@record} does not contain a reference to the #{collection} #{value}")
   enable_NOTABLESCAN()
+end
+
+def findOne(collection, searchTerm, value)
+  db = @conn[@ingestion_db_name]
+  parentCollection = subDocParent collection
+  if parentCollection.nil?
+    collection = db.collection(collection)
+    result = collection.find_one({searchTerm => value})
+  else
+    result = db.collection(parentCollection).find_one({"#{collection}.#{searchTerm}" => value})
+  end
+  result
 end
 
 When /^zip file "(.*?)" is scp to ingestion landing zone$/ do |fileName|
@@ -2884,71 +2899,71 @@ end
 
 
 def extractField(record, fieldPath, subDocType, subDocId) 
-	pathArray = fieldPath.split('.')
-	result = record
-	
-	if subDocType
-		result = result[subDocType]
-		#if there is an array of subdocs, find the right one
-		if result.kind_of?(Array)
-			for subDoc in result
-				if subDoc["_id"] == subDocId
-					result = subDoc
-					break
-				end
-			end
-		end
-	
-	end
-	
-	for pathPart in pathArray
-		result = result[pathPart]
-		#handle arrays by always selecting the first element
-		while result.kind_of?(Array)
-			result = result[0]
-		end
-	end
-	result
+  pathArray = fieldPath.split('.')
+  result = record
+  
+  if subDocType
+    result = result[subDocType]
+    #if there is an array of subdocs, find the right one
+    if result.kind_of?(Array)
+      for subDoc in result
+        if subDoc["_id"] == subDocId
+          result = subDoc
+          break
+        end
+      end
+    end
+  
+  end
+  
+  for pathPart in pathArray
+    result = result[pathPart]
+    #handle arrays by always selecting the first element
+    while result.kind_of?(Array)
+      result = result[0]
+    end
+  end
+  result
 end
 
 def getRecord(did, collectionName)
-	db = @conn[@ingestion_db_name]
-	parentCollectionName = subDocParent(collectionName)
-	if parentCollectionName
-		idField =  id_param = collectionName + "._id"
-		collection = db.collection(parentCollectionName)
-		record = collection.find_one({idField => did})
-    else
-    	collection = db.collection(collectionName)
-		record = collection.find_one({"_id" => did})
-    end
-	
-	record
+  db = @conn[@ingestion_db_name]
+  parentCollectionName = subDocParent(collectionName)
+  if parentCollectionName
+    idField =  id_param = collectionName + "._id"
+    collection = db.collection(parentCollectionName)
+    record = collection.find_one({idField => did})
+  else
+    collection = db.collection(collectionName)
+    record = collection.find_one({"_id" => did})
+  end
+  
+  record
 end
 
 Then /^I check that references were resolved correctly:$/ do |table|
-	disable_NOTABLESCAN()
-	table.hashes.map do |row|
-		did = row['entityId']
-    	refField = row['referenceField']
-    	refCollectionName = row['referenceCollection']
-    	collectionName = row['entityCollection']
-	
-		entity = getRecord(did, collectionName)
-		assert(entity != nil, "Failed to find an entity with _id = #{did} in collection #{collectionName}")
-	
-		parentCollectionName = subDocParent(collectionName)
-		if parentCollectionName
-			refDid = extractField(entity, refField, collectionName, did)
-		else
-			refDid = extractField(entity, refField, nil, nil)
-		end
-		
-		referredEntity = getRecord(refDid, refCollectionName)
-		assert(referredEntity != nil, "Referenced #{refCollectionName} entity with _id = #{refDid} in #{collectionName} does not exist")
-		
-	end
-	enable_NOTABLESCAN()
+  disable_NOTABLESCAN()
+  table.hashes.map do |row|
+    did = row['entityId']
+      refField = row['referenceField']
+      refCollectionName = row['referenceCollection']
+      collectionName = row['entityCollection']
+  
+    entity = getRecord(did, collectionName)
+    assert(entity != nil, "Failed to find an entity with _id = #{did} in collection #{collectionName}")
+  
+    parentCollectionName = subDocParent(collectionName)
+    if parentCollectionName
+      refDid = extractField(entity, refField, collectionName, did)
+    else
+      refDid = extractField(entity, refField, nil, nil)
+    end
+    
+    referredEntity = getRecord(refDid, refCollectionName)
+    assert(referredEntity != nil, "Referenced #{refCollectionName} entity with _id = #{refDid} in #{collectionName} does not exist")
+    
+  end
+  enable_NOTABLESCAN()
 end
 
 
