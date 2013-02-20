@@ -171,4 +171,16 @@ public class EdfiRecordParserTest {
 
         EntityTestHelper.captureAndCompare(mockVisitor, expectedJson);
     }
+
+    @Test
+    public void testCDATA() throws Throwable {
+        Resource schema = new ClassPathResource("edfiXsd-SLI/SLI-Interchange-StudentParent.xsd");
+        Resource xml = new ClassPathResource("parser/InterchangeStudentParent/StudentWithCDATA.xml");
+        Resource expectedJson = new ClassPathResource("parser/InterchangeStudentParent/StudentWithCDATA.expected.json");
+
+        RecordVisitor mockVisitor = Mockito.mock(RecordVisitor.class);
+        EdfiRecordParserImpl2.parse(xml.getInputStream(), schema, tp, mockVisitor);
+
+        EntityTestHelper.captureAndCompare(mockVisitor, expectedJson);
+    }
 }
