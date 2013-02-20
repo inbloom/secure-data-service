@@ -91,7 +91,7 @@ def main(argv):
                 if p == 8:
                     reporting_method = "Composite Score"
                 else:
-                    reporting_method = "Mastery level"
+                    reporting_method = "Scale score"
                     
                 # __AdministrationDate__     BOY = 2012-10-01   MOY 2013-02-01
                 # __AssessmentTitle__      "<assmt short name> <gradelevel> 12-13 <bench period>"

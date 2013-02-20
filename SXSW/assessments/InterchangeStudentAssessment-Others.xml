@@ -44,7 +44,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>108</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -78,7 +78,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>98</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -112,7 +112,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>57</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -146,7 +146,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>3</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -180,7 +180,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>4</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -214,7 +214,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>S</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -282,7 +282,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>129</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -316,7 +316,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>99</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -350,7 +350,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>35</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -384,7 +384,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>3</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -418,7 +418,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>13</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -452,7 +452,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>U</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -520,7 +520,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>100</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -554,7 +554,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>95</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -588,7 +588,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>35</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -622,7 +622,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>3</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -656,7 +656,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>7</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -690,7 +690,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>T</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -758,7 +758,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>114</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -792,7 +792,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>97</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -826,7 +826,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>36</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -860,7 +860,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>2</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -894,7 +894,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>14</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -928,7 +928,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>U</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -996,7 +996,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>80</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -1030,7 +1030,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>94</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -1064,7 +1064,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>48</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -1098,7 +1098,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>3</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -1132,7 +1132,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>11</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -1166,7 +1166,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>Q</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -1234,7 +1234,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>108</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -1268,7 +1268,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>98</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -1302,7 +1302,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>29</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -1336,7 +1336,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>2</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -1370,7 +1370,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>20</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -1404,7 +1404,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>S</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -1472,7 +1472,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>90</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -1506,7 +1506,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>96</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -1540,7 +1540,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>30</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -1574,7 +1574,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>2</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -1608,7 +1608,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>13</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -1642,7 +1642,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>R</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -1710,7 +1710,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>102</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -1744,7 +1744,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>98</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -1778,7 +1778,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>43</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -1812,7 +1812,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>3</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -1846,7 +1846,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>19</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -1880,7 +1880,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>R</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -1948,7 +1948,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>96</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -1982,7 +1982,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>94</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -2016,7 +2016,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>96</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -2050,7 +2050,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>4</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -2084,7 +2084,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>15</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -2118,7 +2118,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>Q</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -2186,7 +2186,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>102</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -2220,7 +2220,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>98</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -2254,7 +2254,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>66</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -2288,7 +2288,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>4</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -2322,7 +2322,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>16</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -2356,7 +2356,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>U</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -2424,7 +2424,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>94</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -2458,7 +2458,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>94</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -2492,7 +2492,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>71</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -2526,7 +2526,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>3</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -2560,7 +2560,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>11</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -2594,7 +2594,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>U</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -2662,7 +2662,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>99</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -2696,7 +2696,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>100</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -2730,7 +2730,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>31</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -2764,7 +2764,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>3</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -2798,7 +2798,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>11</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -2832,7 +2832,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>U</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -2900,7 +2900,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>159</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -2934,7 +2934,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>99</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -2968,7 +2968,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>14</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -3002,7 +3002,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>1</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -3036,7 +3036,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>29</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -3070,7 +3070,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>P</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -3138,7 +3138,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>152</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -3172,7 +3172,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>100</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -3206,7 +3206,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>40</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -3240,7 +3240,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>3</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -3274,7 +3274,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>27</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -3308,7 +3308,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>U</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -3376,7 +3376,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>81</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -3410,7 +3410,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>91</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -3444,7 +3444,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>14</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -3478,7 +3478,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>1</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -3512,7 +3512,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>7</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -3546,7 +3546,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>S</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -3614,7 +3614,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>111</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -3648,7 +3648,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>96</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -3682,7 +3682,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>40</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -3716,7 +3716,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>2</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -3750,7 +3750,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>14</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -3784,7 +3784,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>R</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -3852,7 +3852,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>111</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -3886,7 +3886,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>95</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -3920,7 +3920,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>44</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -3954,7 +3954,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>2</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -3988,7 +3988,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>7</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -4022,7 +4022,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>S</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -4090,7 +4090,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>126</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -4124,7 +4124,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>94</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -4158,7 +4158,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>47</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -4192,7 +4192,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>2</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -4226,7 +4226,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>17</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -4260,7 +4260,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>U</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -4328,7 +4328,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>121</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -4362,7 +4362,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>99</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -4396,7 +4396,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>49</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -4430,7 +4430,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>3</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -4464,7 +4464,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>15</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -4498,7 +4498,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>U</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -4566,7 +4566,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>140</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -4600,7 +4600,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>99</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -4634,7 +4634,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>37</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -4668,7 +4668,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>3</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -4702,7 +4702,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>20</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -4736,7 +4736,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>U</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -4804,7 +4804,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>159</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -4838,7 +4838,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>99</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -4872,7 +4872,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>63</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -4906,7 +4906,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>2</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -4940,7 +4940,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>13</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -4974,7 +4974,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>U</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -5042,7 +5042,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>163</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -5076,7 +5076,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>100</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -5110,7 +5110,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>40</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -5144,7 +5144,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>3</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -5178,7 +5178,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>13</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -5212,7 +5212,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>U</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -5280,7 +5280,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>77</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -5314,7 +5314,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>94</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -5348,7 +5348,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>42</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -5382,7 +5382,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>2</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -5416,7 +5416,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>4</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -5450,7 +5450,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>O</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -5518,7 +5518,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>103</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -5552,7 +5552,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>97</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -5586,7 +5586,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>36</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -5620,7 +5620,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>2</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -5654,7 +5654,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>15</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -5688,7 +5688,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>O</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -5756,7 +5756,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>75</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -5790,7 +5790,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>99</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -5824,7 +5824,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>27</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -5858,7 +5858,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>2</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -5892,7 +5892,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>6</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -5926,7 +5926,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>N</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -5994,7 +5994,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>96</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -6028,7 +6028,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>98</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -6062,7 +6062,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>33</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -6096,7 +6096,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>2</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -6130,7 +6130,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>12</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -6164,7 +6164,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>P</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -6232,7 +6232,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>116</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -6266,7 +6266,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>99</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -6300,7 +6300,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>23</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -6334,7 +6334,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>2</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -6368,7 +6368,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>22</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -6402,7 +6402,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>Q</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -6470,7 +6470,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>146</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -6504,7 +6504,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>99</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -6538,7 +6538,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>30</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -6572,7 +6572,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>3</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -6606,7 +6606,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>18</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -6640,7 +6640,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>R</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -6708,7 +6708,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>147</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -6742,7 +6742,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>99</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -6776,7 +6776,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>60</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -6810,7 +6810,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>4</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -6844,7 +6844,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>28</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -6878,7 +6878,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>Q</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -6946,7 +6946,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>179</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -6980,7 +6980,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>99</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -7014,7 +7014,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>46</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -7048,7 +7048,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>4</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -7082,7 +7082,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>23</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -7116,7 +7116,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>U</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -7184,7 +7184,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>98</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -7218,7 +7218,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>97</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -7252,7 +7252,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>57</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -7286,7 +7286,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>3</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -7320,7 +7320,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>11</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -7354,7 +7354,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>R</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -7422,7 +7422,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>107</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -7456,7 +7456,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>99</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -7490,7 +7490,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>30</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -7524,7 +7524,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>2</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -7558,7 +7558,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>13</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -7592,7 +7592,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>S</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -7660,7 +7660,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>133</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -7694,7 +7694,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>99</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -7728,7 +7728,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>79</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -7762,7 +7762,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>3</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -7796,7 +7796,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>12</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -7830,7 +7830,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>U</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -7898,7 +7898,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>136</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -7932,7 +7932,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>99</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -7966,7 +7966,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>42</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -8000,7 +8000,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>3</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -8034,7 +8034,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>17</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -8068,7 +8068,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>U</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -8136,7 +8136,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>107</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -8170,7 +8170,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>98</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -8204,7 +8204,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>33</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -8238,7 +8238,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>3</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -8272,7 +8272,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>14</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -8306,7 +8306,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>O</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -8374,7 +8374,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>140</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -8408,7 +8408,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>99</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -8442,7 +8442,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>47</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -8476,7 +8476,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>4</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -8510,7 +8510,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>20</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -8544,7 +8544,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>R</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -8612,7 +8612,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>128</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -8646,7 +8646,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>86</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -8680,7 +8680,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>46</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -8714,7 +8714,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>2</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -8748,7 +8748,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>3</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -8782,7 +8782,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>U</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -8850,7 +8850,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>121</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -8884,7 +8884,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>95</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -8918,7 +8918,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>50</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -8952,7 +8952,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>3</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -8986,7 +8986,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>16</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -9020,7 +9020,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>U</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -9088,7 +9088,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>96</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -9122,7 +9122,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>96</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -9156,7 +9156,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>42</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -9190,7 +9190,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>3</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -9224,7 +9224,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>5</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -9258,7 +9258,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>M</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -9326,7 +9326,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>112</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -9360,7 +9360,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>97</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -9394,7 +9394,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>36</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -9428,7 +9428,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>2</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -9462,7 +9462,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>11</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -9496,7 +9496,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>O</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -9564,7 +9564,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>124</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -9598,7 +9598,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>100</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -9632,7 +9632,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>52</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -9666,7 +9666,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>3</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -9700,7 +9700,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>13</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -9734,7 +9734,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>T</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -9802,7 +9802,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>128</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -9836,7 +9836,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>99</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -9870,7 +9870,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>54</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -9904,7 +9904,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>3</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -9938,7 +9938,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>15</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -9972,7 +9972,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>T</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -10040,7 +10040,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>119</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -10074,7 +10074,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>99</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -10108,7 +10108,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>49</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -10142,7 +10142,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>3</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -10176,7 +10176,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>16</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -10210,7 +10210,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>Q</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -10278,7 +10278,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>128</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -10312,7 +10312,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>100</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -10346,7 +10346,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>42</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -10380,7 +10380,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>3</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -10414,7 +10414,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>18</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -10448,7 +10448,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>S</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -10516,7 +10516,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>103</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -10550,7 +10550,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>99</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -10584,7 +10584,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>28</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -10618,7 +10618,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>1</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -10652,7 +10652,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>3</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -10686,7 +10686,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>R</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -10754,7 +10754,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>121</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -10788,7 +10788,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>96</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -10822,7 +10822,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>33</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -10856,7 +10856,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>2</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -10890,7 +10890,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>17</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -10924,7 +10924,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>R</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -10992,7 +10992,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>180</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -11026,7 +11026,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>100</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -11060,7 +11060,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>74</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -11094,7 +11094,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>3</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -11128,7 +11128,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>8</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -11162,7 +11162,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>U</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -11230,7 +11230,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>189</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -11264,7 +11264,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>99</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -11298,7 +11298,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>42</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -11332,7 +11332,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>3</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -11366,7 +11366,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>12</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -11400,7 +11400,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>U</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -11468,7 +11468,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>180</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -11502,7 +11502,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>100</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -11536,7 +11536,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>74</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -11570,7 +11570,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>3</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -11604,7 +11604,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>8</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -11638,7 +11638,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>U</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -11706,7 +11706,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>189</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -11740,7 +11740,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>99</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -11774,7 +11774,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>42</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -11808,7 +11808,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>3</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -11842,7 +11842,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>12</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
@@ -11876,7 +11876,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Mastery level">
+      <ScoreResults AssessmentReportingMethod="Scale score">
           <Result>U</Result>
       </ScoreResults> 
       <ScoreResults AssessmentReportingMethod="Other">
