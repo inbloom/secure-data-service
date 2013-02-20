@@ -76,7 +76,11 @@ def main(argv):
                 score = flds[p + 1]
                 title = short_name + " Fifth Grade 12-13 " + period
                 comment = fname + " " + lname + " (" + str(student_id) + ") / " + short_name + " / " + period
-
+                if p == 8:
+                    reporting_method = "Composite Score"
+                else:
+                    reporting_method = "Mastery level"
+                    
                 # __AdministrationDate__     BOY = 2012-10-01   MOY 2013-02-01
                 # __AssessmentTitle__      "<assmt short name> <gradelevel> 12-13 <bench period>"
                 # __Score__
@@ -88,6 +92,7 @@ def main(argv):
                 subst_map = [
                     [ "__AdministrationDate__", admin_date ],
                     [ "__AssessmentTitle__", title ],
+                    [ "__AssessmentReportingMethod__", reporting_method ],
                     [ "__Score__", score ],
                     [ "__Level__", level ],
                     [ "__StudentId__", student_id ],
