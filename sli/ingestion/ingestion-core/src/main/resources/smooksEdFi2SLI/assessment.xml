@@ -96,8 +96,8 @@
 
      <jb:bean beanId="AssessmentIdentificationCodeType" class="java.util.HashMap" createOnElement="AssessmentIdentificationCode element">
         <jb:value property="ID" data="AssessmentIdentificationCode element ID _value"></jb:value>
-        <jb:value property="identificationSystem" data="AssessmentIdentificationCode element IdentificationSystem _value"></jb:value>
-        <jb:value property="assigningOrganizationCode" data="AssessmentIdentificationCode element AssigningOrganizationCode _value"></jb:value>
+        <jb:value property="identificationSystem" data="AssessmentIdentificationCode element a_IdentificationSystem"></jb:value>
+        <jb:value property="assigningOrganizationCode" data="AssessmentIdentificationCode element a_AssigningOrganizationCode"></jb:value>
     </jb:bean>
 
     <jb:bean beanId="AssessmentPerformanceLevelTypeArray" class="java.util.ArrayList" createOnElement="attributes">

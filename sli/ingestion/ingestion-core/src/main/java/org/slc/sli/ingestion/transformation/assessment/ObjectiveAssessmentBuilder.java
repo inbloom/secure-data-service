@@ -25,7 +25,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slc.sli.ingestion.BatchJobStageType;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.cache.CacheProvider;
@@ -36,13 +44,6 @@ import org.slc.sli.ingestion.reporting.impl.AggregatedSource;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Component;
 
 /**
  * Class for building objective assessments
@@ -54,12 +55,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class ObjectiveAssessmentBuilder {
     private static final Logger LOG = LoggerFactory.getLogger(ObjectiveAssessmentBuilder.class);
-    
+
+    private static final String VALUE = "_value";
     private static final String CREATION_TIME = "creationTime";
-    public static final String SUB_OBJECTIVE_REFS = "subObjectiveRefs";
-    public static final String BY_IDENTIFICATION_CDOE = "identificationCode";
-    public static final String BY_ID = "id";
-    public static final String ASSESSMENT_ITEM_REFS = "assessmentItemRefs";
+    public static final String SUB_OBJECTIVE_REFS = "ObjectiveAssessmentReference";
+    public static final String SUB_OBJECTIVE_ID = "ObjectiveAssessmentIdentity.ObjectiveAssessmentIdentificationCode." + VALUE;
+    public static final String BY_ID = "IdentificationCode." + VALUE;
+    public static final String ASSESSMENT_ITEM_REFS = "AssessmentItemReference";
+    public static final String ASSESSMENT_ITEM_ID = "AssessmentItemIdentity.AssessmentItemIdentificationCode." + VALUE;
     public static final String OBJECTIVE_ASSESSMENT = "objectiveAssessment";
 
     @Autowired
@@ -87,15 +90,15 @@ public class ObjectiveAssessmentBuilder {
         if (cached != null) {
             return cached;
         }
-        
+
         LOG.debug("Objective assessment: {} is not cached.. going to data store to find it.", objectiveAssessmentId);
-        
+
         Map<String, Object> assessment = getObjectiveAssessment(access, batchJobId, objectiveAssessmentId, BY_ID);
         if (assessment == null || assessment.isEmpty()) {
             LOG.debug("Couldn't find objective assessment: {} using its id --> Using identification code.",
                     objectiveAssessmentId);
-            assessment = getObjectiveAssessment(access, batchJobId, objectiveAssessmentId, BY_IDENTIFICATION_CDOE);
-            
+            assessment = getObjectiveAssessment(access, batchJobId, objectiveAssessmentId, SUB_OBJECTIVE_ID);
+
             if (assessment == null || assessment.isEmpty()) {
                 LOG.warn(
                         "Failed to find objective assessment: {} using both id and identification code --> Returning null.",
@@ -109,7 +112,7 @@ public class ObjectiveAssessmentBuilder {
         } else {
             LOG.debug("Found objective assessment: {} using its id.", objectiveAssessmentId);
         }
-        
+
         if (assessment != null) {
             LOG.debug("Caching objective assessment: {}", objectiveAssessmentId);
             cache(OBJECTIVE_ASSESSMENT, tenantId, objectiveAssessmentId, assessment);
@@ -159,26 +162,28 @@ public class ObjectiveAssessmentBuilder {
             Map<String, Object> objectiveAssessmentToReturn = new HashMap<String, Object>();
             NeutralRecord neutralRecord = objectiveAssessment.getValue();
 
-            if (record.get(by).equals(objectiveAssessmentRef)) {
+            String OARef = (String) getProperty(record, by);
+            if (OARef != null && OARef.equals(objectiveAssessmentRef)) {
                 List<?> subObjectiveRefs = (List<?>) record.get(SUB_OBJECTIVE_REFS);
                 if (subObjectiveRefs != null && !subObjectiveRefs.isEmpty()) {
                     Set<String> newParents = new HashSet<String>(parentObjs);
                     newParents.add(objectiveAssessmentRef);
                     List<Map<String, Object>> subObjectives = new ArrayList<Map<String, Object>>();
                     for (Object subObjectiveRef : subObjectiveRefs) {
-                        if (!newParents.contains(subObjectiveRef)) {
-                            Map<String, Object> subAssessment = getObjectiveAssessment((String) subObjectiveRef,
+                        String subObjRefId = (String) getProperty(subObjectiveRef, SUB_OBJECTIVE_ID);
+                        if (!newParents.contains(subObjRefId)) {
+                            Map<String, Object> subAssessment = getObjectiveAssessment(subObjRefId,
                                     newParents, BY_ID, objectiveAssessments, batchJobId);
                             if (subAssessment != null) {
                                 subObjectives.add(subAssessment);
                             } else {
-                                LOG.warn("Could not find objective assessment ref: {}", subObjectiveRef);
-                                reportWarnings(neutralRecord.getSourceFile(), new ElementSourceImpl(neutralRecord), CoreMessageCode.CORE_0043, subObjectiveRef);
+                                LOG.warn("Could not find objective assessment ref: {}", subObjRefId);
+                                reportWarnings(neutralRecord.getSourceFile(), new ElementSourceImpl(neutralRecord), CoreMessageCode.CORE_0043, subObjRefId);
                             }
                         } else {
                             LOG.warn("Ignoring sub objective assessment {} since it is already in the hierarchy",
-                                    subObjectiveRef);
-                            reportWarnings(neutralRecord.getSourceFile(), new ElementSourceImpl(neutralRecord), CoreMessageCode.CORE_0044, subObjectiveRef);
+                                    subObjRefId);
+                            reportWarnings(neutralRecord.getSourceFile(), new ElementSourceImpl(neutralRecord), CoreMessageCode.CORE_0044, subObjRefId);
                         }
                     }
                     objectiveAssessmentToReturn.put("objectiveAssessments", subObjectives);
@@ -270,7 +275,7 @@ public class ObjectiveAssessmentBuilder {
     }
 
     /**
-     * 
+     *
      * @param code
      * @param access
      * @param job
@@ -289,5 +294,23 @@ public class ObjectiveAssessmentBuilder {
             reportWarnings(sourceFile, source, code, args);
         } catch (java.util.NoSuchElementException e) {
             LOG.debug("Null sourceFile {}.", e);        }
+    }
+
+    /**
+     * This method return an OPTIONAL field from attributes.
+     * @param attributes
+     * @param name : the xpath of the field
+     * @return The string value of the name. Null if not exists.
+     */
+    public static Object getProperty(Object attributes, String name){
+        String res = null;
+        try {
+            res = (String) PropertyUtils.getNestedProperty(attributes, name);
+        } catch (Exception e) {
+            LOG.debug("Field: {} not defined", name);
+            res = null;
+        }
+
+        return res;
     }
 }
