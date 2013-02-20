@@ -73,20 +73,20 @@
                                         "valueField": "Scale score",
                                         "fieldName": "StateTestReading",
                                         "cutPoints": {
-                                            "1": {
-                                                "style": "color-widget-red"
-                                            },
-                                            "2": {
-                                                "style": "color-widget-orange"
-                                            },
-                                            "3": {
-                                                "style": "color-widget-yellow"
+                                            "5": {
+                                                "style": "color-widget-darkgreen"
                                             },
                                             "4": {
                                                 "style": "color-widget-green"
                                             },
-                                            "5": {
-                                                "style": "color-widget-darkgreen"
+                                            "3": {
+                                                "style": "color-widget-yellow"
+                                            },
+                                            "2": {
+                                                "style": "color-widget-orange"
+                                            },
+                                            "1": {
+                                                "style": "color-widget-red"
                                             }
                                         }
                                     }
@@ -113,7 +113,7 @@
                             "items": [
                                 {
                                     "field": "assessments.DIBELS.assessments.assessmentPeriodDescriptor.shortDescription",
-                                    "width": "150",
+                                    "width": "100",
                                     "sorter": "LetterGrade",
                                     "name": "Period",
                                     "type": "FIELD"
@@ -127,7 +127,7 @@
                                 },
                                 {
                                     "field": "assessments.DIBELS.Mastery level",
-                                    "width": "45",
+                                    "width": "100",
                                     "sorter": "LetterGrade",
                                     "name": "Reading Level",
                                     "type": "FIELD"
@@ -140,7 +140,7 @@
                             "items": [
                                 {
                                     "field": "assessments.TRC.assessments.assessmentPeriodDescriptor.shortDescription",
-                                    "width": "150",
+                                    "width": "100",
                                     "sorter": "LetterGrade",
                                     "name": "Period",
                                     "type": "FIELD"
@@ -154,7 +154,7 @@
                                 },
                                 {
                                     "field": "assessments.TRC.Mastery level",
-                                    "width": "45",
+                                    "width": "100",
                                     "sorter": "LetterGrade",
                                     "name": "Reading Level",
                                     "type": "FIELD"
@@ -162,96 +162,14 @@
                             ]
                         },
                         {
-                            "name": "StateTest Writing (most recent)",
-                            "type": "FIELD",
-                            "items": [
-                                {
-                                    "field": "assessments.StateTest Writing.perfLevel",
-                                    "width": "150",
-                                    "formatter": "FuelGaugeWithScore",
-                                    "sorter": "ProxyInt",
-                                    "name": "Performance Level",
-                                    "type": "FIELD",
-                                    "params": {
-                                        "sortField": "assessments.StateTest Writing.Scale score",
-                                        "name": "StateTest Writing",
-                                        "valueField": "Scale score",
-                                        "fieldName": "StateTestWriting",
-                                        "cutPoints": {
-                                            "1": {
-                                                "style": "color-widget-red"
-                                            },
-                                            "2": {
-                                                "style": "color-widget-orange"
-                                            },
-                                            "3": {
-                                                "style": "color-widget-yellow"
-                                            },
-                                            "4": {
-                                                "style": "color-widget-green"
-                                            },
-                                            "5": {
-                                                "style": "color-widget-darkgreen"
-                                            }
-                                        }
-                                    }
-                                },
-                                {
-                                    "field": "assessments.StateTest Writing.Scale score",
-                                    "width": "45",
-                                    "sorter": "int",
-                                    "name": "SS",
-                                    "type": "FIELD"
-                                }
-                            ]
-                        },
-                        {
-                            "name": "Current Grades",
-                            "type": "FIELD",
-                            "items": [
-                                {
-                                    "field": "currentSession-0",
-                                    "width": "100",
-                                    "formatter": "Grade",
-                                    "sorter": "LettersAndNumbers",
-                                    "name": "Unit Test 1",
-                                    "type": "FIELD"
-                                }
-                            ]
-                        },
-                        {
-                            "name": "Final Grades",
-                            "type": "FIELD",
-                            "items": [
-                                {
-                                    "field": "previousSemester",
-                                    "width": "100",
-                                    "formatter": "TearDrop",
-                                    "sorter": "LetterGrade",
-                                    "name": "Last Semester",
-                                    "type": "FIELD"
-                                },
-                                {
-                                    "field": "twoSemestersAgo",
-                                    "width": "90",
-                                    "formatter": "TearDrop",
-                                    "sorter": "LetterGrade",
-                                    "name": "2 Semesters ago",
-                                    "type": "FIELD"
-                                }
-                            ]
-                        },
-                        {
                             "name": "Attendance (current school year)",
-                            "type": "FIELD",
                             "items": [
                                 {
-                                    "field": "attendances.absenceCount",
-                                    "width": "60",
-                                    "formatter": "CutPointReverse",
-                                    "sorter": "int",
                                     "name": "Absence Count",
-                                    "type": "FIELD",
+                                    "field": "attendances.absenceCount",
+                                    "width": 60,
+                                    "sorter": "int",
+                                    "formatter": "CutPointReverse",
                                     "params": {
                                         "cutPoints": {
                                             "0": {
@@ -270,12 +188,11 @@
                                     }
                                 },
                                 {
-                                    "field": "attendances.attendanceRate",
-                                    "width": "75",
-                                    "formatter": "CutPoint",
-                                    "sorter": "int",
                                     "name": "Attendance Rate %",
-                                    "type": "FIELD",
+                                    "field": "attendances.attendanceRate",
+                                    "width": 75,
+                                    "sorter": "int",
+                                    "formatter": "CutPoint",
                                     "params": {
                                         "cutPoints": {
                                             "89": {
@@ -294,12 +211,11 @@
                                     }
                                 },
                                 {
-                                    "field": "attendances.tardyCount",
-                                    "width": "50",
-                                    "formatter": "CutPointReverse",
-                                    "sorter": "int",
                                     "name": "Tardy Count",
-                                    "type": "FIELD",
+                                    "field": "attendances.tardyCount",
+                                    "width": 50,
+                                    "sorter": "int",
+                                    "formatter": "CutPointReverse",
                                     "params": {
                                         "cutPoints": {
                                             "0": {
@@ -318,12 +234,11 @@
                                     }
                                 },
                                 {
-                                    "field": "attendances.tardyRate",
-                                    "width": "60",
-                                    "formatter": "CutPointReverse",
-                                    "sorter": "int",
                                     "name": "Tardy Rate %",
-                                    "type": "FIELD",
+                                    "field": "attendances.tardyRate",
+                                    "width": 60,
+                                    "sorter": "int",
+                                    "formatter": "CutPointReverse",
                                     "params": {
                                         "cutPoints": {
                                             "0": {
@@ -854,10 +769,6 @@
                             "type": "GRID"
                         },
                         {
-                            "id": "assessmentHistStateTestW",
-                            "type": "GRID"
-                        },
-                        {
                             "id": "assessmentHistTRC",
                             "type": "GRID"
                         },
@@ -1024,3 +935,4 @@
         }
     }
 }
+
