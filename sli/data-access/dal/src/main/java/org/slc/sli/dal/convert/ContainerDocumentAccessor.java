@@ -71,10 +71,19 @@ public class ContainerDocumentAccessor {
     }
 
     private DBObject getContainerDocQuery(Entity entity) {
+        final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
         String parentKey = createParentKey(entity);
         //remove parent keys
         Query query = new Query();
         query.addCriteria(new Criteria("_id").is(parentKey));
+        Map<String,Object> entityBody = entity.getBody();
+
+        for(Map.Entry<String, Object> value: entityBody.entrySet()) {
+            if (!containerDocument.getFieldToPersist().equals(value.getKey())) {
+                query.addCriteria(new Criteria("body." + value.getKey()).is(value.getValue()));
+            }
+        }
+
         return query.getQueryObject();
 
     }
@@ -95,8 +104,9 @@ public class ContainerDocumentAccessor {
     protected boolean insertContainerDoc(DBObject query, Entity entity) {
         TenantContext.setIsSystemCall(false);
         ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
+        DBObject docToPersist = BasicDBObjectBuilder.start().push("$pushAll").add("body."+ containerDocument.getFieldToPersist(), entity.getBody().get(containerDocument.getFieldToPersist())).get();
         boolean persisted = mongoTemplate.getCollection(entity.getType()).update(query,
-                BasicDBObjectBuilder.start().push("$pushAll").add(containerDocument.getFieldToPersist(), entity.getBody()).get(), true, false)
+                docToPersist, true, false)
                 .getLastError().ok();
         return persisted;
     }
