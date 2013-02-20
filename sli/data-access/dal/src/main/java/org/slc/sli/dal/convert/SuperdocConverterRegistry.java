@@ -38,10 +38,13 @@ public class SuperdocConverterRegistry {
     @Autowired
     AssessmentConverter assessmentConverter;
     
+    @Autowired
+    StudentAssessmentConverter studentAssessmentConverter;
+    
     @PostConstruct
     public void init() {
         converters.put(EntityNames.ASSESSMENT, assessmentConverter);
-        converters.put(EntityNames.STUDENT_ASSESSMENT, new StudentAssessmentConverter());
+        converters.put(EntityNames.STUDENT_ASSESSMENT, studentAssessmentConverter);
     }
 
     public SuperdocConverter getConverter(String entityType) {

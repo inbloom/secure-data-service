@@ -16,7 +16,11 @@
 
 package org.slc.sli.dal.convert;
 
+import java.util.Arrays;
+
+import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.domain.Entity;
+import org.springframework.stereotype.Component;
 
 /**
  * studentAssessment converter that transform studentAssessment superdoc to sli studentAssessment
@@ -24,16 +28,46 @@ import org.slc.sli.domain.Entity;
  * 
  * @author Dong Liu dliu@wgen.net
  */
-
-public class StudentAssessmentConverter implements SuperdocConverter {
+@Component
+public class StudentAssessmentConverter extends GenericSuperdocConverter implements SuperdocConverter {
     
     @Override
     public void subdocToBodyField(Entity entity) {
-        // TODO Auto-generated method stub
+        if (entity != null && entity.getType().equals(EntityNames.STUDENT_ASSESSMENT)) {
+        	Entity assessment = retrieveAssessment(entity.getBody().get("assessmentId"));
         
+        	//replace assessmentItem reference in studentAssessmentItem with actual assessmentItem entity
+            referenceResolve(entity, assessment, "studentAssessmentItem", "assessmentItem");
+            subdocsToBody(entity, "studentAssessmentItem", Arrays.asList("studentAssessmentId")); 
+            
+        	//replace objectiveAssessment reference in studentObjectiveAssessment with actual objectiveAssessment entity
+            referenceResolve(entity, assessment, "studentObjectiveAssessment", "objectiveAssessment");
+            subdocsToBody(entity, "studentObjectiveAssessment", Arrays.asList("studentAssessmentId")); 
+            
+            entity.getEmbeddedData().clear();
+        }
     }
-    
-    @Override
+  
+    /*
+     * Look inside each "subentityType", use "referenceKey" to lookup the counter part in entity "assessment",
+     * then replace the referenceKey with the body of the item from "assessment"
+     */
+    private void referenceResolve(Entity studentAssessment, Entity assessment, String subEntityType, String referenceKey) {
+    	if (assessment == null) {
+    		studentAssessment.getEmbeddedData().remove(subEntityType);
+    	}
+	}
+
+	//TO-DO fill this in
+    private Entity retrieveAssessment(Object object) {
+    	if (!(object instanceof String)) {
+    		return null;
+    	}
+    	
+		return null;
+	}
+
+	@Override
     public void bodyFieldToSubdoc(Entity entity) {
         // TODO Auto-generated method stub
         
