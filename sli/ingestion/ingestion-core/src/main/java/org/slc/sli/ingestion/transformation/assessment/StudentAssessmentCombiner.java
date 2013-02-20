@@ -43,19 +43,15 @@ import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
  * @author nbrown
  * @author shalka
  */
-@Scope("prototype")
-@Component("studentAssessmentTransformationStrategy")
 public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
 
     private static final Logger LOG = LoggerFactory.getLogger(StudentAssessmentCombiner.class);
 
     private static final String STUDENT_ASSESSMENT = "studentAssessment";
     private static final String STUDENT_ASSESSMENT_TRANSFORMED = "studentAssessment_transformed";
-    private static final String STUDENT_OBJECTIVE_ASSESSMENT = "studentObjectiveAssessment";
     private static final String STUDENT_ASSESSMENT_ITEM = "studentAssessmentItem";
     private static final String STUDENT_ASSESSMENT_REF = "studentAssessmentRef";
     private static final String STUDENT_ASSESSMENT_REFERENCE = "studentAssessmentReference";
-    private static final String OBJECTIVE_ASSESSMENT_REFERENCE = "objectiveAssessmentRef";
     private static final String STUDENT_ASSESSMENT_ITEMS_FIELD = "studentAssessmentItems";
     private static final String STUDENT_ASSESSMENT_REFERENCE_ADMINISTRATION_DATE = "studentAssessmentReference.administrationDate";
     private static final String STUDENT_ASSESSMENT_REFERENCE_STUDENT = "studentAssessmentReference.studentReference.studentUniqueStateId";
@@ -76,9 +72,6 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
 
     private Map<Object, NeutralRecord> studentAssessments;
     private List<NeutralRecord> transformedStudentAssessments;
-
-    @Autowired
-    private ObjectiveAssessmentBuilder builder;
 
     /**
      * Default constructor.
@@ -114,7 +107,6 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
      */
     public void transform() {
         LOG.info("Transforming student assessment data");
-        builder.setAbstractTransformationStrategy(this);
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : studentAssessments.entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
             Map<String, Object> attributes = neutralRecord.getAttributes();
@@ -168,12 +160,6 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
             queryCriteria.put(STUDENT_ASSESSMENT_REFERENCE_GRADE_LEVEL_ASSESSED, gradeLevelAssessed);
             queryCriteria.put(STUDENT_ASSESSMENT_REFERENCE_VERSION, version);
 
-            List<Map<String, Object>> studentObjectiveAssessments = getStudentObjectiveAssessmentsNaturalKeys(queryCriteria);
-
-            if (studentObjectiveAssessments.size() > 0) {
-                attributes.put("studentObjectiveAssessments", studentObjectiveAssessments);
-            }
-
             List<Map<String, Object>> studentAssessmentItems = getStudentAssessmentItemsNaturalKeys(queryCriteria);
 
             if (studentAssessmentItems.size() > 0) {
@@ -186,63 +172,6 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
         }
         LOG.info("Finished transforming student assessment data for {} student assessment associations.",
                 studentAssessments.size());
-    }
-
-    /**
-     * Gets all student objective assessments that reference the student assessment's local (xml)
-     * id.
-     *
-     * @param studentAssessmentId
-     *            volatile identifier.
-     * @return list of student objective assessments (represented by neutral records).
-     */
-    private List<Map<String, Object>> getStudentObjectiveAssessmentsNaturalKeys(Map<String, Object> queryCriteria) {
-
-        List<Map<String, Object>> assessments = new ArrayList<Map<String, Object>>();
-        Query query = new Query().limit(0);
-        query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
-
-        for (Map.Entry<String, Object> entry : queryCriteria.entrySet()) {
-            query.addCriteria(Criteria.where(BODY + entry.getKey()).is(entry.getValue()));
-        }
-
-        Iterable<NeutralRecord> studentObjectiveAssessments = getNeutralRecordMongoAccess().getRecordRepository()
-                .findAllByQuery(STUDENT_OBJECTIVE_ASSESSMENT, query);
-
-        if (studentObjectiveAssessments != null) {
-            Iterator<NeutralRecord> itr = studentObjectiveAssessments.iterator();
-            NeutralRecord studentObjectiveAssessment = null;
-            while (itr.hasNext()) {
-                studentObjectiveAssessment = itr.next();
-                Map<String, Object> assessmentAttributes = studentObjectiveAssessment.getAttributes();
-                String objectiveAssessmentRef = (String) assessmentAttributes.remove(OBJECTIVE_ASSESSMENT_REFERENCE);
-
-                LOG.debug("Student Objective Assessment: {} --> finding objective assessment: {}",
-                        studentObjectiveAssessment.getLocalId(), objectiveAssessmentRef);
-
-                Map<String, Object> objectiveAssessment = builder.getObjectiveAssessment(getNeutralRecordMongoAccess(),
-                        getJob(), objectiveAssessmentRef);
-
-                if (objectiveAssessment != null) {
-                    LOG.debug("Found objective assessment: {}", objectiveAssessmentRef);
-                    objectiveAssessment.remove("assessmentId");
-                    assessmentAttributes.put("objectiveAssessment", objectiveAssessment);
-                }
-
-                Map<String, Object> attributes = new HashMap<String, Object>();
-                for (Map.Entry<String, Object> entry : assessmentAttributes.entrySet()) {
-                    if (!entry.getKey().equals(OBJECTIVE_ASSESSMENT_REFERENCE)
-                            && !entry.getKey().equals(STUDENT_ASSESSMENT_REF)
-                            && !entry.getKey().equals(STUDENT_ASSESSMENT_REFERENCE)) {
-                        attributes.put(entry.getKey(), entry.getValue());
-                    }
-                }
-
-                assessments.add(attributes);
-            }
-        }
-
-        return assessments;
     }
 
     private List<Map<String, Object>> getStudentAssessmentItemsNaturalKeys(Map<String, Object> queryCriteria) {
