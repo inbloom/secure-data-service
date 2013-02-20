@@ -161,12 +161,4 @@ public class StaffToTeacherSectionAssociationValidatorTest {
         teacherSectionAssociations.add(teacherSectionAssociation.getEntityId());
         assertTrue(validator.validate(EntityNames.TEACHER_SECTION_ASSOCIATION, teacherSectionAssociations));
     }
-
-    @Test
-    public void testEducatorCanNotAccessTeacherSectionAssociation() throws Exception {
-        setContext(educator, Arrays.asList(SecureRoleRightAccessImpl.EDUCATOR));
-        Set<String> teacherSectionAssociations = new HashSet<String>();
-        teacherSectionAssociations.add(teacherSectionAssociation.getEntityId());
-        assertFalse(validator.validate(EntityNames.TEACHER_SECTION_ASSOCIATION, teacherSectionAssociations));
-    }
 }
