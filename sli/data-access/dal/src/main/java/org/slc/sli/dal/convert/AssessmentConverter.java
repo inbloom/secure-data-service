@@ -16,31 +16,19 @@
 
 package org.slc.sli.dal.convert;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
 
 import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
-import org.slc.sli.validation.schema.INaturalKeyExtractor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 /**
  * assessment converter that transform assessment superdoc to sli assessment schema
  * 
  * @author Dong Liu dliu@wgen.net
  */
-
+@Component
 public class AssessmentConverter extends GenericSuperdocConverter implements SuperdocConverter {
-
-    public AssessmentConverter(UUIDGeneratorStrategy uuidGeneratorStrategy, INaturalKeyExtractor naturalKeyExtractor) {
-        setUuidGeneratorStrategy(uuidGeneratorStrategy);
-        setNaturalKeyExtractor(naturalKeyExtractor);
-    }
 
     @Override
     public void subdocToBodyField(Entity entity) {
@@ -76,5 +64,4 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
             }
         }
     }
-
 }

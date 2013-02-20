@@ -24,32 +24,23 @@ import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 /**
  * Generic superdoc converter for most basic operations
  */
+@Component
 public class GenericSuperdocConverter {
-
-    private UUIDGeneratorStrategy uuidGeneratorStrategy;
-
-    private INaturalKeyExtractor naturalKeyExtractor; 
-
-    public UUIDGeneratorStrategy getUuidGeneratorStrategy() {
-        return uuidGeneratorStrategy;
-    }
-
-    public void setUuidGeneratorStrategy(UUIDGeneratorStrategy uuidGeneratorStrategy) {
-        this.uuidGeneratorStrategy = uuidGeneratorStrategy;
-    }
-
-    public INaturalKeyExtractor getNaturalKeyExtractor() {
-        return naturalKeyExtractor;
-    }
-
-    public void setNaturalKeyExtractor(INaturalKeyExtractor naturalKeyExtractor) {
-        this.naturalKeyExtractor = naturalKeyExtractor;
-    }
-
+	
+    @Autowired
+    @Qualifier("deterministicUUIDGeneratorStrategy")
+    UUIDGeneratorStrategy uuidGeneratorStrategy;
+    
+    @Autowired
+    INaturalKeyExtractor naturalKeyExtractor; 
+    
     /*
      *  Move subdocs from embedded data to superdoc's body
      */
@@ -81,10 +72,11 @@ public class GenericSuperdocConverter {
     protected Entity bodyToSubdocs(Entity parent, String subentityType, String parentKey) {
         if (parent.getBody().get(subentityType) != null) {
             List<Entity> subdocs = new ArrayList<Entity>();
+            
             @SuppressWarnings("unchecked")
             List<Map<String, Object>> subdocInBody = (List<Map<String, Object>>) parent.getBody().get(subentityType);
             for (Map<String, Object> inbodyDoc : subdocInBody) {
-                inbodyDoc.put(parentKey, generateDid(parent));
+                inbodyDoc.put(parentKey, generateSuperdocDid(parent));
                 MongoEntity subdoc = new MongoEntity(subentityType, null, inbodyDoc, null);
                 subdocs.add(subdoc);
             }
@@ -98,7 +90,12 @@ public class GenericSuperdocConverter {
         return parent;
     }
 
-    private String generateDid(Entity entity) {
+    /**
+     * calculates the Determinsitic ID of this entity
+     * @param entity
+     * @return
+     */
+    protected String generateSuperdocDid(Entity entity) {
         if (entity instanceof MongoEntity) {
             return ((MongoEntity) entity).generateDid(uuidGeneratorStrategy, naturalKeyExtractor);
         } else {
@@ -106,5 +103,4 @@ public class GenericSuperdocConverter {
             return wrapper.generateDid(uuidGeneratorStrategy, naturalKeyExtractor);
         }
     }
-
 }
