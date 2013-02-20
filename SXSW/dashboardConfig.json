@@ -153,7 +153,7 @@
                                     "type": "FIELD"
                                 },
                                 {
-                                    "field": "assessments.TRC.Mastery level",
+                                    "field": "assessments.TRC.Scale score",
                                     "width": "100",
                                     "sorter": "LetterGrade",
                                     "name": "Reading Level",
