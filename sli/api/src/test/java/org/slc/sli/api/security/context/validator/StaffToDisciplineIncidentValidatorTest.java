@@ -29,13 +29,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.resources.SecurityContextInjector;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
-import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestExecutionListeners;
@@ -43,10 +36,18 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.security.roles.SecureRoleRightAccessImpl;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
+
 /**
  * Tests the staff to discipline incident validator.
- * 
- * 
+ *
+ *
  * @author kmyers
  *
  */
@@ -57,42 +58,42 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 public class StaffToDisciplineIncidentValidatorTest {
     @Autowired
     private StaffToDisciplineIncidentValidator validator;
-    
+
     @Autowired
     private ValidatorTestHelper helper;
-    
+
     @Autowired
     private SecurityContextInjector injector;
-    
+
     @Autowired
     private StaffToSubStudentEntityValidator mockStudentValidator;
-    
+
     @Autowired
-    private StaffToEdOrgValidator mockSchoolValidator;
+    private GenericToEdOrgValidator mockSchoolValidator;
 
     @Autowired PagingRepositoryDelegate<Entity> repo;
-    
+
     Set<String> diIds;
-    
+
     @Before
     public void setUp() throws Exception {
         // Set up the principal
         String user = "fake Staff";
         String fullName = "Fake Staff";
         List<String> roles = Arrays.asList(SecureRoleRightAccessImpl.IT_ADMINISTRATOR);
-        
+
         Entity entity = Mockito.mock(Entity.class);
         Mockito.when(entity.getType()).thenReturn("staff");
         Mockito.when(entity.getEntityId()).thenReturn(helper.STAFF_ID);
         injector.setCustomContext(user, fullName, "MERPREALM", roles, entity, helper.ED_ORG_ID);
-        
+
         diIds = new HashSet<String>();
         mockStudentValidator = Mockito.mock(StaffToSubStudentEntityValidator.class);
-        mockSchoolValidator = Mockito.mock(StaffToEdOrgValidator.class);
+        mockSchoolValidator = Mockito.mock(GenericToEdOrgValidator.class);
         validator.setSchoolValidator(mockSchoolValidator);
         validator.setSubStudentValidator(mockStudentValidator);
     }
-    
+
     @After
     public void tearDown() throws Exception {
         repo.deleteAll(EntityNames.EDUCATION_ORGANIZATION, new NeutralQuery());
@@ -101,9 +102,9 @@ public class StaffToDisciplineIncidentValidatorTest {
         repo.deleteAll(EntityNames.DISCIPLINE_INCIDENT, new NeutralQuery());
         mockStudentValidator = null;
         mockSchoolValidator = null;
-        
+
     }
-    
+
     @Test
     public void testCanValidate() {
         assertTrue(validator.canValidate(EntityNames.DISCIPLINE_INCIDENT, true));
@@ -111,7 +112,7 @@ public class StaffToDisciplineIncidentValidatorTest {
         assertFalse(validator.canValidate(EntityNames.SECTION, true));
         assertFalse(validator.canValidate(EntityNames.SECTION, false));
     }
-    
+
     @Test
     public void testCanValidateDisciplineIncidentFromSchool() {
 
@@ -124,7 +125,7 @@ public class StaffToDisciplineIncidentValidatorTest {
         diIds.add(di.getEntityId());
         assertTrue(validator.validate(EntityNames.DISCIPLINE_INCIDENT, diIds));
     }
-    
+
     @Test
     public void testCanValidateDisciplineIncidentFromStudent() {
         Mockito.when(
@@ -136,12 +137,12 @@ public class StaffToDisciplineIncidentValidatorTest {
         helper.generateStudentDisciplineIncidentAssociation("Berp", di.getEntityId());
         assertTrue(validator.validate(EntityNames.DISCIPLINE_INCIDENT, diIds));
     }
-    
+
     @Test
     public void testCanValidateDisciplineIncidentFromState() {
         Entity sea = helper.generateEdorgWithParent(null);
         Entity lea = helper.generateEdorgWithParent(sea.getEntityId());
-        
+
         helper.generateStaffEdorg(helper.STAFF_ID, lea.getEntityId(), false);
         for (int i = 0; i < 10; ++i) {
             Entity school = helper.generateEdorgWithParent(lea.getEntityId());
@@ -157,7 +158,7 @@ public class StaffToDisciplineIncidentValidatorTest {
         diIds.add(helper.generateDisciplineIncident(sea.getEntityId()).getEntityId());
         assertFalse(validator.validate(EntityNames.DISCIPLINE_INCIDENT, diIds));
     }
-    
+
     @Test
     public void testCanNotValidateDisciplineIncidentFromOtherSchool() {
         Entity school = helper.generateEdorgWithParent(null);
@@ -170,7 +171,7 @@ public class StaffToDisciplineIncidentValidatorTest {
         diIds.add(di.getEntityId());
         assertFalse(validator.validate(EntityNames.DISCIPLINE_INCIDENT, diIds));
     }
-    
+
     @Test
     public void testCanNotValidateDisciplineIncidentFromInvalidAssoc() {
         Mockito.when(

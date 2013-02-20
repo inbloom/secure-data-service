@@ -16,24 +16,23 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import org.slc.sli.api.constants.EntityNames;
-import org.springframework.stereotype.Component;
-
 import java.util.Arrays;
 import java.util.Set;
 
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.constants.EntityNames;
+
 /**
- * Validates the context of a staff member to see the requested set of education organizations.
- * Returns true if the staff member can see ALL of the education organizations, and false otherwise.
- * 
- * This validator is used for both Write access to update a school, and accessing other entities through a school
+ * Validates the context of a teacher to see the requested set of education organizations. Returns
+ * true if the teacher can see ALL of the entities, and false otherwise.
  */
 @Component
-public class StaffToEdOrgValidator extends AbstractContextValidator {
+public class GenericToEdOrgValidator extends AbstractContextValidator {
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return (EntityNames.SCHOOL.equals(entityType) || EntityNames.EDUCATION_ORGANIZATION.equals(entityType)) && isStaff();
+        return EntityNames.SCHOOL.equals(entityType) || EntityNames.EDUCATION_ORGANIZATION.equals(entityType);
     }
 
     @Override
@@ -41,15 +40,9 @@ public class StaffToEdOrgValidator extends AbstractContextValidator {
         if (!areParametersValid(Arrays.asList(EntityNames.SCHOOL, EntityNames.EDUCATION_ORGANIZATION), entityType, ids)) {
             return false;
         }
-        boolean match = true;
-        Set<String> edOrgLineage = getStaffEdOrgLineage();
-        for (String id : ids) {
-            if (!edOrgLineage.contains(id)) {
-                match = false;
-                break;
-            }
-        }
-        return match;
-    }
 
+        Set<String> edOrgs = getDirectEdorgs();
+        edOrgs.addAll(getEdorgDescendents(edOrgs));
+        return edOrgs.containsAll(ids);
+    }
 }

@@ -163,6 +163,10 @@ public class EdOrgHelper {
      * @return
      */
     public Set<String> getChildEdOrgs(Collection<String> edOrgs) {
+        if (edOrgs.isEmpty()) {
+            return new HashSet<String>();
+        }
+
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.PARENT_EDUCATION_AGENCY_REFERENCE,
                 NeutralCriteria.CRITERIA_IN, edOrgs));
         Iterable<Entity> childrenIds = repo.findAll(EntityNames.EDUCATION_ORGANIZATION, query);

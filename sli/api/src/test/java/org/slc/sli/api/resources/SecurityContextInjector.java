@@ -319,8 +319,16 @@ public class SecurityContextInjector {
         PreAuthenticatedAuthenticationToken authenticationToken = getAuthenticationToken(token, principal, isAdminRealm);
 
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        SecurityUtil.getSLIPrincipal().setAuthorizingEdOrgs(new HashSet<String>(Arrays.asList(principal.getEdOrg())));
 
         return principal;
+    }
+
+    public void addToAuthorizingEdOrgs(String edOrgId) {
+        SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
+        Set<String> authorizing = principal.getAuthorizingEdOrgs();
+        authorizing.add(edOrgId);
+        principal.setAuthorizingEdOrgs(authorizing);
     }
 
     private SLIPrincipal setSecurityContext(SLIPrincipal principal, Set<GrantedAuthority> rights) {
@@ -330,6 +338,7 @@ public class SecurityContextInjector {
         PreAuthenticatedAuthenticationToken authenticationToken = getAuthenticationToken(token, principal, rights);
 
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        SecurityUtil.getSLIPrincipal().setAuthorizingEdOrgs(new HashSet<String>(Arrays.asList(principal.getEdOrg())));
 
         return principal;
     }

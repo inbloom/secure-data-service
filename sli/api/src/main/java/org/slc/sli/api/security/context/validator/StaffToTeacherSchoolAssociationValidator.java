@@ -16,18 +16,19 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Validates the context of a staff member to see the requested set of teacher school associations.
@@ -39,7 +40,7 @@ import java.util.Set;
 public class StaffToTeacherSchoolAssociationValidator extends AbstractContextValidator {
 
     @Autowired
-    private StaffToEdOrgValidator validator;
+    private GenericToEdOrgValidator validator;
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
@@ -77,7 +78,7 @@ public class StaffToTeacherSchoolAssociationValidator extends AbstractContextVal
      * @param validator
      *            Staff to education organization validator to be used.
      */
-    protected void setStaffToEdOrgValidator(StaffToEdOrgValidator validator) {
+    protected void setStaffToEdOrgValidator(GenericToEdOrgValidator validator) {
         this.validator = validator;
     }
 }
