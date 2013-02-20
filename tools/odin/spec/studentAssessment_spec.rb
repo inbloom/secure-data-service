@@ -33,6 +33,7 @@ describe "StudentAssessmentGenerator" do
       generator << student_assessment
       generator.finalize
       output.string.should match(/<AdministrationDate>2012-12-21<\/AdministrationDate>/)
+      output.string.should match(/<SchoolYear>2012-2013<\/SchoolYear>/)
       output.string.should match(/<StudentUniqueStateId>student42<\/StudentUniqueStateId>/)
       output.string.should match(/<AssessmentTitle>SAT II - US History<\/AssessmentTitle>/)
       output.string.should match(/<GradeLevelAssessed>Twelfth grade<\/GradeLevelAssessed>/)
@@ -45,6 +46,7 @@ describe "StudentAssessmentGenerator" do
       output.string.should match(/<AssessmentResponse>true<\/AssessmentResponse>/)
       output.string.should match(/<AssessmentItemResult>Incorrect<\/AssessmentItemResult>/)
       output.string.should match(/<AdministrationDate>2012-12-21<\/AdministrationDate>/)
+      output.string.should match(/<SchoolYear>2012-2013<\/SchoolYear>/)
       output.string.should match(/<StudentUniqueStateId>student42<\/StudentUniqueStateId>/)
       output.string.should match(/<AssessmentTitle>SAT II - US History<\/AssessmentTitle>/)
       output.string.should match(/<GradeLevelAssessed>Twelfth grade<\/GradeLevelAssessed>/)

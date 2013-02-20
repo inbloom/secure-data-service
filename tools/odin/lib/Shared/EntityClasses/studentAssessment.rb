@@ -17,13 +17,16 @@ limitations under the License.
 =end
 
 require_relative 'baseEntity.rb'
+require_relative 'enum/SchoolYearType'
 
 class StudentAssessment < BaseEntity
-  attr_accessor :studentId, :assessment, :date, :score
+  attr_accessor :studentId, :assessment, :date, :schoolYear, :score
   def initialize(student_id, assessment, date, rand = nil)
     @studentId = student_id
     @assessment = assessment
     @date = date.to_s
     @score = rand.rand(100) unless rand.nil?
+    year = "START_" + date.year.to_s()
+    @schoolYear = SchoolYearType.to_string(year.to_sym)
   end
 end

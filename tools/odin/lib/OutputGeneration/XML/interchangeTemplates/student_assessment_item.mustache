@@ -9,6 +9,9 @@
       <StudentAssessmentReference>
         <StudentAssessmentIdentity>
           <AdministrationDate>{{date}}</AdministrationDate>
+          {{#schoolYear}}
+          <SchoolYear>{{schoolYear}}</SchoolYear>
+          {{/schoolYear}}
           <StudentReference>
             <StudentIdentity>
               <StudentUniqueStateId>{{studentId}}</StudentUniqueStateId>
