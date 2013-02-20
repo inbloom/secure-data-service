@@ -910,7 +910,7 @@
         "assessmentHistTRC": {
             "id": "assessmentHistTRC",
             "parentId": "assessmentHist",
-            "name": "Test History : Reading 3D",
+            "name": "Test History : TRC",
             "type": "GRID",
             "data": {
                 "cacheKey": "assessmentHistTRC",
