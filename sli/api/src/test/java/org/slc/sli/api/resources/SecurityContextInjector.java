@@ -97,7 +97,7 @@ public class SecurityContextInjector {
         principal.setEdOrg(ED_ORG_ID);
         principal.setEdOrgId(ED_ORG_ID);
         setSecurityContext(principal, new HashSet<GrantedAuthority>(Arrays.asList(
-                Right.WRITE_GENERAL, Right.READ_GENERAL, Right.READ_RESTRICTED, Right.WRITE_RESTRICTED, Right.READ_PUBLIC)));
+                Right.WRITE_GENERAL, Right.READ_GENERAL, Right.READ_RESTRICTED, Right.WRITE_RESTRICTED, Right.READ_PUBLIC, Right.WRITE_PUBLIC)));
     }
 
     public void setAccessAllAdminContext() {

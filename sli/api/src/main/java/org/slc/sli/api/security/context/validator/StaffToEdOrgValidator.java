@@ -25,15 +25,15 @@ import java.util.Set;
 /**
  * Validates the context of a staff member to see the requested set of education organizations.
  * Returns true if the staff member can see ALL of the education organizations, and false otherwise.
+ * 
+ * This validator is used for both Write access to update a school, and accessing other entities through a school
  */
 @Component
 public class StaffToEdOrgValidator extends AbstractContextValidator {
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return !isTransitive
-                && (EntityNames.SCHOOL.equals(entityType) || EntityNames.EDUCATION_ORGANIZATION.equals(entityType))
-                && isStaff();
+        return (EntityNames.SCHOOL.equals(entityType) || EntityNames.EDUCATION_ORGANIZATION.equals(entityType)) && isStaff();
     }
 
     @Override

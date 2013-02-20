@@ -93,8 +93,8 @@ public class StaffToEdOrgValidatorTest {
     public void testCanValidate() {
         assertTrue(validator.canValidate(EntityNames.SCHOOL, false));
         assertTrue(validator.canValidate(EntityNames.EDUCATION_ORGANIZATION, false));
-        assertFalse(validator.canValidate(EntityNames.EDUCATION_ORGANIZATION, true));
-        assertFalse(validator.canValidate(EntityNames.SCHOOL, true));
+        assertTrue(validator.canValidate(EntityNames.EDUCATION_ORGANIZATION, true));
+        assertTrue(validator.canValidate(EntityNames.SCHOOL, true));
         assertFalse(validator.canValidate(EntityNames.SECTION, true));
         assertFalse(validator.canValidate(EntityNames.SECTION, false));
     }

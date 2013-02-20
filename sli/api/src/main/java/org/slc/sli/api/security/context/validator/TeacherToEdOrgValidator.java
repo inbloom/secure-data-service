@@ -27,6 +27,8 @@ import java.util.Set;
 /**
  * Validates the context of a teacher to see the requested set of education organizations.
  * Returns true if the teacher member can see ALL of the entities, and false otherwise.
+ * 
+ * This validator is used for both Write access to update a school, and accessing other entities through a school
  */
 @Component
 public class TeacherToEdOrgValidator extends AbstractContextValidator {
@@ -36,8 +38,7 @@ public class TeacherToEdOrgValidator extends AbstractContextValidator {
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return !isTransitive
-                && (EntityNames.SCHOOL.equals(entityType) || EntityNames.EDUCATION_ORGANIZATION.equals(entityType))
+        return (EntityNames.SCHOOL.equals(entityType) || EntityNames.EDUCATION_ORGANIZATION.equals(entityType))
                 && isTeacher();
     }
 
@@ -48,7 +49,7 @@ public class TeacherToEdOrgValidator extends AbstractContextValidator {
         }
 
         Set<String> schools = getDirectEdorgs();
-        schools.addAll(getEdorgLineage(schools));
+        schools.addAll(getEdorgDescendents(schools));
         return schools.containsAll(ids);
     }
 

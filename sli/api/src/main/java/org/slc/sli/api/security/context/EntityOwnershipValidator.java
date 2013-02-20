@@ -45,7 +45,7 @@ import org.springframework.util.StringUtils;
 @Component
 public class EntityOwnershipValidator {
 
-    private Set<String> publicEntities;
+    private Set<String> globalEntities;
     private Map<String, Reference> typeToReference = new HashMap<String, EntityOwnershipValidator.Reference>();
 
 
@@ -74,9 +74,9 @@ public class EntityOwnershipValidator {
 
     }
 
-    @SuppressWarnings({ "serial", "unused" })
-    @PostConstruct
-    private void init() {
+	@SuppressWarnings("unused")
+	@PostConstruct
+	private void init() {
 
         typeToReference.put(EntityNames.STUDENT, new Reference(EntityNames.STUDENT, EntityNames.STUDENT_SCHOOL_ASSOCIATION, ParameterConstants.STUDENT_ID, Reference.RefType.RIGHT_TO_LEFT));
         typeToReference.put(EntityNames.STUDENT_SCHOOL_ASSOCIATION, new Reference(EntityNames.STUDENT_SCHOOL_ASSOCIATION, EntityNames.EDUCATION_ORGANIZATION, ParameterConstants.SCHOOL_ID, Reference.RefType.LEFT_TO_RIGHT));
@@ -109,7 +109,7 @@ public class EntityOwnershipValidator {
         typeToReference.put(EntityNames.TEACHER_SCHOOL_ASSOCIATION, new Reference(EntityNames.TEACHER_SCHOOL_ASSOCIATION, EntityNames.SCHOOL, ParameterConstants.SCHOOL_ID, Reference.RefType.LEFT_TO_RIGHT));
         typeToReference.put(EntityNames.TEACHER, new Reference(EntityNames.TEACHER, EntityNames.STAFF_ED_ORG_ASSOCIATION, ParameterConstants.STAFF_REFERENCE, Reference.RefType.RIGHT_TO_LEFT));
 
-        publicEntities = new HashSet<String>(Arrays.asList(
+        globalEntities = new HashSet<String>(Arrays.asList(
                 EntityNames.ASSESSMENT,
                 EntityNames.COMPETENCY_LEVEL_DESCRIPTOR,
                 EntityNames.EDUCATION_ORGANIZATION,
@@ -133,7 +133,7 @@ public class EntityOwnershipValidator {
             return true;
         }
 
-        if (publicEntities.contains(entity.getType())) {
+        if (globalEntities.contains(entity.getType())) {
             return true;
         }
 
