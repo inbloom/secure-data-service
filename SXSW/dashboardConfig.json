@@ -126,16 +126,16 @@
                                     "type": "FIELD"
                                 },
                                 {
-                                    "field": "assessments.DIBELS.Mastery level",
+                                    "field": "assessments.DIBELS.Composite Score",
                                     "width": "100",
                                     "sorter": "LetterGrade",
-                                    "name": "Reading Level",
+                                    "name": "Composite Score",
                                     "type": "FIELD"
                                 }
                             ]
                         },
                         {
-                            "name": "Reading 3D (most recent)",
+                            "name": "TRC (most recent)",
                             "type": "FIELD",
                             "items": [
                                 {
