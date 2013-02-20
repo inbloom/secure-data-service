@@ -88,7 +88,7 @@ public class ContainerDocumentAccessor {
 
     // TODO: private
     protected String createParentKey(final Entity entity) {
-        if (entity.getEntityId().isEmpty()) {
+        if (entity.getEntityId() == null || entity.getEntityId().isEmpty()) {
             final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
             final Map<String, String> parentKeyMap = containerDocument.getParentNaturalKeyMap();
             final NaturalKeyDescriptor naturalKeyDescriptor = ContainerDocumentHelper.extractNaturalKeyDescriptor(entity, parentKeyMap);
