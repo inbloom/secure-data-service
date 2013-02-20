@@ -291,7 +291,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             return records;
         } else if (containerDocumentAccessor.isContainerDocument(collectionName)) {
             containerDocumentAccessor.insert(records);
-            return  records;
+            return records;
         }
         else {
             List<Entity> persist = new ArrayList<Entity>();

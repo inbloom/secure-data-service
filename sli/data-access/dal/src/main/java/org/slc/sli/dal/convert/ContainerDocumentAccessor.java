@@ -65,7 +65,6 @@ public class ContainerDocumentAccessor {
     }
 
     public boolean insert(final Entity entity) {
-
         DBObject query = getContainerDocQuery(entity);
         return insertContainerDoc(query, entity);
     }
@@ -76,21 +75,20 @@ public class ContainerDocumentAccessor {
         //remove parent keys
         Query query = new Query();
         query.addCriteria(new Criteria("_id").is(parentKey));
-        Map<String,Object> entityBody = entity.getBody();
+        Map<String, Object> entityBody = entity.getBody();
 
-        for(Map.Entry<String, Object> value: entityBody.entrySet()) {
+        for (Map.Entry<String, Object> value: entityBody.entrySet()) {
             if (!containerDocument.getFieldToPersist().equals(value.getKey())) {
                 query.addCriteria(new Criteria("body." + value.getKey()).is(value.getValue()));
             }
         }
 
         return query.getQueryObject();
-
     }
 
     // TODO: private
     protected String createParentKey(final Entity entity) {
-        if(entity.getEntityId().isEmpty()) {
+        if (entity.getEntityId().isEmpty()) {
             final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
             final Map<String, String> parentKeyMap = containerDocument.getParentNaturalKeyMap();
             final NaturalKeyDescriptor naturalKeyDescriptor = ContainerDocumentHelper.extractNaturalKeyDescriptor(entity, parentKeyMap);
@@ -104,7 +102,10 @@ public class ContainerDocumentAccessor {
     protected boolean insertContainerDoc(DBObject query, Entity entity) {
         TenantContext.setIsSystemCall(false);
         ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
-        DBObject docToPersist = BasicDBObjectBuilder.start().push("$pushAll").add("body."+ containerDocument.getFieldToPersist(), entity.getBody().get(containerDocument.getFieldToPersist())).get();
+        String fieldToPersist = containerDocument.getFieldToPersist();
+        DBObject docToPersist = BasicDBObjectBuilder.start().push("$pushAll")
+                .add("body."+ fieldToPersist, entity.getBody().get(fieldToPersist))
+                .get();
         boolean persisted = mongoTemplate.getCollection(entity.getType()).update(query,
                 docToPersist, true, false)
                 .getLastError().ok();
