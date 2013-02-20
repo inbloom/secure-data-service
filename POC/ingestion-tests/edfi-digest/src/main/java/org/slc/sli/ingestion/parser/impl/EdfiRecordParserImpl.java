@@ -63,8 +63,6 @@ import org.slc.sli.ingestion.parser.XmlParseException;
  */
 public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRecordParser {
 
-    private static final Logger LOG = LoggerFactory.getLogger(EdfiRecordParserImpl.class);
-
     private TypeProvider typeProvider;
 
     Stack<Pair<RecordMeta, Map<String, Object>>> complexTypeStack = new Stack<Pair<RecordMeta, Map<String, Object>>>();
@@ -134,7 +132,6 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
                 interchange = eventName;
             }
         } catch (XMLStreamException e) {
-            LOG.error("Error parsing.", e);
         }
     }
 
@@ -228,7 +225,6 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
         currentEntityName = null;
 
         Pair<RecordMeta, Map<String, Object>> pair = complexTypeStack.pop();
-        LOG.debug("Parsed record: {}", pair);
 
         if (currentEntityValid) {
 
@@ -256,19 +252,16 @@ public class EdfiRecordParserImpl extends EventReaderDelegate implements EdfiRec
 
     @Override
     public void warning(SAXParseException exception) throws SAXException {
-        LOG.warn("Warning: {}", exception.getMessage());
         currentEntityValid = false;
     }
 
     @Override
     public void error(SAXParseException exception) throws SAXException {
-        LOG.error("Error: {}", exception.getMessage());
         currentEntityValid = false;
     }
 
     @Override
     public void fatalError(SAXParseException exception) throws SAXException {
-        LOG.error("FatalError: {}", exception.getMessage());
         currentEntityValid = false;
     }
 
