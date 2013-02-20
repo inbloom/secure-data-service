@@ -8,8 +8,43 @@
 		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
+		<ScoreResults AssessmentReportingMethod="Composite Score">
+			<Result>222</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
+			<Result>1</Result>
+		</ScoreResults>
+		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
+		<PerformanceLevels>
+			<CodeValue>Well Below Benchmark</CodeValue>
+		</PerformanceLevels>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>500000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>DIBELS Next Fourth Grade 11-12 BOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+				<Version>1</Version>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+	<StudentAssessment>
+		<AdministrationDate>2011-09-04</AdministrationDate>
+		<AdministrationEndDate>2011-09-04</AdministrationEndDate>
+		<SerialNumber>9</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ReasonNotTested>Medical waiver</ReasonNotTested>
 		<ScoreResults AssessmentReportingMethod="Mastery level">
-			<Result>89</Result>
+			<Result>68</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
+			<Result>2</Result>
 		</ScoreResults>
 		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
 		<PerformanceLevels>
@@ -38,7 +73,10 @@
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
 		<ScoreResults AssessmentReportingMethod="Mastery level">
-			<Result>95</Result>
+			<Result>93</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
+			<Result>2</Result>
 		</ScoreResults>
 		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
 		<PerformanceLevels>
@@ -67,7 +105,10 @@
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
 		<ScoreResults AssessmentReportingMethod="Mastery level">
-			<Result>26</Result>
+			<Result>25</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
+			<Result>2</Result>
 		</ScoreResults>
 		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
 		<PerformanceLevels>
@@ -98,9 +139,12 @@
 		<ScoreResults AssessmentReportingMethod="Mastery level">
 			<Result>2</Result>
 		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
+			<Result>3</Result>
+		</ScoreResults>
 		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
 		<PerformanceLevels>
-			<CodeValue>Below Benchmark</CodeValue>
+			<CodeValue>Benchmark</CodeValue>
 		</PerformanceLevels>
 		<StudentReference>
 			<StudentIdentity>
@@ -125,7 +169,10 @@
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
 		<ScoreResults AssessmentReportingMethod="Mastery level">
-			<Result>14</Result>
+			<Result>10</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
+			<Result>2</Result>
 		</ScoreResults>
 		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
 		<PerformanceLevels>
@@ -153,12 +200,47 @@
 		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
-		<ScoreResults AssessmentReportingMethod="Mastery level">
-			<Result>101</Result>
+		<ScoreResults AssessmentReportingMethod="Composite Score">
+			<Result>313</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
+			<Result>2</Result>
 		</ScoreResults>
 		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
 		<PerformanceLevels>
 			<CodeValue>Below Benchmark</CodeValue>
+		</PerformanceLevels>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>500000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>DIBELS Next Fourth Grade 11-12 MOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+				<Version>1</Version>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+	<StudentAssessment>
+		<AdministrationDate>2011-12-21</AdministrationDate>
+		<AdministrationEndDate>2011-12-21</AdministrationEndDate>
+		<SerialNumber>9</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ReasonNotTested>Medical waiver</ReasonNotTested>
+		<ScoreResults AssessmentReportingMethod="Mastery level">
+			<Result>107</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
+			<Result>3</Result>
+		</ScoreResults>
+		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
+		<PerformanceLevels>
+			<CodeValue>Benchmark</CodeValue>
 		</PerformanceLevels>
 		<StudentReference>
 			<StudentIdentity>
@@ -183,11 +265,14 @@
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
 		<ScoreResults AssessmentReportingMethod="Mastery level">
-			<Result>96</Result>
+			<Result>98</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
+			<Result>3</Result>
 		</ScoreResults>
 		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
 		<PerformanceLevels>
-			<CodeValue>Below Benchmark</CodeValue>
+			<CodeValue>Benchmark</CodeValue>
 		</PerformanceLevels>
 		<StudentReference>
 			<StudentIdentity>
@@ -213,6 +298,9 @@
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
 		<ScoreResults AssessmentReportingMethod="Mastery level">
 			<Result>28</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
+			<Result>2</Result>
 		</ScoreResults>
 		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
 		<PerformanceLevels>
@@ -243,9 +331,12 @@
 		<ScoreResults AssessmentReportingMethod="Mastery level">
 			<Result>2</Result>
 		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
+			<Result>3</Result>
+		</ScoreResults>
 		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
 		<PerformanceLevels>
-			<CodeValue>Below Benchmark</CodeValue>
+			<CodeValue>Benchmark</CodeValue>
 		</PerformanceLevels>
 		<StudentReference>
 			<StudentIdentity>
@@ -270,7 +361,10 @@
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
 		<ScoreResults AssessmentReportingMethod="Mastery level">
-			<Result>16</Result>
+			<Result>13</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
+			<Result>2</Result>
 		</ScoreResults>
 		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
 		<PerformanceLevels>
@@ -298,8 +392,43 @@
 		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
+		<ScoreResults AssessmentReportingMethod="Composite Score">
+			<Result>325</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
+			<Result>1</Result>
+		</ScoreResults>
+		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
+		<PerformanceLevels>
+			<CodeValue>Well Below Benchmark</CodeValue>
+		</PerformanceLevels>
+		<StudentReference>
+			<StudentIdentity>
+				<StudentUniqueStateId>500000000</StudentUniqueStateId>
+			</StudentIdentity>
+		</StudentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>DIBELS Next Fourth Grade 11-12 EOY</AssessmentTitle>
+				<AcademicSubject>Reading</AcademicSubject>
+				<GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+				<Version>1</Version>
+			</AssessmentIdentity>
+		</AssessmentReference>
+	</StudentAssessment>
+	<StudentAssessment>
+		<AdministrationDate>2012-04-21</AdministrationDate>
+		<AdministrationEndDate>2012-04-21</AdministrationEndDate>
+		<SerialNumber>9</SerialNumber>
+		<AdministrationLanguage>English</AdministrationLanguage>
+		<AdministrationEnvironment>Testing Center</AdministrationEnvironment>
+		<RetestIndicator>Primary Administration</RetestIndicator>
+		<ReasonNotTested>Medical waiver</ReasonNotTested>
 		<ScoreResults AssessmentReportingMethod="Mastery level">
-			<Result>112</Result>
+			<Result>109</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
+			<Result>2</Result>
 		</ScoreResults>
 		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
 		<PerformanceLevels>
@@ -330,6 +459,9 @@
 		<ScoreResults AssessmentReportingMethod="Mastery level">
 			<Result>97</Result>
 		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
+			<Result>2</Result>
+		</ScoreResults>
 		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
 		<PerformanceLevels>
 			<CodeValue>Below Benchmark</CodeValue>
@@ -357,7 +489,10 @@
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
 		<ScoreResults AssessmentReportingMethod="Mastery level">
-			<Result>31</Result>
+			<Result>28</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
+			<Result>2</Result>
 		</ScoreResults>
 		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
 		<PerformanceLevels>
@@ -386,11 +521,14 @@
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
 		<ScoreResults AssessmentReportingMethod="Mastery level">
-			<Result>2</Result>
+			<Result>3</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
+			<Result>3</Result>
 		</ScoreResults>
 		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
 		<PerformanceLevels>
-			<CodeValue>Below Benchmark</CodeValue>
+			<CodeValue>Benchmark</CodeValue>
 		</PerformanceLevels>
 		<StudentReference>
 			<StudentIdentity>
@@ -415,11 +553,14 @@
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
 		<ScoreResults AssessmentReportingMethod="Mastery level">
-			<Result>23</Result>
+			<Result>16</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
+			<Result>1</Result>
 		</ScoreResults>
 		<GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
 		<PerformanceLevels>
-			<CodeValue>Below Benchmark</CodeValue>
+			<CodeValue>Well Below Benchmark</CodeValue>
 		</PerformanceLevels>
 		<StudentReference>
 			<StudentIdentity>
@@ -444,7 +585,10 @@
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
 		<ScoreResults AssessmentReportingMethod="Composite Score">
-			<Result>451</Result>
+			<Result>406</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
+			<Result>3</Result>
 		</ScoreResults>
 		<GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
 		<PerformanceLevels>
@@ -473,7 +617,10 @@
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
 		<ScoreResults AssessmentReportingMethod="Mastery level">
-			<Result>133</Result>
+			<Result>112</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
+			<Result>3</Result>
 		</ScoreResults>
 		<GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
 		<PerformanceLevels>
@@ -502,11 +649,14 @@
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
 		<ScoreResults AssessmentReportingMethod="Mastery level">
-			<Result>99</Result>
+			<Result>97</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
+			<Result>2</Result>
 		</ScoreResults>
 		<GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
 		<PerformanceLevels>
-			<CodeValue>Benchmark</CodeValue>
+			<CodeValue>Below Benchmark</CodeValue>
 		</PerformanceLevels>
 		<StudentReference>
 			<StudentIdentity>
@@ -531,7 +681,10 @@
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
 		<ScoreResults AssessmentReportingMethod="Mastery level">
-			<Result>79</Result>
+			<Result>59</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
+			<Result>3</Result>
 		</ScoreResults>
 		<GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
 		<PerformanceLevels>
@@ -559,6 +712,9 @@
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
 		<ScoreResults AssessmentReportingMethod="Mastery level">
+			<Result>4</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
 			<Result>3</Result>
 		</ScoreResults>
 		<GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -588,7 +744,10 @@
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
 		<ScoreResults AssessmentReportingMethod="Mastery level">
-			<Result>29</Result>
+			<Result>20</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
+			<Result>3</Result>
 		</ScoreResults>
 		<GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
 		<PerformanceLevels>
@@ -617,7 +776,10 @@
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
 		<ScoreResults AssessmentReportingMethod="Composite Score">
-			<Result>406</Result>
+			<Result>424</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
+			<Result>3</Result>
 		</ScoreResults>
 		<GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
 		<PerformanceLevels>
@@ -646,7 +808,10 @@
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
 		<ScoreResults AssessmentReportingMethod="Mastery level">
-			<Result>140</Result>
+			<Result>132</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
+			<Result>3</Result>
 		</ScoreResults>
 		<GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
 		<PerformanceLevels>
@@ -675,7 +840,10 @@
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
 		<ScoreResults AssessmentReportingMethod="Mastery level">
-			<Result>99</Result>
+			<Result>98</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
+			<Result>3</Result>
 		</ScoreResults>
 		<GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
 		<PerformanceLevels>
@@ -704,7 +872,10 @@
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
 		<ScoreResults AssessmentReportingMethod="Mastery level">
-			<Result>47</Result>
+			<Result>56</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
+			<Result>3</Result>
 		</ScoreResults>
 		<GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
 		<PerformanceLevels>
@@ -735,6 +906,9 @@
 		<ScoreResults AssessmentReportingMethod="Mastery level">
 			<Result>3</Result>
 		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
+			<Result>3</Result>
+		</ScoreResults>
 		<GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
 		<PerformanceLevels>
 			<CodeValue>Benchmark</CodeValue>
@@ -762,11 +936,14 @@
 		<RetestIndicator>Primary Administration</RetestIndicator>
 		<ReasonNotTested>Medical waiver</ReasonNotTested>
 		<ScoreResults AssessmentReportingMethod="Mastery level">
-			<Result>20</Result>
+			<Result>19</Result>
+		</ScoreResults>
+		<ScoreResults AssessmentReportingMethod="Other">
+			<Result>2</Result>
 		</ScoreResults>
 		<GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
 		<PerformanceLevels>
-			<CodeValue>Benchmark</CodeValue>
+			<CodeValue>Below Benchmark</CodeValue>
 		</PerformanceLevels>
 		<StudentReference>
 			<StudentIdentity>
