@@ -234,6 +234,12 @@
       </bean>
     </entry>
     
+    <entry key="studentAssessment">
+      <bean class="org.milyn.Smooks">
+        <constructor-arg type="java.lang.String" value="smooksEdFi2SLI/studentAssessment.xml" />
+      </bean>
+    </entry>
+    
   </util:map>
 
   <bean id="didSchemaParser" class="org.slc.sli.ingestion.transformation.normalization.did.DidSchemaParser">

@@ -61,15 +61,18 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     private static final String STUDENT_ASSESSMENT_REFERENCE_ADMINISTRATION_DATE = "StudentAssessmentReference.StudentAssessmentIdentity.AdministrationDate." + VALUE;
     private static final String STUDENT_ASSESSMENT_REFERENCE_STUDENT = "StudentAssessmentReference.StudentAssessmentIdentity.StudentReference.StudentIdentity.StudentUniqueStateId." + VALUE;
     private static final String STUDENT_REF_UNIQUESTATEID = "StudentReference.StudentIdentity.StudentUniqueStateId." + VALUE;
-    private static final String ASSESSMENT_REF_IDENTITY = "AssessmentReference.AssessmentIdentity." + VALUE;
+    private static final String ASSESSMEN_REF = "AssessmentReference";
+    private static final String ASSESSMENT_REF_IDENTITY = "AssessmentIdentity" ;
 
     private static final String LOCAL_PARENT_IDS = "localParentIds.";
     private static final String BODY = "body.";
 
+    private static final String ADMIN_DATE = "AdministrationDate." + VALUE;
+
     private static final String ASSESSMENT_TITLE = "AssessmentTitle." + VALUE;
     private static final String ACADEMIC_SUBJECT = "AcademicSubject." + VALUE;
     private static final String GRADE_LEVEL_ASSESSED = "GradeLevelAssessed." + VALUE;
-    private static final String VERSION = "Version";
+    private static final String VERSION = "Version." + VALUE;
     private static final String ASSESSMENT_ITEM = "assessmentItem";
 
     private static final String STUDENT_ASSESSMENT_REFERENCE_ASSESSMENT_TITLE = "StudentAssessmentReference.StudentAssessmentIdentity.AssessmentReference.AssessmentIdentity.AssessmentTitle." + VALUE;
@@ -119,6 +122,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
     /**
      * Transforms student assessments from Ed-Fi model into SLI model.
      */
+    @SuppressWarnings("boxing")
     public void transform() {
         LOG.info("Transforming student assessment data");
         builder.setAbstractTransformationStrategy(this);
@@ -145,7 +149,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
             }
 
             try {
-                administrationDate = (String) attributes.get("AdministrationDate");
+                administrationDate = (String) getProperty(attributes, ADMIN_DATE);
             } catch (ClassCastException e) {
                 LOG.error("Illegal value {} for administration date, must be a string");
                 reportError(neutralRecord.getSourceFile(), new ElementSourceImpl(neutralRecord), CoreMessageCode.CORE_0039, attributes.get("administrationDate"));
@@ -153,12 +157,14 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
 
             try {
                 @SuppressWarnings("unchecked")
-                Map<String, Object> assessmentIdentity = (Map<String, Object>) getProperty(attributes, ASSESSMENT_REF_IDENTITY);
+                Map<String, Object> assessmentRef = (Map<String, Object>) attributes.get(ASSESSMEN_REF);
+                @SuppressWarnings("unchecked")
+                Map<String, Object> assessmentIdentity = (Map<String, Object>) assessmentRef.get(ASSESSMENT_REF_IDENTITY);
 
-                assessmentTitle = (String) assessmentIdentity.get(ASSESSMENT_TITLE);
-                academicSubject = (String) assessmentIdentity.get(ACADEMIC_SUBJECT);
-                gradeLevelAssessed = (String) assessmentIdentity.get(GRADE_LEVEL_ASSESSED);
-                version = (Integer) assessmentIdentity.get(VERSION);
+                assessmentTitle = (String) getProperty(assessmentIdentity,ASSESSMENT_TITLE);
+                academicSubject = (String) getProperty(assessmentIdentity, ACADEMIC_SUBJECT);
+                gradeLevelAssessed = (String) getProperty(assessmentIdentity, GRADE_LEVEL_ASSESSED);
+                version = Integer.parseInt((String) getProperty(assessmentIdentity, VERSION));
             } catch (Exception e) {
                 LOG.error("Unable to get key fields for StudentAssessment transform", e);
                 reportError(neutralRecord.getSourceFile(), new ElementSourceImpl(neutralRecord), CoreMessageCode.CORE_0040, e.toString());

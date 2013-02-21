@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd"
+    xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+    xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+    xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+    <json:reader rootName="json" />
+
+    <core:filterSettings type="SAX" readerPoolSize="5" />
+
+    <jb:bean beanId="studentAssessments" class="java.util.ArrayList" createOnElement="#document">
+        <jb:wiring beanIdRef="studentAssessment" />
+    </jb:bean>
+
+    <jb:bean beanId="studentAssessment" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+        <jb:expression property="type">'studentAssessment'</jb:expression>
+        <jb:wiring property="body" beanIdRef="studentAssessmentBody" />
+    </jb:bean>
+
+    <jb:bean beanId="studentAssessmentBody" class="java.util.HashMap" createOnElement="attributes">
+        <jb:value property="studentId" data="attributes StudentReference" />
+        <jb:value property="assessmentId" data="attributes AssessmentReference" />
+        <jb:value property="administrationDate" data="attributes AdministrationDate _value" />
+        <jb:value property="administrationEndDate" data="attributes AdministrationEndDate _value" />
+        <jb:value property="serialNumber" data="attributes SerialNumber _value" />
+        <jb:value property="administrationLanguage" data="attributes AdministrationLanguage _value" />
+        <jb:value property="administrationEnvironment" data="attributes AdministrationEnvironment _value" />
+        <jb:wiring property="specialAccommodations" beanIdRef="specialAccommodationsTypeArray" />
+        <jb:wiring property="linguisticAccommodations" beanIdRef="linguisticAccommodationsTypeArray" />
+        <jb:value property="retestIndicator" data="attributes RetestIndicator _value" />
+        <jb:value property="reasonNotTested" data="attributes ReasonNotTested _value" />
+        <jb:wiring property="scoreResults" beanIdRef="scoreResultsArray" />
+        <jb:value property="gradeLevelWhenAssessed" data="attributes GradeLevelWhenAssessed _value" />
+        <jb:wiring property="performanceLevelDescriptors" beanIdRef="performanceLevelsTypeArray" />
+    </jb:bean>
+
+  <jb:bean beanId="AssessmentReferenceType" class="java.util.HashMap" createOnElement="attributes AssessmentReference">
+    <jb:wiring property="assessmentIdentity" beanIdRef="AssessmentIdentityType"/>
+  </jb:bean>
+  <jb:bean beanId="AssessmentIdentityType" class="java.util.HashMap" createOnElement="attributes AssessmentReference AssessmentIdentity">
+    <jb:value property="gradeLevelAssessed" data="attributes AssessmentReference AssessmentIdentity GradeLevelAssessed _value" />
+    <jb:value property="version" data="attributes AssessmentReference AssessmentIdentity Version _value" decoder="Integer"/>
+    <jb:value property="academicSubject" data="attributes AssessmentReference AssessmentIdentity AcademicSubject _value" />
+    <jb:value property="assessmentTitle" data="attributes AssessmentReference AssessmentIdentity AssessmentTitle _value" />
+  </jb:bean>
+
+  <jb:bean beanId="specialAccommodationsTypeArray" class="java.util.ArrayList" createOnElement="attributes SpecialAccommodations">
+    <jb:value data="attributes SpecialAccommodations element SpecialAccommodation _value" />
+  </jb:bean>
+
+  <jb:bean beanId="linguisticAccommodationsTypeArray" class="java.util.ArrayList" createOnElement="attributes LinguisticAccommodation">
+    <jb:value data="attributes LinguisticAccommodations element LinguisticAccommodation _value" />
+  </jb:bean>
+
+  <jb:bean beanId="scoreResultsArray" class="java.util.ArrayList" createOnElement="attributes ScoreResults">
+    <jb:wiring beanIdRef="scoreResultMap" />
+  </jb:bean>
+  <jb:bean beanId="scoreResultMap" class="java.util.HashMap" createOnElement="attributes ScoreResults element">
+    <jb:value property="assessmentReportingMethod" data="attributes ScoreResults element a_AssessmentReportingMethod" />
+    <jb:value property="result" data="attributes ScoreResults element Result _value" />
+  </jb:bean>
+
+  <jb:bean beanId="performanceLevelsTypeArray" class="java.util.ArrayList" createOnElement="attributes PerformanceLevels">
+    <jb:wiring beanIdRef="performanceLevelsTypeArrayIntermediate" />
+  </jb:bean>
+
+  <jb:bean beanId="performanceLevelsTypeArrayIntermediate" class="java.util.ArrayList" createOnElement="attributes PerformanceLevels element">
+    <jb:wiring  beanIdRef="PerformanceDescriptor" />
+  </jb:bean>
+
+  <jb:bean beanId="PerformanceDescriptor" class="java.util.HashMap"
+    createOnElement="attributes PerformanceLevels element">
+    <jb:value property="description" data="attributes PerformanceLevels element Description _value" />
+    <jb:value property="codeValue" data="attributes PerformanceLevels element CodeValue _value" />
+  </jb:bean>
+
+  <jb:bean beanId="PerformanceDescriptorCodeValue" class="java.util.HashMap"
+    createOnElement="attributes PerformanceLevels element">
+    <jb:value property="codeValue" data="attributes PerformanceLevels element CodeValue _value" />
+  </jb:bean>
+
+</smooks-resource-list>
