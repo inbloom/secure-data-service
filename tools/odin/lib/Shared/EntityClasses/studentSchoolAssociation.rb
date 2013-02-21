@@ -44,9 +44,7 @@ class StudentSchoolAssociation < BaseEntity
        "2016-2017",
        "2017-2018",
        "2018-2019",
-       "2019-2020",
-       "2020-2021",
-       "2021-2022"])
+       "2019-2020"])
      }
 
     optional {@entryType = choose([
@@ -68,9 +66,7 @@ class StudentSchoolAssociation < BaseEntity
       "2016-2017",
       "2017-2018",
       "2018-2019",
-      "2019-2020",
-      "2020-2021",
-      "2021-2022"])
+      "2019-2020"])
     }
 
     optional {@schoolChoiceTransfer = {:b => choose([false, true])}}
