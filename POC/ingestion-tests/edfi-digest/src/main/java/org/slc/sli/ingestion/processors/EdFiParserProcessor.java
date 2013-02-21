@@ -23,11 +23,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.xml.stream.Location;
-import javax.xml.stream.XMLEventReader;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamException;
 
 import org.apache.camel.Exchange;
+import org.apache.camel.InvalidPayloadException;
 import org.apache.camel.Processor;
 import org.apache.camel.ProducerTemplate;
 import org.apache.commons.io.IOUtils;
@@ -37,8 +35,9 @@ import org.slc.sli.ingestion.parser.RecordMeta;
 import org.slc.sli.ingestion.parser.RecordVisitor;
 import org.slc.sli.ingestion.parser.TypeProvider;
 import org.slc.sli.ingestion.parser.XmlParseException;
-import org.slc.sli.ingestion.parser.impl.EdfiRecordParserImpl;
+import org.slc.sli.ingestion.parser.impl.EdfiRecordParserImpl2;
 import org.springframework.core.io.Resource;
+import org.xml.sax.SAXException;
 
 import test.camel.support.ZipFileEntry;
 
@@ -49,8 +48,6 @@ import test.camel.support.ZipFileEntry;
  *
  */
 public class EdFiParserProcessor implements Processor, RecordVisitor {
-    private static final XMLInputFactory XML_INPUT_FACTORY = XMLInputFactory.newInstance();
-
     // Processor configuration
     private ProducerTemplate producer;
     private TypeProvider typeProvider;
@@ -68,11 +65,10 @@ public class EdFiParserProcessor implements Processor, RecordVisitor {
         try {
             ZipFileEntry fe = exchange.getIn().getMandatoryBody(ZipFileEntry.class);
             input = exchange.getIn().getMandatoryBody(InputStream.class);
-            XMLEventReader reader = XML_INPUT_FACTORY.createXMLEventReader(input);
 
             Resource xsdSchema = xsdSelector.provideXsdResource(fe.getFileEntry());
 
-            parse(reader, xsdSchema, typeProvider);
+            parse(input, xsdSchema);
         } finally {
             IOUtils.closeQuietly(input);
 
@@ -82,8 +78,8 @@ public class EdFiParserProcessor implements Processor, RecordVisitor {
         }
     }
 
-    public void parse(XMLEventReader reader, Resource xsdSchema, TypeProvider typeProvider2) throws IOException, XMLStreamException, XmlParseException{
-        EdfiRecordParserImpl.parse(reader, xsdSchema, typeProvider, this);
+    public void parse(InputStream input, Resource xsdSchema) throws IOException, XmlParseException, SAXException{
+        EdfiRecordParserImpl2.parse(input, xsdSchema, typeProvider, this);
     }
 
     /**
