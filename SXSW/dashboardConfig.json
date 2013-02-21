@@ -724,9 +724,9 @@
                             "Preschool/Prekindergarten",
                             "Transitional Kindergarten",
                             "Kindergarten",
-                            "First Grade",
-                            "Second Grade",
-                            "Third Grade",
+                            "First grade",
+                            "Second grade",
+                            "Third grade",
                             "Other",
                             "Ungraded",
                             "Not Available"
@@ -746,10 +746,10 @@
                     "condition": {
                         "field": "gradeLevel",
                         "value": [
-                            "Fourth Grade",
-                            "Fifth Grade",
-                            "Sixth Grade",
-                            "Seventh Grade",
+                            "Fourth grade",
+                            "Fifth grade",
+                            "Sixth grade",
+                            "Seventh grade",
                             "Eighth grade",
                             "Other",
                             "Ungraded",
@@ -903,7 +903,7 @@
         "assessmentHistTRC": {
             "id": "assessmentHistTRC",
             "parentId": "assessmentHist",
-            "name": "Test History : Reading 3D",
+            "name": "Test History : TRC",
             "type": "GRID",
             "data": {
                 "cacheKey": "assessmentHistTRC",

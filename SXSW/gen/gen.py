@@ -11,6 +11,9 @@ import sys
 # This has a mapping of "Last,First" to the StudentUniqueStateId
 import student_map
 
+# This has a mapping of assessment scores to color code
+import level_color_map
+
 #
 # Main driver
 #
@@ -26,12 +29,12 @@ def main(argv):
 
     # Map sheet column number to corresponding short assessment name
     assessment_short_name = {
-        8: "Composite Score",
+        8: "DIBELS Next Composite",
         10: "DORF (Fluency)",
         12: "DORF (Accuracy)",
         14: "DORF (Retell)",
         16: "DORF (Retell Quality)",
-        18: "Daze",
+        18: "DORF (Daze)",
         20: "TRC",
     }
 
@@ -57,14 +60,22 @@ def main(argv):
             # Map student name to ID
             student_id = student_map.name2id[lname + "," + fname]
 
+            # Ignore student_id 500000000 Matthew Corker since he is hand crafted right now
+            # We could expand this script to handle him as well if we feel motivated
+            if student_id == 500000000:
+                continue
+
             # Map benchmark period to administration date
             admin_date = None
             if period == "BOY":
-                admin_date = "2012-10-01"
+                composite_admin_date = "2012-10-01"
+                admin_date = "2012-10-02"
             elif period == "MOY":
-                admin_date = "2013-02-01"
+                composite_admin_date = "2012-02-01"
+                admin_date = "2013-02-02"
             elif period == "EOY":
-                continue
+                composite_admin_date = "2012-06-01"
+                admin_date = "2013-06-02"
             else:
                 raise Exception("Bad period '" + period + "'")
 
@@ -73,17 +84,19 @@ def main(argv):
             for p in pair_start:
                 short_name = assessment_short_name[p]
                 level = flds[p]
+                color = level_color_map.level2color[level]
                 score = flds[p + 1]
                 title = short_name + " Fifth Grade 12-13 " + period
                 comment = fname + " " + lname + " (" + str(student_id) + ") / " + short_name + " / " + period
                 if p == 8:
                     reporting_method = "Composite Score"
                 else:
-                    reporting_method = "Mastery level"
+                    reporting_method = "Scale score"
                     
                 # __AdministrationDate__     BOY = 2012-10-01   MOY 2013-02-01
                 # __AssessmentTitle__      "<assmt short name> <gradelevel> 12-13 <bench period>"
                 # __Score__
+                # __Color__
                 # __Level__
                 # __StudentId__            Map from first, last name
             
@@ -95,6 +108,7 @@ def main(argv):
                     [ "__AssessmentReportingMethod__", reporting_method ],
                     [ "__Score__", score ],
                     [ "__Level__", level ],
+                    [ "__Color__", color ],
                     [ "__StudentId__", student_id ],
                     [ "__Comment__", comment ],
                 ]

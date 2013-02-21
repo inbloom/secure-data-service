@@ -2,9 +2,9 @@
 <InterchangeAssessmentMetadata xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100" xsi:schemaLocation="http://ed-fi.org/0100 C:\Java\Projects\Git\sli\sli\edfi-schema\src\main\resources\edfiXsd-SLI\SLI-Interchange-AssessmentMetadata.xsd">
 	<!-- DIBELS Next-->
 	<Assessment>
-		<AssessmentTitle>DIBELS Next Fourth Grade 11-12 BOY</AssessmentTitle>
+		<AssessmentTitle>DIBELS Next Composite Fourth Grade 11-12 BOY</AssessmentTitle>
 		<AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-			<ID>DIBELS Next Fourth Grade 11-12 BOY</ID>
+			<ID>DIBELS Next Composite Fourth Grade 11-12 BOY</ID>
 		</AssessmentIdentificationCode>
 		<AssessmentCategory>Reading readiness test</AssessmentCategory>
 		<AcademicSubject>Reading</AcademicSubject>
@@ -39,9 +39,9 @@
 		</AssessmentFamilyReference>
 	</Assessment>
 	<Assessment>
-		<AssessmentTitle>DIBELS Next Fourth Grade 11-12 MOY</AssessmentTitle>
+		<AssessmentTitle>DIBELS Next Composite Fourth Grade 11-12 MOY</AssessmentTitle>
 		<AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-			<ID>DIBELS Next Fourth Grade 11-12 MOY</ID>
+			<ID>DIBELS Next Composite Fourth Grade 11-12 MOY</ID>
 		</AssessmentIdentificationCode>
 		<AssessmentCategory>Reading readiness test</AssessmentCategory>
 		<AcademicSubject>Reading</AcademicSubject>
@@ -76,9 +76,9 @@
 		</AssessmentFamilyReference>
 	</Assessment>
 	<Assessment>
-		<AssessmentTitle>DIBELS Next Fourth Grade 11-12 EOY</AssessmentTitle>
+		<AssessmentTitle>DIBELS Next Composite Fourth Grade 11-12 EOY</AssessmentTitle>
 		<AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-			<ID>DIBELS Next Fourth Grade 11-12 EOY</ID>
+			<ID>DIBELS Next Composite Fourth Grade 11-12 EOY</ID>
 		</AssessmentIdentificationCode>
 		<AssessmentCategory>Reading readiness test</AssessmentCategory>
 		<AcademicSubject>Reading</AcademicSubject>
@@ -113,9 +113,9 @@
 		</AssessmentFamilyReference>
 	</Assessment>
 	<Assessment>
-		<AssessmentTitle>DIBELS Next Fifth Grade 12-13 BOY</AssessmentTitle>
+		<AssessmentTitle>DIBELS Next Composite Fifth Grade 12-13 BOY</AssessmentTitle>
 		<AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-			<ID>DIBELS Next Fifth Grade 12-13 BOY</ID>
+			<ID>DIBELS Next Composite Fifth Grade 12-13 BOY</ID>
 		</AssessmentIdentificationCode>
 		<AssessmentCategory>Reading readiness test</AssessmentCategory>
 		<AcademicSubject>Reading</AcademicSubject>
@@ -150,9 +150,9 @@
 		</AssessmentFamilyReference>
 	</Assessment>
 	<Assessment>
-		<AssessmentTitle>DIBELS Next Fifth Grade 12-13 MOY</AssessmentTitle>
+		<AssessmentTitle>DIBELS Next Composite Fifth Grade 12-13 MOY</AssessmentTitle>
 		<AssessmentIdentificationCode IdentificationSystem="Test Contractor">
-			<ID>DIBELS Next Fifth Grade 12-13 MOY</ID>
+			<ID>DIBELS Next Composite Fifth Grade 12-13 MOY</ID>
 		</AssessmentIdentificationCode>
 		<AssessmentCategory>Reading readiness test</AssessmentCategory>
 		<AcademicSubject>Reading</AcademicSubject>
@@ -198,19 +198,19 @@
 			<PerformanceLevel>
 				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2011-08-01</RevisionDate>
@@ -235,19 +235,19 @@
 			<PerformanceLevel>
 				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2011-08-01</RevisionDate>
@@ -272,19 +272,19 @@
 			<PerformanceLevel>
 				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2011-08-01</RevisionDate>
@@ -309,19 +309,19 @@
 			<PerformanceLevel>
 				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2012-08-17</RevisionDate>
@@ -346,19 +346,19 @@
 			<PerformanceLevel>
 				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2012-08-17</RevisionDate>
@@ -383,19 +383,19 @@
 			<PerformanceLevel>
 				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2011-08-01</RevisionDate>
@@ -420,19 +420,19 @@
 			<PerformanceLevel>
 				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2011-08-01</RevisionDate>
@@ -457,19 +457,19 @@
 			<PerformanceLevel>
 				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2011-08-01</RevisionDate>
@@ -494,19 +494,19 @@
 			<PerformanceLevel>
 				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2012-08-17</RevisionDate>
@@ -531,19 +531,19 @@
 			<PerformanceLevel>
 				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2012-08-17</RevisionDate>
@@ -568,19 +568,19 @@
 			<PerformanceLevel>
 				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2011-08-01</RevisionDate>
@@ -605,19 +605,19 @@
 			<PerformanceLevel>
 				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2011-08-01</RevisionDate>
@@ -642,19 +642,19 @@
 			<PerformanceLevel>
 				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2011-08-01</RevisionDate>
@@ -679,19 +679,19 @@
 			<PerformanceLevel>
 				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2012-08-17</RevisionDate>
@@ -716,19 +716,19 @@
 			<PerformanceLevel>
 				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2012-08-17</RevisionDate>
@@ -753,19 +753,19 @@
 			<PerformanceLevel>
 				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2011-08-01</RevisionDate>
@@ -790,19 +790,19 @@
 			<PerformanceLevel>
 				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2011-08-01</RevisionDate>
@@ -827,19 +827,19 @@
 			<PerformanceLevel>
 				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2011-08-01</RevisionDate>
@@ -864,19 +864,19 @@
 			<PerformanceLevel>
 				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2012-08-17</RevisionDate>
@@ -901,19 +901,19 @@
 			<PerformanceLevel>
 				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2012-08-17</RevisionDate>
@@ -938,19 +938,19 @@
 			<PerformanceLevel>
 				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2011-08-01</RevisionDate>
@@ -975,19 +975,19 @@
 			<PerformanceLevel>
 				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2011-08-01</RevisionDate>
@@ -1012,19 +1012,19 @@
 			<PerformanceLevel>
 				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2011-08-01</RevisionDate>
@@ -1049,19 +1049,19 @@
 			<PerformanceLevel>
 				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2012-08-17</RevisionDate>
@@ -1086,19 +1086,19 @@
 			<PerformanceLevel>
 				<CodeValue>Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Well Below Benchmark</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Composite Score</AssessmentReportingMethod>
+			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2012-08-17</RevisionDate>
