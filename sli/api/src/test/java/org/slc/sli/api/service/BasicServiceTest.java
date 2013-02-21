@@ -77,8 +77,7 @@ public class BasicServiceTest {
 
     @Before
     public void setup() {
-        service = (BasicService) context.getBean("basicService", "student", null,
-                Right.READ_GENERAL, Right.WRITE_GENERAL, securityRepo);
+        service = (BasicService) context.getBean("basicService", "student", null, securityRepo);
 
         EntityDefinition student = factory.makeEntity("student")
                 .exposeAs("students").build();
@@ -113,8 +112,7 @@ public class BasicServiceTest {
     
     @Test
     public void testWriteSelf() {
-        BasicService basicService = (BasicService) context.getBean("basicService", "teacher", new ArrayList<Treatment>(),
-                Right.READ_GENERAL, Right.WRITE_GENERAL, securityRepo);
+        BasicService basicService = (BasicService) context.getBean("basicService", "teacher", new ArrayList<Treatment>(), securityRepo);
         basicService.setDefn(definitionStore.lookupByEntityType("teacher"));
         securityContextInjector.setEducatorContext("my-id");
         

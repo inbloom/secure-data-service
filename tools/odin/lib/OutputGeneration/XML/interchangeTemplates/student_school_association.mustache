@@ -25,14 +25,34 @@ limitations under the License.
         <StateOrganizationId>{{school}}</StateOrganizationId>
       </EducationalOrgIdentity>
     </SchoolReference>
+    {{#schoolYear}}
+      <SchoolYear>{{schoolYear}}</SchoolYear>
+    {{/schoolYear}}
     <EntryDate>{{start_date}}</EntryDate>
     <EntryGradeLevel>{{grade}}</EntryGradeLevel>
+    {{#entryType}}
+      <EntryType>{{entryType}}</EntryType>
+    {{/entryType}}
+    {{#repeatGradeIndicator}}
+      <RepeatGradeIndicator>{{b}}</RepeatGradeIndicator>
+    {{/repeatGradeIndicator}}
+    {{#classOf}}
+      <ClassOf>{{classOf}}</ClassOf>
+    {{/classOf}}
+    {{#schoolChoiceTransfer}}
+      <SchoolChoiceTransfer>{{b}}</SchoolChoiceTransfer>
+    {{/schoolChoiceTransfer}}
     {{#exit_date}}
     <ExitWithdrawDate>{{exit_date}}</ExitWithdrawDate>
     {{/exit_date}}
     {{#exit_type}}
     <ExitWithdrawType>{{exit_type}}</ExitWithdrawType>
     {{/exit_type}}
+    {{#educationalPlans}}
+      <EducationalPlans>
+      	<EducationalPlan>{{educationalPlans}}</EducationalPlan>
+      </EducationalPlans>
+    {{/educationalPlans}}
     {{#gradPlan}}
     <GraduationPlanReference>
       <GraduationPlanIdentity>

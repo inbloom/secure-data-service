@@ -38,6 +38,11 @@
     <StateAbbreviation>{{state}}</StateAbbreviation>
     <PostalCode>{{postalCode}}</PostalCode>
   </Address>
+  {{#telephone}}
+    <Telephone TelephoneNumberType="{{telephoneNumberType}}" PrimaryTelephoneNumberIndicator="{{primaryTelephoneNumberIndicator}}">
+      <TelephoneNumber>{{telephoneNumber}}</TelephoneNumber>
+    </Telephone>
+  {{/telephone}}
   <ElectronicMail EmailAddressType="Home/Personal">
     <EmailAddress>{{email}}</EmailAddress>
   </ElectronicMail>
@@ -58,7 +63,17 @@
   <YearsOfPriorTeachingExperience>{{yearsOfPriorTeachingExperience}}</YearsOfPriorTeachingExperience>
   {{/yearsOfPriorTeachingExperience}}
   {{#credentials}}
-  <Credentials>{{credentials}}</Credentials>
+    <Credentials>
+      <CredentialType>{{credentialType}}</CredentialType>
+      <CredentialField>
+        <Description>{{credentialFieldDescription}}</Description>
+      </CredentialField>
+      <Level>{{level}}</Level>
+      <TeachingCredentialType>{{teachingCredentialType}}</TeachingCredentialType>
+      <CredentialIssuanceDate>{{credentialIssuanceDate}}</CredentialIssuanceDate>
+      <CredentialExpirationDate>{{credentialExpirationDate}}</CredentialExpirationDate>
+      <TeachingCredentialBasis>{{teachingCredentialBasis}}</TeachingCredentialBasis>
+    </Credentials>
   {{/credentials}}
   {{#loginId}}
   <LoginId>{{loginId}}</LoginId>
