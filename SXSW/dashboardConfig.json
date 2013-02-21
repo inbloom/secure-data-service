@@ -129,7 +129,7 @@
                                     "field": "assessments.DIBELS.Number score",
                                     "width": "100",
                                     "sorter": "LetterGrade",
-                                    "name": "Composite Score",
+                                    "name": "Number Score",
                                     "type": "FIELD"
                                 }
                             ]

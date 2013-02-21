@@ -1,4 +1,6 @@
 edfi-xml,StudentAssessment,InterchangeStudentAssessment-all.xml,286bc5f86b2c2d76486eafe297ac8ebc
 edfi-xml,AssessmentMetadata,InterchangeAssessmentMetadata-TRC.xml,26fe33a3d1552da65348ff9b6918a40d
 edfi-xml,AssessmentMetadata,InterchangeAssessmentMetadata-DIBELS_Next.xml,33e2934cda0c5bb64fbed1607bf6d781
-edfi-xml,StudentAssessment,InterchangeStudentAssessment-StateTest_Reading.xml,091f694ffeb80bcb1439e836daa51b72
+edfi-xml,StudentAssessment,InterchangeStudentAssessment-StateTest_Reading.xml,2bd999e971dde09a182ed0e2fb14ef60
+
+
