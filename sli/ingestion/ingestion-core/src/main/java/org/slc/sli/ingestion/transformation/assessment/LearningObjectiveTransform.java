@@ -58,7 +58,7 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
     public static final String LS_ID_CODE_PATH = ID_CODE;
     public static final String LS_CONTENT_STANDARD_NAME_PATH = "LearningStandardIdentity." + CONTENT_STANDARD_NAME;
     public static final String LEARNING_OBJ_REFS = "LearningObjectiveReference";
-    public static final String LEARNING_STD_REFS = "LearningStandardReference";
+    public static final String LEARNING_STD_REFS = "learningStandardRefs";
     public static final String PARENT_LEARNING_OBJ_REF = "ParentLearningObjectiveReference";
     public static final String LOCAL_ID_OBJECTIVE_ID = "parentObjectiveId";
     public static final String LOCAL_ID_LEARNING_STANDARDS = "childLearningStandards";
