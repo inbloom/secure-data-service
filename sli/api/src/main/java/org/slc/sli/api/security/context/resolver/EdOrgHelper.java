@@ -351,6 +351,24 @@ public class EdOrgHelper {
     }
 
     /**
+     * Get directly associated education organizations for the specified principal, not filtered by
+     * data ownership.
+     */
+    public Set<String> locateDirectEdorgs(Entity principal) {
+        if (isStaff(principal) || isTeacher(principal)) {
+            return getStaffDirectlyAssociatedEdorgs(principal, false);
+        } else if (isStudent(principal)) {
+            return getStudentsCurrentAssociatedEdOrgs(Collections.singleton(principal.getEntityId()), false);
+        } else if (isParent(principal)) {
+            // will need logic to get student -> parent associations
+            // assemble set of students that parent can see
+            // -> call getStudentCurrentAssociatedEdOrgs(Set<String> studentIds)
+        }
+
+        return new HashSet<String>();
+    }
+
+    /**
      * Get current education organizations for the specified staff member.
      */
     private Set<String> getStaffDirectlyAssociatedEdorgs(Entity staff, boolean filterByOwnership) {
