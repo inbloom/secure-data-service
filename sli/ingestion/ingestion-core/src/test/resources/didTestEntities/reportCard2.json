@@ -10,6 +10,7 @@
             }
         },
         "StudentCompetencyReference":
+        [
         {
             "StudentCompetencyIdentity":
             {
@@ -20,7 +21,7 @@
                         "StudentCompetencyObjectiveId":{"_value":"student competency objective id"}
                     }
                 },
-                "CodeValue": "code"},
+                "CodeValue":{"_value":"code"},
                 "StudentSectionAssociationReference":
                 {
                     "StudentSectionAssociationIdentity":
@@ -51,5 +52,6 @@
                 }
             }
         }
+        ]
     }
 }

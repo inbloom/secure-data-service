@@ -26,7 +26,6 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,13 +86,13 @@ public class DidReferenceResolutionTest {
         didResolver.resolveInternalIds(entity, TENANT_ID, errorReport, reportStats);
 
         Map<String, String> naturalKeys = new HashMap<String, String>();
-        naturalKeys.put("AssessmentTitle", "Fraction Homework 123");
-        naturalKeys.put("GradeLevelAssessed", "Fifth grade");
+        naturalKeys.put("assessmentTitle", "Fraction Homework 123");
+        naturalKeys.put("gradeLevelAssessed", "Fifth grade");
         naturalKeys.put("academicSubject", "Math");
-        naturalKeys.put("Version", "1");
+        naturalKeys.put("version", "1");
 //        naturalKeys.put("AcademicSubject", ""); // apparently, empty optional natural key field is default to empty string
 
-        checkId(entity, "assessmentId", naturalKeys, "assessment");
+        checkId(entity, "AssessmentReference", naturalKeys, "assessment");
     }
 
     @Test
@@ -105,8 +104,8 @@ public class DidReferenceResolutionTest {
         didResolver.resolveInternalIds(entity, TENANT_ID, errorReport, reportStats);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "testSchoolId");
-        checkId(entity, "schoolId", naturalKeys, "educationOrganization");
 
+        checkId(entity, "SchoolReference", naturalKeys, "educationOrganization");
     }
 
     @Test
@@ -118,6 +117,7 @@ public class DidReferenceResolutionTest {
         didResolver.resolveInternalIds(entity, TENANT_ID, errorReport, reportStats);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "testSchoolId");
+
         checkId(entity, "EducationOrgReference", naturalKeys, "educationOrganization");
     }
 
@@ -127,6 +127,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "testSchoolId");
+
         checkId(entity, "EducationOrganizationReference", naturalKeys, "educationOrganization");
     }
 
@@ -139,8 +140,8 @@ public class DidReferenceResolutionTest {
 
         Map<String, String> edOrgNaturalKeys = new HashMap<String, String>();
         edOrgNaturalKeys.put("stateOrganizationId", "testSchoolId");
-        checkId(entity, "SchoolReference", edOrgNaturalKeys, "educationOrganization");
 
+        checkId(entity, "SchoolReference", edOrgNaturalKeys, "educationOrganization");
     }
 
     @Test
@@ -181,6 +182,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "someResponsibilitySchoolReference");
+
         checkId(entity, "ResponsibilitySchoolReference", naturalKeys, "educationOrganization");
     }
 
@@ -191,6 +193,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "someAssignmentSchoolReference");
+
         checkId(entity, "AssignmentSchoolReference", naturalKeys, "educationOrganization");
     }
 
@@ -270,6 +273,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "testSchoolId");
+
         checkId(entity, "SchoolReference", naturalKeys, "educationOrganization");
     }
 
@@ -279,6 +283,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "testSchoolId");
+
         checkId(entity, "SchoolReference", naturalKeys, "educationOrganization");
     }
 
@@ -288,6 +293,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "testSchoolId");
+
         checkId(entity, "EducationOrganizationReference", naturalKeys, "educationOrganization");
     }
 
@@ -297,6 +303,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "testSchoolId");
+
         checkId(entity, "EducationOrganizationReference", naturalKeys, "educationOrganization");
     }
 
@@ -307,6 +314,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "testSchoolId");
+
         checkId(entity, "EducationOrganizationReference", naturalKeys, "educationOrganization");
     }
 
@@ -317,6 +325,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "testSchoolId");
+
         checkId(entity, "SchoolReference", naturalKeys, "educationOrganization");
     }
 
@@ -358,6 +367,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "someLEAOrganizationID");
+
         checkId(entity, "LocalEducationAgencyReference", naturalKeys, "educationOrganization");
     }
 
@@ -367,6 +377,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "testSchoolId");
+
         checkId(entity, "SchoolReference", naturalKeys, "educationOrganization");
     }
 
@@ -376,6 +387,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "testEdOrgId");
+
         checkId(entity, "EducationOrganizationReference", naturalKeys, "educationOrganization");
     }
 
@@ -385,26 +397,27 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "testSchoolId");
+
         checkId(entity, "EducationOrganizationReference", naturalKeys, "educationOrganization");
     }
 
     @Test
-    @Ignore
     public void resolvesLEAEdOrgRefDidInLocalEducationAgencyCorrectly() throws JsonParseException, JsonMappingException, IOException {
         NeutralRecordEntity entity = loadEntity("didTestEntities/localEducationAgency.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "someLEAOrganizationID");
+
         checkId(entity, "LocalEducationAgencyReference", naturalKeys, "educationOrganization");
     }
 
     @Test
-    @Ignore
     public void resolvesEducationServiceCenterEdOrgRefDidInLocalEducationAgencyCorrectly() throws JsonParseException, JsonMappingException, IOException {
         NeutralRecordEntity entity = loadEntity("didTestEntities/localEducationAgency.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "someEducationServiceCenterID");
+
         checkId(entity, "EducationServiceCenterReference", naturalKeys, "educationOrganization");
     }
 
@@ -414,6 +427,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "someSEAOrganizationID");
+
         checkId(entity, "StateEducationAgencyReference", naturalKeys, "educationOrganization");
     }
 
@@ -423,6 +437,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "someEdOrg");
+
         checkId(entity, "EducationOrganizationReference", naturalKeys, "educationOrganization");
     }
 
@@ -492,6 +507,7 @@ public class DidReferenceResolutionTest {
         naturalKeys.put("uniqueCourseId", "testCourseId");
 
         String courseReferenceDID = generateExpectedDid(naturalKeys, TENANT_ID, "course", null);
+
         Assert.assertEquals(courseReferenceDID, courseTranscriptResolvedRef);
     }
 
@@ -512,6 +528,7 @@ public class DidReferenceResolutionTest {
         naturalKeys.put("uniqueCourseId", "testCourseId");
 
         String courseReferenceDID = generateExpectedDid(naturalKeys, TENANT_ID, "course", null);
+
         Assert.assertEquals(courseReferenceDID, courseOfferingResolvedRef);
     }
 
@@ -704,6 +721,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("programId", "testProgramId");
+
         checkId(entity, "ProgramReference", naturalKeys, "program");
     }
 
@@ -713,6 +731,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("programId", "testProgramId");
+
         checkId(entity, "ProgramReference", naturalKeys, "program");
     }
 
@@ -722,6 +741,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("programId", "testProgramId");
+
         checkId(entity, "ProgramReference", naturalKeys, "program");
     }
 
@@ -731,6 +751,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("programId", "testProgramId");
+
         checkId(entity, "ProgramReference", naturalKeys, "program");
     }
 
@@ -740,6 +761,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("programId", "testProgramId");
+
         checkId(entity, "ProgramReference", naturalKeys, "program");
     }
 
@@ -749,6 +771,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("programId", "testProgramId");
+
         checkId(entity, "ProgramReference", naturalKeys, "program");
     }
 
@@ -758,6 +781,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("programId", "testProgramId");
+
         checkId(entity, "ProgramReference", naturalKeys, "program");
     }
 
@@ -788,6 +812,7 @@ public class DidReferenceResolutionTest {
         String refId = generateExpectedDid(naturalKeys, TENANT_ID, "studentSectionAssociation", sectionDid);
         Map<String, Object> body = entity.getBody();
         Object resolvedRef = body.get("StudentSectionAssociationReference");
+
         Assert.assertEquals(refId, resolvedRef);
     }
 
@@ -818,6 +843,7 @@ public class DidReferenceResolutionTest {
         String refId = generateExpectedDid(naturalKeys, TENANT_ID, "studentSectionAssociation", sectionDid);
         Map<String, Object> body = entity.getBody();
         Object resolvedRef = body.get("StudentSectionAssociationReference");
+
         Assert.assertEquals(refId, resolvedRef);
     }
 
@@ -848,6 +874,7 @@ public class DidReferenceResolutionTest {
         String refId = generateExpectedDid(naturalKeys, TENANT_ID, "studentSectionAssociation", sectionDid);
         Map<String, Object> body = entity.getBody();
         Object resolvedRef = body.get("StudentSectionAssociationReference");
+
         Assert.assertEquals(refId, resolvedRef);
     }
 
@@ -900,22 +927,6 @@ public class DidReferenceResolutionTest {
     }
 
     @Test
-    public void resolvesSectionDidInStudentGradebookEntryCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        NeutralRecordEntity entity = loadEntity("didTestEntities/studentGradebookEntry.json");
-        resolveInternalId(entity);
-
-        Map<String, String> schoolNaturalKeys = new HashMap<String, String>();
-        schoolNaturalKeys.put("stateOrganizationId", "this school");
-        String schoolId = generateExpectedDid(schoolNaturalKeys, TENANT_ID, "educationOrganization", null);
-
-        Map<String, String> naturalKeys = new HashMap<String, String>();
-        naturalKeys.put("schoolId", schoolId);
-        naturalKeys.put("uniqueSectionCode", "this section");
-
-        checkId(entity, "SectionReference", naturalKeys, "section");
-    }
-
-    @Test
     public void resolvesStudentAcademicRecordRefDidInCourseTranscriptCorrectly() throws JsonParseException, JsonMappingException, IOException {
         NeutralRecordEntity entity = loadEntity("didTestEntities/courseTranscript.json");
         resolveInternalId(entity);
@@ -946,6 +957,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("studentUniqueStateId", "100000000");
+
         checkId(entity, "StudentReference", naturalKeys, "student");
     }
 
@@ -955,6 +967,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("studentUniqueStateId", "100000000");
+
         checkId(entity, "StudentReference", naturalKeys, "student");
     }
 
@@ -964,6 +977,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("studentUniqueStateId", "100000000");
+
         checkId(entity, "StudentReference", naturalKeys, "student");
     }
 
@@ -973,6 +987,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("studentUniqueStateId", "100000000");
+
         checkId(entity, "StudentReference", naturalKeys, "student");
     }
 
@@ -982,6 +997,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("studentUniqueStateId", "100000000");
+
         checkId(entity, "StudentReference", naturalKeys, "student");
     }
 
@@ -991,6 +1007,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("studentUniqueStateId", "100000000");
+
         checkId(entity, "StudentReference", naturalKeys, "student");
     }
 
@@ -1000,6 +1017,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("studentUniqueStateId", "100000000");
+
         checkId(entity, "StudentReference", naturalKeys, "student");
     }
 
@@ -1009,6 +1027,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("studentUniqueStateId", "100000000");
+
         checkId(entity, "StudentReference", naturalKeys, "student");
     }
 
@@ -1018,6 +1037,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("studentUniqueStateId", "100000000");
+
         checkId(entity, "StudentReference", naturalKeys, "student");
     }
 
@@ -1027,6 +1047,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("studentUniqueStateId", "100000000");
+
         checkId(entity, "StudentReference", naturalKeys, "student");
     }
 
@@ -1036,6 +1057,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("studentUniqueStateId", "100000000");
+
         checkId(entity, "studentId", naturalKeys, "student");
     }
 
@@ -1043,10 +1065,6 @@ public class DidReferenceResolutionTest {
     public void resolvesStudentCompetencyRefDidInReportCardCorrectlyUsingLearningObjectiveReference() throws JsonParseException, JsonMappingException, IOException {
         NeutralRecordEntity entity = loadEntity("didTestEntities/reportCard.json");
         resolveInternalId(entity);
-
-        Map<String, String> studentCompetencyObjectiveNaturalKeys = new HashMap<String, String>();
-        studentCompetencyObjectiveNaturalKeys.put("studentCompetencyObjectiveId", "student competency objective id");
-        String studentCompetencyObjectiveId = generateExpectedDid(studentCompetencyObjectiveNaturalKeys, TENANT_ID, "studentCompetencyObjective", null);
 
         Map<String, String> studentNaturalKeys = new HashMap<String, String>();
         studentNaturalKeys.put("studentUniqueStateId", "100000000");
@@ -1075,8 +1093,7 @@ public class DidReferenceResolutionTest {
 
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("objectiveId.learningObjectiveId", learningObjectiveId);
-//        naturalKeys.put("objectiveId.studentCompetencyObjectiveId", "");
-        naturalKeys.put("objectiveId.studentCompetencyObjectiveId", studentCompetencyObjectiveId);
+        naturalKeys.put("objectiveId.studentCompetencyObjectiveId", "");
         naturalKeys.put("studentSectionAssociationId", studentSectionAssociationId);
         naturalKeys.put("competencyLevel.codeValue", "code");
 
@@ -1111,16 +1128,9 @@ public class DidReferenceResolutionTest {
         studentSectionAssociationNaturalKeys.put("beginDate", "2011-09-01");
         String studentSectionAssociationId = generateExpectedDid(studentSectionAssociationNaturalKeys, TENANT_ID, "studentSectionAssociation", sectionDid);
 
-        Map<String, String> learningObjectiveNaturalKeys = new HashMap<String, String>();
-        learningObjectiveNaturalKeys.put("objective", "Writing: Informational Text");
-        learningObjectiveNaturalKeys.put("objectiveGradeLevel", "Twelfth grade");
-        learningObjectiveNaturalKeys.put("academicSubject", "ELA");
-        String learningObjectiveId = generateExpectedDid(learningObjectiveNaturalKeys, TENANT_ID, "learningObjective", null);
-
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("objectiveId.studentCompetencyObjectiveId", studentCompetencyObjectiveId);
-//        naturalKeys.put("objectiveId.learningObjectiveId", "");
-        naturalKeys.put("objectiveId.learningObjectiveId", learningObjectiveId);
+        naturalKeys.put("objectiveId.learningObjectiveId", "");
         naturalKeys.put("studentSectionAssociationId", studentSectionAssociationId);
         naturalKeys.put("competencyLevel.codeValue", "code");
 
@@ -1133,6 +1143,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("staffUniqueStateId", "jjackson");
+
         checkId(entity, "StaffReference", naturalKeys, "staff");
     }
 
@@ -1142,6 +1153,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("staffUniqueStateId", "jjackson");
+
         checkId(entity, "StaffReference", naturalKeys, "staff");
     }
 
@@ -1151,15 +1163,17 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("staffUniqueStateId", "jjackson");
+
         checkId(entity, "StaffReference", naturalKeys, "staff");
     }
 
     @Test
-    public void resolvesStaffRefDidInStaffEducationOrganizationAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
+    public void resolvesStaffRefDidInStaffEducationOrgAssignmentAssociationCorrectly() throws JsonParseException, JsonMappingException, IOException {
         NeutralRecordEntity entity = loadEntity("didTestEntities/staffEducationOrganizationAssociation.json");
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("staffUniqueStateId", "jjackson");
+
         checkId(entity, "StaffReference", naturalKeys, "staff");
     }
 
@@ -1169,6 +1183,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("staffUniqueStateId", "jjackson");
+
         checkId(entity, "StaffReference", naturalKeys, "staff");
     }
 
@@ -1178,6 +1193,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("staffUniqueStateId", "jjackson");
+
         checkId(entity, "TeacherReference", naturalKeys, "staff");
     }
 
@@ -1187,6 +1203,7 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("staffUniqueStateId", "jjackson");
+
         checkId(entity, "TeacherReference", naturalKeys, "staff");
     }
 
@@ -1212,6 +1229,7 @@ public class DidReferenceResolutionTest {
         String refId = generateExpectedDid(naturalKeys, TENANT_ID, "gradebookEntry", sectionDid);
         Map<String, Object> body = entity.getBody();
         Object resolvedRef = body.get("GradebookEntryReference");
+
         Assert.assertEquals(refId, resolvedRef);
     }
 
@@ -1237,6 +1255,7 @@ public class DidReferenceResolutionTest {
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("gradingPeriodId", gradingPeriodId);
         naturalKeys.put("studentId", studentId);
+
         checkId(entity, "ReportCardReference", naturalKeys, "reportCard");
     }
 
@@ -1280,7 +1299,6 @@ public class DidReferenceResolutionTest {
         } else {
             Assert.assertEquals(expectedDid, resolvedRef);
         }
-
     }
 
     // load a sample NeutralRecordEntity from a json file

@@ -2,7 +2,7 @@
 "recordType":"attendance",
 "attributes":
 {
-    "schoolId":
+    "SchoolReference":
     {
         "EducationalOrgIdentity":
         {

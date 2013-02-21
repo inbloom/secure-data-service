@@ -51,20 +51,6 @@
                     }
                 }
             }
-        },
-        "SectionReference":
-        {
-            "SectionIdentity":
-            {
-                "EducationalOrgReference":
-                {
-                    "EducationalOrgIdentity":
-                    {
-                        "StateOrganizationId":{"_value":"this school"}
-                    }
-                },
-                "UniqueSectionCode":{"_value":"this section"}
-            }
         }
     }
 }
