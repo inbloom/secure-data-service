@@ -12,7 +12,6 @@ end
 desc "Run Admin Tool Smoke Tests"
 task :adminWebTests => [:realmInit] do
   Rake::Task["importSandboxData"].execute
-  Rake::Task["realmInit"].execute
   runTests("test/features/admintools")
 end
 
