@@ -243,6 +243,16 @@ public class DidSchemaParser implements ResourceLoaderAware {
             assessment.setValueSource("assessmentReference");
             assessmentItemConfig.getKeyFields().add(assessment);
         }
+
+        DidRefConfig objectiveAssessmentConfig = configs.get("objectiveAssessment");
+        if (objectiveAssessmentConfig != null) {
+            KeyFieldDef assessment = new KeyFieldDef();
+            assessment.setKeyFieldName("assessmentId");
+            assessment.setRefConfig(configs.get("assessment"));
+            assessment.setValueSource("AssessmentReference");
+            objectiveAssessmentConfig.getKeyFields().add(assessment);
+        }
+
         return configs;
     }
 

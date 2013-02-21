@@ -29,7 +29,8 @@
            </AssessmentIdentity> 
       </AssessmentReference> 
    </StudentAssessment> 
-   
+
+  <!-- TODO: either delete or fix this invalid data. StudentAssessmentReference cannot be empty
    <StudentObjectiveAssessment> 
        <ScoreResults AssessmentReportingMethod="Scale score"> 
          <Result>9</Result> 
@@ -53,7 +54,7 @@
            </ObjectiveAssessmentIdentity> 
        </ObjectiveAssessmentReference> 
    </StudentObjectiveAssessment>
-   
+-->
    <StudentAssessmentItem>
    		<AssessmentResponse>False</AssessmentResponse>
    		<AssessmentItemResult>Incorrect</AssessmentItemResult>

@@ -293,6 +293,9 @@ public class DeterministicIdResolver implements BatchJobStage {
         if (EmbeddedDocumentRelations.getSubDocuments().contains(entityType)) {
             String parentKey = EmbeddedDocumentRelations.getParentFieldReference(entityType);
             parentId = naturalKeys.get(parentKey);
+            if(parentId == null) {
+                throw new IdResolutionException("Subdoc must have a parent reference", didRefConfig.getEntityType(), null);
+            }
         }
 
         NaturalKeyDescriptor naturalKeyDescriptor = new NaturalKeyDescriptor(naturalKeys, tenantId,
