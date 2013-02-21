@@ -126,7 +126,7 @@
                                     "type": "FIELD"
                                 },
                                 {
-                                    "field": "assessments.DIBELS.Composite Score",
+                                    "field": "assessments.DIBELS.Number score",
                                     "width": "100",
                                     "sorter": "LetterGrade",
                                     "name": "Composite Score",

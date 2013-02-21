@@ -109,7 +109,7 @@ def main(argv):
                 if p == 20:
                     reporting_method = "Mastery level"
                 else:
-                    reporting_method = "Scale score"
+                    reporting_method = "Number score"
 
 
                 # __AdministrationDate__     BOY = 2012-10-01   MOY 2013-02-01

@@ -10,7 +10,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>222</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
@@ -41,7 +41,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>68</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
@@ -72,7 +72,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>93</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
@@ -103,7 +103,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>25</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
@@ -134,7 +134,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>2</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
@@ -165,7 +165,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>10</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
@@ -227,7 +227,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>313</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
@@ -258,7 +258,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>107</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
@@ -289,7 +289,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>98</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
@@ -320,7 +320,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>25</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
@@ -351,7 +351,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>2</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
@@ -382,7 +382,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>13</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
@@ -444,7 +444,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>325</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
@@ -475,7 +475,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>109</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
@@ -506,7 +506,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>97</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
@@ -537,7 +537,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>28</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
@@ -568,7 +568,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>3</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
@@ -599,7 +599,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>16</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fourth grade</GradeLevelWhenAssessed>
@@ -661,7 +661,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>406</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -692,7 +692,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>112</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -723,7 +723,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>97</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -754,7 +754,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>59</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -785,7 +785,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>4</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -816,7 +816,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>20</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -878,7 +878,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>424</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -909,7 +909,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>132</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -940,7 +940,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>98</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -971,7 +971,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>56</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -1002,7 +1002,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>3</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -1033,7 +1033,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>19</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -1095,7 +1095,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>342</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -1126,7 +1126,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>108</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -1157,7 +1157,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>98</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -1188,7 +1188,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>57</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -1219,7 +1219,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>3</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -1250,7 +1250,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>4</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -1312,7 +1312,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>363</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -1343,7 +1343,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>129</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -1374,7 +1374,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>99</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -1405,7 +1405,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>35</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -1436,7 +1436,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>3</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -1467,7 +1467,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>13</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -1529,7 +1529,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>278</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -1560,7 +1560,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>100</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -1591,7 +1591,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>95</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -1622,7 +1622,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>35</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -1653,7 +1653,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>3</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -1684,7 +1684,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>7</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -1746,7 +1746,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>338</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -1777,7 +1777,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>114</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -1808,7 +1808,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>97</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -1839,7 +1839,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>36</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -1870,7 +1870,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>2</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -1901,7 +1901,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>14</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -1963,7 +1963,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>292</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -1994,7 +1994,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>80</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -2025,7 +2025,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>94</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -2056,7 +2056,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>48</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -2087,7 +2087,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>3</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -2118,7 +2118,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>11</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -2180,7 +2180,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>350</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -2211,7 +2211,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>108</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -2242,7 +2242,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>98</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -2273,7 +2273,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>29</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -2304,7 +2304,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>2</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -2335,7 +2335,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>20</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -2397,7 +2397,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>290</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -2428,7 +2428,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>90</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -2459,7 +2459,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>96</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -2490,7 +2490,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>30</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -2521,7 +2521,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>2</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -2552,7 +2552,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>13</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -2614,7 +2614,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>368</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -2645,7 +2645,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>102</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -2676,7 +2676,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>98</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -2707,7 +2707,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>43</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -2738,7 +2738,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>3</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -2769,7 +2769,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>19</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -2831,7 +2831,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>420</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -2862,7 +2862,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>96</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -2893,7 +2893,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>94</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -2924,7 +2924,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>96</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -2955,7 +2955,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>4</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -2986,7 +2986,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>15</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -3048,7 +3048,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>402</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -3079,7 +3079,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>102</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -3110,7 +3110,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>98</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -3141,7 +3141,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>66</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -3172,7 +3172,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>4</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -3203,7 +3203,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>16</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -3265,7 +3265,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>352</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -3296,7 +3296,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>94</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -3327,7 +3327,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>94</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -3358,7 +3358,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>71</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -3389,7 +3389,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>3</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -3420,7 +3420,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>11</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -3482,7 +3482,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>325</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -3513,7 +3513,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>99</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -3544,7 +3544,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>100</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -3575,7 +3575,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>31</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -3606,7 +3606,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>3</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -3637,7 +3637,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>11</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -3699,7 +3699,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>415</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -3730,7 +3730,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>159</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -3761,7 +3761,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>99</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -3792,7 +3792,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>14</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -3823,7 +3823,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>1</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -3854,7 +3854,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>29</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -3916,7 +3916,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>460</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -3947,7 +3947,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>152</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -3978,7 +3978,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>100</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -4009,7 +4009,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>40</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -4040,7 +4040,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>3</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -4071,7 +4071,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>27</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -4133,7 +4133,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>185</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -4164,7 +4164,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>81</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -4195,7 +4195,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>91</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -4226,7 +4226,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>14</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -4257,7 +4257,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>1</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -4288,7 +4288,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>7</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -4350,7 +4350,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>335</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -4381,7 +4381,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>111</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -4412,7 +4412,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>96</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -4443,7 +4443,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>40</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -4474,7 +4474,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>2</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -4505,7 +4505,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>14</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -4567,7 +4567,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>307</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -4598,7 +4598,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>111</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -4629,7 +4629,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>95</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -4660,7 +4660,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>44</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -4691,7 +4691,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>2</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -4722,7 +4722,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>7</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -4784,7 +4784,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>360</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -4815,7 +4815,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>126</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -4846,7 +4846,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>94</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -4877,7 +4877,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>47</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -4908,7 +4908,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>2</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -4939,7 +4939,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>17</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -5001,7 +5001,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>391</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -5032,7 +5032,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>121</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -5063,7 +5063,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>99</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -5094,7 +5094,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>49</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -5125,7 +5125,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>3</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -5156,7 +5156,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>15</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -5218,7 +5218,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>406</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -5249,7 +5249,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>140</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -5280,7 +5280,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>99</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -5311,7 +5311,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>37</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -5342,7 +5342,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>3</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -5373,7 +5373,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>20</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -5435,7 +5435,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>449</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -5466,7 +5466,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>159</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -5497,7 +5497,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>99</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -5528,7 +5528,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>63</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -5559,7 +5559,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>2</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -5590,7 +5590,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>13</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -5652,7 +5652,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>415</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -5683,7 +5683,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>163</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -5714,7 +5714,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>100</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -5745,7 +5745,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>40</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -5776,7 +5776,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>3</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -5807,7 +5807,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>13</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -5869,7 +5869,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>249</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -5900,7 +5900,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>77</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -5931,7 +5931,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>94</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -5962,7 +5962,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>42</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -5993,7 +5993,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>2</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -6024,7 +6024,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>4</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -6086,7 +6086,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>331</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -6117,7 +6117,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>103</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -6148,7 +6148,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>97</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -6179,7 +6179,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>36</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -6210,7 +6210,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>2</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -6241,7 +6241,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>15</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -6303,7 +6303,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>265</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -6334,7 +6334,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>75</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -6365,7 +6365,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>99</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -6396,7 +6396,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>27</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -6427,7 +6427,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>2</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -6458,7 +6458,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>6</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -6520,7 +6520,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>314</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -6551,7 +6551,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>96</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -6582,7 +6582,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>98</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -6613,7 +6613,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>33</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -6644,7 +6644,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>2</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -6675,7 +6675,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>12</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -6737,7 +6737,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>362</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -6768,7 +6768,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>116</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -6799,7 +6799,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>99</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -6830,7 +6830,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>23</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -6861,7 +6861,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>2</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -6892,7 +6892,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>22</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -6954,7 +6954,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>390</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -6985,7 +6985,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>146</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -7016,7 +7016,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>99</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -7047,7 +7047,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>30</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -7078,7 +7078,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>3</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -7109,7 +7109,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>18</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -7171,7 +7171,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>491</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -7202,7 +7202,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>147</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -7233,7 +7233,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>99</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -7264,7 +7264,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>60</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -7295,7 +7295,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>4</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -7326,7 +7326,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>28</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -7388,7 +7388,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>475</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -7419,7 +7419,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>179</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -7450,7 +7450,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>99</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -7481,7 +7481,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>46</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -7512,7 +7512,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>4</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -7543,7 +7543,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>23</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -7605,7 +7605,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>352</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -7636,7 +7636,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>98</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -7667,7 +7667,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>97</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -7698,7 +7698,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>57</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -7729,7 +7729,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>3</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -7760,7 +7760,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>11</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -7822,7 +7822,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>331</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -7853,7 +7853,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>107</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -7884,7 +7884,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>99</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -7915,7 +7915,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>30</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -7946,7 +7946,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>2</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -7977,7 +7977,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>13</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -8039,7 +8039,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>451</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -8070,7 +8070,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>133</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -8101,7 +8101,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>99</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -8132,7 +8132,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>79</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -8163,7 +8163,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>3</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -8194,7 +8194,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>12</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -8256,7 +8256,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>400</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -8287,7 +8287,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>136</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -8318,7 +8318,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>99</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -8349,7 +8349,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>42</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -8380,7 +8380,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>3</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -8411,7 +8411,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>17</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -8473,7 +8473,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>333</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -8504,7 +8504,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>107</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -8535,7 +8535,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>98</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -8566,7 +8566,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>33</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -8597,7 +8597,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>3</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -8628,7 +8628,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>14</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -8690,7 +8690,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>426</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -8721,7 +8721,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>140</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -8752,7 +8752,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>99</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -8783,7 +8783,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>47</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -8814,7 +8814,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>4</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -8845,7 +8845,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>20</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -8907,7 +8907,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>240</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -8938,7 +8938,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>128</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -8969,7 +8969,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>86</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -9000,7 +9000,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>46</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -9031,7 +9031,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>2</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -9062,7 +9062,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>3</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -9124,7 +9124,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>365</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -9155,7 +9155,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>121</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -9186,7 +9186,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>95</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -9217,7 +9217,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>50</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -9248,7 +9248,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>3</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -9279,7 +9279,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>16</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -9341,7 +9341,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>288</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -9372,7 +9372,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>96</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -9403,7 +9403,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>96</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -9434,7 +9434,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>42</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -9465,7 +9465,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>3</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -9496,7 +9496,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>5</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -9558,7 +9558,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>324</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -9589,7 +9589,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>112</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -9620,7 +9620,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>97</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -9651,7 +9651,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>36</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -9682,7 +9682,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>2</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -9713,7 +9713,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>11</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -9775,7 +9775,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>400</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -9806,7 +9806,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>124</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -9837,7 +9837,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>100</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -9868,7 +9868,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>52</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -9899,7 +9899,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>3</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -9930,7 +9930,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>13</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -9992,7 +9992,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>408</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -10023,7 +10023,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>128</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -10054,7 +10054,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>99</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -10085,7 +10085,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>54</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -10116,7 +10116,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>3</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -10147,7 +10147,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>15</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -10209,7 +10209,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>393</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -10240,7 +10240,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>119</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -10271,7 +10271,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>99</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -10302,7 +10302,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>49</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -10333,7 +10333,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>3</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -10364,7 +10364,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>16</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -10426,7 +10426,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>404</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -10457,7 +10457,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>128</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -10488,7 +10488,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>100</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -10519,7 +10519,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>42</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -10550,7 +10550,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>3</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -10581,7 +10581,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>18</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -10643,7 +10643,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>283</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -10674,7 +10674,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>103</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -10705,7 +10705,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>99</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -10736,7 +10736,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>28</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -10767,7 +10767,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>1</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -10798,7 +10798,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>3</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -10860,7 +10860,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>343</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -10891,7 +10891,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>121</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -10922,7 +10922,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>96</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -10953,7 +10953,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>33</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -10984,7 +10984,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>2</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -11015,7 +11015,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>17</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -11077,7 +11077,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>480</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -11108,7 +11108,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>180</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -11139,7 +11139,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>100</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -11170,7 +11170,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>74</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -11201,7 +11201,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>3</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -11232,7 +11232,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>8</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -11294,7 +11294,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>433</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -11325,7 +11325,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>189</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -11356,7 +11356,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>99</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -11387,7 +11387,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>42</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -11418,7 +11418,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>3</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -11449,7 +11449,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>12</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -11511,7 +11511,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>480</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -11542,7 +11542,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>180</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -11573,7 +11573,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>100</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -11604,7 +11604,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>74</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -11635,7 +11635,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>3</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -11666,7 +11666,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>8</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -11728,7 +11728,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>433</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -11759,7 +11759,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>189</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -11790,7 +11790,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>99</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -11821,7 +11821,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>42</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -11852,7 +11852,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>3</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
@@ -11883,7 +11883,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment>
       <RetestIndicator>Primary Administration</RetestIndicator>
       <ReasonNotTested>Medical waiver</ReasonNotTested>
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Number score">
           <Result>12</Result>
       </ScoreResults> 
       <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
