@@ -30,7 +30,8 @@ import org.springframework.stereotype.Component;
 /**
  * Decides if given user has access to given program
  * 
- * 
+ * This validator is used for both staff and teachers for access to student and
+ * staff through a program
  */
 @Component
 public class GenericToProgramValidator extends AbstractContextValidator {
@@ -54,6 +55,7 @@ public class GenericToProgramValidator extends AbstractContextValidator {
         // Fetch associations
         NeutralQuery nq = new NeutralQuery(new NeutralCriteria("body.staffId", "=", SecurityUtil.getSLIPrincipal().getEntity().getEntityId(), false));
         nq.addCriteria(studentCriteria);
+        addEndDateToQuery(nq, false);
 
         Iterable<Entity> assocs = getRepo().findAll(EntityNames.STAFF_PROGRAM_ASSOCIATION, nq);
         for (Entity assoc : assocs) {

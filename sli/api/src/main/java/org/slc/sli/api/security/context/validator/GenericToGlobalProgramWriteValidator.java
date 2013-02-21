@@ -33,7 +33,9 @@ public class GenericToGlobalProgramWriteValidator extends
 	@Override
 	public boolean validate(String entityType, Set<String> ids)
 			throws IllegalStateException {
-
+		if (!areParametersValid(EntityNames.PROGRAM, entityType, ids)) {
+            return false;
+        }
 		Set<String> directEdorgs = getDirectEdorgs();
 
 		// Fetch programs of your edorgs
