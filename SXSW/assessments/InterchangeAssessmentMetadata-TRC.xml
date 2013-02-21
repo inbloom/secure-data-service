@@ -13,25 +13,25 @@
 			<PerformanceLevel>
 				<CodeValue>Above Proficient</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Proficient</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Below Proficient</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Far Below Proficient</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2011-08-01</RevisionDate>
@@ -56,25 +56,25 @@
 			<PerformanceLevel>
 				<CodeValue>Above Proficient</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Proficient</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Below Proficient</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Far Below Proficient</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2011-08-01</RevisionDate>
@@ -99,13 +99,13 @@
 			<PerformanceLevel>
 				<CodeValue>Above Proficient</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Proficient</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
@@ -142,25 +142,25 @@
 			<PerformanceLevel>
 				<CodeValue>Above Proficient</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Proficient</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Below Proficient</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Far Below Proficient</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2012-08-17</RevisionDate>
@@ -185,25 +185,25 @@
 			<PerformanceLevel>
 				<CodeValue>Above Proficient</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Proficient</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Below Proficient</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<AssessmentPerformanceLevel>
 			<PerformanceLevel>
 				<CodeValue>Far Below Proficient</CodeValue>
 			</PerformanceLevel>
-			<AssessmentReportingMethod>Scale score</AssessmentReportingMethod>
+      <AssessmentReportingMethod>Mastery level</AssessmentReportingMethod>
 		</AssessmentPerformanceLevel>
 		<Version>1</Version>
 		<RevisionDate>2012-08-17</RevisionDate>
