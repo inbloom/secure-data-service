@@ -281,13 +281,13 @@ public class EdfiRecordParserImpl2 extends DefaultHandler {
     @Override
     public void error(SAXParseException exception) throws SAXException {
         LOG.error("Error: {}", exception.getMessage());
-        currentEntityValid &= false;
+        currentEntityValid &= true;
     }
 
     @Override
     public void fatalError(SAXParseException exception) throws SAXException {
         LOG.error("FatalError: {}", exception.getMessage());
-        currentEntityValid &= false;
+        currentEntityValid &= true;
     }
 
     public void addVisitor(RecordVisitor recordVisitor) {
