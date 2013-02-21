@@ -6,16 +6,17 @@
     {
         "AssessmentIdentity":
         {
-            "AssessmentTitle":"Fraction Homework 123",
-            "GradeLevelAssessed":"Fifth grade",
-            "Version":"1"
+            "AssessmentTitle":{"_value":"Fraction Homework 123"},
+            "GradeLevelAssessed":{"_value":"Fifth grade"},
+            "AcademicSubject":{"_value":"Math"},
+            "Version":{"_value":1}
         }
     },
     "studentId":
     {
         "StudentIdentity":
         {
-            "StudentUniqueStateId":"100000000"
+            "StudentUniqueStateId":{"_value":"100000000"}
         }
     },
     "studentAssessmentItems":
@@ -28,7 +29,7 @@
     				{
         				"LearningStandardIdentity":
         				{
-            				"IdentificationCode":"0123456789"
+            				"IdentificationCode":{"_value":"0123456789"}
         				}
     				}
     			]
@@ -45,9 +46,9 @@
 					{
 						"LearningObjectiveIdentity" :
 						{
-							"ObjectiveGradeLevel" : "Twelfth grade",
-							"Objective" : "Writing: Informational Text",
-							"AcademicSubject" : "ELA"
+							"ObjectiveGradeLevel":{"_value":"Twelfth grade"},
+							"Objective":{"_value":"Writing: Informational Text"},
+							"AcademicSubject":{"_value":"ELA"}
 						}
 					}
 				],
@@ -58,9 +59,9 @@
 							{
 								"LearningObjectiveIdentity" :
 								{
-									"ObjectiveGradeLevel" : "Twelfth grade",
-									"Objective" : "Writing: Informational Text",
-									"AcademicSubject" : "ELA"
+									"ObjectiveGradeLevel":{"_value":"Twelfth grade"},
+									"Objective":{"_value":"Writing: Informational Text"},
+									"AcademicSubject":{"_value":"ELA"}
 								}
 							}
 						]

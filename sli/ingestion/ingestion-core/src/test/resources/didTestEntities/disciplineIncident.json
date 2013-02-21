@@ -6,14 +6,14 @@
     {
         "StaffIdentity":
         {
-            "StaffUniqueStateId":"jjackson"
+            "StaffUniqueStateId":{"_value":"jjackson"}
         }
     },
     "SchoolReference":
     {
         "EducationalOrgIdentity":
         {
-            "StateOrganizationId":"testSchoolId"
+            "StateOrganizationId":{"_value":"testSchoolId"}
         }
     }
 }

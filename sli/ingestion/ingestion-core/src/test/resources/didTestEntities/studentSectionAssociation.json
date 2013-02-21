@@ -6,7 +6,7 @@
         {
             "StudentIdentity":
             {
-                "StudentUniqueStateId":"100000000"
+                "StudentUniqueStateId":{"_value":"100000000"}
             }
         },
         "SectionReference":
@@ -17,10 +17,10 @@
                 {
                     "EducationalOrgIdentity":
                     {
-                        "StateOrganizationId":"this school"
+                        "StateOrganizationId":{"_value":"this school"}
                     }
                 },
-                "UniqueSectionCode":"this section"
+                "UniqueSectionCode":{"_value":"this section"}
             }
         }
     }

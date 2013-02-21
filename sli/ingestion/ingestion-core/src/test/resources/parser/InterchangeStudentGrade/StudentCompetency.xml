@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentGrade xmlns:sli="http://slc-sli/ed-org/0.1"
+ xmlns="http://ed-fi.org/0100"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <StudentCompetency id="ID004">
+        <LearningObjectiveReference>
+            <LearningObjectiveIdentity>
+                <Objective>LYskrvLvbWu.dFRxtr0BXXAJqFuJE5jt.0vwVYaj</Objective>
+                <AcademicSubject>Engineering and Technology</AcademicSubject>
+                <ObjectiveGradeLevel>Seventh grade</ObjectiveGradeLevel>
+            </LearningObjectiveIdentity>
+        </LearningObjectiveReference>
+        <CompetencyLevel id="ID005">
+            <Description>t-1BN6f-FXWDu4mdCkd39kG.EJuNnlq2Zuo0Gb3teOXlBO-WxRVlCOcKL</Description>
+        </CompetencyLevel>
+        <DiagnosticStatement>2DjXNRg_</DiagnosticStatement>
+        <StudentSectionAssociationReference>
+            <StudentSectionAssociationIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>sh</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
+                    <SectionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Q8ffFb3wIVEpB9hQ3zHUK</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <UniqueSectionCode>c5ZrGLaZLMQrF</UniqueSectionCode>
+                    </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2014-12-11</BeginDate>
+            </StudentSectionAssociationIdentity>
+        </StudentSectionAssociationReference>
+    </StudentCompetency>
+</InterchangeStudentGrade>

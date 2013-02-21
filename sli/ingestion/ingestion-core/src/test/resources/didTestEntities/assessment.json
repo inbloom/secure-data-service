@@ -10,9 +10,9 @@
 					{
 						"LearningObjectiveIdentity" :
 						{
-							"ObjectiveGradeLevel" : "Twelfth grade",
-							"Objective" : "Writing: Informational Text",
-							"AcademicSubject" : "ELA"
+							"ObjectiveGradeLevel":{"_value":"Twelfth grade"},
+							"Objective":{"_value":"Writing: Informational Text"},
+							"AcademicSubject":{"_value":"ELA"}
 						}
 					}
 				],
@@ -23,9 +23,9 @@
 							{
 								"LearningObjectiveIdentity" :
 								{
-									"ObjectiveGradeLevel" : "Twelfth grade",
-									"Objective" : "Writing: Informational Text",
-									"AcademicSubject" : "ELA"
+									"ObjectiveGradeLevel":{"_value":"Twelfth grade"},
+									"Objective":{"_value":"Writing: Informational Text"},
+									"AcademicSubject":{"_value":"ELA"}
 								}
 							}
 						]
@@ -41,7 +41,7 @@
     				{
         				"LearningStandardIdentity":
         				{
-            				"IdentificationCode":"0123456789"
+            				"IdentificationCode":{"_value":"0123456789"}
         				}
     				}
     			]

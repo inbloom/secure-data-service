@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentGrade xmlns:sli="http://slc-sli/ed-org/0.1"
+ xmlns="http://ed-fi.org/0100"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <CourseTranscript id="ID001">
+        <CourseAttemptResult>Pass</CourseAttemptResult>
+        <CreditsAttempted CreditType="Semester hour credit" CreditConversion="-509596091.62">
+            <Credit>1463908241.51</Credit>
+        </CreditsAttempted>
+        <CreditsEarned CreditType="Quarter hour credit" CreditConversion="-1851028259.375">
+            <Credit>806763923.33</Credit>
+        </CreditsEarned>
+        <AdditionalCreditsEarned AdditionalCreditType="IB">
+            <Credit>2034704310.92</Credit>
+        </AdditionalCreditsEarned>
+        <AdditionalCreditsEarned AdditionalCreditType="Other">
+            <Credit>44677732.03</Credit>
+        </AdditionalCreditsEarned>
+        <GradeLevelWhenTaken>Twelfth grade</GradeLevelWhenTaken>
+        <MethodCreditEarned>Online credit</MethodCreditEarned>
+        <FinalLetterGradeEarned>Wb3jXsj.eJ_mRX-E</FinalLetterGradeEarned>
+        <FinalNumericGradeEarned>-1073611830</FinalNumericGradeEarned>
+        <CourseRepeatCode>RepeatOtherInstitution</CourseRepeatCode>
+        <CourseReference>
+            <CourseIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>u6VkWcss</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueCourseId>PxN1ZR0aD1c3flAwf_K4U-VDGcOT7p1WMEUzTkv4JSfr3CS</UniqueCourseId>
+            </CourseIdentity>
+        </CourseReference>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>cVL9BD4KXCxxXV-</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>q7V_QmGMx2.UyEKSId3EKv308bg</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+        <StudentAcademicRecordReference>
+            <StudentAcademicRecordIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>pFsm85Ai4Tq0BUamDVIZS</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <SessionReference>
+                    <SessionIdentity>
+                        <SessionName>FfGGGgOmVKmb80PSunGKBSxt4cRnB.o9wL.Zp2bLKjzJuIrvqMgKlTXpDL</SessionName>
+                    </SessionIdentity>
+                </SessionReference>
+            </StudentAcademicRecordIdentity>
+        </StudentAcademicRecordReference>
+    </CourseTranscript>
+</InterchangeStudentGrade>

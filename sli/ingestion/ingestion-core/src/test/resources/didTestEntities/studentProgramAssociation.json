@@ -6,21 +6,21 @@
         {
             "StudentIdentity":
             {
-                "StudentUniqueStateId":"100000000"
+                "StudentUniqueStateId":{"_value":"100000000"}
             }
         },
         "EducationOrganizationReference":
         {
             "EducationalOrgIdentity":
             {
-                "StateOrganizationId":"testSchoolId"
+                "StateOrganizationId":{"_value":"testSchoolId"}
             }
         },
         "ProgramReference":
         {
             "ProgramIdentity":
             {
-                "ProgramId":"testProgramId"
+                "ProgramId":{"_value":"testProgramId"}
             }
         }
     }

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentGrade xmlns:sli="http://slc-sli/ed-org/0.1"
+ xmlns="http://ed-fi.org/0100"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <Grade id="ID003">
+        <LetterGradeEarned>hV</LetterGradeEarned>
+        <NumericGradeEarned>2004828583</NumericGradeEarned>
+        <DiagnosticStatement>uS1tPMnJ</DiagnosticStatement>
+        <GradeType>Exam</GradeType>
+        <PerformanceBaseConversion>Below Basic</PerformanceBaseConversion>
+        <StudentSectionAssociationReference>
+            <StudentSectionAssociationIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>sy6-chKPBDhz3FumsrC1H8XOKZ63</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
+                    <SectionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Q8ffFb3wIVEpB9hQ3zHUK</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <UniqueSectionCode>QhaLA</UniqueSectionCode>
+                    </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2013-05-12</BeginDate>
+            </StudentSectionAssociationIdentity>
+        </StudentSectionAssociationReference>
+        <GradingPeriodReference>
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>Q8ffFb3wIVEpB9hQ3zHUK</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>Fourth Six Weeks</GradingPeriod>
+                <BeginDate>2013-06-17</BeginDate>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
+    </Grade>
+</InterchangeStudentGrade>

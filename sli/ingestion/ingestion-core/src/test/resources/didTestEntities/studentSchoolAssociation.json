@@ -6,26 +6,26 @@
         {
             "StudentIdentity":
             {
-                "StudentUniqueStateId":"100000000"
+                "StudentUniqueStateId":{"_value":"100000000"}
             }
         },
         "SchoolReference":
         {
             "EducationalOrgIdentity":
             {
-                "StateOrganizationId":"testSchoolId"
+                "StateOrganizationId":{"_value":"testSchoolId"}
             }
         },
         "GraduationPlanReference":
         {
             "GraduationPlanIdentity":
             {
-                "GraduationPlanType":"this graduation plan type",
+                "GraduationPlanType":{"_value":"this graduation plan type"},
                 "EducationalOrgReference":
                 {
                     "EducationalOrgIdentity":
                     {
-                        "StateOrganizationId":"someEdOrg"
+                        "StateOrganizationId":{"_value":"someEdOrg"}
                     }
                 }
             }

@@ -6,7 +6,7 @@
         {
             "StudentIdentity":
             {
-                "StudentUniqueStateId":"100000000"
+                "StudentUniqueStateId":{"_value":"100000000"}
             }
         },
         "GradingPeriodReference":
@@ -17,14 +17,15 @@
                 {
                     "EducationalOrgIdentity":
                     {
-                        "StateOrganizationId":"this school"
+                        "StateOrganizationId":{"_value":"this school"}
                     }
                 },
-                "GradingPeriod":"First Six Weeks",
-                "BeginDate":"2011-09-01"
+                "GradingPeriod":{"_value":"First Six Weeks"},
+                "BeginDate":{"_value":"2011-09-01"}
             }
         },
         "StudentCompetencyReference":
+        [
         {
             "StudentCompetencyIdentity":
             {
@@ -32,17 +33,17 @@
                 {
                     "LearningObjectiveIdentity":
                     {
-                        "ObjectiveGradeLevel" : "Twelfth grade",
-                        "Objective" : "Writing: Informational Text",
-                        "AcademicSubject" : "ELA"
+                        "ObjectiveGradeLevel":{"_value":"Twelfth grade"},
+                        "Objective":{"_value":"Writing: Informational Text"},
+                        "AcademicSubject":{"_value":"ELA"}
                     }
                 },
-                "CodeValue": "code",
+                "CodeValue":{"_value":"code"},
                 "StudentSectionAssociationReference":
                 {
                     "StudentSectionAssociationIdentity":
                     {
-                        "BeginDate":"2011-09-01",
+                        "BeginDate":{"_value":"2011-09-01"},
                         "SectionReference":
                         {
                             "SectionIdentity":
@@ -51,23 +52,24 @@
                                 {
                                     "EducationalOrgIdentity":
                                     {
-                                        "StateOrganizationId":"this school"
+                                        "StateOrganizationId":{"_value":"this school"}
                                     }
                                 },
-                                "UniqueSectionCode":"this section"
+                                "UniqueSectionCode":{"_value":"this section"}
                             }
                         },
                         "StudentReference":
                         {
                             "StudentIdentity":
                             {
-                                "StudentUniqueStateId":"100000000"
+                                "StudentUniqueStateId":{"_value":"100000000"}
                             }
                         }
                     }
                 }
             }
-        },
+        }
+        ],
         "GradeReference":
         [
         	{
@@ -81,11 +83,11 @@
         					{
         						"EducationalOrgIdentity":
         						{
-        							"StateOrganizationId":"testEdOrgId"
+        							"StateOrganizationId":{"_value":"testEdOrgId"}
         						}
         					},
-        					"BeginDate":"01-01-2012",
-        					"GradingPeriod":"testGradingPeriod"
+        					"BeginDate":{"_value":"01-01-2012"},
+        					"GradingPeriod":{"_value":"testGradingPeriod"}
         				}
         			},
         			"StudentSectionAssociationReference":
@@ -96,24 +98,24 @@
         					{
         						"StudentIdentity":
         						{
-        							"StudentUniqueStateId":"testStudentId"
+        							"StudentUniqueStateId":{"_value":"testStudentId"}
         						}
         					},
         					"SectionReference":
         					{
         						"SectionIdentity":
         						{
-        							"UniqueSectionCode":"testSectionCode",
+        							"UniqueSectionCode":{"_value":"testSectionCode"},
         							"EducationalOrgReference":
         							{
         								"EducationalOrgIdentity":
         								{
-        									"StateOrganizationId": "testEdOrgId"
+        									"StateOrganizationId":{"_value":"testEdOrgId"}
         								}
         							}
         						}
         					},
-        					"BeginDate":"02-02-2012"
+        					"BeginDate":{"_value":"02-02-2012"}
         				}
         			}
         		}

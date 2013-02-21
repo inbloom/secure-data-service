@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentGrade xmlns:sli="http://slc-sli/ed-org/0.1"
+ xmlns="http://ed-fi.org/0100"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <StudentGradebookEntry id="ID009">
+        <DateFulfilled>2014-05-17</DateFulfilled>
+        <LetterGradeEarned>FjlioCgKCQ7AG</LetterGradeEarned>
+        <NumericGradeEarned>842552517</NumericGradeEarned>
+        <CompetencyLevel id="ID010">
+            <CodeValue>NaBJJhQ</CodeValue>
+        </CompetencyLevel>
+        <DiagnosticStatement>ow3xIf2x</DiagnosticStatement>
+        <StudentSectionAssociationReference>
+            <StudentSectionAssociationIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>NwpoAgg1X</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <SectionReference>
+                    <SectionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Q8ffFb3wIVEpB9hQ3zHUK</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <UniqueSectionCode>aCpaPcgq1H441cTlW6-HklPJm</UniqueSectionCode>
+                    </SectionIdentity>
+                </SectionReference>
+                <BeginDate>2013-11-23</BeginDate>
+            </StudentSectionAssociationIdentity>
+        </StudentSectionAssociationReference>
+        <GradebookEntryReference>
+            <GradebookEntryIdentity>
+                <GradebookEntryType>CzrGsHI</GradebookEntryType>
+                <DateAssigned>2014-10-30</DateAssigned>
+                <SectionReference>
+                    <SectionIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>Q8ffFb3wIVEpB9hQ3zHUK</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <UniqueSectionCode>z97Jx9Uv7EeYy822zmznUjPiqw99KAKErZ8gPY8eLSX</UniqueSectionCode>
+                    </SectionIdentity>
+                </SectionReference>
+            </GradebookEntryIdentity>
+        </GradebookEntryReference>
+    </StudentGradebookEntry>
+</InterchangeStudentGrade>

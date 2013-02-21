@@ -1,0 +1,66 @@
+{
+  "a_id":"ID012",
+  "LearningObjectiveId":
+  {
+    "a_ContentStandardName":"TPDFLQ",
+    "IdentificationCode":
+    {
+      "_value":"keJd41pn6kwdakFc6zFBsj4Pjs1grqwRIavmuAzX96n"
+    }
+  },
+  "Objective":
+  {
+    "_value":"wvOlbxCFugh1cFNhABss4K1nsqB5xvo3jIGkyt6jLIPTgl2P"
+  },
+  "Description":
+  {
+    "_value":"CSanhK0JCovX"
+  },
+  "AcademicSubject":
+  {
+    "_value":"Human Services"
+  },
+  "ObjectiveGradeLevel":
+  {
+    "_value":"Grade 13"
+  },
+  "LearningStandardReference":
+  [
+    {
+      "LearningStandardIdentity":
+      {
+        "IdentificationCode":
+        {
+          "_value":"dp9qYnt4_RV7bHcPrEs5BgLo"
+        }
+      }
+    },
+    {
+      "LearningStandardIdentity":
+      {
+        "IdentificationCode":
+        {
+          "_value":"XaD-Ba5POu6H9KBaOzlS2G0KPLlo9lXWT2_Ka.w6uc7F-eCEc4WrTIoV"
+        }
+      }
+    }
+  ],
+  "LearningObjectiveReference":
+  {
+    "LearningObjectiveIdentity":
+    {
+      "Objective":
+      {
+        "_value":"BSho8U337EUukkAkM-EUg_t9MkUUrgQLyoDxKShOd"
+      },
+      "AcademicSubject":
+      {
+        "_value":"Social Studies"
+      },
+      "ObjectiveGradeLevel":
+      {
+        "_value":"Eighth grade"
+      }
+    }
+  }
+}

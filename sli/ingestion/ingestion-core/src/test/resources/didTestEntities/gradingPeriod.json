@@ -6,7 +6,7 @@
         {
             "EducationalOrgIdentity":
             {
-                "StateOrganizationId":"testEdOrgId"
+                "StateOrganizationId":{"_value":"testEdOrgId"}
             }
         },
 		"CalendarDateReference" : 
@@ -14,12 +14,12 @@
 			{
 				"CalendarDateIdentity" : 
 				{
-					"Date" : "2012-01-01",
+					"Date":{"_value":"2012-01-01"},
 					"EducationOrgReference" : 
 					{
 						"EducationalOrgIdentity" : 
 						{
-							"StateOrganizationId" : "Illinois"
+							"StateOrganizationId":{"_value":"Illinois"}
 						}
 					}
 				}

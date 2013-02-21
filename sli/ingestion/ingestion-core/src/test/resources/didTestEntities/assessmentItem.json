@@ -6,9 +6,10 @@
     {
         "AssessmentIdentity":
         {
-            "AssessmentTitle":"Fraction Homework 123",
-            "GradeLevelAssessed":"Fifth grade",
-            "Version":"1"
+            "AssessmentTitle":{"_value":"Fraction Homework 123"},
+            "GradeLevelAssessed":{"_value":"Fifth grade"},
+            "AcademicSubject":{"_value":"Math"},
+            "Version":{"_value":1}
         }
     }
 }

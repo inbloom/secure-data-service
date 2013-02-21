@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentGrade xmlns:sli="http://slc-sli/ed-org/0.1"
+ xmlns="http://ed-fi.org/0100"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <Diploma id="ID006">
+        <DiplomaAwardDate>2013-05-06</DiplomaAwardDate>
+        <DiplomaLevel>Cum laude</DiplomaLevel>
+        <DiplomaType>International Baccalaureate</DiplomaType>
+        <CTECompleter>0</CTECompleter>
+        <AcademicHonors>
+            <AcademicHonorsType>Awarding of units of value</AcademicHonorsType>
+            <HonorsDescription>x99ZMzKjlawnFvy9IHObZuQopuj</HonorsDescription>
+            <HonorAwardDate>2014-02-15</HonorAwardDate>
+        </AcademicHonors>
+        <AcademicHonors>
+            <AcademicHonorsType>Certificate</AcademicHonorsType>
+            <HonorsDescription>_NGnPn4YB_k.KCo03l2</HonorsDescription>
+            <HonorAwardDate>2013-03-14</HonorAwardDate>
+        </AcademicHonors>
+        <Recognitions>
+            <RecognitionType>Letter of commendation</RecognitionType>
+            <RecognitionDescription>K505KTV6fzN6-7Fa6l7KmP</RecognitionDescription>
+            <RecognitionAwardDate>2013-04-29</RecognitionAwardDate>
+        </Recognitions>
+        <Recognitions>
+            <RecognitionType>Completion of requirement, but no units of value awarded</RecognitionType>
+            <RecognitionDescription>kzXv5YOVqSaTI9d-GAfdk3YscNOo6LA-XT051NOsCh20pgM3JsTHw</RecognitionDescription>
+            <RecognitionAwardDate>2013-11-07</RecognitionAwardDate>
+        </Recognitions>
+        <SchoolReference id="ID007">
+            <EducationalOrgIdentity>
+                <EducationOrgIdentificationCode IdentificationSystem="LEA">
+                    <ID>JggUnltL_NLlY46.veK</ID>
+                </EducationOrgIdentificationCode>
+                <EducationOrgIdentificationCode IdentificationSystem="DUNS">
+                    <ID>JoTOKI5p8Kasaw2x12WSyTfAXxVFtXdl0xUfvT0Z6z8Ij4Okn</ID>
+                </EducationOrgIdentificationCode>
+            </EducationalOrgIdentity>
+        </SchoolReference>
+    </Diploma>
+</InterchangeStudentGrade>

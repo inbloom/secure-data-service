@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentGrade xmlns:sli="http://slc-sli/ed-org/0.1"
+ xmlns="http://ed-fi.org/0100"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <StudentAcademicRecord id="ID000">
+        <CumulativeCreditsEarned CreditType="Nine month year hour credit" CreditConversion="-623934301.514">
+            <Credit>2117835726.76</Credit>
+        </CumulativeCreditsEarned>
+        <CumulativeCreditsAttempted CreditType="Semester hour credit" CreditConversion="1017869681.834">
+            <Credit>469301872.39</Credit>
+        </CumulativeCreditsAttempted>
+        <CumulativeGradePointsEarned>-1225149055.743</CumulativeGradePointsEarned>
+        <CumulativeGradePointAverage>1800075421.97</CumulativeGradePointAverage>
+        <GradeValueQualifier>uimXSZE7pRw95j</GradeValueQualifier>
+        <ClassRanking>
+            <ClassRank>33235307</ClassRank>
+            <TotalNumberInClass>-1830909099</TotalNumberInClass>
+            <PercentageRanking>-1173907231</PercentageRanking>
+            <ClassRankingDate>2013-10-10</ClassRankingDate>
+        </ClassRanking>
+        <AcademicHonors>
+            <AcademicHonorsType>Completion of requirement, but no units of value awarded</AcademicHonorsType>
+            <HonorsDescription>PPuNseegJWeNYeVF-uubF4JY1JwR1xtgh9a8B</HonorsDescription>
+            <HonorAwardDate>2014-08-19</HonorAwardDate>
+        </AcademicHonors>
+        <AcademicHonors>
+            <AcademicHonorsType>Points</AcademicHonorsType>
+            <HonorsDescription>CJMzXfmmeKEmm1zX2VGpFDS7WamkbLwv-agjTwpbxqoERM4UWvEk7dKjLucYlkgF</HonorsDescription>
+            <HonorAwardDate>2014-12-21</HonorAwardDate>
+        </AcademicHonors>
+        <Recognitions>
+            <RecognitionType>Completion of requirement, but no units of value awarded</RecognitionType>
+            <RecognitionDescription>NUCgX9hSFmi23C.UWWb2dseDiJ</RecognitionDescription>
+            <RecognitionAwardDate>2013-10-04</RecognitionAwardDate>
+        </Recognitions>
+        <Recognitions>
+            <RecognitionType>Honor award</RecognitionType>
+            <RecognitionDescription>_Z1K5Zj4</RecognitionDescription>
+            <RecognitionAwardDate>2014-02-19</RecognitionAwardDate>
+        </Recognitions>
+        <ProjectedGraduationDate>2014-11-02</ProjectedGraduationDate>
+        <SessionCreditsEarned CreditType="Semester hour credit" CreditConversion="-471623226.048">
+            <Credit>714831595.16</Credit>
+        </SessionCreditsEarned>
+        <SessionCreditsAttempted CreditType="Semester hour credit" CreditConversion="-1769573512.48">
+            <Credit>2064606073.60</Credit>
+        </SessionCreditsAttempted>
+        <SessionGradePointsEarned>853944578.468</SessionGradePointsEarned>
+        <SessionGradePointAverage>1707090365.277</SessionGradePointAverage>
+        <StudentReference>
+            <StudentIdentity>
+                <StudentUniqueStateId>mHPW4Fw</StudentUniqueStateId>
+            </StudentIdentity>
+        </StudentReference>
+        <SessionReference>
+            <SessionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>yf1CQwzlQtIt1ew8SefHFr50w7recps5imqVu4IvvjwO0xEcZvIMQ_tl5jE</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <SessionName>eMzdkinq2cJ37EtEPmVqmObdHMa</SessionName>
+            </SessionIdentity>
+        </SessionReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>ajmb2WexNgxI0xW21ElRuQSs58fEN</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>ruyTdglyfr-3_GlR3J</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>Summer Semester</GradingPeriod>
+                        <BeginDate>2013-12-03</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <ReportCardReference>
+            <ReportCardIdentity>
+                <StudentReference>
+                    <StudentIdentity>
+                        <StudentUniqueStateId>hgf1X3</StudentUniqueStateId>
+                    </StudentIdentity>
+                </StudentReference>
+                <GradingPeriodReference>
+                    <GradingPeriodIdentity>
+                        <EducationalOrgReference>
+                            <EducationalOrgIdentity>
+                                <StateOrganizationId>yf1CQwzlQtIt1ew8SefHFr50w7recps5imqVu4IvvjwO0xEcZvIMQ_tl5jE</StateOrganizationId>
+                            </EducationalOrgIdentity>
+                        </EducationalOrgReference>
+                        <GradingPeriod>Fifth Six Weeks</GradingPeriod>
+                        <BeginDate>2013-03-03</BeginDate>
+                    </GradingPeriodIdentity>
+                </GradingPeriodReference>
+            </ReportCardIdentity>
+        </ReportCardReference>
+        <DiplomaReference>
+            <DiplomaIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>ruyTdglyfr-3_GlR3J</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <DiplomaAwardDate>2013-04-12</DiplomaAwardDate>
+                <DiplomaType>Post graduate certificate (grade 13)</DiplomaType>
+            </DiplomaIdentity>
+        </DiplomaReference>
+    </StudentAcademicRecord>
+</InterchangeStudentGrade>

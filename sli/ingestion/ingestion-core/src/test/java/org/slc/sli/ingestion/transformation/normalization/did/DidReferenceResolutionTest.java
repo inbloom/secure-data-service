@@ -71,8 +71,9 @@ public class DidReferenceResolutionTest {
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("assessmentTitle", "Fraction Homework 123");
         naturalKeys.put("gradeLevelAssessed", "Fifth grade");
+        naturalKeys.put("academicSubject", "Math");
         naturalKeys.put("version", "1");
-        naturalKeys.put("academicSubject", ""); // apparently, empty optional natural key field is default to empty string
+//        naturalKeys.put("academicSubject", ""); // apparently, empty optional natural key field is default to empty string
 
         checkId(entity, "AssessmentReference", naturalKeys, "assessment");
     }
@@ -88,8 +89,9 @@ public class DidReferenceResolutionTest {
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("AssessmentTitle", "Fraction Homework 123");
         naturalKeys.put("GradeLevelAssessed", "Fifth grade");
+        naturalKeys.put("academicSubject", "Math");
         naturalKeys.put("Version", "1");
-        naturalKeys.put("AcademicSubject", ""); // apparently, empty optional natural key field is default to empty string
+//        naturalKeys.put("AcademicSubject", ""); // apparently, empty optional natural key field is default to empty string
 
         checkId(entity, "assessmentId", naturalKeys, "assessment");
     }
@@ -1042,6 +1044,10 @@ public class DidReferenceResolutionTest {
         NeutralRecordEntity entity = loadEntity("didTestEntities/reportCard.json");
         resolveInternalId(entity);
 
+        Map<String, String> studentCompetencyObjectiveNaturalKeys = new HashMap<String, String>();
+        studentCompetencyObjectiveNaturalKeys.put("studentCompetencyObjectiveId", "student competency objective id");
+        String studentCompetencyObjectiveId = generateExpectedDid(studentCompetencyObjectiveNaturalKeys, TENANT_ID, "studentCompetencyObjective", null);
+
         Map<String, String> studentNaturalKeys = new HashMap<String, String>();
         studentNaturalKeys.put("studentUniqueStateId", "100000000");
         String studentDid = generateExpectedDid(studentNaturalKeys, TENANT_ID, "student", null);
@@ -1069,7 +1075,8 @@ public class DidReferenceResolutionTest {
 
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("objectiveId.learningObjectiveId", learningObjectiveId);
-        naturalKeys.put("objectiveId.studentCompetencyObjectiveId", "");
+//        naturalKeys.put("objectiveId.studentCompetencyObjectiveId", "");
+        naturalKeys.put("objectiveId.studentCompetencyObjectiveId", studentCompetencyObjectiveId);
         naturalKeys.put("studentSectionAssociationId", studentSectionAssociationId);
         naturalKeys.put("competencyLevel.codeValue", "code");
 
@@ -1104,9 +1111,16 @@ public class DidReferenceResolutionTest {
         studentSectionAssociationNaturalKeys.put("beginDate", "2011-09-01");
         String studentSectionAssociationId = generateExpectedDid(studentSectionAssociationNaturalKeys, TENANT_ID, "studentSectionAssociation", sectionDid);
 
+        Map<String, String> learningObjectiveNaturalKeys = new HashMap<String, String>();
+        learningObjectiveNaturalKeys.put("objective", "Writing: Informational Text");
+        learningObjectiveNaturalKeys.put("objectiveGradeLevel", "Twelfth grade");
+        learningObjectiveNaturalKeys.put("academicSubject", "ELA");
+        String learningObjectiveId = generateExpectedDid(learningObjectiveNaturalKeys, TENANT_ID, "learningObjective", null);
+
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("objectiveId.studentCompetencyObjectiveId", studentCompetencyObjectiveId);
-        naturalKeys.put("objectiveId.learningObjectiveId", "");
+//        naturalKeys.put("objectiveId.learningObjectiveId", "");
+        naturalKeys.put("objectiveId.learningObjectiveId", learningObjectiveId);
         naturalKeys.put("studentSectionAssociationId", studentSectionAssociationId);
         naturalKeys.put("competencyLevel.codeValue", "code");
 

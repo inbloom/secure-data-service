@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentGrade xmlns:sli="http://slc-sli/ed-org/0.1"
+ xmlns="http://ed-fi.org/0100"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <StudentCompetencyObjective id="ID013">
+        <StudentCompetencyObjectiveId>dEag6YUWjsBCGq.Zs-KuAM6duWXjLwd.8rkVfGNgWjts5CiMYz</StudentCompetencyObjectiveId>
+        <Objective>omBeWXVO_INf74b-oqbEBHK05WMEIZ5pgKn9mqLFiBd-Zifj9WBnE</Objective>
+        <Description>Jkw.svu4y4kFTY04MAve14z2HvzZ3AbxGLgul0ajK0WEXQGOBw0v5lHNC_Hw5OHm5DHWauASGGh</Description>
+        <ObjectiveGradeLevel>Ungraded</ObjectiveGradeLevel>
+        <EducationOrganizationReference>
+            <EducationalOrgIdentity>
+                <StateOrganizationId>JQEGNIWDK</StateOrganizationId>
+            </EducationalOrgIdentity>
+        </EducationOrganizationReference>
+    </StudentCompetencyObjective>
+</InterchangeStudentGrade>
