@@ -407,7 +407,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         }
         return update;
     }
-    
+
     @Override
     public boolean updateWithRetries(final String collection, final Entity entity, int noOfRetries) {
         RetryMongoCommand rc = new RetryMongoCommand() {
@@ -597,20 +597,22 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         FindAndModifyOptions options = new FindAndModifyOptions();
         return template.findAndModify(query, update, options, getRecordClass(), collectionName);
     }
-    
+
     private Query addEmbededFields(Query query, Set<String> embededFields) {
         if (query == null) {
             return null;
         }
         DBObject fieldObjects = query.getFieldsObject();
-        for (String embededField : embededFields) {
-            if (!fieldObjects.containsField(embededField)) {
-                fieldObjects.put(embededField, 1);
+        if (fieldObjects != null) {
+            for (String embededField : embededFields) {
+                if (!fieldObjects.containsField(embededField)) {
+                    fieldObjects.put(embededField, 1);
+                }
             }
         }
         return query;
     }
-    
+
     private NeutralQuery addEmbededFields(NeutralQuery query, Set<String> embededFields) {
         if (query == null) {
             return null;

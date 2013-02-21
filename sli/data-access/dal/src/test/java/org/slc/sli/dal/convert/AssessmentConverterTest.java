@@ -18,25 +18,27 @@ import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.validation.NoNaturalKeysDefinedException;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.slc.sli.validation.schema.NaturalKeyExtractor;
 
 public class AssessmentConverterTest {
+    
+    @InjectMocks
+    AssessmentConverter assessmentConverter = new AssessmentConverter();
 
-	@InjectMocks
-	AssessmentConverter assessmentConverter = new AssessmentConverter();
-	
     @Mock
-    INaturalKeyExtractor naturalKeyExtractor; 
+    INaturalKeyExtractor naturalKeyExtractor;
     
     @Before
-    public void setup() {
-    	naturalKeyExtractor = Mockito.mock(NaturalKeyExtractor.class);
-    	MockitoAnnotations.initMocks(this);
+    public void setup() throws NoNaturalKeysDefinedException {
+        naturalKeyExtractor = Mockito.mock(NaturalKeyExtractor.class);
+        MockitoAnnotations.initMocks(this);
     }
-	/*
-	 * subdocs in embedded data
-	 */
+    
+    /*
+     * subdocs in embedded data
+     */
     private Entity createUpConvertEntity() {
         String entityType = "assessment";
         String entityId = "ID";
@@ -75,39 +77,52 @@ public class AssessmentConverterTest {
     
     @Test
     public void upconvertNoEmbeddedSubdocShouldRemainUnchanged() {
-    	List<Entity> entity = Arrays.asList(createDownConvertEntity());
-    	Entity clone = createDownConvertEntity();
-    	assessmentConverter.subdocToBodyField(entity);
-    	assertEquals(clone.getBody(), entity.get(0).getBody());
+        List<Entity> entity = Arrays.asList(createDownConvertEntity());
+        Entity clone = createDownConvertEntity();
+        assessmentConverter.subdocToBodyField(entity);
+        assertEquals(clone.getBody(), entity.get(0).getBody());
     }
     
     @SuppressWarnings("unchecked")
-	@Test
-    public void upconvertEmbeddedSubdocShouldMoveInsideBody() {
-    	Entity entity = createUpConvertEntity();
-    	Entity clone = createUpConvertEntity();
-    	assertNull(entity.getBody().get("assessmentItem"));
-    	assessmentConverter.subdocToBodyField(entity);
-    	assertNotNull(entity.getBody().get("assessmentItem"));
-    	assertEquals(clone.getEmbeddedData().get("assessmentItem").get(0).getBody().get("abc"), 
-    			((List<Map<String, Object>>)(entity.getBody().get("assessmentItem"))).get(0).get("abc"));
-    	assertEquals( ((List<Map<String, Object>>)(entity.getBody().get("assessmentItem"))).get(0).get("abc"), "somevalue");
-    	assertNull(entity.getEmbeddedData().get("assessmentItem"));
-    }
-   
     @Test
-    public void downconvertBodyHasNoSubdocShouldNotChange() {
-    	List<Entity> entity = Arrays.asList(createUpConvertEntity());
-    	Entity clone = createUpConvertEntity();
-    	assessmentConverter.bodyFieldToSubdoc(entity);
-    	assertEquals(clone.getBody(), entity.get(0).getBody());
+    public void upconvertEmbeddedSubdocShouldMoveInsideBody() {
+        Entity entity = createUpConvertEntity();
+        Entity clone = createUpConvertEntity();
+        assertNull(entity.getBody().get("assessmentItem"));
+        assessmentConverter.subdocToBodyField(entity);
+        assertNotNull(entity.getBody().get("assessmentItem"));
+        assertEquals(clone.getEmbeddedData().get("assessmentItem").get(0).getBody().get("abc"),
+                ((List<Map<String, Object>>) (entity.getBody().get("assessmentItem"))).get(0).get("abc"));
+        assertEquals(((List<Map<String, Object>>) (entity.getBody().get("assessmentItem"))).get(0).get("abc"),
+                "somevalue");
+        assertNull(entity.getEmbeddedData().get("assessmentItem"));
+    }
+
+    @Test
+    public void downconvertBodyHasNoSubdocShouldNotChange() throws NoNaturalKeysDefinedException {
+        List<Entity> entity = Arrays.asList(createUpConvertEntity());
+        Entity clone = createUpConvertEntity();
+        assessmentConverter.bodyFieldToSubdoc(entity);
+        assertEquals(clone.getBody(), entity.get(0).getBody());
     }
     
     @Test
     public void downconvertBodyToSubdoc() {
-    	Entity entity = createDownConvertEntity();
-    	assessmentConverter.bodyFieldToSubdoc(entity);
-    	assertNull(entity.getBody().get("assessmentItem"));
-    	assertNotNull(entity.getEmbeddedData().get("assessmentItem"));
+        Entity entity = createDownConvertEntity();
+        assessmentConverter.bodyFieldToSubdoc(entity);
+        assertNull(entity.getBody().get("assessmentItem"));
+        assertNotNull(entity.getEmbeddedData().get("assessmentItem"));
+    }
+    
+    @Test
+    public void bodyToSubdocGenerateId() {
+        Entity entity = createDownConvertEntity();
+        assessmentConverter.bodyFieldToSubdoc(entity);
+        assertNotNull("should move assessmentItem from in body to out body",
+                entity.getEmbeddedData().get("assessmentItem"));
+        assertEquals("should have one assessmentItem in subdoc field", 1, entity.getEmbeddedData()
+                .get("assessmentItem").size());
+        String id = entity.getEmbeddedData().get("assessmentItem").get(0).getEntityId();
+        assertNotNull("should generate id for subdoc entity", id);
     }
 }
