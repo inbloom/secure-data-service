@@ -18,11 +18,11 @@
         },
         {
             "entityType" : "student",
-            "sourceRefPath": "body.studentId"
+            "sourceRefPath": "body.StudentReference"
         },
         {
             "entityType" : "assessment",
-            "sourceRefPath": "body.assessmentId"
+            "sourceRefPath": "body.AssessmentReference"
         }
     ]
 }

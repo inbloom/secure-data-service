@@ -67,6 +67,7 @@ public class XsdTypeProvider implements TypeProvider {
     private Resource[] schemaFiles;
 
     private Map<String, Element> complexTypes = new HashMap<String, Element>();
+    private Map<String, Element> simpleTypes = new HashMap<String, Element>();
     private Map<String, String> typeMap = new HashMap<String, String>();
 
     private Map<String, Map<String, String>> interchangeMap = new HashMap<String, Map<String, String>>();
@@ -102,7 +103,16 @@ public class XsdTypeProvider implements TypeProvider {
             parseEdfiSchema(schemaFile.createRelative(inclSchemaLocation), b);
         }
 
+        parseSimpleTypes(doc);
+
         parseComplexTypes(doc);
+    }
+
+    private void parseSimpleTypes(Document doc) {
+        Iterable<Element> simpleTypes = doc.getDescendants(Filters.element(SIMPLETYPE, XS_NAMESPACE));
+        for (Element e : simpleTypes) {
+            this.simpleTypes.put(e.getAttributeValue(NAME), e);
+        }
     }
 
     private void parseComplexTypes(Document doc) {
@@ -154,7 +164,8 @@ public class XsdTypeProvider implements TypeProvider {
                 }
             }
 
-            IteratorIterable<Element> extensions = parentElement.getDescendants(Filters.element(EXTENSION, XS_NAMESPACE));
+            IteratorIterable<Element> extensions = parentElement.getDescendants(Filters
+                    .element(EXTENSION, XS_NAMESPACE));
 
             if (extensions.hasNext()) {
                 parentElement = getComplexElement(extensions.next().getAttributeValue(BASE));
@@ -165,8 +176,6 @@ public class XsdTypeProvider implements TypeProvider {
 
         return null;
     }
-
-
 
     private Element getComplexElement(String parentName) {
         Element parent = complexTypes.get(parentName);
@@ -199,14 +208,21 @@ public class XsdTypeProvider implements TypeProvider {
     @Override
     public Object convertType(String type, String value) {
         Object result = value;
+        String convertedType = type;
+
         if (type != null) {
-            if (type.equals(XS_DATE)) {
+
+            if (typeMap.get(type) != null) {
+                convertedType = typeMap.get(type);
+            }
+
+            if (convertedType.equals(XS_DATE)) {
                 result = value;
-            } else if (type.equals(XS_BOOLEAN)) {
+            } else if (convertedType.equals(XS_BOOLEAN)) {
                 result = Boolean.parseBoolean(value);
-            } else if (type.equals(XS_DOUBLE)) {
+            } else if (convertedType.equals(XS_DOUBLE)) {
                 result = Double.parseDouble(value);
-            } else if (type.equals(XS_INT)) {
+            } else if (convertedType.equals(XS_INT)) {
                 result = Integer.parseInt(value);
             }
         }
@@ -224,12 +240,12 @@ public class XsdTypeProvider implements TypeProvider {
     private String getType(Element e) {
         String type = e.getAttributeValue(TYPE);
 
-        if (type == null) {
-            Element simple = e.getChild(SIMPLETYPE, XS_NAMESPACE);
+        if (type != null) {
 
+            Element simple = simpleTypes.get(type);
             if (simple != null) {
-                Element restriction = simple.getChild(RESTRICTION, XS_NAMESPACE);
 
+                Element restriction = simple.getChild(RESTRICTION, XS_NAMESPACE);
                 if (restriction != null) {
                     type = restriction.getAttributeValue(BASE);
                 }
