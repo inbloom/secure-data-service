@@ -41,7 +41,7 @@ import java.util.Set;
 public class StaffToStudentValidator extends AbstractContextValidator {
 
     @Autowired
-    private StaffToProgramValidator programValidator;
+    private GenericToProgramValidator programValidator;
 
     @Autowired
     private StaffToCohortValidator cohortValidator;
@@ -82,7 +82,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
 
                 Set<String> studentsEdOrgs = getStudentsEdOrgs(entity);
                 if (!(isIntersection(staffsEdOrgIds, studentsEdOrgs) ||
-                      programValidator.validateWithStudentAccess(EntityNames.PROGRAM, getValidPrograms(entity), true) ||
+                      programValidator.validate(EntityNames.PROGRAM, getValidPrograms(entity)) ||
                       cohortValidator.validateWithStudentAccess(EntityNames.COHORT, getValidCohorts(entity), true))) {
                     isValid = false;
                     break;
@@ -172,7 +172,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
      * @param programValidator
      *            the programValidator to set
      */
-    public void setProgramValidator(StaffToProgramValidator programValidator) {
+    public void setProgramValidator(GenericToProgramValidator programValidator) {
         this.programValidator = programValidator;
     }
 
