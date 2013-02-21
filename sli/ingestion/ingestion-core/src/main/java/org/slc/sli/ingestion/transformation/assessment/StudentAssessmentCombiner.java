@@ -164,19 +164,30 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
                 assessmentTitle = (String) getProperty(assessmentIdentity,ASSESSMENT_TITLE);
                 academicSubject = (String) getProperty(assessmentIdentity, ACADEMIC_SUBJECT);
                 gradeLevelAssessed = (String) getProperty(assessmentIdentity, GRADE_LEVEL_ASSESSED);
-                version = Integer.parseInt((String) getProperty(assessmentIdentity, VERSION));
+                String versionStr = (String) getProperty(assessmentIdentity, VERSION);
+                if(versionStr != null) {
+                    version = Integer.parseInt(versionStr);
+                }
             } catch (Exception e) {
                 LOG.error("Unable to get key fields for StudentAssessment transform", e);
                 reportError(neutralRecord.getSourceFile(), new ElementSourceImpl(neutralRecord), CoreMessageCode.CORE_0040, e.toString());
             }
 
             Map<String, Object> queryCriteria = new LinkedHashMap<String, Object>();
-            queryCriteria.put(STUDENT_ASSESSMENT_REFERENCE_STUDENT, studentId);
-            queryCriteria.put(STUDENT_ASSESSMENT_REFERENCE_ADMINISTRATION_DATE, administrationDate);
-            queryCriteria.put(STUDENT_ASSESSMENT_REFERENCE_ASSESSMENT_TITLE, assessmentTitle);
-            queryCriteria.put(STUDENT_ASSESSMENT_REFERENCE_ACADEMIC_SUBJECT, academicSubject);
-            queryCriteria.put(STUDENT_ASSESSMENT_REFERENCE_GRADE_LEVEL_ASSESSED, gradeLevelAssessed);
-            queryCriteria.put(STUDENT_ASSESSMENT_REFERENCE_VERSION, version);
+            queryCriteria.put("body." + STUDENT_ASSESSMENT_REFERENCE_STUDENT, studentId);
+            queryCriteria.put("body." + STUDENT_ASSESSMENT_REFERENCE_ADMINISTRATION_DATE, administrationDate);
+            queryCriteria.put("body." + STUDENT_ASSESSMENT_REFERENCE_ASSESSMENT_TITLE, assessmentTitle);
+            if(academicSubject != null){
+                queryCriteria.put("body." + STUDENT_ASSESSMENT_REFERENCE_ACADEMIC_SUBJECT, academicSubject);
+            }
+
+            if(gradeLevelAssessed != null){
+                queryCriteria.put("body." + STUDENT_ASSESSMENT_REFERENCE_GRADE_LEVEL_ASSESSED, gradeLevelAssessed);
+            }
+
+            if(version != null) {
+                queryCriteria.put("body." + STUDENT_ASSESSMENT_REFERENCE_VERSION, version);
+            }
 
             List<Map<String, Object>> studentObjectiveAssessments = getStudentObjectiveAssessmentsNaturalKeys(queryCriteria);
 

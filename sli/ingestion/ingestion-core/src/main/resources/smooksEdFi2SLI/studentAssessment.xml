@@ -37,6 +37,7 @@
         <jb:wiring property="scoreResults" beanIdRef="scoreResultsArray" />
         <jb:value property="gradeLevelWhenAssessed" data="attributes GradeLevelWhenAssessed _value" />
         <jb:wiring property="performanceLevelDescriptors" beanIdRef="performanceLevelsTypeArray" />
+        <jb:wiring property="studentAssessmentItems" beanIdRef="StudentAssessmentItemArray" />
     </jb:bean>
 
   <jb:bean beanId="AssessmentReferenceType" class="java.util.HashMap" createOnElement="attributes AssessmentReference">
@@ -83,5 +84,31 @@
     createOnElement="attributes PerformanceLevels element">
     <jb:value property="codeValue" data="attributes PerformanceLevels element CodeValue _value" />
   </jb:bean>
+
+  <jb:bean beanId="StudentAssessmentItemArray" class="java.util.ArrayList" createOnElement="attributes StudentAssessmentItems">
+    <jb:wiring beanIdRef="StudentAssessmentItem" />
+  </jb:bean> 
+
+    <jb:bean beanId="StudentAssessmentItem" class="java.util.HashMap" createOnElement="attributes StudentAssessmentItems element">
+        <jb:value property="assessmentResponse" data="attributes StudentAssessmentItems element AssessmentResponse _value" />
+        <jb:value property="responseIndicator" data="attributes StudentAssessmentItems element ResponseIndicator _value" />
+        <jb:value property="assessmentItemResult" data="attributes StudentAssessmentItems element AssessmentItemResult _value" />
+        <jb:value property="rawScoreResult" data="attributes StudentAssessmentItems element RawResult _value" />
+        <jb:wiring property="assessmentItem" beanIdRef="AssessmentItem" />
+    </jb:bean>
+
+    <jb:bean beanId="AssessmentItem" class="java.util.HashMap" createOnElement="attributes StudentAssessmentItems element AssessmentItemReference">
+        <jb:value property="identificationCode" data="attributes StudentAssessmentItems element AssessmentItemReference AssessmentItemIdentity AssessmentItemIdentificationCode _value" />
+        <jb:value property="itemCategory" data="attributes StudentAssessmentItems element AssessmentItemReference _value" />
+        <jb:value property="maxRawScore" data="attributes StudentAssessmentItems element AssessmentItemReference MaxRawScore _value" />
+        <jb:value property="correctResponse" data="attributes StudentAssessmentItems element AssessmentItemReference CorrectResponse _value" />
+        <jb:wiring property="learningStandards" beanIdRef="LearningStandardsArray" />
+        <jb:value property="nomenclature" data="attributes StudentAssessmentItems element AssessmentItemReference Nomenclature _value" />
+    </jb:bean>
+
+    <jb:bean  beanId="LearningStandardsArray" class="java.util.ArrayList" createOnElement="attributes StudentAssessmentItems element AssessmentItemReference LearningStandards" >
+        <jb:value data="attributes StudentAssessmentItems element AssessmentItemReference LearningStandards _value"/>
+    </jb:bean>
+
 
 </smooks-resource-list>
