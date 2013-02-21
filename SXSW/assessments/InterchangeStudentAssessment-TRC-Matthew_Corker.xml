@@ -9,7 +9,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
       <RetestIndicator>Primary Administration</RetestIndicator> 
       <ReasonNotTested>Medical waiver</ReasonNotTested> 
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Mastery level">
           <Result>N</Result> 
       </ScoreResults>
        <ScoreResults AssessmentReportingMethod="Other">
@@ -42,7 +42,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
       <RetestIndicator>Primary Administration</RetestIndicator> 
       <ReasonNotTested>Medical waiver</ReasonNotTested> 
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Mastery level">
           <Result>P</Result> 
       </ScoreResults>
        <ScoreResults AssessmentReportingMethod="Other">
@@ -75,7 +75,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
       <RetestIndicator>Primary Administration</RetestIndicator> 
       <ReasonNotTested>Medical waiver</ReasonNotTested> 
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Mastery level">
           <Result>R</Result> 
       </ScoreResults>
        <ScoreResults AssessmentReportingMethod="Other">
@@ -109,7 +109,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
       <RetestIndicator>Primary Administration</RetestIndicator> 
       <ReasonNotTested>Medical waiver</ReasonNotTested> 
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Mastery level">
           <Result>S</Result> 
       </ScoreResults>
        <ScoreResults AssessmentReportingMethod="Other">
@@ -142,7 +142,7 @@
       <AdministrationEnvironment>Testing Center</AdministrationEnvironment> 
       <RetestIndicator>Primary Administration</RetestIndicator> 
       <ReasonNotTested>Medical waiver</ReasonNotTested> 
-      <ScoreResults AssessmentReportingMethod="Scale score">
+      <ScoreResults AssessmentReportingMethod="Mastery level">
           <Result>T</Result> 
       </ScoreResults>
        <ScoreResults AssessmentReportingMethod="Other">
