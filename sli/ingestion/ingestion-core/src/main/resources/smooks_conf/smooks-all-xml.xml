@@ -1818,27 +1818,48 @@
   <jb:bean beanId="studentObjectiveAssessmentAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment">
     <jb:wiring property="scoreResults" beanIdRef="ScoreResultsTypeArray" />
     <jb:wiring property="performanceLevelDescriptors" beanIdRef="SOAperformanceLevelDescriptorsArray" />
-    <jb:value property="objectiveAssessmentRef" data="StudentObjectiveAssessment/ObjectiveAssessmentReference/ObjectiveAssessmentIdentity/ObjectiveAssessmentIdentificationCode" />
-    <jb:wiring property="studentAssessmentReference" beanIdRef="studentObjectiveAssessment_studentAssessmentReference" />
+    <jb:wiring property="objectiveAssessmentId" beanIdRef="StudentObjectiveAssessment_ObjectiveAssessmentReference" />
+    <jb:wiring property="studentAssessmentId" beanIdRef="StudentObjectiveAssessment_StudentAssessmentReference" />
   </jb:bean>
 
-  <jb:bean beanId="studentObjectiveAssessment_studentAssessmentReference" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment">
-    <jb:value property="administrationDate" data="StudentObjectiveAssessment/StudentAssessmentReference/StudentAssessmentIdentity/AdministrationDate" />
-    <jb:wiring property="studentReference" beanIdRef="studentObjectiveAssessment_studentReference" />
-    <jb:wiring property="assessmentReference" beanIdRef="studentObjectiveAssessment_assessmentReference" />
+    <jb:bean beanId="StudentObjectiveAssessment_ObjectiveAssessmentReference" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment">
+        <jb:wiring property="ObjectiveAssessmentIdentity" beanIdRef="StudentObjectiveAssessment_ObjectiveAssessmentReference_ObjectiveAssessmentIdentity" />
+        <jb:wiring property="AssessmentReference" beanIdRef="StudentObjectiveAssessment_AssessmentReference"/>
+    </jb:bean>
+
+    <jb:bean beanId="StudentObjectiveAssessment_ObjectiveAssessmentReference_ObjectiveAssessmentIdentity" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment">
+        <jb:value property="ObjectiveAssessmentIdentificationCode" data="ObjectiveAssessmentIdentificationCode" />
+    </jb:bean>
+
+    <jb:bean beanId="StudentObjectiveAssessment_StudentAssessmentReference" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment">
+        <jb:wiring property="StudentAssessmentIdentity" beanIdRef="StudentObjectiveAssessment_StudentAssessmentReference_StudentAssessmentIdentity" />
+    </jb:bean>
+
+  <jb:bean beanId="StudentObjectiveAssessment_StudentAssessmentReference_StudentAssessmentIdentity" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment">
+    <jb:value property="AdministrationDate" data="StudentObjectiveAssessment/StudentAssessmentReference/StudentAssessmentIdentity/AdministrationDate" />
+    <jb:wiring property="StudentReference" beanIdRef="StudentObjectiveAssessment_StudentAssessmentReference_StudentAssessmentIdentity_StudentReference" />
+    <jb:wiring property="AssessmentReference" beanIdRef="StudentObjectiveAssessment_AssessmentReference" />
   </jb:bean>
 
-  <jb:bean beanId="studentObjectiveAssessment_studentReference" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment">
-    <jb:value property="studentUniqueStateId" data="StudentObjectiveAssessment/StudentAssessmentReference/StudentAssessmentIdentity/StudentReference/StudentIdentity/StudentUniqueStateId" />
+  <jb:bean beanId="StudentObjectiveAssessment_StudentAssessmentReference_StudentAssessmentIdentity_StudentReference" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment">
+    <jb:wiring property="StudentIdentity" beanIdRef="StudentObjectiveAssessment_StudentAssessmentReference_StudentAssessmentIdentity_StudentReference_StudentIdentity" />
   </jb:bean>
 
-  <jb:bean beanId="studentObjectiveAssessment_assessmentReference" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment">
+    <jb:bean beanId="StudentObjectiveAssessment_StudentAssessmentReference_StudentAssessmentIdentity_StudentReference_StudentIdentity" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment">
+        <jb:value property="StudentUniqueStateId" data="StudentObjectiveAssessment/StudentAssessmentReference/StudentAssessmentIdentity/StudentReference/StudentIdentity/StudentUniqueStateId" />
+    </jb:bean>
+
+    <jb:bean beanId="StudentObjectiveAssessment_AssessmentReference" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment">
+        <jb:wiring property="AssessmentIdentity" beanIdRef="StudentObjectiveAssessment_StudentAssessmentReference_StudentAssessmentIdentity_AssessmentReference_AssessmentIdentity" />
+    </jb:bean>
+
+  <jb:bean beanId="StudentObjectiveAssessment_StudentAssessmentReference_StudentAssessmentIdentity_AssessmentReference_AssessmentIdentity" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment">
     <jb:value property="identificationSystem" data="StudentObjectiveAssessment/StudentAssessmentReference/StudentAssessmentIdentity/AssessmentReference/AssessmentIdentity/AssessmentIdentificationCode/@IdentificationSystem" />
-    <jb:value property="id" data="StudentObjectiveAssessment/StudentAssessmentReference/StudentAssessmentIdentity/AssessmentReference/AssessmentIdentity/AssessmentIdentificationCode/ID" />
-    <jb:value property="assessmentTitle" data="StudentObjectiveAssessment/StudentAssessmentReference/StudentAssessmentIdentity/AssessmentReference/AssessmentIdentity/AssessmentTitle" />
-    <jb:value property="academicSubject" data="StudentObjectiveAssessment/StudentAssessmentReference/StudentAssessmentIdentity/AssessmentReference/AssessmentIdentity/AcademicSubject" />
-    <jb:value property="gradeLevelAssessed" data="StudentObjectiveAssessment/StudentAssessmentReference/StudentAssessmentIdentity/AssessmentReference/AssessmentIdentity/GradeLevelAssessed" />
-    <jb:value property="version" data="StudentObjectiveAssessment/StudentAssessmentReference/StudentAssessmentIdentity/AssessmentReference/AssessmentIdentity/Version" decoder="Integer" />
+    <jb:value property="ID" data="StudentObjectiveAssessment/StudentAssessmentReference/StudentAssessmentIdentity/AssessmentReference/AssessmentIdentity/AssessmentIdentificationCode/ID" />
+    <jb:value property="AssessmentTitle" data="StudentObjectiveAssessment/StudentAssessmentReference/StudentAssessmentIdentity/AssessmentReference/AssessmentIdentity/AssessmentTitle" />
+    <jb:value property="AcademicSubject" data="StudentObjectiveAssessment/StudentAssessmentReference/StudentAssessmentIdentity/AssessmentReference/AssessmentIdentity/AcademicSubject" />
+    <jb:value property="GradeLevelAssessed" data="StudentObjectiveAssessment/StudentAssessmentReference/StudentAssessmentIdentity/AssessmentReference/AssessmentIdentity/GradeLevelAssessed" />
+    <jb:value property="Version" data="StudentObjectiveAssessment/StudentAssessmentReference/StudentAssessmentIdentity/AssessmentReference/AssessmentIdentity/Version" decoder="Integer" />
   </jb:bean>
 
   <jb:bean beanId="ScoreResultsTypeArray" class="java.util.ArrayList" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment">

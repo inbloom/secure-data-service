@@ -115,7 +115,6 @@ public class GenericSuperdocConverter {
      * calculates the Determinsitic ID of subdoc entity
      * 
      * @param subEntityBody
-     * @param parentId
      * @param subEntityType
      * @return
      */

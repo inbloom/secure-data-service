@@ -60,7 +60,7 @@ def where_stored(entity_type)
   when 'StudentAssessmentItem'
     {collection: 'studentAssessment', subdoc: ['studentAssessmentItem']}
   when 'StudentObjectiveAssessment'
-    {collection: 'studentAssessment', subdoc: ['body', 'studentObjectiveAssessments']}
+    {collection: 'studentAssessment', subdoc: ['studentObjectiveAssessment']}
   when 'StudentCohortAssociation'
     {collection: 'cohort', subdoc: ['studentCohortAssociation']}
   when 'StudentDisciplineIncidentAssociation'

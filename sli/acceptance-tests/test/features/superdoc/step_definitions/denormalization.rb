@@ -52,7 +52,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
 
   # StudentAssessment
   id = "fe0be78251b73eaeb5bdc9cc79819b42a472dab4_id" if human_readable_id == "STUDENT ASSESSMENT ID"
-  id = "3904c524fcbcddd698b24c2f509bd024167c0357_id" if human_readable_id == "STUDENTASSESSMENT REFERENCE ID"
+  id = "3923f33497e8c41c7a0f6267b7e5f0627d2c0fd2_id" if human_readable_id == "STUDENTASSESSMENT REFERENCE ID"
 
   # StudentSchoolAssociation
   id = "ec2e4218-6483-4e9c-8954-0aecccfd4731"        if human_readable_id == "MARVIN MILLER EAST DB JR HI"

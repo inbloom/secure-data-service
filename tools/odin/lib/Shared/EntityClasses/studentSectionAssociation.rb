@@ -20,12 +20,26 @@ require_relative 'baseEntity.rb'
 
 class StudentSectionAssociation < BaseEntity
 
-  attr_accessor :student, :section, :ed_org_id, :begin_date
+  attr_accessor :student, :section, :ed_org_id, :begin_date,
+                :endDate, :homeroomIndicator, :repeatIdentifier
 
   def initialize(student, section, ed_org_id, begin_date, grade)
+    @rand = Random.new(student.hash + section.hash)
     @student    = student
     @section    = section
     @ed_org_id  = DataUtility.get_school_id(ed_org_id, GradeLevelType.school_type(grade))
     @begin_date = begin_date
+
+    optional {@endDate = Date.new(2000+@rand.rand(15), 1+@rand.rand(12), 1+@rand.rand(28))}
+
+    optional {@homeroomIndicator = {:b => choose([false, true])}}
+
+    optional {@repeatIdentifier = choose([
+      "Repeated, counted in grade point average",
+      "Repeated, not counted in grade point average",
+      "Not repeated",
+      "Other"])
+    }
+
   end
 end
