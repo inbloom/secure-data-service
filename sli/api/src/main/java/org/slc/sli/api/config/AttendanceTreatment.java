@@ -59,7 +59,12 @@ public class AttendanceTreatment implements Treatment {
     @SuppressWarnings("unchecked")
     public EntityBody toExposed(EntityBody stored, EntityDefinition defn, Entity entity) {
         if (defn.getType().equals(EntityNames.ATTENDANCE)) {
-            final List<EntityBody> attendanceEvents = (List<EntityBody>) stored.get(ATTENDANCE_EVENT);
+            final List<EntityBody> attendanceEvents;
+            if (stored.get(ATTENDANCE_EVENT) == null) {
+                attendanceEvents = new ArrayList<EntityBody>();
+            } else {
+                attendanceEvents = (List<EntityBody>) stored.get(ATTENDANCE_EVENT);
+            }
             final String schoolYear = (String) stored.get(SCHOOL_YEAR);
 
             List<EntityBody> schoolYearAttendances = new ArrayList<EntityBody>();

@@ -31,6 +31,7 @@ import java.util.List;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 import static org.mockito.Mockito.when;
@@ -120,6 +121,18 @@ public class AttendanceTreatmentTest {
         assertTrue(attendanceEvent.get(0).containsKey(DATE));
         assertEquals(attendanceEvent.get(0).get(EVENT), "In Attendance");
         assertEquals(attendanceEvent.get(0).get(DATE), "2011-11-11");
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testEmptyAttendanceEvent() {
+        EntityBody mongoBody = getMongoBody();
+        mongoBody.remove(ATTENDANCE_EVENT);
+        EntityBody entityBody = treatment.toExposed(mongoBody, definition, null);
+        List<EntityBody> schoolYearAttendances = (List<EntityBody>) entityBody.get(SCHOOL_YEAR_ATTENDANCE);
+        List<EntityBody> attendanceEvents = (List<EntityBody>) schoolYearAttendances.get(0).get(ATTENDANCE_EVENT);
+        assertNotNull(attendanceEvents);
+        assertEquals(attendanceEvents.size(), 0);
     }
 
     private EntityBody getAPIBody() {
