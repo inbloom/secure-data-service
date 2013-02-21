@@ -76,7 +76,7 @@
     </jb:bean>
 
     <jb:bean beanId="ReportCards" class="java.util.ArrayList" createOnElement="attributes">
-        <jb:value data="attributes ReportCardReference element _value" />
+        <jb:value data="attributes ReportCardReference element" />
     </jb:bean>
 
 

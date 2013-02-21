@@ -91,7 +91,9 @@ public class CourseTranscriptCombiner extends AbstractTransformationStrategy {
             }
 
             if (attributes.get("GradeType") == null) {
-                attributes.put("GradeType", "Final");
+                Map<String, Object> value = new HashMap<String,Object>();
+                value.put("_value", "Final");
+                attributes.put("GradeType", value);
             }
             neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
             neutralRecord.setCreationTime(getWorkNote().getRangeMinimum());

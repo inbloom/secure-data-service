@@ -33,7 +33,7 @@
     <jb:wiring property="disciplineIncidentId" beanIdRef="DisciplineIncidentReferences" />
     <jb:wiring property="staffId" beanIdRef="StaffReferences" />
     <jb:value property="responsibilitySchoolId" data="attributes ResponsibilitySchoolReference" />
-    <jb:value property="assignmentSchoolId" data="attributes AssignmentSchoolReference _value" />
+    <jb:value property="assignmentSchoolId" data="attributes AssignmentSchoolReference" />
   </jb:bean>
 
   <jb:bean beanId="Disciplines" class="java.util.ArrayList" createOnElement="attributes">

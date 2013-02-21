@@ -128,8 +128,8 @@
     <value>assessmentItem,false,creationTime</value>
     <value>assessmentPeriodDescriptor,false,creationTime</value>
     <value>assessment_transformed,false,creationTime</value>
-    <value>attendance,false,creationTime</value>
-    <value>attendance_transformed,false,creationTime</value>
+    <value>attendanceEvent,false,creationTime</value>
+    <value>attendanceEvent_transformed,false,creationTime</value>
     <value>calendarDate,false,creationTime</value>
     <value>cohort,false,creationTime</value>
     <value>competencyLevelDescriptor,false,creationTime</value>
@@ -159,7 +159,7 @@
     <value>session,false,creationTime</value>
     <value>staff,false,creationTime</value>
     <value>staffCohortAssociation,false,creationTime</value>
-    <value>staffEducationOrganizationAssociation,false,creationTime</value>
+    <value>staffEducationOrgAssignmentAssociation,false,creationTime</value>
     <value>staffProgramAssociation,false,creationTime</value>
     <value>stateEducationAgency,false,creationTime</value>
     <value>student,false,creationTime</value>
@@ -185,7 +185,7 @@
     <value>assessmentItem,false,body.identificationCode</value>
     <value>assessmentItem,false,localId</value>
     <value>assessmentPeriodDescriptor,false,body.codeValue</value>
-    <value>attendance_transformed,true,body.studentId,body.schoolId</value>
+    <value>attendanceEvent_transformed,true,body.studentId,body.schoolId</value>
     <value>disciplineIncident,false,body.id</value>
     <value>school,false,body.stateOrganizationId</value>
     <value>session,false,body.schoolId</value>

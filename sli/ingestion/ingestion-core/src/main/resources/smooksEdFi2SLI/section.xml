@@ -36,13 +36,13 @@
   </jb:bean>
 
   <jb:bean beanId="AvailableCreditValue" class="java.util.HashMap" createOnElement="attributes AvailableCredit">
-    <jb:value property="creditType" data="attributes AvaliableCredit CreditType _value" />
-    <jb:value property="creditConversion" data="attributes AvailableCredit CreditConversion _value"/>
+    <jb:value property="creditType" data="attributes AvaliableCredit a_CreditType" />
+    <jb:value property="creditConversion" data="attributes AvailableCredit a_CreditConversion"/>
     <jb:value property="credit" data="attributes AvailableCredit Credit _value" />
   </jb:bean>
 
   <jb:bean beanId="programReferenceArray" class="java.util.ArrayList" createOnElement="attributes ProgramReference">
-    <jb:value data="attributes ProgramReference element _value" />
+    <jb:value data="attributes ProgramReference element" />
   </jb:bean>
 
 </smooks-resource-list>
