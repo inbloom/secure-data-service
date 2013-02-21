@@ -139,13 +139,6 @@
                             "type": "FIELD",
                             "items": [
                                 {
-                                    "field": "assessments.TRC.assessments.assessmentPeriodDescriptor.shortDescription",
-                                    "width": "100",
-                                    "sorter": "LetterGrade",
-                                    "name": "Period",
-                                    "type": "FIELD"
-                                },
-                                {
                                     "field": "assessments.TRC.perfLevel",
                                     "width": "150",
                                     "sorter": "LetterGrade",
