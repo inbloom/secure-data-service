@@ -8201,7 +8201,13 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-            <xs:element name='schoolYear' type='schoolYearType' />
+            <xs:element name='schoolYear' type='schoolYearType' >
+                <xs:appinfo>
+                    <sli:naturalKey>true</sli:naturalKey>
+                    <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+                    <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                </xs:appinfo>
+            </xs:element>
             <xs:element maxOccurs='unbounded' minOccurs='0' name='attendanceEvent' type='attendanceEvent' />
         </xs:sequence>
 	</xs:complexType>
