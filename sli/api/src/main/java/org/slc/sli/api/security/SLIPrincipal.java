@@ -64,6 +64,7 @@ public class SLIPrincipal implements Principal, Serializable {
 	private String userType;
 	private Collection<GrantedAuthority> selfRights;
 	private Set<String> authorizingEdOrgs;
+	private String email;
 
     public String getSessionId() {
         return sessionId;
@@ -297,5 +298,13 @@ public class SLIPrincipal implements Principal, Serializable {
 
     public void setAuthorizingEdOrgs(Set<String> authorizingEdOrgs) {
         this.authorizingEdOrgs = authorizingEdOrgs;
+    }
+    
+    public String getEmail() {
+    	return email;
+    }
+    
+    public void setEmail(String email) {
+    	this.email = email;
     }
 }
