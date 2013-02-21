@@ -133,7 +133,7 @@ public class ContainerDocumentAccessor {
 
         DBObject entityDetails = new BasicDBObject();
 
-        if (entity.getMetaData() != null || !entity.getMetaData().isEmpty()) {
+        if (entity.getMetaData() != null && !entity.getMetaData().isEmpty()) {
             entityDetails.put("metaData", entity.getMetaData());
         }
         final Map<String, Object> entityBody = entity.getBody();
