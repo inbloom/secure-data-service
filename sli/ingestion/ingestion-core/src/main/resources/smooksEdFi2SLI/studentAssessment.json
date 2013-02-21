@@ -1,5 +1,5 @@
 {
-    "keyFields" : ["metaData.externalId", "body.AssessmentReference", "body.studentId", "body.administrationDate"],
+    "keyFields" : ["metaData.externalId", "body.assessmentId", "body.studentId", "body.administrationDate"],
     "subEntities" : { "body.studentAssessmentItems?" : "studentAssessmentItem",
                       "body.studentObjectiveAssessments?" : "studentObjectiveAssessment"},
     "references" :

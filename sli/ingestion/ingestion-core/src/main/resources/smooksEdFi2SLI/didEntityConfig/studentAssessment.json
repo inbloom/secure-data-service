@@ -22,7 +22,7 @@
         },
         {
             "entityType" : "assessment",
-            "sourceRefPath": "body.AssessmentReference"
+            "sourceRefPath": "body.assessmentId"
         }
     ]
 }
