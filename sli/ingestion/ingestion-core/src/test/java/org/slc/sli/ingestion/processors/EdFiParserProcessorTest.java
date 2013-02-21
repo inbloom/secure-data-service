@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.xml.stream.Location;
-import javax.xml.stream.XMLEventReader;
 
 import junit.framework.Assert;
 
@@ -75,7 +74,7 @@ public class EdFiParserProcessorTest extends CamelTestSupport{
         processor.setProducer(producer);
         processor.setBatchJobDAO(batchJobDAO);
         processor.setBatchSize(2);
-        Mockito.doNothing().when(processor).parse(Mockito.any(XMLEventReader.class), Mockito.any(Resource.class));
+        Mockito.doNothing().when(processor).parse(Mockito.any(InputStream.class), Mockito.any(Resource.class));
     }
 
     @Test
@@ -85,7 +84,7 @@ public class EdFiParserProcessorTest extends CamelTestSupport{
         Exchange exchange = createFileEntryExchange();
         processor.process(exchange);
 
-        Mockito.verify(processor, Mockito.times(1)).parse(Mockito.any(XMLEventReader.class), Mockito.any(Resource.class));
+        Mockito.verify(processor, Mockito.times(1)).parse(Mockito.any(InputStream.class), Mockito.any(Resource.class));
     }
 
     @Test
