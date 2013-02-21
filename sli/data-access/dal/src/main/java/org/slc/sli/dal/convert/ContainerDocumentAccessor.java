@@ -16,6 +16,7 @@
 
 package org.slc.sli.dal.convert;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBObject;
 import org.slc.sli.common.domain.ContainerDocument;
@@ -68,15 +69,9 @@ public class ContainerDocumentAccessor {
     }
 
     private DBObject getContainerDocQuery(final Entity entity) {
-        final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
         final String parentKey = createParentKey(entity);
 
         final Query query = Query.query(Criteria.where("_id").is(parentKey));
-        final Map<String, Object> entityBody = entity.getBody();
-
-        for (final String key : containerDocument.getParentNaturalKeys()) {
-            query.addCriteria(Criteria.where("body." + key).is(entityBody.get(key)));
-        }
 
         return query.getQueryObject();
     }
@@ -98,9 +93,20 @@ public class ContainerDocumentAccessor {
         TenantContext.setIsSystemCall(false);
         final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
         final String fieldToPersist = containerDocument.getFieldToPersist();
+
+        DBObject entityDetails = new BasicDBObject();
+
+        entityDetails.put("metaData", entity.getMetaData());
+        final Map<String, Object> entityBody = entity.getBody();
+        for (final String key : containerDocument.getParentNaturalKeys()) {
+            entityDetails.put("body." + key, entityBody.get(key));
+        }
         final DBObject docToPersist = BasicDBObjectBuilder.start().push("$pushAll")
                 .add("body." + fieldToPersist, entity.getBody().get(fieldToPersist))
                 .get();
+        DBObject set = new BasicDBObject("$set", entityDetails);
+
+        docToPersist.putAll(set);
         boolean persisted = mongoTemplate.getCollection(entity.getType()).update(query,
                 docToPersist, true, false)
                 .getLastError().ok();
