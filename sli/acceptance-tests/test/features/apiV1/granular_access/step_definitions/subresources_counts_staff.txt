@@ -1,4 +1,4 @@
-/assessments/29f044bd-1449-4fb7-8e9a-5e2cf9ad252a/studentAssessments,,
+/assessments/c757f9f2dc788924ce0715334c7e86735c5e1327_id/studentAssessments,,
 /cohorts/9ac7ad37-80aa-42ab-9d63-e48cc70a7863_id/staffCohortAssociations,,
 /cohorts/9ac7ad37-80aa-42ab-9d63-e48cc70a7863_id/staffCohortAssociations/staff,,
 /cohorts/9ac7ad37-80aa-42ab-9d63-e48cc70a7863_id/studentCohortAssociations,,

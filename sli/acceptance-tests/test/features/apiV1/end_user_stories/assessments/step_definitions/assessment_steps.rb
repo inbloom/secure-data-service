@@ -76,7 +76,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   
   #assessments
   id = "67ce204b-9999-4a11-bfea-000000004682"       if human_readable_id == "'Math Assessment' ID"
-  id = "dd916592-7d7e-5d27-a87d-dfc7fcb757f6"       if human_readable_id == "'SAT' ID"
+  id = "2108c0c84ca6998eb157e1efd4d894746e1fdf8b_id"       if human_readable_id == "'SAT' ID"
   id = "87fb8da5-e1aa-a6d9-efc7-b0eb091cd695_id" if human_readable_id == "'Most Recent SAT Student Assessment Association' ID"
   id = "e5d13e61-01aa-066b-efe0-710f7a0e8755_id" if human_readable_id == "'Most Recent Math Student Assessment Association' ID"
   id = "dd9165f2-65fe-4e27-a8ac-bec5f4b757f6"       if human_readable_id == "'Grade 2 BOY DIBELS' ID"

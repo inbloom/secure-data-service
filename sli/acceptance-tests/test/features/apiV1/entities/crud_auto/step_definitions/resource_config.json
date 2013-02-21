@@ -390,7 +390,7 @@
       "sessionId": "d23ebfc4-5192-4e6c-a52b-81cee2319072",
       "courseOfferingId": "00291269-33e0-415e-a0a4-833f0ef38189",
       "assessmentReferences": [
-        "29f044bd-1449-4fb7-8e9a-5e2cf9ad252a"
+        "c757f9f2dc788924ce0715334c7e86735c5e1327_id"
       ]
     },
     "UPDATE": {
@@ -810,7 +810,7 @@
   "studentAssessment": {
     "POST": {
       "studentId": "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b_id",
-      "assessmentId": "dd916592-7d7e-5d27-a87d-dfc7fcb757f6",
+      "assessmentId": "2108c0c84ca6998eb157e1efd4d894746e1fdf8b_id",
       "administrationDate": "2011-10-01",
       "administrationEndDate": "2012-01-01",
       "retestIndicator": "1st Retest"

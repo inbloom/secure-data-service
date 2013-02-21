@@ -95,7 +95,7 @@ def get_id_for_resource resource
   "staffEducationOrgAssignmentAssociations"=>"05e3de47-9e41-c048-a572-3eb4c7ee9095",
   "disciplineIncidents"=>"0e26de79-222a-5e67-9201-5113ad50a03b",
   "studentGradebookEntries"=>"0f5e6f78-5434-f906-e51b-d63ef970ef8f",
-  "assessments"=>"29f044bd-1449-4fb7-8e9a-5e2cf9ad252a",
+  "assessments"=>"c757f9f2dc788924ce0715334c7e86735c5e1327_id",
   "studentCohortAssociations"=>"9ac7ad37-80aa-42ab-9d63-e48cc70a7863_iddd5e5b41-30fb-40e5-a968-afe7ae32fce3_id",
   "educationOrganizations"=>"0a922b8a-7a3b-4320-8b34-0f7749b8b062",
   "teacherSectionAssociations"=>"15ab6363-5509-470c-8b59-4f289c224107_id32b86a2a-e55c-4689-aedf-4b676f3da3fc_id",

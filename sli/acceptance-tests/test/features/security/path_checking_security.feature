@@ -17,7 +17,7 @@ Examples:
 	| "/gradingPeriods/@id/grades"           | "b40a7eb5-dd74-4666-a5b9-5c3f4425f130" | "/schools/@context/sections/studentSectionAssociations/grades?gradingPeriodId=@id"           |
     | "/sessions/@id/studentAcademicRecords" | "0410354d-dbcb-0214-250a-404401060c93" | "/schools/@context/studentSchoolAssociations/students/studentAcademicRecords?sessionId=@id" |
     | "/sessions/@id/sections"               | "0410354d-dbcb-0214-250a-404401060c93" | "/schools/@context/sections?sessionId=@id"                                                  |
-    | "/assessments/@id/studentAssessments"  | "29f044bd-1449-4fb7-8e9a-5e2cf9ad252a" | "/schools/@context/studentSchoolAssociations/students/studentAssessments?assessmentId=@id"  |
+    | "/assessments/@id/studentAssessments"  | "c757f9f2dc788924ce0715334c7e86735c5e1327_id" | "/schools/@context/studentSchoolAssociations/students/studentAssessments?assessmentId=@id"  |
     | "/courseOfferings/@id/sections"        | "01709b45-d323-4101-9918-34788dd77306" | "/schools/@context/sections?courseOfferingId=@id"                                           |
 
 
@@ -191,5 +191,5 @@ Examples:
   | "/gradingPeriods/@id/grades"           | "b40a7eb5-dd74-4666-a5b9-5c3f4425f130,ef72b883-90fa-40fa-afc2-4cb1ae17623b" |
   | "/sessions/@id/studentAcademicRecords" | "0410354d-dbcb-0214-250a-404401060c93,abcff7ae-1f01-46bc-8cc7-cf409819bbce" |
   | "/sessions/@id/sections"               | "0410354d-dbcb-0214-250a-404401060c93,abcff7ae-1f01-46bc-8cc7-cf409819bbce" |
-  | "/assessments/@id/studentAssessments"  | "29f044bd-1449-4fb7-8e9a-5e2cf9ad252a,7b2e6133-4224-4890-ac02-73962eb09645" |
+  | "/assessments/@id/studentAssessments"  | "c757f9f2dc788924ce0715334c7e86735c5e1327_id,7b2e6133-4224-4890-ac02-73962eb09645" |
   | "/courseOfferings/@id/sections"        | "01709b45-d323-4101-9918-34788dd77306,149fa66a-4a9c-4cca-a371-96fae55aaa8f" |

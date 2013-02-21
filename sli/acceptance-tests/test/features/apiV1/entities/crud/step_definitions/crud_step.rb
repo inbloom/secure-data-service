@@ -216,7 +216,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
     "sessionId" => "d23ebfc4-5192-4e6c-a52b-81cee2319072",
     "courseOfferingId" => "00291269-33e0-415e-a0a4-833f0ef38189",
-    "assessmentReferences" => ["29f044bd-1449-4fb7-8e9a-5e2cf9ad252a"]
+    "assessmentReferences" => ["c757f9f2dc788924ce0715334c7e86735c5e1327_id"]
   },
   "session" => {
     "sessionName" => "Spring 2012",
