@@ -1,5 +1,5 @@
-   <!-- __Comment__ -->
    <StudentAssessment> 
+   <!-- __Comment__ -->
       <AdministrationDate>__AdministrationDate__</AdministrationDate>
       <AdministrationEndDate>__AdministrationDate__</AdministrationEndDate>
       <SerialNumber>9</SerialNumber>
@@ -10,10 +10,7 @@
       <ScoreResults AssessmentReportingMethod="__AssessmentReportingMethod__">
           <Result>__Score__</Result>
       </ScoreResults> 
-      <ScoreResults AssessmentReportingMethod="Other">
-          <Result>__Color__</Result>
-      </ScoreResults> 
-      <GradeLevelWhenAssessed>Fifth grade</GradeLevelWhenAssessed>
+      <GradeLevelWhenAssessed>__GradeLevel__</GradeLevelWhenAssessed>
       <PerformanceLevels> 
            <CodeValue>__Level__</CodeValue>
       </PerformanceLevels> 
@@ -25,9 +22,9 @@
       <AssessmentReference> 
            <AssessmentIdentity> 
                 <AssessmentTitle>__AssessmentTitle__</AssessmentTitle>
-        <AcademicSubject>Reading</AcademicSubject>
-        <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
-        <Version>1</Version> 
+                <AcademicSubject>Reading</AcademicSubject>
+                <GradeLevelAssessed>__GradeLevel__</GradeLevelAssessed>
+                <Version>1</Version> 
            </AssessmentIdentity> 
       </AssessmentReference> 
    </StudentAssessment> 

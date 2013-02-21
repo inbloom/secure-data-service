@@ -14,6 +14,9 @@ import student_map
 # This has a mapping of assessment scores to color code
 import level_color_map
 
+# This has a mapping of school year, period, and reporting method to administration date
+import admindate_map
+
 #
 # Main driver
 #
@@ -52,32 +55,39 @@ def main(argv):
 
             # Extract relevent spreadsheet columns
             flds = line.strip().split(",")
+            school_year = flds[0]
             lname = flds[3]
             fname = flds[4]
             grade = flds[6]
             period = flds[7]
 
+            # Map school year to a short representation for use in title
+            if school_year == "2011-2012":
+                short_school_year = "11-12"
+            elif school_year == "2012-2013":
+                short_school_year = "12-13"
+            else:
+                raise Exception("Unsupported grade '" + grade + "'")
+
+            # Map grade to grade_level string representation
+            if grade == "4":
+                grade_level = "Fourth grade"
+                title_grade_level = "Fourth Grade"
+            elif grade == "5":
+                grade_level = "Fifth grade"
+                title_grade_level = "Fifth Grade"
+            else:
+                raise Exception("Unsupported grade '" + grade + "'")
+
             # Map student name to ID
             student_id = student_map.name2id[lname + "," + fname]
 
-            # Ignore student_id 500000000 Matthew Corker since he is hand crafted right now
-            # We could expand this script to handle him as well if we feel motivated
-            if student_id == 500000000:
-                continue
-
             # Map benchmark period to administration date
-            admin_date = None
-            if period == "BOY":
-                composite_admin_date = "2012-10-01"
-                admin_date = "2012-10-02"
-            elif period == "MOY":
-                composite_admin_date = "2012-02-01"
-                admin_date = "2013-02-02"
-            elif period == "EOY":
-                composite_admin_date = "2012-06-01"
-                admin_date = "2013-06-02"
-            else:
-                raise Exception("Bad period '" + period + "'")
+            try:
+                admin_date_map = admindate_map.schoolyear_period2admin_date_map[school_year][period]
+            except KeyError:
+                raise Exception("Unable to determine administration date based on School Year '" + school_year 
+                    + ", period '" + period + "'.")
 
             # Generate a <StudentAssessment> block for each of the repeating assessment/score column pairs
             pair_start = [ 8, 10, 12, 14, 16, 18, 20 ]
@@ -86,13 +96,22 @@ def main(argv):
                 level = flds[p]
                 color = level_color_map.level2color[level]
                 score = flds[p + 1]
-                title = short_name + " Fifth Grade 12-13 " + period
+                title = short_name + " " + title_grade_level + " " + short_school_year + " " + period
                 comment = fname + " " + lname + " (" + str(student_id) + ") / " + short_name + " / " + period
+
+                # Composite assessments should have a later administration date
                 if p == 8:
-                    reporting_method = "Composite Score"
+                    admin_date = admin_date_map["composite"]
+                else:
+                    admin_date = admin_date_map["standard"]
+
+                # TRC assessments should use Mastery level, DIBELS Scale score for reporting_method
+                if p == 20:
+                    reporting_method = "Mastery level"
                 else:
                     reporting_method = "Scale score"
-                    
+
+
                 # __AdministrationDate__     BOY = 2012-10-01   MOY 2013-02-01
                 # __AssessmentTitle__      "<assmt short name> <gradelevel> 12-13 <bench period>"
                 # __Score__
@@ -111,6 +130,7 @@ def main(argv):
                     [ "__Color__", color ],
                     [ "__StudentId__", student_id ],
                     [ "__Comment__", comment ],
+                    [ "__GradeLevel__", grade_level ],
                 ]
                 for subst_pair in subst_map:
                     xml = xml.replace(subst_pair[0], str(subst_pair[1]))
