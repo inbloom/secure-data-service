@@ -25,6 +25,7 @@ import org.slc.sli.domain.Entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Convert between the API and Mongo representations of attendance.
@@ -40,10 +41,10 @@ public class AttendanceTreatment implements Treatment {
     @SuppressWarnings("unchecked")
     public EntityBody toStored(EntityBody exposed, EntityDefinition defn) {
         if (defn.getType().equals(EntityNames.ATTENDANCE)) {
-            final List<EntityBody> schoolYearAttendances = (List<EntityBody>) exposed.get(SCHOOL_YEAR_ATTENDANCE);
+            final List<Map<String, Object>> schoolYearAttendances = (List<Map<String, Object>>) exposed.get(SCHOOL_YEAR_ATTENDANCE);
 
             //TODO: find out if we accept multiple schoolYearAttendances
-            EntityBody schoolYearAttendance = schoolYearAttendances.get(0);
+            EntityBody schoolYearAttendance = new EntityBody(schoolYearAttendances.get(0));
             final String schoolYear = (String) schoolYearAttendance.get(SCHOOL_YEAR);
             final List<EntityBody> attendanceEvents = (List<EntityBody>) schoolYearAttendance.get(ATTENDANCE_EVENT);
 
