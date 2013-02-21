@@ -58,12 +58,13 @@ public class ContainerDocumentAccessor {
         boolean result = true;
 
         for (Entity entity : entityList) {
-            result &= insert(entity);
+            result &= !insert(entity).isEmpty();
         }
+
         return result;
     }
 
-    public boolean insert(final Entity entity) {
+    public String insert(final Entity entity) {
         final DBObject query = getContainerDocQuery(entity);
         return insertContainerDoc(query, entity);
     }
@@ -94,7 +95,7 @@ public class ContainerDocumentAccessor {
         }
     }
 
-    protected boolean updateContainerDoc(final DBObject query,  Map<String, Object> newValues, String collectionName, String type) {
+    protected boolean updateContainerDoc(final DBObject query, Map<String, Object> newValues, String collectionName, String type) {
         TenantContext.setIsSystemCall(false);
         final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(type);
         final String fieldToPersist = containerDocument.getFieldToPersist();
@@ -109,10 +110,10 @@ public class ContainerDocumentAccessor {
         }
         DBObject set = new BasicDBObject("$set", entityDetails);
         DBObject docToPersist = null;
-        if(newValues.containsKey(containerDocument.getFieldToPersist()) ) {
-        docToPersist = BasicDBObjectBuilder.start().push("$pushAll")
-                .add("body." + fieldToPersist, newValues.get(fieldToPersist))
-                .get();
+        if (newValues.containsKey(containerDocument.getFieldToPersist())) {
+            docToPersist = BasicDBObjectBuilder.start().push("$pushAll")
+                    .add("body." + fieldToPersist, newValues.get(fieldToPersist))
+                    .get();
 
         } else {
             docToPersist = new BasicDBObject();
@@ -126,7 +127,7 @@ public class ContainerDocumentAccessor {
         return persisted;
     }
 
-    protected boolean insertContainerDoc(final DBObject query, final Entity entity) {
+    protected String insertContainerDoc(final DBObject query, final Entity entity) {
         TenantContext.setIsSystemCall(false);
         final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
         final String fieldToPersist = containerDocument.getFieldToPersist();
@@ -149,6 +150,10 @@ public class ContainerDocumentAccessor {
         boolean persisted = mongoTemplate.getCollection(entity.getType()).update(query,
                 docToPersist, true, false)
                 .getLastError().ok();
-        return persisted;
+        if (persisted) {
+            return (String) query.get("_id");
+        } else {
+            return "";
+        }
     }
 }
