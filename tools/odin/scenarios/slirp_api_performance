@@ -1,0 +1,52 @@
+# Overrides for base_scenario properties
+# creates ~2M records
+STUDENT_COUNT: 15000
+NUMBER_OF_YEARS: 1
+BEGIN_YEAR: 2012
+
+ENTITY_WHITELIST: [
+  "Assessment",
+  "AssessmentFamily",
+  "AssessmentItem",
+  "AttendanceEvent",
+  "CalendarDate",
+  "Cohort",
+  "CompetencyLevelDescriptor",
+  "Course",
+  "CourseOffering",
+  "CourseTranscript",
+  "DisciplineAction",
+  "DisciplineIncident",
+  "Grade",
+  "GradebookEntry",
+  "GradingPeriod",
+  "GraduationPlan",
+  "LearningObjective",
+  "LocalEducationAgency",
+  "Parent",
+  "Program",
+  "ReportCard",
+  "School",
+  "Section",
+  "Session",
+  "Staff",
+  "StaffCohortAssociation",
+  "StaffEducationOrgAssignmentAssociation",
+  "StaffProgramAssociation",
+  "StateEducationAgency",
+  "Student",
+  "StudentAcademicRecord",
+  "StudentAssessment",
+  "StudentAssessmentItem",
+  "StudentCohortAssociation",
+  "StudentCompetency",
+  "StudentDisciplineIncidentAssociation",
+  "StudentGradebookEntry",
+  "StudentParentAssociation",
+  "StudentProgramAssociation",
+  "StudentSchoolAssociation",
+  "StudentSectionAssociation",
+  "Teacher",
+  "TeacherSchoolAssociation",
+  "TeacherSectionAssociation"
+]

@@ -395,7 +395,6 @@ public class EntityServiceLayerTest {
         studentService.delete(id2);
         studentService.delete(id3);
         studentService.delete(id4);
-        schoolService.delete(schoolId);
     }
 
     @Test

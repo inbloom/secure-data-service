@@ -7,7 +7,7 @@
 	<!-- This file contains the simple types for the SLI database schema representation. -->
 
     <xs:simpleType name="environmentType">
-        <xs:annotation>
+        <xs:annotation>/
             <xs:documentation>Type of environment a user account could access
             </xs:documentation>
         </xs:annotation>
@@ -632,6 +632,7 @@
 			<xs:enumeration value="2017-2018" />
 			<xs:enumeration value="2018-2019" />
 			<xs:enumeration value="2019-2020" />
+			<xs:enumeration value="2020-2021" />
 			<xs:enumeration value="2021-2022" />
 			<xs:enumeration value="2022-2023" />
 			<xs:enumeration value="2023-2024" />
@@ -3254,6 +3255,8 @@
 			<xs:enumeration value="Basic" />
 			<xs:enumeration value="Below Basic" />
 			<xs:enumeration value="Well Below Basic" />
+			<xs:enumeration value="Pass" />
+			<xs:enumeration value="Fail" />
 		</xs:restriction>
 	</xs:simpleType>
 

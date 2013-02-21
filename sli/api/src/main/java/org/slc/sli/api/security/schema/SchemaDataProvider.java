@@ -31,6 +31,8 @@ public interface SchemaDataProvider {
     public Set<Right> getRequiredReadLevels(String entityType, String fieldPath);
 
     public Set<Right> getRequiredWriteLevels(String entityType, String fieldPath);
+    
+    public Set<Right> getAllFieldRights(String entityType, boolean getReadRights);
 
     public String getDataSphere(String entityType);
     
