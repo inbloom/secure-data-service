@@ -102,14 +102,24 @@ public class EntityTestHelper {
             if (exp instanceof String) {
                 assertTrue("Missing expected String value type for key: " + key, rec instanceof String);
                 assertEquals(exp, rec);
-            }
 
-            if (exp instanceof Map) {
+            } else if (exp instanceof Integer) {
+                assertTrue("Missing expected Integer value type for key: " + key, rec instanceof Integer);
+                assertEquals(exp, rec);
+
+            } else if (exp instanceof Double) {
+                assertTrue("Missing expected Double value type for key: " + key, rec instanceof Double);
+                assertEquals(exp, rec);
+
+            } else if (exp instanceof Boolean) {
+                assertTrue("Missing expected String value type for key: " + key, rec instanceof Boolean);
+                assertEquals(exp, rec);
+
+            } else if (exp instanceof Map) {
                 assertTrue("Missing expected Map value type for key: " + key, rec instanceof Map);
                 compare((Map<String, Object>) exp, (Map<String, Object>) rec);
-            }
 
-            if (exp instanceof List) {
+            } else if (exp instanceof List) {
                 assertTrue("Missing expected List value type for key: " + key, rec instanceof List);
                 @SuppressWarnings("rawtypes")
                 List ex = (List) exp;
@@ -130,6 +140,8 @@ public class EntityTestHelper {
                     }
                     compareMapList(ex, rc);
                 }
+            } else {
+                assertTrue("Expected a known and checked type: " + exp, false);
             }
         }
     }
