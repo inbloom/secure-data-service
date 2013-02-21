@@ -70,9 +70,8 @@ public class DidReferenceResolutionTest {
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("assessmentTitle", "Fraction Homework 123");
         naturalKeys.put("gradeLevelAssessed", "Fifth grade");
-        naturalKeys.put("academicSubject", "Math");
         naturalKeys.put("version", "1");
-//        naturalKeys.put("academicSubject", ""); // apparently, empty optional natural key field is default to empty string
+        naturalKeys.put("academicSubject", ""); // apparently, empty optional natural key field is default to empty string
 
         checkId(entity, "AssessmentReference", naturalKeys, "assessment");
     }
@@ -88,9 +87,8 @@ public class DidReferenceResolutionTest {
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("assessmentTitle", "Fraction Homework 123");
         naturalKeys.put("gradeLevelAssessed", "Fifth grade");
-        naturalKeys.put("academicSubject", "Math");
         naturalKeys.put("version", "1");
-//        naturalKeys.put("AcademicSubject", ""); // apparently, empty optional natural key field is default to empty string
+        naturalKeys.put("academicSubject", ""); // apparently, empty optional natural key field is default to empty string
 
         checkId(entity, "AssessmentReference", naturalKeys, "assessment");
     }
@@ -1058,7 +1056,7 @@ public class DidReferenceResolutionTest {
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("studentUniqueStateId", "100000000");
 
-        checkId(entity, "studentId", naturalKeys, "student");
+        checkId(entity, "StudentReference", naturalKeys, "student");
     }
 
     @Test
