@@ -78,11 +78,14 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
     private static final String SCHOOL = "school";
     private static final String SCHOOL_ID = "schoolId";
     private static final String SCHOOL_YEAR = "SchoolYear";
+    private static final String SLI_SCHOOL_YEAR = "schoolYear";
     private static final String STUDENT_ID = "studentId";
     private static final String SESSION = "session";
     private static final String SESSION_SHOOL_ID = "EducationOrganizationReference." + EDORG_ID + "." + VALUE;
     private static final String SESSION_BEGINDATE = "BeginDate." + VALUE;
     private static final String SESSION_ENDDATE = "EndDate." + VALUE;
+    private static final String SLI_SESSION_BEGINDATE = "beginDate";
+    private static final String SLI_SESSION_ENDDATE = "endDate";
     private static final String DATE = "date";
     private static final String EVENT = "event";
     private static final String REASON = "reason";
@@ -479,6 +482,9 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             NeutralRecord sessionRecord = session.getValue();
             Map<String, Object> sessionAttributes = sessionRecord.getAttributes();
             String schoolYear = (String) getProperty( sessionAttributes,SCHOOL_YEAR + "." + VALUE);
+            if (schoolYear==null) {
+                schoolYear = (String) getProperty( sessionAttributes,SLI_SCHOOL_YEAR);
+            }
             if (schoolYear != null) {
                 placeholders.put(schoolYear, new ArrayList<Map<String, Object>>());
             }
@@ -511,8 +517,21 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             NeutralRecord sessionRecord = session.getValue();
             Map<String, Object> sessionAttributes = sessionRecord.getAttributes();
             String schoolYear = (String) getProperty( sessionAttributes,SCHOOL_YEAR + "." + VALUE);
-            DateTime sessionBegin = DateTimeUtil.parseDateTime((String) getProperty(sessionAttributes,SESSION_BEGINDATE));
-            DateTime sessionEnd = DateTimeUtil.parseDateTime((String) getProperty(sessionAttributes, SESSION_ENDDATE));
+            if (schoolYear==null) {
+                schoolYear = (String) getProperty( sessionAttributes,SLI_SCHOOL_YEAR);
+            }
+            
+            String beginDate = (String) getProperty(sessionAttributes,SESSION_BEGINDATE);
+            if (beginDate==null) {
+                beginDate = (String) getProperty(sessionAttributes,SLI_SESSION_BEGINDATE);
+            }
+            DateTime sessionBegin = DateTimeUtil.parseDateTime(beginDate);
+            
+            String endDate = (String) getProperty(sessionAttributes,SESSION_ENDDATE);
+            if (endDate==null) {
+                endDate = (String) getProperty(sessionAttributes,SLI_SESSION_ENDDATE);
+            }
+            DateTime sessionEnd = DateTimeUtil.parseDateTime(endDate);
 
             List<Map<String, Object>> events = new ArrayList<Map<String, Object>>();
 
@@ -729,7 +748,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             sessions.add((String) record.getAttributes().get("SessionName._value"));
         }
         for (NeutralRecord record : second) {
-            String sKey = (String) record.getAttributes().get("SessionName._value");
+            String sKey = (String) record.getAttributes().get("sessionName");
             if (!sessions.contains(sKey)) {
                 sessions.add(sKey);
                 res.add(record);

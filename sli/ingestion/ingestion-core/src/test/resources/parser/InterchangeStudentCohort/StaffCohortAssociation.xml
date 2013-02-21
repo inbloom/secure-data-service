@@ -19,6 +19,6 @@
     </CohortReference>
     <BeginDate>2013-08-16</BeginDate>
     <EndDate>2014-05-10</EndDate>
-    <StudentRecordAccess>0</StudentRecordAccess>
+    <StudentRecordAccess>false</StudentRecordAccess>
   </StaffCohortAssociation>
 </InterchangeStudentCohort>

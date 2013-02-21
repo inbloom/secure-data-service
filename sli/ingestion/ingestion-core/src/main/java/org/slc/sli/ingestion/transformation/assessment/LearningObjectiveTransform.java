@@ -91,6 +91,14 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
             moveLearningStdRefsToParentIds(parentLO);
         }
 
+        // swap PARENT_LEARNING_OBJ_REF with expected LEARNING_OBJ_REFS
+        for (NeutralRecord nr : transformedLearningObjectives) {
+            if (nr.getAttributes().containsKey(PARENT_LEARNING_OBJ_REF)) {
+                nr.getAttributes().put(LEARNING_OBJ_REFS, nr.getAttributes().get(PARENT_LEARNING_OBJ_REF));
+                nr.getAttributes().remove(PARENT_LEARNING_OBJ_REF);
+            }
+        }
+
         insertTransformedLearningObjectives(transformedLearningObjectives);
     }
 
@@ -131,10 +139,16 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
 
         Map<String, Object> parentLearningObjRefs = new HashMap<String, Object>();
 
+        Map<String, Object> learningObjIdentityObjective = new HashMap<String, Object>();
+        Map<String, Object> learningObjIdentityAcademicSubject = new HashMap<String, Object>();
+        Map<String, Object> learningObjIdentityObjectiveGradeLevel = new HashMap<String, Object>();
+        learningObjIdentityObjective.put("_value", getByPath(OBJECTIVE, attributes));
+        learningObjIdentityAcademicSubject.put("_value", getByPath(ACADEMIC_SUBJECT, attributes));
+        learningObjIdentityObjectiveGradeLevel.put("_value", getByPath(OBJECTIVE_GRADE_LEVEL, attributes));
         Map<String, Object> learningObjIdentity = new HashMap<String, Object>();
-        learningObjIdentity.put("Objective", getByPath(OBJECTIVE, attributes));
-        learningObjIdentity.put("AcademicSubject", getByPath(ACADEMIC_SUBJECT, attributes));
-        learningObjIdentity.put("ObjectiveGradeLevel", getByPath(OBJECTIVE_GRADE_LEVEL, attributes));
+        learningObjIdentity.put("Objective", learningObjIdentityObjective);
+        learningObjIdentity.put("AcademicSubject", learningObjIdentityAcademicSubject);
+        learningObjIdentity.put("ObjectiveGradeLevel", learningObjIdentityObjectiveGradeLevel);
         parentLearningObjRefs.put("LearningObjectiveIdentity", learningObjIdentity);
 
         for (Map<String, Object> childLORef : childLearningObjRefs) {
@@ -151,10 +165,10 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
             } else {
                 // try sli db
                 NeutralQuery query = new NeutralQuery();
-                query.addCriteria(new NeutralCriteria("Objective", NeutralCriteria.OPERATOR_EQUAL, objective));
-                query.addCriteria(new NeutralCriteria("AcademicSubject", NeutralCriteria.OPERATOR_EQUAL,
+                query.addCriteria(new NeutralCriteria("objective", NeutralCriteria.OPERATOR_EQUAL, objective));
+                query.addCriteria(new NeutralCriteria("academicSubject", NeutralCriteria.OPERATOR_EQUAL,
                         academicSubject));
-                query.addCriteria(new NeutralCriteria("ObjectiveGradeLevel", NeutralCriteria.OPERATOR_EQUAL,
+                query.addCriteria(new NeutralCriteria("objectiveGradeLevel", NeutralCriteria.OPERATOR_EQUAL,
                         objectiveGradeLevel));
 
                 Entity childEntity = getMongoEntityRepository().findOne("learningObjective", query);
@@ -164,6 +178,7 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
                     childEntityNR.setAttributes(childEntity.getBody());
                     childEntityNR.setRecordType(childEntity.getType());
                     childEntityNR.setBatchJobId(parentLO.getBatchJobId());
+                    massageNeutralRecord(childEntityNR);
                     setParentObjectiveRef(childEntityNR, parentLearningObjRefs);
 
                     // add this entity to our NR working set
@@ -177,6 +192,7 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
 
         parentLO.getAttributes().remove(LEARNING_OBJ_REFS);
     }
+
 
     private void setParentObjectiveRef(NeutralRecord childLo, Map<String, Object> childLearningObjRefs) {
         if (childLo.getAttributes() == null) {
@@ -310,4 +326,50 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
             return true;
         }
     }
+
+    private void massageNeutralRecord(NeutralRecord r) {
+        if (r.getAttributes().containsKey("description")) {
+            Map<String, Object> m = new HashMap<String, Object>();
+            m.put("_value", r.getAttributes().get("description"));
+            r.getAttributes().put("Description", m);
+        }
+        if (r.getAttributes().containsKey("objectiveGradeLevel")) {
+            Map<String, Object> m = new HashMap<String, Object>();
+            m.put("_value", r.getAttributes().get("objectiveGradeLevel"));
+            r.getAttributes().put("ObjectiveGradeLevel", m);
+        }
+        if (r.getAttributes().containsKey("objective")) {
+            Map<String, Object> m = new HashMap<String, Object>();
+            m.put("_value", r.getAttributes().get("objective"));
+            r.getAttributes().put("Objective", m);
+        }
+        if (r.getAttributes().containsKey("academicSubject")) {
+            Map<String, Object> m = new HashMap<String, Object>();
+            m.put("_value", r.getAttributes().get("academicSubject"));
+            r.getAttributes().put("AcademicSubject", m);
+        }
+        if (r.getAttributes().containsKey("learningObjectiveId") &&
+                r.getAttributes().get("learningObjectiveId") instanceof Map) {
+            Map<String, Object> Loid = new HashMap<String, Object>();
+            Map<String, Object> loid = (Map<String, Object>) r.getAttributes().get("learningObjectiveId");
+
+            if (loid.containsKey("contentStandardName")) {
+                Loid.put("a_ContentStandardName", loid.get("contentStandardName"));
+            }
+            if (loid.containsKey("identificationCode")) {
+                Map<String, Object> Idc = new HashMap<String, Object>();
+                Idc.put("_value", loid.get("identificationCode"));
+                Loid.put("IdentificationCode", Idc);
+            }
+
+            r.getAttributes().put("LearningObjectiveId", Loid);
+        }
+        r.getAttributes().remove("description");
+        r.getAttributes().remove("objective");
+        r.getAttributes().remove("objectiveGradeLevel");
+        r.getAttributes().remove("academicSubject");
+        r.getAttributes().remove("learningObjectiveId");
+        r.getAttributes().remove("parentLearningObjective");
+    }
+
 }

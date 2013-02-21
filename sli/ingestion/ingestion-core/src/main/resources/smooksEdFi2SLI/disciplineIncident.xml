@@ -70,7 +70,7 @@
   </jb:bean>
 
   <jb:bean beanId="Weapons" class="java.util.ArrayList" createOnElement="attributes Weapons">
-    <jb:value data="Weapons element _value" />
+    <jb:value data="attributes Weapons Weapon element _value" />
   </jb:bean>
 
 </smooks-resource-list>

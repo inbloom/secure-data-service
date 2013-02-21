@@ -124,7 +124,6 @@
     </Grade>
     <!-- TODO - IDREF is not longer supported and ref attribute causes validation to fail -->
     <ReportCard>
-        <StudentCompetencyReference/>
         <GPAGivenGradingPeriod>1.1</GPAGivenGradingPeriod>
         <GPACumulative>2.7</GPACumulative>
         <StudentReference>

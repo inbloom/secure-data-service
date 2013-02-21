@@ -32,7 +32,7 @@
         <jb:value property="finalLetterGradeEarned" data="attributes FinalLetterGradeEarned _value"/>
         <jb:value property="finalNumericGradeEarned" data="attributes FinalNumericGradeEarned _value" decoder="Integer"/>
         <jb:value property="courseRepeatCode" data="attributes CourseRepeatCode _value"/>
-        <jb:value property="gradeType" data="attributes GradeType"/>
+        <jb:value property="gradeType" data="attributes GradeType _value"/>
         <jb:value property="courseId" data="attributes CourseReference"/>
 	    <jb:wiring property="educationOrganizationReference" beanIdRef="CourseTranscript_EdOrgReferenceArray"/>
         <jb:value property="studentAcademicRecordId" data="attributes StudentAcademicRecordReference"/>

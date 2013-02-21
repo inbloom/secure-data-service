@@ -16,7 +16,6 @@
 
 package org.slc.sli.ingestion.transformation.normalization.did;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -122,7 +121,7 @@ public class DeterministicIdResolver implements BatchJobStage {
         if (didRefConfig == null) {
             return;
         }
-        
+
         // handle case of references within embedded lists of objects (for assessments)
         // split source ref path and look for lists in embedded objects
         String strippedRefPath = sourceRefPath.replaceFirst(BODY_PATH, "");
@@ -211,26 +210,22 @@ public class DeterministicIdResolver implements BatchJobStage {
             } else {
                 throw new IdResolutionException("Null or empty deterministic id generated", refType, uuid);
             }
-        } else if (referenceObject instanceof String) { 
-            //Reference already resolved 
-            return (String) referenceObject;
+        } else if (referenceObject instanceof String) {
+            //Reference already resolved
+            return referenceObject;
         } else {
             throw new IdResolutionException("Unsupported reference object type", refType, null);
         }
     }
 
-    private Object getProperty(Object bean, String sourceRefPath) throws IdResolutionException {
+    private Object getProperty(Object bean, String sourceRefPath) {
         Object referenceObject;
         try {
             referenceObject = PropertyUtils.getProperty(bean, sourceRefPath);
-        } catch (IllegalArgumentException e) {
-            throw new IdResolutionException("Unable to pull reference object from entity", sourceRefPath, null, e);
-        } catch (IllegalAccessException e) {
-            throw new IdResolutionException("Unable to pull reference object from entity", sourceRefPath, null, e);
-        } catch (InvocationTargetException e) {
-            throw new IdResolutionException("Unable to pull reference object from entity", sourceRefPath, null, e);
-        } catch (NoSuchMethodException e) {
-            throw new IdResolutionException("Unable to pull reference object from entity", sourceRefPath, null, e);
+        } catch (Exception e) {
+            //It should not throw exception here, since the property can be optional.
+            LOG.debug("Unable to pull reference object from entity. Field: {} not defined", sourceRefPath);
+            referenceObject = null;
         }
 
         return referenceObject;

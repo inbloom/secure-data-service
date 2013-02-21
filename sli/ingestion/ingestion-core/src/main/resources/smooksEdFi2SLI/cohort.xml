@@ -34,7 +34,7 @@
     </jb:bean>
 
     <jb:bean beanId="cohort_programIdArray" class="java.util.ArrayList" createOnElement="attributes">
-      <jb:value data="attributes ProgramReference element _value" />
+      <jb:value data="attributes ProgramReference element" />
     </jb:bean>
 
 </smooks-resource-list>

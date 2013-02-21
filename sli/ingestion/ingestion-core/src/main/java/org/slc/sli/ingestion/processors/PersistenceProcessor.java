@@ -443,7 +443,7 @@ public class PersistenceProcessor implements Processor, BatchJobStage {
             }
 
             // detect cycles
-            if (idsInStack.contains(parentId)) {
+            if (parentId != null && idsInStack.contains(parentId)) {
                 LOG.error(
                         "cycle detected in "
                                 + collectionNameAsStaged

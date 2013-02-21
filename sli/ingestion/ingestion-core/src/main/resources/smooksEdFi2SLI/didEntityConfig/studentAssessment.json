@@ -18,7 +18,7 @@
         },
         {
             "entityType" : "student",
-            "sourceRefPath": "body.studentId"
+            "sourceRefPath": "body.StudentReference"
         },
         {
             "entityType" : "assessment",
