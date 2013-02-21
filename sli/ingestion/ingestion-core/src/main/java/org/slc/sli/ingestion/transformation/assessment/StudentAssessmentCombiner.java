@@ -286,7 +286,7 @@ public class StudentAssessmentCombiner extends AbstractTransformationStrategy {
 
                 if (assessmentItemIdentificatonCode != null) {
                     Map<String, String> assessmentSearchPath = new HashMap<String, String>();
-                    assessmentSearchPath.put("body.identificationCode", assessmentItemIdentificatonCode);
+                    assessmentSearchPath.put("body.IdentificationCode._value", assessmentItemIdentificatonCode);
 
                     Iterable<NeutralRecord> assessmentItems = getNeutralRecordMongoAccess().getRecordRepository()
                             .findByPathsForJob(ASSESSMENT_ITEM, assessmentSearchPath, getJob().getId());
