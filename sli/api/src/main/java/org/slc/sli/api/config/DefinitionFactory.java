@@ -60,6 +60,9 @@ public class DefinitionFactory {
     private MetaDataTreatment metaDataTreatment;
 
     @Autowired
+    private AttendanceTreatment attendanceTreatment;
+
+    @Autowired
     private ApplicationContext beanFactory;
 
     public EntityBuilder makeEntity(String type) {
@@ -121,6 +124,7 @@ public class DefinitionFactory {
             this.treatments.add(DefinitionFactory.this.idTreatment);
             this.treatments.add(DefinitionFactory.this.typeTreatment);
             this.treatments.add(DefinitionFactory.this.metaDataTreatment);
+            this.treatments.add(DefinitionFactory.this.attendanceTreatment);
             this.readRight = Right.READ_GENERAL;
             this.writeRight = Right.WRITE_GENERAL;
             this.supportsAggregates = false;
