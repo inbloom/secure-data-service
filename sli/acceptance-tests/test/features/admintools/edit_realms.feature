@@ -20,7 +20,7 @@ Scenario: Mega Multi Realm Test
 #Scenario: Realm Administrator deleting a existing realm
   When I click the "Edited Fake" delete button and confirm deletion
   Then I see the realms for "New York State Education System (NY-STATE-NYC)"
-  And the realm "Fake Realm" will not exist
+  And the realm "Edited Fake" will not exist
 #Scenario: Realm Administrator creating a new realm with none existing
  When I hit the realm editing URL
   And I should see that I am on the new realm page
