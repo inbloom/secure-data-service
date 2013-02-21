@@ -114,8 +114,9 @@ public class BasicService implements EntityService {
 
     @Override
     public long count(NeutralQuery neutralQuery) {
-    	checkAccess(true, false, null);
-        checkFieldAccess(neutralQuery, false);
+    	boolean isSelf = isSelf(neutralQuery);
+    	checkAccess(true, isSelf, null);
+        checkFieldAccess(neutralQuery, isSelf);
 
         return getRepo().count(collectionName, neutralQuery);
     }
@@ -144,11 +145,6 @@ public class BasicService implements EntityService {
 
     @Override
     public String create(EntityBody content) {
-
-        // if service does not allow anonymous write access, check user rights
-//        if (writeRight != Right.ANONYMOUS_ACCESS) {
-//            checkAllRights(determineWriteAccess(content, ""), true, false);
-//        }
     	checkAccess(false, false, content);
 
         checkReferences(content);
@@ -233,10 +229,6 @@ public class BasicService implements EntityService {
     @Override
     public boolean update(String id, EntityBody content) {
         debug("Updating {} in {} with {}", id, collectionName, SecurityUtil.getSLIPrincipal());
-
-//        if (writeRight != Right.ANONYMOUS_ACCESS) {
-//            checkAccess(determineWriteAccess(content, ""), id);
-//        }
         checkAccess(false, id, content);
 
         NeutralQuery query = new NeutralQuery();
@@ -268,10 +260,6 @@ public class BasicService implements EntityService {
     @Override
     public boolean patch(String id, EntityBody content) {
         debug("Patching {} in {}", id, collectionName);
-
-//        if (writeRight != Right.ANONYMOUS_ACCESS) {
-//            checkAccess(determineWriteAccess(content, ""), id);
-//        }
         checkAccess(false, id, content);
         
         NeutralQuery query = new NeutralQuery();
@@ -578,10 +566,7 @@ public class BasicService implements EntityService {
             toReturn = treatment.toExposed(toReturn, defn, entity);
         }
 
-//        if (readRight != Right.ANONYMOUS_ACCESS) {
-            // Blank out fields inaccessible to the user
             filterFields(toReturn);
-//        }
 
         return toReturn;
     }
@@ -673,7 +658,7 @@ public class BasicService implements EntityService {
     		NeutralCriteria criteria = allTheCriteria.get(0);
     		try {
     			List<String> value = (List<String>) criteria.getValue();
-    			if (criteria.getKey().equals("_id") && criteria.getOperator().equals(NeutralCriteria.CRITERIA_IN) && value.size() == 1) {
+    			if (criteria.getOperator().equals(NeutralCriteria.CRITERIA_IN) && value.size() == 1) {
     				isSelf = isSelf(value.get(0));
     			}
     		} catch(ClassCastException e) {
@@ -691,12 +676,16 @@ public class BasicService implements EntityService {
     		return true;
     	} else if (EntityNames.STAFF_ED_ORG_ASSOCIATION.equals(type)) {
     		Entity entity = repo.findById(defn.getStoredCollectionName(), entityId);
-    		Map<String, Object> body = entity.getBody();
-    		return selfId.equals(body.get(ParameterConstants.STAFF_REFERENCE));
+    		if (entity != null) {
+    			Map<String, Object> body = entity.getBody();
+    			return selfId.equals(body.get(ParameterConstants.STAFF_REFERENCE));
+    		}
     	} else if (EntityNames.TEACHER_SCHOOL_ASSOCIATION.equals(type)) {
     		Entity entity = repo.findById(defn.getStoredCollectionName(), entityId);
-    		Map<String, Object> body = entity.getBody();
-    		return selfId.equals(body.get(ParameterConstants.TEACHER_ID));
+    		if (entity != null) {
+    			Map<String, Object> body = entity.getBody();
+    			return selfId.equals(body.get(ParameterConstants.TEACHER_ID));
+    		}
     	}
     	return false;
     }
