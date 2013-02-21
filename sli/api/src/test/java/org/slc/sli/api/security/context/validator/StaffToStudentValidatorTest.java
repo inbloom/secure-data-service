@@ -82,7 +82,7 @@ public class StaffToStudentValidatorTest {
     private Set<String> studentIds;
 
     private GenericToProgramValidator mockProgramValidator;
-    private StaffToCohortValidator mockCohortValidator;
+    private GenericToCohortValidator mockCohortValidator;
 
     @Before
     public void setUp() {
@@ -98,7 +98,7 @@ public class StaffToStudentValidatorTest {
 
         studentIds = new HashSet<String>();
         mockProgramValidator = Mockito.mock(GenericToProgramValidator.class);
-        mockCohortValidator = Mockito.mock(StaffToCohortValidator.class);
+        mockCohortValidator = Mockito.mock(GenericToCohortValidator.class);
         validator.setProgramValidator(mockProgramValidator);
         validator.setCohortValidator(mockCohortValidator);
     }
@@ -228,9 +228,7 @@ public class StaffToStudentValidatorTest {
 
     @Test
     public void testCanGetAccessThroughCohort() {
-        Mockito.when(
-                mockCohortValidator.validateWithStudentAccess(Mockito.eq(EntityNames.COHORT), Mockito.anySet(),
-                        Mockito.eq(true))).thenReturn(true);
+        Mockito.when(mockCohortValidator.validate(Mockito.eq(EntityNames.COHORT), Mockito.anySet())).thenReturn(true);
         helper.generateStaffEdorg(STAFF_ID, "DERP", NOT_EXPIRED);
         for (int j = -1; j > -31; --j) {
             String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j), ED_ORG_ID,
@@ -244,9 +242,7 @@ public class StaffToStudentValidatorTest {
 
     @Test
     public void testCanNotGetAccessThroughExpiredCohort() {
-        Mockito.when(
-                mockCohortValidator.validateWithStudentAccess(Mockito.eq(EntityNames.COHORT), Mockito.anySet(),
-                        Mockito.eq(true))).thenReturn(false);
+        Mockito.when(mockCohortValidator.validate(Mockito.eq(EntityNames.COHORT), Mockito.anySet())).thenReturn(false);
         helper.generateStaffEdorg(STAFF_ID, "DERP", NOT_EXPIRED);
         for (int j = -1; j > -31; --j) {
             String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j), ED_ORG_ID,
@@ -289,8 +285,7 @@ public class StaffToStudentValidatorTest {
     @Test
     public void testCanNotGetAccessThroughInvalidCohort() {
         Mockito.when(
-                mockCohortValidator.validateWithStudentAccess(Mockito.eq(EntityNames.COHORT), Mockito.anySet(),
-                        Mockito.eq(true))).thenReturn(false);
+                mockCohortValidator.validate(Mockito.eq(EntityNames.COHORT), Mockito.anySet())).thenReturn(false);
         helper.generateStaffEdorg(STAFF_ID, "DERP", NOT_EXPIRED);
         for (int j = -1; j > -31; --j) {
             String studentId = helper.generateStudentAndStudentSchoolAssociation(String.valueOf(j), ED_ORG_ID,

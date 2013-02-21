@@ -64,6 +64,7 @@ public class GenericToGlobalProgramWriteValidator extends
 		nq = new NeutralQuery(new NeutralCriteria(ParameterConstants.STAFF_ID,
 				NeutralCriteria.OPERATOR_EQUAL, SecurityUtil.getSLIPrincipal()
 						.getEntity().getEntityId()));
+		addEndDateToQuery(nq, false);
 		Iterable<Entity> assocs = getRepo().findAll(
 				EntityNames.STAFF_PROGRAM_ASSOCIATION, nq);
 

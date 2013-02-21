@@ -44,7 +44,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
     private GenericToProgramValidator programValidator;
 
     @Autowired
-    private StaffToCohortValidator cohortValidator;
+    private GenericToCohortValidator cohortValidator;
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
@@ -83,7 +83,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
                 Set<String> studentsEdOrgs = getStudentsEdOrgs(entity);
                 if (!(isIntersection(staffsEdOrgIds, studentsEdOrgs) ||
                       programValidator.validate(EntityNames.PROGRAM, getValidPrograms(entity)) ||
-                      cohortValidator.validateWithStudentAccess(EntityNames.COHORT, getValidCohorts(entity), true))) {
+                      cohortValidator.validate(EntityNames.COHORT, getValidCohorts(entity)))) {
                     isValid = false;
                     break;
                 }
@@ -180,7 +180,7 @@ public class StaffToStudentValidator extends AbstractContextValidator {
      * @param cohortValidator
      *            the cohortValidator to set
      */
-    public void setCohortValidator(StaffToCohortValidator cohortValidator) {
+    public void setCohortValidator(GenericToCohortValidator cohortValidator) {
         this.cohortValidator = cohortValidator;
     }
 

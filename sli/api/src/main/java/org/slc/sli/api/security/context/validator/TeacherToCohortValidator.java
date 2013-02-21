@@ -38,7 +38,7 @@ public class TeacherToCohortValidator extends AbstractContextValidator {
 
 	@Override
 	public boolean canValidate(String entityType, boolean isTransitive) {
-		return EntityNames.COHORT.equals(entityType) && isTeacher();
+		return isTransitive && EntityNames.COHORT.equals(entityType) && isTeacher();
 	}
 
 	@Override

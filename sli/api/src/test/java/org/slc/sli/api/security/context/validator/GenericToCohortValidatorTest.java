@@ -10,54 +10,58 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.annotation.Resource;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.resources.SecurityContextInjector;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
 import org.slc.sli.domain.Entity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.TestExecutionListeners;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
+import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
+
 
 /**
- * 
- * @author dkornishev
- * 
+ * Unit tests for staff/teacher --> cohort context validator.
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
-public class TeacherToCohortValidatorTest {
+@TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class,
+        DirtiesContextTestExecutionListener.class })
+public class GenericToCohortValidatorTest {
 
 	private static final String USER_ID = "Master of Magic";
+	
+    @Autowired
+    private SecurityContextInjector injector;
+    
+    @Autowired
+	private GenericToCohortValidator validator;
 
-	@Resource
-	private TeacherToCohortValidator val;
-
-	@Resource
-	private ValidatorTestHelper vth;
-
-	@Resource
-	private SecurityContextInjector injector;
-
-	@Before
+	@Autowired
+	private ValidatorTestHelper helper;
+	
+    @Before
 	public void init() {
 		injector.setEducatorContext(USER_ID);
 	}
 
-	@Test
+    @Test
     public void testCanValidate() {
-        assertFalse(val.canValidate(EntityNames.COHORT, false));
-        assertTrue(val.canValidate(EntityNames.COHORT, true));
-        assertFalse(val.canValidate(EntityNames.SECTION, true));
-        assertFalse(val.canValidate(EntityNames.SECTION, false));
+    	assertTrue(validator.canValidate(EntityNames.COHORT, false));
+        assertFalse(validator.canValidate(EntityNames.COHORT, true));
+        assertFalse(validator.canValidate(EntityNames.COMPETENCY_LEVEL_DESCRIPTOR, false));
+        assertFalse(validator.canValidate(EntityNames.STAFF_COHORT_ASSOCIATION, true));
     }
-
+    
 	@Test(expected = IllegalArgumentException.class)
 	public void testValidateWrongType() {
-		val.validate(EntityNames.ASSESSMENT, new HashSet<String>(Arrays.asList("Jomolungma")));
+		validator.validate(EntityNames.ASSESSMENT, new HashSet<String>(Arrays.asList("Jomolungma")));
 	}
 
 	@Test
@@ -69,7 +73,7 @@ public class TeacherToCohortValidatorTest {
 			cohortIds.add(this.generateCohortAndAssociate(USER_ID, desc));
 		}
 
-		Assert.assertTrue(val.validate(EntityNames.COHORT, cohortIds));
+		Assert.assertTrue(validator.validate(EntityNames.COHORT, cohortIds));
 	}
 
 	@Test
@@ -81,10 +85,10 @@ public class TeacherToCohortValidatorTest {
 			cohortIds.add(this.generateCohort(USER_ID, desc));
 		}
 
-		Assert.assertFalse(val.validate(EntityNames.COHORT, cohortIds));
+		Assert.assertFalse(validator.validate(EntityNames.COHORT, cohortIds));
 
 		for (String id : cohortIds) {
-			Assert.assertFalse(val.validate(EntityNames.COHORT, Collections.singleton(id)));
+			Assert.assertFalse(validator.validate(EntityNames.COHORT, Collections.singleton(id)));
 		}
 
 	}
@@ -106,14 +110,14 @@ public class TeacherToCohortValidatorTest {
 			}
 		}
 
-		Assert.assertFalse(val.validate(EntityNames.COHORT, cohortIds));
+		Assert.assertFalse(validator.validate(EntityNames.COHORT, cohortIds));
 
 		for (String id : cohortIds) {
 			if(successes.contains(id)) {
-				Assert.assertTrue(val.validate(EntityNames.COHORT, Collections.singleton(id)));
+				Assert.assertTrue(validator.validate(EntityNames.COHORT, Collections.singleton(id)));
 			}
 			else {
-				Assert.assertFalse(val.validate(EntityNames.COHORT, Collections.singleton(id)));
+				Assert.assertFalse(validator.validate(EntityNames.COHORT, Collections.singleton(id)));
 			}
 		}
 	}
@@ -122,16 +126,28 @@ public class TeacherToCohortValidatorTest {
 
 	private String generateCohortAndAssociate(String teacherId, String desc) {
 		String id = this.generateCohort(teacherId, desc);
-		this.vth.generateStaffCohort(teacherId, id, false, false);
+		this.helper.generateStaffCohort(teacherId, id, false, true);
 
 		return id;
 	}
 
 	private String generateCohort(String teacherId, String desc) {
-		Entity generated = vth.generateCohort("V2");
+		Entity generated = helper.generateCohort("V2");
 		generated.getBody().put("cohortDescription", desc);
 
 		return generated.getEntityId();
 	}
+	
+    @Test
+    public void testCanNotValidateStudentRecordFlag() {
+    	Set<String> cohortIds = new HashSet<String>();
+        Entity lea = helper.generateEdorgWithParent(null);
+        Entity school = helper.generateEdorgWithParent(lea.getEntityId());
+        helper.generateStaffEdorg(helper.STAFF_ID, school.getEntityId(), false);
+        Entity cohort = helper.generateCohort(lea.getEntityId());
+        cohortIds.add(cohort.getEntityId());
+        helper.generateStaffCohort(helper.STAFF_ID, cohort.getEntityId(), false, false);
+        assertFalse(validator.validate(EntityNames.COHORT, cohortIds));
+    }
 
 }
