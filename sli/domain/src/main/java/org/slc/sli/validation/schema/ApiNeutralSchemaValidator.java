@@ -166,9 +166,6 @@ public class ApiNeutralSchemaValidator extends NeutralSchemaValidator {
      * @param naturalKeyFields
      */
     private void validateNaturalKeyDoesNotConflictWithExistingDocument(Entity entity, String collectionName, Map<String, Boolean> naturalKeyFields) {
-        if (collectionName.equals(EntityNames.ATTENDANCE)) {  //DE2302 this should be removed once Attendances have distinct natural keys
-            return;
-        }
         NeutralQuery neutralQuery = new NeutralQuery();
         for (Entry<String, Boolean> keyField : naturalKeyFields.entrySet()) {
             neutralQuery.addCriteria(new NeutralCriteria(keyField.getKey(), NeutralCriteria.OPERATOR_EQUAL,
