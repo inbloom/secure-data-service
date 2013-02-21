@@ -89,6 +89,12 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
             flipLearningObjectiveRelDirection(parentLO, learningObjectiveIdMap, transformedLearningObjectives);
 
             moveLearningStdRefsToParentIds(parentLO);
+
+            // swap PARENT_LEARNING_OBJ_REF with expected LEARNING_OBJ_REFS
+            if (parentLO.getAttributes().containsKey(PARENT_LEARNING_OBJ_REF)) {
+                parentLO.getAttributes().put(LEARNING_OBJ_REFS, parentLO.getAttributes().get(PARENT_LEARNING_OBJ_REF));
+                parentLO.getAttributes().remove(PARENT_LEARNING_OBJ_REF);
+            }
         }
 
         insertTransformedLearningObjectives(transformedLearningObjectives);
@@ -131,10 +137,16 @@ public class LearningObjectiveTransform extends AbstractTransformationStrategy {
 
         Map<String, Object> parentLearningObjRefs = new HashMap<String, Object>();
 
+        Map<String, Object> learningObjIdentityObjective = new HashMap<String, Object>();
+        Map<String, Object> learningObjIdentityAcademicSubject = new HashMap<String, Object>();
+        Map<String, Object> learningObjIdentityObjectiveGradeLevel = new HashMap<String, Object>();
+        learningObjIdentityObjective.put("_value", getByPath(OBJECTIVE, attributes));
+        learningObjIdentityAcademicSubject.put("_value", getByPath(ACADEMIC_SUBJECT, attributes));
+        learningObjIdentityObjectiveGradeLevel.put("_value", getByPath(OBJECTIVE_GRADE_LEVEL, attributes));
         Map<String, Object> learningObjIdentity = new HashMap<String, Object>();
-        learningObjIdentity.put("Objective", getByPath(OBJECTIVE, attributes));
-        learningObjIdentity.put("AcademicSubject", getByPath(ACADEMIC_SUBJECT, attributes));
-        learningObjIdentity.put("ObjectiveGradeLevel", getByPath(OBJECTIVE_GRADE_LEVEL, attributes));
+        learningObjIdentity.put("Objective", learningObjIdentityObjective);
+        learningObjIdentity.put("AcademicSubject", learningObjIdentityAcademicSubject);
+        learningObjIdentity.put("ObjectiveGradeLevel", learningObjIdentityObjectiveGradeLevel);
         parentLearningObjRefs.put("LearningObjectiveIdentity", learningObjIdentity);
 
         for (Map<String, Object> childLORef : childLearningObjRefs) {
