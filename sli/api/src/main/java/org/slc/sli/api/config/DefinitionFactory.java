@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slc.sli.api.constants.EntityNames;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationContext;
@@ -124,7 +125,9 @@ public class DefinitionFactory {
             this.treatments.add(DefinitionFactory.this.idTreatment);
             this.treatments.add(DefinitionFactory.this.typeTreatment);
             this.treatments.add(DefinitionFactory.this.metaDataTreatment);
-            this.treatments.add(DefinitionFactory.this.attendanceTreatment);
+            if (type.equals(EntityNames.ATTENDANCE)) {
+                this.treatments.add(DefinitionFactory.this.attendanceTreatment);
+            }
             this.readRight = Right.READ_GENERAL;
             this.writeRight = Right.WRITE_GENERAL;
             this.supportsAggregates = false;
