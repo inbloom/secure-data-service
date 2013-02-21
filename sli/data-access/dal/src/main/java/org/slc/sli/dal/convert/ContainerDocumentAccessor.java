@@ -70,15 +70,12 @@ public class ContainerDocumentAccessor {
     private DBObject getContainerDocQuery(final Entity entity) {
         final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
         final String parentKey = createParentKey(entity);
-        //remove parent keys
 
         final Query query = Query.query(Criteria.where("_id").is(parentKey));
         final Map<String, Object> entityBody = entity.getBody();
 
-        for (Map.Entry<String, Object> value : entityBody.entrySet()) {
-            if (!containerDocument.getFieldToPersist().equals(value.getKey())) {
-                query.addCriteria(new Criteria("body." + value.getKey()).is(value.getValue()));
-            }
+        for (final String key : containerDocument.getParentNaturalKeys()) {
+            query.addCriteria(Criteria.where("body." + key).is(entityBody.get(key)));
         }
 
         return query.getQueryObject();
