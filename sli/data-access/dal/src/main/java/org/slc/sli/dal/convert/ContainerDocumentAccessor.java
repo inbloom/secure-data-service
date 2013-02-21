@@ -68,6 +68,11 @@ public class ContainerDocumentAccessor {
         return insertContainerDoc(query, entity);
     }
 
+    public boolean update(final String type, final String id, Map<String, Object> newValues, String collectionName) {
+        final Query query = Query.query(Criteria.where("_id").is(id));
+        return updateContainerDoc(query.getQueryObject(), newValues, collectionName, type);
+    }
+
     private DBObject getContainerDocQuery(final Entity entity) {
         final String parentKey = createParentKey(entity);
 
@@ -89,6 +94,38 @@ public class ContainerDocumentAccessor {
         }
     }
 
+    protected boolean updateContainerDoc(final DBObject query,  Map<String, Object> newValues, String collectionName, String type) {
+        TenantContext.setIsSystemCall(false);
+        final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(type);
+        final String fieldToPersist = containerDocument.getFieldToPersist();
+
+        DBObject entityDetails = new BasicDBObject();
+
+
+        for (Map.Entry<String, Object> newValue : newValues.entrySet()) {
+            if (newValue.getKey().equals(containerDocument.getFieldToPersist())) {
+                entityDetails.put("body." + newValue.getKey(), newValue.getValue());
+            }
+        }
+        DBObject set = new BasicDBObject("$set", entityDetails);
+        DBObject docToPersist = null;
+        if(newValues.containsKey(containerDocument.getFieldToPersist()) ) {
+        docToPersist = BasicDBObjectBuilder.start().push("$pushAll")
+                .add("body." + fieldToPersist, newValues.get(fieldToPersist))
+                .get();
+
+        } else {
+            docToPersist = new BasicDBObject();
+        }
+
+        docToPersist.putAll(set);
+
+        boolean persisted = mongoTemplate.getCollection(collectionName).update(query,
+                docToPersist, true, false)
+                .getLastError().ok();
+        return persisted;
+    }
+
     protected boolean insertContainerDoc(final DBObject query, final Entity entity) {
         TenantContext.setIsSystemCall(false);
         final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
@@ -96,7 +133,9 @@ public class ContainerDocumentAccessor {
 
         DBObject entityDetails = new BasicDBObject();
 
-        entityDetails.put("metaData", entity.getMetaData());
+        if (entity.getMetaData() != null || !entity.getMetaData().isEmpty()) {
+            entityDetails.put("metaData", entity.getMetaData());
+        }
         final Map<String, Object> entityBody = entity.getBody();
         for (final String key : containerDocument.getParentNaturalKeys()) {
             entityDetails.put("body." + key, entityBody.get(key));

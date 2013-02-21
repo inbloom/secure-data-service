@@ -226,6 +226,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             denormalizer.denormalization(collectionName).doUpdate(updateEntity, update);
         }
 
+        if (containerDocumentAccessor.isContainerDocument(type)) {
+            result = containerDocumentAccessor.update(type, id, newValues, collectionName);
+        }
+
         return result;
     }
 
