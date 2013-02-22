@@ -39,7 +39,7 @@ public class StaffToProgramValidator extends AbstractContextValidator {
 
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return EntityNames.PROGRAM.equals(entityType) && isStaff();
+        return EntityNames.PROGRAM.equals(entityType) && isStaff() && isTransitive;
     }
 
     @Override

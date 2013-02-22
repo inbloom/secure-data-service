@@ -94,7 +94,7 @@ public class StaffToCohortValidatorTest {
     
     @Test
     public void testCanValidate() {
-        assertTrue(validator.canValidate(EntityNames.COHORT, false));
+        assertFalse(validator.canValidate(EntityNames.COHORT, false));
         assertTrue(validator.canValidate(EntityNames.COHORT, true));
         assertFalse(validator.canValidate(EntityNames.SECTION, true));
         assertFalse(validator.canValidate(EntityNames.SECTION, false));
@@ -188,20 +188,6 @@ public class StaffToCohortValidatorTest {
         assertTrue(validator.validate(EntityNames.COHORT, cohortIds));
 
         
-    }
-    
-    @Test
-    public void testCanNotValidateStudentRecordFlag() {
-        Entity lea = helper.generateEdorgWithParent(null);
-        Entity school = helper.generateEdorgWithParent(lea.getEntityId());
-        helper.generateStaffEdorg(helper.STAFF_ID, school.getEntityId(), false);
-        Entity cohort = helper.generateCohort(lea.getEntityId());
-        cohortIds.add(cohort.getEntityId());
-        helper.generateStaffCohort(helper.STAFF_ID, cohort.getEntityId(), false, false);
-        assertFalse(validator.validateWithStudentAccess(null, cohortIds, true));
-        assertTrue(validator.validateWithStudentAccess(null, cohortIds, false));
-        
-
     }
 
 }
