@@ -77,6 +77,7 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
         Source source = new FileSource(args.workNote.getFileEntry().getResourceId());
 
         InputStream input = null;
+        boolean validData = true;
         try {
             input = args.workNote.getFileEntry().getFileStream();
             Resource xsdSchema = xsdSelector.provideXsdResource(args.workNote.getFileEntry());
@@ -89,10 +90,13 @@ public class EdFiParserProcessor extends IngestionProcessor<FileEntryWorkNote, I
             getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0064);
         } catch (XmlParseException e) {
             getMessageReport().error(args.reportStats, source, CoreMessageCode.CORE_0065);
+            validData = false;
         } finally {
             IOUtils.closeQuietly(input);
 
-            sendDataBatch();
+            if (validData) {
+                sendDataBatch();
+            }
 
             cleanUpState();
 

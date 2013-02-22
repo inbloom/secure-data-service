@@ -9078,7 +9078,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 				<xs:simpleType>
-					<xs:restriction base='xs:int'>
+					<xs:restriction base='xs:double'>
 						<xs:minInclusive value='0' />
 					</xs:restriction>
 				</xs:simpleType>
@@ -9094,7 +9094,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 				<xs:simpleType>
-					<xs:restriction base='xs:int'>
+					<xs:restriction base='xs:double'>
 						<xs:minInclusive value='0' />
 					</xs:restriction>
 				</xs:simpleType>

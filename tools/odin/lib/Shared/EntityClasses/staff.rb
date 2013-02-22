@@ -168,8 +168,7 @@ class Staff < BaseEntity
           "Grade Level NA",
           "Junior High (Grade Level 6-8)",
           "Secondary (Grade Level 6-12)",
-          "Secondary (Grade Level 8-12)",
-          "Other"]),
+          "Secondary (Grade Level 8-12)"]),
         :teachingCredentialType => choose([
           "Emergency",
           "Emergency Certified",

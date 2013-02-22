@@ -22,3 +22,5 @@ let diff2=( `date +%s -d $end_date`-`date +%s -d $start_date` )
 echo "$dataset - Day N run took $diff2 seconds, starting at $start_date and finishing on $end_date GMT with status $status"
 echo "$dataset - Day N run took $diff2 seconds, starting at $start_date and finishing on $end_date GMT with status $status" >> megtomcat01_logs/auto_perf_results.log
 mongodump --db ingestion_batch_job -o "megtomcat01_logs/mongodumps/$end_date"
+mongodump --db sli -o "megtomcat01_logs/mongodumps/$end_date"
+mongodump --db 02f7abaa9764db2fa3c1ad852247cd4ff06b2c0a -o "megtomcat01_logs/mongodumps/$end_date"
