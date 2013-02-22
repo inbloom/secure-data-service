@@ -26,12 +26,14 @@ import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import com.mongodb.DB;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -46,6 +48,9 @@ import org.slc.sli.aspect.LoggerCarrierAspect;
 import org.slc.sli.common.util.logging.LogLevelType;
 import org.slc.sli.common.util.logging.LoggerCarrier;
 import org.slc.sli.common.util.logging.SecurityEvent;
+import org.slc.sli.dal.repository.MongoRepository;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.Repository;
 
 /**
  * Unit tests for the LoggerCarrierAspect.
@@ -55,27 +60,30 @@ import org.slc.sli.common.util.logging.SecurityEvent;
 @ContextConfiguration(locations = { "/spring/BatchJob-Mongo.xml" })
 public class LoggerCarrierAspectTest {
 
-	 private MongoTemplate mockedMongoTemplate;
+	private MongoRepository<Entity> mockedEntityRepository;
 
 	 @Test
 	 public void test() {
-		 mockedMongoTemplate = mock(MongoTemplate.class);
+		 mockedEntityRepository = mock(MongoRepository.class);
 		 DBCollection mockedCollection = Mockito.mock(DBCollection.class);
 		 DB mockedDB = Mockito.mock(DB.class);
 		 SecurityEvent event = createSecurityEvent();
-		 LoggerCarrierAspect.aspectOf().setTemplate(mockedMongoTemplate);
+		 LoggerCarrierAspect.aspectOf().setEntityRepository(mockedEntityRepository);
 		 LoggerCarrierAspect.aspectOf().setCapSize(new String("100"));
-
+		 
+		 MongoTemplate mockedMongoTemplate = mock(MongoTemplate.class);
+		 when(mockedEntityRepository.getTemplate()).thenReturn(mockedMongoTemplate);
+		 
 		 when(mockedMongoTemplate.collectionExists("securityEvent")).thenReturn(false);
 		 audit(event);
 		 Mockito.verify(mockedMongoTemplate, times(1)).createCollection(any(String.class), any(CollectionOptions.class));
-		 Mockito.verify(mockedMongoTemplate, times(1)).save(any(SecurityEvent.class));
+		 Mockito.verify(mockedEntityRepository, times(1)).create(any(String.class), any(Map.class), any(Map.class), any(String.class));
 
 		 when(mockedMongoTemplate.collectionExists("securityEvent")).thenReturn(true);
 		 when(mockedMongoTemplate.getCollection("securityEvent")).thenReturn(mockedCollection);
 		 when(mockedCollection.isCapped()).thenReturn(true);
 		 audit(event);
-		 Mockito.verify(mockedMongoTemplate, times(2)).save(any(SecurityEvent.class));
+		 Mockito.verify(mockedEntityRepository, times(2)).create(any(String.class), any(Map.class), any(Map.class), any(String.class));
 
 		 when(mockedMongoTemplate.collectionExists("securityEvent")).thenReturn(true);
 		 when(mockedMongoTemplate.getCollection("securityEvent")).thenReturn(mockedCollection);
@@ -83,7 +91,8 @@ public class LoggerCarrierAspectTest {
 		 when(mockedCollection.isCapped()).thenReturn(false);
 		 audit(event);
 		 Mockito.verify(mockedDB, times(1)).command(any(DBObject.class));
-		 Mockito.verify(mockedMongoTemplate, times(3)).save(any(SecurityEvent.class));
+		 
+		 Mockito.verify(mockedEntityRepository, times(3)).create(any(String.class), any(Map.class), any(Map.class), any(String.class));
 	 }
 
 

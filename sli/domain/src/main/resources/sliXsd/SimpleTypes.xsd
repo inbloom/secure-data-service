@@ -2517,7 +2517,8 @@
 			<xs:enumeration value="Grade Level NA" />
 			<xs:enumeration value="Junior High (Grade Level 6-8)" />
 			<xs:enumeration value="Secondary (Grade Level 6-12)" />
-			<xs:enumeration value="Secondary (Grade Level 8-12)" />
+			<xs:enumeration value="Secondary (Grade Level 8-12)"/>
+			<xs:enumeration value="Other"/>
 		</xs:restriction>
 	</xs:simpleType>
 

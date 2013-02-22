@@ -815,7 +815,7 @@ end
 Given /^the following collections are empty in sli datastore:$/ do |table|
     disable_NOTABLESCAN()
     @db = @conn[INGESTION_DB_NAME]
-    puts "Clearing out collections in db " + @ingestion_db_name + " on " + INGESTION_DB_NAME
+    puts "Clearing out collections in db " + INGESTION_DB_NAME + " on " + INGESTION_DB_NAME
     @result = "true"
     table.hashes.map do |row|
             @entity_collection = @db[row["collectionName"]]
@@ -1894,50 +1894,11 @@ Then /^I should say that we started processing$/ do
 end
 
 Then /^I check to find if record is in collection:$/ do |table|
-  disable_NOTABLESCAN()
-  @db   = @conn[@ingestion_db_name]
+   check_records_in_collection(table, @ingestion_db_name)
+end
 
-  @result = "true"
-
-  table.hashes.map do |row|
-    subdoc_parent = subDocParent row["collectionName"]
-    if subdoc_parent
-      @entity_count = runSubDocQuery(subdoc_parent, row["collectionName"], row["searchType"], row["searchParameter"], row["searchValue"])
-    else
-      @entity_collection = @db.collection(row["collectionName"])
-
-      if row["searchType"] == "integer"
-        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_i}]}).count().to_s
-      elsif row["searchType"] == "double"
-        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_f}]}).count().to_s
-      elsif row["searchType"] == "boolean"
-        if row["searchValue"] == "false"
-          @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => false}]}).count().to_s
-        else
-          @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => true}]}).count().to_s
-        end
-      elsif row["searchType"] == "nil"
-        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => nil}]}).count().to_s
-      else
-        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"]}]}).count().to_s
-      end
-    end
-
-    puts "There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"]
-
-
-    if @entity_count.to_s != row["expectedRecordCount"].to_s
-      puts "Failed #{row["collectionName"]}"
-      @result = "false"
-      red = "\e[31m"
-      reset = "\e[0m"
-    end
-    puts "#{red}There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"] + ". Expected: " + row["expectedRecordCount"].to_s + "#{reset}"
-
-  end
-
-  assert(@result == "true", "Some records are not found in collection.")
-  enable_NOTABLESCAN()
+Then /^I check to find if record is in sli db collection:$/ do |table|
+   check_records_in_collection(table, INGESTION_DB_NAME)
 end
 
 # Deep-document inspection when we are interested in top-level entities (_id, type, etc)
@@ -2051,7 +2012,7 @@ def extractNestedDoc(doc, doc_tree)
   return doc
 end
 
-
+                                                                                                     
 =begin
 # Deep-document inspection for when we are interested in subdocs (body, metaData, schools, etc)
 Then /^the "(.*?)" entity "(.*?)\.(.*?)" should be "(.*?)"$/ do |coll, doc_key, subdoc_key, expected_value|
@@ -2845,6 +2806,52 @@ Then /^I should see either "(.*?)" or "(.*?)" following (.*?) in "(.*?)" file$/ 
   assert(found == true, "content not found")
 end
 
+def check_records_in_collection(table, db_name)
+  disable_NOTABLESCAN()
+  @db   = @conn[db_name]
+
+  @result = "true"
+
+  table.hashes.map do |row|
+    subdoc_parent = subDocParent row["collectionName"]
+    if subdoc_parent
+      @entity_count = runSubDocQuery(subdoc_parent, row["collectionName"], row["searchType"], row["searchParameter"], row["searchValue"])
+    else
+      @entity_collection = @db.collection(row["collectionName"])
+
+      if row["searchType"] == "integer"
+        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_i}]}).count().to_s
+      elsif row["searchType"] == "double"
+        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_f}]}).count().to_s
+      elsif row["searchType"] == "boolean"
+        if row["searchValue"] == "false"
+          @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => false}]}).count().to_s
+        else
+          @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => true}]}).count().to_s
+        end
+      elsif row["searchType"] == "nil"
+        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => nil}]}).count().to_s
+      else
+        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"]}]}).count().to_s
+      end
+    end
+
+    puts "There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"]
+
+
+    if @entity_count.to_s != row["expectedRecordCount"].to_s
+      puts "Failed #{row["collectionName"]}"
+      @result = "false"
+      red = "\e[31m"
+      reset = "\e[0m"
+    end
+    puts "#{red}There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"] + ". Expected: " + row["expectedRecordCount"].to_s + "#{reset}"
+
+  end
+
+  assert(@result == "true", "Some records are not found in collection.")
+  enable_NOTABLESCAN()
+end
 def verifySubDocDid(subdoc_parent, subdoc, didId, field, value)
   @entity_collection = @db.collection(subdoc_parent)
 
