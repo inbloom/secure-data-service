@@ -31,7 +31,10 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.dal.NeutralRecordRepository;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 
@@ -60,6 +63,10 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     private static final String PARENT_ASSESSMENT_FAMILY_TITLE = "AssessmentFamilyReference.AssessmentFamilyIdentity." + ASSESSMENT_FAMILY_TITLE;
     private static final String OBJECTIVE_ASSESSMENT_REFERENCE = "ObjectiveAssessmentReference";
     private static final String OBJECTIVE_ASSESSMENT_IDENTIFICATION_CODE = "ObjectiveAssessmentIdentity.ObjectiveAssessmentIdentificationCode." + VALUE;
+
+    private static final String ASSESSMENT_ITEM = "assessmentItem";
+    private static final String ASSESSMENT_ITEM_REF = "AssessmentItemReference";
+    private static final String ASSESSMENT_ITEM_ID_CODE = "AssessmentItemIdentity.AssessmentItemIdentificationCode." + VALUE;
 
     @Autowired
     private ObjectiveAssessmentBuilder builder;
@@ -141,6 +148,20 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
                 attrs.put("objectiveAssessment", familyObjectiveAssessments);
             }
 
+            if (attrs.containsKey(ASSESSMENT_ITEM_REF)) {
+                @SuppressWarnings("unchecked")
+                List<Map<String, Object>> items = (List<Map<String, Object>>) attrs.get(ASSESSMENT_ITEM_REF);
+                if (items == null || items.size() == 0) {
+                    attrs.remove(ASSESSMENT_ITEM_REF);
+                } else {
+                    List<Map<String, Object>> assessmentItems = getAssessmentItems(items);
+                    if (assessmentItems != null) {
+                        attrs.put(ASSESSMENT_ITEM_REF, assessmentItems);
+                    }
+                }
+            }
+
+
             String assessmentPeriodDescriptorRef = (String) attrs.remove("periodDescriptorRef");
             if (assessmentPeriodDescriptorRef != null) {
                 attrs.put(ASSESSMENT_PERIOD_DESCRIPTOR, getAssessmentPeriodDescriptor(assessmentPeriodDescriptorRef));
@@ -150,6 +171,38 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             neutralRecord.setCreationTime(getWorkNote().getRangeMinimum());
             transformedAssessments.add(neutralRecord);
         }
+    }
+
+    private List<Map<String, Object>> getAssessmentItems(List<Map<String, Object>> itemReferences) {
+        List<String> identificationCodes = new ArrayList<String>();
+        // build in clause
+        for (Map<String, Object> item : itemReferences) {
+            String idCode = (String) getProperty(item, ASSESSMENT_ITEM_ID_CODE);
+            if (idCode != null) {
+                identificationCodes.add(idCode);
+            }
+        }
+
+        if (identificationCodes.size() > 0) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("query for assessmentItems: {}", identificationCodes);
+            }
+            NeutralQuery constraint = new NeutralQuery();
+            constraint.addCriteria(new NeutralCriteria("IdentificationCode._value", NeutralCriteria.CRITERIA_IN,
+                    identificationCodes));
+            NeutralRecordRepository repo = getNeutralRecordMongoAccess().getRecordRepository();
+            Iterable<NeutralRecord> records = repo.findAllForJob(ASSESSMENT_ITEM, constraint);
+            List<Map<String, Object>> assessmentItems = new ArrayList<Map<String, Object>>();
+            if (records != null) {
+                for (NeutralRecord record : records) {
+                    assessmentItems.add(record.getAttributes());
+                }
+
+                return assessmentItems;
+            }
+        }
+
+        return null;
     }
 
     @SuppressWarnings("unchecked")

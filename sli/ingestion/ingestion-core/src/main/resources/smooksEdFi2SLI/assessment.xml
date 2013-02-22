@@ -45,6 +45,7 @@
         <jb:value property="nomenclature" data="attributes Nomenclature _value"></jb:value>
         <jb:wiring property="assessmentPeriodDescriptor" beanIdRef="AssessmentPeriodDescriptorType"/>
         <jb:wiring property="objectiveAssessment" beanIdRef="ObjectiveAssessmentTypeArray"/>
+        <jb:wiring property="assessmentItem" beanIdRef="AssessmentItems" />
     </jb:bean>
 
     <jb:bean beanId="ObjectiveAssessmentTypeArray" class="java.util.ArrayList" createOnElement="attributes">
@@ -133,6 +134,18 @@
         <jb:value property="beginDate" data="AssessmentPeriodDescriptor BeginDate _value"/>
         <jb:value property="endDate" data="AssessmentPeriodDescriptor EndDate _value" />
   </jb:bean>
+
+   <jb:bean beanId="AssessmentItems" class="java.util.ArrayList" createOnElement="attributes AssessmentItemReference">
+    <jb:wiring beanIdRef="AssessmentItem" />
+  </jb:bean> 
+
+      <jb:bean beanId="AssessmentItem" class="java.util.HashMap" createOnElement="attributes AssessmentItemReference element">
+        <jb:value property="identificationCode" data="attributes AssessmentItemReference element IdentificationCode _value" />
+        <jb:value property="itemCategory" data="attributes AssessmentItemReference element ItemCategory _value" />
+        <jb:value property="maxRawScore" data="attributes AssessmentItemReference element MaxRawScore _value" />
+        <jb:value property="correctResponse" data="attributes AssessmentItemReference element CorrectResponse _value" />
+        <jb:value property="nomenclature" data="attributes AssessmentItemReference element Nomenclature _value" />
+    </jb:bean>
 
 
 </smooks-resource-list>
