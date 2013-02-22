@@ -13,8 +13,6 @@ Dir[file_to_search].each do |file_name|
   file = File.new(file_name)
   doc = REXML::Document.new file
 
-  subdoc = '<schoolYear>2011-2012</schoolYear>'
-  subdoc = REXML::Document.new(p)
   doc.root.each_element('//AttendanceEvent//EventDate') do |e|
     school_year = Element.new('SchoolYear')
     date = Date.parse(e.text)
@@ -25,5 +23,6 @@ Dir[file_to_search].each do |file_name|
   formatter = REXML::Formatters::Pretty.new
   formatter.compact = true
   File.open(file_name, 'w') {|f| formatter.write(doc, f)}
+  puts 'Added schoolyear To file : ' + file_name
 end
 
