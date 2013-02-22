@@ -51,7 +51,7 @@ Feature: As an SLI application, I want to return the right order of entities.
  	    And I should see a total of 2 entities
  	    Examples:
  	    | ENDPOINT                  | ID1                                | ID2                                |
- 	    |assessments                |dd916592-7d7e-5d27-a87d-dfc7fcb12346|dd916592-7d3e-4f27-a8ac-bec5f4b757f6|
+ 	    |assessments                |b94b5194d45cd707465627c0cd6c4f68f3558600_id|c607aa848f00b4efa6bfb95fbe78a00338377f16_id|
  	    |attendances                |530f0704-c240-4ed9-0a64-55c0308f91ee|4beb72d4-0f76-4071-92b4-61982dba7a7b|
  	    |cohorts                    |b40926af-8fd5-11e1-86ec-0021701f543f_id|b408d88e-8fd5-11e1-86ec-0021701f543f_id|
  	    |courses                    |f9d960e4-682b-4ebe-96d8-c4c2fc803435|43ee8275-de7b-4a02-8ecb-21d25a45db36|

@@ -126,14 +126,14 @@ Examples:
         And I should have an entity with ID "<'Gerardo Rounsaville' ID>"
 
      When I navigate to URI "/<STUDENT URI>/<'Matt Sollars' ID>/<STUDENT ASSESSMENT ASSOC URI>/<ASSESSMENT URI>" with filter sorting and pagination
-        And filter by "assessmentTitle" = "SAT"
+        And filter by "assessmentTitle" = "SAT 2"
         And I submit the sorting and pagination request
       Then I should have a list of "assessment" entities
         And I should have an entity with ID "<'SAT' ID>"
 
      When I navigate to GET "/<ASSESSMENT URI>/<'SAT' ID>"
       Then I should have a list of 1 "assessment" entities
-        And "assessmentTitle" should be "SAT"
+        And "assessmentTitle" should be "SAT 2"
         And "assessmentCategory" should be "College Addmission Test"
         And "academicSubject" should be "Reading"
         And "gradeLevelAssessed" should be "Twelfth grade"
