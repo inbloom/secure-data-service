@@ -137,6 +137,7 @@ public class ContainerDocumentAccessor {
         if (entity.getMetaData() != null && !entity.getMetaData().isEmpty()) {
             entityDetails.put("metaData", entity.getMetaData());
         }
+        entityDetails.put("type", entity.getType());
         final Map<String, Object> entityBody = entity.getBody();
         for (final String key : containerDocument.getParentNaturalKeys()) {
             entityDetails.put("body." + key, entityBody.get(key));
