@@ -37,9 +37,9 @@ Then I should see following map of entry counts in the corresponding batch job d
   | newBatchJob    | 1                   | stages.2.status                  | finished                             | string     |
   | newBatchJob    | 1                   | stages.3.stageName               | ControlFileProcessor                 | string     |
   | newBatchJob    | 1                   | stages.3.status                  | finished                             | string     |
-  | newBatchJob    | 1                   | stages.4.stageName               | EdFiProcessor                        | string     |
+  | newBatchJob    | 1                   | stages.4.stageName               | OrchestrationStages                  | string     |
   | newBatchJob    | 1                   | stages.4.status                  | finished                             | string     |
-  | newBatchJob    | 1                   | stages.5.stageName               | OrchestrationStages                  | string     |
+  | newBatchJob    | 1                   | stages.5.stageName               | EdFiProcessor                        | string     |
   | newBatchJob    | 1                   | stages.5.status                  | finished                             | string     |
   | newBatchJob    | 1                   | stages.6.stageName               | JobReportingProcessor                | string     |
   | newBatchJob    | 1                   | stages.6.status                  | finished                             | string     |
