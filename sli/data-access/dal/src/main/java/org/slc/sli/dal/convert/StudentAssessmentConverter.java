@@ -41,13 +41,15 @@ public class StudentAssessmentConverter extends GenericSuperdocConverter impleme
             // replace assessmentItem reference in studentAssessmentItem with actual assessmentItem
             // entity
             referenceResolve(entity, assessment, "studentAssessmentItem", "assessmentItemId", "assessmentItem");
-            subdocsToBody(entity, "studentAssessmentItem", Arrays.asList("studentAssessmentId"));
+            subdocsToBody(entity, "studentAssessmentItem", "studentAssessmentItems",
+                    Arrays.asList("studentAssessmentId"));
             
             // replace objectiveAssessment reference in studentObjectiveAssessment with actual
             // objectiveAssessment entity
             referenceResolve(entity, assessment, "studentObjectiveAssessment", "objectiveAssessmentId",
                     "objectiveAssessment");
-            subdocsToBody(entity, "studentObjectiveAssessment", Arrays.asList("studentAssessmentId"));
+            subdocsToBody(entity, "studentObjectiveAssessment", "studentObjectiveAssessments",
+                    Arrays.asList("studentAssessmentId"));
             
             entity.getEmbeddedData().clear();
         }
