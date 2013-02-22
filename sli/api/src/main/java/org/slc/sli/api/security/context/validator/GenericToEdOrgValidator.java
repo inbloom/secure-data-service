@@ -24,8 +24,8 @@ import org.springframework.stereotype.Component;
 import org.slc.sli.api.constants.EntityNames;
 
 /**
- * Validates the context of a teacher to see the requested set of education organizations. Returns
- * true if the teacher can see ALL of the entities, and false otherwise.
+ * Validates the context of a user to see the requested set of education organizations. Returns
+ * true if the user can see ALL of the entities, and false otherwise.
  */
 @Component
 public class GenericToEdOrgValidator extends AbstractContextValidator {

@@ -130,6 +130,7 @@ public class EntityOwnershipValidator {
         }
 
         if (globalEntities.contains(entity.getType())) {
+            debug("skipping ownership validation --> global entity: {}", entity.getType());
             return true;
         }
 

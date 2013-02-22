@@ -238,7 +238,7 @@ Examples:
 | "studentCompetency"     | "studentCompetencies"     | 2     |/sections/@ids/studentSectionAssociations/studentCompetencies|
 | "gradingPeriod"         | "gradingPeriods"          | 2     |/search/gradingPeriods|
 | "reportCard"            | "reportCards"             | 3     |/sections/@ids/studentSectionAssociations/students/reportCards|
-| "studentCompetencyObjective" | "studentCompetencyObjectives" | 0 |/search/studentCompetencyObjectives    |
+| "studentCompetencyObjective" | "studentCompetencyObjectives" | 1 |/search/studentCompetencyObjectives    |
 
 	@DE1825
 	Scenario: Invalid data parsing fails gracefully
