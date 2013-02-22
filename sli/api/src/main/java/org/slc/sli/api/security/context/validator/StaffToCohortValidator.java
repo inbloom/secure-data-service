@@ -39,7 +39,7 @@ public class StaffToCohortValidator extends AbstractContextValidator {
     
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
-        return isStaff() && EntityNames.COHORT.equals(entityType);
+        return isStaff() && EntityNames.COHORT.equals(entityType) && isTransitive;
     }
     
     /**

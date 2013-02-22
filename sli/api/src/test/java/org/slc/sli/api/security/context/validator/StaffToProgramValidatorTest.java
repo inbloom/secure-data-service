@@ -96,24 +96,13 @@ public class StaffToProgramValidatorTest {
 
     @Test
     public void testCanValidate() {
-        Assert.assertTrue("Must be able to validate", val.canValidate(EntityNames.PROGRAM, false));
+        Assert.assertTrue("Must be able to validate", val.canValidate(EntityNames.PROGRAM, true));
+        Assert.assertFalse("Must be able to validate", val.canValidate(EntityNames.PROGRAM, false));
         Assert.assertFalse("Must not be able to validate", val.canValidate(EntityNames.ADMIN_DELEGATION, false));
     }
 
     @Test
     public void testValidation() {
         Assert.assertFalse(val.validate(EntityNames.PROGRAM, new HashSet<String>(Arrays.asList("lamb"))));
-    }
-
-    @Test
-    public void testCanNotValidateWithStuendRecordAccess() {
-        Entity lea = helper.generateEdorgWithParent(null);
-        Entity school = helper.generateEdorgWithParent(lea.getEntityId());
-        helper.generateStaffEdorg(helper.STAFF_ID, school.getEntityId(), false);
-        Entity program = helper.generateProgram();
-        programIds.add(program.getEntityId());
-        helper.generateStaffProgram(helper.STAFF_ID, program.getEntityId(), false, false);
-        assertFalse(val.validateWithStudentAccess(EntityNames.PROGRAM, programIds, true));
-        assertTrue(val.validateWithStudentAccess(EntityNames.PROGRAM, programIds, false));
     }
 }
