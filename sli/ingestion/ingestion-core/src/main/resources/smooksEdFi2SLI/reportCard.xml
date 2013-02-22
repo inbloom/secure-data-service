@@ -27,8 +27,8 @@
         <jb:wiring property="studentCompetencyId" beanIdRef="StudentCompetency" />
         <jb:value property="gpaGivenGradingPeriod" data="attributes GPAGivenGradingPeriod _value" decoder="Double" />
         <jb:value property="gpaCumulative" data="attributes GPACumulative _value" decoder="Double" />
-        <jb:value property="numberOfDaysAbsent" data="attributes NumberOfDaysAbsent _value" decoder="Integer" />
-        <jb:value property="numberOfDaysInAttendance" data="attributes NumberOfDaysInAttendance _value" decoder="Integer" />
+        <jb:value property="numberOfDaysAbsent" data="attributes NumberOfDaysAbsent _value" decoder="Double" />
+        <jb:value property="numberOfDaysInAttendance" data="attributes NumberOfDaysInAttendance _value" decoder="Double" />
         <jb:value property="numberOfDaysTardy" data="attributes NumberOfDaysTardy _value" decoder="Integer" />
         <jb:value property="studentId" data="attributes StudentReference" />
         <jb:value property="gradingPeriodId" data="attributes GradingPeriodReference" />

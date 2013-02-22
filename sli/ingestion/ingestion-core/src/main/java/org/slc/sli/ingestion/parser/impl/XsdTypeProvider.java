@@ -243,6 +243,9 @@ public class XsdTypeProvider implements TypeProvider {
 
         if (attributeName != null) {
             Element element = complexTypes.get(elementType);
+            if (element == null) {
+                return result;
+            }
             for (Element attribute : element.getChildren(ATTRIBUTE, XS_NAMESPACE)) {
                 if (attributeName.equals(attribute.getAttributeValue(NAME))) {
                     result = convertType(attribute.getAttributeValue(TYPE), value);
