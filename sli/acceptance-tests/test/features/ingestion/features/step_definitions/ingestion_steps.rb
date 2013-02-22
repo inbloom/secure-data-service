@@ -170,53 +170,6 @@ Before do
   initializeTenants()
 end
 
-def ensureBatchJobIndexes(db_connection)
-  @db = db_connection[INGESTION_BATCHJOB_DB_NAME]
-
-  @collection = @db["error"]
-  @collection.save({ 'batchJobId' => " " })
-  @collection.ensure_index([['batchJobId', 1]])
-  @collection.ensure_index([['resourceId', 1]])
-  @collection.ensure_index([['batchJobId', 1], ['severity', 1]])
-  @collection.remove({ 'batchJobId' => " "  })
-
-  @collection = @db["newBatchJob"]
-  @collection.save({ '_id' => " " })
-  @collection.ensure_index([['_id', 1]])
-  @collection.ensure_index([['_id', 1], ['stages.$.chunks.stageName', 1]])
-  @collection.remove({ '_id' => " " })
-
-  @collection = @db["batchJobStage"]
-  @collection.save({ 'jobId' => " ", 'stageName' => " " })
-  @collection.ensure_index([['jobId', 1], ['stageName', 1]])
-  @collection.remove({ 'jobId' => " ", 'stageName' => " "  })
-
-  @collection = @db["transformationLatch"]
-  @collection.save({ '_id' => " " })
-  @collection.ensure_index([['syncStage', 1], ['jobId', 1], ['recordType' , 1]] , :unique => true)
-  @collection.remove({ '_id' => " " })
-
-  @collection = @db["persistenceLatch"]
-  @collection.save({ '_id' => " " })
-  @collection.ensure_index([['syncStage', 1], ['jobId', 1], ['entities' , 1]] , :unique => true)
-  @collection.remove({ '_id' => " " })
-
-  @collection = @db["stagedEntities"]
-  @collection.save({ '_id' => " " })
-  @collection.ensure_index([['jobId', 1]] , :unique => true)
-  @collection.remove({ '_id' => " " })
-
-  @collection = @db["recordHash"]
-  @collection.save({ '_id' => " " })
-  @collection.ensure_index([['t', 1]])
-  @collection.remove({ '_id' => " " })
-
-  @collection = @db["fileEntryLatch"]
-  @collection.save({'_id' => " "})
-  @collection.ensure_index([['batchJobId', 1]], :unique => true)
-  @collection.remove({'_id' => " "})
-end
-
 def initializeTenants()
   @lzs_to_remove  = Array.new
 
