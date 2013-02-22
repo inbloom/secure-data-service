@@ -71,12 +71,12 @@
   "Telephone":[
     {
       "a_TelephoneNumberType":"Mobile",
-      "a_PrimaryTelephoneNumberIndicator":0,
+      "a_PrimaryTelephoneNumberIndicator":false,
       "TelephoneNumber":{"_value":"BG"}
     },
     {
       "a_TelephoneNumberType":"Unlisted",
-      "a_PrimaryTelephoneNumberIndicator":0,
+      "a_PrimaryTelephoneNumberIndicator":false,
       "TelephoneNumber":{"_value":"uCvjlE1BrQzf9m"}
     }
   ],
@@ -90,7 +90,7 @@
       "EmailAddress":{"_value":"xTE566T98b.IktBpVSkXlP6iUVjQY"}
     }
   ],
-  "HispanicLatinoEthnicity":true,
+  "HispanicLatinoEthnicity":{"_value":true},
   "OldEthnicity":{"_value":"Hispanic"},
   "Race":{
     "RacialCategory":[
@@ -99,8 +99,8 @@
     ]
   },
   "HighestLevelOfEducationCompleted":{"_value":"Bachelor's"},
-  "YearsOfPriorProfessionalExperience":-1401861127,
-  "YearsOfPriorTeachingExperience":-1683517056,
+  "YearsOfPriorProfessionalExperience":{"_value":-1401861127},
+  "YearsOfPriorTeachingExperience":{"_value":-1683517056},
   "Credentials":[
     {
       "CredentialType":{"_value":"Endorsement"},
@@ -131,5 +131,5 @@
   ],
   "LoginId":{"_value":"m80POEKizEAQHuHRJ3zOKGiw4CI5B7thP."},
   "TeacherUniqueStateId":{"_value":"ftFGLGNrjZrWktIvfS.iy8bY"},
-  "HighlyQualifiedTeacher":false
+  "HighlyQualifiedTeacher":{"_value":false}
 }

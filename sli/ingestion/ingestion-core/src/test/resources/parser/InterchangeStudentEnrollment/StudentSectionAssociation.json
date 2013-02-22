@@ -37,7 +37,10 @@
   {
     "_value":"2013-10-19"
   },
-  "HomeroomIndicator":false,
+  "HomeroomIndicator":
+  {
+    "_value":false
+  },
   "RepeatIdentifier":
   {
     "_value":"Repeated, counted in grade point average"

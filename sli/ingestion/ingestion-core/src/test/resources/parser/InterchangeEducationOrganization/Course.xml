@@ -22,7 +22,7 @@
     <SubjectArea>Mathematics</SubjectArea>
     <CourseDescription>xOb4tao_</CourseDescription>
     <DateCourseAdopted>2013-03-23</DateCourseAdopted>
-    <HighSchoolCourseRequirement>1</HighSchoolCourseRequirement>
+    <HighSchoolCourseRequirement>true</HighSchoolCourseRequirement>
     <CourseGPAApplicability>Applicable</CourseGPAApplicability>
     <CourseDefinedBy>National Organization</CourseDefinedBy>
     <MinimumAvailableCredit CreditType="Trimester hour credit" CreditConversion="-1666253284.473">

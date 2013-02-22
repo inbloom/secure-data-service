@@ -4,12 +4,15 @@
   {
     "_value":"Distinguished"
   },
-  "IndividualPlan":0,
+  "IndividualPlan":{"_value":false},
   "TotalCreditsRequired":
   {
     "a_CreditType":"Quarter hour credit",
     "a_CreditConversion":-1.702938278021E9,
-    "Credit":1.3052632036E8
+    "Credit":
+    {
+      "_value":1.3052632036E8
+    }
   },
   "CreditsBySubject":
   [
@@ -22,7 +25,10 @@
       {
         "a_CreditType":"Twelve month year hour credit",
         "a_CreditConversion":-5.36936256301E8,
-        "Credit":9.3865930575E8
+        "Credit":
+        {
+          "_value":9.3865930575E8
+        }
       }
     },
     {
@@ -34,7 +40,10 @@
       {
         "a_CreditType":"Semester hour credit",
         "a_CreditConversion":-1.845917164675E9,
-        "Credit":2.5877021583E8
+        "Credit":
+        {
+          "_value":2.5877021583E8
+        }
       }
     }
   ],
@@ -70,7 +79,10 @@
       {
         "a_CreditType":"Trimester hour credit",
         "a_CreditConversion":-1.857508553544E9,
-        "Credit":5.069776002E7
+        "Credit":
+        {
+          "_value":5.069776002E7
+        }
       },
       "GradeLevel":
       {
@@ -101,7 +113,10 @@
       {
         "a_CreditType":"Semester hour credit",
         "a_CreditConversion":-5.2668841617E8,
-        "Credit":1.34781925409E9
+        "Credit":
+        {
+          "_value":1.34781925409E9
+        }
       },
       "GradeLevel":
       {

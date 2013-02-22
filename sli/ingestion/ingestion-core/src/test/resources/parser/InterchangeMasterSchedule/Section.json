@@ -4,7 +4,10 @@
   {
     "_value":"UniqueSectionCode1"
   },
-  "SequenceOfCourse":4,
+  "SequenceOfCourse":
+  {
+    "_value":4
+  },
   "EducationalEnvironment":
   {
     "_value":"Classroom"
@@ -20,7 +23,7 @@
   "AvailableCredit":
   {
     "a_CreditType":"Carnegie unit",
-    "a_CreditConversion":0,
+    "a_CreditConversion":false,
     "Credit":
     {
       "_value":50

@@ -17,5 +17,5 @@
   "ClassroomPosition":{"_value":"Substitute Teacher"},
   "BeginDate":{"_value":"2014-03-29"},
   "EndDate":{"_value":"2013-11-14"},
-  "HighlyQualifiedTeacher":true
+  "HighlyQualifiedTeacher":{"_value":true}
 }

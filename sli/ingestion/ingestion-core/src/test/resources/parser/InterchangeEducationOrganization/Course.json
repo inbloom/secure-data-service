@@ -4,7 +4,10 @@
   {
     "_value":"cB."
   },
-  "NumberOfParts":8,
+  "NumberOfParts":
+  {
+    "_value":8
+  },
   "CourseCode":
   [
     {
@@ -64,7 +67,7 @@
   {
     "_value":"2013-03-23"
   },
-  "HighSchoolCourseRequirement":1,
+  "HighSchoolCourseRequirement":{"_value":true},
   "CourseGPAApplicability":
   {
     "_value":"Applicable"
@@ -77,13 +80,19 @@
   {
     "a_CreditType":"Trimester hour credit",
     "a_CreditConversion":-1.666253284473E9,
-    "Credit":1.82501183679E9
+    "Credit":
+    {
+      "_value":1.82501183679E9
+    },
   },
   "MaximumAvailableCredit":
   {
     "a_CreditType":"Carnegie unit",
     "a_CreditConversion":2.125416277768E9,
-    "Credit":1.12834168071E9
+    "Credit":
+    {
+      "_value":1.12834168071E9
+    },
   },
   "CareerPathway":
   {

@@ -2,7 +2,7 @@
 "recordType":"studentAssessment",
 "attributes":
 {
-    "assessmentId":
+    "AssessmentReference":
     {
         "AssessmentIdentity":
         {

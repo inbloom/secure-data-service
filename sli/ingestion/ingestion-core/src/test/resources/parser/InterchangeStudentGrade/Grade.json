@@ -4,7 +4,10 @@
   {
     "_value":"hV"
   },
-  "NumericGradeEarned":2004828583,
+  "NumericGradeEarned":
+  {
+    "_value":2004828583
+  },
   "DiagnosticStatement":
   {
     "_value":"uS1tPMnJ"

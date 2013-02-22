@@ -77,7 +77,7 @@
       }
     ]
   },
-  "ReportedToLawEnforcement":0,
+  "ReportedToLawEnforcement":{"_value":false},
   "CaseNumber":
   {
     "_value":"egRJMCKKxkEoVCQrytH6"

@@ -11,5 +11,5 @@
   },
   "BeginDate":{"_value":"2013-08-14"},
   "EndDate":{"_value":"2014-07-21"},
-  "StudentRecordAccess":false
+  "StudentRecordAccess":{"_value":false}
 }

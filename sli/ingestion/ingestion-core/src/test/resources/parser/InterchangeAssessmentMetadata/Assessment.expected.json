@@ -23,9 +23,9 @@
   }],
   "ContentStandard":{"_value":"State Standard"},
   "AssessmentForm":{"_value":"iHe"},
-  "Version":1667864855,
+  "Version":{"_value":1667864855},
   "RevisionDate":{"_value":"2013-06-26"},
-  "MaxRawScore":-106363329,
+  "MaxRawScore":{"_value":-106363329},
   "Nomenclature":{"_value":"KHxRDAz7C"},
   "AssessmentPeriod":{
     "a_id":"ID005",

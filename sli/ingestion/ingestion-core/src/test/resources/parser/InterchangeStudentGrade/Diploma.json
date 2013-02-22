@@ -12,7 +12,7 @@
   {
     "_value":"International Baccalaureate"
   },
-  "CTECompleter":0,
+  "CTECompleter":{"_value":false},
   "AcademicHonors":
   [
     {
