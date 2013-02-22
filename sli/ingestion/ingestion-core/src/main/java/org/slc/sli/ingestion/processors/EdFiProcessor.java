@@ -116,7 +116,7 @@ public class EdFiProcessor implements Processor {
         } finally {
             if (newJob != null) {
                 BatchJobUtils.stopStageAndAddToJob(stage, newJob);
-                batchJobDAO.saveBatchJob(newJob);
+                batchJobDAO.saveBatchJobStage(batchJobId, stage);
             }
         }
     }

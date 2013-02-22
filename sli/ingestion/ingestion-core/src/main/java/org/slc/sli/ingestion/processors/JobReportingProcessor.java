@@ -331,23 +331,28 @@ public class JobReportingProcessor implements Processor {
     }
 
     private void writeDuplicates(NewBatchJob job, PrintWriter jobReportWriter) {
-        List<Metrics> edfiMetrics = job.getStageMetrics(BatchJobStageType.EDFI_PROCESSOR);
-        if (edfiMetrics != null) {
-            for (Metrics metric : edfiMetrics) {
-                Map<String, Long> duplicates = metric.getDuplicateCounts();
+        List<Stage> stages = batchJobDAO.getBatchJobStages(job.getId());
 
-                if (duplicates != null) {
-                    String resource = metric.getResourceId();
-                    for (Map.Entry<String, Long> dupEntry : duplicates.entrySet()) {
-                        Long count = dupEntry.getValue();
-                        if (count > 0) {
-                            writeInfoLine(jobReportWriter, resource + " " + dupEntry.getKey() + " " + count
-                                    + " deltas!");
+        for (Stage stage : stages) {
+            if (stage.getStageName().equals(BatchJobStageType.EDFI_PROCESSOR.getName())) {
+                List<Metrics> edfiMetrics = stage.getMetrics();
+                for (Metrics metric : edfiMetrics) {
+                    Map<String, Long> duplicates = metric.getDuplicateCounts();
+
+                    if (duplicates != null) {
+                        String resource = metric.getResourceId();
+                        for (Map.Entry<String, Long> dupEntry : duplicates.entrySet()) {
+                            Long count = dupEntry.getValue();
+                            if (count > 0) {
+                                writeInfoLine(jobReportWriter, resource + " " + dupEntry.getKey() + " " + count
+                                        + " deltas!");
+                            }
                         }
                     }
                 }
             }
         }
+
     }
 
     private long writeBatchJobPersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter) {
@@ -363,29 +368,35 @@ public class JobReportingProcessor implements Processor {
 
         while (it.hasNext()) {
             stage = it.next();
-            metrics = stage.getMetrics();
 
-            for (Metrics m : metrics) {
+            // only report on persistence metrics
+            if (stage.getStageName().equals(BatchJobStageType.PERSISTENCE_PROCESSOR.getName())) {
 
-                if (combinedMetricsMap.containsKey(m.getResourceId())) {
-                    // metrics exists, we should aggregate
-                    Metrics temp = new Metrics(m.getResourceId());
+                metrics = stage.getMetrics();
 
-                    temp.setResourceId(combinedMetricsMap.get(m.getResourceId()).getResourceId());
-                    temp.setRecordCount(combinedMetricsMap.get(m.getResourceId()).getRecordCount());
-                    temp.setErrorCount(combinedMetricsMap.get(m.getResourceId()).getErrorCount());
+                for (Metrics m : metrics) {
 
-                    temp.setErrorCount(temp.getErrorCount() + m.getErrorCount());
-                    temp.setRecordCount(temp.getRecordCount() + m.getRecordCount());
+                    if (combinedMetricsMap.containsKey(m.getResourceId())) {
+                        // metrics exists, we should aggregate
+                        Metrics temp = new Metrics(m.getResourceId());
 
-                    combinedMetricsMap.put(m.getResourceId(), temp);
+                        temp.setResourceId(combinedMetricsMap.get(m.getResourceId()).getResourceId());
+                        temp.setRecordCount(combinedMetricsMap.get(m.getResourceId()).getRecordCount());
+                        temp.setErrorCount(combinedMetricsMap.get(m.getResourceId()).getErrorCount());
 
-                } else {
-                    // adding metrics to the map
-                    combinedMetricsMap.put(m.getResourceId(),
-                            new Metrics(m.getResourceId(), m.getRecordCount(), m.getErrorCount()));
+                        temp.setErrorCount(temp.getErrorCount() + m.getErrorCount());
+                        temp.setRecordCount(temp.getRecordCount() + m.getRecordCount());
+
+                        combinedMetricsMap.put(m.getResourceId(), temp);
+
+                    } else {
+                        // adding metrics to the map
+                        combinedMetricsMap.put(m.getResourceId(),
+                                new Metrics(m.getResourceId(), m.getRecordCount(), m.getErrorCount()));
+                    }
+
                 }
-
+                continue;
             }
         }
 
