@@ -37,7 +37,7 @@ import java.util.Set;
 public class StaffToStudentProgramAssociationValidator extends AbstractContextValidator {
 
     @Autowired
-    private StaffToProgramValidator staffProgramValidator;
+    private GenericToProgramValidator staffProgramValidator;
     
     @Override
     public boolean canValidate(String entityType, boolean isTransitive) {
@@ -79,7 +79,7 @@ public class StaffToStudentProgramAssociationValidator extends AbstractContextVa
      * @param staffProgramValidator
      *            the staffProgramValidator to set
      */
-    public void setStaffProgramValidator(StaffToProgramValidator staffProgramValidator) {
+    public void setStaffProgramValidator(GenericToProgramValidator staffProgramValidator) {
         this.staffProgramValidator = staffProgramValidator;
     }
     
