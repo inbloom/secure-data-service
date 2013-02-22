@@ -52,6 +52,7 @@ Scenario: Verify Small Sample Dataset was Successfully Preloaded
          | learningStandard                         |               1499|
          | parent                                   |                  9|
          | program                                  |                  2|
+         | recordHash                               |               9479|
          | reportCard                               |                  2|
          | schoolSessionAssociation                 |                  0|
          | section                                  |                 97|
