@@ -21,8 +21,7 @@ Background:
     And I switch to the iframe
     Then I get the success message
 
-Scenario: Verify Small Sample Dataset was Successfully Preloaded
-
+#Verify the file ingested on the Landing Zone
     Given a landing zone
     And I check for the file "job*.log" every "30" seconds for "900" seconds
     Then the landing zone should contain a file with the message "Processed 4254 records"

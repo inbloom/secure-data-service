@@ -14,7 +14,7 @@ NAME=$2
 
 if [ -n "`hostname | grep slirp`" ] ; then
   # SLIRP
-  PRIMARIES="slirpmongo03.slidev.org slirpmongo05.slidev.org slirpmongo09.slidev.org slirpmongo11.slidev.org"
+  PRIMARIES="slirpmongo01.slidev.org slirpmongo02.slidev.org slirpmongo03.slidev.org slirpmongo04.slidev.org"
   STAGING="slirpmongo99.slidev.org"
 else
   # Local
@@ -128,7 +128,7 @@ done
 echo "Copy logs..."
 if [ "$NUMBER_OF_SERVERS" == "1" ] ; then
   cp -f $ING_LOG_DIR/ingestion.log $LZ/inbound/*/job* $NAME
-  if [ -z "`grep 'Zip file detected' $NAME/ingestion.log`" ] ; then
+  if [ -z "`grep 'Landing Zone message detected' $NAME/ingestion.log`" ] ; then
     # get previous day's log 
     PREV=`ls -t $ING_LOG_DIR/ingestion-* | head -n 1`
     cat $PREV $NAME/ingestion.log > $NAME/tmp
