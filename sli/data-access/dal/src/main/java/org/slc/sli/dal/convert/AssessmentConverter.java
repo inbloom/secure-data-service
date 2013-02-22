@@ -81,7 +81,7 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
         }
         Map<String, Entity> allOAs = new LinkedHashMap<String, Entity>();
         for (Entity oa : oas) {
-            allOAs.put(oa.getEntityId(), oa);
+            allOAs.put(oa.getBody().get("identificationCode").toString(), oa);
         }
         Set<String> topLevelOAs = new HashSet<String>(allOAs.keySet());
         for (Entry<String, Entity> oa : allOAs.entrySet()) {
