@@ -273,6 +273,11 @@ task :ingestionJobFailOnMissingIndexTest do
 
 end
 
+desc "Run Ingestion SecurityEvent Test"
+task :ingestionSecurityEventTest do
+  runTests("test/features/ingestion/features/ingestion_securityEvent.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################

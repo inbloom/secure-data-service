@@ -27,20 +27,22 @@ Then I should see following map of entry counts in the corresponding batch job d
   | collectionName | expectedRecordCount | searchParameter                  | searchValue                          | searchType |
   | newBatchJob    | 1                   | totalFiles                       | 1                                    | integer    |
   | newBatchJob    | 1                   | status                           | CompletedSuccessfully                | string     |
-  | newBatchJob    | 1                   | batchProperties.tenantId         | Midgar                               | string     |
+  | newBatchJob    | 1                   | tenantId                         | Midgar                               | string     |
   # stages
-  | newBatchJob    | 1                   | stages.0.stageName               | ZipFileProcessor                     | string     |
+  | newBatchJob    | 1                   | stages.0.stageName               | LandingZoneProcessor                 | string     |
   | newBatchJob    | 1                   | stages.0.status                  | finished                             | string     |
-  | newBatchJob    | 1                   | stages.1.stageName               | ControlFilePreProcessor              | string     |
+  | newBatchJob    | 1                   | stages.1.stageName               | ZipFileProcessor                     | string     |
   | newBatchJob    | 1                   | stages.1.status                  | finished                             | string     |
-  | newBatchJob    | 1                   | stages.2.stageName               | ControlFileProcessor                 | string     |
+  | newBatchJob    | 1                   | stages.2.stageName               | ControlFilePreProcessor              | string     |
   | newBatchJob    | 1                   | stages.2.status                  | finished                             | string     |
-  | newBatchJob    | 1                   | stages.3.stageName               | EdFiProcessor                        | string     |
+  | newBatchJob    | 1                   | stages.3.stageName               | ControlFileProcessor                 | string     |
   | newBatchJob    | 1                   | stages.3.status                  | finished                             | string     |
   | newBatchJob    | 1                   | stages.4.stageName               | OrchestrationStages                  | string     |
   | newBatchJob    | 1                   | stages.4.status                  | finished                             | string     |
-  | newBatchJob    | 1                   | stages.5.stageName               | JobReportingProcessor                | string     |
+  | newBatchJob    | 1                   | stages.5.stageName               | EdFiProcessor                        | string     |
   | newBatchJob    | 1                   | stages.5.status                  | finished                             | string     |
+  | newBatchJob    | 1                   | stages.6.stageName               | JobReportingProcessor                | string     |
+  | newBatchJob    | 1                   | stages.6.status                  | finished                             | string     |
   #resources
   | newBatchJob    | 1                   | resourceEntries.0.resourceId     | BatchJob.zip                         | string     |
   | newBatchJob    | 1                   | resourceEntries.0.resourceFormat | zip-file                             | string     |
@@ -74,17 +76,20 @@ Then I should see following map of entry counts in the corresponding batch job d
   | collectionName | expectedRecordCount | searchParameter                  | searchValue                          | searchType |
   | newBatchJob    | 1                   | totalFiles                       | 1                                    | integer    |
   | newBatchJob    | 1                   | status                           | CompletedSuccessfully                | string     |
+  | newBatchJob    | 1                   | tenantId                         | Midgar                               | string     |
   # stages
-  | newBatchJob    | 1                   | stages.0.stageName               | ZipFileProcessor                     | string     |
+  | newBatchJob    | 1                   | stages.0.stageName               | LandingZoneProcessor                 | string     |
   | newBatchJob    | 1                   | stages.0.status                  | finished                             | string     |
-  | newBatchJob    | 1                   | stages.1.stageName               | ControlFilePreProcessor              | string     |
+  | newBatchJob    | 1                   | stages.1.stageName               | ZipFileProcessor                     | string     |
   | newBatchJob    | 1                   | stages.1.status                  | finished                             | string     |
-  | newBatchJob    | 1                   | stages.2.stageName               | ControlFileProcessor                 | string     |
+  | newBatchJob    | 1                   | stages.2.stageName               | ControlFilePreProcessor              | string     |
   | newBatchJob    | 1                   | stages.2.status                  | finished                             | string     |
-  | newBatchJob    | 1                   | stages.3.stageName               | PurgeProcessor                       | string     |
+  | newBatchJob    | 1                   | stages.3.stageName               | ControlFileProcessor                 | string     |
   | newBatchJob    | 1                   | stages.3.status                  | finished                             | string     |
-  | newBatchJob    | 1                   | stages.4.stageName               | JobReportingProcessor                | string     |
+  | newBatchJob    | 1                   | stages.4.stageName               | PurgeProcessor                        | string     |
   | newBatchJob    | 1                   | stages.4.status                  | finished                             | string     |
+  | newBatchJob    | 1                   | stages.5.stageName               | JobReportingProcessor                  | string     |
+  | newBatchJob    | 1                   | stages.5.status                  | finished                             | string     |
   #resources
   | newBatchJob    | 1                   | resourceEntries.0.resourceId     | BatchJobPurge.zip                    | string     |
   | newBatchJob    | 1                   | resourceEntries.0.recordCount    | 0                                    | integer    |
@@ -115,17 +120,20 @@ Then I should see following map of entry counts in the corresponding batch job d
   | collectionName | expectedRecordCount | searchParameter                  | searchValue                             | searchType |
   | newBatchJob    | 1                   | status                           | CompletedWithErrors                     | string     |
   | newBatchJob    | 1                   | totalFiles                       | 1                                       | integer    |
+  | newBatchJob    | 1                   | tenantId                         | Midgar                               | string     |
   # stages
-  | newBatchJob    | 1                   | stages.0.stageName               | ZipFileProcessor                        |string      |
+  | newBatchJob    | 1                   | stages.0.stageName               | LandingZoneProcessor                 | string     |
   | newBatchJob    | 1                   | stages.0.status                  | finished                                |string      |
-  | newBatchJob    | 1                   | stages.1.stageName               | ControlFilePreProcessor                 |string      |
+  | newBatchJob    | 1                   | stages.1.stageName               | ZipFileProcessor                     | string     |
   | newBatchJob    | 1                   | stages.1.status                  | finished                                |string      |
-  | newBatchJob    | 1                   | stages.2.stageName               | ControlFileProcessor                    |string      |
+  | newBatchJob    | 1                   | stages.2.stageName               | ControlFilePreProcessor              | string     |
   | newBatchJob    | 1                   | stages.2.status                  | finished                                |string      |
-  | newBatchJob    | 1                   | stages.3.stageName               | EdFiProcessor                           |string      |
+  | newBatchJob    | 1                   | stages.3.stageName               | ControlFileProcessor                 | string     |
   | newBatchJob    | 1                   | stages.3.status                  | finished                                |string      |
-  | newBatchJob    | 1                   | stages.4.stageName               | JobReportingProcessor                   |string      |
+  | newBatchJob    | 1                   | stages.4.stageName               | EdFiProcessor                        | string     |
   | newBatchJob    | 1                   | stages.4.status                  | finished                                |string      |
+  | newBatchJob    | 1                   | stages.5.stageName               | JobReportingProcessor                | string     |
+  | newBatchJob    | 1                   | stages.5.status                  | finished                             | string     |
   #resources
   | newBatchJob    | 1                   | resourceEntries.0.resourceId     | BatchJobError.zip                       |string      |
   | newBatchJob    | 1                   | resourceEntries.0.recordCount    | 0                                       |integer     |
