@@ -16,15 +16,23 @@
 
 package org.slc.sli.dal.convert;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.domain.Entity;
-import org.springframework.stereotype.Component;
 
 /**
  * assessment converter that transform assessment superdoc to sli assessment schema
- * 
+ *
  * @author Dong Liu dliu@wgen.net
  */
 @Component
@@ -33,8 +41,10 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
     @Override
     public void subdocToBodyField(Entity entity) {
         if (entity != null && entity.getType().equals(EntityNames.ASSESSMENT)) {
-            subdocsToBody(entity, "assessmentItem", Arrays.asList("assessmentId")); 
-            subdocsToBody(entity, "objectiveAssessment", Arrays.asList("assessmentId")); 
+            entity.getEmbeddedData().put("objectiveAssessment",
+                    transformToHierarchy(entity.getEmbeddedData().get("objectiveAssessment")));
+            subdocsToBody(entity, "assessmentItem", Arrays.asList("assessmentId"));
+            subdocsToBody(entity, "objectiveAssessment", Arrays.asList("assessmentId"));
             entity.getEmbeddedData().clear();
         }
     }
@@ -63,5 +73,37 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
                 bodyFieldToSubdoc(entity);
             }
         }
+    }
+
+    public List<Entity> transformToHierarchy(List<Entity> oas) {
+        if (oas == null) {
+            return null;
+        }
+        Map<String, Entity> allOAs = new LinkedHashMap<String, Entity>();
+        for (Entity oa : oas) {
+            allOAs.put(oa.getEntityId(), oa);
+        }
+        Set<String> topLevelOAs = new HashSet<String>(allOAs.keySet());
+        for (Entry<String, Entity> oa : allOAs.entrySet()) {
+            @SuppressWarnings("unchecked")
+            List<String> subOAs = (List<String>) oa.getValue().getBody().get("subObjectiveAssessment");
+            if (subOAs != null) {
+                List<Map<String, Object>> actuals = new ArrayList<Map<String, Object>>(subOAs.size());
+                for (String ref : subOAs) {
+                    if (topLevelOAs.remove(ref)) {
+                        Map<String, Object> actual = allOAs.get(ref).getBody();
+                        actual.remove("assessmentId");
+                        actuals.add(actual);
+                    }
+                }
+                oa.getValue().getBody().put("objectiveAssessments", actuals);
+                oa.getValue().getBody().remove("subObjectiveAssessment");
+            }
+        }
+        List<Entity> transformed = new ArrayList<Entity>(topLevelOAs.size());
+        for (String id : topLevelOAs) {
+            transformed.add(allOAs.get(id));
+        }
+        return transformed;
     }
 }

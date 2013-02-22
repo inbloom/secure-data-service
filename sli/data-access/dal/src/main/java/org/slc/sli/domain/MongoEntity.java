@@ -23,25 +23,26 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+
 import org.bson.BasicBSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.validation.NoNaturalKeysDefinedException;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 
 /**
  * Mongodb specific implementation of Entity Interface with basic conversion method
  * for convert from and to DBObject
- * 
+ *
  * @author Dong Liu dliu@wgen.net
- * 
+ *
  */
 public class MongoEntity implements Entity, Serializable {
 
@@ -63,7 +64,7 @@ public class MongoEntity implements Entity, Serializable {
 
     /**
      * Default constructor for the MongoEntity class.
-     * 
+     *
      * @param type
      *            Mongo Entity type.
      * @param body
@@ -75,7 +76,7 @@ public class MongoEntity implements Entity, Serializable {
 
     /**
      * Specify the type, id, body, and metadata for the Mongo Entity using this constructor.
-     * 
+     *
      * @param type
      *            Mongo Entity type.
      * @param id
@@ -143,7 +144,7 @@ public class MongoEntity implements Entity, Serializable {
     /**
      * This method enables encryption of the entity without exposing the internals to mutation via a
      * setBody() method.
-     * 
+     *
      * @param crypt
      *            The EntityEncryptor to sue
      */
@@ -154,7 +155,7 @@ public class MongoEntity implements Entity, Serializable {
     /**
      * This method enables decryption of the entity without exposing the internals to mutation via a
      * setBody() method.
-     * 
+     *
      * @param crypt
      *            The EntityEncryptor to sue
      */
@@ -163,7 +164,7 @@ public class MongoEntity implements Entity, Serializable {
     }
 
     public String generateDid(UUIDGeneratorStrategy uuidGeneratorStrategy, INaturalKeyExtractor naturalKeyExtractor) {
-       
+
     	final String uid;
         NaturalKeyDescriptor naturalKeyDescriptor;
         try {
@@ -175,7 +176,7 @@ public class MongoEntity implements Entity, Serializable {
             LOG.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
-        
+
         if (uuidGeneratorStrategy == null) {
             LOG.warn("Generating Type 4 UUID by default because the UUID generator strategy is null.  This will cause issues if this value is being used in a Mongo indexed field (like _id)");
             uid = UUID.randomUUID().toString();
@@ -187,10 +188,10 @@ public class MongoEntity implements Entity, Serializable {
                 uid = uuidGeneratorStrategy.generateId(naturalKeyDescriptor);
             }
         }
-        
+
         return uid.toString();
     }
-    
+
     public DBObject toDBObject(UUIDGeneratorStrategy uuidGeneratorStrategy, INaturalKeyExtractor naturalKeyExtractor) {
         BasicDBObject dbObj = new BasicDBObject();
         dbObj.put("type", type);
@@ -224,7 +225,7 @@ public class MongoEntity implements Entity, Serializable {
 
     /**
      * Convert the specified db object to a Mongo Entity.
-     * 
+     *
      * @param dbObj
      *            DBObject that need to be converted to MongoEntity
      * @return converted MongoEntity from DBObject
@@ -291,7 +292,7 @@ public class MongoEntity implements Entity, Serializable {
 
     /**
      * Create and return a Mongo Entity.
-     * 
+     *
      * @param type
      *            Mongo Entity type.
      * @param body
@@ -325,5 +326,10 @@ public class MongoEntity implements Entity, Serializable {
     @Override
     public Map<String, List<Map<String, Object>>> getDenormalizedData() {
         return denormalizedData;
+    }
+
+    @Override
+    public String toString() {
+        return "MongoEntity " + entityId;
     }
 }

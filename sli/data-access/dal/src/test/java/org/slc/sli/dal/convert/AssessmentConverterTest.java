@@ -4,38 +4,44 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.validation.NoNaturalKeysDefinedException;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.slc.sli.validation.schema.NaturalKeyExtractor;
 
+/**
+ * JUnit for assessment converter
+ */
 public class AssessmentConverterTest {
-    
+
     @InjectMocks
     AssessmentConverter assessmentConverter = new AssessmentConverter();
 
     @Mock
     INaturalKeyExtractor naturalKeyExtractor;
-    
+
     @Before
     public void setup() throws NoNaturalKeysDefinedException {
         naturalKeyExtractor = Mockito.mock(NaturalKeyExtractor.class);
         MockitoAnnotations.initMocks(this);
     }
-    
+
     /*
      * subdocs in embedded data
      */
@@ -56,7 +62,7 @@ public class AssessmentConverterTest {
 
         return new MongoEntity(entityType, entityId, body, metaData, null, null, embeddedData, null);
     }
-    
+
     /*
      * subdocs inside body
      */
@@ -74,7 +80,7 @@ public class AssessmentConverterTest {
 
         return new MongoEntity(entityType, entityId, body, metaData);
     }
-    
+
     @Test
     public void upconvertNoEmbeddedSubdocShouldRemainUnchanged() {
         List<Entity> entity = Arrays.asList(createDownConvertEntity());
@@ -82,7 +88,7 @@ public class AssessmentConverterTest {
         assessmentConverter.subdocToBodyField(entity);
         assertEquals(clone.getBody(), entity.get(0).getBody());
     }
-    
+
     @SuppressWarnings("unchecked")
     @Test
     public void upconvertEmbeddedSubdocShouldMoveInsideBody() {
@@ -105,7 +111,7 @@ public class AssessmentConverterTest {
         assessmentConverter.bodyFieldToSubdoc(entity);
         assertEquals(clone.getBody(), entity.get(0).getBody());
     }
-    
+
     @Test
     public void downconvertBodyToSubdoc() {
         Entity entity = createDownConvertEntity();
@@ -113,7 +119,7 @@ public class AssessmentConverterTest {
         assertNull(entity.getBody().get("assessmentItem"));
         assertNotNull(entity.getEmbeddedData().get("assessmentItem"));
     }
-    
+
     @Test
     public void bodyToSubdocGenerateId() {
         Entity entity = createDownConvertEntity();
@@ -124,5 +130,38 @@ public class AssessmentConverterTest {
                 .get("assessmentItem").size());
         String id = entity.getEmbeddedData().get("assessmentItem").get(0).getEntityId();
         assertNotNull("should generate id for subdoc entity", id);
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testHierachyInObjectiveAssessments() throws IllegalAccessException, InvocationTargetException,
+            NoSuchMethodException {
+        Entity assessment = createUpConvertEntity();
+        Map<String, Object> parentOABody = new HashMap<String, Object>();
+        parentOABody.put("assessmentId", "ID");
+        parentOABody.put("title", "ParentOA");
+        parentOABody.put("subObjectiveAssessment", Arrays.asList("Child1", "Child2"));
+        Entity parentOA = new MongoEntity("objectiveAssessment", "ParentOA", parentOABody, null);
+        Map<String, Object> child1Body = new HashMap<String, Object>();
+        child1Body.put("assessmentId", "ID");
+        child1Body.put("title", "Child1");
+        child1Body.put("subObjectiveAssessment", Arrays.asList("NA", "GrandChild"));
+        Entity child1 = new MongoEntity("objectiveAssessment", "Child1", child1Body, null);
+        Map<String, Object> child2Body = new HashMap<String, Object>();
+        child2Body.put("assessmentId", "ID");
+        child2Body.put("title", "Child2");
+        Entity child2 = new MongoEntity("objectiveAssessment", "Child2", child2Body, null);
+        Map<String, Object> grandChildBody = new HashMap<String, Object>();
+        grandChildBody.put("assessmentId", "ID");
+        grandChildBody.put("title", "GrandChild");
+        Entity grandChild = new MongoEntity("objectiveAssessment", "GrandChild", grandChildBody, null);
+        assessment.getEmbeddedData().put("objectiveAssessment", Arrays.asList(parentOA, child1, child2, grandChild));
+        assessmentConverter.subdocToBodyField(assessment);
+        List<Map<String, Object>> oas = (List<Map<String, Object>>) PropertyUtils.getProperty(assessment, "body.objectiveAssessment");
+        assertEquals(1, oas.size());
+        assertEquals("ParentOA", PropertyUtils.getProperty(assessment, "body.objectiveAssessment.[0].title"));
+        assertEquals("Child1", PropertyUtils.getProperty(assessment, "body.objectiveAssessment.[0].objectiveAssessments.[0].title"));
+        assertEquals("Child2", PropertyUtils.getProperty(assessment, "body.objectiveAssessment.[0].objectiveAssessments.[1].title"));
+        assertEquals("GrandChild", PropertyUtils.getProperty(assessment, "body.objectiveAssessment.[0].objectiveAssessments.[0].objectiveAssessments.[0].title"));
     }
 }
