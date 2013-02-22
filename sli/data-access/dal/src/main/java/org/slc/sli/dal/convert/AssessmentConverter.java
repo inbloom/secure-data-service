@@ -43,8 +43,8 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
         if (entity != null && entity.getType().equals(EntityNames.ASSESSMENT)) {
             entity.getEmbeddedData().put("objectiveAssessment",
                     transformToHierarchy(entity.getEmbeddedData().get("objectiveAssessment")));
-            subdocsToBody(entity, "assessmentItem", Arrays.asList("assessmentId"));
-            subdocsToBody(entity, "objectiveAssessment", Arrays.asList("assessmentId"));
+            subdocsToBody(entity, "assessmentItem", "assessmentItem", Arrays.asList("assessmentId"));
+            subdocsToBody(entity, "objectiveAssessment", "objectiveAssessment", Arrays.asList("assessmentId"));
             entity.getEmbeddedData().clear();
         }
     }
@@ -52,8 +52,8 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
     @Override
     public void bodyFieldToSubdoc(Entity entity) {
         if (entity != null && entity.getType().equals(EntityNames.ASSESSMENT)) {
-            bodyToSubdocs(entity, "assessmentItem", "assessmentId");
-            bodyToSubdocs(entity, "objectiveAssessment", "assessmentId");
+            bodyToSubdocs(entity, "assessmentItem", "assessmentItem", "assessmentId");
+            bodyToSubdocs(entity, "objectiveAssessment", "objectiveAssessment", "assessmentId");
         }
     }
 
