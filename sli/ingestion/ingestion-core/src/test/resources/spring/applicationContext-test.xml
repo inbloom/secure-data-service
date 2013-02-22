@@ -31,10 +31,10 @@
       </list>
     </property>
   </bean>
-
+  
   <import resource="activemq-context.xml" />
   <import resource="smooks-context.xml" />
-  <import resource="classpath:/spring/db.xml" />
+  
   <import resource="dal-context.xml" />
 
   <import resource="core-message-context.xml" />
@@ -45,6 +45,7 @@
   <import resource="recordLvlHash-context.xml" />
   <import resource="tenantdb-context.xml" />
   <import resource="systemValidator-context.xml" />
+  <import resource="classpath:/spring/db.xml" />
 
   <context:component-scan base-package="org.slc.sli">
     <context:exclude-filter type="regex" expression=".*CustomImpl" />
@@ -53,6 +54,10 @@
     <context:exclude-filter type="regex" expression=".*AesCipher" />
     <context:exclude-filter type="regex" expression=".*MemcachedCacheProvider" />
     <context:exclude-filter type="regex" expression=".*LdapServiceImpl" />
+    <context:exclude-filter type="regex" expression=".*GenericSuperdocConverter" />
+    <context:exclude-filter type="regex" expression=".*AssessmentConverter" />
+    <context:exclude-filter type="regex" expression=".*StudentAssessmentConverter" />
+    <context:exclude-filter type="regex" expression=".*SuperdocConverterRegistry" />
   </context:component-scan>
 
 

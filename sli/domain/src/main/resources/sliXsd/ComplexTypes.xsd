@@ -3586,6 +3586,20 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element maxOccurs='unbounded' minOccurs='0'
+                        name='studentObjectiveAssessments' type='studentObjectiveAssessment'>
+                <xs:annotation>
+                    <xs:documentation>The score and or performance level(s) earned for
+                        each objective assessment by the student.
+                    </xs:documentation>
+                    <xs:appinfo>
+                        <sli:CollectionType>studentObjectiveAssessment</sli:CollectionType>
+                        <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
+                </xs:annotation>
+            </xs:element>
+            <xs:element maxOccurs='unbounded' minOccurs='0'
 				name='studentAssessmentItems' type='studentAssessmentItem'>
 				<xs:annotation>
 					<xs:documentation>This entity represents the student's responses
@@ -3639,21 +3653,6 @@
 			</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
-            <!--  this is a 'virtual' element that only exists for superdoc processing -->
-            <xs:element minOccurs='0' name='studentAssessmentId' type='reference'>
-                <xs:annotation>
-                    <xs:documentation>Reference to the student assessment
-                    </xs:documentation>
-                    <xs:appinfo>
-                        <sli:ReferenceType>studentAssessment</sli:ReferenceType>
-                        <sli:naturalKey>true</sli:naturalKey>
-                        <sli:hidden>true</sli:hidden>
-                        <sli:associationKey>true</sli:associationKey>
-                        <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
-                    </xs:appinfo>
-                </xs:annotation>
-            </xs:element>
 			<xs:element minOccurs='0' name='assessmentResponse' type='assessmentResponse'>
 				<xs:annotation>
 					<xs:documentation>A student's response to a stimulus on a test.
@@ -4126,16 +4125,10 @@
 			<xs:documentation>This entity holds the score and or performance
 				levels earned for an objective assessment by a student.
 			</xs:documentation>
-            <xs:appinfo>
-                <sli:CollectionType>studentObjectiveAssessment</sli:CollectionType>
-                <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
-                <sli:associatedDatedCollection>studentAssessment</sli:associatedDatedCollection>
-                <sli:associatedDatedCollection>objectiveAssessment</sli:associatedDatedCollection>
-            </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
             <!--  this is a 'virtual' element that only exists for superdoc processing -->
-            <xs:element maxOccurs='1' minOccurs='1' name='studentAssessmentId' type='reference'>
+            <xs:element name='studentAssessmentId' type='reference'>
                 <xs:annotation>
                     <xs:documentation>Reference to the student assessment
                     </xs:documentation>
@@ -4175,8 +4168,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element maxOccurs='1' minOccurs='1' name='objectiveAssessmentId'
-				type='reference'>
+			<xs:element name='objectiveAssessmentId' type='reference'>
 				<xs:annotation>
 					<xs:documentation>This entity represents subtests that assess
 						specific learning objectives.

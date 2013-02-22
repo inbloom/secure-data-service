@@ -23,6 +23,7 @@ import java.util.Map;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -44,35 +45,36 @@ public class GenericSuperdocConverter {
     @Autowired
     INaturalKeyExtractor naturalKeyExtractor;
     
+    @Autowired
+    @Qualifier("validationRepo")
+    Repository<Entity> repo;
+
     /*
      * Move subdocs from embedded data to superdoc's body
      */
-    protected Entity subdocsToBody(Entity parent, String subentityType, List<String> removeFields) {
-        if (parent.getEmbeddedData() == null || parent.getEmbeddedData().isEmpty()) {
-            return parent;
-        }
-
-        List<Entity> subdocs = parent.getEmbeddedData().remove(subentityType);
-        if (subdocs == null || subdocs.isEmpty()) {
-            return parent;
-        }
-
-        List<Map<String, Object>> subdocBody = new ArrayList<Map<String, Object>>();
-        for (Entity e : subdocs) {
-            for (String field : removeFields) {
-                e.getBody().remove(field);
+    protected void subdocsToBody(Entity parent, String subentityType, List<String> removeFields) {
+        if (parent.getEmbeddedData() != null && parent.getEmbeddedData().size() > 0) {
+            
+            List<Entity> subdocs = parent.getEmbeddedData().remove(subentityType);
+            if (subdocs != null && subdocs.size() > 0) {
+                
+                List<Map<String, Object>> subdocBody = new ArrayList<Map<String, Object>>();
+                for (Entity e : subdocs) {
+                    for (String field : removeFields) {
+                        e.getBody().remove(field);
+                    }
+                    subdocBody.add(e.getBody());
+                }
+                parent.getBody().put(subentityType, subdocBody);
             }
-            subdocBody.add(e.getBody());
         }
-        parent.getBody().put(subentityType, subdocBody);
 
-        return parent;
     }
 
     /*
      * Move subdocs from superdoc's body to their own inside embedded data
      */
-    protected Entity bodyToSubdocs(Entity parent, String subentityType, String parentKey) {
+    protected void bodyToSubdocs(Entity parent, String subentityType, String parentKey) {
         if (parent.getBody().get(subentityType) != null) {
             List<Entity> subdocs = new ArrayList<Entity>();
             
@@ -81,8 +83,8 @@ public class GenericSuperdocConverter {
             for (Map<String, Object> inbodyDoc : subdocInBody) {
                 String parentId = generateDid(parent);
                 inbodyDoc.put(parentKey, parentId);
-                MongoEntity subdoc = new MongoEntity(subentityType, generateSubdocDid(inbodyDoc,
-                        subentityType), inbodyDoc, null);
+                MongoEntity subdoc = new MongoEntity(subentityType, generateSubdocDid(inbodyDoc, subentityType),
+                        inbodyDoc, null);
 
                 subdocs.add(subdoc);
             }
@@ -92,8 +94,6 @@ public class GenericSuperdocConverter {
                 parent.getBody().remove(subentityType);
             }
         }
-
-        return parent;
     }
 
     /**
