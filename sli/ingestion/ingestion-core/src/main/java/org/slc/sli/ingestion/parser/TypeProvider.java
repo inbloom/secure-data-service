@@ -57,4 +57,17 @@ public interface TypeProvider {
      * @return Converted object.
      */
     public Object convertType(String type, String value);
+
+    /**
+     * Convert the value of an attribute according to the type.
+     *
+     * @param elementType
+     *            The type of the element containing this attribute
+     * @param attributeName
+     *            The name of the attribute
+     * @param value
+     *            The value of the attribute
+     * @return Converted object.
+     */
+    public Object convertAttributeType(String elementType, String attributeName, String value);
 }

@@ -46,8 +46,9 @@ public class XsdTypeProvider implements TypeProvider {
     private static final Namespace XS_NAMESPACE = Namespace.getNamespace("xs", "http://www.w3.org/2001/XMLSchema");
     private static final String XS_DATE = "xs:date";
     private static final String XS_BOOLEAN = "xs:boolean";
-    private static final String XS_DOUBLE = "xs:double";
+    private static final String XS_DECIMAL = "xs:decimal";
     private static final String XS_INT = "xs:int";
+    private static final String XS_INTEGER = "xs:integer";
 
     private static final String INTERCHANGE = "interchange";
     private static final String INCLUDE = "include";
@@ -56,6 +57,7 @@ public class XsdTypeProvider implements TypeProvider {
     private static final String NAME = "name";
     private static final String TYPE = "type";
     private static final String ELEMENT = "element";
+    private static final String ATTRIBUTE = "attribute";
     private static final String SIMPLETYPE = "simpleType";
     private static final String RESTRICTION = "restriction";
     private static final String BASE = "base";
@@ -160,7 +162,13 @@ public class XsdTypeProvider implements TypeProvider {
             IteratorIterable<Element> res = parentElement.getDescendants(Filters.element(ELEMENT, XS_NAMESPACE));
             for (Element e : res) {
                 if (e.getAttributeValue(NAME).equals(eventName)) {
-                    return new RecordMetaImpl(eventName, e.getAttributeValue(TYPE), shouldBeList(e, parentElement));
+                    String elementType = e.getAttributeValue(TYPE);
+                    if (elementType == null) {
+                        Element simple = e.getChild(SIMPLETYPE, XS_NAMESPACE);
+                        elementType = getSimpleTypeRestrictionBase(simple);
+                    }
+
+                    return new RecordMetaImpl(eventName, elementType, shouldBeList(e, parentElement));
                 }
             }
 
@@ -220,10 +228,26 @@ public class XsdTypeProvider implements TypeProvider {
                 result = value;
             } else if (convertedType.equals(XS_BOOLEAN)) {
                 result = Boolean.parseBoolean(value);
-            } else if (convertedType.equals(XS_DOUBLE)) {
+            } else if (convertedType.equals(XS_DECIMAL)) {
                 result = Double.parseDouble(value);
-            } else if (convertedType.equals(XS_INT)) {
+            } else if (convertedType.equals(XS_INT) || convertedType.equals(XS_INTEGER)) {
                 result = Integer.parseInt(value);
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public Object convertAttributeType(String elementType, String attributeName, String value) {
+        Object result = value;
+
+        if (attributeName != null) {
+            Element element = complexTypes.get(elementType);
+            for (Element attribute : element.getChildren(ATTRIBUTE, XS_NAMESPACE)) {
+                if (attributeName.equals(attribute.getAttributeValue(NAME))) {
+                    result = convertType(attribute.getAttributeValue(TYPE), value);
+                    break;
+                }
             }
         }
         return result;
@@ -240,18 +264,30 @@ public class XsdTypeProvider implements TypeProvider {
     private String getType(Element e) {
         String type = e.getAttributeValue(TYPE);
 
-        if (type != null) {
+        Element simple = null;
+        if (type == null) {
+            simple = e.getChild(SIMPLETYPE, XS_NAMESPACE);
+        } else {
+            simple = simpleTypes.get(type);
+        }
 
-            Element simple = simpleTypes.get(type);
-            if (simple != null) {
+        String base = getSimpleTypeRestrictionBase(simple);
+        if (base != null) {
+            type = base;
+        }
 
-                Element restriction = simple.getChild(RESTRICTION, XS_NAMESPACE);
-                if (restriction != null) {
-                    type = restriction.getAttributeValue(BASE);
-                }
+        return type;
+    }
+
+    private String getSimpleTypeRestrictionBase(Element simple) {
+        String base = null;
+        if (simple != null) {
+            Element restriction = simple.getChild(RESTRICTION, XS_NAMESPACE);
+            if (restriction != null) {
+                base = restriction.getAttributeValue(BASE);
             }
         }
-        return type;
+        return base;
     }
 
     public void audit(SecurityEvent event) {

@@ -229,8 +229,12 @@ public class EdfiRecordParserImpl2 extends DefaultHandler {
     }
 
     private void parseEventAttributes(Attributes attributes) {
+        String elementType = complexTypeStack.peek().getLeft().getType();
+
         for (int i = 0; i < attributes.getLength(); i++) {
-            complexTypeStack.peek().getRight().put("a_" + attributes.getLocalName(i), attributes.getValue(i));
+            String attributeName = attributes.getLocalName(i);
+            Object value = typeProvider.convertAttributeType(elementType, attributeName, attributes.getValue(i));
+            complexTypeStack.peek().getRight().put("a_" + attributeName, value);
         }
     }
 
