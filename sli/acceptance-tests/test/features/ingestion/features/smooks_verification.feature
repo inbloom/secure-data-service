@@ -20,7 +20,7 @@ Scenario: Assessment and StudentAssessment Verification
         | student                     | 1     |
         | assessment                  | 1     |
         | studentAssessment| 1     |
-    And I find a(n) "assessment" record where "metaData.externalId" is equal to "Grade 8 2011 StateTest Writing"
+    And I find a(n) "assessment" record where "body.assessmentTitle" is equal to "Grade 8 2011 StateTest Writing"
     And verify the following data in that document:
        | searchParameter                                                          | searchValue                           | searchType           |
        | body.assessmentTitle                                                     | Grade 8 2011 StateTest Writing             | string               |
