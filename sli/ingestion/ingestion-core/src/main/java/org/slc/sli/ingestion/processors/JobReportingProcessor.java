@@ -368,29 +368,35 @@ public class JobReportingProcessor implements Processor {
 
         while (it.hasNext()) {
             stage = it.next();
-            metrics = stage.getMetrics();
 
-            for (Metrics m : metrics) {
+            // only report on persistence metrics
+            if (stage.getStageName().equals(BatchJobStageType.PERSISTENCE_PROCESSOR.getName())) {
 
-                if (combinedMetricsMap.containsKey(m.getResourceId())) {
-                    // metrics exists, we should aggregate
-                    Metrics temp = new Metrics(m.getResourceId());
+                metrics = stage.getMetrics();
 
-                    temp.setResourceId(combinedMetricsMap.get(m.getResourceId()).getResourceId());
-                    temp.setRecordCount(combinedMetricsMap.get(m.getResourceId()).getRecordCount());
-                    temp.setErrorCount(combinedMetricsMap.get(m.getResourceId()).getErrorCount());
+                for (Metrics m : metrics) {
 
-                    temp.setErrorCount(temp.getErrorCount() + m.getErrorCount());
-                    temp.setRecordCount(temp.getRecordCount() + m.getRecordCount());
+                    if (combinedMetricsMap.containsKey(m.getResourceId())) {
+                        // metrics exists, we should aggregate
+                        Metrics temp = new Metrics(m.getResourceId());
 
-                    combinedMetricsMap.put(m.getResourceId(), temp);
+                        temp.setResourceId(combinedMetricsMap.get(m.getResourceId()).getResourceId());
+                        temp.setRecordCount(combinedMetricsMap.get(m.getResourceId()).getRecordCount());
+                        temp.setErrorCount(combinedMetricsMap.get(m.getResourceId()).getErrorCount());
 
-                } else {
-                    // adding metrics to the map
-                    combinedMetricsMap.put(m.getResourceId(),
-                            new Metrics(m.getResourceId(), m.getRecordCount(), m.getErrorCount()));
+                        temp.setErrorCount(temp.getErrorCount() + m.getErrorCount());
+                        temp.setRecordCount(temp.getRecordCount() + m.getRecordCount());
+
+                        combinedMetricsMap.put(m.getResourceId(), temp);
+
+                    } else {
+                        // adding metrics to the map
+                        combinedMetricsMap.put(m.getResourceId(),
+                                new Metrics(m.getResourceId(), m.getRecordCount(), m.getErrorCount()));
+                    }
+
                 }
-
+                continue;
             }
         }
 
