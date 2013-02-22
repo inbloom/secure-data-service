@@ -396,7 +396,6 @@ public class JobReportingProcessor implements Processor {
                     }
 
                 }
-                continue;
             }
         }
 
