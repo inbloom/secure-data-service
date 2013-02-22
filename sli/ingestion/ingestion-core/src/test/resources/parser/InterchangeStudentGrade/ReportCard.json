@@ -278,11 +278,11 @@
       }
     }
   ],
-  "GPAGivenGradingPeriod":-7.72017754267E8,
-  "GPACumulative":1.451511258965E9,
-  "NumberOfDaysAbsent":1.342620485778E9,
-  "NumberOfDaysInAttendance":2.23691202656E8,
-  "NumberOfDaysTardy":1731768760,
+  "GPAGivenGradingPeriod":{"_value":-7.72017754267E8},
+  "GPACumulative":{"_value":1.451511258965E9},
+  "NumberOfDaysAbsent":{"_value":1.342620485778E9},
+  "NumberOfDaysInAttendance":{"_value":2.23691202656E8},
+  "NumberOfDaysTardy":{"_value":1731768760},
   "StudentReference":
   {
     "StudentIdentity":

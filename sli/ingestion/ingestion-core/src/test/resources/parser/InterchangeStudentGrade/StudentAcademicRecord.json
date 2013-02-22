@@ -4,25 +4,25 @@
   {
     "a_CreditType":"Nine month year hour credit",
     "a_CreditConversion":-6.23934301514E8,
-    "Credit":2.11783572676E9
+    "Credit":{"_value":2.11783572676E9}
   },
   "CumulativeCreditsAttempted":
   {
     "a_CreditType":"Semester hour credit",
     "a_CreditConversion":1.017869681834E9,
-    "Credit":4.6930187239E8
+    "Credit":{"_value":4.6930187239E8}
   },
-  "CumulativeGradePointsEarned":-1.225149055743E9,
-  "CumulativeGradePointAverage":1.80007542197E9,
+  "CumulativeGradePointsEarned":{"_value":-1.225149055743E9},
+  "CumulativeGradePointAverage":{"_value":1.80007542197E9},
   "GradeValueQualifier":
   {
     "_value":"uimXSZE7pRw95j"
   },
   "ClassRanking":
   {
-    "ClassRank":33235307,
-    "TotalNumberInClass":-1830909099,
-    "PercentageRanking":-1173907231,
+    "ClassRank":{"_value":33235307},
+    "TotalNumberInClass":{"_value":-1830909099},
+    "PercentageRanking":{"_value":-1173907231},
     "ClassRankingDate":
     {
       "_value":"2013-10-10"
@@ -98,16 +98,16 @@
   {
     "a_CreditType":"Semester hour credit",
     "a_CreditConversion":-4.71623226048E8,
-    "Credit":7.1483159516E8
+    "Credit":{"_value":7.1483159516E8}
   },
   "SessionCreditsAttempted":
   {
     "a_CreditType":"Semester hour credit",
     "a_CreditConversion":-1.76957351248E9,
-    "Credit":2.0646060736E9
+    "Credit":{"_value":2.0646060736E9}
   },
-  "SessionGradePointsEarned":8.53944578468E8,
-  "SessionGradePointAverage":1.707090365277E9,
+  "SessionGradePointsEarned":{"_value":8.53944578468E8},
+  "SessionGradePointAverage":{"_value":1.707090365277E9},
   "StudentReference":
   {
     "StudentIdentity":

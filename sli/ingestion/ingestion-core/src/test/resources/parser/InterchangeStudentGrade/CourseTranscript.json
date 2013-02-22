@@ -8,23 +8,23 @@
   {
     "a_CreditType":"Semester hour credit",
     "a_CreditConversion":-5.0959609162E8,
-    "Credit":1.46390824151E9
+    "Credit":{"_value":1.46390824151E9}
   },
   "CreditsEarned":
   {
     "a_CreditType":"Quarter hour credit",
     "a_CreditConversion":-1.851028259375E9,
-    "Credit":8.0676392333E8
+    "Credit":{"_value":8.0676392333E8}
   },
   "AdditionalCreditsEarned":
   [
     {
       "a_AdditionalCreditType":"IB",
-      "Credit":2.03470431092E9
+      "Credit":{"_value":2.03470431092E9}
     },
     {
       "a_AdditionalCreditType":"Other",
-      "Credit":4.467773203E7
+      "Credit":{"_value":4.467773203E7}
     }
   ],
   "GradeLevelWhenTaken":
@@ -39,7 +39,7 @@
   {
     "_value":"Wb3jXsj.eJ_mRX-E"
   },
-  "FinalNumericGradeEarned":-1073611830,
+  "FinalNumericGradeEarned":{"_value":-1073611830},
   "CourseRepeatCode":
   {
     "_value":"RepeatOtherInstitution"

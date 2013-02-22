@@ -134,14 +134,14 @@
   ],
   "Telephone":[
     {
-      "a_PrimaryTelephoneNumberIndicator":"0",
+      "a_PrimaryTelephoneNumberIndicator":false,
       "a_TelephoneNumberType":"Unlisted",
       "TelephoneNumber":{
         "_value":"vq4"
       }
     },
     {
-      "a_PrimaryTelephoneNumberIndicator":"0",
+      "a_PrimaryTelephoneNumberIndicator":false,
       "a_TelephoneNumberType":"Emergency 1",
       "TelephoneNumber":{
         "_value":"gPvWtP6k6VBSVJqUh"
