@@ -393,9 +393,9 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>Objective1</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
         <SectionReference>
@@ -431,9 +431,9 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>Objective2</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
         <SectionReference>
@@ -469,9 +469,9 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>LO_101</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
         <SectionReference>
@@ -507,9 +507,9 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>Objective3</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
         <SectionReference>
@@ -545,9 +545,9 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>Objective4</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
         <SectionReference>
@@ -583,9 +583,9 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>LO_102</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
         <SectionReference>
@@ -621,9 +621,9 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>Objective5</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
         <SectionReference>
@@ -659,9 +659,9 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>Objective6</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
         <SectionReference>
@@ -697,9 +697,9 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>LO_103</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
         <SectionReference>
@@ -735,9 +735,9 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>LO_104</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
         <SectionReference>
@@ -773,9 +773,9 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>Objective7</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
         <SectionReference>
@@ -811,9 +811,9 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>LO_105</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
         <SectionReference>
@@ -849,9 +849,9 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>LO_106</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
         <SectionReference>
@@ -887,9 +887,9 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>Objective8</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
         <SectionReference>
@@ -925,9 +925,9 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>LO_107</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
         <SectionReference>
@@ -963,9 +963,9 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>LO_108</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
         <SectionReference>
@@ -1001,9 +1001,9 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>Objective1</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
         <SectionReference>
@@ -1039,9 +1039,9 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>Objective2</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
         <SectionReference>
@@ -1077,9 +1077,9 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>LO_101</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
         <SectionReference>
@@ -1115,9 +1115,9 @@
         </LearningStandardReference>
         <LearningObjectiveReference>
             <LearningObjectiveIdentity>
-                <LearningObjectiveId ContentStandardName="Common Core">
-                    <IdentificationCode>Objective3</IdentificationCode>
-                </LearningObjectiveId>
+                <Objective>LearningObjective_RC_0_learningObjectiveId_r0_0</Objective>
+                <AcademicSubject>Agriculture, Food, and Natural Resources</AcademicSubject>
+                <ObjectiveGradeLevel>Adult Education</ObjectiveGradeLevel>
             </LearningObjectiveIdentity>
         </LearningObjectiveReference>
         <SectionReference>

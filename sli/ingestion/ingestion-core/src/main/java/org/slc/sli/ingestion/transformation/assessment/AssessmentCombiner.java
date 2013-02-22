@@ -106,7 +106,6 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             Map<String, Object> attrs = neutralRecord.getAttributes();
             //String parentFamilyTitle = (String) attrs.remove(PARENT_ASSESSMENT_FAMILY_TITLE);
             String parentFamilyTitle = (String) getProperty(attrs, PARENT_ASSESSMENT_FAMILY_TITLE);
-            attrs.remove("AssessmentFamilyReference");
             String familyHierarchyName = getAssocationFamilyMap(parentFamilyTitle, new HashMap<String, Map<String, Object>>(), "");
             attrs.put("assessmentFamilyHierarchyName", familyHierarchyName);
 
@@ -184,7 +183,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
         String theFamilyHierarchyName = familyHierarchyName;
         Query query = new Query().limit(0);
         query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
-        query.addCriteria(Criteria.where("body.AssessmentFamilyTitle").is(assessmentFamilyTitle));
+        query.addCriteria(Criteria.where("body." + ASSESSMENT_FAMILY_TITLE).is(assessmentFamilyTitle));
         Iterable<NeutralRecord> neutralRecords = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(ASSESSMENT_FAMILY, query);
 
         // Should only iterate exactly once because AssessmentFamilyTitle should be unique for each AssessmentFamily.
@@ -192,16 +191,17 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             Map<String, Object> associationAttrs = neutralRecord.getAttributes();
 
             if ("".equals(theFamilyHierarchyName)) {
-                theFamilyHierarchyName = (String) associationAttrs.get(ASSESSMENT_FAMILY_TITLE);
+                theFamilyHierarchyName = (String) getProperty(associationAttrs, ASSESSMENT_FAMILY_TITLE);
             } else {
-                theFamilyHierarchyName = associationAttrs.get(ASSESSMENT_FAMILY_TITLE) + "." + theFamilyHierarchyName;
+                theFamilyHierarchyName = (String) getProperty(associationAttrs, ASSESSMENT_FAMILY_TITLE) + "." + theFamilyHierarchyName;
             }
-            deepFamilyMap.put((String) associationAttrs.get(ASSESSMENT_FAMILY_TITLE), associationAttrs);
+            deepFamilyMap.put((String) getProperty(associationAttrs, ASSESSMENT_FAMILY_TITLE), associationAttrs);
 
             // check if there are parent nodes
-            if (associationAttrs.containsKey("parentAssessmentFamilyTitle")
-                    && !deepFamilyMap.containsKey(associationAttrs.get("parentAssessmentFamilyTitle"))) {
-                theFamilyHierarchyName = getAssocationFamilyMap((String) associationAttrs.get("parentAssessmentFamilyTitle"),
+            String parentAssessmentFamilyTitle = (String) getProperty(associationAttrs, "AssessmentFamilyReference.AssessmentFamilyIdentity.AssessmentFamilyTitle._value");
+            if (associationAttrs.containsKey("AssessmentFamilyReference")
+                    && !deepFamilyMap.containsKey(parentAssessmentFamilyTitle)) {
+                theFamilyHierarchyName = getAssocationFamilyMap(parentAssessmentFamilyTitle,
                         deepFamilyMap, theFamilyHierarchyName);
             }
         }

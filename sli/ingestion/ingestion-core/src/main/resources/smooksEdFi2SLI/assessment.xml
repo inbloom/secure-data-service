@@ -29,7 +29,7 @@
 
     <jb:bean beanId="assessmentBody" class="java.util.HashMap" createOnElement="attributes">
         <jb:value property="assessmentTitle" data="attributes AssessmentTitle _value"></jb:value>
-        <jb:value property="assessmentFamilyHierarchyName" data="attributes AssessmentFamilyHierarchyName _value"></jb:value>
+        <jb:value property="assessmentFamilyHierarchyName" data="attributes assessmentFamilyHierarchyName"></jb:value>
         <jb:wiring property="assessmentIdentificationCode" beanIdRef="AssessmentIdentificationCodeTypeArray"/>
         <jb:value property="assessmentCategory" data="attributes AssessmentCategory _value"></jb:value>
         <jb:value property="academicSubject" data="attributes AcademicSubject _value"></jb:value>
