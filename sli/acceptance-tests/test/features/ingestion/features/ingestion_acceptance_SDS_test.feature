@@ -369,18 +369,17 @@ And I check to find if record is in collection:
      | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | ACT-Reading-Arts                                 |string               |
      | assessment                  | 1                   | objectiveAssessment.body.identificationCode                         | ACT-Science                                      |string               |
      | assessment                  | 1                   | objectiveAssessment.body.identificationCode                         | ACT-Writing                                      |string               |
-  # TODO: fix me
-#     | studentAssessment| 25                  | studentObjectiveAssessment.body.objectiveAssessment.identificationCode                        | ACT-English                  |string               |
-#     | studentAssessment| 25                  | studentObjectiveAssessment.body.objectiveAssessment.objectiveAssessments.0.identificationCode | ACT-English-Usage            |string               |
-#     | studentAssessment| 25                  | studentObjectiveAssessment.body.objectiveAssessment.objectiveAssessments.1.identificationCode | ACT-English-Rhetorical       |string               |
-#     | studentAssessment| 12                  | studentObjectiveAssessment.body.scoreResults.0.result                                         | 15                           |string               |
-#     | studentAssessment| 25                  | studentObjectiveAssessment.body.scoreResults.0.assessmentReportingMethod                      | Scale score                  |string               |
-#     | studentAssessment| 25                  | studentObjectiveAssessment.body.objectiveAssessment.identificationCode                        | ACT-English-Usage            |string               |
-#     | studentAssessment| 6                   | studentObjectiveAssessment.body.scoreResults.0.result                                         | 10                           |string               |
-#     | studentAssessment| 25                  | studentObjectiveAssessment.body.scoreResults.0.assessmentReportingMethod                      | Scale score                  |string               |
-#     | studentAssessment| 25                  | studentObjectiveAssessment.body.objectiveAssessment.identificationCode                        | ACT-English-Rhetorical       |string               |
-#     | studentAssessment| 9                   | studentObjectiveAssessment.body.scoreResults.0.result                                         | 8                            |string               |
-#     | studentAssessment| 25                  | studentObjectiveAssessment.body.scoreResults.0.assessmentReportingMethod                      | Scale score                  |string               |
+  Then there are "25" counts of "studentObjectiveAssessment" that reference ("objectiveAssessment" with attribute "body.identificationCode" equals "ACT-English")
+   And there are "25" counts of "studentObjectiveAssessment" that reference ("objectiveAssessment" with attribute "body.identificationCode" equals "ACT-English-Usage")
+   And there are "25" counts of "studentObjectiveAssessment" that reference ("objectiveAssessment" with attribute "body.identificationCode" equals "ACT-English-Rhetorical")
+  And I check to find if record is in collection:
+     | collectionName   | expectedRecordCount | searchParameter                                                                               | searchValue                  |searchType           |
+     | studentAssessment| 12                  | studentObjectiveAssessment.body.scoreResults.0.result                                         | 15                           |string               |
+     | studentAssessment| 25                  | studentObjectiveAssessment.body.scoreResults.0.assessmentReportingMethod                      | Scale score                  |string               |
+     | studentAssessment| 6                   | studentObjectiveAssessment.body.scoreResults.0.result                                         | 10                           |string               |
+     | studentAssessment| 25                  | studentObjectiveAssessment.body.scoreResults.0.assessmentReportingMethod                      | Scale score                  |string               |
+     | studentAssessment| 9                   | studentObjectiveAssessment.body.scoreResults.0.result                                         | 8                            |string               |
+     | studentAssessment| 25                  | studentObjectiveAssessment.body.scoreResults.0.assessmentReportingMethod                      | Scale score                  |string               |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter               | searchValue     |searchType           |
      | parent                      | 1                   | body.parentUniqueStateId      | 9870036500      |string               |
@@ -391,7 +390,8 @@ And I check to find if record is in collection:
      | collectionName                        | expectedRecordCount | searchParameter               | searchValue     |searchType           |
      | staffEducationOrganizationAssociation |          9          | body.beginDate                | 1967-08-13      | string              |
      | staffEducationOrganizationAssociation |          1          | body.beginDate                | 2000-01-01      | string              |
- 
+
+
 @smoke
 Scenario: Verify deterministic ids generated: Clean Database
   And I check that ids were generated properly:
@@ -419,8 +419,7 @@ Scenario: Verify deterministic ids generated: Clean Database
     | studentAssessment                    | e7edb12749b430584eec8d7b9652d2774d7f6ffb_id | body.studentId            | c04d5891b6b1f10ce9b9e48b80581cda7788312c_id |
     | studentAssessment                    | e7edb12749b430584eec8d7b9652d2774d7f6ffb_id | body.assessmentId         | d50118aaad960b54a8b2afc7268d01d13842cb58_id |
     | studentAssessment                    | e7edb12749b430584eec8d7b9652d2774d7f6ffb_id | body.administrationDate   | 2011-05-01                                    |
-# TODO: fix me
-#    | studentAssessment                    | e7edb12749b430584eec8d7b9652d2774d7f6ffb_id | studentObjectiveAssessment.body.objectiveAssessment.learningObjectives   | 7cad1e4eae9c2b91f1e7fe963ee6144e83afe917_id |
+    | studentAssessment                    | e7edb12749b430584eec8d7b9652d2774d7f6ffb_id | studentObjectiveAssessment.body.objectiveAssessmentId   | d50118aaad960b54a8b2afc7268d01d13842cb58_id5c4471fadb51cd0424106174934121a03b70db23_id |
     | studentCompetency                    | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id | body.competencyLevel.codeValue    | 777                                  |
     | studentCompetency                    | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id | body.studentSectionAssociationId    | 5593b94891e8ba3f7005993e3847df6aaaa3a064_idc377c9c4b343dda726e837f442a171c570a460cd_id  |
     | studentCompetency                    | a899667c35703b07c8005ff17abc4f2d0d7b4f21_id | body.objectiveId.learningObjectiveId    | 9e4b630c63a6f2e284de84aae8e9e1846b33bf1f_id                                  |
@@ -907,15 +906,16 @@ Then I should see following map of entry counts in the corresponding collections
      | staffProgramAssociation     | 2                   | body.beginDate              | 2011-06-02              | string               |
      | staffProgramAssociation     | 9                   | body.endDate                | 2012-02-15              | string               |
      | studentAcademicRecord         | 104                 | body.cumulativeCreditsAttempted.credit| 5                       | integer              |
-# TODO: fix me
      | studentAssessment | 11                  | studentAssessmentItem.body.assessmentResponse                             | False                       | string |
-#     | studentAssessment | 25                  | studentObjectiveAssessment.body.objectiveAssessment.identificationCode    | ACT-English-Rhetorical      | string |
      | studentAssessment | 25                  | studentAssessmentItem.body.assessmentResponse                             | True                        | string |
-#     | studentAssessment | 25                  | studentObjectiveAssessment.body.objectiveAssessment.identificationCode    | ACT-Math-Algebra            | string |
-#     | studentAssessment | 25                  | studentObjectiveAssessment.body.objectiveAssessment.identificationCode    | ACT-Math-Pre-Algebra        | string |
-#     | studentAssessment | 25                  | studentObjectiveAssessment.body.objectiveAssessment.identificationCode    | ACT-Mathematics             | string |
-#     | studentAssessment | 25                  | studentObjectiveAssessment.body.objectiveAssessment.identificationCode    | ACT-Reading-Arts            | string |
-#     | studentAssessment | 25                  | studentObjectiveAssessment.body.objectiveAssessment.identificationCode    | ACT-Writing                 | string |
+  Then there are "25" counts of "studentObjectiveAssessment" that reference ("objectiveAssessment" with attribute "body.identificationCode" equals "ACT-English-Rhetorical")
+   And there are "25" counts of "studentObjectiveAssessment" that reference ("objectiveAssessment" with attribute "body.identificationCode" equals "ACT-Math-Algebra")
+   And there are "25" counts of "studentObjectiveAssessment" that reference ("objectiveAssessment" with attribute "body.identificationCode" equals "ACT-Math-Pre-Algebra")
+   And there are "25" counts of "studentObjectiveAssessment" that reference ("objectiveAssessment" with attribute "body.identificationCode" equals "ACT-Mathematics")
+   And there are "25" counts of "studentObjectiveAssessment" that reference ("objectiveAssessment" with attribute "body.identificationCode" equals "ACT-Reading-Arts")
+   And there are "25" counts of "studentObjectiveAssessment" that reference ("objectiveAssessment" with attribute "body.identificationCode" equals "ACT-Writing")
+  And I check to find if record is in collection:
+     | collectionName              | expectedRecordCount | searchParameter             | searchValue             | searchType           |
      | studentAssessment | 8                   | body.performanceLevelDescriptors.0.1.description                          | Extremely well qualified    | string |
      | studentCohortAssociation    | 1                   | body.beginDate              | 2011-02-01              | string               |
      | studentCohortAssociation    | 1                   | body.beginDate              | 2011-03-01              | string               |

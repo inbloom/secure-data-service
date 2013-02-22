@@ -71,6 +71,8 @@ ERROR_REPORT_MISSING_STRING_SUFFIX = "?#"
 ############################################################
 
 Before do
+  extend Test::Unit::Assertions
+
   @ingestion_db_name = convertTenantIdToDbName('Midgar')
   @conn = Mongo::Connection.new(INGESTION_DB, INGESTION_DB_PORT)
   @batchConn = Mongo::Connection.new(INGESTION_BATCHJOB_DB, INGESTION_BATCHJOB_DB_PORT)
@@ -1705,6 +1707,8 @@ def subDocParent(collectionName)
       "assessment"
     when "objectiveAssessment"
       "assessment"
+    when "studentObjectiveAssessment"
+      "studentAssessment"
     else
       nil
   end
@@ -1937,6 +1941,34 @@ Then /^I check to find if record is in collection:$/ do |table|
   end
 
   assert(@result == "true", "Some records are not found in collection.")
+  enable_NOTABLESCAN()
+end
+
+Then /^there are "(.*?)" counts of "(.*?)" that reference \("(.*?)" with attribute "(.*?)" equals "(.*?)"\)$/ do |count, entity, referenced_entity, attribute, value|
+  disable_NOTABLESCAN()
+
+  entity_parent = subDocParent(entity)
+  referenced_entity_parent = subDocParent(referenced_entity)
+
+  if(entity_parent.nil? or referenced_entity_parent.nil?)
+    raise "Non subdocs are not supported. Please add functionality to this test."
+  end
+
+  pipeline = [{"$match" => {"#{referenced_entity}.#{attribute}" => value}}, # not needed, but speeds up query
+              {"$unwind" => "$#{referenced_entity}"},
+              {"$match" => {"#{referenced_entity}.#{attribute}" => value}}]
+  referenced_entity_collection = @db.collection(referenced_entity_parent)
+  result = referenced_entity_collection.aggregate(pipeline)
+
+  referenced_entity_did = result[0][referenced_entity]["_id"]
+
+  entity_collection = @db.collection(entity_parent)
+  pipeline = [{"$match" => {"#{entity}.body.#{referenced_entity}Id" => referenced_entity_did}}, # not needed, but speeds up query
+              {"$unwind" => "$#{entity}"},
+              {"$match" => {"#{entity}.body.#{referenced_entity}Id" => referenced_entity_did}}]
+  result = entity_collection.aggregate(pipeline)
+  assert_equal(count.to_i, result.size)
+
   enable_NOTABLESCAN()
 end
 
