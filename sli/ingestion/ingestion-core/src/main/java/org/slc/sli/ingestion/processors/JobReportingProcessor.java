@@ -331,23 +331,28 @@ public class JobReportingProcessor implements Processor {
     }
 
     private void writeDuplicates(NewBatchJob job, PrintWriter jobReportWriter) {
-        List<Metrics> edfiMetrics = job.getStageMetrics(BatchJobStageType.EDFI_PROCESSOR);
-        if (edfiMetrics != null) {
-            for (Metrics metric : edfiMetrics) {
-                Map<String, Long> duplicates = metric.getDuplicateCounts();
+        List<Stage> stages = batchJobDAO.getBatchJobStages(job.getId());
 
-                if (duplicates != null) {
-                    String resource = metric.getResourceId();
-                    for (Map.Entry<String, Long> dupEntry : duplicates.entrySet()) {
-                        Long count = dupEntry.getValue();
-                        if (count > 0) {
-                            writeInfoLine(jobReportWriter, resource + " " + dupEntry.getKey() + " " + count
-                                    + " deltas!");
+        for (Stage stage : stages) {
+            if (stage.getStageName().equals(BatchJobStageType.EDFI_PROCESSOR.getName())) {
+                List<Metrics> edfiMetrics = stage.getMetrics();
+                for (Metrics metric : edfiMetrics) {
+                    Map<String, Long> duplicates = metric.getDuplicateCounts();
+
+                    if (duplicates != null) {
+                        String resource = metric.getResourceId();
+                        for (Map.Entry<String, Long> dupEntry : duplicates.entrySet()) {
+                            Long count = dupEntry.getValue();
+                            if (count > 0) {
+                                writeInfoLine(jobReportWriter, resource + " " + dupEntry.getKey() + " " + count
+                                        + " deltas!");
+                            }
                         }
                     }
                 }
             }
         }
+
     }
 
     private long writeBatchJobPersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter) {
