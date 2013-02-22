@@ -51,7 +51,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "1771687e116b8babb04c3e5e0a1e9bda10b583c8_id" if human_readable_id == "INGESTED SUMMER 2012 EAST BREAK JUNIOR HIGH"
 
   # StudentAssessment
-  id = "fe0be78251b73eaeb5bdc9cc79819b42a472dab4_id" if human_readable_id == "STUDENT ASSESSMENT ID"
+  id = "3025f34dc8feae51932ac3b3f43196929f97c600_id" if human_readable_id == "STUDENT ASSESSMENT ID"
   id = "3923f33497e8c41c7a0f6267b7e5f0627d2c0fd2_id" if human_readable_id == "STUDENTASSESSMENT REFERENCE ID"
 
   # StudentSchoolAssociation
@@ -136,7 +136,7 @@ $entity_data = {
     },
   "studentAssessment" => {
       "studentId" => "74cf790e-84c4-4322-84b8-fca7206f1085_id",
-      "assessmentId" => "7b2e6133-4224-4890-ac02-73962eb09645",
+      "assessmentId" => "ce4984449fa1c9621549a5c0bca66edc6fa4e858_id",
       "administrationDate" => "2013-01-01"
     },
     "studentCohortAssociation" => {
