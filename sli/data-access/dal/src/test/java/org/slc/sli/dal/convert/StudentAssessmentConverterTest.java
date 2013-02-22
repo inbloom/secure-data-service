@@ -1,6 +1,5 @@
 package org.slc.sli.dal.convert;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
@@ -48,9 +47,9 @@ public class StudentAssessmentConverterTest {
         List<Entity> embedded = new ArrayList<Entity>();
         Map<String, Object> item2 = new HashMap<String, Object>();
         item2.put("studentAssessmentId", "ID");
-        item2.put("_id", "IDChildID");
+        item2.put("assessmentItemId", "IDChildID");
         item2.put("abc", "somevalue");
-        embedded.add(new MongoEntity("studentAssessmentItem", null, item2, null));
+        embedded.add(new MongoEntity("studentAssessmentItem", "IDChildID", item2, null));
         embeddedData.put("studentAssessmentItem", embedded);
 
         return new MongoEntity(entityType, entityId, body, metaData, null, null, embeddedData, null);
@@ -61,7 +60,7 @@ public class StudentAssessmentConverterTest {
     	List<Entity> entity = Arrays.asList(createUpConvertEntity());
     	assertNotNull(entity.get(0).getEmbeddedData().get("studentAssessmentItem"));
     	assessmentConverter.subdocToBodyField(entity);
-    	assertNull(entity.get(0).getBody().get("studentAssessmentItem"));
+        assertNull(entity.get(0).getEmbeddedData().get("studentAssessmentItem"));
     }
     
 }
