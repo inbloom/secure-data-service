@@ -3,11 +3,12 @@ require "date"
 
 include REXML
 if(ARGV[0].nil?)
-  dir = Dir.pwd
+  file_to_search = "InterchangeAttendance.xml"
 else
-  dir = ARGV[0]
+  file_to_search = ARGV[0]
 end
-file_to_search = dir.to_s + "/**/InterchangeAttendance.xml"
+  dir = Dir.pwd
+file_to_search = dir.to_s + "/**//"+ file_to_search
 Dir[file_to_search].each do |file_name|
 
   file = File.new(file_name)
