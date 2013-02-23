@@ -25,6 +25,8 @@ import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -42,6 +44,8 @@ public class ContainerDocumentAccessor {
     private UUIDGeneratorStrategy generatorStrategy;
 
     private MongoTemplate mongoTemplate;
+
+    private static final Logger LOG = LoggerFactory.getLogger(ContainerDocumentAccessor.class);
 
     public ContainerDocumentAccessor(final UUIDGeneratorStrategy strategy, final MongoTemplate mongoTemplate) {
         this.generatorStrategy = strategy;
@@ -73,6 +77,10 @@ public class ContainerDocumentAccessor {
         final Query query = Query.query(Criteria.where("_id").is(id));
         return updateContainerDoc(query.getQueryObject(), newValues, collectionName, type);
     }
+//    public String update(final Entity entity) {
+//        final DBObject query = getContainerDocQuery(entity);
+//        return updatetContainerDoc(query, entity);
+//    }
 
     private DBObject getContainerDocQuery(final Entity entity) {
         final String parentKey = createParentKey(entity);
@@ -126,6 +134,36 @@ public class ContainerDocumentAccessor {
                 .getLastError().ok();
         return persisted;
     }
+//    protected String updatetContainerDoc(final DBObject query, final Entity entity) {
+//        TenantContext.setIsSystemCall(false);
+//        final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
+//        final String fieldToPersist = containerDocument.getFieldToPersist();
+//
+//        DBObject entityDetails = new BasicDBObject();
+//
+//        if (entity.getMetaData() != null && !entity.getMetaData().isEmpty()) {
+//            entityDetails.put("metaData", entity.getMetaData());
+//        }
+//        entityDetails.put("type", entity.getType());
+//        final Map<String, Object> entityBody = entity.getBody();
+//        for (final String key : containerDocument.getParentNaturalKeys()) {
+//            entityDetails.put("body." + key, entityBody.get(key));
+//        }
+//        final DBObject docToPersist = BasicDBObjectBuilder.start().push("$pushAll")
+//                .add("body." + fieldToPersist, entity.getBody().get(fieldToPersist))
+//                .get();
+//        DBObject set = new BasicDBObject("$set", entityDetails);
+//
+//        docToPersist.putAll(set);
+//        boolean persisted = mongoTemplate.getCollection(entity.getType()).update(query,
+//                docToPersist, true, false)
+//                .getLastError().ok();
+//        if (persisted) {
+//            return (String) query.get("_id");
+//        } else {
+//            return "";
+//        }
+//    }
 
     protected String insertContainerDoc(final DBObject query, final Entity entity) {
         TenantContext.setIsSystemCall(false);
@@ -145,12 +183,28 @@ public class ContainerDocumentAccessor {
         final DBObject docToPersist = BasicDBObjectBuilder.start().push("$pushAll")
                 .add("body." + fieldToPersist, entity.getBody().get(fieldToPersist))
                 .get();
+        boolean persisted =true;
+//        if (mongoTemplate.getCollection(entity.getType()).getCount(query) == 0) {
+//            LOG.debug(entity.getEntityId());
+//            DBObject set = new BasicDBObject("$set", entityDetails);
+//
+//            docToPersist.putAll(set);
+//            persisted &= mongoTemplate.getCollection(entity.getType()).update(query,
+//                    docToPersist, true, false)
+//                    .getLastError().ok();
+//        } else {
+//            persisted &= mongoTemplate.getCollection(entity.getType()).update(query,
+//                    docToPersist)
+//                    .getLastError().ok();
+//        }
+        LOG.debug(entity.getEntityId());
         DBObject set = new BasicDBObject("$set", entityDetails);
 
         docToPersist.putAll(set);
-        boolean persisted = mongoTemplate.getCollection(entity.getType()).update(query,
+        persisted &= mongoTemplate.getCollection(entity.getType()).update(query,
                 docToPersist, true, false)
                 .getLastError().ok();
+
         if (persisted) {
             return (String) query.get("_id");
         } else {
