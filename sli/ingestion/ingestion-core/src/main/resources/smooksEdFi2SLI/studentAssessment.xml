@@ -38,6 +38,7 @@
         <jb:value property="gradeLevelWhenAssessed" data="attributes GradeLevelWhenAssessed _value" />
         <jb:wiring property="performanceLevelDescriptors" beanIdRef="performanceLevelsTypeArray" />
         <jb:wiring property="studentAssessmentItems" beanIdRef="StudentAssessmentItemArray" />
+        <jb:wiring property="studentObjectiveAssessments" beanIdRef="StudentObjectiveAssessments" />
     </jb:bean>
 
   <jb:bean beanId="AssessmentReferenceType" class="java.util.HashMap" createOnElement="attributes AssessmentReference">
@@ -115,5 +116,92 @@
         <jb:value data="attributes StudentAssessmentItems element assessmentItem LearningStandardReference LearningStandardIdentity IdentificationCode _value"/>
     </jb:bean>
 
+    <jb:bean beanId="StudentObjectiveAssessments" class="java.util.ArrayList" createOnElement="attributes StudentObjectiveAssessments">
+    <jb:wiring beanIdRef="StudentObjectiveAssessment" />
+  </jb:bean> 
+
+    <jb:bean beanId="OAScoreResultsArray" class="java.util.ArrayList" createOnElement="attributes StudentObjectiveAssessments element ScoreResults">
+    <jb:wiring beanIdRef="OAscoreResultMap" />
+  </jb:bean>
+  <jb:bean beanId="OAscoreResultMap" class="java.util.HashMap" createOnElement="attributes StudentObjectiveAssessments element ScoreResults element">
+    <jb:value property="assessmentReportingMethod" data="attributes StudentObjectiveAssessments element ScoreResults element a_AssessmentReportingMethod" />
+    <jb:value property="result" data="attributes StudentObjectiveAssessments element ScoreResults element Result _value" />
+  </jb:bean>
+
+      <jb:bean beanId="StudentObjectiveAssessment" class="java.util.HashMap" createOnElement="attributes StudentObjectiveAssessments element">
+        <jb:wiring property="scoreResults" beanIdRef="OAScoreResultsArray" />
+        <jb:wiring property="performanceLevelIDescriptor" beanIdRef="attributes StudentObjectiveAssessments element PerformanceLevelDescriptor" />
+        <jb:wiring property="objectiveAssessment" beanIdRef="ObjectiveAssessmentType1" />
+    </jb:bean>
+
+        <jb:bean beanId="ObjectiveAssessmentTypeArray" class="java.util.ArrayList" createOnElement="attributes StudentObjectiveAssessments element ObjectiveAssessment">
+        <jb:wiring beanIdRef="ObjectiveAssessmentType1"/>
+    </jb:bean>
+
+    <jb:bean beanId="LearningObjectivesTypeArray1" class="java.util.ArrayList" createOnElement="attributes StudentObjectiveAssessments element ObjectiveAssessment">
+        <jb:value data="attributes StudentObjectiveAssessments element ObjectiveAssessmentReference LearningObjectiveReference element"/>
+    </jb:bean>
+
+    <jb:bean beanId="ObjectiveAssessmentType1" class="java.util.HashMap" createOnElement="attributes StudentObjectiveAssessments element ObjectiveAssessment">
+        <jb:value property="identificationCode" data="attributes StudentObjectiveAssessments element ObjectiveAssessment IdentificationCode _value" />
+        <jb:value property="maxRawScore" data="attributes StudentObjectiveAssessments element ObjectiveAssessment MaxRawScore _value" decoder="Integer" />
+        <jb:wiring property="assessmentPerformanceLevel" beanIdRef="AssessmentPerformanceLevelTypeArray" />
+        <jb:value property="percentOfAssessment" data="attributes StudentObjectiveAssessments element ObjectiveAssessment PercentOfAssessment _value" decoder="Integer"/>
+        <jb:value property="nomenclature" data="attributes StudentObjectiveAssessments element ObjectiveAssessment Nomenclature _value" />
+        <!--<jb:wiring property="assessmentItem" beanIdRef="AssessmentItemArray" /> !-->
+        <jb:wiring property="learningObjectives" beanIdRef="LearningObjectivesTypeArray1" />
+        <jb:wiring property="objectiveAssessments" beanIdRef="ObjectiveAssessmentTypeArray2" />
+    </jb:bean>
+
+        <jb:bean beanId="ObjectiveAssessmentTypeArray2" class="java.util.ArrayList" createOnElement="objectiveAssessments">
+        <jb:wiring beanIdRef="ObjectiveAssessmentType2"/>
+    </jb:bean>
+
+        <jb:bean beanId="ObjectiveAssessmentType2" class="java.util.HashMap" createOnElement="objectiveAssessments element">
+        <jb:value property="identificationCode" data="objectiveAssessments element IdentificationCode _value" />
+        <jb:value property="maxRawScore" data="objectiveAssessments element MaxRawScore _value" decoder="Integer" />
+        <!--<jb:wiring property="assessmentPerformanceLevel" beanIdRef="AssessmentPerformanceLevelTypeArray" /> !-->
+        <jb:value property="percentOfAssessment" data="objectiveAssessments elementPercentOfAssessment _value" decoder="Integer"/>
+        <jb:value property="nomenclature" data="objectiveAssessments element Nomenclature _value" />
+    </jb:bean>
+
+    <jb:bean beanId="AssessmentPerformanceLevelTypeArray" class="java.util.ArrayList" createOnElement="attributes StudentObjectiveAssessments element ObjectiveAssessmentReference">
+        <jb:wiring beanIdRef="AssessmentPerformanceLevelType"/>
+    </jb:bean>
+
+     <jb:bean beanId="AssessmentPerformanceLevelType" class="java.util.HashMap" createOnElement="attributes StudentObjectiveAssessments element ObjectiveAssessmentReference AssessmentPerformanceLevel element">
+        <jb:wiring property="performanceLevelDescriptor" beanIdRef="PerformanceLevelDescriptorTypeArray"/>
+        <jb:value property="assessmentReportingMethod" data="attributes StudentObjectiveAssessments element ObjectiveAssessmentReference AssessmentPerformanceLevel element AssessmentReportingMethod _value"></jb:value>
+        <jb:value property="minimumScore" data="attributes StudentObjectiveAssessments element ObjectiveAssessmentReference AssessmentPerformanceLevel element MinimumScore _value" decoder="Integer"></jb:value>
+        <jb:value property="maximumScore" data="attributes StudentObjectiveAssessments element ObjectiveAssessmentReference AssessmentPerformanceLevel element MaximumScore _value" decoder="Integer"></jb:value>
+    </jb:bean>
+
+    <jb:bean beanId="PerformanceLevelDescriptorTypeArray" class="java.util.ArrayList" createOnElement="attributes StudentObjectiveAssessments element ObjectiveAssessmentReference AssessmentPerformanceLevel element">
+        <jb:wiring beanIdRef="assessmentPerformanceDescriptorCodeValue" />
+        <jb:wiring beanIdRef="assessmentPerformanceDescriptorDescription" />
+    </jb:bean>
+
+    <jb:bean beanId="assessmentPerformanceDescriptorDescription" class="java.util.HashMap"
+        createOnElement="attributes StudentObjectiveAssessments element ObjectiveAssessmentReference AssessmentPerformanceLevel element Description">
+        <jb:value property="description" data="PerformanceLevel Description _value" />
+    </jb:bean>
+
+    <jb:bean beanId="assessmentPerformanceDescriptorCodeValue" class="java.util.HashMap"
+       createOnElement="attributes StudentObjectiveAssessments element ObjectiveAssessmentReference AssessmentPerformanceLevel element">
+      <jb:value property="codeValue" data="attributes StudentObjectiveAssessments element ObjectiveAssessmentReference AssessmentPerformanceLevel element CodeValue _value" />
+    </jb:bean>
+
+    <jb:bean beanId="AssessmentItemArray" class="java.util.ArrayList" createOnElement="attributes StudentObjectiveAssessments element ObjectiveAssessmentReference" >
+      <jb:wiring beanIdRef="OAssessmentItem" />
+    </jb:bean>
+
+    <jb:bean beanId="OAssessmentItem" class="java.util.HashMap" createOnElement="attributes StudentObjectiveAssessments element ObjectiveAssessmentReference">
+        <jb:value property="identificationCode" data="attributes StudentObjectiveAssessments element ObjectiveAssessmentReference assessmentItem IdentificationCode _value" />
+        <jb:value property="itemCategory" data="attributes StudentObjectiveAssessments element ObjectiveAssessmentReference assessmentItem ItemCategory _value" />
+        <jb:value property="maxRawScore" data="attributes StudentObjectiveAssessments element ObjectiveAssessmentReference assessmentItem MaxRawScore _value" />
+        <jb:value property="correctResponse" data="attributes StudentObjectiveAssessments element ObjectiveAssessmentReference assessmentItem CorrectResponse _value" />
+        <jb:wiring property="learningStandards" beanIdRef="LearningStandardsArray" />
+        <jb:value property="nomenclature" data="attributes StudentObjectiveAssessments element ObjectiveAssessmentReference assessmentItem Nomenclature _value" />
+    </jb:bean>
 
 </smooks-resource-list>
