@@ -10,10 +10,10 @@
       "PerformanceLevelMet":true
     },
     "AssessmentReportingMethod":{"_value":"Z-score"},
-    "MinimumScore":-198225122,
-    "MaximumScore":273522200
+    "MinimumScore":{"_value":-198225122},
+    "MaximumScore":{"_value":273522200}
   }],
-  "PercentOfAssessment":{"_value":-379146788},
+  "PercentOfAssessment":{"_value":"-379146788"},
   "Nomenclature":{"_value":"J"},
   "AssessmentItemReference":[{
     "a_id":"ID005",

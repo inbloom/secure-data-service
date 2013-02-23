@@ -699,7 +699,7 @@ public class DidReferenceResolutionTest {
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("learningStandardId.identificationCode", "0123456789");
 
-        checkId(entity, "assessmentItem.[0].learningStandards", naturalKeys, "learningStandard");
+        checkId(entity, "AssessmentItemReference.[0].learningStandards", naturalKeys, "learningStandard");
     }
 
     @Test
