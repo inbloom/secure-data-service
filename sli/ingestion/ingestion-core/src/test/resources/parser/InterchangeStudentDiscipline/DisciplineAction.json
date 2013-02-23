@@ -32,8 +32,14 @@
   {
     "_value":"2015-01-08"
   },
-  "DisciplineActionLength":-1558744834,
-  "ActualDisciplineActionLength":130292704,
+  "DisciplineActionLength":
+  {
+    "_value":-1558744834
+  },
+  "ActualDisciplineActionLength":
+  {
+    "_value":130292704
+  },
   "DisciplineActionLengthDifferenceReason":
   {
     "_value":"Student Incarcerated"

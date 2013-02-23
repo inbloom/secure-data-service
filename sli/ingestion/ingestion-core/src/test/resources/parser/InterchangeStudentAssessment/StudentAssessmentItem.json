@@ -12,7 +12,7 @@
   {
     "_value":"Correct"
   },
-  "RawScoreResult":0,
+  "RawScoreResult":{"_value":0},
   "StudentAssessmentReference":
   {
     "StudentAssessmentIdentity":

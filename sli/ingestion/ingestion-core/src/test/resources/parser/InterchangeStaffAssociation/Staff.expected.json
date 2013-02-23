@@ -198,7 +198,7 @@
     },
     {
       "a_TelephoneNumberType":"Unlisted",
-      "a_PrimaryTelephoneNumberIndicator":1,
+      "a_PrimaryTelephoneNumberIndicator":true,
       "TelephoneNumber":{"_value":"BS6dJUYOqpT"}
     },
     {
@@ -218,7 +218,7 @@
     },
     {
       "a_TelephoneNumberType":"Other",
-      "a_PrimaryTelephoneNumberIndicator":0,
+      "a_PrimaryTelephoneNumberIndicator":false,
       "TelephoneNumber":{"_value":"GnzTEq2w6NvQkEo"}
     }
   ],
@@ -248,7 +248,7 @@
       "EmailAddress":{"_value":"j3Fmio-Y3E_8l_RZpO1aIbAj5lxI7yJezO_4u1uYvZ"}
     }
   ],
-  "HispanicLatinoEthnicity":0,
+  "HispanicLatinoEthnicity":{"_value":false},
   "OldEthnicity":{"_value":"Asian Or Pacific Islander"},
   "Race":{
     "RacialCategory":[
@@ -261,8 +261,8 @@
     ]
   },
   "HighestLevelOfEducationCompleted":{"_value":"Master's"},
-  "YearsOfPriorProfessionalExperience":-849319750,
-  "YearsOfPriorTeachingExperience":-1690819928,
+  "YearsOfPriorProfessionalExperience":{"_value":-849319750},
+  "YearsOfPriorTeachingExperience":{"_value":-1690819928},
   "Credentials":[
     {
       "CredentialType":{"_value":"Other"},

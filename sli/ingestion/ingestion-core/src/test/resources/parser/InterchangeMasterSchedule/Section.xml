@@ -7,7 +7,7 @@
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <MediumOfInstruction>Televised</MediumOfInstruction>
     <PopulationServed>Regular Students</PopulationServed>
-    <AvailableCredit CreditType="Carnegie unit" CreditConversion="0">
+    <AvailableCredit CreditType="Carnegie unit" CreditConversion="false">
       <Credit>50.00</Credit>
     </AvailableCredit>
     <CourseOfferingReference>

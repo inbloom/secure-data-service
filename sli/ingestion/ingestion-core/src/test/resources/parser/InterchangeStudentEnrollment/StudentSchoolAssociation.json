@@ -36,12 +36,15 @@
   {
     "_value":"Transfer from a public school in a different state"
   },
-  "RepeatGradeIndicator":0,
+  "RepeatGradeIndicator":{"_value":false},
   "ClassOf":
   {
     "_value":"2023-2024"
   },
-  "SchoolChoiceTransfer":false,
+  "SchoolChoiceTransfer":
+  {
+    "_value":false
+  },
   "ExitWithdrawDate":
   {
     "_value":"2014-06-21"

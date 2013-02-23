@@ -112,7 +112,7 @@ public class EntityTestHelper {
                 assertEquals(exp, rec);
 
             } else if (exp instanceof Boolean) {
-                assertTrue("Missing expected String value type for key: " + key, rec instanceof Boolean);
+                assertTrue("Missing expected Boolean value type for key: " + key, rec instanceof Boolean);
                 assertEquals(exp, rec);
 
             } else if (exp instanceof Map) {

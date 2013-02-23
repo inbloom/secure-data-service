@@ -25,15 +25,23 @@
     {
       "SpecialAccommodation":
       [
-        "Presentation",
-        "Presentation"
+        {
+          "_value":"Presentation"
+        },
+        {
+          "_value":"Presentation"
+        }
       ]
     },
     {
       "SpecialAccommodation":
       [
-        "Presentation",
-        "Presentation"
+        {
+          "_value":"Presentation"
+        },
+        {
+          "_value":"Presentation"
+        }
       ]
     }
   ],
@@ -42,15 +50,23 @@
     {
       "LinguisticAccommodation":
       [
-        "Bilingual Dictionary",
-        "Bilingual Dictionary"
+        {
+          "_value":"Bilingual Dictionary"
+        },
+        {
+          "_value":"Bilingual Dictionary"
+        }
       ]
     },
     {
       "LinguisticAccommodation":
       [
-        "Bilingual Dictionary",
-        "Bilingual Dictionary"
+        {
+          "_value":"Bilingual Dictionary"
+        },
+        {
+          "_value":"Bilingual Dictionary"
+        }
       ]
     }
   ],
@@ -91,7 +107,10 @@
       {
         "_value":"CodeValue4"
       },
-      "PerformanceLevelMet":false
+      "PerformanceLevelMet":
+      {
+        "_value":false
+      }
     },
     {
       "a_id":"ID016",
@@ -99,7 +118,10 @@
       {
         "_value":"Description3"
       },
-      "PerformanceLevelMet":false
+      "PerformanceLevelMet":
+      {
+        "_value":false
+      }
     }
   ],
   "StudentReference":
@@ -129,7 +151,10 @@
       {
         "_value":"Adult Education"
       },
-      "Version":0
+      "Version"
+      {
+        "_value":0
+      }
     }
   }
 }

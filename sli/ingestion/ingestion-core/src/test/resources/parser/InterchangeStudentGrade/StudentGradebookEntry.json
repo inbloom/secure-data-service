@@ -8,7 +8,10 @@
   {
     "_value":"FjlioCgKCQ7AG"
   },
-  "NumericGradeEarned":842552517,
+  "NumericGradeEarned":
+  {
+    "_value":842552517
+  },
   "CompetencyLevel":
   {
     "a_id":"ID010",

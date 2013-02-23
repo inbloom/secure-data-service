@@ -90,7 +90,7 @@ public class DidReferenceResolutionTest {
         naturalKeys.put("version", "1");
         naturalKeys.put("academicSubject", ""); // apparently, empty optional natural key field is default to empty string
 
-        checkId(entity, "assessmentId", naturalKeys, "assessment");
+        checkId(entity, "AssessmentReference", naturalKeys, "assessment");
     }
 
     @Test
