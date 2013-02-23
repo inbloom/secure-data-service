@@ -55,7 +55,7 @@
     <jb:bean beanId="TopLevelObjectiveAssessmentType" class="java.util.HashMap" createOnElement="ObjectiveAssessment element">
         <jb:value property="identificationCode" data="ObjectiveAssessment element IdentificationCode _value" />
         <jb:value property="maxRawScore" data="ObjectiveAssessment element MaxRawScore _value" decoder="Integer" />
-        <jb:wiring property="assessmentPerformanceLevel" beanIdRef="OAssessmentPerformanceLevelTypeArray" />
+        <jb:wiring property="assessmentPerformanceLevel" beanIdRef="AssessmentPerformanceLevelTypeArray" />
         <jb:value property="percentOfAssessment" data="ObjectiveAssessment element PercentOfAssessment _value" decoder="Integer"/>
         <jb:value property="nomenclature" data="ObjectiveAssessment element Nomenclature _value" />
         <jb:wiring property="learningObjectives" beanIdRef="LearningObjectivesTypeArray1"/>
@@ -106,7 +106,7 @@
     </jb:bean>
 
      <jb:bean beanId="AssessmentPerformanceLevelType" class="java.util.HashMap" createOnElement="AssessmentPerformanceLevel element">
-        <jb:wiring property ="performanceLevelDescriptor" beanIdRef="PerformanceLevelDescriptorTypeArray"/>
+        <jb:wiring property="performanceLevelDescriptor" beanIdRef="PerformanceLevelDescriptorTypeArray"/>
         <jb:value property="assessmentReportingMethod" data="AssessmentPerformanceLevel element AssessmentReportingMethod _value"></jb:value>
         <jb:value property="minimumScore" data="AssessmentPerformanceLevel element MinimumScore _value" decoder="Integer"></jb:value>
         <jb:value property="maximumScore" data="AssessmentPerformanceLevel element MaximumScore _value" decoder="Integer"></jb:value>
