@@ -3586,32 +3586,20 @@
 				</xs:annotation>
 			</xs:element>
 			<xs:element maxOccurs='unbounded' minOccurs='0'
-                        name='studentObjectiveAssessments' type='studentObjectiveAssessment'>
+                        name='studentObjectiveAssessments' type='subdoc_studentObjectiveAssessment'>
                 <xs:annotation>
                     <xs:documentation>The score and or performance level(s) earned for
                         each objective assessment by the student.
                     </xs:documentation>
-                    <xs:appinfo>
-                        <sli:CollectionType>studentObjectiveAssessment</sli:CollectionType>
-                        <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
-                        <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
-                    </xs:appinfo>
                 </xs:annotation>
             </xs:element>
             <xs:element maxOccurs='unbounded' minOccurs='0'
-				name='studentAssessmentItems' type='studentAssessmentItem'>
+				name='studentAssessmentItems' type='subdoc_studentAssessmentItem'>
 				<xs:annotation>
 					<xs:documentation>This entity represents the student's responses
 						to
 						assessment items.
 					</xs:documentation>
-					<xs:appinfo>
-                        <sli:CollectionType>studentAssessmentItem</sli:CollectionType>
-                        <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
-						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
-						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
-					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
 			<xs:element name='studentId' type='reference'>
@@ -3651,6 +3639,12 @@
 				assessment item and the item-level scores such as correct,
 				incorrect, or met standard.
 			</xs:documentation>
+			<xs:appinfo>
+                        <sli:CollectionType>studentAssessmentItem</sli:CollectionType>
+                        <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+					</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element minOccurs='0' name='assessmentResponse' type='assessmentResponse'>
@@ -3736,6 +3730,82 @@
             </xs:element>
 		</xs:sequence>
 	</xs:complexType>
+	
+	<xs:complexType name='subdoc_studentAssessmentItem'>
+		<xs:annotation>
+			<xs:documentation>This entity represents the student's response to an
+				assessment item and the item-level scores such as correct,
+				incorrect, or met standard.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element minOccurs='0' name='assessmentResponse' type='assessmentResponse'>
+				<xs:annotation>
+					<xs:documentation>A student's response to a stimulus on a test.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element minOccurs='0' name='responseIndicator' type='responseIndicatorType'>
+				<xs:annotation>
+					<xs:documentation>Indicator of the response. For example:
+						Nonscorable response
+						Ineffective response
+						Effective response
+						Partial
+						response
+						...
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name='assessmentItemResult' type='assessmentItemResultType'>
+				<xs:annotation>
+					<xs:documentation>The analyzed result of a student's response to
+						an
+						assessment item.. For example:
+						Correct
+						Incorrect
+						Met standard
+						...
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element minOccurs='0' name='rawScoreResult' type='xs:int'>
+				<xs:annotation>
+					<xs:documentation>A meaningful raw score of the performance of an
+						individual on an assessment item.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name='assessmentItem' type='assessmentItem'>
+				<xs:annotation>
+					<xs:documentation>The AssessmentItem to which this
+						studentAssessmentItem is a response to.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
 
 	<xs:complexType name='studentCharacteristic'>
 		<xs:annotation>
@@ -4125,6 +4195,12 @@
 			<xs:documentation>This entity holds the score and or performance
 				levels earned for an objective assessment by a student.
 			</xs:documentation>
+			<xs:appinfo>
+                        <sli:CollectionType>studentObjectiveAssessment</sli:CollectionType>
+                        <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+                    </xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
             <!--  this is a 'virtual' element that only exists for superdoc processing -->
@@ -4184,6 +4260,55 @@
 			</xs:element>
 		</xs:sequence>
 	</xs:complexType>
+	
+	
+	<xs:complexType name='subdoc_studentObjectiveAssessment'>
+		<xs:annotation>
+			<xs:documentation>This entity holds the score and or performance
+				levels earned for an objective assessment by a student.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element maxOccurs='unbounded' name='scoreResults'
+				type='scoreResult'>
+				<xs:annotation>
+					<xs:documentation>A meaningful score or statistical expression of
+						the performance of an individual. The results can be expressed
+						as a
+						number, percentile, range, level, etc.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element maxOccurs='unbounded' minOccurs='0'
+				name='performanceLevelDescriptors' type='performanceLevelDescriptor'>
+				<xs:annotation>
+					<xs:documentation>This descriptor defines various levels or
+						thresholds for performance on the assessment.
+					</xs:documentation>
+					<xs:appinfo>
+						<sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+						<sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name='objectiveAssessment' type='objectiveAssessment'>
+				<xs:annotation>
+					<xs:documentation>This entity represents subtests that assess
+						specific learning objectives.
+					</xs:documentation>
+					<xs:appinfo>
+                        <sli:WriteEnforcement><sli:allowedBy>WRITE_GENERAL</sli:allowedBy></sli:WriteEnforcement>
+                        <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
 
 	<xs:complexType name='studentParentAssociation'>
 		<xs:annotation>
