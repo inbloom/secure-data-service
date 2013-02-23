@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
@@ -37,12 +38,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriInfo;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-
+import org.slc.sli.api.cache.SessionCache;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.init.RoleInitializer;
@@ -57,6 +53,11 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * CRUD resource for custom roles.
@@ -92,6 +93,9 @@ public class CustomRoleResource {
     @Qualifier("validationRepo")
     private Repository<Entity> repo;
 
+    @Resource
+    private SessionCache sessions;
+    
     public static final String RESOURCE_NAME = "customRole";
 
     protected static final String ERROR_DUPLICATE_ROLE = "Cannot list duplicate roles";
@@ -197,6 +201,7 @@ public class CustomRoleResource {
         if (id != null) {
             String uri = uriToString(uriInfo) + "/" + id;
             auditSecEvent(uriInfo, "Created custom role with id: " + id);
+            this.sessions.clear();
             return Response.status(Status.CREATED).header("Location", uri).build();
         }
         return Response.status(Status.BAD_REQUEST).build();
@@ -234,6 +239,7 @@ public class CustomRoleResource {
 
         if (service.update(id, updated)) {
             auditSecEvent(uriInfo, "Updated role with id:" + id);
+            this.sessions.clear();
             return Response.status(Status.NO_CONTENT).build();
         }
         return Response.status(Status.BAD_REQUEST).build();
@@ -249,6 +255,7 @@ public class CustomRoleResource {
     public Response deleteCustomRole(@PathParam("id") String id, @Context final UriInfo uriInfo) {
         service.delete(id);
         auditSecEvent(uriInfo, "Deleted role with id:" + id);
+        this.sessions.clear();
         return Response.status(Status.NO_CONTENT).build();
     }
 

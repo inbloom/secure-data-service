@@ -25,10 +25,20 @@ limitations under the License.
         <ProgramId>{{program}}</ProgramId>
       </ProgramIdentity>
     </ProgramReference>
+    {{#services}}
+      <Services>
+        {{#codeValue}}<CodeValue>{{codeValue}}</CodeValue>{{/codeValue}}
+        {{#shortDescription}}<ShortDescription>{{shortDescription}}</ShortDescription>{{/shortDescription}}
+        {{#description}}<Description>{{description}}</Description>{{/description}}
+      </Services>
+    {{/services}}
     <BeginDate>{{begin_date}}</BeginDate>
     {{#end_date}}
     <EndDate>{{end_date}}</EndDate>
     {{/end_date}}
+    {{#reasonExited}}
+      <ReasonExited>{{reasonExited}}</ReasonExited>
+    {{/reasonExited}}
     <EducationOrganizationReference>
       <EducationalOrgIdentity>
         <StateOrganizationId>{{ed_org_id}}</StateOrganizationId>

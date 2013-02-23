@@ -133,17 +133,6 @@ public class DefinitionFactory {
             this.supportsAggregates = false;
         }
 
-        public EntityBuilder setRequiredReadRight(Right right) {
-            this.readRight = right;
-            return this;
-        }
-
-
-        public EntityBuilder setRequiredWriteRight(Right right) {
-            this.writeRight = right;
-            return this;
-        }
-
         /**
          * Add a list of treatments to the definition
          *
@@ -216,7 +205,7 @@ public class DefinitionFactory {
         public EntityDefinition build() {
 
             BasicService entityService = (BasicService) DefinitionFactory.this.beanFactory.getBean("basicService",
-                    collectionName, treatments, this.readRight, this.writeRight, this.repo);
+                    collectionName, treatments, this.repo);
 
             EntityDefinition entityDefinition = new EntityDefinition(type, resourceName, collectionName, entityService,
                     supportsAggregates, skipContextValidation, wrapperEntity);

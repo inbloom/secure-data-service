@@ -5,7 +5,7 @@ module LoadTest
     DEFAULT_CONFIG = {
         :config_root => "..",
         :data_root => "data",
-        :thread_count_array => (0..10).collect{|x| 2**x},
+        :thread_count_array => (0..2).collect{|x| 2**x},
         :max_avg_elapsed_time => 5000,
         :stop_when_error_occurs => false,
         :test_run => true,
