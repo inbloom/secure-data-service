@@ -387,6 +387,13 @@ public class UriMutator {
                         "/schools/%s/studentSchoolAssociations/students/studentAcademicRecords",
                         StringUtils.join(edOrgHelper.getFilteredDirectEdorgs(user), ",")));
                 mutated.setQueryParameters(mutuateQueryParameterString("sessionId", transitiveEntityId, mutated.getQueryParameters()));
+            } else if (modifiedRequest.equals(PathConstants.LEARNING_OBJECTIVES + ";" + PathConstants.STUDENT_COMPETENCIES
+                    + ";")) {
+                verifySingleTransitiveId(transitiveEntityId);
+                mutated.setPath(String.format(
+                        "/schools/%s/sections/studentSectionAssociations/studentCompetencies",
+                        StringUtils.join(edOrgHelper.getFilteredDirectEdorgs(user), ",")));
+                mutated.setQueryParameters(mutuateQueryParameterString("learningObjectiveId", transitiveEntityId, mutated.getQueryParameters()));
             }
         }
         return mutated;
