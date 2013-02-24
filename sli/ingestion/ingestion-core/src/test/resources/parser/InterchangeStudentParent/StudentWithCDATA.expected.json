@@ -159,14 +159,14 @@
   "Telephone":[
     {
       "a_TelephoneNumberType":"Unlisted",
-      "a_PrimaryTelephoneNumberIndicator":"0",
+      "a_PrimaryTelephoneNumberIndicator":false,
       "TelephoneNumber":{
         "_value":"Ui"
       }
     },
     {
       "a_TelephoneNumberType":"Emergency 1",
-      "a_PrimaryTelephoneNumberIndicator":"true",
+      "a_PrimaryTelephoneNumberIndicator":true,
       "TelephoneNumber":{
         "_value":"rO2M2JWseTfFx"
       }
