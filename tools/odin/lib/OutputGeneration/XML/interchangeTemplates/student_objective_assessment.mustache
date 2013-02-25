@@ -1,4 +1,4 @@
-{{!
+{{! 
 Copyright 2012-2013 inBloom, Inc. and its affiliates.
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,63 +14,48 @@ See the License for the specific language governing permissions and
 limitations under the License.
 }}
 {{#entity}}
-    <StudentObjectiveAssessment>
-        <ScoreResults AssessmentReportingMethod="{{assessment_reporting_method}}">
-            <Result>{{result}}</Result>
-        </ScoreResults>
-        <StudentAssessmentReference>
-            <StudentAssessmentIdentity>
-                <AdministrationDate>{{administration_date}}</AdministrationDate>
-                <StudentReference>
-                    <StudentIdentity>
-                        <StudentUniqueStateId>{{student_unique_state_id}}</StudentUniqueStateId>
-                    </StudentIdentity>
-                </StudentReference>
-                <AssessmentReference>
-                    <AssessmentIdentity>
-                        <AssessmentTitle>{{assessment_title}}</AssessmentTitle>
-                        <GradeLevelAssessed>{{grade_level_assessed}}</GradeLevelAssessed>
-                        <Version>{{version}}</Version>
-                    </AssessmentIdentity>
-                </AssessmentReference>
-            </StudentAssessmentIdentity>
-        </StudentAssessmentReference>
-        <ObjectiveAssessmentReference>
-            <ObjectiveAssessmentIdentity>
-                <ObjectiveAssessmentIdentificationCode>{{objective_assessment}}</ObjectiveAssessmentIdentificationCode>
-            </ObjectiveAssessmentIdentity>
-        </ObjectiveAssessmentReference>
-    </StudentObjectiveAssessment>
+<StudentObjectiveAssessment>
+  {{#score}}
+  <ScoreResults AssessmentReportingMethod="Scale score">
+     <Result>{{score}}</Result>
+  </ScoreResults>
+  {{/score}}
+  {{#performanceLevels}}
+  <PerformanceLevels>
+  <CodeValue>{{codeValue}}</CodeValue>
+  <PerformanceLevelMet>{{performanceLevelMet}}</PerformanceLevelMet>
+  </PerformanceLevels>
+  {{/performanceLevels}}
+  {{#studentAssessment}}
+  <StudentAssessmentReference>
+     <StudentAssessmentIdentity>
+         <AdministrationDate>{{date}}</AdministrationDate>
+         <StudentReference>
+            <StudentIdentity>
+               <StudentUniqueStateId>{{studentId}}</StudentUniqueStateId>
+            </StudentIdentity>
+         </StudentReference>
+         {{#assessment}}
+         <AssessmentReference>
+            <AssessmentIdentity>
+               <AssessmentTitle>{{assessmentTitle}}</AssessmentTitle>
+               {{#academicSubject}}
+               <AcademicSubject>{{academicSubject}}</AcademicSubject>
+               {{/academicSubject}}
+               {{#gradeLevelAssessed}}
+               <GradeLevelAssessed>{{gradeLevelAssessed}}</GradeLevelAssessed>
+               {{/gradeLevelAssessed}}
+               {{#version}}
+               <Version>{{version}}</Version>
+               {{/version}}
+             </AssessmentIdentity>
+          </AssessmentReference>
+          {{/assessment}}
+      </StudentAssessmentIdentity>
+  </StudentAssessmentReference>
+  {{/studentAssessment}}
+  {{#objectiveAssessmentReference}}
+  {{> Partials/_objective_assessment_reference}}
+  {{/objectiveAssessmentReference}}
+</StudentObjectiveAssessment>
 {{/entity}}
-
-	<xs:complexType name="StudentObjectiveAssessment">
-		<xs:annotation>
-			<xs:documentation>This entity holds the score and or performance levels earned for an objective assessment by a student.</xs:documentation>
-		</xs:annotation>
-		<xs:complexContent>
-			<xs:extension base="ComplexObjectType">
-				<xs:sequence>
-					<xs:element name="ScoreResults" type="ScoreResult" maxOccurs="unbounded">
-						<xs:annotation>
-							<xs:documentation>A meaningful score or statistical expression of the performance of an individual. The results can be expressed as a number, percentile, range, level, etc.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="PerformanceLevels" type="PerformanceLevelDescriptorReferenceType" minOccurs="0" maxOccurs="unbounded">
-						<xs:annotation>
-							<xs:documentation>The performance level(s) achieved for the objective assessment.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="StudentAssessmentReference" type="StudentAssessmentReferenceType">
-						<xs:annotation>
-							<xs:documentation>Link of the objective scores the overall scores for a student's specific test administration.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-					<xs:element name="ObjectiveAssessmentReference" type="ObjectiveAssessmentReferenceType">
-						<xs:annotation>
-							<xs:documentation>Reference to the test objective that is being measured by the objective-level assessment.</xs:documentation>
-						</xs:annotation>
-					</xs:element>
-				</xs:sequence>
-			</xs:extension>
-		</xs:complexContent>
-	</xs:complexType>

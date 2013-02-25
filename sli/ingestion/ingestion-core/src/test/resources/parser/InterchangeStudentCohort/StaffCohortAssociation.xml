@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentCohort xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <StaffCohortAssociation id="ID005">
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>SiRy21s0y</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <CohortReference>
+      <CohortIdentity>
+        <CohortIdentifier>uuXpYmbd7zvRfhn</CohortIdentifier>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>b1csEBXUXs7tT8hJgqx500JieVj5-Cv35N6mJPNldz6</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </CohortIdentity>
+    </CohortReference>
+    <BeginDate>2013-08-16</BeginDate>
+    <EndDate>2014-05-10</EndDate>
+    <StudentRecordAccess>false</StudentRecordAccess>
+  </StaffCohortAssociation>
+</InterchangeStudentCohort>

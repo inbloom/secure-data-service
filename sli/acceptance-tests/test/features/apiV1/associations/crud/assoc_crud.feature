@@ -135,7 +135,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | studentProgramAssociation              | studentProgramAssociations               | 10    | "/staff/@ids/staffProgramAssociations/programs/studentProgramAssociations" |
       | studentSchoolAssociation               | studentSchoolAssociations                | 0     | "/schools/@ids/studentSchoolAssociations" |
       | studentSectionAssociation              | studentSectionAssociations               | 0     | "/schools/@ids/sections/studentSectionAssociations" |
-      | courseTranscript                       | courseTranscripts                        | 0     | "/schools/@ids/studentSchoolAssociations/students/courseTranscripts" |
+      | courseTranscript                       | courseTranscripts                        | 0     | "/schools/@ids/studentSchoolAssociations/students/studentAcademicRecords/courseTranscripts" |
       | teacherSchoolAssociation               | teacherSchoolAssociations                | 0     | "/schools/@ids/teacherSchoolAssociations" |
       | teacherSectionAssociation              | teacherSectionAssociations               | 0     | "/schools/@ids/teacherSchoolAssociations/teachers/teacherSectionAssociations" |
 
@@ -170,7 +170,7 @@ Feature: As an SLI application, I want to be able to perform CRUD operations on 
       | student                                | students                                 | 31    | "/sections/@ids/studentSectionAssociations/students" |
       | studentSchoolAssociation               | studentSchoolAssociations                | 67    | "/sections/@ids/studentSectionAssociations/students/studentSchoolAssociations" |
       | studentSectionAssociation              | studentSectionAssociations               | 31    | "/sections/@ids/studentSectionAssociations" |
-      | courseTranscript                       | courseTranscripts                        | 2     | "/sections/@ids/studentSectionAssociations/students/courseTranscripts" |
+      | courseTranscript                       | courseTranscripts                        | 2     | "/sections/@ids/studentSectionAssociations/students/studentAcademicRecords/courseTranscripts" |
       | teacher                                | teachers                                 | 1     | "/schools/@ids/teacherSchoolAssociations/teachers" |
       | teacherSchoolAssociation               | teacherSchoolAssociations                | 1     | "/teachers/@ids/teacherSchoolAssociations" |
       | teacherSectionAssociation              | teacherSectionAssociations               | 4     | "/teachers/@ids/teacherSectionAssociations" |

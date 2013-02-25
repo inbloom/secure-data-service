@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStaffAssociation xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <StaffEducationOrgAssignmentAssociation>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>zWoaMYsBN3pH5</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>f5AQKsDEZTNLR4Lm9qkRHn_Xuo_ceSOpM</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <StaffClassification>School Leader</StaffClassification>
+    <PositionTitle>deDxbWQ4lJEfeLSGIFa0cwvczyr-dneEDv</PositionTitle>
+    <BeginDate>2014-03-04</BeginDate>
+    <EndDate>2013-07-05</EndDate>
+  </StaffEducationOrgAssignmentAssociation>
+</InterchangeStaffAssociation>

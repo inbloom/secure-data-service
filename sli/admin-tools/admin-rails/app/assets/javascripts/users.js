@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2013 inBloom, Inc. and its affiliates.
+ * Copyright 2012 Shared Learning Collaborative, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,13 @@
 
 
 $(document).ready(function() {
+  //This is a bit of a hack.  Rails automatically includes all javascript files
+  //on every page.  This file throws an error on every page except for the ones in /users because
+  //these variables are declared only in the users_controller.  To get around this we return if the
+  //first of these variables aren't defined.
+  if (typeof self_editing == 'undefined') {
+      return
+  }
 
   if (self_editing && is_operator) {
     $("#roles_edorg_block").hide()

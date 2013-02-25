@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentGrade xmlns:sli="http://slc-sli/ed-org/0.1"
+ xmlns="http://ed-fi.org/0100"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <LearningObjective id="ID012">
+        <LearningObjectiveId ContentStandardName="TPDFLQ">
+            <IdentificationCode>keJd41pn6kwdakFc6zFBsj4Pjs1grqwRIavmuAzX96n</IdentificationCode>
+        </LearningObjectiveId>
+        <Objective>wvOlbxCFugh1cFNhABss4K1nsqB5xvo3jIGkyt6jLIPTgl2P</Objective>
+        <Description>CSanhK0JCovX</Description>
+        <AcademicSubject>Human Services</AcademicSubject>
+        <ObjectiveGradeLevel>Grade 13</ObjectiveGradeLevel>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>dp9qYnt4_RV7bHcPrEs5BgLo</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>XaD-Ba5POu6H9KBaOzlS2G0KPLlo9lXWT2_Ka.w6uc7F-eCEc4WrTIoV</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningObjectiveReference>
+            <LearningObjectiveIdentity>
+                <Objective>BSho8U337EUukkAkM-EUg_t9MkUUrgQLyoDxKShOd</Objective>
+                <AcademicSubject>Social Studies</AcademicSubject>
+                <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+            </LearningObjectiveIdentity>
+        </LearningObjectiveReference>
+    </LearningObjective>
+</InterchangeStudentGrade>

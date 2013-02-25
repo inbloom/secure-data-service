@@ -32,6 +32,8 @@ UNIQUE_TENANT_ID_2 ="e04161f09a09"
 UNIQUE_TENANT_ID_3 = "4fa3fe8be4b00b3987bec778"
 UNIQUE_ED_ORG_ID = "aabc8798d987s9e8987"
 
+INGESTION_ZONE_PATH = PropLoader.getProps['ingestion_remote_lz_path']
+
 Transform /^([^"]*)<([^"]*)>$/ do |arg1, arg2|
   id = arg1+UNIQUE_TENANT_ID_2 if arg2 == "Testing Tenant"
   id = arg1+@newId if arg2 == "New Tenant UUID"
@@ -74,14 +76,14 @@ When /^I POST a new tenant$/ do
         { 
           "educationOrganization" => "Sunset",
           "ingestionServer" => "ingServIL",
-          "path" => "/home/ingestion/lz/inbound/IL-STATE-SUNSET",
+          "path" => "#{INGESTION_ZONE_PATH}/lz/inbound/IL-STATE-SUNSET",
           "desc" => "Sunset district landing zone",
           "userNames" => [ "jwashington", "jstevenson" ]
         },
         {
           "educationOrganization" => "Daybreak",
           "ingestionServer" => "ingServIL",
-          "path" => "/home/ingestion/lz/inbound/IL-STATE-DAYBREAK",
+          "path" => "#{INGESTION_ZONE_PATH}/lz/inbound/IL-STATE-DAYBREAK",
           "desc" => "Daybreak district landing zone",
           "userNames" => [ "jstevenson" ]
         }
@@ -130,7 +132,7 @@ When /^I navigate to PUT "([^"]*)"$/ do |arg1|
         { 
           "educationOrganization" => "Daybreak",
           "ingestionServer" => "ingServIL",
-          "path" => "/home/ingestion/lz/inbound/IL-STATE-DAYBREAK",
+          "path" => "#{INGESTION_ZONE_PATH}/lz/inbound/IL-STATE-DAYBREAK",
           "desc" => "Daybreak district landing zone",
           "userNames" => [ "rrogers" ]
         }
@@ -216,7 +218,7 @@ def getBaseTenant
         { 
           "educationOrganization" => "Twilight",
           "ingestionServer" => "ingServIL",
-          "path" => "/home/ingestion/lz/inbound/IL-STATE-TWILIGHT",
+          "path" => "#{INGESTION_ZONE_PATH}/lz/inbound/IL-STATE-TWILIGHT",
           "desc" => "Twilight district landing zone",
           "userNames" => [ "rrogers" ]
         }

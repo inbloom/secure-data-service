@@ -61,7 +61,8 @@ import org.springframework.stereotype.Component;
 public class SecurityEventResource extends UnversionedResource {
 
     public static final String RESOURCE_NAME = "securityEvent";
-    public static final List<String> WATCHED_APP = Arrays.asList("SimpleIDP");
+    /*WATCHED_APP: restricts retrieval of security events only to those whose appId is listed, this is in addition to the normal accessibility rules*/
+    public static final List<String> WATCHED_APP = Arrays.asList("SimpleIDP","Ingestion");
     private final EntityDefinitionStore entityDefs;
 
     @Autowired

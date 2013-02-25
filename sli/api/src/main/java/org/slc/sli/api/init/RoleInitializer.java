@@ -115,6 +115,7 @@ public class RoleInitializer {
         group.put("groupTitle", role.getName());
         group.put("names", Arrays.asList(role.getName()));
         group.put("rights", iterableToList(role.getRightsAsStrings()));
+        group.put("selfRights", iterableToList(role.getSelfRightsAsStrings()));
         group.put("isAdminRole", role.isAdmin());
         return group;
     }
@@ -130,7 +131,8 @@ public class RoleInitializer {
     private Role buildAggregate() {
         info("Building Aggregate Viewer default role.");
         Role role = RoleBuilder.makeRole(AGGREGATE_VIEWER)
-                .addRights(new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ }).build();
+                .addRights(new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ })
+                .addSelfRights(new Right[] { Right.READ_GENERAL, Right.READ_RESTRICTED}).build();
         role.setAdmin(false);
         return role;
     }
@@ -138,7 +140,8 @@ public class RoleInitializer {
     private Role buildEducator() {
         info("Building Educator default role.");
         Role role = RoleBuilder.makeRole(EDUCATOR)
-                .addRights(new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ, Right.READ_GENERAL }).build();
+                .addRights(new Right[] { Right.READ_PUBLIC, Right.AGGREGATE_READ, Right.READ_GENERAL })
+                .addSelfRights(new Right[]{ Right.READ_RESTRICTED}).build();
         role.setAdmin(false);
         return role;
     }

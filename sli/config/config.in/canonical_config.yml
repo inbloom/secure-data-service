@@ -3,18 +3,22 @@ default:
     api: &API-DEFAULT
 
         # used to specify the location of performance log (only used in api)
+        ## api.perf.log.path: target/apilogs/logs
         api.perf.log.path: target/apilogs/logs
 
         # Security  (only used in api)
+        ## sli.security.noSession.landing.url: http://localhost:8080/api/oauth/authorize?response_type=code
         sli.security.noSession.landing.url: http://local.slidev.org:8080/api/oauth/authorize?response_type=code
 
         # Security SAML (only used in api)
+        ## sli.security.sp.issuerName: http://localhost:8080
         sli.security.sp.issuerName: http://local.slidev.org:8080
 
         # Security grace period for viewing sections (only use in api)
         sli.security.gracePeriod: 2000
 
         # Trusted Certificate Authority Store (used in common)
+        ## sli.trust.certificates: ../common/common-encrypt/trust/trustedCertificates
         sli.trust.certificates: ../common/common-encrypt/trust/trustedCertificates
 
         # Support Email (only used in api)
@@ -46,25 +50,32 @@ default:
         # Used to bootstrap the admin realm
         bootstrap.admin.realm.name: inBloom
         bootstrap.admin.realm.tenantId: SLI
+        ## bootstrap.admin.realm.idpId: http://localhost:8082/simple-idp?realm={realm_name}
         bootstrap.admin.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
+        ## bootstrap.admin.realm.redirectEndpoint: http://localhost:8082/simple-idp?realm={realm_name}
         bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=SLIAdmin
 
         # Used to bootstrap the developer realm for unified accounts
         bootstrap.developer.realm.name: inBloom App Developers
         bootstrap.developer.realm.uniqueId: DeveloperIDP
+        ## bootstrap.developer.realm.idpId: http://localhost:8082/simple-idp?realm={dev_realm}&developer=true
         bootstrap.developer.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=SLIDev&developer=true
+        ## bootstrap.developer.realm.redirectEndpoint: http://localhost:8082/simple-idp?realm={dev_realm}&developer=true
         bootstrap.developer.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=SLIDev&developer=true
 
         # Used to bootstrap the sandbox's other ream realm
         bootstrap.sandbox.realm.uniqueId: SandboxIDP
         bootstrap.sandbox.realm.name: Sandbox Environment
+        ## bootstrap.sandbox.realm.idpId: http://localhost:8082/simple-idp
         bootstrap.sandbox.realm.idpId: http://local.slidev.org:8082/simple-idp
+        ## bootstrap.sandbox.realm.redirectEndpoint: http://localhost:8082/simple-idp
         bootstrap.sandbox.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp
         bootstrap.app.conf:
 
         # Used for populating Tenants and LandingZones
         sli.tenant.ingestionServers: localhost
         sli.tenant.landingZoneMountPoint: /ingestion/lz
+        ## sli.landingZone.server: {host}
         sli.landingZone.server: devpantheon.slidev.org
 
         # User a negative number for unlimited
@@ -85,10 +96,12 @@ default:
     data-access: &DATA-ACCESS-DEFAULT
         # MongoDB Options (only used in data-access)
         sli.mongodb.database: sli
+        ## sli.mongodb.host: {mongo_host}:27017
         sli.mongodb.host: localhost:27017
         sli.mongodb.user:
         sli.mongodb.pass:
         sli.perf.mongodb.database: apiPerf
+        ## sli.perf.mongodb.host: {host}
         sli.perf.mongodb.host: jenkins.slidev.org
         sli.perf.mongodb.port: 27017
 
@@ -139,9 +152,11 @@ default:
     ingestion: &INGESTION-DEFAULT
 
         # ingestion landing zone
+        ## landingzone.inbounddir: {file system directory}
         landingzone.inbounddir: C:/lz/
 
         # logging path
+        ## logging.path: {file system directory}
         logging.path: C:/lz/logs
 
         # ingestion command topic
@@ -154,6 +169,7 @@ default:
         sli.ingestion.log.level: info
 
         # ingestion queue definitions (only used in ingestion)
+        ## sli.ingestion.queue.workItem.host: {active_mq_host}
         sli.ingestion.queue.workItem.host:
         sli.ingestion.queue.workItem.port:
         sli.ingestion.queue.workItem.secondaryhost:
@@ -222,15 +238,19 @@ default:
         api.client: apiClient
 
         # URL of the API server to be used by dashboard
+        ## api.server.url: http://localhost:8080/
         api.server.url: http://local.slidev.org:8080/
 
         # URL used to make authenticating requests to the backend API
+        ## security.server.url: http://localhost:8080/
         security.server.url: http://local.slidev.org:8080/
 
         # Only used in dashboard
+        ## portal.footer.url: https://{portal_host}/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
         portal.footer.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
 
         # Only used in dashboard
+        ## portal.header.url: https://{portal_header}/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
         portal.header.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
 
         # Only used in dashboard
@@ -243,6 +263,7 @@ default:
         oauth.client.secret: 8024CF919AC8CC65A1DB18281D6AA9014F74A4A6F27E79A34B50DDDFA86C80BFA947474EF56C432B910FA05CE515891A57A2D2D65D536975E960723B26A2E6B1
 
         # oauth security parameter (only used in dashboard)
+        ## oauth.redirect: http://localhost:8888/dashboard/callback
         oauth.redirect: http://local.slidev.org:8888/dashboard/callback
 
         # Config directory (only used in dashboard)
@@ -267,6 +288,7 @@ default:
         dashboard.encryption.keyStorePass: changeit
         dashboard.encryption.dalKeyAlias: dalKey
         dashboard.encryption.dalKeyPass: changeit
+        ## dashboard.encryption.keyStore: {.jks file}
         dashboard.encryption.keyStore: ../data-access/dal/keyStore/ciKeyStore.jks
 
 
@@ -295,6 +317,7 @@ default:
         bootstrap.app.portal.description: The inBloom Portal application is the primary access portal.
         bootstrap.app.portal.version: 0.0
         bootstrap.app.portal.template: applications/portal.json
+        ## bootstrap.app.portal.url: http://localhost:7000/portal
         bootstrap.app.portal.url: http://local.slidev.org:7000/portal
         bootstrap.app.portal.client_id: lY83c5HmTPX
         bootstrap.app.portal.client_secret: ghjZfyAXi7qwejklcxziuohiueqjknfdsip9cxzhiu13mnsX
@@ -304,8 +327,11 @@ default:
         bootstrap.app.sif.description: SIF Agent
         bootstrap.app.sif.template: applications/sif.json
         bootstrap.app.sif.version: 0.0
+        ## bootstrap.app.sif.url: http://localhost:1338
         bootstrap.app.sif.url: http://local.slidev.org:1338/
+        ## bootstrap.app.sif.apiUrl: http://localhost:8080
         bootstrap.app.sif.apiUrl: http://local.slidev.org:8080/
+        ## bootstrap.app.sif.callbackUrl: http://localhost:8081
         bootstrap.app.sif.callbackUrl: http://local.slidev.org:8081/
         bootstrap.app.sif.guid: 2ad39ff1-65f8-4a16-8912-b49872f1ee97
         bootstrap.app.sif.token: e4e9d71c-d674-11e1-9ea4-f9fc6188709b
@@ -314,6 +340,7 @@ default:
         bootstrap.app.sif.authorized_for_all_edorgs: true
         bootstrap.app.sif.allowed_for_all_edorgs: true
 
+        ## bootstrap.app.vendor: {vendor name}
         bootstrap.app.vendor: inBloom
 
     misc: &MISC-DEFAULT
@@ -330,13 +357,16 @@ default:
         sli.encryption.dalKeyPass: changeit
 
         # (only used in data-access)
+        ## sli.encryption.dalInitializationVector: {32 hex characters}
         sli.encryption.dalInitializationVector: aabbccddeeff11223344556677889900
         # (used in common and data-access)
         sli.wildcard.x509certificate.alias: wildcard
 
         # Issuer value used in the Simple-IDP, must match with idp.id in API realm entity
+        ## sli.simple-idp.issuer-base: http://localhost:8082/simple-idp
         sli.simple-idp.issuer-base: http://local.slidev.org:8082/simple-idp
         # Circule of Trust, comma separated, key=value pair for all API nodes that this SimpleIDP should trust
+        ## sli.simple-idp.cot: http://localhost:8080=http://localhost:8080/api/rest/saml/sso/post
         sli.simple-idp.cot: http://local.slidev.org:8080=http://local.slidev.org:8080/api/rest/saml/sso/post
         # LDAP attribute used to search for and authenticate users
         sli.simple-idp.userSearchAttribute: uid
@@ -354,6 +384,7 @@ default:
         # Name of the SLIAdmin realm used to authenticate sandbox developers when no realm specified
         sli.simple-idp.sliAdminRealmName: SLIAdmin
         # LDAP base URLs, comma separated list of ldap servers
+        ## sli.simple-idp.ldap.urls: ldap://{ldap_host:port}
         sli.simple-idp.ldap.urls: ldap://ldap.slidev.org:389
         # LDAP base DN
         sli.simple-idp.ldap.base: ou=DevTest,dc=slidev,dc=org
@@ -371,7 +402,9 @@ default:
         log.path: ${user.home}/logs
 
         # sample app externalized properties:
+        ## sli.sample.apiUrl: http://localhost:8080/
         sli.sample.apiUrl: http://local.slidev.org:8080/
+        ## sli.sample.callbackUrl: http://localhost:8081/sample/callback
         sli.sample.callbackUrl: http://local.slidev.org:8081/sample/callback
         sli.sample.clientId: fm67sH6vZZ
         sli.sample.clientSecret: sb70uDUEYK1IkE5LB2xdBkTJRIQNhBnaOYu1ig5EZW3UwpP4
@@ -380,6 +413,7 @@ default:
         sli.sif-agent.agentId: test.subscriber.agent
         sli.sif-agent.agentPort: 25100
         sli.sif-agent.zoneId: TestZone
+        ## sli.sif-agent.zoneUrl: http://localhost:8087/mock-zis/zis
         sli.sif-agent.zoneUrl: http://local.slidev.org:8087/mock-zis/zis
         sli.sif-agent.adk.logFile: sif-openadk.log
         # interim sif id reference resolution files
@@ -408,9 +442,11 @@ acceptance-tests:
         # Set of substitution filters used for ci builds
         #
         # Security
+        ## sli.security.noSession.landing.url: http://{api_host:port}/api/oauth/authorize?response_type=code
         sli.security.noSession.landing.url: https://nxbuild.slidev.org/api/oauth/authorize?response_type=code
 
         # Security SAML
+        ## sli.security.sp.issuerName: http://{api_host:port}
         sli.security.sp.issuerName: https://nxbuild.slidev.org
 
     data-access:
@@ -422,18 +458,21 @@ acceptance-tests:
 
         # Mongo DB Options
         sli.mongodb.database: sli
+        ## sli.mongodb.host: {mongo_acceptance_test_host}:27017
         sli.mongodb.host: nxbuild.slidev.org:27017
         #sli.mongodb.user =
         #sli.mongodb.pass =
 
 
         sli.ingestion.staging.mongodb.database: is
+        ## sli.ingestion.staging.mongodb.host: {mongo_acceptance_test_host}:27017
         sli.ingestion.staging.mongodb.host: nxbuild.slidev.org
         sli.ingestion.staging.mongodb.port: 27017
         sli.ingestion.staging.clearOnCompletion: true
 
         # Ingestion BatchJob DB
         sli.ingestion.batchjob.mongodb.database: ingestion_batch_job
+        ## sli.ingestion.batchjob.mongodb.host: {mongo_acceptance_test_host}:27017
         sli.ingestion.batchjob.mongodb.host: nxbuild.slidev.org
         sli.ingestion.batchjob.mongodb.port: 27017
         sli.ingestion.errors.tracking: true
@@ -449,6 +488,7 @@ acceptance-tests:
     ingestion:
         <<: *INGESTION-DEFAULT
         # acceptance-tests/ingestion/queue.properties
+        ## sli.ingestion.queue.workItem.host: {active_mq_host}
         sli.ingestion.queue.workItem.host: devmq1.slidev.org
         sli.ingestion.queue.workItem.port: 5445
         sli.ingestion.queue.workItem.queueURI: activemq:queue:IngestionWorkItemDemo
@@ -496,12 +536,15 @@ ci:
         # Set of substitution filters used for ci builds
         #
         # Security
+        ## sli.security.noSession.landing.url: http://{api_host:port}/api/oauth/authorize?response_type=code
         sli.security.noSession.landing.url: https://testapi1.slidev.org/api/oauth/authorize?response_type=code
 
         # Security SAML
+        ## sli.security.sp.issuerName: http://{api_host:port}
         sli.security.sp.issuerName: https://testapi1.slidev.org
 
         # Trusted Certificate Authority Store
+        ## sli.trust.certificates: {file system directory}
         sli.trust.certificates: /opt/tomcat/trust/trustedCertificates
 
 
@@ -517,6 +560,7 @@ ci:
         # Mongo DB Options
 
         sli.mongodb.database: sli
+        ## sli.mongodb.host: {mongo_host}:27017
         sli.mongodb.host: testdal1.slidev.org:27017
         #sli.mongodb.user =
         #sli.mongodb.pass =
@@ -544,10 +588,13 @@ ci:
     ingestion:
         <<: *INGESTION-DEFAULT
         # ci/ingestion/ingestion_conf.properties
+        ## landingzone.inbounddir: {file system directory}
         landingzone.inbounddir: /home/ingestion/lz/inbound
+        ## logging.path: {file system directory}
         logging.path: /home/ingestion/logs
 
         # ci/ingestion/queue.properties
+        ## sli.ingestion.queue.workItem.host: {active_mq_host}
         sli.ingestion.queue.workItem.host: devmq1.slidev.org
         sli.ingestion.queue.workItem.port: 5445
         sli.ingestion.queue.workItem.queueURI: activemq:queue:IngestionWorkItemAccept
@@ -564,13 +611,19 @@ ci:
     dashboard:
         <<: *DASHBOARD-DEFAULT
         api.client: apiClient
+        ## api.server.url: http://{api_host:port}
         api.server.url: https://testapi1.slidev.org/
+        ## security.server.url: http://{dashboard_host:port}
         security.server.url: https://testapi1.slidev.org/
+
+        ## portal.footer.url: https://{portal_host}/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
         portal.footer.url: https://devlycans.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer
+        ## portal.header.url: https://{portal_header}/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
         portal.header.url: https://devlycans.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header
         log.level: warn
         oauth.client.id: jlEb45f55i
         oauth.client.secret: GjkljHiogHiodgiovbJat3U848J8934479p234r89y234r89
+        ## oauth.redirect: http://{dashboard_host:port}/dashboard/callback
         oauth.redirect: https://testdash1.slidev.org/dashboard/callback
 
         #specify "driver" and "custom" directory name for a user domain based configuration
@@ -590,14 +643,18 @@ dev:
         #
 
         # Security
+        ## sli.security.noSession.landing.url: http://{api_host:port}/api/oauth/authorize?response_type=code
         sli.security.noSession.landing.url: https://devapi1.slidev.org/api/oauth/authorize?response_type=code
 
         # Security SAML
+        ## sli.security.sp.issuerName: http://{api_host:port}
         sli.security.sp.issuerName: https://devapi1.slidev.org
 
         # Trusted Certificate Authority Store
+        ## sli.trust.certificates: {file system directory}
         sli.trust.certificates: /opt/tomcat/trust/trustedCertificates
 
+        ## api.perf.log.path: {file system path}
         api.perf.log.path: /home/api/logs/
     data-access:
         <<: *DATA-ACCESS-DEFAULT
@@ -606,6 +663,7 @@ dev:
         # Set of substitution filters used for ci builds
         #
         sli.mongodb.database: sli
+        ## sli.mongodb.host: {mongo_host}:27017
         sli.mongodb.host: devdal1.slidev.org:27017
         #sli.mongodb.user =
         #sli.mongodb.pass =
@@ -633,10 +691,13 @@ dev:
     ingestion:
         <<: *INGESTION-DEFAULT
         # dev/ingestion/ingestion_conf.properties
+        ## landingzone.inbounddir: {file system directory}
         landingzone.inbounddir: /home/ingestion/lz/inbound
+        ## logging.path: {file system directory}
         logging.path: /home/ingestion/logs
 
         # dev/ingestion/queue.properties
+        ## sli.ingestion.queue.workItem.host: {active_mq_host}
         sli.ingestion.queue.workItem.host:
         sli.ingestion.queue.workItem.port:
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
@@ -653,13 +714,18 @@ dev:
     dashboard:
         <<: *DASHBOARD-DEFAULT
         api.client: apiClient
+        ## api.server.url: http://{api_host:port}
         api.server.url: https://devjuggernauts.slidev.org/
+        ## security.server.url: http://{dashboard_host:port}
         security.server.url: https://devjuggernauts.slidev.org/
+        ## portal.footer.url: https://{portal_host}/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
         portal.footer.url: https://devlycans.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-footer
+        ## portal.header.url: https://{portal_header}/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
         portal.header.url: https://devlycans.slidev.org/wgen-portlet/api/secure/jsonws/headerfooter/get-header
         log.level: debug
         oauth.client.id: K2e7Dwhq5J
         oauth.client.secret: evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
+        ## oauth.redirect: http://localhost:8888/dashboard/callback
         oauth.redirect: http://local.slidev.org:8888/dashboard/callback
 
         #specify "driver" and "custom" directory name for a user domain based configuration
@@ -681,17 +747,21 @@ devjuggernauts:
         #
 
         # Security
+        ## sli.security.noSession.landing.url: http://{api_host:port}/api/oauth/authorize?response_type=code
         sli.security.noSession.landing.url: https://devjuggernauts.slidev.org/api/oauth/authorize?response_type=code
 
         # Security SAML
+        ## sli.security.sp.issuerName: http://{api_host:port}
         sli.security.sp.issuerName: https://devjuggernauts.slidev.org
 
         # Trusted Certificate Authority Store
+        ## sli.trust.certificates: {file system directory}
         sli.trust.certificates: /opt/tomcat/trust/trustedCertificates
 
         #Support Email
         sli.support.email: sli@slc.org
 
+        ## api.perf.log.path: {file system path}
         api.perf.log.path: /home/api/logs/
     data-access:
         <<: *DATA-ACCESS-DEFAULT
@@ -700,6 +770,7 @@ devjuggernauts:
         # Set of substitution filters used for ci builds
         #
         sli.mongodb.database: sli
+        ## sli.mongodb.host: {mongo_host}:27017
         sli.mongodb.host: devjuggernauts.slidev.org:27017
         #sli.mongodb.user =
         #sli.mongodb.pass =
@@ -727,10 +798,13 @@ devjuggernauts:
     ingestion:
         <<: *INGESTION-DEFAULT
         # dev/ingestion/ingestion_conf.properties
+        ## landingzone.inbounddir: {file system directory}
         landingzone.inbounddir: /home/ingestion/lz/inbound
+        ## logging.path: {file system directory}
         logging.path: /home/ingestion/logs
 
         # dev/ingestion/queue.properties
+        ## sli.ingestion.queue.workItem.host: {active_mq_host}
         sli.ingestion.queue.workItem.host:
         sli.ingestion.queue.workItem.port:
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
@@ -743,14 +817,19 @@ devjuggernauts:
     dashboard:
         <<: *DASHBOARD-DEFAULT
         api.client: apiClient
+        ## api.server.url: http://{api_host:port}
         api.server.url: https://devjuggernauts.slidev.org/
+        ## security.server.url: http://{dashboard_host:port}
         security.server.url: https://devjuggernauts.slidev.org/
+        ## portal.footer.url: https://{portal_host}/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
         portal.footer.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
+        ## portal.header.url: https://{portal_header}/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
         portal.header.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
         log.level: debug
         oauth.client.id: CD02AAA8361D240617C98DFFA6B83C01
         oauth.client.secret: 10FA774C06CBF589F5E4B4EA810C1B8FFEA04B3141AEE305069F33096E59CBD1D3B8560F9210293D5FD53D33B8746C1D57A2D2D65D536975E960723B26A2E6B1
 
+        ## oauth.redirect: http://{dashboard_host:port}/dashboard/callback
         oauth.redirect: https://devjuggernauts.slidev.org/dashboard/callback
 
         #specify "driver" and "custom" directory name for a user domain based configuration
@@ -772,12 +851,15 @@ devapp1:
         #
 
         # Security
+        ## sli.security.noSession.landing.url: http://{api_host:port}/api/oauth/authorize?response_type=code
         sli.security.noSession.landing.url: https://devapp1.slidev.org/api/oauth/authorize?response_type=code
 
         # Security SAML
+        ## sli.security.sp.issuerName: http://{api_host:port}
         sli.security.sp.issuerName: https://devapp1.slidev.org
 
         # Trusted Certificate Authority Store
+        ## sli.trust.certificates: {file system directory}
         sli.trust.certificates: /opt/tomcat/trust/trustedCertificates
 
     data-access:
@@ -788,6 +870,7 @@ devapp1:
         #
         # Mongo DB Options
         sli.mongodb.database: devapp1
+        ## sli.mongodb.host: {mongo_host}:27017
         sli.mongodb.host: devdal1.slidev.org:27017
         #sli.mongodb.user =
         #sli.mongodb.pass =
@@ -813,7 +896,9 @@ devapp1:
     ingestion:
         <<: *INGESTION-DEFAULT
         # devapp1/ingestion/ingestion_conf.properties
+        ## landingzone.inbounddir: {file system directory}
         landingzone.inbounddir: /home/ingestion/lz/inbound
+        ## logging.path: {file system directory}
         logging.path: /home/ingestion/logs
 
         # devapp1/ingestion/queue.properties
@@ -837,14 +922,18 @@ local:
         #
 
         # Security
+        ## sli.security.noSession.landing.url: http://localhost:8080/api/oauth/authorize?response_type=code
         sli.security.noSession.landing.url: http://local.slidev.org:8080/api/oauth/authorize?response_type=code
 
         # Security SAML
+        ## sli.security.sp.issuerName: http://localhost:8080
         sli.security.sp.issuerName: http://local.slidev.org:8080
 
         # Trusted Certificate Authority Store
+        ## sli.trust.certificates: ../common/common-encrypt/trust/trustedCertificates
         sli.trust.certificates: ../common/common-encrypt/trust/trustedCertificates
 
+        ## api.perf.log.path: target/apilogs/logs
         api.perf.log.path: target/apilogs/logs
 
         sli.tenant.landingZoneMountPoint: target/ingestion/lz/inbound/
@@ -852,10 +941,14 @@ local:
         #sli.tenant.ingestionServers: localhost
         #sli.landingZone.server: localhost
 
+        ## bootstrap.admin.realm.idpId: http://localhost:8082/simple-idp?realm={realm_name}
         bootstrap.admin.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=LocalNew
+        ## bootstrap.admin.realm.redirectEndpoint: http://localhost:8082/simple-idp?realm={realm_name}
         bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=LocalNew
 
+        ## bootstrap.developer.realm.idpId: http://localhost:8082/simple-idp?realm={dev_realm}&developer=true
         bootstrap.developer.realm.idpId: http://local.slidev.org:8082/simple-idp?realm=Local&developer=true
+        ## bootstrap.developer.realm.redirectEndpoint: http://localhost:8082/simple-idp?realm={dev_realm}&developer=true
         bootstrap.developer.realm.redirectEndpoint: http://local.slidev.org:8082/simple-idp?realm=Local&developer=true
 
     data-access: &DATA-ACCESS-LOCAL
@@ -870,10 +963,12 @@ local:
         # Mongo DB Options
 
         sli.mongodb.database: sli
+        ## sli.mongodb.host: {mongo_host}:27017
         sli.mongodb.host: localhost:27017
         sli.mongodb.user:
         sli.mongodb.pass:
         sli.perf.mongodb.database: apiPerf
+        ## sli.perf.mongodb.host: {host}
         sli.perf.mongodb.host: localhost
         sli.perf.mongodb.port: 27017
         # Ingestion Staging DB
@@ -898,8 +993,11 @@ local:
 
     ingestion: &INGESTION-LOCAL
         <<: *INGESTION-DEFAULT
+        ## landingzone.inbounddir: target/ingestion/lz/inbound
         landingzone.inbounddir: target/ingestion/lz/inbound
+        ## logging.path: target/ingestion/logs
         logging.path: target/ingestion/logs
+        ## sli.ingestion.queue.workItem.host: {active_mq_host}
         sli.ingestion.queue.workItem.host: localhost
         sli.ingestion.queue.workItem.port: 61616
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
@@ -926,18 +1024,22 @@ local:
 
     apps: &APPS-LOCAL
         <<: *APPS-DEFAULT
+        ## bootstrap.app.admin.url: http://localhost:3001
         bootstrap.app.admin.url: http://local.slidev.org:3001
         bootstrap.app.admin.client_id: Eg6eseKRzN
         bootstrap.app.admin.client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
 
+        ## bootstrap.app.databrowser.url: http://localhost:3000
         bootstrap.app.databrowser.url: http://local.slidev.org:3000
         bootstrap.app.databrowser.client_id: 2zhRrEXh8r
         bootstrap.app.databrowser.client_secret: uOoKXLWihlz39EEQ7Uoqqc7TeogsnQnDAUs3HWYFouZFG5sk
 
+        ## bootstrap.app.dashboard.url: http://localhost:8888/dashboard
         bootstrap.app.dashboard.url: http://local.slidev.org:8888/dashboard
         bootstrap.app.dashboard.client_id: K2e7Dwhq5J
         bootstrap.app.dashboard.client_secret: evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
 
+        ## bootstrap.app.sif.url: http://localhost:1338
         bootstrap.app.sif.url: http://local.slidev.org:1338/
         bootstrap.app.sif.client_id: bZEkFldWJT
         bootstrap.app.sif.client_secret: F1b5Fy2nZq0qZJP6x3ci5onwr7XViBppOGqJTSNuz7K6eBQq
@@ -945,6 +1047,7 @@ local:
         bootstrap.app.sif.authorized_for_all_edorgs: true
         bootstrap.app.sif.allowed_for_all_edorgs: true
 
+        ## bootstrap.app.portal.url: http://localhost:7000/portal
         bootstrap.app.portal.url: http://local.slidev.org:7000/portal
         bootstrap.app.portal.client_id: lY83c5HmTPX
         bootstrap.app.portal.client_secret: ghjZfyAXi7qwejklcxziuohiueqjknfdsip9cxzhiu13mnsX
@@ -955,6 +1058,7 @@ local:
          # Name of the SLIAdmin realm used to authenticate sandbox developers when no realm specified
         sli.simple-idp.sliAdminRealmName: LocalNew
         # LDAP base URLs, comma separated list of ldap servers
+        ## sli.simple-idp.ldap.urls: ldap://{ldap_host:port}
         sli.simple-idp.ldap.urls: ldap://ldap.slidev.org:389
         # LDAP base DN
         sli.simple-idp.ldap.base: ou=DevTest,dc=slidev,dc=org
@@ -1006,12 +1110,16 @@ local-acceptance-tests:
         # Used to bootstrap the admin realm
         bootstrap.admin.realm.name: inBloom
         bootstrap.admin.realm.tenantId: SLI
+        ## bootstrap.admin.realm.idpId: http://localhost:8080/simple-idp?realm={realm_name}
         bootstrap.admin.realm.idpId: http://local.slidev.org:8080/simple-idp?realm=SLIAdmin
+        ## bootstrap.admin.realm.redirectEndpoint: http://localhost:8080/simple-idp?realm={realm_name}
         bootstrap.admin.realm.redirectEndpoint: http://local.slidev.org:8080/simple-idp?realm=SLIAdmin
 
         bootstrap.developer.realm.name: inBloom App Developer
         bootstrap.developer.realm.uniqueId: DeveloperIDP
+        ## bootstrap.developer.realm.idpId: http://localhost:8080/simple-idp?realm={dev_realm}&developer=true
         bootstrap.developer.realm.idpId: http://local.slidev.org:8080/simple-idp?realm=SLIDev&developer=true
+        ## bootstrap.developer.realm.redirectEndpoint: http://localhost:8080/simple-idp?realm={dev_realm}&developer=true
         bootstrap.developer.realm.redirectEndpoint: http://local.slidev.org:8080/simple-idp?realm=SLIDev&developer=true
 
     data-access:
@@ -1029,35 +1137,45 @@ local-acceptance-tests:
     dashboard:
         # Pick up default here, not local, to avoid overriding the encryption keystore.
         <<: *DASHBOARD-DEFAULT
+        ## api.server.url: http://localhost:8080/
         api.server.url: http://local.slidev.org:8080/
+        ## security.server.url: http://localhost:8080/
         security.server.url: http://local.slidev.org:8080/
+        ## portal.footer.url: https://{portal_host}/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
         portal.footer.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
+        ## portal.header.url: https://{portal_header}/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
         portal.header.url: https://nxportal.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
         log.level: warn
         # K2e7Dwhq55
         oauth.client.id: 4FFF0D5C8DA3B7F62159DEAFAEEBF20A
         # evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
         oauth.client.secret: 8024CF919AC8CC65A1DB18281D6AA9014F74A4A6F27E79A34B50DDDFA86C80BFA947474EF56C432B910FA05CE515891A57A2D2D65D536975E960723B26A2E6B1
+        ## oauth.redirect: http://localhost:8080/dashboard/callback
         oauth.redirect: http://local.slidev.org:8080/dashboard/callback
 
     apps:
         <<: *APPS-LOCAL
         bootstrap.app.keys: admin,databrowser,dashboard,sif,portal
 
+        ## bootstrap.app.admin.url: http://localhost:2000
         bootstrap.app.admin.url: http://local.slidev.org:2000
         bootstrap.app.admin.client_secret: FqXBla26esaLGcVfhlcLnePOEmeHuez7JpmnR9pLg6RkThqF
         bootstrap.app.admin.client_id: Eg6eseKRzN
 
         bootstrap.app.databrowser.client_id: 2zhRrEXh8r
         bootstrap.app.databrowser.client_secret: uOoKXLWihlz39EEQ7Uoqqc7TeogsnQnDAUs3HWYFouZFG5sk
+        ## bootstrap.app.databrowser.url: http://localhost:2001
         bootstrap.app.databrowser.url: http://local.slidev.org:2001
 
         bootstrap.app.dashboard.url: http://local.slidev.org:8080/dashboard
         bootstrap.app.dashboard.client_id: K2e7Dwhq55
         bootstrap.app.dashboard.client_secret: evGN04xEHyZYYIz2fxiJkM1bY3JnGWq8O6dNcIOnw2wDXxkG
 
+        ## bootstrap.app.sif.url: http://localhost:1338
         bootstrap.app.sif.url: http://local.slidev.org:1338/
+        ## bootstrap.app.sif.apiUrl: http://localhost:8080
         bootstrap.app.sif.apiUrl: http://local.slidev.org:8080/
+        ## bootstrap.app.sif.callbackUrl: http://localhost:8081
         bootstrap.app.sif.callbackUrl: http://local.slidev.org:8081/
         bootstrap.app.sif.guid: 2ad39ff1-65f8-4a16-8912-b49872f1ee97
         bootstrap.app.sif.token: e4e9d71c-d674-11e1-9ea4-f9fc6188709b
@@ -1070,7 +1188,9 @@ local-acceptance-tests:
         <<: *MISC-LOCAL
 
         # sample app externalized properties:
+        ## sli.sample.apiUrl: http://localhost:8080/
         sli.sample.apiUrl: http://local.slidev.org:8080/
+        ## sli.sample.callbackUrl: http://localhost:8080/sample/callback
         sli.sample.callbackUrl: http://local.slidev.org:8080/sample/callback
         sli.sample.clientId: vavedRa9uB
         sli.sample.clientSecret: phEdAchetESedRewatRegeQeradeC5tUStEXeCa6UJ3JefuC
@@ -1083,18 +1203,27 @@ team:
         # Set of substitution filters used for ci builds
         #
         # Security
+        ## sli.security.noSession.landing.url: http://{api_host:port}/api/oauth/authorize?response_type=code
         sli.security.noSession.landing.url: https://${sli.dev.subdomain}.slidev.org/api/oauth/authorize?response_type=code
 
         # Security SAML
+        ## sli.security.sp.issuerName: http://{api_host:port}
         sli.security.sp.issuerName: https://${sli.dev.subdomain}.slidev.org
 
+        ## api.perf.log.path: {file system path}
         api.perf.log.path: /storage/logs
         bootstrap.sandbox.createSandboxRealm: false
+        ## bootstrap.admin.realm.idpId: http://{admin_host:port}/simple-idp?realm={realm_name}
         bootstrap.admin.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
+        ## bootstrap.admin.realm.redirectEndpoint: http://{admin_host:port}/simple-idp?realm={realm_name}
         bootstrap.admin.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
+        ## bootstrap.developer.realm.idpId: http://{admin_host:port}/simple-idp?realm={dev_realm}&developer=true
         bootstrap.developer.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIDev&developer=true
+        ## bootstrap.developer.realm.redirectEndpoint: http://{admin_host:port}/simple-idp?realm={dev_realm}&developer=true
         bootstrap.developer.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIDev&developer=true
+        ## bootstrap.sandbox.realm.idpId: http://{host:port}/simple-idp
         bootstrap.sandbox.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp
+        ## bootstrap.sandbox.realm.redirectEndpoint: http://{host:port}/simple-idp
         bootstrap.sandbox.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp
         bootstrap.app.conf: ${sli.conf}
         sli.api.performance.tracking: false
@@ -1108,6 +1237,7 @@ team:
 
         # Mongo DB Options
         sli.mongodb.database: sli
+        ## sli.mongodb.host: {mongo_host}:27017
         sli.mongodb.host: localhost:27017
         #sli.mongodb.user =
         #sli.mongodb.pass =
@@ -1135,13 +1265,16 @@ team:
     ingestion: &INGESTION-TEAM
         <<: *INGESTION-DEFAULT
         # team/ingestion/ingestion_conf.properties
+        ## landingzone.inbounddir: {file system directory}
         landingzone.inbounddir: /home/ingestion/lz/inbound
+        ## logging.path: {file system directory}
         logging.path: /home/ingestion/logs
 
         # Command topic
         sli.ingestion.topic.command: activemq:topic:ingestion.command
 
         # team/ingestion/queue.properties
+        ## sli.ingestion.queue.workItem.host: {active_mq_host}
         sli.ingestion.queue.workItem.host: localhost
         sli.ingestion.queue.workItem.port: 61616
         sli.ingestion.queue.workItem.queueURI: activemq:queue:ingestion.workItem
@@ -1178,13 +1311,18 @@ team:
     dashboard: &DASHBOARD-TEAM
         <<: *DASHBOARD-DEFAULT
         api.client: apiClient
+        ## api.server.url: http://{api_host:port}
         api.server.url: https://${sli.dev.subdomain}.slidev.org/
+        ## security.server.url: http://{dashboard_host:port}
         security.server.url: https://${sli.dev.subdomain}.slidev.org/
+        ## portal.footer.url: https://{portal_host}/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
         portal.footer.url: https://${sli.dev.subdomain}.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-footer
+        ## portal.header.url: https://{portal_header}/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
         portal.header.url: https://${sli.dev.subdomain}.slidev.org/headerfooter-portlet/api/secure/jsonws/headerfooter/get-header
         log.level: warn
         oauth.client.id: 7E184E161B63E561E4AA70BC67A5E3F8
         oauth.client.secret: C060D6BCA12B9AFD202E3E105DEF1B1CD349203DB9A306C89CC953055D8D5D69C636611846AE11810D209D766299EF6157A2D2D65D536975E960723B26A2E6B1
+        ## oauth.redirect: http://{dashboard_host:port}/dashboard/callback
         oauth.redirect: https://${sli.dev.subdomain}.slidev.org/dashboard/callback
 
 
@@ -1206,8 +1344,11 @@ team:
         bootstrap.app.dashboard.client_id: 6TW4tHwcWG
         bootstrap.app.dashboard.client_secret: 53ww1lyWM7PchV3GwyH3BUjdkat2r3SziRMuXQeV3rtF4ZQ6
 
+        ## bootstrap.app.sif.url: http://{sif_agent_host:port}
         bootstrap.app.sif.url: http://${sli.dev.subdomain}.slidev.org:1338/
+        ## bootstrap.app.sif.apiUrl: http://localhost:8080/
         bootstrap.app.sif.apiUrl: http://local.slidev.org:8080/
+        ## bootstrap.app.sif.callbackUrl: http://localhost:8081/
         bootstrap.app.sif.callbackUrl: http://local.slidev.org:8081/
         bootstrap.app.sif.guid: 2ad39ff1-65f8-4a16-8912-b49872f1ee97
         bootstrap.app.sif.token: e4e9d71c-d674-11e1-9ea4-f9fc6188709b
@@ -1216,6 +1357,7 @@ team:
         bootstrap.app.sif.authorized_for_all_edorgs: true
         bootstrap.app.sif.allowed_for_all_edorgs: true
 
+        ## bootstrap.app.portal.url: http://{portal_host:port}/portal
         bootstrap.app.portal.url: https://${sli.dev.subdomain}.slidev.org/portal
         bootstrap.app.portal.client_id: lY83c5HmTPX
         bootstrap.app.portal.client_secret: ghjZfyAXi7qwejklcxziuohiueqjknfdsip9cxzhiu13mnsX
@@ -1223,17 +1365,23 @@ team:
     misc: &MISC-TEAM
         <<: *MISC-DEFAULT
         sli.dev.subdomain: ci
+        ## log.path: {file system directory}
         log.path: /storage/logs
+        ## sli.simple-idp.issuer-base: http://{simple_idp_host:port}/simple-idp
         sli.simple-idp.issuer-base: https://${sli.dev.subdomain}.slidev.org/simple-idp
         sli.simple-idp.response-destination: https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
+        ## sli.simple-idp.cot: http://{api_host:port}=http://{api_host:port}/api/rest/saml/sso/post
         sli.simple-idp.cot: https://${sli.dev.subdomain}.slidev.org=https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post,http://local.slidev.org:8080=http://local.slidev.org:8080/api/rest/saml/sso/post
         sli.simple-idp.sandboxImpersonationEnabled: false
         sli.simple-idp.ldap.base: dc=slidev,dc=org
+        ## sli.sample.apiUrl: http://{api_host:port}/
         sli.sample.apiUrl: https://${sample.swap}.slidev.org/
+        ## sli.sample.callbackUrl: http://{sample_app_host:port}/sample/callback
         sli.sample.callbackUrl: https://${sample.swap}.slidev.org/sample/callback
         sli.sample.clientId: AT1k3PdHzX
         sli.sample.clientSecret: Ok2iofHvnmguadgdfgdrrdgddgfdgfZNNgVfYQaBYcAa3iXQ
 
+        ## sli.sif-agent.zoneUrl: http://localhost:8080/mock-zis/zis
         sli.sif-agent.zoneUrl: http://local.slidev.org:8080/mock-zis/zis
 
         sli.search.indexer.broker.embedded: false
@@ -1246,6 +1394,7 @@ perf:
         # Set of substitution filters used for ci builds
         #
         sli.mongodb.database: sli_ing
+        ## sli.mongodb.host: {mongo_host}:27017
         sli.mongodb.host: igmongo.slidev.org:27017
         #sli.mongodb.user =
         #sli.mongodb.pass =
@@ -1273,10 +1422,13 @@ perf:
     ingestion:
         <<: *INGESTION-DEFAULT
         # perf/ingestion/ingestion_conf.properties
+        ## landingzone.inbounddir: {file system directory}
         landingzone.inbounddir: /home/ingestion/lz/inbound
+        ## logging.path: {file system directory}
         logging.path: /home/ingestion/logs
 
         # perf/ingestion/queue.properties
+        ## sli.ingestion.queue.workItem.host: {active_mq_host}
         sli.ingestion.queue.workItem.host:
         sli.ingestion.queue.workItem.port:
         sli.ingestion.queue.workItem.queueURI: seda:IngestionWorkItem
@@ -1300,6 +1452,7 @@ test-local:
 
         # Mongo DB Options
         sli.mongodb.database: unittest
+        ## sli.mongodb.host: {mongo_host}:27017
         sli.mongodb.host: localhost:27017
         sli.mongodb.user:
         sli.mongodb.pass:
@@ -1330,13 +1483,16 @@ test-team:
         #
         # Mongo DB Options
         sli.mongodb.database: unittest
+        ## sli.mongodb.host: {mongo_host}:27017
         sli.mongodb.host: localhost:27017
         sli.mongodb.user:
         sli.mongodb.pass:
 
         # Test specific properties
 
+        ## landingzone.inbounddir: {file system directory}
         landingzone.inbounddir: /home/ingestion/lz/inbound
+        ## logging.path: {file system directory}
         logging.path: /home/ingestion/logs
 
         # team/ingestion/test.properties
@@ -1375,11 +1531,17 @@ sandbox:
         sli.sandbox.enabled: true
         sli.autoRegisterApps: true
         bootstrap.sandbox.createSandboxRealm: true
+        ## bootstrap.admin.realm.idpId: http://{admin_host:port}/simple-idp?realm={realm_name}
         bootstrap.admin.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
+        ## bootstrap.admin.realm.redirectEndpoint: http://{admin_host:port}/simple-idp?realm={realm_name}
         bootstrap.admin.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIAdmin
+        ## bootstrap.developer.realm.idpId: http://{admin_host:port}/simple-idp?realm={dev_realm}&developer=true
         bootstrap.developer.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIDev&developer=true
+        ## bootstrap.developer.realm.redirectEndpoint: http://{admin_host:port}/simple-idp?realm={dev_realm}&developer=true
         bootstrap.developer.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp?realm=SLIDev&developer=true
+        ## bootstrap.sandbox.realm.idpId: http://{host:port}/simple-idp
         bootstrap.sandbox.realm.idpId: https://${sli.dev.subdomain}.slidev.org/simple-idp
+        ## bootstrap.sandbox.realm.redirectEndpoint: http://{host:port}/simple-idp
         bootstrap.sandbox.realm.redirectEndpoint: https://${sli.dev.subdomain}.slidev.org/simple-idp
         bootstrap.app.conf: ${sli.conf}
     dashboard:
@@ -1402,6 +1564,7 @@ sandbox:
         bootstrap.app.dashboard.client_id: 6TW4tHwcWG
         bootstrap.app.dashboard.client_secret: 53ww1lyWM7PchV3GwyH3BUjdkat2r3SziRMuXQeV3rtF4ZQ6
         bootstrap.app.dashboard.authorized_for_all_edorgs: true
+        ## bootstrap.app.sif.url: http://{sif_agent_host:port}
         bootstrap.app.sif.url: http://${sli.dev.subdomain}.slidev.org:1338/
         bootstrap.app.sif.client_id: bZEkFldWJT
         bootstrap.app.sif.client_secret: F1b5Fy2nZq0qZJP6x3ci5onwr7XViBppOGqJTSNuz7K6eBQq
@@ -1409,14 +1572,17 @@ sandbox:
         bootstrap.app.sif.authorized_for_all_edorgs: true
         bootstrap.app.sif.allowed_for_all_edorgs: true
 
+        ## bootstrap.app.portal.url: http://{portal_host:port}/portal
         bootstrap.app.portal.url: https://${sli.dev.subdomain}.slidev.org/portal
         bootstrap.app.portal.client_id: lY83c5HmTPX
         bootstrap.app.portal.client_secret: ghjZfyAXi7qwejklcxziuohiueqjknfdsip9cxzhiu13mnsX
 
     misc:
         <<: *MISC-TEAM
+        ## sli.simple-idp.issuer-base: http://{simple_idp_host:port}/simple-idp
         sli.simple-idp.issuer-base: https://${sli.dev.subdomain}.slidev.org/simple-idp
         sli.simple-idp.response-destination: https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post
+        ## sli.simple-idp.cot: http://{api_host:port}=http://{api_host:port}/api/rest/saml/sso/post
         sli.simple-idp.cot: https://${sli.dev.subdomain}.slidev.org=https://${sli.dev.subdomain}.slidev.org/api/rest/saml/sso/post,http://local.slidev.org:8080=http://local.slidev.org:8080/api/rest/saml/sso/post
         sli.simple-idp.sandboxImpersonationEnabled: true
 
@@ -1429,6 +1595,7 @@ nxteam:
         <<: *DASHBOARD-TEAM
     ingestion: &INGESTION-NXTEAM
         <<: *INGESTION-TEAM
+        ## sli.ingestion.queue.workItem.host: {active_mq_host}
         sli.ingestion.queue.workItem.host: nxmaestro.slidev.org
         sli.ingestion.tenant.loadDefaultTenants: true
         sli.ingestion.queue.maestro.concurrentConsumers: 1
@@ -1441,6 +1608,7 @@ nxteam:
 
     data-access: &DATA-ACCESS-NXTEAM
         <<: *DATA-ACCESS-TEAM
+        ## sli.mongodb.host: {mongo_host}:27017
         sli.mongodb.host: localhost:27017
         sli.ingestion.staging.mongodb.host: localhost
         sli.ingestion.staging.mongodb.port: 27018
@@ -1499,7 +1667,9 @@ local-maestro:
     ingestion:
         <<: *INGESTION-TEAM
         sli.ingestion.nodeType: maestro
+        ## landingzone.inbounddir: target/ingestion/lz/inbound
         landingzone.inbounddir: target/ingestion/lz/inbound
+        ## logging.path: target/ingestion/logs
         logging.path: target/ingestion/logs
     data-access:
         <<: *DATA-ACCESS-LOCAL
@@ -1516,7 +1686,9 @@ local-pit:
     ingestion:
         <<: *INGESTION-TEAM
         sli.ingestion.nodeType: pit
+        ## landingzone.inbounddir: target/ingestion/lz/inbound
         landingzone.inbounddir: target/ingestion/lz/inbound
+        ## logging.path: target/ingestion/logs
         logging.path: target/ingestion/logs
 
     data-access:

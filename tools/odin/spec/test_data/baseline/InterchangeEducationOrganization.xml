@@ -1376,6 +1376,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </ProgramIdentity>
     </ProgramReference>
     <LEACategory>Independent</LEACategory>
+    <StateEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </StateEducationAgencyReference>
   </LocalEducationAgency>
   <LocalEducationAgency>
     <StateOrganizationId>5</StateOrganizationId>
@@ -1420,6 +1425,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
       </ProgramIdentity>
     </ProgramReference>
     <LEACategory>Independent</LEACategory>
+    <StateEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>STANDARD-SEA</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </StateEducationAgencyReference>
   </LocalEducationAgency>
   <School>
     <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>

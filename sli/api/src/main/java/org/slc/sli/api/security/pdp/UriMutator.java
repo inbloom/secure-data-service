@@ -160,13 +160,13 @@ public class UriMutator {
             put(joinPathSegments(PathConstants.ASSESSMENTS, PathConstants.STUDENT_ASSESSMENTS),
                     new MutateInfo("/sections/%s/studentSectionAssociations/students/studentAssessments", "assessmentId"));
             put(joinPathSegments(PathConstants.COURSES, PathConstants.COURSE_TRANSCRIPTS),
-                    new MutateInfo("/sections/%s/studentSectionAssociations/students/courseTranscripts", "courseId"));
+                    new MutateInfo("/sections/%s/studentSectionAssociations/students/studentAcademicRecords/courseTranscripts", "courseId"));
             put(joinPathSegments(PathConstants.COURSE_OFFERINGS, PathConstants.SECTIONS),
                     new MutateInfo("/sections/%s/", "courseOfferingId"));
             put(joinPathSegments(PathConstants.SESSIONS, PathConstants.SECTIONS),
                     new MutateInfo("/sections/%s/", "sessionId"));
             put(joinPathSegments(PathConstants.LEARNING_OBJECTIVES, PathConstants.STUDENT_COMPETENCIES),
-                    new MutateInfo("/sections/%s/studentSectionAssociations/studentCompetencies", "learningObjectiveId"));
+                    new MutateInfo("/sections/%s/studentSectionAssociations/studentCompetencies", "objectiveId.learningObjectiveId"));
             put(joinPathSegments(PathConstants.GRADING_PERIODS, PathConstants.REPORT_CARDS),
                     new MutateInfo("/sections/%s/studentSectionAssociations/students/reportCards", "gradingPeriodId"));
             put(joinPathSegments(PathConstants.GRADING_PERIODS, PathConstants.GRADES),
@@ -200,7 +200,7 @@ public class UriMutator {
             put(joinPathSegments(PathConstants.SCHOOLS, PathConstants.STUDENT_SCHOOL_ASSOCIATIONS, PathConstants.STUDENTS, PathConstants.ATTENDANCES),
                     new MutateInfo("/sections/%s/studentSectionAssociations/students/attendances", null));
             put(joinPathSegments(PathConstants.SCHOOLS, PathConstants.STUDENT_SCHOOL_ASSOCIATIONS, PathConstants.STUDENTS, PathConstants.COURSE_TRANSCRIPTS),
-                    new MutateInfo("/sections/%s/studentSectionAssociations/students/courseTranscripts", null));
+                    new MutateInfo("/sections/%s/studentSectionAssociations/students/studentAcademicRecords/courseTranscripts", null));
             put(joinPathSegments(PathConstants.SCHOOLS, PathConstants.STUDENT_SCHOOL_ASSOCIATIONS, PathConstants.STUDENTS, PathConstants.REPORT_CARDS),
                     new MutateInfo("/sections/%s/studentSectionAssociations/students/reportCards", null));
             put(joinPathSegments(PathConstants.SCHOOLS, PathConstants.STUDENT_SCHOOL_ASSOCIATIONS, PathConstants.STUDENTS, PathConstants.STUDENT_ACADEMIC_RECORDS),
@@ -353,7 +353,7 @@ public class UriMutator {
                         mutated.getQueryParameters()));
             } else if (modifiedRequest.equals(PathConstants.COURSES + ";" + PathConstants.COURSE_TRANSCRIPTS + ";")) {
                 verifySingleTransitiveId(transitiveEntityId);
-                mutated.setPath(String.format("/schools/%s/studentSchoolAssociations/students/courseTranscripts",
+                mutated.setPath(String.format("/schools/%s/studentSchoolAssociations/students/studentAcademicRecords/courseTranscripts",
                         StringUtils.join(edOrgHelper.getFilteredDirectEdorgs(user), ",")));
                 mutated.setQueryParameters(mutuateQueryParameterString("courseId", transitiveEntityId, mutated.getQueryParameters()));
             } else if (modifiedRequest.equals(PathConstants.COURSE_OFFERINGS + ";" + PathConstants.SECTIONS + ";")) {
@@ -387,6 +387,13 @@ public class UriMutator {
                         "/schools/%s/studentSchoolAssociations/students/studentAcademicRecords",
                         StringUtils.join(edOrgHelper.getFilteredDirectEdorgs(user), ",")));
                 mutated.setQueryParameters(mutuateQueryParameterString("sessionId", transitiveEntityId, mutated.getQueryParameters()));
+            } else if (modifiedRequest.equals(PathConstants.LEARNING_OBJECTIVES + ";" + PathConstants.STUDENT_COMPETENCIES
+                    + ";")) {
+                verifySingleTransitiveId(transitiveEntityId);
+                mutated.setPath(String.format(
+                        "/schools/%s/sections/studentSectionAssociations/studentCompetencies",
+                        StringUtils.join(edOrgHelper.getFilteredDirectEdorgs(user), ",")));
+                mutated.setQueryParameters(mutuateQueryParameterString("objectiveId.learningObjectiveId", transitiveEntityId, mutated.getQueryParameters()));
             }
         }
         return mutated;
@@ -515,11 +522,11 @@ public class UriMutator {
         }  else if (ResourceNames.COURSE_TRANSCRIPTS.equals(resource)) {
             if (mutatedParameters.contains(ParameterConstants.SECTION_ID)) {
                 return formQueryBasedOnParameter(
-                        "/sections/%s/studentSectionAssociations/students/courseTranscripts", mutatedParameters,
+                        "/sections/%s/studentSectionAssociations/students/studentAcademicRecords/courseTranscripts", mutatedParameters,
                         ParameterConstants.SECTION_ID);
             } else {
                 String ids = StringUtils.join(sectionHelper.getTeachersSections(user), ",");
-                mutated.setPath(String.format("/sections/%s/studentSectionAssociations/students/courseTranscripts",
+                mutated.setPath(String.format("/sections/%s/studentSectionAssociations/students/studentAcademicRecords/courseTranscripts",
                         ids));
             }
         } else if (ResourceNames.DISCIPLINE_ACTIONS.equals(resource)) {
@@ -710,7 +717,7 @@ public class UriMutator {
             mutated.setPath(String.format("/staff/%s/staffCohortAssociations/cohorts", user.getEntityId()));
         } else if (ResourceNames.COURSE_TRANSCRIPTS.equals(resource)) {
             String ids = StringUtils.join(edOrgHelper.getFilteredDirectEdorgs(user), ",");
-            mutated.setPath(String.format("/schools/%s/studentSchoolAssociations/students/courseTranscripts", ids));
+            mutated.setPath(String.format("/schools/%s/studentSchoolAssociations/students/studentAcademicRecords/courseTranscripts", ids));
         } else if (ResourceNames.DISCIPLINE_ACTIONS.equals(resource)) {
             mutated.setPath(String.format("/staff/%s/disciplineActions", user.getEntityId()));
         } else if (ResourceNames.DISCIPLINE_INCIDENTS.equals(resource)) {

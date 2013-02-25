@@ -1,14 +1,27 @@
 defaultRights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED", "AGGREGATE_READ", "AGGREGATE_WRITE", "READ_PUBLIC", "WRITE_PUBLIC"]
+selfRights = ["READ_GENERAL", "WRITE_GENERAL", "READ_RESTRICTED", "WRITE_RESTRICTED"]
 ROLE_COL = "td:eq(0)";
 RIGHT_COL = "td:eq(1)";
-ADMIN_COL = "td:eq(2)";
-EDIT_COL = "td:eq(3)";
-
+SELF_RIGHT_COL = "td:eq(2)";
+ADMIN_COL = "td:eq(3)";
+EDIT_COL = "td:eq(4)";
 jQuery ->
   unless initCustomRoleScripts?
     return
 
   populateTable(roles)
+
+  $("#addSelfRightUi button").click ->
+    option = $('#addSelfRightUi option:selected')
+    if (option.val() == 'none')
+      return
+    text = option.text()
+    right = createLabel('self-right', text)
+    right = wrapInputWithDeleteButton(right, "span", text)
+    $("#addSelfRightUi").parent().append(right)
+    $("#addSelfRightUi").parent().append(" ")
+    populateRightComboBox($(@).parents("tr"))
+    enableSaveButtonIfPossible($(@).parents("tr"))
 
   $("#addRightUi button").click ->
     option = $('#addRightUi option:selected')
@@ -22,9 +35,10 @@ jQuery ->
     populateRightComboBox($(@).parents("tr"))
     enableSaveButtonIfPossible($(@).parents("tr"))
 
+
   #Wire up Add Role button
   $("#addGroupButton").click ->
-    newRow = $("<tr><td><div class='groupTitle'></div></td><td></td><td><input type='checkbox' class='isAdmin'></td><td></td></tr>")
+    newRow = $("<tr><td><div class='groupTitle'></div></td><td></td><td></td><td><input type='checkbox' class='isAdmin'></td><td></td></tr>")
     $("#custom_roles tbody").append(newRow)
 
     newRow.find(EDIT_COL).append($("#rowEditTool").clone().children())
@@ -91,6 +105,8 @@ editRow = (tr) ->
   populateRightComboBox(tr)
   tr.find(RIGHT_COL).prepend($("#addRightUi"))
   $("#addRightUi").fadeIn()
+  tr.find(SELF_RIGHT_COL).prepend($("#addSelfRightUi"))
+  $("#addSelfRightUi").fadeIn()
 
   #Give it a nice glow
   tr.find("td").addClass("highlight")
@@ -113,11 +129,17 @@ editRow = (tr) ->
   #Add delete button to each role name
   tr.find(ROLE_COL).find(".roleLabel").each -> wrapInputWithDeleteButton($(@), "div", groupName)
   tr.find(RIGHT_COL).find(".roleLabel").each -> wrapInputWithDeleteButton($(@), "span", groupName)
+  tr.find(SELF_RIGHT_COL).find(".roleLabel").each -> wrapInputWithDeleteButton($(@), "span", groupName)
 
 populateRightComboBox = (tr) ->
   #Add right combobox - only add rights that haven't already been used
   curRights = getRights(tr)
+  curSelfRights = getSelfRights(tr)
   $("#addRightUi option").each ->
+    if ($(@).val() != "none")
+      $(@).remove()
+
+  $("#addSelfRightUi option").each ->
     if ($(@).val() != "none")
       $(@).remove()
 
@@ -125,6 +147,9 @@ populateRightComboBox = (tr) ->
     if (curRights.indexOf(right) < 0)
       $("#addRightUi select").append($("<option></option>").val(right).text(right))
 
+  for right in selfRights
+    if (curSelfRights.indexOf(right) < 0 and curRights.indexOf(right) < 0)
+      $("#addSelfRightUi select").append($("<option></option>").val(right).text(right))
 
 wrapInputWithDeleteButton = (input, type, name) ->
   div = $('<span>').addClass("input-append")
@@ -185,19 +210,19 @@ getJsonData = () ->
     if !groupName
       groupName = $(@).find(ROLE_COL).find(".groupTitle").val()
 
-    roles = []
-    $(@).find(ROLE_COL).find(".customLabel").each ->
-      roles.push($(@).text())
-    rights = []
-    $(@).find(RIGHT_COL).find(".customLabel").each ->
-      rights.push($(@).text())
     isAdminRole = $(@).find(".isAdmin").prop("checked")
-    data.push({"groupTitle": groupName, "names": roles, "rights": rights, "isAdminRole": isAdminRole})
+    data.push({"groupTitle": groupName, "names": getRoles($(@)), "rights": getRights($(@)), "selfRights": getSelfRights($(@)), "isAdminRole": isAdminRole})
   return data
 
 getRights = (tr) ->
     rights = []
     tr.find(RIGHT_COL).find(".customLabel").each ->
+      rights.push($(@).text())
+    return rights
+
+getSelfRights = (tr) ->
+    rights = []
+    tr.find(SELF_RIGHT_COL).find(".customLabel").each ->
       rights.push($(@).text())
     return rights
 
@@ -217,7 +242,7 @@ getAllRoles = () ->
 populateTable = (data) ->
   $("#custom_roles tbody").children().remove()
   for role in data
-    newRow = $("<tr><td><div></div></td><td></td><td></td><td></td></tr>")
+    newRow = $("<tr><td><div></div></td><td></td><td></td><td></td><td></td></tr>")
     $("#custom_roles tbody").append(newRow)
 
     newRow.find(ROLE_COL).append($("<div class='groupTitle'></div>").text(role.groupTitle))
@@ -230,6 +255,11 @@ populateTable = (data) ->
     for right in role.rights
       newRow.find(RIGHT_COL).append(createLabel('right', right))
       newRow.find(RIGHT_COL).append(" ")
+
+    if (role.selfRights != null && role.selfRights != undefined)
+      for selfRight in role.selfRights
+        newRow.find(SELF_RIGHT_COL).append(createLabel('self-right', selfRight))
+        newRow.find(SELF_RIGHT_COL).append(" ")
 
     newRow.find(ADMIN_COL).append("<input type='checkbox' class='isAdmin' disabled='true'>")
     if (role.isAdminRole)

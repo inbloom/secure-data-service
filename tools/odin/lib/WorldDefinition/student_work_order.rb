@@ -399,10 +399,11 @@ class StudentWorkOrder
   def generate_grade_wide_assessment_info(grade, session)
     student_assessments = grade_wide_student_assessments(grade, session)
     student_assessment_items = generate_student_assessment_items(student_assessments)
-    student_assessments + student_assessment_items
+    student_assessments + student_assessment_items + @student_objective_assessments 
   end
 
   def grade_wide_student_assessments(grade, session)
+    @student_objective_assessments = [] 
     unless @assessment_factory.nil?
       times_taken = @scenario['ASSESSMENTS_TAKEN']['GRADE_WIDE_ASSESSMENTS']
 
@@ -412,7 +413,13 @@ class StudentWorkOrder
           start_date = session['interval'].get_begin_date + 1
           end_date = start_date + times_taken -1
           (start_date..end_date).map{ |date|
-            StudentAssessment.new(@id, assessment, date, @rand)
+
+           studentAssessment = StudentAssessment.new(@id, assessment, date, @rand)
+           if assessment.referenced_objective_assessments.nil? == false
+             objectiveAssessmentRef = assessment.referenced_objective_assessments[0]
+             @student_objective_assessments << StudentObjectiveAssessment.new(studentAssessment,objectiveAssessmentRef)
+           end
+           studentAssessment
           }
         end
       }.flatten

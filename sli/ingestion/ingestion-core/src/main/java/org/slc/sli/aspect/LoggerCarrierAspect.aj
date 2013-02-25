@@ -13,7 +13,6 @@ import org.slc.sli.dal.repository.MongoRepository;
 
 import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.common.util.logging.LoggerCarrier;
-import org.slc.sli.common.util.tenantdb.TenantContext;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -22,13 +21,13 @@ public aspect LoggerCarrierAspect {
 	declare parents : (org.slc.sli.ingestion..* &&
             !java.lang.Enum+)  implements LoggerCarrier;
     
-    private Repository<Entity> mongoEntityRepository;
+    private Repository<Entity> entityRepository;
     
     @Value("${sli.ingestion.securityEvent.capSize}")
     private String capSize;
     
     public void LoggerCarrier.audit(SecurityEvent event) {
-        MongoRepository<Entity> mer = (MongoRepository<Entity>) LoggerCarrierAspect.aspectOf().getMongoEntityRepository();
+        MongoRepository<Entity> mer = (MongoRepository<Entity>) LoggerCarrierAspect.aspectOf().getEntityRepository();
         if (mer != null) {
             MongoTemplate mongoTemplate = mer.getTemplate();
             String capSizeStr = LoggerCarrierAspect.aspectOf().getCapSize();
@@ -50,8 +49,6 @@ public aspect LoggerCarrierAspect {
                     }
                 }
             }
-            
-            TenantContext.setIsSystemCall(true);
             
             Map<String, Object> metadata = new HashMap<String, Object>();
             metadata.put("tenantId", event.getTenantId());
@@ -87,12 +84,12 @@ public aspect LoggerCarrierAspect {
         }
     }
 
-    public Repository<Entity> getMongoEntityRepository() {
-        return mongoEntityRepository;
+    public Repository<Entity> getEntityRepository() {
+        return entityRepository;
     }
     
-    public void setMongoEntityRepository(Repository<Entity> mongoEntityRepository) {
-        this.mongoEntityRepository = mongoEntityRepository;
+    public void setEntityRepository(Repository<Entity> entityRepository) {
+        this.entityRepository = entityRepository;
     }
 
     public String getCapSize() {

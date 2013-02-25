@@ -21,10 +21,9 @@ Background:
     And I switch to the iframe
     Then I get the success message
 
-Scenario: Verify Small Sample Dataset was Successfully Preloaded
-
+#Verify the file ingested on the Landing Zone
     Given a landing zone
-    And I check for the file "job*.log" every "30" seconds for "600" seconds
+    And I check for the file "job*.log" every "30" seconds for "900" seconds
     Then the landing zone should contain a file with the message "Processed 4254 records"
     And the landing zone should contain a file with the message "All records processed successfully."
     And I should not see an error log file created
@@ -52,6 +51,7 @@ Scenario: Verify Small Sample Dataset was Successfully Preloaded
          | learningStandard                         |               1499|
          | parent                                   |                  9|
          | program                                  |                  2|
+         | recordHash                               |               9479|
          | reportCard                               |                  2|
          | schoolSessionAssociation                 |                  0|
          | section                                  |                 97|

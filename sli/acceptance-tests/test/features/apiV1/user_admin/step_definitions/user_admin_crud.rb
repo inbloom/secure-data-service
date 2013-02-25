@@ -5,14 +5,16 @@ require "mongo"
 
 Before do
   extend Test::Unit::Assertions
-  @db = Mongo::Connection.new.db(PropLoader.getProps['api_database_name'])
+  @conn = Mongo::Connection.new
+  @db = @conn.db(PropLoader.getProps['api_database_name'])
 end
 
 After do
-    if @created_user 
-      idpRealmLogin("operator", nil)
-      restHttpDelete("/users/#{@created_user['uid']}")
-    end
+  if @created_user 
+    idpRealmLogin("operator", nil)
+    restHttpDelete("/users/#{@created_user['uid']}")
+  end
+  @conn.close if @conn != nil
 end
 
 Given /^I have logged in to realm "(.*?)" using "(.*?)" "(.*?)"$/ do |realm, user, pass|

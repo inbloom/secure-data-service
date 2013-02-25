@@ -302,6 +302,7 @@ public class SamlFederationResource {
                 principal.setFirstName(attributes.getFirst("givenName"));
                 principal.setLastName(attributes.getFirst("sn"));
                 principal.setVendor(attributes.getFirst("vendor"));
+                principal.setEmail(attributes.getFirst("mail"));
             }
             principal.setName(attributes.getFirst("userName"));
         }
