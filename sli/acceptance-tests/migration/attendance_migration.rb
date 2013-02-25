@@ -29,8 +29,13 @@ class Migration
   def self.migrate doc, tenant=nil
     school_year_key = 'schoolYearAttendance'
     school_year_attendance = doc['body'][school_year_key]
+
+    if school_year_attendance.nil?
+      puts "It seems like the data has already been migrated!"
+      exit
+    end
     
-    base_doc = doc.clone
+    base_doc = deep_copy(doc)
     base_doc['body'].delete school_year_key
 
     if school_year_attendance.length == 0
@@ -52,12 +57,13 @@ class Migration
     base_doc.delete("_id")
     docs = []
     school_year_attendance_array.each do |school_year|
-      split = base_doc.clone
+      split = deep_copy(base_doc)
       split["body"]["schoolYear"] = school_year.fetch('schoolYear')
       split["body"]["attendanceEvent"] = school_year.fetch('attendanceEvent')
       split[:_id] = gen_id split, tenant
       docs << split
     end
+
     docs
   end
 
@@ -92,6 +98,10 @@ class Migration
         file.puts record
       end
     end
+  end
+
+  def self.deep_copy(o)
+    Marshal.load(Marshal.dump(o))
   end
 end
 
