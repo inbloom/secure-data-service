@@ -201,9 +201,12 @@ public class ContainerDocumentAccessor {
         for (final String key : containerDocument.getParentNaturalKeys()) {
             entityDetails.put("body." + key, entityBody.get(key));
         }
-        final DBObject docToPersist = BasicDBObjectBuilder.start().push("$pushAll")
-                .add("body." + fieldToPersist, entity.getBody().get(fieldToPersist))
-                .get();
+        BasicDBObjectBuilder dbObjectBuilder = BasicDBObjectBuilder.start();
+        if (entityBody.containsKey(fieldToPersist)) {
+            dbObjectBuilder.push("$pushAll")
+                .add("body." + fieldToPersist, entityBody.get(fieldToPersist));
+        }
+        final DBObject docToPersist = dbObjectBuilder.get();
         boolean persisted =true;
         LOG.debug(entity.getEntityId());
         DBObject set = new BasicDBObject("$set", entityDetails);

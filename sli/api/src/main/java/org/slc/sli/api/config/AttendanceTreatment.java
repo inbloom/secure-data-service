@@ -49,7 +49,9 @@ public class AttendanceTreatment implements Treatment {
                     EntityBody copy = new EntityBody(body);
                     final String schoolYear = (String) schoolYearAttendance.get(SCHOOL_YEAR);
                     final List<EntityBody> attendanceEvents = (List<EntityBody>) schoolYearAttendance.get(ATTENDANCE_EVENT);
-                    copy.put(ATTENDANCE_EVENT, attendanceEvents);
+                    if (attendanceEvents != null) {
+                        copy.put(ATTENDANCE_EVENT, attendanceEvents);
+                    }
                     copy.put(SCHOOL_YEAR, schoolYear);
                     copy.remove(SCHOOL_YEAR_ATTENDANCE);
 
@@ -65,18 +67,15 @@ public class AttendanceTreatment implements Treatment {
     @SuppressWarnings("unchecked")
     public EntityBody toExposed(EntityBody stored, EntityDefinition defn, Entity entity) {
         if (defn.getType().equals(EntityNames.ATTENDANCE)) {
-            final List<EntityBody> attendanceEvents;
-            if (stored.get(ATTENDANCE_EVENT) == null) {
-                attendanceEvents = new ArrayList<EntityBody>();
-            } else {
-                attendanceEvents = (List<EntityBody>) stored.get(ATTENDANCE_EVENT);
-            }
+            final List<EntityBody> attendanceEvents = (List<EntityBody>) stored.get(ATTENDANCE_EVENT);
             final String schoolYear = (String) stored.get(SCHOOL_YEAR);
 
             List<EntityBody> schoolYearAttendances = new ArrayList<EntityBody>();
             EntityBody schoolYearAttendance = new EntityBody() {{
                 put(SCHOOL_YEAR, schoolYear);
-                put(ATTENDANCE_EVENT, attendanceEvents);
+                if (attendanceEvents != null) {
+                    put(ATTENDANCE_EVENT, attendanceEvents);
+                }
             }};
             schoolYearAttendances.add(schoolYearAttendance);
 
