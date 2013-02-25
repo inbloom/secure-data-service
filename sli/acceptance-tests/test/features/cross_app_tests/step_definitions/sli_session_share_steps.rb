@@ -82,7 +82,7 @@ end
 
 When /^I click on the logout link$/ do
   assertWithWait("Failed to find the Logout link on the page") {@driver.find_element(:link, "Logout")}
-  @driver.find_element(:link, "Logout").click
+  @driver.find_element(:link, "Exit").click
 end
 
 Then /^I should see a message that I was logged out$/ do
