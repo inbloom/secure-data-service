@@ -1,6 +1,6 @@
 @RALLY_US0615
 @RALLY_US927
- 
+
 Feature: Daily Attendance Ingestion Test
 
 Background: I have a landing zone route configured
@@ -120,3 +120,12 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "InterchangeAttendance.xml records considered: 1" in the resulting batch job file
   And I should see "InterchangeAttendance.xml records ingested successfully: 1" in the resulting batch job file
   And I should see "InterchangeAttendance.xml records failed: 0" in the resulting batch job file
+
+  @ing_att
+  Scenario: Ingest a zip file and ensure the attendance entity contains the expected format.
+    Given I post "DailyAttendance.zip" file as the payload of the ingestion job
+    And the following collections are empty in datastore:
+      | attendance                  |
+    When zip file is scp to ingestion landing zone
+    And a batch job for file "DailyAttendance.zip" is completed in database
+    Then all attendance entities should should have the expected structure.
