@@ -271,3 +271,19 @@ Examples:
    | "jstevenson"        | "jstevenson1234"   | "courseOfferings"   |
    | "jstevenson"        | "jstevenson1234"   | "courses"           |
 
+
+  #crud assessment and verify in mongo it's superdoc'ed 
+  Scenario: crud on super assessment and super studentAssessment 
+    Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
+      And entity URI "/v1/assessments"
+      And format "application/vnd.slc+json"
+      And a valid entity json document for a "super_assessment"
+      When I navigate to POST "<ENTITY URI>"
+      Then I should receive a return code of 201
+        And I should receive a new entity URI
+        And I verify "objectiveAssessment" and "assessmentItem" should be subdoc'ed in mongo for this new "assessment"
+      When I navigate to GET "/assessments/<NEWLY CREATED ENTITY ID>"
+        Then I should receive a return code of 200
+        And I verify "objectiveAssessment" and "assessmentItem" is collapsed in response body 
+        And "objectiveAssessment" is hierachical with childrens at "objectiveAssessments"
+

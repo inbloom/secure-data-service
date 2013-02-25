@@ -60,6 +60,7 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
         if (entity != null && entity.getType().equals(EntityNames.ASSESSMENT)) {
             List<Entity> objectiveAssessments = transformFromHierarchy((List<Map<String, Object>>) entity.getBody()
                     .get("objectiveAssessment"));
+            entity.getBody().remove("objectiveAssessment");
             entity.getEmbeddedData().put("objectiveAssessment", objectiveAssessments);
             bodyToSubdocs(entity, "assessmentItem", "assessmentItem", "assessmentId");
         }

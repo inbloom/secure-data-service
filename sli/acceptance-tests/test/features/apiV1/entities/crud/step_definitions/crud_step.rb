@@ -261,6 +261,45 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     "contentStandard" => "LEA Standard",
     "version" => 2
   },
+  "super_assessment" => {
+     "assessmentIdentificationCode"=> [{
+        "identificationSystem"=> "State",
+        "ID"=> "2001-Seventh grade Assessment 2"
+     }],
+     "objectiveAssessment"=> [{
+        "nomenclature"=> "Nomenclature",
+        "percentOfAssessment"=> 50,
+        "identificationCode"=> "2001-Seventh grade Assessment 2.OA-2",
+        "learningObjectives"=> ["df9165f2-653e-df27-a86c-bfc5f4b7577d"],
+        "maxRawScore"=> 50,
+        "objectiveAssessments"=> [{
+          "nomenclature"=> "Nomenclature",
+          "percentOfAssessment"=> 50,
+          "identificationCode"=> "2001-Seventh grade Assessment 2.OA-2 Sub",
+          "learningObjectives"=> ["df9165f2-653e-df27-a86c-bfc5f4b7577d"],
+          "maxRawScore"=> 50,
+          "objectiveAssessments"=> []
+        }]
+      }],
+      "assessmentFamilyHierarchyName"=> "2001 Standard.2001 Seventh grade Standard",
+      "assessmentItem"=> [{
+        "identificationCode"=> "2001-Seventh grade Assessment 2#3",
+        "correctResponse"=> "true",
+        "learningStandards"=> [],
+        "maxRawScore"=> 10,
+        "itemCategory"=> "True-False"
+        }, {
+        "identificationCode"=> "2001-Seventh grade Assessment 2#1",
+        "correctResponse"=> "true",
+        "learningStandards"=> [],
+        "maxRawScore"=> 10,
+        "itemCategory"=> "True-False"
+        }],
+      "assessmentPerformanceLevel"=> [],
+      "gradeLevelAssessed"=> "Seventh grade",
+      "assessmentTitle"=> "2001-Seventh grade Assessment 2",
+      "version" => 2 
+  },
   "parent" => {
     "parentUniqueStateId" => "ParentID101",
     "name" =>
@@ -573,4 +612,26 @@ Then /^I should see all entities$/ do
     \n Number of expected (api) entities: #{apiSet.size}
     \n Number of actual (database) entities: #{dbSet.size}
     \n Outstanding entities: #{diffSet.inspect}")
+end
+
+Then /^I verify "(.*?)" and "(.*?)" should be subdoc'ed in mongo for this new "(.*?)"$/ do |subdoc1, subdoc2, type|
+  @conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
+  @db = @conn.db(convertTenantIdToDbName("Midgar"))
+  @coll = @db[type]
+  assessment_entity = @coll.find_one("_id"=>@newId);
+  assert(assessment_entity, "assessment is not created")
+  [subdoc1, subdoc2].each { |subdoc|
+    assert(!assessment_entity["body"][subdoc], "#{subdoc} still exists inside #{type}'s body") 
+    assert(assessment_entity[subdoc], "#{subdoc} does not exists as a subdoc in #{type}") 
+  }
+end
+
+Then /^I verify "(.*?)" and "(.*?)" is collapsed in response body$/ do |subdoc1, subdoc2| 
+  assert(@res[subdoc1], "objective assessment does not exists in response body")
+  assert(@res[subdoc2], "assessment items does not exists in response body")
+end
+
+Then /^"(.*?)" is hierachical with childrens at "(.*?)"$/ do |parent, child|
+  result = JSON.parse(@res.body)
+  assert(result[parent][0][child], "#{parent} does not contain any child at #{child}")
 end
