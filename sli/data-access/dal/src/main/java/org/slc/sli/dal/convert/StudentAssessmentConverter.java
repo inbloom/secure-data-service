@@ -78,27 +78,27 @@ public class StudentAssessmentConverter extends GenericSuperdocConverter impleme
                 String referenceKeyId = (String) saSubEntity.getBody().remove(referenceKey);
                 Entity assessmentSubEntity = getEntityById(assessmentSubEntityMap, referenceKeyId);
                 if (assessmentSubEntity != null) {
-                	saSubEntity.getBody().put(assmtSubEntityType, assessmentSubEntity.getBody());
-                	saConvertedSubEntities.add(saSubEntity);
+                    saSubEntity.getBody().put(assmtSubEntityType, assessmentSubEntity.getBody());
+                    saConvertedSubEntities.add(saSubEntity);
                 }
             }
             
             studentAssessment.getEmbeddedData().remove(saSubEntityType);
             if (!saConvertedSubEntities.isEmpty()) {
-            	studentAssessment.getEmbeddedData().put(saSubEntityType, saConvertedSubEntities);
+                studentAssessment.getEmbeddedData().put(saSubEntityType, saConvertedSubEntities);
             }
         }
     }
     
     private Map<String, Entity> buildAssessmentSubEntitiesMap(List<Entity> assessmentSubEntities) {
-    	Map<String, Entity> result = new HashMap<String, Entity>();
-    	for (Entity e : assessmentSubEntities) {
-    		result.put(e.getEntityId(), e);
-    	}
-		return result;
-	}
-
-	/*
+        Map<String, Entity> result = new HashMap<String, Entity>();
+        for (Entity e : assessmentSubEntities) {
+            result.put(e.getEntityId(), e);
+        }
+        return result;
+    }
+    
+    /*
      * Look inside each subEntity(studentObjectiveAssessment and studentAssessmentItem) in
      * studentAssessment, replace refEntity(objectiveAssessment and assessmentItem) to
      * refId(objectiveAssessmentId and assessmentItemId)
@@ -128,8 +128,8 @@ public class StudentAssessmentConverter extends GenericSuperdocConverter impleme
     }
     
     // look up in mongo to retrieve assessment entity
-    private Entity retrieveAssessment(Object object) {
-        if (!(object instanceof String)) {
+    protected Entity retrieveAssessment(Object object) {
+        if (!(object instanceof String) || repo == null) {
             return null;
         }
         String assessmentId = (String) object;
@@ -171,7 +171,7 @@ public class StudentAssessmentConverter extends GenericSuperdocConverter impleme
     
     private Entity getEntityById(Map<String, Entity> assessmentSubEntityMap, String id) {
         if (assessmentSubEntityMap != null && assessmentSubEntityMap.containsKey(id)) {
-        	return assessmentSubEntityMap.get(id);
+            return assessmentSubEntityMap.get(id);
         }
         return null;
     }
