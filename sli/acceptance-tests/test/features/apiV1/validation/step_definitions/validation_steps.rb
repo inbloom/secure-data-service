@@ -84,6 +84,10 @@ Given /^I create a valid base level school object$/ do
   end
 end
 
+Given /^I create a valid base level school object without parent education organization reference$/ do
+  @result = CreateEntityHash.createBaseSchoolRandomId()
+end
+
 Given /^I create a blank json object$/ do
   @result = Hash[]
 end
