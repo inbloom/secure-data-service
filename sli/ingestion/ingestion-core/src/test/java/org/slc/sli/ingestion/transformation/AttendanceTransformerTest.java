@@ -221,7 +221,7 @@ public class AttendanceTransformerTest {
     @Test
     public void testPerformTransformation() throws IOException {
         //generate attendance
-        when(repository.findAllByQuery(Mockito.eq("attendance"), Mockito.any(Query.class)))
+        when(repository.findAllByQuery(Mockito.eq("attendanceEvent"), Mockito.any(Query.class)))
             .thenReturn(buildAttendanceRecords());
 
         //getParentEdOrg for schoolId1
@@ -277,54 +277,54 @@ public class AttendanceTransformerTest {
         NeutralQuery query1 = new NeutralQuery(1);
         query1.addCriteria(new NeutralCriteria("batchJobId", NeutralCriteria.OPERATOR_EQUAL, batchJobId, false));
         query1.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, "studentId1"));
-        query1.addCriteria(new NeutralCriteria("schoolId.EducationalOrgIdentity.StateOrganizationId._value", NeutralCriteria.OPERATOR_EQUAL, "schoolId1"));
-        query1.addCriteria(new NeutralCriteria("schoolYearAttendance.schoolYear",
+        query1.addCriteria(new NeutralCriteria("SchoolReference.EducationalOrgIdentity.StateOrganizationId._value", NeutralCriteria.OPERATOR_EQUAL, "schoolId1"));
+        query1.addCriteria(new NeutralCriteria("schoolYearAttendance.SchoolYear",
                 NeutralCriteria.OPERATOR_EQUAL, "2012"));
 
         NeutralQuery queryRh1 = new NeutralQuery(1);
         queryRh1.addCriteria(new NeutralCriteria("batchJobId", NeutralCriteria.OPERATOR_EQUAL, batchJobId, false));
         queryRh1.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, "studentId1"));
-        queryRh1.addCriteria(new NeutralCriteria("schoolId.EducationalOrgIdentity.StateOrganizationId._value", NeutralCriteria.OPERATOR_EQUAL, "schoolId1"));
+        queryRh1.addCriteria(new NeutralCriteria("SchoolReference.EducationalOrgIdentity.StateOrganizationId._value", NeutralCriteria.OPERATOR_EQUAL, "schoolId1"));
 
         Mockito.verify(repository, Mockito.times(1))
             .updateFirstForJob(
                 Mockito.argThat(new IsCorrectNeutralQuery(query1)),
                 Mockito.anyMap(),
-                Mockito.eq("attendance_transformed")
+                Mockito.eq("attendanceEvent_transformed")
              );
 
         Mockito.verify(repository, Mockito.times(1))
         .updateFirstForJob(
             Mockito.argThat(new IsCorrectNeutralQuery(queryRh1)),
             Mockito.anyMap(),
-            Mockito.eq("attendance_transformed")
+            Mockito.eq("attendanceEvent_transformed")
          );
 
                         //verify attendance for studentId2
         NeutralQuery query2 = new NeutralQuery(1);
         query2.addCriteria(new NeutralCriteria("batchJobId", NeutralCriteria.OPERATOR_EQUAL, batchJobId, false));
         query2.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, "studentId2"));
-        query2.addCriteria(new NeutralCriteria("schoolId.EducationalOrgIdentity.StateOrganizationId._value", NeutralCriteria.OPERATOR_EQUAL, "schoolId2"));
-        query2.addCriteria(new NeutralCriteria("schoolYearAttendance.schoolYear",
+        query2.addCriteria(new NeutralCriteria("SchoolReference.EducationalOrgIdentity.StateOrganizationId._value", NeutralCriteria.OPERATOR_EQUAL, "schoolId2"));
+        query2.addCriteria(new NeutralCriteria("schoolYearAttendance.SchoolYear",
                 NeutralCriteria.OPERATOR_EQUAL, "2012"));
 
         NeutralQuery queryRh2 = new NeutralQuery(1);
         queryRh2.addCriteria(new NeutralCriteria("batchJobId", NeutralCriteria.OPERATOR_EQUAL, batchJobId, false));
         queryRh2.addCriteria(new NeutralCriteria("studentId", NeutralCriteria.OPERATOR_EQUAL, "studentId1"));
-        queryRh2.addCriteria(new NeutralCriteria("schoolId.EducationalOrgIdentity.StateOrganizationId._value", NeutralCriteria.OPERATOR_EQUAL, "schoolId1"));
+        queryRh2.addCriteria(new NeutralCriteria("SchoolReference.EducationalOrgIdentity.StateOrganizationId._value", NeutralCriteria.OPERATOR_EQUAL, "schoolId1"));
 
         Mockito.verify(repository, Mockito.times(1))
             .updateFirstForJob(
                 Mockito.argThat(new IsCorrectNeutralQuery(query2)),
                 Mockito.anyMap(),
-                Mockito.eq("attendance_transformed")
+                Mockito.eq("attendanceEvent_transformed")
              );
 
         Mockito.verify(repository, Mockito.times(1))
         .updateFirstForJob(
             Mockito.argThat(new IsCorrectNeutralQuery(queryRh2)),
             Mockito.anyMap(),
-            Mockito.eq("attendance_transformed")
+            Mockito.eq("attendanceEvent_transformed")
          );
       }
 
@@ -344,7 +344,7 @@ public class AttendanceTransformerTest {
         NeutralRecord r = new NeutralRecord();
         r.setRecordType("school");
         r.setRecordId("recordId");
-        r.setAttributeField("stateOrganizationId", "schoolId2");
+        r.setAttributeField("StateOrganizationId", buildValue("schoolId2"));
         return Arrays.asList(r);
     }
 
@@ -354,8 +354,8 @@ public class AttendanceTransformerTest {
         r.setType("school");
         r.setEntityId("2012mf-ed8c0a46-fc4b-11e1-97f4-ec9a74fc9dff");
         r.setBody(b);
-        b.put("stateOrganizationId", "schoolId2");
-        b.put("nameOfInstitution", "schoolId2");
+        b.put("StateOrganizationId", buildValue("schoolId2"));
+        b.put("NameOfInstitution", buildValue("schoolId2"));
         Entity e = r;
         return Arrays.asList(e);
     }
@@ -366,8 +366,8 @@ public class AttendanceTransformerTest {
         r.setType("school");
         r.setEntityId("2012mf-ed8c0a46-fc4b-11e1-97f4-ec9a74fc9dff");
         r.setBody(b);
-        b.put("stateOrganizationId", schoolId);
-        b.put("nameOfInstitution", schoolId);
+        b.put("StateOrganizationId", buildValue(schoolId));
+        b.put("NameOfInstitution", buildValue(schoolId));
         Entity e = r;
         return e;
     }
@@ -379,7 +379,7 @@ public class AttendanceTransformerTest {
         r.setType("attendance");
         r.setEntityId("2012mf-ed8c0a46-fc4b-11e1-97f4-ec9a74fc8dff");
         r.setBody(b);
-        b.put("StudentReference", buildStudentReference(studentEntityId));
+        b.put("studentId", studentEntityId);
         b.put("schoolId", schoolEntityId);
         b.put("schoolYearAttendance", schoolYearAttendance);
         Map<String, Object> year1 = new HashMap<String, Object>();
@@ -440,7 +440,7 @@ public class AttendanceTransformerTest {
         NeutralRecord s1 = new NeutralRecord();
         s1.setRecordType("session");
         s1.setRecordId("recordId1");
-        s1.setAttributeField("schoolId", schoolEntityId);
+        s1.setAttributeField("EducationOrganizationReference.EducationalOrgIdentity.StateOrganizationId._value", schoolEntityId);
         s1.setAttributeField("SchoolYear", buildValue("2006-2007"));
         s1.setAttributeField("BeginDate", buildValue("2006-08-06"));
         s1.setAttributeField("EndDate", buildValue("2007-06-30"));
@@ -521,7 +521,7 @@ public class AttendanceTransformerTest {
     }
     private List<NeutralRecord> buildAttendanceRecords() {
         NeutralRecord r1 = new NeutralRecord();
-        r1.setRecordType("attendance");
+        r1.setRecordType("attendanceEvent");
         r1.setRecordId("recordId1");
         r1.setAttributeField("StudentReference", buildStudentReference("studentId1"));
         r1.setAttributeField("schoolId", buildValue("schoolId1"));
@@ -537,7 +537,7 @@ public class AttendanceTransformerTest {
         r1.addMetaData("rhData", rList1);
 
         NeutralRecord r2 = new NeutralRecord();
-        r2.setRecordType("attendance");
+        r2.setRecordType("attendanceEvent");
         r2.setRecordId("recordId2");
         r2.setAttributeField("StudentReference", buildStudentReference("studentId2"));
         r2.setAttributeField("EventDate", buildValue("2012-09-09"));
