@@ -149,7 +149,7 @@
     </jb:bean>
 
    <jb:bean beanId="LearningStandards" class="java.util.ArrayList" createOnElement="attributes AssessmentItemReference element LearningStandardReference">
-    <jb:value data="attributes AssessmentItemReference element LearningStandardReference element LearningStandardIdentity IdentificationCode _value" />
+    <jb:value data="attributes AssessmentItemReference element LearningStandardReference element" />
   </jb:bean> 
 
 
