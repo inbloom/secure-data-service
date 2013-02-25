@@ -145,7 +145,12 @@
         <jb:value property="maxRawScore" data="attributes AssessmentItemReference element MaxRawScore _value" />
         <jb:value property="correctResponse" data="attributes AssessmentItemReference element CorrectResponse _value" />
         <jb:value property="nomenclature" data="attributes AssessmentItemReference element Nomenclature _value" />
+        <jb:wiring property="learningStandards" beanIdRef="LearningStandards" />
     </jb:bean>
+
+   <jb:bean beanId="LearningStandards" class="java.util.ArrayList" createOnElement="attributes AssessmentItemReference element LearningStandardReference">
+    <jb:value data="attributes AssessmentItemReference element LearningStandardReference element" />
+  </jb:bean> 
 
 
 </smooks-resource-list>

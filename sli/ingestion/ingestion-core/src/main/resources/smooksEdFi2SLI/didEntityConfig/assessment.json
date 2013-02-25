@@ -13,7 +13,7 @@
         },
         {
             "entityType" : "learningStandard",
-            "sourceRefPath": "body.AssessmentItemReference.learningStandards",
+            "sourceRefPath": "body.AssessmentItemReference.LearningStandardReference",
             "optional" : true
         }
     ]
