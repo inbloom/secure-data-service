@@ -157,6 +157,8 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
                     List<Map<String, Object>> assessmentItems = getAssessmentItems(items);
                     if (assessmentItems != null) {
                         attrs.put(ASSESSMENT_ITEM_REF, assessmentItems);
+                    } else {
+                        attrs.remove(ASSESSMENT_ITEM_REF);
                     }
                 }
             }
