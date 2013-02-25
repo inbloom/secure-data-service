@@ -21627,7 +21627,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Ninth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Ninth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -21657,7 +21657,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Ninth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Ninth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -21687,7 +21687,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Ninth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Ninth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -21717,7 +21717,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Ninth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Ninth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -21747,7 +21747,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Ninth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Ninth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -21777,7 +21777,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Ninth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Ninth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -21807,7 +21807,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Tenth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Tenth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -21837,7 +21837,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Tenth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Tenth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -21867,7 +21867,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Tenth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Tenth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -21897,7 +21897,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Tenth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Tenth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -21927,7 +21927,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Tenth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Tenth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -21957,7 +21957,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Tenth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Tenth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -21987,7 +21987,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Eleventh grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Eleventh grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22017,7 +22017,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Eleventh grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Eleventh grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22047,7 +22047,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Eleventh grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Eleventh grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22077,7 +22077,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Eleventh grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Eleventh grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22107,7 +22107,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Eleventh grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Eleventh grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22137,7 +22137,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Eleventh grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Eleventh grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22167,7 +22167,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Sixth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Sixth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22197,7 +22197,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Sixth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Sixth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22227,7 +22227,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Sixth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Sixth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22257,7 +22257,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Sixth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Sixth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22287,7 +22287,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Sixth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Sixth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22317,7 +22317,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Sixth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Sixth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22347,7 +22347,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Seventh grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Seventh grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22377,7 +22377,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Seventh grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Seventh grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22407,7 +22407,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Seventh grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Seventh grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22437,7 +22437,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Seventh grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Seventh grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22467,7 +22467,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Seventh grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Seventh grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22497,7 +22497,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Seventh grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Seventh grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22527,7 +22527,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Eighth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Eighth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22557,7 +22557,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Eighth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Eighth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22587,7 +22587,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Eighth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Eighth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22617,7 +22617,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Eighth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Eighth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22647,7 +22647,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Eighth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Eighth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22677,7 +22677,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Eighth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Eighth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22707,7 +22707,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Seventh grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Seventh grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22737,7 +22737,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Seventh grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Seventh grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22767,7 +22767,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Seventh grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Seventh grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22797,7 +22797,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Seventh grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Seventh grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22827,7 +22827,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Seventh grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Seventh grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22857,7 +22857,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Seventh grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Seventh grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22887,7 +22887,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Eighth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Eighth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22917,7 +22917,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Eighth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Eighth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22947,7 +22947,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Eighth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Eighth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -22977,7 +22977,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Eighth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Eighth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23007,7 +23007,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Eighth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Eighth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23037,7 +23037,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Eighth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Eighth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23067,7 +23067,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Ninth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Ninth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23097,7 +23097,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Ninth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Ninth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23127,7 +23127,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Ninth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Ninth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23157,7 +23157,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Ninth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Ninth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23187,7 +23187,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Ninth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Ninth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23217,7 +23217,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Ninth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Ninth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23247,7 +23247,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Eighth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Eighth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23277,7 +23277,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Eighth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Eighth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23307,7 +23307,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Eighth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Eighth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23337,7 +23337,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Eighth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Eighth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23367,7 +23367,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Eighth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Eighth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23397,7 +23397,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Eighth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Eighth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23427,7 +23427,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Ninth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Ninth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23457,7 +23457,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Ninth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Ninth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23487,7 +23487,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Ninth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Ninth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23517,7 +23517,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Ninth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Ninth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23547,7 +23547,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Ninth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Ninth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23577,7 +23577,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Ninth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Ninth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23607,7 +23607,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Tenth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Tenth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23637,7 +23637,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Tenth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Tenth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23667,7 +23667,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Tenth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Tenth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23697,7 +23697,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Tenth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Tenth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23727,7 +23727,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Tenth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Tenth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23757,7 +23757,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Tenth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Tenth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23787,7 +23787,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Kindergarten Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Kindergarten Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23817,7 +23817,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Kindergarten Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Kindergarten Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23847,7 +23847,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Kindergarten Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Kindergarten Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23877,7 +23877,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Kindergarten Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Kindergarten Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23907,7 +23907,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Kindergarten Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Kindergarten Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23937,7 +23937,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Kindergarten Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Kindergarten Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23967,7 +23967,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-First grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-First grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -23997,7 +23997,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-First grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-First grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24027,7 +24027,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-First grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-First grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24057,7 +24057,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-First grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-First grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24087,7 +24087,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-First grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-First grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24117,7 +24117,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-First grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-First grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24147,7 +24147,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Second grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Second grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24177,7 +24177,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Second grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Second grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24207,7 +24207,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Second grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Second grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24237,7 +24237,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Second grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Second grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24267,7 +24267,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Second grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Second grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24297,7 +24297,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Second grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Second grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24327,7 +24327,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-First grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-First grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24357,7 +24357,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-First grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-First grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24387,7 +24387,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-First grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-First grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24417,7 +24417,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-First grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-First grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24447,7 +24447,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-First grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-First grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24477,7 +24477,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-First grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-First grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24507,7 +24507,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Second grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Second grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24537,7 +24537,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Second grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Second grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24567,7 +24567,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Second grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Second grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24597,7 +24597,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Second grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Second grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24627,7 +24627,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Second grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Second grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24657,7 +24657,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Second grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Second grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24687,7 +24687,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Third grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Third grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24717,7 +24717,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Third grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Third grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24747,7 +24747,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Third grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Third grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24777,7 +24777,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Third grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Third grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24807,7 +24807,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Third grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Third grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24837,7 +24837,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Third grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Third grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24867,7 +24867,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Second grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Second grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24897,7 +24897,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Second grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Second grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24927,7 +24927,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Second grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Second grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24957,7 +24957,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Second grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Second grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -24987,7 +24987,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Second grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Second grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25017,7 +25017,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Second grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Second grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25047,7 +25047,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Third grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Third grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25077,7 +25077,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Third grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Third grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25107,7 +25107,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Third grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Third grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25137,7 +25137,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Third grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Third grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25167,7 +25167,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Third grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Third grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25197,7 +25197,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Third grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Third grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25227,7 +25227,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Fourth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Fourth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25257,7 +25257,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Fourth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Fourth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25287,7 +25287,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Fourth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Fourth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25317,7 +25317,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Fourth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Fourth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25347,7 +25347,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Fourth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Fourth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25377,7 +25377,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Fourth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Fourth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25407,7 +25407,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Third grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Third grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25437,7 +25437,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Third grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Third grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25467,7 +25467,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Third grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Third grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25497,7 +25497,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Third grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Third grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25527,7 +25527,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Third grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Third grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25557,7 +25557,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Third grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Third grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25587,7 +25587,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Fourth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Fourth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25617,7 +25617,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Fourth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Fourth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25647,7 +25647,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Fourth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Fourth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25677,7 +25677,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Fourth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Fourth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25707,7 +25707,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Fourth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Fourth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25737,7 +25737,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Fourth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Fourth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25767,7 +25767,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Fifth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Fifth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25797,7 +25797,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Fifth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Fifth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25827,7 +25827,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Fifth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Fifth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25857,7 +25857,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Fifth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Fifth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25887,7 +25887,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Fifth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Fifth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25917,7 +25917,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Fifth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Fifth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25947,7 +25947,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Fourth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Fourth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -25977,7 +25977,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Fourth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Fourth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26007,7 +26007,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Fourth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Fourth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26037,7 +26037,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Fourth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Fourth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26067,7 +26067,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Fourth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Fourth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26097,7 +26097,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Fourth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Fourth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26127,7 +26127,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Fifth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Fifth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26157,7 +26157,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Fifth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Fifth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26187,7 +26187,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Fifth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Fifth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26217,7 +26217,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Fifth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Fifth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26247,7 +26247,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Fifth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Fifth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26277,7 +26277,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Fifth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Fifth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26307,7 +26307,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Sixth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Sixth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26337,7 +26337,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Sixth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Sixth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26367,7 +26367,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Sixth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Sixth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26397,7 +26397,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Sixth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Sixth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26427,7 +26427,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Sixth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Sixth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26457,7 +26457,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Sixth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Sixth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26487,7 +26487,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Fifth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Fifth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26517,7 +26517,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Fifth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Fifth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26547,7 +26547,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Fifth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Fifth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26577,7 +26577,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Fifth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Fifth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26607,7 +26607,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Fifth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Fifth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26637,7 +26637,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2001-Fifth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2001-Fifth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26667,7 +26667,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Sixth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Sixth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26697,7 +26697,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Sixth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Sixth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26727,7 +26727,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Sixth grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Sixth grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26757,7 +26757,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Sixth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Sixth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26787,7 +26787,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Sixth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Sixth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26817,7 +26817,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2002-Sixth grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2002-Sixth grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26847,7 +26847,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Seventh grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Seventh grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26877,7 +26877,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Seventh grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Seventh grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26907,7 +26907,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Seventh grade Assessment 1.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Seventh grade Assessment 1.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26937,7 +26937,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Seventh grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Seventh grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26967,7 +26967,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Seventh grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Seventh grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
@@ -26997,7 +26997,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
   </StudentAssessmentReference>
   <ObjectiveAssessmentReference>
       <ObjectiveAssessmentIdentity>
-          <ObjectiveAssessmentIdentificationCode>2003-Seventh grade Assessment 2.OA-1</ObjectiveAssessmentIdentificationCode>
+          <ObjectiveAssessmentIdentificationCode>2003-Seventh grade Assessment 2.OA-0</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
   </ObjectiveAssessmentReference>
 </StudentObjectiveAssessment>
