@@ -331,6 +331,7 @@ public class JobReportingProcessor implements Processor {
     }
 
     private void writeDuplicates(NewBatchJob job, PrintWriter jobReportWriter) {
+
         Map<String,Map<String, Long>> combinedMetrics = new HashMap<String, Map<String, Long>>();
         List<Metrics> deltaStageMetrics = job.getStageMetrics(BatchJobStageType.DELTA_PROCESSOR);
 
@@ -371,7 +372,7 @@ public class JobReportingProcessor implements Processor {
     private long writeBatchJobPersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter) {
         long totalProcessed = 0;
 
-        List<Stage> stages = batchJobDAO.getBatchJobStages(job.getId());
+        List<Stage> stages = batchJobDAO.getBatchJobStages(job.getId(), BatchJobStageType.PERSISTENCE_PROCESSOR);
         Iterator<Stage> it = stages.iterator();
 
         Stage stage;
