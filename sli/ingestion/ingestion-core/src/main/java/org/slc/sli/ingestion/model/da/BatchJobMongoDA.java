@@ -43,6 +43,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import org.slc.sli.dal.RetryMongoCommand;
+import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.landingzone.AttributeType;
@@ -76,6 +77,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
     private static final String RECORD_HASH = "recordHash";
     private static final String RECORD_HASH_TENANT_FIELD = "t";
     private static final String JOB_ID = "jobId";
+    private static final String STAGE_NAME = "stageName";
     private static final String SYNC_STAGE = "syncStage";
     private static final String COUNT = "count";
     private static final String ENTITIES = "entities";
@@ -124,6 +126,12 @@ public class BatchJobMongoDA implements BatchJobDAO {
     @Override
     public List<Stage> getBatchJobStages(String batchJobId) {
         return batchJobMongoTemplate.find(query(where(JOB_ID).is(batchJobId)), Stage.class,
+                BATCHJOB_STAGE_SEPARATE_COLLECTION);
+    }
+
+    @Override
+    public List<Stage> getBatchJobStages(String batchJobId, BatchJobStageType stageType) {
+        return batchJobMongoTemplate.find(query(where(JOB_ID).is(batchJobId).and(STAGE_NAME).is(stageType.getName())), Stage.class,
                 BATCHJOB_STAGE_SEPARATE_COLLECTION);
     }
 

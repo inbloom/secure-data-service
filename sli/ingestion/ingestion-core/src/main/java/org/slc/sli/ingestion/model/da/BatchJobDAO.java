@@ -23,6 +23,7 @@ import java.util.Set;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
+import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
 import org.slc.sli.ingestion.IngestionStagedEntity;
 import org.slc.sli.ingestion.model.Error;
@@ -49,6 +50,7 @@ public interface BatchJobDAO {
     void saveBatchJobStage(String batchJobId, Stage stage);
 
     List<Stage> getBatchJobStages(String batchJobId);
+    List<Stage> getBatchJobStages(String batchJobId, BatchJobStageType stageType);
 
     /**
      * Populate a shared-resource data structure that can be used to synchronize processing
