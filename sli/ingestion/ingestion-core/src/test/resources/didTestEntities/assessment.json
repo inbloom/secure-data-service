@@ -36,7 +36,7 @@
 		"AssessmentItemReference":
 		[
 			{
-				"learningStandards":
+				"LearningStandardReference":
 				[
     				{
         				"LearningStandardIdentity":
