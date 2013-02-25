@@ -221,8 +221,9 @@ Examples:
 | "IL"  | "linda.kim" | "linda.kim1234" | "Learn to read" | 200  | 
 | "IL"  | "cgray"     | "cgray1234"     | "Learn to read" | 403  |
 
-@US4728
+@US4728 @wip
 Scenario: A Teacher cannot access data if their required staffEdorgAssignment is in the past.
+#   Session cache makes puts a short (15 min) delay between expiration of association and it taking effect
 	Given I am logged in using "linda.kimadmin" "linda.kimadmin" to realm "IL"
 	And I have a Role attribute that equals "IT Administrator"
 	When I navigate to GET "/v1/sessions"

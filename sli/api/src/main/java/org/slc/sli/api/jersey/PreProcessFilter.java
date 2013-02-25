@@ -29,18 +29,17 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.cache.SessionCache;
 import org.slc.sli.api.criteriaGenerator.DateFilterCriteriaGenerator;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextValidator;
-import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.pdp.EndpointMutator;
 import org.slc.sli.api.translator.URITranslator;
 import org.slc.sli.api.validation.URLValidator;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.MongoStat;
-import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
 
@@ -76,17 +75,17 @@ public class PreProcessFilter implements ContainerRequestFilter {
     private EdOrgHelper edOrgHelper;
 
     @Autowired
-    private PagingRepositoryDelegate<Entity> repo;
-
-    @Autowired
     private DateFilterCriteriaGenerator criteriaGenerator;
+
+    @Resource
+    private SessionCache sessions;
 
     @Override
     public ContainerRequest filter(ContainerRequest request) {
         recordStartTime(request);
         validate(request);
         populateSecurityContext(request);
-//        mongoStat.clear();
+        // mongoStat.clear();
         mongoStat.startRequest();
 
         SLIPrincipal principal = (SLIPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -102,7 +101,14 @@ public class PreProcessFilter implements ContainerRequestFilter {
     }
 
     private void populateSecurityContext(ContainerRequest request) {
-        OAuth2Authentication auth = manager.getAuthentication(request.getHeaderValue("Authorization"));
+        String bearer = request.getHeaderValue("Authorization");
+
+        OAuth2Authentication auth = this.sessions.get(bearer);
+        if (auth == null) {
+            auth = manager.getAuthentication(bearer);
+            this.sessions.put(bearer, auth);
+        }
+
         SecurityContextHolder.getContext().setAuthentication(auth);
         TenantContext.setTenantId(((SLIPrincipal) auth.getPrincipal()).getTenantId());
     }

@@ -179,6 +179,7 @@ public class RealmInitializer {
         toReturn.add(createField("userName", "(.+)"));
         toReturn.add(createField("userType", "(.+)"));
         toReturn.add(createField("isAdmin", "(.+)"));
+        toReturn.add(createField("mail", "(.+)"));
 
         if (isDeveloperRealm || isAdminRealm) {
             toReturn.add(createField("givenName", "(.+)"));

@@ -2338,12 +2338,12 @@
     <CompetencyLevelDescriptor>
         <CodeValue>Barely Competent 5</CodeValue>
         <Description>Herman tends to throw tantrums</Description>
-        <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+        <PerformanceBaseConversion>Pass</PerformanceBaseConversion>
     </CompetencyLevelDescriptor>
     <CompetencyLevelDescriptor>
         <CodeValue>Barely Competent 6</CodeValue>
         <Description>Herman tends to throw tantrums</Description>
-        <PerformanceBaseConversion>Well Below Basic</PerformanceBaseConversion>
+        <PerformanceBaseConversion>Fail</PerformanceBaseConversion>
     </CompetencyLevelDescriptor>
     
 
