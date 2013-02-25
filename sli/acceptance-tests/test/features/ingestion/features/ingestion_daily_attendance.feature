@@ -121,7 +121,6 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "InterchangeAttendance.xml records ingested successfully: 1" in the resulting batch job file
   And I should see "InterchangeAttendance.xml records failed: 0" in the resulting batch job file
 
-  @wip
   Scenario: Ingest a zip file and ensure the attendance entity contains the expected format.
     Given I post "DailyAttendance.zip" file as the payload of the ingestion job
     And the following collections are empty in datastore:

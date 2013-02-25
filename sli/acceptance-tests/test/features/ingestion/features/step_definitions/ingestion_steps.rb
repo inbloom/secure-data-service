@@ -2913,18 +2913,15 @@ end
 Then /^all attendance entities should should have the expected structure./ do
   @db = @conn[@ingestion_db_name]
   @coll = @db['attendance']
-  expected_attendance_entity = ""
   @coll.find.each do | entity |
 
     assert(entity["body"].has_key?("schoolId"))
     assert(entity["body"].has_key?("schoolYear"))
     assert(entity["body"].has_key?("studentId"))
-    assert(!entity["body"].has_key?("schoolYearAttendance"))
+    assert(!entity["body"].has_key?("schoolYearAttendance")) #make sure deprecated elements do not appear in the db
 
     if entity["body"].has_key?("attendanceEvent")
       entity["body"]["attendanceEvent"].each do |event|
-        puts event
-        assert(event.size == 2)
         assert(event.keys.include?("date"))
         assert(event.keys.include?("event"))
       end
