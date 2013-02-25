@@ -77,6 +77,7 @@ public class UriMutator {
 
     private Map<String, MutateInfo> teacherSectionMutations;
 
+    @SuppressWarnings("unchecked")
     private static final List<Pair<String, String>> PARAMETER_RESOURCE_PAIRS = Arrays.asList(
             Pair.of(ParameterConstants.STUDENT_UNIQUE_STATE_ID, ResourceNames.STUDENTS),
             Pair.of(ParameterConstants.STAFF_UNIQUE_STATE_ID, ResourceNames.STAFF),
@@ -390,6 +391,13 @@ public class UriMutator {
                         "/schools/%s/studentSchoolAssociations/students/studentAcademicRecords",
                         StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
                 mutated.setQueryParameters(mutuateQueryParameterString("sessionId", transitiveEntityId, mutated.getQueryParameters()));
+            } else if (modifiedRequest.equals(PathConstants.LEARNING_OBJECTIVES + ";" + PathConstants.STUDENT_COMPETENCIES
+                    + ";")) {
+                verifySingleTransitiveId(transitiveEntityId);
+                mutated.setPath(String.format(
+                        "/schools/%s/sections/studentSectionAssociations/studentCompetencies",
+                        StringUtils.join(edOrgHelper.getStaffEdOrgsAndChildren(), ",")));
+                mutated.setQueryParameters(mutuateQueryParameterString("learningObjectiveId", transitiveEntityId, mutated.getQueryParameters()));
             }
         }
         return mutated;

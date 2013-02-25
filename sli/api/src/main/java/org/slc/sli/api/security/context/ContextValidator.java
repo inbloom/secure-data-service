@@ -55,12 +55,24 @@ import org.slc.sli.domain.NeutralQuery;
 @Component
 public class ContextValidator implements ApplicationContextAware {
 
-    protected static final Set<String> GLOBAL_RESOURCES = new HashSet<String>(Arrays.asList(ResourceNames.ASSESSMENTS,
-            ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS, ResourceNames.COURSES, ResourceNames.COURSE_OFFERINGS,
-            ResourceNames.EDUCATION_ORGANIZATIONS, ResourceNames.GRADUATION_PLANS, ResourceNames.GRADING_PERIODS,
-            ResourceNames.LEARNINGOBJECTIVES, ResourceNames.LEARNINGSTANDARDS, ResourceNames.PROGRAMS,
-            ResourceNames.SCHOOLS, ResourceNames.SECTIONS, ResourceNames.SESSIONS,
-            ResourceNames.STUDENT_COMPETENCY_OBJECTIVES, ResourceNames.CUSTOM));
+    protected static final Set<String> GLOBAL_RESOURCES = new HashSet<String>(
+            Arrays.asList(ResourceNames.ASSESSMENTS,
+            ResourceNames.COMPETENCY_LEVEL_DESCRIPTORS,
+            ResourceNames.COURSES,
+            ResourceNames.COURSE_OFFERINGS,
+            ResourceNames.EDUCATION_ORGANIZATIONS,
+            ResourceNames.GRADUATION_PLANS,
+            ResourceNames.GRADING_PERIODS,
+            ResourceNames.LEARNINGOBJECTIVES,
+            ResourceNames.LEARNINGSTANDARDS,
+            ResourceNames.PROGRAMS,
+            ResourceNames.SCHOOLS,
+            ResourceNames.SECTIONS,
+            ResourceNames.SESSIONS,
+            ResourceNames.STUDENT_COMPETENCY_OBJECTIVES,
+            ResourceNames.CUSTOM,
+            "parentLearningObjectives",
+            "childLearningObjectives"));
 
     protected static final Set<String> GLOBAL_ENTITIES = new HashSet<String>(
             Arrays.asList(EntityNames.ASSESSMENT,
