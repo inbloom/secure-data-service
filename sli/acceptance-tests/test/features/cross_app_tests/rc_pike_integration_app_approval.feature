@@ -160,7 +160,7 @@ And the Approve button next to it is disabled
 And the Deny button next to it is enabled
 #Authorize the New Installed App
 And I see an application "NotTheAppYoureLookingFor" in the table
-And in Status it says "Not Approved"
+#And in Status it says "Not Approved"
 And I click on the "Approve" button next to it
 And I am asked 'Do you really want this application to access the district's data'
 When I click on Ok
