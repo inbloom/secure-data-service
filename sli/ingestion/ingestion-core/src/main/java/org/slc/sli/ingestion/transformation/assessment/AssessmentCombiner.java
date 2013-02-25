@@ -161,10 +161,13 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
                 }
             }
 
-
-            String assessmentPeriodDescriptorRef = (String) attrs.remove("periodDescriptorRef");
+            String assessmentPeriodDescriptorRef = (String) getProperty(attrs, "AssessmentPeriod.CodeValue._value");
             if (assessmentPeriodDescriptorRef != null) {
-                attrs.put(ASSESSMENT_PERIOD_DESCRIPTOR, getAssessmentPeriodDescriptor(assessmentPeriodDescriptorRef));
+                attrs.remove("AssessmentPeriod");
+                Map<String, Object> assessmentPeriodDescriptors = getAssessmentPeriodDescriptor(assessmentPeriodDescriptorRef);
+                if (assessmentPeriodDescriptors != null) {
+                    attrs.put(ASSESSMENT_PERIOD_DESCRIPTOR, assessmentPeriodDescriptors);
+                }
             }
 
             neutralRecord.setRecordType(neutralRecord.getRecordType() + "_transformed");
@@ -209,7 +212,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     private Map<String, Object> getAssessmentPeriodDescriptor(String assessmentPeriodDescriptorRef) {
         Query query = new Query().limit(0);
         query.addCriteria(Criteria.where(BATCH_JOB_ID_KEY).is(getBatchJobId()));
-        query.addCriteria(Criteria.where("body.CodeValue").is(assessmentPeriodDescriptorRef));
+        query.addCriteria(Criteria.where("body.CodeValue._value").is(assessmentPeriodDescriptorRef));
 
         Iterable<NeutralRecord> data = getNeutralRecordMongoAccess().getRecordRepository().findAllByQuery(
                 ASSESSMENT_PERIOD_DESCRIPTOR, query);
@@ -225,7 +228,39 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             if (assessmentEntity != null) {
                 Map<String, Object> assessmentPeriodDescriptor = (Map<String, Object>) assessmentEntity.getBody().get(
                         ASSESSMENT_PERIOD_DESCRIPTOR);
-                return assessmentPeriodDescriptor;
+                // massage from entity to NR
+                Map<String, Object> assessmentPeriodDescriptor_value = new HashMap<String, Object>();
+                if (assessmentPeriodDescriptor.containsKey("shortDescription")) {
+                    Map<String, Object> m = new HashMap<String, Object>();
+                    m.put("_value", assessmentPeriodDescriptor.get("shortDescription"));
+                    assessmentPeriodDescriptor_value.put("ShortDescription", m);
+
+                }
+                if (assessmentPeriodDescriptor.containsKey("description")) {
+                    Map<String, Object> m = new HashMap<String, Object>();
+                    m.put("_value", assessmentPeriodDescriptor.get("description"));
+                    assessmentPeriodDescriptor_value.put("Description", m);
+
+                }
+                if (assessmentPeriodDescriptor.containsKey("codeValue")) {
+                    Map<String, Object> m = new HashMap<String, Object>();
+                    m.put("_value", assessmentPeriodDescriptor.get("codeValue"));
+                    assessmentPeriodDescriptor_value.put("CodeValue", m);
+
+                }
+                if (assessmentPeriodDescriptor.containsKey("endDate")) {
+                    Map<String, Object> m = new HashMap<String, Object>();
+                    m.put("_value", assessmentPeriodDescriptor.get("endDate"));
+                    assessmentPeriodDescriptor_value.put("EndDate", m);
+
+                }
+                if (assessmentPeriodDescriptor.containsKey("beginDate")) {
+                    Map<String, Object> m = new HashMap<String, Object>();
+                    m.put("_value", assessmentPeriodDescriptor.get("beginDate"));
+                    assessmentPeriodDescriptor_value.put("BeginDate", m);
+
+                }
+                return assessmentPeriodDescriptor_value;
             }
         }
         return null;
