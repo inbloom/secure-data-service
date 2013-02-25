@@ -1178,7 +1178,7 @@
 		<xs:complexContent>
 			<xs:extension base="ReferenceType">
 				<xs:sequence>
-					<xs:element name="AssessmentIdentity" type="SLC-AssessmentIdentityType" minOccurs="0"/>
+					<xs:element name="AssessmentIdentity" type="SLC-AssessmentIdentityType"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
