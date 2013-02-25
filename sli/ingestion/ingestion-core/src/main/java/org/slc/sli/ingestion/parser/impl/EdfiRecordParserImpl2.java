@@ -279,19 +279,23 @@ public class EdfiRecordParserImpl2 extends DefaultHandler {
     @Override
     public void warning(SAXParseException exception) throws SAXException {
         LOG.warn("Warning: {}", exception.getMessage());
-        currentEntityValid &= true;
     }
 
     @Override
     public void error(SAXParseException exception) throws SAXException {
         LOG.error("Error: {}", exception.getMessage());
-        currentEntityValid &= true;
+
+        // TODO: Reactivate this statement for strict validation and story US5061 acceptance!!!
+//        currentEntityValid = false;
+
     }
 
     @Override
     public void fatalError(SAXParseException exception) throws SAXException {
         LOG.error("FatalError: {}", exception.getMessage());
-        currentEntityValid &= true;
+
+        // TODO: Reactivate this statement for strict validation and story US5061 acceptance!!!
+//        currentEntityValid = false;
     }
 
     public void addVisitor(RecordVisitor recordVisitor) {

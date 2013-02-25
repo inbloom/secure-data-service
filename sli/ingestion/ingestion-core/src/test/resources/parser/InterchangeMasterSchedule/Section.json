@@ -23,10 +23,10 @@
   "AvailableCredit":
   {
     "a_CreditType":"Carnegie unit",
-    "a_CreditConversion":false,
+    "a_CreditConversion":1.50,
     "Credit":
     {
-      "_value":50
+      "_value":50.00
     }
   },
   "CourseOfferingReference":

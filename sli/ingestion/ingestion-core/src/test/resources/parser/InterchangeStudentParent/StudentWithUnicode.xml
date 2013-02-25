@@ -60,7 +60,7 @@
       <NameOfCounty>ilkuflZ5BCPil6cAp</NameOfCounty>
       <CountyFIPSCode>n1A</CountyFIPSCode>
     </Address>
-    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="0">
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="false">
       <TelephoneNumber>Ui</TelephoneNumber>
     </Telephone>
     <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="true">

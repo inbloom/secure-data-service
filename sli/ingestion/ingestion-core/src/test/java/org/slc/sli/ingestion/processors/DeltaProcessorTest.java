@@ -180,14 +180,16 @@ public class DeltaProcessorTest {
     @Test
     public void testNotPrevIngested() throws Exception{
 
-        DidSchemaParser didSchemaParser = Mockito.mock(DidSchemaParser.class);
-        Mockito.when(dIdResolver.getDidSchemaParser()).thenReturn(didSchemaParser);
-        Mockito.when(didSchemaParser.getNaturalKeys()).thenReturn(new HashMap<String, List<DidNaturalKey>>());
-        Mockito.when(dIdStrategy.generateId(Mockito.any(NaturalKeyDescriptor.class))).thenReturn("recordId");
-
         NeutralRecord nr = createNeutralRecord("student");
         List<NeutralRecord> neutralRecords = new ArrayList<NeutralRecord>();
         neutralRecords.add(nr);
+
+        DidSchemaParser didSchemaParser = Mockito.mock(DidSchemaParser.class);
+        Mockito.when(dIdResolver.getDidSchemaParser()).thenReturn(didSchemaParser);
+        Map<String, List<DidNaturalKey>> naturalKeysMap = new HashMap<String, List<DidNaturalKey>>();
+        naturalKeysMap.put(nr.getRecordType(), new ArrayList<DidNaturalKey>());
+        Mockito.when(didSchemaParser.getNaturalKeys()).thenReturn(naturalKeysMap);
+        Mockito.when(dIdStrategy.generateId(Mockito.any(NaturalKeyDescriptor.class))).thenReturn("recordId");
 
         Mockito.when(batchJobDAO.findRecordHash("tenantId", "recordId")).thenReturn(null);
 

@@ -31,7 +31,6 @@ import org.apache.camel.ProducerTemplate;
 import org.apache.camel.impl.DefaultCamelContext;
 import org.apache.camel.impl.DefaultExchange;
 import org.apache.camel.test.CamelTestSupport;
-import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -43,20 +42,24 @@ import org.springframework.core.io.Resource;
 import org.slc.sli.ingestion.FileEntryWorkNote;
 import org.slc.sli.ingestion.FileType;
 import org.slc.sli.ingestion.NeutralRecord;
+import org.slc.sli.ingestion.WorkNote;
 import org.slc.sli.ingestion.landingzone.IngestionFileEntry;
 import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.parser.impl.RecordMetaImpl;
 import org.slc.sli.ingestion.processors.EdFiParserProcessor.ParserState;
+import org.slc.sli.ingestion.util.XsdSelector;
 
 /**
  * EdFiParserProcessor unit tests.
  */
-public class EdFiParserProcessorTest extends CamelTestSupport{
+public class EdFiParserProcessorTest extends CamelTestSupport {
 
     @InjectMocks
     @Spy
     DummyEdFiParserProcessor processor = new DummyEdFiParserProcessor();
+
+     private XsdSelector xsdSelector = new XsdSelector();
 
     @Mock
     private ProducerTemplate producer;
@@ -64,13 +67,13 @@ public class EdFiParserProcessorTest extends CamelTestSupport{
     @Mock
     protected BatchJobDAO batchJobDAO;
 
-    @Before
     public void init() throws Exception {
         MockitoAnnotations.initMocks(this);
         NewBatchJob job = Mockito.mock(NewBatchJob.class);
         Mockito.when(job.getTenantId()).thenReturn("tenantId");
         Mockito.when(batchJobDAO.findBatchJobById(Mockito.anyString())).thenReturn(job);
 
+        processor.setXsdSelector(xsdSelector);
         processor.setProducer(producer);
         processor.setBatchJobDAO(batchJobDAO);
         processor.setBatchSize(2);
@@ -82,6 +85,13 @@ public class EdFiParserProcessorTest extends CamelTestSupport{
         init();
 
         Exchange exchange = createFileEntryExchange();
+
+        Resource xsd = Mockito.mock(Resource.class);
+        Map<String, Resource> xsdList = new HashMap<String, Resource>();
+        FileEntryWorkNote workNote = (FileEntryWorkNote) exchange.getIn().getMandatoryBody(WorkNote.class);
+        xsdList.put(workNote.getFileEntry().getFileType().getName(), xsd);
+        xsdSelector.setXsdList(xsdList);
+
         processor.process(exchange);
 
         Mockito.verify(processor, Mockito.times(1)).parse(Mockito.any(InputStream.class), Mockito.any(Resource.class));
@@ -115,7 +125,7 @@ public class EdFiParserProcessorTest extends CamelTestSupport{
 
     }
 
-    public Exchange createFileEntryExchange() throws IOException {
+    private Exchange createFileEntryExchange() throws IOException {
         IngestionFileEntry ife = Mockito.mock(IngestionFileEntry.class);
         InputStream is = Mockito.mock(InputStream.class);
         Mockito.when(ife.getFileStream()).thenReturn(is);
