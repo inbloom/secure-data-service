@@ -1,11 +1,11 @@
 {
   "keyFields" : ["body.parentUniqueStateId"],
-  "piiFields" : {
-                   "name" : {"middleName" : true, "generationCodeSuffix" : true, "verification" : true, "lastSurname" : true, "personalTitlePrefix" : true, "firstName" : true, "maidenName" : true},
-                  "otherName" : {"middleName" : true, "generationCodeSuffix" : true, "lastSurname" : true, "personalTitlePrefix" : true, "firstName" : true, "otherNameType" : true},
-                  "address" : {"nameOfCounty" : true, "apartmentRoomSuiteNumber" : true, "buildingSiteNumber" : true, "closeDate" : true, "countryCode" : true, "addressType" : true, "city" : true, "countyFIPSCode" : true, "streetNumberName" : true, "postalCode" : true, "stateAbbreviation" : true, "longitude" : true, "latitude" : true, "openDate" : true},
-                  "telephone" : {"primaryTelephoneNumberIndicator" : true, "telephoneNumberType" : true, "telephoneNumber" : true},
-                  "sex" : true,
-                  "electronicMail" : {"emailAddressType" : true, "emailAddress" : true}
+  "piiFields" : {  "LoginId" : {"_value" : true},
+                   "Name" : {"MiddleName" : {"_value" : true}, "GenerationCodeSuffix" : {"_value" : true}, "Verification" : {"_value" : true}, "LastSurname" : {"_value" : true}, "PersonalTitlePrefix" : {"_value" : true}, "FirstName" : {"_value" : true}, "MaidenName" : {"_value" : true}},
+                  "OtherName" : {"MiddleName" : {"_value" : true}, "GenerationCodeSuffix" : {"_value" : true}, "LastSurname" : {"_value" : true}, "PersonalTitlePrefix" : {"_value" : true}, "FirstName" : {"_value" : true}, "a_OtherNameType" : {"_value" : true}},
+                  "Address" : {"NameOfCounty" : {"_value" : true}, "ApartmentRoomSuiteNumber" : {"_value" : true}, "BuildingSiteNumber" : {"_value" : true}, "closeDate" : true, "CountryCode" : {"_value" : true}, "a_AddressType" : {"_value" : true}, "City" : {"_value" : true}, "CountyFIPSCode" : {"_value" : true}, "StreetNumberName" : {"_value" : true}, "PostalCode" : {"_value" : true}, "StateAbbreviation" : {"_value" : true}, "Longitude" : {"_value" : true}, "Latitude" : {"_value" : true}, "OpenDate" : {"_value" : true}},
+                  "Telephone" : {"a_PrimaryTelephoneNumberIndicator" : true, "a_TelephoneNumberType" : true, "TelephoneNumber" : {"_value" : true}},
+                  "Sex" : {"_value" : true},
+                  "ElectronicMail" : {"a_EmailAddressType" : true, "EmailAddress" : {"_value" : true}}
                  }
 }
