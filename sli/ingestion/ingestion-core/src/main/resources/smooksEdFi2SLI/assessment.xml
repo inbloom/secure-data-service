@@ -118,13 +118,13 @@
     </jb:bean>
 
     <jb:bean beanId="assessmentPerformanceDescriptorDescription" class="java.util.HashMap"
-        createOnElement="PerformanceLevel element Description">
-        <jb:value property="description" data="PerformanceLevel element Description _value" />
+        createOnElement="PerformanceLevel Description">
+        <jb:value property="description" data="PerformanceLevel Description _value" />
     </jb:bean>
 
     <jb:bean beanId="assessmentPerformanceDescriptorCodeValue" class="java.util.HashMap"
-       createOnElement="PerformanceLevel element CodeValue">
-      <jb:value property="codeValue" data="PerformanceLevel element CodeValue _value" />
+       createOnElement="PerformanceLevel CodeValue">
+      <jb:value property="codeValue" data="PerformanceLevel CodeValue _value" />
     </jb:bean>
 
    <jb:bean beanId="AssessmentPeriodDescriptorType" class="java.util.HashMap" createOnElement="assessmentPeriodDescriptor">

@@ -78,7 +78,8 @@ public class SmooksEdFi2SLITransformerTest {
         directlyMapped.setAttributeField("field2", "Test String");
         ReportStats reportStats = new SimpleReportStats();
 
-        List<? extends Entity> result = transformer.transform(directlyMapped, new DummyMessageReport(), reportStats);
+        List<? extends Entity> result = transformer.transform(directlyMapped,
+                new DummyMessageReport(), reportStats);
 
         Assert.assertNotNull(result);
         Assert.assertEquals(1, result.size());
@@ -92,7 +93,8 @@ public class SmooksEdFi2SLITransformerTest {
 
         ReportStats reportStats = new SimpleReportStats();
 
-        List<? extends Entity> result = transformer.transform(assessment, new DummyMessageReport(), reportStats);
+        List<? extends Entity> result = transformer.transform(assessment, new DummyMessageReport(),
+                reportStats);
 
         Assert.assertNotNull(result);
         Assert.assertEquals(1, result.size());
@@ -101,24 +103,26 @@ public class SmooksEdFi2SLITransformerTest {
         Assert.assertEquals("assessmentFamilyHierarchyName",
                 result.get(0).getBody().get("assessmentFamilyHierarchyName"));
 
-        List<Map<String, Object>> assessmentIDCodeList = (List<Map<String, Object>>) result.get(0).getBody()
-                .get("assessmentIdentificationCode");
+        List<Map<String, Object>> assessmentIDCodeList = (List<Map<String, Object>>) result.get(0)
+                .getBody().get("assessmentIdentificationCode");
         Assert.assertNotNull(assessmentIDCodeList);
         Assert.assertEquals(2, assessmentIDCodeList.size());
         Map<String, Object> assessmentIDCode1 = assessmentIDCodeList.get(0);
         Assert.assertNotNull(assessmentIDCode1);
         Assert.assertEquals("202A1", assessmentIDCode1.get("ID"));
         Assert.assertEquals("School", assessmentIDCode1.get("identificationSystem"));
-        Assert.assertEquals("assigningOrganizationCode", assessmentIDCode1.get("assigningOrganizationCode"));
+        Assert.assertEquals("assigningOrganizationCode",
+                assessmentIDCode1.get("assigningOrganizationCode"));
 
         Map<String, Object> assessmentIDCode2 = assessmentIDCodeList.get(1);
         Assert.assertNotNull(assessmentIDCode2);
         Assert.assertEquals("303A1", assessmentIDCode2.get("ID"));
         Assert.assertEquals("State", assessmentIDCode2.get("identificationSystem"));
-        Assert.assertEquals("assigningOrganizationCode2", assessmentIDCode2.get("assigningOrganizationCode"));
+        Assert.assertEquals("assigningOrganizationCode2",
+                assessmentIDCode2.get("assigningOrganizationCode"));
 
-        List<Map<String, Object>> assessmentPerfLevelList = (List<Map<String, Object>>) result.get(0).getBody()
-                .get("assessmentPerformanceLevel");
+        List<Map<String, Object>> assessmentPerfLevelList = (List<Map<String, Object>>) result
+                .get(0).getBody().get("assessmentPerformanceLevel");
         Assert.assertNotNull(assessmentPerfLevelList);
         Assert.assertEquals(2, assessmentPerfLevelList.size());
 
@@ -126,10 +130,10 @@ public class SmooksEdFi2SLITransformerTest {
         Assert.assertNotNull(assessmentPerfLevel1);
         Assert.assertEquals(2400, assessmentPerfLevel1.get("maximumScore"));
         Assert.assertEquals(1600, assessmentPerfLevel1.get("minimumScore"));
-        Assert.assertEquals("C-scaled scores", assessmentPerfLevel1.get("assessmentReportingMethod"));
+        Assert.assertEquals("C-scaled scores",
+                assessmentPerfLevel1.get("assessmentReportingMethod"));
         List<Map<String, Object>> perfLevelDescriptor1 = (List<Map<String, Object>>) assessmentPerfLevel1
                 .get("performanceLevelDescriptor");
-        Assert.assertNotNull(perfLevelDescriptor1);
         Assert.assertEquals("description1", perfLevelDescriptor1.get(0).get("description"));
 
         Map<String, Object> assessmentPerfLevel2 = assessmentPerfLevelList.get(1);
@@ -139,13 +143,13 @@ public class SmooksEdFi2SLITransformerTest {
         Assert.assertEquals("ACT score", assessmentPerfLevel2.get("assessmentReportingMethod"));
         List<Map<String, Object>> perfLevelDescriptor2 = (List<Map<String, Object>>) assessmentPerfLevel2
                 .get("performanceLevelDescriptor");
-        Assert.assertNotNull(perfLevelDescriptor2.get(0));
         Assert.assertEquals("description2", perfLevelDescriptor2.get(0).get("description"));
 
         Assert.assertEquals("Achievement test", result.get(0).getBody().get("assessmentCategory"));
         Assert.assertEquals("English", result.get(0).getBody().get("academicSubject"));
         Assert.assertEquals("Adult Education", result.get(0).getBody().get("gradeLevelAssessed"));
-        Assert.assertEquals("Early Education", result.get(0).getBody().get("lowestGradeLevelAssessed"));
+        Assert.assertEquals("Early Education",
+                result.get(0).getBody().get("lowestGradeLevelAssessed"));
         Assert.assertEquals("SAT", result.get(0).getBody().get("contentStandard"));
         Assert.assertEquals("assessmentForm", result.get(0).getBody().get("assessmentForm"));
         Assert.assertEquals(1, result.get(0).getBody().get("version"));
@@ -160,7 +164,8 @@ public class SmooksEdFi2SLITransformerTest {
 
         ReportStats reportStats = new SimpleReportStats();
 
-        List<? extends Entity> result = transformer.transform(assessment, new DummyMessageReport(), reportStats);
+        List<? extends Entity> result = transformer.transform(assessment, new DummyMessageReport(),
+                reportStats);
 
         Entity entity = result.get(0);
 
@@ -168,8 +173,7 @@ public class SmooksEdFi2SLITransformerTest {
     }
 
     /**
-     * @author tke
-     *         Test the transformation and matching steps behave as expected
+     * @author tke Test the transformation and matching steps behave as expected
      */
     @SuppressWarnings("deprecation")
     @Test
@@ -198,14 +202,16 @@ public class SmooksEdFi2SLITransformerTest {
         List<Entity> le = new ArrayList<Entity>();
         le.add(createAssessmentEntity(true));
 
-        when(mockedEntityRepository.findByQuery(eq("assessment"), Mockito.any(Query.class), eq(0), eq(0))).thenReturn(
-                le);
+        when(
+                mockedEntityRepository.findByQuery(eq("assessment"), Mockito.any(Query.class),
+                        eq(0), eq(0))).thenReturn(le);
         AbstractMessageReport errorReport = new DummyMessageReport();
         ReportStats reportStats = new SimpleReportStats();
 
         List<SimpleEntity> res = transformer.handle(assessmentRC, errorReport, reportStats);
 
-        verify(mockedEntityRepository).findByQuery(eq("assessment"), Mockito.any(Query.class), eq(0), eq(0));
+        verify(mockedEntityRepository).findByQuery(eq("assessment"), Mockito.any(Query.class),
+                eq(0), eq(0));
 
         Assert.assertNotNull(res);
         Assert.assertEquals(ASSESSMENT_TITLE, res.get(0).getBody().get("assessmentTitle"));
@@ -228,14 +234,16 @@ public class SmooksEdFi2SLITransformerTest {
             assessment.setLocalId(STUDENT_ID);
         }
 
-        // This will become tenantId field after transformed into neutral record entity
+        // This will become tenantId field after transformed into neutral record
+        // entity
         assessment.setSourceId(TENANT_ID);
 
         assessment.setRecordType("assessment");
         Map<String, Object> assessmentTitle = new HashMap<String, Object>();
         assessmentTitle.put("_value", "assessmentTitle");
         assessment.setAttributeField("AssessmentTitle", assessmentTitle);
-        assessment.setAttributeField("assessmentFamilyHierarchyName", "assessmentFamilyHierarchyName");
+        assessment.setAttributeField("assessmentFamilyHierarchyName",
+                "assessmentFamilyHierarchyName");
 
         List<Map<String, Object>> assessmentIdentificationCodeList = new ArrayList<Map<String, Object>>();
         Map<String, Object> assessmentIdentificationCode1 = new HashMap<String, Object>();
@@ -243,16 +251,19 @@ public class SmooksEdFi2SLITransformerTest {
         ID1.put("_value", "202A1");
         assessmentIdentificationCode1.put("ID", ID1);
         assessmentIdentificationCode1.put("a_IdentificationSystem", "School");
-        assessmentIdentificationCode1.put("a_AssigningOrganizationCode", "assigningOrganizationCode");
+        assessmentIdentificationCode1.put("a_AssigningOrganizationCode",
+                "assigningOrganizationCode");
         Map<String, Object> assessmentIdentificationCode2 = new HashMap<String, Object>();
         Map<String, Object> ID2 = new HashMap<String, Object>();
         ID2.put("_value", "303A1");
         assessmentIdentificationCode2.put("ID", ID2);
         assessmentIdentificationCode2.put("a_IdentificationSystem", "State");
-        assessmentIdentificationCode2.put("a_AssigningOrganizationCode", "assigningOrganizationCode2");
+        assessmentIdentificationCode2.put("a_AssigningOrganizationCode",
+                "assigningOrganizationCode2");
         assessmentIdentificationCodeList.add(assessmentIdentificationCode1);
         assessmentIdentificationCodeList.add(assessmentIdentificationCode2);
-        assessment.setAttributeField("AssessmentIdentificationCode", assessmentIdentificationCodeList);
+        assessment.setAttributeField("AssessmentIdentificationCode",
+                assessmentIdentificationCodeList);
 
         Map<String, Object> assessmentCategory = new HashMap<String, Object>();
         assessmentCategory.put("_value", "Achievement test");
@@ -279,12 +290,10 @@ public class SmooksEdFi2SLITransformerTest {
         Map<String, Object> assessmentReportingMethod1 = new HashMap<String, Object>();
         assessmentReportingMethod1.put("_value", "C-scaled scores");
         assessmentPerformanceLevel1.put("AssessmentReportingMethod", assessmentReportingMethod1);
-        List<Map<String, Object>> performanceLevel1 = new ArrayList<Map<String, Object>>();
-        Map<String, Object> pldmap1 = new HashMap<String, Object>();
+        Map<String, Object> performanceLevel1 = new HashMap<String, Object>();
         Map<String, Object> description1 = new HashMap<String, Object>();
         description1.put("_value", "description1");
-        pldmap1.put("Description", description1);
-        performanceLevel1.add(pldmap1);
+        performanceLevel1.put("Description", description1);
         assessmentPerformanceLevel1.put("PerformanceLevel", performanceLevel1);
 
         Map<String, Object> assessmentPerformanceLevel2 = new HashMap<String, Object>();
@@ -297,12 +306,10 @@ public class SmooksEdFi2SLITransformerTest {
         Map<String, Object> assessmentReportingMethod2 = new HashMap<String, Object>();
         assessmentReportingMethod2.put("_value", "ACT score");
         assessmentPerformanceLevel2.put("AssessmentReportingMethod", assessmentReportingMethod2);
-        List<Map<String, Object>> performanceLevel2 = new ArrayList<Map<String, Object>>();
-        Map<String, Object> pldmap2 = new HashMap<String, Object>();
+        Map<String, Object> performanceLevel2 = new HashMap<String, Object>();
         Map<String, Object> description2 = new HashMap<String, Object>();
         description2.put("_value", "description2");
-        pldmap2.put("Description", description2);
-        performanceLevel2.add(pldmap2);
+        performanceLevel2.put("Description", description2);
         assessmentPerformanceLevel2.put("PerformanceLevel", performanceLevel2);
 
         assessmentPerformanceLevelList.add(assessmentPerformanceLevel1);
