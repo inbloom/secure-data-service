@@ -2049,7 +2049,7 @@
 
     <jb:bean beanId="attendanceEventAttributes" class="java.util.HashMap" createOnElement="InterchangeStudentAttendance/AttendanceEvent">
     <jb:value property="attendanceEventType" data="InterchangeStudentAttendance/AttendanceEvent/AttendanceEventType" />
-        <jb:value property="schoolYear" data="InterchangeStudentAttendance/AttendanceEvent/SchoolYear" />
+        <jb:value property="SchoolYear" data="InterchangeStudentAttendance/AttendanceEvent/SchoolYear" />
         <jb:value property="educationalEnvironment" data="InterchangeStudentAttendance/AttendanceEvent/EducationalEnvironment" />
         <jb:wiring beanIdRef="SLC-AttendanceEvent_Attributes_SLC-StudentReferenceType" property="StudentReference"/>
         <jb:wiring beanIdRef="SLC-Attendance_EducationOrganizationReference" property="SchoolReference" />

@@ -1,5 +1,5 @@
 {
-    "keyFields" : ["body.schoolId", "body.studentId"],
+    "keyFields" : ["body.schoolId", "body.studentId", "body.schoolYear"],
 	"references" :
 	[{
         "fieldPath" : "body.SchoolReference",
