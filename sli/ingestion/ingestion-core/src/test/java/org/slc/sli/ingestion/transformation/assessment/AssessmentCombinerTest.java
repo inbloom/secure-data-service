@@ -53,6 +53,7 @@ import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.RangedWorkNote;
 import org.slc.sli.ingestion.dal.NeutralRecordMongoAccess;
 import org.slc.sli.ingestion.dal.NeutralRecordRepository;
+import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 import org.slc.sli.ingestion.transformation.SimpleEntity;
 import org.slc.sli.ingestion.transformation.TransformationStrategy;
 
@@ -78,14 +79,14 @@ public class AssessmentCombinerTest {
     private AssessmentCombiner combiner;
 
     @Mock
-    private NeutralRecordMongoAccess neutralRecordMongoAccess = Mockito.mock(NeutralRecordMongoAccess.class);
+    private NeutralRecordMongoAccess neutralRecordMongoAccess = Mockito
+            .mock(NeutralRecordMongoAccess.class);
 
     @Mock
     private NeutralRecordRepository repository = Mockito.mock(NeutralRecordRepository.class);
 
     @Mock
     private MongoEntityRepository mongoRepository = Mockito.mock(MongoEntityRepository.class);
-
 
     private String batchJobId = "10001";
     private Job job = mock(Job.class);
@@ -122,41 +123,49 @@ public class AssessmentCombinerTest {
         List<NeutralRecord> assessmentItems = new ArrayList<NeutralRecord>();
         assessmentItems.add(assessmentItem1);
 
-        when(repository.findAllByQuery(Mockito.eq("assessment"), Mockito.any(Query.class))).thenReturn(assessments);
-        when(repository.findAllByQuery(Mockito.eq("assessmentFamily"), Mockito.any(Query.class))).thenReturn(families);
-        when(repository.findAllForJob(Mockito.eq("assessmentItem"), Mockito.any(NeutralQuery.class))).thenReturn(assessmentItems);
+        when(repository.findAllByQuery(Mockito.eq("assessment"), Mockito.any(Query.class)))
+                .thenReturn(assessments);
+        when(repository.findAllByQuery(Mockito.eq("assessmentFamily"), Mockito.any(Query.class)))
+                .thenReturn(families);
+        when(
+                repository.findAllForJob(Mockito.eq("assessmentItem"),
+                        Mockito.any(NeutralQuery.class))).thenReturn(assessmentItems);
 
         Query q1 = new Query().limit(0);
         q1.addCriteria(Criteria.where("batchJobId").is(batchJobId));
-        q1.addCriteria(Criteria.where("body.AssessmentFamilyIdentificationCode.ID._value").is("606L1"));
+        q1.addCriteria(Criteria.where("body.AssessmentFamilyIdentificationCode.ID._value").is(
+                "606L1"));
 
-        when(repository.findAllByQuery(Mockito.eq("assessmentFamily"), Mockito.eq(q1))).thenReturn(assessmentFamily1);
+        when(repository.findAllByQuery(Mockito.eq("assessmentFamily"), Mockito.eq(q1))).thenReturn(
+                assessmentFamily1);
 
         Query q2 = new Query().limit(0);
         q2.addCriteria(Criteria.where("batchJobId").is(batchJobId));
-        q2.addCriteria(Criteria.where("body.AssessmentFamilyIdentificationCode.ID._value").is("606L2"));
+        q2.addCriteria(Criteria.where("body.AssessmentFamilyIdentificationCode.ID._value").is(
+                "606L2"));
 
-        when(repository.findAllByQuery(Mockito.eq("assessmentFamily"), Mockito.eq(q2))).thenReturn(assessmentFamily2);
+        when(repository.findAllByQuery(Mockito.eq("assessmentFamily"), Mockito.eq(q2))).thenReturn(
+                assessmentFamily2);
 
         Query q3 = new Query().limit(0);
         q3.addCriteria(Criteria.where("batchJobId").is(batchJobId));
         q3.addCriteria(Criteria.where("body.codeValue._value").is(PERIOD_DESCRIPTOR_CODE_VALUE));
 
-        when(repository.findAllByQuery(Mockito.eq("assessmentPeriodDescriptor"), Mockito.eq(q3))).thenReturn(
-                Arrays.asList(buildTestPeriodDescriptor()));
+        when(repository.findAllByQuery(Mockito.eq("assessmentPeriodDescriptor"), Mockito.eq(q3)))
+                .thenReturn(Arrays.asList(buildTestPeriodDescriptor()));
 
         Query q4 = new Query().limit(0);
         q4.addCriteria(Criteria.where("batchJobId").is(batchJobId));
         q4.addCriteria(Criteria.where("creationTime").gt(0));
 
-        when(
-                repository.findAllByQuery(Mockito.eq("objectiveAssessment"), Mockito.eq(q4))).thenReturn(Arrays.asList(buildObjectiveAssessment(OBJ1_ID)));
+        when(repository.findAllByQuery(Mockito.eq("objectiveAssessment"), Mockito.eq(q4)))
+                .thenReturn(Arrays.asList(buildObjectiveAssessment(OBJ1_ID)));
 
-        when(
-                repository.findAllByQuery(Mockito.eq("objectiveAssessment"), Mockito.eq(q4))).thenReturn(Arrays.asList(buildObjectiveAssessment(OBJ2_ID)));
+        when(repository.findAllByQuery(Mockito.eq("objectiveAssessment"), Mockito.eq(q4)))
+                .thenReturn(Arrays.asList(buildObjectiveAssessment(OBJ2_ID)));
 
-        when(
-                repository.findAllByQuery(Mockito.eq("objectiveAssessment"), Mockito.eq(q4))).thenReturn(Arrays.asList(buildObjectiveAssessment(OBJ2_ID)));
+        when(repository.findAllByQuery(Mockito.eq("objectiveAssessment"), Mockito.eq(q4)))
+                .thenReturn(Arrays.asList(buildObjectiveAssessment(OBJ2_ID)));
 
         Map<String, String> itemPath = new HashMap<String, String>();
         itemPath.put("localId", ASS_ITEM_ID_1);
@@ -176,27 +185,29 @@ public class AssessmentCombinerTest {
         // Compare the result
         for (NeutralRecord neutralRecord : transformedCollections) {
 
-            assertEquals("606L2.606L1", neutralRecord.getAttributes().get("assessmentFamilyHierarchyName"));
-            assertEquals(buildTestPeriodDescriptor().getAttributes(),
-                    neutralRecord.getAttributes().get("assessmentPeriodDescriptor"));
-            assertEquals(Arrays.asList(buildTestObjAssmt(OBJ1_ID).getAttributes(), buildTestObjAssmt(OBJ2_ID)
-                    .getAttributes()), neutralRecord.getAttributes().get("objectiveAssessment"));
-            List<Map<String, Object>> items = (List<Map<String, Object>>) neutralRecord.getAttributes().get(
-                    "assessmentItem");
+            assertEquals("606L2.606L1",
+                    neutralRecord.getAttributes().get("assessmentFamilyHierarchyName"));
+            assertEquals(buildTestPeriodDescriptor().getAttributes(), neutralRecord.getAttributes()
+                    .get("assessmentPeriodDescriptor"));
+            assertEquals(Arrays.asList(buildTestObjAssmt(OBJ1_ID).getAttributes(),
+                    buildTestObjAssmt(OBJ2_ID).getAttributes()),
+                    neutralRecord.getAttributes().get("objectiveAssessment"));
+            List<Map<String, Object>> items = (List<Map<String, Object>>) neutralRecord
+                    .getAttributes().get("assessmentItem");
             assertNotNull(items);
             assertEquals(1, items.size());
             assertEquals("assessment-item-id", items.get(0).get("identificationCode"));
         }
     }
 
-    public Collection<NeutralRecord> getTransformedEntities(TransformationStrategy transformer, Job job)
-            throws IOException {
+    public Collection<NeutralRecord> getTransformedEntities(TransformationStrategy transformer,
+            Job job) throws IOException {
         List<NeutralRecord> transformed = new ArrayList<NeutralRecord>();
 
         // Performing the transformation
         transformer.perform(job);
-        Iterable<NeutralRecord> records = neutralRecordMongoAccess.getRecordRepository().findAllForJob(
-                "assessment_transformed", new NeutralQuery(0));
+        Iterable<NeutralRecord> records = neutralRecordMongoAccess.getRecordRepository()
+                .findAllForJob("assessment_transformed", new NeutralQuery(0));
         Iterator<NeutralRecord> itr = records.iterator();
         NeutralRecord record = null;
         while (itr.hasNext()) {
@@ -221,21 +232,21 @@ public class AssessmentCombinerTest {
 
         when(
                 repository.findOneForJob("objectiveAssessment", new NeutralQuery(
-                        new NeutralCriteria("id", "=", superOA)))).thenReturn(superObjAssessmentRef);
+                        new NeutralCriteria("id", "=", superOA))))
+                .thenReturn(superObjAssessmentRef);
 
         when(
-                repository.findOneForJob("objectiveAssessment",
-                        new NeutralQuery(new NeutralCriteria("id", "=", subOA)))).thenReturn(
+                repository.findOneForJob("objectiveAssessment", new NeutralQuery(
+                        new NeutralCriteria("id", "=", subOA)))).thenReturn(
                 buildTestObjAssmt(subOA));
 
         NeutralRecord assessment = buildTestAssessmentNeutralRecord();
         assessment.setAttributeField("objectiveAssessmentRefs", Arrays.asList(superOA));
-        when(
-                repository.findAllForJob(Mockito.eq("assessment"),
-                        Mockito.any(NeutralQuery.class))).thenReturn(Arrays.asList(assessment));
+        when(repository.findAllForJob(Mockito.eq("assessment"), Mockito.any(NeutralQuery.class)))
+                .thenReturn(Arrays.asList(assessment));
         for (NeutralRecord neutralRecord : getTransformedEntities(combiner, job)) {
-            assertEquals(Arrays.asList(superObjAssessmentActual.getAttributes()),
-                    neutralRecord.getAttributes().get("objectiveAssessment"));
+            assertEquals(Arrays.asList(superObjAssessmentActual.getAttributes()), neutralRecord
+                    .getAttributes().get("objectiveAssessment"));
 
         }
     }
@@ -251,9 +262,12 @@ public class AssessmentCombinerTest {
         rec.setAttributeField("description", "Spring 2012");
         data.add(rec);
 
-        when(repository.findAllByQuery(Mockito.any(String.class), Mockito.any(Query.class))).thenReturn(data);
+        when(repository.findAllByQuery(Mockito.any(String.class), Mockito.any(Query.class)))
+                .thenReturn(data);
 
-        Map<String, Object> result = (Map<String, Object>) PrivateAccessor.invoke(combiner, "getAssessmentPeriodDescriptor", new Class[]{String.class}, new Object[]{PERIOD_DESCRIPTOR_CODE_VALUE});
+        Map<String, Object> result = (Map<String, Object>) PrivateAccessor.invoke(combiner,
+                "getAssessmentPeriodDescriptor", new Class[] { String.class },
+                new Object[] { PERIOD_DESCRIPTOR_CODE_VALUE });
         assertEquals(result.get("codeValue"), PERIOD_DESCRIPTOR_CODE_VALUE);
     }
 
@@ -262,7 +276,8 @@ public class AssessmentCombinerTest {
     public void testGetAssessmenPeriodtDescriptorFromSLI() throws Throwable {
 
         List<NeutralRecord> data = new ArrayList<NeutralRecord>();
-        when(repository.findAllByQuery(Mockito.any(String.class), Mockito.any(Query.class))).thenReturn(data);
+        when(repository.findAllByQuery(Mockito.any(String.class), Mockito.any(Query.class)))
+                .thenReturn(data);
 
         Map<String, Object> assessmentPeriodDescriptor = new HashMap<String, Object>();
         assessmentPeriodDescriptor.put("codeValue", "READ2-BOY-2011");
@@ -279,10 +294,23 @@ public class AssessmentCombinerTest {
         entity.setType(ASSESSMENT);
         entity.setBody(body);
 
-        when(mongoRepository.findOne(Mockito.anyString(), Mockito.any(Query.class))).thenReturn(entity);
+        when(mongoRepository.findOne(Mockito.anyString(), Mockito.any(Query.class))).thenReturn(
+                entity);
 
-        Map<String, Object> result = (Map<String, Object>) PrivateAccessor.invoke(combiner, "getAssessmentPeriodDescriptor", new Class[]{String.class}, new Object[]{PERIOD_DESCRIPTOR_CODE_VALUE});
-        assertEquals(result.get("codeValue"), "READ2-BOY-2011");
+        Map<String, Object> result = (Map<String, Object>) PrivateAccessor.invoke(combiner,
+                "getAssessmentPeriodDescriptor", new Class[] { String.class },
+                new Object[] { PERIOD_DESCRIPTOR_CODE_VALUE });
+
+        assertEquals("READ2-BOY-2011",
+                AbstractTransformationStrategy.getProperty(result, "CodeValue._value"));
+        assertEquals("READ2-BOY-2011",
+                AbstractTransformationStrategy.getProperty(result, "ShortDescription._value"));
+        assertEquals("Beginning of Year 2011-2012",
+                AbstractTransformationStrategy.getProperty(result, "Description._value"));
+        assertEquals("2011-12-31",
+                AbstractTransformationStrategy.getProperty(result, "EndDate._value"));
+        assertEquals("2011-08-01",
+                AbstractTransformationStrategy.getProperty(result, "BeginDate._value"));
     }
 
     @SuppressWarnings("unchecked")
@@ -297,14 +325,17 @@ public class AssessmentCombinerTest {
         Map<String, Object> assessmentIdentificationCode1 = new HashMap<String, Object>();
         assessmentIdentificationCode1.put("ID", buildValue("202A1"));
         assessmentIdentificationCode1.put("IdentificationSystem", buildValue("School"));
-        assessmentIdentificationCode1.put("AssigningOrganizationCode", buildValue("assigningOrganizationCode"));
+        assessmentIdentificationCode1.put("AssigningOrganizationCode",
+                buildValue("assigningOrganizationCode"));
         Map<String, Object> assessmentIdentificationCode2 = new HashMap<String, Object>();
         assessmentIdentificationCode2.put("ID", buildValue("303A1"));
         assessmentIdentificationCode2.put("IdentificationSystem", buildValue("State"));
-        assessmentIdentificationCode2.put("AssigningOrganizationCode", buildValue("assigningOrganizationCode2"));
+        assessmentIdentificationCode2.put("AssigningOrganizationCode",
+                buildValue("assigningOrganizationCode2"));
         assessmentIdentificationCodeList.add(assessmentIdentificationCode1);
         assessmentIdentificationCodeList.add(assessmentIdentificationCode2);
-        assessment.setAttributeField("AssessmentIdentificationCode", assessmentIdentificationCodeList);
+        assessment.setAttributeField("AssessmentIdentificationCode",
+                assessmentIdentificationCodeList);
 
         assessment.setAttributeField("AssessmentCategory", buildValue("Achievement test"));
         assessment.setAttributeField("AcademicSubject", buildValue("English"));
@@ -339,9 +370,9 @@ public class AssessmentCombinerTest {
         assessment.setAttributeField("MaxRawScore", buildValue("2400"));
         assessment.setAttributeField("Nomenclature", buildValue("nomenclature"));
 
-        assessment.setAttributeField("PeriodDescriptorRef", buildValue(PERIOD_DESCRIPTOR_CODE_VALUE));
+        assessment.setAttributeField("PeriodDescriptorRef",
+                buildValue(PERIOD_DESCRIPTOR_CODE_VALUE));
         assessment.setAttributeField("ObjectiveAssessmentRefs", Arrays.asList(OBJ1_ID, OBJ2_ID));
-
 
         Map<String, Object> item = new HashMap<String, Object>();
         item.put("identificationCode", ASS_ITEM_ID_1);
@@ -368,16 +399,19 @@ public class AssessmentCombinerTest {
         List<Map<String, Object>> assessmentFamilyIdentificationCodeList = new ArrayList<Map<String, Object>>();
         Map<String, Object> assessmentFamilyIdentificationCode = new HashMap<String, Object>();
         assessmentFamilyIdentificationCode.put("ID", buildValue(id));
-        assessmentFamilyIdentificationCode.put("IdentificationSystem", buildValue("identificationSystem"));
-        assessmentFamilyIdentificationCode.put("AssigningOrganizationCode", buildValue("assigningOrganizationCode"));
+        assessmentFamilyIdentificationCode.put("IdentificationSystem",
+                buildValue("identificationSystem"));
+        assessmentFamilyIdentificationCode.put("AssigningOrganizationCode",
+                buildValue("assigningOrganizationCode"));
         assessmentFamilyIdentificationCodeList.add(assessmentFamilyIdentificationCode);
-        assessmentFamily
-                .setAttributeField("AssessmentFamilyIdentificationCode", assessmentFamilyIdentificationCodeList);
+        assessmentFamily.setAttributeField("AssessmentFamilyIdentificationCode",
+                assessmentFamilyIdentificationCodeList);
 
         assessmentFamily.setAttributeField("AssessmentCategory", buildValue("assessmentCategory"));
         assessmentFamily.setAttributeField("AcademicSubject", buildValue("academicSubject"));
         assessmentFamily.setAttributeField("GradeLevelAssessed", buildValue("gradeLevelAssessed"));
-        assessmentFamily.setAttributeField("LowestGradeLevelAssessed", buildValue("lowestGradeLevelAssessed"));
+        assessmentFamily.setAttributeField("LowestGradeLevelAssessed",
+                buildValue("lowestGradeLevelAssessed"));
         assessmentFamily.setAttributeField("ContentStandard", buildValue("contentStandard"));
         assessmentFamily.setAttributeField("Version", buildValue("1"));
         assessmentFamily.setAttributeField("RevisionDate", buildValue("1990-01-01"));
@@ -405,7 +439,6 @@ public class AssessmentCombinerTest {
 
         return assessmentFamily;
     }
-
 
     private NeutralRecord buildTestPeriodDescriptor() {
         NeutralRecord rec = new NeutralRecord();
@@ -440,11 +473,10 @@ public class AssessmentCombinerTest {
         return rec;
     }
 
-    public static Map<String, String> buildValue(String value){
+    public static Map<String, String> buildValue(String value) {
         Map<String, String> res = new HashMap<String, String>();
         res.put("_value", value);
         return res;
     }
 
 }
-
