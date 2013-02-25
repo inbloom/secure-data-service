@@ -60,9 +60,12 @@ public class GenericSuperdocConverter {
             if (subdocs != null && subdocs.size() > 0) {
                 
                 List<Map<String, Object>> subdocBody = new ArrayList<Map<String, Object>>();
+
                 for (Entity e : subdocs) {
-                    for (String field : removeFields) {
-                        e.getBody().remove(field);
+                    if (removeFields != null && removeFields.size() > 0) {
+                        for (String field : removeFields) {
+                            e.getBody().remove(field);
+                        }
                     }
                     subdocBody.add(e.getBody());
                 }
@@ -83,7 +86,10 @@ public class GenericSuperdocConverter {
             List<Map<String, Object>> subdocInBody = (List<Map<String, Object>>) parent.getBody().get(inBodyFieldName);
             for (Map<String, Object> inbodyDoc : subdocInBody) {
                 String parentId = generateDid(parent);
-                inbodyDoc.put(parentKey, parentId);
+                // if the parentKey is removed on subdoc to body transformation, put it back
+                if (parentKey != null && !parentKey.isEmpty() && inbodyDoc.get(parentKey) == null) {
+                    inbodyDoc.put(parentKey, parentId);
+                }
                 
                 // assume subdocFieldName is the subdoc entity type
                 MongoEntity subdoc = new MongoEntity(subdocFieldName, generateSubdocDid(inbodyDoc, subdocFieldName),
