@@ -254,10 +254,18 @@ public class SmooksEdFi2SLITransformerTest {
         assessmentIdentificationCodeList.add(assessmentIdentificationCode2);
         assessment.setAttributeField("AssessmentIdentificationCode", assessmentIdentificationCodeList);
 
-        assessment.setAttributeField("AssessmentCategory", "Achievement test");
-        assessment.setAttributeField("AcademicSubject", "English");
-        assessment.setAttributeField("GradeLevelAssessed", "Adult Education");
-        assessment.setAttributeField("LowestGradeLevelAssessed", "Early Education");
+        Map<String, Object> assessmentCategory = new HashMap<String, Object>();
+        assessmentCategory.put("_value", "Achievement test");
+        assessment.setAttributeField("AssessmentCategory", assessmentCategory);
+        Map<String, Object> academicSubject = new HashMap<String, Object>();
+        academicSubject.put("_value", "English");
+        assessment.setAttributeField("AcademicSubject", academicSubject);
+        Map<String, Object> gradeLevelAssessed = new HashMap<String, Object>();
+        gradeLevelAssessed.put("_value", "Adult Education");
+        assessment.setAttributeField("GradeLevelAssessed", gradeLevelAssessed);
+        Map<String, Object> lowestGradeLevelAssessed = new HashMap<String, Object>();
+        lowestGradeLevelAssessed.put("_value", "Early Education");
+        assessment.setAttributeField("LowestGradeLevelAssessed", lowestGradeLevelAssessed);
 
         List<Map<String, Object>> assessmentPerformanceLevelList = new ArrayList<Map<String, Object>>();
 
@@ -301,18 +309,18 @@ public class SmooksEdFi2SLITransformerTest {
         assessmentPerformanceLevelList.add(assessmentPerformanceLevel2);
         assessment.setAttributeField("AssessmentPerformanceLevel", assessmentPerformanceLevelList);
 
-//        Map<String, Object> contentStandard = new HashMap<String, Object>();
-//        contentStandard.put("_value", "SAT");
-//        assessment.setAttributeField("ContentStandard", contentStandard);
-//        Map<String, Object> assessmentForm = new HashMap<String, Object>();
-//        assessmentForm.put("_value", "assessmentForm");
-//        assessment.setAttributeField("AssessmentForm", assessmentForm);
-//        Map<String, Object> version = new HashMap<String, Object>();
-//        version.put("_value", 1);
-//        assessment.setAttributeField("Version", version);
-//        Map<String, Object> revisionDate = new HashMap<String, Object>();
-//        revisionDate.put("_value", revisionDate);
-//        assessment.setAttributeField("RevisionDate", revisionDate);
+        Map<String, Object> contentStandard = new HashMap<String, Object>();
+        contentStandard.put("_value", "SAT");
+        assessment.setAttributeField("ContentStandard", contentStandard);
+        Map<String, Object> assessmentForm = new HashMap<String, Object>();
+        assessmentForm.put("_value", "assessmentForm");
+        assessment.setAttributeField("AssessmentForm", assessmentForm);
+        Map<String, Object> version = new HashMap<String, Object>();
+        version.put("_value", 1);
+        assessment.setAttributeField("Version", version);
+        Map<String, Object> revisionDate = new HashMap<String, Object>();
+        revisionDate.put("_value", "1999-01-01");
+        assessment.setAttributeField("RevisionDate", revisionDate);
         Map<String, Object> maxRawScore = new HashMap<String, Object>();
         maxRawScore.put("_value", 2400);
         assessment.setAttributeField("MaxRawScore", maxRawScore);
