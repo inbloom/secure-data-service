@@ -16,7 +16,9 @@
 
 package org.slc.sli.dal.convert;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -69,16 +71,34 @@ public class StudentAssessmentConverter extends GenericSuperdocConverter impleme
                 && assessment.getEmbeddedData().get(assmtSubEntityType).size() > 0) {
             List<Entity> saSubEntities = studentAssessment.getEmbeddedData().get(saSubEntityType);
             List<Entity> assessmentSubEntities = assessment.getEmbeddedData().get(assmtSubEntityType);
+            List<Entity> saConvertedSubEntities = new ArrayList<Entity>();
+            
+            Map<String, Entity> assessmentSubEntityMap = buildAssessmentSubEntitiesMap(assessmentSubEntities);
             for (Entity saSubEntity : saSubEntities) {
                 String referenceKeyId = (String) saSubEntity.getBody().remove(referenceKey);
-                Entity assessmentSubEntity = getEntityById(assessmentSubEntities, referenceKeyId);
-                saSubEntity.getBody().put(assmtSubEntityType, assessmentSubEntity.getBody());
+                Entity assessmentSubEntity = getEntityById(assessmentSubEntityMap, referenceKeyId);
+                if (assessmentSubEntity != null) {
+                	saSubEntity.getBody().put(assmtSubEntityType, assessmentSubEntity.getBody());
+                	saConvertedSubEntities.add(saSubEntity);
+                }
+            }
+            
+            studentAssessment.getEmbeddedData().remove(saSubEntityType);
+            if (!saConvertedSubEntities.isEmpty()) {
+            	studentAssessment.getEmbeddedData().put(saSubEntityType, saConvertedSubEntities);
             }
         }
-        return;
     }
     
-    /*
+    private Map<String, Entity> buildAssessmentSubEntitiesMap(List<Entity> assessmentSubEntities) {
+    	Map<String, Entity> result = new HashMap<String, Entity>();
+    	for (Entity e : assessmentSubEntities) {
+    		result.put(e.getEntityId(), e);
+    	}
+		return result;
+	}
+
+	/*
      * Look inside each subEntity(studentObjectiveAssessment and studentAssessmentItem) in
      * studentAssessment, replace refEntity(objectiveAssessment and assessmentItem) to
      * refId(objectiveAssessmentId and assessmentItemId)
@@ -149,13 +169,9 @@ public class StudentAssessmentConverter extends GenericSuperdocConverter impleme
         }
     }
     
-    private Entity getEntityById(List<Entity> entities, String id) {
-        if (entities != null && entities.size() > 0) {
-            for (Entity entity : entities) {
-                if (entity.getEntityId().equals(id)) {
-                    return entity;
-                }
-            }
+    private Entity getEntityById(Map<String, Entity> assessmentSubEntityMap, String id) {
+        if (assessmentSubEntityMap != null && assessmentSubEntityMap.containsKey(id)) {
+        	return assessmentSubEntityMap.get(id);
         }
         return null;
     }
