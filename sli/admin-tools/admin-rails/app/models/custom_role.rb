@@ -34,7 +34,7 @@ class CustomRole < SessionResource
   def self.defaults
     defs = Array.new
     self.find(:all, :params => {"defaultsOnly" => true}).each do |role|
-      defs.push({:groupTitle => role.groupTitle, :names => role.names, :rights => role.rights, :isAdminRole => role.isAdminRole})
+      defs.push({:groupTitle => role.groupTitle, :names => role.names, :rights => role.rights, :isAdminRole => role.isAdminRole, :selfRights => role.selfRights})
     end
     return defs
   end

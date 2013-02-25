@@ -76,12 +76,9 @@ public class URITranslator {
                 usingPattern("{version}/learningObjectives/{id}/learningStandards").
                 usingCollection(EntityNames.LEARNING_OBJECTIVE).withKey(LEARNING_STANDARD)
                 .andReference(ID_KEY).build();
-        translate(STUDENT_COMPETENCY).transformTo(ResourceNames.STUDENT_COMPETENCIES).
-                usingPattern("{version}/learningObjectives/{id}/studentCompetencies").
-                usingCollection(EntityNames.STUDENT_COMPETENCY).withKey("objectiveId.learningObjectiveId")
-                .andReference(ID_KEY).build();
         translate(COURSE_TRANSCRIPT).transformToUri("studentAcademicRecords/{id}/courseTranscripts").
                 usingPattern("{version}/students/{id}/courseTranscripts").
+                ignoringPattern(Arrays.asList("/students/studentAcademicRecords/courseTranscripts")).
                 usingCollection(EntityNames.STUDENT_ACADEMIC_RECORD).withKey(ID_KEY)
                 .andReference("studentId").build();
     }
@@ -124,6 +121,7 @@ public class URITranslator {
         private String key;
         private String referenceKey;
         private String transformToUri;
+        private List<String> ignorePatternList;
 
         private URITranslationBuilder(String transformResource) {
             this.transformResource = transformResource;
@@ -159,9 +157,14 @@ public class URITranslator {
             return this;
         }
 
+        public URITranslationBuilder ignoringPattern(List<String> ignoreList) {
+            this.ignorePatternList = ignoreList;
+            return this;
+        }
+
         public void build() {
             uriTranslationMap.put(transformResource,
-                    new URITranslation(transformTo, pattern, parentEntity, key, referenceKey, transformToUri));
+                    new URITranslation(transformTo, pattern, parentEntity, key, referenceKey, transformToUri, ignorePatternList));
         }
     }
     
@@ -178,22 +181,24 @@ public class URITranslator {
         String key;
         String referenceKey;
         String transformToUri;
+        List<String> ignorePatternList;
 
         URITranslation(String transformTo, String pattern, String parentEntity, String key,
-                       String referenceKey, String transformToUri) {
+                       String referenceKey, String transformToUri, List<String> ignorePatternList) {
             this.transformTo = transformTo;
             this.pattern = pattern;
             this.parentEntity = parentEntity;
             this.key = key;
             this.referenceKey = referenceKey;
             this.transformToUri = transformToUri;
+            this.ignorePatternList = ignorePatternList;
         }
 
 
         public String translate(String requestPath) {
             final UriTemplate uriTemplate = new UriTemplate(pattern);
             Map<String, String> matchList = uriTemplate.match(requestPath);
-            if (matchList.isEmpty()) {
+            if (matchList.isEmpty() || ignorePatternList(requestPath)) {
                 return requestPath;
             }
             List<String> translatedIdList = new ArrayList<String>();
@@ -222,6 +227,17 @@ public class URITranslator {
                 throw new EntityNotFoundException("Could not locate entity.");
             }
             return buildTranslatedPath(translatedIdList);
+        }
+
+        private boolean ignorePatternList(String requestPath) {
+            if(ignorePatternList != null && ignorePatternList.isEmpty()!=true) {
+                for(String pattern: ignorePatternList) {
+                    if(requestPath.contains(pattern)) {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         private String buildTranslatedPath(List<String> translatedIdList) {

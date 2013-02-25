@@ -31,19 +31,6 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.tuple.Pair;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
-import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
-import org.springframework.security.oauth2.common.exceptions.RedirectMismatchException;
-import org.springframework.security.oauth2.provider.ClientToken;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.security.oauth.ApplicationAuthorizationValidator;
 import org.slc.sli.api.security.oauth.OAuthAccessException;
@@ -58,6 +45,18 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.common.exceptions.InvalidClientException;
+import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
+import org.springframework.security.oauth2.common.exceptions.RedirectMismatchException;
+import org.springframework.security.oauth2.provider.ClientToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
+import org.springframework.stereotype.Component;
 
 /**
  * Manages SLI User/app sessions
@@ -350,9 +349,14 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                         principal.setEntity(locator.locate(principal.getTenantId(), principal.getExternalId(),principal.getUserType())
                                 .getEntity());
                         principal.setSessionId(sessionEntity.getEntityId());
-                        Collection<GrantedAuthority> authorities = resolveAuthorities(principal.getTenantId(),
-                                principal.getRealm(), principal.getRoles(), principal.isAdminRealmAuthenticated());
+                        Collection<GrantedAuthority> selfAuthorities = resolveAuthorities(principal.getTenantId(),
+                                principal.getRealm(), principal.getRoles(), principal.isAdminRealmAuthenticated(), true);
+                        principal.setSelfRights(selfAuthorities);
+                        debug("Granted self rights - {}", selfAuthorities);
                         
+                        Collection<GrantedAuthority> authorities = resolveAuthorities(principal.getTenantId(),
+                                principal.getRealm(), principal.getRoles(), principal.isAdminRealmAuthenticated(), false);
+                        debug("Granted regular rights - {}", authorities);
                         if (!principal.isAdminRealmAuthenticated()) {
                             principal.setAuthorizingEdOrgs(appValidator.getAuthorizingEdOrgsForApp(token.getClientId()));
                         }
@@ -440,8 +444,8 @@ public class OauthMongoSessionManager implements OauthSessionManager {
     }
 
     private Collection<GrantedAuthority> resolveAuthorities(String tenantId, final String realm,
-            final List<String> roleNames, boolean isAdmin) {
-        return resolver.resolveRoles(tenantId, realm, roleNames, isAdmin);
+            final List<String> roleNames, boolean isAdmin, boolean isSelf) {
+        return resolver.resolveRoles(tenantId, realm, roleNames, isAdmin, isSelf);
     }
 
     private OAuth2Authentication createAnonymousAuth() {

@@ -26,7 +26,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
 #    | courseTranscripts                       | 2010-2011    | 0                   | 0                |                                                                               |
     | disciplineActions                       | 2010-2011    | 0                   | 0                |                                                                                |
     | disciplineIncidents                     | 2010-2011    | 0                   | 0                |                                                                                |
-    | gradebookEntries                        | 2010-2011    | 0                   | 0                |                                                                                |
+    | gradebookEntries                        | 2010-2011    | 3                   | 0                |                                                                                |
     | grades                                  | 2010-2011    | 0                   | 0                |                                                                                |
     | gradingPeriods                          | 2010-2011    | 2                   | 0                |                                                                                |
     | programs                                | 2009-2010    | 0                   | 0                |                                                                                |
@@ -44,7 +44,7 @@ Feature: As an SLI API, I want to be able to provide granular access to data.
 #    | studentGradebookEntries                 | 2010-2011    | 1                   | 0                |                                                                                |
     | studentProgramAssociations              | 2009-2010    | 0                   | 0                |                                                                                |
     | studentSchoolAssociations               | 2008-2009    | 62                  | 5                | <LIST-SSA-AKOPEL>                                                              |
-    | studentSectionAssociations              | 2010-2011    | 0                   | 0                |                                                                                |
+    | studentSectionAssociations              | 2010-2011    | 62                   | 1                | ef28485d-ce82-4f13-b22e-7c9e29f8f69f_id193b3d2e-bef0-467a-8bed-166f66f0517a_id                                                                               |
     | students                                | 2008-2009    | 26                  | 2                | 5738c251-dd0b-4734-9ea6-417ac9320a15_id,5738d251-dd0b-4734-9ea6-417ac9320a15_id |
 #    | teacherSchoolAssociations               | 2010-2011    | 1                   | 0                |                                                                               |
 #    | teacherSectionAssociations              | 2010-2011    | 1                   | 0                |                                                                                |

@@ -174,22 +174,7 @@ public class EntityOwnershipValidatorTest {
         cohort = helper.generateCohort(myEdOrg.getEntityId());
         Assert.assertTrue(validator.canAccess(cohort));
     }
-    
-    @Test
-    public void testCourse() {
-        Entity course = helper.generateCourse(otherEdorg.getEntityId());
-        Assert.assertFalse(validator.canAccess(course));
-        course = helper.generateCourse(myEdOrg.getEntityId());
-        Assert.assertTrue(validator.canAccess(course));
-    }
-    
-    @Test
-    public void testCourseOffering() {
-        Entity offering = helper.generateCourseOffering(otherEdorg.getEntityId());
-        Assert.assertFalse(validator.canAccess(offering));
-        offering = helper.generateCourseOffering(myEdOrg.getEntityId());
-        Assert.assertTrue(validator.canAccess(offering));
-    }
+
     
     @Test
     public void testDisciplineIncident() {
@@ -236,14 +221,7 @@ public class EntityOwnershipValidatorTest {
         sec = helper.generateSection(myEdOrg.getEntityId());
         Assert.assertTrue(validator.canAccess(sec));
     }
-    
-    @Test
-    public void testSession() {
-        Entity session = helper.generateSession(otherEdorg.getEntityId(), null);
-        Assert.assertFalse(validator.canAccess(session));
-        session = helper.generateSession(myEdOrg.getEntityId(), null);
-        Assert.assertTrue(validator.canAccess(session));
-    }
+
     
     @Test
     public void testStaff() {

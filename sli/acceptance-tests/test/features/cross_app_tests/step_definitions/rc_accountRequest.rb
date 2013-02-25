@@ -154,7 +154,7 @@ def check_email_for_verification(subject_substring = nil, content_substring = ni
   imap.login(imap_user, imap_password)
   imap.examine('INBOX')
 
-  retry_attempts = 30
+  retry_attempts = 60
   retry_attempts.times do
     sleep 1
     messages_new = imap.search(['SINCE', not_so_distant_past_imap_date])

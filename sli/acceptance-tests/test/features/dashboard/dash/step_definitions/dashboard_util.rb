@@ -39,17 +39,21 @@ def dissallowDashboard(district, tenantName)
   edOrg = edOrgColl.find_one({"body.stateOrganizationId" => district})
   if edOrg != nil
     puts("Found edOrg: #{edOrg.inspect}") if ENV['DEBUG']
-    edOrgId = edOrg["_id"]
-    edOrgTenant = edOrg["metaData"]["tenantId"]
-    existingAppAuth = appAuthColl.find_one({"body.authId" => edOrgId})
+    districtId = edOrg["_id"]
+    edOrgIds = [districtId]
+    edOrgColl.find({"body.parentEducationAgencyReference" => districtId}).each do |edorg|
+      edOrgIds.push(edorg["_id"])
+    end
+    existingAppAuth = appAuthColl.find_one({"body.applicationId" => dashboardId})
     if existingAppAuth != nil
-      existingAppAuth["body"]["appIds"].delete(dashboardId)
+      existingAppAuth["body"]["edorgs"] = existingAppAuth["body"]["edorgs"] - edOrgIds
       puts("About to update #{existingAppAuth.inspect}") if ENV['DEBUG']
-      appAuthColl.update({"body.authId" => edOrgId}, existingAppAuth)
+      appAuthColl.update({"body.applicationId" => dashboardId}, existingAppAuth)
     else
       puts("District #{edOrgId} already denies all apps") if ENV['DEBUG']
     end
   else
     puts("District #{district} not found") if ENV['DEBUG']
   end
+  conn.close if conn != nil
 end

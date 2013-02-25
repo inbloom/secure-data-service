@@ -1,5 +1,5 @@
 class ChartController < ApplicationController
-  def index
+  def show
     #@test = LazyHighCharts::HighChart.new('graph') do |f|
     #  f.chart(:renderTo => 'container', :type => 'line', :marginRight => 130, :marginBottom => 50)
     #  f.title(:text => 'JMeter API Stress Test (Get student by ID)', :x => -20)
@@ -23,7 +23,8 @@ class ChartController < ApplicationController
     #  f.series(:name => 'max', :data => [173, 324, 538, 695, 917, 1137, 1565, 2151, 1542, 1612])
     #end
 
-    file = File.read("#{Rails.root}/../load_test_result/single_node/result.json")
+
+    file = File.read("#{Rails.root}/../data/#{params[:id]}/result.json")
     json = JSON.parse(file)
     @charts = []
     @table = {}
@@ -53,14 +54,14 @@ class ChartController < ApplicationController
                                    width: 1,
                                    color: '#808080'
                                }],
-	       :min => 0, :labels => {:style => {"fontSize" => "14px","margin-top" => "8px"}})
+                :min => 0, :labels => {:style => {"fontSize" => "14px","margin-top" => "8px"}})
         f.legend(:layout => 'vertical',
                  :align => 'right',
                  :verticalAlign => 'top',
                  :x => -5,
                  :y => 80,
                  :borderWidth => 0,
-	         :itemStyle => {"fontSize" => "14px"}
+                 :itemStyle => {"fontSize" => "14px"}
         )
         aggregate.each do |request, averages|
           f.series(:name => request, :data => averages)
@@ -77,6 +78,20 @@ class ChartController < ApplicationController
       size = @transposed_tables[scenario].max { |r1, r2| r1.size <=> r2.size }.size
       @transposed_tables[scenario].each { |r| r[size - 1] ||= nil }
       @transposed_tables[scenario] = @transposed_tables[scenario].transpose
+    end
+  end
+
+  def index
+    @jmeter_suite_runs = []
+    Dir.foreach("#{Rails.root}/../data") do |filename|
+      next if [".", ".."].include?(filename)
+      chart = {:filename => filename}
+      @jmeter_suite_runs << chart
+    end
+
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @jmeter_suite_runs }
     end
   end
 end

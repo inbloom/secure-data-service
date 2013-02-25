@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentParent xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Student id="ID001">
+    <StudentUniqueStateId>y</StudentUniqueStateId>
+    <StudentIdentificationCode IdentificationSystem="SSN" AssigningOrganizationCode="XJo-xQ.tcIYkXhRPQ7gZXGv">
+      <IdentificationCode>qVDzEH4OYsrbM__ZnGSF93BSrryuXJrRKOAi9QE_vfe2iWCSWvHFf5F</IdentificationCode>
+    </StudentIdentificationCode>
+    <StudentIdentificationCode IdentificationSystem="National Migrant"
+      AssigningOrganizationCode="WrwF0N_U-Nob0t1Uw-DLUVDsXTZsu8B1j5oAhvu8">
+      <IdentificationCode>u-k3E7jeCiTNGZnJkRSwaE3n</IdentificationCode>
+    </StudentIdentificationCode>
+    <Name Verification="State-issued ID">
+      <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+      <FirstName>WbCbOEep1yHTV8YIs5V</FirstName>
+      <MiddleName>uEbpb0MIuagRwAJSNlVb1UYEO-raPJ.pRsoqm8xU2kdtnWtUFLiU7D4</MiddleName>
+      <LastSurname>jvb8mZ_dmOqnjDV5EeigE7XbMpRPbUbyVCK_SZinYq6jlQDw</LastSurname>
+      <GenerationCodeSuffix>VII</GenerationCodeSuffix>
+      <MaidenName>Uy_Kzaf7aQoXmEG0h</MaidenName>
+    </Name>
+    <OtherName OtherNameType="Previous Legal Name">
+      <PersonalTitlePrefix>Colonel</PersonalTitlePrefix>
+      <FirstName>Qe-o6ifV1-SJilQh5BaNAdpbsbBnr3-9Sheb5LPnNTFblekhZ9P1eoV2mmDr</FirstName>
+      <MiddleName>yhf4QJPn0</MiddleName>
+      <LastSurname>bh</LastSurname>
+      <GenerationCodeSuffix>VIII</GenerationCodeSuffix>
+    </OtherName>
+    <OtherName OtherNameType="Nickname">
+      <PersonalTitlePrefix>Mrs</PersonalTitlePrefix>
+      <FirstName>tAL6r_XDP9MrpLJrk.QZ62emrG7uo0Qh4zPKt4CIT0aVMfW.WCEa</FirstName>
+      <MiddleName>TpZQV_</MiddleName>
+      <LastSurname>_iKaKdPUr8hSEEKlh6.S3bPzz536kHrNLukBYQy-.Ao-v_7SM</LastSurname>
+      <GenerationCodeSuffix>V</GenerationCodeSuffix>
+    </OtherName>
+    <Sex>Male</Sex>
+    <BirthData>
+      <BirthDate>winter</BirthDate>
+      <CityOfBirth>mGT.24sf7-6G_gBf.TQ_Fu1AuKeTKu</CityOfBirth>
+      <StateOfBirthAbbreviation>MO</StateOfBirthAbbreviation>
+      <CountryOfBirthCode>SR</CountryOfBirthCode>
+      <DateEnteredUS>2013-05-08</DateEnteredUS>
+      <MultipleBirthStatus>false</MultipleBirthStatus>
+    </BirthData>
+    <Address AddressType="Other">
+      <AddressLine>dXZ5533XWSfZbG-0UND0V</AddressLine>
+      <AddressLine>AJKb5j_DrfAIzq7wDrr2KFuEkEeMaJ7b3q_p0ktLYJwxvhXTdf</AddressLine>
+      <Country>UGANDA</Country>
+      <Latitude>uPWeq-r5o2lQf3yO</Latitude>
+      <Longitude>QQ8zO8LXeECCe</Longitude>
+      <BeginDate>2013-06-21</BeginDate>
+      <EndDate>2014-09-23</EndDate>
+    </Address>
+    <Address AddressType="Physical">
+      <StreetNumberName>MbpAM.lbDpGGZJlo6BeNT3nUaTLfTladqrnW</StreetNumberName>
+      <ApartmentRoomSuiteNumber>kbHbvGCiq4thEk</ApartmentRoomSuiteNumber>
+      <BuildingSiteNumber>iA8FsJGIZWPhcmoU.</BuildingSiteNumber>
+      <City>CJFOa1bT_e_-tB3A</City>
+      <StateAbbreviation>CA</StateAbbreviation>
+      <PostalCode>KM1ZoQg</PostalCode>
+      <NameOfCounty>ilkuflZ5BCPil6cAp</NameOfCounty>
+      <CountyFIPSCode>n1A</CountyFIPSCode>
+    </Address>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="0">
+      <TelephoneNumber>Ui</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Emergency 1" PrimaryTelephoneNumberIndicator="true">
+      <TelephoneNumber>rO2M2JWseTfFx</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Organization">
+      <EmailAddress>N_dw6BBG6taWtMKG</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Work">
+      <EmailAddress>WebZ-qm847iIH5_z0q3.OjK</EmailAddress>
+    </ElectronicMail>
+    <ProfileThumbnail>bto_x1XGyV8XAV75VNs08SUoPDN3Rj4jvBBtKkmWCtJJtP</ProfileThumbnail>
+    <HispanicLatinoEthnicity>0</HispanicLatinoEthnicity>
+    <OldEthnicity>White, Not Of Hispanic Origin</OldEthnicity>
+    <Race>
+      <RacialCategory>Black - African American</RacialCategory>
+      <RacialCategory>Asian</RacialCategory>
+    </Race>
+    <EconomicDisadvantaged>true</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <StudentCharacteristics>
+      <Characteristic>Section 504 Handicapped</Characteristic>
+      <BeginDate>2013-10-13</BeginDate>
+      <EndDate>2013-05-20</EndDate>
+      <DesignatedBy>_BP4_fHzfNQyBMRmcEbSr4.AmARzobJirsU020uslFHyxW</DesignatedBy>
+    </StudentCharacteristics>
+    <StudentCharacteristics>
+      <Characteristic>Displaced Homemaker</Characteristic>
+      <BeginDate>2013-03-12</BeginDate>
+      <EndDate>2014-05-06</EndDate>
+      <DesignatedBy>MA4FkV1GnnYuwWTyBcKf_2</DesignatedBy>
+    </StudentCharacteristics>
+    <LimitedEnglishProficiency>Limited Monitored 1</LimitedEnglishProficiency>
+    <Languages>
+      <Language>Kickapoo</Language>
+      <Language>Sindhi</Language>
+    </Languages>
+    <HomeLanguages>
+      <Language>Shona</Language>
+      <Language>Estonian</Language>
+    </HomeLanguages>
+    <Disabilities>
+      <Disability>Orthopedic Impairment</Disability>
+      <DisabilityDiagnosis>B2Noi36izSq8ciqqHXFP4zOiA_uEkvymoq2naSDZF_ksFLtAgsRneZrdGxiSsG1lgxtgTcNyyBt-S</DisabilityDiagnosis>
+      <OrderOfDisability>-151858908</OrderOfDisability>
+    </Disabilities>
+    <Disabilities>
+      <Disability>Infants and Toddlers with Disabilities</Disability>
+      <DisabilityDiagnosis>z2EnT</DisabilityDiagnosis>
+      <OrderOfDisability>-1881897292</OrderOfDisability>
+    </Disabilities>
+    <Section504Disabilities>
+      <Section504Disability>Attention Deficit Hyperactivity Disorder (ADHD)</Section504Disability>
+      <Section504Disability>Sensory Impairment</Section504Disability>
+    </Section504Disabilities>
+    <DisplacementStatus>ANop3NggFz</DisplacementStatus>
+    <ProgramParticipations>
+      <Program>Counseling Services</Program>
+      <BeginDate>2014-09-15</BeginDate>
+      <EndDate>2014-02-18</EndDate>
+      <DesignatedBy>r2s5i1QKFmyaJju-wffTteHnVKxKV_gMsyMXPEs.P</DesignatedBy>
+    </ProgramParticipations>
+    <ProgramParticipations>
+      <Program>Gifted and Talented</Program>
+      <BeginDate>2013-10-18</BeginDate>
+      <EndDate>2014-11-09</EndDate>
+      <DesignatedBy>dah9</DesignatedBy>
+    </ProgramParticipations>
+    <LearningStyles>
+      <VisualLearning>-1563447277</VisualLearning>
+      <AuditoryLearning>-1775505321</AuditoryLearning>
+      <TactileLearning>575730842</TactileLearning>
+    </LearningStyles>
+    <CohortYears CohortYearType="Ninth grade">
+      <SchoolYear>2018-2019</SchoolYear>
+    </CohortYears>
+    <CohortYears CohortYearType="Ninth grade">
+      <SchoolYear>1998-1999</SchoolYear>
+    </CohortYears>
+    <StudentIndicators>
+      <IndicatorGroup>bY_jt4W6wj1s7LbVRWdR6p7aQ2</IndicatorGroup>
+      <IndicatorName>G3ufZSDowR6qIAvQSpeiqNauOgp-3oHFFGATZkHYDR</IndicatorName>
+      <Indicator>dDZ3qnHhT4A</Indicator>
+      <BeginDate>2013-09-17</BeginDate>
+      <EndDate>2013-10-05</EndDate>
+      <DesignatedBy>DH5pTRpmrjg8w_iybBu36BojW2YAZ7XViLiD9TowA5XuBIc7epUxJlwy</DesignatedBy>
+    </StudentIndicators>
+    <StudentIndicators>
+      <IndicatorGroup>v</IndicatorGroup>
+      <IndicatorName>PQ3L8GymlwP8D_qjSkZ77MjRZ_rbIh6jdW2bwk0Sc5GZO8</IndicatorName>
+      <Indicator>l_4hooRE1esJ_nP</Indicator>
+      <BeginDate>2015-01-31</BeginDate>
+      <EndDate>2013-04-23</EndDate>
+      <DesignatedBy>b76YI7_A_zqT1hyoFv8QIx65xyJ_hO7XyEcXpCXy.eml5qVsreQ</DesignatedBy>
+    </StudentIndicators>
+    <LoginId>wu</LoginId>
+  </Student>
+</InterchangeStudentParent>

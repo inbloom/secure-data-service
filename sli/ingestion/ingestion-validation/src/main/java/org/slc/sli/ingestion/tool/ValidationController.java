@@ -33,7 +33,6 @@ import org.slc.sli.ingestion.reporting.impl.DirectorySource;
 import org.slc.sli.ingestion.reporting.impl.FileSource;
 import org.slc.sli.ingestion.reporting.impl.SimpleReportStats;
 import org.slc.sli.ingestion.reporting.impl.XmlFileSource;
-import org.slc.sli.ingestion.reporting.impl.ZipFileSource;
 import org.slc.sli.ingestion.validation.ComplexValidator;
 import org.slc.sli.ingestion.validation.Validator;
 
@@ -90,7 +89,7 @@ public class ValidationController {
 
     public void processZip(File zipFile, ReportStats reportStats) {
 
-        messageReport.info(reportStats, new ZipFileSource(zipFile), ValidationMessageCode.VALIDATION_0005, zipFile.getAbsolutePath());
+        messageReport.info(reportStats, new FileSource(zipFile.getName()), ValidationMessageCode.VALIDATION_0005, zipFile.getAbsolutePath());
 
         FileResource zipFileResource = new FileResource(zipFile.getAbsolutePath());
         String ctlFile = zipFileHandler.handle(zipFileResource, messageReport, reportStats);
@@ -99,7 +98,7 @@ public class ValidationController {
             processControlFile(zipFile, ctlFile, reportStats);
         }
 
-        messageReport.info(reportStats, new ZipFileSource(zipFile), ValidationMessageCode.VALIDATION_0006, zipFile.getAbsolutePath());
+        messageReport.info(reportStats, new FileSource(zipFile.getName()), ValidationMessageCode.VALIDATION_0006, zipFile.getAbsolutePath());
     }
 
     public void processControlFile(File parentDirectoryOrZipFile, String ctlFile, ReportStats reportStats) {

@@ -7,7 +7,7 @@ Background:
 
 Scenario: App developer deletes installed app
   When I navigate to the Portal home page
-  When I selected the realm "inBloom App Developers"
+  When I selected the realm "inBloom App Developer"
   And I was redirected to the "Simple" IDP Login page
   When I submit the credentials "<DEVELOPER_EMAIL>" "<DEVELOPER_EMAIL_PASS>" for the "Simple" login page
   Then I should be on Portal home page

@@ -5,9 +5,11 @@ default:
         api.client: apiClient
 
         # URL of the API server to be used by portal
+        ## api.server.url: http://localhost:8080/
         api.server.url: http://local.slidev.org:8080/
 
         # URL used to make authenticating requests to the back-end API
+        ## security.server.url: http://localhost:8080/
         security.server.url: http://local.slidev.org:8080/
 
         # flag to encrypt oauth client_id and secret
@@ -16,6 +18,7 @@ default:
         # oauth security parameters
         portal.oauth.client.id: lY83c5HmTPX
         portal.oauth.client.secret: ghjZfyAXi7qwejklcxziuohiueqjknfdsip9cxzhiu13mnsX
+        ## portal.oauth.redirect: http://localhost:8081/portal/c/portal/login
         portal.oauth.redirect: http://local.slidev.org:8081/portal/c/portal/login
 
         # path to the log files
@@ -33,11 +36,14 @@ default:
 local:
     portal:
         <<: *PORTAL-DEFAULT
+        ## api.server.url: http://localhost:8080/
         api.server.url: http://local.slidev.org:8080/
+        ## security.server.url: http://localhost:8080/
         security.server.url: http://local.slidev.org:8080/
         portal.oauth.encryption: false
         portal.oauth.client.id: lY83c5HmTPX
         portal.oauth.client.secret: ghjZfyAXi7qwejklcxziuohiueqjknfdsip9cxzhiu13mnsX
+        ## portal.oauth.redirect: http://localhost:8081/portal/c/portal/login
         portal.oauth.redirect: http://local.slidev.org:8081/portal/c/portal/login
         log.path: /opt/logs
         log.level: INFO
@@ -69,7 +75,9 @@ testlr1:
 portal:
     portal:
         <<: *PORTAL-DEFAULT
+        ## api.server.url: https://{portal_host}/
         api.server.url: https://devjuggernauts.slidev.org/
+        ## security.server.url: https://{portal_host}/
         security.server.url: https://devjuggernauts.slidev.org/
         portal.oauth.encryption: true
         portal.oauth.client.id: BA29E5A746708C588262DA7ADA743ECD

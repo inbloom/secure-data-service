@@ -61,7 +61,7 @@ And I click on the "Approve" button next to it
 And I am asked 'Do you really want this application to access the district's data'
 When I click on Ok
 Then the application is authorized to use data of "Daybreak School District 4529"
-And the app ""inBloom Dashboards"" Status becomes "Approved"
+And the app "inBloom Dashboards" Status becomes "Approved"
 And it is colored "green"
 And the Approve button next to it is disabled
 And the Deny button next to it is enabled

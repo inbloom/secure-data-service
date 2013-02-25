@@ -55,15 +55,43 @@ public final class RoleBuilder {
         }
         return this;
     }
+    
+    public RoleBuilder addSelfRight(Right right) {
+        role.addSelfRight(right);
+        return this;
+    }
+
+    public RoleBuilder addSelfRights(Right[] rights) {
+        for (Right right : rights) {
+            role.addSelfRight(right);
+        }
+        return this;
+    }
+
 
     public RoleBuilder addGrantedAuthorities(List<String> auths) {
-        for (String rightName : auths) {
-            try {
-                role.addRight(Right.valueOf(rightName));
-            } catch (IllegalArgumentException e) {
-                warn("No such right: {}", rightName);
-            }
-        }
+		if (auths != null) {
+			for (String rightName : auths) {
+				try {
+					role.addRight(Right.valueOf(rightName));
+				} catch (IllegalArgumentException e) {
+					warn("No such right: {}", rightName);
+				}
+			}
+		}
+        return this;
+    }
+    
+    public RoleBuilder addSelfGrantedAuthorities(List<String> auths) {
+		if (auths != null) {
+			for (String rightName : auths) {
+				try {
+					role.addSelfRight(Right.valueOf(rightName));
+				} catch (IllegalArgumentException e) {
+					warn("No such right: {}", rightName);
+				}
+			}
+		}
         return this;
     }
 

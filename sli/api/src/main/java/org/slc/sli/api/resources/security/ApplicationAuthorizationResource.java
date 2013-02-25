@@ -249,8 +249,9 @@ public class ApplicationAuthorizationResource {
             allApps.remove(appId);
         }
         for (Map.Entry<String, Entity> entry : allApps.entrySet()) {
+        	Boolean	autoApprove = (Boolean) entry.getValue().getBody().get("allowed_for_all_edorgs");
             List<String> approvedEdorgs = (List<String>) entry.getValue().getBody().get("authorized_ed_orgs");
-            if (approvedEdorgs != null && approvedEdorgs.contains(myEdorg)) {
+            if ((autoApprove != null && autoApprove) || (approvedEdorgs != null && approvedEdorgs.contains(myEdorg))) {
                 HashMap<String, Object> entity = new HashMap<String, Object>();
                 entity.put("id", entry.getKey());
                 entity.put("appId", entry.getKey());

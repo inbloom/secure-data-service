@@ -18,7 +18,9 @@
 package org.slc.sli.api.resources.security;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +47,7 @@ import org.slc.sli.api.resources.generic.service.ResourceService;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.RightsAllowed;
 import org.slc.sli.api.security.SLIPrincipal;
+import org.slc.sli.api.security.context.resolver.EdOrgHelper;
 import org.slc.sli.api.security.oauth.TokenGenerator;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
@@ -79,6 +82,9 @@ public class ApplicationResource extends UnversionedResource {
 
     @Autowired
     private EntityDefinitionStore store;
+    
+    @Autowired
+    private EdOrgHelper helper;
 
     @Autowired
     @Value("${sli.autoRegisterApps}")
@@ -472,35 +478,31 @@ public class ApplicationResource extends UnversionedResource {
     }
 
     private void iterateEdOrgs(String uuid, List<String> edOrgIds) {
+        Set<String> authedEdOrgs = new HashSet<String>();
+        authedEdOrgs.addAll(edOrgIds);
         for (String edOrgId : edOrgIds) {
-            NeutralQuery query = new NeutralQuery();
-            query.addCriteria(new NeutralCriteria("authId", NeutralCriteria.OPERATOR_EQUAL, edOrgId));
-            Iterable<EntityBody> auths = service.list(query);
-            long count = service.count(query);
-            if (count == 0) {
-                debug("No application authorization exists. Creating one.");
-                EntityBody body = new EntityBody();
-                body.put("authType", "EDUCATION_ORGANIZATION");
-                body.put("authId", edOrgId);
-                body.put("appIds", new ArrayList());
-                service.create(body);
-                auths = service.list(query);
-            }
-            updateAuthorization(uuid, auths);
+        	authedEdOrgs.addAll(getChildEdorgs(edOrgId));
+        	authedEdOrgs.addAll(getParentEdorgs(edOrgId));
         }
-    }
+        NeutralQuery query = new NeutralQuery();
+        query.addCriteria(new NeutralCriteria("applicationId", NeutralCriteria.OPERATOR_EQUAL, uuid));
+        long count = service.count(query);
+        if (count == 0) {
+            debug("No application authorization exists. Creating one.");
+            EntityBody body = new EntityBody();
+            body.put("applicationId", uuid);
+            body.put("edorgs", new ArrayList<String>(authedEdOrgs));
+            service.create(body);
+        } else {
+        	Iterable<EntityBody> auths = service.list(query);
+        	for (EntityBody auth : auths) {
+        		String authId = (String) auth.get("_id");
+        		auth.remove("edorgs");
+        		auth.put("edorgs", new ArrayList<String>(authedEdOrgs));
+        		service.update(authId, auth);
+        	}
+        }
 
-    private void updateAuthorization(String uuid, Iterable<EntityBody> auths) {
-        for (EntityBody auth : auths) {
-            List<String> appsIds = (List) auth.get("appIds");
-            // Clear out all duplicates and make sure there is only one of the one we need.
-            while ((appsIds.contains(uuid))) {
-                appsIds.remove(uuid);
-            }
-            appsIds.add(uuid);
-            auth.put("appIds", appsIds);
-            service.update((String) auth.get("id"), auth);
-        }
     }
 
     /**
@@ -558,6 +560,14 @@ public class ApplicationResource extends UnversionedResource {
      */
     public void setSandboxEnabled(boolean sandboxEnabled) {
         this.sandboxEnabled = sandboxEnabled;
+    }
+    
+    private List<String> getParentEdorgs(String rootEdorg) {
+        return helper.getParentEdOrgs(helper.byId(rootEdorg));
+    }
+
+    private Set<String> getChildEdorgs(String rootEdorg) {
+        return helper.getChildEdOrgs(Arrays.asList(rootEdorg));
     }
 
 }

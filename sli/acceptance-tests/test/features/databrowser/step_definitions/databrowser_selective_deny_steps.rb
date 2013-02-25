@@ -19,13 +19,10 @@ limitations under the License.
 
 require 'mongo'
 
-Transform /^IDs for "([^"]*)"$/ do |idCategory|
-    expectedIds = ["e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b", 
-      "e9ca4497-e1e5-4fc4-ac7b-24badbad998b", 
-      "edce823c-ee28-4840-ae3d-74d9e9976dc5"] if idCategory == "Daybreak and Sunset"
-    expectedIds = ["edce823c-ee28-4840-ae3d-74d9e9976dc5",
-      "e9ca4497-e1e5-4fc4-ac7b-24bad1f2998b"] if idCategory == "Sunset only"
-    expectedIds
+Transform /school "(.*?)"/ do |arg1|
+  id = "92d6d5a0-852c-45f4-907a-912752831772" if arg1 == "Daybreak Central High"
+  id = "6756e2b9-aba1-4336-80b8-4a5dde3c63fe" if arg1 == "Sunset Central High"
+  id
 end
 
 Transform /the realm "([^"]*)"/ do |realm|
@@ -42,6 +39,11 @@ Then /^I should see only myself$/ do
     assert(false, "We should not have found a table of entries")
   end
 end
+
+Then /^I get message that I am not authorized$/ do
+  assertWithWait("Should have received message that databrowser could not be accessed") { @driver.page_source.index("You are not authorized to use this app." ) != nil}
+end
+
 When /^I should navigate to "([^"]*)"$/ do |page|
   @driver.get(PropLoader.getProps['databrowser_server_url'] + page)
 end
@@ -69,79 +71,27 @@ Then /^I should see that there are no teachers$/ do
   assert(message == "No data available in table", "Should not find any teachers available.")
 end
 
-Then /^I should get the (IDs for "[^"]*")$/ do |expectedIds|
-  table = @driver.find_element(:id, "simple-table")
-  rows = table.find_elements(:xpath, ".//tr")
-  headings = rows[0].find_elements(:xpath, ".//th")
-  idIndex = 0
-  headings.each do |heading| 
-    if heading.text == "Id"
-      break
-    end
-    idIndex += 1
-  end
-   
-  actualIds = []
-  rows.each do |row|
-      tds = row.find_elements(:xpath, ".//td")
-      actualIds.push(tds[idIndex].text) if tds.length == headings.length and tds[idIndex] != nil
-  end
-  assert(actualIds.sort == expectedIds.sort, "Was expecting a different set of IDs, received #{actualIds.inspect}")
+When /^I navigate to see the teachers in the (school ".*?")$/ do |arg1|
+  page = "/entities/educationOrganizations/#{arg1}/teacherSchoolAssociations/teachers"
+  @driver.get(PropLoader.getProps['databrowser_server_url'] + page)
 end
 
 Given /^I remove the application authorizations in sunset$/ do
   disable_NOTABLESCAN()
-  coll()
-  @sunset = "b2c6e292-37b0-4148-bf75-c98a2fcc905f"
-  $oldSunsetAuth = @coll.find_one({"body.authId" => @sunset})
-  newSunsetAuth = @coll.find_one({"body.authId" => @sunset})
-  @coll.remove({"body.authId" => @sunset})
-  newSunsetAuth["body"]["appIds"] = []
-  @coll.insert(newSunsetAuth)
+  dissallowDatabrowser("IL-SUNSET", "Midgar")  
   enable_NOTABLESCAN()
 end
 
 Given /^I remove the application authorizations in daybreak/ do
   disable_NOTABLESCAN()
-  coll()
-  @daybreak = "bd086bae-ee82-4cf2-baf9-221a9407ea07"
-  $oldDaybreakAuth = @coll.find_one({"body.authId" => @daybreak})
-  newDaybreakAuth = @coll.find_one({"body.authId" => @daybreak})
-  @coll.remove({"body.authId" => @daybreak})
-  newDaybreakAuth["body"]["appIds"] = []
-  @coll.insert(newDaybreakAuth)
-  enable_NOTABLESCAN()
-end
-
-Then /^I put back the application authorizations in sunset$/ do
-  disable_NOTABLESCAN()
-  @sunset = "b2c6e292-37b0-4148-bf75-c98a2fcc905f"
-  coll()
-  @coll.remove({"body.authId" => @sunset})
-  @coll.insert($oldSunsetAuth)
-  enable_NOTABLESCAN()
-end
-
-Then /^I put back the application authorizations in daybreak/ do
-  disable_NOTABLESCAN()
-  @daybreak = "bd086bae-ee82-4cf2-baf9-221a9407ea07"
-  coll()
-  @coll.remove({"body.authId" => @daybreak})
-  @coll.insert($oldDaybreakAuth)
-  enable_NOTABLESCAN()
-end
-
-def coll
-  disable_NOTABLESCAN()
-  @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db(convertTenantIdToDbName('Midgar'))
-  @coll ||= @db.collection('applicationAuthorization')
-  return @coll
+  dissallowDatabrowser("IL-DAYBREAK", "Midgar")
   enable_NOTABLESCAN()
 end
 
 Given /^I change the isAdminRole flag for role "(.*?)" to in (the realm ".*?") to be "(.*?)"$/ do |role, realm, isAdminRole|
   disable_NOTABLESCAN()
-  db = Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db('sli')
+  conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'])
+  db = conn.db(convertTenantIdToDbName('Midgar'))
   coll = db.collection('customRole')
   customRoleDoc = coll.find_one({"body.realmId" => realm})
   coll.remove({"body.realmId" => realm})
@@ -151,8 +101,41 @@ Given /^I change the isAdminRole flag for role "(.*?)" to in (the realm ".*?") t
     end
   end
   coll.insert(customRoleDoc)
+  conn.close
   enable_NOTABLESCAN()
 end
 
+def dissallowDatabrowser(district, tenantName)
+  conn = Mongo::Connection.new(PropLoader.getProps['DB_HOST'], PropLoader.getProps['DB_PORT'])
+  db = conn[PropLoader.getProps['api_database_name']]
+  appColl = db.collection("application")
+  databrowserId = appColl.find_one({"body.name" => "inBloom Data Browser"})["_id"]
+  puts("The databrowser id is #{databrowserId}") if ENV['DEBUG']
+  
+  dbTenant = conn[convertTenantIdToDbName(tenantName)]
+  appAuthColl = dbTenant.collection("applicationAuthorization")
+  edOrgColl = dbTenant.collection("educationOrganization")
+
+  edOrg = edOrgColl.find_one({"body.stateOrganizationId" => district})
+  if edOrg != nil
+    puts("Found edOrg: #{edOrg.inspect}") if ENV['DEBUG']
+    districtId = edOrg["_id"]
+    edOrgIds = [districtId]
+    edOrgColl.find({"body.parentEducationAgencyReference" => districtId}).each do |edorg|
+      edOrgIds.push(edorg["_id"])
+    end
+    existingAppAuth = appAuthColl.find_one({"body.applicationId" => databrowserId})
+    if existingAppAuth != nil
+      existingAppAuth["body"]["edorgs"] = existingAppAuth["body"]["edorgs"] - edOrgIds
+      puts("About to update #{existingAppAuth.inspect}") if ENV['DEBUG']
+      appAuthColl.update({"body.applicationId" => databrowserId}, existingAppAuth)
+    else
+      puts("District #{edOrgId} already denies all apps") if ENV['DEBUG']
+    end
+  else
+    puts("District #{district} not found") if ENV['DEBUG']
+  end
+  conn.close if conn != nil
+end
 
 

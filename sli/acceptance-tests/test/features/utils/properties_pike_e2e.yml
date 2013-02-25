@@ -70,7 +70,7 @@ user_registration_app_production_url: "https://pike-admin.slidev.org"
 user_registration_app_sandbox_url: "https://pike-admin.slidev.org"
 user_registration_app_host_url: "inbloom.org"
 registration_app_suffix: "/registration"
-sb_get_started: "dev.slcedu.org/getting-started"
+sb_get_started: "inbloom.org/getting-started"
 samt_app_suffix: "/users"
 validation_base_suffix: "/user_account_validation"
 user_registration_email: devldapuser@slidev.org
@@ -113,6 +113,7 @@ developer_email_imap_registration_pass: liferaywgen1234 #pass to access gmail in
 landingzone: pike-lz.slidev.org
 landingzone_port: 443
 
+sandbox_tenant: testdevsb2.wgen@gmail.com
 tenant: RCTestTenant
 edorg: STANDARD-SEA
 

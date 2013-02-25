@@ -107,22 +107,3 @@ Then /^I should see that "([^"]*)" is "([^"]*)" for (district "[^"]*")$/ do |fie
   end
   assert(foundIt, "Never found district #{district}")
 end
-
-When /^I should save the old app authorizations for ("[^"]*")/ do |district|
-  appAuthColl()
-  $appAuths = @coll.find_one({"body.authId" => district})
-end
-
-Then /^I put back app authorizations/ do
-  if $appAuths != nil
-    appAuthColl()
-    @coll.remove({"body.authId" => $appAuths["body"]["authId"]})
-    @coll.insert($appAuths)
-  end
-end
-
-def appAuthColl 
-  @db ||= Mongo::Connection.new(PropLoader.getProps['DB_HOST']).db(convertTenantIdToDbName('DB_NAME'))
-  @coll ||= @db.collection('applicationAuthorization')
-  #return @coll
-end

@@ -2,6 +2,18 @@
 var roles = <%= roles.roles.to_json.html_safe %>;
 var default_roles = <%= default_roles.to_json.html_safe %>;
 var UPDATE_URL = '<%= url_for(:action=>"update") %>'
+var toolTipText = "Context<br />For Staff: Own Staff entity, own StaffEducationOrgEmploymentAssociation (s), own StaffEducationOrgAssignmentAssociation(s)\
+<br /><br />For Teacher: Same as Staff + own Teacher entity, own TeacherSchoolAssociation \
+<br /><br />For Student: Own Student entity, own StudentSchoolAssociation(s), own StudentParentAssociation(s), own Parent(s) \
+<br /><br />For Parent: Same as for Student"
+$(document).ready(function(){
+    $("#self-question").qtip({
+        content: {
+            text:toolTipText
+        },
+        style: {width: {max:500}}
+    });
+});
 </script>
 <div class="row">
 <div class="span11">
@@ -10,6 +22,7 @@ var UPDATE_URL = '<%= url_for(:action=>"update") %>'
     <tr>
       <th style='width: 200px'>Roles</th>
       <th>Rights</th>
+      <th>Rights for Self <a id="self-question" href="#"><i class="icon-question-sign"></i></a></th>
       <th>Admin Role</th>
       <th style='width: 120px'></th>
     </tr>
@@ -56,6 +69,21 @@ var UPDATE_URL = '<%= url_for(:action=>"update") %>'
 </span>
 
 
+<span id="addSelfRightUi">
+    <div class="control-group">
+        <label class="control-label" for="addSelfRightSelect">Right Name:</label>
+            <div class="controls">
+            <div class="input-append">
+            <select id="addSelfRightSelect">
+                <option value="none">Choose one...</option>
+            </select>
+            <button class="btn" type="button" id="addSelfRightButton">Add Right</button>
+            </div>
+        </div>
+    </div>
+</span>
+
+
 <div id="addRoleUi" class="control-group">
   <label class="control-label" for="groupNameInput">Group Name:</label>
   <div class="controls">
@@ -82,4 +110,4 @@ var UPDATE_URL = '<%= url_for(:action=>"update") %>'
 <div id="labelUi">
   <span class="btn btn-small customLabel roleLabel">foo</span>
 </div>
-
+</div>

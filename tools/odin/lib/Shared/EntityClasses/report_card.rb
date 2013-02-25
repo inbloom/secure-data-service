@@ -19,17 +19,24 @@ limitations under the License.
 # creates report card
 class ReportCard < BaseEntity
 
-  attr_accessor :student, :grades, :grading_period, :gpa_given_grading_period, :gpa_cumulative, :student_competencies
+  attr_accessor :student, :grades, :grading_period, :gpa_given_grading_period, :gpa_cumulative, :student_competencies,
+                :numberOfDaysAbsent, :numberOfDaysInAttendance, :numberOfDaysTardy
 
   def initialize(student, grades, grading_period, student_competencies)
+    @rand = Random.new(student.hash + grading_period.hash)
     @student = student
     @grades = grades
     @grading_period = grading_period
     @gpa_given_grading_period = get_gpa(grades)
     @gpa_cumulative = @gpa_given_grading_period
     @student_competencies = student_competencies
-  end
+  
+    optional {@numberOfDaysAbsent = @rand.rand(30)}
+    optional {@numberOfDaysInAttendance = 50 + @rand.rand(100)}
+    optional {@numberOfDaysTardy = @rand.rand(30)}
 
+  end
+  
   def get_gpa(grades)
     return 0.0 if grades.empty?
     gpa = 1.0 * grades.collect{|grade| get_points(grade.letter_grade[0])}.inject(:+) / grades.size

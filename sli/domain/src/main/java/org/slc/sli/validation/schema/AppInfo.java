@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-
 package org.slc.sli.validation.schema;
 
 import java.util.Arrays;
@@ -82,7 +81,8 @@ public class AppInfo extends Annotation {
                 }
 
                 String key = node.getLocalName().trim();
-                if ((key.equals(READ_ENFORCEMENT_ELEMENT_NAME) || key.equals(WRITE_ENFORCEMENT_ELEMENT_NAME)) && e.hasChildNodes()) {
+                if ((key.equals(READ_ENFORCEMENT_ELEMENT_NAME) || key.equals(WRITE_ENFORCEMENT_ELEMENT_NAME))
+                        && e.hasChildNodes()) {
                     Set<String> rights = new HashSet<String>();
                     NodeList allAllowedBy = e.getChildNodes();
                     for (int i = 0; i < allAllowedBy.getLength(); i++) {
@@ -111,7 +111,6 @@ public class AppInfo extends Annotation {
     public Annotation.AnnotationType getType() {
         return Annotation.AnnotationType.APPINFO;
     }
-
 
     public Map<String, Object> getValues() {
         return values;
@@ -244,12 +243,41 @@ public class AppInfo extends Annotation {
      * @param parentInfo
      */
     public void inherit(AppInfo parentInfo) {
+        inheritSecurityConcerns(parentInfo);
+        inheritReadWriteAuthorities(parentInfo);
+    }
+
+    /**
+     * Inherit 'PersonallyIdentifiableInformation', 'RelaxedBlacklist', and 'SecuritySphere'.
+     *
+     * @param parentInfo
+     */
+    public void inheritSecurityConcerns(AppInfo parentInfo) {
+        if (parentInfo == null) {
+            return;
+        }
+
         if (parentInfo.isPersonallyIdentifiableInfo()) {
             values.put(PII_ELEMENT_NAME, "true");
         }
 
         if (parentInfo.isRelaxedBlacklisted()) {
             values.put(RELAXEDBLACKLIST_ELEMENT_NAME, "true");
+        }
+
+        if (parentInfo.getSecuritySphere() != null) {
+            values.put(SECURITY_SPHERE, parentInfo.getSecuritySphere());
+        }
+    }
+
+    /**
+     * Inherit 'ReadEnforcement' and 'Write Enforcement' (authorities for reading/writing entities).
+     *
+     * @param parentInfo
+     */
+    public void inheritReadWriteAuthorities(AppInfo parentInfo) {
+        if (parentInfo == null) {
+            return;
         }
 
         for (Right right : parentInfo.getReadAuthorities()) {
@@ -260,7 +288,8 @@ public class AppInfo extends Annotation {
                     values.put(READ_ENFORCEMENT_ELEMENT_NAME, toSet(Right.ADMIN_ACCESS.toString()));
                 }
             } else if (right.equals(Right.READ_RESTRICTED)) {
-                if (!getReadAuthorities().contains(Right.FULL_ACCESS) && !getReadAuthorities().contains(Right.ADMIN_ACCESS)) {
+                if (!getReadAuthorities().contains(Right.FULL_ACCESS)
+                        && !getReadAuthorities().contains(Right.ADMIN_ACCESS)) {
                     values.put(READ_ENFORCEMENT_ELEMENT_NAME, toSet(Right.READ_RESTRICTED.toString()));
                 }
             } else if (right.equals(Right.READ_GENERAL)) {
@@ -278,7 +307,8 @@ public class AppInfo extends Annotation {
                     values.put(WRITE_ENFORCEMENT_ELEMENT_NAME, toSet(Right.ADMIN_ACCESS.toString()));
                 }
             } else if (right.equals(Right.WRITE_RESTRICTED)) {
-                if (!getWriteAuthorities().contains(Right.FULL_ACCESS) && !getReadAuthorities().contains(Right.ADMIN_ACCESS)) {
+                if (!getWriteAuthorities().contains(Right.FULL_ACCESS)
+                        && !getReadAuthorities().contains(Right.ADMIN_ACCESS)) {
                     values.put(WRITE_ENFORCEMENT_ELEMENT_NAME, toSet(Right.WRITE_RESTRICTED.toString()));
                 }
             } else if (right.equals(Right.WRITE_GENERAL)) {
@@ -287,13 +317,9 @@ public class AppInfo extends Annotation {
                 }
             }
         }
-
-        if (parentInfo.getSecuritySphere() != null) {
-            values.put(SECURITY_SPHERE, parentInfo.getSecuritySphere());
-        }
     }
 
-    private static Set<String> toSet(String ... elements) {
+    private static Set<String> toSet(String... elements) {
         HashSet<String> toReturn = new HashSet<String>(elements.length);
         for (String element : elements) {
             toReturn.add(element);
@@ -308,7 +334,6 @@ public class AppInfo extends Annotation {
         }
         return false;
     }
-
 
     public boolean isNaturalKey() {
         boolean rval = false;

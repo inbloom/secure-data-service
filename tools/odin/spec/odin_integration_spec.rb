@@ -25,7 +25,9 @@ require_relative '../lib/Shared/util.rb'
 describe "Odin" do
   context "with a 10 student configuration" do
     let(:odin) {Odin.new}
-    before(:all) {odin.generate "10students"}
+    before(:all) {odin.generate "10students"
+       @doc = xml_to_doc 
+    }
     describe "#validate" do
       it "generates valid XML for the default scenario" do
         odin.validate().should be true
@@ -56,6 +58,14 @@ describe "Odin" do
             File.exists?("#{File.dirname(__FILE__)}/../generated/#{f}").should be TRUE
           end
         end
+      end
+
+      it "will verify the studentObjectiveAssessment references" do
+         student_assessment_doc = @doc["InterchangeStudentAssessment"].root
+         assessment_doc = @doc["InterchangeAssessmentMetadata"].root
+          student_assessment_doc.xpath("//*[local-name()='ObjectiveAssessmentIdentificationCode']").each do |code|
+          assessment_doc.xpath("//*[local-name()='IdentificationCode' and text() = \'#{code.text}\']").count.should eq(1)
+          end
       end
     end
 

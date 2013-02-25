@@ -103,10 +103,11 @@ class LocalEducationAgency < BaseEntity
     @state_org_id   = get_state_organization_id(id)
     @address        = get_address
     @programs       = programs
+    @sea_parent_id  = sea_parent_id 
 
     # leave sea parent above get_accountability_ratings --> current rating organization
     optional { @ed_org_id_code = @state_org_id }
-    optional { @sea_parent_id  = sea_parent_id }
+   # optional { @sea_parent_id  = sea_parent_id }
     optional { @short_name     = get_short_name }
     optional { @telephone      = get_telephone }
     optional { @website        = 'http://fake.local-education-agency.org.fake/fake' }

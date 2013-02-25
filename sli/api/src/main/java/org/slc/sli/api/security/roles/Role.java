@@ -17,6 +17,7 @@
 
 package org.slc.sli.api.security.roles;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -29,6 +30,7 @@ import org.springframework.security.core.GrantedAuthority;
 public class Role {
     private String name;
     private Set<GrantedAuthority> rights = new HashSet<GrantedAuthority>();
+    private Set<GrantedAuthority> selfRights = new HashSet<GrantedAuthority>();
     private boolean admin = false;
 
     public Role(String name) {
@@ -62,6 +64,26 @@ public class Role {
     public void addRight(GrantedAuthority right) {
         rights.add(right);
     }
+    
+    public boolean hasSelfRight(Right right) {
+        return selfRights.contains(right);
+    }
+
+    public Set<GrantedAuthority> getSelfRights() {
+        return selfRights;
+    }
+    
+    public Set<String> getSelfRightsAsStrings() {
+        Set<String> strings = new HashSet<String>();
+        for (GrantedAuthority authority : selfRights) {
+            strings.add(authority.getAuthority());
+        }
+        return strings;
+    }
+
+    public void addSelfRight(GrantedAuthority right) {
+    	selfRights.add(right);
+    }
 
     public void setAdmin(boolean admin) {
         this.admin = admin;
@@ -77,6 +99,6 @@ public class Role {
     }
 
     public String toString() {
-        return name;
+        return name + ": " + rights;
     }
 }
