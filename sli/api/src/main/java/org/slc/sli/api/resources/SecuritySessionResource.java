@@ -161,7 +161,7 @@ public class SecuritySessionResource {
     private String getUserEmail(SLIPrincipal principal) {
         // Admin users are special cases.
         if (principal.getEntity().getBody().isEmpty()) {
-            return principal.getExternalId();
+            return principal.getEmail();
         }
         Map<String, Object> body = principal.getEntity().getBody();
         if (!body.containsKey("electronicMail")) {

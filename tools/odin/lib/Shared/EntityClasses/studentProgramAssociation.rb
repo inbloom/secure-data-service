@@ -22,13 +22,28 @@ require_relative 'baseEntity.rb'
 # creates a student program association
 class StudentProgramAssociation < BaseEntity
   
-  attr_accessor :student, :program, :begin_date, :ed_org_id, :end_date
+  attr_accessor :student, :program, :begin_date, :ed_org_id, :end_date,
+                :services, :reasonExited
 
   def initialize(student, program, ed_org_id, begin_date, end_date = nil)
+    @rand = Random.new(student.hash + program.hash)
     @student    = student
     @program    = program
     @ed_org_id  = ed_org_id
     @begin_date = begin_date
     @end_date   = end_date
+
+   optional {@services = {
+     :description => "Reading Intervention",
+     }
+   }
+
+    optional {@reasonExited = choose([
+      "Transfer to regular education",
+      "Received a certificate",
+      "Reached maximum age",
+      "Discontinued schooling"])
+    }
+
   end
 end
