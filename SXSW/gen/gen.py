@@ -1,5 +1,8 @@
 #!/usr/bin/python
 
+# DEPRECATED - DO NOT USE
+# See gen.rb
+
 #
 # Generate StudentAssessment XML data from .CSV data file
 # 
@@ -22,6 +25,9 @@ import admindate_map
 #
 def main(argv):
 
+    print "THIS SCRIPT IS DEPRECATED - use gen.rb"
+    return
+    
     # Various input files.  Emit header, then templates populated with data, then footer
     header_fn = "header.xml"
     footer_fn = "footer.xml"

@@ -1,3 +1,5 @@
+# DEPRECATED - DO NOT USE
+# See admindate_map.rb
 schoolyear_period2admin_date_map = {
 "2011-2012": {
 	"BOY": {"standard": "2011-10-04", "composite": "2011-10-06"},

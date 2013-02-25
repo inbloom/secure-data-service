@@ -1,10 +1,10 @@
 
-Python script to generate InterchangeStudentAssessment.xml data from .CSV file
-J. Hinsdale, 20Feb2013
+Ruby script to generate InterchangeStudentAssessment.xml data from .CSV file
+Created J. Hinsdale, 20Feb2013, first draft in Python, converted to Ruby on 24Feb2013
 Wireless Generation Megatron Team, Jersey City, NJ
 
 TO USE:
-Run "gen.py" and redirect output to the described XML file name
+Run "gen.rb" and redirect output to the described XML file name
 
 The output XML is of the form
     header
@@ -25,13 +25,16 @@ File 	    	      	       		            Purpose
 -------------------------------------------------   --------------------------------------------------------
 README	    	                                    This file
 doc.txt						    Summary of .CSV column headers
-gen.py*						    Generator script
+gen.rb						    Generator script
 header.xml					    Static XML markup
 footer.xml	      				    ""
 template.xml					    ""
-input.csv					    Actual input to gen.py (with newlines fixed)
+input.csv					    Actual input to gen.rb (with newlines fixed)
 inBloom data - Reading 3D final.csv		    Data provided to the team, basis for input.csv above 
-student_map.py					    Map of student name to ID
 inBloomData-KB_with_ids.csv	       	       	    Data used to create above map
+student_map.rb					    Map of student name to ID
+admindate_map.rb				    Map school-year/period/test-type to admin date
+level_color_map.rb				    Map test score level to color
+*.py						    Old Python code, deprecated
 InterchangeStudentAssessment-DIBELS_Next-Matt.xml   Reference output data for checking
 InterchangeStudentAssessment-TRC-Others.xml	    ""

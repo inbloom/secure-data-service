@@ -1,3 +1,5 @@
+# DEPRECATED - DO NOT USE
+# See level_color_map.rb
 level2color = {
 "Well Below Benchmark": 1,
 "Below Benchmark": 2,

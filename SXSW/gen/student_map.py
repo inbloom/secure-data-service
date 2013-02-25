@@ -1,3 +1,5 @@
+# DEPRECATED - DO NOT USE
+# See student_map.rb
 name2id = {
 "CORKER,MATTHEW": 500000000,
 "Coleson,Rafaela": 500000001,
