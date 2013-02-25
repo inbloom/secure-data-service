@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeAssessmentMetadata xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Assessment id="ID001">
+    <AssessmentTitle>aU6W-pe-Bjv9niZ_K4_N49</AssessmentTitle>
+    <AssessmentIdentificationCode IdentificationSystem="District"
+      AssigningOrganizationCode="Z0.UIs0cIHhNODupbg7fwKR">
+      <ID>V2RMAf8BUUN0NxQL6_vHfO1dsmRXKKmsXNy6a8BHRSvh</ID>
+    </AssessmentIdentificationCode>
+    <AssessmentCategory>Aptitude test</AssessmentCategory>
+    <AcademicSubject>Architecture and Construction</AcademicSubject>
+    <GradeLevelAssessed>First grade</GradeLevelAssessed>
+    <LowestGradeLevelAssessed>Preschool/Prekindergarten</LowestGradeLevelAssessed>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel id="ID003" ref="ID001">
+        <Description>jt7baWVKTYxqHJ:EzFfpkod3QYt6mRpIat:ruDWX:XJNg750pJcYHB9GsU6OR_WeZC5spec89tExEFc:Npq5runz6NLmvufcV9PnhvSZOwFn_xRCI2p5CBLxADi9eg4acyykTJT6KFjB4FfgPXjf.DNSX.hqlyKLI1.EZSXOwoyX-j7stKotdN-_w:v8yc.Bpa7P1Bm9JB7IIgSXtpwV_oUpRZBrpg-OJ.8tCrp3OfhVKolAXul6uhlTda83ZDXwD0zqd9dT0yI50kDLJlvkHp6dRIQQ47GEg8fm26Fcm3mhqrFuy4y4p_81G9-t6iHz4l5x_3WSlHXQxbY0KC96:GYyxyfoFjj0VH7C5hG.wP-Ih06H6q7pTzQJJs6HVCvXkuqUg:wSDFJGbX1mHeKceIGik0ELk9.aHXCXa-Vx:B-EjII:t3sXStFcUR9j7j8RDjgJ5uXe-uIjkUuAKYyxFndWk-ScVkjVRsvh:lGdKjsXIWpBKOl7BgRxGL1PSRoiCbZzJQQhEHG1L8ZRIUW-alVGbaaEpKeyMAPMYibc7.HCQ8kSx_o0gn7ofcH8.Pcb6MFybDIYSnpvbmRH1CD5QUw-cmzn.THEpOlBnv4pJwT0rcbaeWWg4S4e-knEWPQi:2J8gGZmiPVDnRrM4c1-ZsDJGsMl7PT6pE6yrBEnh_V7uNVBNsKYYl87a7KFvAp7ZjYt7zDMEbL90fQ2HujXbnAH4ziQr2sL_Pf1UfAYQpEWVOC1O.x7Qup2PELZOth2X7mq-w8few2FZuM9PfO:E1zX32mn5_VRFf3rIlg9GYzXOQhNU2Nwwn2rSQT6Y5xLv9IBU.9KhEOZzWz3g5O-Js97PEKEkcEVMpm2alqM:6CYfs6En6SnG6K9dAGg3KtzdwosdH3zyMlLr6ph2ijoG-I1nqtdeaMJGG:YhKhKfj1kxDJGJf_SdiOdIhqAxQtYEyg6kf_W5ZVsO-Yf7mCuF-e:-0NBHXG</Description>
+        <PerformanceLevelMet>false</PerformanceLevelMet>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>National College-Bound Percentile</AssessmentReportingMethod>
+      <MinimumScore>1101149543</MinimumScore>
+      <MaximumScore>1057492940</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <ContentStandard>State Standard</ContentStandard>
+    <AssessmentForm>iHe</AssessmentForm>
+    <Version>1667864855</Version>
+    <RevisionDate>2013-06-26</RevisionDate>
+    <MaxRawScore>-106363329</MaxRawScore>
+    <Nomenclature>KHxRDAz7C</Nomenclature>
+    <AssessmentPeriod id="ID005" ref="ID001">
+      <CodeValue>L3kdkmNh</CodeValue>
+    </AssessmentPeriod>
+    <AssessmentItemReference id="ID007" ref="ID001">
+      <AssessmentItemIdentity>
+        <AssessmentItemIdentificationCode>IhKDMMqx5G6S5LVQCerE3</AssessmentItemIdentificationCode>
+      </AssessmentItemIdentity>
+    </AssessmentItemReference>
+    <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+        <ObjectiveAssessmentIdentificationCode>nw66_iWx</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+    </ObjectiveAssessmentReference>
+    <AssessmentFamilyReference id="ID009" ref="ID003">
+      <AssessmentFamilyIdentity>
+        <AssessmentFamilyIdentificationCode IdentificationSystem="Federal"
+          AssigningOrganizationCode="DWByg__HAWAAcr1Ldb4yHIAy">
+          <ID>BYt9iVcXMIKysptdpO1zFxm-Y2koGSyj9JIW4pE6wC4HWkILxF53zyrtoPIi</ID>
+        </AssessmentFamilyIdentificationCode>
+      </AssessmentFamilyIdentity>
+    </AssessmentFamilyReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>F3eRC4pd3GDXikWPOeYtCRfqzue2lf_n7yfI_IAE6K3goq0</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>jGyGTzJ3gElxUUjwwi</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+  </Assessment>
+</InterchangeAssessmentMetadata>
