@@ -39,21 +39,26 @@ public class AttendanceTreatment implements Treatment {
 
     @Override
     @SuppressWarnings("unchecked")
-    public EntityBody toStored(EntityBody exposed, EntityDefinition defn) {
+    public List<EntityBody> toStored(List<EntityBody> exposed, EntityDefinition defn) {
+        List<EntityBody> splitted = new ArrayList<EntityBody>();
         if (defn.getType().equals(EntityNames.ATTENDANCE)) {
-            final List<Map<String, Object>> schoolYearAttendances = (List<Map<String, Object>>) exposed.get(SCHOOL_YEAR_ATTENDANCE);
+            for (EntityBody body : exposed) {
+                // Split if there are multiple schoolYearAttendances
+                final List<Map<String, Object>> schoolYearAttendances = (List<Map<String, Object>>) body.get(SCHOOL_YEAR_ATTENDANCE);
+                for (Map<String, Object> schoolYearAttendance : schoolYearAttendances) {
+                    EntityBody copy = new EntityBody(body);
+                    final String schoolYear = (String) schoolYearAttendance.get(SCHOOL_YEAR);
+                    final List<EntityBody> attendanceEvents = (List<EntityBody>) schoolYearAttendance.get(ATTENDANCE_EVENT);
+                    copy.put(ATTENDANCE_EVENT, attendanceEvents);
+                    copy.put(SCHOOL_YEAR, schoolYear);
+                    copy.remove(SCHOOL_YEAR_ATTENDANCE);
 
-            //TODO: find out if we accept multiple schoolYearAttendances
-            EntityBody schoolYearAttendance = new EntityBody(schoolYearAttendances.get(0));
-            final String schoolYear = (String) schoolYearAttendance.get(SCHOOL_YEAR);
-            final List<EntityBody> attendanceEvents = (List<EntityBody>) schoolYearAttendance.get(ATTENDANCE_EVENT);
-
-            exposed.put(ATTENDANCE_EVENT, attendanceEvents);
-            exposed.put(SCHOOL_YEAR, schoolYear);
-            exposed.remove(SCHOOL_YEAR_ATTENDANCE);
+                    splitted.add(copy);
+                }
+            }
         }
 
-        return exposed;
+        return splitted;
     }
 
     @Override

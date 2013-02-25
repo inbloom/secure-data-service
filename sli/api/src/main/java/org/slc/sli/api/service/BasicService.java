@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
@@ -148,15 +149,18 @@ public class BasicService implements EntityService {
 
         checkReferences(content);
 
-        String entityId = "";
-        Entity entity = getRepo().create(defn.getType(), sanitizeEntityBody(content), createMetadata(), collectionName);
-        if (entity != null) {
-            entityId = entity.getEntityId();
+        List<String> entityIds = new ArrayList<String>();
+        List<EntityBody> sanitizedBodies= sanitizeEntityBody(content);
+        for (EntityBody body : sanitizedBodies) {
+            Entity entity = getRepo().create(defn.getType(), body, createMetadata(), collectionName);
+            if (entity != null) {
+                entityIds.add(entity.getEntityId());
+            }
         }
 
-        return entityId;
+        return StringUtils.join(entityIds.toArray(), ",");
     }
-    
+
     private void checkAccess(boolean isRead, boolean isSelf, EntityBody content) {
     	SecurityUtil.ensureAuthenticated();
     	Set<Right> neededRights = new HashSet<Right>();
@@ -239,19 +243,22 @@ public class BasicService implements EntityService {
             throw new EntityNotFoundException(id);
         }
 
-        EntityBody sanitized = sanitizeEntityBody(content);
-        if (entity.getBody().equals(sanitized)) {
-            info("No change detected to {}", id);
-            return false;
+        List<EntityBody> sanitizedBodies = sanitizeEntityBody(content);
+        boolean success = false;
+        for (EntityBody sanitized : sanitizedBodies) {
+            if (entity.getBody().equals(sanitized)) {
+                info("No change detected to {}", id);
+                return false;
+            }
+
+            checkReferences(content);
+
+            info("new body is {}", sanitized);
+            entity.getBody().clear();
+            entity.getBody().putAll(sanitized);
+
+            success = repo.update(collectionName, entity);
         }
-
-        checkReferences(content);
-
-        info("new body is {}", sanitized);
-        entity.getBody().clear();
-        entity.getBody().putAll(sanitized);
-
-        boolean success = repo.update(collectionName, entity);
         return success;
     }
 
@@ -268,14 +275,15 @@ public class BasicService implements EntityService {
             throw new EntityNotFoundException(id);
         }
 
-        EntityBody sanitized = sanitizeEntityBody(content);
+        List<EntityBody> sanitizedBodies = sanitizeEntityBody(content);
+        for (EntityBody sanitized : sanitizedBodies) {
+            info("patch value(s): ", sanitized);
 
-        info("patch value(s): ", sanitized);
+            // don't check references until things are combined
+            checkReferences(sanitized);
 
-        // don't check references until things are combined
-        checkReferences(sanitized);
-
-        repo.patch(defn.getType(), collectionName, id, sanitized);
+            repo.patch(defn.getType(), collectionName, id, sanitized);
+        }
 
         return true;
     }
@@ -574,8 +582,10 @@ public class BasicService implements EntityService {
      * @param content
      * @return
      */
-    private EntityBody sanitizeEntityBody(EntityBody content) {
-        EntityBody sanitized = new EntityBody(content);
+    private List<EntityBody> sanitizeEntityBody(EntityBody content) {
+        // A list because attendance entity document might be splitted and returned
+        List<EntityBody> sanitized = new ArrayList<EntityBody>();
+        sanitized.add(new EntityBody(content));
         for (Treatment treatment : treatments) {
             sanitized = treatment.toStored(sanitized, defn);
         }

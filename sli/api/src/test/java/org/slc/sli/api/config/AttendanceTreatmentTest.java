@@ -34,6 +34,7 @@ import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertNotNull;
 import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
+import static org.mockito.Mockito.only;
 import static org.mockito.Mockito.when;
 
 /**
@@ -70,29 +71,37 @@ public class AttendanceTreatmentTest {
     @Test
     @SuppressWarnings("unchecked")
     public void testToStored() {
-        EntityBody entityBody = treatment.toStored(getAPIBody(), definition);
+        EntityBody entityBody = treatment.toStored(new ArrayList<EntityBody>()
+            {{ add(getAPIBody()); }}, definition).get(0);
         assertTrue(entityBody.containsKey(ATTENDANCE_EVENT));
         assertTrue(entityBody.containsKey(SCHOOL_YEAR));
         assertFalse(entityBody.containsKey(SCHOOL_YEAR_ATTENDANCE));
         assertTrue(entityBody.containsKey(SCHOOL_ID));
         assertTrue(entityBody.containsKey(STUDENT_ID));
-        assertEquals(entityBody.get(SCHOOL_ID), "1234_id");
-        assertEquals(entityBody.get(STUDENT_ID), "2345_id");
-        assertEquals(entityBody.get(SCHOOL_YEAR), "1987-1988");
+        assertEquals("1234_id", entityBody.get(SCHOOL_ID));
+        assertEquals("2345_id", entityBody.get(STUDENT_ID));
+        assertEquals("1987-1988", entityBody.get(SCHOOL_YEAR));
 
         List<EntityBody> attendanceEvents = (List<EntityBody>) entityBody.get(ATTENDANCE_EVENT);
-        assertEquals(attendanceEvents.size(), 2);
+        assertEquals(2, attendanceEvents.size());
         for (EntityBody attendanceEvent : attendanceEvents) {
             assertTrue(attendanceEvent.containsKey(EVENT));
             assertTrue(attendanceEvent.containsKey(DATE));
             if (attendanceEvent.get(DATE).equals("1988-01-01")) {
-                assertEquals(attendanceEvent.get(EVENT), "Tardy");
+                assertEquals("Tardy", attendanceEvent.get(EVENT));
             } else if (attendanceEvent.get(DATE).equals("1988-01-02")) {
-                assertEquals(attendanceEvent.get(EVENT), "Unexcused Absence");
+                assertEquals("Unexcused Absence", attendanceEvent.get(EVENT));
             } else {
                 fail(String.format("'%s' does not match any of the expected dates.", attendanceEvent.get(DATE)));
             }
         }
+    }
+
+    @Test
+    public void testToStoredMultipleSchoolYearAttendances() {
+        List<EntityBody> entityBodies = treatment.toStored(new ArrayList<EntityBody>()
+            {{ add(getAPIBodyMultipleSYAs()); }}, definition);
+        assertEquals(2, entityBodies.size());
     }
 
     @Test
@@ -104,23 +113,23 @@ public class AttendanceTreatmentTest {
         assertFalse(entityBody.containsKey(SCHOOL_YEAR));
         assertTrue(entityBody.containsKey(SCHOOL_ID));
         assertTrue(entityBody.containsKey(STUDENT_ID));
-        assertEquals(entityBody.get(SCHOOL_ID), "1234_id");
-        assertEquals(entityBody.get(STUDENT_ID), "2345_id");
+        assertEquals("1234_id", entityBody.get(SCHOOL_ID));
+        assertEquals("2345_id", entityBody.get(STUDENT_ID));
 
         List<EntityBody> schoolYearAttendances = (List<EntityBody>) entityBody.get(SCHOOL_YEAR_ATTENDANCE);
-        assertEquals(schoolYearAttendances.size(), 1);
+        assertEquals(1, schoolYearAttendances.size());
 
         EntityBody schoolYearAttendance = schoolYearAttendances.get(0);
         assertTrue(schoolYearAttendance.containsKey(SCHOOL_YEAR));
         assertTrue(schoolYearAttendance.containsKey(ATTENDANCE_EVENT));
-        assertEquals(schoolYearAttendance.get(SCHOOL_YEAR), "2011-2012");
+        assertEquals("2011-2012", schoolYearAttendance.get(SCHOOL_YEAR));
 
         List<EntityBody> attendanceEvent = (List<EntityBody>) schoolYearAttendance.get(ATTENDANCE_EVENT);
-        assertEquals(attendanceEvent.size(), 1);
+        assertEquals(1, attendanceEvent.size());
         assertTrue(attendanceEvent.get(0).containsKey(EVENT));
         assertTrue(attendanceEvent.get(0).containsKey(DATE));
-        assertEquals(attendanceEvent.get(0).get(EVENT), "In Attendance");
-        assertEquals(attendanceEvent.get(0).get(DATE), "2011-11-11");
+        assertEquals("In Attendance", attendanceEvent.get(0).get(EVENT));
+        assertEquals("2011-11-11", attendanceEvent.get(0).get(DATE));
     }
 
     @Test
@@ -132,7 +141,7 @@ public class AttendanceTreatmentTest {
         List<EntityBody> schoolYearAttendances = (List<EntityBody>) entityBody.get(SCHOOL_YEAR_ATTENDANCE);
         List<EntityBody> attendanceEvents = (List<EntityBody>) schoolYearAttendances.get(0).get(ATTENDANCE_EVENT);
         assertNotNull(attendanceEvents);
-        assertEquals(attendanceEvents.size(), 0);
+        assertEquals(0, attendanceEvents.size());
     }
 
     private EntityBody getAPIBody() {
@@ -157,6 +166,20 @@ public class AttendanceTreatmentTest {
 
         entityBody.put(SCHOOL_ID, "1234_id");
         entityBody.put(STUDENT_ID, "2345_id");
+        entityBody.put(SCHOOL_YEAR_ATTENDANCE, schoolYearAttendances);
+
+        return entityBody;
+    }
+
+    private EntityBody getAPIBodyMultipleSYAs() {
+        EntityBody entityBody = getAPIBody();
+        @SuppressWarnings("unchecked")
+        List<EntityBody> schoolYearAttendances = (List<EntityBody>) entityBody.get(SCHOOL_YEAR_ATTENDANCE);
+        EntityBody schoolYearAttendance = schoolYearAttendances.get(0);
+        EntityBody newSchoolYearAttendance = new EntityBody(schoolYearAttendance);
+        newSchoolYearAttendance.put(SCHOOL_YEAR, "1988-1989");
+        newSchoolYearAttendance.put(ATTENDANCE_EVENT, schoolYearAttendance.get(ATTENDANCE_EVENT));
+        schoolYearAttendances.add(newSchoolYearAttendance);
         entityBody.put(SCHOOL_YEAR_ATTENDANCE, schoolYearAttendances);
 
         return entityBody;

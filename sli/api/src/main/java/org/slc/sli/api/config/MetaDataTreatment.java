@@ -24,6 +24,8 @@ import org.slc.sli.api.resources.security.CustomRoleResource;
 import org.slc.sli.api.service.Treatment;
 import org.slc.sli.domain.Entity;
 
+import java.util.List;
+
 /**
  * Add the "updated" and "created" fields to the response body.
  *
@@ -37,8 +39,10 @@ public class MetaDataTreatment implements Treatment {
 
 
     @Override
-    public EntityBody toStored(EntityBody exposed, EntityDefinition defn) {
-        exposed.remove(METADATA);
+    public List<EntityBody> toStored(List<EntityBody> exposed, EntityDefinition defn) {
+        for (EntityBody body : exposed) {
+            body.remove(METADATA);
+        }
         return exposed;
     }
 
