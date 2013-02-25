@@ -419,7 +419,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             return subDocs.subDoc(collection).create(entity);
         }
         if (containerDocumentAccessor.isContainerDocument(collection)) {
-            return !containerDocumentAccessor.insert(entity).isEmpty();
+            return !containerDocumentAccessor.update(entity).isEmpty();
         }
 
         return super.update(collection, entity, null); // body);
