@@ -64,6 +64,7 @@ import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
 import org.slc.sli.ingestion.queues.MessageType;
+import org.slc.sli.ingestion.tenant.TenantDA;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
@@ -98,6 +99,9 @@ public class JobReportingProcessor implements Processor {
 
     @Value("${sli.ingestion.topic.command}")
     private String commandTopicUri;
+
+    @Autowired
+    private TenantDA tenantDA;
 
     @Autowired
     private BatchJobDAO batchJobDAO;
@@ -214,7 +218,7 @@ public class JobReportingProcessor implements Processor {
             lock = channel.lock();
             jobReportWriter = new PrintWriter(outputStream, true);
 
-            writeInfoLine(jobReportWriter, "jobId: " + job.getId());
+            writeInfoLine(job, jobReportWriter, "jobId: " + job.getId());
 
             long recordsProcessed = writeBatchJobPersistenceMetrics(job, jobReportWriter);
 
@@ -222,20 +226,20 @@ public class JobReportingProcessor implements Processor {
 
             writeDuplicates(job, jobReportWriter);
             if (!hasErrors) {
-                writeInfoLine(jobReportWriter, "All records processed successfully.");
+                writeInfoLine(job, jobReportWriter, "All records processed successfully.");
                 job.setStatus(BatchJobStatusType.COMPLETED_SUCCESSFULLY.getName());
             } else {
-                writeInfoLine(jobReportWriter, "Not all records were processed completely due to errors.");
+                writeInfoLine(job, jobReportWriter, "Not all records were processed completely due to errors.");
                 job.setStatus(BatchJobStatusType.COMPLETED_WITH_ERRORS.getName());
             }
 
-            writeInfoLine(jobReportWriter, "Processed " + recordsProcessed + " records.");
+            writeInfoLine(job, jobReportWriter, "Processed " + recordsProcessed + " records.");
 
             String purgeMessage = (String) exchange.getProperty("purge.complete");
 
             if (purgeMessage != null) {
 
-                writeInfoLine(jobReportWriter, purgeMessage);
+                writeInfoLine(job, jobReportWriter, purgeMessage);
 
             }
 
@@ -249,7 +253,7 @@ public class JobReportingProcessor implements Processor {
     private void writeBatchJobProperties(NewBatchJob job, PrintWriter jobReportWriter) {
         if (job.getBatchProperties() != null) {
             for (Entry<String, String> entry : job.getBatchProperties().entrySet()) {
-                writeInfoLine(jobReportWriter, "[configProperty] " + entry.getKey() + ": " + entry.getValue());
+                writeInfoLine(job, jobReportWriter, "[configProperty] " + entry.getKey() + ": " + entry.getValue());
             }
         }
     }
@@ -343,7 +347,7 @@ public class JobReportingProcessor implements Processor {
                     for (Map.Entry<String, Long> dupEntry : duplicates.entrySet()) {
                         Long count = dupEntry.getValue();
                         if (count > 0) {
-                            writeInfoLine(jobReportWriter, resource + " " + dupEntry.getKey() + " " + count
+                            writeInfoLine(job, jobReportWriter, resource + " " + dupEntry.getKey() + " " + count
                                     + " deltas!");
                         }
                     }
@@ -401,7 +405,7 @@ public class JobReportingProcessor implements Processor {
                 continue;
             }
 
-            logResourceMetric(resourceEntry, metric.getRecordCount(), metric.getErrorCount(), jobReportWriter);
+            logResourceMetric(job, resourceEntry, metric.getRecordCount(), metric.getErrorCount(), jobReportWriter);
 
             totalProcessed += metric.getRecordCount();
 
@@ -422,22 +426,22 @@ public class JobReportingProcessor implements Processor {
             if (resourceEntry.getResourceFormat() != null
                     && resourceEntry.getResourceFormat().equalsIgnoreCase(FileFormat.EDFI_XML.getCode())
                     && resourceEntry.getRecordCount() == 0 && resourceEntry.getErrorCount() == 0) {
-                logResourceMetric(resourceEntry, 0, 0, jobReportWriter);
+                logResourceMetric(job, resourceEntry, 0, 0, jobReportWriter);
             }
         }
     }
 
-    private void logResourceMetric(ResourceEntry resourceEntry, long numProcessed, long numFailed,
+    private void logResourceMetric(NewBatchJob job, ResourceEntry resourceEntry, long numProcessed, long numFailed,
             PrintWriter jobReportWriter) {
         String id = "[file] " + resourceEntry.getExternallyUploadedResourceId();
-        writeInfoLine(jobReportWriter,
+        writeInfoLine(job, jobReportWriter,
                 id + " (" + resourceEntry.getResourceFormat() + "/" + resourceEntry.getResourceType() + ")");
 
         long numPassed = numProcessed - numFailed;
 
-        writeInfoLine(jobReportWriter, id + " records considered: " + numProcessed);
-        writeInfoLine(jobReportWriter, id + " records ingested successfully: " + numPassed);
-        writeInfoLine(jobReportWriter, id + " records failed: " + numFailed);
+        writeInfoLine(job, jobReportWriter, id + " records considered: " + numProcessed);
+        writeInfoLine(job, jobReportWriter, id + " records ingested successfully: " + numPassed);
+        writeInfoLine(job, jobReportWriter, id + " records failed: " + numFailed);
     }
 
     private void missingBatchJobIdError(Exchange exchange) {
@@ -445,9 +449,9 @@ public class JobReportingProcessor implements Processor {
         LOG.error("No BatchJobId specified in " + this.getClass().getName() + " exchange message.");
     }
 
-    private void writeInfoLine(PrintWriter jobReportWriter, String string) {
+    private void writeInfoLine(NewBatchJob job, PrintWriter jobReportWriter, String string) {
         writeLine(jobReportWriter, "INFO", string);
-        writeSecurityLog(LogLevelType.TYPE_INFO, string);
+        writeSecurityLog(job, LogLevelType.TYPE_INFO, string);
     }
 
     private void writeErrorLine(PrintWriter jobReportWriter, String severity, String string) {
@@ -493,7 +497,7 @@ public class JobReportingProcessor implements Processor {
         TenantContext.setJobId(null);
     }
 
-    private void writeSecurityLog(LogLevelType messageType, String message) {
+    private void writeSecurityLog(NewBatchJob job, LogLevelType messageType, String message) {
         byte[] ipAddr = null;
         try {
             InetAddress addr = InetAddress.getLocalHost();
@@ -504,11 +508,18 @@ public class JobReportingProcessor implements Processor {
         } catch (UnknownHostException e) {
             LOG.error("Error getting local host", e);
         }
+
+        String edOrg = tenantDA.getTenantEdOrg(job.getTopLevelSourceId());
+        if ( edOrg == null ) {
+			edOrg = "";
+		}
+
         List<String> userRoles = Collections.emptyList();
         SecurityEvent event = new SecurityEvent();
         event.setTenantId(""); // Alpha MH (tenantId - written in 'message')
         event.setUser("");
-        event.setTargetEdOrg("");
+        event.setUserEdOrg(edOrg);
+        event.setTargetEdOrg(edOrg);
         event.setActionUri("writeLine");
         event.setAppId("Ingestion");
         event.setOrigin("");
