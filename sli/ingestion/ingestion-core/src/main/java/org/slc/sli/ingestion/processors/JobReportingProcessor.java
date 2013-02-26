@@ -26,6 +26,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
@@ -333,7 +334,15 @@ public class JobReportingProcessor implements Processor {
     private void writeDuplicates(NewBatchJob job, PrintWriter jobReportWriter) {
 
         Map<String,Map<String, Long>> combinedMetrics = new HashMap<String, Map<String, Long>>();
-        List<Metrics> deltaStageMetrics = job.getStageMetrics(BatchJobStageType.DELTA_PROCESSOR);
+        List<Metrics> deltaStageMetrics = new ArrayList<Metrics>();
+        List<Stage> deltaStages = batchJobDAO.getBatchJobStages(job.getId(), BatchJobStageType.DELTA_PROCESSOR);
+        for(Stage stage : deltaStages) {
+            for(Metrics metric : stage.getMetrics()) {
+                if(metric.getDuplicateCounts() != null) {
+                    deltaStageMetrics.add(metric);
+                }
+            }
+        }
 
         if(deltaStageMetrics != null) {
             for(Metrics metrics : deltaStageMetrics) {

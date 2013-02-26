@@ -100,16 +100,12 @@ public final class SliDeltaManager {
 
         NeutralRecord neutralRecordResolved = null;
 
-        if ("attendance".equals(n.getRecordType())) {
+        if ("attendanceEvent".equals(n.getRecordType())) {
             // HACK didResolver requires transformed entities to be transformed so use the
             // unresolved references
             // to calculate record delta hash dId
             neutralRecordResolved = n;
         } else {
-            if (n.getRecordType().equals("studentGradebookEntry")) {
-                int count = 0;
-            }
-            
             neutralRecordResolved = (NeutralRecord) n.clone();
             NeutralRecordEntity entity = new NeutralRecordEntity(neutralRecordResolved);
             didResolver.resolveInternalIds(entity, tenantId, report, reportStats);
@@ -183,6 +179,10 @@ public final class SliDeltaManager {
 
             String strValue = "";
             if (value != null) {
+                if(neutralRecord.getRecordType().equals("attendanceEvent")) {
+                    strValue = value.toString();
+                } else {
+
                 if( value instanceof Map) {
                     @SuppressWarnings("unchecked")
                     Map<String, String> valueMap = (Map<String, String>) value;
@@ -190,7 +190,8 @@ public final class SliDeltaManager {
                 } else {
                     strValue = value.toString();
                 }
-            } else {
+            }
+                } else {
                 handleFieldAccessException(fieldName, neutralRecord, naturalKey.isOptional());
             }
 

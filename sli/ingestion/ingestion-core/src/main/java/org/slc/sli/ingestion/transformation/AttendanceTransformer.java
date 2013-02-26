@@ -355,7 +355,7 @@ public class AttendanceTransformer extends AbstractTransformationStrategy {
             List<Map<String, Object>> attendanceRhData) {
         NeutralQuery query = new NeutralQuery(1);
         query.addCriteria(new NeutralCriteria(BATCH_JOB_ID_KEY, NeutralCriteria.OPERATOR_EQUAL, getBatchJobId(), false));
-        query.addCriteria(new NeutralCriteria(STUDENT_ID, NeutralCriteria.OPERATOR_EQUAL, studentId));
+        query.addCriteria(new NeutralCriteria(STUDENT_UNIQUE_STATE_ID, NeutralCriteria.OPERATOR_EQUAL, studentId));
         query.addCriteria(new NeutralCriteria("SchoolReference." + EDUCATIONAL_ORG_ID + "." + STATE_ORGANIZATION_ID  + "." + VALUE,
                 NeutralCriteria.OPERATOR_EQUAL, schoolId));
 
