@@ -1,7 +1,6 @@
  
 <InterchangeStudentAttendance xmlns='http://ed-fi.org/0100' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/sliXsd/Attendance.xsd'>
   <AttendanceEvent>
-    <SchoolYear>2010-2011</SchoolYear>
     <EventDate>2010-09-07</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>In Attendance</AttendanceEventCategory>
@@ -13,7 +12,6 @@
     </StudentReference>
   </AttendanceEvent>
   <AttendanceEvent>
-    <SchoolYear>2010-2011</SchoolYear>
     <EventDate>2010-09-08</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>In Attendance</AttendanceEventCategory>
