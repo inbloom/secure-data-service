@@ -70,8 +70,10 @@ public class StudentAllAttendanceOptionalFieldAppender implements OptionalFieldA
                 for (int i = 0; i < schoolYearAttendances.size(); i++) {
                     Map<String, Object> year = schoolYearAttendances.get(i);
                     List<Map<String, Object>> yearEvents = (List<Map<String, Object>>) year.get("attendanceEvent");
-                    for (int j = 0; j < yearEvents.size(); j++) {
-                        events.add(new EntityBody(yearEvents.get(j)));
+                    if (yearEvents != null) {
+                        for (int j = 0; j < yearEvents.size(); j++) {
+                            events.add(new EntityBody(yearEvents.get(j)));
+                        }
                     }
                 }
             }
