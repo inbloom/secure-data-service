@@ -16,16 +16,16 @@
 
 package org.slc.sli.api.security.context.validator;
 
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
-
-import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
+import org.springframework.stereotype.Component;
 
 /**
  * Validates Write context to a global grading period.
@@ -57,10 +57,10 @@ public class GenericToGlobalGradingPeriodWriteValidator extends AbstractContextV
         Set<String> gradingPeriodsToValidate = new HashSet<String>(ids);
         NeutralQuery query = new NeutralQuery(new NeutralCriteria(ParameterConstants.GRADING_PERIOD_REFERENCE,
                 NeutralCriteria.CRITERIA_IN, ids));
-        Iterable<Entity> sessions = repo.findAll(entityType, query);
+        Iterable<Entity> sessions = repo.findAll(EntityNames.SESSION, query);
         for (Entity session : sessions) {
             if (edOrgLineage.contains(session.getBody().get(ParameterConstants.SCHOOL_ID))) {
-                gradingPeriodsToValidate.removeAll((Set<String>) session.getBody().get(
+                gradingPeriodsToValidate.removeAll((Collection<String>) session.getBody().get(
                         ParameterConstants.GRADING_PERIOD_REFERENCE));
                 if (gradingPeriodsToValidate.isEmpty()) {
                     // All Grading Period Ids have been validated, return success
