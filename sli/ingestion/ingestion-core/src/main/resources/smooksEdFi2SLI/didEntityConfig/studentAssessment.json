@@ -3,17 +3,17 @@
     [
         {
             "entityType" : "learningObjective",
-            "sourceRefPath": "body.studentObjectiveAssessments.objectiveAssessment.learningObjectives",
+            "sourceRefPath": "body.StudentObjectiveAssessments.ObjectiveAssessment.LearningObjectiveReference",
             "optional" : true
         },
         {
             "entityType" : "learningObjective",
-            "sourceRefPath": "body.studentObjectiveAssessments.objectiveAssessment.objectiveAssessments.learningObjectives",
+            "sourceRefPath": "body.StudentObjectiveAssessments.ObjectiveAssessment.objectiveAssessments.LearningObjectiveReference",
             "optional" : true
         },
         {
             "entityType" : "learningStandard",
-            "sourceRefPath": "body.studentAssessmentItems.assessmentItem.learningStandards",
+            "sourceRefPath": "body.studentAssessmentItems.assessmentItem.LearningStandardReference",
             "optional" : true
         },
         {

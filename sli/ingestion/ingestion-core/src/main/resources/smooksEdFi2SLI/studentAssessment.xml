@@ -113,7 +113,7 @@
     </jb:bean>
 
     <jb:bean  beanId="LearningStandardsArray" class="java.util.ArrayList" createOnElement="attributes StudentAssessmentItems element assessmentItem LearningStandardReference" >
-        <jb:value data="attributes StudentAssessmentItems element assessmentItem LearningStandardReference LearningStandardIdentity IdentificationCode _value"/>
+        <jb:value data="attributes StudentAssessmentItems element assessmentItem LearningStandardReference element"/>
     </jb:bean>
 
     <jb:bean beanId="StudentObjectiveAssessments" class="java.util.ArrayList" createOnElement="attributes StudentObjectiveAssessments">
@@ -139,7 +139,7 @@
     </jb:bean>
 
     <jb:bean beanId="LearningObjectivesTypeArray1" class="java.util.ArrayList" createOnElement="attributes StudentObjectiveAssessments element ObjectiveAssessment">
-        <jb:value data="attributes StudentObjectiveAssessments element ObjectiveAssessmentReference LearningObjectiveReference element"/>
+        <jb:value data="attributes StudentObjectiveAssessments element ObjectiveAssessment LearningObjectiveReference element"/>
     </jb:bean>
 
     <jb:bean beanId="ObjectiveAssessmentType1" class="java.util.HashMap" createOnElement="attributes StudentObjectiveAssessments element ObjectiveAssessment">
