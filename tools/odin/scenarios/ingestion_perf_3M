@@ -2,10 +2,14 @@
 # This scenario replicates the cardinalities from the Java data generation tool
 # for the 3M data set
 #
-#STUDENT_COUNT: 3170
-#STUDENT_COUNT: 31696
+# Full 3M data set
 STUDENT_COUNT: 316960
+# 10% = 300k
+#STUDENT_COUNT: 31696
+# 1% = 30k
+#STUDENT_COUNT: 3170
 
+OPTIONAL_FIELD_LIKELYHOOD: 1.0
 NUMBER_OF_YEARS: 1
 beginYear: 2012
 PARENTS_PER_STUDENT: 1.52

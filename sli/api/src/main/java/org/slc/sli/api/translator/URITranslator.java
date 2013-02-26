@@ -76,10 +76,6 @@ public class URITranslator {
                 usingPattern("{version}/learningObjectives/{id}/learningStandards").
                 usingCollection(EntityNames.LEARNING_OBJECTIVE).withKey(LEARNING_STANDARD)
                 .andReference(ID_KEY).build();
-        translate(STUDENT_COMPETENCY).transformTo(ResourceNames.STUDENT_COMPETENCIES).
-                usingPattern("{version}/learningObjectives/{id}/studentCompetencies").
-                usingCollection(EntityNames.STUDENT_COMPETENCY).withKey("objectiveId.learningObjectiveId")
-                .andReference(ID_KEY).build();
         translate(COURSE_TRANSCRIPT).transformToUri("studentAcademicRecords/{id}/courseTranscripts").
                 usingPattern("{version}/students/{id}/courseTranscripts").
                 ignoringPattern(Arrays.asList("/students/studentAcademicRecords/courseTranscripts")).

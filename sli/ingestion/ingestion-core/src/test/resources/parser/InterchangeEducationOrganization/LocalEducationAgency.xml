@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeEducationOrganization xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <LocalEducationAgency id="ID007">
+    <StateOrganizationId>jBj7RIzrrwFTDGeKoFwMfz0aoN</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="SEA">
+      <ID>YG7QsFN</ID>
+    </EducationOrgIdentificationCode>
+    <EducationOrgIdentificationCode IdentificationSystem="School">
+      <ID>ceTQOoV7tCm</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>x5rKiJX.Ofak1SiipQSq6LyE</NameOfInstitution>
+    <ShortNameOfInstitution>NkU0D1xrTSVoxyabOj6Lsu4M8siWxZdOk-</ShortNameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>State Education Agency</OrganizationCategory>
+      <OrganizationCategory>Education Service Center</OrganizationCategory>
+    </OrganizationCategories>
+    <Address AddressType="Physical">
+      <StreetNumberName>eM</StreetNumberName>
+      <ApartmentRoomSuiteNumber>f</ApartmentRoomSuiteNumber>
+      <BuildingSiteNumber>NHrq</BuildingSiteNumber>
+      <City>OHV2POv</City>
+      <StateAbbreviation>KS</StateAbbreviation>
+      <PostalCode>AZENutMWLUaGJcm</PostalCode>
+      <NameOfCounty>ivUWL0Uy_Cb5EUlV3dD-SVQRxL</NameOfCounty>
+      <CountyFIPSCode>B6ZF</CountyFIPSCode>
+      <Latitude>wewFsTCeXdmO</Latitude>
+      <Longitude>Rut.sG</Longitude>
+      <BeginDate>2013-05-21</BeginDate>
+      <EndDate>2014-08-23</EndDate>
+    </Address>
+    <Address AddressType="Physical">
+      <AddressLine>ppu3</AddressLine>
+      <AddressLine>Peoa</AddressLine>
+      <Country>CZECH REPUBLIC</Country>
+      <Latitude>Mel9hhbsIO.XxlWiKbN</Latitude>
+      <Longitude>PRqsS8</Longitude>
+      <BeginDate>2013-03-09</BeginDate>
+      <EndDate>2014-02-17</EndDate>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Administrative">
+      <TelephoneNumber>sWz9_OSee2Y07pgD8RJQSC</TelephoneNumber>
+    </Telephone>
+    <Telephone InstitutionTelephoneNumberType="Administrative">
+      <TelephoneNumber>z</TelephoneNumber>
+    </Telephone>
+    <WebSite>hs.pslplEnx4</WebSite>
+    <OperationalStatus>Continuing</OperationalStatus>
+    <AccountabilityRatings>
+      <RatingTitle>pYIUY9kLf-S</RatingTitle>
+      <Rating>BdDIvmGyiu9b</Rating>
+      <RatingDate>2014-02-22</RatingDate>
+      <SchoolYear>2014-2015</SchoolYear>
+      <RatingOrganization>j2L86WNKwh_Bzj</RatingOrganization>
+      <RatingProgram>N0jlxaUL.T</RatingProgram>
+    </AccountabilityRatings>
+    <AccountabilityRatings>
+      <RatingTitle>C61htvMbxr</RatingTitle>
+      <Rating>ywwaeBCy1eOPJN2ZRE3M4SsdEH0hcmum4yh</Rating>
+      <RatingDate>2013-08-18</RatingDate>
+      <SchoolYear>2008-2009</SchoolYear>
+      <RatingOrganization>gyKG3Q8_pNPTZn_aPV3WQnf5g.</RatingOrganization>
+      <RatingProgram>D</RatingProgram>
+    </AccountabilityRatings>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>zMV04boZf2eWb44Z</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>Bz-9B</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <EducationOrganizationPeerReference id="ID009">
+      <EducationalOrgIdentity>
+        <StateOrganizationId>EsWa64mMvob9p_.3oCE5GZWst3jkZTfcMCY4QGr6Lp60YB7</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationPeerReference>
+    <EducationOrganizationPeerReference id="ID011">
+      <EducationalOrgIdentity>
+        <StateOrganizationId>XOMCPz.bktXXN8HjtfNx7anX0HHi-z4NR5yBp7R8c1t</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationPeerReference>
+    <LEACategory>Charter</LEACategory>
+    <CharterStatus>College/University Charter</CharterStatus>
+    <LocalEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>NQae6EQar3RYeuoBxnSDx1RrVEjsamlFiE8j</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </LocalEducationAgencyReference>
+    <EducationServiceCenterReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>hAIlTooN54FlKo4fUcZ2Ofo6mp</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationServiceCenterReference>
+    <StateEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>tLKFnc5EfnLZ</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </StateEducationAgencyReference>
+  </LocalEducationAgency>
+</InterchangeEducationOrganization>

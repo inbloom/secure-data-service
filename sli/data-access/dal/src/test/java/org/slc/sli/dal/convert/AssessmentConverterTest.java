@@ -36,8 +36,25 @@ public class AssessmentConverterTest {
     @Mock
     INaturalKeyExtractor naturalKeyExtractor;
 
+    private Map<String, Object> item1 = new HashMap<String, Object>();
+    private Map<String, Object> item2 = new HashMap<String, Object>();
+    private Map<String, Object> item3 = new HashMap<String, Object>();
+    private Map<String, Object> item4 = new HashMap<String, Object>();
+
     @Before
     public void setup() throws NoNaturalKeysDefinedException {
+        item1.put("assessmentId", "ID");
+        item1.put("_id", "item1");
+        item1.put("abc", "somevalue1");
+        item2.put("assessmentId", "ID");
+        item2.put("_id", "item2");
+        item2.put("abc", "somevalue2");
+        item3.put("assessmentId", "ID");
+        item3.put("_id", "item2");
+        item3.put("abc", "somevalue3");
+        item4.put("assessmentId", "ID");
+        item4.put("_id", "item4");
+        item4.put("abc", "somevalue4");
         naturalKeyExtractor = Mockito.mock(NaturalKeyExtractor.class);
         MockitoAnnotations.initMocks(this);
     }
@@ -52,13 +69,10 @@ public class AssessmentConverterTest {
         Map<String, Object> metaData = new HashMap<String, Object>();
         Map<String, List<Entity>> embeddedData = new HashMap<String, List<Entity>>();
 
-        List<Entity> embedded = new ArrayList<Entity>();
-        Map<String, Object> item2 = new HashMap<String, Object>();
-        item2.put("assessmentId", "ID");
-        item2.put("_id", "IDChildID");
-        item2.put("abc", "somevalue");
-        embedded.add(new MongoEntity("assessmentItem", null, item2, null));
-        embeddedData.put("assessmentItem", embedded);
+        embeddedData.put("assessmentItem", Arrays.asList((Entity) new MongoEntity("assessmentItem", "item1", item1,
+                null), (Entity) new MongoEntity("assessmentItem", "item2", item2, null), (Entity) new MongoEntity(
+                        "assessmentItem", "item3", item3, null), (Entity) new MongoEntity(
+                                "assessmentItem", "item4", item4, null)));
 
         return new MongoEntity(entityType, entityId, body, metaData, null, null, embeddedData, null);
     }
@@ -91,7 +105,8 @@ public class AssessmentConverterTest {
 
     @SuppressWarnings("unchecked")
     @Test
-    public void upconvertEmbeddedSubdocShouldMoveInsideBody() {
+    public void upconvertEmbeddedSubdocShouldMoveInsideBody() throws IllegalAccessException, InvocationTargetException,
+            NoSuchMethodException {
         Entity entity = createUpConvertEntity();
         Entity clone = createUpConvertEntity();
         assertNull(entity.getBody().get("assessmentItem"));
@@ -99,8 +114,8 @@ public class AssessmentConverterTest {
         assertNotNull(entity.getBody().get("assessmentItem"));
         assertEquals(clone.getEmbeddedData().get("assessmentItem").get(0).getBody().get("abc"),
                 ((List<Map<String, Object>>) (entity.getBody().get("assessmentItem"))).get(0).get("abc"));
-        assertEquals(((List<Map<String, Object>>) (entity.getBody().get("assessmentItem"))).get(0).get("abc"),
-                "somevalue");
+        assertEquals("somevalue1", PropertyUtils.getProperty(entity, "body.assessmentItem.[0].abc"));
+        assertEquals("somevalue2", PropertyUtils.getProperty(entity, "body.assessmentItem.[1].abc"));
         assertNull(entity.getEmbeddedData().get("assessmentItem"));
     }
 
@@ -136,6 +151,21 @@ public class AssessmentConverterTest {
     @SuppressWarnings("unchecked")
     public void testHierachyInObjectiveAssessmentsToAPI() throws IllegalAccessException, InvocationTargetException,
             NoSuchMethodException {
+        Entity assessment = createHierarchicalUpConvertEntity();
+        assessmentConverter.subdocToBodyField(assessment);
+        List<Map<String, Object>> oas = (List<Map<String, Object>>) PropertyUtils.getProperty(assessment,
+                "body.objectiveAssessment");
+        assertEquals(1, oas.size());
+        assertEquals("ParentOA", PropertyUtils.getProperty(assessment, "body.objectiveAssessment.[0].title"));
+        assertEquals("Child1",
+                PropertyUtils.getProperty(assessment, "body.objectiveAssessment.[0].objectiveAssessments.[0].title"));
+        assertEquals("Child2",
+                PropertyUtils.getProperty(assessment, "body.objectiveAssessment.[0].objectiveAssessments.[1].title"));
+        assertEquals("GrandChild", PropertyUtils.getProperty(assessment,
+                "body.objectiveAssessment.[0].objectiveAssessments.[0].objectiveAssessments.[0].title"));
+    }
+
+    private Entity createHierarchicalUpConvertEntity() {
         Entity assessment = createUpConvertEntity();
         Map<String, Object> parentOABody = new HashMap<String, Object>();
         parentOABody.put("assessmentId", "ID");
@@ -148,11 +178,13 @@ public class AssessmentConverterTest {
         child1Body.put("title", "Child1");
         child1Body.put("identificationCode", "Child1");
         child1Body.put("subObjectiveAssessment", Arrays.asList("NA", "GrandChild"));
+        child1Body.put("assessmentItemRefs", Arrays.asList("item1", "item3"));
         Entity child1 = new MongoEntity("objectiveAssessment", "OA2", child1Body, null);
         Map<String, Object> child2Body = new HashMap<String, Object>();
         child2Body.put("assessmentId", "ID");
         child2Body.put("title", "Child2");
         child2Body.put("identificationCode", "Child2");
+        child2Body.put("assessmentItemRefs", Arrays.asList("item2", "NA"));
         Entity child2 = new MongoEntity("objectiveAssessment", "OA3", child2Body, null);
         Map<String, Object> grandChildBody = new HashMap<String, Object>();
         grandChildBody.put("assessmentId", "ID");
@@ -160,19 +192,30 @@ public class AssessmentConverterTest {
         grandChildBody.put("identificationCode", "GrandChild");
         Entity grandChild = new MongoEntity("objectiveAssessment", "OA4", grandChildBody, null);
         assessment.getEmbeddedData().put("objectiveAssessment", Arrays.asList(parentOA, child1, child2, grandChild));
-        assessmentConverter.subdocToBodyField(assessment);
-        List<Map<String, Object>> oas = (List<Map<String, Object>>) PropertyUtils.getProperty(assessment, "body.objectiveAssessment");
-        assertEquals(1, oas.size());
-        assertEquals("ParentOA", PropertyUtils.getProperty(assessment, "body.objectiveAssessment.[0].title"));
-        assertEquals("Child1", PropertyUtils.getProperty(assessment, "body.objectiveAssessment.[0].objectiveAssessments.[0].title"));
-        assertEquals("Child2", PropertyUtils.getProperty(assessment, "body.objectiveAssessment.[0].objectiveAssessments.[1].title"));
-        assertEquals("GrandChild", PropertyUtils.getProperty(assessment, "body.objectiveAssessment.[0].objectiveAssessments.[0].objectiveAssessments.[0].title"));
+        return assessment;
     }
 
     @Test
-    @SuppressWarnings("unchecked")
     public void testHierachyInObjectiveAssessmentsToDAL() throws IllegalAccessException, InvocationTargetException,
             NoSuchMethodException {
+        Entity assessment = createHierarchicalDownConvertEntity();
+        assessmentConverter.bodyFieldToSubdoc(assessment);
+        assertEquals("ParentOA",
+                PropertyUtils.getProperty(assessment, "embeddedData.objectiveAssessment.[3].body.title"));
+        assertEquals("Child1", PropertyUtils.getProperty(assessment,
+                "embeddedData.objectiveAssessment.[3].body.subObjectiveAssessment.[0]"));
+        assertEquals("Child2", PropertyUtils.getProperty(assessment,
+                "embeddedData.objectiveAssessment.[3].body.subObjectiveAssessment.[1]"));
+        assertEquals("Child1", PropertyUtils.getProperty(assessment, "embeddedData.objectiveAssessment.[1].body.title"));
+        assertEquals("GrandChild", PropertyUtils.getProperty(assessment,
+                "embeddedData.objectiveAssessment.[1].body.subObjectiveAssessment.[0]"));
+        assertEquals("Child2", PropertyUtils.getProperty(assessment, "embeddedData.objectiveAssessment.[2].body.title"));
+        assertEquals("GrandChild",
+                PropertyUtils.getProperty(assessment, "embeddedData.objectiveAssessment.[0].body.title"));
+    }
+
+    @SuppressWarnings("unchecked")
+    private Entity createHierarchicalDownConvertEntity() {
         Entity assessment = createDownConvertEntity();
         Map<String, Object> grandChild = new HashMap<String, Object>();
         grandChild.put("assessmentId", "ID");
@@ -183,23 +226,50 @@ public class AssessmentConverterTest {
         child1.put("title", "Child1");
         child1.put("identificationCode", "Child1");
         child1.put("objectiveAssessments", Arrays.asList(grandChild));
+        child1.put("assessmentItem", Arrays.asList(item1, item2));
         Map<String, Object> child2 = new HashMap<String, Object>();
         child2.put("assessmentId", "ID");
         child2.put("title", "Child2");
         child2.put("identificationCode", "Child2");
+        child2.put("assessmentItem", Arrays.asList(item3));
         Map<String, Object> parentOA = new HashMap<String, Object>();
         parentOA.put("assessmentId", "ID");
         parentOA.put("title", "ParentOA");
         parentOA.put("identificationCode", "ParentOA");
         parentOA.put("objectiveAssessments", Arrays.asList(child1, child2));
         assessment.getBody().put("objectiveAssessment", Arrays.asList(parentOA));
+        return assessment;
+    }
+
+    @Test
+    public void testAssessmentsWithAIsInOAsToAPI() throws IllegalAccessException, InvocationTargetException,
+            NoSuchMethodException {
+        Entity assessment = createHierarchicalUpConvertEntity();
+        assessmentConverter.subdocToBodyField(assessment);
+        assertEquals("somevalue1", PropertyUtils.getProperty(assessment,
+                "body.objectiveAssessment.[0].objectiveAssessments.[0].assessmentItem.[0].abc"));
+        assertEquals("somevalue2", PropertyUtils.getProperty(assessment,
+                "body.objectiveAssessment.[0].objectiveAssessments.[1].assessmentItem.[0].abc"));
+        assertEquals("somevalue3", PropertyUtils.getProperty(assessment,
+                "body.objectiveAssessment.[0].objectiveAssessments.[0].assessmentItem.[1].abc"));
+        assertEquals("somevalue4", PropertyUtils.getProperty(assessment, "body.assessmentItem.[0].abc"));
+        assertNull(PropertyUtils.getProperty(assessment, "body.objectiveAssessment.[0].objectiveAssessments.[0].assessmentItem.[0]._id"));
+        assertNull(PropertyUtils.getProperty(assessment, "body.objectiveAssessment.[0].objectiveAssessments.[0].assessmentItem.[0].assessmentId"));
+    }
+
+    @Test
+    public void testAssessmentsWithAIsInOAsToDAL() throws IllegalAccessException, InvocationTargetException,
+            NoSuchMethodException {
+        Entity assessment = createHierarchicalDownConvertEntity();
         assessmentConverter.bodyFieldToSubdoc(assessment);
-        assertEquals("ParentOA", PropertyUtils.getProperty(assessment, "embeddedData.objectiveAssessment.[3].body.title"));
-        assertEquals("Child1", PropertyUtils.getProperty(assessment, "embeddedData.objectiveAssessment.[3].body.subObjectiveAssessment.[0]"));
-        assertEquals("Child2", PropertyUtils.getProperty(assessment, "embeddedData.objectiveAssessment.[3].body.subObjectiveAssessment.[1]"));
-        assertEquals("Child1", PropertyUtils.getProperty(assessment, "embeddedData.objectiveAssessment.[1].body.title"));
-        assertEquals("GrandChild", PropertyUtils.getProperty(assessment, "embeddedData.objectiveAssessment.[1].body.subObjectiveAssessment.[0]"));
-        assertEquals("Child2", PropertyUtils.getProperty(assessment, "embeddedData.objectiveAssessment.[2].body.title"));
-        assertEquals("GrandChild", PropertyUtils.getProperty(assessment, "embeddedData.objectiveAssessment.[0].body.title"));
+        assertEquals("1", PropertyUtils.getProperty(assessment, "embeddedData.assessmentItem.[0].body.a"));
+        assertEquals("somevalue1", PropertyUtils.getProperty(assessment, "embeddedData.assessmentItem.[1].body.abc"));
+        assertEquals("somevalue2", PropertyUtils.getProperty(assessment, "embeddedData.assessmentItem.[2].body.abc"));
+        assertEquals("somevalue3", PropertyUtils.getProperty(assessment, "embeddedData.assessmentItem.[3].body.abc"));
+        assertNotNull(PropertyUtils.getProperty(assessment, "embeddedData.assessmentItem.[0].entityId"));
+        assertNotNull(PropertyUtils.getProperty(assessment, "embeddedData.assessmentItem.[1].entityId"));
+        assertNotNull(PropertyUtils.getProperty(assessment, "embeddedData.assessmentItem.[2].entityId"));
+        assertNotNull(PropertyUtils.getProperty(assessment, "embeddedData.assessmentItem.[3].entityId"));
+
     }
 }
