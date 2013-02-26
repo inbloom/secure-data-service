@@ -23,17 +23,6 @@ public aspect LoggerCarrierAspect {
     
     private Repository<Entity> entityRepository;
     
-//    private MongoTemplate template;
-    
-//    public MongoTemplate getTemplate() {
-//    	return template;
-//    }
-    
-//    public void setTemplate(MongoTemplate template) {
-//    	this.template = template;
-//    }
-    
-    
     @Value("${sli.ingestion.securityEvent.capSize}")
     private String capSize;
     
