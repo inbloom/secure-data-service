@@ -107,9 +107,9 @@ Then I should see following map of entry counts in the corresponding collections
      | studentSchoolAssociation                 |                  1|
 And I check to find if record is in collection:
     | collectionName              | expectedRecordCount | searchParameter                                  | searchValue    | searchType |
-    | attendance                  | 1                   | body.schoolYearAttendance.attendanceEvent.event  | Tardy          | string     |
-    | attendance                  | 1                   | body.schoolYearAttendance.attendanceEvent.reason | Dentist appointment | string     |
-    | attendance                  | 1                   | body.schoolYearAttendance.attendanceEvent.date   | 2010-09-09          | string     |
+    | attendance                  | 1                   | body.attendanceEvent.event  | Tardy          | string     |
+    | attendance                  | 1                   | body.attendanceEvent.reason | Dentist appointment | string     |
+    | attendance                  | 1                   | body.attendanceEvent.date   | 2010-09-09          | string     |
     And I should see "Processed 1 records." in the resulting batch job file
 
     And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
