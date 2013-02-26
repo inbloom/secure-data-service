@@ -42,8 +42,6 @@ public class SecurityEvent {
     private String userEdOrg;
 
     private String targetEdOrg;
-    
-    private String userEdOrg;
 
     private String actionUri; // Alpha MH
 
@@ -105,13 +103,6 @@ public class SecurityEvent {
         this.userEdOrg = userEdOrg;
     }
 
-    public String getUserEdOrg() {
-        return userEdOrg;
-    }
-
-    public void setUserEdOrg(String userEdOrg) {
-        this.userEdOrg = userEdOrg;
-    }
 
     public void setActionUri(String actionUri) {
         this.actionUri = actionUri;
