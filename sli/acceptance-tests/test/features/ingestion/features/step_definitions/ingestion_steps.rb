@@ -838,11 +838,6 @@ When /^the tenant indexes are applied to the tenant "(.*?)"$/ do |tenant|
     `ruby ../config/scripts/indexTenantDb.rb #{INGESTION_DB} #{convertTenantIdToDbName(tenant)}`
 end
 
-When /^the old files are removed from the "(.*?)" landing zone$/ do |tenant|
-  lz = @ingestion_lz_identifer_map[tenant]
-  initializeLandingZone(lz)
-end
-
 When /^the tenant with tenantId "(.*?)" is locked$/ do |tenantId|
   @db = @conn[INGESTION_DB_NAME]
   @tenantColl = @db.collection('tenant')
