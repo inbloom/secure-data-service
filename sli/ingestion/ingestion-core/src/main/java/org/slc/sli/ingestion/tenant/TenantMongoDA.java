@@ -23,6 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 
 import org.slf4j.Logger;
@@ -130,6 +131,33 @@ public class TenantMongoDA implements TenantDA {
 
     private NeutralCriteria byServerQuery(String targetIngestionServer) {
         return new NeutralCriteria(LANDING_ZONE_INGESTION_SERVER, "=", targetIngestionServer);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public String getTenantEdOrg(String lzPath) {
+
+        NeutralQuery query = new NeutralQuery(new NeutralCriteria(LANDING_ZONE_PATH, "=", lzPath));
+        Entity entity = entityRepository.findOne(TENANT_COLLECTION, query);
+        if ( null == entity ) {
+			return null;
+		}
+        Map<String, Object> body = entity.getBody();
+        if ( null == body ) {
+			return null;
+		}
+        BasicDBList lzArr = (BasicDBList) body.get(LANDING_ZONE);
+        if ( null == lzArr ) {
+			return null;
+		}
+        for( Object lzObj : lzArr ) {
+        	Map<String, Object> lz = (Map<String, Object>) lzObj;
+        	String path = (String) lz.get(PATH);
+        	if ( null != path && path.equals(lzPath) ) {
+				return (String) lz.get(EDUCATION_ORGANIZATION);
+			}
+        }
+        return null;
     }
 
     private String findTenantIdByLzPath(String lzPath) {
