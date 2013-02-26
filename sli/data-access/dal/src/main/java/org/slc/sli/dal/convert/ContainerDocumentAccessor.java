@@ -39,7 +39,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * @author jstokes
+ * @author pghosh
  */
 public class ContainerDocumentAccessor {
 
