@@ -56,4 +56,10 @@ public class DidRefSource {
     public void setSourceRefPath(String sourceRefPath) {
         this.sourceRefPath = sourceRefPath;
     }
+
+    @Override
+    public String toString() {
+        return "DidRefSource [entityType=" + entityType + ", sourceRefPath=" + sourceRefPath + ", optional=" + optional
+                + "]";
+    }
 }
