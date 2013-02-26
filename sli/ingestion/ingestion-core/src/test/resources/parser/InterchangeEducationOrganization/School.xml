@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeEducationOrganization xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <School id="ID013">
+    <StateOrganizationId>OqyTMT6l66jr5OyD1f7vdtoqyh1eas2yPB5z9BQEbOa5a5Dt</StateOrganizationId>
+    <EducationOrgIdentificationCode IdentificationSystem="ACT">
+      <ID>deBMzWu4B6iKSYqfLckeYLuJoCpuEbD-jzQMu1jNaC</ID>
+    </EducationOrgIdentificationCode>
+    <EducationOrgIdentificationCode IdentificationSystem="Other">
+      <ID>puBpryE8</ID>
+    </EducationOrgIdentificationCode>
+    <NameOfInstitution>e0tIl</NameOfInstitution>
+    <ShortNameOfInstitution>yviUYKb83zdr1XTTLx.BAv</ShortNameOfInstitution>
+    <OrganizationCategories>
+      <OrganizationCategory>Local Education Agency</OrganizationCategory>
+      <OrganizationCategory>State Education Agency</OrganizationCategory>
+    </OrganizationCategories>
+    <Address AddressType="Temporary">
+      <StreetNumberName>aKiFJtlUznkom2</StreetNumberName>
+      <ApartmentRoomSuiteNumber>_BiHcRIaB1pTu</ApartmentRoomSuiteNumber>
+      <BuildingSiteNumber>j4cJqH3RC</BuildingSiteNumber>
+      <City>ku5ZY21w.Mc0L3gjfZGHquwNpGfb.c</City>
+      <StateAbbreviation>ID</StateAbbreviation>
+      <PostalCode>qCCHUJ</PostalCode>
+      <NameOfCounty>Sk-vJHVaJSQ4ZnAW6xvy</NameOfCounty>
+      <CountyFIPSCode>bsJ6</CountyFIPSCode>
+      <Latitude>qvyY3s</Latitude>
+      <Longitude>QGolkzXwnf_2m_FJdEr3</Longitude>
+      <BeginDate>2013-12-04</BeginDate>
+      <EndDate>2013-06-22</EndDate>
+    </Address>
+    <Address AddressType="Home">
+      <StreetNumberName>dwyub52R3VYjg8NvgCw</StreetNumberName>
+      <ApartmentRoomSuiteNumber>fQ</ApartmentRoomSuiteNumber>
+      <BuildingSiteNumber>oo8EfbdwrJQq5f.eE0z</BuildingSiteNumber>
+      <City>IRf1QTnYar8e</City>
+      <StateAbbreviation>WV</StateAbbreviation>
+      <PostalCode>m-6Aq7Dm1Ee85M</PostalCode>
+      <NameOfCounty>uJV3w</NameOfCounty>
+      <CountyFIPSCode>_0QF6</CountyFIPSCode>
+      <Latitude>Bg</Latitude>
+      <Longitude>NIHz</Longitude>
+      <BeginDate>2014-07-22</BeginDate>
+      <EndDate>2014-01-24</EndDate>
+    </Address>
+    <Telephone InstitutionTelephoneNumberType="Attendance">
+      <TelephoneNumber>uB1</TelephoneNumber>
+    </Telephone>
+    <Telephone InstitutionTelephoneNumberType="Fax">
+      <TelephoneNumber>G</TelephoneNumber>
+    </Telephone>
+    <WebSite>KnfXF-EnP2fYaH9zOlxl3dk</WebSite>
+    <OperationalStatus>Continuing</OperationalStatus>
+    <AccountabilityRatings>
+      <RatingTitle>JvzHzP631NIuLQsxQC7gco</RatingTitle>
+      <Rating>_4iYfArT</Rating>
+      <RatingDate>2013-09-19</RatingDate>
+      <SchoolYear>2017-2018</SchoolYear>
+      <RatingOrganization>I6zsyM3rvc6nlvUss6PtQ</RatingOrganization>
+      <RatingProgram>godJ-ds6XkmnFEgOJpGT</RatingProgram>
+    </AccountabilityRatings>
+    <AccountabilityRatings>
+      <RatingTitle>c_-Mw449bZoshHuq6cQKtXvE0liV</RatingTitle>
+      <Rating>g5H1j</Rating>
+      <RatingDate>2014-01-15</RatingDate>
+      <SchoolYear>2013-2014</SchoolYear>
+      <RatingOrganization>D._56</RatingOrganization>
+      <RatingProgram>VmUkZOnd0A8IU_SiqT</RatingProgram>
+    </AccountabilityRatings>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>c</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>Gj58LBb_xnvgFQoj</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <EducationOrganizationPeerReference id="ID015">
+      <EducationalOrgIdentity>
+        <EducationOrgIdentificationCode IdentificationSystem="LEA">
+          <ID>HPmc_y-nw0.oElEVtg1BLsKgK6ZCi.cSTZB3oQ</ID>
+        </EducationOrgIdentificationCode>
+        <EducationOrgIdentificationCode IdentificationSystem="LEA">
+          <ID>ISzbJy7BTCkdqC-z2tfdRdlS</ID>
+        </EducationOrgIdentificationCode>
+      </EducationalOrgIdentity>
+    </EducationOrganizationPeerReference>
+    <EducationOrganizationPeerReference id="ID017">
+      <EducationalOrgIdentity>
+        <EducationOrgIdentificationCode IdentificationSystem="SEA">
+          <ID>iU_a5t29haUJH4Mq1JMDomPcS7A8NDU</ID>
+        </EducationOrgIdentificationCode>
+        <EducationOrgIdentificationCode IdentificationSystem="DUNS">
+          <ID>bhCIjIVphMBSZkBUe16aaZVrr_qfdxeu</ID>
+        </EducationOrgIdentificationCode>
+      </EducationalOrgIdentity>
+    </EducationOrganizationPeerReference>
+    <GradesOffered>
+      <GradeLevel>Ninth grade</GradeLevel>
+      <GradeLevel>Twelfth grade</GradeLevel>
+    </GradesOffered>
+    <SchoolCategories>
+      <SchoolCategory>All Levels</SchoolCategory>
+      <SchoolCategory>SecondarySchool</SchoolCategory>
+    </SchoolCategories>
+    <SchoolType>Special Education</SchoolType>
+    <CharterStatus>School Charter</CharterStatus>
+    <TitleIPartASchoolDesignation>Title I targeted eligible school - no program</TitleIPartASchoolDesignation>
+    <MagnetSpecialProgramEmphasisSchool>Some, but not all, students participate</MagnetSpecialProgramEmphasisSchool>
+    <AdministrativeFundingControl>Other</AdministrativeFundingControl>
+    <LocalEducationAgencyReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>NIIUBHXUQWQt58s3Z81JSw-f1n</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </LocalEducationAgencyReference>
+  </School>
+</InterchangeEducationOrganization>

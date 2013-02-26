@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentDiscipline xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <DisciplineIncident id="ID000">
+    <IncidentIdentifier>yozcaW</IncidentIdentifier>
+    <IncidentDate>2013-07-30</IncidentDate>
+    <IncidentTime>11:22:39.958</IncidentTime>
+    <IncidentLocation>On School</IncidentLocation>
+    <ReporterDescription>Staff</ReporterDescription>
+    <ReporterName>SEoA0VFU_EIAK56e__YsDMRc7Vs8SrZAdyxN.jSiD5</ReporterName>
+    <Behaviors id="ID001">
+      <CodeValue>f</CodeValue>
+    </Behaviors>
+    <Behaviors id="ID002">
+      <ShortDescription>NnYxwa</ShortDescription>
+    </Behaviors>
+    <Behaviors id="ID003">
+      <Description>FOJ7xXPF55IA8XaE9PhftsaC6Ze6YGifZTTLOhR8ZSsp3gaOOd.yBowvxRzVEC::QbmnmBLGHrVKrMQWtOoh3dQEJvQvpyOcUdr9NNmqTcvDR4nQlU2:4H0zQpYj6M3hMOODi2b-Ayh.kwcV-3D2:5oUxpupx5G5YJv9EumpLNaZCBT19nlU1Z7i_2URCUkrc66-OLHN2aDFqi88iN49aSDASGWBdMKDqBPlis4QBmU6z4nOjW21GybgAww:klOB7ldJMMwv5.g.9SBO5wNslcum5y54_x8tefm:qgN.1SHmVT0epyDPcNT83-XxrHjuNjZ_RIjlKzNamu7-pwTPWL97MzsAxg5MwAi:nB4jqxpaMbzBh8HbHa5aiUcAXNChfVAsw3wLoQ3ai7WqkLtLHMkzac:7mF9rE90YXBTgE45e9CB3qH8vyqbQ4eeuXb9Nbl8bz_t_UrSK7S63r193syARZw1sp7vvol2iRqKGBHBn.sqpNDjdVX48goW2bMtnOwvwr.SoFUJiYLZuorXsK7Wej0:bHa4vcUHl2HNJH7zDrrDGLP_y7aXvGtZsKla_J5Qk.hdcS-DBObc27bPuKeSOMeTQT5zfQqZtPgB4_A78mDR1Uc5ooY14f5RVCsHG7x3ifoIOI3VDayYW:WqY1-VaainThrcCTtqz3v-nD0p5C:2E032qy_qe815Qw_RmvrBZYcXIFZhTXYSUgXaVvjhSNQq8EHSA35kpfvMuFKbZY:yQBF::SPY.bxgD9jlrWqh-S4zLpuMWLeQz36-W4hvbqZsVNfi41QE</Description>
+    </Behaviors>
+    <SecondaryBehaviors BehaviorCategory="State Offense">
+      <SecondaryBehavior>u8OEaBPzbzv5ym2nMtzS</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <SecondaryBehaviors BehaviorCategory="State Law Crime">
+      <SecondaryBehavior>UgRfHe5nn9dGrtOh1JVxwWI</SecondaryBehavior>
+    </SecondaryBehaviors>
+    <Weapons>
+      <Weapon>Non-Illegal Knife</Weapon>
+      <Weapon>Knife</Weapon>
+    </Weapons>
+    <ReportedToLawEnforcement>0</ReportedToLawEnforcement>
+    <CaseNumber>egRJMCKKxkEoVCQrytH6</CaseNumber>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>DHpywE</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <StaffReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>F1UCCJ41e.tW3ndC</StaffUniqueStateId>
+      </StaffIdentity>
+    </StaffReference>
+  </DisciplineIncident>
+</InterchangeStudentDiscipline>

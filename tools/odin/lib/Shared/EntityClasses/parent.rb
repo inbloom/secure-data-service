@@ -22,7 +22,8 @@ require_relative 'baseEntity'
 class Parent < BaseEntity
 
   attr_accessor :id, :rand, :sex, :firstName, :middleName, :lastName, :suffix,
-                :email, :loginId, :address, :city, :state, :postalCode
+                :email, :loginId, :address, :city, :state, :postalCode,
+                :otherName, :telephone
 
   def initialize(kid, type)
     @id = Parent.parentId(kid, type)
@@ -30,6 +31,53 @@ class Parent < BaseEntity
     @rand = @kid.rand
     @type = type
     buildParent
+  
+    optional {@otherName = {
+        :otherNameType => choose([
+          "Alias",
+          "Nickname",
+          "Other Name",
+          "Previous Legal Name"]),
+        :prefix => choose([
+          "Colonel",
+          "Dr",
+          "Mr",
+          "Mrs",
+          "Ms",
+          "Reverend",
+          "Sr",
+          "Sister"]),
+        :firstName => choose(@sex == "Male" ? BaseEntity.demographics['maleNames'] :BaseEntity. demographics['femaleNames']),
+        :middleName => choose(@sex == "Male" ? BaseEntity.demographics['maleNames'] : BaseEntity.demographics['femaleNames']),
+        :lastName => choose(BaseEntity.demographics['lastNames']),
+        :suffix => choose([
+          "Jr",
+          "Sr",
+          "II",
+          "III",
+          "IV",
+          "V",
+          "VI",
+          "VII",
+          "VIII"])
+      }
+    }
+      
+    optional {@telephone = {
+        :telephoneNumber => "(" + @rand.rand(1000).to_s.rjust(3, '0') + ")555-" + @rand.rand(10000).to_s.rjust(4, '0'),
+        :telephoneNumberType => choose([
+          "Fax",
+          "Emergency 1",
+          "Emergency 2",
+          "Home",
+          "Mobile",
+          "Other",
+          "Unlisted",
+          "Work"]),
+      :primaryTelephoneNumberIndicator => choose([false, true])
+      }
+    }
+
   end
 
   def buildParent
@@ -50,4 +98,5 @@ class Parent < BaseEntity
   def self.parentId(kid, type)
     "#{kid.id}-#{type.to_s}"
   end
+
 end

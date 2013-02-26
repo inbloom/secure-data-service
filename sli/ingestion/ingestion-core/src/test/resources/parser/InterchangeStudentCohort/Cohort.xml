@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentCohort xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Cohort id="ID003">
+    <CohortIdentifier>lO4Fl</CohortIdentifier>
+    <CohortDescription>PfPCub0hhN2PdjM3ok_nV_BQNwZMuXBCfLIdSZfaTDv.fs.URpvoTbs4wIqUcRq89s5H6xgMI85wyIWiGQCNGZORL5u_oXEOuvzVJ5PLmk_a9dBqedJkg:GvojNvNv.iyEQH0F6j5zu5K0.0BMyB.7fcFzY_Tlpjlt7VGBIqDVtk_WpAlOwal.ql9Nmqe::T5C-M3CBRVkczwXWJVHTdLpC:N10t7P4HIkHO2gU32_l1uJBkVHjBkmoYtK6jH_p0tYEOARqdk97zaELkb03.Kf1c_yqyupzbt9KmcDrHsovimoS_tqMD9:ELtWN.wQEvXNGddEYlSDLsONZQkjbzwZHJsaY.Ov2Fte-eHbU3tiTIS6YQX7S.1hN_K7LGsW-x9Pc4lvSuTM8azwRfHaKiNbzb6IzWv8.9zWPMEQhLATXpib3lD.4xmaIftZxRvHOjlXEmALIzJdVaB_qYnlJU4Pa.t_4D1edJwe7eGHwQDGS4-tlRTeQHY353TT4d.It</CohortDescription>
+    <CohortType>Counselor List</CohortType>
+    <CohortScope>Classroom</CohortScope>
+    <AcademicSubject>Miscellaneous</AcademicSubject>
+    <EducationOrgReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>FIz7l5uB_-RrcQWzQh6e9Y.t1E8-rMIGLasP7-PpKAsFi</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrgReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>Ob_JPhse</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+    <ProgramReference>
+      <ProgramIdentity>
+        <ProgramId>gDX-RRh</ProgramId>
+      </ProgramIdentity>
+    </ProgramReference>
+  </Cohort>
+</InterchangeStudentCohort>
