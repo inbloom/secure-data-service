@@ -11,5 +11,10 @@
         <StudentUniqueStateId>01010101</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
+      <SchoolReference>
+          <EducationalOrgIdentity>
+              <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+          </EducationalOrgIdentity>
+      </SchoolReference>
   </AttendanceEvent>
 </InterchangeStudentAttendance>
