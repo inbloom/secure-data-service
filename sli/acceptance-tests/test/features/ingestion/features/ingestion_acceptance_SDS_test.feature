@@ -409,6 +409,8 @@ Scenario: Verify deterministic ids generated: Clean Database
     | staff                                | 6757c28005c30748f3bbda02882bf59bc81e0d71_id | body.staffUniqueStateId           | linda.kim                            |
     | cohort                               | e097d0f6e1e3d40d58930052eae2d7074eaa901a_id | body.cohortIdentifier     | ACC-TEST-COH-2                       |
     | cohort                               | e097d0f6e1e3d40d58930052eae2d7074eaa901a_id | body.educationOrgId       | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
+    | objectiveAssessment                  | d50118aaad960b54a8b2afc7268d01d13842cb58_id482743e46032284fc880ec785f8a4a9db16bafc3_id | body.subObjectiveAssessment.0 | ACT-English-Usage |
+    | objectiveAssessment                  | d50118aaad960b54a8b2afc7268d01d13842cb58_id482743e46032284fc880ec785f8a4a9db16bafc3_id | body.subObjectiveAssessment.1 | ACT-English-Rhetorical |
     | studentCohortAssociation             | e097d0f6e1e3d40d58930052eae2d7074eaa901a_idbc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.studentId            | c20c4b37f887348b67a02091dc10ee6b27fbd1ce_id |
     | studentCohortAssociation             | e097d0f6e1e3d40d58930052eae2d7074eaa901a_idbc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.cohortId             | e097d0f6e1e3d40d58930052eae2d7074eaa901a_id |
     | studentCohortAssociation             | e097d0f6e1e3d40d58930052eae2d7074eaa901a_idbc542a3d675b570fe46b6fe54ec46cf9e7cb710c_id | body.beginDate            | 2011-04-01                           |
