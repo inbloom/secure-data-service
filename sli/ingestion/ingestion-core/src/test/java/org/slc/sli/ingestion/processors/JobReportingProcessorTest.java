@@ -55,6 +55,7 @@ import org.slc.sli.ingestion.model.NewBatchJob;
 import org.slc.sli.ingestion.model.ResourceEntry;
 import org.slc.sli.ingestion.model.Stage;
 import org.slc.sli.ingestion.model.da.BatchJobDAO;
+import org.slc.sli.ingestion.tenant.TenantDA;
 import org.slc.sli.ingestion.util.BatchJobUtils;
 
 /**
@@ -84,6 +85,9 @@ public class JobReportingProcessorTest {
 
     @InjectMocks
     JobReportingProcessor jobReportingProcessor = new JobReportingProcessor();
+
+    @Mock
+    private TenantDA mockedTenantDA;
 
     @Mock
     private BatchJobDAO mockedBatchJobDAO;
@@ -173,6 +177,7 @@ public class JobReportingProcessorTest {
         exchange.getIn().setBody(workNote, RangedWorkNote.class);
 
         jobReportingProcessor.setBatchJobDAO(mockedBatchJobDAO);
+        jobReportingProcessor.setTenantDA(mockedTenantDA);
         jobReportingProcessor.process(exchange);
 
         // read the generated job output file and check values

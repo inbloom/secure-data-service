@@ -581,4 +581,8 @@ public class JobReportingProcessor implements Processor {
     public void setBatchJobDAO(BatchJobDAO batchJobDAO) {
         this.batchJobDAO = batchJobDAO;
     }
+
+    public void setTenantDA(TenantDA tenantDA) {
+    	this.tenantDA = tenantDA;
+    }
 }
