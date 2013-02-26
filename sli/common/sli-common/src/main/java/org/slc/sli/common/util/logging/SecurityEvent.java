@@ -94,8 +94,6 @@ public class SecurityEvent {
     public String getActionUri() {
         return actionUri;
     }
-    
-
 
     public void setActionUri(String actionUri) {
         this.actionUri = actionUri;
@@ -135,6 +133,10 @@ public class SecurityEvent {
 
     public String getUserOrigin() {
         return userOrigin;
+    }
+    
+    public void setUserEdOrg(String userEdOrg) {
+        this.userEdOrg = userEdOrg;
     }
 
     public void setUserOrigin(String userOrigin) {
