@@ -83,7 +83,7 @@ public class ContainerDocumentAccessor {
     }
 
     public String update(final Entity entity) {
-        return updatetContainerDoc(entity);
+        return updateContainerDoc(entity);
     }
 
     private DBObject getContainerDocQuery(final Entity entity) {
@@ -139,7 +139,7 @@ public class ContainerDocumentAccessor {
         return persisted;
     }
 
-    protected String updatetContainerDoc(final Entity entity) {
+    protected String updateContainerDoc(final Entity entity) {
         TenantContext.setIsSystemCall(false);
         final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
         final String fieldToPersist = containerDocument.getFieldToPersist();
