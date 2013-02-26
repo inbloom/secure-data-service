@@ -149,9 +149,9 @@ Then I should see following map of entry counts in the corresponding collections
        | assessment                  | 1                   | body.assessmentItem.3.identificationCode       | AssessmentItem-4 | string  |
        | assessment                  | 1                   | body.assessmentItem.3.itemCategory             | True-False       | string  |
        | assessment                  | 1                   | body.assessmentItem.3.maxRawScore              | 5                | integer |
-       | attendance                  | 11                  | body.schoolYearAttendance.attendanceEvent.event | Tardy         | string     |
-       | attendance                  | 75                  | body.schoolYearAttendance.attendanceEvent.event | In Attendance | string     |
-       | attendance                  | 75                  | body.schoolYearAttendance.schoolYear            | 2011-2012     | string     |
+       | attendance                  | 11                  | body.attendanceEvent.event | Tardy         | string     |
+       | attendance                  | 75                  | body.attendanceEvent.event | In Attendance | string     |
+       | attendance                  | 75                  | body.schoolYear            | 2011-2012     | string     |
        | cohort                      | 1                   | body.cohortIdentifier      | ACC-TEST-COH-1             | string               |
        | cohort                      | 1                   | body.cohortIdentifier      | ACC-TEST-COH-2             | string               |
        | cohort                      | 1                   | body.cohortIdentifier      | ACC-TEST-COH-3             | string               |
@@ -367,8 +367,8 @@ And I check to find if record is in collection:
      | courseOffering              | 1                   | body.localCourseCode        | Government-4             | string               |
 And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                 | searchValue   | searchType           |
-     | attendance                  | 0                   | body.schoolYearAttendance.attendanceEvent.date  | 2011-09-01    | string               |
-     | attendance                  | 75                  | body.schoolYearAttendance.attendanceEvent.date  | 2011-11-10    | string               |
+     | attendance                  | 0                   | body.attendanceEvent.date  | 2011-09-01    | string               |
+     | attendance                  | 75                  | body.attendanceEvent.date  | 2011-11-10    | string               |
  And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                  | searchValue                                      |searchType           |
      | assessment                  | 1                   | body.assessmentFamilyHierarchyName               | AP.AP Eng.AP-Eng-and-Literature                  |string               |
@@ -875,7 +875,7 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Arithmetic         | string |
      | assessment                  | 1                   | body.objectiveAssessment.objectiveAssessments.identificationCode    | SAT-Math-Geometry           | string |
      | assessment                  | 3                   | body.assessmentFamilyHierarchyName             | READ2.READ 2.0.READ 2.0 Kindergarten                 | string |
-     | attendance                  | 75                  | body.schoolYearAttendance.attendanceEvent.date | 2011-09-06      |string               |
+     | attendance                  | 75                  | body.attendanceEvent.date | 2011-09-06      |string               |
      | cohort                      | 1                   | body.academicSubject        | English                 | string               |
      | cohort                      | 1                   | body.academicSubject        | Mathematics             | string               |
      | cohort                      | 1                   | body.cohortIdentifier       | ACC-TEST-COH-1          | string               |

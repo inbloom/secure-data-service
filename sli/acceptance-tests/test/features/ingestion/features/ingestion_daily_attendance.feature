@@ -30,11 +30,11 @@ Then I should see following map of entry counts in the corresponding collections
      | attendance                  | 38    |
    And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                 | searchValue   |
-    | attendance                  | 38                  | body.schoolYearAttendance.schoolYear            | 2011-2012     |
-    | attendance                  | 3                  | body.schoolYearAttendance.attendanceEvent.event | Tardy         |
-    | attendance                  | 33                  | body.schoolYearAttendance.attendanceEvent.event | In Attendance |
-     | attendance                  | 0                   | body.schoolYearAttendance.attendanceEvent.date  | 2011-09-01    |
-     | attendance                  | 38                  | body.schoolYearAttendance.attendanceEvent.date  | 2011-11-10    |
+    | attendance                  | 38                  | body.schoolYear            | 2011-2012     |
+    | attendance                  | 3                  | body.attendanceEvent.event | Tardy         |
+    | attendance                  | 33                  | body.attendanceEvent.event | In Attendance |
+     | attendance                  | 0                   | body.attendanceEvent.date  | 2011-09-01    |
+     | attendance                  | 38                  | body.attendanceEvent.date  | 2011-11-10    |
      | studentSchoolAssociation     | 7                   | body.classOf                                     | 2011-2012    |
 
   And I should see "Processed 281 records." in the resulting batch job file
@@ -62,7 +62,7 @@ Then I should see following map of entry counts in the corresponding collections
      | attendance                  | 14422               | body.attendanceEventCategory  | In Attendance   |
      | attendance                  | 850                 | body.attendanceEventCategory  | Excused Absence |
      | attendance                  | 784                 | body.attendanceEventCategory  | Tardy           |
-     | attendance                  | 72                  | body.schoolYearAttendance.attendanceEvent.date | 2012-07-09      |
+     | attendance                  | 72                  | body.attendanceEvent.date | 2012-07-09      |
    And I should see "Processed 72 records." in the resulting batch job file
    And I should not see an error log file created
    And I should see "StudentAttendanceAppend.xml records considered: 72" in the resulting batch job file
@@ -111,7 +111,7 @@ Then I should see following map of entry counts in the corresponding collections
      | attendance                  | 1     |
  And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                | searchValue     |
-     | attendance                  | 1                   | body.schoolYearAttendance.attendanceEvent.date | 2011-09-06      |
+     | attendance                  | 1                   | body.attendanceEvent.date | 2011-09-06      |
   And I should see "Processed 8 records." in the resulting batch job file
   And I should not see an error log file created
   And I should see "InterchangeStudent.xml records considered: 1" in the resulting batch job file

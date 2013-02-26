@@ -122,12 +122,12 @@ Then I should see following map of entry counts in the corresponding collections
      | attendance                               |                  1|
     And I check to find if record is in collection:
     | collectionName              | expectedRecordCount | searchParameter                                  | searchValue         | searchType |
-    | attendance                  | 1                   | body.schoolYearAttendance.attendanceEvent.event  | Tardy               | string     |
-    | attendance                  | 1                   | body.schoolYearAttendance.attendanceEvent.reason | Missed school bus   | string     |
-    | attendance                  | 0                   | body.schoolYearAttendance.attendanceEvent.reason | Dentist appointment | string     |
-    | attendance                  | 1                   | body.schoolYearAttendance.attendanceEvent.event  | In Attendance       | string     |
-    | attendance                  | 1                   | body.schoolYearAttendance.attendanceEvent.reason | On Time             | string     |
-    | attendance                  | 1                   | body.schoolYearAttendance.attendanceEvent.date   | 2010-09-09          | string     |
+    | attendance                  | 1                   | body.attendanceEvent.event  | Tardy               | string     |
+    | attendance                  | 1                   | body.attendanceEvent.reason | Missed school bus   | string     |
+    | attendance                  | 0                   | body.attendanceEvent.reason | Dentist appointment | string     |
+    | attendance                  | 1                   | body.attendanceEvent.event  | In Attendance       | string     |
+    | attendance                  | 1                   | body.attendanceEvent.reason | On Time             | string     |
+    | attendance                  | 1                   | body.attendanceEvent.date   | 2010-09-09          | string     |
 And I should see "Processed 1 records." in the resulting batch job file
 
 
