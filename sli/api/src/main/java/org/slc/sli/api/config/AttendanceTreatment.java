@@ -24,6 +24,7 @@ import org.slc.sli.api.service.Treatment;
 import org.slc.sli.domain.Entity;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -40,27 +41,28 @@ public class AttendanceTreatment implements Treatment {
     @Override
     @SuppressWarnings("unchecked")
     public List<EntityBody> toStored(List<EntityBody> exposed, EntityDefinition defn) {
-        List<EntityBody> splitted = new ArrayList<EntityBody>();
+        List<EntityBody> split = new ArrayList<EntityBody>();
         if (defn.getType().equals(EntityNames.ATTENDANCE)) {
             for (EntityBody body : exposed) {
                 // Split if there are multiple schoolYearAttendances
-                final List<Map<String, Object>> schoolYearAttendances = (List<Map<String, Object>>) body.get(SCHOOL_YEAR_ATTENDANCE);
-                for (Map<String, Object> schoolYearAttendance : schoolYearAttendances) {
+                final List<Map<String, Object>> schoolYearAttendances =
+                        (List<Map<String, Object>>) body.get(SCHOOL_YEAR_ATTENDANCE);
+                Map<String, List<Map<String, Object>>> attendanceEventsBySchoolYear =
+                        groupBySchoolYears(schoolYearAttendances);
+                for (String schoolYear : attendanceEventsBySchoolYear.keySet()) {
                     EntityBody copy = new EntityBody(body);
-                    final String schoolYear = (String) schoolYearAttendance.get(SCHOOL_YEAR);
-                    final List<EntityBody> attendanceEvents = (List<EntityBody>) schoolYearAttendance.get(ATTENDANCE_EVENT);
+                    final List<Map<String, Object>> attendanceEvents = attendanceEventsBySchoolYear.get(schoolYear);
                     if (attendanceEvents != null) {
                         copy.put(ATTENDANCE_EVENT, attendanceEvents);
                     }
                     copy.put(SCHOOL_YEAR, schoolYear);
                     copy.remove(SCHOOL_YEAR_ATTENDANCE);
-
-                    splitted.add(copy);
+                    split.add(copy);
                 }
             }
         }
 
-        return splitted;
+        return split;
     }
 
     @Override
@@ -85,5 +87,27 @@ public class AttendanceTreatment implements Treatment {
         }
 
         return stored;
+    }
+
+    // If some of the schoolYearAttendances are in the same schoolYear,
+    // group them
+    @SuppressWarnings("unchecked")
+    private Map<String, List<Map<String, Object>>> groupBySchoolYears(List<Map<String, Object>> schoolYearAttendances) {
+        Map<String, List<Map<String, Object>>> attendanceEventsBySchoolYear =
+                new HashMap<String, List<Map<String,Object>>>();
+        for (Map<String, Object> schoolYearAttendance : schoolYearAttendances) {
+            final String schoolYear = (String) schoolYearAttendance.get(SCHOOL_YEAR);
+            final List<Map<String, Object>> attendanceEvents =
+                    (List<Map<String, Object>>) schoolYearAttendance.get(ATTENDANCE_EVENT);
+            if (attendanceEventsBySchoolYear.containsKey(schoolYear)) {
+                if (attendanceEvents != null) {
+                    attendanceEventsBySchoolYear.get(schoolYear).addAll(attendanceEvents);
+                }
+            } else {
+                attendanceEventsBySchoolYear.put(schoolYear, attendanceEvents);
+            }
+        }
+
+        return attendanceEventsBySchoolYear;
     }
 }
