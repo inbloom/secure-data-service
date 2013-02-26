@@ -17,6 +17,7 @@
 package org.slc.sli.api.jersey;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -53,6 +54,8 @@ import org.slc.sli.validation.ValidationError;
 @Component
 public class PreProcessFilter implements ContainerRequestFilter {
 
+    private static final List<String> WRITE_OPERATIONS = Arrays.asList("PUT", "PATCH", "DELETE");
+
     @Resource(name = "urlValidators")
     private List<URLValidator> urlValidators;
 
@@ -60,13 +63,13 @@ public class PreProcessFilter implements ContainerRequestFilter {
     private OauthSessionManager manager;
 
     @Autowired
-    private ContextValidator contextValidator;
-
-    @Autowired
     private MongoStat mongoStat;
 
     @Resource
     private EndpointMutator mutator;
+
+    @Autowired
+    private ContextValidator contextValidator;
 
     @Autowired
     private URITranslator translator;
@@ -94,7 +97,9 @@ public class PreProcessFilter implements ContainerRequestFilter {
         info("uri: {} -> {}", request.getBaseUri().getPath(), request.getRequestUri().getPath());
         request.getProperties().put("original-request", request.getPath());
         mutator.mutateURI(SecurityContextHolder.getContext().getAuthentication(), request);
-        contextValidator.validateContextToUri(request, principal);
+        if (isWrite(request.getMethod())) {
+            contextValidator.validateContextToUri(request, principal);
+        }
         translator.translate(request);
         criteriaGenerator.generate(request);
         return request;
@@ -111,6 +116,17 @@ public class PreProcessFilter implements ContainerRequestFilter {
 
         SecurityContextHolder.getContext().setAuthentication(auth);
         TenantContext.setTenantId(((SLIPrincipal) auth.getPrincipal()).getTenantId());
+    }
+
+    /**
+     * Returns true if the request is a write operation.
+     *
+     * @param request
+     *            Request to be checked.
+     * @return True if the request method is a PUT, PATCH, or DELETE, false otherwise.
+     */
+    private boolean isWrite(String operation) {
+        return WRITE_OPERATIONS.contains(operation);
     }
 
     private void recordStartTime(ContainerRequest request) {

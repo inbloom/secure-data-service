@@ -16,39 +16,41 @@
 
 package org.slc.sli.api.security.context.validator;
 
-import org.slc.sli.api.constants.EntityNames;
-import org.slc.sli.api.util.SecurityUtil;
-import org.springframework.stereotype.Component;
-
 import java.util.Collections;
 import java.util.Set;
 
+import org.springframework.stereotype.Component;
+
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.api.util.SecurityUtil;
+
+/**
+ * Validates context for hosted administrator, such as a developer.
+ */
 @Component
 public class AdminValidator implements IContextValidator {
-    
+
     @Override
     public boolean canValidate(String entityType, boolean through) {
-        String userType = SecurityUtil.getSLIPrincipal().getEntity().getType();
-        if (userType.equals("user")) {
-            return true;
-        }
-        return false;
+        return SecurityUtil.getSLIPrincipal().isAdminRealmAuthenticated() && entityType.equals(EntityNames.EDUCATION_ORGANIZATION);
     }
 
     @Override
     public boolean validate(String entityType, Set<String> ids) throws IllegalStateException {
-        if (entityType.equals(EntityNames.EDUCATION_ORGANIZATION)) {
-            return true;
-        }
-        return false;
+        /*
+         * Same logic for validation should be used as canValidate. The AdminValidator is
+         * being invoked when it shouldn't be, and this has been done to limit where this
+         * validator is invoked.
+         */
+        return canValidate(entityType, false);
     }
-    
+
     //TODO: implement it
+    @Override
     public Set<String> getValid(String entityType, Set<String> ids) {
     	 if (entityType.equals(EntityNames.EDUCATION_ORGANIZATION)) {
     		 return ids;
     	 }
-    	 
     	 return Collections.emptySet();
     }
 }

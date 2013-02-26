@@ -288,27 +288,6 @@ public class UriMutator {
     private MutatedContainer mutateUriAsNecessary(List<PathSegment> segments, String queryParameters, Entity user)
             throws ResponseTooLargeException {
         MutatedContainer mutatedPathAndParameters = null;
-        
-        /*
-         * The path /v1/courses/{ids}/courseTranscripts/students should never exist in our system.
-         * The Path /v1/assessments/{ids}/studentAssessments/students should also never exist in our system.
-         * 
-         * IF YOU REMOVE THIS, I WILL FIND YOU, I WILL HUNT YOU DOWN, AND I WILL NOT BE HELD RESPONSIBLE FOR MY ACTIONS
-         * ...
-         * You have been warned
-         *
-         */
-		if (segments.size() == 5) {
-			if ((segments.get(1).getPath().equals(ResourceNames.COURSES)
-						&& segments.get(3).getPath().equals(ResourceNames.COURSE_TRANSCRIPTS)
-						&& segments.get(4).getPath().equals(ResourceNames.STUDENTS))
-				|| (segments.get(1).getPath().equals(ResourceNames.ASSESSMENTS)
-						&& segments.get(3).getPath().equals(ResourceNames.STUDENT_ASSESSMENTS)
-						&& segments.get(4).getPath().equals(ResourceNames.STUDENTS))) {
-			throw new ContextInferrenceFailedException();
-			}
-		}
-
         if (isTeacher(user)) {
             mutatedPathAndParameters = mutateTeacherRequest(segments, queryParameters, user);
         } else if (isStaff(user)) {
