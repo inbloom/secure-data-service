@@ -66,7 +66,7 @@ public class GenericToGradebookEntryValidator extends AbstractContextValidator {
             sectionIds.add(sectionId);
         }
 
-        return validatorStore.findValidator(EntityNames.SECTION, true).validate(EntityNames.SECTION, sectionIds);
+        return validatorStore.findValidator(EntityNames.SECTION, false).validate(EntityNames.SECTION, sectionIds);
     }
 
 }

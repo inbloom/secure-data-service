@@ -96,7 +96,6 @@ Examples:
 	|"/staff/@id"                 |"/staff/@id/staffProgramAssociations/programs/studentProgramAssociations"  |"cdc2fe5a-5e5d-4b10-8caa-8f3be735a7d4"|"4a39f944-c238-4787-965a-50f22f3a2d9c"|
 	|"/educationOrganizations/@id"|"/educationOrganizations/@id/staffEducationOrgAssignmentAssociations"      |"a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"|"6756e2b9-aba1-4336-80b8-4a5dde3c63fe"|
 	|"/educationOrganizations/@id"|"/educationOrganizations/@id/staffEducationOrgAssignmentAssociations/staff"|"a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"|"6756e2b9-aba1-4336-80b8-4a5dde3c63fe"|
-	|"/educationOrganizations/@id"|"/educationOrganizations/@id/graduationPlans"                              |"a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"|"6756e2b9-aba1-4336-80b8-4a5dde3c63fe"|
 	|"/educationOrganizations/@id"|"/educationOrganizations/@id/cohorts"                                      |"a189b6f2-cc17-4d66-8b0d-0478dcf0cdfb"|"6756e2b9-aba1-4336-80b8-4a5dde3c63fe"|
 
 @wip
@@ -153,7 +152,7 @@ Examples:
 	|"/teachers/@id"|"/teachers/{id}/disciplineActions"|""|""|
 	|"/teachers/@id"|"/teachers/{id}/disciplineIncidents"|""|""|
 	|"/teachers/@id"|"/teachers/{id}/disciplineIncidents/studentDisciplineIncidentAssociations"|""|""|
-
+@moo2
 Scenario Outline: Denied Paths for Teacher
 	Given I am logged in using "manthony" "manthony1234" to realm "IL"
 	When I call <Allowed Path> using ID <ID>
