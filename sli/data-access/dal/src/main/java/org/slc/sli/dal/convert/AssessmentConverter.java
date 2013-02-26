@@ -29,6 +29,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
 
 /**
  * assessment converter that transform assessment superdoc to sli assessment schema
@@ -38,11 +39,16 @@ import org.slc.sli.domain.Entity;
 @Component
 public class AssessmentConverter extends GenericSuperdocConverter implements SuperdocConverter {
 
+    private static final String OA_ID = "identificationCode";
+    private static final String SUB_OA_HIERARCHY = "objectiveAssessments";
+    private static final String SUB_OA_REFS = "subObjectiveAssessment";
+
     @Override
     public void subdocToBodyField(Entity entity) {
         if (entity != null && entity.getType().equals(EntityNames.ASSESSMENT)) {
-            entity.getEmbeddedData().put("objectiveAssessment",
-                    transformToHierarchy(entity.getEmbeddedData().get("objectiveAssessment")));
+            List<Entity> objectiveAssessments = transformToHierarchy(entity.getEmbeddedData()
+                    .get("objectiveAssessment"));
+            entity.getEmbeddedData().put("objectiveAssessment", objectiveAssessments);
             subdocsToBody(entity, "assessmentItem", "assessmentItem", Arrays.asList("assessmentId"));
             subdocsToBody(entity, "objectiveAssessment", "objectiveAssessment", Arrays.asList("assessmentId"));
             entity.getEmbeddedData().clear();
@@ -52,8 +58,11 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
     @Override
     public void bodyFieldToSubdoc(Entity entity) {
         if (entity != null && entity.getType().equals(EntityNames.ASSESSMENT)) {
+            List<Entity> objectiveAssessments = transformFromHierarchy((List<Map<String, Object>>) entity.getBody()
+                    .get("objectiveAssessment"));
+            entity.getBody().remove("objectiveAssessment");
+            entity.getEmbeddedData().put("objectiveAssessment", objectiveAssessments);
             bodyToSubdocs(entity, "assessmentItem", "assessmentItem", "assessmentId");
-            bodyToSubdocs(entity, "objectiveAssessment", "objectiveAssessment", "assessmentId");
         }
     }
 
@@ -75,18 +84,18 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
         }
     }
 
-    public List<Entity> transformToHierarchy(List<Entity> oas) {
+    private List<Entity> transformToHierarchy(List<Entity> oas) {
         if (oas == null) {
             return null;
         }
         Map<String, Entity> allOAs = new LinkedHashMap<String, Entity>();
         for (Entity oa : oas) {
-            allOAs.put(oa.getBody().get("identificationCode").toString(), oa);
+            allOAs.put(oa.getBody().get(OA_ID).toString(), oa);
         }
         Set<String> topLevelOAs = new HashSet<String>(allOAs.keySet());
         for (Entry<String, Entity> oa : allOAs.entrySet()) {
             @SuppressWarnings("unchecked")
-            List<String> subOAs = (List<String>) oa.getValue().getBody().get("subObjectiveAssessment");
+            List<String> subOAs = (List<String>) oa.getValue().getBody().get(SUB_OA_REFS);
             if (subOAs != null) {
                 List<Map<String, Object>> actuals = new ArrayList<Map<String, Object>>(subOAs.size());
                 for (String ref : subOAs) {
@@ -96,8 +105,8 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
                         actuals.add(actual);
                     }
                 }
-                oa.getValue().getBody().put("objectiveAssessments", actuals);
-                oa.getValue().getBody().remove("subObjectiveAssessment");
+                oa.getValue().getBody().put(SUB_OA_HIERARCHY, actuals);
+                oa.getValue().getBody().remove(SUB_OA_REFS);
             }
         }
         List<Entity> transformed = new ArrayList<Entity>(topLevelOAs.size());
@@ -105,5 +114,35 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
             transformed.add(allOAs.get(id));
         }
         return transformed;
+    }
+
+    private List<Entity> transformFromHierarchy(List<Map<String, Object>> originals) {
+        List<Entity> oas = new ArrayList<Entity>();
+        if (originals != null) {
+            for (Map<String, Object> original : originals) {
+                @SuppressWarnings("unchecked")
+                List<Map<String, Object>> subs = (List<Map<String, Object>>) original.get(SUB_OA_HIERARCHY);
+                Entity oa = makeOAEntity(original);
+                if (subs != null && !subs.isEmpty()) {
+                    oas.addAll(transformFromHierarchy(subs));
+                    oa.getBody().put(SUB_OA_REFS, makeOARefs(subs));
+                    original.remove(SUB_OA_HIERARCHY);
+                }
+                oas.add(oa);
+            }
+        }
+        return oas;
+    }
+
+    private List<String> makeOARefs(List<Map<String, Object>> oas) {
+        List<String> refs = new ArrayList<String>(oas.size());
+        for (Map<String, Object> oa : oas) {
+            refs.add(oa.get(OA_ID).toString());
+        }
+        return refs;
+    }
+
+    private Entity makeOAEntity(Map<String, Object> map) {
+        return new MongoEntity("objectiveAssessment", map.get(OA_ID).toString(), map, null);
     }
 }

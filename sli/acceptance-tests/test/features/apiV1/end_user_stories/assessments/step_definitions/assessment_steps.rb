@@ -123,13 +123,15 @@ When /^filter by "([^"]*)" = "([^"]*)"$/ do |key, value|
 end
 
 When /^I submit the sorting and pagination request$/ do
+  puts "\nAPI Call is: #{@filterSortPaginationHref}"
   step "I navigate to GET \"#{@filterSortPaginationHref}\""
   assert(@result != nil, "Response contains no data")
 end
 
 Then /^I should have a list of "([^"]*)" entities$/ do |entityType|
-  #puts "DEBUG: Result of API call is:"
-  #puts @result 
+  puts "\nDEBUG: Number of entities returned for #{entityType}: #{@result.length}"
+  puts "\nDEBUG: Result of API call is:"
+  puts @result 
   assert(@result != nil, "Response contains no data")
   if @result.is_a?(Hash)
     assert(@result["entityType"] == entityType)

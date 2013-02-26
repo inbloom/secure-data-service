@@ -1138,6 +1138,7 @@
     <jb:wiring property="subObjectiveAssessment" beanIdRef="SubObjectiveAssessmentsArray" />
     <jb:wiring beanIdRef="SLC-ObjectiveAssessment_Attributes_SLC-LearningObjectiveReferenceTypeArray" property="learningObjectives"/>
     <jb:wiring property="assessmentId" beanIdRef="ObjectiveAssessment_AssessmentReferenceType" />
+    <jb:wiring property="assessmentItemRefs" beanIdRef="AssessmentItemArrayInOAs" />
   </jb:bean>
 
   <jb:bean beanId="ObjectiveAssessment_AssessmentReferenceType" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentReference">
@@ -1196,6 +1197,33 @@
     <jb:value data="ObjectiveAssessmentReference/ObjectiveAssessmentIdentity/ObjectiveAssessmentIdentificationCode" />
 <!--    <jb:wiring beanIdRef="ObjectiveItemRef" /> -->
   </jb:bean>
+  
+    <jb:bean beanId="AssessmentItemArrayInOAs" class="java.util.ArrayList"
+        createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment">
+        <jb:wiring beanIdRef="AssessmentItemInOA" />
+    </jb:bean>
+
+    <jb:bean beanId="AssessmentItemInOA" class="java.util.HashMap"
+        createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentItemReference">
+        <jb:wiring property="assessmentReference" beanIdRef="AnotherFrickingAssessmentReference"></jb:wiring>
+        <jb:wiring property="AssessmentItemIdentity" beanIdRef="MoreSmooksNonsense" />
+    </jb:bean>
+  <jb:bean beanId="AnotherFrickingAssessmentReference" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment">
+    <jb:wiring beanIdRef="AnotherFrickingAssessmentIdentity" property="AssessmentIdentity"/>
+  </jb:bean>
+  <jb:bean beanId="AnotherFrickingAssessmentIdentity" class="java.util.HashMap" createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment">
+    <jb:value data="AssessmentIdentity/GradeLevelAssessed" property="GradeLevelAssessed"/>
+    <jb:value data="AssessmentIdentity/Version" property="Version" decoder="Integer"/>
+    <jb:value data="AssessmentIdentity/AcademicSubject" property="AcademicSubject"/>
+    <jb:value data="AssessmentIdentity/AssessmentTitle" property="AssessmentTitle"/>
+  </jb:bean>
+  <jb:bean beanId="MoreSmooksNonsense" class="java.util.HashMap"
+        createOnElement="InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentItemReference">
+    <jb:value property="AssessmentItemIdentificationCode" data="InterchangeAssessmentMetadata/ObjectiveAssessment/AssessmentItemReference/AssessmentItemIdentity/AssessmentItemIdentificationCode" />
+  </jb:bean>
+
+
+  
 
   <!-- AssessmentItem -->
   <jb:bean beanId="record" class="org.slc.sli.ingestion.NeutralRecord" createOnElement="InterchangeAssessmentMetadata/AssessmentItem">
@@ -1854,8 +1882,6 @@
     </jb:bean>
 
   <jb:bean beanId="StudentObjectiveAssessment_StudentAssessmentReference_StudentAssessmentIdentity_AssessmentReference_AssessmentIdentity" class="java.util.HashMap" createOnElement="InterchangeStudentAssessment/StudentObjectiveAssessment">
-    <jb:value property="identificationSystem" data="StudentObjectiveAssessment/StudentAssessmentReference/StudentAssessmentIdentity/AssessmentReference/AssessmentIdentity/AssessmentIdentificationCode/@IdentificationSystem" />
-    <jb:value property="ID" data="StudentObjectiveAssessment/StudentAssessmentReference/StudentAssessmentIdentity/AssessmentReference/AssessmentIdentity/AssessmentIdentificationCode/ID" />
     <jb:value property="AssessmentTitle" data="StudentObjectiveAssessment/StudentAssessmentReference/StudentAssessmentIdentity/AssessmentReference/AssessmentIdentity/AssessmentTitle" />
     <jb:value property="AcademicSubject" data="StudentObjectiveAssessment/StudentAssessmentReference/StudentAssessmentIdentity/AssessmentReference/AssessmentIdentity/AcademicSubject" />
     <jb:value property="GradeLevelAssessed" data="StudentObjectiveAssessment/StudentAssessmentReference/StudentAssessmentIdentity/AssessmentReference/AssessmentIdentity/GradeLevelAssessed" />

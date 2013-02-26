@@ -134,7 +134,7 @@ public class AssessmentConverterTest {
 
     @Test
     @SuppressWarnings("unchecked")
-    public void testHierachyInObjectiveAssessments() throws IllegalAccessException, InvocationTargetException,
+    public void testHierachyInObjectiveAssessmentsToAPI() throws IllegalAccessException, InvocationTargetException,
             NoSuchMethodException {
         Entity assessment = createUpConvertEntity();
         Map<String, Object> parentOABody = new HashMap<String, Object>();
@@ -167,5 +167,39 @@ public class AssessmentConverterTest {
         assertEquals("Child1", PropertyUtils.getProperty(assessment, "body.objectiveAssessment.[0].objectiveAssessments.[0].title"));
         assertEquals("Child2", PropertyUtils.getProperty(assessment, "body.objectiveAssessment.[0].objectiveAssessments.[1].title"));
         assertEquals("GrandChild", PropertyUtils.getProperty(assessment, "body.objectiveAssessment.[0].objectiveAssessments.[0].objectiveAssessments.[0].title"));
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void testHierachyInObjectiveAssessmentsToDAL() throws IllegalAccessException, InvocationTargetException,
+            NoSuchMethodException {
+        Entity assessment = createDownConvertEntity();
+        Map<String, Object> grandChild = new HashMap<String, Object>();
+        grandChild.put("assessmentId", "ID");
+        grandChild.put("title", "GrandChild");
+        grandChild.put("identificationCode", "GrandChild");
+        Map<String, Object> child1 = new HashMap<String, Object>();
+        child1.put("assessmentId", "ID");
+        child1.put("title", "Child1");
+        child1.put("identificationCode", "Child1");
+        child1.put("objectiveAssessments", Arrays.asList(grandChild));
+        Map<String, Object> child2 = new HashMap<String, Object>();
+        child2.put("assessmentId", "ID");
+        child2.put("title", "Child2");
+        child2.put("identificationCode", "Child2");
+        Map<String, Object> parentOA = new HashMap<String, Object>();
+        parentOA.put("assessmentId", "ID");
+        parentOA.put("title", "ParentOA");
+        parentOA.put("identificationCode", "ParentOA");
+        parentOA.put("objectiveAssessments", Arrays.asList(child1, child2));
+        assessment.getBody().put("objectiveAssessment", Arrays.asList(parentOA));
+        assessmentConverter.bodyFieldToSubdoc(assessment);
+        assertEquals("ParentOA", PropertyUtils.getProperty(assessment, "embeddedData.objectiveAssessment.[3].body.title"));
+        assertEquals("Child1", PropertyUtils.getProperty(assessment, "embeddedData.objectiveAssessment.[3].body.subObjectiveAssessment.[0]"));
+        assertEquals("Child2", PropertyUtils.getProperty(assessment, "embeddedData.objectiveAssessment.[3].body.subObjectiveAssessment.[1]"));
+        assertEquals("Child1", PropertyUtils.getProperty(assessment, "embeddedData.objectiveAssessment.[1].body.title"));
+        assertEquals("GrandChild", PropertyUtils.getProperty(assessment, "embeddedData.objectiveAssessment.[1].body.subObjectiveAssessment.[0]"));
+        assertEquals("Child2", PropertyUtils.getProperty(assessment, "embeddedData.objectiveAssessment.[2].body.title"));
+        assertEquals("GrandChild", PropertyUtils.getProperty(assessment, "embeddedData.objectiveAssessment.[0].body.title"));
     }
 }

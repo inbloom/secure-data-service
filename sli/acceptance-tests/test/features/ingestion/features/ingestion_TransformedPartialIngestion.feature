@@ -18,7 +18,7 @@ Then I should see following map of entry counts in the corresponding collections
      | collectionName                           |              count|
      | studentAssessment             |                  0|
     And I should see "Not all records were processed completely due to errors." in the resulting batch job file
-    And I should see "Processed 2 records." in the resulting batch job file
+    And I should see "Processed 3 records." in the resulting batch job file
 
 Scenario: Post StudentAssessment records with required parent records previously ingested
 
@@ -50,7 +50,7 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                               |                  1|
      | student                                  |                  1|
      | studentAssessment                        |                  1|
-    And I should see "Processed 4 records." in the resulting batch job file
+    And I should see "Processed 5 records." in the resulting batch job file
 
 Scenario: Post Attendance without required parent records in database
 

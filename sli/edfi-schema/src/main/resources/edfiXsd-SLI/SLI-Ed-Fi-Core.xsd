@@ -504,7 +504,7 @@
 					<xs:element name="AssessmentPerformanceLevel" type="AssessmentPerformanceLevel" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="PercentOfAssessment" type="percent" minOccurs="0"/>
 					<xs:element name="Nomenclature" type="Nomenclature" minOccurs="0"/>
-					<xs:element name="AssessmentItemReference" type="ReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="AssessmentItemReference" type="SLC-AssessmentItemReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="LearningObjectiveReference" type="SLC-LearningObjectiveReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="LearningStandardReference" type="SLC-LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="ObjectiveAssessmentReference" type="SLC-ObjectiveAssessmentReferenceType" minOccurs="0" maxOccurs="unbounded"/>
@@ -1178,7 +1178,7 @@
 		<xs:complexContent>
 			<xs:extension base="ReferenceType">
 				<xs:sequence>
-					<xs:element name="AssessmentIdentity" type="SLC-AssessmentIdentityType" minOccurs="0"/>
+					<xs:element name="AssessmentIdentity" type="SLC-AssessmentIdentityType"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>

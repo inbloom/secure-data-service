@@ -20,8 +20,8 @@ Background: None
       Then I should have a list of "section" entities
         And I should have an entity with ID "<'8th Grade English - Sec 6' ID>"
 #new
-     When I navigate to GET "/<ASSESSMENT URI>"
-      Then I should have a list of 17 "assessment" entities
+     #When I navigate to GET "/<ASSESSMENT URI>"
+     # Then I should have a list of 17 "assessment" entities
 #/new     
      When I navigate to GET "/<ASSESSMENT URI>/<'Math Assessment' ID>"
       Then I should have a list of 1 "assessment" entities

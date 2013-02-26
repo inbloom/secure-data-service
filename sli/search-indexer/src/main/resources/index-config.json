@@ -250,7 +250,6 @@
 			"body.assessmentIdentificationCode.assigningOrganizationCode", 
 			"body.assessmentIdentificationCode.ID", 
 			"body.assessmentIdentificationCode.identificationSystem", 
-			"body.assessmentItem", 
 			"body.assessmentPerformanceLevel.assessmentReportingMethodType", 
 			"body.assessmentPerformanceLevel.maximumScore", 
 			"body.assessmentPerformanceLevel.minimumScore", 
@@ -279,6 +278,7 @@
 			"objectiveAssessment.body.percentOfAssessment", 
 			"objectiveAssessment.body.nomenclature", 
 			"objectiveAssessment.body.learningStandardReference.learningStandardIdentity.learningStandardId.identificationCode", 
+			"assessmentItem", 
 			"body.revisionDate", 
 			"body.version"
 		],
@@ -288,6 +288,9 @@
 			},
             "body.objectiveAssessment": {
                 "subdoc": "objectiveAssessment.body" 
+            },
+            "body.assessmentItem": {
+                "subdoc": "assessmentItem.body" 
             }
 		},
 		"mapping": {
