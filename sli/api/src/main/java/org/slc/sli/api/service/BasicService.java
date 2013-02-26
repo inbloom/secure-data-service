@@ -151,10 +151,19 @@ public class BasicService implements EntityService {
 
         List<String> entityIds = new ArrayList<String>();
         List<EntityBody> sanitizedBodies= sanitizeEntityBody(content);
-        for (EntityBody body : sanitizedBodies) {
-            Entity entity = getRepo().create(defn.getType(), body, createMetadata(), collectionName);
-            if (entity != null) {
-                entityIds.add(entity.getEntityId());
+        // ideally we should validate everything first before actually persisting
+        try {
+            for (EntityBody body : sanitizedBodies) {
+                Entity entity = getRepo().create(defn.getType(), body, createMetadata(), collectionName);
+                if (entity != null) {
+                    entityIds.add(entity.getEntityId());
+                }
+            }
+        } finally {
+            if (entityIds.size() != sanitizedBodies.size()) {
+                for (String id : entityIds) {
+                    delete(id);
+                }
             }
         }
 
@@ -583,7 +592,7 @@ public class BasicService implements EntityService {
      * @return
      */
     private List<EntityBody> sanitizeEntityBody(EntityBody content) {
-        // A list because attendance entity document might be splitted and returned
+        // A list because attendance entity document might be split
         List<EntityBody> sanitized = new ArrayList<EntityBody>();
         sanitized.add(new EntityBody(content));
         for (Treatment treatment : treatments) {
