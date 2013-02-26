@@ -428,7 +428,7 @@ class StudentWorkOrder
 
   def generate_student_assessment_items(student_assessments)
     student_assessments.map{|sa|
-      sa.assessment.assessment_items.map{|item|
+      sa.assessment.all_items.map{|item|
         StudentAssessmentItem.new(sa.studentId.odd?, sa, item)
       }
     }.flatten
