@@ -35,6 +35,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.api.resources.generic.util.ResourceMethod;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextValidator;
 import org.slc.sli.api.security.context.resolver.EdOrgHelper;
@@ -58,7 +59,7 @@ public class PostProcessFilter implements ContainerResponseFilter {
 
     private static final int LONG_REQUEST = 1000;
 
-    private static final String GET = "GET";
+    private static final String GET = ResourceMethod.GET.toString();
 
     private DateTimeFormatter dateFormatter = new DateTimeFormatterBuilder().appendPattern("yyyy-MM-dd").toFormatter();
 

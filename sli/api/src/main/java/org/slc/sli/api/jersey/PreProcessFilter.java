@@ -32,6 +32,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.api.cache.SessionCache;
 import org.slc.sli.api.criteriaGenerator.DateFilterCriteriaGenerator;
+import org.slc.sli.api.resources.generic.util.ResourceMethod;
 import org.slc.sli.api.security.OauthSessionManager;
 import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.api.security.context.ContextValidator;
@@ -54,7 +55,7 @@ import org.slc.sli.validation.ValidationError;
 @Component
 public class PreProcessFilter implements ContainerRequestFilter {
 
-    private static final List<String> WRITE_OPERATIONS = Arrays.asList("PUT", "PATCH", "DELETE");
+    private static final List<String> WRITE_OPERATIONS = Arrays.asList(ResourceMethod.PUT.toString(), ResourceMethod.PATCH.toString(), ResourceMethod.DELETE.toString());
 
     @Resource(name = "urlValidators")
     private List<URLValidator> urlValidators;
