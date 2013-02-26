@@ -94,7 +94,6 @@ public abstract class IngestionProcessor<T extends WorkNote, S> implements Proce
             } finally {
                 if (job != null) {
                     BatchJobUtils.stopStageAndAddToJob(stage, job);
-                    getBatchJobDAO().saveBatchJob(job);
                     getBatchJobDAO().saveBatchJobStage(job.getId(), stage);
                 }
             }
