@@ -8,7 +8,7 @@
         },
         {
             "entityType" : "learningObjective",
-            "sourceRefPath": "body.objectiveAssessment.objectiveAssessments.learningObjectives",
+            "sourceRefPath": "body.objectiveAssessment.objectiveAssessments.LearningObjectiveReference",
             "optional" : true
         },
         {
