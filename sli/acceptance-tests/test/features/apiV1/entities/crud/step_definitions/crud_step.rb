@@ -279,6 +279,13 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
           "learningObjectives"=> ["df9165f2-653e-df27-a86c-bfc5f4b7577d"],
           "maxRawScore"=> 50,
           "objectiveAssessments"=> []
+        }],
+        "assessmentItem"=> [{
+           "identificationCode"=> "2001-Seventh grade Assessment 2#3",
+           "correctResponse"=> "true",
+           "learningStandards"=> [],
+           "maxRawScore"=> 10,
+           "itemCategory"=> "True-False"
         }]
       }],
       "assessmentFamilyHierarchyName"=> "2001 Standard.2001 Seventh grade Standard",

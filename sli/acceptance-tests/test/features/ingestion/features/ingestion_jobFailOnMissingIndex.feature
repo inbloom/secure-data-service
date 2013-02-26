@@ -27,13 +27,19 @@ Feature: Missing Index Alert
     And a batch job log has been created
     And I should see "INFO  Not all records were processed completely due to errors." in the resulting batch job file
     And I should see "CORE_0038" in the resulting error log file
-    #When the index is reinitialized, then ingestion should succeed!
-    When the landing zone is reinitialized
-    #And the tenantIsReady flag for the tenant "Midgar" is reset
-    #And I post "TinyDataSet.zip" file as the payload of the ingestion job
-    #And zip file is scp to ingestion landing zone with name "TinyDataSet3.zip"
-    #And a batch job for file "TinyDataSet3.zip" is completed in database
-    #And I should not see an error log file created
+    And I should not see a warning log file created
+    When the tenant indexes are applied to the tenant "Midgar"
+    #And the old files are removed from the "Midgar-Daybreak" landing zone
+    And the landing zone is reinitialized
+    And I post "TinyDataSet.zip" file as the payload of the ingestion job
+    And zip file is scp to ingestion landing zone with name "TinyDataSet3.zip"
+    And a batch job for file "TinyDataSet3.zip" is completed in database
+    And a batch job log has been created
+    And I should see "InterchangeEducationOrganization.xml stateEducationAgency 1 deltas!" in the resulting batch job file
+    And I should see "All records processed successfully." in the resulting batch job file
+    And I should see "Processed 0 records." in the resulting batch job file
+    And I should not see an error log file created
+    And I should not see a warning log file created
 
 
 
