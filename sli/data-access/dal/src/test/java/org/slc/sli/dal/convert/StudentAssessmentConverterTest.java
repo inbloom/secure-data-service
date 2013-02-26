@@ -75,6 +75,7 @@ public class StudentAssessmentConverterTest {
         Map<String, Object> assessmentBody = new HashMap<String, Object>();
         Map<String, Object> metaData = new HashMap<String, Object>();
         assessmentBody.put("assessmentTitle", "assessment1");
+        assessmentBody.put("assessmentId", "assessmentId");
         Map<String, List<Entity>> embeddedData = new HashMap<String, List<Entity>>();
         List<Entity> embedded = new ArrayList<Entity>();
         Map<String, Object> assessmentItem1 = new HashMap<String, Object>();
@@ -96,6 +97,7 @@ public class StudentAssessmentConverterTest {
         String entityType = "studentAssessment";
         String entityId = "ID";
         Map<String, Object> body = new HashMap<String, Object>();
+        body.put("assessmentId", "assessmentId");
         Map<String, Object> metaData = new HashMap<String, Object>();
         
         List<Map<String, Object>> inBodydocs = new ArrayList<Map<String, Object>>();
@@ -103,6 +105,7 @@ public class StudentAssessmentConverterTest {
         inBodydoc.put("studentAssessmentId", "ID");
         inBodydoc.put("assessmentId", "assessmentId");
         inBodydoc.put("assessmentItemId", "IDChildID");
+        inBodydoc.put("assessmentItem", new HashMap<String, Object>());
         inBodydoc.put("abc", "somevalue");
         inBodydocs.add(inBodydoc);
         body.put("studentAssessmentItems", inBodydocs);

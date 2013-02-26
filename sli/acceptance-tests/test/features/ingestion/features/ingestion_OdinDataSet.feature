@@ -158,8 +158,8 @@ Scenario: Verify entities in student school association were ingested correctly
 Scenario: Verify objective assessment in assessment has valid references
     And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                             | searchValue                                   | searchType           |
-     | assessment                  | 6                   | objectiveAssessment.body.learningObjectives | 1b0d13e233ef61ffafb613a8cc6930dfc0d29b92_id   | string               |
-     | learningObjective           | 1                   | _id                                         | 1b0d13e233ef61ffafb613a8cc6930dfc0d29b92_id   | string               |
+     | assessment                  | 5                   | objectiveAssessment.body.learningObjectives | 6a0a6909345544ba5ef7a2b61e6c9c9ed6b1fa6a_id   | string               |
+     | learningObjective           | 1                   | _id                                         | 6a0a6909345544ba5ef7a2b61e6c9c9ed6b1fa6a_id   | string               |
 
 Scenario: Verify the sli verification script confirms everything ingested correctly
     Given the edfi manifest that was generated in the 'generated' directory

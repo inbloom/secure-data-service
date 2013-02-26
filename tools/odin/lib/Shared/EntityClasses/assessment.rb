@@ -18,12 +18,14 @@ limitations under the License.
 
 require_relative 'assessment_item'
 require_relative 'baseEntity'
+require_relative "enum/GradeLevelType.rb"
+require_relative 'objective_assessment.rb'
 
 # creates an assessment
 class Assessment < BaseEntity
 
   attr_accessor :id, :assessmentTitle, :assessmentIdentificationCode, :year_of, :gradeLevelAssessed,
-    :assessmentFamilyReference, :assessment_items, :all_objective_assessments, :referenced_objective_assessments
+    :assessmentFamilyReference, :assessment_items, :all_objective_assessments, :referenced_objective_assessments, :all_items
 
   def initialize(id, year_of = 2012, gradeLevelAssessed = :UNGRADED, num_items = 0, assessmentFamilyReference = nil, num_objectives = 2)
     @id = id
@@ -33,10 +35,13 @@ class Assessment < BaseEntity
     @assessmentTitle = @id
     @assessmentIdentificationCode = { code: @id, assessmentIdentificationSystemType: 'State' }
 
-    @assessment_items = (1..num_items).map{|i| AssessmentItem.new(i, self)}
+    @all_items = (1..num_items).map{|i| AssessmentItem.new(i, self)}
+    @assessment_items = @@scenario['ASSESSMENT_ITEMS_IN_OBJECTIVE_ASSESSMENT'] ? [] : @all_items
 
-    @referenced_objective_assessments = (1..num_objectives).map {|i|
-      ObjectiveAssessment.new("#{@id}.OA-#{i}", 100/num_objectives, self, gradeLevelAssessed, @@scenario["CHILD_OBJECTIVE_ASSESSMENTS"])}
+    @referenced_objective_assessments = num_objectives.times.map {|i|
+      ObjectiveAssessment.new(
+        "#{@id}.OA-#{i}", 100/num_objectives, self, gradeLevelAssessed, @@scenario["CHILD_OBJECTIVE_ASSESSMENTS"], nil, 
+        @all_items.values_at(* @all_items.each_index.select {|j| j % num_objectives == i}))}
     @all_objective_assessments = Array.new(@referenced_objective_assessments)
     @referenced_objective_assessments.each {|obj_assessment|
       @all_objective_assessments << obj_assessment.child_objective_assessment unless obj_assessment.child_objective_assessment.nil?
