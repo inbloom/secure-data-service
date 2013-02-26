@@ -448,12 +448,171 @@
       </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
   </AssessmentFamily>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-0-2001</CodeValue>
+    <Description>Beginning of Year 2001-2002 for Kindergarten</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-1-2001</CodeValue>
+    <Description>Beginning of Year 2001-2002 for First grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-2-2001</CodeValue>
+    <Description>Beginning of Year 2001-2002 for Second grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-3-2001</CodeValue>
+    <Description>Beginning of Year 2001-2002 for Third grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-4-2001</CodeValue>
+    <Description>Beginning of Year 2001-2002 for Fourth grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-5-2001</CodeValue>
+    <Description>Beginning of Year 2001-2002 for Fifth grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-6-2001</CodeValue>
+    <Description>Beginning of Year 2001-2002 for Sixth grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-7-2001</CodeValue>
+    <Description>Beginning of Year 2001-2002 for Seventh grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-8-2001</CodeValue>
+    <Description>Beginning of Year 2001-2002 for Eighth grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-9-2001</CodeValue>
+    <Description>Beginning of Year 2001-2002 for Ninth grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-10-2001</CodeValue>
+    <Description>Beginning of Year 2001-2002 for Tenth grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-11-2001</CodeValue>
+    <Description>Beginning of Year 2001-2002 for Eleventh grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-12-2001</CodeValue>
+    <Description>Beginning of Year 2001-2002 for Twelfth grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-0-2002</CodeValue>
+    <Description>Beginning of Year 2002-2003 for Kindergarten</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-1-2002</CodeValue>
+    <Description>Beginning of Year 2002-2003 for First grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-2-2002</CodeValue>
+    <Description>Beginning of Year 2002-2003 for Second grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-3-2002</CodeValue>
+    <Description>Beginning of Year 2002-2003 for Third grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-4-2002</CodeValue>
+    <Description>Beginning of Year 2002-2003 for Fourth grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-5-2002</CodeValue>
+    <Description>Beginning of Year 2002-2003 for Fifth grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-6-2002</CodeValue>
+    <Description>Beginning of Year 2002-2003 for Sixth grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-7-2002</CodeValue>
+    <Description>Beginning of Year 2002-2003 for Seventh grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-8-2002</CodeValue>
+    <Description>Beginning of Year 2002-2003 for Eighth grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-9-2002</CodeValue>
+    <Description>Beginning of Year 2002-2003 for Ninth grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-10-2002</CodeValue>
+    <Description>Beginning of Year 2002-2003 for Tenth grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-11-2002</CodeValue>
+    <Description>Beginning of Year 2002-2003 for Eleventh grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-12-2002</CodeValue>
+    <Description>Beginning of Year 2002-2003 for Twelfth grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-0-2003</CodeValue>
+    <Description>Beginning of Year 2003-2004 for Kindergarten</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-1-2003</CodeValue>
+    <Description>Beginning of Year 2003-2004 for First grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-2-2003</CodeValue>
+    <Description>Beginning of Year 2003-2004 for Second grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-3-2003</CodeValue>
+    <Description>Beginning of Year 2003-2004 for Third grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-4-2003</CodeValue>
+    <Description>Beginning of Year 2003-2004 for Fourth grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-5-2003</CodeValue>
+    <Description>Beginning of Year 2003-2004 for Fifth grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-6-2003</CodeValue>
+    <Description>Beginning of Year 2003-2004 for Sixth grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-7-2003</CodeValue>
+    <Description>Beginning of Year 2003-2004 for Seventh grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-8-2003</CodeValue>
+    <Description>Beginning of Year 2003-2004 for Eighth grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-9-2003</CodeValue>
+    <Description>Beginning of Year 2003-2004 for Ninth grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-10-2003</CodeValue>
+    <Description>Beginning of Year 2003-2004 for Tenth grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-11-2003</CodeValue>
+    <Description>Beginning of Year 2003-2004 for Eleventh grade</Description>
+  </AssessmentPeriodDescriptor>
+  <AssessmentPeriodDescriptor>
+    <CodeValue>BOY-12-2003</CodeValue>
+    <Description>Beginning of Year 2003-2004 for Twelfth grade</Description>
+  </AssessmentPeriodDescriptor>
   <Assessment>
     <AssessmentTitle>2001-Kindergarten Assessment 1</AssessmentTitle>
     <AssessmentIdentificationCode IdentificationSystem="State">
       <ID>2001-Kindergarten Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Kindergarten</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-0-2001</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2001-Kindergarten Assessment 1#1</AssessmentItemIdentificationCode>
@@ -496,6 +655,9 @@
       <ID>2001-Kindergarten Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Kindergarten</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-0-2001</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2001-Kindergarten Assessment 2#1</AssessmentItemIdentificationCode>
@@ -538,6 +700,9 @@
       <ID>2001-First grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>First grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-1-2001</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2001-First grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -580,6 +745,9 @@
       <ID>2001-First grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>First grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-1-2001</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2001-First grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -622,6 +790,9 @@
       <ID>2001-Second grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Second grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-2-2001</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2001-Second grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -664,6 +835,9 @@
       <ID>2001-Second grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Second grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-2-2001</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2001-Second grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -706,6 +880,9 @@
       <ID>2001-Third grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Third grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-3-2001</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2001-Third grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -748,6 +925,9 @@
       <ID>2001-Third grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Third grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-3-2001</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2001-Third grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -790,6 +970,9 @@
       <ID>2001-Fourth grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-4-2001</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2001-Fourth grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -832,6 +1015,9 @@
       <ID>2001-Fourth grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-4-2001</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2001-Fourth grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -874,6 +1060,9 @@
       <ID>2001-Fifth grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-5-2001</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2001-Fifth grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -916,6 +1105,9 @@
       <ID>2001-Fifth grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-5-2001</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2001-Fifth grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -958,6 +1150,9 @@
       <ID>2001-Sixth grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-6-2001</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2001-Sixth grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -1000,6 +1195,9 @@
       <ID>2001-Sixth grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-6-2001</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2001-Sixth grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -1042,6 +1240,9 @@
       <ID>2001-Seventh grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-7-2001</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2001-Seventh grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -1084,6 +1285,9 @@
       <ID>2001-Seventh grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-7-2001</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2001-Seventh grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -1126,6 +1330,9 @@
       <ID>2001-Eighth grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-8-2001</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2001-Eighth grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -1168,6 +1375,9 @@
       <ID>2001-Eighth grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-8-2001</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2001-Eighth grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -1210,6 +1420,9 @@
       <ID>2001-Ninth grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-9-2001</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2001-Ninth grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -1252,6 +1465,9 @@
       <ID>2001-Ninth grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-9-2001</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2001-Ninth grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -1294,6 +1510,9 @@
       <ID>2001-Tenth grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Tenth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-10-2001</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2001-Tenth grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -1336,6 +1555,9 @@
       <ID>2001-Tenth grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Tenth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-10-2001</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2001-Tenth grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -1378,6 +1600,9 @@
       <ID>2001-Eleventh grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-11-2001</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2001-Eleventh grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -1420,6 +1645,9 @@
       <ID>2001-Eleventh grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-11-2001</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2001-Eleventh grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -1462,6 +1690,9 @@
       <ID>2001-Twelfth grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-12-2001</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2001-Twelfth grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -1504,6 +1735,9 @@
       <ID>2001-Twelfth grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-12-2001</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2001-Twelfth grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -1546,6 +1780,9 @@
       <ID>2002-Kindergarten Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Kindergarten</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-0-2002</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2002-Kindergarten Assessment 1#1</AssessmentItemIdentificationCode>
@@ -1588,6 +1825,9 @@
       <ID>2002-Kindergarten Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Kindergarten</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-0-2002</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2002-Kindergarten Assessment 2#1</AssessmentItemIdentificationCode>
@@ -1630,6 +1870,9 @@
       <ID>2002-First grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>First grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-1-2002</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2002-First grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -1672,6 +1915,9 @@
       <ID>2002-First grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>First grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-1-2002</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2002-First grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -1714,6 +1960,9 @@
       <ID>2002-Second grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Second grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-2-2002</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2002-Second grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -1756,6 +2005,9 @@
       <ID>2002-Second grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Second grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-2-2002</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2002-Second grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -1798,6 +2050,9 @@
       <ID>2002-Third grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Third grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-3-2002</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2002-Third grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -1840,6 +2095,9 @@
       <ID>2002-Third grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Third grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-3-2002</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2002-Third grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -1882,6 +2140,9 @@
       <ID>2002-Fourth grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-4-2002</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2002-Fourth grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -1924,6 +2185,9 @@
       <ID>2002-Fourth grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-4-2002</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2002-Fourth grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -1966,6 +2230,9 @@
       <ID>2002-Fifth grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-5-2002</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2002-Fifth grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -2008,6 +2275,9 @@
       <ID>2002-Fifth grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-5-2002</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2002-Fifth grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -2050,6 +2320,9 @@
       <ID>2002-Sixth grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-6-2002</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2002-Sixth grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -2092,6 +2365,9 @@
       <ID>2002-Sixth grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-6-2002</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2002-Sixth grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -2134,6 +2410,9 @@
       <ID>2002-Seventh grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-7-2002</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2002-Seventh grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -2176,6 +2455,9 @@
       <ID>2002-Seventh grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-7-2002</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2002-Seventh grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -2218,6 +2500,9 @@
       <ID>2002-Eighth grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-8-2002</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2002-Eighth grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -2260,6 +2545,9 @@
       <ID>2002-Eighth grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-8-2002</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2002-Eighth grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -2302,6 +2590,9 @@
       <ID>2002-Ninth grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-9-2002</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2002-Ninth grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -2344,6 +2635,9 @@
       <ID>2002-Ninth grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-9-2002</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2002-Ninth grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -2386,6 +2680,9 @@
       <ID>2002-Tenth grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Tenth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-10-2002</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2002-Tenth grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -2428,6 +2725,9 @@
       <ID>2002-Tenth grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Tenth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-10-2002</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2002-Tenth grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -2470,6 +2770,9 @@
       <ID>2002-Eleventh grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-11-2002</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2002-Eleventh grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -2512,6 +2815,9 @@
       <ID>2002-Eleventh grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-11-2002</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2002-Eleventh grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -2554,6 +2860,9 @@
       <ID>2002-Twelfth grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-12-2002</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2002-Twelfth grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -2596,6 +2905,9 @@
       <ID>2002-Twelfth grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-12-2002</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2002-Twelfth grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -2638,6 +2950,9 @@
       <ID>2003-Kindergarten Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Kindergarten</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-0-2003</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2003-Kindergarten Assessment 1#1</AssessmentItemIdentificationCode>
@@ -2680,6 +2995,9 @@
       <ID>2003-Kindergarten Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Kindergarten</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-0-2003</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2003-Kindergarten Assessment 2#1</AssessmentItemIdentificationCode>
@@ -2722,6 +3040,9 @@
       <ID>2003-First grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>First grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-1-2003</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2003-First grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -2764,6 +3085,9 @@
       <ID>2003-First grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>First grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-1-2003</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2003-First grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -2806,6 +3130,9 @@
       <ID>2003-Second grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Second grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-2-2003</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2003-Second grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -2848,6 +3175,9 @@
       <ID>2003-Second grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Second grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-2-2003</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2003-Second grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -2890,6 +3220,9 @@
       <ID>2003-Third grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Third grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-3-2003</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2003-Third grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -2932,6 +3265,9 @@
       <ID>2003-Third grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Third grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-3-2003</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2003-Third grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -2974,6 +3310,9 @@
       <ID>2003-Fourth grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-4-2003</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2003-Fourth grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -3016,6 +3355,9 @@
       <ID>2003-Fourth grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Fourth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-4-2003</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2003-Fourth grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -3058,6 +3400,9 @@
       <ID>2003-Fifth grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-5-2003</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2003-Fifth grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -3100,6 +3445,9 @@
       <ID>2003-Fifth grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Fifth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-5-2003</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2003-Fifth grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -3142,6 +3490,9 @@
       <ID>2003-Sixth grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-6-2003</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2003-Sixth grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -3184,6 +3535,9 @@
       <ID>2003-Sixth grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Sixth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-6-2003</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2003-Sixth grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -3226,6 +3580,9 @@
       <ID>2003-Seventh grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-7-2003</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2003-Seventh grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -3268,6 +3625,9 @@
       <ID>2003-Seventh grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Seventh grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-7-2003</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2003-Seventh grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -3310,6 +3670,9 @@
       <ID>2003-Eighth grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-8-2003</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2003-Eighth grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -3352,6 +3715,9 @@
       <ID>2003-Eighth grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Eighth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-8-2003</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2003-Eighth grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -3394,6 +3760,9 @@
       <ID>2003-Ninth grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-9-2003</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2003-Ninth grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -3436,6 +3805,9 @@
       <ID>2003-Ninth grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Ninth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-9-2003</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2003-Ninth grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -3478,6 +3850,9 @@
       <ID>2003-Tenth grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Tenth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-10-2003</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2003-Tenth grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -3520,6 +3895,9 @@
       <ID>2003-Tenth grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Tenth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-10-2003</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2003-Tenth grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -3562,6 +3940,9 @@
       <ID>2003-Eleventh grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-11-2003</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2003-Eleventh grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -3604,6 +3985,9 @@
       <ID>2003-Eleventh grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Eleventh grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-11-2003</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2003-Eleventh grade Assessment 2#1</AssessmentItemIdentificationCode>
@@ -3646,6 +4030,9 @@
       <ID>2003-Twelfth grade Assessment 1</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-12-2003</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2003-Twelfth grade Assessment 1#1</AssessmentItemIdentificationCode>
@@ -3688,6 +4075,9 @@
       <ID>2003-Twelfth grade Assessment 2</ID>
     </AssessmentIdentificationCode>
     <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+    <AssessmentPeriod>
+      <CodeValue>BOY-12-2003</CodeValue>
+    </AssessmentPeriod>
     <AssessmentItemReference>
       <AssessmentItemIdentity>
         <AssessmentItemIdentificationCode>2003-Twelfth grade Assessment 2#1</AssessmentItemIdentificationCode>
