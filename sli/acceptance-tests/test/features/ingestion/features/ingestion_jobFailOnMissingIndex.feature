@@ -10,10 +10,7 @@ Feature: Missing Index Alert
     And I post "TinyDataSet.zip" file as the payload of the ingestion job
     And zip file is scp to ingestion landing zone with name "TinyDataSet1.zip"
     And a batch job for file "TinyDataSet1.zip" is completed in database
-    And a batch job log has been created
-    And I should see "Processed 1 records." in the resulting batch job file
     And I should not see an error log file created
-    And I should not see a warning log file created
     Then I should see following map of indexes in the corresponding collections:
       | collectionName                             | index                       |
       | section                                    | body.schoolId               |
@@ -32,7 +29,8 @@ Feature: Missing Index Alert
     And I should see "CORE_0038" in the resulting error log file
     And I should not see a warning log file created
     When the tenant indexes are applied to the tenant "Midgar"
-    And the old files are removed from the "Midgar-Daybreak" landing zone
+    #And the old files are removed from the "Midgar-Daybreak" landing zone
+    And the landing zone is reinitialized
     And I post "TinyDataSet.zip" file as the payload of the ingestion job
     And zip file is scp to ingestion landing zone with name "TinyDataSet3.zip"
     And a batch job for file "TinyDataSet3.zip" is completed in database
