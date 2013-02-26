@@ -25,14 +25,26 @@ import java.util.Map;
 
 /**
  * @author jstokes
+ * @author pghosh
  */
 @Component
 public class ContainerDocumentHolder {
     private final Map<String, ContainerDocument> containerDocumentMap = new HashMap<String, ContainerDocument>();
 
-
     public ContainerDocumentHolder() {
         init();
+    }
+
+    public ContainerDocumentHolder(final Map<String, ContainerDocument> containerDocumentMap) {
+        this.containerDocumentMap.putAll(containerDocumentMap);
+    }
+
+    public ContainerDocument getContainerDocument(final String entityName) {
+        return containerDocumentMap.get(entityName);
+    }
+
+    public boolean isContainerDocument(final String entityName) {
+        return containerDocumentMap.containsKey(entityName);
     }
 
     private void init() {
@@ -42,13 +54,5 @@ public class ContainerDocumentHolder {
                 .withParent(parentKeys).build();
 
         containerDocumentMap.put("attendance", attendance);
-    }
-
-    public ContainerDocument getContainerDocument(final String entityName) {
-        return containerDocumentMap.get(entityName);
-    }
-
-    public boolean isContainerDocument(final String entityName) {
-        return containerDocumentMap.containsKey(entityName);
     }
 }
