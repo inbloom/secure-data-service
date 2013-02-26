@@ -19,13 +19,26 @@ Background: None
      When I navigate to GET "/<TEACHER URI>/<'Linda Kim' ID>/<TEACHER SECTION ASSOC URI>/<SECTION URI>"
       Then I should have a list of "section" entities
         And I should have an entity with ID "<'8th Grade English - Sec 6' ID>"
-
+#new
+     When I navigate to GET "/<ASSESSMENT URI>"
+      Then I should have a list of 17 "assessment" entities
+#/new     
      When I navigate to GET "/<ASSESSMENT URI>/<'Math Assessment' ID>"
       Then I should have a list of 1 "assessment" entities
         And "assessmentTitle" should be "Mathematics Achievement Assessment Test"
         And "assessmentCategory" should be "Advanced Placement"
         And "academicSubject" should be "Mathematics"
         And "gradeLevelAssessed" should be "Eighth grade"
+#new
+     When I navigate to GET "/<ASSESSMENT URI>/<'Math Assessment' ID>/<STUDENT ASSESSMENT ASSOC URI>"
+      Then I should have a list of 1 "assessment" entities
+
+     When I navigate to GET "/<ASSESSMENT URI>/<'Math Assessment' ID>/<LEARNING STANDARDS ASSOC URI>"
+      Then I should have a list of 1 "assessment" entities
+
+     When I navigate to GET "/<ASSESSMENT URI>/<'Math Assessment' ID>/<LEARNING OBJECTIVES ASSOC URI>"
+      Then I should have a list of 1 "assessment" entities
+#/new
 
      When I navigate to GET "/<SECTION URI>/<'8th Grade English - Sec 6' ID>/<STUDENT SECTION ASSOC URI>/<STUDENT URI>"
       Then I should have a list of 28 "student" entities
@@ -162,6 +175,12 @@ Examples:
         And "retestIndicator" should be "1st Retest"
         And the field "scoreResults.0.assessmentReportingMethod" should be "Scale score"
         And the field "scoreResults.0.result" should be "2060"
+
+     When I navigate to GET "/<STUDENT ASSESSMENT ASSOC URI>/<'Most Recent SAT Student Assessment Association' ID>/<STUDENT URI>"
+      Then I should have a list of 1 "studentAssessment" entities
+
+     When I navigate to GET "/<STUDENT ASSESSMENT ASSOC URI>/<'Most Recent SAT Student Assessment Association' ID>/<ASSESSMENT URI>"
+      Then I should have a list of 1 "studentAssessment" entities
 
 Examples:
 | Username        | Password            | AnyDefaultSLIRole  |

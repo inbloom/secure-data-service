@@ -34,6 +34,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "studentSectionAssociations"                 if human_readable_id == "STUDENT SECTION ASSOC URI"
   id = "studentAssessments"			                    if human_readable_id == "STUDENT ASSESSMENT ASSOC URI"
   id = "teacherSectionAssociations"                 if human_readable_id == "TEACHER SECTION ASSOC URI"
+  id = "learningStandards"                          if human_readable_id == "LEARNING STANDARDS ASSOC URI"
+  id = "learningObjectives"                         if human_readable_id == "LEARNING OBJECTIVES ASSOC URI"
   
   #sections
   id = "ceffbb26-1327-4313-9cfc-1c3afd38122e_id" if human_readable_id == "'8th Grade English - Sec 6' ID"
@@ -126,6 +128,8 @@ When /^I submit the sorting and pagination request$/ do
 end
 
 Then /^I should have a list of "([^"]*)" entities$/ do |entityType|
+  #puts "DEBUG: Result of API call is:"
+  #puts @result 
   assert(@result != nil, "Response contains no data")
   if @result.is_a?(Hash)
     assert(@result["entityType"] == entityType)
@@ -142,6 +146,10 @@ end
 
 Then /^I should have a list of (\d+) "([^"]*)" entities$/ do |size, entityType|
   @result = JSON.parse(@res.body)
+  puts "\n\n\n\n Entity is #{entityType}"
+  puts "Size is #{size}"
+  puts "DEBUG: Result of API call is:"
+  puts @result
   assert(@result != nil, "Response contains no data")
   if @result.is_a?(Hash)
     assert(@result["entityType"] == entityType)
