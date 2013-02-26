@@ -19,6 +19,7 @@ package org.slc.sli.dal.convert;
 import com.mongodb.BasicDBObject;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBObject;
+import com.mongodb.WriteConcern;
 import org.slc.sli.common.domain.ContainerDocument;
 import org.slc.sli.common.domain.ContainerDocumentHolder;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
@@ -31,7 +32,6 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -81,8 +81,9 @@ public class ContainerDocumentAccessor {
         final Query query = Query.query(Criteria.where("_id").is(id));
         return updateContainerDoc(query.getQueryObject(), newValues, collectionName, type);
     }
+
     public String update(final Entity entity) {
-        return updatetContainerDoc( entity);
+        return updatetContainerDoc(entity);
     }
 
     private DBObject getContainerDocQuery(final Entity entity) {
@@ -133,10 +134,11 @@ public class ContainerDocumentAccessor {
         docToPersist.putAll(set);
 
         boolean persisted = mongoTemplate.getCollection(collectionName).update(query,
-                docToPersist, true, false)
+                docToPersist, true, false, WriteConcern.SAFE)
                 .getLastError().ok();
         return persisted;
     }
+
     protected String updatetContainerDoc(final Entity entity) {
         TenantContext.setIsSystemCall(false);
         final ContainerDocument containerDocument = containerDocumentHolder.getContainerDocument(entity.getType());
@@ -158,10 +160,10 @@ public class ContainerDocumentAccessor {
         Entity mongoEntity = mongoTemplate.findOne(query, Entity.class, entity.getType());
         Set<Object> persistedArrayField = new HashSet<Object>();
         List<Object> mongoList = (List<Object>) mongoEntity.getBody().get(fieldToPersist);
-        for(Object listObject: mongoList) {
+        for (Object listObject : mongoList) {
             persistedArrayField.add(listObject);
         }
-        if(arrayFieldToPersist instanceof Collection) {
+        if (arrayFieldToPersist instanceof Collection) {
             persistedArrayField.addAll((Collection<?>) arrayFieldToPersist);
         } else {
             persistedArrayField.add(arrayFieldToPersist);
@@ -174,7 +176,7 @@ public class ContainerDocumentAccessor {
         DBObject set = new BasicDBObject("$set", entityDetails);
 
         persisted &= mongoTemplate.getCollection(entity.getType()).update(query.getQueryObject(),
-                set, false, false)
+                set, false, false, WriteConcern.SAFE)
                 .getLastError().ok();
 
 
@@ -204,16 +206,16 @@ public class ContainerDocumentAccessor {
         BasicDBObjectBuilder dbObjectBuilder = BasicDBObjectBuilder.start();
         if (entityBody.containsKey(fieldToPersist)) {
             dbObjectBuilder.push("$pushAll")
-                .add("body." + fieldToPersist, entityBody.get(fieldToPersist));
+                    .add("body." + fieldToPersist, entityBody.get(fieldToPersist));
         }
         final DBObject docToPersist = dbObjectBuilder.get();
-        boolean persisted =true;
+        boolean persisted = true;
         LOG.debug(entity.getEntityId());
         DBObject set = new BasicDBObject("$set", entityDetails);
 
         docToPersist.putAll(set);
         persisted &= mongoTemplate.getCollection(entity.getType()).update(query,
-                docToPersist, true, false)
+                docToPersist, true, false, WriteConcern.SAFE)
                 .getLastError().ok();
 
         if (persisted) {
