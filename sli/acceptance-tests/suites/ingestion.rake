@@ -273,6 +273,11 @@ task :ingestionSecurityEventTest do
   runTests("test/features/ingestion/features/ingestion_securityEvent.feature")
 end
 
+desc "Run Ingestion Propagated Data Set Test"
+task :ingestionPropagatedTest do
+  runTests("test/features/ingestion/features/ingestion_PropagatedDataSet.feature")
+end
+
 ############################################################
 # Ingestion tests end
 ############################################################

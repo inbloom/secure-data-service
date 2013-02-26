@@ -2910,6 +2910,122 @@ Then /^I check that references were resolved correctly:$/ do |table|
 	enable_NOTABLESCAN()
 end
 
+def recursiveCount (list, containPath, param)
+        
+  iterator = list
+  
+  if containPath[0].include? "."
+    containSplit = containPath[0].split "."
+  else
+    containSplit = Array.new(1)
+    containSplit[0] = containPath[0]
+  end
+         
+  containSplit.each do |x|
+    return nil unless iterator.has_key?(x) 
+    iterator = iterator[x]
+  end
+  
+  container = Array.new(containPath)
+  container.shift
+      
+  if container.length >= 1
+    iterator.each { |inner| recursiveCount(inner,container,param)}       
+  else
+    if param.length == 0
+      @entity_count += iterator.size
+    else
+      iterator.each do |inner|
+        innerIter = inner
+        found = true
+        param.each do |x|
+          unless innerIter.has_key?(x)
+            found = false
+            break
+          end
+          innerIter = innerIter[x]
+        end
+        @entity_count += 1 if found
+      end
+    end
+  end
+
+end
+
+def recurseAndCount(path, param, resetCount=true)
+
+  if resetCount == true
+    @entity_count = 0
+  end
+  
+  if path.length >= 2
+    doc = @entity_collection.find({"#{param}" => { "$exists" => true }}).to_a
+    
+    doc.each do |inner|
+            
+      truncParam = String.new(param)
+      dotPath = String.new(path)
+      dotPath[":"] = "." while dotPath.include? ":"
+      truncParam[dotPath] = ""
+      truncParam = truncParam[1..-1] if truncParam[0]=='.'
+      paramList = truncParam.split "."
+      pathList = path.split":"
+
+      recursiveCount(inner, pathList, paramList)
+      
+    end
+  end
+end
+
+Then /^I check the number of records in collection:/ do |table|
+  
+  disable_NOTABLESCAN()
+  @db = @conn[@ingestion_db_name]
+  @result = true
+  
+  table.hashes.map do |row|
+    parent = subDocParent row["collectionName"]
+    
+ 
+    if parent
+      coll = parent
+      param = row["collectionName"] + "." + row["searchParameter"]
+      if row["searchContainer"] == "none"
+        parentList = row["collectionName"]
+      else
+        parentList = row["collectionName"] + ":" + row["searchContainer"]
+      end
+    else
+      coll = row["collectionName"]
+      param = row["searchParameter"]
+      parentList = row["searchContainer"]
+    end
+    
+    @entity_collection = @db.collection(coll)
+    
+    if parentList == "none"
+      @entity_count = @entity_collection.find({param=> { "$exists" => true }}).count()
+    elsif parentList.include? ":"     
+      recurseAndCount(parentList, param)           
+    else
+      @entity_count = @entity_collection.aggregate( [ {"$match" => {"#{param}" => {"$exists" => true}}},
+                                                      {"$unwind"=> "$#{parentList}"},
+                                                      {"$match" => {"#{param}" => {"$exists" => true}}}]).size
+    end
+    
+    if @entity_count.to_s != row["expectedRecordCount"].to_s
+      @result = "false"
+      red = "\e[31m"
+      reset = "\e[0m"
+    end
+
+    puts "#{red}There are " + @entity_count.to_s + " in "+ row["collectionName"] + " collection for record with " + row["searchParameter"] + " . Expected: " + row["expectedRecordCount"].to_s+"#{reset}"
+                                                      
+  end      
+  assert(@result == "true", "Some entities were not stored.")
+  enable_NOTABLESCAN()   
+end
+
 
 ############################################################
 # STEPS: AFTER
