@@ -42,7 +42,7 @@ public class SecurityEvent {
     private String userEdOrg;
 
     private String targetEdOrg;
-
+    
     private String actionUri; // Alpha MH
 
     private String appId; // Alpha MH
@@ -95,13 +95,6 @@ public class SecurityEvent {
         return actionUri;
     }
     
-    public String getUserEdOrg() {
-        return userEdOrg;
-    }
-
-    public void setUserEdOrg(String userEdOrg) {
-        this.userEdOrg = userEdOrg;
-    }
 
 
     public void setActionUri(String actionUri) {
