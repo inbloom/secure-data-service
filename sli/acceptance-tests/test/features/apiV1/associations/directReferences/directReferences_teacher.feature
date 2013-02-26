@@ -6,7 +6,7 @@
 @RALLY_DE87
 Feature: As an SLI application, I want entity references displayed as usable links with exlicit link names
 This means that when links are requested in a GET request, a link should be present that represents each reference field
-and that the links are valid
+and that the links are valid.  This test is using a teacher with IT Admin rights.  Teachers cannot change the direct edorg reference
 
 Background: Nothing yet
     Given I am logged in using "cgrayadmin" "cgrayadmin1234" to realm "IL"
@@ -22,6 +22,7 @@ Scenario Outline: Control the presence of links by specifying an accept type for
         | "application/json"         | "links"      |
         | "application/vnd.slc+json" | "links"      |
 
+@derp
 Scenario Outline: Confirm all known reference fields generate two valid links that are implemented and update-able
    Given format "application/vnd.slc+json"
      And referring collection <source entity type> exposed as <source expose name>
@@ -46,6 +47,7 @@ Scenario Outline: Confirm all known reference fields generate two valid links th
     Then I should receive a return code of 403
     When I set the <reference field> to <new valid value>
      And I navigate to PUT "/<REFERRING COLLECTION URI>/<REFERRING ENTITY ID>"
+     And I print debug info
     Then I should receive a return code of 204
     When I navigate to GET "/<REFERRING COLLECTION URI>/<REFERRING ENTITY ID>"
     Then <reference field> should be <new valid value>
@@ -55,10 +57,10 @@ Scenario Outline: Confirm all known reference fields generate two valid links th
      And "entityType" should be <target entity type>
     Examples:
         | source entity type                      | source expose name                       | reference field                  | target entity type      | target expose name       | target link name           | source link name                            | testing ID                             | reference value                        | new valid value                        |
-        | "educationOrganization"                 | "educationOrganizations"                 | "parentEducationAgencyReference" | "educationOrganization" | "educationOrganizations" | "getParentEducationOrganization"  | "getFeederEducationOrganizations" | "92d6d5a0-852c-45f4-907a-912752831772" | "b2c6e292-37b0-4148-bf75-c98a2fcc905f" | "bd086bae-ee82-4cf2-baf9-221a9407ea07" |
+#        | "educationOrganization"                 | "educationOrganizations"                 | "parentEducationAgencyReference" | "educationOrganization" | "educationOrganizations" | "getParentEducationOrganization"  | "getFeederEducationOrganizations" | "92d6d5a0-852c-45f4-907a-912752831772" | "b2c6e292-37b0-4148-bf75-c98a2fcc905f" | "bd086bae-ee82-4cf2-baf9-221a9407ea07" |
         | "section"                               | "sections"                               | "sessionId"                      | "session"               | "sessions"               | "getSession"               | "getSections"                               | "15ab6363-5509-470c-8b59-4f289c224107_id" | "c549e272-9a7b-4c02-aff7-b105ed76c904" | "4d796afd-b1ac-4f16-9e0d-6db47d445b55" |
         | "section"                               | "sections"                               | "courseOfferingId"               | "courseOffering"        | "courseOfferings"        | "getCourseOffering"        | "getSections"                               | "15ab6363-5509-470c-8b59-4f289c224107_id" | "88ddb0c4-1787-4ed8-884e-96aa774e6d42" | "00291269-33e0-415e-a0a4-833f0ef38189" |
-        | "studentGradebookEntry"                 | "studentGradebookEntries"                | "studentId"                      | "student"               | "students"               | "getStudent"               | "getStudentGradebookEntries"                | "20120613-5434-f906-e51b-d63ef970ef8f" | "0c2756fd-6a30-4010-af79-488d6ef2735a_id" | "0c2756fd-6a30-4010-af79-488d6ef2735a_id" |
+        | "studentGradebookEntry"                 | "studentGradebookEntries"                | "studentId"                      | "student"               | "students"               | "getStudent"               | "getStudentGradebookEntries"                | "d9a593c2-c974-4071-b91b-3289012388a9" | "bf88acdb-71f9-4c19-8de8-2cdc698936fe_id" | "0f0d9bac-0081-4900-af7c-d17915e02378_id" |
         #| "studentGradebookEntry"                 | "studentGradebookEntries"                | "sectionId"                      | "section"               | "sections"               | "getSection"               | "getStudentGradebookEntries"                | "20120613-5434-f906-e51b-d63ef970ef8f" | "0dbb262b-8a3e-4a7b-82f9-72de95903d91_id" | "15ab6363-5509-470c-8b59-4f289c224107_id" |
 
 Scenario Outline: Confirm all known reference fields generate two valid links that are implemented and the natural keys are not update-able
@@ -105,7 +107,7 @@ Scenario Outline: Confirm all known reference fields generate two valid links th
         | "attendance"                            | "attendances"                            | "studentId"                      | "student"                   | "students"                   | "getStudent"                     | "getAttendances"             | "4beb72d4-0f76-4071-7919-201211130003" | "0c2756fd-6a30-4010-af79-488d6ef2735a_id" | "0f0d9bac-0081-4900-af7c-d17915e02378_id" |
         | "gradebookEntry"                        | "gradebookEntries"                       | "sectionId"                      | "section"                   | "sections"                   | "getSection"                     | "getGradebookEntries"        | "15ab6363-5509-470c-8b59-4f289c224107_ide49dc00c-182d-4f22-7919-201211130004_id" | "15ab6363-5509-470c-8b59-4f289c224107_id" | "47b5adbf-6fd0-4f07-ba5e-39612da2e234_id" |
         | "section"                               | "sections"                               | "schoolId"                       | "school"                    | "schools"                    | "getSchool"                      | "getSections"                | "47b5adbf-6fd0-4f07-ba5e-39612da2e234_id" | "6756e2b9-aba1-4336-80b8-4a5dde3c63fe" | "92d6d5a0-852c-45f4-907a-912752831772" |
-        | "studentGradebookEntry"                 | "studentGradebookEntries"                | "gradebookEntryId"               | "gradebookEntry"            | "gradebookEntries"           | "getGradebookEntry"              | "getStudentGradebookEntries" | "20120613-5434-f906-e51b-d63ef970ef8f" | "0dbb262b-8a3e-4a7b-82f9-72de95903d91_id20120613-56b6-4d17-847b-2997b7227686_id" | "15ab6363-5509-470c-8b59-4f289c224107_ide49dc00c-182d-4f22-7919-201211130004_id" |
+        | "studentGradebookEntry"                 | "studentGradebookEntries"                | "gradebookEntryId"               | "gradebookEntry"            | "gradebookEntries"           | "getGradebookEntry"              | "getStudentGradebookEntries" | "d9a593c2-c974-4071-b91b-3289012388a9" | "15ab6363-5509-470c-8b59-4f289c224107_ide49dc00c-182d-4f22-7919-201211130004_id" | "9d9abd12-5509-470c-8b59-4f289c224107_ide49dc00c-182d-4f22-7919-201211155555_id" |
         | "cohort"                                | "cohorts"                                | "educationOrgId"                 | "educationOrganization"     | "educationOrganizations"     | "getEducationOrganization"       | "getCohorts"                 | "f95269af-cb73-4694-7919-201211130010_id" | "6756e2b9-aba1-4336-80b8-4a5dde3c63fe" | "92d6d5a0-852c-45f4-907a-912752831772" |
 
 Scenario Outline: Confirm all association generate one valid links that is implemented and update-able
@@ -194,4 +196,5 @@ Scenario Outline: Confirm all association generate one valid links that is imple
         | "teacherSectionAssociation"             | "teacherSectionAssociations"             | "sectionId"                      | "section"               | "sections"               | "getSection"               | "getTeacherSectionAssociations"             | "15ab6363-5509-470c-8b59-4f289c224107_id32b86a2a-e55c-4689-aedf-4b676f3da3fc_id" | "15ab6363-5509-470c-8b59-4f289c224107_id" | "47b5adbf-6fd0-4f07-ba5e-39612da2e234_id" |
         | "studentCohortAssociation"              | "studentCohortAssociations"              | "studentId"                      | "student"               | "students"               | "getStudent"               | "getStudentCohortAssociations"              | "f95269af-cb73-4694-7919-201211130010_idcc87b3af-70f1-4141-7919-201311130011_id" | "e1dd7a73-5000-4293-9b6d-b5f02b7b3b34_id" | "0c2756fd-6a30-4010-af79-488d6ef2735a_id" |
         | "studentCohortAssociation"              | "studentCohortAssociations"              | "cohortId"                       | "cohort"                | "cohorts"                | "getCohort"                | "getStudentCohortAssociations"              | "f95269af-cb73-4694-7919-201211130010_idcc87b3af-70f1-4141-7919-201311130011_id" | "f95269af-cb73-4694-7919-201211130010_id" | "f95269af-cb73-4694-7919-201211130030_id" |
+
 
