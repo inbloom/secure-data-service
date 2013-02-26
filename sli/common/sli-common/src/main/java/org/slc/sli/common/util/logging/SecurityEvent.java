@@ -96,13 +96,6 @@ public class SecurityEvent {
     }
     
 
-    public String getUserEdOrg() {
-        return userEdOrg;
-    }
-
-    public void setUserEdOrg(String userEdOrg) {
-        this.userEdOrg = userEdOrg;
-    }
 
     public void setActionUri(String actionUri) {
         this.actionUri = actionUri;
