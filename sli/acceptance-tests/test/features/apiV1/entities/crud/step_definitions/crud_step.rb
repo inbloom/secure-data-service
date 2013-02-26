@@ -300,6 +300,62 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
       "assessmentTitle"=> "2001-Seventh grade Assessment 2",
       "version" => 2 
   },
+  "studentAssessment" => {
+      "administrationDate" => "2001-08-28",
+      "administrationLanguage" => "English",
+      "studentId" => "274f4c71-1984-4607-8c6f-0a91db2d240a_id",
+      "assessmentId" => "cc0a56b97a0c58c01fbd9e960c05e542c3755336_id",
+      "scoreResults" => [
+         {
+           "result" => "68",
+           "assessmentReportingMethod" => "Scale score"
+        }],
+      "administrationEnvironment" => "Classroom",
+      "retestIndicator" => "Primary Administration",
+      "linguisticAccommodations" => [ ],
+      "studentAssessmentItems" => [
+      {
+          "assessmentItemResult" => "Correct",
+          "rawScoreResult" => 10,
+          "assessmentItem" => {
+            "identificationCode"=> "2001-Seventh grade Assessment 2#3",
+            "correctResponse"=> "true",
+            "learningStandards"=> [],
+            "maxRawScore"=> 10,
+            "itemCategory"=> "True-False"
+           }
+       }],
+      "studentObjectiveAssessments" => [
+        {
+          "scoreResults" => [
+          {
+            "result" => "28",
+            "assessmentReportingMethod" => "Scale score"
+          }],
+          "objectiveAssessment" => {
+            "nomenclature"=> "Nomenclature",
+            "percentOfAssessment"=> 50,
+            "identificationCode"=> "2001-Seventh grade Assessment 2.OA-2",
+            "learningObjectives"=> ["df9165f2-653e-df27-a86c-bfc5f4b7577d"],
+            "maxRawScore"=> 50
+          }
+        },
+        { 
+          "scoreResults" => [
+          {
+            "result" => "24",
+            "assessmentReportingMethod" => "Scale score"
+          }],
+          "objectiveAssessment" => {
+            "nomenclature"=> "Nomenclature",
+            "percentOfAssessment"=> 50,
+            "identificationCode"=> "2001-Seventh grade Assessment 2.OA-2 Sub",
+            "learningObjectives"=> ["df9165f2-653e-df27-a86c-bfc5f4b7577d"],
+            "maxRawScore"=> 50,
+            "objectiveAssessments"=> []
+          }
+        }]
+  },
   "parent" => {
     "parentUniqueStateId" => "ParentID101",
     "name" =>
@@ -618,20 +674,38 @@ Then /^I verify "(.*?)" and "(.*?)" should be subdoc'ed in mongo for this new "(
   @conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
   @db = @conn.db(convertTenantIdToDbName("Midgar"))
   @coll = @db[type]
-  assessment_entity = @coll.find_one("_id"=>@newId);
-  assert(assessment_entity, "assessment is not created")
+  entity = @coll.find_one("_id"=>@newId);
+  assert(entity, "#{type} entity is not created")
   [subdoc1, subdoc2].each { |subdoc|
-    assert(!assessment_entity["body"][subdoc], "#{subdoc} still exists inside #{type}'s body") 
-    assert(assessment_entity[subdoc], "#{subdoc} does not exists as a subdoc in #{type}") 
+    if (type == "studentAssessment")
+      subdoc_in_body = subdoc+"s"
+    else 
+      subdoc_in_body = subdoc
+    end
+    assert(!entity["body"][subdoc_in_body], "#{subdoc_in_body} still exists inside #{type}'s body") 
+    assert(entity[subdoc], "#{subdoc} does not exists as a subdoc in #{type}") 
   }
 end
 
 Then /^I verify "(.*?)" and "(.*?)" is collapsed in response body$/ do |subdoc1, subdoc2| 
-  assert(@res[subdoc1], "objective assessment does not exists in response body")
-  assert(@res[subdoc2], "assessment items does not exists in response body")
+  [subdoc1, subdoc2].each { |subdoc|
+    assert(@res[subdoc], "#{subdoc} does not exists in response body")
+  }
 end
 
 Then /^"(.*?)" is hierachical with childrens at "(.*?)"$/ do |parent, child|
   result = JSON.parse(@res.body)
   assert(result[parent][0][child], "#{parent} does not contain any child at #{child}")
+end
+
+Then /^I verify there are "(.*?)" "(.*?)" in response body$/ do |count, type|
+  result = JSON.parse(@res.body)
+  assert(result[type].size == count.to_i, "expect #{count} #{type} in response body, got #{result[type].size} only")
+end
+
+Then /^I delete both studentAssessment and Assessment$/ do 
+    step "I navigate to DELETE \"/v1/studentAssessments/df555ad7f41ee2d637371d8688dd517c3728d9d7_id\""
+    step "I should receive a return code of 204"
+    step "I navigate to DELETE \"/v1/assessments/cc0a56b97a0c58c01fbd9e960c05e542c3755336_id\""
+    step "I should receive a return code of 204"
 end

@@ -272,7 +272,8 @@ Examples:
    | "jstevenson"        | "jstevenson1234"   | "courses"           |
 
 
-  #crud assessment and verify in mongo it's superdoc'ed 
+   #crud assessment / studentAssessment and verify in mongo it's superdoc'ed 
+   @ycao
   Scenario: crud on super assessment and super studentAssessment 
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
       And entity URI "/v1/assessments"
@@ -286,4 +287,28 @@ Examples:
         Then I should receive a return code of 200
         And I verify "objectiveAssessment" and "assessmentItem" is collapsed in response body 
         And "objectiveAssessment" is hierachical with childrens at "objectiveAssessments"
-
+      When I set the "lowestGradeLevelAssessed" to "Sixth grade"
+        And I navigate to PUT "/assessments/<NEWLY CREATED ENTITY ID>"
+        Then I should receive a return code of 204
+         And I verify "objectiveAssessment" and "assessmentItem" should be subdoc'ed in mongo for this new "assessment"
+         And I navigate to GET "/assessments/<NEWLY CREATED ENTITY ID>"
+         And "lowestGradeLevelAssessed" should be "Sixth grade"
+     # the corresponding studentAssessment 
+     Given entity URI "/v1/studentAssessments"
+       And a valid entity json document for a "studentAssessment"
+       When I navigate to POST "<ENTITY URI>"
+       Then I should receive a return code of 201
+        And I should receive a new entity URI
+        And I verify "studentObjectiveAssessment" and "studentAssessmentItem" should be subdoc'ed in mongo for this new "studentAssessment"
+       When I navigate to GET "/studentAssessments/<NEWLY CREATED ENTITY ID>"
+       Then I should receive a return code of 200
+        # verifies DID and associations between studentAssessment and assessment
+        And I verify "studentObjectiveAssessments" and "studentAssessmentItems" is collapsed in response body 
+        And I verify there are "2" "studentObjectiveAssessments" in response body
+       When I set the "administrationEnvironment" to "School"
+        And I navigate to PUT "/studentAssessments/<NEWLY CREATED ENTITY ID>"
+        Then I should receive a return code of 204
+         And I verify "studentObjectiveAssessment" and "studentAssessmentItem" should be subdoc'ed in mongo for this new "studentAssessment"
+         When I navigate to GET "/studentAssessments/<NEWLY CREATED ENTITY ID>"
+         And "administrationEnvironment" should be "School"
+     Then I delete both studentAssessment and Assessment
