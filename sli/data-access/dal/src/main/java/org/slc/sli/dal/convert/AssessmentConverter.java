@@ -58,8 +58,8 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
     @Override
     public void bodyFieldToSubdoc(Entity entity) {
         if (entity != null && entity.getType().equals(EntityNames.ASSESSMENT)) {
-            @SuppressWarnings("unchecked")
             String parentKey = generateDid(entity);
+            @SuppressWarnings("unchecked")
             List<Entity> objectiveAssessments = transformFromHierarchy((List<Map<String, Object>>) entity.getBody()
                     .get("objectiveAssessment"), parentKey);
 
