@@ -20,18 +20,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.Repository;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.stereotype.Component;
 
 /**
  * Generic superdoc converter for most basic operations
- * 
+ *
  * @author Yang Cao ycao@wgen.net
  * @author Dong Liu dliu@wgen.net
  */
@@ -41,10 +42,10 @@ public class GenericSuperdocConverter {
     @Autowired
     @Qualifier("deterministicUUIDGeneratorStrategy")
     UUIDGeneratorStrategy uuidGeneratorStrategy;
-    
+
     @Autowired
     INaturalKeyExtractor naturalKeyExtractor;
-    
+
     @Autowired
     @Qualifier("validationRepo")
     Repository<Entity> repo;
@@ -55,10 +56,10 @@ public class GenericSuperdocConverter {
     protected void subdocsToBody(Entity parent, String subdocFieldName, String inBodyFieldName,
             List<String> removeFields) {
         if (parent.getEmbeddedData() != null && parent.getEmbeddedData().size() > 0) {
-            
+
             List<Entity> subdocs = parent.getEmbeddedData().remove(subdocFieldName);
             if (subdocs != null && subdocs.size() > 0) {
-                
+
                 List<Map<String, Object>> subdocBody = new ArrayList<Map<String, Object>>();
 
                 for (Entity e : subdocs) {
@@ -79,35 +80,39 @@ public class GenericSuperdocConverter {
      * Move subdocs from superdoc's body to their own inside embedded data
      */
     protected void bodyToSubdocs(Entity parent, String subdocFieldName, String inBodyFieldName, String parentKey) {
-        if (parent.getBody().get(inBodyFieldName) != null) {
-            List<Entity> subdocs = new ArrayList<Entity>();
-            
-            @SuppressWarnings("unchecked")
-            List<Map<String, Object>> subdocInBody = (List<Map<String, Object>>) parent.getBody().get(inBodyFieldName);
-            for (Map<String, Object> inbodyDoc : subdocInBody) {
-                String parentId = generateDid(parent);
-                // if the parentKey is removed on subdoc to body transformation, put it back
-                if (parentKey != null && !parentKey.isEmpty() && inbodyDoc.get(parentKey) == null) {
-                    inbodyDoc.put(parentKey, parentId);
-                }
-                
-                // assume subdocFieldName is the subdoc entity type
-                MongoEntity subdoc = new MongoEntity(subdocFieldName, generateSubdocDid(inbodyDoc, subdocFieldName),
-                        inbodyDoc, null);
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> subdocInBody = (List<Map<String, Object>>) parent.getBody().remove(inBodyFieldName);
+        if (subdocInBody != null) {
+            makeSubDocs(parent, subdocFieldName, parentKey, subdocInBody);
+        }
+    }
 
-                subdocs.add(subdoc);
+    protected void makeSubDocs(Entity parent, String subdocFieldName, String parentKey,
+            List<Map<String, Object>> subdocFromBody) {
+        List<Entity> subdocs = new ArrayList<Entity>();
+
+        for (Map<String, Object> inbodyDoc : subdocFromBody) {
+            String parentId = generateDid(parent);
+            // if the parentKey is removed on subdoc to body transformation, put it back
+            if (parentKey != null && !parentKey.isEmpty() && inbodyDoc.get(parentKey) == null) {
+                inbodyDoc.put(parentKey, parentId);
             }
 
-            if (!subdocs.isEmpty()) {
-                parent.getEmbeddedData().put(subdocFieldName, subdocs);
-                parent.getBody().remove(inBodyFieldName);
-            }
+            // assume subdocFieldName is the subdoc entity type
+            MongoEntity subdoc = new MongoEntity(subdocFieldName, generateSubdocDid(inbodyDoc, subdocFieldName),
+                    inbodyDoc, null);
+
+            subdocs.add(subdoc);
+        }
+
+        if (!subdocs.isEmpty()) {
+            parent.getEmbeddedData().put(subdocFieldName, subdocs);
         }
     }
 
     /**
      * calculates the Determinsitic ID of this entity
-     * 
+     *
      * @param entity
      * @return
      */
@@ -119,10 +124,10 @@ public class GenericSuperdocConverter {
             return wrapper.generateDid(uuidGeneratorStrategy, naturalKeyExtractor);
         }
     }
-    
+
     /**
      * calculates the Determinsitic ID of subdoc entity
-     * 
+     *
      * @param subEntityBody
      * @param subEntityType
      * @return
