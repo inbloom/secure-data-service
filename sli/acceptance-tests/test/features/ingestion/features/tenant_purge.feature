@@ -27,6 +27,7 @@ When zip file is scp to ingestion landing zone
      | student          | 1                   | body.studentUniqueStateId   | 530425896               | string               |
      | student          | 1                   | body.studentUniqueStateId   | 814202099               | string               |
 And I should not see an error log file created
+And I should not see a warning log file created
  And I should see "InterchangeStudent.xml records considered: 2" in the resulting batch job file
  And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
 
@@ -79,6 +80,7 @@ When zip file is scp to ingestion landing zone
      | student          | 1                   | body.studentUniqueStateId   | 530425896               | string               |
      | student          | 1                   | body.studentUniqueStateId   | 814202099               | string               |
 And I should not see an error log file created
+And I should not see a warning log file created
  And I should see "InterchangeStudent.xml records considered: 2" in the resulting batch job file
  And I should see "InterchangeStudent.xml records failed: 0" in the resulting batch job file
 
@@ -111,3 +113,5 @@ When I am using preconfigured Ingestion Landing Zone for "Hyrule-NYC"
      | customRole               |
    And application "d0b2ded4-89a9-db4a-8f80-aaece6fda529" has "10" authorized edorgs
  And I should not see an error log file created
+ And I should not see a warning log file created
+

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeEducationOrgCalendar xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Session id="ID001">
+    <SessionName>w2Mm4yOjbf2bgtWVz7T7a.puHwUX_1rlgmP1DlP4ozHumYZFDZUL</SessionName>
+    <SchoolYear>2006-2007</SchoolYear>
+    <Term>Spring Semester</Term>
+    <BeginDate>2013-06-26</BeginDate>
+    <EndDate>2013-05-22</EndDate>
+    <TotalInstructionalDays>-135091402</TotalInstructionalDays>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>DJ</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>jhl_4ptg9hxx2C0MsL</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <GradingPeriod>Third Nine Weeks</GradingPeriod>
+        <BeginDate>2013-09-10</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+    <GradingPeriodReference>
+      <GradingPeriodIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>AtPbhbJwWsQYH-mcBmdcJSrIdZG4kBEGccqZFKuJv1MLnMDJtjL1FN_g_84p</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <GradingPeriod>Third Trimester</GradingPeriod>
+        <BeginDate>2013-11-07</BeginDate>
+      </GradingPeriodIdentity>
+    </GradingPeriodReference>
+    <CalendarDateReference>
+      <CalendarDateIdentity>
+        <Date>2014-03-27</Date>
+        <EducationOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>n.6.KeFycDsVQSoqk</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationOrgReference>
+      </CalendarDateIdentity>
+    </CalendarDateReference>
+    <CalendarDateReference>
+      <CalendarDateIdentity>
+        <Date>2014-03-27</Date>
+        <EducationOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>QktDOVbhX_sdrmCwa6-oxW8Sqv_u7FIAgduWPNEhb</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationOrgReference>
+      </CalendarDateIdentity>
+    </CalendarDateReference>
+    <AcademicWeekReference>
+      <AcademicWeekIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>qiEijRboNN</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <WeekIdentifier>laK0dgcFIxBXhOalHnvUc7EQECGT.I</WeekIdentifier>
+      </AcademicWeekIdentity>
+    </AcademicWeekReference>
+    <AcademicWeekReference>
+      <AcademicWeekIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>wR</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <WeekIdentifier>iSKZYcE8p51FUEBeP8hHi</WeekIdentifier>
+      </AcademicWeekIdentity>
+    </AcademicWeekReference>
+  </Session>
+</InterchangeEducationOrgCalendar>

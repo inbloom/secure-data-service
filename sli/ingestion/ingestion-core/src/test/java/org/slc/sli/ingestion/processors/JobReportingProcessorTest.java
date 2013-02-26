@@ -76,6 +76,8 @@ public class JobReportingProcessorTest {
     private static final int RECORDS_CONSIDERED = 50;
     private static final int RECORDS_FAILED = 5;
     private static final int RECORDS_PASSED = RECORDS_CONSIDERED - RECORDS_FAILED;
+    private static final String DUP_ENTITY = "student";
+    private static final Long DUP_COUNT = Long.valueOf(123);
     private static final String RECORDID = "recordIdentifier";
     private static final String ERRORDETAIL = "errorDetail";
     private static final String NULLERRORDETAIL = "null errorDetail";
@@ -130,16 +132,28 @@ public class JobReportingProcessorTest {
         // mock the WorkNote
         RangedWorkNote workNote = RangedWorkNote.createSimpleWorkNote(BATCHJOBID);
 
-        List<Stage> mockStages = new LinkedList<Stage>();
-        List<Metrics> mockMetrics = new LinkedList<Metrics>();
+        List<Stage> mockEdFiStages = new LinkedList<Stage>();
+        List<Metrics> mockEdFiMetrics = new LinkedList<Metrics>();
 
-        mockMetrics.add(new Metrics(RESOURCEID, RECORDS_CONSIDERED, RECORDS_FAILED));
-        mockStages.add(new Stage("PersistenceProcessor", "Persists records to the sli database", "finished",
-                new Date(), new Date(), mockMetrics));
+        List<Stage> mockPersistenceStages = new LinkedList<Stage>();
+        List<Metrics> mockPersistenceMetrics = new LinkedList<Metrics>();
+
+        Metrics duplicateCountMetric = new Metrics(RESOURCEID, RECORDS_CONSIDERED, RECORDS_FAILED);
+        HashMap<String, Long> dupMap = new HashMap<String, Long>();
+        dupMap.put(DUP_ENTITY, DUP_COUNT);
+        duplicateCountMetric.setDuplicateCounts(dupMap);
+        mockEdFiMetrics.add(duplicateCountMetric);
+        mockEdFiStages.add(new Stage(BatchJobStageType.EDFI_PROCESSOR.getName(), "Parse xml and persist records to the staging database", "finished",
+                new Date(), new Date(), mockEdFiMetrics));
+
+        mockPersistenceMetrics.add(new Metrics(RESOURCEID, RECORDS_CONSIDERED, RECORDS_FAILED));
+        mockPersistenceStages.add(new Stage(BatchJobStageType.PERSISTENCE_PROCESSOR.getName(), "Persists records to the sli database", "finished",
+                new Date(), new Date(), mockPersistenceMetrics));
 
         // set mocked BatchJobMongoDA in jobReportingProcessor
         Mockito.when(mockedBatchJobDAO.findBatchJobById(Matchers.eq(BATCHJOBID))).thenReturn(mockedJob);
-        Mockito.when(mockedBatchJobDAO.getBatchJobStages(Matchers.eq(BATCHJOBID))).thenReturn(mockStages);
+        Mockito.when(mockedBatchJobDAO.getBatchJobStages(Matchers.eq(BATCHJOBID), Matchers.eq(BatchJobStageType.EDFI_PROCESSOR))).thenReturn(mockEdFiStages);
+        Mockito.when(mockedBatchJobDAO.getBatchJobStages(Matchers.eq(BATCHJOBID), Matchers.eq(BatchJobStageType.PERSISTENCE_PROCESSOR))).thenReturn(mockPersistenceStages);
         Mockito.when(
                 mockedBatchJobDAO.getBatchJobErrors(Matchers.eq(BATCHJOBID), Matchers.eq(RESOURCEID),
                         Matchers.eq(FaultType.TYPE_ERROR), Matchers.anyInt())).thenReturn(fakeErrorIterable);
@@ -175,6 +189,8 @@ public class JobReportingProcessorTest {
         assertTrue(br.readLine().contains("[file] " + RESOURCEID + " records ingested successfully: " + RECORDS_PASSED));
         assertTrue(br.readLine().contains("[file] " + RESOURCEID + " records failed: " + RECORDS_FAILED));
         assertTrue(br.readLine().contains("[configProperty] purge: false"));
+        // INFO  InterchangeStudentParent.xml student 123 deltas!
+        assertTrue(br.readLine().contains(RESOURCEID + " " + DUP_ENTITY + " " + DUP_COUNT + " deltas!"));
         assertTrue(br.readLine().contains("Not all records were processed completely due to errors."));
         assertTrue(br.readLine().contains("Processed " + RECORDS_CONSIDERED + " records."));
 

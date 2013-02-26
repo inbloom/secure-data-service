@@ -79,7 +79,7 @@ Before do
 
   if (INGESTION_MODE != 'remote')
     @batchConn.drop_database(INGESTION_BATCHJOB_DB_NAME)
-    ensureBatchJobIndexes(@batchConn)
+    `mongo ingestion_batch_job ../config/indexes/ingestion_batch_job_indexes.js`
     puts "Dropped " + INGESTION_BATCHJOB_DB_NAME + " database"
   else
     @tenant_conn = @conn.db(convertTenantIdToDbName(PropLoader.getProps['tenant']))
@@ -170,54 +170,6 @@ Before do
   end
 
   initializeTenants()
-end
-
-def ensureBatchJobIndexes(db_connection)
-
-  @db = db_connection[INGESTION_BATCHJOB_DB_NAME]
-
-  @collection = @db["error"]
-  @collection.save({ 'batchJobId' => " " })
-  @collection.ensure_index([['batchJobId', 1]])
-  @collection.ensure_index([['resourceId', 1]])
-  @collection.ensure_index([['batchJobId', 1], ['severity', 1]])
-  @collection.remove({ 'batchJobId' => " "  })
-
-  @collection = @db["newBatchJob"]
-  @collection.save({ '_id' => " " })
-  @collection.ensure_index([['_id', 1]])
-  @collection.ensure_index([['_id', 1], ['stages.$.chunks.stageName', 1]])
-  @collection.remove({ '_id' => " " })
-
-  @collection = @db["batchJobStage"]
-  @collection.save({ 'jobId' => " ", 'stageName' => " " })
-  @collection.ensure_index([['jobId', 1], ['stageName', 1]])
-  @collection.remove({ 'jobId' => " ", 'stageName' => " "  })
-
-  @collection = @db["transformationLatch"]
-  @collection.save({ '_id' => " " })
-  @collection.ensure_index([['syncStage', 1], ['jobId', 1], ['recordType' , 1]] , :unique => true)
-  @collection.remove({ '_id' => " " })
-
-  @collection = @db["persistenceLatch"]
-  @collection.save({ '_id' => " " })
-  @collection.ensure_index([['syncStage', 1], ['jobId', 1], ['entities' , 1]] , :unique => true)
-  @collection.remove({ '_id' => " " })
-
-  @collection = @db["stagedEntities"]
-  @collection.save({ '_id' => " " })
-  @collection.ensure_index([['jobId', 1]] , :unique => true)
-  @collection.remove({ '_id' => " " })
-
-  @collection = @db["recordHash"]
-  @collection.save({ '_id' => " " })
-  @collection.ensure_index([['t', 1]])
-  @collection.remove({ '_id' => " " })
-
-  @collection = @db["fileEntryLatch"]
-  @collection.save({'_id' => " "})
-  @collection.ensure_index([['batchJobId', 1]], :unique => true)
-  @collection.remove({'_id' => " "})
 end
 
 def initializeTenants()
@@ -880,10 +832,12 @@ Given /^the following collections are empty in batch job datastore:$/ do |table|
       @result = "false"
     end
   end
-  #ensureBatchJobIndexes(@batchConn)
-  #assert(@result == "true", "Some collections were not cleared successfully.")
-  exec 'mongo ingestion_batch_job ../config/indexes/ingestion_batch_job_indexes.js'
+  `mongo ingestion_batch_job ../config/indexes/ingestion_batch_job_indexes.js`
   enable_NOTABLESCAN()
+end
+
+When /^the tenant indexes are applied to the tenant "(.*?)"$/ do |tenant|
+    `ruby ../config/scripts/indexTenantDb.rb #{INGESTION_DB} #{convertTenantIdToDbName(tenant)}`
 end
 
 When /^the tenant with tenantId "(.*?)" is locked$/ do |tenantId|
@@ -2044,7 +1998,7 @@ def extractNestedDoc(doc, doc_tree)
   return doc
 end
 
-                                                                                                     
+
 =begin
 # Deep-document inspection for when we are interested in subdocs (body, metaData, schools, etc)
 Then /^the "(.*?)" entity "(.*?)\.(.*?)" should be "(.*?)"$/ do |coll, doc_key, subdoc_key, expected_value|
