@@ -272,8 +272,8 @@ Examples:
    | "jstevenson"        | "jstevenson1234"   | "courses"           |
 
 
-   #crud assessment / studentAssessment and verify in mongo it's superdoc'ed 
-   @US5365 @AssmtTest
+  #crud assessment / studentAssessment and verify in mongo it's superdoc'ed 
+  @US5365 @AssmtTest
   Scenario: crud on super assessment and super studentAssessment 
     Given I am logged in using "rrogers" "rrogers1234" to realm "IL"
       And entity URI "/v1/assessments"

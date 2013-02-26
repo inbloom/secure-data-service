@@ -59,8 +59,9 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
     public void bodyFieldToSubdoc(Entity entity) {
         if (entity != null && entity.getType().equals(EntityNames.ASSESSMENT)) {
             @SuppressWarnings("unchecked")
+            String parentKey = generateDid(entity);
             List<Entity> objectiveAssessments = transformFromHierarchy((List<Map<String, Object>>) entity.getBody()
-                    .get("objectiveAssessment"), generateDid(entity));
+                    .get("objectiveAssessment"), parentKey);
 
             entity.getBody().remove("objectiveAssessment");
             entity.getEmbeddedData().put("objectiveAssessment", objectiveAssessments);
@@ -69,13 +70,13 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
             List<Map<String, Object>> topLevels = (List<Map<String, Object>>) entity.getBody().remove("assessmentItem");
             if (topLevels != null) {
                 assessmentItems.addAll(topLevels);
-                assessmentItems.addAll(extractAssessmentItems(objectiveAssessments));
+                assessmentItems.addAll(extractAssessmentItems(objectiveAssessments, parentKey));
             }
             makeSubDocs(entity, "assessmentItem", "assessmentId", assessmentItems);
         }
     }
 
-    public List<Map<String, Object>> extractAssessmentItems(List<Entity> objectiveAssessments) {
+    public List<Map<String, Object>> extractAssessmentItems(List<Entity> objectiveAssessments, String parentKey) {
         List<Map<String, Object>> assessmentItems = new ArrayList<Map<String, Object>>();
         for (Entity objectiveAssessment : objectiveAssessments) {
             @SuppressWarnings("unchecked")
@@ -83,7 +84,7 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
                     .remove("assessmentItem");
             if (objectiveItems != null) {
                 assessmentItems.addAll(objectiveItems);
-                List<String> refs = makeAssessmentItemRefs(objectiveItems);
+                List<String> refs = makeAssessmentItemRefs(objectiveItems, parentKey);
                 objectiveAssessment.getBody().put("assessmentItemRefs", refs);
             }
         }
@@ -218,9 +219,10 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
         return new MongoEntity("objectiveAssessment", did, map, null);
     }
 
-    private List<String> makeAssessmentItemRefs(List<Map<String, Object>> items) {
+    private List<String> makeAssessmentItemRefs(List<Map<String, Object>> items, String parentKey) {
         List<String> refs = new ArrayList<String>(items.size());
         for (Map<String, Object> item : items) {
+        	item.put("assessmentId", parentKey);
             refs.add(generateSubdocDid(item, "assessmentItem"));
         }
         return refs;
