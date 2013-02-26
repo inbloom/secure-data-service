@@ -30,12 +30,18 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "teachers"                                   if human_readable_id == "TEACHER URI"
   id = "students"                                   if human_readable_id == "STUDENT URI"
   id = "sections"                                   if human_readable_id == "SECTION URI"
+  id = "schools"                                    if human_readable_id == "SCHOOL URI"
+  id = "custom"                                     if human_readable_id == "CUSTOM URI"
   id = "sectionAssessmentAssociations"              if human_readable_id == "SECTION ASSESSMENT ASSOC URI"
   id = "studentSectionAssociations"                 if human_readable_id == "STUDENT SECTION ASSOC URI"
   id = "studentAssessments"			                    if human_readable_id == "STUDENT ASSESSMENT ASSOC URI"
   id = "teacherSectionAssociations"                 if human_readable_id == "TEACHER SECTION ASSOC URI"
   id = "learningStandards"                          if human_readable_id == "LEARNING STANDARDS ASSOC URI"
   id = "learningObjectives"                         if human_readable_id == "LEARNING OBJECTIVES ASSOC URI"
+
+  #schools
+  id = "studentSchoolAssociations"                  if human_readable_id == "STUDENT SCHOOL ASSOC URI"
+  id = "ec2e4218-6483-4e9c-8954-0aecccfd4731"       if human_readable_id == "STUDENT SCHOOL URI"
   
   #sections
   id = "ceffbb26-1327-4313-9cfc-1c3afd38122e_id" if human_readable_id == "'8th Grade English - Sec 6' ID"
@@ -50,6 +56,7 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "ffee781b-22b1-4015-81ff-3289ceb2c113_id" if human_readable_id == "'Merry Mccanse' ID"
   id = "5dd72fa0-98fe-4017-ab32-0bd33dc03a81_id" if human_readable_id == "'Samantha Scorzelli' ID"
   id = "5738d251-dd0b-4734-9ea6-417ac9320a15_id" if human_readable_id == "'Matt Sollars' ID"
+  id = "5738c251-dd0b-4734-9ea6-417ac9320a15_id" if human_readable_id == "'Matt DERP' ID"
   id = "32932b97-d466-4d3c-9ebe-d58af010a87c_id" if human_readable_id == "'Dominic Brisendine' ID"
   id = "6f60028a-f57a-4c3d-895f-e34a63abc175_id" if human_readable_id == "'Lashawn Taite' ID"
   id = "4f81fd4c-c7c5-403e-af91-6a2a91f3ad04_id" if human_readable_id == "'Oralia Merryweather' ID"
@@ -80,7 +87,8 @@ Transform /^<([^"]*)>$/ do |human_readable_id|
   id = "8b8fb81ea2153d439fc52f1376eb5b1ad8536a23_id"       if human_readable_id == "'Math Assessment' ID"
   id = "2108c0c84ca6998eb157e1efd4d894746e1fdf8b_id"       if human_readable_id == "'SAT' ID"
   id = "87fb8da5-e1aa-a6d9-efc7-b0eb091cd695_id" if human_readable_id == "'Most Recent SAT Student Assessment Association' ID"
-  id = "e5d13e61-01aa-066b-efe0-710f7a0e8755_id" if human_readable_id == "'Most Recent Math Student Assessment Association' ID"
+  id = "87fc8da5-e1aa-a6d9-efc7-b0eb091cd695_id" if human_readable_id == "'SAT Student Assessment Association' ID"
+  id = "e5e13e61-01aa-066b-efe0-710f7a0e8755_id" if human_readable_id == "'Most Recent Math Student Assessment Association' ID"
   id = "25d9d83d11cfa02c687d4ca91e92969261a43d2d_id"       if human_readable_id == "'Grade 2 BOY DIBELS' ID"
   id = "dd916592-7dfe-4e27-a8ac-bec5f4b757b7"       if human_readable_id == "'Grade 2 MOY READ2' ID"
   id = "dd9165f2-65fe-4e27-a8ac-bec5f4b757f6"       if human_readable_id == "'Grade 2 BOY READ2' ID"
@@ -149,8 +157,8 @@ end
 Then /^I should have a list of (\d+) "([^"]*)" entities$/ do |size, entityType|
   @result = JSON.parse(@res.body)
   puts "\n\n\n\n Entity is #{entityType}"
-  puts "Size is #{size}"
-  puts "DEBUG: Result of API call is:"
+  puts "Size is #{@result.length}"
+  puts "\nDEBUG: Result of API call is:"
   puts @result
   assert(@result != nil, "Response contains no data")
   if @result.is_a?(Hash)

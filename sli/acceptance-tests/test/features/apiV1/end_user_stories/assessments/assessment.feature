@@ -20,8 +20,8 @@ Background: None
       Then I should have a list of "section" entities
         And I should have an entity with ID "<'8th Grade English - Sec 6' ID>"
 #new
-     #When I navigate to GET "/<ASSESSMENT URI>"
-     # Then I should have a list of 17 "assessment" entities
+     When I navigate to GET "/<ASSESSMENT URI>"
+      Then I should have a list of 17 "assessment" entities
 #/new     
      When I navigate to GET "/<ASSESSMENT URI>/<'Math Assessment' ID>"
       Then I should have a list of 1 "assessment" entities
@@ -30,14 +30,30 @@ Background: None
         And "academicSubject" should be "Mathematics"
         And "gradeLevelAssessed" should be "Eighth grade"
 #new
-     When I navigate to GET "/<ASSESSMENT URI>/<'Math Assessment' ID>/<STUDENT ASSESSMENT ASSOC URI>"
-      Then I should have a list of 1 "assessment" entities
+     When I navigate to GET "/<SCHOOL URI>/<STUDENT SCHOOL URI>/<STUDENT SCHOOL ASSOC URI>/<STUDENT URI>/<STUDENT ASSESSMENT ASSOC URI>"
+      Then I should have a list of 7 "studentAssessment" entities
+        And occurrence 2 of entity "assessmentId" should be "<'SAT' ID>"
+        And occurrence 2 of entity "gradeLevelWhenAssessed" should be "Twelfth grade"
+        And occurrence 2 of entity "retestIndicator" should be "1st Retest"
+        And in occurrence 2 I should receive a link named "self" with URI "/<STUDENT ASSESSMENT ASSOC URI>/<'SAT Student Assessment Association' ID>"
+        And in occurrence 2 I should receive a link named "custom" with URI "/<STUDENT ASSESSMENT ASSOC URI>/<'SAT Student Assessment Association' ID>/<CUSTOM URI>"
+        And in occurrence 2 I should receive a link named "getStudent" with URI "/<STUDENT URI>/<'Matt DERP' ID>"
+        And in occurrence 2 I should receive a link named "getStudents" with URI "/<STUDENT ASSESSMENT ASSOC URI>/<'SAT Student Assessment Association' ID>/<STUDENT URI>"
+        And in occurrence 2 I should receive a link named "getAssessment" with URI "/<ASSESSMENT URI>/<'SAT' ID>"
+        #And I should have a list of "scoreResults" entities
+        #And "identificationSystem" should be "School"
+        #And "academicSubject" should be "Mathematics"
+        #And "contentStandard" should be "LEA Standard"
+        #And "assessmentCategory" should be "Advanced Placement"
+        #And "gradeLevelAssessed" should be "Eighth grade"
+        #And "assessmentTitle" should be "Mathematics Achievement Assessment Test"
+        #And I should receive a link named "self" with URI "/<ASSESSMENT URI>/<'Math Assessment' ID>"
+        #And I should receive a link named "custom" with URI "/<ASSESSMENT URI>/<'Math Assessment' ID>/custom"
+        #And I should receive a link named "getSections" with URI "/<SECTION URI>?assessmentReferences=<'Math Assessment' ID>"
+        #And I should receive a link named "getStudentAssessments" with URI "/<ASSESSMENT URI>/<'Math Assessment' ID>/studentAssessments"
 
-     When I navigate to GET "/<ASSESSMENT URI>/<'Math Assessment' ID>/<LEARNING STANDARDS ASSOC URI>"
-      Then I should have a list of 1 "assessment" entities
-
-     When I navigate to GET "/<ASSESSMENT URI>/<'Math Assessment' ID>/<LEARNING OBJECTIVES ASSOC URI>"
-      Then I should have a list of 1 "assessment" entities
+     When I navigate to GET "/<ASSESSMENT URI>/<'SAT' ID>/<STUDENT ASSESSMENT ASSOC URI>"
+      Then I should have a list of 0 "assessment" entities
 #/new
 
      When I navigate to GET "/<SECTION URI>/<'8th Grade English - Sec 6' ID>/<STUDENT SECTION ASSOC URI>/<STUDENT URI>"

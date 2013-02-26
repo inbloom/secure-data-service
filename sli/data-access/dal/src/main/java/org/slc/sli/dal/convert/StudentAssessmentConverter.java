@@ -98,6 +98,7 @@ public class StudentAssessmentConverter extends GenericSuperdocConverter impleme
         return result;
     }
     
+    
     /*
      * Look inside each subEntity(studentObjectiveAssessment and studentAssessmentItem) in
      * studentAssessment, replace refEntity(objectiveAssessment and assessmentItem) to
@@ -115,6 +116,10 @@ public class StudentAssessmentConverter extends GenericSuperdocConverter impleme
                 // generate Did for entity(assessmentItem and objectiveAssessment) that is collapsed
                 // into subEntity(studentAssessmentItem and studentObjectiveAssessment) which is in
                 // superdoc studentAssessment
+                
+                // also need to put in the parent key for the refEntity so it will generate the same did
+                refEntityBody.put("assessmentId", studentAssessment.getBody().get("assessmentId"));
+                
                 String refEntityDid = generateSubdocDid(refEntityBody, refEntityType);
                 // remove the ref entity (objectiveAssessment and assessmentItem) from subEntity
                 // (studentObjectiveAssessment and studentAssessmentItem)

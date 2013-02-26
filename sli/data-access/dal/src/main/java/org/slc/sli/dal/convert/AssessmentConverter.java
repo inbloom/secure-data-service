@@ -58,8 +58,9 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
     @Override
     public void bodyFieldToSubdoc(Entity entity) {
         if (entity != null && entity.getType().equals(EntityNames.ASSESSMENT)) {
-            List<Entity> objectiveAssessments = transformFromHierarchy((List<Map<String, Object>>) entity.getBody()
-                    .get("objectiveAssessment"));
+            @SuppressWarnings("unchecked")
+			List<Entity> objectiveAssessments = transformFromHierarchy((List<Map<String, Object>>) entity.getBody()
+                    .get("objectiveAssessment"), generateDid(entity));
             entity.getBody().remove("objectiveAssessment");
             entity.getEmbeddedData().put("objectiveAssessment", objectiveAssessments);
             bodyToSubdocs(entity, "assessmentItem", "assessmentItem", "assessmentId");
@@ -116,15 +117,15 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
         return transformed;
     }
 
-    private List<Entity> transformFromHierarchy(List<Map<String, Object>> originals) {
+    private List<Entity> transformFromHierarchy(List<Map<String, Object>> originals, String parentKey) {
         List<Entity> oas = new ArrayList<Entity>();
         if (originals != null) {
             for (Map<String, Object> original : originals) {
                 @SuppressWarnings("unchecked")
                 List<Map<String, Object>> subs = (List<Map<String, Object>>) original.get(SUB_OA_HIERARCHY);
-                Entity oa = makeOAEntity(original);
+                Entity oa = makeOAEntity(original, parentKey);
                 if (subs != null && !subs.isEmpty()) {
-                    oas.addAll(transformFromHierarchy(subs));
+                    oas.addAll(transformFromHierarchy(subs, parentKey));
                     oa.getBody().put(SUB_OA_REFS, makeOARefs(subs));
                     original.remove(SUB_OA_HIERARCHY);
                 }
@@ -142,7 +143,9 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
         return refs;
     }
 
-    private Entity makeOAEntity(Map<String, Object> map) {
-        return new MongoEntity("objectiveAssessment", map.get(OA_ID).toString(), map, null);
+    private Entity makeOAEntity(Map<String, Object> map, String parentKey) {
+    	map.put("assessmentId", parentKey);
+    	String did = generateSubdocDid(map, "objectiveAssessment");
+        return new MongoEntity("objectiveAssessment", did, map, null);
     }
 }
