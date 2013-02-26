@@ -5,7 +5,7 @@
 		"objectiveAssessment" :
 		[
 			{
-				"learningObjectives" :
+				"LearningObjectiveReference" :
 				[
 					{
 						"LearningObjectiveIdentity" :
@@ -18,7 +18,7 @@
 				],
 				"objectiveAssessments" :
 				[
-					{	"learningObjectives" :
+					{	"LearningObjectiveReference" :
 						[
 							{
 								"LearningObjectiveIdentity" :

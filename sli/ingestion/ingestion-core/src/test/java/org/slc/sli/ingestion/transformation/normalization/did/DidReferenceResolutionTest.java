@@ -662,8 +662,8 @@ public class DidReferenceResolutionTest {
         naturalKeys.put("academicSubject", "ELA");
         naturalKeys.put("objectiveGradeLevel", "Twelfth grade");
 
-        checkId(entity, "objectiveAssessment.[0].learningObjectives", naturalKeys, "learningObjective");
-        checkId(entity, "objectiveAssessment.[0].objectiveAssessments.[0].learningObjectives", naturalKeys, "learningObjective");
+        checkId(entity, "objectiveAssessment.[0].LearningObjectiveReference", naturalKeys, "learningObjective");
+        checkId(entity, "objectiveAssessment.[0].objectiveAssessments.[0].LearningObjectiveReference", naturalKeys, "learningObjective");
     }
 
     @Test
@@ -676,8 +676,8 @@ public class DidReferenceResolutionTest {
         naturalKeys.put("academicSubject", "ELA");
         naturalKeys.put("objectiveGradeLevel", "Twelfth grade");
 
-        checkId(entity, "studentObjectiveAssessments.[0].objectiveAssessment.learningObjectives", naturalKeys, "learningObjective");
-        checkId(entity, "studentObjectiveAssessments.[0].objectiveAssessment.objectiveAssessments.[0].learningObjectives", naturalKeys, "learningObjective");
+        checkId(entity, "StudentObjectiveAssessments.[0].ObjectiveAssessment.LearningObjectiveReference", naturalKeys, "learningObjective");
+        checkId(entity, "StudentObjectiveAssessments.[0].ObjectiveAssessment.objectiveAssessments.[0].LearningObjectiveReference", naturalKeys, "learningObjective");
     }
 
     @Test
@@ -710,7 +710,7 @@ public class DidReferenceResolutionTest {
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("learningStandardId.identificationCode", "0123456789");
 
-        checkId(entity, "studentAssessmentItems.[0].assessmentItem.learningStandards", naturalKeys, "learningStandard");
+        checkId(entity, "studentAssessmentItems.[0].assessmentItem.LearningStandardReference", naturalKeys, "learningStandard");
     }
 
     @Test
