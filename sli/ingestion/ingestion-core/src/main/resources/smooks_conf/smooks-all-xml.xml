@@ -2043,7 +2043,7 @@
 
     <jb:bean beanId="attendanceEventMetaData" class="java.util.HashMap"
     createOnElement="InterchangeStudentAttendance/AttendanceEvent">
-    <jb:expression property="neutralRecordKeyValueFieldNames">'StudentReference,SchoolReference,schoolYear'</jb:expression>
+    <jb:expression property="neutralRecordKeyValueFieldNames">'StudentReference,SchoolReference,SchoolYear'</jb:expression>
     <jb:expression property="sliEntityType">'attendance'</jb:expression>
   </jb:bean>
 
