@@ -34,6 +34,7 @@ import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.constants.PathConstants;
+import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.CallingApplicationInfoProvider;
 import org.slc.sli.api.security.SLIPrincipal;
@@ -50,6 +51,7 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
+import org.slc.sli.validation.ValidationError.ErrorType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
@@ -253,6 +255,16 @@ public class BasicService implements EntityService {
         }
 
         List<EntityBody> sanitizedBodies = sanitizeEntityBody(content);
+        if (sanitizedBodies.size() > 1 && defn.getResourceName().equals(ResourceNames.ATTENDANCES)) {
+            // the entity body is split, i.e. multiple schoolYears
+            ArrayList<ValidationError> errors = new ArrayList<ValidationError>();
+            // need better errror message
+            errors.add(new ValidationError(ErrorType.TOO_MANY_CHOICES, "schoolYearAttendance"
+                    , content.get("schoolYearAttendance"), new String[] { "Single schoolYearAttendance" }));
+            debug("Error: entity body is split when updating {}, id={}", entity.getType(), entity.getEntityId());
+            throw new EntityValidationException(entity.getEntityId(), entity.getType(), errors);
+        }
+
         boolean success = false;
         for (EntityBody sanitized : sanitizedBodies) {
             if (entity.getBody().equals(sanitized)) {
