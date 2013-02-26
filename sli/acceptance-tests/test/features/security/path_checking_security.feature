@@ -152,7 +152,7 @@ Examples:
 	|"/teachers/@id"|"/teachers/{id}/disciplineActions"|""|""|
 	|"/teachers/@id"|"/teachers/{id}/disciplineIncidents"|""|""|
 	|"/teachers/@id"|"/teachers/{id}/disciplineIncidents/studentDisciplineIncidentAssociations"|""|""|
-@moo2
+
 Scenario Outline: Denied Paths for Teacher
 	Given I am logged in using "manthony" "manthony1234" to realm "IL"
 	When I call <Allowed Path> using ID <ID>

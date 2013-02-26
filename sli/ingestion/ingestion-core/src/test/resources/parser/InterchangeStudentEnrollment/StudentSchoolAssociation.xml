@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentEnrollment xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <StudentSchoolAssociation id="ID000">
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>L8GU1.B5ZG3qAHQLQJL_..EY</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>VXlSzgrBEBOcRbpklloLpIA9Ha4</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+    <SchoolYear>2002-2003</SchoolYear>
+    <EntryDate>2014-12-07</EntryDate>
+    <EntryGradeLevel>Postsecondary</EntryGradeLevel>
+    <EntryType>Transfer from a public school in a different state</EntryType>
+    <RepeatGradeIndicator>0</RepeatGradeIndicator>
+    <ClassOf>2023-2024</ClassOf>
+    <SchoolChoiceTransfer>false</SchoolChoiceTransfer>
+    <ExitWithdrawDate>2014-06-21</ExitWithdrawDate>
+    <ExitWithdrawType>Transferred to home schooling</ExitWithdrawType>
+    <EducationalPlans>
+      <EducationalPlan>Completion and Reach Age 22</EducationalPlan>
+      <EducationalPlan>High School Education Plan</EducationalPlan>
+    </EducationalPlans>
+    <GraduationPlanReference>
+      <GraduationPlanIdentity>
+        <GraduationPlanType>BafrTk1BdDQq_L4lg8j.i</GraduationPlanType>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>arFVqoeqRXUq6XAMbEe6rDVky3sd1_lvXPG4Ri0</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+      </GraduationPlanIdentity>
+    </GraduationPlanReference>
+  </StudentSchoolAssociation>
+</InterchangeStudentEnrollment>

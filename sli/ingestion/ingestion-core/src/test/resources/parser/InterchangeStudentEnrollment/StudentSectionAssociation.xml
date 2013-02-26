@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentEnrollment xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <StudentSectionAssociation>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>Dj</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>ptc_WCsPuauLXl9lkYJ7XR4ILb4-8DBNscdn8.U4P-MVFdeeQM-Xj</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>sQ</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <BeginDate>2013-06-12</BeginDate>
+    <EndDate>2013-10-19</EndDate>
+    <HomeroomIndicator>false</HomeroomIndicator>
+    <RepeatIdentifier>Repeated, counted in grade point average</RepeatIdentifier>
+  </StudentSectionAssociation>
+</InterchangeStudentEnrollment>

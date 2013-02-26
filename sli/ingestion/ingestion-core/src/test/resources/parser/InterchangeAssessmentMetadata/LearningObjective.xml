@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeAssessmentMetadata xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <LearningObjective id="ID001">
+    <LearningObjectiveId ContentStandardName="hGNrCyg0S7PrJFpbCOi9fcUktQ0wUe2_5xH0Zzcq9atBcQzdMjwZOyiIeamsIJe">
+      <IdentificationCode>S8gK7JgZuCQdrao2Ac9Mh</IdentificationCode>
+    </LearningObjectiveId>
+    <Objective>_30iUn9qDcnuRbz_JxT6KSLfYd3</Objective>
+    <Description>Zii9-GRHabEGOWqnN6GdSXqiFFq-Dzcw5o1I_.2yesqgaE_xXM4qp6-JtfK-p_zTSNg</Description>
+    <AcademicSubject>Computer and Information Sciences</AcademicSubject>
+    <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+    <LearningStandardReference>
+      <LearningStandardIdentity>
+        <IdentificationCode>CF46hT</IdentificationCode>
+      </LearningStandardIdentity>
+    </LearningStandardReference>
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>DU</Objective>
+        <AcademicSubject>ELA</AcademicSubject>
+        <ObjectiveGradeLevel>Eighth grade</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+  </LearningObjective>
+</InterchangeAssessmentMetadata>
