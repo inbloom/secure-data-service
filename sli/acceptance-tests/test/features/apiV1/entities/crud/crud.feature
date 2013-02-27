@@ -221,7 +221,7 @@ Examples:
 | "disciplineAction"      | "disciplineActions"       | 0     |/staff/@ids/disciplineActions|                                                           
 | "disciplineIncident"    | "disciplineIncidents"     | 0     |/staff/@ids/disciplineIncidents|                                                         
 | "school"                | "educationOrganizations"  | 2     |/teachers/@ids/teacherSchoolAssociations/schools|              
-| "gradebookEntry"        | "gradebookEntries"        | 1     |/sections/@ids/gradebookEntries|
+| "gradebookEntry"        | "gradebookEntries"        | 3     |/sections/@ids/gradebookEntries|
 | "learningObjective"     | "learningObjectives"      | 5     |/search/learningObjectives|                                                                     
 | "learningStandard"      | "learningStandards"       | 14    |/search/learningStandards|                                                                      
 | "parent"                | "parents"                 | 2     |/sections/@ids/studentSectionAssociations/students/studentParentAssociations/parents|
@@ -232,7 +232,7 @@ Examples:
 | "staff"                 | "staff"                   | 6     |/educationOrganizations/@ids/staffEducationOrgAssignmentAssociations/staff|              
 | "student"               | "students"                | 25    |/sections/@ids/studentSectionAssociations/students|                                        
 | "studentAcademicRecord" | "studentAcademicRecords"  | 2     |/sections/@ids/studentSectionAssociations/students/studentAcademicRecords|                 
-| "studentGradebookEntry" | "studentGradebookEntries" | 1     |/sections/@ids/studentSectionAssociations/students/studentGradebookEntries|                
+| "studentGradebookEntry" | "studentGradebookEntries" | 2     |/sections/@ids/studentSectionAssociations/students/studentGradebookEntries|                
 | "teacher"               | "teachers"                | 3     |/schools/@ids/teacherSchoolAssociations/teachers|                                        
 | "grade"                 | "grades"                  | 1     |/sections/@ids/studentSectionAssociations/grades|
 | "studentCompetency"     | "studentCompetencies"     | 2     |/sections/@ids/studentSectionAssociations/studentCompetencies|
