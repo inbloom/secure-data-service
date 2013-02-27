@@ -24,13 +24,13 @@ package org.slc.sli.ingestion.transformation.normalization.did;
  *
  */
 public class KeyFieldDef {
-    //SLI name of the key field
+    // SLI name of the key field
     private String keyFieldName;
 
-    //source x-path (relative to the referenceType object) to the keyfield values
+    // source x-path (relative to the referenceType object) to the keyfield values
     private String valueSource;
 
-    //optional nested deterministic Id reference configuration
+    // optional nested deterministic Id reference configuration
     private DidRefConfig refConfig;
 
     private boolean isOptional = false;
@@ -38,25 +38,39 @@ public class KeyFieldDef {
     public String getKeyFieldName() {
         return keyFieldName;
     }
+
     public void setKeyFieldName(String keyFieldName) {
         this.keyFieldName = keyFieldName;
     }
+
     public String getValueSource() {
         return valueSource;
     }
+
     public void setValueSource(String valueSource) {
         this.valueSource = valueSource;
     }
+
     public DidRefConfig getRefConfig() {
         return refConfig;
     }
+
     public void setRefConfig(DidRefConfig refConfig) {
         this.refConfig = refConfig;
     }
+
     public boolean isOptional() {
         return isOptional;
     }
+
     public void setOptional(boolean isOptional) {
         this.isOptional = isOptional;
     }
+
+    @Override
+    public String toString() {
+        return "KeyFieldDef [keyFieldName=" + keyFieldName + ", valueSource=" + valueSource + ", refConfig="
+                + refConfig + ", isOptional=" + isOptional + "]";
+    }
+
 }

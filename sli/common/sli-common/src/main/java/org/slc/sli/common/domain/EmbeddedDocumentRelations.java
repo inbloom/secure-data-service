@@ -16,7 +16,6 @@
 
 package org.slc.sli.common.domain;
 
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -36,8 +35,8 @@ public class EmbeddedDocumentRelations {
     private static final Map<String, Parent> SUBDOC_TO_PARENT;
     private static final Map<String, Denormalization> DENORMALIZATIONS;
     private static Set<String> denormalizationByEntityAndKey;
-    private static final Map<String,String> DENORMALIZATION_CACHED_ENTITY;
-    private static final Map<String,Map<String,String>>CACHED_REFERENCE_KEY;
+    private static final Map<String, String> DENORMALIZATION_CACHED_ENTITY;
+    private static final Map<String, Map<String, String>> CACHED_REFERENCE_KEY;
 
     static {
         Map<String, Parent> map = new HashMap<String, Parent>();
@@ -46,50 +45,61 @@ public class EmbeddedDocumentRelations {
         Map<String, String> studentReferenceMap = new HashMap<String, String>();
         studentReferenceMap.put("studentId", "_id");
 
-        //student section association de-normalization
+        // student section association de-normalization
         denormalizationMap.put("studentSectionAssociation", new Denormalization("student", "section", studentReferenceMap,
                 "sectionId", Arrays.asList("endDate")));
-        //Student--program
-        denormalizationMap.put("studentProgramAssociation", new Denormalization("student", "program", studentReferenceMap,
-                "programId", Arrays.asList("endDate")));
-        denormalizationMap.put("studentCohortAssociation", new Denormalization("student", "cohort", studentReferenceMap,
-                "cohortId", Arrays.asList("beginDate", "endDate")));
-        //student school association de-normalization
-        // -> puts information from the student school association on the student db object
-        // -> assembles school's 'education organization lineage' and denormalizes onto student with school _id
-        // -> required for staff context resolvers
-        denormalizationMap.put("studentSchoolAssociation", new Denormalization("student", "schools", studentReferenceMap,
-                "schoolId", Arrays.asList("entryDate", "entryGradeLevel", "exitWithdrawDate")));
 
-        Map<String,String> sarReferenceMap = new HashMap<String, String>();
-        sarReferenceMap.put("studentId","studentId");
-        sarReferenceMap.put("session","sessionId");
-//        denormalizationMap.put("studentAcademicRecord",new Denormalization("studentSchoolAssociation","sessions", sarReferenceMap
-//        , "sessionId", Arrays.asList("beginDate","endDate")));
+        //student assessment association de-normalization
+        denormalizationMap.put("studentAssessment", new Denormalization("student", "studentAssessment", studentReferenceMap,
+                "_id", Arrays.asList("administrationDate")));
+
+        // Student--program
+        denormalizationMap.put("studentProgramAssociation", new Denormalization("student", "program",
+                studentReferenceMap, "programId", Arrays.asList("endDate")));
+        denormalizationMap.put("studentCohortAssociation", new Denormalization("student", "cohort",
+                studentReferenceMap, "cohortId", Arrays.asList("beginDate", "endDate")));
+        // student school association de-normalization
+        // -> puts information from the student school association on the student db object
+        // -> assembles school's 'education organization lineage' and denormalizes onto student with
+        // school _id
+        // -> required for staff context resolvers
+        denormalizationMap.put("studentSchoolAssociation", new Denormalization("student", "schools",
+                studentReferenceMap, "schoolId", Arrays.asList("entryDate", "entryGradeLevel", "exitWithdrawDate")));
+
+        Map<String, String> sarReferenceMap = new HashMap<String, String>();
+        sarReferenceMap.put("studentId", "studentId");
+        sarReferenceMap.put("session", "sessionId");
+        // denormalizationMap.put("studentAcademicRecord",new
+        // Denormalization("studentSchoolAssociation","sessions", sarReferenceMap
+        // , "sessionId", Arrays.asList("beginDate","endDate")));
 
         DENORMALIZATIONS = Collections.unmodifiableMap(denormalizationMap);
 
         map.put("studentSectionAssociation", new Parent("section", "sectionId"));
-        map.put("studentAssessment", new Parent("student", "studentId"));
         map.put("studentCohortAssociation", new Parent("cohort", "cohortId"));
         map.put("gradebookEntry", new Parent("section", "sectionId"));
         map.put("teacherSectionAssociation", new Parent("section", "sectionId"));
         map.put("studentProgramAssociation", new Parent("program", "programId"));
         map.put("studentParentAssociation", new Parent("student", "studentId"));
         map.put("studentDisciplineIncidentAssociation", new Parent("student", "studentId"));
+        map.put("assessmentItem", new Parent("assessment", "assessmentId"));
+        map.put("objectiveAssessment", new Parent("assessment", "assessmentId"));
+        map.put("studentObjectiveAssessment", new Parent("studentAssessment", "studentAssessmentId"));
+        map.put("studentAssessmentItem", new Parent("studentAssessment", "studentAssessmentId"));
         SUBDOC_TO_PARENT = Collections.unmodifiableMap(map);
 
         denormalizationByEntityAndKey = new HashSet<String>();
         for (Map.Entry<String, Denormalization> denormalization : DENORMALIZATIONS.entrySet()) {
-            denormalizationByEntityAndKey.add(stringifyEntityAndField(denormalization.getValue().getDenormalizeToEntity(), denormalization.getValue().getDenormalizedToField()));
+            denormalizationByEntityAndKey.add(stringifyEntityAndField(denormalization.getValue()
+                    .getDenormalizeToEntity(), denormalization.getValue().getDenormalizedToField()));
         }
-        Map<String,String> mapCache = new HashMap<String, String>();
-//        mapCache.put("session","_id");
+        Map<String, String> mapCache = new HashMap<String, String>();
+        // mapCache.put("session","_id");
         DENORMALIZATION_CACHED_ENTITY = Collections.unmodifiableMap(mapCache);
-        Map<String,String> cachedReferenceKeyMap = new HashMap<String, String>();
-//        cachedReferenceKeyMap.put("schoolId","schoolId");
-        Map<String,Map<String,String>> referenceMap = new HashMap<String, Map<String, String>>();
-//        referenceMap.put("studentAcademicRecord", cachedReferenceKeyMap);
+        Map<String, String> cachedReferenceKeyMap = new HashMap<String, String>();
+        // cachedReferenceKeyMap.put("schoolId","schoolId");
+        Map<String, Map<String, String>> referenceMap = new HashMap<String, Map<String, String>>();
+        // referenceMap.put("studentAcademicRecord", cachedReferenceKeyMap);
         CACHED_REFERENCE_KEY = Collections.unmodifiableMap(referenceMap);
     };
 
@@ -160,18 +170,21 @@ public class EmbeddedDocumentRelations {
     public static boolean isCached(String entity) {
         return DENORMALIZATION_CACHED_ENTITY.containsKey(entity);
     }
+
     public static String getCacheKey(String entity) {
-        if(!isCached(entity)) {
+        if (!isCached(entity)) {
             return null;
         }
         return DENORMALIZATION_CACHED_ENTITY.get(entity);
     }
-    public static Map<String,String> getCachedRefKeys(String entity) {
-        if(!CACHED_REFERENCE_KEY.containsKey(entity)) {
+
+    public static Map<String, String> getCachedRefKeys(String entity) {
+        if (!CACHED_REFERENCE_KEY.containsKey(entity)) {
             return null;
         }
         return CACHED_REFERENCE_KEY.get(entity);
     }
+
     private static Denormalization getDenormalization(String entityType) {
         if (!DENORMALIZATIONS.containsKey(entityType)) {
             return null;
@@ -199,6 +212,10 @@ public class EmbeddedDocumentRelations {
         }
     }
 
+    /**
+     * Helper class for specifying a denormalization
+     *
+     */
     protected static class Denormalization {
 
         private String denormalizeToEntity;
@@ -208,8 +225,8 @@ public class EmbeddedDocumentRelations {
         private List<String> denormalizedMetaFields;
         private String denormalizedToField;
 
-        public Denormalization(String denormalizeToEntity, String denormalizedToField, Map<String, String> referenceKeys,
-                String denormalizedIdKey, List<String> denormalizedBodyFields) {
+        public Denormalization(String denormalizeToEntity, String denormalizedToField,
+                Map<String, String> referenceKeys, String denormalizedIdKey, List<String> denormalizedBodyFields) {
             this.denormalizeToEntity = denormalizeToEntity;
             this.denormalizedToField = denormalizedToField;
             this.referenceKeys = referenceKeys;
@@ -217,8 +234,9 @@ public class EmbeddedDocumentRelations {
             this.denormalizedBodyFields = denormalizedBodyFields;
         }
 
-        public Denormalization(String denormalizeToEntity, String denormalizedToField, Map<String, String> referenceKeys,
-                               String denormalizedIdKey, List<String> denormalizedBodyFields, List<String> denormalizedMetaFields) {
+        public Denormalization(String denormalizeToEntity, String denormalizedToField,
+                Map<String, String> referenceKeys, String denormalizedIdKey, List<String> denormalizedBodyFields,
+                List<String> denormalizedMetaFields) {
             this.denormalizeToEntity = denormalizeToEntity;
             this.denormalizedToField = denormalizedToField;
             this.referenceKeys = referenceKeys;

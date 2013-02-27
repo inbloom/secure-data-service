@@ -108,6 +108,6 @@ public class StudentObjectiveAssessmentTest {
         Assert.assertTrue(scoreResult != null);
         Assert.assertEquals("12", scoreResult.get("result").toString());
         Assert.assertEquals("Raw score", scoreResult.get("assessmentReportingMethod"));
-        Assert.assertEquals("TAKSReading8-1", entity.get("objectiveAssessmentRef"));
+        Assert.assertEquals("TAKSReading8-1", ((Map)((Map)entity.get("objectiveAssessmentId")).get("ObjectiveAssessmentIdentity")).get("ObjectiveAssessmentIdentificationCode"));
     }
 }

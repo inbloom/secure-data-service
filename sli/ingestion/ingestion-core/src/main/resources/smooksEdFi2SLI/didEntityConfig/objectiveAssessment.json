@@ -1,0 +1,19 @@
+{
+    "referenceSources" :
+    [
+        {
+            "entityType" : "learningObjective",
+            "sourceRefPath": "body.learningObjectives",
+            "optional" : true
+        },
+        {
+            "entityType" : "assessmentItem",
+            "sourceRefPath": "body.assessmentItemRefs",
+            "optional" : true
+        },
+        {
+            "entityType" : "assessment",
+            "sourceRefPath": "body.assessmentId"
+        }
+    ]
+}

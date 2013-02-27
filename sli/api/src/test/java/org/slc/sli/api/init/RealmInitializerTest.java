@@ -86,7 +86,8 @@ public class RealmInitializerTest {
         Entity existingRealm = new MongoEntity("realm", body);
         Mockito.when(mockRepo.findOne(Mockito.eq("realm"), Mockito.any(NeutralQuery.class))).thenReturn(existingRealm);
         final AtomicBoolean update = new AtomicBoolean(false);
-        Mockito.when(mockRepo.update(Mockito.anyString(), Mockito.any(Entity.class))).thenAnswer(new Answer<Boolean>() {
+        Mockito.when(mockRepo.update(Mockito.anyString(), Mockito.any(Entity.class), Mockito.anyBoolean())).thenAnswer(
+                new Answer<Boolean>() {
             
             @Override
             public Boolean answer(InvocationOnMock invocation) throws Throwable {
@@ -124,7 +125,8 @@ public class RealmInitializerTest {
         Mockito.when(mockRepo.findOne(Mockito.eq("realm"), Mockito.eq(developerQuery))).thenReturn(existingDevRealm);
         
         final AtomicBoolean update = new AtomicBoolean(false);
-        Mockito.when(mockRepo.update(Mockito.anyString(), Mockito.any(Entity.class))).thenAnswer(new Answer<Boolean>() {
+        Mockito.when(mockRepo.update(Mockito.anyString(), Mockito.any(Entity.class), Mockito.anyBoolean())).thenAnswer(
+                new Answer<Boolean>() {
             
             @Override
             public Boolean answer(InvocationOnMock invocation) throws Throwable {

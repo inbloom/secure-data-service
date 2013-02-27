@@ -29,7 +29,8 @@
            </AssessmentIdentity> 
       </AssessmentReference> 
    </StudentAssessment> 
-   
+
+  <!-- TODO: either delete or fix this invalid data. StudentAssessmentReference cannot be empty
    <StudentObjectiveAssessment> 
        <ScoreResults AssessmentReportingMethod="Scale score"> 
          <Result>9</Result> 
@@ -53,12 +54,29 @@
            </ObjectiveAssessmentIdentity> 
        </ObjectiveAssessmentReference> 
    </StudentObjectiveAssessment>
-   
+-->
    <StudentAssessmentItem>
    		<AssessmentResponse>False</AssessmentResponse>
    		<AssessmentItemResult>Incorrect</AssessmentItemResult>
    		<RawScoreResult>5</RawScoreResult>
-   		<StudentObjectiveAssessmentReference/>
+         <StudentAssessmentReference> 
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2011-05-02</AdministrationDate> 
+          <StudentReference> 
+              <StudentIdentity> 
+                  <StudentUniqueStateId>900000000</StudentUniqueStateId> 
+             </StudentIdentity> 
+          </StudentReference> 
+          <AssessmentReference> 
+             <AssessmentIdentity> 
+                  <AssessmentTitle>ACT</AssessmentTitle>
+                  <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                  <Version>1</Version>
+             </AssessmentIdentity> 
+          </AssessmentReference> 
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference> 
+		<StudentObjectiveAssessmentReference/>
    		<AssessmentItemReference>
    			<AssessmentItemIdentity>
    				<AssessmentItemIdentificationCode>AssessmentItem-2</AssessmentItemIdentificationCode>
@@ -71,7 +89,24 @@
    		<AssessmentResponse>False</AssessmentResponse>
    		<AssessmentItemResult>Correct</AssessmentItemResult>
    		<RawScoreResult>5</RawScoreResult>
-   		<StudentObjectiveAssessmentReference/>
+        <StudentAssessmentReference> 
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2011-05-02</AdministrationDate> 
+          <StudentReference> 
+              <StudentIdentity> 
+                  <StudentUniqueStateId>900000000</StudentUniqueStateId> 
+             </StudentIdentity> 
+          </StudentReference> 
+          <AssessmentReference> 
+             <AssessmentIdentity> 
+                  <AssessmentTitle>ACT</AssessmentTitle>
+                  <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                  <Version>1</Version>
+             </AssessmentIdentity> 
+          </AssessmentReference> 
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference> 
+ 		<StudentObjectiveAssessmentReference/>
    		<AssessmentItemReference>
    			<AssessmentItemIdentity>
    				<AssessmentItemIdentificationCode>AssessmentItem-1</AssessmentItemIdentificationCode>
@@ -84,7 +119,24 @@
    		<AssessmentResponse>True</AssessmentResponse>
    		<AssessmentItemResult>Correct</AssessmentItemResult>
    		<RawScoreResult>5</RawScoreResult>
-   		<StudentObjectiveAssessmentReference/>
+       <StudentAssessmentReference> 
+        <StudentAssessmentIdentity>
+          <AdministrationDate>2011-05-02</AdministrationDate> 
+          <StudentReference> 
+              <StudentIdentity> 
+                  <StudentUniqueStateId>900000000</StudentUniqueStateId> 
+             </StudentIdentity> 
+          </StudentReference> 
+          <AssessmentReference> 
+             <AssessmentIdentity> 
+                  <AssessmentTitle>ACT</AssessmentTitle>
+                  <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                  <Version>1</Version>
+             </AssessmentIdentity> 
+          </AssessmentReference> 
+        </StudentAssessmentIdentity>
+      </StudentAssessmentReference> 
+  		<StudentObjectiveAssessmentReference/>
    		<AssessmentItemReference>
    			<AssessmentItemIdentity>
    				<AssessmentItemIdentificationCode>AssessmentItem-3</AssessmentItemIdentificationCode>

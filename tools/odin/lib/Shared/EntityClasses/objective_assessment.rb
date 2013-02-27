@@ -22,13 +22,14 @@ require_relative 'enum/AssessmentReportingMethodType'
 class ObjectiveAssessment < BaseEntity
 
   attr_accessor :identificationCode, :maxRawScore, :assessmentPerformanceLevel, :percentOfAssessment, 
-      :nomenclature, :learning_objectives, :child_objective_assessment
+      :nomenclature, :learning_objectives, :child_objective_assessment, :assessment, :assessment_items
 
-  def initialize(identificationCode, maxRawScore, grade_assessed = :UNGRADED, generate_child = false, academic_subject = nil)
+  def initialize(identificationCode, maxRawScore, assessment, grade_assessed = :UNGRADED, generate_child = false, academic_subject = nil, items = [])
     @identificationCode = identificationCode
     @rand = Random.new(int_value(@identificationCode))
     @percentOfAssessment = @maxRawScore = maxRawScore
     @nomenclature = "Nomenclature"
+    @assessment = assessment
     @assessmentPerformanceLevel = [{codeValue: "code1", 
       performanceLevelMet: "true",
       assessmentReportingMethod: AssessmentReportingMethodType.to_string(:NUMBER_SCORE),
@@ -43,7 +44,9 @@ class ObjectiveAssessment < BaseEntity
     end
 
     if (generate_child) 
-      @child_objective_assessment = ObjectiveAssessment.new("#{@identificationCode} Sub", @maxRawScore, grade_assessed, false, subject)
+      @child_objective_assessment = ObjectiveAssessment.new("#{@identificationCode} Sub", @maxRawScore, assessment, grade_assessed, false, subject, items)
+    else
+      @assessment_items = items
     end 
   end
 

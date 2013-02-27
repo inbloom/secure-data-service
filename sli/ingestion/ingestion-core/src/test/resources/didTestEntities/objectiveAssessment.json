@@ -1,0 +1,26 @@
+{
+  "recordType":"objectiveAssessment",
+  "attributes":
+  {
+      "assessmentId":
+      {
+          "AssessmentIdentity":
+          {
+              "AssessmentTitle":"Fraction Homework 123",
+              "GradeLevelAssessed":"Fifth grade",
+              "Version":"1"
+          }
+      },
+      "learningObjectives" :
+        [
+          {
+            "LearningObjectiveIdentity" :
+            {
+              "ObjectiveGradeLevel" : "Twelfth grade",
+              "Objective" : "Writing: Informational Text",
+              "AcademicSubject" : "ELA"
+            }
+          }
+        ]
+  } 
+}

@@ -23,15 +23,14 @@ import java.util.Map;
 
 import javax.annotation.PostConstruct;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * Class for bootstrapping the initial SLI realm that must always exist into mongo.
@@ -132,7 +131,7 @@ public class RealmInitializer {
         if (oldHash != newHash) {
             existingRealm.getBody().clear();
             existingRealm.getBody().putAll(newRealmBody);
-            if (repository.update(REALM_RESOURCE, existingRealm)) {
+            if (repository.update(REALM_RESOURCE, existingRealm, false)) {
                 info("Successfully updated realm: {}", new Object[] { newRealmBody.get("name") });
             } else {
                 warn("Failed to update realm: {}", new Object[] { newRealmBody.get("name") });

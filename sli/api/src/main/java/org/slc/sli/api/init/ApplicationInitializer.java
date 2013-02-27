@@ -127,7 +127,7 @@ public class ApplicationInitializer {
                 info("Updating bootstrap application data for {}", appData.get("name"));
                 app.getBody().clear();
                 app.getBody().putAll(appData);
-                repository.update(APP_RESOURCE, app);
+                repository.update(APP_RESOURCE, app, false);
             }
         }
     }

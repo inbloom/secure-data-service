@@ -29,6 +29,15 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
@@ -44,6 +53,7 @@ import org.slc.sli.api.security.service.SecurityCriteria;
 import org.slc.sli.api.util.SecurityUtil;
 import org.slc.sli.domain.CalculatedData;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.FullSuperDoc;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.QueryParseException;
@@ -52,14 +62,6 @@ import org.slc.sli.domain.enums.Right;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
 import org.slc.sli.validation.ValidationError.ErrorType;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -190,7 +192,7 @@ public class BasicService implements EntityService {
                 neededRights = new HashSet<Right>(Arrays.asList(Right.READ_PUBLIC));
             }
         }
-        
+
         if (auths.contains(Right.FULL_ACCESS)) {
         	debug("User has full access");
         } else if (neededRights.isEmpty()) {
@@ -203,7 +205,7 @@ public class BasicService implements EntityService {
             throw new AccessDeniedException("Insufficient Privileges");
         }
     }
-    
+
     private void checkAccess(boolean isRead, String entityId, EntityBody content) {
         // Check that target entity actually exists
         if (securityRepo.findById(collectionName, entityId) == null) {
@@ -224,7 +226,7 @@ public class BasicService implements EntityService {
 
     @Override
     public void delete(String id) {
-    	
+
     	checkAccess(false, id, null);
 
         try {
@@ -278,7 +280,7 @@ public class BasicService implements EntityService {
             entity.getBody().clear();
             entity.getBody().putAll(sanitized);
 
-            success = repo.update(collectionName, entity);
+            success = repo.update(collectionName, entity, FullSuperDoc.isFullSuperdoc(entity));
         }
         return success;
     }
@@ -287,7 +289,7 @@ public class BasicService implements EntityService {
     public boolean patch(String id, EntityBody content) {
         debug("Patching {} in {}", id, collectionName);
         checkAccess(false, id, content);
-        
+
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("_id", "=", id));
 
@@ -512,7 +514,8 @@ public class BasicService implements EntityService {
                     getEntityDefinition().getType(), id, clientId });
             entity.getBody().clear();
             entity.getBody().putAll(clonedEntity);
-            getRepo().update(CUSTOM_ENTITY_COLLECTION, entity);
+            // custom entity is not superdoc
+            getRepo().update(CUSTOM_ENTITY_COLLECTION, entity, false);
         } else {
             debug("Creating new custom entity: entity={}, entityId={}, clientId={}", new Object[] {
                     getEntityDefinition().getType(), id, clientId });
@@ -678,7 +681,7 @@ public class BasicService implements EntityService {
 
     private boolean isSelf(NeutralQuery query) {
     	boolean isSelf = false;
-    	
+
     	//This checks if they're querying for a self entity.  It's overly convoluted because going to
     	//resourcename/<ID> calls this method instead of calling get(String id)
     	List<NeutralCriteria> allTheCriteria = query.getCriteria();
@@ -695,7 +698,7 @@ public class BasicService implements EntityService {
     	}
     	return isSelf;
     }
-    
+
     private boolean isSelf(String entityId) {
     	SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
     	String selfId = principal.getEntity().getEntityId();
@@ -742,10 +745,10 @@ public class BasicService implements EntityService {
     	if (isSelf) {
     		SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
     		result.addAll(principal.getSelfRights());
-    	} 
+    	}
     	return result;
     }
-    
+
     /**
      * Removes fields user isn't entitled to see
      *
@@ -850,7 +853,7 @@ public class BasicService implements EntityService {
                 neededRights.add(Right.READ_PUBLIC);
             }
         }
-        
+
         return neededRights;
     }
 
@@ -869,7 +872,7 @@ public class BasicService implements EntityService {
             if (isSelf) {
             	auths.addAll(SecurityUtil.getSLIPrincipal().getSelfRights());
             }
-            
+
 
             if (!auths.contains(Right.FULL_ACCESS) && !auths.contains(Right.ANONYMOUS_ACCESS)) {
                 for (NeutralCriteria criteria : query.getCriteria()) {
