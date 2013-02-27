@@ -131,9 +131,6 @@ When I click on "Attendance and Discipline" Tab
 And the Attendance History in grid "1" has the following entries:
 |Term         |School                     |Grade Level  |% Present  |Total Absences |Excused  |Unexcused  |Tardy  |
 |2011-2012    |East Daybreak Junior High  |8            |0          |0              |0        |0          |0      |
-And the Attendance History in grid "2" has the following entries:
-|Term         |School                     |Grade Level  |% Present  |Total Absences |Excused  |Unexcused  |Tardy  |
-|2010-2011    |East Daybreak Junior High  |7            |0          |0              |0        |0          |0      |
 And I click on log out
 
 

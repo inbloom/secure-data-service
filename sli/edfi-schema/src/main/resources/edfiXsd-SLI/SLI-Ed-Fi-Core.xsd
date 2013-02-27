@@ -87,8 +87,9 @@
 		<xs:complexContent>
 			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
+          <xs:element name="SchoolYear" type="SchoolYearType" />
 					<xs:element name="EventDate" type="xs:date"/>
-					<xs:element name="AttendanceEventType" type="AttendanceEventType" minOccurs="0"/>
+          <xs:element name="AttendanceEventType" type="AttendanceEventType" minOccurs="0"/>
 					<xs:element name="AttendanceEventCategory" type="AttendanceEventCategoryType"/>
 					<xs:element name="AttendanceEventReason" type="AttendanceEventReason" minOccurs="0"/>
 					<xs:element name="EducationalEnvironment" type="EducationalEnvironmentType" minOccurs="0"/>

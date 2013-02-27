@@ -23,21 +23,13 @@
     </jb:bean>
 
     <jb:bean beanId="attendanceBody" class="java.util.HashMap" createOnElement="attributes">
+        <jb:value property="schoolYear" data="attributes SchoolYear"></jb:value>
         <jb:value property="studentId" data="attributes StudentReference"></jb:value>
-        <jb:value property="schoolId" data="attributes schoolId"></jb:value>
-        <jb:wiring property="schoolYearAttendance" beanIdRef="schoolYearAttendanceArray"></jb:wiring>
+        <jb:value property="schoolId" data="attributes SchoolReference"></jb:value>
+        <jb:wiring property="attendanceEvent" beanIdRef="attendanceEventsArray"></jb:wiring>
     </jb:bean>
 
-    <jb:bean beanId="schoolYearAttendanceArray" class="java.util.ArrayList" createOnElement="attributes">
-        <jb:wiring beanIdRef="schoolYearAttendanceMap"/>
-    </jb:bean>
-
-    <jb:bean beanId="schoolYearAttendanceMap" class="java.util.HashMap" createOnElement="schoolYearAttendance element">
-        <jb:value property="schoolYear" data="schoolYearAttendance element schoolYear"></jb:value>
-        <jb:wiring property="attendanceEvent" beanIdRef="attendanceEventsArray"/>
-    </jb:bean>
-
-    <jb:bean beanId="attendanceEventsArray" class="java.util.ArrayList" createOnElement="schoolYearAttendance element attendanceEvent">
+    <jb:bean beanId="attendanceEventsArray" class="java.util.ArrayList" createOnElement="attributes">
         <jb:wiring beanIdRef="attendanceEventMap"></jb:wiring>
     </jb:bean>
 

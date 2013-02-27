@@ -76,12 +76,12 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
 
   "attendance" => {
     "entityType" => "attendance",
-    "studentId" => "0c2756fd-6a30-4010-af79-488d6ef2735a_id",
+    "studentId" => "fff656b2-5031-4897-b6b8-7b0f5769b482_id",
     "schoolId" => "6756e2b9-aba1-4336-80b8-4a5dde3c63fe",
     "schoolYearAttendance" => [{
-      "schoolYear" => "2011-2012",
+      "schoolYear" => "2010-2011",
       "attendanceEvent" => [{
-        "date" => "2011-09-16",
+        "date" => "2010-09-16",
         "event" => "Tardy"
       }]
     }]
