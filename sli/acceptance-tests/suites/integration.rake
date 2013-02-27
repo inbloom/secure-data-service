@@ -79,7 +79,6 @@ task :rcCleanUpTests do
     runTests("test/features/cross_app_tests/rc_pike_integration_cleanup.feature")
   else
     runTests("test/features/cross_app_tests/rc_integration_cleanup.feature")
-    runTests("test/features/cross_app_tests/rc_integration_purge.feature")
   end
 end
 
@@ -192,7 +191,7 @@ task :rcTests do
   Rake::Task["rcDashboardTests"].execute
   Rake::Task["rcDataBrowserTests"].execute
   Rake::Task["rcCleanUpTests"].execute
-  #Rake::Task["rcTenantPurgeTests"].execute
+  Rake::Task["rcTenantPurgeTests"].execute
 
   displayFailureReport()
   if $SUCCESS
