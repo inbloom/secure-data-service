@@ -28,11 +28,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.api.config.BasicDefinitionStore;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.constants.EntityNames;
 import org.slc.sli.api.constants.ParameterConstants;
 import org.slc.sli.api.constants.PathConstants;
+import org.slc.sli.api.constants.ResourceNames;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.CallingApplicationInfoProvider;
 import org.slc.sli.api.security.SLIPrincipal;
@@ -50,14 +61,7 @@ import org.slc.sli.domain.Repository;
 import org.slc.sli.domain.enums.Right;
 import org.slc.sli.validation.EntityValidationException;
 import org.slc.sli.validation.ValidationError;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.context.annotation.Scope;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
+import org.slc.sli.validation.ValidationError.ErrorType;
 
 /**
  * Implementation of EntityService that can be used for most entities.
@@ -149,15 +153,27 @@ public class BasicService implements EntityService {
 
         checkReferences(content);
 
-        String entityId = "";
-        Entity entity = getRepo().create(defn.getType(), sanitizeEntityBody(content), createMetadata(), collectionName);
-        if (entity != null) {
-            entityId = entity.getEntityId();
+        List<String> entityIds = new ArrayList<String>();
+        List<EntityBody> sanitizedBodies= sanitizeEntityBody(content);
+        // ideally we should validate everything first before actually persisting
+        try {
+            for (EntityBody body : sanitizedBodies) {
+                Entity entity = getRepo().create(defn.getType(), body, createMetadata(), collectionName);
+                if (entity != null) {
+                    entityIds.add(entity.getEntityId());
+                }
+            }
+        } finally {
+            if (entityIds.size() != sanitizedBodies.size()) {
+                for (String id : entityIds) {
+                    delete(id);
+                }
+            }
         }
 
-        return entityId;
+        return StringUtils.join(entityIds.toArray(), ",");
     }
-    
+
     private void checkAccess(boolean isRead, boolean isSelf, EntityBody content) {
     	SecurityUtil.ensureAuthenticated();
     	Set<Right> neededRights = new HashSet<Right>();
@@ -176,7 +192,7 @@ public class BasicService implements EntityService {
                 neededRights = new HashSet<Right>(Arrays.asList(Right.READ_PUBLIC));
             }
         }
-        
+
         if (auths.contains(Right.FULL_ACCESS)) {
         	debug("User has full access");
         } else if (neededRights.isEmpty()) {
@@ -189,7 +205,7 @@ public class BasicService implements EntityService {
             throw new AccessDeniedException("Insufficient Privileges");
         }
     }
-    
+
     private void checkAccess(boolean isRead, String entityId, EntityBody content) {
         // Check that target entity actually exists
         if (securityRepo.findById(collectionName, entityId) == null) {
@@ -210,7 +226,7 @@ public class BasicService implements EntityService {
 
     @Override
     public void delete(String id) {
-    	
+
     	checkAccess(false, id, null);
 
         try {
@@ -240,20 +256,32 @@ public class BasicService implements EntityService {
             throw new EntityNotFoundException(id);
         }
 
-        EntityBody sanitized = sanitizeEntityBody(content);
-        if (entity.getBody().equals(sanitized)) {
-            info("No change detected to {}", id);
-            return false;
+        List<EntityBody> sanitizedBodies = sanitizeEntityBody(content);
+        if (sanitizedBodies.size() > 1 && defn.getResourceName().equals(ResourceNames.ATTENDANCES)) {
+            // the entity body is split, i.e. multiple schoolYears
+            ArrayList<ValidationError> errors = new ArrayList<ValidationError>();
+            // need better errror message
+            errors.add(new ValidationError(ErrorType.TOO_MANY_CHOICES, "schoolYearAttendance"
+                    , content.get("schoolYearAttendance"), new String[] { "Single schoolYearAttendance" }));
+            debug("Error: entity body is split when updating {}, id={}", entity.getType(), entity.getEntityId());
+            throw new EntityValidationException(entity.getEntityId(), entity.getType(), errors);
         }
 
-        checkReferences(content);
+        boolean success = false;
+        for (EntityBody sanitized : sanitizedBodies) {
+            if (entity.getBody().equals(sanitized)) {
+                info("No change detected to {}", id);
+                return false;
+            }
 
-        info("new body is {}", sanitized);
-        entity.getBody().clear();
-        entity.getBody().putAll(sanitized);
-        
-        boolean success = repo.update(collectionName, entity, FullSuperDoc.isFullSuperdoc(entity));
-        
+            checkReferences(content);
+
+            info("new body is {}", sanitized);
+            entity.getBody().clear();
+            entity.getBody().putAll(sanitized);
+
+            success = repo.update(collectionName, entity, FullSuperDoc.isFullSuperdoc(entity));
+        }
         return success;
     }
 
@@ -261,7 +289,7 @@ public class BasicService implements EntityService {
     public boolean patch(String id, EntityBody content) {
         debug("Patching {} in {}", id, collectionName);
         checkAccess(false, id, content);
-        
+
         NeutralQuery query = new NeutralQuery();
         query.addCriteria(new NeutralCriteria("_id", "=", id));
 
@@ -270,14 +298,15 @@ public class BasicService implements EntityService {
             throw new EntityNotFoundException(id);
         }
 
-        EntityBody sanitized = sanitizeEntityBody(content);
+        List<EntityBody> sanitizedBodies = sanitizeEntityBody(content);
+        for (EntityBody sanitized : sanitizedBodies) {
+            info("patch value(s): ", sanitized);
 
-        info("patch value(s): ", sanitized);
+            // don't check references until things are combined
+            checkReferences(sanitized);
 
-        // don't check references until things are combined
-        checkReferences(sanitized);
-
-        repo.patch(defn.getType(), collectionName, id, sanitized);
+            repo.patch(defn.getType(), collectionName, id, sanitized);
+        }
 
         return true;
     }
@@ -577,8 +606,10 @@ public class BasicService implements EntityService {
      * @param content
      * @return
      */
-    private EntityBody sanitizeEntityBody(EntityBody content) {
-        EntityBody sanitized = new EntityBody(content);
+    private List<EntityBody> sanitizeEntityBody(EntityBody content) {
+        // A list because attendance entity document might be split
+        List<EntityBody> sanitized = new ArrayList<EntityBody>();
+        sanitized.add(new EntityBody(content));
         for (Treatment treatment : treatments) {
             sanitized = treatment.toStored(sanitized, defn);
         }
@@ -650,7 +681,7 @@ public class BasicService implements EntityService {
 
     private boolean isSelf(NeutralQuery query) {
     	boolean isSelf = false;
-    	
+
     	//This checks if they're querying for a self entity.  It's overly convoluted because going to
     	//resourcename/<ID> calls this method instead of calling get(String id)
     	List<NeutralCriteria> allTheCriteria = query.getCriteria();
@@ -667,7 +698,7 @@ public class BasicService implements EntityService {
     	}
     	return isSelf;
     }
-    
+
     private boolean isSelf(String entityId) {
     	SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
     	String selfId = principal.getEntity().getEntityId();
@@ -714,10 +745,10 @@ public class BasicService implements EntityService {
     	if (isSelf) {
     		SLIPrincipal principal = SecurityUtil.getSLIPrincipal();
     		result.addAll(principal.getSelfRights());
-    	} 
+    	}
     	return result;
     }
-    
+
     /**
      * Removes fields user isn't entitled to see
      *
@@ -822,7 +853,7 @@ public class BasicService implements EntityService {
                 neededRights.add(Right.READ_PUBLIC);
             }
         }
-        
+
         return neededRights;
     }
 
@@ -841,7 +872,7 @@ public class BasicService implements EntityService {
             if (isSelf) {
             	auths.addAll(SecurityUtil.getSLIPrincipal().getSelfRights());
             }
-            
+
 
             if (!auths.contains(Right.FULL_ACCESS) && !auths.contains(Right.ANONYMOUS_ACCESS)) {
                 for (NeutralCriteria criteria : query.getCriteria()) {

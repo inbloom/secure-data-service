@@ -138,9 +138,6 @@ When /^I submit the sorting and pagination request$/ do
 end
 
 Then /^I should have a list of "([^"]*)" entities$/ do |entityType|
-  puts "\nDEBUG: Number of entities returned for #{entityType}: #{@result.length}"
-  puts "\nDEBUG: Result of API call is:"
-  puts @result 
   assert(@result != nil, "Response contains no data")
   if @result.is_a?(Hash)
     assert(@result["entityType"] == entityType)
@@ -157,10 +154,6 @@ end
 
 Then /^I should have a list of (\d+) "([^"]*)" entities$/ do |size, entityType|
   @result = JSON.parse(@res.body)
-  puts "\n\n\n\n Entity is #{entityType}"
-  puts "Size is #{@result.length}"
-  puts "\nDEBUG: Result of API call is:"
-  puts @result
   assert(@result != nil, "Response contains no data")
   if @result.is_a?(Hash)
     assert(@result["entityType"] == entityType)

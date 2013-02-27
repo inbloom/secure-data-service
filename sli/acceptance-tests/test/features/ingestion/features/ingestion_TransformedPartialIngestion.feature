@@ -66,7 +66,7 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName                           |              count|
      | attendance                               |                  0|
-    And I should see "Processed 0 records." in the resulting batch job file
+    And I should see "Processed 2 records." in the resulting batch job file
 
 
 Scenario: Post Attendance records with required parent records previously ingested
@@ -107,10 +107,10 @@ Then I should see following map of entry counts in the corresponding collections
      | studentSchoolAssociation                 |                  1|
 And I check to find if record is in collection:
     | collectionName              | expectedRecordCount | searchParameter                                  | searchValue    | searchType |
-    | attendance                  | 1                   | body.schoolYearAttendance.attendanceEvent.event  | Tardy          | string     |
-    | attendance                  | 1                   | body.schoolYearAttendance.attendanceEvent.reason | Dentist appointment | string     |
-    | attendance                  | 1                   | body.schoolYearAttendance.attendanceEvent.date   | 2010-09-09          | string     |
-    And I should see "Processed 1 records." in the resulting batch job file
+    | attendance                  | 1                   | body.attendanceEvent.event  | Tardy          | string     |
+    | attendance                  | 1                   | body.attendanceEvent.reason | Dentist appointment | string     |
+    | attendance                  | 1                   | body.attendanceEvent.date   | 2010-09-09          | string     |
+    And I should see "Processed 2 records." in the resulting batch job file
 
     And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "AttendanceUpdateAndAppend.zip" file as the payload of the ingestion job
@@ -122,13 +122,13 @@ Then I should see following map of entry counts in the corresponding collections
      | attendance                               |                  1|
     And I check to find if record is in collection:
     | collectionName              | expectedRecordCount | searchParameter                                  | searchValue         | searchType |
-    | attendance                  | 1                   | body.schoolYearAttendance.attendanceEvent.event  | Tardy               | string     |
-    | attendance                  | 1                   | body.schoolYearAttendance.attendanceEvent.reason | Missed school bus   | string     |
-    | attendance                  | 0                   | body.schoolYearAttendance.attendanceEvent.reason | Dentist appointment | string     |
-    | attendance                  | 1                   | body.schoolYearAttendance.attendanceEvent.event  | In Attendance       | string     |
-    | attendance                  | 1                   | body.schoolYearAttendance.attendanceEvent.reason | On Time             | string     |
-    | attendance                  | 1                   | body.schoolYearAttendance.attendanceEvent.date   | 2010-09-09          | string     |
-And I should see "Processed 1 records." in the resulting batch job file
+    | attendance                  | 1                   | body.attendanceEvent.event  | Tardy               | string     |
+    | attendance                  | 1                   | body.attendanceEvent.reason | Missed school bus   | string     |
+    | attendance                  | 1                   | body.attendanceEvent.reason | Dentist appointment | string     |
+    | attendance                  | 1                   | body.attendanceEvent.event  | In Attendance       | string     |
+    | attendance                  | 1                   | body.attendanceEvent.reason | On Time             | string     |
+    | attendance                  | 1                   | body.attendanceEvent.date   | 2010-09-09          | string     |
+And I should see "Processed 2 records." in the resulting batch job file
 
 
 Scenario: Post partial Assessment dataset on an empty database

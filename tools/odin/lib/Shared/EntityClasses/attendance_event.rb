@@ -20,17 +20,19 @@ require_relative 'baseEntity'
 require_relative 'enum/AttendanceEventCategory'
 require_relative 'enum/AttendanceEventType'
 require_relative 'enum/EducationalEnvironmentType'
+require_relative 'enum/SchoolYearType'
 
 # creates attendance event
 class AttendanceEvent < BaseEntity
 
-  attr_accessor :event_date, :type, :category, :reason, :environment, :student, :ed_org_id,
+  attr_accessor :event_date, :type, :category, :reason, :environment, :student, :ed_org_id, :year,
                 :section_reference, :session_reference
 
-  def initialize(seed, student, ed_org_id, event_date, event_category, student_section_association = nil,
+  def initialize(seed, student, ed_org_id, year, event_date, event_category, student_section_association = nil,
                  session = nil, reason = nil, event_type = :DAILY_ATTENDANCE, environment = :CLASSROOM)
     @student     = student
     @ed_org_id   = ed_org_id
+    @year        = year
     @event_date  = event_date
     @type        = event_type
     @category    = event_category
@@ -45,6 +47,10 @@ class AttendanceEvent < BaseEntity
       @section_reference = valid_sections[0].section if (valid_sections && valid_sections.size > 0)
     }
 
+  end
+
+  def school_year_str
+    SchoolYearType.to_string("START_#{@year}".to_sym)
   end
 
   def type_str

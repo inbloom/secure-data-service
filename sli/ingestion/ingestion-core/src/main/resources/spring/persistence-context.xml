@@ -23,6 +23,7 @@
   <!-- collections that should be persisted using the new pipeline but no transformation has been performed -->
   <util:set id="passthroughEntities" set-class="java.util.HashSet" value-type="java.lang.String">
     <value>assessmentItem</value>
+    <value>attendance</value>
     <value>calendarDate</value>
     <value>cohort</value>
     <value>competencyLevelDescriptor</value>
@@ -66,13 +67,13 @@
     <value>teacher</value>
     <value>teacherSchoolAssociation</value>
     <value>teacherSectionAssociation</value>
+      <value>attendance</value>
   </util:set>
 
   <!-- collections that should be persisted using the new pipeline and a transformation has been performed. the collection
     to use will be <name>_transformed -->
   <util:set id="transformedEntities" set-class="java.util.HashSet" value-type="java.lang.String">
     <value>assessment</value>
-    <value>attendance</value>
     <value>learningObjective</value>
     <value>courseTranscript</value>
   </util:set>

@@ -35,7 +35,7 @@ end
 @dbname = Digest::SHA1.hexdigest ARGV[0]
 @db = Mongo::Connection.new('localhost').db(@dbname)
 
-@ignored_entities = ["AssessmentFamily", "BehaviorDescriptor", "DisciplineDescriptor"]
+@ignored_entities = ["AssessmentFamily", "BehaviorDescriptor", "DisciplineDescriptor", "AssessmentPeriodDescriptor"]
 
 def where_stored(entity_type)
   case entity_type
@@ -44,7 +44,7 @@ def where_stored(entity_type)
   when "ObjectiveAssessment"
     {collection: 'assessment', subdoc: ['objectiveAssessment']}
   when "AttendanceEvent"
-    {collection: 'attendance', subdoc: ['body', 'schoolYearAttendance', :*, 'attendanceEvent']}
+    {collection: 'attendance', subdoc: ['body', 'attendanceEvent']}
   when "GradebookEntry"
     {collection: 'section', subdoc: ['gradebookEntry']}
   when "LocalEducationAgency"

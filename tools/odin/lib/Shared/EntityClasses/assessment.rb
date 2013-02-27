@@ -25,9 +25,10 @@ require_relative 'objective_assessment.rb'
 class Assessment < BaseEntity
 
   attr_accessor :id, :assessmentTitle, :assessmentIdentificationCode, :year_of, :gradeLevelAssessed,
-    :assessmentFamilyReference, :assessment_items, :all_objective_assessments, :referenced_objective_assessments, :all_items
+    :assessmentFamilyReference, :assessment_items, :all_objective_assessments, :referenced_objective_assessments, :all_items,
+    :assessmentPeriod
 
-  def initialize(id, year_of = 2012, gradeLevelAssessed = :UNGRADED, num_items = 0, assessmentFamilyReference = nil, num_objectives = 2)
+  def initialize(id, year_of = 2012, gradeLevelAssessed = :UNGRADED, num_items = 0, assessmentFamilyReference = nil, assessmentPeriodDescriptor = nil, num_objectives = 2)
     @id = id
     @rand = Random.new(int_value(@id))
     @year_of = year_of
@@ -47,6 +48,7 @@ class Assessment < BaseEntity
       @all_objective_assessments << obj_assessment.child_objective_assessment unless obj_assessment.child_objective_assessment.nil?
     }
 
+    @assessmentPeriod = (assessmentPeriodDescriptor.nil? ? [] : [assessmentPeriodDescriptor])
     @assessmentFamilyReference = assessmentFamilyReference
   end
 

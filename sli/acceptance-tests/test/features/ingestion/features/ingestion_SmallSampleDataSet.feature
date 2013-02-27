@@ -114,7 +114,7 @@ Then I should see following map of entry counts in the corresponding collections
      | courseTranscript                         |                196|
      | teacherSchoolAssociation                 |                  3|
      | teacherSectionAssociation                |                 11|
-    And I should see "Processed 4620 records." in the resulting batch job file
+    And I should see "Processed 10095 records." in the resulting batch job file
     And I should not see an error log file created
 	And I should not see a warning log file created
 

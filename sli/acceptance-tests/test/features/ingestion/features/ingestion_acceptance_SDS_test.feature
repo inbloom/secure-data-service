@@ -133,9 +133,9 @@ Then I should see following map of entry counts in the corresponding collections
         | securityEvent               | 120   |
     And I check to find if record is in collection:
        | collectionName              | expectedRecordCount | searchParameter          | searchValue                | searchType           |
-       | attendance                  | 11                  | body.schoolYearAttendance.attendanceEvent.event | Tardy         | string     |
-       | attendance                  | 75                  | body.schoolYearAttendance.attendanceEvent.event | In Attendance | string     |
-       | attendance                  | 75                  | body.schoolYearAttendance.schoolYear            | 2011-2012     | string     |
+       | attendance                  | 11                  | body.attendanceEvent.event | Tardy         | string     |
+       | attendance                  | 75                  | body.attendanceEvent.event | In Attendance | string     |
+       | attendance                  | 75                  | body.schoolYear            | 2011-2012     | string     |
        | cohort                      | 1                   | body.cohortIdentifier      | ACC-TEST-COH-1             | string               |
        | cohort                      | 1                   | body.cohortIdentifier      | ACC-TEST-COH-2             | string               |
        | cohort                      | 1                   | body.cohortIdentifier      | ACC-TEST-COH-3             | string               |
@@ -165,7 +165,7 @@ Then I should see following map of entry counts in the corresponding collections
        | studentAssessment | 24                 | studentAssessmentItem.body.assessmentResponse                | True                | string |
        | studentParentAssociation     | 2                  | body.contactRestrictions                                      | NO CONTACT ALLOWED  | string |
        | studentParentAssociation     | 3                  | body.contactPriority                                          | 1                   | integer|
-    And I should see "Processed 4632 records." in the resulting batch job file
+    And I should see "Processed 10107 records." in the resulting batch job file
     And I should not see an error log file created
     And I should see "InterchangeStudent.xml records considered: 78" in the resulting batch job file
     And I should see "InterchangeStudent.xml records ingested successfully: 78" in the resulting batch job file
@@ -230,8 +230,8 @@ Then I should see following map of entry counts in the corresponding collections
     And I should see "InterchangeStudentAssessment-Cgray-ACT.xml records considered: 375" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Cgray-ACT.xml records ingested successfully: 375" in the resulting batch job file
     And I should see "InterchangeStudentAssessment-Cgray-ACT.xml records failed: 0" in the resulting batch job file
-    And I should see "InterchangeAttendance.xml records considered: 75" in the resulting batch job file
-    And I should see "InterchangeAttendance.xml records ingested successfully: 75" in the resulting batch job file
+    And I should see "InterchangeAttendance.xml records considered: 5550" in the resulting batch job file
+    And I should see "InterchangeAttendance.xml records ingested successfully: 5550" in the resulting batch job file
     And I should see "InterchangeAttendance.xml records failed: 0" in the resulting batch job file
     And I should see "InterchangeStudentParent.xml records considered: 18" in the resulting batch job file
     And I should see "InterchangeStudentParent.xml records ingested successfully: 18" in the resulting batch job file
@@ -346,8 +346,8 @@ And I check to find if record is in collection:
      | courseOffering              | 1                   | body.localCourseCode        | Government-4             | string               |
 And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                 | searchValue   | searchType           |
-     | attendance                  | 0                   | body.schoolYearAttendance.attendanceEvent.date  | 2011-09-01    | string               |
-     | attendance                  | 75                  | body.schoolYearAttendance.attendanceEvent.date  | 2011-11-10    | string               |
+     | attendance                  | 0                   | body.attendanceEvent.date  | 2011-09-01    | string               |
+     | attendance                  | 75                  | body.attendanceEvent.date  | 2011-11-10    | string               |
  And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                  | searchValue                                      |searchType           |
      | assessment                  | 1                   | body.assessmentFamilyHierarchyName               | AP.AP Eng.AP-Eng-and-Literature                  |string               |
@@ -484,8 +484,8 @@ Scenario: Verify deterministic ids generated: Clean Database
     # session
     | session                              | 1e217f65c48cda4f5009cb1518cb33ddd51637e0_id | body.sessionName                     | Fall 2007 South Daybreak Elementary    |
     | session                              | 1e217f65c48cda4f5009cb1518cb33ddd51637e0_id | body.schoolId                        | 352e8570bd1116d11a72755b987902440045d346_id |
-    | attendance                           | 0e4cf9728e804e6ab0c09432d58e3f5bdd3622c1_id | body.studentId                       | 366e15c0213a81f653cdcf524606edeed3f80f99_id |
-    | attendance                           | 0e4cf9728e804e6ab0c09432d58e3f5bdd3622c1_id | body.schoolId                        | a13489364c2eb015c219172d561c62350f0453f3_id |
+    | attendance                           | d0c9f4e72313c4f185fdbc9b1ed3d8859a641dfe_id | body.studentId                       | 366e15c0213a81f653cdcf524606edeed3f80f99_id |
+    | attendance                           | d0c9f4e72313c4f185fdbc9b1ed3d8859a641dfe_id | body.schoolId                        | a13489364c2eb015c219172d561c62350f0453f3_id |
     | graduationPlan                        | 7f5c42b2ff7edf0bfa0b877eab43df47985cd99c_id | body.educationOrganizationId | 1b223f577827204a1c7e9c851dba06bea6b031fe_id |
     | graduationPlan                        | 7f5c42b2ff7edf0bfa0b877eab43df47985cd99c_id | body.graduationPlanType      | Minimum       |
     | learningObjective                    | e7ca691a652808cedd4fc8abd1275c94f9679e56_id | body.objective                       | The Revolutionary Period |
@@ -517,7 +517,7 @@ Scenario: Verify references were resolved correctly
 	| disciplineAction						| 70b8c1f4b77823bf5ede69389e13b0487f32e720_id											 | body.disciplineIncidentId					 | disciplineIncident						  |
 	| studentDisciplineIncidentAssociation  | 6578f984876bbf6f884c1be2ef415dbf4441db89_ide2449a1a6d0e37f388ce871d066a4705aabac16c_id | body.disciplineIncidentId    				 | disciplineIncident						  |
 	#educationOrganization
-	| attendance                           | 0e4cf9728e804e6ab0c09432d58e3f5bdd3622c1_id 											 | body.schoolId                        		 | educationOrganization 					  |
+	| attendance                           | d0c9f4e72313c4f185fdbc9b1ed3d8859a641dfe_id 											 | body.schoolId                        		 | educationOrganization 					  |
 	| cohort                               | e097d0f6e1e3d40d58930052eae2d7074eaa901a_id 											 | body.educationOrgId                      	 | educationOrganization 					  |
     | course                               | a42a8a8deaaf4fa04448d602ea96c0e2f74c6521_id 											 | body.schoolId  								 | educationOrganization                      |
   	| courseOffering                       | a6c96dcc34fc021f685b6d082c7759b070731f93_id 											 | body.schoolId                        		 | educationOrganization 					  |
@@ -593,7 +593,7 @@ Scenario: Verify references were resolved correctly
 	| studentProgramAssociation             | a50802f02c7e771d979f7d5b3870c500014e6803_id98ae5d5377bee52764848bb05f5284ba72ef65e2_id | body.studentId            					| student									  |
     | studentSchoolAssociation              | b0fa95fe87c80a76598fdedd181cce8044c44f0f_id 											 | body.studentId            					| student									  |
 	| studentSectionAssociation             | 84432d70656e1ab68df27cf2584282da351ab684_id3c11fbcc6e93af20a926e17438af188c53bc02ea_id | body.studentId            					| student									  |
-	| attendance                            | 0e4cf9728e804e6ab0c09432d58e3f5bdd3622c1_id 											 | body.studentId                      			| student									  |
+	| attendance                            | d0c9f4e72313c4f185fdbc9b1ed3d8859a641dfe_id 											 | body.studentId                      			| student									  |
 	| disciplineAction						| 70b8c1f4b77823bf5ede69389e13b0487f32e720_id											 | body.studentId								| student									  |
 	| reportCard                            | 8f3a05e77f7d902f963b73b5ec072ced1583fbda_id 											 | body.studentId 								| student                       			  |
     | studentAcademicRecord                 | a1e159796736acfe35a3dda1ece214dc380a2714_id 											 | body.studentId                       		| student									  |
@@ -612,7 +612,7 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding collections:
         | collectionName              | count |
         | assessment                  | 19    |
-        | attendance                  | 75    |
+        | attendance                  | 76    |
         | cohort                      | 3     |
         | course                      | 96    |
         | courseOffering              | 96    |
@@ -857,7 +857,7 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | SAT-Math-Arithmetic         | string |
      | assessment                  | 1                   | objectiveAssessment.body.identificationCode    | SAT-Math-Geometry           | string |
      | assessment                  | 3                   | body.assessmentFamilyHierarchyName             | READ2.READ 2.0.READ 2.0 Kindergarten                 | string |
-     | attendance                  | 75                  | body.schoolYearAttendance.attendanceEvent.date | 2011-09-06      |string               |
+     | attendance                  | 75                  | body.attendanceEvent.date | 2011-09-06      |string               |
      | cohort                      | 1                   | body.academicSubject        | English                 | string               |
      | cohort                      | 1                   | body.academicSubject        | Mathematics             | string               |
      | cohort                      | 1                   | body.cohortIdentifier       | ACC-TEST-COH-1          | string               |
@@ -963,7 +963,7 @@ Then I should see following map of entry counts in the corresponding collections
   And the field "body.maxRawScore" has value "5"
   When I find a record in "studentAssessment" under "studentAssessmentItem" where "body.assessmentItemId" is "d50118aaad960b54a8b2afc7268d01d13842cb58_idbc774073db0cbd89322970083ee065c02c6a034d_id"
   Then "body.assessmentItemId" contains a reference to a "assessmentItem" where "body.identificationCode" is "AssessmentItem-3"
-  And I should see "Processed 144 records." in the resulting batch job file
+  And I should see "Processed 145 records." in the resulting batch job file
   And I should see "Program2.xml records considered: 4" in the resulting batch job file
   And I should see "Program2.xml records ingested successfully: 4" in the resulting batch job file
   And I should see "Program2.xml records failed: 0" in the resulting batch job file

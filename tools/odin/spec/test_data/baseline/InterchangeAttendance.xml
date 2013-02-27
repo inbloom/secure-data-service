@@ -2,6 +2,7 @@
 <InterchangeStudentAttendance xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://ed-fi.org/0100"
 xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StudentAttendance.xsd">
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-09-05</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -19,6 +20,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-09-06</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -36,6 +38,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-09-11</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -53,6 +56,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-09-13</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -70,6 +74,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-09-17</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -87,6 +92,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-09-18</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -104,6 +110,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-10-09</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -121,6 +128,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-10-15</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -138,6 +146,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-10-16</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -155,6 +164,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-10-24</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -172,6 +182,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-10-30</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -189,6 +200,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-11-12</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -206,6 +218,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-01-16</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -223,6 +236,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-01-22</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -240,6 +254,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-02-07</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -257,6 +272,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-02-21</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -274,6 +290,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-03-06</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -291,6 +308,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-03-28</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -308,6 +326,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-04-16</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -325,6 +344,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-04-23</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -342,6 +362,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-05-13</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -359,6 +380,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-05-15</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -376,6 +398,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-05-17</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -393,6 +416,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-09-25</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -410,6 +434,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-10-04</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -427,6 +452,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-10-24</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -444,6 +470,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-10-30</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -461,6 +488,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-11-13</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -478,6 +506,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-11-25</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -495,6 +524,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-01-16</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -512,6 +542,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-01-30</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -529,6 +560,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-02-13</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -546,6 +578,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-02-26</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -563,6 +596,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-03-03</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -580,6 +614,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-03-17</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -597,6 +632,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-03-19</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -614,6 +650,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-03-21</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -631,6 +668,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-04-03</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -648,6 +686,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-04-30</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -665,6 +704,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-05-02</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -682,6 +722,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-05-20</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -699,6 +740,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-06-02</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -716,6 +758,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-09-16</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -733,6 +776,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-09-17</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -750,6 +794,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-09-29</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -767,6 +812,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-10-10</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -784,6 +830,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-10-16</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -801,6 +848,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-10-27</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -818,6 +866,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-10-31</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -835,6 +884,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-12-10</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -852,6 +902,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-12-15</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -869,6 +920,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-01-05</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -886,6 +938,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-01-09</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -903,6 +956,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-01-19</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -920,6 +974,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-01-26</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -937,6 +992,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-02-10</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -954,6 +1010,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-02-25</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -971,6 +1028,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-02-27</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -988,6 +1046,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-03-05</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -1005,6 +1064,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-03-15</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -1022,6 +1082,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-03-19</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1039,6 +1100,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-04-21</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1056,6 +1118,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-05-04</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1073,6 +1136,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-05-14</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1090,6 +1154,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-05-18</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1107,6 +1172,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-09-10</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1124,6 +1190,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-10-18</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1141,6 +1208,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-11-06</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1158,6 +1226,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-11-29</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1175,6 +1244,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-12-13</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1192,6 +1262,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-01-09</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1209,6 +1280,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-01-29</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1226,6 +1298,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-02-04</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -1243,6 +1316,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-02-07</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1260,6 +1334,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-02-26</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1277,6 +1352,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-03-14</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1294,6 +1370,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-04-01</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1311,6 +1388,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-04-22</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1328,6 +1406,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-09-10</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -1345,6 +1424,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-09-23</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1362,6 +1442,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-10-09</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1379,6 +1460,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-10-31</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1396,6 +1478,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-11-13</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1413,6 +1496,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-01-28</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1430,6 +1514,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-02-03</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1447,6 +1532,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-02-05</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1464,6 +1550,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-02-19</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -1481,6 +1568,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-02-24</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1498,6 +1586,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-02-28</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1515,6 +1604,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-05-20</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1532,6 +1622,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-09-10</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1549,6 +1640,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-09-29</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1566,6 +1658,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-10-29</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1583,6 +1676,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-11-06</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1600,6 +1694,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-12-08</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -1617,6 +1712,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-12-15</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1634,6 +1730,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-12-26</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1651,6 +1748,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-01-23</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1668,6 +1766,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-02-10</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1685,6 +1784,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-02-18</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -1702,6 +1802,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-02-19</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1719,6 +1820,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-03-02</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -1736,6 +1838,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-03-03</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1753,6 +1856,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-04-01</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1770,6 +1874,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-04-16</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1787,6 +1892,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-05-12</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1804,6 +1910,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-09-13</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1821,6 +1928,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-10-02</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1838,6 +1946,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-10-19</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1855,6 +1964,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-10-22</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1872,6 +1982,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-11-06</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1889,6 +2000,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-12-03</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -1906,6 +2018,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-12-20</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1923,6 +2036,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-03-01</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1940,6 +2054,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-11-01</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1957,6 +2072,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-12-13</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1974,6 +2090,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-12-23</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -1991,6 +2108,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-01-09</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -2008,6 +2126,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-01-13</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2025,6 +2144,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-01-15</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -2042,6 +2162,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-01-24</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2059,6 +2180,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-01-29</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2076,6 +2198,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-01-30</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -2093,6 +2216,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-03-06</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2110,6 +2234,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-03-20</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2127,6 +2252,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-04-24</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2144,6 +2270,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-05-12</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2161,6 +2288,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-05-13</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2178,6 +2306,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-06-02</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2195,6 +2324,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-09-04</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2212,6 +2342,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-10-17</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2229,6 +2360,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-10-23</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2246,6 +2378,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-10-31</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2263,6 +2396,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-11-10</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -2280,6 +2414,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-11-21</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2297,6 +2432,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-11-25</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2314,6 +2450,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-12-16</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2331,6 +2468,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-12-18</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -2348,6 +2486,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-01-06</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2365,6 +2504,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-01-30</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2382,6 +2522,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-02-03</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -2399,6 +2540,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-02-10</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -2416,6 +2558,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-02-19</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -2433,6 +2576,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-02-24</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2450,6 +2594,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-03-01</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2467,6 +2612,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-03-17</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -2484,6 +2630,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-03-23</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2501,6 +2648,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-03-29</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -2518,6 +2666,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-04-05</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2535,6 +2684,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-04-07</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2552,6 +2702,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-04-08</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2569,6 +2720,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-05-11</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2586,6 +2738,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-05-20</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2603,6 +2756,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-09-05</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2620,6 +2774,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-09-10</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2637,6 +2792,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-09-11</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2654,6 +2810,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-10-01</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2671,6 +2828,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-11-12</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -2688,6 +2846,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-11-14</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2705,6 +2864,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-11-27</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2722,6 +2882,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-12-04</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2739,6 +2900,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-01-10</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2756,6 +2918,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-01-25</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -2773,6 +2936,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-02-05</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2790,6 +2954,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-03-29</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2807,6 +2972,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-04-01</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2824,6 +2990,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-04-02</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -2841,6 +3008,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-04-17</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2858,6 +3026,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-05-08</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -2875,6 +3044,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-09-05</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2892,6 +3062,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-09-09</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2909,6 +3080,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-09-10</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -2926,6 +3098,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-09-16</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2943,6 +3116,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-09-24</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2960,6 +3134,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-09-27</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2977,6 +3152,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-10-24</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -2994,6 +3170,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-11-19</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3011,6 +3188,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-12-02</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3028,6 +3206,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-12-09</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -3045,6 +3224,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-12-10</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3062,6 +3242,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-12-11</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3079,6 +3260,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-12-23</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -3096,6 +3278,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-01-08</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3113,6 +3296,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-01-16</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3130,6 +3314,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-01-21</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3147,6 +3332,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-01-30</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -3164,6 +3350,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-02-19</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -3181,6 +3368,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-04-16</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3198,6 +3386,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-04-24</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3215,6 +3404,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-05-08</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3232,6 +3422,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-05-15</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3249,6 +3440,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-05-16</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -3266,6 +3458,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-05-27</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -3283,6 +3476,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-05-30</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3300,6 +3494,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-06-02</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3317,6 +3512,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-09-05</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -3334,6 +3530,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-10-07</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3351,6 +3548,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-10-28</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3368,6 +3566,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-11-17</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -3385,6 +3584,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-12-02</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3402,6 +3602,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-12-08</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3419,6 +3620,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-12-10</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3436,6 +3638,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-12-18</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3453,6 +3656,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-01-22</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3470,6 +3674,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-01-30</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -3487,6 +3692,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-02-16</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3504,6 +3710,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-02-17</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3521,6 +3728,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-03-03</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3538,6 +3746,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-03-15</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3555,6 +3764,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-03-22</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3572,6 +3782,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-04-19</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -3589,6 +3800,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-04-20</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3606,6 +3818,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-05-10</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3623,6 +3836,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-05-18</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3640,6 +3854,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-05-20</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3657,6 +3872,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-05-26</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3674,6 +3890,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-05-27</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3691,6 +3908,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-05-31</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -3708,6 +3926,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-09-20</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -3725,6 +3944,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-10-01</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3742,6 +3962,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-10-11</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3759,6 +3980,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-10-23</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3776,6 +3998,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-11-14</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3793,6 +4016,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-11-20</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3810,6 +4034,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-12-10</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3827,6 +4052,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-01-03</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3844,6 +4070,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-01-22</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3861,6 +4088,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-03-07</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -3878,6 +4106,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-03-27</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3895,6 +4124,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-04-10</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3912,6 +4142,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-05-08</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3929,6 +4160,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-05-09</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3946,6 +4178,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-05-15</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3963,6 +4196,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-09-19</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3980,6 +4214,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-10-08</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -3997,6 +4232,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-10-23</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4014,6 +4250,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-12-02</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4031,6 +4268,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-01-17</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4048,6 +4286,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-02-17</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4065,6 +4304,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-01-14</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4082,6 +4322,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-01-19</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -4099,6 +4340,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-02-18</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4116,6 +4358,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-05-14</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4133,6 +4376,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-05-31</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -4150,6 +4394,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-09-14</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -4167,6 +4412,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-10-23</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -4184,6 +4430,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-12-14</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -4201,6 +4448,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-01-22</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4218,6 +4466,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-03-29</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -4235,6 +4484,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-04-12</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4252,6 +4502,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-09-27</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -4269,6 +4520,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-11-12</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4286,6 +4538,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-11-21</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -4303,6 +4556,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-11-27</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -4320,6 +4574,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-01-03</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4337,6 +4592,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-01-24</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4354,6 +4610,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-03-25</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4371,6 +4628,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-05-06</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4388,6 +4646,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-05-23</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4405,6 +4664,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-05-28</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4422,6 +4682,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-05-30</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4439,6 +4700,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-11-10</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4456,6 +4718,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-11-11</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4473,6 +4736,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-11-17</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4490,6 +4754,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-01-07</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4507,6 +4772,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-02-10</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4524,6 +4790,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-02-20</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4541,6 +4808,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-04-09</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4558,6 +4826,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-05-03</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4575,6 +4844,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-05-07</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -4592,6 +4862,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-09-14</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4609,6 +4880,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-09-28</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4626,6 +4898,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-10-01</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4643,6 +4916,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-11-29</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4660,6 +4934,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-01-23</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4677,6 +4952,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-01-31</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4694,6 +4970,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-03-12</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -4711,6 +4988,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-04-29</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4728,6 +5006,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-05-01</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -4745,6 +5024,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-09-30</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4762,6 +5042,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-11-14</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4779,6 +5060,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-11-25</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4796,6 +5078,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-12-26</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4813,6 +5096,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-02-07</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -4830,6 +5114,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-03-25</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4847,6 +5132,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-05-05</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4864,6 +5150,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-05-13</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -4881,6 +5168,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-05-19</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -4898,6 +5186,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-05-21</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4915,6 +5204,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-09-17</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4932,6 +5222,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-09-22</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4949,6 +5240,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-09-23</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4966,6 +5258,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-10-08</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -4983,6 +5276,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-11-04</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -5000,6 +5294,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-11-07</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5017,6 +5312,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-12-10</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5034,6 +5330,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-01-13</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5051,6 +5348,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-03-03</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5068,6 +5366,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-03-31</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5085,6 +5384,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-04-13</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5102,6 +5402,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-04-15</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -5119,6 +5420,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-04-30</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5136,6 +5438,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-05-26</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -5153,6 +5456,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-08-31</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -5170,6 +5474,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-10-03</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5187,6 +5492,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-10-12</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5204,6 +5510,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-11-02</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -5221,6 +5528,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-11-13</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -5238,6 +5546,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-03-08</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5255,6 +5564,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-03-12</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5272,6 +5582,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-04-02</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5289,6 +5600,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-04-05</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5306,6 +5618,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-04-10</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5323,6 +5636,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-09-09</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5340,6 +5654,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-09-12</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5357,6 +5672,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-10-01</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5374,6 +5690,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-10-15</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5391,6 +5708,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-10-24</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -5408,6 +5726,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-12-06</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5425,6 +5744,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-02-12</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5442,6 +5762,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-02-13</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -5459,6 +5780,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-02-28</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5476,6 +5798,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-04-17</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5493,6 +5816,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-05-08</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5510,6 +5834,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-12-10</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -5527,6 +5852,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-12-22</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5544,6 +5870,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-02-12</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5561,6 +5888,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-04-02</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5578,6 +5906,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-04-16</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5595,6 +5924,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-04-20</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5612,6 +5942,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-05-11</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5629,6 +5960,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-08-31</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5646,6 +5978,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-09-12</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5663,6 +5996,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-01-28</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5680,6 +6014,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-02-27</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -5697,6 +6032,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-03-04</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -5714,6 +6050,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-03-06</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -5731,6 +6068,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-03-07</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5748,6 +6086,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-03-29</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5765,6 +6104,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-05-02</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5782,6 +6122,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-05-09</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5799,6 +6140,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-05-23</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -5816,6 +6158,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-11-21</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5833,6 +6176,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-12-27</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5850,6 +6194,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-01-16</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5867,6 +6212,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-01-29</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5884,6 +6230,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-02-05</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -5901,6 +6248,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-02-06</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5918,6 +6266,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-02-21</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5935,6 +6284,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-03-17</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5952,6 +6302,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-03-18</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -5969,6 +6320,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-03-28</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -5986,6 +6338,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-04-14</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6003,6 +6356,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-04-16</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6020,6 +6374,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-04-24</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -6037,6 +6392,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-04-25</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6054,6 +6410,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-05-27</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -6071,6 +6428,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-09-05</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6088,6 +6446,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-10-23</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6105,6 +6464,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-11-11</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6122,6 +6482,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-12-19</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6139,6 +6500,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-02-02</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6156,6 +6518,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-02-19</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -6173,6 +6536,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-03-15</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6190,6 +6554,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-03-16</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6207,6 +6572,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-03-18</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6224,6 +6590,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-03-25</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6241,6 +6608,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-03-31</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6258,6 +6626,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-05-05</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6275,6 +6644,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-05-27</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6292,6 +6662,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-11-02</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6309,6 +6680,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2001-11-21</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6326,6 +6698,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-01-03</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6343,6 +6716,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-01-04</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6360,6 +6734,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-02-06</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -6377,6 +6752,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-03-04</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6394,6 +6770,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-03-05</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6411,6 +6788,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-04-15</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6428,6 +6806,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-04-18</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6445,6 +6824,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-04-23</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6462,6 +6842,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2001-2002</SchoolYear>
     <EventDate>2002-05-14</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -6479,6 +6860,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-10-18</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6496,6 +6878,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-10-28</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6513,6 +6896,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-11-15</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -6530,6 +6914,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-12-13</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6547,6 +6932,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-12-16</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -6564,6 +6950,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2002-12-23</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -6581,6 +6968,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-01-24</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6598,6 +6986,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-02-14</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6615,6 +7004,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-02-27</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6632,6 +7022,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-03-06</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6649,6 +7040,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-03-07</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6666,6 +7058,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-03-20</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6683,6 +7076,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-04-04</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6700,6 +7094,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-05-19</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -6717,6 +7112,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2002-2003</SchoolYear>
     <EventDate>2003-05-27</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -6734,6 +7130,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-10-16</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6751,6 +7148,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-10-21</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6768,6 +7166,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-10-27</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6785,6 +7184,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-11-24</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6802,6 +7202,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2003-12-29</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6819,6 +7220,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-01-05</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6836,6 +7238,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-02-02</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
@@ -6853,6 +7256,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-04-09</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6870,6 +7274,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-04-21</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6887,6 +7292,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-04-27</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>
@@ -6904,6 +7310,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
+    <SchoolYear>2003-2004</SchoolYear>
     <EventDate>2004-05-14</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>Excused Absence</AttendanceEventCategory>

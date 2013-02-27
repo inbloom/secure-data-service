@@ -226,6 +226,9 @@ public class EntityPersistHandler extends AbstractIngestionHandler<SimpleEntity,
             // "new" style -> based on natural keys from schema
             String id = deterministicUUIDGeneratorStrategy.generateId(naturalKeyDescriptor);
             List<Object> keyValues = new ArrayList<Object>();
+            if(entity.getType().equals("attendance")) {
+                keyValues.add(entity.getBody());
+            }
             keyValues.add(id);
             entity.setEntityId(id);
             memory.put(keyValues, entity);

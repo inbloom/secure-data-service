@@ -4,7 +4,7 @@
             {
               "entityType" : "educationOrganization",
               "optional" : false,
-              "sourceRefPath": "body.schoolId"
+              "sourceRefPath": "body.SchoolReference"
             },
             {
               "entityType" : "student",
