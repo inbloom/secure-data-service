@@ -834,6 +834,10 @@ Given /^the following collections are empty in batch job datastore:$/ do |table|
   enable_NOTABLESCAN()
 end
 
+When /^the tenant indexes are applied to the tenant "(.*?)"$/ do |tenant|
+    `ruby ../config/scripts/indexTenantDb.rb #{INGESTION_DB} #{convertTenantIdToDbName(tenant)}`
+end
+
 When /^the tenant with tenantId "(.*?)" is locked$/ do |tenantId|
   @db = @conn[INGESTION_DB_NAME]
   @tenantColl = @db.collection('tenant')

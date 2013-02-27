@@ -1,0 +1,15 @@
+{
+  "StaffReference":{
+    "StaffIdentity":{
+      "StaffUniqueStateId":{"_value":"Qm5qi.fpz1l.02A"}
+    }
+  },
+  "ProgramReference":{
+    "ProgramIdentity":{
+      "ProgramId":{"_value":"LDDUdY"}
+    }
+  },
+  "BeginDate":{"_value":"2013-08-14"},
+  "EndDate":{"_value":"2014-07-21"},
+  "StudentRecordAccess":{"_value":false}
+}

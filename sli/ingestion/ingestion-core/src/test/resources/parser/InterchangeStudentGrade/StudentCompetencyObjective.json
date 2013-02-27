@@ -1,0 +1,29 @@
+{
+  "a_id":"ID013",
+  "StudentCompetencyObjectiveId":
+  {
+    "_value":"dEag6YUWjsBCGq.Zs-KuAM6duWXjLwd.8rkVfGNgWjts5CiMYz"
+  },
+  "Objective":
+  {
+    "_value":"omBeWXVO_INf74b-oqbEBHK05WMEIZ5pgKn9mqLFiBd-Zifj9WBnE"
+  },
+  "Description":
+  {
+    "_value":"Jkw.svu4y4kFTY04MAve14z2HvzZ3AbxGLgul0ajK0WEXQGOBw0v5lHNC_Hw5OHm5DHWauASGGh"
+  },
+  "ObjectiveGradeLevel":
+  {
+    "_value":"Ungraded"
+  },
+  "EducationOrganizationReference":
+  {
+    "EducationalOrgIdentity":
+    {
+      "StateOrganizationId":
+      {
+        "_value":"JQEGNIWDK"
+      }
+    }
+  }
+}
