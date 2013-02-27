@@ -111,7 +111,7 @@
   </bean>
 
   <bean class="org.slc.sli.aspect.LoggerCarrierAspect" factory-method="aspectOf">
-    <property name="template" ref="mongoTemplate" />
+    <property name="entityRepository" ref="mongoEntityRepository" />
   </bean>
 
   <bean id="ingestionHealthCheck" class="org.slc.sli.ingestion.IngestionHealthCheck">
@@ -129,7 +129,6 @@
     <value>assessmentPeriodDescriptor,false,creationTime</value>
     <value>assessment_transformed,false,creationTime</value>
     <value>attendance,false,creationTime</value>
-    <value>attendance_transformed,false,creationTime</value>
     <value>calendarDate,false,creationTime</value>
     <value>cohort,false,creationTime</value>
     <value>competencyLevelDescriptor,false,creationTime</value>
@@ -185,7 +184,6 @@
     <value>assessmentItem,false,body.identificationCode</value>
     <value>assessmentItem,false,localId</value>
     <value>assessmentPeriodDescriptor,false,body.codeValue</value>
-    <value>attendance_transformed,true,body.studentId,body.schoolId</value>
     <value>disciplineIncident,false,body.id</value>
     <value>school,false,body.stateOrganizationId</value>
     <value>session,false,body.schoolId</value>

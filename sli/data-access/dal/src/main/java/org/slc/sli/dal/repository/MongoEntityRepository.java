@@ -16,30 +16,12 @@
 
 package org.slc.sli.dal.repository;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.mongodb.core.FindAndModifyOptions;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.util.Assert;
-
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.dal.RetryMongoCommand;
+import org.slc.sli.dal.convert.ContainerDocumentAccessor;
 import org.slc.sli.dal.convert.Denormalizer;
 import org.slc.sli.dal.convert.SubDocAccessor;
 import org.slc.sli.dal.encrypt.EntityEncryption;
@@ -52,6 +34,24 @@ import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.util.Assert;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * mongodb implementation of the entity repository interface that provides basic
@@ -89,6 +89,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     private Denormalizer denormalizer;
 
+    private ContainerDocumentAccessor containerDocumentAccessor;
+
     @Autowired
     protected SliSchemaVersionValidatorProvider schemaVersionValidatorProvider;
 
@@ -97,6 +99,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         setWriteConcern(writeConcern);
         subDocs = new SubDocAccessor(getTemplate(), uuidGeneratorStrategy, naturalKeyExtractor);
         denormalizer = new Denormalizer(getTemplate());
+        containerDocumentAccessor = new ContainerDocumentAccessor(uuidGeneratorStrategy, template);
     }
 
     @Override
@@ -158,7 +161,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     public Entity createWithRetries(final String type, final Map<String, Object> body,
-            final Map<String, Object> metaData, final String collectionName, int noOfRetries) {
+                                    final Map<String, Object> metaData, final String collectionName, int noOfRetries) {
         RetryMongoCommand rc = new RetryMongoCommand() {
 
             @Override
@@ -171,7 +174,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     @Override
     public Entity createWithRetries(final String type, final String id, final Map<String, Object> body,
-            final Map<String, Object> metaData, final String collectionName, int noOfRetries) {
+                                    final Map<String, Object> metaData, final String collectionName, int noOfRetries) {
         RetryMongoCommand rc = new RetryMongoCommand() {
 
             @Override
@@ -222,6 +225,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             denormalizer.denormalization(collectionName).doUpdate(updateEntity, update);
         }
 
+        if (containerDocumentAccessor.isContainerDocument(type)) {
+            result = containerDocumentAccessor.update(type, id, newValues, collectionName);
+        }
+
         return result;
     }
 
@@ -235,7 +242,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
      * it's public. (S. Altmueller)
      */
     Entity internalCreate(String type, String id, Map<String, Object> body, Map<String, Object> origMetaData,
-            String collectionName) {
+                          String collectionName) {
         Assert.notNull(body, "The given entity must not be null!");
         Map<String, Object> metaData = origMetaData == null ? new HashMap<String, Object>() : origMetaData;
 
@@ -255,6 +262,13 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             }
 
             return entity;
+        } else if (containerDocumentAccessor.isContainerDocument(entity.getType())) {
+            final String createdId = containerDocumentAccessor.insert(entity);
+            if (!createdId.isEmpty()) {
+                return new MongoEntity(type, createdId, entity.getBody(), metaData);
+            } else {
+                return entity;
+            }
         } else {
             Entity result = super.insert(entity, collectionName);
 
@@ -280,6 +294,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                 denormalizer.denormalization(collectionName).insert(records);
             }
 
+            return records;
+        } else if (containerDocumentAccessor.isContainerDocument(collectionName)) {
+            containerDocumentAccessor.insert(records);
             return records;
         } else {
             List<Entity> persist = new ArrayList<Entity>();
@@ -401,11 +418,16 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         if (subDocs.isSubDoc(collection)) {
             return subDocs.subDoc(collection).create(entity);
         }
+        if (containerDocumentAccessor.isContainerDocument(collection)) {
+            return !containerDocumentAccessor.update(entity).isEmpty();
+        }
 
         return super.update(collection, entity, null); // body);
     }
 
-    /** Add the created and updated timestamp to the document metadata. */
+    /**
+     * Add the created and updated timestamp to the document metadata.
+     */
     private void addTimestamps(Entity entity) {
         Date now = DateTimeUtil.getNowInUTC();
 
@@ -414,7 +436,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         metaData.put(EntityMetadataKey.UPDATED.getKey(), now);
     }
 
-    /** Update the updated timestamp on the document metadata. */
+    /**
+     * Update the updated timestamp on the document metadata.
+     */
     public void updateTimestamp(Entity entity) {
         Date now = DateTimeUtil.getNowInUTC();
         entity.getMetaData().put(EntityMetadataKey.UPDATED.getKey(), now);
@@ -505,11 +529,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     /**
-     * @Deprecated
-     *             "This is a deprecated method that should only be used by the ingestion ID
-     *             Normalization code.
-     *             It is not tenant-safe meaning clients of this method must include tenantId in the
-     *             metaData block"
+     * @Deprecated "This is a deprecated method that should only be used by the ingestion ID
+     * Normalization code.
+     * It is not tenant-safe meaning clients of this method must include tenantId in the
+     * metaData block"
      */
     @Override
     @Deprecated

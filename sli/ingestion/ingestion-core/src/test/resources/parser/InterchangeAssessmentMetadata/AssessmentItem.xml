@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeAssessmentMetadata xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <AssessmentItem id="ID001">
+    <AssessmentReference id="ID003" ref="ID001">
+      <AssessmentIdentity>
+        <AssessmentTitle>vj8zbHeMTeYFobCU0TF21q-Cy8n</AssessmentTitle>
+        <AcademicSubject>Hospitality and Tourism</AcademicSubject>
+        <GradeLevelAssessed>Tenth grade</GradeLevelAssessed>
+        <Version>-1179495731</Version>
+      </AssessmentIdentity>
+    </AssessmentReference>
+    <IdentificationCode>M3Pfl1._SPeQLaKiJiEqcQIZTPBpGJstVLq03QwcjJdiGwBWe_</IdentificationCode>
+    <ItemCategory>Matching</ItemCategory>
+    <MaxRawScore>-1973159586</MaxRawScore>
+    <CorrectResponse>X3uT5DZ</CorrectResponse>
+    <LearningStandardReference>
+      <LearningStandardIdentity>
+        <IdentificationCode>gpF8VKfk7Gf4.vEuUdv9n.I3iGiMucJ7</IdentificationCode>
+      </LearningStandardIdentity>
+    </LearningStandardReference>
+    <Nomenclature>JdVo8tkNO</Nomenclature>
+  </AssessmentItem>
+</InterchangeAssessmentMetadata>

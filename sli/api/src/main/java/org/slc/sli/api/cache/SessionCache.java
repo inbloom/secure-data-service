@@ -33,6 +33,10 @@ import org.springframework.stereotype.Component;
 @Component
 public class SessionCache {
 
+	private static final int TIME_TO_LIVE = 900;
+	private static final int TIME_TO_IDLE = 300;
+	private static final int MAX_ENTRIES = 10000;
+
 	private static final String TOPIC_NAME = "sessionSync";
 	private static final String CACHE_NAME = "session";
 
@@ -49,25 +53,25 @@ public class SessionCache {
 
 	private TopicSession jmsSession;
 	private TopicPublisher tp;
-	
+
 	private Thread listener;
 	private CacheManager manager;
-	private boolean live=true;
+	private boolean live = true;
 
 	@PostConstruct
 	@SuppressWarnings("unused")
 	private void init() throws Exception {
-		
-		//	Init Cache
+
+		// Init Cache
 		Configuration c = new Configuration();
 		c.setName("sessionManager");
 		manager = new CacheManager(c);
 		CacheConfiguration config = new CacheConfiguration();
-		config.eternal(false).name(CACHE_NAME).maxEntriesLocalHeap(10000).memoryStoreEvictionPolicy(MemoryStoreEvictionPolicy.LRU).timeToIdleSeconds(300).timeToLiveSeconds(900);
+		config.eternal(false).name(CACHE_NAME).maxEntriesLocalHeap(MAX_ENTRIES).memoryStoreEvictionPolicy(MemoryStoreEvictionPolicy.LRU).timeToIdleSeconds(TIME_TO_IDLE).timeToLiveSeconds(TIME_TO_LIVE);
 		manager.addCache(new Cache(config));
 		sessions = manager.getCache(CACHE_NAME);
 
-		//	Init JMS replication
+		// Init JMS replication
 		ConnectionFactory factory = new ActiveMQConnectionFactory(this.url);
 		Connection conn = factory.createConnection();
 		conn.start();
@@ -75,7 +79,7 @@ public class SessionCache {
 		final Topic topic = jmsSession.createTopic(TOPIC_NAME);
 		tp = jmsSession.createPublisher(topic);
 
-		listener = new Thread() {	// Thread created once upon container startup
+		listener = new Thread() { // Thread created once upon container startup
 			public void run() {
 				try {
 					MessageConsumer consumer = jmsSession.createConsumer(topic);
@@ -87,8 +91,7 @@ public class SessionCache {
 
 						if (PUT.equals(msg.getStringProperty(ACTION_KEY))) {
 							sessions.put(new Element(msg.getStringProperty(TOKEN_KEY), msg.getObject()));
-						}
-						else if(REMOVE.equals(msg.getStringProperty(ACTION_KEY))) {
+						} else if (REMOVE.equals(msg.getStringProperty(ACTION_KEY))) {
 							sessions.remove(msg.getStringProperty(TOKEN_KEY));
 						}
 
@@ -98,28 +101,32 @@ public class SessionCache {
 				}
 			}
 		};
-		
+
 		listener.start();
 	}
 
 	@PreDestroy
 	@SuppressWarnings("unused")
 	private void teardown() {
-		this.live=false;
+		this.live = false;
 		this.manager.shutdown();
 	}
-	
+
 	public void put(String token, OAuth2Authentication auth) {
-		this.sessions.put(new Element(token, auth));
-		replicate(token, auth);
+		if (auth != null) {
+			this.sessions.put(new Element(token, auth));
+			replicate(token, auth);
+		} else {
+			warn("Attempting to cache null session!");
+		}
 	}
 
 	public OAuth2Authentication get(String token) {
 
-		if (this.sessions.isKeyInCache(token)) {
-			return (OAuth2Authentication) this.sessions.get(token).getObjectValue();
-		}
-		else {
+		Element element = this.sessions.get(token);
+		if (element != null) {
+			return (OAuth2Authentication) element.getObjectValue();
+		} else {
 			warn("Session cache MISS");
 			return null;
 		}
@@ -134,6 +141,10 @@ public class SessionCache {
 		} catch (JMSException e) {
 			error("Failed to replicate session cache entry", e);
 		}
+	}
+	
+	public void clear() {
+	    this.sessions.removeAll();
 	}
 
 	private void replicate(String token, OAuth2Authentication auth) {

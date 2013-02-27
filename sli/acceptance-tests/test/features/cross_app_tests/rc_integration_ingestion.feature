@@ -9,7 +9,7 @@ Feature: Ingestion
             Given a landing zone
             And I drop the file "SmallSampleDataSet.zip" into the landingzone
             And I check for the file "job*.log" every "30" seconds for "600" seconds
-            Then the landing zone should contain a file with the message "Processed 4254 records"
+            Then the landing zone should contain a file with the message "Processed 9729 records"
             And the landing zone should contain a file with the message "All records processed successfully."
             And I should not see an error log file created
             And I should not see a warning log file created
@@ -36,6 +36,7 @@ Feature: Ingestion
                  | learningStandard                         |               1499|
                  | parent                                   |                  9|
                  | program                                  |                  2|
+                 | recordHash                               |               9479|
                  | reportCard                               |                  2|
                  | schoolSessionAssociation                 |                  0|
                  | section                                  |                 97|
