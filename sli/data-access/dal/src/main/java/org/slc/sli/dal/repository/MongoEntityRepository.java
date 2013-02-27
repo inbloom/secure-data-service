@@ -26,11 +26,24 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import com.mongodb.DBObject;
+
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.mongodb.core.FindAndModifyOptions;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
+import org.springframework.util.Assert;
+
 import org.slc.sli.common.util.datetime.DateTimeUtil;
 import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.dal.RetryMongoCommand;
+import org.slc.sli.dal.convert.ContainerDocumentAccessor;
 import org.slc.sli.dal.convert.Denormalizer;
 import org.slc.sli.dal.convert.SubDocAccessor;
 import org.slc.sli.dal.convert.SuperdocConverter;
@@ -46,29 +59,18 @@ import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.validation.EntityValidator;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.mongodb.core.FindAndModifyOptions;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.util.Assert;
-
-import com.mongodb.DBObject;
 
 /**
  * mongodb implementation of the entity repository interface that provides basic
  * CRUD and field query methods for entities including core entities and
  * association entities
- * 
+ *
  * @author Dong Liu dliu@wgen.net
  */
 
 public class MongoEntityRepository extends MongoRepository<Entity> implements InitializingBean,
         ValidationWithoutNaturalKeys {
-    
+
     @Autowired
     private EntityValidator validator;
 
@@ -82,7 +84,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     @Autowired
     private INaturalKeyExtractor naturalKeyExtractor;
-    
+
     @Autowired
     private SuperdocConverterRegistry converterReg;
 
@@ -97,6 +99,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     private Denormalizer denormalizer;
 
+    private ContainerDocumentAccessor containerDocumentAccessor;
+
     @Autowired
     protected SliSchemaVersionValidatorProvider schemaVersionValidatorProvider;
 
@@ -105,6 +109,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         setWriteConcern(writeConcern);
         subDocs = new SubDocAccessor(getTemplate(), uuidGeneratorStrategy, naturalKeyExtractor);
         denormalizer = new Denormalizer(getTemplate());
+        containerDocumentAccessor = new ContainerDocumentAccessor(uuidGeneratorStrategy, template);
     }
 
     @Override
@@ -230,6 +235,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             denormalizer.denormalization(collectionName).doUpdate(updateEntity, update);
         }
 
+        if (containerDocumentAccessor.isContainerDocument(type)) {
+            result = containerDocumentAccessor.update(type, id, newValues, collectionName);
+        }
+
         return result;
     }
 
@@ -263,6 +272,13 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             }
 
             return entity;
+        } else if (containerDocumentAccessor.isContainerDocument(entity.getType())) {
+            final String createdId = containerDocumentAccessor.insert(entity);
+            if (!createdId.isEmpty()) {
+                return new MongoEntity(type, createdId, entity.getBody(), metaData);
+            } else {
+                return entity;
+            }
         } else {
             SuperdocConverter converter = converterReg.getConverter(collectionName);
             if (converter != null) {
@@ -292,6 +308,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                 denormalizer.denormalization(collectionName).insert(records);
             }
 
+            return records;
+        } else if (containerDocumentAccessor.isContainerDocument(collectionName)) {
+            containerDocumentAccessor.insert(records);
             return records;
         } else {
             List<Entity> persist = new ArrayList<Entity>();
@@ -456,11 +475,16 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         if (converter != null && isSuperdoc) {
             converter.bodyFieldToSubdoc(entity);
         }
+        if (containerDocumentAccessor.isContainerDocument(collection)) {
+            return !containerDocumentAccessor.update(entity).isEmpty();
+        }
 
         return super.update(collection, entity, null, isSuperdoc); // body);
     }
 
-    /** Add the created and updated timestamp to the document metadata. */
+    /**
+     * Add the created and updated timestamp to the document metadata.
+     */
     private void addTimestamps(Entity entity) {
         Date now = DateTimeUtil.getNowInUTC();
 
@@ -469,7 +493,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         metaData.put(EntityMetadataKey.UPDATED.getKey(), now);
     }
 
-    /** Update the updated timestamp on the document metadata. */
+    /**
+     * Update the updated timestamp on the document metadata.
+     */
     public void updateTimestamp(Entity entity) {
         Date now = DateTimeUtil.getNowInUTC();
         entity.getMetaData().put(EntityMetadataKey.UPDATED.getKey(), now);
@@ -569,8 +595,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     /**
-     * @Deprecated
-     *             "This is a deprecated method that should only be used by the ingestion ID
+     * @Deprecated "This is a deprecated method that should only be used by the ingestion ID
      *             Normalization code.
      *             It is not tenant-safe meaning clients of this method must include tenantId in the
      *             metaData block"
