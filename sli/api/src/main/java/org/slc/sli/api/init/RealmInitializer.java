@@ -35,55 +35,55 @@ import org.slc.sli.domain.Repository;
 
 /**
  * Class for bootstrapping the initial SLI realm that must always exist into mongo.
- *
+ * 
  */
 @Component
 public class RealmInitializer {
-
+    
     @Value("${bootstrap.admin.realm.name}")
     private String adminRealmName;
-
+    
     @Value("${bootstrap.admin.realm.tenantId}")
     private String adminTenantId;
-
+    
     @Value("${bootstrap.admin.realm.idpId}")
     private String adminIdpId;
-
+    
     @Value("${bootstrap.admin.realm.redirectEndpoint}")
     private String adminRedirectEndpoint;
-
+    
     @Value("${bootstrap.developer.realm.name:@null}")
     private String devRealmName;
-
+    
     @Value("${bootstrap.developer.realm.uniqueId:@null}")
     private String devUniqueId;
-
+    
     @Value("${bootstrap.developer.realm.idpId:@null}")
     private String devIdpId;
-
+    
     @Value("${bootstrap.developer.realm.redirectEndpoint:@null}")
     private String devRedirectEndpoint;
-
+    
     @Value("${sli.sandbox.enabled}")
     private boolean isSandbox;
-
+    
     @Autowired
     @Qualifier("validationRepo")
     private Repository<Entity> repository;
-
+    
     protected static final String REALM_RESOURCE = "realm";
-
+    
     // This is what we use to look up the existing admin realm. If this changes, we might end up
     // with extra realms
     public static final String ADMIN_REALM_ID = "Shared Learning Collaborative";
-
+    
     @PostConstruct
     public void bootstrap() {
         
         // boostrap the admin realm
         Map<String, Object> bootstrapAdminRealmBody = createAdminRealmBody();
         createOrUpdateRealm(ADMIN_REALM_ID, bootstrapAdminRealmBody);
-
+        
         if (!isSandbox) {
             // setup the app developer realm when in production mode
             ensurePropertySet("bootstrap.developer.realm.name", devRealmName);
@@ -99,11 +99,11 @@ public class RealmInitializer {
         // the nullValue property on Spring's PropertyPlaceholderConfig doesn't seem to work
         // correctly in Spring 3.0 - it fails an assertion during autowiring.
         if ("@null".equals(value) || value == null) {
-            error("Missing property {} required for production mode" , new Object[] { property } );
+            error("Missing property {} required for production mode", new Object[] { property });
             throw new IllegalArgumentException("Required property not set: " + property);
         }
     }
-
+    
     private void createOrUpdateRealm(String realmId, Map<String, Object> realmEntity) {
         Entity existingRealm = findRealm(realmId);
         if (existingRealm != null) {
@@ -113,15 +113,15 @@ public class RealmInitializer {
             info("Creating {} realm.", realmId);
             repository.create(REALM_RESOURCE, realmEntity);
         }
-
+        
     }
-
+    
     /**
      * We only want to update the realm if it has changed.
      * It's a bad idea to drop the admin realm without checking
      * because we could potentially have multiple API machines all
      * hitting the same mongo instance and reinitializing the realm
-     *
+     * 
      * @param existingRealm
      */
     @SuppressWarnings({ "rawtypes" })
@@ -141,29 +141,29 @@ public class RealmInitializer {
             info("No need to update realm: {}", new Object[] { existingRealm.getBody().get("name") });
         }
     }
-
+    
     protected Map<String, Object> createAdminRealmBody() {
         Map<String, Object> body = createRealmBody(ADMIN_REALM_ID, adminRealmName, adminTenantId,
                 "fakeab32-b493-999b-a6f3-sliedorg1234", true, false, adminIdpId, adminRedirectEndpoint);
-
+        
         return insertSaml(body, true, false);
     }
-
+    
     protected Map<String, Object> createDeveloperRealmBody() {
         Map<String, Object> body = createRealmBody(devUniqueId, devRealmName, "", null, false, true, devIdpId,
                 devRedirectEndpoint);
-
+        
         return insertSaml(body, false, true);
     }
-
+    
     private Map<String, Object> insertSaml(Map<String, Object> body, boolean isAdminRealm, boolean isDeveloperRealm) {
         Map<String, Object> saml = new HashMap<String, Object>();
         saml.put("field", getFields(isAdminRealm, isDeveloperRealm));
         body.put("saml", saml);
-
+        
         return body;
     }
-
+    
     private Map<String, Object> createRealmBody(String uniqueId, String name, String tenantId, String edOrg,
             boolean admin, boolean developer, String idpId, String redirectEndpoint) {
         Map<String, Object> body = new HashMap<String, Object>();
@@ -177,14 +177,14 @@ public class RealmInitializer {
         }
         body.put("admin", admin);
         body.put("developer", developer);
-
+        
         Map<String, Object> idp = new HashMap<String, Object>();
         idp.put("id", idpId);
         idp.put("redirectEndpoint", redirectEndpoint);
         body.put("idp", idp);
         return body;
     }
-
+    
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private List getFields(boolean isAdminRealm, boolean isDeveloperRealm) {
         List toReturn = new ArrayList();
@@ -195,20 +195,20 @@ public class RealmInitializer {
         toReturn.add(createField("userType", "(.+)"));
         toReturn.add(createField("isAdmin", "(.+)"));
         toReturn.add(createField("mail", "(.+)"));
-
+        
         if (isDeveloperRealm || isAdminRealm) {
             toReturn.add(createField("givenName", "(.+)"));
             toReturn.add(createField("sn", "(.+)"));
             toReturn.add(createField("vendor", "(.+)"));
         }
-
+        
         if (isAdminRealm) {
             toReturn.add(createField("edOrg", "(.+)"));
         }
-
+        
         return toReturn;
     }
-
+    
     @SuppressWarnings({ "rawtypes", "unchecked" })
     private Map createField(String name, String transform) {
         Map toReturn = new HashMap();
@@ -217,17 +217,16 @@ public class RealmInitializer {
         toReturn.put("transform", transform);
         return toReturn;
     }
-
+    
     /**
      * Find a realm.
-     *
+     * 
      * @return the realm entity, or null if not found
      */
     private Entity findRealm(String realmUniqueId) {
         return repository.findOne(REALM_RESOURCE, new NeutralQuery(new NeutralCriteria("uniqueIdentifier",
                 NeutralCriteria.OPERATOR_EQUAL, realmUniqueId)));
     }
-
     
     /*
      * Setters for unit testing.
@@ -235,19 +234,19 @@ public class RealmInitializer {
     protected void setDevRealmName(String devRealmName) {
         this.devRealmName = devRealmName;
     }
-
+    
     protected void setDevUniqueId(String devUniqueId) {
         this.devUniqueId = devUniqueId;
     }
-
+    
     protected void setDevIdpId(String devIdpId) {
         this.devIdpId = devIdpId;
     }
-
+    
     protected void setDevRedirectEndpoint(String devRedirectEndpoint) {
         this.devRedirectEndpoint = devRedirectEndpoint;
     }
-
+    
     protected void setSandbox(boolean isSandbox) {
         this.isSandbox = isSandbox;
     }

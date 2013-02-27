@@ -45,7 +45,7 @@ public class RealmInitializerTest {
     
     @InjectMocks
     private RealmInitializer realmInit;
-        
+    
     @Mock
     private Repository<Entity> mockRepo;
     
@@ -112,7 +112,7 @@ public class RealmInitializerTest {
                 NeutralCriteria.OPERATOR_EQUAL, RealmInitializer.ADMIN_REALM_ID));
         
         NeutralQuery developerQuery = new NeutralQuery(new NeutralCriteria("uniqueIdentifier",
-                NeutralCriteria.OPERATOR_EQUAL, null)); 
+                NeutralCriteria.OPERATOR_EQUAL, null));
         // verify that the code doesn't attempt to update the realm if the existing one hasn't been
         // modified
         Map body = realmInit.createAdminRealmBody();
@@ -136,7 +136,6 @@ public class RealmInitializerTest {
         realmInit.bootstrap();
         assertFalse("Existing realm was not touched", update.get());
     }
-    
     
     @Test(expected = IllegalArgumentException.class)
     public void testProdModeNoProps() {
