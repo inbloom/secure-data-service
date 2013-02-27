@@ -12,6 +12,11 @@
         <StudentUniqueStateId>530425896</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
   </AttendanceEvent>
   <AttendanceEvent>
     <SchoolYear>2010-2011</SchoolYear>
@@ -24,5 +29,10 @@
         <StudentUniqueStateId>530425896</StudentUniqueStateId>
       </StudentIdentity>
     </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
   </AttendanceEvent>
 </InterchangeStudentAttendance>
