@@ -392,7 +392,7 @@ public class UriMutator {
                 verifySingleTransitiveId(transitiveEntityId);
                 mutated.setPath(String.format(
                         "/schools/%s/sections/studentSectionAssociations/studentCompetencies",
-                        StringUtils.join(edOrgHelper.getFilteredDirectEdorgs(user), ",")));
+                        StringUtils.join(edOrgHelper.getDirectEdorgs(user), ",")));
                 mutated.setQueryParameters(mutuateQueryParameterString("objectiveId.learningObjectiveId", transitiveEntityId, mutated.getQueryParameters()));
             }
         }
