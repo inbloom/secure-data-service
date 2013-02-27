@@ -39,5 +39,17 @@ limitations under the License.
       </GradingPeriodIdentity>
     </GradingPeriodReference>
     {{/grading_periods}}
+    {{#calendarDateReference}}
+    <CalendarDateReference>
+      <CalendarDateIdentity>
+        <Date>{{date}}</Date>
+        <EducationOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>{{ed_org_id}}</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationOrgReference>
+      </CalendarDateIdentity>
+    </CalendarDateReference>
+    {{/calendarDateReference}}
   </Session>
 {{/entity}}

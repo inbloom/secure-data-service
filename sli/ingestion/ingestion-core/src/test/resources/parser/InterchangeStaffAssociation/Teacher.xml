@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStaffAssociation xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Teacher id="ID001">
+    <StaffUniqueStateId>iytez9gFUJfovYCkYXQ3kKofV7RdL</StaffUniqueStateId>
+    <StaffIdentificationCode IdentificationSystem="District" AssigningOrganizationCode="kqd55pX9mLRJf.K7f_VBzDRB4wT1QMRE-LXRh1">
+      <ID>lX82jZNFKNehTMso0_cu7bq</ID>
+    </StaffIdentificationCode>
+    <StaffIdentificationCode IdentificationSystem="Canadian SIN"
+      AssigningOrganizationCode="PT7UnR.2yhaw28HrhyiyX1wN16wP33hVfrqtmT4Q9JiXHtWZJZv5Wqd0nTy.">
+      <ID>_MayJd.Gw3t8</ID>
+    </StaffIdentificationCode>
+    <Name Verification="Drivers license">
+      <PersonalTitlePrefix>Sister</PersonalTitlePrefix>
+      <FirstName>EZlq_J8-Iytl1lMoX6PRe172zXtySazEM.Uu</FirstName>
+      <MiddleName>MKqnSHKUrQEL0wPV4xCI5WYRDF7i50L7-r6Blh</MiddleName>
+      <LastSurname>qncliXxNNmcyYpyQYSntq</LastSurname>
+      <GenerationCodeSuffix>VI</GenerationCodeSuffix>
+      <MaidenName>pMhw4gFIrLrx.ZC0Ud16D6W.7OAxUnmA.B3FjW5e3lvPYBR9AEB8Mop86EvnGky0</MaidenName>
+    </Name>
+    <OtherName OtherNameType="Previous Legal Name">
+      <PersonalTitlePrefix>Mr</PersonalTitlePrefix>
+      <FirstName>eLHsqSob</FirstName>
+      <MiddleName>n66Ws.qNatBEiZNwXVzq</MiddleName>
+      <LastSurname>RIXdXZr8lUyyfoMS6w</LastSurname>
+      <GenerationCodeSuffix>VIII</GenerationCodeSuffix>
+    </OtherName>
+    <OtherName OtherNameType="Nickname">
+      <PersonalTitlePrefix>Reverend</PersonalTitlePrefix>
+      <FirstName>Ir7J6uTquGP75gl7yS_tViJ8GkZU3sGo7-Wpcq-XZgAao-mwR7MCL5s6_A</FirstName>
+      <MiddleName>b5geKyfC6hhOnnpeyvMZrkzTgf_t.AhD6.seR2_pofbq8lY5uWUmyrnGyhdvW</MiddleName>
+      <LastSurname>XhdCOWL2aKgI_rguFMTiDi0</LastSurname>
+      <GenerationCodeSuffix>IV</GenerationCodeSuffix>
+    </OtherName>
+    <Sex>Female</Sex>
+    <BirthDate>2014-03-26</BirthDate>
+    <Address AddressType="Home">
+      <AddressLine>BBw1Pl_Jk0Y3udqUVn2QnH-D5_14F76kxdylzzH9TmUgprel2ESTMlX75tCy</AddressLine>
+      <AddressLine>sFcQms</AddressLine>
+      <Country>LIBERIA</Country>
+      <Latitude>W6k7ffDfAG_CCOFfE</Latitude>
+      <Longitude>I7cL4uyEbyXgIQM</Longitude>
+      <BeginDate>2014-11-17</BeginDate>
+      <EndDate>2014-04-18</EndDate>
+    </Address>
+    <Address AddressType="Work">
+      <AddressLine>EIRoqIU-kvbmqhj01jyhpHr.Z6_gYPIvkPp0JGAleXvGLSHH1f6k5v26e0aQ3YCumiRtkJG65w403sqDYx7ibdClJNXdhd4dSwlhSL-WL6t1lzVLq</AddressLine>
+      <AddressLine>_pXRiYcaODbXd1sxM-S8-AlYI38mrYv7gF14owL7-NmQk21rxfGKo0RyZ04mLZ</AddressLine>
+      <Country>ANGUILLA</Country>
+      <Latitude>R29egClmtSwCCA</Latitude>
+      <Longitude>j5YSe9c-zKb-</Longitude>
+      <BeginDate>2013-10-10</BeginDate>
+      <EndDate>2014-03-20</EndDate>
+    </Address>
+    <Telephone TelephoneNumberType="Mobile" PrimaryTelephoneNumberIndicator="0">
+      <TelephoneNumber>BG</TelephoneNumber>
+    </Telephone>
+    <Telephone TelephoneNumberType="Unlisted" PrimaryTelephoneNumberIndicator="0">
+      <TelephoneNumber>uCvjlE1BrQzf9m</TelephoneNumber>
+    </Telephone>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>lWaTdymittPUh8nxvyTHz55C9D33oLrslHI4SZkJICcBGOr8X</EmailAddress>
+    </ElectronicMail>
+    <ElectronicMail EmailAddressType="Other">
+      <EmailAddress>xTE566T98b.IktBpVSkXlP6iUVjQY</EmailAddress>
+    </ElectronicMail>
+    <HispanicLatinoEthnicity>true</HispanicLatinoEthnicity>
+    <OldEthnicity>Hispanic</OldEthnicity>
+    <Race>
+      <RacialCategory>Asian</RacialCategory>
+      <RacialCategory>White</RacialCategory>
+    </Race>
+    <HighestLevelOfEducationCompleted>Bachelor's</HighestLevelOfEducationCompleted>
+    <YearsOfPriorProfessionalExperience>-1401861127</YearsOfPriorProfessionalExperience>
+    <YearsOfPriorTeachingExperience>-1683517056</YearsOfPriorTeachingExperience>
+    <Credentials>
+      <CredentialType>Endorsement</CredentialType>
+      <CredentialField id="ID003" ref="ID001">
+        <Description>ldLKNP:LIHrwztGMIFB:u:hEvsEsF1PL1ynvZ6noKuJdlu9ylo2t6b.k7ER3.PaaMoA2yM5uiS1a2njgY4TxYcMuRGriy8X3dFA:xPlT5NlkZwayLRIlhvu-S-Tig675XxeFTO4HV46TNFmm_e3FAn:6wDvqF_7OF.f-9loGgkBwhQkVyoNk8yqIli-AgJ8YfigwxQIRbmQgbdq_XWSL-qlV:UyXmt7mF09XXyuLDJ0CLQ:o1uOe-bZRRYP67daBxKZx0oULNUPDSgMpZruCH2BE3ZKMssAEtf4mfmk.ZWFL-bpARUX-COIP0fQ6e8FyllRMGd61Mb3XuIuozWHj</Description>
+      </CredentialField>
+      <Level>Junior High (Grade Level 6-8)</Level>
+      <TeachingCredentialType>Temporary</TeachingCredentialType>
+      <CredentialIssuanceDate>2013-07-28</CredentialIssuanceDate>
+      <CredentialExpirationDate>2014-02-07</CredentialExpirationDate>
+      <TeachingCredentialBasis>5-year bachelor's degree</TeachingCredentialBasis>
+    </Credentials>
+    <Credentials>
+      <CredentialType>Endorsement</CredentialType>
+      <CredentialField id="ID005" ref="ID003">
+        <CodeValue>X53AXB1NCI-t</CodeValue>
+      </CredentialField>
+      <Level>Elementary (Grade Level PK-5)</Level>
+      <TeachingCredentialType>Emergency Non-Certified</TeachingCredentialType>
+      <CredentialIssuanceDate>2013-06-29</CredentialIssuanceDate>
+      <CredentialExpirationDate>2015-01-20</CredentialExpirationDate>
+      <TeachingCredentialBasis>Met state testing requirement</TeachingCredentialBasis>
+    </Credentials>
+    <LoginId>m80POEKizEAQHuHRJ3zOKGiw4CI5B7thP.</LoginId>
+    <TeacherUniqueStateId>ftFGLGNrjZrWktIvfS.iy8bY</TeacherUniqueStateId>
+    <HighlyQualifiedTeacher>false</HighlyQualifiedTeacher>
+  </Teacher>
+</InterchangeStaffAssociation>

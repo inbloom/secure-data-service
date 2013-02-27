@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeAssessmentMetadata xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ObjectiveAssessment id="ID001">
+    <IdentificationCode>HJDowIqe5ynYf-a</IdentificationCode>
+    <MaxRawScore>-616777533</MaxRawScore>
+    <AssessmentPerformanceLevel>
+      <PerformanceLevel id="ID003" ref="ID002">
+        <CodeValue>Wsv8Xq4AlZ_JQFnv</CodeValue>
+        <PerformanceLevelMet>true</PerformanceLevelMet>
+      </PerformanceLevel>
+      <AssessmentReportingMethod>Z-score</AssessmentReportingMethod>
+      <MinimumScore>-198225122</MinimumScore>
+      <MaximumScore>273522200</MaximumScore>
+    </AssessmentPerformanceLevel>
+    <PercentOfAssessment>-379146788</PercentOfAssessment>
+    <Nomenclature>J</Nomenclature>
+    <AssessmentItemReference id="ID005" ref="ID002" />
+    <LearningObjectiveReference>
+      <LearningObjectiveIdentity>
+        <Objective>piv</Objective>
+        <AcademicSubject>Communication and Audio/Visual Technology</AcademicSubject>
+        <ObjectiveGradeLevel>Preschool/Prekindergarten</ObjectiveGradeLevel>
+      </LearningObjectiveIdentity>
+    </LearningObjectiveReference>
+    <LearningStandardReference>
+      <LearningStandardIdentity>
+        <IdentificationCode>HTDJdlX-7HbFcSUxFiBPLj6iODRUFJDSrsdKLkR6H-DeyW-9</IdentificationCode>
+      </LearningStandardIdentity>
+    </LearningStandardReference>
+    <ObjectiveAssessmentReference>
+      <ObjectiveAssessmentIdentity>
+        <ObjectiveAssessmentIdentificationCode>VZDSaOEQ6c5j2J.taMsH15xtlDp_OuPqujkxHwkLHQyrSG</ObjectiveAssessmentIdentificationCode>
+      </ObjectiveAssessmentIdentity>
+    </ObjectiveAssessmentReference>
+  </ObjectiveAssessment>
+</InterchangeAssessmentMetadata>

@@ -331,8 +331,10 @@ public class JobReportingProcessor implements Processor {
     }
 
     private void writeDuplicates(NewBatchJob job, PrintWriter jobReportWriter) {
-        List<Metrics> edfiMetrics = job.getStageMetrics(BatchJobStageType.EDFI_PROCESSOR);
-        if (edfiMetrics != null) {
+        List<Stage> stages = batchJobDAO.getBatchJobStages(job.getId(), BatchJobStageType.EDFI_PROCESSOR);
+
+        for (Stage stage : stages) {
+            List<Metrics> edfiMetrics = stage.getMetrics();
             for (Metrics metric : edfiMetrics) {
                 Map<String, Long> duplicates = metric.getDuplicateCounts();
 
@@ -353,7 +355,7 @@ public class JobReportingProcessor implements Processor {
     private long writeBatchJobPersistenceMetrics(NewBatchJob job, PrintWriter jobReportWriter) {
         long totalProcessed = 0;
 
-        List<Stage> stages = batchJobDAO.getBatchJobStages(job.getId());
+        List<Stage> stages = batchJobDAO.getBatchJobStages(job.getId(), BatchJobStageType.PERSISTENCE_PROCESSOR);
         Iterator<Stage> it = stages.iterator();
 
         Stage stage;

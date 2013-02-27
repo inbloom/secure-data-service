@@ -77,7 +77,7 @@ Before do
 
   if (INGESTION_MODE != 'remote')
     @batchConn.drop_database(INGESTION_BATCHJOB_DB_NAME)
-    ensureBatchJobIndexes(@batchConn)
+    `mongo ingestion_batch_job ../config/indexes/ingestion_batch_job_indexes.js`
     puts "Dropped " + INGESTION_BATCHJOB_DB_NAME + " database"
   else
     @tenant_conn = @conn.db(convertTenantIdToDbName(PropLoader.getProps['tenant']))
@@ -168,54 +168,6 @@ Before do
   end
 
   initializeTenants()
-end
-
-def ensureBatchJobIndexes(db_connection)
-
-  @db = db_connection[INGESTION_BATCHJOB_DB_NAME]
-
-  @collection = @db["error"]
-  @collection.save({ 'batchJobId' => " " })
-  @collection.ensure_index([['batchJobId', 1]])
-  @collection.ensure_index([['resourceId', 1]])
-  @collection.ensure_index([['batchJobId', 1], ['severity', 1]])
-  @collection.remove({ 'batchJobId' => " "  })
-
-  @collection = @db["newBatchJob"]
-  @collection.save({ '_id' => " " })
-  @collection.ensure_index([['_id', 1]])
-  @collection.ensure_index([['_id', 1], ['stages.$.chunks.stageName', 1]])
-  @collection.remove({ '_id' => " " })
-
-  @collection = @db["batchJobStage"]
-  @collection.save({ 'jobId' => " ", 'stageName' => " " })
-  @collection.ensure_index([['jobId', 1], ['stageName', 1]])
-  @collection.remove({ 'jobId' => " ", 'stageName' => " "  })
-
-  @collection = @db["transformationLatch"]
-  @collection.save({ '_id' => " " })
-  @collection.ensure_index([['syncStage', 1], ['jobId', 1], ['recordType' , 1]] , :unique => true)
-  @collection.remove({ '_id' => " " })
-
-  @collection = @db["persistenceLatch"]
-  @collection.save({ '_id' => " " })
-  @collection.ensure_index([['syncStage', 1], ['jobId', 1], ['entities' , 1]] , :unique => true)
-  @collection.remove({ '_id' => " " })
-
-  @collection = @db["stagedEntities"]
-  @collection.save({ '_id' => " " })
-  @collection.ensure_index([['jobId', 1]] , :unique => true)
-  @collection.remove({ '_id' => " " })
-
-  @collection = @db["recordHash"]
-  @collection.save({ '_id' => " " })
-  @collection.ensure_index([['t', 1]])
-  @collection.remove({ '_id' => " " })
-
-  @collection = @db["fileEntryLatch"]
-  @collection.save({'_id' => " "})
-  @collection.ensure_index([['batchJobId', 1]], :unique => true)
-  @collection.remove({'_id' => " "})
 end
 
 def initializeTenants()
@@ -815,7 +767,7 @@ end
 Given /^the following collections are empty in sli datastore:$/ do |table|
     disable_NOTABLESCAN()
     @db = @conn[INGESTION_DB_NAME]
-    puts "Clearing out collections in db " + @ingestion_db_name + " on " + INGESTION_DB_NAME
+    puts "Clearing out collections in db " + INGESTION_DB_NAME + " on " + INGESTION_DB_NAME
     @result = "true"
     table.hashes.map do |row|
             @entity_collection = @db[row["collectionName"]]
@@ -878,10 +830,12 @@ Given /^the following collections are empty in batch job datastore:$/ do |table|
       @result = "false"
     end
   end
-  #ensureBatchJobIndexes(@batchConn)
-  #assert(@result == "true", "Some collections were not cleared successfully.")
-  exec 'mongo ingestion_batch_job ../config/indexes/ingestion_batch_job_indexes.js'
+  `mongo ingestion_batch_job ../config/indexes/ingestion_batch_job_indexes.js`
   enable_NOTABLESCAN()
+end
+
+When /^the tenant indexes are applied to the tenant "(.*?)"$/ do |tenant|
+    `ruby ../config/scripts/indexTenantDb.rb #{INGESTION_DB} #{convertTenantIdToDbName(tenant)}`
 end
 
 When /^the tenant with tenantId "(.*?)" is locked$/ do |tenantId|
@@ -1890,50 +1844,11 @@ Then /^I should say that we started processing$/ do
 end
 
 Then /^I check to find if record is in collection:$/ do |table|
-  disable_NOTABLESCAN()
-  @db   = @conn[@ingestion_db_name]
+   check_records_in_collection(table, @ingestion_db_name)
+end
 
-  @result = "true"
-
-  table.hashes.map do |row|
-    subdoc_parent = subDocParent row["collectionName"]
-    if subdoc_parent
-      @entity_count = runSubDocQuery(subdoc_parent, row["collectionName"], row["searchType"], row["searchParameter"], row["searchValue"])
-    else
-      @entity_collection = @db.collection(row["collectionName"])
-
-      if row["searchType"] == "integer"
-        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_i}]}).count().to_s
-      elsif row["searchType"] == "double"
-        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_f}]}).count().to_s
-      elsif row["searchType"] == "boolean"
-        if row["searchValue"] == "false"
-          @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => false}]}).count().to_s
-        else
-          @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => true}]}).count().to_s
-        end
-      elsif row["searchType"] == "nil"
-        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => nil}]}).count().to_s
-      else
-        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"]}]}).count().to_s
-      end
-    end
-
-    puts "There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"]
-
-
-    if @entity_count.to_s != row["expectedRecordCount"].to_s
-      puts "Failed #{row["collectionName"]}"
-      @result = "false"
-      red = "\e[31m"
-      reset = "\e[0m"
-    end
-    puts "#{red}There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"] + ". Expected: " + row["expectedRecordCount"].to_s + "#{reset}"
-
-  end
-
-  assert(@result == "true", "Some records are not found in collection.")
-  enable_NOTABLESCAN()
+Then /^I check to find if record is in sli db collection:$/ do |table|
+   check_records_in_collection(table, INGESTION_DB_NAME)
 end
 
 # Deep-document inspection when we are interested in top-level entities (_id, type, etc)
@@ -2098,7 +2013,7 @@ def deepDocumentInspect(coll, doc_key, expected_value)
     elsif doc_ary[1].respond_to?(:to_ary)
       real_value = @dd_doc[doc_ary[0]][doc_ary[1]][0]
     # --> this will cast a boolean to a string, or just pass a string thru
-    elsif doc_ary[1].respond_to?(:to_s) 
+    elsif doc_ary[1].respond_to?(:to_s)
       real_value = @dd_doc[doc_ary[0]][doc_ary[1]]
     # --> If the mongo entity is not something we can handle, we need
     # --> to fail gracefully and notify the type issue
@@ -2832,6 +2747,52 @@ Then /^I should see either "(.*?)" or "(.*?)" following (.*?) in "(.*?)" file$/ 
   assert(found == true, "content not found")
 end
 
+def check_records_in_collection(table, db_name)
+  disable_NOTABLESCAN()
+  @db   = @conn[db_name]
+
+  @result = "true"
+
+  table.hashes.map do |row|
+    subdoc_parent = subDocParent row["collectionName"]
+    if subdoc_parent
+      @entity_count = runSubDocQuery(subdoc_parent, row["collectionName"], row["searchType"], row["searchParameter"], row["searchValue"])
+    else
+      @entity_collection = @db.collection(row["collectionName"])
+
+      if row["searchType"] == "integer"
+        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_i}]}).count().to_s
+      elsif row["searchType"] == "double"
+        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"].to_f}]}).count().to_s
+      elsif row["searchType"] == "boolean"
+        if row["searchValue"] == "false"
+          @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => false}]}).count().to_s
+        else
+          @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => true}]}).count().to_s
+        end
+      elsif row["searchType"] == "nil"
+        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => nil}]}).count().to_s
+      else
+        @entity_count = @entity_collection.find({"$and" => [{row["searchParameter"] => row["searchValue"]}]}).count().to_s
+      end
+    end
+
+    puts "There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"]
+
+
+    if @entity_count.to_s != row["expectedRecordCount"].to_s
+      puts "Failed #{row["collectionName"]}"
+      @result = "false"
+      red = "\e[31m"
+      reset = "\e[0m"
+    end
+    puts "#{red}There are " + @entity_count.to_s + " in " + row["collectionName"] + " collection for record with " + row["searchParameter"] + " = " + row["searchValue"] + ". Expected: " + row["expectedRecordCount"].to_s + "#{reset}"
+
+  end
+
+  assert(@result == "true", "Some records are not found in collection.")
+  enable_NOTABLESCAN()
+end
 def verifySubDocDid(subdoc_parent, subdoc, didId, field, value)
   @entity_collection = @db.collection(subdoc_parent)
 
@@ -2953,6 +2914,25 @@ Then /^I check that references were resolved correctly:$/ do |table|
 	enable_NOTABLESCAN()
 end
 
+Then /^all attendance entities should should have the expected structure./ do
+  @db = @conn[@ingestion_db_name]
+  @coll = @db['attendance']
+  @coll.find.each do | entity |
+
+    assert(entity["body"].has_key?("schoolId"))
+    assert(entity["body"].has_key?("schoolYear"))
+    assert(entity["body"].has_key?("studentId"))
+    assert(!entity["body"].has_key?("schoolYearAttendance")) #make sure deprecated elements do not appear in the db
+
+    if entity["body"].has_key?("attendanceEvent")
+      entity["body"]["attendanceEvent"].each do |event|
+        assert(event.keys.include?("date"))
+        assert(event.keys.include?("event"))
+      end
+    end
+  end
+
+end
 
 ############################################################
 # STEPS: AFTER

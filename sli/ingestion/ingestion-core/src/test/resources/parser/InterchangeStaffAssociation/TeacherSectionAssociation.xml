@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStaffAssociation xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <TeacherSectionAssociation>
+    <TeacherReference>
+      <StaffIdentity>
+        <StaffUniqueStateId>pXas4CbbfwQQi</StaffUniqueStateId>
+      </StaffIdentity>
+    </TeacherReference>
+    <SectionReference>
+      <SectionIdentity>
+        <EducationalOrgReference>
+          <EducationalOrgIdentity>
+            <StateOrganizationId>A2GmaqA5BhrhWmBw6J_5ow</StateOrganizationId>
+          </EducationalOrgIdentity>
+        </EducationalOrgReference>
+        <UniqueSectionCode>bjoYzn6NwaVpdHYLbRpGkaxkkIYDHMfC6XAfLTAZZr-Q</UniqueSectionCode>
+      </SectionIdentity>
+    </SectionReference>
+    <ClassroomPosition>Substitute Teacher</ClassroomPosition>
+    <BeginDate>2014-03-29</BeginDate>
+    <EndDate>2013-11-14</EndDate>
+    <HighlyQualifiedTeacher>true</HighlyQualifiedTeacher>
+  </TeacherSectionAssociation>
+</InterchangeStaffAssociation>

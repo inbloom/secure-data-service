@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentAssessment xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <StudentAssessmentItem id="ID009">
+    <AssessmentResponse>AssessmentResponse0</AssessmentResponse>
+    <ResponseIndicator>Nonscorable response</ResponseIndicator>
+    <AssessmentItemResult>Correct</AssessmentItemResult>
+    <RawScoreResult>0</RawScoreResult>
+    <StudentAssessmentReference>
+      <StudentAssessmentIdentity>
+        <AdministrationDate>2006-05-04</AdministrationDate>
+        <StudentReference id="ID010">
+          <StudentIdentity>
+            <StudentUniqueStateId>StudentUniqueStateId1</StudentUniqueStateId>
+          </StudentIdentity>
+        </StudentReference>
+        <AssessmentReference id="ID011">
+          <AssessmentIdentity>
+            <AssessmentTitle>AssessmentTitle2</AssessmentTitle>
+          </AssessmentIdentity>
+        </AssessmentReference>
+      </StudentAssessmentIdentity>
+    </StudentAssessmentReference>
+    <StudentObjectiveAssessmentReference>
+      <StudentObjectiveAssessmentIdentity>
+        <StudentAssessmentReference>
+          <StudentAssessmentIdentity>
+            <AdministrationDate>2006-05-04</AdministrationDate>
+            <StudentReference id="ID012">
+            </StudentReference>
+            <AssessmentReference id="ID013">
+            </AssessmentReference>
+          </StudentAssessmentIdentity>
+        </StudentAssessmentReference>
+        <ObjectiveAssessmentReference>
+          <ObjectiveAssessmentIdentity>
+            <ObjectiveAssessmentIdentificationCode>ObjectiveAssessmentIdentificationCode1</ObjectiveAssessmentIdentificationCode>
+          </ObjectiveAssessmentIdentity>
+        </ObjectiveAssessmentReference>
+      </StudentObjectiveAssessmentIdentity>
+    </StudentObjectiveAssessmentReference>
+    <AssessmentItemReference>
+      <AssessmentItemIdentity>
+        <AssessmentItemIdentificationCode>AssessmentItemIdentificationCode0</AssessmentItemIdentificationCode>
+      </AssessmentItemIdentity>
+    </AssessmentItemReference>
+  </StudentAssessmentItem>
+</InterchangeStudentAssessment>

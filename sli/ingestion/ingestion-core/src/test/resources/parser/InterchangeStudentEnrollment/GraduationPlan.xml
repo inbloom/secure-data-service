@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentEnrollment xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <GraduationPlan id="ID003">
+    <GraduationPlanType>Distinguished</GraduationPlanType>
+    <IndividualPlan>0</IndividualPlan>
+    <TotalCreditsRequired CreditType="Quarter hour credit" CreditConversion="-1702938278.021">
+      <Credit>130526320.36</Credit>
+    </TotalCreditsRequired>
+    <CreditsBySubject>
+      <SubjectArea>Life and Physical Sciences</SubjectArea>
+      <Credits CreditType="Twelve month year hour credit" CreditConversion="-536936256.301">
+        <Credit>938659305.75</Credit>
+      </Credits>
+    </CreditsBySubject>
+    <CreditsBySubject>
+      <SubjectArea>Social Studies</SubjectArea>
+      <Credits CreditType="Semester hour credit" CreditConversion="-1845917164.675">
+        <Credit>258770215.83</Credit>
+      </Credits>
+    </CreditsBySubject>
+    <CreditsByCourse>
+      <CourseCode IdentificationSystem="State course code" AssigningOrganizationCode="LY-15VqyIdsM7R.nlD9FRlqm1sAyM0T9fW">
+        <ID>H4ObUGlzv_MrNKlqaL1iyj5pnC5aSBP.46rfkQBFJCSLrH</ID>
+      </CourseCode>
+      <CourseCode IdentificationSystem="Other" AssigningOrganizationCode="ozxAV-0BW00.JYL.W65RZTvqr6oiWQqKKSVRGwef4lvp4nsfBOXWf8">
+        <ID>AGrlESan_yIdhXRKVG</ID>
+      </CourseCode>
+      <Credits CreditType="Trimester hour credit" CreditConversion="-1857508553.544">
+        <Credit>50697760.02</Credit>
+      </Credits>
+      <GradeLevel>Preschool/Prekindergarten</GradeLevel>
+    </CreditsByCourse>
+    <CreditsByCourse>
+      <CourseCode IdentificationSystem="LEA course code" AssigningOrganizationCode="X1pGitt6oNhhdPWaJOltwZLo1j62jl-xIOK0-MhxF">
+        <ID>JMRT0x-YCb8KUdgM9RvnCTwqfpNnwq</ID>
+      </CourseCode>
+      <CourseCode IdentificationSystem="School course code" AssigningOrganizationCode="mMUTtC1.zjsKwv6itRKCEZk4BC_7D8VHkl90EnKU-0APna-N">
+        <ID>hn1qYGif8X</ID>
+      </CourseCode>
+      <Credits CreditType="Semester hour credit" CreditConversion="-526688416.17">
+        <Credit>1347819254.09</Credit>
+      </Credits>
+      <GradeLevel>Preschool/Prekindergarten</GradeLevel>
+    </CreditsByCourse>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>pnML5IrRgmVeYZMO3IlTVwnmrO3NCzUYb3plQyn0LIAmYBtEVYKG9zS</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+    <EducationOrganizationReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>DgswYI9Aq.I2cG6h6CgR</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </EducationOrganizationReference>
+  </GraduationPlan>
+</InterchangeStudentEnrollment>

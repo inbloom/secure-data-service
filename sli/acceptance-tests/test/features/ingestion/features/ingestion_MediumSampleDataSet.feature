@@ -29,6 +29,7 @@ Given I post "MediumSampleDataSet.zip" file as the payload of the ingestion job
      | learningStandard                          |
      | parent                                    |
      | program                                   |
+     | recordHash                                |
      | reportCard                                |
      | school                                    |
      | schoolSessionAssociation                  |
@@ -42,7 +43,7 @@ Given I post "MediumSampleDataSet.zip" file as the payload of the ingestion job
      | staffProgramAssociation                   |
      | student                                   |
      | studentAcademicRecord                     |
-     | studentAssessment              |
+     | studentAssessment                         |
      | studentCohortAssociation                  |
      | studentCompetency                         |
      | studentCompetencyObjective                |
@@ -81,6 +82,7 @@ Then I should see following map of entry counts in the corresponding collections
      | learningStandard                            | 3 |
      | parent                                      | 763 |
      | program                                     | 13 |
+     | recordHash                                  | 40488 |
      | reportCard                                  | 500 |
      | school                                      | 0 |
      | schoolSessionAssociation                    | 0 |
@@ -107,7 +109,7 @@ Then I should see following map of entry counts in the corresponding collections
      | courseTranscript                            | 7500 |
      | teacherSchoolAssociation                    | 50 |
      | teacherSectionAssociation                   | 300 |
-	And I should see "Processed 38489 records." in the resulting batch job file
+	And I should see "Processed 42989 records." in the resulting batch job file
 	And I should not see an error log file created
 	And I should not see a warning log file created
 

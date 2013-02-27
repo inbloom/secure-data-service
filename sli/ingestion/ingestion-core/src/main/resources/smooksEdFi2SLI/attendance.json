@@ -1,8 +1,8 @@
 {
-    "keyFields" : ["body.schoolId", "body.studentId"],
+    "keyFields" : ["body.schoolId", "body.studentId", "body.schoolYear"],
 	"references" :
 	[{
-        "fieldPath" : "body.schoolId",
+        "fieldPath" : "body.SchoolReference",
         "deprecated": true,
         "ref" :
         {
@@ -14,7 +14,7 @@
 		           	    "path" : "body.stateOrganizationId",
 		                "values" :
 		                [{
-			                "valueSource" : "body.schoolId"
+			                "valueSource" : "body.SchoolReference.EducationalOrgIdentity.StateOrganizationId"
 		                }]
 		            }
 	            ]
