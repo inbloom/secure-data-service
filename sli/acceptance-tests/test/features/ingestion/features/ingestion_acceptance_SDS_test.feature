@@ -347,7 +347,7 @@ And I check to find if record is in collection:
 And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                 | searchValue   | searchType           |
      | attendance                  | 0                   | body.attendanceEvent.date  | 2011-09-01    | string               |
-     | attendance                  | 74                  | body.attendanceEvent.date  | 2011-11-10    | string               |
+     | attendance                  | 75                  | body.attendanceEvent.date  | 2011-11-10    | string               |
  And I check to find if record is in collection:
      | collectionName              | expectedRecordCount | searchParameter                                  | searchValue                                      |searchType           |
      | assessment                  | 1                   | body.assessmentFamilyHierarchyName               | AP.AP Eng.AP-Eng-and-Literature                  |string               |
