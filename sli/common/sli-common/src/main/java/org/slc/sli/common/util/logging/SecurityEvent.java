@@ -139,6 +139,10 @@ public class SecurityEvent {
         this.userEdOrg = userEdOrg;
     }
 
+    public String getUserEdOrg() {
+    	return this.userEdOrg;
+    }
+    
     public void setUserOrigin(String userOrigin) {
         this.userOrigin = userOrigin;
     }
