@@ -220,14 +220,14 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
     }
   },
   "studentGradebookEntry" => {
-    "gradebookEntryId" => "15ab6363-5509-470c-8b59-4f289c224107_ide49dc00c-182d-4f22-7919-201211130004_id",
-    "letterGradeEarned" => "A",
-    "sectionId" => "15ab6363-5509-470c-8b59-4f289c224107_id",
+    "gradebookEntryId" => "15ab6363-5509-470c-8b59-4f289c224107_id483354633760fa56c9da15510e36ba79691743e4_id",
     "studentId" => "bf88acdb-71f9-4c19-8de8-2cdc698936fe_id",
-    "studentSectionAssociationId" => "15ab6363-5509-470c-8b59-4f289c224107_id066345e8-2633-474d-9088-7b3828bf873a_id",
-    "numericGradeEarned" => 98,
+    "sectionId" => "15ab6363-5509-470c-8b59-4f289c224107_id",
     "dateFulfilled" => "2012-01-31",
-    "diagnosticStatement" => "Finished the quiz in 5 minutes"
+    "letterGradeEarned" => "A",
+    "numericGradeEarned" => 98,
+    "diagnosticStatement" => "Finished the quiz in 5 minutes",
+    "studentSectionAssociationId" => "15ab6363-5509-470c-8b59-4f289c224107_id066345e8-2633-474d-9088-7b3828bf873a_id"
   },
   "assessment" => {
     "assessmentTitle" => "Writing Advanced Placement Test",
