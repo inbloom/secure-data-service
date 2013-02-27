@@ -52,16 +52,16 @@ public class RealmInitializer {
     @Value("${bootstrap.admin.realm.redirectEndpoint}")
     private String adminRedirectEndpoint;
 
-    @Value("${bootstrap.developer.realm.name}")
+    @Value("${bootstrap.developer.realm.name:@null}")
     private String devRealmName;
 
-    @Value("${bootstrap.developer.realm.uniqueId}")
+    @Value("${bootstrap.developer.realm.uniqueId:@null}")
     private String devUniqueId;
 
-    @Value("${bootstrap.developer.realm.idpId}")
+    @Value("${bootstrap.developer.realm.idpId:@null}")
     private String devIdpId;
 
-    @Value("${bootstrap.developer.realm.redirectEndpoint}")
+    @Value("${bootstrap.developer.realm.redirectEndpoint:@null}")
     private String devRedirectEndpoint;
 
     @Value("${sli.sandbox.enabled}")
@@ -79,13 +79,28 @@ public class RealmInitializer {
 
     @PostConstruct
     public void bootstrap() {
+        
         // boostrap the admin realm
         Map<String, Object> bootstrapAdminRealmBody = createAdminRealmBody();
         createOrUpdateRealm(ADMIN_REALM_ID, bootstrapAdminRealmBody);
 
         if (!isSandbox) {
+            // setup the app developer realm when in production mode
+            ensurePropertySet("bootstrap.developer.realm.name", devRealmName);
+            ensurePropertySet("bootstrap.developer.realm.uniqueId", devUniqueId);
+            ensurePropertySet("bootstrap.developer.realm.idpId", devIdpId);
+            ensurePropertySet("bootstrap.developer.realm.redirectEndpoint", devRedirectEndpoint);
             Map<String, Object> bootstrapDeveloperRealmBody = createDeveloperRealmBody();
             createOrUpdateRealm(devUniqueId, bootstrapDeveloperRealmBody);
+        }
+    }
+    
+    private void ensurePropertySet(String property, String value) {
+        // the nullValue property on Spring's PropertyPlaceholderConfig doesn't seem to work
+        // correctly in Spring 3.0 - it fails an assertion during autowiring.
+        if ("@null".equals(value) || value == null) {
+            error("Missing property {} required for production mode" , new Object[] { property } );
+            throw new IllegalArgumentException("Required property not set: " + property);
         }
     }
 
@@ -212,4 +227,29 @@ public class RealmInitializer {
         return repository.findOne(REALM_RESOURCE, new NeutralQuery(new NeutralCriteria("uniqueIdentifier",
                 NeutralCriteria.OPERATOR_EQUAL, realmUniqueId)));
     }
+
+    
+    /*
+     * Setters for unit testing.
+     */
+    protected void setDevRealmName(String devRealmName) {
+        this.devRealmName = devRealmName;
+    }
+
+    protected void setDevUniqueId(String devUniqueId) {
+        this.devUniqueId = devUniqueId;
+    }
+
+    protected void setDevIdpId(String devIdpId) {
+        this.devIdpId = devIdpId;
+    }
+
+    protected void setDevRedirectEndpoint(String devRedirectEndpoint) {
+        this.devRedirectEndpoint = devRedirectEndpoint;
+    }
+
+    protected void setSandbox(boolean isSandbox) {
+        this.isSandbox = isSandbox;
+    }
+    
 }
