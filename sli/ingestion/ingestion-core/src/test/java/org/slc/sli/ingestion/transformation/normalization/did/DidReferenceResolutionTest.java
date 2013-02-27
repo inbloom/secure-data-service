@@ -103,7 +103,7 @@ public class DidReferenceResolutionTest {
         didResolver.resolveInternalIds(entity, TENANT_ID, errorReport, reportStats);
         Map<String, String> naturalKeys = new HashMap<String, String>();
         naturalKeys.put("stateOrganizationId", "testSchoolId");
-        checkId(entity, "schoolId", naturalKeys, "educationOrganization");
+        checkId(entity, "SchoolReference", naturalKeys, "educationOrganization");
 
     }
 

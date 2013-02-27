@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<InterchangeStudentAttendance xmlns="http://ed-fi.org/0100"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/sliXsd/Attendance.xsd">
+<?xml version='1.0' encoding='UTF-8'?> 
+<InterchangeStudentAttendance xmlns='http://ed-fi.org/0100' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/sliXsd/Attendance.xsd'>
   <AttendanceEvent>
+    <SchoolYear>2011-2012</SchoolYear>
     <EventDate>2011-09-06</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
     <AttendanceEventCategory>In Attendance</AttendanceEventCategory>

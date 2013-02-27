@@ -2013,7 +2013,7 @@ def deepDocumentInspect(coll, doc_key, expected_value)
     elsif doc_ary[1].respond_to?(:to_ary)
       real_value = @dd_doc[doc_ary[0]][doc_ary[1]][0]
     # --> this will cast a boolean to a string, or just pass a string thru
-    elsif doc_ary[1].respond_to?(:to_s) 
+    elsif doc_ary[1].respond_to?(:to_s)
       real_value = @dd_doc[doc_ary[0]][doc_ary[1]]
     # --> If the mongo entity is not something we can handle, we need
     # --> to fail gracefully and notify the type issue
@@ -2914,6 +2914,25 @@ Then /^I check that references were resolved correctly:$/ do |table|
 	enable_NOTABLESCAN()
 end
 
+Then /^all attendance entities should should have the expected structure./ do
+  @db = @conn[@ingestion_db_name]
+  @coll = @db['attendance']
+  @coll.find.each do | entity |
+
+    assert(entity["body"].has_key?("schoolId"))
+    assert(entity["body"].has_key?("schoolYear"))
+    assert(entity["body"].has_key?("studentId"))
+    assert(!entity["body"].has_key?("schoolYearAttendance")) #make sure deprecated elements do not appear in the db
+
+    if entity["body"].has_key?("attendanceEvent")
+      entity["body"]["attendanceEvent"].each do |event|
+        assert(event.keys.include?("date"))
+        assert(event.keys.include?("event"))
+      end
+    end
+  end
+
+end
 
 ############################################################
 # STEPS: AFTER
