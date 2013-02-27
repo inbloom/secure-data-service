@@ -190,8 +190,8 @@ task :rcTests do
   Rake::Task["rcAppApprovalTests"].execute
   Rake::Task["rcDashboardTests"].execute
   Rake::Task["rcDataBrowserTests"].execute
-  Rake::Task["rcTenantPurgeTests"].execute
   Rake::Task["rcCleanUpTests"].execute
+  Rake::Task["rcTenantPurgeTests"].execute
 
   displayFailureReport()
   if $SUCCESS
