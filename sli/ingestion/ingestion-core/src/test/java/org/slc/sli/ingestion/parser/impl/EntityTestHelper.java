@@ -156,6 +156,8 @@ public class EntityTestHelper {
 
     @SuppressWarnings("unchecked")
     private static void compareMapList(List<Map<String, Object>> expected, List<Map<String, Object>> record) {
+        compare1stMapInList(expected.get(0), record.get(0));
+
         Map<String, List<Object>> exp = aggregateMapListByKey(expected);
         Map<String, List<Object>> rec = aggregateMapListByKey(record);
 
@@ -199,5 +201,45 @@ public class EntityTestHelper {
             }
         }
         return tmp;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static void compare1stMapInList(Map<String, Object> exp, Map<String, Object> rec) {
+        for (String key : exp.keySet()) {
+            assertTrue("Missing expected key: " + key, rec.containsKey(key));
+
+            if (exp.get(key) instanceof String) {
+                assertTrue("Missing expected String type for key: " + key, rec.get(key) instanceof String);
+                assertEquals(exp.get(key), rec.get(key));
+            }
+
+            if (exp.get(key) instanceof Map) {
+                assertTrue("Missing expected Map type for key: " + key, rec.get(key) instanceof Map);
+                compare((Map<String, Object>) exp.get(key), (Map<String, Object>) rec.get(key));
+            }
+
+            if (exp.get(key) instanceof List) {
+                assertTrue("Missing expected List type for key: " + key, rec.get(key) instanceof List);
+                @SuppressWarnings("rawtypes")
+                List ex = (List) exp.get(key);
+                @SuppressWarnings("rawtypes")
+                List rc = (List) rec.get(key);
+                assertEquals("Wrong List value size for key: " + key, ex.size(), rc.size());
+
+                if (ex.get(0) instanceof String) {
+                    for (Object o : rc) {
+                        assertTrue("Missing expected String type for key: " + key, o instanceof String);
+                    }
+                    compareStringList(ex, rc);
+                }
+
+                if (ex.get(0) instanceof Map) {
+                    for (Object o : rc) {
+                        assertTrue("Missing expected Map type for key: " + key, o instanceof Map);
+                    }
+                    compareMapList(ex, rc);
+                }
+            }
+        }
     }
 }

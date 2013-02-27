@@ -7,7 +7,7 @@
       "a_id":"ID003",
       "a_ref":"ID002",
       "CodeValue":{"_value":"Wsv8Xq4AlZ_JQFnv"},
-      "PerformanceLevelMet":true
+      "PerformanceLevelMet":{"_value":true}
     },
     "AssessmentReportingMethod":{"_value":"Z-score"},
     "MinimumScore":{"_value":-198225122},
