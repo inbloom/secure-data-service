@@ -4,6 +4,7 @@ Feature:  RC Integration CleanUp Tests
 
 Background:
   Given I have an open web browser
+  And I have a connection to Mongo
 
 Scenario:  LEA deletes realm
   When I navigate to the Portal home page
@@ -22,6 +23,15 @@ Scenario:  LEA deletes realm
   Then I see the realms for "Daybreak School District 4529 (IL-DAYBREAK)"
   And I exit out of the iframe
   And I click on log out
+
+  Scenario: SEA purge tenant data
+    When I drop a control file to purge tenant data as "<SEA ADMIN>" with password "<SEA ADMIN PASSWORD>" to "<SERVER>"
+    Then my tenant database should be cleared
+    And the landing zone should contain a file with the message "All records processed successfully."
+    And the landing zone should contain a file with the message "Processed 0 records."
+    And the landing zone should contain a file with the message "Purge process completed successfully."
+    And I should not see an error log file created
+    And I should not see a warning log file created
 
 Scenario: slcoperator deletes SEA,LEA
   When I navigate to the user account management page
