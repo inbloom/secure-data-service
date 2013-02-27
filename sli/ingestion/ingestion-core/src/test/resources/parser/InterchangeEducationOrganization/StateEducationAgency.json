@@ -47,8 +47,8 @@
       "a_AddressType":"Work",
       "AddressLine":
       [
-        "FP09pmPhg7wOKV7",
-        "NL2DX5d0DnomhZvlNjIOpVKFAzj_JshHV8bPiHKdFAzYH7mqx3pm4yz7xM7e1KHuefP3dU"
+        {"_value":"FP09pmPhg7wOKV7"},
+        {"_value":"NL2DX5d0DnomhZvlNjIOpVKFAzj_JshHV8bPiHKdFAzYH7mqx3pm4yz7xM7e1KHuefP3dU"}
       ],
       "Country":
       {

@@ -22,6 +22,7 @@ import static junit.framework.Assert.assertTrue;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.codehaus.plexus.lifecycle.PassiveLifecycleHandler;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -44,7 +45,7 @@ public class RealmInitializerTest {
     
     @InjectMocks
     private RealmInitializer realmInit;
-        
+    
     @Mock
     private Repository<Entity> mockRepo;
     
@@ -57,7 +58,7 @@ public class RealmInitializerTest {
     @Test
     @SuppressWarnings("unchecked")
     public void testRealmNotExist() throws Exception {
-        
+        realmInit.setSandbox(true);
         // verify that the code attempts to insert a new realm when no existing realm is present
         Mockito.when(mockRepo.findOne(Mockito.eq("realm"), Mockito.any(NeutralQuery.class))).thenReturn(null);
         final AtomicBoolean update = new AtomicBoolean(false);
@@ -77,7 +78,7 @@ public class RealmInitializerTest {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Test
     public void testOutdatedRealm() throws Exception {
-        
+        realmInit.setSandbox(true);
         // verify that the code attempts to insert a new realm if the existing one needs to be
         // modified
         Map body = realmInit.createAdminRealmBody();
@@ -102,11 +103,17 @@ public class RealmInitializerTest {
     @SuppressWarnings({ "rawtypes", "unchecked" })
     @Test
     public void testRealmUnchanged() throws Exception {
+        realmInit.setSandbox(false);
+        realmInit.setDevIdpId("IDP");
+        realmInit.setDevRealmName("REALM");
+        realmInit.setDevRedirectEndpoint("REDIRECT");
+        realmInit.setDevUniqueId("UNIQUE_ID");
+        
         NeutralQuery adminQuery = new NeutralQuery(new NeutralCriteria("uniqueIdentifier",
                 NeutralCriteria.OPERATOR_EQUAL, RealmInitializer.ADMIN_REALM_ID));
         
         NeutralQuery developerQuery = new NeutralQuery(new NeutralCriteria("uniqueIdentifier",
-                NeutralCriteria.OPERATOR_EQUAL, null)); 
+                NeutralCriteria.OPERATOR_EQUAL, null));
         // verify that the code doesn't attempt to update the realm if the existing one hasn't been
         // modified
         Map body = realmInit.createAdminRealmBody();
@@ -132,4 +139,24 @@ public class RealmInitializerTest {
         assertFalse("Existing realm was not touched", update.get());
     }
     
+    @Test(expected = IllegalArgumentException.class)
+    public void testProdModeNoProps() {
+        realmInit.bootstrap();
+    }
+    
+    @Test
+    public void testProdModeWithProps() {
+        realmInit.setSandbox(false);
+        realmInit.setDevIdpId("IDP");
+        realmInit.setDevRealmName("REALM");
+        realmInit.setDevRedirectEndpoint("REDIRECT");
+        realmInit.setDevUniqueId("UNIQUE_ID");
+        realmInit.bootstrap();
+    }
+    
+    @Test
+    public void testSandModeNoProps() {
+        realmInit.setSandbox(true);
+        realmInit.bootstrap();
+    }
 }
