@@ -85,7 +85,7 @@ public class AdminDelegationResourceTest {
     public void testSetLocalDelegationNoEdOrg() throws Exception {
 
         securityContextInjector.setLeaAdminContext();
-        Assert.assertEquals(resource.setLocalDelegation(null).getStatus(), Response.Status.BAD_REQUEST.getStatusCode());
+        Assert.assertEquals(resource.setLocalDelegation(null, null).getStatus(), Response.Status.BAD_REQUEST.getStatusCode());
 
     }
 
@@ -100,7 +100,7 @@ public class AdminDelegationResourceTest {
         EntityBody body = new EntityBody();
         body.put(resource.LEA_ID, "1234");
 
-        Assert.assertEquals(Response.Status.CREATED.getStatusCode(), resource.setLocalDelegation(body).getStatus());
+        Assert.assertEquals(Response.Status.CREATED.getStatusCode(), resource.setLocalDelegation(body, null).getStatus());
 
     }
 }
