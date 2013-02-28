@@ -3,17 +3,17 @@
     [
         {
             "entityType" : "learningObjective",
-            "sourceRefPath": "body.learningObjectives",
+            "sourceRefPath": "body.ObjectiveAssessmentReference",
             "optional" : true
         },
         {
             "entityType" : "assessmentItem",
-            "sourceRefPath": "body.assessmentItemRefs",
+            "sourceRefPath": "body.AssessmentItemReference",
             "optional" : true
         },
         {
             "entityType" : "assessment",
-            "sourceRefPath": "body.assessmentId"
+            "sourceRefPath": "body.AssessmentReference"
         }
     ]
 }
