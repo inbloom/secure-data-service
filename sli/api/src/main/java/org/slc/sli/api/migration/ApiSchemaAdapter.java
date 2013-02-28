@@ -30,7 +30,7 @@ import org.springframework.core.io.Resource;
 import org.slc.sli.dal.migration.config.Strategy;
 import org.slc.sli.dal.migration.strategy.MigrationException;
 import org.slc.sli.dal.migration.strategy.MigrationStrategy;
-import org.slc.sli.dal.migration.strategy.config.MigrationConfig;
+import org.slc.sli.common.migration.config.MigrationConfig;
 import org.slc.sli.domain.Entity;
 
 /**
@@ -46,14 +46,17 @@ public class ApiSchemaAdapter {
 
     protected Resource upMigrationConfigResource;
     protected Resource downMigrationConfigResource;
+    protected Resource entityTransformConfigResource;
 
     private Map<String, Map<Integer, List<MigrationStrategy>>> upMigrationStrategyMap;
     private Map<String, Map<Integer, List<MigrationStrategy>>> downMigrationStrategyMap;
+    private Map<String, Map<Integer, List<MigrationStrategy>>> entityTransformStrategyMap;
 
     @PostConstruct
     public void initMigration() {
         upMigrationStrategyMap = buildMigrationStrategyMap(upMigrationConfigResource);
         downMigrationStrategyMap = buildMigrationStrategyMap(downMigrationConfigResource);
+        entityTransformStrategyMap = buildMigrationStrategyMap(entityTransformConfigResource);
     }
 
     /**
