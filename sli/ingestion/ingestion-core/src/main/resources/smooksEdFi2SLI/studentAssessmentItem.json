@@ -1,6 +1,3 @@
 {
-    "keyFields" : [],
-    
-    "subEntities" : { "body.assessmentItem?" : "assessmentItem"}
-    
+    "keyFields" : []
 }

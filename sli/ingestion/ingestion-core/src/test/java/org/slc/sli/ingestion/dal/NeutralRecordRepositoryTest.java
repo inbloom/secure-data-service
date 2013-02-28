@@ -34,16 +34,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.mongodb.DBCollection;
-import com.mongodb.DBObject;
-import com.mongodb.MongoException;
-import com.mongodb.WriteResult;
-
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.ingestion.NeutralRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.data.mongodb.UncategorizedMongoDbException;
@@ -54,10 +53,10 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.ingestion.NeutralRecord;
+import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
+import com.mongodb.MongoException;
+import com.mongodb.WriteResult;
 
 /**
  * JUnits for testing the NeutralRecordRepository class.
@@ -152,7 +151,7 @@ public class NeutralRecordRepositoryTest {
         when(
                 mockedMongoTemplate.updateFirst(Mockito.any(Query.class), Mockito.any(Update.class),
                         Mockito.eq("student"))).thenReturn(goodResult);
-        assertTrue(repository.update("student", found));
+        assertTrue(repository.update("student", found, false));
         records = repository.findAll("student", neutralQuery1);
         assertNotNull(records);
         NeutralRecord updated = records.iterator().next();
@@ -177,7 +176,7 @@ public class NeutralRecordRepositoryTest {
         when(
                 mockedMongoTemplate.updateFirst(Mockito.any(Query.class), Mockito.any(Update.class),
                         Mockito.eq("student"))).thenReturn(badResult);
-        assertFalse(repository.update("student", student2));
+        assertFalse(repository.update("student", student2, false));
         when(
                 mockedMongoTemplate.findAndRemove(Mockito.any(Query.class), Mockito.eq(NeutralRecord.class),
                         Mockito.eq("student"))).thenReturn(null);

@@ -243,8 +243,6 @@ public final class Xsd2UmlPluginForSLI extends Xsd2UmlPluginDefault {
                 } else if (SliMongoConstants.SLI_FILTER_END_DATE_ON.equals(name)) {
                     final Identifier tagDefinition = host.ensureTagDefinitionId(SliUmlConstants.TAGDEF_FILTER_END_DATE_ON);
                     taggedValues.add(new TaggedValue(stringValue(element.getChildNodes()), tagDefinition));
-                } else if (!(SliMongoConstants.SLI_SCHEMA_VERSION.equals(name))) {
-                    throw new AssertionError("Unexpected element in appinfo: " + name);
                 }
             }
         }

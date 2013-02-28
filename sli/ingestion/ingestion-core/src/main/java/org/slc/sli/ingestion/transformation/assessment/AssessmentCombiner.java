@@ -23,7 +23,6 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -31,11 +30,7 @@ import org.springframework.stereotype.Component;
 
 import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralCriteria;
-import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.ingestion.NeutralRecord;
-import org.slc.sli.ingestion.dal.NeutralRecordRepository;
-import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
 
 /**
@@ -67,9 +62,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     private static final String ASSESSMENT_ITEM = "assessmentItem";
     private static final String ASSESSMENT_ITEM_REF = "AssessmentItemReference";
     private static final String ASSESSMENT_ITEM_ID_CODE = "AssessmentItemIdentity.AssessmentItemIdentificationCode." + VALUE;
-
-    @Autowired
-    private ObjectiveAssessmentBuilder builder;
+    //private static final String PARENT_ASSESSMENT_FAMILY_TITLE = "parentAssessmentFamilyTitle";
 
     /**
      * Default constructor.
@@ -105,7 +98,6 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
      */
     public void transform() {
         LOG.info("Transforming assessment data");
-        builder.setAbstractTransformationStrategy(this);
         for (Map.Entry<Object, NeutralRecord> neutralRecordEntry : assessments.entrySet()) {
             NeutralRecord neutralRecord = neutralRecordEntry.getValue();
 
@@ -115,53 +107,6 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             String parentFamilyTitle = (String) getProperty(attrs, PARENT_ASSESSMENT_FAMILY_TITLE);
             String familyHierarchyName = getAssocationFamilyMap(parentFamilyTitle, new HashMap<String, Map<String, Object>>(), "");
             attrs.put("assessmentFamilyHierarchyName", familyHierarchyName);
-
-            @SuppressWarnings("unchecked")
-            List<Map<String, Object>> objectiveAssessments = (List<Map<String, Object>>) attrs.get(OBJECTIVE_ASSESSMENT_REFERENCE);
-            List<String> objectiveAssessmentRefs = new ArrayList<String>();
-
-            if(objectiveAssessments != null){
-                for(Map<String, Object> objectiveAssessment : objectiveAssessments ) {
-                    String res = (String) getProperty(objectiveAssessment, OBJECTIVE_ASSESSMENT_IDENTIFICATION_CODE);
-                    if(res != null) {
-                        objectiveAssessmentRefs.add(res);
-                    }
-                }
-            }
-            attrs.remove(OBJECTIVE_ASSESSMENT_REFERENCE);
-            List<Map<String, Object>> familyObjectiveAssessments = new ArrayList<Map<String, Object>>();
-            if (!(objectiveAssessmentRefs.isEmpty())) {
-                for (String objectiveAssessmentRef : objectiveAssessmentRefs) {
-                    Map<String, Object> objectiveAssessment = builder.getObjectiveAssessment(
-                            getNeutralRecordMongoAccess(), getJob(), objectiveAssessmentRef);
-
-                    if (objectiveAssessment != null && !objectiveAssessment.isEmpty()) {
-                        LOG.info("Found objective assessment: {} for family: {}", objectiveAssessmentRef,
-                                familyHierarchyName);
-                        familyObjectiveAssessments.add(objectiveAssessment);
-                    } else {
-                        LOG.warn("Failed to match objective assessment: {} for family: {}", objectiveAssessmentRef,
-                                familyHierarchyName);
-                        builder.reportAggregatedWarnings(CoreMessageCode.CORE_0045, getNeutralRecordMongoAccess(), getJob(), objectiveAssessmentRef, familyHierarchyName);
-                    }
-                }
-                attrs.put("objectiveAssessment", familyObjectiveAssessments);
-            }
-
-            if (attrs.containsKey(ASSESSMENT_ITEM_REF)) {
-                @SuppressWarnings("unchecked")
-                List<Map<String, Object>> items = (List<Map<String, Object>>) attrs.get(ASSESSMENT_ITEM_REF);
-                if (items == null || items.size() == 0) {
-                    attrs.remove(ASSESSMENT_ITEM_REF);
-                } else {
-                    List<Map<String, Object>> assessmentItems = getAssessmentItems(items);
-                    if (assessmentItems != null) {
-                        attrs.put(ASSESSMENT_ITEM_REF, assessmentItems);
-                    } else {
-                        attrs.remove(ASSESSMENT_ITEM_REF);
-                    }
-                }
-            }
 
             String assessmentPeriodDescriptorRef = (String) getProperty(attrs, "AssessmentPeriod.CodeValue._value");
             if (assessmentPeriodDescriptorRef != null) {
@@ -176,38 +121,6 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
             neutralRecord.setCreationTime(getWorkNote().getRangeMinimum());
             transformedAssessments.add(neutralRecord);
         }
-    }
-
-    private List<Map<String, Object>> getAssessmentItems(List<Map<String, Object>> itemReferences) {
-        List<String> identificationCodes = new ArrayList<String>();
-        // build in clause
-        for (Map<String, Object> item : itemReferences) {
-            String idCode = (String) getProperty(item, ASSESSMENT_ITEM_ID_CODE);
-            if (idCode != null) {
-                identificationCodes.add(idCode);
-            }
-        }
-
-        if (identificationCodes.size() > 0) {
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("query for assessmentItems: {}", identificationCodes);
-            }
-            NeutralQuery constraint = new NeutralQuery();
-            constraint.addCriteria(new NeutralCriteria("IdentificationCode._value", NeutralCriteria.CRITERIA_IN,
-                    identificationCodes));
-            NeutralRecordRepository repo = getNeutralRecordMongoAccess().getRecordRepository();
-            Iterable<NeutralRecord> records = repo.findAllForJob(ASSESSMENT_ITEM, constraint);
-            List<Map<String, Object>> assessmentItems = new ArrayList<Map<String, Object>>();
-            if (records != null) {
-                for (NeutralRecord record : records) {
-                    assessmentItems.add(record.getAttributes());
-                }
-
-                return assessmentItems;
-            }
-        }
-
-        return null;
     }
 
     @SuppressWarnings("unchecked")

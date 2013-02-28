@@ -36,6 +36,11 @@
     <StateAbbreviation>{{state}}</StateAbbreviation>
     <PostalCode>{{postalCode}}</PostalCode>
   </Address>
+  {{#telephone}}
+    <Telephone TelephoneNumberType="{{telephoneNumberType}}" PrimaryTelephoneNumberIndicator="{{primaryTelephoneNumberIndicator}}">
+      <TelephoneNumber>{{telephoneNumber}}</TelephoneNumber>
+    </Telephone>
+  {{/telephone}}
   <ElectronicMail EmailAddressType="Home/Personal">
     <EmailAddress>{{email}}</EmailAddress>
   </ElectronicMail>

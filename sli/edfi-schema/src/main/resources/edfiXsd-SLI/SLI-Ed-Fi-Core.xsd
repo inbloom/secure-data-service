@@ -82,14 +82,15 @@
 			<xs:documentation>AttendanceEvent record with key fields: StudentReference (StudentUniqueStateId), SchoolReference (StateOrganizationId) and EventDate. Made SchoolReference required. Changed types of StudentReference, SchoolReference, SessionReference and SectionReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>attendanceEvent</sli:recordType>
-				<sli:naturalKeys>StudentReference,SchoolReference,EventDate,AttendanceEventCategory</sli:naturalKeys>
+				<sli:naturalKeys>StudentReference,SchoolReference,SchoolYear</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
+          			<xs:element name="SchoolYear" type="SchoolYearType" />
 					<xs:element name="EventDate" type="xs:date"/>
-					<xs:element name="AttendanceEventType" type="AttendanceEventType" minOccurs="0"/>
+          			<xs:element name="AttendanceEventType" type="AttendanceEventType" minOccurs="0"/>
 					<xs:element name="AttendanceEventCategory" type="AttendanceEventCategoryType"/>
 					<xs:element name="AttendanceEventReason" type="AttendanceEventReason" minOccurs="0"/>
 					<xs:element name="EducationalEnvironment" type="EducationalEnvironmentType" minOccurs="0"/>
@@ -557,10 +558,11 @@
 					<xs:element name="AssessmentPerformanceLevel" type="AssessmentPerformanceLevel" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="PercentOfAssessment" type="percent" minOccurs="0"/>
 					<xs:element name="Nomenclature" type="Nomenclature" minOccurs="0"/>
-					<xs:element name="AssessmentItemReference" type="ReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="AssessmentItemReference" type="SLC-AssessmentItemReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="LearningObjectiveReference" type="SLC-LearningObjectiveReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="LearningStandardReference" type="SLC-LearningStandardReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="ObjectiveAssessmentReference" type="SLC-ObjectiveAssessmentReferenceType" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element name="AssessmentReference" type="SLC-AssessmentReferenceType"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -885,7 +887,7 @@
 				<xs:sequence>
 					<xs:element name="AdministrationDate" type="xs:date"/>
 					<xs:element name="AdministrationEndDate" type="xs:date" minOccurs="0"/>
-					<xs:element name="SerialNumber" type="IdentificationCode" minOccurs="0"/>
+				    <xs:element name="SerialNumber" type="IdentificationCode" minOccurs="0"/>
 					<xs:element name="AdministrationLanguage" type="LanguageItemType" minOccurs="0"/>
 					<xs:element name="AdministrationEnvironment" type="AdministrationEnvironmentType" minOccurs="0"/>
 					<xs:element name="SpecialAccommodations" type="SpecialAccommodationsType" minOccurs="0" maxOccurs="unbounded"/>
@@ -915,7 +917,7 @@
 					<xs:element name="ResponseIndicator" type="ResponseIndicatorType" minOccurs="0"/>
 					<xs:element name="AssessmentItemResult" type="AssessmentItemResultType"/>
 					<xs:element name="RawScoreResult" type="xs:int" minOccurs="0"/>
-					<xs:element name="StudentAssessmentReference" type="SLC-StudentAssessmentReferenceType" minOccurs="0"/>
+					<xs:element name="StudentAssessmentReference" type="SLC-StudentAssessmentReferenceType"/>
 					<xs:element name="StudentObjectiveAssessmentReference" type="SLC-StudentObjectiveAssessmentReferenceType" minOccurs="0"/>
 					<xs:element name="AssessmentItemReference" type="SLC-AssessmentItemReferenceType"/>
 				</xs:sequence>
@@ -1338,12 +1340,22 @@
 			<xs:documentation/>
 		</xs:annotation>
 		<xs:sequence>
-			<xs:element name="AssessmentItemIdentificationCode" type="IdentificationCode"/>
+			<xs:element name="AssessmentItemIdentificationCode" type="IdentificationCode">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:keyFieldName>identificationCode</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+                        </xs:element>
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-AssessmentItemReferenceType">
 		<xs:annotation>
 			<xs:documentation>Changed to use a required SLC identity type.</xs:documentation>
+			<xs:appinfo>
+				<sli:applyKeyFields>true</sli:applyKeyFields>
+				<sli:refType>assessmentItem</sli:refType>
+			</xs:appinfo>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="AssessmentItemIdentity" type="SLC-AssessmentItemIdentityType"/>
@@ -1360,7 +1372,7 @@
 		<xs:complexContent>
 			<xs:extension base="ReferenceType">
 				<xs:sequence>
-					<xs:element name="AssessmentIdentity" type="SLC-AssessmentIdentityType" minOccurs="0"/>
+					<xs:element name="AssessmentIdentity" type="SLC-AssessmentIdentityType"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -2141,7 +2153,7 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
-			<xs:element name="StudentReference" type="StudentReferenceType">
+			<xs:element name="StudentReference" type="SLC-StudentReferenceType">
 				<xs:annotation>
 					<xs:appinfo>
 						<sli:keyFieldName>studentId</sli:keyFieldName>

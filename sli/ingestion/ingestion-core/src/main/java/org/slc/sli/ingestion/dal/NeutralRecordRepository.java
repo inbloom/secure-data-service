@@ -22,8 +22,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.mongodb.DBCollection;
-
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.dal.RetryMongoCommand;
+import org.slc.sli.dal.repository.MongoQueryConverter;
+import org.slc.sli.dal.repository.MongoRepository;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.ingestion.NeutralRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,12 +36,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.util.Assert;
 
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.dal.RetryMongoCommand;
-import org.slc.sli.dal.repository.MongoQueryConverter;
-import org.slc.sli.dal.repository.MongoRepository;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.ingestion.NeutralRecord;
+import com.mongodb.DBCollection;
 
 /**
  * Specialized class providing basic CRUD and field query methods for neutral records
@@ -57,8 +56,8 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     private MongoQueryConverter queryConverter;
 
     @Override
-    public boolean update(String collection, NeutralRecord neutralRecord) {
-        return update(neutralRecord.getRecordType(), neutralRecord, null);
+    public boolean update(String collection, NeutralRecord neutralRecord, boolean isSuperdoc) {
+        return update(neutralRecord.getRecordType(), neutralRecord, null, isSuperdoc);
     }
 
     @Override
@@ -72,7 +71,7 @@ public class NeutralRecordRepository extends MongoRepository<NeutralRecord> {
     }
 
     @Override
-    protected Update getUpdateCommand(NeutralRecord entity) {
+    protected Update getUpdateCommand(NeutralRecord entity, boolean isSuperdoc) {
         throw new UnsupportedOperationException("NeutralReordRepository.getUpdateCommand not implemented");
     }
 

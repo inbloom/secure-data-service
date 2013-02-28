@@ -115,8 +115,8 @@ Scenario: Job report should report deltas when SDS is ingested twice
     And I should see "InterchangeAttendance.xml attendanceEvent 2 deltas!" in the resulting batch job file
     And I check to find if record is in collection:
         | collectionName              | expectedRecordCount | searchParameter                                 | searchValue       |
-        | attendance                  | 1                   | body.schoolYearAttendance.attendanceEvent.reason| test for 100000000|
-        | attendance                  | 1                   | body.schoolYearAttendance.attendanceEvent.date  | 2011-12-11        |
+        | attendance                  | 1                   | body.attendanceEvent.reason| test for 100000000|
+        | attendance                  | 1                   | body.attendanceEvent.date  | 2011-12-11        |
 
 
 Scenario: Job report should not report deltas when SDS is ingested twice for different tenantId

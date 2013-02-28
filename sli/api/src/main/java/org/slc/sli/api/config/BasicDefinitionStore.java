@@ -106,7 +106,8 @@ public class BasicDefinitionStore implements EntityDefinitionStore {
         // adding the entity definitions
         EntityDefinition assessment = factory.makeEntity(EntityNames.ASSESSMENT, ResourceNames.ASSESSMENTS)
                 .buildAndRegister(this);
-        factory.makeEntity(EntityNames.ATTENDANCE, ResourceNames.ATTENDANCES).buildAndRegister(this);
+        factory.makeEntity(EntityNames.ATTENDANCE, ResourceNames.ATTENDANCES)
+                .withTreatments(new AttendanceTreatment()).buildAndRegister(this);
         // factory.makeEntity(EntityNames.BELL_SCHEDULE,
         // ResourceNames.BELL_SCHEDULES).buildAndRegister(this);
         EntityDefinition cohort = factory.makeEntity(EntityNames.COHORT, ResourceNames.COHORTS).supportsAggregates()

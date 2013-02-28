@@ -97,6 +97,12 @@ describe "AssessmentFactory" do
       it "will generate assessments with the correct grade level assessed" do
         entities[Assessment].each{|assessment| assessment.gradeLevelAssessed.should eq "Third grade"}
       end
+      it "will generate assessments with the correct period descriptor" do
+        entities[Assessment].each{|assessment|
+          assessment.assessmentPeriod[0].codeValue.should eq "BOY-3-2002"
+          assessment.assessmentPeriod[0].description.should eq "Beginning of Year 2002-2003 for Third grade"
+        }
+      end
       it "will generate the configured number of assessment items for each assessment" do
         entities[AssessmentItem].should have(4 * entities[Assessment].count).items
       end

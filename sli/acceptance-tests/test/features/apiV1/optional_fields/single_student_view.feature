@@ -25,7 +25,7 @@ Feature: As an SLI application, I want to be able to view more student data in a
     Then I should see "administrationDate" is "2011-05-10" in one of them
     And inside "assessments"
     And I should see "academicSubject" is "Reading" in it
-    And I should see "assessmentTitle" is "SAT" in it
+    And I should see "assessmentTitle" is "SAT 2" in it
     And I should see "entityType" is "assessment" in it
     And I should find "3" "objectiveAssessment" in it
     Then I should see "identificationCode" is "SAT-Writing" in one of them

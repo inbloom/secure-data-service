@@ -181,7 +181,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | staffCohortAssociation      | 3     |
         | studentCohortAssociation    | 6     |
         | section                     | 97    |
-        | assessment                  | 2     |
+        | assessment                  | 3     |
         | attendance                  | 75    |
         | studentSectionAssociation   | 297   |
         | teacherSectionAssociation   | 11    |
@@ -224,7 +224,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | staffCohortAssociation      | 3     |
         | studentCohortAssociation    | 6     |
         | section                     | 97    |
-        | assessment                  | 2     |
+        | assessment                  | 3     |
         | attendance                  | 75    |
         | studentSectionAssociation   | 297   |
         | teacherSectionAssociation   | 11    |

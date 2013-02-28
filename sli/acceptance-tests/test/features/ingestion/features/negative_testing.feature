@@ -313,10 +313,7 @@ When zip file is scp to ingestion landing zone
 Then I should see following map of entry counts in the corresponding collections:
      | collectionName               | count   |
      | attendance                   |   0     |
-  And I should see "Processed 5 records." in the resulting batch job file
-  And I should see "CORE_0028" in the resulting warning log file for "StudentAttendanceEvents.xml"
-  And I should see "attendanceEvent:line-4,column-21" in the resulting warning log file for "StudentAttendanceEvents.xml"
-  And I should see "attendanceEvent:line-16,column-21" in the resulting warning log file for "StudentAttendanceEvents.xml"
+  And I should see "Processed 7 records." in the resulting batch job file
 
 Scenario: Post a zip file and then post it again and make sure the updated date changes but the created date stays the same
   Given I post "stringOrEnumContainsWhitespace.zip" file as the payload of the ingestion job

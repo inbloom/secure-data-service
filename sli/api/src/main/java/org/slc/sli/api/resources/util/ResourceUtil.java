@@ -33,11 +33,7 @@ import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-
+import org.apache.commons.logging.LogFactory;
 import org.slc.sli.api.config.AssociationDefinition;
 import org.slc.sli.api.config.EntityDefinition;
 import org.slc.sli.api.config.EntityDefinitionStore;
@@ -50,14 +46,18 @@ import org.slc.sli.api.security.SLIPrincipal;
 import org.slc.sli.validation.schema.ListSchema;
 import org.slc.sli.validation.schema.NeutralSchema;
 import org.slc.sli.validation.schema.ReferenceSchema;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 /**
  * Performs tasks common to both Resource and HomeResource to eliminate code-duplication. These
  * tasks include creating a list of embedded links, adding links to a list regarding associations,
  * and resolving a new URI based on parameters.
- *
+ * 
  * @author kmyers <kmyers@wgen.net>
- *
+ * 
  */
 public class ResourceUtil {
 
@@ -104,7 +104,7 @@ public class ResourceUtil {
 
     /**
      * Extracts the API version from the provided URI info.
-     *
+     * 
      * @param uriInfo
      *            URI requested by user (version is part of the URI)
      * @return version referenced by UriInfo
@@ -129,7 +129,7 @@ public class ResourceUtil {
     /**
      * Creates a new LinkedList and adds a link for self, then returns that list. When not creating
      * a self link, all other parameters can be null.
-     *
+     * 
      * @param uriInfo
      *            base URI
      * @param userId
@@ -158,7 +158,7 @@ public class ResourceUtil {
 
     /**
      * Create a self link
-     *
+     * 
      * @param uriInfo
      *            base URI
      * @param entityId
@@ -175,7 +175,7 @@ public class ResourceUtil {
 
     /**
      * Create the custom entity link
-     *
+     * 
      * @param uriInfo
      *            base uri
      * @param entityId
@@ -192,7 +192,7 @@ public class ResourceUtil {
     /**
      * Looks up associations for the given entity (definition) and adds embedded links for each
      * association for the given user ID.
-     *
+     * 
      * @param entityDefs
      *            all entity definitions
      * @param defn
@@ -238,7 +238,7 @@ public class ResourceUtil {
     /**
      * Looks up associations for the given entity (definition) and adds embedded links for each
      * association for the given user ID.
-     *
+     * 
      * @param entityDefs
      *            all entity definitions
      * @param defn
@@ -355,8 +355,11 @@ public class ResourceUtil {
             // see what GUID is stored in the reference field
             String key = referenceField.getKey();
             if (key.contains(".")) {
-                links.addAll(getEmbeddedReferences(key.split("\\."), referenceField.getValue(), defn, entityBody,
-                        uriInfo, defnStore));
+                List<EmbeddedLink> embeddedLinks = getEmbeddedReferences(key.split("\\."), referenceField.getValue(),
+                        defn, entityBody, uriInfo, defnStore);
+                if (embeddedLinks != null) {
+                    links.addAll(embeddedLinks);
+                }
             } else {
                 List<String> guidList = entityBody.getValues(key);
                 int count = guidList.size();
@@ -391,8 +394,20 @@ public class ResourceUtil {
 
     private static List<EmbeddedLink> getEmbeddedReferences(String[] keys, ReferenceSchema ref, EntityDefinition defn,
             Map<String, Object> entityBody, UriInfo uri, EntityDefinitionStore defnStore) {
-        return getEmbeddedReferences("", Arrays.asList(keys), defnStore.lookupByEntityType(ref.getEntityType())
-                .getResourceName(), defn.getSchema(), entityBody, uri);
+
+        EntityDefinition dfn = defnStore.lookupByEntityType(ref.getEntityType());
+        if (dfn != null) {
+            return getEmbeddedReferences("", Arrays.asList(keys), defnStore.lookupByEntityType(ref.getEntityType())
+                    .getResourceName(), defn.getSchema(), entityBody, uri);
+        } else {
+            LogFactory
+                    .getFactory()
+                    .getInstance(ResourceUtil.class)
+                    .error(String
+                            .format("Failed to generate a link for entity type %s : the definition for the type  was not registered.",
+                                    ref.getEntityType()));
+        }
+        return new ArrayList<EmbeddedLink>();
     }
 
     private static List<EmbeddedLink> getEmbeddedReferences(String prefix, List<String> keys, String resourceName,
@@ -435,8 +450,13 @@ public class ResourceUtil {
     private static String getNaturalKey(Map<String, Object> object, NeutralSchema schema) {
         for (Entry<String, NeutralSchema> fieldEntry : schema.getFields().entrySet()) {
             NeutralSchema field = fieldEntry.getValue();
-            if (field.getAppInfo() != null && field.getAppInfo().isNaturalKey()) {
-                return object.get(fieldEntry.getKey()).toString();
+            if (field != null) {
+                if (field.getAppInfo() != null && field.getAppInfo().isNaturalKey()) {
+                    Object obj = object.get(fieldEntry.getKey());
+                    if (obj != null) {
+                        return obj.toString();
+                    }
+                }
             }
         }
         return "";
@@ -444,7 +464,7 @@ public class ResourceUtil {
 
     /**
      * Returns the URI for aggregations
-     *
+     * 
      * @param uriInfo
      *            The base URI
      * @return A list of links pointing to the base Url for aggregations
@@ -461,7 +481,7 @@ public class ResourceUtil {
     /**
      * Adds the value to a list and then puts the list into the query parameters associated to the
      * given key.
-     *
+     * 
      * @param queryParameters
      *            where to put the value once added to a list
      * @param key
@@ -478,7 +498,7 @@ public class ResourceUtil {
     /**
      * Adds the value to a list and then puts the list into the query parameters associated to the
      * given key.
-     *
+     * 
      * @param queryParameters
      *            where to put the value once added to a list
      * @param key
@@ -492,7 +512,7 @@ public class ResourceUtil {
 
     /**
      * Helper method to convert MultivaluedMap to a Map
-     *
+     * 
      * @param map
      * @return
      */
@@ -510,7 +530,7 @@ public class ResourceUtil {
 
     /**
      * Returns a URI based on the supplied URI with the paths appended to the base URI.
-     *
+     * 
      * @param uriInfo
      *            URI of current actions
      * @param paths
@@ -543,7 +563,7 @@ public class ResourceUtil {
 
     /**
      * Analyzes security context to get SLIPrincipal for user.
-     *
+     * 
      * @return SLIPrincipal from security context
      */
     public static SLIPrincipal getSLIPrincipalFromSecurityContext() {
@@ -561,7 +581,7 @@ public class ResourceUtil {
 
     /**
      * Finds the link name based on the entity type and the reference entity name
-     *
+     * 
      * @param resourceName
      *            Entity name for which the links are generated
      * @param referenceName
