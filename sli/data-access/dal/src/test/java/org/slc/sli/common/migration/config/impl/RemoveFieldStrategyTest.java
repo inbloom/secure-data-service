@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.dal.migration.strategy.impl;
+package org.slc.sli.common.migration.config.impl;
 
 import static org.junit.Assert.assertFalse;
 

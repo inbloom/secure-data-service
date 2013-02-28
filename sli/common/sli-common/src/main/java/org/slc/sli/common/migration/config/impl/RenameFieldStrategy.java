@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package org.slc.sli.dal.migration.strategy.impl;
-
-import org.slc.sli.common.migration.strategy.MigrationException;
-import org.slc.sli.common.migration.strategy.MigrationStrategy;
-import org.slc.sli.domain.Entity;
+package org.slc.sli.common.migration.config.impl;
 
 import java.util.Map;
+
+import org.slc.sli.dal.migration.strategy.MigrationException;
+import org.slc.sli.dal.migration.strategy.MigrationStrategy;
+import org.slc.sli.domain.Entity;
 
 /**
  * Supports the migration of entities by renaming a data field.
@@ -29,7 +29,7 @@ import java.util.Map;
  * @author kmyers
  */
 
-public class RenameFieldStrategy implements MigrationStrategy<Entity> {
+public class RenameFieldStrategy implements MigrationStrategy {
 
     public static final String OLD_FIELD_NAME = "oldFieldName";
     public static final String NEW_FIELD_NAME = "newFieldName";

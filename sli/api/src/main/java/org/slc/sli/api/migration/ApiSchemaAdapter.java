@@ -15,23 +15,21 @@
  */
 package org.slc.sli.api.migration;
 
+import org.slc.sli.common.migration.config.MigrationConfig;
+import org.slc.sli.common.migration.config.Strategy;
+import org.slc.sli.common.migration.strategy.MigrationException;
+import org.slc.sli.common.migration.strategy.MigrationStrategy;
+import org.slc.sli.domain.Entity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.Resource;
+
+import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import javax.annotation.PostConstruct;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.core.io.Resource;
-
-import org.slc.sli.dal.migration.config.Strategy;
-import org.slc.sli.dal.migration.strategy.MigrationException;
-import org.slc.sli.dal.migration.strategy.MigrationStrategy;
-import org.slc.sli.common.migration.config.MigrationConfig;
-import org.slc.sli.domain.Entity;
 
 /**
  *
@@ -167,7 +165,7 @@ public class ApiSchemaAdapter {
         Entity migratedEntity = entity;
         if (migrationStrategies != null) {
             for (MigrationStrategy migrationStrategy : migrationStrategies) {
-                migratedEntity = migrationStrategy.migrate(migratedEntity);
+                migratedEntity = (Entity) migrationStrategy.migrate(migratedEntity);
             }
         }
 
