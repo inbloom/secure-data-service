@@ -26,6 +26,7 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,7 +75,7 @@ public class DidReferenceResolutionTest {
         naturalKeys.put("academicSubject", ""); // apparently, empty optional natural key field is
                                                 // default to empty string
 
-        checkId(entity, "assessmentId", naturalKeys, "assessment");
+        checkId(entity, "AssessmentReference", naturalKeys, "assessment");
     }
 
     @Test
@@ -655,18 +656,18 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
 
         Map<String, String> naturalKeys = new HashMap<String, String>();
-        naturalKeys.put("objective", "Writing: Informational Text");
-        naturalKeys.put("academicSubject", "ELA");
-        naturalKeys.put("objectiveGradeLevel", "Twelfth grade");
+        naturalKeys.put("Objective", "Writing: Informational Text");
+        naturalKeys.put("AcademicSubject", "ELA");
+        naturalKeys.put("ObjectiveGradeLevel", "Twelfth grade");
 
 //        checkId(entity, "objectiveAssessment.[0].LearningObjectiveReference", naturalKeys, "learningObjective");
 //        checkId(entity, "objectiveAssessment.[0].objectiveAssessments.[0].LearningObjectiveReference", naturalKeys, "learningObjective");
-        checkId(entity, "learningObjectives", naturalKeys, "learningObjective");
+        checkId(entity, "LearningObjectiveReference", naturalKeys, "learningObjective");
     }
-
+    @Ignore
     @Test
-    public void resolvesLearningObjectiveDidsInStudentAssessmentCorrectly() throws IOException {
-        NeutralRecordEntity entity = loadEntity("didTestEntities/studentAssessment.json");
+    public void resolvesLearningObjectiveDidsInStudentObjectiveAssessmentCorrectly() throws IOException {
+        NeutralRecordEntity entity = loadEntity("didTestEntities/studenObjectivetAssessment.json");
         resolveInternalId(entity);
 
         Map<String, String> naturalKeys = new HashMap<String, String>();
@@ -695,21 +696,9 @@ public class DidReferenceResolutionTest {
         resolveInternalId(entity);
 
         Map<String, String> naturalKeys = new HashMap<String, String>();
-        naturalKeys.put("learningStandardId.identificationCode", "0123456789");
+        naturalKeys.put("IdentificationCode", "0123456789");
 
-        checkId(entity, "AssessmentItemReference.[0].LearningStandardReference", naturalKeys, "learningStandard");
-    }
-
-    @Test
-    public void resolvesLearningStandardDidInStudentAssessmentCorrectly() throws JsonParseException, JsonMappingException, IOException {
-        NeutralRecordEntity entity = loadEntity("didTestEntities/studentAssessment.json");
-        resolveInternalId(entity);
-
-        Map<String, String> naturalKeys = new HashMap<String, String>();
-        naturalKeys.put("learningStandardId.identificationCode", "0123456789");
-
-        //checkId(entity, "studentAssessmentItems.[0].assessmentItem.LearningStandardReference", naturalKeys, "learningStandard");
-        checkId(entity, "learningStandards", naturalKeys, "learningStandard");
+        checkId(entity, "LearningStandardReference", naturalKeys, "learningStandard");
     }
 
     @Test
@@ -938,7 +927,7 @@ public class DidReferenceResolutionTest {
         naturalKeys.put("schoolId", schoolId);
         naturalKeys.put("uniqueSectionCode", "this section");
 
-        checkId(entity, "SectionReference", naturalKeys, "section");
+        checkId(entity, "DiDResolved_SectionReference", naturalKeys, "section");
     }
 
     @Test

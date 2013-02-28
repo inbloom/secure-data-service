@@ -316,7 +316,7 @@ public class AssessmentCombinerTest {
         when(mongoRepository.findOne(Mockito.anyString(), Mockito.any(Query.class))).thenReturn(entity);
 
         Map<String, Object> result = (Map<String, Object>) PrivateAccessor.invoke(combiner, "getAssessmentPeriodDescriptor", new Class[]{String.class}, new Object[]{PERIOD_DESCRIPTOR_CODE_VALUE});
-        assertEquals(result.get("codeValue"), "READ2-BOY-2011");
+        assertEquals(((Map<String, Object>) result.get("CodeValue")).get("_value"), "READ2-BOY-2011");
     }
 
     @SuppressWarnings("unchecked")

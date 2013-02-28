@@ -82,15 +82,15 @@
 			<xs:documentation>AttendanceEvent record with key fields: StudentReference (StudentUniqueStateId), SchoolReference (StateOrganizationId) and EventDate. Made SchoolReference required. Changed types of StudentReference, SchoolReference, SessionReference and SectionReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>attendanceEvent</sli:recordType>
-				<sli:naturalKeys>StudentReference,SchoolReference,EventDate,AttendanceEventCategory</sli:naturalKeys>
+				<sli:naturalKeys>StudentReference,SchoolReference,SchoolYear</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
 			<xs:extension base="ComplexObjectType">
 				<xs:sequence>
-          <xs:element name="SchoolYear" type="SchoolYearType" />
+          			<xs:element name="SchoolYear" type="SchoolYearType" />
 					<xs:element name="EventDate" type="xs:date"/>
-          <xs:element name="AttendanceEventType" type="AttendanceEventType" minOccurs="0"/>
+          			<xs:element name="AttendanceEventType" type="AttendanceEventType" minOccurs="0"/>
 					<xs:element name="AttendanceEventCategory" type="AttendanceEventCategoryType"/>
 					<xs:element name="AttendanceEventReason" type="AttendanceEventReason" minOccurs="0"/>
 					<xs:element name="EducationalEnvironment" type="EducationalEnvironmentType" minOccurs="0"/>

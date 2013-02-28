@@ -3,11 +3,11 @@
     [
         {
             "entityType" : "studentAssessment",
-            "sourceRefPath": "body.studentAssessmentId"
+            "sourceRefPath": "body.studentAssessmentReference"
         },
         {
             "entityType" : "objectiveAssessment",
-            "sourceRefPath": "body.objectiveAssessmentId"
+            "sourceRefPath": "body.objectiveAssessmentReference"
         }
     ]
 }
