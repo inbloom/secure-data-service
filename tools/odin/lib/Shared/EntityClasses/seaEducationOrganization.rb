@@ -32,16 +32,16 @@ class StateEducationAgency < BaseEntity
     else
       @state_org_id = DataUtility.get_state_education_agency_id(id)
     end
-    @rand     = rand
+    @rand     = Random.new(state_org_id.hash)
     @programs = programs
 
-    optional {@educationOrgIdentificationCode = @state_org_id + " ID code"}
+    optional {@educationOrgIdentificationCode = @state_org_id.to_s + " ID code"}
 
-    optional {@shortNameOfInstitution = @state_org_id + " shortName"}
+    optional {@shortNameOfInstitution = @state_org_id.to_s + " shortName"}
 
     optional {@telephone = "(" + @rand.rand(1000).to_s.rjust(3, '0') + ")555-" + @rand.rand(10000).to_s.rjust(4, '0')}
 
-    optional {@webSite = "www." + @state_org_id + ".org"}
+    optional {@webSite = "www." + @state_org_id.to_s + ".org"}
 
     optional {@operationalStatus = choose([
       "Active",
@@ -71,7 +71,7 @@ class StateEducationAgency < BaseEntity
     }}
 
     optional {@educationOrganizationPeerReference = {
-        :stateOrganizationId => @state_org_id + " peer ref"
+        :stateOrganizationId => @state_org_id.to_s + " peer ref"
       }
     }
   

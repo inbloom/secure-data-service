@@ -32,7 +32,5 @@ class StaffProgramAssociation < BaseEntity
     @end_date   = end_date
     @access     = access
 
-    optional {@access = {:b => choose([false, true])}}
-
 end
 end

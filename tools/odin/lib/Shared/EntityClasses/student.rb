@@ -92,8 +92,6 @@ class Student < BaseEntity
         "Hispanic",
         "White, Not Of Hispanic Origin"])
     }
-
-    optional {@economicDisadvantaged = {:b => choose([false, true])}}
       
     optional {@studentCharacteristics = {
       :characteristic => choose([
