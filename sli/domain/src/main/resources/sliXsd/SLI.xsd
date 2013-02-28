@@ -2,12 +2,13 @@
 <xs:schema xmlns:sli="http://slc-sli/ed-org/0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema"
            attributeFormDefault="qualified" elementFormDefault="qualified">
 
-  <xs:include schemaLocation="ComplexTypes.xsd" />
+  <xs:include schemaLocation="./ComplexTypes.xsd" />
 
   <!-- The top-level elements for the SLI database schema representation. -->
   <!-- These elements correspond 1:1 with MongoDB collections. -->
 
   <xs:element name="assessment" type="assessment" />
+  <xs:element name="assessmentFamily" type="assessmentFamily"/>
   <xs:element name="attendance" type="attendance" />
   <xs:element name="cohort" type="cohort" />
   <xs:element name="competencyLevelDescriptor" type="competencyLevelDescriptor" />

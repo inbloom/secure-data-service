@@ -54,7 +54,7 @@
 			CodeGeneration
 		</plugin>
 </profile>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Thu Jul 12 12:15:21 EDT 2012'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Thu Feb 28 11:10:51 EST 2013'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.34(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -7085,7 +7085,7 @@
                 <UML:DataType xmi.idref = '49fd2a6a-fba5-4fb8-b7a1-a0ea3a580066'/>
               </UML:StructuralFeature.type>
             </UML:Attribute>
-            <UML:Attribute xmi.id = '7eb64ff6-e6ac-4c8e-beaa-41347311b7b8' name = 'assessmentFamilyHierarchyName'
+            <UML:Attribute xmi.id = '7eb64ff6-e6ac-4c8e-beaa-41347311b7b8' name = 'assessmentFamily'
               isSpecification = 'false'>
               <UML:StructuralFeature.multiplicity>
                 <UML:Multiplicity xmi.id = '065188ea-e859-42e8-a712-e5c4e08978e9'>
@@ -7097,14 +7097,14 @@
               </UML:StructuralFeature.multiplicity>
               <UML:ModelElement.taggedValue>
                 <UML:TaggedValue xmi.id = '05495102-73cd-4e7d-ae0e-e7d8262b64f3' isSpecification = 'false'>
-                  <UML:TaggedValue.dataValue>A hierarchical name for the assessment using &apos;.&apos; separators.</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.dataValue>Reference to the Assessment Family for this Assessment.</UML:TaggedValue.dataValue>
                   <UML:TaggedValue.type>
                     <UML:TagDefinition xmi.idref = '0888c52b-628b-49d1-a061-e65f4d330ffe'/>
                   </UML:TaggedValue.type>
                 </UML:TaggedValue>
               </UML:ModelElement.taggedValue>
               <UML:StructuralFeature.type>
-                <UML:DataType xmi.idref = '56a52704-422f-4339-80e6-ba2ec8725ae1'/>
+                <UML:Class xmi.idref = '10-71-1-22-61e41853:13d2173505f:-8000:000000000000213A'/>
               </UML:StructuralFeature.type>
             </UML:Attribute>
             <UML:Attribute xmi.id = '9134facd-6da9-47fa-85d3-7b182c75dfd8' name = 'assessmentIdentificationCode'
@@ -26670,6 +26670,332 @@
             </UML:AssociationEnd>
           </UML:Association.connection>
         </UML:Association>
+        <UML:Class xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:000000000000213A'
+          name = 'AssessmentFamily' visibility = 'public' isSpecification = 'false'
+          isRoot = 'false' isLeaf = 'false' isAbstract = 'false' isActive = 'false'>
+          <UML:ModelElement.taggedValue>
+            <UML:TaggedValue xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002146'
+              isSpecification = 'false'>
+              <UML:TaggedValue.dataValue>This entity represents a logical grouping or association of
+                assessments that share a common purpose, heritage, or content standard. There may be
+                hierarchies of Assessment Families. Characteristics (e.g., Academic Subject)
+                specified for AssessmentFamilies, by convention, are inherited by the Assessments
+                associated with the AssessmentFamily. </UML:TaggedValue.dataValue>
+              <UML:TaggedValue.type>
+                <UML:TagDefinition xmi.idref = '0888c52b-628b-49d1-a061-e65f4d330ffe'/>
+              </UML:TaggedValue.type>
+            </UML:TaggedValue>
+          </UML:ModelElement.taggedValue>
+          <UML:Classifier.feature>
+            <UML:Attribute xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:000000000000213B'
+              name = 'assessmentFamilyTitle' visibility = 'public' isSpecification = 'false'
+              ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
+              <UML:StructuralFeature.multiplicity>
+                <UML:Multiplicity xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:000000000000213C'>
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:000000000000213D'
+                      lower = '1' upper = '1'/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:StructuralFeature.multiplicity>
+              <UML:ModelElement.taggedValue>
+                <UML:TaggedValue xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002145'
+                  isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>The title or name of the assessment family.</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '0888c52b-628b-49d1-a061-e65f4d330ffe'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+              </UML:ModelElement.taggedValue>
+              <UML:StructuralFeature.type>
+                <UML:DataType xmi.idref = '56a52704-422f-4339-80e6-ba2ec8725ae1'/>
+              </UML:StructuralFeature.type>
+            </UML:Attribute>
+            <UML:Attribute xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:000000000000213E'
+              name = 'assessmentFamilyIdentificationCode' visibility = 'public' isSpecification = 'false'
+              ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
+              <UML:StructuralFeature.multiplicity>
+                <UML:Multiplicity xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002144'>
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002143'
+                      lower = '0' upper = '-1'/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:StructuralFeature.multiplicity>
+              <UML:ModelElement.taggedValue>
+                <UML:TaggedValue xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002147'
+                  isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>A unique number or alphanumeric code assigned to an assessment
+                        by a school, school system, a state, or other agency or
+                        entity.</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '0888c52b-628b-49d1-a061-e65f4d330ffe'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+              </UML:ModelElement.taggedValue>
+              <UML:StructuralFeature.type>
+                <UML:DataType xmi.idref = '56a52704-422f-4339-80e6-ba2ec8725ae1'/>
+              </UML:StructuralFeature.type>
+            </UML:Attribute>
+            <UML:Attribute xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002148'
+              name = 'assessmentCategory' visibility = 'public' isSpecification = 'false'
+              ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
+              <UML:StructuralFeature.multiplicity>
+                <UML:Multiplicity xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:000000000000214C'>
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:000000000000214B'
+                      lower = '0' upper = '1'/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:StructuralFeature.multiplicity>
+              <UML:ModelElement.taggedValue>
+                <UML:TaggedValue xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:000000000000214D'
+                  isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>The category of an assessment based on format and content. For
+                        example: Achievement test, Advanced placement test, Alternate
+                        assessment/grade-level standards, Attitudinal test, Cognitive and perceptual
+                        skills test, etc. </UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '0888c52b-628b-49d1-a061-e65f4d330ffe'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+              </UML:ModelElement.taggedValue>
+              <UML:StructuralFeature.type>
+                <UML:Enumeration xmi.idref = '25e93bf4-b013-4888-bfb3-cfdb8550c7e2'/>
+              </UML:StructuralFeature.type>
+            </UML:Attribute>
+            <UML:Attribute xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:000000000000214E'
+              name = 'academicSubject' visibility = 'public' isSpecification = 'false'
+              ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
+              <UML:StructuralFeature.multiplicity>
+                <UML:Multiplicity xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002152'>
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002151'
+                      lower = '0' upper = '1'/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:StructuralFeature.multiplicity>
+              <UML:ModelElement.taggedValue>
+                <UML:TaggedValue xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002153'
+                  isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>The description of the content or subject area (e.g., arts,
+                        mathematics, reading, stenography, or a foreign language) of an assessment
+                        family.</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '0888c52b-628b-49d1-a061-e65f4d330ffe'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+              </UML:ModelElement.taggedValue>
+              <UML:StructuralFeature.type>
+                <UML:Enumeration xmi.idref = 'becb8a16-695e-4cc2-b4eb-3a2980d65019'/>
+              </UML:StructuralFeature.type>
+            </UML:Attribute>
+            <UML:Attribute xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002154'
+              name = 'gradeLevelAssessed' visibility = 'public' isSpecification = 'false'
+              ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
+              <UML:StructuralFeature.multiplicity>
+                <UML:Multiplicity xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002158'>
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002157'
+                      lower = '0' upper = '1'/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:StructuralFeature.multiplicity>
+              <UML:ModelElement.taggedValue>
+                <UML:TaggedValue xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002159'
+                  isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>The typical grade level for which an assessment family is
+                        designed. If the assessment spans a range of grades, then this attribute
+                        holds the highest grade assessed. If only one grade level is assessed then
+                        only this attribute is used. For example: Adult, Prekindergarten, First
+                        grade, Second grade, etc.</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '0888c52b-628b-49d1-a061-e65f4d330ffe'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+              </UML:ModelElement.taggedValue>
+              <UML:StructuralFeature.type>
+                <UML:Enumeration xmi.idref = '42469915-5986-4c6d-848d-e2a342c381f3'/>
+              </UML:StructuralFeature.type>
+            </UML:Attribute>
+            <UML:Attribute xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:000000000000215A'
+              name = 'lowestGradeLevelAssessed' visibility = 'public' isSpecification = 'false'
+              ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
+              <UML:StructuralFeature.multiplicity>
+                <UML:Multiplicity xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:000000000000215E'>
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:000000000000215D'
+                      lower = '0' upper = '1'/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:StructuralFeature.multiplicity>
+              <UML:ModelElement.taggedValue>
+                <UML:TaggedValue xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:000000000000215F'
+                  isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>If the assessment spans a range of grades, then this attribute
+                        holds the lowest grade assessed. If only one grade level is assessed, then
+                        this attribute is omitted.</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '0888c52b-628b-49d1-a061-e65f4d330ffe'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+              </UML:ModelElement.taggedValue>
+              <UML:StructuralFeature.type>
+                <UML:Enumeration xmi.idref = '42469915-5986-4c6d-848d-e2a342c381f3'/>
+              </UML:StructuralFeature.type>
+            </UML:Attribute>
+            <UML:Attribute xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002160'
+              name = 'contentStandard' visibility = 'public' isSpecification = 'false'
+              ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
+              <UML:StructuralFeature.multiplicity>
+                <UML:Multiplicity xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002164'>
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002163'
+                      lower = '0' upper = '1'/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:StructuralFeature.multiplicity>
+              <UML:ModelElement.taggedValue>
+                <UML:TaggedValue xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002165'
+                  isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>An indication as to whether an assessment conforms to a
+                        standard. For example: Local standard, Statewide standard, Regional standard
+                        Association standard, etc.</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '0888c52b-628b-49d1-a061-e65f4d330ffe'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+              </UML:ModelElement.taggedValue>
+              <UML:StructuralFeature.type>
+                <UML:Enumeration xmi.idref = '19dfe1be-19f2-4101-ac18-7f047c99ecf0'/>
+              </UML:StructuralFeature.type>
+            </UML:Attribute>
+            <UML:Attribute xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002166'
+              name = 'version' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+              changeability = 'changeable' targetScope = 'instance'>
+              <UML:StructuralFeature.multiplicity>
+                <UML:Multiplicity xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:000000000000216A'>
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002169'
+                      lower = '0' upper = '1'/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:StructuralFeature.multiplicity>
+              <UML:ModelElement.taggedValue>
+                <UML:TaggedValue xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:000000000000216B'
+                  isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>The version identifier for the assessment family.</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '0888c52b-628b-49d1-a061-e65f4d330ffe'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+              </UML:ModelElement.taggedValue>
+              <UML:StructuralFeature.type>
+                <UML:DataType xmi.idref = 'efb1b57e-aefb-484e-a243-ee0d4303e0a7'/>
+              </UML:StructuralFeature.type>
+            </UML:Attribute>
+            <UML:Attribute xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:000000000000216C'
+              name = 'revisionDate' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+              changeability = 'changeable' targetScope = 'instance'>
+              <UML:StructuralFeature.multiplicity>
+                <UML:Multiplicity xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002170'>
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:000000000000216F'
+                      lower = '0' upper = '1'/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:StructuralFeature.multiplicity>
+              <UML:ModelElement.taggedValue>
+                <UML:TaggedValue xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002171'
+                  isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>The month, day, and year that the conceptual design for the
+                        assessment family was most recently revised substantially. 	</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '0888c52b-628b-49d1-a061-e65f4d330ffe'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+              </UML:ModelElement.taggedValue>
+              <UML:StructuralFeature.type>
+                <UML:DataType xmi.idref = '481f1754-9aa1-4f36-b819-8f51a276ae4d'/>
+              </UML:StructuralFeature.type>
+            </UML:Attribute>
+            <UML:Attribute xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002172'
+              name = 'nomenclature' visibility = 'public' isSpecification = 'false' ownerScope = 'instance'
+              changeability = 'changeable' targetScope = 'instance'>
+              <UML:StructuralFeature.multiplicity>
+                <UML:Multiplicity xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002176'>
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002175'
+                      lower = '0' upper = '1'/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:StructuralFeature.multiplicity>
+              <UML:ModelElement.taggedValue>
+                <UML:TaggedValue xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002177'
+                  isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>Reflects the specific nomenclature used for this level of
+                        AssessmentFamily.</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '0888c52b-628b-49d1-a061-e65f4d330ffe'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+              </UML:ModelElement.taggedValue>
+              <UML:StructuralFeature.type>
+                <UML:DataType xmi.idref = '6c5e8d1e-fe03-402e-ae20-5d6a214efbad'/>
+              </UML:StructuralFeature.type>
+            </UML:Attribute>
+            <UML:Attribute xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002178'
+              name = 'assessmentPeriods' visibility = 'public' isSpecification = 'false'
+              ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
+              <UML:StructuralFeature.multiplicity>
+                <UML:Multiplicity xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:000000000000217C'>
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:000000000000217B'
+                      lower = '0' upper = '-1'/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:StructuralFeature.multiplicity>
+              <UML:ModelElement.taggedValue>
+                <UML:TaggedValue xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:000000000000217D'
+                  isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>The periods or windows defined in which an assessment is
+                        supposed to be administered.</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '0888c52b-628b-49d1-a061-e65f4d330ffe'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+              </UML:ModelElement.taggedValue>
+              <UML:StructuralFeature.type>
+                <UML:Class xmi.idref = '4e8c8a5e-b773-46f3-9f2c-77de83b7c782'/>
+              </UML:StructuralFeature.type>
+            </UML:Attribute>
+            <UML:Attribute xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:000000000000217E'
+              name = 'assessmentFamily' visibility = 'public' isSpecification = 'false'
+              ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
+              <UML:StructuralFeature.multiplicity>
+                <UML:Multiplicity xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002182'>
+                  <UML:Multiplicity.range>
+                    <UML:MultiplicityRange xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002181'
+                      lower = '0' upper = '1'/>
+                  </UML:Multiplicity.range>
+                </UML:Multiplicity>
+              </UML:StructuralFeature.multiplicity>
+              <UML:ModelElement.taggedValue>
+                <UML:TaggedValue xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002183'
+                  isSpecification = 'false'>
+                  <UML:TaggedValue.dataValue>References the higher level AssessmentFamily this one belongs
+                        to.</UML:TaggedValue.dataValue>
+                  <UML:TaggedValue.type>
+                    <UML:TagDefinition xmi.idref = '0888c52b-628b-49d1-a061-e65f4d330ffe'/>
+                  </UML:TaggedValue.type>
+                </UML:TaggedValue>
+              </UML:ModelElement.taggedValue>
+              <UML:StructuralFeature.type>
+                <UML:Class xmi.idref = '10-71-1-22-61e41853:13d2173505f:-8000:000000000000213A'/>
+              </UML:StructuralFeature.type>
+            </UML:Attribute>
+          </UML:Classifier.feature>
+        </UML:Class>
       </UML:Namespace.ownedElement>
     </UML:Model>
   </XMI.content>
@@ -27531,6 +27857,7 @@
          fillcolor="white"
          stroke="0"
          strokecolor="black"
+         visibility="0"
     >
       <private>
       </private>
@@ -27720,7 +28047,7 @@
                         offset="5" />
     </private>
     <path name="Fig3.0"
-      description="org.tigris.gef.presentation.FigPoly"
+      description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
@@ -27777,7 +28104,7 @@
                         offset="5" />
     </private>
     <path name="Fig4.0"
-      description="org.tigris.gef.presentation.FigPoly"
+      description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"
@@ -27834,7 +28161,7 @@
                         offset="51" />
     </private>
     <path name="Fig5.0"
-      description="org.tigris.gef.presentation.FigPoly"
+      description="org.argouml.gefext.ArgoFigPoly"
       fill="0"
       fillcolor="white"
       stroke="1"

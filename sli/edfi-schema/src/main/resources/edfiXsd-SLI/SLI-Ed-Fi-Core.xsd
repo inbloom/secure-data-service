@@ -1064,7 +1064,7 @@
 				</xs:annotation>
 			</xs:element>
 		</xs:sequence>
-	</xs:complexType>
+	</xs:complexType> 
 	<xs:complexType name="SLC-AcademicWeekReferenceType">
 		<xs:annotation>
 			<xs:appinfo>
@@ -1077,9 +1077,35 @@
 			<xs:element name="AcademicWeekIdentity" type="SLC-AcademicWeekIdentityType"/>
 		</xs:sequence>
 	</xs:complexType>
+    <xs:complexType name="SLC-AssessmentFamily">
+        <xs:annotation>
+            <xs:documentation>AssessmentFamily record with key fields: AssessmentFamilyTitle, Version (optional), and AssessmentFamilyReference (optional).</xs:documentation>
+            <xs:appinfo>
+                <sli:recordType>assessmentFamily</sli:recordType>
+            </xs:appinfo>            
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="ComplexObjectType">
+                <xs:sequence>
+                    <xs:element name="AssessmentFamilyTitle" type="AssessmentTitle"/>
+                    <xs:element name="AssessmentFamilyIdentificationCode" type="AssessmentIdentificationCode" maxOccurs="unbounded"/>
+                    <xs:element name="AssessmentCategory" type="AssessmentCategoryType" minOccurs="0"/>
+                    <xs:element name="AcademicSubject" type="AcademicSubjectType" minOccurs="0"/>
+                    <xs:element name="GradeLevelAssessed" type="GradeLevelType" minOccurs="0"/>
+                    <xs:element name="LowestGradeLevelAssessed" type="GradeLevelType" minOccurs="0"/>
+                    <xs:element name="ContentStandard" type="ContentStandardType" minOccurs="0"/>
+                    <xs:element name="Version" type="Version" minOccurs="0"/>
+                    <xs:element name="RevisionDate" type="xs:date" minOccurs="0"/>
+                    <xs:element name="Nomenclature" type="Nomenclature" minOccurs="0"/>
+                    <xs:element name="AssessmentPeriods" type="AssessmentPeriodDescriptorType" minOccurs="0" maxOccurs="unbounded"/>
+                    <xs:element name="AssessmentFamilyReference" type="AssessmentFamilyReferenceType" minOccurs="0"/>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>    
 	<xs:complexType name="SLC-AssessmentFamilyIdentityType">
 		<xs:annotation>
-			<xs:documentation>Changed to contain only AssessmentFamilyTitle.</xs:documentation>
+			<xs:documentation>AssessmentFamilyTitle, Version (optional), and AssessmentFamilyReference (optional)</xs:documentation>
 		</xs:annotation>
 		<xs:sequence>
 			<xs:element name="AssessmentFamilyTitle" type="AssessmentTitle">
@@ -1089,6 +1115,21 @@
 					</xs:appinfo>
 				</xs:annotation>
 			</xs:element>
+		    <xs:element name="Version" type="Version" minOccurs="0">
+		        <xs:annotation>
+		            <xs:appinfo>
+		                <sli:keyFieldName>version</sli:keyFieldName>
+		            </xs:appinfo>
+		        </xs:annotation>
+		    </xs:element>
+		    <xs:element name="AssessmentFamilyReference" type="AssessmentFamilyReferenceType" minOccurs="0">
+		        <xs:annotation>
+		            <xs:appinfo>
+		                <sli:keyFieldName>assessmentFamily</sli:keyFieldName>
+		            </xs:appinfo>
+		        </xs:annotation>
+		    </xs:element>
+		    
 		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-AssessmentFamilyReferenceType">
