@@ -22,9 +22,11 @@ import org.slc.sli.api.config.EntityDefinitionStore;
 import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.resources.v1.HypermediaType;
 import org.slc.sli.api.security.RightsAllowed;
+import org.slc.sli.api.security.SecurityEventBuilder;
 import org.slc.sli.api.service.EntityNotFoundException;
 import org.slc.sli.api.service.EntityService;
 import org.slc.sli.api.util.SecurityUtil;
+import org.slc.sli.common.util.logging.SecurityEvent;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
@@ -41,8 +43,10 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.UriInfo;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -72,6 +76,9 @@ public class AdminDelegationResource {
     private DelegationUtil util;
 
     private EntityService service;
+
+    @Autowired
+    private SecurityEventBuilder securityEventBuilder;
 
     public static final String RESOURCE_NAME = "adminDelegation";
     public static final String LEA_ID = "localEdOrgId";
@@ -136,7 +143,7 @@ public class AdminDelegationResource {
     @PUT
     @Path("myEdOrg")
     @RightsAllowed({Right.EDORG_APP_AUTHZ })
-    public Response setLocalDelegation(EntityBody body) {
+    public Response setLocalDelegation(EntityBody body, @Context final UriInfo uriInfo) {
         //verifyBodyEdOrgMatchesPrincipalEdOrg
         if (body == null || !body.containsKey(LEA_ID) || !body.get(LEA_ID).equals(SecurityUtil.getEdOrgId())) {
             EntityBody response = new EntityBody();
@@ -150,6 +157,7 @@ public class AdminDelegationResource {
             if (service.create(body).isEmpty()) {
                 return Response.status(Status.BAD_REQUEST).build();
             } else {
+                SecurityEvent event = securityEventBuilder.createSecurityEvent(AdminDelegationResource.class.getName(), uriInfo.getRequestUri(), "LEA has delegated AppAuth and SecEvent to SEA!");
                 return Response.status(Status.CREATED).build();
             }
 
@@ -166,8 +174,8 @@ public class AdminDelegationResource {
 
     @POST
     @RightsAllowed({Right.EDORG_APP_AUTHZ })
-    public Response create(EntityBody body) {
-        return setLocalDelegation(body);
+    public Response create(EntityBody body, @Context final UriInfo uriInfo) {
+        return setLocalDelegation(body, uriInfo);
     }
 
     @GET
