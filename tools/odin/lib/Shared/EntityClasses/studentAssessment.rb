@@ -19,11 +19,79 @@ limitations under the License.
 require_relative 'baseEntity.rb'
 
 class StudentAssessment < BaseEntity
-  attr_accessor :studentId, :assessment, :date, :score
+  attr_accessor :studentId, :assessment, :date, :score,
+                :administrationEndDate, :serialNumber, :specialAccommodations,
+                :linguisticAccommodations, :reasonNotTested,
+                :gradeLevelWhenAssessed, :performanceLevels
+  
+  
   def initialize(student_id, assessment, date, rand = nil)
+    @rand = Random.new(student_id)
     @studentId = student_id
     @assessment = assessment
     @date = date.to_s
     @score = rand.rand(100) unless rand.nil?
+    
+    optional {@administrationEndDate = Date.new(2000+@rand.rand(12), 1+@rand.rand(12), 1+@rand.rand(28))}
+    
+    optional {@serialNumber = @studentId.to_s + " code"}
+    
+    optional {@specialAccommodations = choose([
+      "Presentation",
+      "Response",
+      "Setting",
+      "Timing and Scheduling",
+      "Large Print",
+      "Dyslexia Bundled",
+      "Oral Administration",
+      "Adjustable swivel arm"
+      ])
+    }
+    
+    optional {@linguisticAccommodations = choose([
+      "Bilingual Dictionary",
+      "English Dictionary",
+      "Reading Aloud - Word or Phrase",
+      "Reading Aloud - Entire Test Item",
+      "Oral Translation - Word or Phrase",
+      "Clarification - Word or Phrase",
+      "Linguistic Accommodations allowed but not used",
+      "Linguistic Simplification"
+      ])
+    }
+    
+    optional {@reasonNotTested = choose([
+      "Absent",
+      "LEP exempt",
+      "LEP postponement",
+      "Not appropriate (ARD decision)",
+      "Not tested (ARD decision)",
+      "Alternate assessment administered",
+      "Parental waiver",
+      "Foreign exchange student waiver",
+      "Refusal by parent"
+      ])
+    }
+
+    optional {@gradeLevelWhenAssessed = choose([
+      "Adult Education",
+      "Early Education",
+      "Eighth grade",
+      "Eleventh grade",
+      "Fifth grade",
+      "First grade",
+      "Fourth grade",
+      "Grade 13",
+      "Infant/toddler",
+      "Kindergarten"
+      ])
+    }
+
+    optional {@performanceLevels = {
+      :codeValue => @studentId.to_s + " code",
+      :performanceLevelMet => choose([false, true])
+    }}
+
+    
   end
 end

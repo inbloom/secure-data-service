@@ -1,10 +1,17 @@
 {{#entity}}
   <StudentAssessmentItem>
     <AssessmentResponse>{{response}}</AssessmentResponse>
+
+    {{#responseIndicator}}
+      <ResponseIndicator>{{responseIndicator}}</ResponseIndicator>
+    {{/responseIndicator}}
+
     <AssessmentItemResult>{{result}}</AssessmentItemResult>
-    {{#rawscore}}
-    <RawScoreResult>{{rawscore}}</RawScoreResult>
-    {{/rawscore}}
+    
+    {{#rawScoreResult}}
+    <RawScoreResult>{{rawScoreResult}}</RawScoreResult>
+    {{/rawScoreResult}}
+
     {{#student_assessment}}
       <StudentAssessmentReference>
         <StudentAssessmentIdentity>
