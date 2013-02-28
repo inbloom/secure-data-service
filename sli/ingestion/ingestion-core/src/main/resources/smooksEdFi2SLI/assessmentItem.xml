@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<smooks-resource-list xmlns="http://www.milyn.org/xsd/smooks-1.1.xsd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:core="http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd"
+    xmlns:json="http://www.milyn.org/xsd/smooks/json-1.1.xsd"
+    xmlns:jb="http://www.milyn.org/xsd/smooks/javabean-1.2.xsd"
+    xsi:schemaLocation="http://www.milyn.org/xsd/smooks-1.1.xsd http://www.milyn.org/xsd/smooks-1.1.xsd
+        http://www.milyn.org/xsd/smooks/json-1.1.xsd http://www.milyn.org/xsd/smooks/json-1.1.xsd
+        http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd http://www.milyn.org/xsd/smooks/smooks-core-1.4.xsd
+        http://www.milyn.org/xsd/smooks/javabean-1.2.xsd http://www.milyn.org/xsd/smooks/javabean-1.2.xsd">
+
+    <json:reader rootName="json" />
+
+    <core:filterSettings type="SAX" readerPoolSize="5" />
+
+    <jb:bean beanId="assessmentItems" class="java.util.ArrayList" createOnElement="#document">
+        <jb:wiring beanIdRef="assessmentItem" />
+    </jb:bean>
+
+    <jb:bean beanId="assessmentItem" class="org.slc.sli.ingestion.transformation.SimpleEntity" createOnElement="json">
+        <jb:expression property="type">'assessmentItem'</jb:expression>
+        <jb:wiring property="body" beanIdRef="assessmentItemBody" />
+    </jb:bean>
+
+    <jb:bean beanId="AssessmentItemBody" class="java.util.HashMap" createOnElement="attributes">
+        <jb:value property="assessmentId" data="attributes AssessmentReference" />
+        <jb:value property="identificationCode" data="attributes IdentificationCode _value" />
+        <jb:value property="itemCategory" data="attributes ItemCategory _value" />
+        <jb:value property="maxRawScore" data="attributes MaxRawScore _value" />
+        <jb:value property="correctResponse" data="attributes CorrectResponse _value" />
+        <jb:value property="nomenclature" data="attributes AssessmentItemReference element Nomenclature _value" />
+        <jb:wiring property="learningStandards" beanIdRef="LearningStandards" />
+    </jb:bean>
+
+   <jb:bean beanId="LearningStandards" class="java.util.ArrayList" createOnElement="attributes AssessmentItemReference element LearningStandardReference">
+    <jb:value data="attributes LearningStandardReference element" />
+  </jb:bean> 
+
+
+</smooks-resource-list>
