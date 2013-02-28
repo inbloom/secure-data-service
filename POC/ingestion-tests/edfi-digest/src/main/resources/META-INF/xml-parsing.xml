@@ -129,6 +129,8 @@
   </bean>
 
   <camelContext trace="false" xmlns="http://camel.apache.org/schema/spring">
+    <jmxAgent id="agent" createConnector="true" serviceUrlPath="ingestion" />
+
     <template id="myTemplate" defaultEndpoint="direct:logging" />
 
     <route id="fileReader">
