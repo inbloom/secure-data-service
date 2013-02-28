@@ -1,0 +1,734 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"to_a",
+				"to_a"
+			],
+			[
+				"i",
+				"i"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "/Users/rmiller/ws/master/sli/sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Ed-Fi-Core.xsd",
+			"settings":
+			{
+				"buffer_size": 98789,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/rmiller/ws/master/sli/sli/edfi-schema/src/main/resources/edfiXsd/Ed-Fi-Core.xsd",
+			"settings":
+			{
+				"buffer_size": 458025,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/rmiller/ws/master/sli/sli/domain/src/main/resources/sliXsd/ComplexTypes.xsd",
+			"settings":
+			{
+				"buffer_size": 389224,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/rmiller/ws/master/sli/sli/api/src/main/resources/wadl/resources.json",
+			"settings":
+			{
+				"buffer_size": 62062,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/apiV1/end_user_stories/assessments/assessment.feature",
+			"settings":
+			{
+				"buffer_size": 12853,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/apiV1/end_user_stories/assessments/step_definitions/assessment_steps.rb",
+			"settings":
+			{
+				"buffer_size": 9888,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/apiV1/querying/querying.feature",
+			"settings":
+			{
+				"buffer_size": 25747,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/utils/sli_utils.rb",
+			"settings":
+			{
+				"buffer_size": 27106,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/apiV1/entities/crud/step_definitions/crud_step.rb",
+			"settings":
+			{
+				"buffer_size": 20551,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/apiV1/end_user_stories/commonCoreStandards/API/api_ccs.feature",
+		"/Users/rmiller/ws/master/sli/sli/config/scripts/documentation/get_resources.rb",
+		"/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/apiV1/aggregations/step_definitions/aggregates.rb",
+		"/Users/rmiller/ws/master/sli/tools/odin/lib/Shared/EntityClasses/assessment.rb",
+		"/Users/rmiller/ws/master/sli/tools/odin/lib/Shared/EntityClasses/assessment_family.rb",
+		"/Users/rmiller/ws/master/sli/tools/odin/lib/Shared/EntityClasses/assessment_item.rb",
+		"/Users/rmiller/ws/master/sli/tools/odin/lib/Shared/EntityClasses/objective_assessment.rb",
+		"/Users/rmiller/ws/master/sli/tools/odin/lib/Shared/EntityClasses/learning_objective.rb",
+		"/Users/rmiller/ws/master/sli/tools/odin/lib/Shared/EntityClasses/student_objective_assessment.rb",
+		"/Users/rmiller/ws/master/sli/tools/odin/lib/Shared/EntityClasses/studentAssessment.rb",
+		"/Users/rmiller/ws/master/sli/tools/odin/lib/WorldDefinition/world_builder.rb",
+		"/Users/rmiller/ws/master/sli/tools/odin/lib/Shared/EntityClasses/student_assessment_item.rb",
+		"/Users/rmiller/ws/master/sli/tools/odin/lib/odin.rb",
+		"/Users/rmiller/ws/master/sli/tools/odin/scenarios/jmeter_api_performance",
+		"/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/apiV1/entities/Links/step_definitions/duplicate_link_test_steps.rb",
+		"/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/apiV1/entities/Links/duplicate_link_test.feature",
+		"/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/ingestion/features/ingestion_acceptance_SDS_test.feature",
+		"/Users/rmiller/ws/sf_web/www.spiralfiremusic.com/web/content/config.php",
+		"/Users/rmiller/ws/sf_web/www.spiralfiremusic.com/web/content/assets/js/global.js",
+		"/Users/rmiller/ws/sf_web/www.spiralfiremusic.com/web/content/assets/css/jquery.fancybox.css",
+		"/Users/rmiller/ws/sf_web/www.spiralfiremusic.com/web/content/index.php",
+		"/Users/rmiller/ws/sf_web/www.spiralfiremusic.com/web/content/assets/css/global.css",
+		"/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/apiV1/jmeter/step_defs/jmeter_steps.rb",
+		"/Users/rmiller/ws/master/sli/sli/edfi-schema/src/main/resources/edfiXsd/Interchange-AssessmentMetadata.xsd",
+		"/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/ingestion/features/ingestion_MediumSampleDataSet.feature",
+		"/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/apiV1/granular_access/granular_access.feature",
+		"/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/apiV1/granular_access/step_definitions/granular_access.rb",
+		"/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/apiV1/search/step_definitions/api_search.rb",
+		"/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/apiV1/search/api_search.feature",
+		"/Users/rmiller/ws/master/sli/tools/odin/lib/Shared/EntityClasses/leaEducationOrganization.rb",
+		"/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/ingestion/features/step_definitions/ingestion_steps.rb",
+		"/Users/rmiller/ws/master/sli/sli/ingestion/ingestion-core/target/classes/smooksEdFi2SLI/localEducationAgency.json",
+		"/Users/rmiller/ws/sf_web/backups/01-29-2013/www.spiralfiremusic.com/web/content/assets/js/jquery.vegas.js",
+		"/Users/rmiller/ws/sf_web/backups/01-29-2013/www.spiralfiremusic.com/web/content/index.php",
+		"/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/ingestion/features/ingestion_OdinDataSet.feature",
+		"/Users/rmiller/ws/sf_web/backups/01-29-2013/www.spiralfiremusic.com/web/content/assets/js/jquery.fancybox.js",
+		"/Users/rmiller/ws/sf_web/backups/01-29-2013/www.spiralfiremusic.com/web/content/assets/js/global.js",
+		"/Users/rmiller/ws/sf_web/www.spiralfiremusic.com/web/content/assets/fancybox-test.php",
+		"/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/apiV1/jmeter/jmeterPerformance.feature",
+		"/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/utils/properties.yml",
+		"/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/odin/generate_10_students.feature",
+		"/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/odin/step_definitions/data_generation_steps.rb",
+		"/Users/rmiller/ws/master/sli/tools/odin/spec/odin_integration_spec.rb",
+		"/Users/rmiller/ws/master/sli/sli/api/src/main/resources/wadl/resources.json",
+		"/Users/rmiller/ws/master/sli/sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Ed-Fi-Core.xsd",
+		"/Users/rmiller/ws/master/sli/sli/domain/src/main/resources/sliXsd/SLI.xsd",
+		"/Users/rmiller/ws/master/sli/sli/domain/src/main/resources/sliModel/SLI.xsd",
+		"/Users/rmiller/ws/master/sli/tools/odin/lib/EntityCreation/entity_factory.rb",
+		"/Users/rmiller/ws/sf_web/www.spiralfiremusic.com/web/content/assets/css/bootstrap.css",
+		"/Users/rmiller/ws/sf_web/www.spiralfiremusic.com/config.php",
+		"/Users/rmiller/ws/codeathon/ah-snap/frontend/index.html",
+		"/Users/rmiller/ws/codeathon/ah-snap/frontend/ui.js",
+		"/Users/rmiller/ws/sf_web/www.spiralfiremusic.com/web/content/assets/css/jquery.vegas.css",
+		"/Users/rmiller/ws/sf_web/www.spiralfiremusic.com/global.css",
+		"/Users/rmiller/ws/codeathon/ah-snap/frontend/assets/css/bootstrap.css",
+		"/Users/rmiller/ws/sf_web/www.spiralfiremusic.com/web/content/assets/css/bootstrap-responsive.css",
+		"/Users/rmiller/ws/sf_web/www.spiralfiremusic.com/web/content/assets/css/bootstrap.min.css",
+		"/Users/rmiller/ws/sf_web/www.spiralfiremusic.com/web/content/assets/css/bootstrap-responsive.min.css",
+		"/Users/rmiller/ws/sf_web/www.spiralfiremusic.com/web/content/simpleCMS.php",
+		"/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/apiV1/jmeter/step_defs/riley_jmeter_steps.rb",
+		"/Users/rmiller/ws/codeathon/ah-snap/backend/infoHandler.js",
+		"/Users/rmiller/ws/codeathon/ah-snap/backend/app.js",
+		"/Users/rmiller/ws/sf_web/www.spiralfiremusic.com/web/content/index-webready.html",
+		"/Users/rmiller/ws/sf_web/www.spiralfiremusic.com/web/content/assets/js/bootstrap.min.js",
+		"/Users/rmiller/ws/sf_web/www.spiralfiremusic.com/web/content/assets/js/bootstrap.js",
+		"/Users/rmiller/ws/sf_web/global.css",
+		"/Users/rmiller/ws/sf_web/www.spiralfiremusic.com/web/content/assets/js/jquery.fancybox.js",
+		"/Users/rmiller/ws/sf_web/www.spiralfiremusic.com/web/content/controllers/news.php",
+		"/Users/rmiller/ws/sf_web/www.spiralfiremusic.com/web/content/controllers/router.php",
+		"/Users/rmiller/ws/codeathon/ah-snap/frontend/myindex.html",
+		"/Users/rmiller/ws/codeathon/ah-snap/backend/dbaccess.js",
+		"/Users/rmiller/ws/codeathon/ah-snap/json/students.json",
+		"/Users/rmiller/ws/codeathon/ah-snap/json/fixture/users.json",
+		"/Users/rmiller/ws/codeathon/ah-snap/json/info.json",
+		"/Users/rmiller/ws/codeathon/ah-snap/json/parents.json",
+		"/Users/rmiller/ws/codeathon/ah-snap/frontend/jsrender.js",
+		"/Users/rmiller/ws/codeathon/ah-snap/frontend/assets/js/bootstrap.min.js",
+		"/Users/rmiller/ws/codeathon/ah-snap/frontend/assets/css/global.css",
+		"/Users/rmiller/ws/master/sli/tools/odin/scenarios/ingestion_perf_30k",
+		"/Users/rmiller/ws/master/sli/tools/odin/scenarios/defaults/base_scenario",
+		"/Users/rmiller/ws/master/sli/tools/odin/lib/Shared/EntityClasses/parent.rb",
+		"/Users/rmiller/ws/master/sli/tools/odin/lib/OutputGeneration/XML/interchangeGenerator.rb",
+		"/Users/rmiller/ws/master/sli/tools/odin/lib/OutputGeneration/XML/studentParentGenerator.rb",
+		"/Users/rmiller/ws/master/sli/tools/odin/lib/Shared/EntityClasses/studentParentAssociation.rb",
+		"/Users/rmiller/ws/master/sli/tools/odin/lib/OutputGeneration/XML/studentAssessmentGenerator.rb",
+		"/Users/rmiller/ws/master/sli/tools/odin/lib/Shared/EntityClasses/enum/EducationOrganizationCategoryType.rb",
+		"/Users/rmiller/ws/master/sli/tools/odin/lib/Shared/EntityClasses/student.rb",
+		"/Users/rmiller/ws/master/sli/tools/odin/lib/OutputGeneration/XmlDataWriter.rb",
+		"/Users/rmiller/ws/master/sli/tools/odin/lib/WorldDefinition/student_work_order.rb",
+		"/Users/rmiller/ws/master/sli/tools/odin/lib/WorldDefinition/pre_requisite_builder.rb",
+		"/Users/rmiller/ws/master/sli/tools/odin/lib/Shared/scenario.rb",
+		"/Users/rmiller/ws/master/sli/tools/odin/scenarios/defaults/choices.yml",
+		"/Users/rmiller/ws/master/sli/tools/odin/scenarios/defaults/demographics.yml",
+		"/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/dashboard/jmeter/step_defs/jmeter.rb",
+		"/Users/rmiller/ws/master/sli/tools/odin/scenarios/ingestion/ingestion_perf_10kstudents",
+		"/Users/rmiller/ws/master/sli/tools/odin/lib/OutputGeneration/DataWriter.rb",
+		"/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/dashboard/dash/student_profile.feature",
+		"/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/dashboard/students/step_definitions/TranscriptHistoryPanel.rb",
+		"/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/dashboard/students/step_definitions/StudentGradebookEntry.rb",
+		"/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/dashboard/students/step_definitions/HistoricalData.rb",
+		"/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/apiV1/jmeter/jmeterLocalPerformance.feature",
+		"/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/dashboard/jmeter/dashboard_jmeter_performance.feature",
+		"/Users/rmiller/ws/sf_web/index.php",
+		"/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/ingestion/features/ingestion_jmeterOdinData.feature",
+		"/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/odin/generate_jmeter_data.feature",
+		"/Users/rmiller/ws/master/sli/sli/acceptance-tests/suites/data-generation.rake",
+		"/Users/rmiller/ws/master/sli/sli/acceptance-tests/Rakefile",
+		"/Users/rmiller/ws/master/sli/sli/acceptance-tests/suites/ingestion.rake",
+		"/Users/rmiller/ws/master/sli/tools/odin/lib/OutputGeneration/XML/interchangeTemplates/staff_cohort_association.mustache",
+		"/Users/rmiller/ws/master/sli/tools/odin/lib/OutputGeneration/XML/EntityWriter.rb",
+		"/Users/rmiller/ws/master/sli/tools/odin/lib/OutputGeneration/XML/cohortGenerator.rb",
+		"/Users/rmiller/ws/master/sli/tools/odin/lib/Shared/EntityClasses/cohort.rb",
+		"/Users/rmiller/ws/master/sli/tools/odin/lib/Shared/EntityClasses/staff_cohort_association.rb",
+		"/Users/rmiller/ws/master/sli/tools/odin/lib/Shared/EntityClasses/baseEntity.rb",
+		"/Users/rmiller/ws/master/sli/sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Interchange-StaffAssociation.xsd",
+		"/Users/rmiller/ws/sf_web/www.spiralfiremusic.com/web/content/assets/js/jquery.simplemodal.js",
+		"/Users/rmiller/ws/sf_web/www.spiralfiremusic.com/web/content/assets/js/basic.js",
+		"/Users/rmiller/ws/master/sli/tools/odin/scenarios/1000students",
+		"/Users/rmiller/ws/sf_web/simplemodal/basic/index.html",
+		"/Users/rmiller/ws/sf_web/fancybox-youtube-videos/css/fancybox/jquery.fancybox.css",
+		"/Users/rmiller/ws/sf_web/fancybox-youtube-videos/css/fancybox/jquery.fancybox-thumbs.css",
+		"/Users/rmiller/ws/sf_web/fancybox-youtube-videos/css/fancybox/jquery.fancybox-buttons.css",
+		"/Users/rmiller/ws/sf_web/fancybox-youtube-videos/js/fancybox/jquery.easing-1.3.pack.js",
+		"/Users/rmiller/ws/sf_web/simplemodal/basic/js/basic.js",
+		"/Users/rmiller/ws/sf_web/simplemodal/basic/css/demo.css",
+		"/Users/rmiller/ws/sf_web/simplemodal/basic/css/basic.css",
+		"/Users/rmiller/ws/master/sli/tools/odin/lib/WorldDefinition/assessment_work_order.rb",
+		"/Users/rmiller/ws/master/sli/tools/odin/lib/EntityCreation/work_order_queue.rb"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"assessment",
+			"item",
+			"learningObjective",
+			"assessmentfamily",
+			"studentObjectiveAssess",
+			"objectiveAssess",
+			"studentObjectiveAss",
+			"I should have a list of",
+			"Then I should have a list of",
+			"I should have a list of",
+			"learning",
+			"objective",
+			"learning",
+			"objective",
+			"learningOb",
+			"assessment",
+			"section",
+			"section\"",
+			"learningobj",
+			"objectiveassessmentref",
+			"objective",
+			"assessment",
+			"assess",
+			"amily",
+			"item",
+			"assessment",
+			"result",
+			"Exam",
+			"assess",
+			"optional",
+			"items",
+			"asse",
+			"eriodDe",
+			"eriod",
+			".5",
+			"REGRESSION_TH",
+			"calculateFrac",
+			"count",
+			"download",
+			"fancybox",
+			"download",
+			"courseTrans",
+			"courseTranscripts",
+			"studentAcademicRecor",
+			"studentAcademic",
+			"academic",
+			"courseTranscript",
+			"transcripts",
+			"hover",
+			"studentSchool",
+			"nav-tabs",
+			"topic",
+			"dropdown",
+			"z-index",
+			"fancybox",
+			"hidden",
+			"z-inde",
+			"one-one-tab",
+			"this",
+			"shadow",
+			"user",
+			"dropdown-menu",
+			"right",
+			"class*=",
+			"media",
+			"discussion",
+			"small",
+			"pull-left",
+			"span12",
+			"row",
+			"align",
+			"datetime",
+			"fileName",
+			"File.",
+			"__FILE",
+			"copy",
+			"discipline",
+			"views",
+			"discipline",
+			"\"/teacher",
+			"enroll",
+			"transcript",
+			"level",
+			"\"/courses",
+			"\"/teachers",
+			"sessions",
+			"create_teachers_for_education_organization",
+			"teacher",
+			"students_per",
+			"generate_student_work",
+			"create_student",
+			"create",
+			"create_work_orders",
+			"Scenario",
+			"ENTITY_WHITE",
+			"REGRESSION_THRESHOLD",
+			"ci",
+			"create_staff_cohort_associations",
+			"cohorts",
+			"create_staff_cohort_associations",
+			"cohort",
+			"\"/educationOrganizations\"",
+			"/educationOrganizations",
+			"education",
+			"\"education\"",
+			"\"educationOrganizations\"",
+			"\"educationOrganization\"",
+			"\"/educationOrg\"",
+			"cohorts",
+			"token",
+			"cohorts",
+			"staff",
+			"redeem it here",
+			"onshow",
+			"type",
+			"iframe",
+			"various",
+			"activemq",
+			"inbound",
+			"staff.json",
+			"basicModal",
+			"iframe",
+			"fancybox.iframe",
+			"various",
+			"fancybox-image",
+			"fancybox-wrap",
+			"fancybox-type-iframe",
+			"fancybox-skin"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"ref_doc",
+			"doc_ary",
+			"gui_gets",
+			"@todo"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/Users/rmiller/ws/master/sli/sli/edfi-schema/src/main/resources/edfiXsd-SLI/SLI-Ed-Fi-Core.xsd",
+					"settings":
+					{
+						"buffer_size": 98789,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								89810,
+								89820
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/XML/XML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 33540.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/Users/rmiller/ws/master/sli/sli/edfi-schema/src/main/resources/edfiXsd/Ed-Fi-Core.xsd",
+					"settings":
+					{
+						"buffer_size": 458025,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								129552,
+								129569
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/XML/XML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 48374.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/Users/rmiller/ws/master/sli/sli/domain/src/main/resources/sliXsd/ComplexTypes.xsd",
+					"settings":
+					{
+						"buffer_size": 389224,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								384432,
+								384449
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/XML/XML.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 162066.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "/Users/rmiller/ws/master/sli/sli/api/src/main/resources/wadl/resources.json",
+					"settings":
+					{
+						"buffer_size": 62062,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								15842,
+								15852
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/apiV1/end_user_stories/assessments/assessment.feature",
+					"settings":
+					{
+						"buffer_size": 12853,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1773,
+								1783
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Cucumber/Cucumber Plain Text Feature.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 56.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/apiV1/end_user_stories/assessments/step_definitions/assessment_steps.rb",
+					"settings":
+					{
+						"buffer_size": 9888,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								7471,
+								7471
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1968.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/apiV1/querying/querying.feature",
+					"settings":
+					{
+						"buffer_size": 25747,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Cucumber/Cucumber Plain Text Feature.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 3469.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/utils/sli_utils.rb",
+					"settings":
+					{
+						"buffer_size": 27106,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 4439.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "/Users/rmiller/ws/master/sli/sli/acceptance-tests/test/features/apiV1/entities/crud/step_definitions/crud_step.rb",
+					"settings":
+					{
+						"buffer_size": 20551,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Ruby/Ruby.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 64.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"leaeducation",
+				"sli/tools/odin/lib/Shared/EntityClasses/leaEducationOrganization.rb"
+			],
+			[
+				"lea",
+				"sli/sli/ingestion/ingestion-core/target/classes/smooksEdFi2SLI/localEducationAgency.json"
+			],
+			[
+				"interchangegen",
+				"tools/odin/lib/OutputGeneration/XML/interchangeGenerator.rb"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": false,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 210.0,
+	"status_bar_visible": true
+}

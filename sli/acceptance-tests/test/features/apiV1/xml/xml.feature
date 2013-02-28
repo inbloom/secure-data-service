@@ -16,7 +16,7 @@ Background: Nothing yet
 
   Examples:
     | ENTITY URI                  | ENTITY TYPE                | ENTITY ID                               |
-    | assessments                 | assessment                 | dd916592-7d7e-5d27-a87d-dfc7fcb757f6    |
+    | assessments                 | assessment                 | 2108c0c84ca6998eb157e1efd4d894746e1fdf8b_id |
     | schools                     | school                     | 92d6d5a0-852c-45f4-907a-912752831772    |
     | students                    | student                    | 3a8860f9-ffb1-40f2-89b4-84f3ba369204_id    |
     | studentSectionAssociations  | studentSectionAssociation  | 8ed12459-eae5-49bc-8b6b-6ebe1a56384f_id4ae72560-3518-4576-a35e-a9607668c9ad_id    |

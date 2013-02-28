@@ -96,7 +96,7 @@ Then I should see following map of entry counts in the corresponding collections
      | staffProgramAssociation                     | 106 |
      | student                                     | 500 |
      | studentAcademicRecord                       | 500 |
-     | studentAssessment                | 2500 |
+     | studentAssessment                           | 2500 |
      | studentCohortAssociation                    | 1500 |
      | studentCompetency                           | 1000 |
      | studentCompetencyObjective                  | 1 |
@@ -109,7 +109,7 @@ Then I should see following map of entry counts in the corresponding collections
      | courseTranscript                            | 7500 |
      | teacherSchoolAssociation                    | 50 |
      | teacherSectionAssociation                   | 300 |
-	And I should see "Processed 38489 records." in the resulting batch job file
+	And I should see "Processed 45414 records." in the resulting batch job file
 	And I should not see an error log file created
 	And I should not see a warning log file created
 

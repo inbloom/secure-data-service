@@ -159,8 +159,6 @@ When /^I create a new role <Role> to the group <Group> that allows <User> to acc
 end
 
 Then /^the user "([^"]*)" in tenant "([^"]*)" can access the API with (rights "[^"]*")$/ do |user, tenant, rights|
-  # Wait two seconds for the API to catch up
-  sleep 2
   checkRights(user, tenant, rights, false)
 end
 
@@ -329,30 +327,39 @@ Then /^the user "(.*?)" in tenant "(.*?)" can access the API with self (rights "
 end
 
 def checkRights(user, tenant, rights, isSelf) 
-    # Login and get a session ID
-  idpRealmLogin(user, user+"1234", tenant)
-  assert(@sessionId != nil, "Session returned was nil")
-  
-  # Make a call to Session debug and look that we are authenticated
-  restHttpGet("/system/session/debug", "application/json")
-  assert(@res != nil, "Response from rest-client GET is nil")
-  assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
-  result = JSON.parse(@res.body)
-  assert(result != nil, "Result of JSON parsing is nil")
-
-  if (isSelf)
-    actualRights = result["authentication"]["principal"]["selfRights"]
-  else
-    actualRights = result["authentication"]["authorities"]
-  end
-  
-  puts("The actual rights are #{actualRights.inspect}")
-  
-  # Validate the user has expected rights
-  assert(result["authentication"]["authenticated"] == true, "User "+user+" did not successfully authenticate to SLI")
-  assert(actualRights.size == rights.size, "User "+user+" was granted #{actualRights.size} permissions but expected #{rights.size}")
-  rights.each do |right|
-    assert(actualRights.include?(right), "User "+user+" was not granted #{right} permissions")
+  for num in 0..5
+    begin 
+       sleep 1
+        # Login and get a session ID
+      idpRealmLogin(user, user+"1234", tenant)
+      assert(@sessionId != nil, "Session returned was nil")
+      
+      # Make a call to Session debug and look that we are authenticated
+      restHttpGet("/system/session/debug", "application/json")
+      assert(@res != nil, "Response from rest-client GET is nil")
+      assert(@res.code == 200, "Return code was not expected: "+@res.code.to_s+" but expected 200")
+      result = JSON.parse(@res.body)
+      assert(result != nil, "Result of JSON parsing is nil")
+    
+      if (isSelf)
+        actualRights = result["authentication"]["principal"]["selfRights"]
+      else
+        actualRights = result["authentication"]["authorities"]
+      end
+      
+      puts("The actual rights are #{actualRights.inspect}")
+      
+      # Validate the user has expected rights
+      assert(result["authentication"]["authenticated"] == true, "User "+user+" did not successfully authenticate to SLI")
+      assert(actualRights.size == rights.size, "User "+user+" was granted #{actualRights.size} permissions but expected #{rights.size}")
+      rights.each do |right|
+        assert(actualRights.include?(right), "User "+user+" was not granted #{right} permissions")
+      end 
+      #If we get this far the test probably succeeded
+      break
+    rescue => e
+      raise e if num == 5
+    end
   end
 end
 

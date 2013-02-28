@@ -33,7 +33,7 @@ StateEducationAgency                                       1
 Student                                                  500
 StudentAcademicRecord                                    500
 StudentAssessment                                       2500
-StudentAssessmentItem                                   1185
+StudentAssessmentItem                                   1160
 StudentCohortAssociation                                1500
 StudentCompetency                                       1000
 StudentCompetencyObjective                                 1

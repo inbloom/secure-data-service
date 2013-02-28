@@ -250,7 +250,6 @@
 			"body.assessmentIdentificationCode.assigningOrganizationCode", 
 			"body.assessmentIdentificationCode.ID", 
 			"body.assessmentIdentificationCode.identificationSystem", 
-			"body.assessmentItem", 
 			"body.assessmentPerformanceLevel.assessmentReportingMethodType", 
 			"body.assessmentPerformanceLevel.maximumScore", 
 			"body.assessmentPerformanceLevel.minimumScore", 
@@ -269,23 +268,30 @@
 			"body.maxRawScore", 
 			"body.minRawScore", 
 			"body.nomenclature", 
-			"body.objectiveAssessment.identificationCode", 
-			"body.objectiveAssessment.maxRowScore", 
-			"body.objectiveAssessment.assessmentPerformanceLevel.performanceLevel.codeValue", 
-			"body.objectiveAssessment.assessmentPerformanceLevel.performanceLevel.performanceLevelMet", 
-			"body.objectiveAssessment.assessmentPerformanceLevel.assessmentReportiongMethod", 
-			"body.objectiveAssessment.assessmentPerformanceLevel.minimumScore", 
-			"body.objectiveAssessment.assessmentPerformanceLevel.maximumScore", 
-			"body.objectiveAssessment.percentOfAssessment", 
-			"body.objectiveAssessment.nomenclature", 
-			"body.objectiveAssessment.learningStandardReference.learningStandardIdentity.learningStandardId.identificationCode", 
+			"objectiveAssessment.body.identificationCode", 
+			"objectiveAssessment.body.maxRowScore", 
+			"objectiveAssessment.body.assessmentPerformanceLevel.performanceLevel.codeValue", 
+			"objectiveAssessment.body.assessmentPerformanceLevel.performanceLevel.performanceLevelMet", 
+			"objectiveAssessment.body.assessmentPerformanceLevel.assessmentReportiongMethod", 
+			"objectiveAssessment.body.assessmentPerformanceLevel.minimumScore", 
+			"objectiveAssessment.body.assessmentPerformanceLevel.maximumScore", 
+			"objectiveAssessment.body.percentOfAssessment", 
+			"objectiveAssessment.body.nomenclature", 
+			"objectiveAssessment.body.learningStandardReference.learningStandardIdentity.learningStandardId.identificationCode", 
+			"assessmentItem", 
 			"body.revisionDate", 
 			"body.version"
 		],
 		"append": {
 			"body.context.schoolId": {
 				"value": "ALL"
-			}
+			},
+            "body.objectiveAssessment": {
+                "subdoc": "objectiveAssessment.body" 
+            },
+            "body.assessmentItem": {
+                "subdoc": "assessmentItem.body" 
+            }
 		},
 		"mapping": {
 			"assessment": {

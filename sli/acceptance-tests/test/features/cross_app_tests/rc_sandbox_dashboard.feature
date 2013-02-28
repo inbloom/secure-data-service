@@ -110,7 +110,7 @@ Scenario: All-in-one scenario
 	And their id shown in proflie is "800000025"
 	And their grade is "8"
 	And the class is "8th Grade English - Sec 6"
-	And the lozenges count is "1"
+	And the lozenges count is "2"
 	And the lozenges include "ELL"
 	And Student Enrollment History has the following entries:
 	|Year   |School                     |Gr|Entry Date |Entry Type                                                                 |Transfer |Withdraw Date|Withdraw Type      |
@@ -137,9 +137,6 @@ Scenario: All-in-one scenario
 	And the Attendance History in grid "1" has the following entries:
 	|Term         |School                     |Grade Level  |% Present  |Total Absences |Excused  |Unexcused  |Tardy  |
 	|2011-2012    |East Daybreak Junior High  |8            |0          |0              |0        |0          |0      |
-	And the Attendance History in grid "2" has the following entries:
-	|Term         |School                     |Grade Level  |% Present  |Total Absences |Excused  |Unexcused  |Tardy  |
-	|2010-2011    |East Daybreak Junior High  |7            |0          |0              |0        |0          |0      |
 	And I click on log out
     Then I should be redirected to the impersonation page
     And I should see that I "<DEVELOPER_SB_EMAIL>" am logged in

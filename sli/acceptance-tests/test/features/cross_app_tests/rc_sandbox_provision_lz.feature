@@ -24,7 +24,7 @@ Background:
 #Verify the file ingested on the Landing Zone
     Given a landing zone
     And I check for the file "job*.log" every "30" seconds for "900" seconds
-    Then the landing zone should contain a file with the message "Processed 4254 records"
+    Then the landing zone should contain a file with the message "Processed 10095 records"
     And the landing zone should contain a file with the message "All records processed successfully."
     And I should not see an error log file created
     And I should not see a warning log file created

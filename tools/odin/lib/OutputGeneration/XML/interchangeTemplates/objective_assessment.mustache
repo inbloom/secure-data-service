@@ -28,11 +28,13 @@ limitations under the License.
   {{#nomenclature}}
   <Nomenclature>{{.}}</Nomenclature>
   {{/nomenclature}}
+  {{> Partials/_assessment_item_reference}}
   {{#learning_objectives}}
   {{> Partials/_learning_objective_reference}}
   {{/learning_objectives}}
   {{#child_objective_assessment}}
   {{> Partials/_objective_assessment_reference}}
   {{/child_objective_assessment}}
+  {{> Partials/_assessment_reference}}
 </ObjectiveAssessment>
 {{/entity}}

@@ -34,6 +34,6 @@ class AssessmentMetadataGenerator < InterchangeGenerator
     @writers[ AssessmentItem ] = EntityWriter.new("assessment_item.mustache")
     @writers[ LearningObjective ] = EntityWriter.new("learning_objective.mustache")
     @writers[ ObjectiveAssessment] = EntityWriter.new("objective_assessment.mustache")
-
+    @writers[ AssessmentPeriodDescriptor ] = EntityWriter.new("assessment_period_descriptor.mustache")
   end
 end

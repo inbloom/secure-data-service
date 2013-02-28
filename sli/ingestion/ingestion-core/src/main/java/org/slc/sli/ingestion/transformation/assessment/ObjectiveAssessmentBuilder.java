@@ -63,6 +63,8 @@ public class ObjectiveAssessmentBuilder {
     public static final String BY_ID = "IdentificationCode." + VALUE;
     public static final String ASSESSMENT_ITEM_REFS = "AssessmentItemReference";
     public static final String ASSESSMENT_ITEM_ID = "AssessmentItemIdentity.AssessmentItemIdentificationCode." + VALUE;
+    //public static final String SUB_OBJECTIVE_REFS = "subObjectiveAssessment";
+    public static final String BY_IDENTIFICATION_CDOE = "identificationCode";
     public static final String OBJECTIVE_ASSESSMENT = "objectiveAssessment";
 
     @Autowired
@@ -227,6 +229,7 @@ public class ObjectiveAssessmentBuilder {
         NeutralRecord record = null;
         while (itr.hasNext()) {
             record = itr.next();
+            record.getAttributes().remove("assessmentId");
             all.put(record.getRecordId(), record);
         }
         return all;

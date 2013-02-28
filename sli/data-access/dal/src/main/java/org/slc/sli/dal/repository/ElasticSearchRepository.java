@@ -16,11 +16,8 @@
 
 package org.slc.sli.dal.repository;
 
-import com.google.common.io.NullOutputStream;
-
 import java.io.IOException;
 import java.io.PrintStream;
-import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -30,9 +27,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
-
-import com.mongodb.DBCollection;
-import com.mongodb.WriteResult;
 
 import org.apache.commons.codec.binary.Base64;
 import org.codehaus.jackson.JsonNode;
@@ -48,6 +42,13 @@ import org.elasticsearch.common.cache.CacheBuilder;
 import org.elasticsearch.common.cache.CacheLoader;
 import org.elasticsearch.common.cache.LoadingCache;
 import org.elasticsearch.common.collect.Iterators;
+import org.slc.sli.common.util.tenantdb.TenantContext;
+import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
+import org.slc.sli.domain.CalculatedData;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.slc.sli.encryption.tool.Encryptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,13 +58,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
 
-import org.slc.sli.common.util.tenantdb.TenantContext;
-import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
-import org.slc.sli.domain.CalculatedData;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.NeutralQuery;
-import org.slc.sli.domain.Repository;
-import org.slc.sli.encryption.tool.Encryptor;
+import com.google.common.io.NullOutputStream;
+import com.mongodb.DBCollection;
+import com.mongodb.WriteResult;
 
 /**
  * elasticsearch connector
@@ -285,7 +282,7 @@ public class ElasticSearchRepository implements Repository<Entity> {
     }
 
     @Override
-    public boolean update(String collection, Entity object) {
+    public boolean update(String collection, Entity object, boolean isSuperdoc) {
         throw new UnsupportedOperationException("ElasticSearchRepository.update not implemented");
     }
 

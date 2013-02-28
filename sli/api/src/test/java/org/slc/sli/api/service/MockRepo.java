@@ -409,7 +409,7 @@ public class MockRepo implements Repository<Entity> {
     }
     
     @Override
-    public boolean update(String type, Entity entity) {
+    public boolean update(String type, Entity entity, boolean isSuperdoc) {
         if (repo.get(type) == null) {
             repo.put(type, new LinkedHashMap<String, Entity>());
         }
@@ -481,7 +481,7 @@ public class MockRepo implements Repository<Entity> {
             }
         };
         
-        update(collectionName, newEntity);
+        update(collectionName, newEntity, false);
         return newEntity;
     }
     
@@ -567,7 +567,7 @@ public class MockRepo implements Repository<Entity> {
             }
         };
         
-        update(collectionName, newEntity);
+        update(collectionName, newEntity, false);
         return newEntity;
     }
     

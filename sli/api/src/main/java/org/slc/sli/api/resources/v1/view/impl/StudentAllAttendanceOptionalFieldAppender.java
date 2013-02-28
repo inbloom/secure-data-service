@@ -70,8 +70,10 @@ public class StudentAllAttendanceOptionalFieldAppender implements OptionalFieldA
                 for (int i = 0; i < schoolYearAttendances.size(); i++) {
                     Map<String, Object> year = schoolYearAttendances.get(i);
                     List<Map<String, Object>> yearEvents = (List<Map<String, Object>>) year.get("attendanceEvent");
-                    for (int j = 0; j < yearEvents.size(); j++) {
-                        events.add(new EntityBody(yearEvents.get(j)));
+                    if (yearEvents != null) {
+                        for (int j = 0; j < yearEvents.size(); j++) {
+                            events.add(new EntityBody(yearEvents.get(j)));
+                        }
                     }
                 }
             }
@@ -82,19 +84,6 @@ public class StudentAllAttendanceOptionalFieldAppender implements OptionalFieldA
                 attendancesPerStudent.put(studentId, events);
             }
 
-        }
-
-        //add attendances to appropriate student's entityBody
-        for (EntityBody student : entities) {
-            String id = (String) student.get("id");
-            List<EntityBody> attendancesForStudent = attendancesPerStudent.get(id);
-
-            //add the attendances to the student body
-            if (attendancesForStudent != null && !attendancesForStudent.isEmpty()) {
-                EntityBody attendancesBody = new EntityBody();
-                attendancesBody.put(ResourceNames.ATTENDANCES, attendancesForStudent);
-                student.put(ParameterConstants.OPTIONAL_FIELD_ATTENDANCES, attendancesBody);
-            }
         }
 
         // add attendances to appropriate student's entityBody

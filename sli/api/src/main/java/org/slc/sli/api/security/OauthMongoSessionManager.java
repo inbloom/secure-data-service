@@ -136,7 +136,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         List<Map<String, Object>> appSessions = (List<Map<String, Object>>) sessionEntity.getBody().get("appSession");
         appSessions.add(newAppSession(clientId, redirectUri, state, samlId, isInstalled));
 
-        repo.update(SESSION_COLLECTION, sessionEntity);
+        repo.update(SESSION_COLLECTION, sessionEntity, false);
     }
 
     @Override
@@ -171,7 +171,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
     @Override
     public void updateSession(Entity session) {
-        repo.update(SESSION_COLLECTION, session);
+        repo.update(SESSION_COLLECTION, session, false);
     }
 
     /**
@@ -266,7 +266,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
         String token = "";
         token = (String) curAppSession.get("token");
         curAppSession.put("verified", "true");
-        repo.update(SESSION_COLLECTION, session);
+        repo.update(SESSION_COLLECTION, session, false);
         return token;
     }
 
@@ -374,7 +374,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                         if (previousExpire < (System.currentTimeMillis() + 300000)) {
                             sessionEntity.getBody().put("expiration",
                                     System.currentTimeMillis() + this.sessionLength);
-                            repo.update(SESSION_COLLECTION, sessionEntity);
+                            repo.update(SESSION_COLLECTION, sessionEntity, false);
                         }
                         // Purge expired sessions
                         purgeExpiredSessions();

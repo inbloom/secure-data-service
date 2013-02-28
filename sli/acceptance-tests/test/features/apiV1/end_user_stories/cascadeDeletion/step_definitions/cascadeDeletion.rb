@@ -43,8 +43,8 @@ Transform /^<([^>]*)>$/ do |human_readable_text|
   value = "15ab6363-5509-470c-8b59-4f289c224107_id" if human_readable_text == "SECTION ID 2"
   value = "8ed12459-eae5-49bc-8b6b-6ebe1a56384f_id"    if human_readable_text == "SECTION ID FOR ARRAY TEST"
   value = "15ab6363-5509-470c-8b59-4f289c224107_id" if human_readable_text == "SECTION ID 2 FOR ARRAY TEST"
-  value = "dd916592-7d7e-5d27-a87d-dfc7fcb757f6"    if human_readable_text == "ASSESSMENT ID 1 FOR ARRAY TEST"
-  value = "6a53f63e-deb8-443d-8138-fc5a7368239c"    if human_readable_text == "ASSESSMENT ID 2 FOR ARRAY TEST"
+  value = "2108c0c84ca6998eb157e1efd4d894746e1fdf8b_id"    if human_readable_text == "ASSESSMENT ID 1 FOR ARRAY TEST"
+  value = "9708ea11dbca2707013ed5bfdaad77bfb79d08d5_id"    if human_readable_text == "ASSESSMENT ID 2 FOR ARRAY TEST"
   value = "8ed12459-eae5-49bc-8b6b-6ebe1a56384f_idba1908a8-e7b9-4984-93e8-4266d2d8675a_id"    if human_readable_text == "TEACHER SECTION ASSOCIATION ID"
   value = "15ab6363-5509-470c-8b59-4f289c224107_id32b86a2a-e55c-4689-aedf-4b676f3da3fc_id" if human_readable_text == "TEACHER SECTION ASSOCIATION ID 2"
   
