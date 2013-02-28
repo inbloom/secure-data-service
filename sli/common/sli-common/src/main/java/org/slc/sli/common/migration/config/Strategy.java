@@ -16,35 +16,36 @@
 
 package org.slc.sli.common.migration.config;
 
+import org.slc.sli.common.migration.strategy.MigrationException;
+import org.slc.sli.common.migration.strategy.MigrationStrategy;
+
 /**
- * Created with IntelliJ IDEA.
- * User: pghosh
- * Date: 12/10/12
- * Time: 3:04 PM
- * To change this template use File | Settings | File Templates.
+ * A list of all supported strategies and the classes that implement those strategies.
+ * 
+ * @author pghosh
+ * @author kmyers
  */
 public enum Strategy {
-    ADD("org.slc.sli.dal.migration.strategy.impl"),
-    DEFAULT("none");
+    
+    ADD("AddStrategy"),
+    REMOVE("RemoveFieldStrategy"),
+    RENAME("RenameFieldStrategy");
 
-    private String className;
+    private String implementationClassName;
 
-    private Strategy(String strategyType) {
-        this.className = strategyType;
+    private Strategy(String implementingClassName) {
+        this.implementationClassName = implementingClassName;
     }
-
-    public String getClassName() {
-        return this.className;
-    }
-
-    public static Strategy fromString(String className) {
-        if (className != null) {
-            for (Strategy strategy : Strategy.values()) {
-                if (className.equalsIgnoreCase(strategy.className)) {
-                    return strategy;
-                }
-            }
+    
+    public MigrationStrategy getNewImplementation() throws MigrationException {
+        try {
+            return (MigrationStrategy)Class.forName(implementationClassName).newInstance();
+        } catch (InstantiationException e) {
+            throw new MigrationException(e);
+        } catch (IllegalAccessException e) {
+            throw new MigrationException(e);
+        } catch (ClassNotFoundException e) {
+            throw new MigrationException(e);
         }
-        return null;
     }
 }

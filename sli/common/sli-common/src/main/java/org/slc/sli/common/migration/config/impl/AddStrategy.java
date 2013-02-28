@@ -14,31 +14,31 @@
  * limitations under the License.
  */
 
-package org.slc.sli.dal.migration.strategy.impl;
-
-import org.apache.commons.beanutils.PropertyUtils;
-import org.slc.sli.common.migration.strategy.MigrationException;
-import org.slc.sli.common.migration.strategy.MigrationStrategy;
-import org.slc.sli.domain.Entity;
+package org.slc.sli.common.migration.config.impl;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
+import org.apache.commons.beanutils.PropertyUtils;
+import org.slc.sli.dal.migration.strategy.MigrationException;
+import org.slc.sli.dal.migration.strategy.MigrationStrategy;
+import org.slc.sli.domain.Entity;
+
 /**
  * Supports the migration of entities by adding a new field with a default value.
- *
+ * 
  * @author pghosh
  * @author kmyers
  */
 
-public class AddStrategy implements MigrationStrategy<Entity> {
+public class AddStrategy implements MigrationStrategy {
 
     public static final String FIELD_NAME = "fieldName";
     public static final String DEFAULT_VALUE = "defaultValue";
-
+    
     private String fieldName;
     private Object defaultValue;
-
+    
     @Override
     public Entity migrate(Entity entity) throws MigrationException {
         try {
@@ -55,13 +55,13 @@ public class AddStrategy implements MigrationStrategy<Entity> {
 
     @Override
     public void setParameters(Map<String, Object> parameters) throws MigrationException {
-
+        
         if (parameters == null || !parameters.containsKey(FIELD_NAME)) {
             throw new MigrationException(new IllegalArgumentException("Add strategy missing required argument: fieldName"));
         }
-
+        
         this.fieldName = parameters.get(FIELD_NAME).toString();
         this.defaultValue = parameters.get(DEFAULT_VALUE);
     }
-
+    
 }

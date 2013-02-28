@@ -14,13 +14,13 @@
  * limitations under the License.
  */
 
-package org.slc.sli.dal.migration.strategy.impl;
-
-import org.slc.sli.common.migration.strategy.MigrationException;
-import org.slc.sli.common.migration.strategy.MigrationStrategy;
-import org.slc.sli.domain.Entity;
+package org.slc.sli.common.migration.config.impl;
 
 import java.util.Map;
+
+import org.slc.sli.dal.migration.strategy.MigrationException;
+import org.slc.sli.dal.migration.strategy.MigrationStrategy;
+import org.slc.sli.domain.Entity;
 
 /**
  * Supports the migration of entities by removing a top level data field.
@@ -29,7 +29,7 @@ import java.util.Map;
  * @author kmyers
  */
 
-public class RemoveFieldStrategy implements MigrationStrategy<Entity> {
+public class RemoveFieldStrategy implements MigrationStrategy {
 
     public static final String FIELD_NAME = "fieldName";
     

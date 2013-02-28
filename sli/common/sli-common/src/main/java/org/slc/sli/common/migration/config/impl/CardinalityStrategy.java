@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package org.slc.sli.dal.migration.strategy.impl;
+package org.slc.sli.common.migration.config.impl;
+
+import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
+import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.beanutils.PropertyUtils;
-import org.slc.sli.common.migration.strategy.MigrationException;
-import org.slc.sli.common.migration.strategy.MigrationStrategy;
+import org.slc.sli.dal.migration.strategy.MigrationException;
+import org.slc.sli.dal.migration.strategy.MigrationStrategy;
 import org.slc.sli.domain.Entity;
-
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Supports the migration of entities by cardinality changes.
@@ -32,7 +32,7 @@ import java.util.Map;
  * @author jcole
  */
 
-public class CardinalityStrategy implements MigrationStrategy<Entity> {
+public class CardinalityStrategy implements MigrationStrategy {
 
     public static final String FIELD_NAME = "fieldName";
     public static final String MIN_COUNT = "minCount";
