@@ -2,7 +2,7 @@
 "recordType":"assessmentItem",
 "attributes":
 {
-    "assessmentId":
+    "AssessmentReference":
     {
         "AssessmentIdentity":
         {
@@ -11,12 +11,12 @@
             "Version":{"_value":1}
         }
     },
-    "learningStandards":
+    "LearningStandardReference":
                 [
                     {
                         "LearningStandardIdentity":
                         {
-                            "IdentificationCode":"0123456789"
+                            "IdentificationCode": {"_value" : "0123456789"}
                         }
                     }
                 ]
