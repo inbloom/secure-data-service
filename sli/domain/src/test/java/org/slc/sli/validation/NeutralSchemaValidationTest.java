@@ -151,7 +151,7 @@ public class NeutralSchemaValidationTest {
         addDummyCollection("courseOffering");
         addDummyCollection("program");
 
-        readAndValidateFixtureData("src/test/resources/section_fixture_neutral.json", "section");
+        readAndValidateFixtureData("src/test/resources/section_fixture_neutral.json", "section", true);
     }
 
     @Test
@@ -184,7 +184,7 @@ public class NeutralSchemaValidationTest {
         addDummyCollection("assessment");
 
         readAndValidateFixtureData("src/test/resources/student_assessment_fixture_neutral.json",
-                "studentAssessment");
+                "studentAssessment", true);
     }
 
     @Test
@@ -205,7 +205,7 @@ public class NeutralSchemaValidationTest {
         addDummyCollection("section");
 
         readAndValidateFixtureData("src/test/resources/teacher_section_association_fixture_neutral.json",
-                "teacherSectionAssociation");
+                "teacherSectionAssociation", true);
     }
 
     @Test
@@ -227,7 +227,7 @@ public class NeutralSchemaValidationTest {
         addDummyCollection("course");
         addDummyCollection("educationOrganization");
 
-        readAndValidateFixtureData("src/test/resources/course_offering_neutral.json", "courseOffering");
+        readAndValidateFixtureData("src/test/resources/course_offering_neutral.json", "courseOffering", true);
     }
 
     @Test
@@ -250,7 +250,7 @@ public class NeutralSchemaValidationTest {
         addDummyCollection("student");
 
         readAndValidateFixtureData("src/test/resources/student_section_association_fixture_neutral.json",
-                "studentSectionAssociation");
+                "studentSectionAssociation", true);
     }
 
     @Test
@@ -275,7 +275,7 @@ public class NeutralSchemaValidationTest {
         this.addDummyCollection("educationOrganization");
 
         readAndValidateFixtureData("src/test/resources/staff_educationOrganization_association_fixture_neutral.json",
-                "staffEducationOrganizationAssociation");
+                "staffEducationOrganizationAssociation", true);
     }
 
     @Test
@@ -296,7 +296,7 @@ public class NeutralSchemaValidationTest {
         this.addDummyCollection("school");
 
         readAndValidateFixtureData("src/test/resources/student_school_association_fixture_neutral.json",
-                "studentSchoolAssociation");
+                "studentSchoolAssociation", true);
     }
 
     @Test
@@ -316,7 +316,7 @@ public class NeutralSchemaValidationTest {
         this.addDummyCollection("school");
 
         readAndValidateFixtureData("src/test/resources/teacher_school_association_fixture_neutral.json",
-                "teacherSchoolAssociation");
+                "teacherSchoolAssociation", true);
     }
 
     @Test
@@ -349,7 +349,7 @@ public class NeutralSchemaValidationTest {
         this.addDummyCollection("disciplineIncident");
 
         readAndValidateFixtureData("src/test/resources/student_disciplineIncident_association_fixture_neutral.json",
-                "studentSchoolAssociation");
+                "studentSchoolAssociation", true);
     }
 
     @Test
@@ -399,7 +399,7 @@ public class NeutralSchemaValidationTest {
         this.addDummyCollection("program");
 
         readAndValidateFixtureData("src/test/resources/staff_program_association_fixture.json",
-                "staffProgramAssociation");
+                "staffProgramAssociation", true);
     }
 
     @Test
@@ -410,7 +410,7 @@ public class NeutralSchemaValidationTest {
         this.addDummyCollection("educationOrganization");
 
         readAndValidateFixtureData("src/test/resources/student_program_association_fixture.json",
-                "studentProgramAssociation");
+                "studentProgramAssociation", true);
     }
 
     @Test
@@ -430,7 +430,7 @@ public class NeutralSchemaValidationTest {
         this.addDummyCollection("educationalOrganization");
         this.addDummyCollection("program");
 
-        readAndValidateFixtureData("src/test/resources/cohort_fixture_neutral.json", "cohort");
+        readAndValidateFixtureData("src/test/resources/cohort_fixture_neutral.json", "cohort", true);
     }
 
     @Test
@@ -459,7 +459,7 @@ public class NeutralSchemaValidationTest {
         this.addDummyCollection("cohort");
 
         readAndValidateFixtureData("src/test/resources/student_cohort_association_fixture_neutral.json",
-                "studentCohortAssociation");
+                "studentCohortAssociation", true);
     }
 
     @Test
@@ -484,11 +484,15 @@ public class NeutralSchemaValidationTest {
         this.addDummyCollection("cohort");
 
         readAndValidateFixtureData("src/test/resources/staff_cohort_association_fixture_neutral.json",
-                "staffCohortAssociation");
+                "staffCohortAssociation", true);
+    }
+
+    private void readAndValidateFixtureData(String fixtureFile, String collection) throws Exception {
+        readAndValidateFixtureData(fixtureFile, collection, false);
     }
 
     @SuppressWarnings("unchecked")
-    private void readAndValidateFixtureData(String fixtureFile, String collection) throws Exception {
+    private void readAndValidateFixtureData(String fixtureFile, String collection, boolean expectValidationErrors) throws Exception {
         BufferedReader reader = null;
         try {
             reader = new BufferedReader(new FileReader(fixtureFile));
@@ -496,7 +500,7 @@ public class NeutralSchemaValidationTest {
             while ((school = reader.readLine()) != null) {
                 ObjectMapper oRead = new ObjectMapper();
                 Map<String, Object> obj = oRead.readValue(school, Map.class);
-                this.mapValidation((Map<String, Object>) obj.get("body"), collection);
+                this.mapValidation((Map<String, Object>) obj.get("body"), collection, expectValidationErrors);
             }
         } finally {
             if (reader != null) {
@@ -505,7 +509,7 @@ public class NeutralSchemaValidationTest {
         }
     }
 
-    private void mapValidation(Map<String, Object> obj, String schemaName) {
+    private void mapValidation(Map<String, Object> obj, String schemaName, boolean expectValidationErrors) {
         NeutralSchemaValidator validator = new NeutralSchemaValidator();
         validator.setSchemaRegistry(schemaRepo);
         validator.setEntityRepository(repo);
@@ -520,8 +524,10 @@ public class NeutralSchemaValidationTest {
         try {
             assertTrue(validator.validate(e));
         } catch (EntityValidationException ex) {
-            for (ValidationError err : ex.getValidationErrors()) {
-                System.err.println(err + "\t" + schemaName);
+            if (!expectValidationErrors) {
+                for (ValidationError err : ex.getValidationErrors()) {
+                    System.err.println(err + "\t" + schemaName);
+                }
             }
             throw ex;
         }
