@@ -16,23 +16,12 @@
 
 package org.slc.sli.dal.versioning;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.annotation.PostConstruct;
-
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-
-import org.slc.sli.dal.migration.config.Strategy;
-import org.slc.sli.dal.migration.strategy.MigrationException;
-import org.slc.sli.dal.migration.strategy.MigrationStrategy;
 import org.slc.sli.common.migration.config.MigrationConfig;
+import org.slc.sli.common.migration.config.Strategy;
+import org.slc.sli.common.migration.strategy.MigrationException;
+import org.slc.sli.common.migration.strategy.MigrationStrategy;
 import org.slc.sli.dal.repository.ValidationWithoutNaturalKeys;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.SchemaRepository;
@@ -46,6 +35,15 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+
+import javax.annotation.PostConstruct;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Validates versions of XSD to versions of documents and signals for
@@ -222,7 +220,7 @@ public class SliSchemaVersionValidator {
 
         Entity localEntity = entity;
         for (MigrationStrategy migrationStrategy : this.getMigrationStrategies(entityType, entityVersionNumber, newVersionNumber)) {
-            localEntity = migrationStrategy.migrate(localEntity);
+            localEntity = (Entity) migrationStrategy.migrate(localEntity);
         }
 
         localEntity.getMetaData().put(VERSION_NUMBER_FIELD, newVersionNumber);

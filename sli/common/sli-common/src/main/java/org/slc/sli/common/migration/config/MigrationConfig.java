@@ -16,14 +16,13 @@
 
 package org.slc.sli.common.migration.config;
 
+import org.codehaus.jackson.map.ObjectMapper;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.codehaus.jackson.map.ObjectMapper;
-import org.slc.sli.dal.migration.config.Strategy;
 
 /**
  * 

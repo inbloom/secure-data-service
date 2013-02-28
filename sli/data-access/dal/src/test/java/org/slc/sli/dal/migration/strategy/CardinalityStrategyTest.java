@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 
-package org.slc.sli.common.migration.config.impl;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
-import java.util.ArrayList;
+package org.slc.sli.dal.migration.strategy;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.slc.sli.dal.migration.strategy.MigrationException;
+import org.slc.sli.common.migration.strategy.MigrationException;
+import org.slc.sli.dal.migration.strategy.impl.CardinalityStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.junit.Assert.assertTrue;
 
 /**
  * Tests the migration code responsible for cardinality changes
