@@ -54,7 +54,7 @@
 			CodeGeneration
 		</plugin>
 </profile>
-<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Thu Feb 28 11:10:51 EST 2013'>
+<XMI xmi.version = '1.2' xmlns:UML = 'org.omg.xmi.namespace.UML' timestamp = 'Thu Feb 28 12:02:06 EST 2013'>
   <XMI.header>    <XMI.documentation>
       <XMI.exporter>ArgoUML (using Netbeans XMI Writer version 1.0)</XMI.exporter>
       <XMI.exporterVersion>0.34(6) revised on $Date: 2010-01-11 22:20:14 +0100 (Mon, 11 Jan 2010) $ </XMI.exporterVersion>
@@ -26715,10 +26715,10 @@
               name = 'assessmentFamilyIdentificationCode' visibility = 'public' isSpecification = 'false'
               ownerScope = 'instance' changeability = 'changeable' targetScope = 'instance'>
               <UML:StructuralFeature.multiplicity>
-                <UML:Multiplicity xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002144'>
+                <UML:Multiplicity xmi.id = '10-71-1-22-50077d2a:13d21c05b16:-8000:000000000000216D'>
                   <UML:Multiplicity.range>
-                    <UML:MultiplicityRange xmi.id = '10-71-1-22-61e41853:13d2173505f:-8000:0000000000002143'
-                      lower = '0' upper = '-1'/>
+                    <UML:MultiplicityRange xmi.id = '10-71-1-22-50077d2a:13d21c05b16:-8000:000000000000216C'
+                      lower = '1' upper = '-1'/>
                   </UML:Multiplicity.range>
                 </UML:Multiplicity>
               </UML:StructuralFeature.multiplicity>
