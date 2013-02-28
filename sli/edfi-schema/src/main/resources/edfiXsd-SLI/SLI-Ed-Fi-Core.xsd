@@ -548,6 +548,7 @@
 			<xs:documentation>ObjectiveAssessment record with key field: IdentificationCode. Changed type of LearningObjectiveReference, LearningStandardReference and ObjectiveAssessmentReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>objectiveAssessment</sli:recordType>
+				<sli:naturalKeys>IdentificationCode</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>
@@ -999,6 +1000,7 @@
 			<xs:documentation>StudentObjectiveAssessment record with key fields: StudentAssessmentReference (AdministrationDate, StudentUniqueStateId, AssessmentTitle, AcademicSubject, GradeLevelAssessed, Version) and AssessmentItemReference (AssessmentItemIdentificationCode). Changed types of StudentAssessmentReference and ObjectiveAssessmentReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>studentObjectiveAssessment</sli:recordType>
+				<sli:naturalKeys>StudentAssessmentReference,ObjectiveAssessmentReference</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>

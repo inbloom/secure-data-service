@@ -128,7 +128,7 @@ public class DeterministicIdResolver implements BatchJobStage {
 
         // resolve and set all the parentNodes
         for (Map<String, Object> node : parentNodes) {
-            Object resolvedRef = resolveReference(node.get(refObjName), didRefSource.isOptional(), didRefConfig,
+            Object resolvedRef = resolveReference(entity, node.get(refObjName), didRefSource.isOptional(), didRefConfig,
                     tenantId);
             if (resolvedRef != null) {
                 node.put(refObjName, resolvedRef);
@@ -163,7 +163,7 @@ public class DeterministicIdResolver implements BatchJobStage {
         }
     }
 
-    private Object resolveReference(Object referenceObject, boolean isOptional, DidRefConfig didRefConfig,
+    private Object resolveReference(Entity entity, Object referenceObject, boolean isOptional, DidRefConfig didRefConfig,
             String tenantId) throws IdResolutionException {
 
         String refType = didRefConfig.getEntityType();
@@ -185,7 +185,7 @@ public class DeterministicIdResolver implements BatchJobStage {
 
             for (Object reference : refList) {
                 @SuppressWarnings("unchecked")
-                String uuid = getId((Map<String, Object>) reference, tenantId, didRefConfig);
+                String uuid = getId(entity, (Map<String, Object>) reference, tenantId, didRefConfig);
                 if (uuid != null && !uuid.isEmpty()) {
                     uuidList.add(uuid);
                 } else {
@@ -198,7 +198,7 @@ public class DeterministicIdResolver implements BatchJobStage {
             @SuppressWarnings("unchecked")
             Map<String, Object> reference = (Map<String, Object>) referenceObject;
 
-            String uuid = getId(reference, tenantId, didRefConfig);
+            String uuid = getId(entity, reference, tenantId, didRefConfig);
             if (uuid != null && !uuid.isEmpty()) {
                 return uuid;
             } else {
@@ -232,7 +232,7 @@ public class DeterministicIdResolver implements BatchJobStage {
     }
 
     // function which, given reference type map (source object) and refConfig, return a did
-    private String getId(Map<String, Object> reference, String tenantId, DidRefConfig didRefConfig)
+    private String getId(Entity entity, Map<String, Object> reference, String tenantId, DidRefConfig didRefConfig)
             throws IdResolutionException {
         if (didRefConfig.getEntityType() == null || didRefConfig.getEntityType().isEmpty()) {
             return null;
@@ -263,7 +263,7 @@ public class DeterministicIdResolver implements BatchJobStage {
                     if (nestedRef instanceof Map) {
                         @SuppressWarnings("unchecked")
                         Map<String, Object> nestedRefMap = (Map<String, Object>) nestedRef;
-                        value = getId(nestedRefMap, tenantId, keyFieldDef.getRefConfig());
+                        value = getId(entity, nestedRefMap, tenantId, keyFieldDef.getRefConfig());
                     } else if (nestedRef instanceof String) {
                         value = nestedRef;
                     } else {
@@ -282,6 +282,47 @@ public class DeterministicIdResolver implements BatchJobStage {
                 naturalKeys.put(fieldName, value == null ? "" : value.toString());
             }
         }
+        if (didRefConfig.getExternalKeyFields() != null) {
+            for (KeyFieldDef keyFieldDef : didRefConfig.getExternalKeyFields()) {
+                // populate naturalKeys
+                Object value = null;
+                if (keyFieldDef.getRefConfig() != null) {
+                    Object externalRef = getProperty(entity.getBody(), keyFieldDef.getValueSource());
+    
+                    if (externalRef == null) {
+                        if (!keyFieldDef.isOptional()) {
+                            throw new IdResolutionException("No value found for required reference",
+                                    keyFieldDef.getValueSource(), "");
+                        } else {
+                            // since it's an optional field, replace it with "" in the natural key list
+                            value = "";
+                        }
+                        // otherwise, continue to end of loop with null 'value'
+                    } else {
+                        if (externalRef instanceof Map) {
+                            @SuppressWarnings("unchecked")
+                            Map<String, Object> nestedRefMap = (Map<String, Object>) externalRef;
+                            value = getId(entity, nestedRefMap, tenantId, keyFieldDef.getRefConfig());
+                        } else if (externalRef instanceof String) {
+                            value = externalRef;
+                        } else {
+                            throw new IdResolutionException("Non-map value found from entity",
+                                    keyFieldDef.getValueSource(), "");
+                        }
+                    }
+    
+                } else {
+                    value = getProperty(reference, keyFieldDef.getValueSource());
+                }
+    
+                String fieldName = keyFieldDef.getKeyFieldName();
+                // don't add null or empty keys to the naturalKeys map
+                if (fieldName != null && !fieldName.isEmpty() && (value != null || keyFieldDef.isOptional())) {
+                    naturalKeys.put(fieldName, value == null ? "" : value.toString());
+                }
+            }
+        }
+
 
         // no natural keys found
         if (naturalKeys.isEmpty()) {

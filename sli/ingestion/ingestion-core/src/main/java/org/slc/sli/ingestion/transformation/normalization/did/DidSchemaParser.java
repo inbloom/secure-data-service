@@ -173,7 +173,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
 
         // extract the Did configuration objects
         entityConfigs = extractEntityConfigs();
-        refConfigs = addExtraKeyFields(extractRefConfigs());
+        refConfigs = addExternalKeyFields(extractRefConfigs());
         naturalKeys = extractNaturalKeys();
     }
 
@@ -244,7 +244,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
      *
      * @return
      */
-    private Map<String, DidRefConfig> addExtraKeyFields(Map<String, DidRefConfig> configs) {
+    private Map<String, DidRefConfig> addExternalKeyFields(Map<String, DidRefConfig> configs) {
         // references to assessment items in student assessment items need to get the assessment
         // reference from the student assessment reference
         // Yes, this is a hack, the proper solution would probably involve decoupling ingestion
@@ -255,7 +255,9 @@ public class DidSchemaParser implements ResourceLoaderAware {
             assessment.setKeyFieldName("assessmentId");
             assessment.setRefConfig(configs.get("assessment"));
             assessment.setValueSource("assessmentReference");
-            assessmentItemConfig.getKeyFields().add(assessment);
+            List<KeyFieldDef> externalRefs = new ArrayList<KeyFieldDef>();
+            externalRefs.add(assessment);
+            assessmentItemConfig.setExternalKeyFields(externalRefs);
         }
 
         DidRefConfig objectiveAssessmentConfig = configs.get("objectiveAssessment");
@@ -263,9 +265,11 @@ public class DidSchemaParser implements ResourceLoaderAware {
             KeyFieldDef assessment = new KeyFieldDef();
             assessment.setKeyFieldName("assessmentId");
             assessment.setRefConfig(configs.get("assessment"));
-            assessment.setValueSource("AssessmentReference");
-            objectiveAssessmentConfig.getKeyFields().add(assessment);
-        }
+            assessment.setValueSource("DiDResolved_AssessmentReference");
+            List<KeyFieldDef> externalRefs = new ArrayList<KeyFieldDef>();
+            externalRefs.add(assessment);
+            objectiveAssessmentConfig.setExternalKeyFields(externalRefs);    
+         }
 
         return configs;
     }
@@ -474,6 +478,8 @@ public class DidSchemaParser implements ResourceLoaderAware {
                 LOG.error("Failed to extract IdentityType for referenceType " + refType.getName());
                 return null;
             }
+            
+            refConfig.setExternalKeyFields(new ArrayList<KeyFieldDef>());
         }
         return refConfig;
     }
