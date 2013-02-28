@@ -254,7 +254,7 @@ public class DidSchemaParser implements ResourceLoaderAware {
             KeyFieldDef assessment = new KeyFieldDef();
             assessment.setKeyFieldName("assessmentId");
             assessment.setRefConfig(configs.get("assessment"));
-            assessment.setValueSource("assessmentReference");
+            assessment.setValueSource("DiDResolved_AssessmentReference");
             List<KeyFieldDef> externalRefs = new ArrayList<KeyFieldDef>();
             externalRefs.add(assessment);
             assessmentItemConfig.setExternalKeyFields(externalRefs);
