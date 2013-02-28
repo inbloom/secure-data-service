@@ -21,6 +21,7 @@ import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.URI;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 
@@ -75,8 +76,8 @@ public class SecurityEventBuilder {
                         if (body != null) {
                             event.setUserEdOrg((String) body.get("edOrg"));
             				String stateOrgId = (String) body.get("edOrg");
-							String tenantId = (String) body.get("tenantId");
-				            event.setTargetEdOrg(realmHelper.getEdOrgIdFromTenantDB(tenantId, stateOrgId));
+        		            event.setTargetEdOrg(stateOrgId);
+				            event.setTargetEdOrgList(Arrays.asList(stateOrgId));
             			}
             		}
                 }
@@ -86,18 +87,7 @@ public class SecurityEventBuilder {
                 }
             }
 
-            if (requestUri != null) {
-                event.setActionUri(requestUri.toString());
-            }
-            event.setAppId(callingApplicationInfoProvider.getClientId());
-            event.setTimeStamp(new Date());
-            event.setProcessNameOrId(thisProcess);
-            event.setExecutedOn(thisNode);
-            // event.setOrigin(String origin);
-            // event.setUserOrigin(String userOrigin);
-            event.setClassName(loggingClass);
-            event.setLogLevel(LogLevelType.TYPE_INFO);
-            event.setLogMessage(slMessage);
+            setSecurityEvent(loggingClass, requestUri, slMessage, event);
 
             debug(event.toString());
 
@@ -106,6 +96,57 @@ public class SecurityEventBuilder {
         }
         return event;
     }
+
+
+    public SecurityEvent createSecurityEvent(String loggingClass, URI requestUri, String slMessage, SLIPrincipal principal, Entity realmEntity) {
+        SecurityEvent event = new SecurityEvent();
+
+        try {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            if (auth != null) {
+                if (principal != null) {
+                    event.setTenantId(principal.getTenantId());
+                    event.setUser(principal.getExternalId() + ", " + principal.getName());
+            		if (realmEntity != null) {
+                        String realmId = realmEntity.getEntityId();
+                        Map<String, Object> body = realmEntity.getBody();
+                        if (body != null) {
+                            event.setUserEdOrg((String) body.get("edOrg"));
+            				String stateOrgId = (String) body.get("edOrg");
+				            event.setTargetEdOrg(stateOrgId);
+				            event.setTargetEdOrgList(Arrays.asList(stateOrgId));
+            			}
+            		}
+                }
+                Object credential = auth.getCredentials();
+                if (credential != null) {
+                    event.setCredential(credential.toString());
+                }
+            }
+
+            setSecurityEvent(loggingClass, requestUri, slMessage, event);
+
+            debug(event.toString());
+
+        } catch (Exception e) {
+            info("Could not build SecurityEvent for [" + requestUri + "] [" + slMessage + "]");
+        }
+        return event;
+    }
+
+	private void setSecurityEvent(String loggingClass, URI requestUri,
+			String slMessage, SecurityEvent event) {
+		if (requestUri != null) {
+		    event.setActionUri(requestUri.toString());
+		}
+		event.setAppId(callingApplicationInfoProvider.getClientId());
+		event.setTimeStamp(new Date());
+		event.setProcessNameOrId(thisProcess);
+		event.setExecutedOn(thisNode);
+		event.setClassName(loggingClass);
+		event.setLogLevel(LogLevelType.TYPE_INFO);
+		event.setLogMessage(slMessage);
+	}
 
     public CallingApplicationInfoProvider getCallingApplicationInfoProvider() {
         return callingApplicationInfoProvider;

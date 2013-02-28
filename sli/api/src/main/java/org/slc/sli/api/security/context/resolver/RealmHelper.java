@@ -76,25 +76,25 @@ public class RealmHelper {
 		return realm.getEntityId();
 	}
 
-	public String getEdOrgIdFromTenantDB(String tenantId, String stateOrgId) {
-		NeutralQuery edOrgIdQuery = new NeutralQuery();
-		edOrgIdQuery.addCriteria(new NeutralCriteria("stateOrganizationId",
-				NeutralCriteria.OPERATOR_EQUAL, stateOrgId));
-
-		// query the specified tenant db
-		String originalTenantId = TenantContext.getTenantId();
-		TenantContext.setTenantId(tenantId);
-		Entity edOrgEntity = repo
-				.findOne("educationOrganization", edOrgIdQuery);
-		TenantContext.setTenantId(originalTenantId);
-		if (edOrgEntity != null) {
-			Map<String, Object> body = edOrgEntity.getBody();
-			if (body != null) {
-				return (String) body.get("_id");
-			}
-		}
-		return null;
-	}
+//	public String getEdOrgIdFromTenantDB(String tenantId, String stateOrgId) {
+//		NeutralQuery edOrgIdQuery = new NeutralQuery();
+//		edOrgIdQuery.addCriteria(new NeutralCriteria("stateOrganizationId",
+//				NeutralCriteria.OPERATOR_EQUAL, stateOrgId));
+//
+//		// query the specified tenant db
+//		String originalTenantId = TenantContext.getTenantId();
+//		TenantContext.setTenantId(tenantId);
+//		Entity edOrgEntity = repo
+//				.findOne("educationOrganization", edOrgIdQuery);
+//		TenantContext.setTenantId(originalTenantId);
+//		if (edOrgEntity != null) {
+//			Map<String, Object> body = edOrgEntity.getBody();
+//			if (body != null) {
+//				return (String) body.get("_id");
+//			}
+//		}
+//		return null;
+//	}
 
 	public Entity getRealmFromSession(String sessionId) {
 		String realmId;
