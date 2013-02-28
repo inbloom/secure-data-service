@@ -32,7 +32,7 @@ import com.mongodb.DBObject;
 import org.slc.sli.dal.migration.config.Strategy;
 import org.slc.sli.dal.migration.strategy.MigrationException;
 import org.slc.sli.dal.migration.strategy.MigrationStrategy;
-import org.slc.sli.dal.migration.strategy.config.MigrationConfig;
+import org.slc.sli.common.migration.config.MigrationConfig;
 import org.slc.sli.dal.repository.ValidationWithoutNaturalKeys;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.validation.SchemaRepository;

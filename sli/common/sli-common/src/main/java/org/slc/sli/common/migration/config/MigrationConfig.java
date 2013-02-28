@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.dal.migration.strategy.config;
+package org.slc.sli.common.migration.config;
 
 import java.io.IOException;
 import java.io.InputStream;

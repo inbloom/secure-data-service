@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.slc.sli.dal.migration.strategy.config;
+package org.slc.sli.common.migration.config;
 
 /**
  * Created with IntelliJ IDEA.
