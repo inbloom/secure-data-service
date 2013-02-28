@@ -26,7 +26,7 @@ class StudentAssessment < BaseEntity
   
   
   def initialize(student_id, assessment, date, rand = nil)
-    @rand = Random.new(student_id)
+    @rand = Random.new(student_id.hash)
     @studentId = student_id
     @assessment = assessment
     @date = date.to_s
