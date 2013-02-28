@@ -306,7 +306,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
       "gradeLevelAssessed"=> "Seventh grade",
       "assessmentTitle"=> "2001-Seventh grade Assessment 2",
       "assessmentPeriodDescriptor"=>{
-        "codeValue"=>"code 123",
+        "codeValue"=>"codeGreen",
         "description"=>"describes this descriptor"
       },
       "version" => 2 
@@ -698,8 +698,24 @@ Then /^I verify "(.*?)" and "(.*?)" should be subdoc'ed in mongo for this new "(
   }
 end
 
-Then /^I verify "(.*?)" and "(.*?)" is collapsed in response body$/ do |subdoc1, subdoc2| 
-  [subdoc1, subdoc2].each { |subdoc|
+Then /^I set the "(.*?)" to "(.*?)" in "(.*?)"$/ do |key, value, field|
+  @fields = {} if !defined? @fields
+  @fields[field].merge!(key=>value)
+  puts @fields
+end
+
+Then /^I verify there are "(\d)" "(.*?)" with "(.*?)"$/ do |count, type, query| 
+  @coll = @db[type]
+  query_key="body."+query.split("=")[0]
+  query_value=query.split("=")[1]
+  count_in_db = @coll.find(query_key=>query_value).count
+  assert(count.to_i == count_in_db, "expected #{count}, but only found #{count_in_db}")
+end
+
+Then /^I verify "(.*?)" and "(.*?)" is collapsed in response body$/ do |subdocs, last_subdoc| 
+  all_docs = subdocs.strip.split(/,\s/) << last_subdoc
+  all_docs.each { |doc_w_space|
+    subdoc = doc_w_space.strip
     assert(@res[subdoc], "#{subdoc} does not exists in response body")
   }
 end
