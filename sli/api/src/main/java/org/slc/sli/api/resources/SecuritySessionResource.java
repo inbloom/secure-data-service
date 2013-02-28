@@ -86,7 +86,7 @@ public class SecuritySessionResource {
             logoutMap.put("logout", this.sessionManager.logout((String) userAuth.getCredentials()));
         }
 
-        //this.sessions.remove(headers.getRequestHeader("Authorization").get(0));
+        this.sessions.remove(headers.getRequestHeader("Authorization").get(0));
         
         return logoutMap;
     }
