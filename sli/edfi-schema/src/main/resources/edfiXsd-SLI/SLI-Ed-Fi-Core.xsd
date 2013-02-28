@@ -374,6 +374,7 @@
 					<xs:element name="PerformanceBaseConversion" type="PerformanceBaseType" minOccurs="0"/>
 					<xs:element name="StudentSectionAssociationReference" type="SLC-StudentSectionAssociationReferenceType"/>
 					<xs:element name="GradingPeriodReference" type="SLC-GradingPeriodReferenceType" minOccurs="0"/>
+          <xs:element name="SchoolYear" type="SchoolYearType"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -569,6 +570,7 @@
 					</xs:element>
 					<xs:element name="StudentReference" type="SLC-StudentReferenceType"/>
 					<xs:element name="GradingPeriodReference" type="SLC-GradingPeriodReferenceType"/>
+          <xs:element name="SchoolYear" type="SchoolYearType"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
@@ -692,6 +694,7 @@
 					<xs:element name="SessionReference" type="SLC-SessionReferenceType"/>
 					<xs:element name="ReportCardReference" type="SLC-ReportCardReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="DiplomaReference" type="SLC-DiplomaReferenceType" minOccurs="0"/>
+          <xs:element name="SchoolYear" type="SchoolYearType"/>
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
