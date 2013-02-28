@@ -114,7 +114,7 @@ public final class SliDeltaManager {
             NaturalKeyDescriptor nkd = new NaturalKeyDescriptor(populatedNaturalKeys, tenantId, sliEntityType, null);
 
             String recordId = dIdStrategy.generateId(nkd);
-            if(neutralRecordResolved.getRecordType().equals("attendance")) {
+            if(neutralRecordResolved.getRecordType().equals("attendanceEvent")) {
                 recordId = DigestUtils.shaHex(recordId + "|" + neutralRecordResolved.getAttributes().toString());
             }
 
