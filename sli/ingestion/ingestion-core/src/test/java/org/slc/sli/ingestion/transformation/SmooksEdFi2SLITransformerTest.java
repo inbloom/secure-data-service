@@ -210,7 +210,7 @@ public class SmooksEdFi2SLITransformerTest {
         NeutralRecord assessment = new NeutralRecord();
         assessment.setRecordType("assessment");
         assessment.setAttributeField("assessmentTitle", "assessmentTitle");
-        assessment.setAttributeField("assessmentFamilyHierarchyName", "assessmentFamilyHierarchyName");
+        //assessment.setAttributeField("assessmentFamilyHierarchyName", "assessmentFamilyHierarchyName");
 
         List<Map<String, Object>> assessmentIdentificationCodeList = new ArrayList<Map<String, Object>>();
         Map<String, Object> assessmentIdentificationCode1 = new HashMap<String, Object>();
