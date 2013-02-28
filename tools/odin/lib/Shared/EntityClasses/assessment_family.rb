@@ -21,11 +21,12 @@ require 'yaml'
 require_relative 'baseEntity'
 class AssessmentFamily < BaseEntity
 
-  attr_accessor :id, :assessmentFamilyTitle, :assessmentFamilyIdentificationCode, :year_of, :assessmentFamilyReference
-  def initialize(id, year_of, parent=nil)
+  attr_accessor :id, :assessmentFamilyTitle, :assessmentFamilyIdentificationCode, :year_of, :assessmentFamilyReference, :version
+  def initialize(id, year_of, parent=nil, version=1)
     @id = id
     @year_of = year_of
     @assessmentFamilyReference = parent
+    @version = version
     build
   end
 
