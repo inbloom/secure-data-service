@@ -15,15 +15,16 @@
  */
 package org.slc.sli.api.migration;
 
-import static org.junit.Assert.assertTrue;
-
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.migration.strategy.MigrationStrategy;
+import org.slc.sli.dal.migration.strategy.impl.AddStrategy;
+import org.slc.sli.dal.migration.strategy.impl.RemoveFieldStrategy;
+import org.slc.sli.dal.migration.strategy.impl.RenameFieldStrategy;
+import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.MongoEntity;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.test.context.ContextConfiguration;
@@ -32,14 +33,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 import org.springframework.test.context.support.DirtiesContextTestExecutionListener;
 
-import org.slc.sli.api.representation.EntityBody;
-import org.slc.sli.api.test.WebContextTestExecutionListener;
-import org.slc.sli.dal.migration.strategy.MigrationStrategy;
-import org.slc.sli.dal.migration.strategy.impl.AddStrategy;
-import org.slc.sli.dal.migration.strategy.impl.RemoveFieldStrategy;
-import org.slc.sli.dal.migration.strategy.impl.RenameFieldStrategy;
-import org.slc.sli.domain.Entity;
-import org.slc.sli.domain.MongoEntity;
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import static org.junit.Assert.assertTrue;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
