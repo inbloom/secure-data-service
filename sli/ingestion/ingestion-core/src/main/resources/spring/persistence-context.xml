@@ -23,7 +23,7 @@
   <!-- collections that should be persisted using the new pipeline but no transformation has been performed -->
   <util:set id="passthroughEntities" set-class="java.util.HashSet" value-type="java.lang.String">
     <value>assessmentItem</value>
-    <value>attendance</value>
+    <value>attendanceEvent</value>
     <value>calendarDate</value>
     <value>cohort</value>
     <value>competencyLevelDescriptor</value>
