@@ -19,11 +19,7 @@ package org.slc.sli.sandbox.idp.controller;
 
 import java.security.SecureRandom;
 import java.sql.Timestamp;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -403,7 +399,7 @@ public class Login {
         SecurityEvent event = new SecurityEvent();
 
         event.setUser(userId);
-        event.setTargetEdOrg(edOrg);
+        event.setTargetEdOrgList(Arrays.asList(edOrg));
         event.setRoles(roles);
         event.setTenantId(tenant);
 

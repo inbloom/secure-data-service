@@ -42,7 +42,9 @@ public class SecurityEvent {
     private String userEdOrg;
 
     private String targetEdOrg;
-    
+
+    private List<String> targetEdOrgList;
+
     private String actionUri; // Alpha MH
 
     private String appId; // Alpha MH
@@ -195,6 +197,14 @@ public class SecurityEvent {
         this.roles = roles;
     }
 
+    public List<String> getTargetEdOrgList() {
+        return targetEdOrgList;
+    }
+
+    public void setTargetEdOrgList(List<String> targetEdOrgList) {
+        this.targetEdOrgList = targetEdOrgList;
+    }
+
     @Override
     public String toString() {
         String message;
@@ -207,6 +217,7 @@ public class SecurityEvent {
                 + ((className == null) ? "" : className) + DELIMITER
                 + ((tenantId == null) ? "" : tenantId) + DELIMITER
                 + ((targetEdOrg == null) ? "" : targetEdOrg) + DELIMITER
+                + ((targetEdOrgList == null) ? "" : targetEdOrgList) + DELIMITER
                 + ((userEdOrg == null) ? "" : userEdOrg) + DELIMITER
                 + ((user == null) ? "" : user) + DELIMITER
                 + ((userOrigin == null) ? "" : userOrigin) + DELIMITER
@@ -230,7 +241,11 @@ public class SecurityEvent {
         if (targetEdOrg != null) {
             dataMap.put("targetEdOrg", targetEdOrg);
         }
-        
+
+        if (targetEdOrgList != null) {
+            dataMap.put("targetEdOrgList", targetEdOrgList);
+        }
+
         if (userEdOrg != null) {
             dataMap.put("userEdOrg", userEdOrg);
         }
