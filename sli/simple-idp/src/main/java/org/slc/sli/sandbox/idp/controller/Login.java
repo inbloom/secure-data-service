@@ -399,7 +399,9 @@ public class Login {
         SecurityEvent event = new SecurityEvent();
 
         event.setUser(userId);
-        event.setTargetEdOrgList(Arrays.asList(edOrg));
+        if(edOrg != null) {
+            event.setTargetEdOrgList(Arrays.asList(edOrg));
+        }
         event.setRoles(roles);
         event.setTenantId(tenant);
 
