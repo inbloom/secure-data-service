@@ -99,17 +99,10 @@ public final class SliDeltaManager {
         Map<String, String> populatedNaturalKeys = new HashMap<String, String>();
 
         NeutralRecord neutralRecordResolved = null;
+        neutralRecordResolved = (NeutralRecord) n.clone();
+        NeutralRecordEntity entity = new NeutralRecordEntity(neutralRecordResolved);
+        didResolver.resolveInternalIds(entity, neutralRecordResolved.getSourceId(), report, reportStats);
 
-        if ("attendanceEvent".equals(n.getRecordType())) {
-            // HACK didResolver requires transformed entities to be transformed so use the
-            // unresolved references
-            // to calculate record delta hash dId
-            neutralRecordResolved = n;
-        } else {
-            neutralRecordResolved = (NeutralRecord) n.clone();
-            NeutralRecordEntity entity = new NeutralRecordEntity(neutralRecordResolved);
-            didResolver.resolveInternalIds(entity, tenantId, report, reportStats);
-        }
 
         // Calculate DiD using natural key values (that are references) in their Did form
         try {
@@ -121,6 +114,9 @@ public final class SliDeltaManager {
             NaturalKeyDescriptor nkd = new NaturalKeyDescriptor(populatedNaturalKeys, tenantId, sliEntityType, null);
 
             String recordId = dIdStrategy.generateId(nkd);
+            if(neutralRecordResolved.getRecordType().equals("attendance")) {
+                recordId = DigestUtils.shaHex(recordId + "|" + neutralRecordResolved.getAttributes().toString());
+            }
 
             // Calculate record hash using natural keys' values
             String recordHashValues = DigestUtils.shaHex(neutralRecordResolved.getRecordType() + "-"
@@ -179,10 +175,6 @@ public final class SliDeltaManager {
 
             String strValue = "";
             if (value != null) {
-                if(neutralRecord.getRecordType().equals("attendanceEvent")) {
-                    strValue = value.toString();
-                } else {
-
                 if( value instanceof Map) {
                     @SuppressWarnings("unchecked")
                     Map<String, String> valueMap = (Map<String, String>) value;
@@ -190,7 +182,6 @@ public final class SliDeltaManager {
                 } else {
                     strValue = value.toString();
                 }
-            }
                 } else {
                 handleFieldAccessException(fieldName, neutralRecord, naturalKey.isOptional());
             }

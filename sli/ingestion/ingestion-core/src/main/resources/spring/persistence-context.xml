@@ -22,6 +22,8 @@
 
   <!-- collections that should be persisted using the new pipeline but no transformation has been performed -->
   <util:set id="passthroughEntities" set-class="java.util.HashSet" value-type="java.lang.String">
+    <value>assessmentItem</value>
+    <value>attendance</value>
     <value>calendarDate</value>
     <value>cohort</value>
     <value>competencyLevelDescriptor</value>
@@ -36,6 +38,7 @@
     <value>graduationPlan</value>
     <value>learningStandard</value>
     <value>localEducationAgency</value>
+    <value>objectiveAssessment</value>
     <value>parent</value>
     <value>program</value>
     <value>reportCard</value>
@@ -49,10 +52,13 @@
     <value>stateEducationAgency</value>
     <value>student</value>
     <value>studentAcademicRecord</value>
+    <value>studentAssessment</value>
+    <value>studentAssessmentItem</value>
     <value>studentCohortAssociation</value>
     <value>studentCompetency</value>
     <value>studentCompetencyObjective</value>
     <value>studentDisciplineIncidentAssociation</value>
+    <value>studentObjectiveAssessment</value>
     <value>studentParentAssociation</value>
     <value>studentProgramAssociation</value>
     <value>studentSchoolAssociation</value>
@@ -61,15 +67,14 @@
     <value>teacher</value>
     <value>teacherSchoolAssociation</value>
     <value>teacherSectionAssociation</value>
+      <value>attendance</value>
   </util:set>
 
   <!-- collections that should be persisted using the new pipeline and a transformation has been performed. the collection
     to use will be <name>_transformed -->
   <util:set id="transformedEntities" set-class="java.util.HashSet" value-type="java.lang.String">
     <value>assessment</value>
-    <value>attendanceEvent</value>
     <value>learningObjective</value>
-    <value>studentAssessment</value>
     <value>courseTranscript</value>
   </util:set>
 
@@ -77,11 +82,7 @@
     entity -->
   <util:set id="stagedOnlyEntities" set-class="java.util.HashSet" value-type="java.lang.String">
     <value>assessmentFamily</value>
-    <value>assessmentItem</value>
     <value>assessmentPeriodDescriptor</value>
-    <value>objectiveAssessment</value>
-    <value>studentAssessmentItem</value>
-    <value>studentObjectiveAssessment</value>
   </util:set>
 
   <util:map id="entityPersistTypeMap" key-type="java.lang.String" value-type="java.util.Set">

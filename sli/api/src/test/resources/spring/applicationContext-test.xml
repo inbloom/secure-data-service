@@ -57,6 +57,14 @@
             expression=".*DefaultGranularAccessFilterProvider" />
             <context:exclude-filter type="assignable"
             expression="org.slc.sli.api.model.ModelProvider" />
+            <context:exclude-filter type="regex"
+            expression=".*GenericSuperdocConverter" />
+            <context:exclude-filter type="regex"
+            expression=".*AssessmentConverter" />
+            <context:exclude-filter type="regex"
+            expression=".*StudentAssessmentConverter" />
+            <context:exclude-filter type="regex"
+            expression=".*SuperdocConverterRegistry" />
     </context:component-scan>
 
 

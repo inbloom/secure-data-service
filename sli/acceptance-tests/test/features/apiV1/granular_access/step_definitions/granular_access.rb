@@ -73,7 +73,7 @@ Given /^a new "([^\"]*)"$/ do |type|
   data = {
       "studentAssessment" => {
           "studentId"=> "fff656b2-5031-4897-b6b8-7b0f5769b482_id",
-          "assessmentId"=> "dd916592-7d7e-5d27-a87d-dfc7fcb757f6",
+          "assessmentId"=> "2108c0c84ca6998eb157e1efd4d894746e1fdf8b_id",
           "administrationDate"=> "2011-10-01",
           "administrationEndDate"=> "2012-01-01",
           "retestIndicator"=> "1st Retest"

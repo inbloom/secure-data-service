@@ -2,6 +2,7 @@
 <InterchangeStudentAttendance xmlns:sli="http://slc-sli/ed-org/0.1" xmlns="http://ed-fi.org/0100"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <AttendanceEvent id="ID000">
+    <SchoolYear>2011-2012</SchoolYear>
     <EventDate>2013-07-10</EventDate>
     <AttendanceEventType>Section Attendance</AttendanceEventType>
     <AttendanceEventCategory>Unexcused Absence</AttendanceEventCategory>

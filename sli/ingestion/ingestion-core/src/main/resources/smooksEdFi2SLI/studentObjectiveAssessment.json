@@ -1,6 +1,3 @@
 {
-    "keyFields" : ["metaData.externalId"],
-    
-    "subEntities" : { "body.objectiveAssessment?" : "objectiveAssessment"}
-    
+    "keyFields" : ["metaData.externalId"]
 }

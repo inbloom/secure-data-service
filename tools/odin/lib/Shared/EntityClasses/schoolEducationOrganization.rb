@@ -23,9 +23,12 @@ require_relative "enum/GradeLevelType.rb"
 # creates school
 class School < BaseEntity
 
-  attr_accessor :state_org_id, :grades, :parent_id, :programs
+  attr_accessor :state_org_id, :grades, :parent_id, :programs,
+                :schoolType, :charterStatus, :titleIPartASchoolDesignation,
+                :magnetSpecialProgramEmphasisSchool, :administrativeFundingControl
 
   def initialize(id, parent_id, type, programs = nil)
+    @rand = Random.new(id.hash)
     @id = id
     if parent_id.kind_of? String
       @parent_id = parent_id
@@ -57,8 +60,47 @@ class School < BaseEntity
       GradeLevelType.high.each { |level| @grades << GradeLevelType.to_string(level) }
     end
     @programs = programs
-  end
 
+    optional {@schoolType = choose([
+      "Alternative",
+      "Regular",
+      "Special Education",
+      "Vocational",
+      "JJAEP",
+      "DAEP"])
+    }
+  
+    optional {@charterStatus = choose([
+      "School Charter",
+      "College/University Charter",
+      "Open Enrollment",
+      "Not a Charter School"])
+    }
+    
+    optional {@titleIPartASchoolDesignation = choose([
+      "Not designated as a Title I Part A school",
+      "Title I Part A Schoolwide Assistance Program School",
+      "Title I Part A Targeted Assistance School",
+      "Title I targeted eligible school - no program",
+      "Title I targeted school",
+      "Title I school wide eligible - Title I targeted program",
+      "Title I school wide eligible school - no program"])
+    }
+  
+    optional {@magnetSpecialProgramEmphasisSchool = choose([
+      "All students participate",
+      "No students participate",
+      "Some, but not all, students participate"])
+    }
+  
+    optional {@administrativeFundingControl = choose([
+      "Public School",
+      "Private School",
+      "Other"])
+    }
+
+  end
+      
   def type
     if @type == "elementary"
       "Elementary School"

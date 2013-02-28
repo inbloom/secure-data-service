@@ -15,6 +15,7 @@
  */
 package org.slc.sli.search.transform.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -65,12 +66,13 @@ public class GenericTransformer {
                 Object subdoc = (ap.getSubdoc() == null) ? entity : NestedMapUtil.get(ap.getSubdoc(), entity);
                 if (subdoc != null) {
                     if (subdoc instanceof List){
+                    	List<Object> subdocList = new ArrayList<Object>();
                         for (Object o : ((List<Object>)subdoc)) {
                             if (isMatch(ap.getCondition(), o)) {
-                                value = (ap.getField() != null) ? ((Map<String, Object>)o).get(ap.getField()) : o;
-                                break;
+                                subdocList.add((ap.getField() != null) ? ((Map<String, Object>)o).get(ap.getField()) : o);
                             }
                         }
+                        value = subdocList.isEmpty() ? null : subdocList;
                     } else if (subdoc instanceof Map) {
                         value = (ap.getField() != null) ? ((Map<String, Object>)subdoc).get(ap.getField()) : subdoc;
                     }

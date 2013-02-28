@@ -9,7 +9,7 @@
     <StudentAssessmentReference>
       <StudentAssessmentIdentity>
         <AdministrationDate>2006-05-04</AdministrationDate>
-        <StudentReference id="ID010">
+        <StudentReference>
           <StudentIdentity>
             <StudentUniqueStateId>StudentUniqueStateId1</StudentUniqueStateId>
           </StudentIdentity>
@@ -26,10 +26,19 @@
         <StudentAssessmentReference>
           <StudentAssessmentIdentity>
             <AdministrationDate>2006-05-04</AdministrationDate>
-            <StudentReference id="ID012">
-            </StudentReference>
-            <AssessmentReference id="ID013">
-            </AssessmentReference>
+		    <StudentReference>
+		      <StudentIdentity>
+		        <StudentUniqueStateId>StudentUniqueStateId1</StudentUniqueStateId>
+		      </StudentIdentity>
+		    </StudentReference>
+		    <AssessmentReference id="ID017">
+		      <AssessmentIdentity>
+		        <AssessmentTitle>AssessmentTitle3</AssessmentTitle>
+		        <AcademicSubject>English Language and Literature</AcademicSubject>
+		        <GradeLevelAssessed>Adult Education</GradeLevelAssessed>
+		        <Version>0</Version>
+		      </AssessmentIdentity>
+		    </AssessmentReference>
           </StudentAssessmentIdentity>
         </StudentAssessmentReference>
         <ObjectiveAssessmentReference>

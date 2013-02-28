@@ -15,6 +15,7 @@
 				<xs:element name="user"            type="xs:string"     minOccurs="0"></xs:element>				
 				<xs:element name="roles"           type="roleList"      minOccurs="0"></xs:element>
 				<xs:element name="targetEdOrg"     type="xs:string"     minOccurs="0"></xs:element>
+				<xs:element name="userEdOrg"       type="xs:string"     minOccurs="0"></xs:element>
 				<xs:element name="actionUri"       type="xs:string"     minOccurs="0" ></xs:element>
 				<xs:element name="appId"           type="xs:string"     minOccurs="0"></xs:element>
 				<xs:element name="executedOn"      type="xs:string"     minOccurs="0" ></xs:element>

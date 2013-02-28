@@ -26,9 +26,11 @@ require_relative "enum/PopulationServedType.rb"
 class Section < BaseEntity
 
   attr_accessor :school_id, :unique_section_code, :sequence, :environment, 
-    :medium, :population, :course_offering, :session
+    :medium, :population, :course_offering, :session,
+    :availableCredit
 
   def initialize(id, school_id, offering, session = offering['session'], program = nil)
+    @rand = Random.new(id.hash)
     # move these to choices.yml eventually and have these be a weighted choice
     @sequence = 1  
     @environment = "Classroom"
@@ -41,6 +43,21 @@ class Section < BaseEntity
     @session = offering['session']
     @unique_section_code = DataUtility.get_unique_section_id(id)
     #@program              = program
-    # --> programs are not currently implemented
+    # --> programs are not currently implementedS
+    
+    optional {@availableCredit = {
+        :credit => @rand.rand(500)/100,
+        :creditType => choose([
+          "Carnegie unit",
+          "Semester hour credit",
+          "Trimester hour credit",
+          "Quarter hour credit",
+          "Nine month year hour credit",
+          "Twelve month year hour credit",
+          "Other"]),
+        :creditConversion => @rand.rand(200)/100
+      }
+    }
+    
   end
 end
