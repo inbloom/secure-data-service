@@ -28,6 +28,7 @@
     </jb:bean>
 
     <jb:bean beanId="reportCardBody" class="java.util.HashMap" createOnElement="attributes">
+        <jb:value property="schoolYear" data="attributes schoolYear" />
         <jb:value property="studentId" data="attributes StudentReference" />
         <jb:wiring property="studentCompetencyId" beanIdRef="reportCard_studentCompetencyIdArray" />
         <jb:value property="gradingPeriodId" data="attributes GradingPeriodReference" />

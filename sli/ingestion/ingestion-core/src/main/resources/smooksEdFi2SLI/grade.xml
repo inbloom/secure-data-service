@@ -25,6 +25,7 @@
 
   <jb:bean beanId="gradeBody" class="java.util.HashMap"
            createOnElement="attributes">
+    <jb:value property="schoolYear" data="attributes schoolYear" />
     <jb:value property="letterGradeEarned" data="attributes letterGradeEarned" />
     <jb:value property="numericGradeEarned" data="attributes numericGradeEarned" decoder="Integer"/>
     <jb:value property="diagnosticStatement" data="attributes diagnosticStatement" />
