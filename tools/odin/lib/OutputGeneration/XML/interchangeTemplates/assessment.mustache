@@ -54,7 +54,9 @@ limitations under the License.
     {{/nomenclature}}
     {{#assessmentPeriod}}
     <AssessmentPeriod>
-        <CodeValue>{{codeValue}}</CodeValue>
+      <AssessmentPeriodDescriptorIdentity>
+        <AssessmentPeriodDescriptorCodeValue>{{codeValue}}</AssessmentPeriodDescriptorCodeValue>
+      </AssessmentPeriodDescriptorIdentity>
     </AssessmentPeriod>
     {{/assessmentPeriod}}
     {{> Partials/_assessment_item_reference}}

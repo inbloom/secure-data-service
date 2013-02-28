@@ -47,7 +47,7 @@
 					<xs:element name="RevisionDate" type="xs:date" minOccurs="0"/>
 					<xs:element name="MaxRawScore" type="xs:int" minOccurs="0"/>
 					<xs:element name="Nomenclature" type="Nomenclature" minOccurs="0"/>
-					<xs:element name="AssessmentPeriod" type="AssessmentPeriodDescriptorType" minOccurs="0"/>
+					<xs:element name="AssessmentPeriod" type="SLC-AssessmentPeriodDescriptorReferenceType" minOccurs="0"/>
 					<xs:element name="AssessmentItemReference" type="AssessmentItemReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="ObjectiveAssessmentReference" type="SLC-ObjectiveAssessmentReferenceType" minOccurs="0" maxOccurs="unbounded"/>
 					<xs:element name="AssessmentFamilyReference" type="AssessmentFamilyReferenceType" minOccurs="0"/>
@@ -55,6 +55,32 @@
 				</xs:sequence>
 			</xs:extension>
 		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="SLC-AssessmentPeriodDescriptorIdentityType">
+		<xs:annotation>
+			<xs:documentation/>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AssessmentPeriodDescriptorCodeValue" type="CodeValue">
+				<xs:annotation>
+					<xs:appinfo>
+						<sli:keyFieldName>codeValue</sli:keyFieldName>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="SLC-AssessmentPeriodDescriptorReferenceType">
+		<xs:annotation>
+			<xs:documentation>Changed to use a required SLC identity type.</xs:documentation>
+			<xs:appinfo>
+				<sli:applyKeyFields>true</sli:applyKeyFields>
+				<sli:refType>assessmentPeriodDescriptor</sli:refType>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="AssessmentPeriodDescriptorIdentity" type="SLC-AssessmentPeriodDescriptorIdentityType"/>
+		</xs:sequence>
 	</xs:complexType>
 	<xs:complexType name="SLC-AssessmentItem">
 		<xs:annotation>

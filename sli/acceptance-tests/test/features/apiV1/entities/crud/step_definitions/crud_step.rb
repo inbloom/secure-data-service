@@ -288,7 +288,7 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
            "itemCategory"=> "True-False"
         }]
       }],
-      "assessmentFamilyHierarchyName"=> "2001 Standard.2001 Seventh grade Standard",
+      #"assessmentFamilyHierarchyName"=>"2001 Standard.2001 Seventh grade Standard",
       "assessmentItem"=> [{
         "identificationCode"=> "2001-Seventh grade Assessment 2#3",
         "correctResponse"=> "true",
@@ -305,6 +305,10 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
       "assessmentPerformanceLevel"=> [],
       "gradeLevelAssessed"=> "Seventh grade",
       "assessmentTitle"=> "2001-Seventh grade Assessment 2",
+      "assessmentPeriodDescriptor"=>{
+        "codeValue"=>"code 123",
+        "description"=>"describes this descriptor"
+      },
       "version" => 2 
   },
   "studentAssessment" => {
