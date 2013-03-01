@@ -68,15 +68,11 @@
   </jb:bean>
 
   <jb:bean beanId="performanceLevelsTypeArray" class="java.util.ArrayList" createOnElement="attributes PerformanceLevels">
-    <jb:wiring beanIdRef="PerformanceDescriptorCodeValueList" />
-    <jb:wiring beanIdRef="PerformanceDescriptorDescriptionList" />
+    <jb:wiring beanIdRef="PerformanceDescriptorList" />
   </jb:bean>
   
-    <jb:bean beanId="PerformanceDescriptorCodeValueList" class="java.util.ArrayList" createOnElement="attributes PerformanceLevels">
-    <jb:wiring beanIdRef="PerformanceDescriptorDescription" />
-  </jb:bean>
-  
-  <jb:bean beanId="PerformanceDescriptorDescriptionList" class="java.util.ArrayList" createOnElement="attributes PerformanceLevels">
+    <jb:bean beanId="PerformanceDescriptorList" class="java.util.ArrayList" createOnElement="attributes PerformanceLevels element">
+    <jb:wiring beanIdRef="PerformanceDescriptorCodeValue" />
     <jb:wiring beanIdRef="PerformanceDescriptorDescription" />
   </jb:bean>
   

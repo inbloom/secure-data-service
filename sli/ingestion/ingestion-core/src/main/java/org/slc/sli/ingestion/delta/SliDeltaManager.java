@@ -101,7 +101,7 @@ public final class SliDeltaManager {
         NeutralRecord neutralRecordResolved = null;
         neutralRecordResolved = (NeutralRecord) n.clone();
         NeutralRecordEntity entity = new NeutralRecordEntity(neutralRecordResolved);
-        didResolver.resolveInternalIds(entity, neutralRecordResolved.getSourceId(), report, reportStats);
+        didResolver.resolveInternalIds(entity, tenantId, report, reportStats);
 
 
         // Calculate DiD using natural key values (that are references) in their Did form
