@@ -191,6 +191,13 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
 		<IdentificationCode>SAT-Writing</IdentificationCode>
 		<MaxRawScore>800</MaxRawScore>
 		<PercentOfAssessment>33</PercentOfAssessment>
+                <AssessmentReference>
+                        <AssessmentIdentity>
+                                <AssessmentTitle>SAT</AssessmentTitle>
+                        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                        <Version>1</Version>
+                    </AssessmentIdentity>
+                </AssessmentReference>
 	</ObjectiveAssessment>
 
 	<ObjectiveAssessment>
@@ -212,24 +219,59 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resou
         <ObjectiveAssessmentIdentificationCode>SAT-Math-Geometry</ObjectiveAssessmentIdentificationCode>
       </ObjectiveAssessmentIdentity>
     </ObjectiveAssessmentReference>
+                <AssessmentReference>
+                        <AssessmentIdentity>
+                                <AssessmentTitle>SAT</AssessmentTitle>
+                        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                        <Version>1</Version>
+                    </AssessmentIdentity>
+                </AssessmentReference>
 	</ObjectiveAssessment>
 
 	<ObjectiveAssessment>
 		<IdentificationCode>SAT-Math-Arithmetic</IdentificationCode>
+                <AssessmentReference>
+                        <AssessmentIdentity>
+                                <AssessmentTitle>SAT</AssessmentTitle>
+                        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                        <Version>1</Version>
+                    </AssessmentIdentity>
+                </AssessmentReference>
 	</ObjectiveAssessment>
 
 	<ObjectiveAssessment>
 		<IdentificationCode>SAT-Math-Algebra</IdentificationCode>
+                <AssessmentReference>
+                        <AssessmentIdentity>
+                                <AssessmentTitle>SAT</AssessmentTitle>
+                        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                        <Version>1</Version>
+                    </AssessmentIdentity>
+                </AssessmentReference>
 	</ObjectiveAssessment>
 
 	<ObjectiveAssessment>
 		<IdentificationCode>SAT-Math-Geometry</IdentificationCode>
+                <AssessmentReference>
+                        <AssessmentIdentity>
+                                <AssessmentTitle>SAT</AssessmentTitle>
+                        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                        <Version>1</Version>
+                    </AssessmentIdentity>
+                </AssessmentReference>
 	</ObjectiveAssessment>
 
 	<ObjectiveAssessment>
 		<IdentificationCode>SAT-Critical Reading</IdentificationCode>
 		<MaxRawScore>800</MaxRawScore>
 		<PercentOfAssessment>33</PercentOfAssessment>
+                <AssessmentReference>
+                        <AssessmentIdentity>
+                                <AssessmentTitle>SAT</AssessmentTitle>
+                        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+                        <Version>1</Version>
+                    </AssessmentIdentity>
+                </AssessmentReference>
 	</ObjectiveAssessment>
 	
 	<AssessmentFamily>

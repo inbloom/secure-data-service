@@ -70,7 +70,7 @@ public class ApplicationAuthorizationResourceTest {
 
     @Before
     public void setup() {
-    	repo.deleteAll("application", null);
+        repo.deleteAll("application", null);
         injector.setAdminContextWithElevatedRights();
         sea = helper.generateEdorgWithParent(null);
         lea1 = helper.generateEdorgWithParent(sea.getEntityId());

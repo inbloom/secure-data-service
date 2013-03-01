@@ -120,7 +120,7 @@ $entityData = {
         },
         "gradeType" => "Final",
         "finalLetterGradeEarned" => "A",
-	"educationOrganizationReference" => ["92d6d5a0-852c-45f4-907a-912752831772"]
+    "educationOrganizationReference" => ["92d6d5a0-852c-45f4-907a-912752831772"]
     },
     "staffCohortAssociation" => {
         "staffId" => "04f708bc-928b-420d-a440-f1592a5d1073",
@@ -143,7 +143,7 @@ $entityData = {
     },
     "studentAssessment" => {
         "studentId" => "11e51fc3-2e4a-4ef0-bfe7-c8c29d1a798b_id",
-        "assessmentId" => "dd916592-7d7e-5d27-a87d-dfc7fcb757f6",
+        "assessmentId" => "2108c0c84ca6998eb157e1efd4d894746e1fdf8b_id",
         "administrationDate" => "2011-10-01",
         "administrationEndDate" => "2012-01-01",
         "retestIndicator" => "1st Retest",

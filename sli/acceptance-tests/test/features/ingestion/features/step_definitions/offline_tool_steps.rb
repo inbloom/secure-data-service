@@ -248,24 +248,24 @@ end
 
 After do
   if OFFLINE_TOOL_FLAG == true
-	  #deleting the log files
-	  Dir.foreach(@local_file_store_path) do |file|
-	    if /#{@source_file_name}.*.log$/.match file
-	      puts "Deleting " + file
-	      FileUtils.rm @local_file_store_path + "/" + file
-	    end
-	  end
+      #deleting the log files
+      Dir.foreach(@local_file_store_path) do |file|
+        if /#{@source_file_name}.*.log$/.match file
+          puts "Deleting " + file
+          FileUtils.rm @local_file_store_path + "/" + file
+        end
+      end
 
-	  #Recovering local_file_store_path for future tests
-	  if (@pre_local_file_store_path != nil)
-	    @local_file_store_path = @pre_local_file_store_path
-	    @pre_local_file_store_path = nil
-	  end
+      #Recovering local_file_store_path for future tests
+      if (@pre_local_file_store_path != nil)
+        @local_file_store_path = @pre_local_file_store_path
+        @pre_local_file_store_path = nil
+      end
 
-	  #cleaning up unzip files
-	  if Dir.exist?(@local_file_store_path + "/" + "unzip")
-	    FileUtils.rm_r @local_file_store_path + "/" + "unzip"
-	  end
+      #cleaning up unzip files
+      if Dir.exist?(@local_file_store_path + "/" + "unzip")
+        FileUtils.rm_r @local_file_store_path + "/" + "unzip"
+      end
   end
 end
 ############################################################

@@ -24,6 +24,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
+
+import com.mongodb.DBObject;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,14 +43,18 @@ import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.common.util.tenantdb.TenantIdToDbName;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.dal.RetryMongoCommand;
+import org.slc.sli.dal.convert.ContainerDocumentAccessor;
 import org.slc.sli.dal.convert.Denormalizer;
 import org.slc.sli.dal.convert.SubDocAccessor;
+import org.slc.sli.dal.convert.SuperdocConverter;
+import org.slc.sli.dal.convert.SuperdocConverterRegistry;
 import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.dal.migration.config.MigrationRunner.MigrateEntity;
 import org.slc.sli.dal.migration.config.MigrationRunner.MigrateEntityCollection;
 import org.slc.sli.dal.versioning.SliSchemaVersionValidatorProvider;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.EntityMetadataKey;
+import org.slc.sli.domain.FullSuperDoc;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.validation.EntityValidator;
@@ -79,6 +86,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     private INaturalKeyExtractor naturalKeyExtractor;
 
     @Autowired
+    private SuperdocConverterRegistry converterReg;
+
+    @Autowired
     @Qualifier("entityKeyEncoder")
     private EntityKeyEncoder keyEncoder;
 
@@ -89,6 +99,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     private Denormalizer denormalizer;
 
+    private ContainerDocumentAccessor containerDocumentAccessor;
+
     @Autowired
     protected SliSchemaVersionValidatorProvider schemaVersionValidatorProvider;
 
@@ -97,6 +109,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         setWriteConcern(writeConcern);
         subDocs = new SubDocAccessor(getTemplate(), uuidGeneratorStrategy, naturalKeyExtractor);
         denormalizer = new Denormalizer(getTemplate());
+        containerDocumentAccessor = new ContainerDocumentAccessor(uuidGeneratorStrategy, template);
     }
 
     @Override
@@ -222,6 +235,10 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             denormalizer.denormalization(collectionName).doUpdate(updateEntity, update);
         }
 
+        if (containerDocumentAccessor.isContainerDocument(type)) {
+            result = containerDocumentAccessor.update(type, id, newValues, collectionName);
+        }
+
         return result;
     }
 
@@ -255,7 +272,18 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             }
 
             return entity;
+        } else if (containerDocumentAccessor.isContainerDocument(entity.getType())) {
+            final String createdId = containerDocumentAccessor.insert(entity);
+            if (!createdId.isEmpty()) {
+                return new MongoEntity(type, createdId, entity.getBody(), metaData);
+            } else {
+                return entity;
+            }
         } else {
+            SuperdocConverter converter = converterReg.getConverter(collectionName);
+            if (converter != null) {
+                converter.bodyFieldToSubdoc(entity);
+            }
             Entity result = super.insert(entity, collectionName);
 
             if (denormalizer.isDenormalizedDoc(collectionName)) {
@@ -280,6 +308,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
                 denormalizer.denormalization(collectionName).insert(records);
             }
 
+            return records;
+        } else if (containerDocumentAccessor.isContainerDocument(collectionName)) {
+            containerDocumentAccessor.insert(records);
             return records;
         } else {
             List<Entity> persist = new ArrayList<Entity>();
@@ -314,7 +345,18 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             }
             return null;
         }
-        return super.findOne(collectionName, query);
+        if (FullSuperDoc.FULL_ENTITIES.containsKey(collectionName)) {
+            Set<String> embededFields = FullSuperDoc.FULL_ENTITIES.get(collectionName);
+            addEmbededFields(query, embededFields);
+        }
+        Entity entity = super.findOne(collectionName, query);
+        if (entity != null) {
+            SuperdocConverter converter = converterReg.getConverter(entity.getType());
+            if (converter != null) {
+                converter.subdocToBodyField(entity);
+            }
+        }
+        return entity;
     }
 
     @Override
@@ -347,16 +389,42 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     protected Entity getEncryptedRecord(Entity entity) {
         MongoEntity encryptedEntity = new MongoEntity(entity.getType(), entity.getEntityId(), entity.getBody(),
                 entity.getMetaData(), entity.getCalculatedValues(), entity.getAggregates());
+        encryptedEntity.getEmbeddedData().putAll(entity.getEmbeddedData());
         encryptedEntity.encrypt(encrypt);
         return encryptedEntity;
     }
 
     @Override
-    protected Update getUpdateCommand(Entity entity) {
+    protected Update getUpdateCommand(Entity entity, boolean isSuperdoc) {
         // set up update query
         Map<String, Object> entityBody = entity.getBody();
         Map<String, Object> entityMetaData = entity.getMetaData();
-        return (new Update().set("body", entityBody).set("metaData", entityMetaData));
+        Update update = new Update();
+        update.set("body", entityBody).set("metaData", entityMetaData);
+        // superdoc need to update subdoc fields outside body
+        if (isSuperdoc && entity.getEmbeddedData() != null) {
+            Set<String> subdocFields = FullSuperDoc.FULL_ENTITIES.get(entity.getType());
+            if (subdocFields != null) {
+                for (String subdocField : subdocFields) {
+                    List<Entity> subdocEntities = entity.getEmbeddedData().get(subdocField);
+                    if (subdocEntities != null && subdocEntities.size() > 0) {
+                        List<Map<String, Object>> updateEntities = new ArrayList<Map<String, Object>>();
+                        for (Entity subdocEntity : subdocEntities) {
+                            Map<String, Object> updateEntity = new HashMap<String, Object>();
+                            updateEntity.put("_id", subdocEntity.getEntityId());
+                            updateEntity.put("body", subdocEntity.getBody());
+                            updateEntity.put("type", subdocEntity.getType());
+                            updateEntity.put("metaData", subdocEntity.getMetaData());
+                            updateEntities.add(updateEntity);
+                        }
+                        update.set(subdocField, updateEntities);
+                    } else {
+                        update.unset(subdocField);
+                    }
+                }
+            }
+        }
+        return update;
     }
 
     @Override
@@ -365,7 +433,8 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
             @Override
             public Object execute() {
-                return update(collection, entity);
+                // updateWithRetries is only used by ingestion, so always set isSuperdoc to false
+                return update(collection, entity, false);
             }
         };
         Object result = rc.executeOperation(noOfRetries);
@@ -379,15 +448,15 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
 
     @Override
     public boolean updateWithoutValidatingNaturalKeys(String collection, Entity entity) {
-        return this.update(collection, entity, false);
+        return this.update(collection, entity, FullSuperDoc.isFullSuperdoc(entity));
     }
 
     @Override
-    public boolean update(String collection, Entity entity) {
-        return this.update(collection, entity, true);
+    public boolean update(String collection, Entity entity, boolean isSuperdoc) {
+        return this.update(collection, entity, true, isSuperdoc);
     }
 
-    private boolean update(String collection, Entity entity, boolean validateNaturalKeys) {
+    private boolean update(String collection, Entity entity, boolean validateNaturalKeys, boolean isSuperdoc) {
         if (validateNaturalKeys) {
             validator.validateNaturalKeys(entity, true);
         }
@@ -401,11 +470,21 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         if (subDocs.isSubDoc(collection)) {
             return subDocs.subDoc(collection).create(entity);
         }
+        // convert subdoc from superdoc body to outside body
+        SuperdocConverter converter = converterReg.getConverter(entity.getType());
+        if (converter != null && isSuperdoc) {
+            converter.bodyFieldToSubdoc(entity);
+        }
+        if (containerDocumentAccessor.isContainerDocument(collection)) {
+            return !containerDocumentAccessor.update(entity).isEmpty();
+        }
 
-        return super.update(collection, entity, null); // body);
+        return super.update(collection, entity, null, isSuperdoc); // body);
     }
 
-    /** Add the created and updated timestamp to the document metadata. */
+    /**
+     * Add the created and updated timestamp to the document metadata.
+     */
     private void addTimestamps(Entity entity) {
         Date now = DateTimeUtil.getNowInUTC();
 
@@ -414,7 +493,9 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         metaData.put(EntityMetadataKey.UPDATED.getKey(), now);
     }
 
-    /** Update the updated timestamp on the document metadata. */
+    /**
+     * Update the updated timestamp on the document metadata.
+     */
     public void updateTimestamp(Entity entity) {
         Date now = DateTimeUtil.getNowInUTC();
         entity.getMetaData().put(EntityMetadataKey.UPDATED.getKey(), now);
@@ -457,7 +538,16 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
             this.addDefaultQueryParams(neutralQuery, collectionName);
             return subDocs.subDoc(collectionName).findAll(getQueryConverter().convert(collectionName, neutralQuery));
         }
-        return super.findAll(collectionName, neutralQuery);
+        if (FullSuperDoc.FULL_ENTITIES.containsKey(collectionName)) {
+            Set<String> embededFields = FullSuperDoc.FULL_ENTITIES.get(collectionName);
+            addEmbededFields(neutralQuery, embededFields);
+        }
+        Iterable<Entity> entities = super.findAll(collectionName, neutralQuery);
+        SuperdocConverter converter = converterReg.getConverter(collectionName);
+        if (converter != null) {
+            converter.subdocToBodyField(entities);
+        }
+        return entities;
     }
 
     @Override
@@ -505,8 +595,7 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
     }
 
     /**
-     * @Deprecated
-     *             "This is a deprecated method that should only be used by the ingestion ID
+     * @Deprecated "This is a deprecated method that should only be used by the ingestion ID
      *             Normalization code.
      *             It is not tenant-safe meaning clients of this method must include tenantId in the
      *             metaData block"
@@ -532,5 +621,30 @@ public class MongoEntityRepository extends MongoRepository<Entity> implements In
         Query query = this.getQueryConverter().convert(collectionName, neutralQuery);
         FindAndModifyOptions options = new FindAndModifyOptions();
         return template.findAndModify(query, update, options, getRecordClass(), collectionName);
+    }
+
+    private Query addEmbededFields(Query query, Set<String> embededFields) {
+        if (query == null) {
+            return null;
+        }
+        DBObject fieldObjects = query.getFieldsObject();
+        if (fieldObjects != null) {
+            for (String embededField : embededFields) {
+                if (!fieldObjects.containsField(embededField)) {
+                    fieldObjects.put(embededField, 1);
+                }
+            }
+        }
+        return query;
+    }
+
+    private NeutralQuery addEmbededFields(NeutralQuery query, Set<String> embededFields) {
+        if (query == null) {
+            return null;
+        }
+        List<String> fields = new ArrayList<String>();
+        fields.addAll(embededFields);
+        query.setEmbeddedFields(fields);
+        return query;
     }
 }

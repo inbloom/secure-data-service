@@ -116,11 +116,11 @@ public class UriMutator {
                         MutatedContainer newMutated = new MutatedContainer();
                         String path = String.format("/%s/%s", resource, e.getEntityId());
                         if (EntityNames.TEACHER.equals(e.getType())) {
-                        	path = String.format("/teachers/%s", e.getEntityId());
+                            path = String.format("/teachers/%s", e.getEntityId());
                         } else if (EntityNames.STAFF.equals(e.getType())) {
-                        	path = String.format("/staff/%s", e.getEntityId());
+                            path = String.format("/staff/%s", e.getEntityId());
                         }
-						newMutated.setPath(path);
+                        newMutated.setPath(path);
                         
                         info("Rewriting URI to {} based on natural keys", newMutated.getPath());
                         return newMutated;
@@ -166,7 +166,7 @@ public class UriMutator {
             put(joinPathSegments(PathConstants.SESSIONS, PathConstants.SECTIONS),
                     new MutateInfo("/sections/%s/", "sessionId"));
             put(joinPathSegments(PathConstants.LEARNING_OBJECTIVES, PathConstants.STUDENT_COMPETENCIES),
-                    new MutateInfo("/sections/%s/studentSectionAssociations/studentCompetencies", "learningObjectiveId"));
+                    new MutateInfo("/sections/%s/studentSectionAssociations/studentCompetencies", "objectiveId.learningObjectiveId"));
             put(joinPathSegments(PathConstants.GRADING_PERIODS, PathConstants.REPORT_CARDS),
                     new MutateInfo("/sections/%s/studentSectionAssociations/students/reportCards", "gradingPeriodId"));
             put(joinPathSegments(PathConstants.GRADING_PERIODS, PathConstants.GRADES),
@@ -387,6 +387,13 @@ public class UriMutator {
                         "/schools/%s/studentSchoolAssociations/students/studentAcademicRecords",
                         StringUtils.join(edOrgHelper.getFilteredDirectEdorgs(user), ",")));
                 mutated.setQueryParameters(mutuateQueryParameterString("sessionId", transitiveEntityId, mutated.getQueryParameters()));
+            } else if (modifiedRequest.equals(PathConstants.LEARNING_OBJECTIVES + ";" + PathConstants.STUDENT_COMPETENCIES
+                    + ";")) {
+                verifySingleTransitiveId(transitiveEntityId);
+                mutated.setPath(String.format(
+                        "/schools/%s/sections/studentSectionAssociations/studentCompetencies",
+                        StringUtils.join(edOrgHelper.getFilteredDirectEdorgs(user), ",")));
+                mutated.setQueryParameters(mutuateQueryParameterString("objectiveId.learningObjectiveId", transitiveEntityId, mutated.getQueryParameters()));
             }
         }
         return mutated;

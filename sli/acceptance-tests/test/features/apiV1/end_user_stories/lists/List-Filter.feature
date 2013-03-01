@@ -65,7 +65,7 @@ Scenario Outline: As a teacher or leader I want to see all my students in 3rd pe
     Then I should receive a link named "getStudentAssessments" with URI "/v1.1/students/<'Matt Sollars' ID>/studentAssessments"
         And I should receive a link named "getAssessments" with URI "/v1.1/students/<'Matt Sollars' ID>/studentAssessments/assessments"
 
-    When I navigate to "getAssessments" with URI "/v1/students/<'Matt Sollars' ID>/studentAssessments/assessments" and filter by assessmentTitle is "SAT"
+    When I navigate to "getAssessments" with URI "/v1/students/<'Matt Sollars' ID>/studentAssessments/assessments" and filter by assessmentTitle is "SAT 2"
     Then I should have a list of 1 "assessment" entities
         And I should have an entity with ID "<'SAT READING' ID>"
 

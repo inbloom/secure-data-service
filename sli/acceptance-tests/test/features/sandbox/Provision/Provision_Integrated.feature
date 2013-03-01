@@ -146,7 +146,7 @@ Then "5" seconds have elapsed
 And I go to my landing zone
 Then a batch job log has been created
 And I should not see an error log file created
-And I should see "Processed 4254 records." in the resulting batch job file
+And I should see "Processed 10095 records." in the resulting batch job file
 Then "10" seconds have elapsed
 And I clean the landing zone
 And user's landing zone is still provisioned from the prior preloading of "Small Dataset"

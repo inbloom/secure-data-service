@@ -38,11 +38,11 @@ public final class EntityManipulator {
      */
     public static void removeFields(final Map<String, Object> toRemoveFrom, final List<String> toRemoveList) {
         if (toRemoveList == null || toRemoveList.isEmpty()) {
-			return;
-		}
+            return;
+        }
         if (toRemoveFrom == null) {
-			return;
-		}
+            return;
+        }
 
         for (final String toStrip : toRemoveList) {
             removeField(toRemoveFrom, toStrip);
@@ -79,9 +79,9 @@ public final class EntityManipulator {
     @SuppressWarnings("unchecked")
     private static void removeField(final Object obj, final String toRemove) {
         if (obj instanceof Map) {
-			removeField((Map<String, Object>) obj, toRemove);
-		} else if (obj instanceof List) {
-			removeField((List<Object>) obj, toRemove);
-		}
+            removeField((Map<String, Object>) obj, toRemove);
+        } else if (obj instanceof List) {
+            removeField((List<Object>) obj, toRemove);
+        }
     }
 }

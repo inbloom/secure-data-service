@@ -21,10 +21,10 @@ require_relative "../lib/Shared/EntityClasses/enum/GradeLevelType.rb"
 # specifications for grade level type functions
 describe "GradeLevelType" do
   describe "Correctly translates grades into strings" do
-  	describe "for symbol that identifies Kindergarten" do
-  	  it "will return the string representation for Kindergarten" do
-  	  	GradeLevelType.to_string(:KINDERGARTEN).should match("Kindergarten")
-  	  end
+      describe "for symbol that identifies Kindergarten" do
+        it "will return the string representation for Kindergarten" do
+            GradeLevelType.to_string(:KINDERGARTEN).should match("Kindergarten")
+        end
     end
   end
   
@@ -97,48 +97,48 @@ describe "GradeLevelType" do
   end
 
   describe "Correctly identifies grade levels" do
-  	describe "--> elementary school grades" do
-  	  it "will return true for each elementary school grade and false otherwise" do
-  	  	GradeLevelType.elementary.each do |grade|
-  	  	  GradeLevelType.is_elementary_school_grade(grade).should be true
-  	  	end
-  	  	GradeLevelType.middle.each do |grade|
-  	  	  GradeLevelType.is_elementary_school_grade(grade).should be false
-  	  	end
-  	  	GradeLevelType.high.each do |grade|
-  	  	  GradeLevelType.is_elementary_school_grade(grade).should be false
-  	  	end
-  	  end
-  	end
+      describe "--> elementary school grades" do
+        it "will return true for each elementary school grade and false otherwise" do
+            GradeLevelType.elementary.each do |grade|
+              GradeLevelType.is_elementary_school_grade(grade).should be true
+            end
+            GradeLevelType.middle.each do |grade|
+              GradeLevelType.is_elementary_school_grade(grade).should be false
+            end
+            GradeLevelType.high.each do |grade|
+              GradeLevelType.is_elementary_school_grade(grade).should be false
+            end
+        end
+      end
 
-  	describe "--> middle school grades" do
-  	  it "will return true for each middle school grade and false otherwise" do
-  	  	GradeLevelType.elementary.each do |grade|
-  	  	  GradeLevelType.is_middle_school_grade(grade).should be false
-  	  	end
-  	  	GradeLevelType.middle.each do |grade|
-  	  	  GradeLevelType.is_middle_school_grade(grade).should be true
-  	  	end
-  	  	GradeLevelType.high.each do |grade|
-  	  	  GradeLevelType.is_middle_school_grade(grade).should be false
-  	  	end
-  	  end
-  	end
+      describe "--> middle school grades" do
+        it "will return true for each middle school grade and false otherwise" do
+            GradeLevelType.elementary.each do |grade|
+              GradeLevelType.is_middle_school_grade(grade).should be false
+            end
+            GradeLevelType.middle.each do |grade|
+              GradeLevelType.is_middle_school_grade(grade).should be true
+            end
+            GradeLevelType.high.each do |grade|
+              GradeLevelType.is_middle_school_grade(grade).should be false
+            end
+        end
+      end
 
-  	describe "--> high school grades" do
-  	  it "will return true for each high school grade and false otherwise" do
-  	  	GradeLevelType.elementary.each do |grade|
-  	  	  GradeLevelType.is_high_school_grade(grade).should be false
-  	  	end
-  	  	GradeLevelType.middle.each do |grade|
-  	  	  GradeLevelType.is_high_school_grade(grade).should be false
-  	  	end
-  	  	GradeLevelType.high.each do |grade|
-  	  	  GradeLevelType.is_high_school_grade(grade).should be true
+      describe "--> high school grades" do
+        it "will return true for each high school grade and false otherwise" do
+            GradeLevelType.elementary.each do |grade|
+              GradeLevelType.is_high_school_grade(grade).should be false
+            end
+            GradeLevelType.middle.each do |grade|
+              GradeLevelType.is_high_school_grade(grade).should be false
+            end
+            GradeLevelType.high.each do |grade|
+              GradeLevelType.is_high_school_grade(grade).should be true
 
-  	  	end
-  	  end
-  	end
+            end
+        end
+      end
   end
 
   describe "--> translation between grades" do
@@ -172,8 +172,8 @@ describe "GradeLevelType" do
   describe "Handles edge cases" do
     describe "--> checking if grade is an elementary, middle, or high school grade" do
       it "will handle null input" do
-      	GradeLevelType.is_elementary_school_grade(nil).should be false
-      	GradeLevelType.is_middle_school_grade(nil).should be false
+          GradeLevelType.is_elementary_school_grade(nil).should be false
+          GradeLevelType.is_middle_school_grade(nil).should be false
         GradeLevelType.is_high_school_grade(nil).should be false
       end
     end

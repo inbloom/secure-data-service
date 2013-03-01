@@ -25,7 +25,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slc.sli.ingestion.BatchJobStageType;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.stereotype.Component;
+
 import org.slc.sli.ingestion.Job;
 import org.slc.sli.ingestion.NeutralRecord;
 import org.slc.sli.ingestion.cache.CacheProvider;
@@ -36,13 +43,6 @@ import org.slc.sli.ingestion.reporting.impl.AggregatedSource;
 import org.slc.sli.ingestion.reporting.impl.CoreMessageCode;
 import org.slc.sli.ingestion.reporting.impl.ElementSourceImpl;
 import org.slc.sli.ingestion.transformation.AbstractTransformationStrategy;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Component;
 
 /**
  * Class for building objective assessments
@@ -54,11 +54,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class ObjectiveAssessmentBuilder {
     private static final Logger LOG = LoggerFactory.getLogger(ObjectiveAssessmentBuilder.class);
-    
+
     private static final String CREATION_TIME = "creationTime";
-    public static final String SUB_OBJECTIVE_REFS = "subObjectiveRefs";
+    public static final String SUB_OBJECTIVE_REFS = "subObjectiveAssessment";
     public static final String BY_IDENTIFICATION_CDOE = "identificationCode";
-    public static final String BY_ID = "id";
+    public static final String BY_ID = "identificationCode";
     public static final String ASSESSMENT_ITEM_REFS = "assessmentItemRefs";
     public static final String OBJECTIVE_ASSESSMENT = "objectiveAssessment";
 
@@ -87,15 +87,15 @@ public class ObjectiveAssessmentBuilder {
         if (cached != null) {
             return cached;
         }
-        
+
         LOG.debug("Objective assessment: {} is not cached.. going to data store to find it.", objectiveAssessmentId);
-        
+
         Map<String, Object> assessment = getObjectiveAssessment(access, batchJobId, objectiveAssessmentId, BY_ID);
         if (assessment == null || assessment.isEmpty()) {
             LOG.debug("Couldn't find objective assessment: {} using its id --> Using identification code.",
                     objectiveAssessmentId);
             assessment = getObjectiveAssessment(access, batchJobId, objectiveAssessmentId, BY_IDENTIFICATION_CDOE);
-            
+
             if (assessment == null || assessment.isEmpty()) {
                 LOG.warn(
                         "Failed to find objective assessment: {} using both id and identification code --> Returning null.",
@@ -109,7 +109,7 @@ public class ObjectiveAssessmentBuilder {
         } else {
             LOG.debug("Found objective assessment: {} using its id.", objectiveAssessmentId);
         }
-        
+
         if (assessment != null) {
             LOG.debug("Caching objective assessment: {}", objectiveAssessmentId);
             cache(OBJECTIVE_ASSESSMENT, tenantId, objectiveAssessmentId, assessment);
@@ -222,6 +222,7 @@ public class ObjectiveAssessmentBuilder {
         NeutralRecord record = null;
         while (itr.hasNext()) {
             record = itr.next();
+            record.getAttributes().remove("assessmentId");
             all.put(record.getRecordId(), record);
         }
         return all;
@@ -270,7 +271,7 @@ public class ObjectiveAssessmentBuilder {
     }
 
     /**
-     * 
+     *
      * @param code
      * @param access
      * @param job

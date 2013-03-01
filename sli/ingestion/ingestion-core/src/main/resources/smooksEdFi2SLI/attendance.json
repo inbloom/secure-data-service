@@ -1,24 +1,24 @@
 {
-    "keyFields" : ["body.schoolId", "body.studentId"],
-	"references" :
-	[{
-        "fieldPath" : "body.schoolId",
+    "keyFields" : ["body.schoolId", "body.studentId", "body.schoolYear"],
+    "references" :
+    [{
+        "fieldPath" : "body.SchoolReference",
         "deprecated": true,
         "ref" :
         {
-	        "entityType" : "educationOrganization",
-	        "choiceOfFields" :
-	        [
-	            [
-		            {
-		           	    "path" : "body.stateOrganizationId",
-		                "values" :
-		                [{
-			                "valueSource" : "body.schoolId"
-		                }]
-		            }
-	            ]
-	        ]
+            "entityType" : "educationOrganization",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                           "path" : "body.stateOrganizationId",
+                        "values" :
+                        [{
+                            "valueSource" : "body.SchoolReference.EducationalOrgIdentity.StateOrganizationId"
+                        }]
+                    }
+                ]
+            ]
         }
     },
     {
@@ -26,19 +26,19 @@
         "deprecated" : true,
         "ref" :
         {
-	        "entityType" : "student",
-	        "choiceOfFields" :
-	        [
-	            [
-		            {
-		           	    "path" : "body.studentUniqueStateId",
-		                "values" :
-		                [{
-			                "valueSource" : "body.StudentReference.StudentIdentity.StudentUniqueStateId"
-		                }]
-		            }
-	            ]
-	        ]
+            "entityType" : "student",
+            "choiceOfFields" :
+            [
+                [
+                    {
+                           "path" : "body.studentUniqueStateId",
+                        "values" :
+                        [{
+                            "valueSource" : "body.StudentReference.StudentIdentity.StudentUniqueStateId"
+                        }]
+                    }
+                ]
+            ]
         }
     }]
 }

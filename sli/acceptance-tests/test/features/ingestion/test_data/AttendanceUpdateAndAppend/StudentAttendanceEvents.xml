@@ -1,30 +1,39 @@
-  <InterchangeStudentAttendance xmlns="http://ed-fi.org/0100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-  xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/sliXsd/Attendance.xsd"> 
-
-   <AttendanceEvent> 
-      <EventDate>2010-09-07</EventDate> 
-      <AttendanceEventType>Daily Attendance</AttendanceEventType> 
-      <AttendanceEventReason>Missed school bus</AttendanceEventReason>
-      <AttendanceEventCategory>Tardy</AttendanceEventCategory> 
-      <EducationalEnvironment>Classroom</EducationalEnvironment> 
-      <StudentReference> 
-         <StudentIdentity> 
-            <StudentUniqueStateId>530425896</StudentUniqueStateId> 
-         </StudentIdentity> 
-      </StudentReference> 
-   </AttendanceEvent> 
-   
-   <AttendanceEvent> 
-      <EventDate>2010-09-08</EventDate> 
-      <AttendanceEventType>Daily Attendance</AttendanceEventType> 
-      <AttendanceEventReason>On Time</AttendanceEventReason>
-      <AttendanceEventCategory>In Attendance</AttendanceEventCategory> 
-      <EducationalEnvironment>Classroom</EducationalEnvironment> 
-      <StudentReference> 
-         <StudentIdentity> 
-            <StudentUniqueStateId>530425896</StudentUniqueStateId> 
-         </StudentIdentity> 
-      </StudentReference> 
-   </AttendanceEvent> 
-
-   </InterchangeStudentAttendance> 
+ 
+<InterchangeStudentAttendance xmlns='http://ed-fi.org/0100' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://ed-fi.org/0100 ../../sli/common/domain/src/main/resources/sliXsd/Attendance.xsd'>
+  <AttendanceEvent>
+    <SchoolYear>2010-2011</SchoolYear>
+    <EventDate>2010-09-07</EventDate>
+    <AttendanceEventType>Daily Attendance</AttendanceEventType>
+    <AttendanceEventCategory>Tardy</AttendanceEventCategory>
+    <AttendanceEventReason>Missed school bus</AttendanceEventReason>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>530425896</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+  </AttendanceEvent>
+  <AttendanceEvent>
+    <SchoolYear>2010-2011</SchoolYear>
+    <EventDate>2010-09-08</EventDate>
+    <AttendanceEventType>Daily Attendance</AttendanceEventType>
+    <AttendanceEventCategory>In Attendance</AttendanceEventCategory>
+    <AttendanceEventReason>On Time</AttendanceEventReason>
+    <EducationalEnvironment>Classroom</EducationalEnvironment>
+    <StudentReference>
+      <StudentIdentity>
+        <StudentUniqueStateId>530425896</StudentUniqueStateId>
+      </StudentIdentity>
+    </StudentReference>
+    <SchoolReference>
+      <EducationalOrgIdentity>
+        <StateOrganizationId>South Daybreak Elementary</StateOrganizationId>
+      </EducationalOrgIdentity>
+    </SchoolReference>
+  </AttendanceEvent>
+</InterchangeStudentAttendance>

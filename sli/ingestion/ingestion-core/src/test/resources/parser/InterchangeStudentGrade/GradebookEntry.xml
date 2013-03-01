@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InterchangeStudentGrade xmlns:sli="http://slc-sli/ed-org/0.1"
+ xmlns="http://ed-fi.org/0100"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <GradebookEntry id="ID008">
+        <GradebookEntryType>V0NQPZAzImb1uH49f0MU-KgBpoCE</GradebookEntryType>
+        <DateAssigned>2014-08-02</DateAssigned>
+        <Description>q.hrj5QQNsdORQinSBDb9x.yKVxxNxfthlarz0Gqxx4z-TrSZ-kWQfP7Lvgsg0teRNUV8GGFH95qWYNkXM15wCSF51MQ1-jmCJLnp</Description>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>RtC</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningStandardReference>
+            <LearningStandardIdentity>
+                <IdentificationCode>AL3ClTFW</IdentificationCode>
+            </LearningStandardIdentity>
+        </LearningStandardReference>
+        <LearningObjectiveReference>
+            <LearningObjectiveIdentity>
+                <Objective>xpf</Objective>
+                <AcademicSubject>Religious Education and Theology</AcademicSubject>
+                <ObjectiveGradeLevel>Eleventh grade</ObjectiveGradeLevel>
+            </LearningObjectiveIdentity>
+        </LearningObjectiveReference>
+        <LearningObjectiveReference>
+            <LearningObjectiveIdentity>
+                <Objective>b-jgH8mwzcCS2</Objective>
+                <AcademicSubject>Human Services</AcademicSubject>
+                <ObjectiveGradeLevel>Ninth grade</ObjectiveGradeLevel>
+            </LearningObjectiveIdentity>
+        </LearningObjectiveReference>
+        <SectionReference>
+            <SectionIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>W</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <UniqueSectionCode>UpT10.ttIH-</UniqueSectionCode>
+            </SectionIdentity>
+        </SectionReference>
+        <GradingPeriodReference>
+            <GradingPeriodIdentity>
+                <EducationalOrgReference>
+                    <EducationalOrgIdentity>
+                        <StateOrganizationId>QPhnDFI</StateOrganizationId>
+                    </EducationalOrgIdentity>
+                </EducationalOrgReference>
+                <GradingPeriod>First Trimester</GradingPeriod>
+                <BeginDate>2013-05-18</BeginDate>
+            </GradingPeriodIdentity>
+        </GradingPeriodReference>
+    </GradebookEntry>
+</InterchangeStudentGrade>

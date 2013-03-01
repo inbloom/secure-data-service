@@ -311,10 +311,10 @@ public class EntityConfigParser {
 
             // JoinKeys in query
             for (String key : element.joinKeys) {
-            	if (!element.columnNames.contains(key)) {
-            		foundError = true;
-            		System.err.println("Section name:" + element.name + " join key " + key + " is not a part of the selected column");
-            	}
+                if (!element.columnNames.contains(key)) {
+                    foundError = true;
+                    System.err.println("Section name:" + element.name + " join key " + key + " is not a part of the selected column");
+                }
             }
         }
         return foundError;

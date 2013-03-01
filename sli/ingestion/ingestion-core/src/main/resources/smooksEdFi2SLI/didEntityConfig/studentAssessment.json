@@ -12,11 +12,6 @@
             "optional" : true
         },
         {
-            "entityType" : "learningStandard",
-            "sourceRefPath": "body.studentAssessmentItems.assessmentItem.learningStandards",
-            "optional" : true
-        },
-        {
             "entityType" : "student",
             "sourceRefPath": "body.studentId"
         },

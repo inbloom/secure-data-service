@@ -23,12 +23,13 @@ describe "StudentAttendanceGenerator" do
   let(:scenario) {{}}
   let(:output) {StringIO.new('', 'w')}
   let(:generator) {StudentAttendanceGenerator.new(scenario, output)}
-  let(:event) {AttendanceEvent.new(100, "student123", "school123", Date.new(2012, 12, 20), :ABSENT, nil, nil, "excused: sick")}
+  let(:event) {AttendanceEvent.new(100, "student123", "school123", "2012", Date.new(2012, 12, 20), :ABSENT, nil, nil, "excused: sick")}
   describe "<<" do
     it "will output an Attendance Event to ed-fi xml interchange" do
       generator.start
       generator << event
       generator.finalize
+      output.string.should match(/<SchoolYear>2012-2013<\/SchoolYear>/)
       output.string.should match(/<EventDate>2012-12-20<\/EventDate>/)
       output.string.should match(/<AttendanceEventType>Daily Attendance<\/AttendanceEventType>/)
       output.string.should match(/<AttendanceEventCategory>Absence<\/AttendanceEventCategory>/)

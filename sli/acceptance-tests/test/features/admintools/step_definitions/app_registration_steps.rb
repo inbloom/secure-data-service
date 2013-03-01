@@ -143,13 +143,13 @@ Then /^application "([^"]*)" is registered$/ do |app|
 end
 
 Then /^application "([^"]*)" is not registered$/ do |app|
-	# no-op - in next step we verify it was removed from list
+    # no-op - in next step we verify it was removed from list
 end
 
 Then /^application "([^"]*)" is removed from the list$/ do |app|
 # TODO: canidate for lowering timeout temporarly to improve performance
   assertWithWait("Shouldn't see a NewApp") {
-	@driver.find_element(:id, "applications").find_elements(:xpath, ".//tr/td[text()='#{app}']").length == 0
+    @driver.find_element(:id, "applications").find_elements(:xpath, ".//tr/td[text()='#{app}']").length == 0
   }
   #appsTable = @driver.find_element(:id, "applications")
   #tds  = appsTable.find_elements(:xpath, ".//tr/td[text()='#{app}']")

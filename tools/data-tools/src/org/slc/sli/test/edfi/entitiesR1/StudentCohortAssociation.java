@@ -18,9 +18,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * 
- * 				This association represents the cohort(s) that a
- * 				student is designated for.
- * 			
+ *                 This association represents the cohort(s) that a
+ *                 student is designated for.
+ *             
  * 
  * <p>Java class for studentCohortAssociation complex type.
  * 

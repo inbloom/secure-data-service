@@ -1,0 +1,14 @@
+{
+    "referenceSources" :
+    [
+        {
+            "entityType" : "studentAssessment",
+            "sourceRefPath": "body.studentAssessmentId"
+        },
+        {
+            "entityType" : "assessmentItem",
+            "sourceRefPath": "body.assessmentItemId"
+        }
+        
+    ]
+}

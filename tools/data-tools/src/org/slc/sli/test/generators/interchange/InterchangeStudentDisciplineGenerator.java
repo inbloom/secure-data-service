@@ -69,7 +69,7 @@ public class InterchangeStudentDisciplineGenerator {
      */
     private static int writeEntitiesToInterchange(InterchangeWriter<InterchangeStudentDiscipline> iWriter) {
 
-    	int total=0;
+        int total=0;
         total += generateDisciplineIncidentData(iWriter, MetaRelations.DISCIPLINE_INCIDENT_MAP.values());
         total += generateStudentDisciplineIncidentAssociation(iWriter, MetaRelations.DISCIPLINE_INCIDENT_MAP.values());
         total += generateDisciplineActionData(iWriter, MetaRelations.DISCIPLINE_ACTION_MAP.values());
@@ -85,7 +85,7 @@ public class InterchangeStudentDisciplineGenerator {
      */
     private static int generateDisciplineIncidentData(InterchangeWriter<InterchangeStudentDiscipline> iWriter, Collection<DisciplineIncidentMeta> disciplineIncidentMetas) {
 
-    	int count=0;
+        int count=0;
         for (DisciplineIncidentMeta disciplineIncidentMeta : disciplineIncidentMetas) {
             SLCDisciplineIncident retVal;
 
@@ -111,7 +111,7 @@ public class InterchangeStudentDisciplineGenerator {
      */
     private static int generateDisciplineActionData(InterchangeWriter<InterchangeStudentDiscipline> iWriter, Collection<DisciplineActionMeta> disciplineActionMetas) {
 
-    	int count=0;
+        int count=0;
         for (DisciplineActionMeta disciplineActionMeta : disciplineActionMetas) {
             SLCDisciplineAction retVal;
 
@@ -137,7 +137,7 @@ public class InterchangeStudentDisciplineGenerator {
      */
     private static int generateStudentDisciplineIncidentAssociation(InterchangeWriter<InterchangeStudentDiscipline> iWriter, Collection<DisciplineIncidentMeta> disciplineIncidentMetas) {
 
-    	int count=0;
+        int count=0;
         for (DisciplineIncidentMeta disciplineIncidentMeta : disciplineIncidentMetas) {
 
             List<SLCStudentDisciplineIncidentAssociation> retVal;

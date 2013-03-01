@@ -30,7 +30,7 @@ end
 When /^"([^"]*)" is unchecked$/ do |feature|
   checkbox = getCheckbox(feature)
   assertWithWait("Expected #{feature} checkbox to be unchecked") do
-	!checkbox.attribute("checked")
+    !checkbox.attribute("checked")
   end
 end
 

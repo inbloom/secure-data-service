@@ -18,8 +18,8 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * This entity represents subtests that assess
- * 				specific learning objectives.
- * 			
+ *                 specific learning objectives.
+ *             
  * 
  * <p>Java class for objectiveAssessment complex type.
  * 

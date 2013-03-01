@@ -16,9 +16,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * The 10-digit telephone number, including the area
- * 				code, for the
- * 				organization
- * 			
+ *                 code, for the
+ *                 organization
+ *             
  * 
  * <p>Java class for institutionTelephone complex type.
  * 

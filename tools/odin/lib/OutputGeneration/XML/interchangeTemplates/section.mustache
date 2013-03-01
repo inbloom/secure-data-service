@@ -20,6 +20,11 @@ limitations under the License.
     <EducationalEnvironment>{{environment}}</EducationalEnvironment>
     <MediumOfInstruction>{{medium}}</MediumOfInstruction>
     <PopulationServed>{{population}}</PopulationServed>
+    {{#availableCredit}}
+      <AvailableCredit CreditType="{{creditType}}" CreditConversion="{{creditConversion}}">
+        <Credit>{{credit}}</Credit>
+      </AvailableCredit>
+    {{/availableCredit}}
     {{#course_offering}}
     <CourseOfferingReference>
       <CourseOfferingIdentity>

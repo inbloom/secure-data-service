@@ -16,14 +16,14 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * Definition of the performance levels and the
- * 				associated cut scores. Three styles are supported:
- * 				1. Specification
- * 				of performance level by min and max score
- * 				2. Specification of
- * 				performance level by cut score - min only
- * 				3. Specification of
- * 				performance level without any mapping to scores
- * 			
+ *                 associated cut scores. Three styles are supported:
+ *                 1. Specification
+ *                 of performance level by min and max score
+ *                 2. Specification of
+ *                 performance level by cut score - min only
+ *                 3. Specification of
+ *                 performance level without any mapping to scores
+ *             
  * 
  * <p>Java class for assessmentPerformanceLevel complex type.
  * 

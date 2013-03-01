@@ -4,30 +4,30 @@ do
     if [ -f "$file.java" ] 
     then
         re=`grep -c @XmlRootElement "$file.java"`
-	if [ "$re" -gt 0 ]
-	then 
-	    #sed -i 's/public class/@XmlRootElement \rpublic class/' "$file.java"
-	    #sed -i 's/package org.slc.sli.test.edfi.entities;/package org.slc.sli.test.edfi.entities;\rimport javax.xml.bind.annotation.XmlRootElement;/' "$file.java"
+    if [ "$re" -gt 0 ]
+    then 
+        #sed -i 's/public class/@XmlRootElement \rpublic class/' "$file.java"
+        #sed -i 's/package org.slc.sli.test.edfi.entities;/package org.slc.sli.test.edfi.entities;\rimport javax.xml.bind.annotation.XmlRootElement;/' "$file.java"
 
 
             re=`grep -c '@XmlRootElement.*name' "$file.java"`
-	    if [ "$re" -lt 1 ]
-	    then 
+        if [ "$re" -lt 1 ]
+        then 
                 m=`grep '@XmlRootElement' "$file.java"`
-		replace=`echo "$file" | sed 's/SLC//'`
-		rs='@XmlRootElement(name = "'$replace'")'
+        replace=`echo "$file" | sed 's/SLC//'`
+        rs='@XmlRootElement(name = "'$replace'")'
 
 
-		echo "Replacing [$m]   [$file.java] [$rs] "
+        echo "Replacing [$m]   [$file.java] [$rs] "
 
-		sed -i "s/@XmlRootElement/$rs/" "$file.java"
+        sed -i "s/@XmlRootElement/$rs/" "$file.java"
 
-		#exit 0
+        #exit 0
 
-	    fi
+        fi
 
 
-	fi
+    fi
     else
 
         echo "File Not Exists! $file.java" 

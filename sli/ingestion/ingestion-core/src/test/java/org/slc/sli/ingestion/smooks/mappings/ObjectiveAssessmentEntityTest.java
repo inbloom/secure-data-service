@@ -139,7 +139,6 @@ public class ObjectiveAssessmentEntityTest {
     private void checkValidObjectiveAssessmentNeutralRecord(NeutralRecord neutralRecord) {
         Map<String, Object> entity = neutralRecord.getAttributes();
 
-        Assert.assertEquals("TAKSReading3-4", entity.get("id"));
         Assert.assertEquals("TAKSReading3-4", entity.get("identificationCode"));
         Assert.assertEquals("8", entity.get("maxRawScore").toString());
         Assert.assertEquals("50", entity.get("percentOfAssessment").toString());
@@ -148,11 +147,6 @@ public class ObjectiveAssessmentEntityTest {
         List<?> subObjectiveAssessments = (List<?>) entity.get(ObjectiveAssessmentBuilder.SUB_OBJECTIVE_REFS);
         String subObjectiveAssessment = (String) subObjectiveAssessments.get(0);
         Assert.assertEquals("sub", subObjectiveAssessment);
-
-        List<Map<String, Object>> assessmentItems = (List<Map<String, Object>>) entity.get("assessmentItemRefs");
-        Assert.assertNotNull(assessmentItems);
-        Assert.assertEquals(1, assessmentItems.size());
-        Assert.assertEquals("EOA12", assessmentItems.get(0).get("identificationCode"));
 
         List<Map<String, Object>> learningObjectives = (List<Map<String, Object>>) entity.get("learningObjectives");
         Assert.assertNotNull(learningObjectives);
@@ -168,7 +162,7 @@ public class ObjectiveAssessmentEntityTest {
     private void checkInvalidObjectiveAssessmentNeutralRecord(NeutralRecord neutralRecord) {
         Map<String, Object> entity = neutralRecord.getAttributes();
 
-        Assert.assertEquals("TAKSReading3-4", entity.get("id"));
+        Assert.assertEquals("TAKSReading3-4", entity.get("identificationCode"));
 
         Assert.assertEquals("8", entity.get("maxRawScore").toString());
         Assert.assertEquals("50", entity.get("percentOfAssessment").toString());

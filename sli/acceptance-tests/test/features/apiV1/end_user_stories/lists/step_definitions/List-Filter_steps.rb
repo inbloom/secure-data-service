@@ -59,12 +59,12 @@ Transform /^<.+>$/ do |template|
   id = "dbecaa89-29e6-41e1-8099-f80e29baf48e_id" if template == "<'Karrie Rudesill' ID>"
   id = "414106a9-6156-47e3-a477-4bd4dda7e21a_id" if template == "<'Damon Iskra' ID>"
   id = "e2d8ba15-953c-4cf7-a593-dbb419014901_id" if template == "<'Gerardo Rounsaville' ID>"
-  id = "dd916592-7d7e-5d27-a87d-dfc7fcb757f6" if template == "<'SAT READING' ID>"
+  id = "2108c0c84ca6998eb157e1efd4d894746e1fdf8b_id" if template == "<'SAT READING' ID>"
   id = "5b0253d3-eb53-4c81-9e65-2f1f8347facc_id" if template == "<'French period 5' ID>"
   id = "706ee3be-0dae-4e98-9525-f564e05aa388_id" if template == "<'8th Grade English - Sec 5' ID>"
   id = "ceffbb26-1327-4313-9cfc-1c3afd38122e_id" if template == "<'8th Grade English - Sec 6' ID>"
   id = "7847b027-687d-46f0-bc1a-36d3c16956aa_id" if template == "<'Science 7A - Sec 5f10' ID>"
-  id = "5738d251-dd0b-4734-9ea6-417ac9320a15_id87fb8da5-e1aa-a6d9-efc7-b0eb091cd695_id" if template == "<'Matt Sollars Assessment' ID>"
+  id = "87fb8da5-e1aa-a6d9-efc7-b0eb091cd695_id" if template == "<'Matt Sollars Assessment' ID>"
   id
 end
 

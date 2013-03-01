@@ -16,9 +16,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * 
- * 				This association relates students to their parents,
- * 				guardians, or caretakers.
- * 			
+ *                 This association relates students to their parents,
+ *                 guardians, or caretakers.
+ *             
  * 
  * <p>Java class for studentParentAssociation complex type.
  * 

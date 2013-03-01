@@ -14,7 +14,7 @@ import org.junit.Test;
 
 public class EncryptorTestIT {
 
-	static final String MAVEN_TARGET_DIR = "target";
+    static final String MAVEN_TARGET_DIR = "target";
     static final String TARGET_DIR = "OpenSourceEncryptionTool";
     static final String SRC_FILE = "OpenSourceEncryptionTool-src.zip";
 

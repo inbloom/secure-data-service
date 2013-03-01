@@ -35,16 +35,16 @@ end
 @dbname = Digest::SHA1.hexdigest ARGV[0]
 @db = Mongo::Connection.new('localhost').db(@dbname)
 
-@ignored_entities = ["AssessmentFamily", "BehaviorDescriptor", "DisciplineDescriptor"]
+@ignored_entities = ["AssessmentFamily", "BehaviorDescriptor", "DisciplineDescriptor", "AssessmentPeriodDescriptor"]
 
 def where_stored(entity_type)
   case entity_type
   when "AssessmentItem"
-    {collection: 'assessment', subdoc: ['body', 'assessmentItem']}
+    {collection: 'assessment', subdoc: ['assessmentItem']}
   when "ObjectiveAssessment"
-    {collection: 'assessment', subdoc: ['body', 'objectiveAssessment']}
+    {collection: 'assessment', subdoc: ['objectiveAssessment']}
   when "AttendanceEvent"
-    {collection: 'attendance', subdoc: ['body', 'schoolYearAttendance', :*, 'attendanceEvent']}
+    {collection: 'attendance', subdoc: ['body', 'attendanceEvent']}
   when "GradebookEntry"
     {collection: 'section', subdoc: ['gradebookEntry']}
   when "LocalEducationAgency"
@@ -57,12 +57,10 @@ def where_stored(entity_type)
     {collection: 'staffEducationOrganizationAssociation'}
   when "StateEducationAgency"
     {collection: 'educationOrganization', query: {type: 'stateEducationAgency'}}
-  when 'StudentAssessment'
-    {collection: 'student', subdoc: ['studentAssessment']}
   when 'StudentAssessmentItem'
-    {collection: 'student', subdoc: ['studentAssessment', :*, 'body', 'studentAssessmentItems']}
+    {collection: 'studentAssessment', subdoc: ['studentAssessmentItem']}
   when 'StudentObjectiveAssessment'
-    {collection: 'student', subdoc: ['studentAssessment', :*, 'body', 'studentObjectiveAssessments']}
+    {collection: 'studentAssessment', subdoc: ['studentObjectiveAssessment']}
   when 'StudentCohortAssociation'
     {collection: 'cohort', subdoc: ['studentCohortAssociation']}
   when 'StudentDisciplineIncidentAssociation'

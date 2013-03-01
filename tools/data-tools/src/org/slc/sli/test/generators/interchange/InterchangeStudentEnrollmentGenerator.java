@@ -69,8 +69,8 @@ public class InterchangeStudentEnrollmentGenerator {
 
         generateStudentSectionAssoc(iWriter, MetaRelations.STUDENT_MAP.values());
 
-		generateGraduationPlan(iWriter,
-				MetaRelations.GRADUATION_PLAN_MAP.values());
+        generateGraduationPlan(iWriter,
+                MetaRelations.GRADUATION_PLAN_MAP.values());
 
 
     }
@@ -82,31 +82,31 @@ public class InterchangeStudentEnrollmentGenerator {
      */
     private static void generateGraduationPlan(InterchangeWriter<InterchangeStudentEnrollment> iWriter, Collection<GraduationPlanMeta> graduationPlanMetas) {
 
-		long startTime = System.currentTimeMillis();
+        long startTime = System.currentTimeMillis();
 
-		int objGenCounter = 0;
+        int objGenCounter = 0;
 
-		for (GraduationPlanMeta graduationPlanMeta : graduationPlanMetas) {
+        for (GraduationPlanMeta graduationPlanMeta : graduationPlanMetas) {
 
-			SLCGraduationPlan graduationPlan;
+            SLCGraduationPlan graduationPlan;
 
-			if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
-				graduationPlan = null;
-			} else {
-				graduationPlan = GraduationPlanGenerator
-						.generateLowFi(graduationPlanMeta.id, graduationPlanMeta.schoolId);
-			}
+            if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
+                graduationPlan = null;
+            } else {
+                graduationPlan = GraduationPlanGenerator
+                        .generateLowFi(graduationPlanMeta.id, graduationPlanMeta.schoolId);
+            }
 
 
-	        if (graduationPlan != null) {
-	            iWriter.marshal(graduationPlan);
-	            objGenCounter++;
-	        }
-		}
+            if (graduationPlan != null) {
+                iWriter.marshal(graduationPlan);
+                objGenCounter++;
+            }
+        }
 
-		System.out.println("generated " + objGenCounter
-				+ " GraduationPlan objects in: "
-				+ (System.currentTimeMillis() - startTime));
+        System.out.println("generated " + objGenCounter
+                + " GraduationPlan objects in: "
+                + (System.currentTimeMillis() - startTime));
    }
 
     /**
@@ -133,7 +133,7 @@ public class InterchangeStudentEnrollmentGenerator {
 
 
 
-   	         iWriter.marshal(studentSchool);
+                iWriter.marshal(studentSchool);
              objGenCounter++;
             }
         }
@@ -167,7 +167,7 @@ public class InterchangeStudentEnrollmentGenerator {
 
 
 
-      	        iWriter.marshal(studentSection);
+                  iWriter.marshal(studentSection);
 
                 objGenCounter++;
             }

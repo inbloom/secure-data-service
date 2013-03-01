@@ -1,10 +1,10 @@
 { 
-	"landingZone" : [ 
-		{ 
-			"educationOrganization" : "ED_ORG" ,
-			"path" : "test_path",
-			"desc" : "Landing zone for test_district."
-		}
-	] , 
-	"tenantId" : "TENANT"
+    "landingZone" : [ 
+        { 
+            "educationOrganization" : "ED_ORG" ,
+            "path" : "test_path",
+            "desc" : "Landing zone for test_district."
+        }
+    ] , 
+    "tenantId" : "TENANT"
 }

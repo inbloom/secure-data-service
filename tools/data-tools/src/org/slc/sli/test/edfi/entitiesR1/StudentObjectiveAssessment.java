@@ -18,8 +18,8 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * This entity holds the score and or performance
- * 				levels earned for an objective assessment by a student.
- * 			
+ *                 levels earned for an objective assessment by a student.
+ *             
  * 
  * <p>Java class for studentObjectiveAssessment complex type.
  * 

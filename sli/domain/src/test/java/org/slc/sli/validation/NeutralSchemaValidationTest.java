@@ -509,9 +509,9 @@ public class NeutralSchemaValidationTest {
         NeutralSchemaValidator validator = new NeutralSchemaValidator();
         validator.setSchemaRegistry(schemaRepo);
         validator.setEntityRepository(repo);
-    	SelfReferenceValidator selfReferenceValidator = Mockito.mock(SelfReferenceValidator.class);
-    	Mockito.when(selfReferenceValidator.validate(Mockito.any(Entity.class), Mockito.any(List.class))).thenReturn(true);
-    	validator.setSelfReferenceValidator(selfReferenceValidator);
+        SelfReferenceValidator selfReferenceValidator = Mockito.mock(SelfReferenceValidator.class);
+        Mockito.when(selfReferenceValidator.validate(Mockito.any(Entity.class), Mockito.any(List.class))).thenReturn(true);
+        validator.setSelfReferenceValidator(selfReferenceValidator);
 
         Entity e = mock(Entity.class);
         when(e.getBody()).thenReturn(obj);
