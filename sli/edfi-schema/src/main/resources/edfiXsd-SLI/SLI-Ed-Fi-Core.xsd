@@ -29,7 +29,7 @@
 			<xs:documentation>Assessment record with key fields: AssessmentTitle, AcademicSubject, GradeLevelAssessed and Version. Changed types of ObjectiveAssessmentReference, SectionReference and AssessmentItemReference to SLC reference types.</xs:documentation>
 			<xs:appinfo>
 				<sli:recordType>assessment</sli:recordType>
-				<sli:naturalKeys>IdentificationCode</sli:naturalKeys>
+				<sli:naturalKeys>AssessmentTitle,AcademicSubject,GradeLevelAssessed,Version</sli:naturalKeys>
 			</xs:appinfo>
 		</xs:annotation>
 		<xs:complexContent>

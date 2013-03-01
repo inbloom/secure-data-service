@@ -39,11 +39,22 @@
     </jb:bean>
 
      <jb:bean beanId="AssessmentPerformanceLevelType" class="java.util.HashMap" createOnElement="AssessmentPerformanceLevel element">
-        <jb:wiring property="performanceLevelDescriptor" beanIdRef="PerformanceLevelDescriptorTypeArray"/>
+        <jb:wiring property="performanceLevelDescriptor" beanIdRef="PerformanceLevelDescriptors"/>
         <jb:value property="assessmentReportingMethod" data="AssessmentPerformanceLevel element AssessmentReportingMethod _value"></jb:value>
         <jb:value property="minimumScore" data="AssessmentPerformanceLevel element MinimumScore _value" decoder="Integer"></jb:value>
         <jb:value property="maximumScore" data="AssessmentPerformanceLevel element MaximumScore _value" decoder="Integer"></jb:value>
     </jb:bean>
+
+    <jb:bean beanId="PerformanceLevelDescriptors" class="java.util.ArrayList" createOnElement="AssessmentPerformanceLevel element">
+    <jb:wiring beanIdRef="PerformanceLevelDescriptor" />
+    
+  </jb:bean>
+
+    <jb:bean beanId="PerformanceLevelDescriptor" class="java.util.HashMap" createOnElement="AssessmentPerformanceLevel element">
+    <jb:value property="codeValue" data="AssessmentPerformanceLevel element PerformanceLevel CodeValue _value" />
+    <jb:value property="description" data="AssessmentPerformanceLevel element PerformanceLevel Description _value" />
+    
+  </jb:bean>
 
 
     <jb:bean beanId="objectiveAssessment_assessmentItemRefArray" class="java.util.ArrayList" createOnElement="attributes">
