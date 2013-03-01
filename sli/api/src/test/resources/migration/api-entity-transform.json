@@ -1,6 +1,6 @@
 {
     "entities": {
-        "GRADE": {
+        "grade": {
             "1": [
                 {
                     "ADD_FIELD": {
