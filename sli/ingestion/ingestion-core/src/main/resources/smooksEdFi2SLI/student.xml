@@ -121,7 +121,7 @@
         <jb:value property="primaryTelephoneNumberIndicator" data="attributes Telephone element PrimaryTelephoneNumberIndicator _value" decoder="Boolean"/>
     </jb:bean>
 
-    <jb:bean beanId="ElectronicMails" class="java.util.ArrayList"  createOnElement="attributes ElectronicMail">
+    <jb:bean beanId="ElectronicMails" class="java.util.ArrayList"  createOnElement="attributes">
         <jb:wiring beanIdRef="ElectronicMail" />
     </jb:bean>
     <jb:bean beanId="ElectronicMail" class="java.util.HashMap" createOnElement="attributes ElectronicMail element">
