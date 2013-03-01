@@ -28,6 +28,7 @@
     </jb:bean>
 
     <jb:bean beanId="studentAcademicRecordBody" class="java.util.HashMap" createOnElement="attributes">
+        <jb:value property="schoolYear" data="attributes schoolYear" />
         <jb:wiring property="cumulativeCreditsEarned" beanIdRef="cumulativeCreditsEarned" />
         <jb:wiring property="cumulativeCreditsAttempted" beanIdRef="cumulativeCreditsAttempted" />
         <jb:value property="cumulativeGradePointsEarned" data="attributes cumulativeGradePointsEarned" decoder="Double" />

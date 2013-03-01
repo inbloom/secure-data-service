@@ -19,7 +19,7 @@ limitations under the License.
 # creates report card
 class ReportCard < BaseEntity
 
-  attr_accessor :student, :grades, :grading_period, :gpa_given_grading_period, :gpa_cumulative, :student_competencies,
+  attr_accessor :student, :grades, :grading_period, :school_year, :gpa_given_grading_period, :gpa_cumulative, :student_competencies,
                 :numberOfDaysAbsent, :numberOfDaysInAttendance, :numberOfDaysTardy
 
   def initialize(student, grades, grading_period, student_competencies)
@@ -30,6 +30,7 @@ class ReportCard < BaseEntity
     @gpa_given_grading_period = get_gpa(grades)
     @gpa_cumulative = @gpa_given_grading_period
     @student_competencies = student_competencies
+    @school_year = grading_period.school_year
   
     optional {@numberOfDaysAbsent = @rand.rand(30)}
     optional {@numberOfDaysInAttendance = 50 + @rand.rand(100)}
