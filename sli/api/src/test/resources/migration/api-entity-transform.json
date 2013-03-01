@@ -45,6 +45,56 @@
                     }
                 }
             ]
+        },
+        "reportCard": {
+            "1": [
+                {
+                    "ADD_FIELD": {
+                        "fieldName": "schoolYear",
+                        "ruleSet": [
+                            {
+                                "rank": 1,
+                                "rule": {
+                                    "collection": "reportCard",
+                                    "field": "gradingPeriodId"
+                                }
+                            },
+                            {
+                                "rank": 2,
+                                "rule": {
+                                    "collection": "gradingPeriod",
+                                    "field": "gradingPeriodIdentity.schoolYear"
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        "studentAcademicRecord": {
+            "1": [
+                {
+                    "ADD_FIELD": {
+                        "fieldName": "schoolYear",
+                        "ruleSet": [
+                            {
+                                "rank": 1,
+                                "rule": {
+                                    "collection": "studentAcademicRecord",
+                                    "field": "sessionId"
+                                }
+                            },
+                            {
+                                "rank": 2,
+                                "rule": {
+                                    "collection": "session",
+                                    "field": "schoolYear"
+                                }
+                            }
+                        ]
+                    }
+                }
+            ]
         }
     }
 }
