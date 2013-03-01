@@ -15,16 +15,28 @@
  */
 package org.slc.sli.api.migration;
 
+import com.google.common.reflect.Reflection;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.slc.sli.api.migration.strategy.impl.AddFieldStrategy;
 import org.slc.sli.api.representation.EntityBody;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
+import org.slc.sli.api.service.MockRepo;
 import org.slc.sli.api.test.WebContextTestExecutionListener;
+import org.slc.sli.common.migration.config.Strategy;
 import org.slc.sli.common.migration.strategy.MigrationStrategy;
 import org.slc.sli.dal.migration.strategy.impl.AddStrategy;
 import org.slc.sli.dal.migration.strategy.impl.RemoveFieldStrategy;
 import org.slc.sli.dal.migration.strategy.impl.RenameFieldStrategy;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
+import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.test.context.ContextConfiguration;
@@ -35,10 +47,14 @@ import org.springframework.test.context.support.DirtiesContextTestExecutionListe
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
@@ -54,6 +70,23 @@ public class ApiSchemaAdapterTest {
 
     @Value("classpath:migration/api-entity-transform.json/")
     private Resource entityResource;
+
+    PagingRepositoryDelegate repository = Mockito.mock(PagingRepositoryDelegate.class);
+
+
+    Strategy strategy;
+
+    private ApiSchemaAdapter apiSchemaAdapter ;
+
+    @Before
+    public void init() {
+        strategy = null;
+
+        MockitoAnnotations.initMocks(this);
+//        Mockito.when(any(Strategy.class)).thenReturn(strategy);
+
+        apiSchemaAdapter = initApiSchemaAdapter();
+    }
 
     @Test
     public void testBuildMigrationStrategyMap() throws NoSuchFieldException, IllegalAccessException{
@@ -113,7 +146,7 @@ public class ApiSchemaAdapterTest {
 
     @Test
     public void testMigrateIterable() {
-        ApiSchemaAdapter apiSchemaAdapter = initApiSchemaAdapter();
+
         EntityBody downBody = new EntityBody();
         downBody.put("removeDownFoo", "removeDownBar");
         downBody.put("oldDownFoo", "oldDownBar");
@@ -167,6 +200,31 @@ public class ApiSchemaAdapterTest {
         return apiSchemaAdapter;
     }
 
+    @Test
+    public void testEntityTransformation() {
+        EntityBody gpBody = new EntityBody();
+        Map<String, String> gpiType = new HashMap<String, String>();
+        gpiType.put("schoolYear","testYear");
+        gpBody.put("gradingPeriodIdentity",gpiType);
+        String gpId = "gpId";
+        String gradingPeriodColl = "gradingPeriod";
+        Entity gradingPeriod = new MongoEntity(gradingPeriodColl, gpId, gpBody, null);
+
+        List<MigrationStrategy> migrationStrategies = apiSchemaAdapter.getEntityTransformMigrationStrategies("reportCard",1);
+        for(MigrationStrategy migrationStrategy: migrationStrategies) {
+            ((AddFieldStrategy)migrationStrategy).setRepository(repository);
+        }
+
+        EntityBody entityBody = new EntityBody();
+        entityBody.put("gradingPeriodId",gradingPeriod.getEntityId());
+        Mockito.when(repository.findById(any(String.class), eq(gpId))).thenReturn(gradingPeriod);
+
+        List<EntityBody> entityBodies = apiSchemaAdapter.migrate(entityBody, "reportCard", 1);
+        assertTrue(!entityBodies.isEmpty());
+        assertTrue(entityBodies.size()==1);
+        assertTrue(entityBodies.get(0).containsKey("schoolYear"));
+        assertTrue(entityBodies.get(0).get("schoolYear").equals("testYear"));
+    }
     private Object getField(Object o, String fieldName) throws NoSuchFieldException, IllegalAccessException
     {
         Class<?> clazz = o.getClass();

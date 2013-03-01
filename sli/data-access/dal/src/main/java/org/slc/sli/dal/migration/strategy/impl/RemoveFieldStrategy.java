@@ -20,6 +20,7 @@ import org.slc.sli.common.migration.strategy.MigrationException;
 import org.slc.sli.common.migration.strategy.MigrationStrategy;
 import org.slc.sli.domain.Entity;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -56,5 +57,10 @@ public class RemoveFieldStrategy implements MigrationStrategy<Entity> {
 
         this.fieldName = parameters.get(FIELD_NAME).toString();
     }
-    
+
+    @Override
+    public List<Entity> migrate(List<Entity> entityList) throws MigrationException {
+        throw new MigrationException(new IllegalAccessException("This method is not yet implemented"));
+    }
+
 }

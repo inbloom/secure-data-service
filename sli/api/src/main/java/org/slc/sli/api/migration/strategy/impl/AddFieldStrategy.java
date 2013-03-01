@@ -17,6 +17,7 @@ package org.slc.sli.api.migration.strategy.impl;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slc.sli.api.migration.TransformationRule;
+import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.common.migration.strategy.MigrationException;
 import org.slc.sli.common.migration.strategy.MigrationStrategy;
@@ -25,6 +26,8 @@ import org.slc.sli.domain.NeutralCriteria;
 import org.slc.sli.domain.NeutralQuery;
 import org.slc.sli.domain.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -35,13 +38,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AddFieldStrategy implements MigrationStrategy<Entity> {
+@Component
+public class AddFieldStrategy implements MigrationStrategy<EntityBody> {
 
     public static final String FIELD_NAME = "fieldName";
     public static final String RULE_SET = "ruleSet";
-
-    @Autowired
-    private Repository<Entity> repo;
 
     private String fieldName;
     private List<TransformationRule> ruleSet;
@@ -54,17 +55,9 @@ public class AddFieldStrategy implements MigrationStrategy<Entity> {
     private PagingRepositoryDelegate<Entity> repository;
 
     @Override
-    public Entity migrate(Entity entity) throws MigrationException {
-        try {
-            PropertyUtils.setProperty(entity.getBody(), fieldName, resolveRules(entity));
-        } catch (IllegalAccessException e) {
-            throw new MigrationException(e);
-        } catch (InvocationTargetException e) {
-            throw new MigrationException(e);
-        } catch (NoSuchMethodException e) {
-            throw new MigrationException(e);
-        }
-        return entity;
+    public EntityBody migrate(EntityBody entity) throws MigrationException {
+        throw new MigrationException(new IllegalAccessException("This method is not yet implemented"));
+
     }
 
     @Override
@@ -75,6 +68,22 @@ public class AddFieldStrategy implements MigrationStrategy<Entity> {
 
         this.fieldName = parameters.get(FIELD_NAME).toString();
         this.ruleSet = parseRules(parameters.get(RULE_SET));
+    }
+
+    @Override
+    public List<EntityBody> migrate(List<EntityBody> entityList) throws MigrationException {
+        for(EntityBody entityBody: entityList) {
+            try {
+                PropertyUtils.setProperty(entityBody, fieldName, resolveRules(entityBody));
+            } catch (IllegalAccessException e) {
+                throw new MigrationException(e);
+            } catch (InvocationTargetException e) {
+                throw new MigrationException(e);
+            } catch (NoSuchMethodException e) {
+                throw new MigrationException(e);
+            }
+        }
+        return entityList;
     }
 
     private List<TransformationRule> parseRules(Object ruleSet) {
@@ -92,12 +101,22 @@ public class AddFieldStrategy implements MigrationStrategy<Entity> {
         return rules;
     }
 
-    private String resolveRules(Entity entity) {
-        String id = (String) entity.getBody().get(ruleSet.get(0).getField());
+    private String resolveRules(EntityBody entityBody) {
+        String id = (String) entityBody.get(ruleSet.get(0).getField());
         for (int i = 1; i < ruleSet.size(); i++) {
             TransformationRule rule = ruleSet.get(i);
             Entity e = repository.findById(rule.getCollection(), id);
-            id = (String) e.getBody().get(rule.getField());
+            List<String> fields = Arrays.asList(rule.getField().split(","));
+            Map<String, Object> body = e.getBody();
+            Object value = null;
+            for(String field: fields) {
+                value = body.get(field);
+                body.clear();
+                if(value instanceof Map) {
+                    body.putAll((Map<? extends String,?>) value);
+                }
+            }
+            id = (String) value;
         }
         return id;
     }

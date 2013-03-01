@@ -15,6 +15,7 @@
  */
 package org.slc.sli.api.migration;
 
+import org.slc.sli.api.representation.EntityBody;
 import org.slc.sli.common.migration.config.MigrationConfig;
 import org.slc.sli.common.migration.config.Strategy;
 import org.slc.sli.common.migration.strategy.MigrationException;
@@ -143,6 +144,17 @@ public class ApiSchemaAdapter {
         return strategies;
     }
 
+    public List<MigrationStrategy> getEntityTransformMigrationStrategies(String entityType, int versionNumber) {
+
+        List<MigrationStrategy> strategies = null;
+        Map<Integer, List<MigrationStrategy>> entityMigrations = entityTransformStrategyMap.get(entityType);
+
+        if (entityMigrations != null) {
+            strategies = entityMigrations.get(versionNumber);
+        }
+
+        return strategies;
+    }
     /**
      * Migrate an entity to or from a specified API version
      */
@@ -191,6 +203,19 @@ public class ApiSchemaAdapter {
         return migratedEntities;
     }
 
+    public List<EntityBody> migrate(EntityBody entityBody, String entityType, int versionNumber) {
+
+        if (entityBody == null) {
+            return null;
+        }
+        List<EntityBody> entityBodies = new ArrayList<EntityBody>();
+        entityBodies.add(entityBody);
+        List<MigrationStrategy> migrationStrategies = getEntityTransformMigrationStrategies(entityType, versionNumber);
+        for(MigrationStrategy migrationStrategy: migrationStrategies) {
+            entityBodies = migrationStrategy.migrate(entityBodies);
+        }
+       return  entityBodies;
+    }
     public Resource getUpMigrationConfigResource() {
         return upMigrationConfigResource;
     }
