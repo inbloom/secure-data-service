@@ -17,12 +17,18 @@ package org.slc.sli.api.migration.strategy.impl;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.slc.sli.api.migration.TransformationRule;
+import org.slc.sli.api.security.context.PagingRepositoryDelegate;
 import org.slc.sli.common.migration.strategy.MigrationException;
 import org.slc.sli.common.migration.strategy.MigrationStrategy;
 import org.slc.sli.domain.Entity;
+import org.slc.sli.domain.NeutralCriteria;
+import org.slc.sli.domain.NeutralQuery;
+import org.slc.sli.domain.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -34,14 +40,23 @@ public class AddFieldStrategy implements MigrationStrategy<Entity> {
     public static final String FIELD_NAME = "fieldName";
     public static final String RULE_SET = "ruleSet";
 
+    @Autowired
+    private Repository<Entity> repo;
+
     private String fieldName;
     private List<TransformationRule> ruleSet;
+
+    public void setRepository(PagingRepositoryDelegate<Entity> repository) {
+        this.repository = repository;
+    }
+
+    @Autowired
+    private PagingRepositoryDelegate<Entity> repository;
 
     @Override
     public Entity migrate(Entity entity) throws MigrationException {
         try {
-            // TODO: DO SOMETHING ELSE HERE!
-            PropertyUtils.setProperty(entity.getBody(), fieldName, ruleSet);
+            PropertyUtils.setProperty(entity.getBody(), fieldName, resolveRules(entity));
         } catch (IllegalAccessException e) {
             throw new MigrationException(e);
         } catch (InvocationTargetException e) {
@@ -65,10 +80,8 @@ public class AddFieldStrategy implements MigrationStrategy<Entity> {
     private List<TransformationRule> parseRules(Object ruleSet) {
         List<TransformationRule> rules = new ArrayList<TransformationRule>();
         for(Object ruleKey:(ArrayList) ruleSet) {
-
             Map<String, Object> rule = (Map<String, Object>) ruleKey;
             rules.add(TransformationRule.init((Integer) rule.get("rank"), (HashMap<String, String>) rule.get("rule")));
-
         }
         Collections.sort(rules, new Comparator<TransformationRule>() {
             @Override
@@ -77,5 +90,15 @@ public class AddFieldStrategy implements MigrationStrategy<Entity> {
             }
         });
         return rules;
+    }
+
+    private String resolveRules(Entity entity) {
+        String id = (String) entity.getBody().get(ruleSet.get(0).getField());
+        for (int i = 1; i < ruleSet.size(); i++) {
+            TransformationRule rule = ruleSet.get(i);
+            Entity e = repository.findById(rule.getCollection(), id);
+            id = (String) e.getBody().get(rule.getField());
+        }
+        return id;
     }
 }
