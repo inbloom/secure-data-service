@@ -1,0 +1,15 @@
+"entities":{
+  "GRADE": {
+    "1": [{
+        "ADD_FIELD": {
+          "fieldName": "schoolYear",
+          "ruleSet" : [{
+              {"rank":1,
+                "rule":{
+                  "collection":"grade",
+                  "field":"studentScetionAssociationId"}}
+}]
+        }
+    }]
+  }
+  }
