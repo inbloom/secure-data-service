@@ -1,11 +1,11 @@
 {
-	id: "teacherInfo",
-	name: "SLC - Teacher Profile",
-	type: "PANEL",
-	data :{
-		entity: "teacherInfo",
-		cacheKey: "teacherInfo"
-	},
+    id: "teacherInfo",
+    name: "SLC - Teacher Profile",
+    type: "PANEL",
+    data :{
+        entity: "teacherInfo",
+        cacheKey: "teacherInfo"
+    },
         params: {
             layout: ["teacher"]
         }

@@ -4,8 +4,8 @@
     <SchoolYear>2010-2011</SchoolYear>
     <EventDate>2010-09-07</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
-    <AttendanceEventReason>Missed school bus</AttendanceEventReason>
     <AttendanceEventCategory>Tardy</AttendanceEventCategory>
+    <AttendanceEventReason>Missed school bus</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <StudentReference>
       <StudentIdentity>
@@ -22,8 +22,8 @@
     <SchoolYear>2010-2011</SchoolYear>
     <EventDate>2010-09-08</EventDate>
     <AttendanceEventType>Daily Attendance</AttendanceEventType>
-    <AttendanceEventReason>On Time</AttendanceEventReason>
     <AttendanceEventCategory>In Attendance</AttendanceEventCategory>
+    <AttendanceEventReason>On Time</AttendanceEventReason>
     <EducationalEnvironment>Classroom</EducationalEnvironment>
     <StudentReference>
       <StudentIdentity>

@@ -49,19 +49,19 @@ public class StudentAssessmentItemGenerator {
         if (optional) {
            
             sai.setRawScoreResult(random.nextInt(100));
-	
-			// TODO: StudentTestAssessmentReference
-			if (studentTestAssessmentReference != null) {
-			    
-				sai.setStudentAssessmentReference(studentTestAssessmentReference);
+    
+            // TODO: StudentTestAssessmentReference
+            if (studentTestAssessmentReference != null) {
+                
+                sai.setStudentAssessmentReference(studentTestAssessmentReference);
 
-			}
+            }
 
-			// TODO: StudentObjectiveAssessmentReference
-			if (studentObjectiveAssessmentReference != null) {
-				sai.setStudentObjectiveAssessmentReference(studentObjectiveAssessmentReference);
-			}
-		
+            // TODO: StudentObjectiveAssessmentReference
+            if (studentObjectiveAssessmentReference != null) {
+                sai.setStudentObjectiveAssessmentReference(studentObjectiveAssessmentReference);
+            }
+        
         }
 
         return sai;

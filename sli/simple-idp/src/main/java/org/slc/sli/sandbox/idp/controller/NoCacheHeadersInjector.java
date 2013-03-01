@@ -21,23 +21,23 @@ import org.springframework.stereotype.Component;
 @Component
 public class NoCacheHeadersInjector implements Filter {
 
-	@Override
-	public void init(FilterConfig filterConfig) throws ServletException {
-	    // nothing to do.
-	}
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        // nothing to do.
+    }
 
-	@Override
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		HttpServletResponse resp = (HttpServletResponse) response;
-		resp.setHeader("Cache-Control", "no-store, no-cache, must-revalidate"); // HTTP 1.1
-		resp.setHeader("Pragma", "no-cache"); // HTTP 1.0
-		resp.setDateHeader("Expires", -1); // prevents caching at the proxy server
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+        HttpServletResponse resp = (HttpServletResponse) response;
+        resp.setHeader("Cache-Control", "no-store, no-cache, must-revalidate"); // HTTP 1.1
+        resp.setHeader("Pragma", "no-cache"); // HTTP 1.0
+        resp.setDateHeader("Expires", -1); // prevents caching at the proxy server
 
-		chain.doFilter(request, response);
-	}
+        chain.doFilter(request, response);
+    }
 
-	@Override
-	public void destroy() {
-	    // nothing to do 
-	}
+    @Override
+    public void destroy() {
+        // nothing to do 
+    }
 }

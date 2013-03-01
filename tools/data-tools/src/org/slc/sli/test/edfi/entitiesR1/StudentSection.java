@@ -18,8 +18,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * This indicates the course sections a
- * 				student is assigned to.
- * 			
+ *                 student is assigned to.
+ *             
  * 
  * <p>Java class for studentSection complex type.
  * 

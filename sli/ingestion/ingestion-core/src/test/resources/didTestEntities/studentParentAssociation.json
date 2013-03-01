@@ -9,12 +9,12 @@
                 "StudentUniqueStateId":"100000000"
             }
         },
-    	"ParentReference":
-    	{
-			"ParentIdentity":
-			{
-				"ParentUniqueStateId":"testParentId"
-			}
-    	}
+        "ParentReference":
+        {
+            "ParentIdentity":
+            {
+                "ParentUniqueStateId":"testParentId"
+            }
+        }
     }
 }

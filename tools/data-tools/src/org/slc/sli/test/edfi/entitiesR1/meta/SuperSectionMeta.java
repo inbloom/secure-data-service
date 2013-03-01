@@ -27,23 +27,23 @@ import org.slc.sli.test.edfi.entities.meta.SectionMeta;
 import org.slc.sli.test.edfi.entities.meta.SessionMeta;
 
 public class SuperSectionMeta extends SectionMeta {
-	
+    
 
    public final List<String> studentIds;
    public final List<String> teacherIds;
     
 
-	public SuperSectionMeta(String id, SchoolMeta schoolMeta, CourseOfferingMeta courseOfferingMeta, SessionMeta sessionMeta,
-			ProgramMeta programMeta) {
-		
-		super(id, schoolMeta, courseOfferingMeta, sessionMeta, programMeta);
-		
-		
-		 this.studentIds = new ArrayList<String>();
-		 this.teacherIds = new ArrayList<String>();
+    public SuperSectionMeta(String id, SchoolMeta schoolMeta, CourseOfferingMeta courseOfferingMeta, SessionMeta sessionMeta,
+            ProgramMeta programMeta) {
+        
+        super(id, schoolMeta, courseOfferingMeta, sessionMeta, programMeta);
+        
+        
+         this.studentIds = new ArrayList<String>();
+         this.teacherIds = new ArrayList<String>();
 
-		// TODO Auto-generated constructor stub
-	}
+        // TODO Auto-generated constructor stub
+    }
 
 
     

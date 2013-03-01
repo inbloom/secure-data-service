@@ -33,10 +33,10 @@ public class GradeBookEntryMeta {
     }
 
     public List<String> getLearningObjectiveIds() {
-		return learningObjectiveIds;
-	}
+        return learningObjectiveIds;
+    }
 
-	public String getId() {
+    public String getId() {
         return id;
     }
 

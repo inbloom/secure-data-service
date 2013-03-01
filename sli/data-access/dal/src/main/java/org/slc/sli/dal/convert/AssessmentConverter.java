@@ -222,7 +222,7 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
     private List<String> makeAssessmentItemRefs(List<Map<String, Object>> items, String parentKey) {
         List<String> refs = new ArrayList<String>(items.size());
         for (Map<String, Object> item : items) {
-        	item.put("assessmentId", parentKey);
+            item.put("assessmentId", parentKey);
             refs.add(generateSubdocDid(item, "assessmentItem"));
         }
         return refs;

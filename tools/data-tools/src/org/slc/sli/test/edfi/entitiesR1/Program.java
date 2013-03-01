@@ -18,14 +18,14 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * 
- * 				This entity represents any program designed to work
- * 				in conjunction with or to supplement the main
- * 				academic program.
- * 				Programs may provide instruction, training, services or benefits
- * 				through federal,
- * 				state, or local agencies. Programs may also include
- * 				organized extracurricular activities for students.
- * 			
+ *                 This entity represents any program designed to work
+ *                 in conjunction with or to supplement the main
+ *                 academic program.
+ *                 Programs may provide instruction, training, services or benefits
+ *                 through federal,
+ *                 state, or local agencies. Programs may also include
+ *                 organized extracurricular activities for students.
+ *             
  * 
  * <p>Java class for program complex type.
  * 

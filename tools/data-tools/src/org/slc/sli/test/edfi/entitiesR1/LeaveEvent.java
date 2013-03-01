@@ -18,10 +18,10 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * This event entity represents the recording of the
- * 				dates of staff leave
- * 				(e.g., sick leave, personal time, vacation,
- * 				etc.).
- * 			
+ *                 dates of staff leave
+ *                 (e.g., sick leave, personal time, vacation,
+ *                 etc.).
+ *             
  * 
  * <p>Java class for leaveEvent complex type.
  * 

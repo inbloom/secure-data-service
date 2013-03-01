@@ -18,8 +18,8 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * This entity represents one of many single measures
- * 				that make up an assessment.
- * 			
+ *                 that make up an assessment.
+ *             
  * 
  * <p>Java class for assessmentItem complex type.
  * 

@@ -44,67 +44,67 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class TeacherToStaffProgramAssociationValidatorTest {
 
-	private static final String CORRECT_ENTITY_TYPE = EntityNames.STAFF_PROGRAM_ASSOCIATION;
-	private static final String USER_ID = "Master of Magic";
-	private static final String PROGRAM_ID = "Nature Node";
+    private static final String CORRECT_ENTITY_TYPE = EntityNames.STAFF_PROGRAM_ASSOCIATION;
+    private static final String USER_ID = "Master of Magic";
+    private static final String PROGRAM_ID = "Nature Node";
 
-	@Resource
-	private TeacherToStaffProgramAssociationValidator val;
+    @Resource
+    private TeacherToStaffProgramAssociationValidator val;
 
-	@Resource
-	private SecurityContextInjector injector;
+    @Resource
+    private SecurityContextInjector injector;
 
-	@Resource
-	private ValidatorTestHelper vth;
+    @Resource
+    private ValidatorTestHelper vth;
 
-	@Before
-	public void init() {
-		injector.setEducatorContext(USER_ID);
-	}
+    @Before
+    public void init() {
+        injector.setEducatorContext(USER_ID);
+    }
 
-	@After
-	public void cleanUp() {
-	    SecurityContextHolder.clearContext();
-	    try {
+    @After
+    public void cleanUp() {
+        SecurityContextHolder.clearContext();
+        try {
             vth.resetRepo();
         } catch (Exception e) {
         }
-	}
+    }
 
-	@Test(expected = IllegalArgumentException.class)
-	public void testValidateWrongType() {
-		val.validate(EntityNames.ASSESSMENT, new HashSet<String>(Arrays.asList("Jomolungma")));
-	}
+    @Test(expected = IllegalArgumentException.class)
+    public void testValidateWrongType() {
+        val.validate(EntityNames.ASSESSMENT, new HashSet<String>(Arrays.asList("Jomolungma")));
+    }
 
-	@Test
-	public void testSuccessOne() {
-		Entity tsa = this.vth.generateStaffProgram(USER_ID, PROGRAM_ID, false, true);
-		Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton(tsa.getEntityId())));
-	}
+    @Test
+    public void testSuccessOne() {
+        Entity tsa = this.vth.generateStaffProgram(USER_ID, PROGRAM_ID, false, true);
+        Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton(tsa.getEntityId())));
+    }
 
-	@Test
-	public void testSuccessMulti() {
-		Set<String> ids = new HashSet<String>();
+    @Test
+    public void testSuccessMulti() {
+        Set<String> ids = new HashSet<String>();
 
-		for (int i = 0; i < 100; i++) {
-			ids.add(this.vth.generateStaffProgram(USER_ID, PROGRAM_ID, false, true).getEntityId());
-		}
+        for (int i = 0; i < 100; i++) {
+            ids.add(this.vth.generateStaffProgram(USER_ID, PROGRAM_ID, false, true).getEntityId());
+        }
 
-		Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, ids));
-	}
+        Assert.assertTrue(val.validate(CORRECT_ENTITY_TYPE, ids));
+    }
 
-	@Test
-	public void testWrongId() {
-		Assert.assertFalse(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton("Hammerhands")));
-		Assert.assertFalse(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton("Nagas")));
-		Assert.assertFalse(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton("Phantom Warriors")));
-	}
+    @Test
+    public void testWrongId() {
+        Assert.assertFalse(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton("Hammerhands")));
+        Assert.assertFalse(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton("Nagas")));
+        Assert.assertFalse(val.validate(CORRECT_ENTITY_TYPE, Collections.singleton("Phantom Warriors")));
+    }
 
-	@Test
-	public void testHeterogenousList() {
-		Assert.assertFalse(val.validate(
-				CORRECT_ENTITY_TYPE,
-				new HashSet<String>(Arrays.asList(this.vth.generateStaffProgram(USER_ID, PROGRAM_ID, false, true).getEntityId(), this.vth.generateStaffProgram("Ssss'ra", "Arcanus", false, true).getEntityId(),
-						this.vth.generateStaffProgram("Kali", "Arcanus", false, true).getEntityId()))));
-	}
+    @Test
+    public void testHeterogenousList() {
+        Assert.assertFalse(val.validate(
+                CORRECT_ENTITY_TYPE,
+                new HashSet<String>(Arrays.asList(this.vth.generateStaffProgram(USER_ID, PROGRAM_ID, false, true).getEntityId(), this.vth.generateStaffProgram("Ssss'ra", "Arcanus", false, true).getEntityId(),
+                        this.vth.generateStaffProgram("Kali", "Arcanus", false, true).getEntityId()))));
+    }
 }

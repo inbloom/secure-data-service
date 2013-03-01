@@ -19,8 +19,8 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * This entity is the final record of a student's
- * 				performance in their courses at the end of semester or school year.
- * 			
+ *                 performance in their courses at the end of semester or school year.
+ *             
  * 
  * <p>Java class for courseTranscript complex type.
  * 

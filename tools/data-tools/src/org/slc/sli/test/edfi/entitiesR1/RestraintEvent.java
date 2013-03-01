@@ -20,12 +20,12 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * This event entity represents the instances where a
- * 				special education student was physically or mechanically restrained
- * 				due to imminent serious physical harm to themselves or others,
- * 				imminent serious property destruction, or a combination of both
- * 				imminent serious physical harm to themselves or others and imminent
- * 				serious property destruction.
- * 			
+ *                 special education student was physically or mechanically restrained
+ *                 due to imminent serious physical harm to themselves or others,
+ *                 imminent serious property destruction, or a combination of both
+ *                 imminent serious physical harm to themselves or others and imminent
+ *                 serious property destruction.
+ *             
  * 
  * <p>Java class for restraintEvent complex type.
  * 

@@ -152,7 +152,7 @@ public class ElasticSearchQueryConverter {
             }
             @Override
             public QueryBuilder getQuery(NeutralCriteria criteria) {
-            	String value = "*" + ((String)criteria.getValue()).trim() + "*";
+                String value = "*" + ((String)criteria.getValue()).trim() + "*";
                 BoolQueryBuilder shouldQuery = QueryBuilders.boolQuery();
                 // wildcard will work for not-analyzed fields and queryString is for analyzed
                 shouldQuery.should(QueryBuilders.wildcardQuery(criteria.getKey(), value));

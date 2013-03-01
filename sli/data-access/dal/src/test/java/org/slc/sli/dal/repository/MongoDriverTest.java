@@ -72,9 +72,9 @@ public class MongoDriverTest {
             System.exit(1);
 
         } catch (UnknownHostException e) {
-        	LOG.info("UnknownHostException", e);
+            LOG.info("UnknownHostException", e);
         } catch (MongoException e) {
-        	LOG.info("MongoException", e);
+            LOG.info("MongoException", e);
         }
     }
 
@@ -95,7 +95,7 @@ public class MongoDriverTest {
                 queue.put(dbObj);
             }
         } catch (InterruptedException e) {
-        	LOG.info("InterruptedException", e);
+            LOG.info("InterruptedException", e);
         }
     }
 
@@ -135,7 +135,7 @@ public class MongoDriverTest {
                     collection.insert(dbObj, WriteConcern.NORMAL);
 
                 } catch (MongoException e) {
-                	LOG.info("MongoException", e);
+                    LOG.info("MongoException", e);
                 } catch (InterruptedException e) {
                     Thread.currentThread().interrupt();
                 }

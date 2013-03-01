@@ -18,9 +18,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * 
- * 				This entity represents a parent or guardian of a
- * 				student, such as mother, father, or caretaker.
- * 			
+ *                 This entity represents a parent or guardian of a
+ *                 student, such as mother, father, or caretaker.
+ *             
  * 
  * <p>Java class for parent complex type.
  * 

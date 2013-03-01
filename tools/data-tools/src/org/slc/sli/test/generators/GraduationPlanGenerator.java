@@ -119,19 +119,19 @@ public class GraduationPlanGenerator {
     //in order to be unique, a school can't have two graduationPlans of the same type, so iterate through
     public static GraduationPlanType fromIndex(int i) {
 
-    	final int NUM_TYPES = 5;
+        final int NUM_TYPES = 5;
 
-    	switch (i % NUM_TYPES) {
-    	case 0:
-    		return GraduationPlanType.CAREER_AND_TECHNICAL_EDUCATION;
-    	case 1:
-    		return GraduationPlanType.DISTINGUISHED;
-    	case 2:
-    		return GraduationPlanType.MINIMUM;
-    	case 3:
-    		return GraduationPlanType.RECOMMENDED;
-    	default:
-    		return GraduationPlanType.STANDARD;
-    	}
+        switch (i % NUM_TYPES) {
+        case 0:
+            return GraduationPlanType.CAREER_AND_TECHNICAL_EDUCATION;
+        case 1:
+            return GraduationPlanType.DISTINGUISHED;
+        case 2:
+            return GraduationPlanType.MINIMUM;
+        case 3:
+            return GraduationPlanType.RECOMMENDED;
+        default:
+            return GraduationPlanType.STANDARD;
+        }
     }
 }

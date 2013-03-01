@@ -62,9 +62,9 @@ class GradingPeriod < BaseEntity
   attr_accessor :calendar_dates  # maps to 'CalendarDateReference'
 
   def initialize(type, year, interval, ed_org_id, calendar_dates = [])
-  	@type            = type
-  	@school_year     = year.to_s + "-" + (year+1).to_s
-  	@ed_org_id       = ed_org_id
+      @type            = type
+      @school_year     = year.to_s + "-" + (year+1).to_s
+      @ed_org_id       = ed_org_id
     @calendar_dates  = calendar_dates
     @begin_date      = interval.get_begin_date.to_s
     @end_date        = interval.get_end_date.to_s
@@ -73,6 +73,6 @@ class GradingPeriod < BaseEntity
 
   # maps to required field 'GradingPeriod'
   def type
-  	GradingPeriodType.to_string(@type)
+      GradingPeriodType.to_string(@type)
   end
 end

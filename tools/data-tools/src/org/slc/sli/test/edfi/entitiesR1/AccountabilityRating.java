@@ -19,7 +19,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * An accountability rating for a school or district.
- * 			
+ *             
  * 
  * <p>Java class for accountabilityRating complex type.
  * 

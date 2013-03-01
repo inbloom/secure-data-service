@@ -16,9 +16,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * This entity holds additional competencies for
- * 				student achievement that are not associated with specific learning
- * 				objectives (e.g., paying attention in class).
- * 			
+ *                 student achievement that are not associated with specific learning
+ *                 objectives (e.g., paying attention in class).
+ *             
  * 
  * <p>Java class for studentCompetencyObjective complex type.
  * 

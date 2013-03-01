@@ -17,8 +17,8 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * The categorization of the circumstances or reason
- * 				for the restraint.
- * 			
+ *                 for the restraint.
+ *             
  * 
  * <p>Java class for restraintEventReasonsType complex type.
  * 

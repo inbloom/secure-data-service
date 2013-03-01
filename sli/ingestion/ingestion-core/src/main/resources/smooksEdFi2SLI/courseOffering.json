@@ -1,24 +1,24 @@
 {
     "keyFields" : [ "body.sessionId", "body.localCourseCode"],
-	"references" :
-	[{
+    "references" :
+    [{
         "fieldPath" : "body.schoolId",
         "deprecated" : true,
         "ref" :
         {
-	        "entityType" : "educationOrganization",
-	        "choiceOfFields" :
-	        [
-	            [
-		            { 
-		           	    "path" : "body.stateOrganizationId",
-		                "values" : 
-		                [{
-			                "valueSource" : "body.SchoolReference.EducationalOrgIdentity.StateOrganizationId"
-		                }]
-		            }
-	            ]
-	        ]
+            "entityType" : "educationOrganization",
+            "choiceOfFields" :
+            [
+                [
+                    { 
+                           "path" : "body.stateOrganizationId",
+                        "values" : 
+                        [{
+                            "valueSource" : "body.SchoolReference.EducationalOrgIdentity.StateOrganizationId"
+                        }]
+                    }
+                ]
+            ]
         }
     },
       {

@@ -5,6 +5,6 @@ import javax.xml.stream.events.XMLEvent;
 
 public interface ContentIterator {
 
-	void visit(XMLEvent xmlEvent) throws XMLStreamException;
+    void visit(XMLEvent xmlEvent) throws XMLStreamException;
 
 }

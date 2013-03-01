@@ -53,7 +53,7 @@ public class AuthRequestService {
         }
         
         public String getDeveloper() {
-        	return developer;
+            return developer;
         }
 
         public String getRequestId() {

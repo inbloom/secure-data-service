@@ -368,7 +368,6 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                             }
                             // Purge expired sessions
                             purgeExpiredSessions();
-
                             break;
                         }
                     }

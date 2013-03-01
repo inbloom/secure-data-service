@@ -16,11 +16,11 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * This entity is a subelement of a learning
- * 				objective
- * 				consisting of a precise statement of the expectation of a
- * 				student's
- * 				proficiency.
- * 			
+ *                 objective
+ *                 consisting of a precise statement of the expectation of a
+ *                 student's
+ *                 proficiency.
+ *             
  * 
  * <p>Java class for learningStandard complex type.
  * 
