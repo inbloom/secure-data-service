@@ -205,7 +205,7 @@ function run {
 			echo stop | nc 127.0.0.1 ${REMOTE_COMMAND_PORT}
 			if [ ${RUN_START} == 1 ]; then
 				echo "Restarting..."
-				sleep 10
+				sleep 20
 			fi
 		else
 			echo "Could not find 'sli.search.indexer.service.port' from ${CHECK_SLI_CONF}"
@@ -242,7 +242,7 @@ function run {
 			nohup $jobString 1>> ${SEARCH_INDEXER_LOG} 2>&1 &
 			stat=$?
 
-			sleep 10
+			sleep 20
 			portListener=$(netstat -an | grep ${DEFAULT_REMOTE_COMMAND_PORT} | grep LISTEN )
 			if  [[ -z "$portListener" ]]
 			then
