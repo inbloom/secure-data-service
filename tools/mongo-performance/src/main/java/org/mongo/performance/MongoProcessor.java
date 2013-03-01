@@ -146,30 +146,30 @@ public class MongoProcessor<T> {
         da.mongoTemplate.dropCollection(profiledCollectionName);
         da.mongoTemplate.createCollection(profiledCollectionName);
 
-       	List<String> indexes = getIndexes();
-       	for(int i = 0; i < indexes.size(); i++) {
-       		da.mongoTemplate.indexOps(profiledCollectionName).ensureIndex(new Index().on(indexes.get(i), Order.ASCENDING)); 
-       	}
+           List<String> indexes = getIndexes();
+           for(int i = 0; i < indexes.size(); i++) {
+               da.mongoTemplate.indexOps(profiledCollectionName).ensureIndex(new Index().on(indexes.get(i), Order.ASCENDING)); 
+           }
     }
 
 
-	private List<String> getIndexes() {
-		List<String> indexes = new ArrayList<String>();
-		try {
-			FileReader fr = new FileReader(new File(this.indexFilePath));
-			BufferedReader br = new BufferedReader(fr);
-			String curLine = null;
-			while((curLine = br.readLine())!=null)
-			{
-				indexes.add(curLine);
-			}
-		} catch (FileNotFoundException e) {
-			System.out.println("The specified index properties configuration file is not found.");
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return indexes;
-	}
+    private List<String> getIndexes() {
+        List<String> indexes = new ArrayList<String>();
+        try {
+            FileReader fr = new FileReader(new File(this.indexFilePath));
+            BufferedReader br = new BufferedReader(fr);
+            String curLine = null;
+            while((curLine = br.readLine())!=null)
+            {
+                indexes.add(curLine);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("The specified index properties configuration file is not found.");
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return indexes;
+    }
     
 }

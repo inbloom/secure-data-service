@@ -43,7 +43,7 @@ doc = REXML::Document.new(xml_data)
 #      <LastSurname>Fitzpatrick</LastSurname>
 #    </Name>  
 doc.elements.each('*/Teacher') do |ele|
-	extractStaff(ele, "Educator")
+    extractStaff(ele, "Educator")
 end
 
 

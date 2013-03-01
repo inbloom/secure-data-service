@@ -1,7 +1,7 @@
 {
-	"recordType":"gradingPeriod",
-	"attributes": 
-	{
+    "recordType":"gradingPeriod",
+    "attributes": 
+    {
         "EducationOrganizationReference":
         {
             "EducationalOrgIdentity":

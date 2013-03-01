@@ -35,8 +35,8 @@ public class QueryParseException extends RuntimeException {
     }
 
     public QueryParseException(String message, String queryString, Exception e) {
-    	super(message, e);
-    	this.queryString = queryString;
+        super(message, e);
+        this.queryString = queryString;
     }
     
     public String getQueryString() {

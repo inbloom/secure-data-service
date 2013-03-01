@@ -14,41 +14,41 @@ INDEXER_CONFIG="/etc/sysconfig/search-indexer"
 # must define all of the values below.
 function configure {
 
-	CONFIG_SETTING="default"     # determine if custom settings are used as opposed to default
+    CONFIG_SETTING="default"     # determine if custom settings are used as opposed to default
 
-	if  [ -f ${INDEXER_CONFIG} ]
-	then
-		echo "Using custom environment settings."
-		. ${INDEXER_CONFIG}
-		CONFIG_SETTING="custom"     # determine if custom settings are used as opposed to default
-	else
-		echo "Using default environment settings."
-		DEFAULT_CHECK_SLI_CONF="$ROOT/../config/properties/sli.properties"
-		DEFAULT_CHECK_KEYSTORE="$ROOT/../data-access/dal/keyStore/ciKeyStore.jks"
-		DEFAULT_SEARCH_INDEXER_JAR="$ROOT/target/search-indexer-1.0-SNAPSHOT.jar"
-		DEFAULT_MAX_MEMORY="1024m"
-		DEFAULT_MIN_MEMORY="1024m"
-		DEFAULT_REMOTE_COMMAND_PORT=10024
+    if  [ -f ${INDEXER_CONFIG} ]
+    then
+        echo "Using custom environment settings."
+        . ${INDEXER_CONFIG}
+        CONFIG_SETTING="custom"     # determine if custom settings are used as opposed to default
+    else
+        echo "Using default environment settings."
+        DEFAULT_CHECK_SLI_CONF="$ROOT/../config/properties/sli.properties"
+        DEFAULT_CHECK_KEYSTORE="$ROOT/../data-access/dal/keyStore/ciKeyStore.jks"
+        DEFAULT_SEARCH_INDEXER_JAR="$ROOT/target/search-indexer-1.0-SNAPSHOT.jar"
+        DEFAULT_MAX_MEMORY="1024m"
+        DEFAULT_MIN_MEMORY="1024m"
+        DEFAULT_REMOTE_COMMAND_PORT=10024
 
-		SEARCH_INDEXER_OPT="-Dfile.encoding=UTF-8"
-		SEARCH_INDEXER_COMMAND_OPTIONS=""
+        SEARCH_INDEXER_OPT="-Dfile.encoding=UTF-8"
+        SEARCH_INDEXER_COMMAND_OPTIONS=""
 
-		CHECK_SLI_CONF=0
-		CHECK_KEYSTORE=0
-		CHECK_SEARCH_INDEXER_TAR=0
+        CHECK_SLI_CONF=0
+        CHECK_KEYSTORE=0
+        CHECK_SEARCH_INDEXER_TAR=0
 
-		RUN_EXTRACT=0
-		RUN_HELP=0
-		RUN_STOP=0
-		RUN_START=0
+        RUN_EXTRACT=0
+        RUN_HELP=0
+        RUN_STOP=0
+        RUN_START=0
 
-		REMOTE_COMMAND_PORT=0
+        REMOTE_COMMAND_PORT=0
 
-		SLI_CONF="sli.conf"
-		SLI_ENCRYPTION_KEYSTORE="sli.encryption.keyStore"
+        SLI_CONF="sli.conf"
+        SLI_ENCRYPTION_KEYSTORE="sli.encryption.keyStore"
 
-		SEARCH_INDEXER_LOG="search-indexer.log"
-	fi
+        SEARCH_INDEXER_LOG="search-indexer.log"
+    fi
 }
 
 function readOption {
@@ -189,89 +189,89 @@ function show_help {
 }
 
 function run {
-	stat=0
-	if [ ${RUN_HELP} == 1 ]; then
-		show_help
-		return $stat
-	fi
+    stat=0
+    if [ ${RUN_HELP} == 1 ]; then
+        show_help
+        return $stat
+    fi
 
-	if [ ${REMOTE_COMMAND_PORT:=0} == 0 ]; then
-		REMOTE_COMMAND_PORT=${DEFAULT_REMOTE_COMMAND_PORT}
-	fi
+    if [ ${REMOTE_COMMAND_PORT:=0} == 0 ]; then
+        REMOTE_COMMAND_PORT=${DEFAULT_REMOTE_COMMAND_PORT}
+    fi
 
-	if [ ${RUN_STOP} == 1 ]; then
-		if [ ${REMOTE_COMMAND_PORT} != 0 ]; then
-			echo "Stopping.... accessing port ${REMOTE_COMMAND_PORT}"
-			echo stop | nc 127.0.0.1 ${REMOTE_COMMAND_PORT}
-			if [ ${RUN_START} == 1 ]; then
-				echo "Restarting..."
-				sleep 10
-			fi
-		else
-			echo "Could not find 'sli.search.indexer.service.port' from ${CHECK_SLI_CONF}"
-		fi
-	fi
+    if [ ${RUN_STOP} == 1 ]; then
+        if [ ${REMOTE_COMMAND_PORT} != 0 ]; then
+            echo "Stopping.... accessing port ${REMOTE_COMMAND_PORT}"
+            echo stop | nc 127.0.0.1 ${REMOTE_COMMAND_PORT}
+            if [ ${RUN_START} == 1 ]; then
+                echo "Restarting..."
+                sleep 10
+            fi
+        else
+            echo "Could not find 'sli.search.indexer.service.port' from ${CHECK_SLI_CONF}"
+        fi
+    fi
 
-	echo "logging to ${SEARCH_INDEXER_LOG}"
-	if [ ${RUN_START} == 1 ]; then
+    echo "logging to ${SEARCH_INDEXER_LOG}"
+    if [ ${RUN_START} == 1 ]; then
 
-		prepareJava
-		SEARCH_INDEXER_LOG_DIR=`dirname ${SEARCH_INDEXER_LOG}`
+        prepareJava
+        SEARCH_INDEXER_LOG_DIR=`dirname ${SEARCH_INDEXER_LOG}`
 
-		if [ -n ${SEARCH_INDEXER_LOG_DIR:=""} ]; then
-			if [ ! -d ${SEARCH_INDEXER_LOG_DIR} ]; then
-				mkdir -p ${SEARCH_INDEXER_LOG_DIR} 
-				if [ $? != 0 ]
-				then
-					echo "Failed to create logs directory ${SEARCH_INDEXER_LOG_DIR}"
-				fi
-			fi
-		fi
+        if [ -n ${SEARCH_INDEXER_LOG_DIR:=""} ]; then
+            if [ ! -d ${SEARCH_INDEXER_LOG_DIR} ]; then
+                mkdir -p ${SEARCH_INDEXER_LOG_DIR} 
+                if [ $? != 0 ]
+                then
+                    echo "Failed to create logs directory ${SEARCH_INDEXER_LOG_DIR}"
+                fi
+            fi
+        fi
 
-		if [ ${CHECK_SEARCH_INDEXER_TAR} == 0 ]; then
-			jobString="java ${SEARCH_INDEXER_OPT} -jar ${DEFAULT_SEARCH_INDEXER_JAR} ${SEARCH_INDEXER_COMMAND_OPTIONS}"
-		else 
-			jobString="java ${SEARCH_INDEXER_OPT} -jar `dirname ${CHECK_SEARCH_INDEXER_TAR}`/search-indexer-1.0-SNAPSHOT.jar ${SEARCH_INDEXER_COMMAND_OPTIONS}"
-		fi
+        if [ ${CHECK_SEARCH_INDEXER_TAR} == 0 ]; then
+            jobString="java ${SEARCH_INDEXER_OPT} -jar ${DEFAULT_SEARCH_INDEXER_JAR} ${SEARCH_INDEXER_COMMAND_OPTIONS}"
+        else 
+            jobString="java ${SEARCH_INDEXER_OPT} -jar `dirname ${CHECK_SEARCH_INDEXER_TAR}`/search-indexer-1.0-SNAPSHOT.jar ${SEARCH_INDEXER_COMMAND_OPTIONS}"
+        fi
 
-		# first check to see of the process is running
-		searchProc=$(ps -ef | grep "search-indexer.*.jar" | grep -v "grep")
-		if  [[ -z "$searchProc" ]]
-		then
-			echo "starting process please wait for 10 seconds"
-			nohup $jobString 1>> ${SEARCH_INDEXER_LOG} 2>&1 &
-			stat=$?
+        # first check to see of the process is running
+        searchProc=$(ps -ef | grep "search-indexer.*.jar" | grep -v "grep")
+        if  [[ -z "$searchProc" ]]
+        then
+            echo "starting process please wait for 10 seconds"
+            nohup $jobString 1>> ${SEARCH_INDEXER_LOG} 2>&1 &
+            stat=$?
 
-			sleep 10
-			portListener=$(netstat -an | grep ${DEFAULT_REMOTE_COMMAND_PORT} | grep LISTEN )
-			if  [[ -z "$portListener" ]]
-			then
-				echo "process has failed to start a listener on port ${DEFAULT_REMOTE_COMMAND_PORT}"
-				stat=2
-			fi
-		else
-			portListener=$(netstat -an | grep ${DEFAULT_REMOTE_COMMAND_PORT} | grep LISTEN )
-			if  [[ -z "$portListener" ]]
-			then
-				echo "Process is already running however port ${DEFAULT_REMOTE_COMMAND_PORT} does not have a listener.  Please run stop and try again"
-				stat=3
-			else
-				echo "Process is already running and listening to port ${DEFAULT_REMOTE_COMMAND_PORT}, please run stop and then start to re-start"
-				stat=4
-			fi
-		fi
-	fi
+            sleep 10
+            portListener=$(netstat -an | grep ${DEFAULT_REMOTE_COMMAND_PORT} | grep LISTEN )
+            if  [[ -z "$portListener" ]]
+            then
+                echo "process has failed to start a listener on port ${DEFAULT_REMOTE_COMMAND_PORT}"
+                stat=2
+            fi
+        else
+            portListener=$(netstat -an | grep ${DEFAULT_REMOTE_COMMAND_PORT} | grep LISTEN )
+            if  [[ -z "$portListener" ]]
+            then
+                echo "Process is already running however port ${DEFAULT_REMOTE_COMMAND_PORT} does not have a listener.  Please run stop and try again"
+                stat=3
+            else
+                echo "Process is already running and listening to port ${DEFAULT_REMOTE_COMMAND_PORT}, please run stop and then start to re-start"
+                stat=4
+            fi
+        fi
+    fi
 
-	if [ ${RUN_EXTRACT} == 1 ]; then
-		if [ ${REMOTE_COMMAND_PORT} != 0 ]; then
-			echo "Extracting.... accessing port ${REMOTE_COMMAND_PORT}"
-			echo extract sync | nc 127.0.0.1 ${REMOTE_COMMAND_PORT}
-		else
-			echo "Could not find 'sli.search.indexer.service.port' from ${CHECK_SLI_CONF}"
-		fi
-	fi
+    if [ ${RUN_EXTRACT} == 1 ]; then
+        if [ ${REMOTE_COMMAND_PORT} != 0 ]; then
+            echo "Extracting.... accessing port ${REMOTE_COMMAND_PORT}"
+            echo extract sync | nc 127.0.0.1 ${REMOTE_COMMAND_PORT}
+        else
+            echo "Could not find 'sli.search.indexer.service.port' from ${CHECK_SLI_CONF}"
+        fi
+    fi
 
-	return $stat
+    return $stat
 }
 
 

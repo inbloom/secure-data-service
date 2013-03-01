@@ -113,9 +113,9 @@ public class OauthMongoSessionManager implements OauthSessionManager {
 
         String appRedirectUri = (String) app.getBody().get("redirect_uri");
         if (!isInstalled && (appRedirectUri == null || appRedirectUri.trim().length() == 0)) {
-        	RuntimeException x = new RedirectMismatchException("No redirect_uri specified on non-installed app");
-        	error(x.getMessage());
-        	throw x;
+            RuntimeException x = new RedirectMismatchException("No redirect_uri specified on non-installed app");
+            error(x.getMessage());
+            throw x;
         }
         if (!isInstalled && redirectUri != null && !redirectUri.startsWith((String) app.getBody().get("redirect_uri"))) {
             RuntimeException x = new RedirectMismatchException("Invalid redirect_uri specified " + redirectUri);
@@ -323,7 +323,7 @@ public class OauthMongoSessionManager implements OauthSessionManager {
                         Long hl = (Long) sessionEntity.getBody().get("hardLogout");
 
                         if (isLongLived(hl - createdOn.getTime())) {
-                        	String displayToken = accessToken.substring(0, 6) + "......" + accessToken.substring(accessToken.length()-4, accessToken.length());
+                            String displayToken = accessToken.substring(0, 6) + "......" + accessToken.substring(accessToken.length()-4, accessToken.length());
                             info("Using long-lived session {} belonging to app {}", displayToken,
                                     session.get("clientId"));
                         }

@@ -61,6 +61,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | learningStandard            | 36    |
         | calendarDate                | 556   |
         | graduationPlan              | 3     |
+  And I should not see a warning log file created
 
   And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "PartialIgestionDataSet_Tier1.zip" file as the payload of the ingestion job
@@ -82,6 +83,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | staffProgramAssociation     | 3     |
         | studentParentAssociation    | 9     |
         | studentProgramAssociation   | 6     |
+  And I should not see a warning log file created
 
   And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "PartialIgestionDataSet_Tier2.zip" file as the payload of the ingestion job
@@ -110,6 +112,7 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | staffEducationOrganizationAssociation | 10 |
         | studentSchoolAssociation    | 167   |
         | studentCompetencyObjective  | 4     |
+  And I should not see a warning log file created
 
   And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "PartialIgestionDataSet_Tier3.zip" file as the payload of the ingestion job
@@ -142,12 +145,14 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | disciplineAction            | 2     |
         | staffCohortAssociation      | 3     |
         | studentCohortAssociation    | 6     |
+  And I should not see a warning log file created
 
   And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "PartialIgestionDataSet_Tier4.zip" file as the payload of the ingestion job
   When zip file is scp to ingestion landing zone
     And a batch job for file "PartialIgestionDataSet_Tier4.zip" is completed in database
     And a batch job log has been created
+    And I should not see a warning log file created
 
   And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "PartialIgestionDataSet_Tier5.zip" file as the payload of the ingestion job
@@ -185,12 +190,14 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | attendance                  | 75    |
         | studentSectionAssociation   | 297   |
         | teacherSectionAssociation   | 11    |
+  And I should not see a warning log file created
 
   And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "PartialIgestionDataSet_Tier6.zip" file as the payload of the ingestion job
   When zip file is scp to ingestion landing zone
     And a batch job for file "PartialIgestionDataSet_Tier6.zip" is completed in database
     And a batch job log has been created
+    And I should not see a warning log file created
 
   And I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
     And I post "PartialIgestionDataSet_Tier7.zip" file as the payload of the ingestion job
@@ -232,4 +239,5 @@ Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"
         | studentAcademicRecord       | 116   |
         | studentCompetency           | 59    |
         | courseTranscript            | 196  |
+  And I should not see a warning log file created
 

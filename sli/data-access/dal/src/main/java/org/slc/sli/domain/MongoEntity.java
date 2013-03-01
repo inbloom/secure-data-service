@@ -165,7 +165,7 @@ public class MongoEntity implements Entity, Serializable {
 
     public String generateDid(UUIDGeneratorStrategy uuidGeneratorStrategy, INaturalKeyExtractor naturalKeyExtractor) {
 
-    	final String uid;
+        final String uid;
         NaturalKeyDescriptor naturalKeyDescriptor;
         try {
             naturalKeyDescriptor = naturalKeyExtractor.getNaturalKeyDescriptor(this);

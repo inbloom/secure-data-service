@@ -21,9 +21,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * This entity represents the analysis or scoring of a
- * 				student's response on an assessment. The analysis results in a value
- * 				that represents a student's performance on a set of items on a test.
- * 			
+ *                 student's response on an assessment. The analysis results in a value
+ *                 that represents a student's performance on a set of items on a test.
+ *             
  * 
  * <p>Java class for studentAssessment complex type.
  * 

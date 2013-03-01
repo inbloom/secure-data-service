@@ -4,6 +4,7 @@ Feature: Partial Ingestion
 Background: I have a landing zone route configured
 Given I am using local data store
 
+@wip
 Scenario: Post StudentAssessment without required parent records in database
 
 Given I am using preconfigured Ingestion Landing Zone for "Midgar-Daybreak"

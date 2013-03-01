@@ -44,7 +44,7 @@ import org.slc.sli.test.edfi.entities.meta.CohortMeta;
  *
  */
 public class CohortGenerator {
-	private static final Logger log = Logger.getLogger(CohortGenerator.class);
+    private static final Logger log = Logger.getLogger(CohortGenerator.class);
 
     /**
      * Generates a Cohort from a CohortMeta.
@@ -80,7 +80,7 @@ public class CohortGenerator {
         SLCEducationalOrgIdentityType slceoit = new SLCEducationalOrgIdentityType ();
         slceoit.setStateOrganizationId(schoolId);
         slceort.setEducationalOrgIdentity(slceoit);
-        	
+            
         SLCC.setEducationOrgReference(slceort);
 
         // construct and add the program reference

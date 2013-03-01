@@ -18,10 +18,10 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * 
- * 				Recognition given to the student for
- * 				accomplishments in a co-curricular, or
- * 				extra-curricular activity.
- * 			
+ *                 Recognition given to the student for
+ *                 accomplishments in a co-curricular, or
+ *                 extra-curricular activity.
+ *             
  * 
  * <p>Java class for recognition complex type.
  * 

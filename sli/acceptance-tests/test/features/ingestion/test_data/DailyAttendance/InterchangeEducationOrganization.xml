@@ -33,9 +33,6 @@
       <EducationalOrgIdentity>
         <StateOrganizationId>IL</StateOrganizationId>
       </EducationalOrgIdentity>
-      <EducationOrgIdentificationCode IdentificationSystem="SEA">
-        <ID>IL</ID>
-      </EducationOrgIdentificationCode>
     </StateEducationAgencyReference>
   </LocalEducationAgency>
   <LocalEducationAgency>
@@ -55,9 +52,6 @@
       <EducationalOrgIdentity>
         <StateOrganizationId>IL</StateOrganizationId>
       </EducationalOrgIdentity>
-      <EducationOrgIdentificationCode IdentificationSystem="SEA">
-        <ID>IL</ID>
-      </EducationOrgIdentificationCode>
     </StateEducationAgencyReference>
   </LocalEducationAgency>
 
@@ -102,9 +96,6 @@
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
-      <EducationOrgIdentificationCode IdentificationSystem="SEA">
-        <ID>IL-DAYBREAK</ID>
-      </EducationOrgIdentificationCode>
     </LocalEducationAgencyReference>
   </School>
   <School>
@@ -148,9 +139,6 @@
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
-      <EducationOrgIdentificationCode IdentificationSystem="SEA">
-        <ID>IL-DAYBREAK</ID>
-      </EducationOrgIdentificationCode>
     </LocalEducationAgencyReference>
   </School>
   <School>
@@ -194,9 +182,6 @@
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-SUNSET</StateOrganizationId>
       </EducationalOrgIdentity>
-      <EducationOrgIdentificationCode IdentificationSystem="SEA">
-        <ID>IL-SUNSET</ID>
-      </EducationOrgIdentificationCode>
     </LocalEducationAgencyReference>
   </School>
   <School>
@@ -240,9 +225,6 @@
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-SUNSET</StateOrganizationId>
       </EducationalOrgIdentity>
-      <EducationOrgIdentificationCode IdentificationSystem="SEA">
-        <ID>IL-SUNSET</ID>
-      </EducationOrgIdentificationCode>
     </LocalEducationAgencyReference>
   </School>
   <School>
@@ -286,9 +268,6 @@
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
-      <EducationOrgIdentificationCode IdentificationSystem="SEA">
-        <ID>IL-DAYBREAK</ID>
-      </EducationOrgIdentificationCode>
     </LocalEducationAgencyReference>
   </School>
 

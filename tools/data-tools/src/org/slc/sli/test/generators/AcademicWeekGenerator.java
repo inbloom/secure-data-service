@@ -55,7 +55,7 @@ public class AcademicWeekGenerator {
             AcademicWeek aw = awg.getAcademicWeek(ID);
             log.info("AcademicWeek = " + aw.getWeekIdentifier() + ",\n"  + "beginDate = " + aw.getBeginDate() + ",\n" +
                     "endDate = " + aw.getEndDate() + ",\n" + "totalInstructionalDays = " + aw.getTotalInstructionalDays() + ",\n" +
-            		"ID = " + aw.getCalendarDateReference().size() + ",\n\n"
+                    "ID = " + aw.getCalendarDateReference().size() + ",\n\n"
                     );
         }
 

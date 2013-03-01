@@ -20,13 +20,13 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * 
- * 				This educational entity represents the conferring
- * 				or certification by an educational organization that
- * 				the student has
- * 				successfully completed a particular course of study. It represents
- * 				the electronic
- * 				version of its physical document counterpart.
- * 			
+ *                 This educational entity represents the conferring
+ *                 or certification by an educational organization that
+ *                 the student has
+ *                 successfully completed a particular course of study. It represents
+ *                 the electronic
+ *                 version of its physical document counterpart.
+ *             
  * 
  * <p>Java class for diploma complex type.
  * 

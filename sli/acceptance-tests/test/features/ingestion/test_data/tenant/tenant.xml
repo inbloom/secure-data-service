@@ -9,12 +9,6 @@
       <GenerationCodeSuffix>Jr</GenerationCodeSuffix>
     </Name>
     <Sex>Female</Sex>
-    <EconomicDisadvantaged>false</EconomicDisadvantaged>
-    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
-    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
-    <Race />
-    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
-    <Section504Disabilities />
     <BirthData>
       <BirthDate>2006-07-02</BirthDate>
     </BirthData>
@@ -26,14 +20,12 @@
       <StateAbbreviation>IL</StateAbbreviation>
       <PostalCode>60908-1028</PostalCode>
       <NameOfCounty>Cook</NameOfCounty>
-      <CountryCode>US</CountryCode>
     </Address>
     <Address AddressType="Work">
       <StreetNumberName>9857 Kingsborough 2nd Walk</StreetNumberName>
       <City>Seattle</City>
       <StateAbbreviation>WA</StateAbbreviation>
       <PostalCode>98115</PostalCode>
-      <CountryCode>US</CountryCode>
     </Address>
     <ElectronicMail EmailAddressType="Other">
       <EmailAddress>Rhonda_Delgado@gmail.com</EmailAddress>
@@ -44,6 +36,12 @@
     <ElectronicMail EmailAddressType="Home/Personal">
       <EmailAddress>Rhonda.Delgado@gmail.com</EmailAddress>
     </ElectronicMail>
+    <HispanicLatinoEthnicity>false</HispanicLatinoEthnicity>
+    <Race />
+    <EconomicDisadvantaged>false</EconomicDisadvantaged>
+    <SchoolFoodServicesEligibility>Reduced price</SchoolFoodServicesEligibility>
+    <LimitedEnglishProficiency>NotLimited</LimitedEnglishProficiency>
+    <Section504Disabilities />
   </Student>
 
 </InterchangeStudentParent>

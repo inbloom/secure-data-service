@@ -113,7 +113,7 @@ public class IndexEntityUtil {
           updateJsonMap.put("params", ie.getBody());
           return mapper.writeValueAsString(updateJsonMap);
       } catch (Exception e) {
-    	  // throwing a new exception to avoid PII
+          // throwing a new exception to avoid PII
           throw new SearchIndexerException("Unable to convert to body");//NOPMD
       }
     }

@@ -33,9 +33,6 @@
       <EducationalOrgIdentity>
         <StateOrganizationId>IL</StateOrganizationId>
       </EducationalOrgIdentity>
-      <EducationOrgIdentificationCode IdentificationSystem="SEA">
-        <ID>IL</ID>
-      </EducationOrgIdentificationCode>
     </StateEducationAgencyReference>
   </LocalEducationAgency>
 
@@ -80,9 +77,6 @@
       <EducationalOrgIdentity>
         <StateOrganizationId>IL-DAYBREAK</StateOrganizationId>
       </EducationalOrgIdentity>
-      <EducationOrgIdentificationCode IdentificationSystem="SEA">
-        <ID>IL-DAYBREAK</ID>
-      </EducationOrgIdentificationCode>
     </LocalEducationAgencyReference>
   </School>
   

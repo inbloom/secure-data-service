@@ -18,14 +18,14 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * A record of attendance.
- * 				date: Date for this
- * 				attendance event.
- * 				event: The occurred attendance event, such as
- * 				"Unexcused absence,"
- * 				"Excused absence," or "Tardy."
- * 				reason: The
- * 				reported reason for the event, such as a reason for absence.
- * 			
+ *                 date: Date for this
+ *                 attendance event.
+ *                 event: The occurred attendance event, such as
+ *                 "Unexcused absence,"
+ *                 "Excused absence," or "Tardy."
+ *                 reason: The
+ *                 reported reason for the event, such as a reason for absence.
+ *             
  * 
  * <p>Java class for attendanceEvent complex type.
  * 

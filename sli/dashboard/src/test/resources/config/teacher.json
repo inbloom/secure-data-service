@@ -1,14 +1,14 @@
 {
-	id: "teacher",
-	name: "SLC - Teacher Profile",
-	type: "LAYOUT",
-	data :{
-		entity: "teacherInfo",
-		cacheKey: "teacherInfo"
-	},
-	items: [
-		{id : "populationWidget", name: "Organizational hierarchy drop down menu", type: "PANEL"},
-		{ id: "teacherInfo", type: "PANEL"},
-		{ id: "sectionsTab", name: "Sections", type: "TAB", items: [{id: "teachingSections", type: "GRID"}]}
-	]
+    id: "teacher",
+    name: "SLC - Teacher Profile",
+    type: "LAYOUT",
+    data :{
+        entity: "teacherInfo",
+        cacheKey: "teacherInfo"
+    },
+    items: [
+        {id : "populationWidget", name: "Organizational hierarchy drop down menu", type: "PANEL"},
+        { id: "teacherInfo", type: "PANEL"},
+        { id: "sectionsTab", name: "Sections", type: "TAB", items: [{id: "teachingSections", type: "GRID"}]}
+    ]
 }

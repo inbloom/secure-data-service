@@ -16,9 +16,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * This entity represents the student's response to an
- * 				assessment item and the item-level scores such as correct,
- * 				incorrect, or met standard.
- * 			
+ *                 assessment item and the item-level scores such as correct,
+ *                 incorrect, or met standard.
+ *             
  * 
  * <p>Java class for studentAssessmentItem complex type.
  * 

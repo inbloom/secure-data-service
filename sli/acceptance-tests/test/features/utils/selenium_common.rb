@@ -94,7 +94,7 @@ When /^I submit the credentials "([^"]*)" "([^"]*)" for the "([^"]*)" login page
     @driver.find_element(:id, "login_button").click
     if @driver.title=="Sandbox User Impersonation"
       #handle sandbox admin/impersonation chooser page
-  	  @driver.find_element(:id, "adminLink").click
+        @driver.find_element(:id, "adminLink").click
     end
   else
     raise "IDP type '#{arg1}' not implemented yet"
@@ -130,14 +130,14 @@ AfterStep('@pause') do
 end 
 
 AfterStep do |scenario|
-	@count ||= 0
-	if ENV['SCREENSHOTS']
-		@count = @count + 1
-		#filename = scenario.feature.title + "#" + scenario.title + "#" + Time.new().strftime("%H:%M:%S")+ ".png"
-		filename = scenario.line.to_s() + "#" + Time.new().strftime("%H:%M:%S") + ":" + @count.to_s() + ".png"
-		#filename = filename.gsub(' ', '_').gsub(',', '')
-		system("xwd -root | xwdtopnm 2> /dev/null | pnmtopng -compression 9 > #{ENV['SCREENSHOTS']}/#{filename} 2> /dev/null")
-	end
+    @count ||= 0
+    if ENV['SCREENSHOTS']
+        @count = @count + 1
+        #filename = scenario.feature.title + "#" + scenario.title + "#" + Time.new().strftime("%H:%M:%S")+ ".png"
+        filename = scenario.line.to_s() + "#" + Time.new().strftime("%H:%M:%S") + ":" + @count.to_s() + ".png"
+        #filename = filename.gsub(' ', '_').gsub(',', '')
+        system("xwd -root | xwdtopnm 2> /dev/null | pnmtopng -compression 9 > #{ENV['SCREENSHOTS']}/#{filename} 2> /dev/null")
+    end
 end
 
 def assertWithWait(msg, &blk)

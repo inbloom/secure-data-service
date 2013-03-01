@@ -16,7 +16,15 @@ limitations under the License.
 {{#entity}}
   <StateEducationAgency>
     <StateOrganizationId>{{state_org_id}}</StateOrganizationId>
+    {{#educationOrgIdentificationCode}}
+      <EducationOrgIdentificationCode IdentificationSystem="School">
+      	<ID>{{educationOrgIdentificationCode}}</ID>
+      </EducationOrgIdentificationCode>
+    {{/educationOrgIdentificationCode}}
     <NameOfInstitution>{{state_org_id}} (State Education Agency)</NameOfInstitution>
+    {{#shortNameOfInstitution}}
+      <ShortNameOfInstitution>{{shortNameOfInstitution}}</ShortNameOfInstitution>
+    {{/shortNameOfInstitution}}
     <OrganizationCategories>
       <OrganizationCategory>State Education Agency</OrganizationCategory>
     </OrganizationCategories>
@@ -26,6 +34,27 @@ limitations under the License.
       <StateAbbreviation>IL</StateAbbreviation>
       <PostalCode>00000</PostalCode>
     </Address>
+    {{#telephone}}
+      <Telephone>
+        <TelephoneNumber>{{telephone}}</TelephoneNumber>
+      </Telephone>
+    {{/telephone}}
+    {{#webSite}}
+      <WebSite>{{webSite}}</WebSite>
+    {{/webSite}}
+    {{#operationalStatus}}
+      <OperationalStatus>{{operationalStatus}}</OperationalStatus>
+    {{/operationalStatus}}
+    {{#accountabilityRatings}}
+      <AccountabilityRatings>
+      	<RatingTitle>{{ratingTitle}}</RatingTitle>
+      	<Rating>{{rating}}</Rating>
+      	<RatingDate>{{ratingDate}}</RatingDate>
+      	<SchoolYear>{{schoolYear}}</SchoolYear>
+      	<RatingOrganization>{{ratingOrganization}}</RatingOrganization>
+      	<RatingProgram>{{ratingProgram}}</RatingProgram>
+	  </AccountabilityRatings>
+    {{/accountabilityRatings}}
     {{#programs}}
     <ProgramReference>
       <ProgramIdentity>
@@ -33,5 +62,14 @@ limitations under the License.
       </ProgramIdentity>
     </ProgramReference>
     {{/programs}}
+    {{#educationOrganizationPeerReference}}
+      <EducationOrganizationPeerReference>
+        <EducationalOrgIdentity>
+          <StateOrganizationId>
+            {{stateOrganizationId}}
+          </StateOrganizationId>
+        </EducationalOrgIdentity>
+      </EducationOrganizationPeerReference>
+    {{/educationOrganizationPeerReference}}
   </StateEducationAgency>
 {{/entity}}

@@ -41,8 +41,8 @@ import org.slc.sli.test.edfi.entities.StaffReferenceType;
 import org.slc.sli.test.edfi.entities.meta.CohortMeta;
 
 public class StaffCohortAssociationGenerator {
-	private static String beginDate = "2011-03-04";
-	private static String endDate = "2012-03-04";
+    private static String beginDate = "2011-03-04";
+    private static String endDate = "2012-03-04";
 
     /**
      * Generates a list of StudentCohortAssociation from a CohortMeta.
@@ -73,53 +73,53 @@ public class StaffCohortAssociationGenerator {
     
     public static List<SLCStaffCohortAssociation> generateLowFi(String cohortId, Collection<String> staffIds, String schoolId) {
 
-    	List<SLCStaffCohortAssociation> staffCohortAssociations = new ArrayList<SLCStaffCohortAssociation>();
+        List<SLCStaffCohortAssociation> staffCohortAssociations = new ArrayList<SLCStaffCohortAssociation>();
         
         // construct and add the staff reference
-    	Iterator itr = staffIds.iterator();
-    	 String staffId = null;
-    	int counter = 0;
-    	 while(itr.hasNext()) {
+        Iterator itr = staffIds.iterator();
+         String staffId = null;
+        int counter = 0;
+         while(itr.hasNext()) {
              staffId = (String) itr.next();
              counter++;
-              	
-	        SLCStaffIdentityType sit = new SLCStaffIdentityType();
-	        sit.setStaffUniqueStateId(staffId);
-	        SLCStaffReferenceType srt = new SLCStaffReferenceType();
-	        srt.setStaffIdentity(sit);
-	        
-	        SLCStaffCohortAssociation staffCohortAssoc = new SLCStaffCohortAssociation();
+                  
+            SLCStaffIdentityType sit = new SLCStaffIdentityType();
+            sit.setStaffUniqueStateId(staffId);
+            SLCStaffReferenceType srt = new SLCStaffReferenceType();
+            srt.setStaffIdentity(sit);
+            
+            SLCStaffCohortAssociation staffCohortAssoc = new SLCStaffCohortAssociation();
             staffCohortAssoc.setStaffReference(srt);
-            	        
-	        
-	
-	        // construct and add the Cohort Reference       
-	        SLCCohortIdentityType ci = new SLCCohortIdentityType();
-	        ci.setCohortIdentifier(cohortId);
-	        
-	        SLCEducationalOrgIdentityType slceoit = new SLCEducationalOrgIdentityType ();
-	        slceoit.setStateOrganizationId(schoolId);
-	        SLCEducationalOrgReferenceType slceort = new SLCEducationalOrgReferenceType();
-	        slceort.setEducationalOrgIdentity(slceoit);
+                        
+            
+    
+            // construct and add the Cohort Reference       
+            SLCCohortIdentityType ci = new SLCCohortIdentityType();
+            ci.setCohortIdentifier(cohortId);
+            
+            SLCEducationalOrgIdentityType slceoit = new SLCEducationalOrgIdentityType ();
+            slceoit.setStateOrganizationId(schoolId);
+            SLCEducationalOrgReferenceType slceort = new SLCEducationalOrgReferenceType();
+            slceort.setEducationalOrgIdentity(slceoit);
         
         
-	        ci.setEducationalOrgReference(slceort);
+            ci.setEducationalOrgReference(slceort);
        
         
-			SLCCohortReferenceType crt = new SLCCohortReferenceType();
-			crt.setCohortIdentity(ci);
-			staffCohortAssoc.setCohortReference(crt);
-	    
+            SLCCohortReferenceType crt = new SLCCohortReferenceType();
+            crt.setCohortIdentity(ci);
+            staffCohortAssoc.setCohortReference(crt);
+        
 
         //set begin and end dates
       
-			staffCohortAssoc.setBeginDate(beginDate);
-			staffCohortAssoc.setEndDate(endDate);
+            staffCohortAssoc.setBeginDate(beginDate);
+            staffCohortAssoc.setEndDate(endDate);
         
-			staffCohortAssoc.setStudentRecordAccess(Boolean.TRUE);
-			
-			staffCohortAssociations.add(staffCohortAssoc);
-    	 }
+            staffCohortAssoc.setStudentRecordAccess(Boolean.TRUE);
+            
+            staffCohortAssociations.add(staffCohortAssoc);
+         }
         return staffCohortAssociations;
     }
     /*
@@ -158,7 +158,7 @@ public class StaffCohortAssociationGenerator {
         
         return staffCohortAssoc;
     }
-	*/
+    */
     /**
      * Generates a StaffCohortAssociation between a cohort and a list of staffs 
      * with a school as a reference.

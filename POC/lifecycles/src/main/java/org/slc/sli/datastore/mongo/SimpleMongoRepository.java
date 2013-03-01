@@ -32,7 +32,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SimpleMongoRepository {
-	
+    
     // Logging
     private static final Logger log = LoggerFactory.getLogger(SimpleMongoRepository.class);    
     
@@ -49,20 +49,20 @@ public class SimpleMongoRepository {
     private LifecycleManager lifecycleManager;
     
     
-	// Constructors
-	public SimpleMongoRepository() {	    
-	}
-	
-	
-	// Methods
+    // Constructors
+    public SimpleMongoRepository() {        
+    }
+    
+    
+    // Methods
     public void setMongoTemplate(MongoTemplate mongoTemplate) {
         this.mongoTemplate = mongoTemplate;
     }
     
-	public MongoTemplate getMongoTemplate() {
-	    return this.mongoTemplate;
-	}
-	
+    public MongoTemplate getMongoTemplate() {
+        return this.mongoTemplate;
+    }
+    
     public void setLifecycleManager(LifecycleManager lifecycleManager) {
         this.lifecycleManager = lifecycleManager;
     }

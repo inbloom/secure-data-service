@@ -45,9 +45,9 @@ do
     shard_port=$(( $shard_port + 1 ))
     start_port=$shard_port
     mkdir -p $M/data/db/$i/$r
-  	mongod --dbpath $M/data/db/$i/$r --port $shard_port --oplogSize 700 --rest --replSet "set${i}" > $M/logs/shard_${shard_port}.log &
-  	echo $! >> $M/pids
-  	wait_for_mongo $shard_port
+      mongod --dbpath $M/data/db/$i/$r --port $shard_port --oplogSize 700 --rest --replSet "set${i}" > $M/logs/shard_${shard_port}.log &
+      echo $! >> $M/pids
+      wait_for_mongo $shard_port
 
     if [ "$1" = "clean" ]
     then 

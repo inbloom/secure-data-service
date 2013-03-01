@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * The feeder school relationship between two schools.
- * 			
+ *             
  * 
  * <p>Java class for feederSchoolType complex type.
  * 

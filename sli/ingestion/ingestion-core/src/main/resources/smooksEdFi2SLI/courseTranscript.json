@@ -1,6 +1,6 @@
 {
     "keyFields" : [ "body.courseId", "body.studentAcademicRecordId"],
-	"references" :
+    "references" :
     [
         {
             "fieldPath" : "body.StudentAcademicRecordReference",
@@ -8,7 +8,7 @@
             "ref" :
             {
                 "entityType" : "studentAcademicRecord",
-	            "choiceOfFields" :
+                "choiceOfFields" :
                 [
                     [
                         {

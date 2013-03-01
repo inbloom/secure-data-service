@@ -490,69 +490,69 @@ public class StudentGenerator {
             }
             for (int iCY=0; iCY<numCohortYears; iCY++) {
                 CohortYear cy = new CohortYear();
-        		cy.setSchoolYear("2011-2012");
-    			int randomInt12 = random.nextInt(12);
-    			CohortYearType cyType = null;
-    			if ( randomInt12 == 0 ) {
-    				cyType = CohortYearType.FIRST_GRADE;
-   		        	cy.setSchoolYear("2011-2012");
-    			}
-  	            else if ( randomInt12 == 1 ) {
-  	            	cyType = CohortYearType.SECOND_GRADE;
-   		        	cy.setSchoolYear("2012-2013");
-  	            }
-   	            else if ( randomInt12 == 2 ) {
-   	            	cyType = CohortYearType.THIRD_GRADE;
-   		        	cy.setSchoolYear("2013-2014");
-   	            }
-   	            else if ( randomInt12 == 3 ) {
-   	            	cyType = CohortYearType.FOURTH_GRADE;
-   		        	cy.setSchoolYear("2014-2015");
-   	            }
-   	            else if ( randomInt12 == 4 ) {
-   	            	cyType = CohortYearType.FIFTH_GRADE;
-   		        	cy.setSchoolYear("2015-2016");
-   	            }
-   	            else if ( randomInt12 == 5 ) {
-   	            	cyType = CohortYearType.SIXTH_GRADE;
-   		        	cy.setSchoolYear("2016-2017");
-   	            }
-   	            else if ( randomInt12 == 6 ) {
-   	            	cyType = CohortYearType.SEVENTH_GRADE;
-   		        	cy.setSchoolYear("2017-2018");
-   	            }
-   	            else if ( randomInt12 == 7 ) {
-   	            	cyType = CohortYearType.EIGHTH_GRADE;
-   		        	cy.setSchoolYear("2018-2019");
-   	            }
-   	            else if ( randomInt12 == 8 ) {
-   	            	cyType = CohortYearType.NINTH_GRADE;
-   		        	cy.setSchoolYear("2019-2020");
-   	            }
-   	            else if ( randomInt12 == 9 ) {
-   	            	cyType = CohortYearType.TENTH_GRADE;
-   		        	cy.setSchoolYear("2020-2021");
-   	            }
-   	            else if ( randomInt12 == 10 ) {
-   	            	cyType = CohortYearType.ELEVENTH_GRADE;
-   		        	cy.setSchoolYear("2021-2022");
-   	            }
-   	            else if ( randomInt12 == 11 ) {
-   	            	cyType = CohortYearType.TWELFTH_GRADE;
-   		        	cy.setSchoolYear("2022-2023");
-   	            }
-        		cy.setCohortYearType(cyType);
+                cy.setSchoolYear("2011-2012");
+                int randomInt12 = random.nextInt(12);
+                CohortYearType cyType = null;
+                if ( randomInt12 == 0 ) {
+                    cyType = CohortYearType.FIRST_GRADE;
+                       cy.setSchoolYear("2011-2012");
+                }
+                  else if ( randomInt12 == 1 ) {
+                      cyType = CohortYearType.SECOND_GRADE;
+                       cy.setSchoolYear("2012-2013");
+                  }
+                   else if ( randomInt12 == 2 ) {
+                       cyType = CohortYearType.THIRD_GRADE;
+                       cy.setSchoolYear("2013-2014");
+                   }
+                   else if ( randomInt12 == 3 ) {
+                       cyType = CohortYearType.FOURTH_GRADE;
+                       cy.setSchoolYear("2014-2015");
+                   }
+                   else if ( randomInt12 == 4 ) {
+                       cyType = CohortYearType.FIFTH_GRADE;
+                       cy.setSchoolYear("2015-2016");
+                   }
+                   else if ( randomInt12 == 5 ) {
+                       cyType = CohortYearType.SIXTH_GRADE;
+                       cy.setSchoolYear("2016-2017");
+                   }
+                   else if ( randomInt12 == 6 ) {
+                       cyType = CohortYearType.SEVENTH_GRADE;
+                       cy.setSchoolYear("2017-2018");
+                   }
+                   else if ( randomInt12 == 7 ) {
+                       cyType = CohortYearType.EIGHTH_GRADE;
+                       cy.setSchoolYear("2018-2019");
+                   }
+                   else if ( randomInt12 == 8 ) {
+                       cyType = CohortYearType.NINTH_GRADE;
+                       cy.setSchoolYear("2019-2020");
+                   }
+                   else if ( randomInt12 == 9 ) {
+                       cyType = CohortYearType.TENTH_GRADE;
+                       cy.setSchoolYear("2020-2021");
+                   }
+                   else if ( randomInt12 == 10 ) {
+                       cyType = CohortYearType.ELEVENTH_GRADE;
+                       cy.setSchoolYear("2021-2022");
+                   }
+                   else if ( randomInt12 == 11 ) {
+                       cyType = CohortYearType.TWELFTH_GRADE;
+                       cy.setSchoolYear("2022-2023");
+                   }
+                cy.setCohortYearType(cyType);
                 s.getCohortYears().add(cy);
-    		}
+            }
 
-    		// Student Indicators
-        	if (randomizeNumbers) {
-        		numStudentIndicators = random.nextInt(maxStudentIndicators+1);
-        	}
-    		if (includeAllData) {
-    			numStudentIndicators = Math.max(numStudentIndicators, 1);
-    		}
-    		for (int iSI=0; iSI<numStudentIndicators; iSI++) {
+            // Student Indicators
+            if (randomizeNumbers) {
+                numStudentIndicators = random.nextInt(maxStudentIndicators+1);
+            }
+            if (includeAllData) {
+                numStudentIndicators = Math.max(numStudentIndicators, 1);
+            }
+            for (int iSI=0; iSI<numStudentIndicators; iSI++) {
                 StudentIndicator si = new StudentIndicator();
                 si.setBeginDate(rightNow);
                 si.setEndDate(nextWeek);

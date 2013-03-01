@@ -40,7 +40,7 @@ public class User {
     private String givenName;
     private String cn;
     private String vendor;
-	private Status status = Status.SUBMITTED;
+    private Status status = Status.SUBMITTED;
 
     public String getCn() {
         return cn;
@@ -220,31 +220,31 @@ public class User {
     }
 
     public String getVendor() {
-		return vendor;
-	}
+        return vendor;
+    }
 
-	public void setVendor(String vendor) {
-		this.vendor = vendor;
-	}
+    public void setVendor(String vendor) {
+        this.vendor = vendor;
+    }
 
     @Override
     public String toString() {
-    	StringBuilder builder = new StringBuilder("User [");
-    	builder.append("uid=").append(uid).append(", ");
-    	builder.append("groups=").append(groups).append(", ");
-    	builder.append("password=").append(password).append(", ");
-    	builder.append("email=").append(email).append(", ");
-    	builder.append("tenant=").append(tenant).append(", ");
-    	builder.append("edorg=").append(edorg).append(", ");
-    	builder.append("homeDir=").append(homeDir).append(", ");
-    	builder.append("fullName=").append(getFullName()).append(", ");
-    	builder.append("cn=").append(cn).append(", ");
-    	builder.append("status=").append(status).append(", ");
-    	builder.append("createTime=").append(createTime).append(", ");
-    	builder.append("modifyTime=").append(modifyTime).append(", ");
-    	builder.append("vendor=").append(vendor).append("]");
+        StringBuilder builder = new StringBuilder("User [");
+        builder.append("uid=").append(uid).append(", ");
+        builder.append("groups=").append(groups).append(", ");
+        builder.append("password=").append(password).append(", ");
+        builder.append("email=").append(email).append(", ");
+        builder.append("tenant=").append(tenant).append(", ");
+        builder.append("edorg=").append(edorg).append(", ");
+        builder.append("homeDir=").append(homeDir).append(", ");
+        builder.append("fullName=").append(getFullName()).append(", ");
+        builder.append("cn=").append(cn).append(", ");
+        builder.append("status=").append(status).append(", ");
+        builder.append("createTime=").append(createTime).append(", ");
+        builder.append("modifyTime=").append(modifyTime).append(", ");
+        builder.append("vendor=").append(vendor).append("]");
     
-    	return builder.toString();
+        return builder.toString();
     }
 
     /**

@@ -102,13 +102,13 @@ public class PreProcessFilter implements ContainerRequestFilter {
     private void populateSecurityContext(ContainerRequest request) {
         String bearer = request.getHeaderValue("Authorization");
         
-		OAuth2Authentication auth = this.sessions.get(bearer);
-		if (auth == null) {
-			auth = manager.getAuthentication(bearer);
-			this.sessions.put(bearer, auth);
-		}
+        OAuth2Authentication auth = this.sessions.get(bearer);
+        if (auth == null) {
+            auth = manager.getAuthentication(bearer);
+            this.sessions.put(bearer, auth);
+        }
 
-		SecurityContextHolder.getContext().setAuthentication(auth);
+        SecurityContextHolder.getContext().setAuthentication(auth);
         TenantContext.setTenantId(((SLIPrincipal) auth.getPrincipal()).getTenantId());
     }
 
