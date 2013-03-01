@@ -56,12 +56,7 @@ public class AssessmentCombiner extends AbstractTransformationStrategy {
     private static final String VALUE = "_value";
     private static final String ASSESSMENT_FAMILY_TITLE = "AssessmentFamilyTitle." + VALUE;
     private static final String PARENT_ASSESSMENT_FAMILY_TITLE = "AssessmentFamilyReference.AssessmentFamilyIdentity." + ASSESSMENT_FAMILY_TITLE;
-    private static final String OBJECTIVE_ASSESSMENT_REFERENCE = "ObjectiveAssessmentReference";
-    private static final String OBJECTIVE_ASSESSMENT_IDENTIFICATION_CODE = "ObjectiveAssessmentIdentity.ObjectiveAssessmentIdentificationCode." + VALUE;
 
-    private static final String ASSESSMENT_ITEM = "assessmentItem";
-    private static final String ASSESSMENT_ITEM_REF = "AssessmentItemReference";
-    private static final String ASSESSMENT_ITEM_ID_CODE = "AssessmentItemIdentity.AssessmentItemIdentificationCode." + VALUE;
     //private static final String PARENT_ASSESSMENT_FAMILY_TITLE = "parentAssessmentFamilyTitle";
 
     /**
