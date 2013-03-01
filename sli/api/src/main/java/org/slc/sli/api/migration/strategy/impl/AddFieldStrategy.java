@@ -23,6 +23,9 @@ import org.slc.sli.domain.Entity;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -61,6 +64,18 @@ public class AddFieldStrategy implements MigrationStrategy<Entity> {
 
     private List<TransformationRule> parseRules(Object ruleSet) {
         List<TransformationRule> rules = new ArrayList<TransformationRule>();
+        for(Object ruleKey:(ArrayList) ruleSet) {
+
+            Map<String, Object> rule = (Map<String, Object>) ruleKey;
+            rules.add(TransformationRule.init((Integer) rule.get("rank"), (HashMap<String, String>) rule.get("rule")));
+
+        }
+        Collections.sort(rules, new Comparator<TransformationRule>() {
+            @Override
+            public int compare(TransformationRule transformationRule, TransformationRule transformationRule2) {
+                return (transformationRule.compareTo(transformationRule2));
+            }
+        });
         return rules;
     }
 }

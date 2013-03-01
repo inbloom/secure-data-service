@@ -12,6 +12,20 @@
                                     "collection": "grade",
                                     "field": "studentSectionAssociationId"
                                 }
+                            },
+                            {
+                                "rank": 3,
+                                "rule": {
+                                    "collection": "section",
+                                    "field": "courseOfferingId"
+                                }
+                            },
+                            {
+                                "rank": 2,
+                                "rule": {
+                                    "collection": "studentSectionAssociation",
+                                    "field": "sectionId"
+                                }
                             }
                         ]
                     }
