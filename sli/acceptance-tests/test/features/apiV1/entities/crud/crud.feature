@@ -294,11 +294,11 @@ Examples:
         Then I should receive a return code of 204
         And I verify "objectiveAssessment" and "assessmentItem" should be subdoc'ed in mongo for this new "assessment"
          #assessmentPeriodDecriptor is read 
-         And I verify there are "0" "assessmentPeriodDescriptor" with "codeValue=codeRed"
+         And I verify there are "1" "assessmentPeriodDescriptor" with "codeValue=codeRed"
          And I verify there are "1" "assessmentPeriodDescriptor" with "codeValue=codeGreen"
          And I navigate to GET "/assessments/<NEWLY CREATED ENTITY ID>"
          And "lowestGradeLevelAssessed" should be "Sixth grade"
-         And I verify "objectiveAssessment" and "assessmentItem" is collapsed in response body 
+         And I verify "objectiveAssessment, assessmentPeriodDescriptor" and "assessmentItem" is collapsed in response body 
      # the corresponding studentAssessment 
      Given entity URI "/v1/studentAssessments"
        And a valid entity json document for a "studentAssessment"
