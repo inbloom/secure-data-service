@@ -88,7 +88,8 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   },
   "studentAcademicRecord" => {
     "studentId" => "61161008-2560-480d-aadf-4b0264dc2ae3_id",
-    "sessionId" => "d23ebfc4-5192-4e6c-a52b-81cee2319072"
+    "sessionId" => "d23ebfc4-5192-4e6c-a52b-81cee2319072",
+    "schoolYear" => "2010-2011"
   },
   "student" => {
     "birthData" => {
@@ -409,7 +410,8 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
   "grade" => {
     "studentSectionAssociationId" => "9b02fbd2-0892-4399-a4ea-e048b3315f25_id00cbf81b-41df-4bda-99ad-a5717d3e81a1_id",
     "letterGradeEarned" => "B+",
-    "gradeType" => "Final"
+    "gradeType" => "Final",
+    "schoolYear" => "2010-2011"
   },
   "studentCompetency" => {
      "competencyLevel" => {
@@ -430,7 +432,8 @@ Given /^a valid entity json document for a "([^"]*)"$/ do |arg1|
       "numberOfDaysInAttendance" => 150,
       "numberOfDaysTardy" => 10,
       "studentId" => "0f0d9bac-0081-4900-af7c-d17915e02378_id",
-      "gradingPeriodId" => "ef72b883-90fa-40fa-afc2-4cb1ae17623b"
+      "gradingPeriodId" => "ef72b883-90fa-40fa-afc2-4cb1ae17623b",
+      "schoolYear" => "2011-2012"
   },
   "graduationPlan" => {
        "creditsBySubject" => [{
