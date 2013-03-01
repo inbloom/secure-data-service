@@ -52,6 +52,9 @@ public class ApiSchemaAdapterTest {
     @Value("classpath:migration/apiSchemaAdapterTest-up.json/")
     private Resource upResource;
 
+    @Value("classpath:migration/apiSchemaAdapterTest-up.json/")
+    private Resource entityResource;
+
     @Test
     public void testBuildMigrationStrategyMap() throws NoSuchFieldException, IllegalAccessException{
         ApiSchemaAdapter apiSchemaAdapter = initApiSchemaAdapter();
@@ -159,6 +162,7 @@ public class ApiSchemaAdapterTest {
         ApiSchemaAdapter apiSchemaAdapter = new ApiSchemaAdapter();
         apiSchemaAdapter.setDownMigrationConfigResource(downResource);
         apiSchemaAdapter.setUpMigrationConfigResource(upResource);
+        apiSchemaAdapter.setEntityTransformConfigResource(entityResource);
         apiSchemaAdapter.initMigration();
         return apiSchemaAdapter;
     }

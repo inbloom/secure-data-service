@@ -206,5 +206,12 @@ public class ApiSchemaAdapter {
     public void setDownMigrationConfigResource(Resource downMigrationConfigResource) {
         this.downMigrationConfigResource = downMigrationConfigResource;
     }
+    public Resource getEntityTransformConfigResource() {
+        return entityTransformConfigResource;
+    }
+
+    public void setEntityTransformConfigResource(Resource entityTransformConfigResource) {
+        this.entityTransformConfigResource = entityTransformConfigResource;
+    }
 
 }
