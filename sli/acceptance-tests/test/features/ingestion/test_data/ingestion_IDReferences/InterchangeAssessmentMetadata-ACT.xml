@@ -114,9 +114,9 @@
 		<MaxRawScore>36</MaxRawScore>
 		<LearningObjectiveReference>
 			<LearningObjectiveIdentity>
-				<LearningObjectiveId>
-					<IdentificationCode>BC475F1FEE074d699ABEAE3285BCB5C9</IdentificationCode>
-				</LearningObjectiveId>
+				<Objective>Language</Objective>
+				<AcademicSubject>English</AcademicSubject>
+				<ObjectiveGradeLevel>Twelfth grade</ObjectiveGradeLevel>
 			</LearningObjectiveIdentity>
 		</LearningObjectiveReference>
 		<ObjectiveAssessmentReference>
@@ -266,16 +266,12 @@
 		<CorrectResponse>False</CorrectResponse>
 		<LearningStandardReference>
 			<LearningStandardIdentity>
-				<LearningStandardId>
 					<IdentificationCode>48AD7305975E4C38A38484926C2AC2B6</IdentificationCode>
-				</LearningStandardId>
 			</LearningStandardIdentity>
 		</LearningStandardReference>
 		<LearningStandardReference>
 			<LearningStandardIdentity>
-				<LearningStandardId>
 					<IdentificationCode>48AD7305975E4C38A38484926C2AC2B7</IdentificationCode>
-				</LearningStandardId>
 			</LearningStandardIdentity>
 		</LearningStandardReference>
 	</AssessmentItem>
@@ -294,16 +290,12 @@
 		<CorrectResponse>True</CorrectResponse>
 		<LearningStandardReference>
 			<LearningStandardIdentity>
-				<LearningStandardId>
 					<IdentificationCode>5EEC5B34D81048C481BF69158104FA25</IdentificationCode>
-				</LearningStandardId>
 			</LearningStandardIdentity>
 		</LearningStandardReference>
 		<LearningStandardReference>
 			<LearningStandardIdentity>
-				<LearningStandardId>
 					<IdentificationCode>8C2612DBDCEE4D8F8E1F84D62457ED00</IdentificationCode>
-				</LearningStandardId>
 			</LearningStandardIdentity>
 		</LearningStandardReference>
 	</AssessmentItem>
@@ -322,9 +314,7 @@
 		<CorrectResponse>True</CorrectResponse>
 		<LearningStandardReference>
 			<LearningStandardIdentity>
-				<LearningStandardId>
 					<IdentificationCode>D75111F1FCA84D8ABB0DA43ECE9BC178</IdentificationCode>
-				</LearningStandardId>
 			</LearningStandardIdentity>
 		</LearningStandardReference>
 	</AssessmentItem>
@@ -343,9 +333,7 @@
 		<CorrectResponse>False</CorrectResponse>
 		<LearningStandardReference>
 			<LearningStandardIdentity>
-				<LearningStandardId>
 					<IdentificationCode>67FB2AF6552C4CB0AF5ECD83287A91AA</IdentificationCode>
-				</LearningStandardId>
 			</LearningStandardIdentity>
 		</LearningStandardReference>
 	</AssessmentItem>
