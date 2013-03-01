@@ -701,10 +701,11 @@ end
 Then /^I set the "(.*?)" to "(.*?)" in "(.*?)"$/ do |key, value, field|
   @fields = {} if !defined? @fields
   @fields[field].merge!(key=>value)
-  puts @fields
 end
 
 Then /^I verify there are "(\d)" "(.*?)" with "(.*?)"$/ do |count, type, query| 
+  @conn = Mongo::Connection.new(PropLoader.getProps["ingestion_db"], PropLoader.getProps["ingestion_db_port"])
+  @db = @conn.db(convertTenantIdToDbName("Midgar"))
   @coll = @db[type]
   query_key="body."+query.split("=")[0]
   query_value=query.split("=")[1]

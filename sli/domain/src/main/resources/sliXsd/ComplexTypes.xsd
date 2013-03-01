@@ -203,6 +203,7 @@
                         administered. Examples include "Beginning of Year," "Middle of Year," and
                         "End of Year." </xs:documentation>
                     <xs:appinfo>
+                        <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                         <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
                         <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
                     </xs:appinfo>
@@ -370,6 +371,7 @@
                     <xs:documentation>The periods or windows defined in which an assessment is
                         supposed to be administered.</xs:documentation>
                     <xs:appinfo>
+                        <sli:applyNaturalKeys>true</sli:applyNaturalKeys>
                         <sli:WriteEnforcement><sli:allowedBy>WRITE_PUBLIC</sli:allowedBy></sli:WriteEnforcement>
                         <sli:ReadEnforcement><sli:allowedBy>READ_GENERAL</sli:allowedBy></sli:ReadEnforcement>
                     </xs:appinfo>

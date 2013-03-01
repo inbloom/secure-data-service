@@ -1170,6 +1170,7 @@ task :importSandboxMidgarData do
     "parent" => "Midgar_data/parent_fixture.json",
     "staff" => "Midgar_data/staff_fixture.json",
     "assessment" => "Midgar_data/assessment_fixture.json",
+    "assessmentPeriodDescriptor" => "Midgar_data/assessmentPeriodDescriptor_fixture.json",
     "studentAssessment" => "Midgar_data/studentAssessment_fixture.json",
     "attendance" => "Midgar_data/attendance_fixture.json",
     "studentSchoolAssociation" => "Midgar_data/studentSchoolAssociation_fixture.json",

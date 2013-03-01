@@ -3,6 +3,7 @@ package org.slc.sli.dal.convert;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.when;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -18,12 +19,14 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-
+import org.slc.sli.api.constants.EntityNames;
+import org.slc.sli.dal.repository.MongoEntityRepository;
 import org.slc.sli.domain.Entity;
 import org.slc.sli.domain.MongoEntity;
 import org.slc.sli.validation.NoNaturalKeysDefinedException;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
 import org.slc.sli.validation.schema.NaturalKeyExtractor;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
 /**
  * JUnit for assessment converter
@@ -35,11 +38,19 @@ public class AssessmentConverterTest {
 
     @Mock
     INaturalKeyExtractor naturalKeyExtractor;
+    
+    @Mock
+    MongoEntityRepository repo;
+    
+    @Mock
+    MongoTemplate template;
 
     private Map<String, Object> item1 = new HashMap<String, Object>();
     private Map<String, Object> item2 = new HashMap<String, Object>();
     private Map<String, Object> item3 = new HashMap<String, Object>();
     private Map<String, Object> item4 = new HashMap<String, Object>();
+    private Map<String, Object> apdBody = new HashMap<String, Object>();
+    private Entity APD;
 
     @Before
     public void setup() throws NoNaturalKeysDefinedException {
@@ -55,8 +66,17 @@ public class AssessmentConverterTest {
         item4.put("assessmentId", "ID");
         item4.put("_id", "item4");
         item4.put("abc", "somevalue4");
+        
+        apdBody.put("codeValue", "green");
+        APD = new MongoEntity("assessmentPeriodDescriptor", "mydescriptorid", apdBody, null);
+        
         naturalKeyExtractor = Mockito.mock(NaturalKeyExtractor.class);
+        repo = Mockito.mock(MongoEntityRepository.class);
+        template = Mockito.mock(MongoTemplate.class);
         MockitoAnnotations.initMocks(this);
+        
+        when(repo.getTemplate()).thenReturn(template);
+        when(template.findById("mydescriptorid", Entity.class, EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR)).thenReturn(APD);
     }
 
     /*
@@ -66,6 +86,7 @@ public class AssessmentConverterTest {
         String entityType = "assessment";
         String entityId = "ID";
         Map<String, Object> body = new HashMap<String, Object>();
+        body.put("assessmentPeriodDescriptorId", "mydescriptorid");
         Map<String, Object> metaData = new HashMap<String, Object>();
         Map<String, List<Entity>> embeddedData = new HashMap<String, List<Entity>>();
 
@@ -91,6 +112,10 @@ public class AssessmentConverterTest {
         item.put("a", "1");
         insideBody.add(item);
         body.put("assessmentItem", insideBody);
+        Map<String, Object> apdBody = new HashMap<String, Object>();
+        apdBody.put("codeValue", "green");
+        apdBody.put("description", "something not really useful");
+        body.put("assessmentPeriodDescriptor", apdBody);
 
         return new MongoEntity(entityType, entityId, body, metaData);
     }
@@ -117,6 +142,11 @@ public class AssessmentConverterTest {
         assertEquals("somevalue1", PropertyUtils.getProperty(entity, "body.assessmentItem.[0].abc"));
         assertEquals("somevalue2", PropertyUtils.getProperty(entity, "body.assessmentItem.[1].abc"));
         assertNull(entity.getEmbeddedData().get("assessmentItem"));
+        //assessmentPeriodDescriptorId should have been removed from entity body 
+        assertNull(entity.getBody().get("assessmentPeriodDescriptorId"));
+        assertNotNull(entity.getBody().get("assessmentPeriodDescriptor"));
+        assertEquals(((Map<String, Object>)(entity.getBody().get("assessmentPeriodDescriptor"))).get("codeValue"),
+        		APD.getBody().get("codeValue"));
     }
 
     @Test
@@ -133,6 +163,8 @@ public class AssessmentConverterTest {
         assessmentConverter.bodyFieldToSubdoc(entity);
         assertNull(entity.getBody().get("assessmentItem"));
         assertNotNull(entity.getEmbeddedData().get("assessmentItem"));
+        assertNull(entity.getBody().get("assessmentPeriodDescriptor"));
+        assertNotNull(entity.getBody().get("assessmentPeriodDescriptorId"));
     }
 
     @Test
@@ -147,6 +179,15 @@ public class AssessmentConverterTest {
         assertNotNull("should generate id for subdoc entity", id);
     }
 
+    @Test
+    public void invalidApdIdShouldBeFilteredOutInUp() {
+        when(template.findById("mydescriptorid", Entity.class, EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR)).thenReturn(null);
+    	Entity entity = createUpConvertEntity();
+    	assessmentConverter.subdocToBodyField(Arrays.asList(entity));
+    	assertNull(entity.getBody().get("assessmentPeriodDescriptor"));
+    	assertNull(entity.getBody().get("assessmentPeriodDescriptorId"));
+    }
+    
     @Test
     @SuppressWarnings("unchecked")
     public void testHierachyInObjectiveAssessmentsToAPI() throws IllegalAccessException, InvocationTargetException,
