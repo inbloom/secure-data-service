@@ -39,6 +39,14 @@ public final class TransformationRule implements Comparable<TransformationRule> 
         return this.rank;
     }
 
+    public String getField() {
+        return this.field;
+    }
+
+    public String getCollection() {
+        return this.collection;
+    }
+
     @Override
     public int compareTo(TransformationRule transformationRule) {
         return (this.getRank() - transformationRule.getRank() );

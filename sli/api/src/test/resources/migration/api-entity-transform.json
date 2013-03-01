@@ -14,6 +14,13 @@
                                 }
                             },
                             {
+                                "rank": 2,
+                                "rule": {
+                                    "collection": "studentSectionAssociation",
+                                    "field": "sectionId"
+                                }
+                            },
+                            {
                                 "rank": 3,
                                 "rule": {
                                     "collection": "section",
@@ -21,10 +28,17 @@
                                 }
                             },
                             {
-                                "rank": 2,
+                                "rank": 4,
                                 "rule": {
-                                    "collection": "studentSectionAssociation",
-                                    "field": "sectionId"
+                                    "collection": "courseOffering",
+                                    "field": "sessionId"
+                                }
+                            },
+                            {
+                                "rank": 5,
+                                "rule": {
+                                    "collection": "session",
+                                    "field": "schoolYear"
                                 }
                             }
                         ]
