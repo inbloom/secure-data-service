@@ -87,7 +87,7 @@ public class ExportStudent {
             .append("      ,EndDate \n")
             .append("FROM edfi.edfi.StudentAddress sa, edfi.edfi.StateAbbreviationType sat, edfi.edfi.AddressType at \n")
             .append("WHERE sa.StateAbbreviationTypeId = sat.StateAbbreviationTypeId \n")
-            .append("	AND sa.AddressTypeId = at.AddressTypeId \n")
+            .append("    AND sa.AddressTypeId = at.AddressTypeId \n")
             .append("ORDER BY StudentUSI \n").toString();
 
     /**
@@ -161,7 +161,7 @@ public class ExportStudent {
                 }
             }
 
-//			student.setProfileThumbnail(this.studentResultSet.getString("ProfileThumbnail"));
+//            student.setProfileThumbnail(this.studentResultSet.getString("ProfileThumbnail"));
             student.setProfileThumbnail(null);
 
             student.setHispanicLatinoEthnicity(this.studentResultSet

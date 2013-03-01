@@ -18,10 +18,10 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * 
- * 				This entity represents the time span for which
- * 				grades are reported, extended off GradingPeriodSimple
- * 				to include calendarDates.
- * 			
+ *                 This entity represents the time span for which
+ *                 grades are reported, extended off GradingPeriodSimple
+ *                 to include calendarDates.
+ *             
  * 
  * <p>Java class for gradingPeriod complex type.
  * 

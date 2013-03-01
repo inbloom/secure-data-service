@@ -27,21 +27,22 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
 import org.bson.BasicBSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.slc.sli.common.domain.EmbeddedDocumentRelations;
 import org.slc.sli.common.domain.NaturalKeyDescriptor;
 import org.slc.sli.common.util.uuid.UUIDGeneratorStrategy;
 import org.slc.sli.dal.encrypt.EntityEncryption;
 import org.slc.sli.validation.NoNaturalKeysDefinedException;
 import org.slc.sli.validation.schema.INaturalKeyExtractor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * Mongodb specific implementation of Entity Interface with basic conversion method
  * for convert from and to DBObject
- * 
+ *
  * @author Dong Liu dliu@wgen.net
- * 
+ *
  */
 public class MongoEntity implements Entity, Serializable {
 
@@ -63,7 +64,7 @@ public class MongoEntity implements Entity, Serializable {
 
     /**
      * Default constructor for the MongoEntity class.
-     * 
+     *
      * @param type
      *            Mongo Entity type.
      * @param body
@@ -75,7 +76,7 @@ public class MongoEntity implements Entity, Serializable {
 
     /**
      * Specify the type, id, body, and metadata for the Mongo Entity using this constructor.
-     * 
+     *
      * @param type
      *            Mongo Entity type.
      * @param id
@@ -143,7 +144,7 @@ public class MongoEntity implements Entity, Serializable {
     /**
      * This method enables encryption of the entity without exposing the internals to mutation via a
      * setBody() method.
-     * 
+     *
      * @param crypt
      *            The EntityEncryptor to sue
      */
@@ -154,12 +155,41 @@ public class MongoEntity implements Entity, Serializable {
     /**
      * This method enables decryption of the entity without exposing the internals to mutation via a
      * setBody() method.
-     * 
+     *
      * @param crypt
      *            The EntityEncryptor to sue
      */
     public void decrypt(EntityEncryption crypt) {
         this.body = crypt.decrypt(getType(), body);
+    }
+
+    public String generateDid(UUIDGeneratorStrategy uuidGeneratorStrategy, INaturalKeyExtractor naturalKeyExtractor) {
+
+        final String uid;
+        NaturalKeyDescriptor naturalKeyDescriptor;
+        try {
+            naturalKeyDescriptor = naturalKeyExtractor.getNaturalKeyDescriptor(this);
+        } catch (NoNaturalKeysDefinedException e) {
+            // Nothing can be done with the entity at this point,
+            // it is supposed to have natural keys, but none were defined.
+            // Picking a random UUID would be undesired behavior
+            LOG.error(e.getMessage(), e);
+            throw new RuntimeException(e);
+        }
+
+        if (uuidGeneratorStrategy == null) {
+            LOG.warn("Generating Type 4 UUID by default because the UUID generator strategy is null.  This will cause issues if this value is being used in a Mongo indexed field (like _id)");
+            uid = UUID.randomUUID().toString();
+        } else {
+            if (naturalKeyDescriptor.isNaturalKeysNotNeeded()) {
+                // generate a truly random id
+                uid = uuidGeneratorStrategy.generateId();
+            } else {
+                uid = uuidGeneratorStrategy.generateId(naturalKeyDescriptor);
+            }
+        }
+
+        return uid.toString();
     }
 
     public DBObject toDBObject(UUIDGeneratorStrategy uuidGeneratorStrategy, INaturalKeyExtractor naturalKeyExtractor) {
@@ -169,30 +199,8 @@ public class MongoEntity implements Entity, Serializable {
         final String uid;
 
         if (entityId == null) {
-            NaturalKeyDescriptor naturalKeyDescriptor;
-            try {
-                naturalKeyDescriptor = naturalKeyExtractor.getNaturalKeyDescriptor(this);
-            } catch (NoNaturalKeysDefinedException e) {
-                // Nothing can be done with the entity at this point,
-                // it is supposed to have natural keys, but none were defined.
-                // Picking a random UUID would be undesired behavior
-                LOG.error(e.getMessage(), e);
-                throw new RuntimeException(e);
-            }
-
-            if (uuidGeneratorStrategy == null) {
-                LOG.warn("Generating Type 4 UUID by default because the UUID generator strategy is null.  This will cause issues if this value is being used in a Mongo indexed field (like _id)");
-                uid = UUID.randomUUID().toString();
-            } else {
-                if (naturalKeyDescriptor.isNaturalKeysNotNeeded()) {
-                    // generate a truly random id
-                    uid = uuidGeneratorStrategy.generateId();
-                } else {
-                    uid = uuidGeneratorStrategy.generateId(naturalKeyDescriptor);
-                }
-            }
-
-            entityId = uid.toString();
+            uid = generateDid(uuidGeneratorStrategy, naturalKeyExtractor);
+            entityId = uid;
         } else {
             uid = entityId;
         }
@@ -200,13 +208,24 @@ public class MongoEntity implements Entity, Serializable {
         dbObj.put("_id", uid);
         dbObj.put("body", body);
         dbObj.put("metaData", metaData);
+        if (embeddedData != null && embeddedData.size() > 0) {
+            for (Map.Entry<String, List<Entity>> subdocList : embeddedData.entrySet()) {
+                List<DBObject> dbObjs = new ArrayList<DBObject>();
+                for (Entity subdocEntity : subdocList.getValue()) {
+                    if (subdocEntity instanceof MongoEntity) {
+                        dbObjs.add(((MongoEntity) subdocEntity).toDBObject(uuidGeneratorStrategy, naturalKeyExtractor));
+                    }
+                }
+                dbObj.put(subdocList.getKey(), dbObjs);
+            }
+        }
 
         return dbObj;
     }
 
     /**
      * Convert the specified db object to a Mongo Entity.
-     * 
+     *
      * @param dbObj
      *            DBObject that need to be converted to MongoEntity
      * @return converted MongoEntity from DBObject
@@ -273,7 +292,7 @@ public class MongoEntity implements Entity, Serializable {
 
     /**
      * Create and return a Mongo Entity.
-     * 
+     *
      * @param type
      *            Mongo Entity type.
      * @param body
@@ -307,5 +326,10 @@ public class MongoEntity implements Entity, Serializable {
     @Override
     public Map<String, List<Map<String, Object>>> getDenormalizedData() {
         return denormalizedData;
+    }
+
+    @Override
+    public String toString() {
+        return "MongoEntity " + entityId;
     }
 }

@@ -18,11 +18,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * The set of elements defining and characterizing a
- * 				person's period of
- * 				employment including start and end dates and the
- * 				type and reason for
- * 				separation.
- * 			
+ *                 person's period of
+ *                 employment including start and end dates and the
+ *                 type and reason for
+ *                 separation.
+ *             
  * 
  * <p>Java class for employmentPeriod complex type.
  * 

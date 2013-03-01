@@ -19,7 +19,7 @@
     <StudentAssessmentReference>
       <StudentAssessmentIdentity>
         <AdministrationDate>2006-05-04</AdministrationDate>
-        <StudentReference id="ID007">
+        <StudentReference>
           <StudentIdentity>
             <StudentUniqueStateId>StudentUniqueStateId0</StudentUniqueStateId>
           </StudentIdentity>

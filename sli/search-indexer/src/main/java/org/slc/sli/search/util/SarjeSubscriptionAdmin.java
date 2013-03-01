@@ -173,7 +173,7 @@ public class SarjeSubscriptionAdmin {
         private List<SubscriptionTrigger> triggers;
 
         public Subscription() {
-        	// Empty Constructor, because the way we create this object is using reflection.
+            // Empty Constructor, because the way we create this object is using reflection.
         }
 
         public Subscription(String eventId, String queue, boolean publishOplog, List<SubscriptionTrigger> triggers) {
@@ -219,7 +219,7 @@ public class SarjeSubscriptionAdmin {
         private String ns;
 
         public SubscriptionTrigger(){
-        	// Empty Constructor, because the way we create this object is using reflection.
+            // Empty Constructor, because the way we create this object is using reflection.
         }
 
         public SubscriptionTrigger(String ns) {

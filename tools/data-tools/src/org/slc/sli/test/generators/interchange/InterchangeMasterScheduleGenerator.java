@@ -104,7 +104,7 @@ public class InterchangeMasterScheduleGenerator {
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 section = null;
             } else {
-            	section = SectionGenerator.generateMediumFi(sectionMeta);
+                section = SectionGenerator.generateMediumFi(sectionMeta);
             }
 
 //            interchangeObjects.add(section);

@@ -20,10 +20,10 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * Provides references for discipline descriptors
- * 				during interchange. Use XML IDREF to reference a course record that
- * 				is included in the interchange. To lookup where already loaded
- * 				specify either CodeValue OR Description.
- * 			
+ *                 during interchange. Use XML IDREF to reference a course record that
+ *                 is included in the interchange. To lookup where already loaded
+ *                 specify either CodeValue OR Description.
+ *             
  * 
  * <p>Java class for disciplineDescriptorType complex type.
  * 

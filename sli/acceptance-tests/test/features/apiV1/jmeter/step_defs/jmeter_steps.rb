@@ -54,15 +54,15 @@ def makeDirs(dirs)
 end
 
 def archiveJtlFile(file)
-	archivedFile = File.join(JMETER_JTL_ARCHIVE, "#{file}.#{@time}")
-	puts "Moving #{file} to #{archivedFile}"
-	FileUtils.cp(file, archivedFile)
+    archivedFile = File.join(JMETER_JTL_ARCHIVE, "#{file}.#{@time}")
+    puts "Moving #{file} to #{archivedFile}"
+    FileUtils.cp(file, archivedFile)
 end
 
 def archiveFailedJtlFile(file)
-	archivedFile = File.join(JMETER_FAILED_JTL_ARCHIVE, "#{file}.#{@time}")
-	puts "Moving #{file} to #{archivedFile}"
-	FileUtils.cp(file, archivedFile)
+    archivedFile = File.join(JMETER_FAILED_JTL_ARCHIVE, "#{file}.#{@time}")
+    puts "Moving #{file} to #{archivedFile}"
+    FileUtils.cp(file, archivedFile)
 end
 
 Given /^I run each of the Jmeter tests:$/ do |table|
@@ -119,9 +119,9 @@ def parseJtlForRC(testName)
 end
 
 def deleteJtlFile(testName)
-	fileName = "#{testName}.jtl"
-  	archiveFailedJtlFile(fileName)
-  	File.delete(fileName)
+    fileName = "#{testName}.jtl"
+      archiveFailedJtlFile(fileName)
+      File.delete(fileName)
 end
 
 def loadXML(fileName)
@@ -139,10 +139,10 @@ Then /^no performance regressions should be found/ do
   @testsRun.each do |testName|
     regressionsFound = checkForRegression(testName)
     if regressionsFound.empty?
-      	archiveJtlFile("#{testName}.jtl")
+          archiveJtlFile("#{testName}.jtl")
     else
-    	archiveFailedJtlFile("#{testName}.jtl")
-    	superRegressionMap[testName] = regressionsFound
+        archiveFailedJtlFile("#{testName}.jtl")
+        superRegressionMap[testName] = regressionsFound
     end
   end
 

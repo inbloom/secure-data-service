@@ -71,7 +71,7 @@ public final class URLBuilder {
     public URLBuilder entityType(final String type) {
         String path = PathConstants.TEMP_MAP.get(type);
         if (path == null) {
-        	path = PathConstants.TEMP_MAP.get(type + "s");
+            path = PathConstants.TEMP_MAP.get(type + "s");
         }
         if (path == null && type.equals(PathConstants.SECURITY_SESSION_DEBUG)) {
             path = type;

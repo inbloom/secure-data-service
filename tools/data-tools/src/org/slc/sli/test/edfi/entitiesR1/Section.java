@@ -19,15 +19,15 @@ import javax.xml.bind.annotation.XmlType;
 /**
  * Section
  * 
- * 				This educational entity represents a setting
- * 				in which organized instruction of course content is provided to one
- * 				or more students for a given period of time. A course may be offered
- * 				to more than one class/section. Instruction, provided by one or more
- * 				teachers or other staff members, may be delivered in person or via a
- * 				different medium.
+ *                 This educational entity represents a setting
+ *                 in which organized instruction of course content is provided to one
+ *                 or more students for a given period of time. A course may be offered
+ *                 to more than one class/section. Instruction, provided by one or more
+ *                 teachers or other staff members, may be delivered in person or via a
+ *                 different medium.
  * 
- * 				Associations: SectionAssessmentAssociation
- * 			
+ *                 Associations: SectionAssessmentAssociation
+ *             
  * 
  * <p>Java class for section complex type.
  * 

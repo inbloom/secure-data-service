@@ -21,10 +21,10 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * This event entity represents actions taken by an
- * 				education
- * 				organization after a disruptive event that is recorded as a
- * 				discipline incident.
- * 			
+ *                 education
+ *                 organization after a disruptive event that is recorded as a
+ *                 discipline incident.
+ *             
  * 
  * <p>Java class for disciplineAction complex type.
  * 

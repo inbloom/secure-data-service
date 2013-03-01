@@ -93,7 +93,7 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
                 listen();
             } catch (SocketException e) {
                 // Most likely Socket is closed because of "stop" command
-            	LOG.info("There was a socket exception", e);
+                LOG.info("There was a socket exception", e);
             } catch (Exception e) {
                 LOG.error("Error detected in Remote Command Service...", e);
             }
@@ -250,7 +250,7 @@ public class RemoteCommandService implements ApplicationContextAware, Runnable {
                     this.command = Command.valueOf(commandLine[0].toUpperCase());
                 }
             } catch (Exception e) {
-            	LOG.info("There was an exception", e);
+                LOG.info("There was an exception", e);
             }
 
             if (this.command == null) {

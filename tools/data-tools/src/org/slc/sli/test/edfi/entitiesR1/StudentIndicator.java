@@ -18,10 +18,10 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * An indicator or metric computed for the student
- * 				(e.g., at risk) to
- * 				influence more effective education or direct
- * 				specific interventions.
- * 			
+ *                 (e.g., at risk) to
+ *                 influence more effective education or direct
+ *                 specific interventions.
+ *             
  * 
  * <p>Java class for studentIndicator complex type.
  * 

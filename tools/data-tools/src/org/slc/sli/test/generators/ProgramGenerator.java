@@ -57,22 +57,22 @@ public class ProgramGenerator {
 
     public static SLCProgram generate(String programId) {
         return generateLowFi(programId);
-	}
-	
-	public static SLCProgram generateLowFi(String programId) {
+    }
+    
+    public static SLCProgram generateLowFi(String programId) {
         SLCProgram program = new SLCProgram();
         program.setId(programId);
         program.setProgramId(programId);
         
         int programTypeIndx = Math.abs(rand.nextInt() % ProgramType.values().length);
         if( programTypeIndx == 23)
-        	programTypeIndx = programTypeIndx + 1;
+            programTypeIndx = programTypeIndx + 1;
         if( programTypeIndx == 12)
-        	programTypeIndx = programTypeIndx + 1;
+            programTypeIndx = programTypeIndx + 1;
         if( programTypeIndx == 15)
-        	programTypeIndx = programTypeIndx + 1;
+            programTypeIndx = programTypeIndx + 1;
         
-       	
+           
         program.setProgramType(ProgramType.values()[programTypeIndx]);//edfi schema and sli schema has two set vale of programType, donot use value not in sli schema
        
         int programSponsorTypeIndx = Math.abs(rand.nextInt() % ProgramSponsorType.values().length);
@@ -93,5 +93,5 @@ public class ProgramGenerator {
         }
 
         return program;
-	}
+    }
 }

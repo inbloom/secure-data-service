@@ -150,6 +150,22 @@ Then /^I should receive a collection with (\d+) elements$/ do |count|;
   @result.length.should == count
 end
 
+Then /^occurrence (\d+) of entity "([^"]*)" should be "([^"]*)"$/ do |position, key, value|
+  assert(@result != nil, "Response contains no data")
+  position = position.to_i - 1
+  assert(@result[position].is_a?(Hash), "Response contains #{@result[position].class}, expected Hash")
+  assert(@result[position].has_key?(key), "Response does not contain key #{key}")
+  if @result[position][key].is_a?(Array)
+    if value.is_a?(Array)
+      assert(@result[position][key] == value, "Expected (array) #{key} to equal #{value}, received #{@result[position][key]}")
+    else
+      assert(@result[position][key] == eval(value), "Expected (array2) #{key} to equal #{value}, received #{@result[position][key]}")
+    end
+  else
+    assert(@result[position][key] == convert(value), "Expected #{key} to equal #{value}, received #{@result[position][key]}")
+  end
+end
+
 Then /^"([^"]*)" should be "([^"]*)"$/ do |key, value|
   assert(@result != nil, "Response contains no data")
   assert(@result.is_a?(Hash), "Response contains #{@result.class}, expected Hash")
@@ -229,6 +245,17 @@ Then /^in each entity, I should receive a link named "([^"]*)" with URI "([^"]*)
     end
     assert(foundInEntity, "A link labeled #{rel} with value #{href} was not present in one or more returned entities")
   end
+end
+
+Then /^in occurrence (\d+) I should receive a link named "([^"]*)" with URI "([^"]*)"$/ do |position, rel, href|
+  position = position.to_i - 1
+  foundInEntity = false
+  @result[position]["links"].each do |link|
+    if link["rel"] == rel && link["href"] =~ /#{Regexp.escape(href)}$/
+      foundInEntity = true
+    end
+  end
+  assert(foundInEntity, "A link labeled #{rel} with value #{href} was not present in one or more returned entities")
 end
 
 Then /^in an entity, I should receive a link named "([^"]*)" with URI "([^"]*)"$/ do |rel, href|

@@ -71,17 +71,17 @@ class Migration
     end
 
     natural_keys = @@attendance_natural_keys
-		hash = ''
-		delimiter = '|~'
-		natural_keys.sort!
-		#First we do entity type and tenant
-		hash << "attendance" << delimiter << tenant.name << delimiter
-		natural_keys.each do |nk|
-			hash << entity['body'][nk] << delimiter
-		end
-		id = Digest::SHA1.hexdigest hash
-		id += '_id'
-		id
+        hash = ''
+        delimiter = '|~'
+        natural_keys.sort!
+        #First we do entity type and tenant
+        hash << "attendance" << delimiter << tenant.name << delimiter
+        natural_keys.each do |nk|
+            hash << entity['body'][nk] << delimiter
+        end
+        id = Digest::SHA1.hexdigest hash
+        id += '_id'
+        id
   end
 
   def self.start_migration input_file

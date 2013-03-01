@@ -21,8 +21,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * This association represents the school to which a
- * 				student is enrolled.
- * 			
+ *                 student is enrolled.
+ *             
  * 
  * <p>Java class for studentSchoolAssociation complex type.
  * 

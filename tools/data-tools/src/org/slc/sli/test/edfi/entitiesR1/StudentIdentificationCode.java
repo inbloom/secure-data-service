@@ -16,11 +16,11 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * A coding scheme that is used for identification and
- * 				record-keeping
- * 				purposes by schools, social services, or other
- * 				agencies to refer to a
- * 				student.
- * 			
+ *                 record-keeping
+ *                 purposes by schools, social services, or other
+ *                 agencies to refer to a
+ *                 student.
+ *             
  * 
  * <p>Java class for studentIdentificationCode complex type.
  * 

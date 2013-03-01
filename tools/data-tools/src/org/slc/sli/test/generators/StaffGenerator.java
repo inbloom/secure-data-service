@@ -42,13 +42,13 @@ public class StaffGenerator {
     static OldEthnicityType[] oldEthnicityTypes = OldEthnicityType.values();
 
   static {
-	  try {
-		  ag =  new AddressGenerator(StateAbbreviationType.NY);
-		  ng = new NameGenerator();
-		  tg =new TelephoneGenerator();
-	  } catch (Exception e) {
-		  e.printStackTrace();
-	  }
+      try {
+          ag =  new AddressGenerator(StateAbbreviationType.NY);
+          ng = new NameGenerator();
+          tg =new TelephoneGenerator();
+      } catch (Exception e) {
+          e.printStackTrace();
+      }
   }
 
     public StaffGenerator(StateAbbreviationType state, boolean optional) {

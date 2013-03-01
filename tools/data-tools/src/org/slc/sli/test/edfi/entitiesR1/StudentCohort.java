@@ -18,11 +18,11 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * 
- * 				This association represents the cohort(s) that a
- * 				student is designated for.
- * 				NOTE: 'studentCohortAssociation' does not support ed-fi SectionReference to represent
- * 				groups of students.
- * 			
+ *                 This association represents the cohort(s) that a
+ *                 student is designated for.
+ *                 NOTE: 'studentCohortAssociation' does not support ed-fi SectionReference to represent
+ *                 groups of students.
+ *             
  * 
  * <p>Java class for studentCohort complex type.
  * 

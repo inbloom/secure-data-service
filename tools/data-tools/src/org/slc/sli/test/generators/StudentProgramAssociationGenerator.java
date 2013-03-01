@@ -54,7 +54,7 @@ public class StudentProgramAssociationGenerator {
      * @return <code>List<StudentProgramAssociation></code>
      */
     public static int generateLowFi(InterchangeWriter<InterchangeStudentProgram> iWriter, ProgramMeta programMeta) {
-    	int count =0;
+        int count =0;
         Set<String> studentIds = programMeta.studentIds;
         String programId = programMeta.id;
         String schoolId = programMeta.orgId;

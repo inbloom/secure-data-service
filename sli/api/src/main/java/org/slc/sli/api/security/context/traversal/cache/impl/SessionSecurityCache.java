@@ -77,7 +77,7 @@ public class SessionSecurityCache implements SecurityCachingStrategy {
         userSession.getBody().put(CACHE, cache);
         
         //Put it back into mongo
-        repo.update(USER_SESSION, userSession);
+        repo.update(USER_SESSION, userSession, false);
         
     }
     

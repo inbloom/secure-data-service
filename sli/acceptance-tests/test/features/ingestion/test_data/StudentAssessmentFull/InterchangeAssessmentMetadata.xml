@@ -18,7 +18,6 @@
                 <AssessmentItemIdentificationCode>AssessmentItem-1</AssessmentItemIdentificationCode>
             </AssessmentItemIdentity>
         </AssessmentItemReference>
-		<ObjectiveAssessmentReference></ObjectiveAssessmentReference>
 		<AssessmentFamilyReference>
 			<AssessmentFamilyIdentity>
               <AssessmentFamilyTitle>ACT</AssessmentFamilyTitle>
@@ -30,8 +29,13 @@
 	<ObjectiveAssessment>
 		<IdentificationCode>ACT-English</IdentificationCode>
 		<MaxRawScore>36</MaxRawScore>
-		<ObjectiveAssessmentReference></ObjectiveAssessmentReference>
-		<ObjectiveAssessmentReference></ObjectiveAssessmentReference>
+		<AssessmentReference>
+			<AssessmentIdentity>
+				<AssessmentTitle>ACT</AssessmentTitle>
+		        <GradeLevelAssessed>Twelfth grade</GradeLevelAssessed>
+		        <Version>1</Version>
+		    </AssessmentIdentity>
+		</AssessmentReference>
 	</ObjectiveAssessment>
 
 	<!-- Assessment Item Section -->

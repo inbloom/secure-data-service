@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * The identifier for the learning standard.
- * 			
+ *             
  * 
  * <p>Java class for learningStandardId complex type.
  * 

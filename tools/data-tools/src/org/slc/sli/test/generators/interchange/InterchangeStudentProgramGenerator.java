@@ -70,10 +70,10 @@ public class InterchangeStudentProgramGenerator {
      */
     private static int writeEntitiesToInterchange(InterchangeWriter<InterchangeStudentProgram> iWriter) {
 
-    	int total = 0;
-    	total += generateServiceDescriptor(iWriter);
-    	total += generateProgramAssocs(iWriter, MetaRelations.PROGRAM_MAP.values());
-    	return total;
+        int total = 0;
+        total += generateServiceDescriptor(iWriter);
+        total += generateProgramAssocs(iWriter, MetaRelations.PROGRAM_MAP.values());
+        return total;
 
     }
 
@@ -86,10 +86,10 @@ public class InterchangeStudentProgramGenerator {
      */
     private static int generateProgramAssocs(InterchangeWriter<InterchangeStudentProgram> iWriter, Collection<ProgramMeta> programMetas) {
 
-    	int count = 0;
+        int count = 0;
         for (ProgramMeta programMeta : programMetas) {
 
-        	count += generateStudentProgramAssoc(iWriter, programMeta);
+            count += generateStudentProgramAssoc(iWriter, programMeta);
             
 
             // StaffProgramAssociation is not included in any EdFi interchanges; it is a bug in edfi. 
@@ -101,7 +101,7 @@ public class InterchangeStudentProgramGenerator {
 
     private static int generateStudentProgramAssoc(InterchangeWriter<InterchangeStudentProgram> iWriter, ProgramMeta programMeta) {
 
-    	int count=0;
+        int count=0;
         List<SLCStudentProgramAssociation> retVal;
 
         if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
@@ -119,7 +119,7 @@ public class InterchangeStudentProgramGenerator {
      * @param interchangeObjects
      */
     private static int generateServiceDescriptor(InterchangeWriter<InterchangeStudentProgram> iWriter) {
-    	int count = 0;
+        int count = 0;
         ObjectFactory factory = new ObjectFactory();
         for (ProgramGenerator.ServiceDescriptor serviceDescriptor : ProgramGenerator.ServiceDescriptor.values()) {
             ServiceDescriptor sc = factory.createServiceDescriptor();

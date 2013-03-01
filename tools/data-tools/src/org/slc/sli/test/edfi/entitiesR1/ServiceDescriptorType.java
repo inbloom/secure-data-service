@@ -20,11 +20,11 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * 
- * 				Provides references for service descriptors during
- * 				interchange. Use XML IDREF to reference a course record that is
- * 				included in the interchange. To lookup where already loaded specify
- * 				either CodeValue OR ShortDescription OR Description.
- * 			
+ *                 Provides references for service descriptors during
+ *                 interchange. Use XML IDREF to reference a course record that is
+ *                 included in the interchange. To lookup where already loaded specify
+ *                 either CodeValue OR ShortDescription OR Description.
+ *             
  * 
  * <p>Java class for serviceDescriptorType complex type.
  * 

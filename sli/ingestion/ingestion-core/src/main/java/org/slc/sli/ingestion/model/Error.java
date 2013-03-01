@@ -97,9 +97,9 @@ public final class Error {
     }
 
     public void setBatchJobId(String batchJobId) {
-    	if(batchJobId != null) {
-    		this.batchJobId = batchJobId;
-    	}
+        if(batchJobId != null) {
+            this.batchJobId = batchJobId;
+        }
     }
 
     public String getStageName() {
@@ -107,9 +107,9 @@ public final class Error {
     }
 
     public void setStageName(String stageName) {
-    	if(stageName != null) {
-    		this.stageName = stageName;
-    	}
+        if(stageName != null) {
+            this.stageName = stageName;
+        }
     }
 
     public String getResourceId() {
@@ -117,7 +117,7 @@ public final class Error {
     }
 
     public void setResourceId(String resourceId) {
-    	if(resourceId != null) {
+        if(resourceId != null) {
             this.resourceId = resourceId;
         }
     }
@@ -127,9 +127,9 @@ public final class Error {
     }
 
     public void setSourceIp(String sourceIp) {
-    	if(sourceIp != null){
-    		this.sourceIp = sourceIp;
-    	}
+        if(sourceIp != null){
+            this.sourceIp = sourceIp;
+        }
     }
 
     public String getHostname() {
@@ -137,9 +137,9 @@ public final class Error {
     }
 
     public void setHostname(String hostname) {
-    	if(hostname != null){
-    		this.hostname = hostname;
-    	}
+        if(hostname != null){
+            this.hostname = hostname;
+        }
     }
 
     public String getRecordIdentifier() {
@@ -147,9 +147,9 @@ public final class Error {
     }
 
     public void setRecordIdentifier(String recordIdentifier) {
-    	if(recordIdentifier != null){
-    		this.recordIdentifier = recordIdentifier;
-    	}
+        if(recordIdentifier != null){
+            this.recordIdentifier = recordIdentifier;
+        }
     }
 
     public Date getTimestamp() {
@@ -157,9 +157,9 @@ public final class Error {
     }
 
     public void setTimestamp(Date timestamp) {
-    	if(timestamp != null){
-    		this.timestamp = new Date(timestamp.getTime());
-    	}
+        if(timestamp != null){
+            this.timestamp = new Date(timestamp.getTime());
+        }
     }
 
     public String getSeverity() {
@@ -167,9 +167,9 @@ public final class Error {
     }
 
     public void setSeverity(String severity) {
-    	if(severity != null){
-    		this.severity = severity;
-    	}
+        if(severity != null){
+            this.severity = severity;
+        }
     }
 
     public String getErrorType() {
@@ -177,9 +177,9 @@ public final class Error {
     }
 
     public void setErrorType(String errorType) {
-    	if(errorType != null){
-    		this.errorType = errorType;
-    	}
+        if(errorType != null){
+            this.errorType = errorType;
+        }
     }
 
     public String getErrorDetail() {
@@ -187,9 +187,9 @@ public final class Error {
     }
 
     public void setErrorDetail(String errorDetail) {
-    	if(errorDetail != null){
-    		this.errorDetail = errorDetail;
-    	}
+        if(errorDetail != null){
+            this.errorDetail = errorDetail;
+        }
     }
 
 }

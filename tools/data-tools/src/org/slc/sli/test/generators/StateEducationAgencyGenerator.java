@@ -43,14 +43,14 @@ public class StateEducationAgencyGenerator {
         stateEducationAgency.setOperationalStatus(OperationalStatusType.ACTIVE);
 
         stateEducationAgency.getAddress().add(AddressGenerator.generateLowFi());
-		for (String pid : seaMeta.programs.keySet()) {
-			ProgramMeta pm = seaMeta.programs.get(pid);
-			SLCProgramIdentityType pit = new SLCProgramIdentityType();
-			pit.setProgramId(pm.id);
-			SLCProgramReferenceType prt = new SLCProgramReferenceType();
-			prt.setProgramIdentity(pit);
-			stateEducationAgency.getProgramReference().add(prt);
-		}
+        for (String pid : seaMeta.programs.keySet()) {
+            ProgramMeta pm = seaMeta.programs.get(pid);
+            SLCProgramIdentityType pit = new SLCProgramIdentityType();
+            pit.setProgramId(pm.id);
+            SLCProgramReferenceType prt = new SLCProgramReferenceType();
+            prt.setProgramIdentity(pit);
+            stateEducationAgency.getProgramReference().add(prt);
+        }
     
         return stateEducationAgency;
     }

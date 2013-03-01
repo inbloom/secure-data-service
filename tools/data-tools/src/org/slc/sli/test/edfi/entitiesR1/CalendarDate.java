@@ -18,8 +18,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * This entity represents a day in the school
- * 				calendar.
- * 			
+ *                 calendar.
+ *             
  * 
  * <p>Java class for calendarDate complex type.
  * 

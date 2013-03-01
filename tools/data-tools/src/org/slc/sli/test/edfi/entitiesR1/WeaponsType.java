@@ -17,8 +17,8 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * Identifies the type of weapon used during an
- * 				incident.
- * 			
+ *                 incident.
+ *             
  * 
  * <p>Java class for weaponsType complex type.
  * 

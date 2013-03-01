@@ -171,7 +171,7 @@ public class InterchangeAssessmentMetadataGenerator {
     }
 
     private static Map<String, SLCObjectiveAssessment> generateObjectiveAssessments(
-    		InterchangeWriter<InterchangeAssessmentMetadata> writer, Collection<ObjectiveAssessmentMeta> objAssessMetas) {
+            InterchangeWriter<InterchangeAssessmentMetadata> writer, Collection<ObjectiveAssessmentMeta> objAssessMetas) {
         long startTime = System.currentTimeMillis();
 
         Map<String, SLCObjectiveAssessment> objAssessMap = new HashMap<String, SLCObjectiveAssessment>();

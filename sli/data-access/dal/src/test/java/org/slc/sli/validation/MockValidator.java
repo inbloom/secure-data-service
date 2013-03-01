@@ -39,7 +39,7 @@ public class MockValidator implements EntityValidator {
 
     @Override
     public void setReferenceCheck(String referenceCheck) {
-    	// overrides super's implementation with an intentionally empty implementation
+        // overrides super's implementation with an intentionally empty implementation
     }
 
     @Override

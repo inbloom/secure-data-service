@@ -55,210 +55,210 @@ public class MediumStudentGenerator {
    static Random random;
       
    static {
-		  try {
-			  nameGenerator = new NameGenerator();
-			  ag = new AddressGenerator(StateAbbreviationType.NY);
-			  random = new Random(31);
-		  } catch (Exception e) {
-			  e.printStackTrace();
-		  }
-	  }
+          try {
+              nameGenerator = new NameGenerator();
+              ag = new AddressGenerator(StateAbbreviationType.NY);
+              random = new Random(31);
+          } catch (Exception e) {
+              e.printStackTrace();
+          }
+      }
    
    
-	 public static final Calendar RIGHT_NOW = Calendar.getInstance();
-	    
-	 	MediumStudentGenerator () throws Exception {	
-	    }
-	    
-	   
-	    public static Student generateMediumFi(String studentId) throws Exception {
-	    	
-//	        NameGenerator nameGenerator = new NameGenerator(); //to be research?
-//	        AddressGenerator ag = new AddressGenerator(StateAbbreviationType.NY);
-//	        Random random = new Random();
+     public static final Calendar RIGHT_NOW = Calendar.getInstance();
+        
+         MediumStudentGenerator () throws Exception {    
+        }
+        
+       
+        public static Student generateMediumFi(String studentId) throws Exception {
+            
+//            NameGenerator nameGenerator = new NameGenerator(); //to be research?
+//            AddressGenerator ag = new AddressGenerator(StateAbbreviationType.NY);
+//            Random random = new Random();
 
-	        Student student = new Student();
-	        
-	        student.setId("REF-" + studentId);
+            Student student = new Student();
+            
+            student.setId("REF-" + studentId);
 
-	        student.setStudentUniqueStateId(studentId);
+            student.setStudentUniqueStateId(studentId);
 
-	        student.setSex(random.nextBoolean() ? SexType.MALE : SexType.FEMALE);
+            student.setSex(random.nextBoolean() ? SexType.MALE : SexType.FEMALE);
 
-	        // Name
-	        if (student.getSex().equals(SexType.MALE)) {
-	        	student.setName(nameGenerator.getMaleName());
-	            student.getOtherName().add(nameGenerator.getMaleOtherName());
-	            student.getOtherName().add(nameGenerator.getMaleOtherName());
+            // Name
+            if (student.getSex().equals(SexType.MALE)) {
+                student.setName(nameGenerator.getMaleName());
+                student.getOtherName().add(nameGenerator.getMaleOtherName());
+                student.getOtherName().add(nameGenerator.getMaleOtherName());
 
-	        } else {
-	        	student.setName(nameGenerator.getFemaleName());
-	        	student.getOtherName().add(nameGenerator.getFemaleOtherName());
-	            student.getOtherName().add(nameGenerator.getFemaleOtherName());
+            } else {
+                student.setName(nameGenerator.getFemaleName());
+                student.getOtherName().add(nameGenerator.getFemaleOtherName());
+                student.getOtherName().add(nameGenerator.getFemaleOtherName());
 
-	        }
-	      
-	       student.getAddress().add(ag.getRandomAddress());
-	       boolean bool = random.nextBoolean();
-	        if (bool == true)
-	            student.getAddress().add(ag.getRandomAddress());
-	       
-	        student.setHispanicLatinoEthnicity(random.nextBoolean());
+            }
+          
+           student.getAddress().add(ag.getRandomAddress());
+           boolean bool = random.nextBoolean();
+            if (bool == true)
+                student.getAddress().add(ag.getRandomAddress());
+           
+            student.setHispanicLatinoEthnicity(random.nextBoolean());
 
-	        setRace(student);
+            setRace(student);
 
-	        student.setBirthData(BirthDataGenerator.generateFastBirthData());
+            student.setBirthData(BirthDataGenerator.generateFastBirthData());
 
-	        setTelephones(student);
+            setTelephones(student);
 
-	        setEmailAdresses(student);
+            setEmailAdresses(student);
 
-	        student.setProfileThumbnail("StudentPicture.jpg");
+            student.setProfileThumbnail("StudentPicture.jpg");
 
-	        student.setOldEthnicity(OldEthnicityType.WHITE_NOT_OF_HISPANIC_ORIGIN);
+            student.setOldEthnicity(OldEthnicityType.WHITE_NOT_OF_HISPANIC_ORIGIN);
 
-	        student.setEconomicDisadvantaged(random.nextBoolean());
+            student.setEconomicDisadvantaged(random.nextBoolean());
 
-	        student.setSchoolFoodServicesEligibility(SchoolFoodServicesEligibilityType.FULL_PRICE);
+            student.setSchoolFoodServicesEligibility(SchoolFoodServicesEligibilityType.FULL_PRICE);
 
-	        setStudentCharacteristics(student);
+            setStudentCharacteristics(student);
 
-	        student.setLimitedEnglishProficiency(LimitedEnglishProficiencyType.NOT_LIMITED);
+            student.setLimitedEnglishProficiency(LimitedEnglishProficiencyType.NOT_LIMITED);
 
-	        setLanguagesAndHomeLanguage(student);
+            setLanguagesAndHomeLanguage(student);
 
-	        setDisabilities(student);
+            setDisabilities(student);
 
-	        setSection504(student);
+            setSection504(student);
 
-	        student.setDisplacementStatus("Military Deployment");
+            student.setDisplacementStatus("Military Deployment");
 
-	        setProgramParticipation(student);
+            setProgramParticipation(student);
 
-	        setLearningStyles(student);
+            setLearningStyles(student);
 
-	        setCohortYears(student);
+            setCohortYears(student);
 
-	        setStudentIndicators(student);
+            setStudentIndicators(student);
 
-	        student.setLoginId("StudentLoginID");
+            student.setLoginId("StudentLoginID");
 
-	        return student;
-	    }
-	    
-	    
-	    private static void setAddresses(Student student) {
-	        Address address = AddressGenerator.generateLowFi();
+            return student;
+        }
+        
+        
+        private static void setAddresses(Student student) {
+            Address address = AddressGenerator.generateLowFi();
 
-	        student.getAddress().add(address);
-	        student.getAddress().add(address);
-	    }
+            student.getAddress().add(address);
+            student.getAddress().add(address);
+        }
 
-	    private static void setTelephones(Student student) {
-	        Telephone telephone = TelephoneGenerator.getFastTelephone();
+        private static void setTelephones(Student student) {
+            Telephone telephone = TelephoneGenerator.getFastTelephone();
 
-	        student.getTelephone().add(telephone);
-	        student.getTelephone().add(telephone);
-	    }
+            student.getTelephone().add(telephone);
+            student.getTelephone().add(telephone);
+        }
 
-	    private static void setStudentIndicators(Student student) {
-	        StudentIndicator si = new StudentIndicator();
-	        si.setBeginDate("2011-03-04");
-	        si.setEndDate("2012-03-04");
-	        si.setIndicator("This is a student indicator");
-	        si.setIndicatorName("IndicatorName");
+        private static void setStudentIndicators(Student student) {
+            StudentIndicator si = new StudentIndicator();
+            si.setBeginDate("2011-03-04");
+            si.setEndDate("2012-03-04");
+            si.setIndicator("This is a student indicator");
+            si.setIndicatorName("IndicatorName");
 
-	        student.getStudentIndicators().add(si);
-	        student.getStudentIndicators().add(si);
-	    }
+            student.getStudentIndicators().add(si);
+            student.getStudentIndicators().add(si);
+        }
 
-	    private static void setCohortYears(Student student) {
-	        CohortYear ch = new CohortYear();
-	        ch.setSchoolYear("2011-2012");
-	        ch.setCohortYearType(CohortYearType.ELEVENTH_GRADE);
+        private static void setCohortYears(Student student) {
+            CohortYear ch = new CohortYear();
+            ch.setSchoolYear("2011-2012");
+            ch.setCohortYearType(CohortYearType.ELEVENTH_GRADE);
 
-	        student.getCohortYears().add(ch);
-	        student.getCohortYears().add(ch);
-	    }
+            student.getCohortYears().add(ch);
+            student.getCohortYears().add(ch);
+        }
 
-	    private static void setLearningStyles(Student student) {
-	        LearningStyles ls = new LearningStyles();
-	        ls.setVisualLearning(50);
-	        ls.setTactileLearning(25);
-	        ls.setAuditoryLearning(25);
+        private static void setLearningStyles(Student student) {
+            LearningStyles ls = new LearningStyles();
+            ls.setVisualLearning(50);
+            ls.setTactileLearning(25);
+            ls.setAuditoryLearning(25);
 
-	        student.setLearningStyles(ls);
-	    }
+            student.setLearningStyles(ls);
+        }
 
-	    private static void setProgramParticipation(Student student) {
-	        ProgramParticipation pp = new ProgramParticipation();
-	        pp.setBeginDate("2011-03-04");
-	        pp.setEndDate("2012-03-04");
-	        pp.setProgram(ProgramType.ATHLETICS);
+        private static void setProgramParticipation(Student student) {
+            ProgramParticipation pp = new ProgramParticipation();
+            pp.setBeginDate("2011-03-04");
+            pp.setEndDate("2012-03-04");
+            pp.setProgram(ProgramType.ATHLETICS);
 
-	        student.getProgramParticipations().add(pp);
-	        student.getProgramParticipations().add(pp);
-	    }
+            student.getProgramParticipations().add(pp);
+            student.getProgramParticipations().add(pp);
+        }
 
-	    private static void setSection504(Student student) {
-	        Section504DisabilitiesType sec504 = new Section504DisabilitiesType();
-	        sec504.getSection504Disability().add(Section504DisabilityItemType.MEDICAL_CONDITION);
+        private static void setSection504(Student student) {
+            Section504DisabilitiesType sec504 = new Section504DisabilitiesType();
+            sec504.getSection504Disability().add(Section504DisabilityItemType.MEDICAL_CONDITION);
 
-	        student.setSection504Disabilities(sec504);
-	    }
+            student.setSection504Disabilities(sec504);
+        }
 
-	    private static void setDisabilities(Student student) {
-	        Disability disability = new Disability();
-	        disability.setDisability(DisabilityType.DEVELOPMENTAL_DELAY);
+        private static void setDisabilities(Student student) {
+            Disability disability = new Disability();
+            disability.setDisability(DisabilityType.DEVELOPMENTAL_DELAY);
 
-	        student.getDisabilities().add(disability);
-	        student.getDisabilities().add(disability);
-	    }
+            student.getDisabilities().add(disability);
+            student.getDisabilities().add(disability);
+        }
 
-	    private static void setLanguagesAndHomeLanguage(Student student) {
-	        LanguagesType lt = new LanguagesType();
-	        student.setLanguages(lt);
+        private static void setLanguagesAndHomeLanguage(Student student) {
+            LanguagesType lt = new LanguagesType();
+            student.setLanguages(lt);
 
-	        student.getLanguages().getLanguage().add(LanguageItemType.ENGLISH);
-	        student.getLanguages().getLanguage().add(LanguageItemType.ARABIC);
+            student.getLanguages().getLanguage().add(LanguageItemType.ENGLISH);
+            student.getLanguages().getLanguage().add(LanguageItemType.ARABIC);
 
-	        student.setHomeLanguages(lt);
-	    }
+            student.setHomeLanguages(lt);
+        }
 
-	    private static void setStudentCharacteristics(Student student) {
-	        StudentCharacteristic sc = new StudentCharacteristic();
-	        sc.setBeginDate("2011-03-04");
-	        sc.setEndDate("2011-03-04");
-	        sc.setCharacteristic(StudentCharacteristicType.FOSTER_CARE);
+        private static void setStudentCharacteristics(Student student) {
+            StudentCharacteristic sc = new StudentCharacteristic();
+            sc.setBeginDate("2011-03-04");
+            sc.setEndDate("2011-03-04");
+            sc.setCharacteristic(StudentCharacteristicType.FOSTER_CARE);
 
-	        student.getStudentCharacteristics().add(sc);
-	        student.getStudentCharacteristics().add(sc);
-	    }
+            student.getStudentCharacteristics().add(sc);
+            student.getStudentCharacteristics().add(sc);
+        }
 
-	    private static void setEmailAdresses(Student student) {
-	        ElectronicMail em = new ElectronicMail();
-	        em.setEmailAddress("test@gmail.com");
-	        em.setEmailAddressType(ElectronicMailAddressType.HOME_PERSONAL);
+        private static void setEmailAdresses(Student student) {
+            ElectronicMail em = new ElectronicMail();
+            em.setEmailAddress("test@gmail.com");
+            em.setEmailAddressType(ElectronicMailAddressType.HOME_PERSONAL);
 
-	        student.getElectronicMail().add(em);
-	        student.getElectronicMail().add(em);
-	    }
+            student.getElectronicMail().add(em);
+            student.getElectronicMail().add(em);
+        }
 
-	    private static void setRace(Student student) {
-	        RaceType rt = new RaceType();
-	        rt.getRacialCategory().add(RaceItemType.WHITE);
-	        rt.getRacialCategory().add(RaceItemType.BLACK_AFRICAN_AMERICAN);
+        private static void setRace(Student student) {
+            RaceType rt = new RaceType();
+            rt.getRacialCategory().add(RaceItemType.WHITE);
+            rt.getRacialCategory().add(RaceItemType.BLACK_AFRICAN_AMERICAN);
 
-	        student.setRace(rt);
-	    }
+            student.setRace(rt);
+        }
 
-	    private static void setNameAndOtherNames(Student student) {
+        private static void setNameAndOtherNames(Student student) {
 
-	        student.setName(NameGenerator.getFastName());
+            student.setName(NameGenerator.getFastName());
 
-	        OtherName otherName = NameGenerator.getFastOtherName();
-	        student.getOtherName().add(otherName);
-	        student.getOtherName().add(otherName);
-	    }
+            OtherName otherName = NameGenerator.getFastOtherName();
+            student.getOtherName().add(otherName);
+            student.getOtherName().add(otherName);
+        }
 
 }

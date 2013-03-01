@@ -41,7 +41,7 @@ public class GradingPeriodMeta {
     }
 
     public GradingPeriodMeta() {
-    	this("dummy");
+        this("dummy");
     }
     
     public String getBeginData() {

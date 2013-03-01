@@ -100,18 +100,18 @@ public class InterchangeStudentParentGenerator {
 
             if ("medium".equals(StateEdFiXmlGenerator.fidelityOfData)) {
                 try {
-					student = MediumStudentGenerator.generateMediumFi(studentMeta.id);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+                    student = MediumStudentGenerator.generateMediumFi(studentMeta.id);
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
             } else {
                 try {
-					student = MediumStudentGenerator.generateMediumFi(studentMeta.id);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+                    student = MediumStudentGenerator.generateMediumFi(studentMeta.id);
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
             }
 
 
@@ -145,7 +145,7 @@ public class InterchangeStudentParentGenerator {
                 parent = null;
             } else {
                 //parent = ParentGenerator.generate(parentMeta.id, parentMeta.isMale);
-            	parent = ParentGenerator.generateMediumFi(parentMeta.id, parentMeta.isMale);
+                parent = ParentGenerator.generateMediumFi(parentMeta.id, parentMeta.isMale);
             }
 
 

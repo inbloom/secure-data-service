@@ -48,8 +48,8 @@ import org.slc.sli.test.utils.InterchangeWriter;
  */
 public class StudentCohortAssociationGenerator {
 
-	private static String beginDate = "2011-03-04";
-	private static String endDate = "2012-03-04";
+    private static String beginDate = "2011-03-04";
+    private static String endDate = "2012-03-04";
 
     /**
      * Generates a list of StudentCohortAssociation from a CohortMeta.
@@ -59,14 +59,14 @@ public class StudentCohortAssociationGenerator {
      * @return <code>List<StudentCohortAssociation></code>
      */
     public static int generateLowFi(InterchangeWriter<InterchangeStudentCohort> iWriter, CohortMeta cohortMeta) {
-    	int count=0;
+        int count=0;
         String cohortId = cohortMeta.id;
         String schoolId = cohortMeta.programMeta==null ? cohortMeta.schoolMeta.id : cohortMeta.programMeta.orgId;
         Set<String> studentIds = cohortMeta.studentIds;
         
         
         for (String studentId : studentIds) {
-        	SLCStudentCohortAssociation retVal = generateLowFi(cohortId, studentId, schoolId);
+            SLCStudentCohortAssociation retVal = generateLowFi(cohortId, studentId, schoolId);
 
             
             iWriter.marshal(retVal);
@@ -88,9 +88,9 @@ public class StudentCohortAssociationGenerator {
      */
     public static SLCStudentCohortAssociation generateLowFi(String cohortId, String studentId, String schoolId) {
 
-    	 SLCStudentCohortAssociation slcsca = new SLCStudentCohortAssociation();
+         SLCStudentCohortAssociation slcsca = new SLCStudentCohortAssociation();
 
-    	// construct and add the student reference
+        // construct and add the student reference
         SLCStudentIdentityType slcsit = new SLCStudentIdentityType();
         slcsit.setStudentUniqueStateId(studentId);
         SLCStudentReferenceType slcsrt = new SLCStudentReferenceType();

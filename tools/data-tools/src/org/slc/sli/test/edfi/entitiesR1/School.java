@@ -17,9 +17,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * This entity represents an educational organization
- * 				that includes staff and students who participate in classes and
- * 				educational activity groups.
- * 			
+ *                 that includes staff and students who participate in classes and
+ *                 educational activity groups.
+ *             
  * 
  * <p>Java class for school complex type.
  * 

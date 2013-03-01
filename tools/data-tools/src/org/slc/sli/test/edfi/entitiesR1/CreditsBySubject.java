@@ -16,12 +16,12 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * The total credits required in subject to graduate.
- * 				Only those courses
- * 				identified as a high school course requirement are
- * 				eligible to meet subject
- * 				credit
- * 				requirements.
- * 			
+ *                 Only those courses
+ *                 identified as a high school course requirement are
+ *                 eligible to meet subject
+ *                 credit
+ *                 requirements.
+ *             
  * 
  * <p>Java class for creditsBySubject complex type.
  * 

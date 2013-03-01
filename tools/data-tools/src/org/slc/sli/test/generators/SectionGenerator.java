@@ -70,11 +70,11 @@ public class SectionGenerator {
     }
     
     public static SLCSection generateMediumFi(SectionMeta sectionMeta) {
-    	String sectionId = sectionMeta.id;
-    	String schoolId = sectionMeta.schoolId;
-    	String sessionId = sectionMeta.sessionId;
+        String sectionId = sectionMeta.id;
+        String schoolId = sectionMeta.schoolId;
+        String sessionId = sectionMeta.sessionId;
 
-    	SLCSection section = new SLCSection();
+        SLCSection section = new SLCSection();
 //         String[] temp;
 //         temp = courseId.split("-");
 //         String courseTemp= temp[temp.length -1];
@@ -105,11 +105,11 @@ public class SectionGenerator {
     }
 
     public static SLCSection generateLowFi(SectionMeta sectionMeta) {
-    	String sectionId = sectionMeta.id;
-    	String schoolId = sectionMeta.schoolId;
-    	String sessionId = sectionMeta.sessionId;
+        String sectionId = sectionMeta.id;
+        String schoolId = sectionMeta.schoolId;
+        String sessionId = sectionMeta.sessionId;
 
-    	SLCSection section = new SLCSection();
+        SLCSection section = new SLCSection();
 
         section.setUniqueSectionCode(sectionId);
         section.setSequenceOfCourse(1);
@@ -188,7 +188,7 @@ public class SectionGenerator {
     }
 
     public static SLCSessionReferenceType getSessionReference(SessionMeta sessionMeta) {
-    	return SessionGenerator.getSessionReferenceType(sessionMeta.schoolId, sessionMeta.id);
+        return SessionGenerator.getSessionReferenceType(sessionMeta.schoolId, sessionMeta.id);
     }
 
     public static SLCEducationalOrgReferenceType getEducationalOrgReference(String stateOrganizationId) {

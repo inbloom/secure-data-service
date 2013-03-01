@@ -1,15 +1,15 @@
 {
-	id: "school",
-	name: "inBloom - School Profile",
+    id: "school",
+    name: "inBloom - School Profile",
     type: "LAYOUT",
-	data :{
-		entity: "schoolInfo",
-		cacheKey: "schoolInfo"
-	}, 
-	items: [
-	    {id : "populationWidget", name: "Organizational hierarchy drop down menu", type: "PANEL"},
-	    {id: "schoolInfo", name: "School Info", type: "PANEL"},
-		{id: "tab1", name: "Subjects and Courses",  type : "TAB", items: [{id : "sectionList", type: "TREE"}]},
-		{id: "tab2", name: "Teachers",  type : "TAB", items: [{id : "teacherList", type: "GRID"}]}
-	]
+    data :{
+        entity: "schoolInfo",
+        cacheKey: "schoolInfo"
+    }, 
+    items: [
+        {id : "populationWidget", name: "Organizational hierarchy drop down menu", type: "PANEL"},
+        {id: "schoolInfo", name: "School Info", type: "PANEL"},
+        {id: "tab1", name: "Subjects and Courses",  type : "TAB", items: [{id : "sectionList", type: "TREE"}]},
+        {id: "tab2", name: "Teachers",  type : "TAB", items: [{id : "teacherList", type: "GRID"}]}
+    ]
 }
