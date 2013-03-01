@@ -3,6 +3,8 @@ package org.slc.sli.dal.convert;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.when;
 
 import java.lang.reflect.InvocationTargetException;
@@ -50,7 +52,7 @@ public class AssessmentConverterTest {
     private Map<String, Object> item3 = new HashMap<String, Object>();
     private Map<String, Object> item4 = new HashMap<String, Object>();
     private Map<String, Object> apdBody = new HashMap<String, Object>();
-    private Entity APD;
+    private Entity assessmentPeriodDescriptor;
 
     @Before
     public void setup() throws NoNaturalKeysDefinedException {
@@ -68,7 +70,7 @@ public class AssessmentConverterTest {
         item4.put("abc", "somevalue4");
         
         apdBody.put("codeValue", "green");
-        APD = new MongoEntity("assessmentPeriodDescriptor", "mydescriptorid", apdBody, null);
+        assessmentPeriodDescriptor = new MongoEntity("assessmentPeriodDescriptor", "mydescriptorid", apdBody, null);
         
         naturalKeyExtractor = Mockito.mock(NaturalKeyExtractor.class);
         repo = Mockito.mock(MongoEntityRepository.class);
@@ -76,7 +78,8 @@ public class AssessmentConverterTest {
         MockitoAnnotations.initMocks(this);
         
         when(repo.getTemplate()).thenReturn(template);
-        when(template.findById("mydescriptorid", Entity.class, EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR)).thenReturn(APD);
+        when(repo.update(eq(EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR), any(Entity.class), eq(false))).thenReturn(true);
+        when(template.findById("mydescriptorid", Entity.class, EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR)).thenReturn(assessmentPeriodDescriptor);
     }
 
     /*
@@ -121,6 +124,13 @@ public class AssessmentConverterTest {
     }
 
     @Test
+    public void upconvertShouldRemoveAPD_references() {
+        Entity entity = createUpConvertEntity();
+        assessmentConverter.subdocToBodyField(entity);
+        assertNull(entity.getBody().get("assessmentPeriodDescriptorId"));
+    }
+    
+    @Test
     public void upconvertNoEmbeddedSubdocShouldRemainUnchanged() {
         List<Entity> entity = Arrays.asList(createDownConvertEntity());
         Entity clone = createDownConvertEntity();
@@ -146,7 +156,7 @@ public class AssessmentConverterTest {
         assertNull(entity.getBody().get("assessmentPeriodDescriptorId"));
         assertNotNull(entity.getBody().get("assessmentPeriodDescriptor"));
         assertEquals(((Map<String, Object>)(entity.getBody().get("assessmentPeriodDescriptor"))).get("codeValue"),
-        		APD.getBody().get("codeValue"));
+        		assessmentPeriodDescriptor.getBody().get("codeValue"));
     }
 
     @Test

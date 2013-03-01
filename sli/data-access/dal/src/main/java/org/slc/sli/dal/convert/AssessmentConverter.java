@@ -42,10 +42,10 @@ import org.slc.sli.domain.MongoEntity;
 @Component
 public class AssessmentConverter extends GenericSuperdocConverter implements SuperdocConverter {
 
-    private static final String OA_ID = "identificationCode";
-    private static final String SUB_OA_HIERARCHY = "objectiveAssessments";
-    private static final String SUB_OA_REFS = "subObjectiveAssessment";
-    private static final String APD_ID = "assessmentPeriodDescriptorId";
+    private static final String OBJECTIVE_ASSESSSMENT_ID = "identificationCode";
+    private static final String SUB_OBJECTIVE_ASSESSMENT_HIERARCHY = "objectiveAssessments";
+    private static final String SUB_OBJECTIVE_ASSESSMENT_REFS = "subObjectiveAssessment";
+    private static final String ASSESSMENT_PERIOD_DESCRIPTOR_ID = "assessmentPeriodDescriptorId";
 
     @Override
     public void subdocToBodyField(Entity entity) {
@@ -59,7 +59,7 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
     }
 
     private void collapseAssessmentPeriodDescriptor(Entity entity) {
-    	Object apdId = entity.getBody().remove(APD_ID); 
+    	Object apdId = entity.getBody().remove(ASSESSMENT_PERIOD_DESCRIPTOR_ID); 
     	if (apdId != null && apdId instanceof String) {
     		Entity apd = retrieveAccessmentPeriodDecriptor((String) apdId);
     		if (apd != null) {
@@ -98,11 +98,17 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
             makeSubDocs(entity, "assessmentItem", "assessmentId", assessmentItems);
            
             //assessmentPeriodDescriptor
-            Object apd = entity.getBody().remove(EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR);
-            if (apd instanceof Map<?,?>) {
+            Object assessmentPeriodDescrptor = entity.getBody().remove(EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR);
+            if (assessmentPeriodDescrptor instanceof Map<?,?>) {
+            	//update embedded assessmentPeriodDescriptor
             	@SuppressWarnings("unchecked")
-            	String did = generateSubdocDid((Map<String, Object>) apd, EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR);
-            	entity.getBody().put(APD_ID, did);
+            	String did = generateSubdocDid((Map<String, Object>) assessmentPeriodDescrptor, EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR);
+            	@SuppressWarnings("unchecked")
+            	MongoEntity apdEntity = new MongoEntity(EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR, did, (Map<String, Object>) assessmentPeriodDescrptor, null);
+            	if (repo.update(EntityNames.ASSESSMENT_PERIOD_DESCRIPTOR, apdEntity, false)) {
+            		//only record the id if it was successfully updated
+            		entity.getBody().put(ASSESSMENT_PERIOD_DESCRIPTOR_ID, did);
+            	}
             }
         }
     }
@@ -154,12 +160,12 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
             Map<String, Entity> allOAs = new LinkedHashMap<String, Entity>();
             for (Entity oa : oas) {
                 addEmbeddedAssessmentItems(items, oa);
-                allOAs.put(oa.getBody().get(OA_ID).toString(), oa);
+                allOAs.put(oa.getBody().get(OBJECTIVE_ASSESSSMENT_ID).toString(), oa);
             }
             Set<String> topLevelOAs = new HashSet<String>(allOAs.keySet());
             for (Entry<String, Entity> oa : allOAs.entrySet()) {
                 @SuppressWarnings("unchecked")
-                List<String> subOAs = (List<String>) oa.getValue().getBody().get(SUB_OA_REFS);
+                List<String> subOAs = (List<String>) oa.getValue().getBody().get(SUB_OBJECTIVE_ASSESSMENT_REFS);
                 if (subOAs != null) {
                     List<Map<String, Object>> actuals = new ArrayList<Map<String, Object>>(subOAs.size());
                     for (String ref : subOAs) {
@@ -169,8 +175,8 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
                             actuals.add(actual);
                         }
                     }
-                    oa.getValue().getBody().put(SUB_OA_HIERARCHY, actuals);
-                    oa.getValue().getBody().remove(SUB_OA_REFS);
+                    oa.getValue().getBody().put(SUB_OBJECTIVE_ASSESSMENT_HIERARCHY, actuals);
+                    oa.getValue().getBody().remove(SUB_OBJECTIVE_ASSESSMENT_REFS);
                 }
             }
             List<Entity> transformed = new ArrayList<Entity>(topLevelOAs.size());
@@ -223,12 +229,12 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
         if (originals != null) {
             for (Map<String, Object> original : originals) {
                 @SuppressWarnings("unchecked")
-                List<Map<String, Object>> subs = (List<Map<String, Object>>) original.get(SUB_OA_HIERARCHY);
+                List<Map<String, Object>> subs = (List<Map<String, Object>>) original.get(SUB_OBJECTIVE_ASSESSMENT_HIERARCHY);
                 Entity oa = makeOAEntity(original, parentKey);
                 if (subs != null && !subs.isEmpty()) {
                     oas.addAll(transformFromHierarchy(subs, parentKey));
-                    oa.getBody().put(SUB_OA_REFS, makeOARefs(subs));
-                    original.remove(SUB_OA_HIERARCHY);
+                    oa.getBody().put(SUB_OBJECTIVE_ASSESSMENT_REFS, makeOARefs(subs));
+                    original.remove(SUB_OBJECTIVE_ASSESSMENT_HIERARCHY);
                 }
                 oas.add(oa);
             }
@@ -239,7 +245,7 @@ public class AssessmentConverter extends GenericSuperdocConverter implements Sup
     private List<String> makeOARefs(List<Map<String, Object>> oas) {
         List<String> refs = new ArrayList<String>(oas.size());
         for (Map<String, Object> oa : oas) {
-            refs.add(oa.get(OA_ID).toString());
+            refs.add(oa.get(OBJECTIVE_ASSESSSMENT_ID).toString());
         }
         return refs;
     }

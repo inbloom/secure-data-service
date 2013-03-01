@@ -543,7 +543,14 @@ public class BasicService implements EntityService {
             debug("Field {} is referencing {}", fieldName, entityType);
             @SuppressWarnings("unchecked")
             List<String> ids = value instanceof List ? (List<String>) value : Arrays.asList((String) value);
+            
             EntityDefinition def = definitionStore.lookupByEntityType(entityType);
+            if (def == null) {
+                debug("Invalid reference field: {} does not have an entity definition registered", fieldName);
+                ValidationError error = new ValidationError(ValidationError.ErrorType.INVALID_FIELD_NAME, fieldName, value, null);
+                throw new EntityValidationException(null, null, Arrays.asList(error));
+            }
+            
             try {
                 contextValidator.validateContextToEntities(def, ids, true);
             } catch (AccessDeniedException e) {
