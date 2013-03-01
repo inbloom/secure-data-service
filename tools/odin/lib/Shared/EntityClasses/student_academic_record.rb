@@ -20,12 +20,13 @@ require_relative 'baseEntity'
 
 # creates a student academic record
 class StudentAcademicRecord < BaseEntity
-  attr_accessor :student_id, :report_card, :cumulative_credits, :session
+  attr_accessor :student_id, :school_year, :report_card, :cumulative_credits, :session
 
   def initialize(student_id, session, report_card)
     @student_id = student_id
     @session = session
     @report_card = report_card
+    @school_year = session['year'].to_s + "-" + (session['year'] + 1).to_s
   end
 
   def ed_org_id
