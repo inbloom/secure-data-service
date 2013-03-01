@@ -8,19 +8,9 @@
 				<StaffUniqueStateId>jjackson</StaffUniqueStateId>
 			</StaffIdentity>
 		</StaffReference>
-		<StaffReference>
-			<StaffIdentity>
-				<StaffUniqueStateId>jstevenson</StaffUniqueStateId>
-			</StaffIdentity>
-		</StaffReference>
 		<ProgramReference>
 			<ProgramIdentity>
 				<ProgramId>ACC-TEST-PROG-1</ProgramId>
-			</ProgramIdentity>
-		</ProgramReference>
-		<ProgramReference>
-			<ProgramIdentity>
-				<ProgramId>ACC-TEST-PROG-2</ProgramId>
 			</ProgramIdentity>
 		</ProgramReference>
 		<BeginDate>2011-01-05</BeginDate>
@@ -47,11 +37,6 @@
 		<StaffReference>
 			<StaffIdentity>
 				<StaffUniqueStateId>sbantu</StaffUniqueStateId>
-			</StaffIdentity>
-		</StaffReference>
-		<StaffReference>
-			<StaffIdentity>
-				<StaffUniqueStateId>mjohnson</StaffUniqueStateId>
 			</StaffIdentity>
 		</StaffReference>
 		<ProgramReference>
