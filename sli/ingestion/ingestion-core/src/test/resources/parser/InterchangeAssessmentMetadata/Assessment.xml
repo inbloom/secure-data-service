@@ -26,8 +26,10 @@
     <RevisionDate>2013-06-26</RevisionDate>
     <MaxRawScore>-106363329</MaxRawScore>
     <Nomenclature>KHxRDAz7C</Nomenclature>
-    <AssessmentPeriod id="ID005" ref="ID001">
-      <CodeValue>L3kdkmNh</CodeValue>
+    <AssessmentPeriod>
+      <AssessmentPeriodDescriptorIdentity>
+        <AssessmentPeriodDescriptorCodeValue>BOY-1-2001</AssessmentPeriodDescriptorCodeValue>
+      </AssessmentPeriodDescriptorIdentity>
     </AssessmentPeriod>
     <AssessmentItemReference id="ID007" ref="ID001">
       <AssessmentItemIdentity>

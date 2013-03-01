@@ -28,9 +28,9 @@
   "MaxRawScore":{"_value":-106363329},
   "Nomenclature":{"_value":"KHxRDAz7C"},
   "AssessmentPeriod":{
-    "a_id":"ID005",
-    "a_ref":"ID001",
-    "CodeValue":{"_value":"L3kdkmNh"}
+    "AssessmentPeriodDescriptorIdentity":{
+      "AssessmentPeriodDescriptorCodeValue":{"_value":"BOY-1-2001"}
+    }
   },
   "AssessmentItemReference":[{
     "a_id":"ID007",

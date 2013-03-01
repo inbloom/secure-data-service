@@ -6,15 +6,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2001 Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
 </AssessmentFamily>
 <AssessmentFamily>
     <AssessmentFamilyTitle>2001 Kindergarten Standard</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2001 Kindergarten Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -23,9 +26,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2001 First grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -34,9 +39,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2001 Second grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -45,9 +52,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2001 Third grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -56,9 +65,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2001 Fourth grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -67,9 +78,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2001 Fifth grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -78,9 +91,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2001 Sixth grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -89,9 +104,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2001 Seventh grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -100,9 +117,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2001 Eighth grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -111,9 +130,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2001 Ninth grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -122,9 +143,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2001 Tenth grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -133,9 +156,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2001 Eleventh grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -144,9 +169,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2001 Twelfth grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -155,15 +182,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2002 Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
 </AssessmentFamily>
 <AssessmentFamily>
     <AssessmentFamilyTitle>2002 Kindergarten Standard</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2002 Kindergarten Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -172,9 +202,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2002 First grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -183,9 +215,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2002 Second grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -194,9 +228,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2002 Third grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -205,9 +241,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2002 Fourth grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -216,9 +254,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2002 Fifth grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -227,9 +267,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2002 Sixth grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -238,9 +280,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2002 Seventh grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -249,9 +293,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2002 Eighth grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -260,9 +306,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2002 Ninth grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -271,9 +319,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2002 Tenth grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -282,9 +332,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2002 Eleventh grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -293,9 +345,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2002 Twelfth grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -304,15 +358,18 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2003 Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
 </AssessmentFamily>
 <AssessmentFamily>
     <AssessmentFamilyTitle>2003 Kindergarten Standard</AssessmentFamilyTitle>
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2003 Kindergarten Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -321,9 +378,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2003 First grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -332,9 +391,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2003 Second grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -343,9 +404,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2003 Third grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -354,9 +417,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2003 Fourth grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -365,9 +430,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2003 Fifth grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -376,9 +443,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2003 Sixth grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -387,9 +456,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2003 Seventh grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -398,9 +469,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2003 Eighth grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -409,9 +482,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2003 Ninth grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -420,9 +495,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2003 Tenth grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -431,9 +508,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2003 Eleventh grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -442,9 +521,11 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyIdentificationCode IdentificationSystem="State">
         <ID>2003 Twelfth grade Standard</ID>
     </AssessmentFamilyIdentificationCode>
+    <Version>1</Version>
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </AssessmentFamily>
@@ -648,6 +729,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Kindergarten Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -695,6 +777,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Kindergarten Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -742,6 +825,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 First grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -789,6 +873,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 First grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -836,6 +921,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Second grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -883,6 +969,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Second grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -930,6 +1017,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Third grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -977,6 +1065,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Third grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -1024,6 +1113,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Fourth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -1071,6 +1161,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Fourth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -1118,6 +1209,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Fifth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -1165,6 +1257,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Fifth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -1212,6 +1305,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Sixth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -1259,6 +1353,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Sixth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -1306,6 +1401,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Seventh grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -1353,6 +1449,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Seventh grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -1400,6 +1497,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Eighth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -1447,6 +1545,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Eighth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -1494,6 +1593,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Ninth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -1541,6 +1641,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Ninth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -1588,6 +1689,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Tenth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -1635,6 +1737,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Tenth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -1682,6 +1785,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Eleventh grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -1729,6 +1833,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Eleventh grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -1776,6 +1881,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Twelfth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -1823,6 +1929,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2001 Twelfth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -1870,6 +1977,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Kindergarten Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -1917,6 +2025,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Kindergarten Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -1964,6 +2073,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 First grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -2011,6 +2121,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 First grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -2058,6 +2169,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Second grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -2105,6 +2217,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Second grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -2152,6 +2265,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Third grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -2199,6 +2313,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Third grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -2246,6 +2361,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Fourth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -2293,6 +2409,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Fourth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -2340,6 +2457,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Fifth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -2387,6 +2505,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Fifth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -2434,6 +2553,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Sixth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -2481,6 +2601,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Sixth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -2528,6 +2649,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Seventh grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -2575,6 +2697,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Seventh grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -2622,6 +2745,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Eighth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -2669,6 +2793,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Eighth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -2716,6 +2841,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Ninth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -2763,6 +2889,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Ninth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -2810,6 +2937,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Tenth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -2857,6 +2985,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Tenth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -2904,6 +3033,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Eleventh grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -2951,6 +3081,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Eleventh grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -2998,6 +3129,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Twelfth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -3045,6 +3177,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2002 Twelfth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -3092,6 +3225,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Kindergarten Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -3139,6 +3273,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Kindergarten Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -3186,6 +3321,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 First grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -3233,6 +3369,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 First grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -3280,6 +3417,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Second grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -3327,6 +3465,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Second grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -3374,6 +3513,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Third grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -3421,6 +3561,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Third grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -3468,6 +3609,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Fourth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -3515,6 +3657,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Fourth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -3562,6 +3705,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Fifth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -3609,6 +3753,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Fifth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -3656,6 +3801,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Sixth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -3703,6 +3849,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Sixth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -3750,6 +3897,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Seventh grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -3797,6 +3945,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Seventh grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -3844,6 +3993,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Eighth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -3891,6 +4041,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Eighth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -3938,6 +4089,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Ninth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -3985,6 +4137,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Ninth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -4032,6 +4185,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Tenth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -4079,6 +4233,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Tenth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -4126,6 +4281,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Eleventh grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -4173,6 +4329,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Eleventh grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -4220,6 +4377,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Twelfth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>
@@ -4267,6 +4425,7 @@ xsi:schemaLocation="http://ed-fi.org/0100 ../../sli/edfi-schema/src/main/resourc
     <AssessmentFamilyReference>
         <AssessmentFamilyIdentity>
             <AssessmentFamilyTitle>2003 Twelfth grade Standard</AssessmentFamilyTitle>
+            <Version>1</Version>
         </AssessmentFamilyIdentity>
     </AssessmentFamilyReference>
 </Assessment>

@@ -283,14 +283,18 @@ Examples:
       Then I should receive a return code of 201
         And I should receive a new entity URI
         And I verify "objectiveAssessment" and "assessmentItem" should be subdoc'ed in mongo for this new "assessment"
+        And I verify there are "1" "assessmentPeriodDescriptor" with "codeValue=codeGreen"
       When I navigate to GET "/assessments/<NEWLY CREATED ENTITY ID>"
         Then I should receive a return code of 200
-        And I verify "objectiveAssessment" and "assessmentItem" is collapsed in response body 
+        And I verify "objectiveAssessment, assessmentPeriodDescriptor" and "assessmentItem" is collapsed in response body 
         And "objectiveAssessment" is hierachical with childrens at "objectiveAssessments"
       When I set the "lowestGradeLevelAssessed" to "Sixth grade"
+        And I set the "codeValue" to "codeRed" in "assessmentPeriodDescriptor"
         And I navigate to PUT "/assessments/<NEWLY CREATED ENTITY ID>"
         Then I should receive a return code of 204
          And I verify "objectiveAssessment" and "assessmentItem" should be subdoc'ed in mongo for this new "assessment"
+         And I verify there are "1" "assessmentPeriodDescriptor" with "codeValue=codeRed"
+         And I verify there are "0" "assessmentPeriodDescriptor" with "codeValue=codeGreen"
          And I navigate to GET "/assessments/<NEWLY CREATED ENTITY ID>"
          And "lowestGradeLevelAssessed" should be "Sixth grade"
      # the corresponding studentAssessment 
