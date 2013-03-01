@@ -58,7 +58,7 @@ Then I should see following map of entry counts in the corresponding collections
      | assessment                            | 4     |
      | attendance                            | 16    |
      | cohort                                | 32    |
-     | competencyLevelDescriptor             | 2     |
+#remove     | competencyLevelDescriptor             | 2     |
 #    | competencyLevelDescriptorType         |       |
      | course	                              | 16    |
      | courseOffering                        | 32    |
@@ -234,10 +234,10 @@ Then I should see following map of entry counts in the corresponding collections
      | disciplineIncident                    | 16                  | body.incidentLocation                                                                                                                 | none |
      | disciplineIncident                    | 16                  | body.reporterDescription                                                                                                              | none |
      | disciplineIncident                    | 16                  | body.reporterName                                                                                                                     | none |
-     | disciplineIncident                    | 17                  | body.behaviors                                                                                                                        | body.behaviors: |
-     | disciplineIncident                    | 15                  | body.behaviors.codeValue                                                                                                              | body.behaviors: |
-     | disciplineIncident                    | 1                   | body.behaviors.shortDescription                                                                                                       | body.behaviors: |
-     | disciplineIncident                    | 1                   | body.behaviors.description                                                                                                            | body.behaviors: |
+     | disciplineIncident                    | 17                  | body.behaviors                                                                                                                        | body.behaviors |
+     | disciplineIncident                    | 15                  | body.behaviors.codeValue                                                                                                              | body.behaviors |
+     | disciplineIncident                    | 1                   | body.behaviors.shortDescription                                                                                                       | body.behaviors |
+     | disciplineIncident                    | 1                   | body.behaviors.description                                                                                                            | body.behaviors |
      | disciplineIncident                    | 16                  | body.secondaryBehaviors                                                                                                               | body.secondaryBehaviors |
      | disciplineIncident                    | 16                  | body.secondaryBehaviors.secondaryBehavior                                                                                             | body.secondaryBehaviors |
      | disciplineIncident                    | 16                  | body.secondaryBehaviors.behaviorCategory                                                                                              | body.secondaryBehaviors |
@@ -336,7 +336,7 @@ Then I should see following map of entry counts in the corresponding collections
      | graduationPlan                        | 1                   | body.creditsByCourse.credits.creditType                                                                                               | body.creditsByCourse |
      | graduationPlan                        | 1                   | body.creditsByCourse.credits.creditConversion                                                                                         | body.creditsByCourse |
      | graduationPlan                        | 1                   | body.creditsByCourse.gradeLevel                                                                                                       | body.creditsByCourse |
-     | graduationPlan                        | 16                  | body.educationOrganizationId                                                                                                          | none |
+     | graduationPlan                        | 1                   | body.educationOrganizationId                                                                                                          | none |
 
      | learningObjective                     | 66                  | body.learningObjectiveId                                                                                                              | none |
      | learningObjective                     | 66                  | body.learningObjectiveId.identificationCode                                                                                           | none |
@@ -401,10 +401,10 @@ Then I should see following map of entry counts in the corresponding collections
      | program                               | 28                  | body.programId                                                                                                                        | none |
      | program                               | 28                  | body.programType                                                                                                                      | none |
      | program                               | 28                  | body.programSponsor                                                                                                                   | none |
-     | program                               | 24                  | body.services                                                                                                                         | body.services: |
-     | program                               | 22                  | body.services.codeValue                                                                                                               | body.services: |
-     | program                               | 1                   | body.services.shortDescription                                                                                                        | body.services: |
-     | program                               | 1                   | body.services.description                                                                                                             | body.services: |
+     | program                               | 24                  | body.services                                                                                                                         | body.services |
+     | program                               | 22                  | body.services.codeValue                                                                                                               | body.services |
+     | program                               | 1                   | body.services.shortDescription                                                                                                        | body.services |
+     | program                               | 1                   | body.services.description                                                                                                             | body.services |
 
      | reportCard                            | 64                  | body.grades                                                                                                                           | body.grades |
      | reportCard                            | 128                 | body.studentCompetencyId                                                                                                              | body.studentCompetencyId |
@@ -737,10 +737,10 @@ Then I should see following map of entry counts in the corresponding collections
      | studentDisciplineIncidentAssociation  | 16                  | body.studentId                                                                                                                        | none |
      | studentDisciplineIncidentAssociation  | 16                  | body.disciplineIncidentId                                                                                                             | none |
      | studentDisciplineIncidentAssociation  | 16                  | body.studentParticipationCode                                                                                                         | none |
-     | studentDisciplineIncidentAssociation  | 3                   | body.behaviors                                                                                                                        | body.behaviors: |
-     | studentDisciplineIncidentAssociation  | 1                   | body.behaviors.codeValue                                                                                                              | body.behaviors: |
-     | studentDisciplineIncidentAssociation  | 1                   | body.behaviors.shortDescription                                                                                                       | body.behaviors: |
-     | studentDisciplineIncidentAssociation  | 1                   | body.behaviors.description                                                                                                            | body.behaviors: |
+     | studentDisciplineIncidentAssociation  | 3                   | body.behaviors                                                                                                                        | body.behaviors |
+     | studentDisciplineIncidentAssociation  | 1                   | body.behaviors.codeValue                                                                                                              | body.behaviors |
+     | studentDisciplineIncidentAssociation  | 1                   | body.behaviors.shortDescription                                                                                                       | body.behaviors |
+     | studentDisciplineIncidentAssociation  | 1                   | body.behaviors.description                                                                                                            | body.behaviors |
      | studentDisciplineIncidentAssociation  | 1                   | body.secondaryBehaviors                                                                                                               | body.secondaryBehaviors |
      | studentDisciplineIncidentAssociation  | 1                   | body.secondaryBehaviors.secondaryBehavior                                                                                             | body.secondaryBehaviors |
      | studentDisciplineIncidentAssociation  | 1                   | body.secondaryBehaviors.behaviorCategory                                                                                              | body.secondaryBehaviors |
@@ -765,10 +765,10 @@ Then I should see following map of entry counts in the corresponding collections
 
      | studentProgramAssociation             | 14                  | body.studentId                                                                                                                        | none |
      | studentProgramAssociation             | 14                  | body.programId                                                                                                                        | none |
-     | studentProgramAssociation             | 4                   | body.services                                                                                                                         | body.services: |
-     | studentProgramAssociation             | 1                   | body.services.codeValue                                                                                                               | body.services: |
-     | studentProgramAssociation             | 1                   | body.services.shortDescription                                                                                                        | body.services: |
-     | studentProgramAssociation             | 2                   | body.services.description                                                                                                             | body.services: |
+     | studentProgramAssociation             | 4                   | body.services                                                                                                                         | body.services |
+     | studentProgramAssociation             | 1                   | body.services.codeValue                                                                                                               | body.services |
+     | studentProgramAssociation             | 1                   | body.services.shortDescription                                                                                                        | body.services |
+     | studentProgramAssociation             | 2                   | body.services.description                                                                                                             | body.services |
      | studentProgramAssociation             | 14                  | body.beginDate                                                                                                                        | none |
      | studentProgramAssociation             | 14                  | body.endDate                                                                                                                          | none |
      | studentProgramAssociation             | 14                  | body.reasonExited                                                                                                                     | none |
