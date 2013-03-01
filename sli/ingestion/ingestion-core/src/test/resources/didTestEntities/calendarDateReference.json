@@ -1,12 +1,12 @@
 {
-	"recordType":"session",
-	"attributes": {
-		"CalendarDateReference" : [
-			{
-				"CalendarDateIdentity" : {
-					"Date" : "2011-03-04"
-				}
-			}
-		]
-	}
+    "recordType":"session",
+    "attributes": {
+        "CalendarDateReference" : [
+            {
+                "CalendarDateIdentity" : {
+                    "Date" : "2011-03-04"
+                }
+            }
+        ]
+    }
 }

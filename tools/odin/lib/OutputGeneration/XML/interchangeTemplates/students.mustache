@@ -16,6 +16,11 @@ limitations under the License.
 {{#entity}}
 <Student>
   <StudentUniqueStateId>{{id}}</StudentUniqueStateId>
+    {{#studentIdentificationCode}}
+      <StudentIdentificationCode IdentificationSystem="{{identificationSystem}}" AssigningOrganizationCode="{{assigningOrganizationCode}}">
+        <IdentificationCode>{{identificationCode}}</IdentificationCode>
+      </StudentIdentificationCode>
+    {{/studentIdentificationCode}}
   <Name>
     {{#prefix}}
     <PersonalTitlePrefix>{{prefix}}</PersonalTitlePrefix>
@@ -54,12 +59,20 @@ limitations under the License.
     <StateAbbreviation>{{state}}</StateAbbreviation>
     <PostalCode>{{postalCode}}</PostalCode>
   </Address>
+  {{#telephone}}
+	<Telephone>
+	  <TelephoneNumber>{{telephone}}</TelephoneNumber>
+	</Telephone>
+  {{/telephone}}
   <ElectronicMail EmailAddressType="Home/Personal">
     <EmailAddress>{{email}}</EmailAddress>
   </ElectronicMail>
+  {{#profileThumbnail}}
+    <ProfileThumbnail>{{profileThumbnail}}</ProfileThumbnail>
+  {{/profileThumbnail}}
   <HispanicLatinoEthnicity>{{hispanicLatino}}</HispanicLatinoEthnicity>
   {{#oldEthnicity}}
-  <OldEthnicity>{{oldEthnicity}}</OldEthnicity>
+    <OldEthnicity>{{oldEthnicity}}</OldEthnicity>
   {{/oldEthnicity}}
   {{#race}}
   <Race>
@@ -67,22 +80,77 @@ limitations under the License.
   </Race>
   {{/race}}
   {{#economicDisadvantaged}}
-  <EconomicDisadvantaged>{{economicDisadvantaged}}</EconomicDisadvantaged>
+    <EconomicDisadvantaged>{{economicDisadvantaged}}</EconomicDisadvantaged>
   {{/economicDisadvantaged}}
   {{#schoolFood}}
   <SchoolFoodServicesEligibility>{{schoolFood}}</SchoolFoodServicesEligibility>
   {{/schoolFood}}
+  {{#studentCharacteristics}}
+    <StudentCharacteristics>
+      <Characteristic>{{characteristic}}</Characteristic>
+      <BeginDate>{{beginDate}}</BeginDate>
+      <EndDate>{{endDate}}</EndDate>
+      <DesignatedBy>{{designatedBy}}</DesignatedBy>
+    </StudentCharacteristics>
+  {{/studentCharacteristics}}  
   {{#limitedEnglish}}
   <LimitedEnglishProficiency>{{limitedEnglish}}</LimitedEnglishProficiency>
   {{/limitedEnglish}}
-  {{#section504disabilities}}
-  <Section504Disabilities>
-    <Section504Disability>{{disability}}</Section504Disability>
-  </Section504Disabilities>
-  {{/section504disabilities}}
+  {{#languages}}
+    <Languages>
+      <Language>{{languages}}</Language>
+    </Languages>
+  {{/languages}}
+  {{#homeLanguages}}
+    <HomeLanguages>
+      <Language>{{homeLanguages}}</Language>
+    </HomeLanguages>
+  {{/homeLanguages}}
+  {{#disabilities}}
+    <Disabilities>
+      <Disability>{{disability}}</Disability>
+      <DisabilityDiagnosis>{{disabilityDiagnosis}}</DisabilityDiagnosis>
+      <OrderOfDisability>{{orderOfDisability}}</OrderOfDisability>
+    </Disabilities>
+  {{/disabilities}}
+  {{#section504Disabilities}}
+    <Section504Disabilities>
+      <Section504Disability>{{section504Disabilities}}</Section504Disability>
+    </Section504Disabilities>
+  {{/section504Disabilities}}
   {{#displacementStatus}}
-  <DisplacementStatus>{{displacementStatus}}</DisplacementStatus>
+    <DisplacementStatus>{{displacementStatus}}</DisplacementStatus>
   {{/displacementStatus}}
+  {{#programParticipations}}
+    <ProgramParticipations>
+      <Program>{{program}}</Program>
+      <BeginDate>{{beginDate}}</BeginDate>
+      <EndDate>{{endDate}}</EndDate>
+      <DesignatedBy>{{designatedBy}}</DesignatedBy>
+    </ProgramParticipations>
+  {{/programParticipations}}
+  {{#learningStyles}}
+    <LearningStyles>
+      <VisualLearning>{{visualLearning}}</VisualLearning>
+      <AuditoryLearning>{{auditoryLearning}}</AuditoryLearning>
+      <TactileLearning>{{tactileLearning}}</TactileLearning>
+    </LearningStyles>
+  {{/learningStyles}}
+  {{#cohortYears}}
+    <CohortYears CohortYearType="{{cohortYearType}}">
+      <SchoolYear>{{schoolYear}}</SchoolYear>
+    </CohortYears>
+  {{/cohortYears}}
+  {{#studentIndicators}}
+    <StudentIndicators>
+      <IndicatorGroup>{{indicatorGroup}}</IndicatorGroup>
+      <IndicatorName>{{indicatorName}}</IndicatorName>
+      <Indicator>{{indicator}}</Indicator>
+      <BeginDate>{{beginDate}}</BeginDate>
+      <EndDate>{{endDate}}</EndDate>
+      <DesignatedBy>{{designatedBy}}</DesignatedBy>
+    </StudentIndicators>
+  {{/studentIndicators}}  
   {{#loginId}}
   <LoginId>{{loginId}}</LoginId>
   {{/loginId}}

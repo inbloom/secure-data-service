@@ -61,10 +61,10 @@ public class SLIPrincipal implements Principal, Serializable {
     private String sandboxTenant;
     private boolean adminRealmAuthenticated;
     private Entity entity;
-	private String userType;
-	private Collection<GrantedAuthority> selfRights;
-	private Set<String> authorizingEdOrgs;
-	private String email;
+    private String userType;
+    private Collection<GrantedAuthority> selfRights;
+    private Set<String> authorizingEdOrgs;
+    private String email;
 
     public String getSessionId() {
         return sessionId;
@@ -271,27 +271,27 @@ public class SLIPrincipal implements Principal, Serializable {
     }
 
     public void setUserType(String userType) {
-    	this.userType=userType;
+        this.userType=userType;
     }
     
-	public String getUserType() {
-		return this.userType;
-	}
-	
-	public void setSelfRights(Collection<GrantedAuthority> auths) {
-		this.selfRights = auths;
-	}
-	
-	public Collection<GrantedAuthority> getSelfRights() {
-		return this.selfRights;
-	}
-	
-	/**
-	 * These are edorgs that have authorized the app that the user is currently logged into.
-	 * 
-	 * The set contains ids of both the authorizing LEA and any sub-LEAs or schools within the LEA.
-	 * @return
-	 */
+    public String getUserType() {
+        return this.userType;
+    }
+    
+    public void setSelfRights(Collection<GrantedAuthority> auths) {
+        this.selfRights = auths;
+    }
+    
+    public Collection<GrantedAuthority> getSelfRights() {
+        return this.selfRights;
+    }
+    
+    /**
+     * These are edorgs that have authorized the app that the user is currently logged into.
+     * 
+     * The set contains ids of both the authorizing LEA and any sub-LEAs or schools within the LEA.
+     * @return
+     */
     public Set<String> getAuthorizingEdOrgs() {
         return authorizingEdOrgs;
     }
@@ -301,10 +301,10 @@ public class SLIPrincipal implements Principal, Serializable {
     }
     
     public String getEmail() {
-    	return email;
+        return email;
     }
     
     public void setEmail(String email) {
-    	this.email = email;
+        this.email = email;
     }
 }

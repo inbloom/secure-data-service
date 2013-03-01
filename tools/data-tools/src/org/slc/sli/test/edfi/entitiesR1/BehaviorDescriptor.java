@@ -18,9 +18,9 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * This descriptor holds the categories of behavior
- * 				describing a
- * 				discipline incident.
- * 			
+ *                 describing a
+ *                 discipline incident.
+ *             
  * 
  * <p>Java class for behaviorDescriptor complex type.
  * 

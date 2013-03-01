@@ -29,90 +29,90 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @ContextConfiguration(locations = { "/spring/applicationContext-test.xml" })
 public class TransitiveTeacherToTeacherValidatorTest {
 
-	private static final String ED_ORG = "Myrran";
+    private static final String ED_ORG = "Myrran";
 
-	private static final String USER_ID = "Master of Magic";
+    private static final String USER_ID = "Master of Magic";
 
-	@Resource
-	private TransitiveTeacherToTeacherValidator val;
+    @Resource
+    private TransitiveTeacherToTeacherValidator val;
 
-	@Resource
-	private ValidatorTestHelper vth;
+    @Resource
+    private ValidatorTestHelper vth;
 
-	@Resource
-	private SecurityContextInjector injector;
-	
-	@Resource
-	private MockRepo repo;
+    @Resource
+    private SecurityContextInjector injector;
+    
+    @Resource
+    private MockRepo repo;
 
-	@Before
-	public void init() {
-		injector.setEducatorContext(USER_ID);
-	}
-	
-	@After
-	public void teardown() {
-		repo.deleteAll();
-	}
+    @Before
+    public void init() {
+        injector.setEducatorContext(USER_ID);
+    }
+    
+    @After
+    public void teardown() {
+        repo.deleteAll();
+    }
 
-	@Test(expected = IllegalArgumentException.class)
-	public void testValidateWrongType() {
-		val.validate(EntityNames.ASSESSMENT, new HashSet<String>(Arrays.asList("Jomolungma")));
-	}
+    @Test(expected = IllegalArgumentException.class)
+    public void testValidateWrongType() {
+        val.validate(EntityNames.ASSESSMENT, new HashSet<String>(Arrays.asList("Jomolungma")));
+    }
 
-	@Test
-	public void testCanAccessAll() {
+    @Test
+    public void testCanAccessAll() {
         vth.generateStaffEdorg(USER_ID, ED_ORG, false);
-		Set<String> teacherIds = new HashSet<String>(Arrays.asList("Just Cause", "Armaggedon", "Awareness"));
+        Set<String> teacherIds = new HashSet<String>(Arrays.asList("Just Cause", "Armaggedon", "Awareness"));
 
-		for (String id : teacherIds) {
+        for (String id : teacherIds) {
             vth.generateStaffEdorg(id, ED_ORG, false);
-		}
+        }
 
-		Assert.assertTrue(val.validate(EntityNames.TEACHER, teacherIds));
-	}
+        Assert.assertTrue(val.validate(EntityNames.TEACHER, teacherIds));
+    }
 
-	@Test
-	public void testCannotAccessAll() {
-		Set<String> teacherIds = new HashSet<String>(Arrays.asList("Just Cause", "Armaggedon", "Awareness"));
+    @Test
+    public void testCannotAccessAll() {
+        Set<String> teacherIds = new HashSet<String>(Arrays.asList("Just Cause", "Armaggedon", "Awareness"));
 
-		for (String id : teacherIds) {
+        for (String id : teacherIds) {
             vth.generateStaffEdorg(id, ED_ORG, false);
-		}
+        }
 
-		Assert.assertFalse(val.validate(EntityNames.TEACHER, teacherIds));
+        Assert.assertFalse(val.validate(EntityNames.TEACHER, teacherIds));
 
-		for (String id : teacherIds) {
-			Assert.assertFalse(val.validate(EntityNames.TEACHER, Collections.singleton(id)));
-		}
+        for (String id : teacherIds) {
+            Assert.assertFalse(val.validate(EntityNames.TEACHER, Collections.singleton(id)));
+        }
 
-	}
+    }
 
-	@Test
-	public void testHeterogeneousList() {
+    @Test
+    public void testHeterogeneousList() {
         vth.generateStaffEdorg(USER_ID, ED_ORG, false);
-		Set<String> teacherIds = new HashSet<String>(Arrays.asList("Just Cause", "Armaggedon", "Awareness", "Chaos Mastery", "Life Mastery", "Death and Decay", "Node Mastery", "Artificer", "Warlord", "Conjurer"));
+        Set<String> teacherIds = new HashSet<String>(Arrays.asList("Just Cause", "Armaggedon", "Awareness", "Chaos Mastery", "Life Mastery", "Death and Decay", "Node Mastery", "Artificer", "Warlord", "Conjurer"));
 
-		List<String> successes = new ArrayList<String>();
-		for (String id : teacherIds) {
-			if (Math.random() > 0.5) {
+        List<String> successes = new ArrayList<String>();
+        for (String id : teacherIds) {
+            if (Math.random() > 0.5) {
                 vth.generateStaffEdorg(id, ED_ORG, false);
-				successes.add(id);
-			} else {
+                successes.add(id);
+            } else {
                 vth.generateStaffEdorg(id, "Arcanus", false);
-			}
-		}
+            }
+        }
 
-		Assert.assertFalse(val.validate(EntityNames.TEACHER, teacherIds));
+        Assert.assertFalse(val.validate(EntityNames.TEACHER, teacherIds));
 
-		for (String id : teacherIds) {
-			if (successes.contains(id)) {
-				Assert.assertTrue(val.validate(EntityNames.TEACHER, Collections.singleton(id)));
-			} else {
-				Assert.assertFalse(val.validate(EntityNames.TEACHER, Collections.singleton(id)));
-			}
-		}
-	}
+        for (String id : teacherIds) {
+            if (successes.contains(id)) {
+                Assert.assertTrue(val.validate(EntityNames.TEACHER, Collections.singleton(id)));
+            } else {
+                Assert.assertFalse(val.validate(EntityNames.TEACHER, Collections.singleton(id)));
+            }
+        }
+    }
     
     @Test
     public void testExpiredTeacher() {

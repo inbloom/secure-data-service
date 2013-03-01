@@ -75,7 +75,7 @@ public class SamlAssertionService {
             issuer += "?realm=" + requestInfo.getRealm();
             //must have realm, then consider developer
             if (requestInfo.getDeveloper() != null && requestInfo.getDeveloper().length() > 0) {
-            	issuer += "&amp;developer=" + requestInfo.getDeveloper();
+                issuer += "&amp;developer=" + requestInfo.getDeveloper();
             }
         }
 

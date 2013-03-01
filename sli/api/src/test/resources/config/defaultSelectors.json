@@ -1,12 +1,12 @@
 [
-	{
-		"type" : "StudentSectionAssociation",
-		"selector" : ":($)"
-	},
-	{
-		"type" : "Section",
-		"selector" : ":(sequenceOfCourse)"
-	},
+    {
+        "type" : "StudentSectionAssociation",
+        "selector" : ":($)"
+    },
+    {
+        "type" : "Section",
+        "selector" : ":(sequenceOfCourse)"
+    },
     {
         "type" : "Student",
         "selector" : ":($,studentSectionAssociations)"

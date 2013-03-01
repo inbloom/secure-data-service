@@ -22,70 +22,70 @@ import org.xml.sax.helpers.DefaultHandler;
 //http://docs.oracle.com/javaee/1.4/tutorial/doc/JAXPSAX3.html
 public class Replicate {
 
-	static SimpleDateFormat dateFormatter = new SimpleDateFormat("ddMMyyyy_HHmmss");
-	
-	public static void main(String[] argv) throws Exception{
-		if (argv.length != 2) {
-			System.err.println("Usage: cmd inputXmlDir  copyCount");
-			System.exit(1);
-		}
+    static SimpleDateFormat dateFormatter = new SimpleDateFormat("ddMMyyyy_HHmmss");
+    
+    public static void main(String[] argv) throws Exception{
+        if (argv.length != 2) {
+            System.err.println("Usage: cmd inputXmlDir  copyCount");
+            System.exit(1);
+        }
 
-		String dateStr = dateFormatter.format(new Date());
-		String outputDirName = argv[0] + "/" + dateStr;
-		if(!(new File(outputDirName)).mkdir()) {
-			System.out.println("Could not create [" + outputDirName + "]. Exiting!");
-			System.exit(1);
-		} else { System.out.println("Output will be saved to [" + outputDirName + "].");}
+        String dateStr = dateFormatter.format(new Date());
+        String outputDirName = argv[0] + "/" + dateStr;
+        if(!(new File(outputDirName)).mkdir()) {
+            System.out.println("Could not create [" + outputDirName + "]. Exiting!");
+            System.exit(1);
+        } else { System.out.println("Output will be saved to [" + outputDirName + "].");}
 
 
-		for(int i = 0; i < Integer.parseInt(argv[1]); i++) {
+        for(int i = 0; i < Integer.parseInt(argv[1]); i++) {
 
-			String iCopyDirName = argv[0] + "/" + dateStr + "/" + i;
+            String iCopyDirName = argv[0] + "/" + dateStr + "/" + i;
 
-			if(!(new File(iCopyDirName)).mkdir()) {
-				System.out.println("Could not create [" + iCopyDirName + "]. Exiting!");
-				System.exit(1);
-			}
+            if(!(new File(iCopyDirName)).mkdir()) {
+                System.out.println("Could not create [" + iCopyDirName + "]. Exiting!");
+                System.exit(1);
+            }
 
-			for (File file : new File(argv[0]).listFiles()) {
-				if (file.isFile()) {
-					String fname = file.getName();
-					if(fname.endsWith(".xml")) {
-						String outputFileName = outputDirName + "/" + i + "/" + fname;
-						OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(outputFileName), "UTF8");
-						DefaultHandler handler = new Raptor(out, String.valueOf(10 + i));
-						SAXParserFactory factory = SAXParserFactory.newInstance();
-						SAXParser saxParser = factory.newSAXParser();
-						String fullPath = file.getAbsolutePath();
-						saxParser.parse(new File(fullPath), handler);
-						DataUtils.writeControlFile(outputDirName + "/" + i + "/MainControlFile.ctl", getInterchangeFromName(fname), outputFileName);
-					}
-				}
-			}
-			ValidateSchema.check(outputDirName + "/" + i);
-			EdfiStats.generateStats(outputDirName + "/" + i);
-		}
-	}
-	
-	static String getInterchangeFromName(String fname) {
-		if(fname.contains("AssessmentMetadata.xml"))       return "AssessmentMetadata";
-		if(fname.contains("EducationOrgCalendar.xml"))     return "EducationOrgCalendar";
-		if(fname.contains("EducationOrganization.xml"))    return "EducationOrganization";
-		if(fname.contains("MasterSchedule.xml"))           return "MasterSchedule";
-		if(fname.contains("StaffAssociation.xml"))         return "StaffAssociation";
-		if(fname.contains("StudentAssessment.xml"))        return "StudentAssessment";
-		if(fname.contains("StudentCohort.xml"))            return "StudentCohort";
-		if(fname.contains("StudentDiscipline.xml"))        return "StudentDiscipline";
-		if(fname.contains("StudentEnrollment.xml"))        return "StudentEnrollment";
-		if(fname.contains("StudentGrade.xml"))             return "StudentGrades";
-		if(fname.contains("StudentParent.xml"))            return "StudentParent";
-		if(fname.contains("StudentProgram.xml"))           return "StudentProgram";
-		return null;
-	}
+            for (File file : new File(argv[0]).listFiles()) {
+                if (file.isFile()) {
+                    String fname = file.getName();
+                    if(fname.endsWith(".xml")) {
+                        String outputFileName = outputDirName + "/" + i + "/" + fname;
+                        OutputStreamWriter out = new OutputStreamWriter(new FileOutputStream(outputFileName), "UTF8");
+                        DefaultHandler handler = new Raptor(out, String.valueOf(10 + i));
+                        SAXParserFactory factory = SAXParserFactory.newInstance();
+                        SAXParser saxParser = factory.newSAXParser();
+                        String fullPath = file.getAbsolutePath();
+                        saxParser.parse(new File(fullPath), handler);
+                        DataUtils.writeControlFile(outputDirName + "/" + i + "/MainControlFile.ctl", getInterchangeFromName(fname), outputFileName);
+                    }
+                }
+            }
+            ValidateSchema.check(outputDirName + "/" + i);
+            EdfiStats.generateStats(outputDirName + "/" + i);
+        }
+    }
+    
+    static String getInterchangeFromName(String fname) {
+        if(fname.contains("AssessmentMetadata.xml"))       return "AssessmentMetadata";
+        if(fname.contains("EducationOrgCalendar.xml"))     return "EducationOrgCalendar";
+        if(fname.contains("EducationOrganization.xml"))    return "EducationOrganization";
+        if(fname.contains("MasterSchedule.xml"))           return "MasterSchedule";
+        if(fname.contains("StaffAssociation.xml"))         return "StaffAssociation";
+        if(fname.contains("StudentAssessment.xml"))        return "StudentAssessment";
+        if(fname.contains("StudentCohort.xml"))            return "StudentCohort";
+        if(fname.contains("StudentDiscipline.xml"))        return "StudentDiscipline";
+        if(fname.contains("StudentEnrollment.xml"))        return "StudentEnrollment";
+        if(fname.contains("StudentGrade.xml"))             return "StudentGrades";
+        if(fname.contains("StudentParent.xml"))            return "StudentParent";
+        if(fname.contains("StudentProgram.xml"))           return "StudentProgram";
+        return null;
+    }
 }
 
 final class  Raptor extends DefaultHandler {
-	private Writer out;
+    private Writer out;
     private StringBuffer textBuffer;
     private String MOD;
     private Stack<String> elementStack = new Stack<String>();
@@ -95,11 +95,11 @@ final class  Raptor extends DefaultHandler {
     Map<String,String> dnmElements = new HashMap<String, String>();
     
     Raptor( Writer out, String dataPrefix ) {
-    	this.out = out;
-    	MOD = dataPrefix;
-    	dnmElements.put("NumberOfParts",    "NumberOfParts");
-    	dnmElements.put("CountyFIPSCode",   "CountyFIPSCode");
-    	dnmElements.put("SequenceOfCourse", "SequenceOfCourse");
+        this.out = out;
+        MOD = dataPrefix;
+        dnmElements.put("NumberOfParts",    "NumberOfParts");
+        dnmElements.put("CountyFIPSCode",   "CountyFIPSCode");
+        dnmElements.put("SequenceOfCourse", "SequenceOfCourse");
     }
         
     public void startDocument() throws SAXException {
@@ -146,9 +146,9 @@ final class  Raptor extends DefaultHandler {
         if ("".equals(eName)) {
             eName = qName;
         }        
-    	if(lastCallbackForStart && textBuffer != null && !doNotModify(elementStack, eName, textBuffer.toString())) {
+        if(lastCallbackForStart && textBuffer != null && !doNotModify(elementStack, eName, textBuffer.toString())) {
             emit(MOD);
-    	}
+        }
         echoText();        
         emit("</" + eName + ">");
         lastCallbackForStart = false;
@@ -193,18 +193,18 @@ final class  Raptor extends DefaultHandler {
     }
     
     private boolean doNotModify(Stack<String> path, String name, String value) {
-    	if (EnumeratedValues.enumeratedValues.containsKey(value)) {
-    		return true;
-    	} else if(value.matches(".*\\d\\d\\d\\d-\\d\\d-\\d\\d.*")) {//do not modify dates
-    		return true;
+        if (EnumeratedValues.enumeratedValues.containsKey(value)) {
+            return true;
+        } else if(value.matches(".*\\d\\d\\d\\d-\\d\\d-\\d\\d.*")) {//do not modify dates
+            return true;
         } else if(value.matches(".*\\d\\d:\\d\\d:\\d\\d.*")) {//do not modify times 
-    		return true;
-    	} else if(dnmElements.containsKey(name)) {
-    		return true;
+            return true;
+        } else if(dnmElements.containsKey(name)) {
+            return true;
         } else {
-            	if(path.contains("StateEducationAgency") || path.contains("StateEducationAgencyReference")){
-            		return true;
-            	}
+                if(path.contains("StateEducationAgency") || path.contains("StateEducationAgencyReference")){
+                    return true;
+                }
         }  
         return false;
     }

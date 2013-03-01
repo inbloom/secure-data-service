@@ -37,14 +37,14 @@ import org.slc.sli.validation.schema.INaturalKeyExtractor;
  * @author ablum
  */
 public class SelfReferenceValidatorTest {
-	private static final String REFERENCE_FIELD = "parentEducationAgency";
-	private static final String UUID = "3849403483783";
+    private static final String REFERENCE_FIELD = "parentEducationAgency";
+    private static final String UUID = "3849403483783";
 
-	@InjectMocks
-	SelfReferenceValidator selfReferenceValidator = new SelfReferenceValidator();
+    @InjectMocks
+    SelfReferenceValidator selfReferenceValidator = new SelfReferenceValidator();
 
-	@Mock
-	SelfReferenceExtractor selfReferenceExtractor;
+    @Mock
+    SelfReferenceExtractor selfReferenceExtractor;
 
     @Mock
     INaturalKeyExtractor naturalKeyExtractor;

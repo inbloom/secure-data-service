@@ -2,7 +2,7 @@
 
 runScript()
 {
-  # local variable x and y with passed args	
+  # local variable x and y with passed args    
   local script=$1
   local threads=$2
   local loops=$3

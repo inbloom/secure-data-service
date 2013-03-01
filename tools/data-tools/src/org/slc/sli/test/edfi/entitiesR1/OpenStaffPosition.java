@@ -20,9 +20,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * This entity represents an open staff position that
- * 				is seeking to be
- * 				filled by an education organization.
- * 			
+ *                 is seeking to be
+ *                 filled by an education organization.
+ *             
  * 
  * <p>Java class for openStaffPosition complex type.
  * 

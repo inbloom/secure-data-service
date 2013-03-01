@@ -15,10 +15,10 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * This entity represents the agency of the state charged
- * 			with primary responsibility for coordinating and supervising public
- * 			instruction, including the setting of standards for elementary and secondary
- * 			instruction programs.
- * 			
+ *             with primary responsibility for coordinating and supervising public
+ *             instruction, including the setting of standards for elementary and secondary
+ *             instruction programs.
+ *             
  * 
  * <p>Java class for stateEducationAgency complex type.
  * 

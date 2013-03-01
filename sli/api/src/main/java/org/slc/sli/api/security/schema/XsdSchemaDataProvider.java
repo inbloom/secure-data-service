@@ -145,24 +145,24 @@ public class XsdSchemaDataProvider implements SchemaDataProvider {
     }
     
     public Set<Right> getAllFieldRights(String entityType, boolean getReadRights) {
-    	Set<Right> neededRights = new HashSet<Right>();
+        Set<Right> neededRights = new HashSet<Right>();
         NeutralSchema schema = repo.getSchema(entityType);
-		if (schema != null) {
-			Map<String, NeutralSchema> fields = schema.getFields();
-			for (String field : fields.keySet()) {
-				NeutralSchema fieldSchema = fields.get(field);
-				if (fieldSchema != null && fieldSchema.getAppInfo() != null) {
-					AppInfo info = fieldSchema.getAppInfo();
-					if (getReadRights) {
-						neededRights.addAll(info.getReadAuthorities());
-					} else {
-						neededRights.addAll(info.getWriteAuthorities());
-					}
-				}
-			}
+        if (schema != null) {
+            Map<String, NeutralSchema> fields = schema.getFields();
+            for (String field : fields.keySet()) {
+                NeutralSchema fieldSchema = fields.get(field);
+                if (fieldSchema != null && fieldSchema.getAppInfo() != null) {
+                    AppInfo info = fieldSchema.getAppInfo();
+                    if (getReadRights) {
+                        neededRights.addAll(info.getReadAuthorities());
+                    } else {
+                        neededRights.addAll(info.getWriteAuthorities());
+                    }
+                }
+            }
         }
         
-    	return neededRights;
+        return neededRights;
     }
 
     private NeutralSchema traverse(String entityType, String fieldPath) {

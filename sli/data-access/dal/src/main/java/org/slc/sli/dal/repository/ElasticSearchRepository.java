@@ -329,12 +329,12 @@ public class ElasticSearchRepository implements Repository<Entity> {
 
     @Override
     public void setWriteConcern(String writeConcern) {
-    	// override super implementation with empty implementation
+        // override super implementation with empty implementation
     }
 
     @Override
     public void setReferenceCheck(String referenceCheck) {
-    	// override super implementation with empty implementation
+        // override super implementation with empty implementation
     }
 
     @Override

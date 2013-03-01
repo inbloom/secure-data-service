@@ -66,7 +66,7 @@ public class GenericTransformer {
                 Object subdoc = (ap.getSubdoc() == null) ? entity : NestedMapUtil.get(ap.getSubdoc(), entity);
                 if (subdoc != null) {
                     if (subdoc instanceof List){
-                    	List<Object> subdocList = new ArrayList<Object>();
+                        List<Object> subdocList = new ArrayList<Object>();
                         for (Object o : ((List<Object>)subdoc)) {
                             if (isMatch(ap.getCondition(), o)) {
                                 subdocList.add((ap.getField() != null) ? ((Map<String, Object>)o).get(ap.getField()) : o);

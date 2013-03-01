@@ -16,8 +16,8 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * The set of elements that comprise a person's legal
- * 				name.
- * 			
+ *                 name.
+ *             
  * 
  * <p>Java class for name complex type.
  * 

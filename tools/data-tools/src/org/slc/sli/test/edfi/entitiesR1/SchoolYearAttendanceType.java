@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * Attendance for a school year.
- * 			
+ *             
  * 
  * <p>Java class for schoolYearAttendanceType complex type.
  * 

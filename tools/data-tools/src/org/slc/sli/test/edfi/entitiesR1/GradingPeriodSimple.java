@@ -18,9 +18,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * 
- * 				This entity represents the time span for which
- * 				grades are reported without calendar dates.
- * 			
+ *                 This entity represents the time span for which
+ *                 grades are reported without calendar dates.
+ *             
  * 
  * <p>Java class for gradingPeriodSimple complex type.
  * 

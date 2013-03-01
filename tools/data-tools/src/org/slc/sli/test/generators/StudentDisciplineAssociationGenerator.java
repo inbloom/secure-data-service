@@ -49,7 +49,7 @@ public class StudentDisciplineAssociationGenerator {
      * @return <code>List<StudentDisciplineIncidentAssociation></code>
      */
 //    public static List<StudentDisciplineIncidentAssociation> generateLowFi(DisciplineIncidentMeta meta) {
-	 public static void generateLowFi(InterchangeWriter<InterchangeStudentDiscipline> iWriter, DisciplineIncidentMeta meta) {
+     public static void generateLowFi(InterchangeWriter<InterchangeStudentDiscipline> iWriter, DisciplineIncidentMeta meta) {
         String disciplineIncidentId = meta.id;
         Collection<String> studentIds = meta.studentIds;
 
@@ -58,7 +58,7 @@ public class StudentDisciplineAssociationGenerator {
         for (String studentId : studentIds) {
 //            list.add(generateLowFi(studentId, disciplineIncidentId));
             SLCStudentDisciplineIncidentAssociation retVal = generateLowFi(studentId, disciplineIncidentId, meta.schoolId);
-        	QName qName = new QName("http://ed-fi.org/0100", "StudentDisciplineIncidentAssociation");
+            QName qName = new QName("http://ed-fi.org/0100", "StudentDisciplineIncidentAssociation");
             JAXBElement<SLCStudentDisciplineIncidentAssociation> jaxbElement = new JAXBElement<SLCStudentDisciplineIncidentAssociation>(qName,SLCStudentDisciplineIncidentAssociation.class,retVal);
             iWriter.marshal(jaxbElement);
         }
@@ -128,9 +128,9 @@ public class StudentDisciplineAssociationGenerator {
     }
 
     public SLCStudentDisciplineIncidentAssociation generate(String studentDisciplineId, String delimiter) {
-    	SLCStudentDisciplineIncidentAssociation studentDisciplineAssociation = new SLCStudentDisciplineIncidentAssociation();
+        SLCStudentDisciplineIncidentAssociation studentDisciplineAssociation = new SLCStudentDisciplineIncidentAssociation();
 
-    	try {
+        try {
             Random random = new Random(31);
 
             String studentId = studentDisciplineId.split(delimiter)[0];

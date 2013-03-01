@@ -18,10 +18,10 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * This association indicates the education
- * 				organization to which a staff
- * 				member provides services. Also known as
- * 				school of service.
- * 			
+ *                 organization to which a staff
+ *                 member provides services. Also known as
+ *                 school of service.
+ *             
  * 
  * <p>Java class for staffEducationOrganizationAssociation complex type.
  * 

@@ -54,35 +54,35 @@ import org.slc.sli.domain.Repository;
 @TestExecutionListeners({ WebContextTestExecutionListener.class, DependencyInjectionTestExecutionListener.class, DirtiesContextTestExecutionListener.class })
 public class UserLocatorTest {
 
-	@Autowired
-	private MongoUserLocator locator;
+    @Autowired
+    private MongoUserLocator locator;
 
-	@Autowired
-	private ValidatorTestHelper helper;
+    @Autowired
+    private ValidatorTestHelper helper;
 
-	@Autowired
-	private Repository<Entity> repo;
+    @Autowired
+    private Repository<Entity> repo;
 
-	Entity staff1 = null;
-	Entity student1 = null;
-	Entity student2 = null;
+    Entity staff1 = null;
+    Entity student1 = null;
+    Entity student2 = null;
 
-	@Before
-	public void init() {
-		Map<String, Object> body = new HashMap<String, Object>();
-		body.put(ParameterConstants.STAFF_UNIQUE_STATE_ID, Mocker.VALID_STAFF_ID);
-		staff1 = repo.create(EntityNames.TEACHER, body);
+    @Before
+    public void init() {
+        Map<String, Object> body = new HashMap<String, Object>();
+        body.put(ParameterConstants.STAFF_UNIQUE_STATE_ID, Mocker.VALID_STAFF_ID);
+        staff1 = repo.create(EntityNames.TEACHER, body);
 
-		body = new HashMap<String, Object>();
-		body.put(ParameterConstants.STUDENT_UNIQUE_STATE_ID, Mocker.VALID_STUDENT_UNIQUE_ID);
-		student1 = repo.create(EntityNames.STUDENT, body);
+        body = new HashMap<String, Object>();
+        body.put(ParameterConstants.STUDENT_UNIQUE_STATE_ID, Mocker.VALID_STUDENT_UNIQUE_ID);
+        student1 = repo.create(EntityNames.STUDENT, body);
 
         body = new HashMap<String, Object>();
         body.put(ParameterConstants.STUDENT_UNIQUE_STATE_ID, Mocker.VALID_STUDENT_COPIED_ID);
         student2 = repo.create(EntityNames.STUDENT, body);
-	}
+    }
 
-	@Test
+    @Test
     public void testFindStaffWithStaffUserType() {
         SLIPrincipal principal = this.locator.locate(Mocker.VALID_REALM, Mocker.VALID_STAFF_ID, "staff");
         Assert.assertNotNull(principal);
@@ -90,7 +90,7 @@ public class UserLocatorTest {
         Assert.assertEquals("staff", principal.getUserType());
     }
 
-	@Test
+    @Test
     public void testFindStaffWithEmptyUserType() {
         SLIPrincipal principal = this.locator.locate(Mocker.VALID_REALM, Mocker.VALID_STAFF_ID, "");
         Assert.assertNotNull(principal);
@@ -98,48 +98,48 @@ public class UserLocatorTest {
         Assert.assertEquals("staff", principal.getUserType());
     }
 
-	@Test
-	public void testFindStaffWithNullUserType() {
-		SLIPrincipal principal = this.locator.locate(Mocker.VALID_REALM, Mocker.VALID_STAFF_ID, null);
-		Assert.assertNotNull(principal);
-		Assert.assertEquals(staff1.getEntityId(), principal.getEntity().getEntityId());
+    @Test
+    public void testFindStaffWithNullUserType() {
+        SLIPrincipal principal = this.locator.locate(Mocker.VALID_REALM, Mocker.VALID_STAFF_ID, null);
+        Assert.assertNotNull(principal);
+        Assert.assertEquals(staff1.getEntityId(), principal.getEntity().getEntityId());
         Assert.assertEquals("staff", principal.getUserType());
-	}
+    }
 
-	@Test
-	public void testFindStudentWithUniqueId() {
-	    SLIPrincipal principal = this.locator.locate(Mocker.VALID_REALM, Mocker.VALID_STUDENT_UNIQUE_ID, "student");
+    @Test
+    public void testFindStudentWithUniqueId() {
+        SLIPrincipal principal = this.locator.locate(Mocker.VALID_REALM, Mocker.VALID_STUDENT_UNIQUE_ID, "student");
         Assert.assertNotNull(principal);
         Assert.assertEquals(student1.getEntityId(), principal.getEntity().getEntityId());
         Assert.assertEquals("student", principal.getUserType());
-	}
+    }
 
-	@Test
-	public void testFindStudentWithNonUniqueId() {
+    @Test
+    public void testFindStudentWithNonUniqueId() {
         SLIPrincipal principal = this.locator.locate(Mocker.VALID_REALM, Mocker.VALID_STUDENT_COPIED_ID, "student");
         Assert.assertNotNull(principal);
         Assert.assertEquals(student2.getEntityId(), principal.getEntity().getEntityId());
         Assert.assertEquals("student", principal.getUserType());
     }
 
-	@Test
-	public void testStaffNotFound() {
-		SLIPrincipal principal = this.locator.locate(Mocker.VALID_REALM, Mocker.INVALID_STAFF_ID, "");
-		Assert.assertNull(principal);
-	}
+    @Test
+    public void testStaffNotFound() {
+        SLIPrincipal principal = this.locator.locate(Mocker.VALID_REALM, Mocker.INVALID_STAFF_ID, "");
+        Assert.assertNull(principal);
+    }
 
-	@Test
-	public void testGarbageInput() {
-		SLIPrincipal principal = this.locator.locate(null, null, "");
-		Assert.assertNull(principal);
-	}
+    @Test
+    public void testGarbageInput() {
+        SLIPrincipal principal = this.locator.locate(null, null, "");
+        Assert.assertNull(principal);
+    }
 
-	@Test(expected = AccessDeniedException.class)
-	public void testFailsWithInvalidAssociation() {
-		Entity school = helper.generateEdorgWithParent(null);
-		helper.generateStaffEdorg(Mocker.VALID_STAFF_ID, school.getEntityId(), true);
-		SLIPrincipal principal = this.locator.locate(Mocker.VALID_REALM, Mocker.VALID_STAFF_ID, "");
+    @Test(expected = AccessDeniedException.class)
+    public void testFailsWithInvalidAssociation() {
+        Entity school = helper.generateEdorgWithParent(null);
+        helper.generateStaffEdorg(Mocker.VALID_STAFF_ID, school.getEntityId(), true);
+        SLIPrincipal principal = this.locator.locate(Mocker.VALID_REALM, Mocker.VALID_STAFF_ID, "");
 
-		Assert.assertNull(principal);
-	}
+        Assert.assertNull(principal);
+    }
 }

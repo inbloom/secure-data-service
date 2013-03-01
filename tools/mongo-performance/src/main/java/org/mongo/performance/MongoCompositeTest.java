@@ -69,19 +69,19 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
                 }
               
                 if (this.operationsEnabled.contains("B")) {
-                	this.profileBatchedInserts(operationCount, profiledCollectionName, this.chunkSize, i);
+                    this.profileBatchedInserts(operationCount, profiledCollectionName, this.chunkSize, i);
                 }
               
                 if (this.operationsEnabled.contains("W")) {
-                	this.profileInsert(operationCount, profiledCollectionName, this.chunkSize, i);
+                    this.profileInsert(operationCount, profiledCollectionName, this.chunkSize, i);
                 }
               
                 if (this.operationsEnabled.contains("T")) {
-                	this.profileBatchedSelects(operationCount, profiledCollectionName, this.chunkSize, i);
+                    this.profileBatchedSelects(operationCount, profiledCollectionName, this.chunkSize, i);
                 }
               
                 if (this.operationsEnabled.contains("R")) {
-                	this.profileSelects(operationCount, profiledCollectionName, this.chunkSize, i);
+                    this.profileSelects(operationCount, profiledCollectionName, this.chunkSize, i);
                 }              
         }
     
@@ -91,8 +91,8 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
         List<DBObject> records = new ArrayList<DBObject>();
         
         for (int i = 0; i < chunkSize; i++) {
-        	Map<String, Object> innerObject = new HashMap<String, Object>((HashMap<String, Object>) this.dataRecord);
-        	
+            Map<String, Object> innerObject = new HashMap<String, Object>((HashMap<String, Object>) this.dataRecord);
+            
             innerObject.put(App.entityType+"UniqId", "" + this.id + "-" + iterationNumber + "-" + i);        
             
             BasicDBObject dbObj = new BasicDBObject();
@@ -133,7 +133,7 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
         List<Object> records = new ArrayList<Object>();
         
         for (int i = 0; i < chunkSize; i++) {
-        	Map<String, Object> innerObject = new HashMap<String, Object>((HashMap<String, Object>) this.dataRecord);
+            Map<String, Object> innerObject = new HashMap<String, Object>((HashMap<String, Object>) this.dataRecord);
 
             innerObject.put(App.entityType+"UniqId", "" + this.id + "-" + iterationNumber + "-" + i);
             
@@ -174,7 +174,7 @@ public class MongoCompositeTest<T> implements Callable<Boolean> {
 
             long startTime = System.currentTimeMillis();
             da.mongoTemplate.insert(dbObj, 
-            		profiledCollectionName);
+                    profiledCollectionName);
             elapsed += System.currentTimeMillis() - startTime;
         }
         

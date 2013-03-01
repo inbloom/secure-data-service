@@ -166,7 +166,7 @@ public class LoaderImpl implements FileAlterationListener, Loader {
             try {
                 fis = new FileInputStream(inFile);
             } catch (IOException ioe) {
-            	LOG.info("There was an IO Exception", ioe);
+                LOG.info("There was an IO Exception", ioe);
             }
             finally {
                 IOUtils.closeQuietly(fis);
@@ -177,22 +177,22 @@ public class LoaderImpl implements FileAlterationListener, Loader {
 
     @Override
     public void onDirectoryChange(File inFile) {
-    	// Empty Implementation.
+        // Empty Implementation.
     }
 
     @Override
     public void onDirectoryCreate(File inFile) {
-    	// Empty Implementation.
+        // Empty Implementation.
     }
 
     @Override
     public void onDirectoryDelete(File inFile) {
-    	// Empty Implementation.
+        // Empty Implementation.
     }
 
     @Override
     public void onFileChange(File inFile) {
-    	// Empty Implementation.
+        // Empty Implementation.
     }
 
     @Override
@@ -202,17 +202,17 @@ public class LoaderImpl implements FileAlterationListener, Loader {
 
     @Override
     public void onFileDelete(File inFile) {
-    	// Empty Implementation.
+        // Empty Implementation.
     }
 
     @Override
     public void onStart(FileAlterationObserver arg0) {
-    	// Empty Implementation.
+        // Empty Implementation.
     }
 
     @Override
     public void onStop(FileAlterationObserver arg0) {
-    	// Empty Implementation.
+        // Empty Implementation.
     }
 
     public void setIndexer(Indexer indexer) {

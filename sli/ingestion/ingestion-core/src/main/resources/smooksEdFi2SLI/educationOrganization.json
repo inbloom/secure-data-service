@@ -4,7 +4,7 @@
     [
         {
             "fieldPath" : "body.ProgramReference",
-        	"deprecated" : true,
+            "deprecated" : true,
             "ref" :
             {
                 "entityType" : "program",

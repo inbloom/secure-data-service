@@ -19,8 +19,8 @@ import javax.xml.bind.annotation.XmlType;
 
 /**
  * Encapsulates the possible attributes that can be
- * 				used to lookup the identity of the Learning Objectives.
- * 			
+ *                 used to lookup the identity of the Learning Objectives.
+ *             
  * 
  * <p>Java class for learningObjectiveIdentityType complex type.
  * 

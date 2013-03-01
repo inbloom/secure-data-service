@@ -18,9 +18,9 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * This descriptor holds the period or window in which
- * 				an assessment is supposed to be administered (e.g., Beginning of
- * 				Year, Middle of Year, End of Year).
- * 			
+ *                 an assessment is supposed to be administered (e.g., Beginning of
+ *                 Year, Middle of Year, End of Year).
+ *             
  * 
  * <p>Java class for assessmentPeriodDescriptor complex type.
  * 
