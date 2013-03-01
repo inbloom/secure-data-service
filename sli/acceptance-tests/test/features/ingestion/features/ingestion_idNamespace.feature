@@ -25,6 +25,7 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "idNamespace.xml records considered: 1" in the resulting batch job file
   And I should see "idNamespace.xml records ingested successfully: 1" in the resulting batch job file
   And I should see "idNamespace.xml records failed: 0" in the resulting batch job file
+  And I should not see a warning log file created
 
 # There is no longer a default tenant, every landing zone has to be associated with a tenant. Can we remove this scenario?
 @wip
@@ -44,3 +45,4 @@ Then I should see following map of entry counts in the corresponding collections
   And I should see "idNamespace.xml records considered: 1" in the resulting batch job file
   And I should see "idNamespace.xml records ingested successfully: 1" in the resulting batch job file
   And I should see "idNamespace.xml records failed: 0" in the resulting batch job file
+  And I should not see a warning log file created
