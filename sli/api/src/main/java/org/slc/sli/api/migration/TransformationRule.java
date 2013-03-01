@@ -1,5 +1,5 @@
 /*
- * Copyright 2012-2013 inBloom, Inc. and its affiliates.
+ * Copyright 2012-2013 inBloom, Inc. and its affiliates
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,19 +15,33 @@
  */
 package org.slc.sli.api.migration;
 
-public final class TransformationRule {
+import java.util.HashMap;
 
-    private int rank;
+public final class TransformationRule implements Comparable<TransformationRule> {
+
+    private Integer rank;
     private String collection;
     private String field;
 
-    private TransformationRule() {}
-
-    public static TransformationRule init(Object o) {
-        return new TransformationRule();
+    private TransformationRule(Integer rank, HashMap<String, String> rule) {
+        this.rank = rank;
+        this.collection = rule.get("collection");
+        this.field = rule.get("field");
     }
+
+    public static TransformationRule init(Integer rank, HashMap<String,String> rule) {
+
+        return new TransformationRule(rank, rule);
+    }
+
 
     public int getRank() {
         return this.rank;
     }
+
+    @Override
+    public int compareTo(TransformationRule transformationRule) {
+        return (this.getRank() - transformationRule.getRank() );
+    }
+
 }
