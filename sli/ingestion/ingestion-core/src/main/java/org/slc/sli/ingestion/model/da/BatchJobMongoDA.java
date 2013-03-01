@@ -42,6 +42,7 @@ import org.springframework.data.mongodb.core.query.Order;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
+import org.slc.sli.common.util.tenantdb.TenantContext;
 import org.slc.sli.dal.RetryMongoCommand;
 import org.slc.sli.ingestion.BatchJobStageType;
 import org.slc.sli.ingestion.FaultType;
@@ -492,6 +493,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
         rh.setHash(newHashValues);
         rh.setCreated(System.currentTimeMillis());
         rh.setUpdated(rh.getCreated());
+        TenantContext.setIsSystemCall(false);
         this.sliMongo.getCollection(RECORD_HASH).insert(new BasicDBObject(rh.toKVMap()));
     }
 
@@ -509,6 +511,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
         rh.setUpdated(System.currentTimeMillis());
         rh.setVersion(rh.getVersion() + 1);
         // Detect tenant collision - should never occur since tenantId is in the hash
+        TenantContext.setIsSystemCall(false);
         this.sliMongo.getCollection(RECORD_HASH).update(recordHashQuery(rh.getId()).getQueryObject(), new BasicDBObject(rh.toKVMap()));
     }
 
@@ -521,6 +524,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
      */
     @Override
     public RecordHash findRecordHash(String tenantId, String recordId) {
+        TenantContext.setIsSystemCall(false);
         Map<String, Object> map = this.sliMongo.findOne(recordHashQuery(recordId), Map.class, RECORD_HASH);
         if (null == map) {
             return null;
@@ -544,6 +548,7 @@ public class BatchJobMongoDA implements BatchJobDAO {
 
     @Override
     public void removeRecordHashByTenant(String tenantId) {
+        TenantContext.setIsSystemCall(false);
         sliMongo.remove(new Query(), RECORD_HASH);
     }
 
