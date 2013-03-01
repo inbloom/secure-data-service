@@ -52,7 +52,7 @@ public class ApiSchemaAdapterTest {
     @Value("classpath:migration/apiSchemaAdapterTest-up.json/")
     private Resource upResource;
 
-    @Value("classpath:migration/apiSchemaAdapterTest-up.json/")
+    @Value("classpath:migration/api-entity-transform.json/")
     private Resource entityResource;
 
     @Test

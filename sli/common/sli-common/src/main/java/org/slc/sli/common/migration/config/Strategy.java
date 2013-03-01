@@ -29,7 +29,8 @@ public enum Strategy {
     
     ADD("org.slc.sli.dal.migration.strategy.impl.AddStrategy"),
     REMOVE("org.slc.sli.dal.migration.strategy.impl.RemoveFieldStrategy"),
-    RENAME("org.slc.sli.dal.migration.strategy.impl.RenameFieldStrategy");
+    RENAME("org.slc.sli.dal.migration.strategy.impl.RenameFieldStrategy"),
+    ADD_FIELD("org.slc.sli.api.migration.strategy.impl.AddFieldStrategy");
 
     private String implementationClassName;
 
